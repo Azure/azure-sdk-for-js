@@ -12,10 +12,10 @@ import TestClient from "./utils/testClient";
 import { isRecording } from "./utils/recorderUtils";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 
-let keyto: any;
-if (isNode) {
-  keyto = require("@trust/keyto");
-}
+// let keyto: any;
+// if (isNode) {
+//   keyto = require("@trust/keyto");
+// }
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   let client: KeysClient;

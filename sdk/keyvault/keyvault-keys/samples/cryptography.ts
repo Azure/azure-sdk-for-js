@@ -15,10 +15,11 @@ async function main(): Promise<void> {
   // Connection to Azure Key Vault
   const client = new KeysClient(url, credential);
 
-  let keyName = "localWorkKey";
+  let keyName = "localWorkKey103";
 
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");
+  //let myWorkKey = await client.getKey(keyName);
 
   const cryptoClient = new CryptographyClient(url, myWorkKey.keyMaterial!.kid!, credential);
 
@@ -50,7 +51,7 @@ async function main(): Promise<void> {
   const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 
-  await client.deleteKey(keyName);
+  //await client.deleteKey(keyName);
 }
 main().catch((err) => {
   console.log("error code: ", err.code);

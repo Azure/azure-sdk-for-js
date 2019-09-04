@@ -73,7 +73,6 @@
     "@azure/core-http": "1.0.0-preview.3",
     "@azure/core-paging": "1.0.0-preview.2",
     "@azure/identity": "1.0.0-preview.3",
-    "@trust/keyto": "0.3.7",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

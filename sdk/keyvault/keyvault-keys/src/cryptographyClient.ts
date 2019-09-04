@@ -28,11 +28,6 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 import * as crypto from "crypto";
 import * as constants from "constants";
 
-let keyto: any;
-if (isNode) {
-  keyto = require("@trust/keyto");
-}
-
 /**
  * The client to interact with the KeyVault cryptography functionality
  */
@@ -96,7 +91,8 @@ export class CryptographyClient {
               throw new Error("Key does not support the encrypt operation");
             }
 
-            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            console.log("key: ", this.key);
+            let keyPEM = CryptographyClient.convertJWKtoPEM(this.key);
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
@@ -111,7 +107,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the encrypt operation");
             }
 
-            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            let keyPEM = CryptographyClient.convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
             return {result: encrypted};
@@ -177,7 +173,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the wrapKey operation");
             }
 
-            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            let keyPEM = CryptographyClient.convertJWKtoPEM(this.key);
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
@@ -192,7 +188,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the wrapKey operation");
             }
 
-            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            let keyPEM = CryptographyClient.convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
             return {result: encrypted};
@@ -348,7 +344,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the verify operation");
             }
 
-            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            let keyPEM = CryptographyClient.convertJWKtoPEM(this.key);
 
             const verifier = crypto.createVerify("SHA256");
             verifier.update(Buffer.from(data));
@@ -365,7 +361,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the verify operation");
             }
             
-            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            let keyPEM = CryptographyClient.convertJWKtoPEM(this.key);
 
             const verifier = crypto.createVerify("SHA384");
             verifier.update(Buffer.from(data));
@@ -382,7 +378,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the verify operation");
             }
             
-            let keyPEM = keyto.from(this.key, "jwk").toString('pem', 'public_pkcs1');
+            let keyPEM = CryptographyClient.convertJWKtoPEM(this.key);
 
             const verifier = crypto.createVerify("SHA512");
             verifier.update(Buffer.from(data));
@@ -500,6 +496,80 @@ export class CryptographyClient {
       }
       this.hasTriedToGetKey = true;
     }
+  }
+
+  private static encodeLength(length: number): Uint8Array {
+    if (length <= 127) {
+      return Uint8Array.of(length);
+    } else if (length < 256) {
+      return Uint8Array.of(0x81, length);
+    } else if (length < 65536) {
+      return Uint8Array.of(0x82, length >> 8, length & 0xff);
+    } else {
+      throw new Error("Unsupported length to encode");
+    }
+  }
+
+  private static encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
+    if (buffer.length == 0) {
+        return buffer;
+    }
+
+    let result = new Uint8Array(buffer);
+    
+    // If the high bit is set, prepend a 0
+    if ((result[0] & 0x80) === 0x80) {
+        let array = new Uint8Array(result.length + 1);
+        array[0] = 0;
+        array.set(result, 1);
+        result = array;
+    }
+
+    // Prepend the DER header for this buffer
+    let encodedLength = CryptographyClient.encodeLength(result.length);
+
+    let totalLength = 1 + encodedLength.length + result.length;
+
+    let outputBuffer = new Uint8Array(totalLength);
+    outputBuffer[0] = bufferId; 
+    outputBuffer.set(encodedLength, 1);
+    outputBuffer.set(result, 1 + encodedLength.length);
+
+    return outputBuffer;
+  }
+
+  private static convertJWKtoPEM(key: JsonWebKey): string {
+    if (!key.n || !key.e) {
+      throw new Error("Unsupported key format for local operations");
+    }
+    let encoded_n = CryptographyClient.encodeBuffer(key.n, 0x2); // INTEGER
+    let encoded_e = CryptographyClient.encodeBuffer(key.e, 0x2); // INTEGER
+
+    let encoded_ne = new Uint8Array(encoded_n.length + encoded_e.length);
+    encoded_ne.set(encoded_n, 0);
+    encoded_ne.set(encoded_e, encoded_n.length);
+
+    let full_encoded = CryptographyClient.encodeBuffer(encoded_ne, 0x30); //SEQUENCE
+
+    let buffer = Buffer.from(full_encoded).toString("base64");
+
+    let beginBanner = "-----BEGIN RSA PUBLIC KEY-----\n";
+    let endBanner = "-----END RSA PUBLIC KEY-----";
+
+    let outputString = beginBanner;
+    let lines = buffer.match(/.{1,64}/g);
+    
+    if (lines) {
+      for (let line of lines) {
+        outputString += line;
+        outputString += "\n";
+      }
+    } else {
+      throw new Error("Could not create correct PEM");
+    }
+    outputString += endBanner;
+
+    return outputString;
   }
 
   private static async createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
