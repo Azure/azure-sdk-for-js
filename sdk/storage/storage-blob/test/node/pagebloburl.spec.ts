@@ -139,7 +139,7 @@ describe("PageBlobURL", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it.only("create, uploadPages, uploadPagesFromURL, download, clearPages and resize with CPK", async () => {
+  it("create, uploadPages, uploadPagesFromURL, download, clearPages and resize with CPK", async () => {
     const cResp = await pageBlobURL.create(Aborter.none, 1024, {customerProvidedKey: Test_CPK_INFO});
     assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
@@ -182,7 +182,8 @@ describe("PageBlobURL", () => {
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
 
-    // Clear page should fail without CPK.
+    // TODO: As service support, Clear page currently cannot work with/without CPK when blob is encrypted with CPK.
+    // This might be optimized further according to service.
     exceptionCaught = false;
     try {
       await pageBlobURL.clearPages(Aborter.none, 0, 512);
@@ -191,20 +192,21 @@ describe("PageBlobURL", () => {
     }
     assert.ok(exceptionCaught);
 
-    await pageBlobURL.clearPages(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
-    page1 = await pageBlobURL.download(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
-    assert.deepStrictEqual(await bodyToString(page1, 512), "\u0000".repeat(512));
+    // await pageBlobURL.clearPages(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    // page1 = await pageBlobURL.download(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    // assert.deepStrictEqual(await bodyToString(page1, 512), "\u0000".repeat(512));
 
     // Clear page should fail without CPK.
-    exceptionCaught = false;
-    try {
-      await pageBlobURL.resize(Aborter.none, 2048);
-    } catch (err) {
-      exceptionCaught = true;
-    }
-    assert.ok(exceptionCaught);
+    // exceptionCaught = false;
+    // try {
+    //   await pageBlobURL.resize(Aborter.none, 2048);
+    // } catch (err) {
+    //   exceptionCaught = true;
+    // }
+    // assert.ok(exceptionCaught);
 
-    await pageBlobURL.resize(Aborter.none, 2048, {customerProvidedKey: Test_CPK_INFO});
+    // Resize can work without customer encryption key.
+    await pageBlobURL.resize(Aborter.none, 2048);
     const pResp = await pageBlobURL.getProperties(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
     assert.equal(pResp.contentLength, "2048");
   });

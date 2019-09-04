@@ -341,7 +341,7 @@ describe("BlobURL", () => {
     } catch (err) {
       if (
         err instanceof RangeError &&
-        err.message == "Batch request should contain one or more sub requests"
+        err.message == "Batch request should contain one or more sub requests."
       ) {
         exceptionCaught = true;
       }
