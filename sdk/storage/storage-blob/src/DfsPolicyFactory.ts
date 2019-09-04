@@ -4,7 +4,6 @@ import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azur
 
 import { DfsPolicy } from "./policies/DfsPolicy";
 
-
 /**
  * DfsPolicyFactory is a factory class helping generating DfsPolicy objects.
  *

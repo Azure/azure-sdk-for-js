@@ -28,5 +28,6 @@ export * from "./RetryPolicyFactory";
 export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./DfsPolicyFactory";
+export { DFS_ENDPOINT_REPLACEMENTS } from "./policies/DfsPolicy";
 export * from "./UniqueRequestIDPolicyFactory";
 export { Models, RestError };
