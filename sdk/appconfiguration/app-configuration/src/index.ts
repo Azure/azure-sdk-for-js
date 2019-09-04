@@ -108,14 +108,6 @@ export class AppConfigurationClient {
     }
   }
 
-
-
-  // REMOVE
-  // https://github.com/Azure/AppConfiguration#rest-api-reference
-
-
-
-
   /**
    * Add a setting into the Azure App Configuration service, failing if it already exists.
    * @param key The name of the key.
