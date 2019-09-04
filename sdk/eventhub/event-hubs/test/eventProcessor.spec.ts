@@ -784,8 +784,7 @@ describe("Event Processor", function (): void {
 
       for (const partitionId of partitionIds) {
         const results = partitionResultsMap.get(partitionId)!;
-        const events = results.events;
-        events[0].should.equal(expectedMessagePrefix + partitionId);
+        results.events.length.should.be.gte(1);
         results.initialized.should.be.true;
         (results.closeReason === CloseReason.Shutdown).should.be.true;
       }
