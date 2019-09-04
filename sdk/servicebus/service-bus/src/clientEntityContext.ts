@@ -196,6 +196,7 @@ export namespace ClientEntityContext {
         name,
         existingReceivers
       );
+      return;
     };
 
     (entityContext as ClientEntityContext).onDetached = async (error?: AmqpError | Error) => {
