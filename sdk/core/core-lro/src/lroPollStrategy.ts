@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { delay, HttpMethods, HttpOperationResponse, RequestOptionsBase, RestError, stripRequest, WebResource, OperationResponse, OperationSpec } from "@azure/core-http";
-import { ServiceClient } from "./serviceClient";
+import { delay, HttpMethods, HttpOperationResponse, RequestOptionsBase, RestError, stripRequest, WebResource, OperationResponse, OperationSpec, ServiceClient } from "@azure/core-http";
 import { LongRunningOperationStates } from "./util/constants";
 
 export type LROPollStrategyType = "AzureAsyncOperation" | "Location" | "GetResource";
@@ -22,24 +21,28 @@ function getOperationResponse(operationSpec: OperationSpec, response: HttpOperat
 } 
 
 export interface LROPollState {
-  initialResponse: HttpOperationResponse;
-  state: LongRunningOperationStates;
-  mostRecentRequest: WebResource;
-  mostRecentResponse: HttpOperationResponse;
-  resource: any;
+  initialResponse?: HttpOperationResponse;
+  state?: LongRunningOperationStates;
+  mostRecentRequest?: WebResource;
+  mostRecentResponse?: HttpOperationResponse;
+  resource?: any;
   options?: RequestOptionsBase;
-  appState: any;
+  appState?: any;
+}
+
+export class LROServiceClient extends ServiceClient {
+  public longRunningOperationRetryTimeout?: number;
 }
 
 /**
  * A long-running operation polling strategy base class that other polling strategies should extend.
  */
 export abstract class LROPollStrategy {
-  constructor(private readonly _azureServiceClient: AzureServiceClient, protected readonly _pollState: LROPollState) {
+  constructor(private readonly _serviceClient: LROServiceClient, protected readonly _pollState: LROPollState) {
   }
 
   public getOperationStatus(): LongRunningOperationStates {
-    return this._pollState.state;
+    return this._pollState.state!;
   }
 
   /**
@@ -47,7 +50,7 @@ export abstract class LROPollStrategy {
    * @returns Whether or not this poll strategy's LRO is finished.
    */
   public isFinished(): boolean {
-    return isFinished(this._pollState.state);
+    return isFinished(this._pollState.state!);
   }
 
   /**
@@ -56,7 +59,7 @@ export abstract class LROPollStrategy {
    */
   public async pollUntilFinished(): Promise<boolean> {
     while (!this.isFinished()) {
-      const delayInSeconds: number = getDelayInSeconds(this._azureServiceClient, this._pollState.mostRecentResponse);
+      const delayInSeconds: number = getDelayInSeconds(this._serviceClient, this._pollState.mostRecentResponse!);
       await delay(delayInSeconds * 1000);
 
       await this.sendPollRequest();
@@ -73,21 +76,21 @@ export abstract class LROPollStrategy {
   public abstract isFinalStatusAcceptable(): boolean;
 
   protected shouldDoFinalGetResourceRequest(): boolean {
-    const initialRequestMethod: HttpMethods = this._pollState.initialResponse.request.method;
+    const initialRequestMethod: HttpMethods = this._pollState.initialResponse!.request.method;
     return !this._pollState.resource && (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH" || initialRequestMethod === "POST");
   }
 
   protected abstract doFinalGetResourceRequest(): Promise<void>;
 
   public getMostRecentResponse(): HttpOperationResponse {
-    return this._pollState.mostRecentResponse;
+    return this._pollState.mostRecentResponse!;
   }
 
   public async getOperationResponse(): Promise<HttpOperationResponse> {
     if (this.shouldDoFinalGetResourceRequest()) {
       await this.doFinalGetResourceRequest();
     }
-    const response: HttpOperationResponse = this._pollState.mostRecentResponse;
+    const response: HttpOperationResponse = this._pollState.mostRecentResponse!;
     const result: HttpOperationResponse = {
       ...response,
       headers: response.headers.clone()
@@ -108,7 +111,7 @@ export abstract class LROPollStrategy {
 
   public getRestError(): RestError {
     const error = new RestError("");
-    error.request = stripRequest(this._pollState.mostRecentRequest);
+    error.request = stripRequest(this._pollState.mostRecentRequest!);
     error.response = this._pollState.mostRecentResponse;
     error.message = `Long running operation failed with status: "${this._pollState.state}".`;
     error.body = this._pollState.resource;
@@ -136,7 +139,7 @@ export abstract class LROPollStrategy {
       let resultStatus: number | undefined;
       if (error.response && error.response.status) {
         resultStatus = error.response.status;
-        if (this._pollState.initialResponse.request.method !== "DELETE" || resultStatus! < 400 || 499 < resultStatus!) {
+        if (this._pollState.initialResponse!.request.method !== "DELETE" || resultStatus! < 400 || 499 < resultStatus!) {
           throw error;
         }
       } else {
@@ -153,7 +156,9 @@ export abstract class LROPollStrategy {
     const requestUrl: string = statusUrl.replace(" ", "%20");
     const httpRequest = new WebResource(requestUrl, "GET");
     const pollState: LROPollState = this._pollState;
-    httpRequest.operationSpec = pollState.mostRecentRequest.operationSpec;
+    if (pollState.mostRecentRequest) {
+      httpRequest.operationSpec = pollState.mostRecentRequest!.operationSpec;
+    }
     httpRequest.shouldDeserialize = shouldDeserialize;
     httpRequest.operationResponseGetter = getOperationResponse;
     const options: RequestOptionsBase | undefined = pollState.options;
@@ -163,7 +168,7 @@ export abstract class LROPollStrategy {
         httpRequest.headers.set(headerName, customHeaders[headerName]);
       }
     }
-    return this._azureServiceClient.sendRequest(httpRequest);
+    return this._serviceClient.sendRequest(httpRequest);
   }
 
   public getPollState(): LROPollState {
@@ -171,11 +176,11 @@ export abstract class LROPollStrategy {
   }
 }
 
-export function getDelayInSeconds(azureServiceClient: AzureServiceClient, previousResponse: HttpOperationResponse): number {
+export function getDelayInSeconds(serviceClient: LROServiceClient, previousResponse: HttpOperationResponse): number {
   let delayInSeconds = 30;
-  if (azureServiceClient.longRunningOperationRetryTimeout != undefined) {
-    delayInSeconds = azureServiceClient.longRunningOperationRetryTimeout;
-  } else {
+  if (serviceClient.longRunningOperationRetryTimeout != undefined) {
+    delayInSeconds = serviceClient.longRunningOperationRetryTimeout;
+  } else if (previousResponse) {
     const retryAfterHeaderValue: string | undefined = previousResponse.headers.get("retry-after");
     if (retryAfterHeaderValue) {
       const retryAfterDelayInSeconds: number = parseInt(retryAfterHeaderValue);
