@@ -1,5 +1,9 @@
 # Breaking Changes
 
+### 2019.08 Version 12.0.0-preview.3
+
+- Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
+
 ### 2019.08 Version 12.0.0-preview.2
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.

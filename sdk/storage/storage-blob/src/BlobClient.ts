@@ -9,7 +9,7 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { Blob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
@@ -778,13 +778,12 @@ export class BlobClient extends StorageClient {
     count?: number,
     options: BlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.blobAccessConditions.modifiedAccessConditions =
       options.blobAccessConditions.modifiedAccessConditions || {};
 
     const res = await this.blobContext.download({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
       onDownloadProgress: isNode ? undefined : options.progress,
@@ -844,14 +843,14 @@ export class BlobClient extends StorageClient {
         // );
 
         return (await this.blobContext.download({
-          abortSignal: aborter,
+          abortSignal: options.abortSignal,
           ...updatedOptions
         })).readableStreamBody!;
       },
       offset,
       res.contentLength!,
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         maxRetryRequests: options.maxRetryRequests,
         progress: options.progress
       }
@@ -870,10 +869,9 @@ export class BlobClient extends StorageClient {
   public async getProperties(
     options: BlobGetPropertiesOptions = {}
   ): Promise<Models.BlobGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.getProperties({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
     });
@@ -891,10 +889,9 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       deleteSnapshots: options.deleteSnapshots,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
@@ -912,9 +909,8 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.blobContext.undelete({
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -936,10 +932,9 @@ export class BlobClient extends StorageClient {
     blobHTTPHeaders?: Models.BlobHTTPHeaders,
     options: BlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setHTTPHeaders({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobHTTPHeaders,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
@@ -963,10 +958,9 @@ export class BlobClient extends StorageClient {
     metadata?: Metadata,
     options: BlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
@@ -995,10 +989,9 @@ export class BlobClient extends StorageClient {
   public async createSnapshot(
     options: BlobCreateSnapshotOptions = {}
   ): Promise<Models.BlobCreateSnapshotResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.createSnapshot({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
@@ -1024,12 +1017,11 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobStartCopyFromURLOptions = {}
   ): Promise<Models.BlobStartCopyFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
     return this.blobContext.startCopyFromURL(copySource, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
@@ -1056,9 +1048,8 @@ export class BlobClient extends StorageClient {
     copyId: string,
     options: BlobAbortCopyFromURLOptions = {}
   ): Promise<Models.BlobAbortCopyFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.blobContext.abortCopyFromURL(copyId, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions
     });
   }
@@ -1077,12 +1068,11 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobSyncCopyFromURLOptions = {}
   ): Promise<Models.BlobCopyFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
     return this.blobContext.copyFromURL(copySource, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata: options.metadata,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
@@ -1112,9 +1102,8 @@ export class BlobClient extends StorageClient {
     tier: Models.AccessTier,
     options: BlobSetTierOptions = {}
   ): Promise<Models.BlobSetTierResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return await this.blobContext.setTier(tier, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions
     });
   }
