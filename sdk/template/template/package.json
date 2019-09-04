@@ -1,6 +1,6 @@
 {
   "name": "@azure/template",
-  "version": "0.1.0",
+  "version": "0.2.0-preview.1",
   "description": "Template Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -58,7 +58,6 @@
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/template/template",
   "sideEffects": false,
-  "private": true,
   "dependencies": {
     "@azure/core-http": "1.0.0-preview.3",
     "events": "^3.0.0",
