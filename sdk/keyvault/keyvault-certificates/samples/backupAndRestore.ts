@@ -21,7 +21,7 @@ async function main(): Promise<void> {
   const client = new CertificatesClient(url, credential);
 
   // Creating a self-signed certificate
-  const certificate = await createCertificate("MyCertificate", {
+  const certificate = await client.createCertificate("MyCertificate", {
     issuerParameters: { name: "Self" },
     x509CertificateProperties: { subject: "cn=MyCert" }
   });

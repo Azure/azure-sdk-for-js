@@ -17,7 +17,7 @@ async function main(): Promise<void> {
   const client = new CertificatesClient(url, credential);
 
   // Creating a self-signed certificate
-  const certificate = await createCertificate("MyCertificate", {
+  const certificate = await client.createCertificate("MyCertificate", {
     issuerParameters: { name: "Self" },
     x509CertificateProperties: { subject: "cn=MyCert" }
   });
@@ -45,9 +45,9 @@ async function main(): Promise<void> {
   });
   console.log("Updated certificate:", updatedCertificate);
 
-  const result = await client.deleteCertificate(certificateName);
+  const result = await client.deleteCertificate("MyCertificate");
   console.log("Recovery Id: ", result.recoveryId);
-  console.log("Deleted Date: ", result.deleteDate);
+  console.log("Deleted Date: ", result.deletedDate);
   console.log("Scheduled Purge Date: ", result.scheduledPurgeDate);
 }
 

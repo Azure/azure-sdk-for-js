@@ -20,11 +20,11 @@ async function main(): Promise<void> {
   const client = new CertificatesClient(url, credential);
 
   // Creating two self-signed certificate
-  const certificate1 = await createCertificate("MyCertificate1", {
+  const certificate1 = await client.createCertificate("MyCertificate1", {
     issuerParameters: { name: "Self" },
     x509CertificateProperties: { subject: "cn=MyCert" }
   });
-  const certificate2 = await createCertificate("MyCertificate2", {
+  const certificate2 = await client.createCertificate("MyCertificate2", {
     issuerParameters: { name: "Self" },
     x509CertificateProperties: { subject: "cn=MyCert" }
   });
@@ -35,12 +35,12 @@ async function main(): Promise<void> {
   }
 
   // Listing all the available certificates by pages.
-  let pages = 0;
+  let pageCount = 0;
   for await (const page of client.listCertificates(includePending).byPage()) {
     for (const certificate of page) {
-      console.log(`Certificate from page ${0}: `, certificate);
+      console.log(`Certificate from page ${pageCount}: `, certificate);
     }
-    pages++;
+    pageCount++;
   }
 
   // Updating one of the certificates to retrieve the certificate versions afterwards

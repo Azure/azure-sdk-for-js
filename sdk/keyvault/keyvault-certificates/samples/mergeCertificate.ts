@@ -1,3 +1,5 @@
+import * as fs from "fs";
+import * as childProcess from "child_process";
 import { CertificatesClient } from "../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,7 +19,7 @@ async function main(): Promise<void> {
   const client = new CertificatesClient(url, credential);
 
   // Creating a certificate with an Unknown issuer.
-  await client.createCertificate("MyCertificate2", {
+  await client.createCertificate("MyCertificate", {
     issuerParameters: {
       name: "Unknown",
       certificateTransparency: false
@@ -26,7 +28,7 @@ async function main(): Promise<void> {
   });
 
   // Retrieving the certificate request
-  const { csr } = await client.getCertificateOperation(certificateName);
+  const { csr } = await client.getCertificateOperation("MyCertificate");
   const base64Csr = Buffer.from(csr!).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}
@@ -49,7 +51,7 @@ ${base64Csr}
     .join("");
 
   // Once we have the response in base64 format, we send it to mergeCertificate
-  await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
+  await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
 }
 
 main().catch((err) => {

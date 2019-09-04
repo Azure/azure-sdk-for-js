@@ -20,7 +20,7 @@ async function main(): Promise<void> {
   const client = new CertificatesClient(url, credential);
 
   // Creating a self-signed certificate
-  const certificate = await createCertificate("MyCertificate", {
+  const certificate = await client.createCertificate("MyCertificate", {
     issuerParameters: { name: "Self" },
     x509CertificateProperties: { subject: "cn=MyCert" }
   });
@@ -40,7 +40,7 @@ async function main(): Promise<void> {
   // It might take less time, or more, depending on your location, internet speed and other factors.
   await delay(10000);
 
-  const certificateWithPolicy = await client.getCertificateWithPolicy(certificateName);
+  const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
   console.log("Certificate with policy:", certificateWithPolicy);
 }
 
