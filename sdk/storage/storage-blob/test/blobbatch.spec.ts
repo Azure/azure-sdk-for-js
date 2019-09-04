@@ -57,7 +57,7 @@ describe("BlobURL", () => {
     // Assemble batch delete request.
     let batchDeleteRequest = new BatchDeleteRequest();
     for (let i = 0; i < blockBlobCount; i++) {
-      await batchDeleteRequest.addDeleteOperation(blockBlobURLs[i].url, credential, {});
+      await batchDeleteRequest.addSubRequest(blockBlobURLs[i].url, credential, {});
     }
 
     // Submit batch request and verify response.
@@ -91,12 +91,12 @@ describe("BlobURL", () => {
 
     // Assemble batch delete request which delete blob with its snapshot.
     let batchDeleteRequest = new BatchDeleteRequest();
-    await batchDeleteRequest.addDeleteOperation(blockBlobURLs[0].url, credential, {
+    await batchDeleteRequest.addSubRequest(blockBlobURLs[0].url, credential, {
       deleteSnapshots: "include"
     });
 
     // Ensure blobs ready.
-    const respList1 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+    let respList1 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
       include: ["snapshots"]
     });
     assert.equal(respList1.segment.blobItems.length, 2);
@@ -108,13 +108,13 @@ describe("BlobURL", () => {
     assert.equal(respSubmitBatch1.subResponsesFailedCount, 0);
 
     // Validate that blob and its snapshot all get deleted.
-    const respList2 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+    respList1 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
       include: ["snapshots"]
     });
-    assert.equal(respList2.segment.blobItems.length, 0);
+    assert.equal(respList1.segment.blobItems.length, 0);
 
     //
-    // Test delete snapshot only with snapshot's url
+    // Test delete snapshot only with snapshot's url and Credential.
     //
     // Upload blob.
     await blockBlobURLs[1].upload(Aborter.none, content, content.length);
@@ -123,13 +123,13 @@ describe("BlobURL", () => {
  
     // Assemble batch delete request.
     let batchDeleteRequest2 = new BatchDeleteRequest();
-    await batchDeleteRequest2.addDeleteOperation(snapshotURL.url, credential);
+    await batchDeleteRequest2.addSubRequest(snapshotURL.url, credential);
  
     // Ensure blobs ready.
-    const respList3 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+    let respList2 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
       include: ["snapshots"]
     });
-    assert.equal(respList3.segment.blobItems.length, 2);
+    assert.equal(respList2.segment.blobItems.length, 2);
  
     // Submit batch request and verify response.
     const respSubmitBatch2 = await serviceURL.submitBatch(Aborter.none, batchDeleteRequest2, {});
@@ -137,11 +137,41 @@ describe("BlobURL", () => {
     assert.equal(respSubmitBatch2.subResponsesSucceededCount, 1);
     assert.equal(respSubmitBatch2.subResponsesFailedCount, 0);
  
-    // Validate that blob and its snapshot all get deleted.
-    const respList4 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+    // Validate that snapshot get deleted.
+    respList2 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
       include: ["snapshots"]
     });
-    assert.equal(respList4.segment.blobItems.length, 1);
+    assert.equal(respList2.segment.blobItems.length, 1);
+
+    //
+    // Test delete snapshot only with snapshot's url using snapshot's BlobURL.
+    //
+    // Upload blob.
+    await blockBlobURLs[2].upload(Aborter.none, content, content.length);
+    const createSnapshotResp2 = await blockBlobURLs[2].createSnapshot(Aborter.none);
+    const snapshotURL2 = blockBlobURLs[2].withSnapshot(createSnapshotResp2.snapshot!);
+ 
+    // Assemble batch delete request.
+    let batchDeleteRequest3 = new BatchDeleteRequest();
+    await batchDeleteRequest3.addSubRequest(snapshotURL2);
+ 
+    // Ensure blobs ready.
+    let respList3 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["snapshots"]
+    });
+    assert.equal(respList3.segment.blobItems.length, 3);
+ 
+    // Submit batch request and verify response.
+    const respSubmitBatch3 = await serviceURL.submitBatch(Aborter.none, batchDeleteRequest3, {});
+    assert.equal(respSubmitBatch3.subResponses.length, 1);
+    assert.equal(respSubmitBatch3.subResponsesSucceededCount, 1);
+    assert.equal(respSubmitBatch3.subResponsesFailedCount, 0);
+ 
+    // Validate that snapshot get deleted.
+    respList3 = await containerURL.listBlobFlatSegment(Aborter.none, undefined, {
+      include: ["snapshots"]
+    });
+    assert.equal(respList3.segment.blobItems.length, 2);
   });
 
   it("submitBatch should work for batch delete with access condition and partial succeed", async () => {
@@ -151,14 +181,14 @@ describe("BlobURL", () => {
 
     // Assemble batch delete request.
     let batchDeleteRequest = new BatchDeleteRequest();
-    await batchDeleteRequest.addDeleteOperation(blockBlobURLs[0].url, credential, {
+    await batchDeleteRequest.addSubRequest(blockBlobURLs[0], {
       blobAccessConditions: {
         modifiedAccessConditions: {
           ifMatch: b0.eTag
         }
       }
     });
-    await batchDeleteRequest.addDeleteOperation(blockBlobURLs[1].url, credential, {
+    await batchDeleteRequest.addSubRequest(blockBlobURLs[1], {
       blobAccessConditions: {
         modifiedAccessConditions: {
           ifNoneMatch: b1.eTag
@@ -194,7 +224,7 @@ describe("BlobURL", () => {
     // Assemble batch set tier request.
     let batchSetTierRequest = new BatchSetTierRequest();
     for (let i = 0; i < blockBlobCount; i++) {
-      await batchSetTierRequest.addSetTierOperation(blockBlobURLs[i].url, credential, "Cool", {});
+      await batchSetTierRequest.addSubRequest(blockBlobURLs[i].url, credential, "Cool", {});
     }
 
     // Submit batch request and verify response.
@@ -229,8 +259,8 @@ describe("BlobURL", () => {
 
     // Assemble batch set tier request.
     let batchSetTierRequest = new BatchSetTierRequest();
-    await batchSetTierRequest.addSetTierOperation(blockBlobURLs[0].url, credential, "Cool");
-    await batchSetTierRequest.addSetTierOperation(blockBlobURLs[1].url, credential, "Cool", {
+    await batchSetTierRequest.addSubRequest(blockBlobURLs[0], "Cool");
+    await batchSetTierRequest.addSubRequest(blockBlobURLs[1], "Cool", {
       leaseAccessConditions: { leaseId: leaseResp.leaseId! }
     });
 
@@ -260,13 +290,13 @@ describe("BlobURL", () => {
 
     // Assemble batch set tier request.
     let batchSetTierRequest = new BatchSetTierRequest();
-    await batchSetTierRequest.addSetTierOperation(blockBlobURLs[0].url, credential, "Cool");
+    await batchSetTierRequest.addSubRequest(blockBlobURLs[0].url, credential, "Cool");
     // When it's using token credential be sure it's not with SAS (browser testing case)
     let blockBlobURL1WithoutSAS = blockBlobURLs[1].url;
     if (blockBlobURL1WithoutSAS.indexOf("?") != -1) { // remove query part for this testing for ease
       blockBlobURL1WithoutSAS = blockBlobURLs[1].url.substring(0, blockBlobURLs[1].url.indexOf("?"));
     }
-    await batchSetTierRequest.addSetTierOperation(blockBlobURL1WithoutSAS, getTokenCredential(), "Cool"); 
+    await batchSetTierRequest.addSubRequest(blockBlobURL1WithoutSAS, getTokenCredential(), "Cool"); 
 
     // Submit batch request and verify response.
     const resp = await serviceURL.submitBatch(Aborter.none, batchSetTierRequest, {});
@@ -295,14 +325,14 @@ describe("BlobURL", () => {
     for (let i = 0; i < 256; i++) {
       let tmpBlobURL = BlobURL.fromContainerURL(containerURL, `blob${i}`);
 
-      await batchSetTierRequest.addSetTierOperation(tmpBlobURL.url, credential, "Cool");
+      await batchSetTierRequest.addSubRequest(tmpBlobURL.url, credential, "Cool");
     }
 
     let exceptionCaught = false;
 
     try {
       let tmpBlobURL = BlobURL.fromContainerURL(containerURL, `blobexceed`);
-      await batchSetTierRequest.addSetTierOperation(tmpBlobURL.url, credential, "Cool");
+      await batchSetTierRequest.addSubRequest(tmpBlobURL.url, credential, "Cool");
     } catch (err) {
       if (
         err instanceof RangeError &&
@@ -320,7 +350,7 @@ describe("BlobURL", () => {
     let exceptionCaught = false;
 
     try {
-      await batchSetTierRequest.addSetTierOperation("invalidurl", credential, "Cool");
+      await batchSetTierRequest.addSubRequest("invalidurl", credential, "Cool");
     } catch (err) {
       if (
         err instanceof RangeError &&
@@ -355,7 +385,7 @@ describe("BlobURL", () => {
 
     // Assemble batch set tier request.
     let batchSetTierRequest = new BatchSetTierRequest();
-    await batchSetTierRequest.addSetTierOperation(blockBlobURLs[0].url, credential, "Cool");
+    await batchSetTierRequest.addSubRequest(blockBlobURLs[0].url, credential, "Cool");
 
     const invalidCredServiceURL = serviceURL.withPipeline(StorageURL.newPipeline(new TokenCredential("invalidtoken")))
 

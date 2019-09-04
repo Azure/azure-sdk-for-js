@@ -327,8 +327,8 @@ export class ServiceURL extends StorageURL {
    *
    * @example
    * let batchDeleteRequest = new BatchDeleteRequest();
-   * await batchDeleteRequest.addDeleteOperation(blockBlobURL0, credential);
-   * await batchDeleteRequest.addDeleteOperation(blockBlobURL1, credential, {
+   * await batchDeleteRequest.addSubRequest(urlInString0, credential0);
+   * await batchDeleteRequest.addSubRequest(urlInString1, credential1, {
    *  deleteSnapshots: "include"
    * });
    * const deleteBatchResp = await serviceURL.submitBatch(Aborter.none, batchDeleteRequest);
@@ -336,8 +336,8 @@ export class ServiceURL extends StorageURL {
    * 
    * @example
    * let batchSetTierRequest = new BatchSetTierRequest();
-   * await batchSetTierRequest.addSetTierOperation(blockBlobURL0, credential0, "Cool");
-   * await batchSetTierRequest.addSetTierOperation(blockBlobURL1, credential1, "Cool", {
+   * await batchSetTierRequest.addSubRequest(blockBlobURL0, "Cool");
+   * await batchSetTierRequest.addSubRequest(blockBlobURL1, "Cool", {
    *  leaseAccessConditions: { leaseId: leaseId }
    * });
    * const setTierBatchResp = await serviceURL.submitBatch(Aborter.none, batchSetTierRequest);
