@@ -5,14 +5,14 @@ import {
   HttpOperationResponse,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource
+  WebResource,
 } from "@azure/core-http";
 
 import { Context, ContextAborter } from "../ContextAborter";
 import {
   BLOB_SERVICE_PUBLIC_CLOUD_HOST,
   DFS_SERVICE_PUBLIC_CLOUD_HOST,
-  REQUIRE_DFS_ENDPOINT_FLAG
+  REQUIRE_DFS_ENDPOINT_FLAG,
 } from "../utils/constants";
 import { getURLHost, setURLHost } from "../utils/utils.common";
 
@@ -20,7 +20,10 @@ export const DfsContext: Context = {};
 DfsContext[REQUIRE_DFS_ENDPOINT_FLAG] = true;
 
 // Add more replacement patterns here
-const ENDPOINT_REPLACEMENTS = [[BLOB_SERVICE_PUBLIC_CLOUD_HOST, DFS_SERVICE_PUBLIC_CLOUD_HOST]];
+// Customize DFS_ENDPOINT_REPLACEMENTS to support more replacement patterns
+export const DFS_ENDPOINT_REPLACEMENTS = [
+  [BLOB_SERVICE_PUBLIC_CLOUD_HOST, DFS_SERVICE_PUBLIC_CLOUD_HOST]
+];
 
 /**
  * DfsPolicy will replace blob endpoint into dfs endpoint for ADLS generation 2 inter-operation with blob.
@@ -54,7 +57,7 @@ export class DfsPolicy extends BaseRequestPolicy {
     ) {
       const host = getURLHost(request.url);
       if (typeof host === "string") {
-        for (const replacement of ENDPOINT_REPLACEMENTS) {
+        for (const replacement of DFS_ENDPOINT_REPLACEMENTS) {
           if (host.endsWith(replacement[0])) {
             const dfsHost = host.replace(replacement[0], replacement[1]);
             request.url = setURLHost(request.url, dfsHost);

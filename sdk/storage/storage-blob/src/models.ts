@@ -3,7 +3,6 @@
 import * as Models from "./generated/src/models";
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
-
 export interface Metadata {
   [propertyName: string]: string;
 }

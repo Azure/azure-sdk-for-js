@@ -1314,7 +1314,7 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob-from-url
    *
    * @param {string} copySource The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
-   * @param {BlobSyncCopyFromURLOptions} [options={}]
+   * @param {BlobSyncCopyFromURLOptions} [options]
    * @returns {Promise<Models.BlobCopyFromURLResponse>}
    * @memberof BlobURL
    */
@@ -1373,7 +1373,7 @@ export class BlobClient extends StorageClient {
    *                               or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".
    *
    * @param {string} accessControl
-   * @param {BlobSetAccessControlOptions} [options={}]
+   * @param {BlobSetAccessControlOptions} [options]
    * @returns {Promise<Models.BlobSetAccessControlResponse>}
    * @memberof BlobClient
    */
@@ -1404,7 +1404,7 @@ export class BlobClient extends StorageClient {
    *                               granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic
    *                               (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
    * @param {string} [permissions]
-   * @param {BlobSetPermissionsOptions} [options={}]
+   * @param {BlobSetPermissionsOptions} [options]
    * @returns {Promise<Models.BlobSetAccessControlResponse>}
    * @memberof BlobClient
    */
@@ -1438,7 +1438,7 @@ export class BlobClient extends StorageClient {
    *                        identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be
    *                        transformed from Azure Active Directory Object IDs to User Principal Names.  If "false", the
    *                        values will be returned as Azure Active Directory Object IDs. The default value is false.
-   * @param {BlobGetAccessControlOptions} [options={}]
+   * @param {BlobGetAccessControlOptions} [options]
    * @returns {Promise<Models.BlobGetAccessControlResponse>}
    * @memberof BlobClient
    */
@@ -1466,7 +1466,7 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
    * @param {BlobClient} destination Destination `BlobClient` object. Must be same storage account with source.
-   * @param {BlobMoveOptions} [options={}]
+   * @param {BlobMoveOptions} [options]
    * @returns {Promise<Models.BlobRenameResponse>}
    * @memberof BlobClient
    */
@@ -1487,7 +1487,7 @@ export class BlobClient extends StorageClient {
 
     const source = options.sourcePath || getURLPath(this.url);
     if (source === undefined) {
-      throw RangeError(`Invalid move source path ${source}`);
+      throw RangeError(`Invalid move source path ${source}.`);
     }
 
     const aborter = new ContextAborter(options.abortSignal || AbortSignal.none, DfsContext);

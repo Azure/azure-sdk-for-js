@@ -38,5 +38,6 @@ export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./DfsPolicyFactory";
+export { DFS_ENDPOINT_REPLACEMENTS } from "./policies/DfsPolicy";
 export * from "./SASQueryParameters";
 export { Models, RestError };
