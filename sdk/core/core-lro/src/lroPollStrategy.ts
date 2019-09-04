@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { delay, HttpMethods, HttpOperationResponse, RequestOptionsBase, RestError, stripRequest, WebResource, OperationResponse, OperationSpec } from "@azure/core-http";
-import { AzureServiceClient } from "@azure/core-arm";
+import { ServiceClient } from "./serviceClient";
 import { LongRunningOperationStates } from "./util/constants";
 
 export type LROPollStrategyType = "AzureAsyncOperation" | "Location" | "GetResource";
@@ -22,15 +22,13 @@ function getOperationResponse(operationSpec: OperationSpec, response: HttpOperat
 } 
 
 export interface LROPollState {
-  pollStrategyType: LROPollStrategyType;
   initialResponse: HttpOperationResponse;
   state: LongRunningOperationStates;
   mostRecentRequest: WebResource;
   mostRecentResponse: HttpOperationResponse;
   resource: any;
-  azureAsyncOperationHeaderValue?: string;
-  locationHeaderValue?: string;
   options?: RequestOptionsBase;
+  appState: any;
 }
 
 /**
