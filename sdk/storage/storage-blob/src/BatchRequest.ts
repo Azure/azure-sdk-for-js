@@ -74,7 +74,7 @@ export abstract class BatchRequest {
     return this.batchRequest.getSubRequests();
   }
 
-  protected async addSubRequest(subRequest: BatchSubRequest, assembleSubRequestFunc: ()=>Promise<void>): Promise<void> {
+  protected async addSubRequestInternal(subRequest: BatchSubRequest, assembleSubRequestFunc: ()=>Promise<void>): Promise<void> {
     await Mutex.lock(this.batch);
 
     try {
@@ -108,16 +108,59 @@ export class BatchDeleteRequest extends BatchRequest {
    *
    * @param {string} url The url of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.
-   * @param {IBlobDeleteOptions} [options={}]
+   * @param {IBlobDeleteOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchDeleteRequest
    */
-  public async addDeleteOperation(
+  public async addSubRequest(
     url: string,
     credential: Credential,
-    options: IBlobDeleteOptions = {}
-  ): Promise<void> {
-    await super.addSubRequest(
+    options?: IBlobDeleteOptions
+  ): Promise<void>;
+
+  /**
+   * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
+   * Note that in order to delete a blob, you must delete all of its snapshots. 
+   * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
+   * The operation(subrequest) will be authenticated and authorized with specified credential.
+   * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   *
+   * @param {blobUrl} BlobURL The BlobURL.
+   * @param {IBlobDeleteOptions} [options]
+   * @returns {Promise<void>}
+   * @memberof BatchDeleteRequest
+   */
+  public async addSubRequest(
+    blobURL: BlobURL,
+    options?: IBlobDeleteOptions
+  ): Promise<void>;
+
+  public async addSubRequest(
+    urlOrBlobURL: string | BlobURL,
+    credentialOrOptions: Credential | IBlobDeleteOptions | undefined,
+    options?: IBlobDeleteOptions
+  ): Promise<void>{
+    let url: string;
+    let credential: Credential;
+
+    if (typeof urlOrBlobURL === 'string' && credentialOrOptions instanceof Credential) {
+      // First overload
+      url = urlOrBlobURL;
+      credential = credentialOrOptions;
+    } else if (urlOrBlobURL instanceof BlobURL) {
+      // Second overload
+      url = urlOrBlobURL.url;
+      credential = urlOrBlobURL.credential;
+      options = credentialOrOptions as IBlobDeleteOptions;
+    } else {
+      throw new RangeError("Invalid arguments. Either url and credential, or BlobURL need be provided.")
+    }
+
+    if (!options) {
+      options = {};
+    }
+
+    await super.addSubRequestInternal(
       {
         url: url,
         credential: credential
@@ -158,17 +201,70 @@ export class BatchSetTierRequest extends BatchRequest {
    * @param {string} url The url of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.
    * @param {Models.AccessTier} tier
-   * @param {IBlobSetTierOptions} [options={}]
+   * @param {IBlobSetTierOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
    */
-  public async addSetTierOperation(
+  public async addSubRequest(
     url: string,
     credential: Credential,
     tier: Models.AccessTier,
-    options: IBlobSetTierOptions = {}
-  ): Promise<void> {
-    await super.addSubRequest(
+    options?: IBlobSetTierOptions
+  ): Promise<void>;
+
+  /**
+   * Add a set tier operation(subrequest) to set the tier on a blob.
+   * The operation is allowed on a page blob in a premium
+   * storage account and on a block blob in a blob storage account (locally redundant
+   * storage only). A premium page blob's tier determines the allowed size, IOPS,
+   * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
+   * storage type. This operation does not update the blob's ETag.
+   * See [set blob tier details](https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
+   * The operation(subrequest) will be authenticated and authorized
+   * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   *
+   * @param {blobUrl} BlobURL The BlobURL.
+   * @param {Models.AccessTier} tier
+   * @param {IBlobSetTierOptions} [options]
+   * @returns {Promise<void>}
+   * @memberof BatchSetTierRequest
+   */
+  public async addSubRequest(
+    blobURL: BlobURL,
+    tier: Models.AccessTier,
+    options?: IBlobSetTierOptions
+  ): Promise<void>;
+
+  public async addSubRequest(
+    urlOrBlobURL: string | BlobURL,
+    credentialOrTier: Credential | Models.AccessTier,
+    tierOrOptions?: Models.AccessTier | IBlobSetTierOptions,
+    options?: IBlobSetTierOptions
+  ): Promise<void>{
+    let url: string;
+    let credential: Credential;
+    let tier: Models.AccessTier;
+
+    if (typeof urlOrBlobURL === 'string' && credentialOrTier instanceof Credential) {
+      // First overload
+      url = urlOrBlobURL;
+      credential = credentialOrTier as Credential;
+      tier = tierOrOptions as Models.AccessTier;
+    } else if (urlOrBlobURL instanceof BlobURL) {
+      // Second overload
+      url = urlOrBlobURL.url;
+      credential = urlOrBlobURL.credential;
+      tier = credentialOrTier as Models.AccessTier;
+      options = tierOrOptions as IBlobSetTierOptions;
+    } else {
+      throw new RangeError("Invalid arguments. Either url and credential, or BlobURL need be provided.")
+    }
+
+    if (!options) {
+      options = {};
+    }
+
+    await super.addSubRequestInternal(
       {
         url: url,
         credential: credential
