@@ -15,8 +15,10 @@ export class LROPoller {
    * @param _lroPollStrategy The LROPollStrategy that this HttpLongRunningOperationResponse will
    * use to interact with the LRO.
    */
-  constructor(private readonly _lroPollStrategy: LROPollStrategy | undefined, private readonly _initialResponse: HttpOperationResponse) {
-  }
+  constructor(
+    private readonly _lroPollStrategy: LROPollStrategy | undefined,
+    private readonly _initialResponse: HttpOperationResponse
+  ) {}
 
   /**
    * Get the first response that the service sent back when the LRO was initiated.
@@ -135,5 +137,8 @@ export class LROPoller {
 
 function flattenAzureResponse(response: HttpOperationResponse): RestResponse {
   const { operationResponseGetter, operationSpec } = response.request;
-  return flattenResponse(response, operationResponseGetter && operationSpec && operationResponseGetter(operationSpec, response));
+  return flattenResponse(
+    response,
+    operationResponseGetter && operationSpec && operationResponseGetter(operationSpec, response)
+  );
 }
