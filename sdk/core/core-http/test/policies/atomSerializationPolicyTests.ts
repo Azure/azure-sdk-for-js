@@ -56,7 +56,7 @@ describe("atomSerializationPolicy", function() {
     const policy = atomSerializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.bodyAsText, `{ "simple": "JSONobject" }`);
-    assert.deepEqual(response.parsedBody.error.code, "Given object is not an Atom XML response");
+    assert.deepEqual(response.parsedBody.error.code, "ResponseNotInAtomXMLFormat");
   });
 
   it("with xml response body, application/xml content-type and AtomXMLOperationSpec", async function() {
@@ -122,7 +122,8 @@ class MockSerializer implements ResourceSerializer {
     return AtomResourceSerializerBase.serializeToAtomXmlRequest(
       "QueueDescription",
       resource,
-      properties
+      properties,
+      "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
     );
   }
 

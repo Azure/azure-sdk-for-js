@@ -136,17 +136,17 @@ export const Constants = {
   XML_VALUE_MARKER: "_",
 
   HttpResponseCodes: {
-    Ok: 200,
-    Created: 201,
-    Accepted: 202,
-    NoContent: 204,
-    PartialContent: 206,
-    BadRequest: 400,
-    Unauthorized: 401,
-    Forbidden: 403,
-    NotFound: 404,
-    Conflict: 409,
-    LengthRequired: 411,
-    PreconditionFailed: 412
+    200: "Ok",
+    201: "Created",
+    202: "Accepted",
+    204: "NoContent",
+    206: "PartialContent",
+    400: "BadRequest",
+    401: "Unauthorized",
+    403: "Forbidden",
+    404: "NotFound",
+    409: "Conflict",
+    411: "LengthRequired",
+    412: "PreconditionFailed"
   }
 };

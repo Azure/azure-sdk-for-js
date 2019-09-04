@@ -11,7 +11,7 @@ import {
 } from "./requestPolicy";
 import { Constants } from "../util/constants";
 import { deserializeAtomXmlToJson } from "../util/xml";
-import { isString, byteLength } from "../util/utils";
+import { isString } from "../util/utils";
 import { ResourceSerializer } from "../resourceSerializer";
 
 /**
@@ -84,13 +84,13 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     const HttpResponseCodes: any = Constants.HttpResponseCodes;
 
     if (parsedResponse.errorBody == undefined) {
-      const code = Object.keys(HttpResponseCodes).filter(function(name: any): any {
-        if (HttpResponseCodes[name] === response.status) {
-          return name;
-        }
-      });
-
-      parsedResponse.errorBody = { error: { code: code[0] } };
+      if (Object.keys(HttpResponseCodes).indexOf(response.status.toString()) < 0) {
+        parsedResponse.errorBody = {
+          error: { code: `UnrecognizedHttpResponseStatus: ${response.status}` }
+        };
+      } else {
+        parsedResponse.errorBody = { error: { code: HttpResponseCodes[response.status] } };
+      }
     }
 
     const normalizedError = this._normalizeError(parsedResponse.errorBody, response);
@@ -101,12 +101,12 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
   private _parseXmlResponseToJson(responseInXml: HttpOperationResponse): HttpOperationResponse {
     const parsedResponse = responseInXml;
     try {
-      if (responseInXml.bodyAsText && byteLength(responseInXml.bodyAsText.toString()) > 0) {
+      if (responseInXml.bodyAsText && responseInXml.bodyAsText.toString().length > 0) {
         parsedResponse.parsedBody = deserializeAtomXmlToJson(responseInXml.bodyAsText);
       }
     } catch (e) {
       parsedResponse.errorBody = {
-        error: { code: "Given object is not an Atom XML response" }
+        error: { code: "ResponseNotInAtomXMLFormat" }
       };
     }
     return parsedResponse;

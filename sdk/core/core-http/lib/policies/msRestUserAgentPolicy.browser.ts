@@ -9,7 +9,7 @@
 import { TelemetryInfo } from "./userAgentPolicy";
 
 interface NavigatorEx extends Navigator {
-  readonly oscpu: string | undefined;
+  readonly oscpu: string;
 }
 
 export function getDefaultUserAgentKey(): string {

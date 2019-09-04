@@ -17,23 +17,22 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
    * Creates a new sasServiceClientCredentials object.
    *
    * @constructor
-   * @param {string} connectionString Connection string.
+   * @param {string} sharedAccessKeyName The SAS key name to use.
+   * @param {string} sharedAccessKey The SAS key value to use
    */
   constructor(sharedAccessKeyName: string, sharedAccessKey: string) {
-    if (sharedAccessKeyName == null) {
+    if (typeof sharedAccessKeyName !== "string") {
       throw new Error(
         "sharedAccessKeyName cannot be null or undefined and must be of type string."
       );
     }
 
-    if (sharedAccessKey == null) {
+    if (typeof sharedAccessKey !== "string") {
       throw new Error("sharedAccessKey cannot be null or undefined and must be of type string.");
     }
 
-    const keyName = sharedAccessKeyName;
-    const keyValue = sharedAccessKey;
-    this.keyName = keyName;
-    this.keyValue = keyValue;
+    this.keyName = sharedAccessKeyName;
+    this.keyValue = sharedAccessKey;
   }
 
   private async _generateSignature(targetUri: string, expirationDate: number): Promise<string> {
@@ -53,16 +52,14 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
 
     const targetUri = encodeURIComponent(webResource.url.toLowerCase()).toLowerCase();
 
-    let date = new Date();
+    const date = new Date();
     date.setMinutes(date.getMinutes() + 5);
-    const expirationDate = Math.round(date.valueOf() / 1000);
+    const expirationDate = Math.round(date.getTime() / 1000);
     const signature = await this._generateSignature(targetUri, expirationDate);
     webResource.headers.set(
       HeaderConstants.AUTHORIZATION,
       `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this.keyName}&sr=${targetUri}`
     );
-    // TODO: Fix server side configuration on response headers
-    webResource.headers.set("origin", "http://localhost");
-    return Promise.resolve(webResource);
+    return webResource;
   }
 }

@@ -22,12 +22,12 @@ export function parseResultFromAtomResponse(atomResponseInJson: any): any {
 }
 
 function parseEntryResult(entry: any): any {
-  var contentElementName = Object.keys(entry.content).filter(function(key) {
+  const contentElementName = Object.keys(entry.content).filter(function(key) {
     return key !== Constants.XML_METADATA_MARKER;
   })[0];
 
   delete entry.content[contentElementName][Constants.XML_METADATA_MARKER];
-  var result = entry.content[contentElementName];
+  const result = entry.content[contentElementName];
 
   if (result) {
     if (entry[Constants.XML_METADATA_MARKER]) {
@@ -48,8 +48,8 @@ function parseEntryResult(entry: any): any {
   return result;
 }
 
-function parseFeedResult(feed: any): any {
-  var result = [];
+function parseFeedResult(feed: any): any[] {
+  const result = [];
   if (feed.entry) {
     if (Array.isArray(feed.entry)) {
       feed.entry.forEach((entry: any) => {

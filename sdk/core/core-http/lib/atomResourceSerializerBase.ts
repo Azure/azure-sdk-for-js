@@ -10,12 +10,13 @@ export class AtomResourceSerializerBase {
   static serializeToAtomXmlRequest(
     resourceName: string,
     resource: any,
-    properties: string[]
+    properties: string[],
+    xmlNamespace: string
   ): string {
     const content: any = {};
     content[resourceName] = {
       $: {
-        xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
+        xmlns: xmlNamespace
       }
     };
 

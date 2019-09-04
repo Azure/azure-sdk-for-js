@@ -184,6 +184,6 @@ function _writeElementValue(parentElement: any, name: any, value: any): any {
  * @param {any} value Any entity
  * @return {boolean} - true if it is equivalent to an empty string, false otherwise.
  */
-function contentIsUndefinedOrEmpty(content: any) {
+function contentIsUndefinedOrEmpty(content: any): boolean {
   return content == null || content === "";
 }

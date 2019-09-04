@@ -111,7 +111,7 @@ export function objectValues(obj: { [key: string]: any }): any[] {
         obj,
         undefined,
         2
-      )} is not a valid object that can be ` + `enumerated to provide its values as an array.`
+      )} is not a valid object that can be enumerated to provide its values as an array.`
     );
   }
   return result;
@@ -293,7 +293,7 @@ export function isPrimitiveType(value: any): boolean {
  * @param text Input string
  * @return {boolean} - true if yes, false otherwise.
  */
-export function stringStartsWith(text: string, prefix: string) {
+export function stringStartsWith(text: string, prefix: string): boolean {
   if (prefix == null) {
     return true;
   }
@@ -306,7 +306,7 @@ export function stringStartsWith(text: string, prefix: string) {
  * @param {any} value Any entity
  * @return {boolean} - true if yes, false otherwise.
  */
-export function isDate(value: any) {
+export function isDate(value: any): value is Date {
   return Object.prototype.toString.call(value) == "[object Date]";
 }
 
@@ -315,7 +315,7 @@ export function isDate(value: any) {
  * @param {any} value Any entity
  * @return {boolean} - true if yes, false otherwise.
  */
-export function isString(value: any) {
+export function isString(value: any): value is string {
   return Object.prototype.toString.call(value) == "[object String]";
 }
 
@@ -324,91 +324,6 @@ export function isString(value: any) {
  * @param {any} value Any entity
  * @return {boolean} - true if yes, false otherwise.
  */
-export const isObject = function(value: any) {
+export function isObject(value: any): value is Object {
   return value === Object(value);
-};
-
-/**
- * Computes byte length of given string assuming the encoding to use is "utf-8"
- * @param str
- */
-export function byteLength(str: string) {
-  return utf8ToBytes(str).length;
-}
-
-function utf8ToBytes(string: string, units?: any) {
-  units = units || Infinity;
-  let codePoint;
-  const length = string.length;
-  let leadSurrogate = null;
-  const bytes = [];
-
-  for (let i = 0; i < length; ++i) {
-    codePoint = string.charCodeAt(i);
-
-    // is surrogate component
-    if (codePoint > 0xd7ff && codePoint < 0xe000) {
-      // last char was a lead
-      if (!leadSurrogate) {
-        // no lead yet
-        if (codePoint > 0xdbff) {
-          // unexpected trail
-          if ((units -= 3) > -1) bytes.push(0xef, 0xbf, 0xbd);
-          continue;
-        } else if (i + 1 === length) {
-          // unpaired lead
-          if ((units -= 3) > -1) bytes.push(0xef, 0xbf, 0xbd);
-          continue;
-        }
-
-        // valid lead
-        leadSurrogate = codePoint;
-
-        continue;
-      }
-
-      // 2 leads in a row
-      if (codePoint < 0xdc00) {
-        if ((units -= 3) > -1) bytes.push(0xef, 0xbf, 0xbd);
-        leadSurrogate = codePoint;
-        continue;
-      }
-
-      // valid surrogate pair
-      codePoint = (((leadSurrogate - 0xd800) << 10) | (codePoint - 0xdc00)) + 0x10000;
-    } else if (leadSurrogate) {
-      // valid bmp char, but last char was a lead
-      if ((units -= 3) > -1) bytes.push(0xef, 0xbf, 0xbd);
-    }
-
-    leadSurrogate = null;
-
-    // encode utf8
-    if (codePoint < 0x80) {
-      if ((units -= 1) < 0) break;
-      bytes.push(codePoint);
-    } else if (codePoint < 0x800) {
-      if ((units -= 2) < 0) break;
-      bytes.push((codePoint >> 0x6) | 0xc0, (codePoint & 0x3f) | 0x80);
-    } else if (codePoint < 0x10000) {
-      if ((units -= 3) < 0) break;
-      bytes.push(
-        (codePoint >> 0xc) | 0xe0,
-        ((codePoint >> 0x6) & 0x3f) | 0x80,
-        (codePoint & 0x3f) | 0x80
-      );
-    } else if (codePoint < 0x110000) {
-      if ((units -= 4) < 0) break;
-      bytes.push(
-        (codePoint >> 0x12) | 0xf0,
-        ((codePoint >> 0xc) & 0x3f) | 0x80,
-        ((codePoint >> 0x6) & 0x3f) | 0x80,
-        (codePoint & 0x3f) | 0x80
-      );
-    } else {
-      throw new Error("Invalid code point");
-    }
-  }
-
-  return bytes;
 }
