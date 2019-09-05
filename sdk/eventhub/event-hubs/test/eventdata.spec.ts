@@ -38,36 +38,36 @@ const testSourceEventData: EventData = {
 const testEventData = fromAmqpMessage(testMessage);
 const messageFromED = toAmqpMessage(testSourceEventData);
 
-describe("EventData #RunnableInBrowser", function (): void {
-  describe("fromAmqpMessage", function (): void {
-    it("populates body with the message body", function (): void {
+describe("EventData #RunnableInBrowser", function(): void {
+  describe("fromAmqpMessage", function(): void {
+    it("populates body with the message body", function(): void {
       testEventData.body.should.equal(testBody);
     });
 
-    describe("properties", function (): void {
-      it("enqueuedTimeUtc gets the enqueued time from system properties", function (): void {
+    describe("properties", function(): void {
+      it("enqueuedTimeUtc gets the enqueued time from system properties", function(): void {
         const testEventData = fromAmqpMessage(testMessage);
         testEventData
           .enqueuedTimeUtc!.getTime()
           .should.equal(testAnnotations["x-opt-enqueued-time"]);
       });
 
-      it("offset gets the offset from system properties", function (): void {
+      it("offset gets the offset from system properties", function(): void {
         const testEventData = fromAmqpMessage(testMessage);
         testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
       });
 
-      it("sequenceNumber gets the sequence number from system properties", function (): void {
+      it("sequenceNumber gets the sequence number from system properties", function(): void {
         const testEventData = fromAmqpMessage(testMessage);
         testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
       });
 
-      it("partitionKey gets the sequence number from system properties", function (): void {
+      it("partitionKey gets the sequence number from system properties", function(): void {
         const testEventData = fromAmqpMessage(testMessage);
         testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
       });
 
-      it("returns systemProperties for unknown message annotations", function (): void {
+      it("returns systemProperties for unknown message annotations", function(): void {
         const extraAnnotations = {
           "x-iot-foo-prop": "just-a-foo",
           "x-iot-bar-prop": "bar-above-the-rest"
@@ -80,7 +80,9 @@ describe("EventData #RunnableInBrowser", function (): void {
             ...extraAnnotations
           }
         });
-        testEventData.enqueuedTimeUtc!.getTime().should.equal(testAnnotations["x-opt-enqueued-time"]);
+        testEventData
+          .enqueuedTimeUtc!.getTime()
+          .should.equal(testAnnotations["x-opt-enqueued-time"]);
         testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
         testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
         testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
@@ -90,12 +92,12 @@ describe("EventData #RunnableInBrowser", function (): void {
     });
   });
 
-  describe("toAmqpMessage", function (): void {
-    it("populates body with the message body", function (): void {
+  describe("toAmqpMessage", function(): void {
+    it("populates body with the message body", function(): void {
       messageFromED.body.should.equal(testBody);
     });
 
-    it("populates application_properties of the message", function (): void {
+    it("populates application_properties of the message", function(): void {
       messageFromED.application_properties!.should.equal(properties);
     });
   });

@@ -242,5 +242,5 @@ export interface ReceivedEventData {
    */
   systemProperties?: {
     [key: string]: any;
-  }
+  };
 }
