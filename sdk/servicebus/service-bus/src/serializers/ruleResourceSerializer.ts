@@ -19,7 +19,7 @@ import { ServiceBusAtomXmlConstants } from "../util/constants";
 
 export class RuleResourceSerializer implements ResourceSerializer {
   serialize(rule: any): any {
-    var properties = ["Filter", "Action"];
+    var properties = ["Name", "Filter", "Action"];
 
     var resource: any = {};
 
@@ -28,7 +28,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
       if (rule.sqlExpressionFilter) {
         var sqlFilter = {
           $: {
-            "i:type": "SqlFilter"
+            type: "SqlFilter"
           },
           SqlExpression: rule.sqlExpressionFilter,
           CompatibilityLevel: 20
@@ -38,7 +38,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
       } else if (rule.correlationIdFilter) {
         var correlationFilter = {
           $: {
-            "i:type": "CorrelationFilter"
+            type: "CorrelationFilter"
           },
           CorrelationId: rule.correlationIdFilter
         };
@@ -47,7 +47,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
       } else if (rule.trueFilter) {
         var trueFilter = {
           $: {
-            "i:type": "TrueFilter"
+            type: "TrueFilter"
           },
           SqlExpression: rule.trueFilter,
           CompatibilityLevel: 20
@@ -57,7 +57,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
       } else if (rule.falseFilter) {
         var falseFilter = {
           $: {
-            "i:type": "FalseFilter"
+            type: "FalseFilter"
           },
           SqlExpression: rule.falseFilter,
           CompatibilityLevel: 20
@@ -75,7 +75,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
       if (rule.sqlRuleAction) {
         var sqlAction = {
           $: {
-            "i:type": "SqlFilterExpression"
+            type: "SqlFilterExpression"
           },
           SqlExpression: rule.sqlRuleAction
         };
@@ -84,7 +84,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
       } else {
         var emptyRuleAction = {
           $: {
-            "i:type": "EmptyRuleAction"
+            type: "EmptyRuleAction"
           }
         };
 
@@ -95,6 +95,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
         resource.Action = actions;
       }
     }
+    resource.Name = rule.name;
     return AtomResourceSerializerBase.serializeToAtomXmlRequest(
       "RuleDescription",
       resource,
