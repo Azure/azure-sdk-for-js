@@ -36,11 +36,5 @@ export {
 } from "./serviceBusMessage";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
-export { ServiceBusAtomManagementClient } from "./serviceBusAtomManagementClient";
-export {
-  HttpOperationResponse,
-  ServiceClientOptions,
-  userAgentPolicy,
-  logPolicy,
-  proxyPolicy
-} from "@azure/core-http";
+export { ServiceBusAtomManagementClient } from "./serviceBusArmAtomXmlHttpClient";
+export { HttpOperationResponse, ProxySettings } from "@azure/core-http";

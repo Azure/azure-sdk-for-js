@@ -3,21 +3,11 @@
 
 "use strict";
 
-import {
-  ServiceBusAtomManagementClient,
-  ServiceClientOptions,
-  logPolicy,
-  HttpOperationResponse
-} from "@azure/service-bus";
+import { ServiceBusAtomManagementClient, HttpOperationResponse } from "@azure/service-bus";
 
 async function main(): Promise<void> {
-  const clientOptions: ServiceClientOptions = {
-    requestPolicyFactories: [logPolicy()]
-  };
-
   const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
-    "<insert-connection-string>",
-    clientOptions
+    "<insert-connection-string>"
   );
 
   const response: HttpOperationResponse = await serviceBusAtomManagementClient.createQueue(
