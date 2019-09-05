@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./typings/storage-blob-partition-manager.d.ts"
+    "publicTrimmedFilePath": "./typings/eventhubs-checkpoint-blob.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

@@ -359,8 +359,8 @@
       "projectFolder": "sdk/eventhub/event-hubs"
     },
     {
-      "packageName": "@azure/storage-blob-partition-manager",
-      "projectFolder": "sdk/eventhub/storage-blob-partition-manager"
+      "packageName": "@azure/eventhubs-checkpoint-blob",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpoint-blob"
     },
     {
       "packageName": "@azure/event-processor-host",
