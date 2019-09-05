@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156758497014907813",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156767559621709934",
    "query": {
     "restype": "share"
    },
@@ -10,19 +10,19 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 08:16:09 GMT",
-    "last-modified": "Wed, 04 Sep 2019 08:16:10 GMT",
+    "date": "Thu, 05 Sep 2019 09:26:35 GMT",
+    "last-modified": "Thu, 05 Sep 2019 09:26:36 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7311024BCD228\"",
-    "x-ms-request-id": "b64c0374-f01a-0153-19f9-622aba000000",
+    "etag": "\"0x8D731E32619F978\"",
+    "x-ms-request-id": "ec818aa4-701a-015d-4bcc-63030a000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "58e21f70-7ef6-4ca6-836a-1114ffe049b8",
+    "x-ms-client-request-id": "d62ef75d-df3d-4cb6-82ba-9f491dee943b",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156758497014907813",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156767559621709934",
    "query": {
     "restype": "share"
    },
@@ -30,16 +30,16 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 08:16:09 GMT",
+    "date": "Thu, 05 Sep 2019 09:26:35 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "b64c0379-f01a-0153-1df9-622aba000000",
+    "x-ms-request-id": "ec818aa7-701a-015d-4dcc-63030a000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "57eb730d-b220-40d3-bc3d-e3c792561668",
+    "x-ms-client-request-id": "7ee4166a-5a82-471c-9fa6-fc94170bcc84",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "share": "share156758497014907813"
+  "share": "share156767559621709934"
  }
 }

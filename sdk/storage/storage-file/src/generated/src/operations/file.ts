@@ -281,12 +281,13 @@ export class File {
    * source file or blob using a shared access signature. If the source is a public blob, no
    * authentication is required to perform the copy operation. A file in a share snapshot can also be
    * specified as a copy source.
+   * @param sourceRange Bytes of source data in the specified range.
    * @param contentLength Specifies the number of bytes being transmitted in the request body. When
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileUploadRangeFromURLResponse>
    */
-  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams): Promise<Models.FileUploadRangeFromURLResponse>;
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams): Promise<Models.FileUploadRangeFromURLResponse>;
   /**
    * @param range Writes data to the specified byte range in the file.
    * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
@@ -296,11 +297,12 @@ export class File {
    * source file or blob using a shared access signature. If the source is a public blob, no
    * authentication is required to perform the copy operation. A file in a share snapshot can also be
    * specified as a copy source.
+   * @param sourceRange Bytes of source data in the specified range.
    * @param contentLength Specifies the number of bytes being transmitted in the request body. When
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param callback The callback
    */
-  uploadRangeFromURL(range: string, copySource: string, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param range Writes data to the specified byte range in the file.
    * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
@@ -310,17 +312,19 @@ export class File {
    * source file or blob using a shared access signature. If the source is a public blob, no
    * authentication is required to perform the copy operation. A file in a share snapshot can also be
    * specified as a copy source.
+   * @param sourceRange Bytes of source data in the specified range.
    * @param contentLength Specifies the number of bytes being transmitted in the request body. When
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options: Models.FileUploadRangeFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileUploadRangeFromURLResponse> {
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options: Models.FileUploadRangeFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileUploadRangeFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         range,
         copySource,
+        sourceRange,
         contentLength,
         options
       },

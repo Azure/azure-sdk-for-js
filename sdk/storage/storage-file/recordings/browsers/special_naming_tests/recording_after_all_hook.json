@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156758497556100325",
+   "url": "https://fakestorageaccount.file.core.windows.net/1share-with-dash156767560169902961",
    "query": {
     "restype": "share"
    },
@@ -10,11 +10,11 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 08:16:26 GMT",
+    "date": "Thu, 05 Sep 2019 09:26:52 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "b64c04c2-f01a-0153-40f9-622aba000000",
+    "x-ms-request-id": "ec818b64-701a-015d-75cc-63030a000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "1040a4a5-943e-4263-8829-3a1e33e89f0d",
+    "x-ms-client-request-id": "f76954a3-bc64-46c4-a395-7df05589aa38",
     "content-length": "0"
    }
   }

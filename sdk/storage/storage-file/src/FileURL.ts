@@ -112,6 +112,29 @@ export interface IFileUploadRangeOptions {
   progress?: (progress: TransferProgressEvent) => void;
 }
 
+/**
+ * The option is defined as parity to REST definition.
+ * While it's not ready to be used now, considering Crc64 of source content is 
+ * not accessible.
+ */
+// export interface IFileUploadRangeFromURLOptions {
+//   /**
+//    * Crc64 of the source content.
+//    *
+//    * @type {Uint8Array}
+//    * @memberof IFileUploadRangeFromURLOptions
+//    */
+//   sourceContentCrc64?: Uint8Array;
+
+//   /**
+//    * Source modified access condition.
+//    * 
+//    * @type {Models.SourceModifiedAccessConditions}
+//    * @memberof IFileUploadRangeFromURLOptions
+//    */
+//   sourceModifiedAccessConditions?: Models.SourceModifiedAccessConditions;
+// }
+
 export interface IFileGetRangeListOptions {
   /**
    * Optional. Specifies the range of bytes over which to list ranges, inclusively.
@@ -539,13 +562,13 @@ export class FileURL extends StorageURL {
    * range must be specified. The range can be up to 4 MB in size.
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   *                          goto documents of Aborter for more examples about request cancellation.
    * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} offset Offset position of the destination Azure File to upload.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {IFileUploadRangeOptions} [options]
+   * @param {IFileUploadRangeOptions} [options={}]
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileURL
    */
@@ -556,12 +579,12 @@ export class FileURL extends StorageURL {
     contentLength: number,
     options: IFileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
-    if (offset < 0 || contentLength <= 0) {
-      throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
+    if (offset < 0) {
+      throw new RangeError(`offset must be >= 0`);
     }
 
-    if (contentLength > FILE_RANGE_MAX_SIZE_BYTES) {
-      throw new RangeError(`offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
+    if (contentLength <= 0 || contentLength > FILE_RANGE_MAX_SIZE_BYTES) {
+      throw new RangeError(`contentLength must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
     }
 
     return this.context.uploadRange(
@@ -573,6 +596,45 @@ export class FileURL extends StorageURL {
         contentMD5: options.contentMD5,
         onUploadProgress: options.progress,
         optionalbody: body
+      }
+    );
+  }
+
+  /**
+   * Upload a range of bytes to a file where the contents are read from a another file's URL.
+   * The range can be up to 4 MB in size.
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation.
+   * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication.
+   * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source file.
+   * @param {number} destOffset Offset of destination file.
+   * @param {number} count Number of bytes to be uploaded from source file.
+   * @returns {Promise<Models.FileUploadRangeFromURLResponse>}
+   * @memberof FileURL
+   */
+  public async uploadRangeFromURL(
+    aborter: Aborter,
+    sourceURL: string,
+    sourceOffset: number,
+    destOffset: number,
+    count: number
+  ): Promise<Models.FileUploadRangeFromURLResponse> {
+    if (sourceOffset < 0 || destOffset < 0) {
+      throw new RangeError(`sourceOffset and destOffset must be >= 0`);
+    }
+
+    if (count <= 0 || count > FILE_RANGE_MAX_SIZE_BYTES) {
+      throw new RangeError(`count must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
+    }
+
+    return this.context.uploadRangeFromURL(
+      rangeToString({ offset: destOffset, count }),
+      sourceURL,
+      rangeToString({ offset: sourceOffset, count }),
+      0,
+      {
+        abortSignal: aborter
       }
     );
   }
