@@ -1,31 +1,19 @@
-## Template for Azure Node Libraries
+# Azure Event Hubs checkpoint vlov library for Javascript
 
 This template serves as a starting point for JavaScript libraries targeting both Node and the Browser and implemented in TypeScript.
 
-## Building the Template
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/event-processor-host) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpoint-blob) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/event-processor-host/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/event-processor-host/samples)
 
-Once you clone this template, you can build the package with the following commands:
+## Getting Started
 
-```sh
-npm install
-npm run build
-```
+## Key concepts
 
-Run tests via:
+## Examples
 
-```sh
-npm test
-```
+## Troubleshooting
 
-## Implementation Details
+## Enable logs
 
-The overall build pipeline looks like the following:
+## Next Steps
 
-1. TypeScript builds all source files under `./src` to ECMAScript Modules (ESM) under `./dist-esm`
-2. Rollup builds `./dist-esm` to an optimized single file at `./dist/index.js` as the Node entry point.
-3. Rollup builds `./dist-esm` to an optimized browser bundle under `./browser/index.js`.
-
-Tests follow a similar pipeline, however output folders have the `test-` prefix.
-
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/template/template/README.png)
+## Contributing
