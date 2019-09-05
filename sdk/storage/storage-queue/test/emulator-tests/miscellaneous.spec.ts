@@ -5,7 +5,7 @@ import { getConnectionStringFromEnvironment, isBrowser } from "../utils";
 // Expected environment variables to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
 // TEST_MODE=emulator-tests
-describe.only("Emulator Tests", () => {
+describe("Emulator Tests", () => {
   const messageContent = "Hello World";
   let queueName: string;
   let queueClient: QueueClient;
