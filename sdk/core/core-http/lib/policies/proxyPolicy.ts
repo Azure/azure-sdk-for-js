@@ -43,9 +43,10 @@ export function getDefaultProxySettings(
     }
   }
   const parsedUrl = URLBuilder.parse(proxyUrl);
-  const host = parsedUrl.getScheme() + "://" + parsedUrl.getHost();
-  const port = Number.parseInt(parsedUrl.getPort() || "80");
-  const proxySettings: ProxySettings = { host, port };
+  const proxySettings: ProxySettings = {
+    host: parsedUrl.getScheme() + "://" + parsedUrl.getHost(),
+    port: Number.parseInt(parsedUrl.getPort() || "80")
+  };
 
   return username && password
     ? {
