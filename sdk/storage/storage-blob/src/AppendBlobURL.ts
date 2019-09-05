@@ -21,16 +21,48 @@ export interface IAppendBlobCreateOptions {
 export interface IAppendBlobAppendBlockOptions {
   accessConditions?: IAppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
   transactionalContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the append block content. This hash is used to verify the integrity of the append block during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
   transactionalContentCrc64?: Uint8Array;
+
   customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IAppendBlobAppendBlockFromURLOptions {
   accessConditions?: IAppendBlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+
+  /**
+   * An MD5 hash of the append block content from the URI. 
+   * This hash is used to verify the integrity of the append block during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
   sourceContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the append block content from the URI. 
+   * This hash is used to verify the integrity of the append block during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
   sourceContentCrc64?: Uint8Array;
+
   customerProvidedKey?: Models.CpkInfo;
 }
 

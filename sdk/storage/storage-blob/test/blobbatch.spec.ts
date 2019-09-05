@@ -12,7 +12,7 @@ import { TokenCredential } from '../src';
 
 dotenv.config({ path: "../.env" });
 
-describe("BlobURL", () => {
+describe("BlobBatch", () => {
   const serviceURL = getGenericBSU("");
   const credential = getGenericCredential("");
   let containerName: string;

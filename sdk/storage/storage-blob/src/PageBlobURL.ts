@@ -23,16 +23,46 @@ export interface IPageBlobCreateOptions {
 export interface IPageBlobUploadPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * An MD5 hash of the content. This hash is used to verify the integrity of the content during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
   transactionalContentMD5?: Uint8Array;
-  transactionalCrc64?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the content. This hash is used to verify the integrity of the content during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobUploadPagesFromURLOptions {
   accessConditions?: IPageBlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+
+  /**
+   * An MD5 hash of the content from the URI. 
+   * This hash is used to verify the integrity of the content during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
   sourceContentMD5?: Uint8Array;
-  sourceCrc64?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the content from the URI. 
+   * This hash is used to verify the integrity of the content during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
+  sourceContentCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
 
@@ -225,7 +255,7 @@ export class PageBlobURL extends BlobURL {
       range: rangeToString({ offset, count }),
       sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
       transactionalContentMD5: options.transactionalContentMD5,
-      transactionalContentCrc64: options.transactionalCrc64,
+      transactionalContentCrc64: options.transactionalContentCrc64,
       cpkInfo: options.customerProvidedKey
     });
   }
@@ -265,7 +295,7 @@ export class PageBlobURL extends BlobURL {
       {
         abortSignal: aborter,
         sourceContentMD5: options.sourceContentMD5,
-        sourceContentCrc64: options.sourceCrc64,
+        sourceContentCrc64: options.sourceContentCrc64,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,

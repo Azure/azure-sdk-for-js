@@ -13,9 +13,27 @@ import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, URLConstants } from "./utils/const
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 
 export interface IBlobDownloadOptions {
+  /**
+   * An opaque DateTime string value that, when present, specifies the blob snapshot to retrieve.
+   */
   snapshot?: string;
+
+  /**
+   * When this is set to true and download range of blob, the service returns the MD5 hash for the range, 
+   * as long as the range is less than or equal to 4 MB in size.
+   * 
+   * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
+   */
   rangeGetContentMD5?: boolean;
-  rangeGetContentCRC64?: boolean;
+  
+  /**
+   * When this is set to true and download range of blob, the service returns the CRC64 hash for the range, 
+   * as long as the range is less than or equal to 4 MB in size.
+   * 
+   * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
+   */
+  rangeGetContentCrc64?: boolean;
+
   blobAccessConditions?: IBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -231,7 +249,7 @@ export class BlobURL extends StorageURL {
       onDownloadProgress: isNode ? undefined : options.progress,
       range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5,
-      rangeGetContentCRC64: options.rangeGetContentCRC64,
+      rangeGetContentCRC64: options.rangeGetContentCrc64,
       snapshot: options.snapshot,
       cpkInfo: options.customerProvidedKey
     });
@@ -277,6 +295,8 @@ export class BlobURL extends StorageURL {
             count: offset + res.contentLength! - start,
             offset: start
           }),
+          rangeGetContentMD5: options.rangeGetContentMD5,
+          rangeGetContentCRC64: options.rangeGetContentCrc64,
           snapshot: options.snapshot,
           cpkInfo: options.customerProvidedKey
         };
