@@ -107,6 +107,10 @@ export interface EventDataInternal {
    * @property [retrievalTime] The time when the runtime info was retrieved
    */
   retrievalTime?: Date;
+  /**
+   * @property [systemProperties] The properties set by the service.
+   */
+  systemProperties?: Dictionary<any>;
 }
 
 /**
@@ -118,18 +122,29 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
   const data: EventDataInternal = {
     body: msg.body
   };
+
   if (msg.message_annotations) {
-    if (msg.message_annotations[Constants.partitionKey] != undefined) {
-      data.partitionKey = msg.message_annotations[Constants.partitionKey];
-    }
-    if (msg.message_annotations[Constants.sequenceNumber] != undefined) {
-      data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
-    }
-    if (msg.message_annotations[Constants.enqueuedTime] != undefined) {
-      data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-    }
-    if (msg.message_annotations[Constants.offset] != undefined) {
-      data.offset = msg.message_annotations[Constants.offset];
+    for (const annotationKey of Object.keys(msg.message_annotations)) {
+      switch (annotationKey) {
+        case Constants.partitionKey:
+          data.partitionKey = msg.message_annotations[annotationKey];
+          break;
+        case Constants.sequenceNumber:
+          data.sequenceNumber = msg.message_annotations[annotationKey];
+          break;
+        case Constants.enqueuedTime:
+          data.enqueuedTimeUtc = new Date(msg.message_annotations[annotationKey]);
+          break;
+        case Constants.offset:
+          data.offset = msg.message_annotations[annotationKey];
+          break;
+        default:
+          if (!data.systemProperties) {
+            data.systemProperties = {};
+          }
+          data.systemProperties[annotationKey] = msg.message_annotations[annotationKey];
+          break;
+      }
     }
   }
   if (msg.application_properties) {
@@ -222,4 +237,10 @@ export interface ReceivedEventData {
    * @property The sequence number of the event.
    */
   sequenceNumber: number;
+  /**
+   * @property The properties set by the service.
+   */
+  systemProperties?: {
+    [key: string]: any;
+  }
 }
