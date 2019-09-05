@@ -9,7 +9,7 @@ import {
   isNode
 } from "@azure/core-http";
 
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
 import * as Models from "./generated/src/models";
 import { PageBlob } from "./generated/src/operations";
@@ -470,10 +470,9 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobCreateOptions = {}
   ): Promise<Models.PageBlobCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.create(0, size, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobHTTPHeaders: options.blobHTTPHeaders,
       blobSequenceNumber: options.blobSequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
@@ -499,10 +498,9 @@ export class PageBlobClient extends BlobClient {
     count: number,
     options: PageBlobUploadPagesOptions = {}
   ): Promise<Models.PageBlobUploadPagesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.uploadPages(body, count, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
@@ -517,8 +515,6 @@ export class PageBlobClient extends BlobClient {
    * contents are read from a URL.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
    * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source page blob
    * @param {number} destOffset Offset of destination page blob
@@ -534,7 +530,6 @@ export class PageBlobClient extends BlobClient {
     count: number,
     options: PageBlobUploadPagesFromURLOptions = {}
   ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
@@ -544,7 +539,7 @@ export class PageBlobClient extends BlobClient {
       0,
       rangeToString({ offset: destOffset, count }),
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         sourceContentMD5: options.sourceContentMD5,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
@@ -574,10 +569,9 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobClearPagesOptions = {}
   ): Promise<Models.PageBlobClearPagesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.clearPages(0, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count }),
@@ -600,10 +594,9 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<Models.PageBlobGetPageRangesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.getPageRanges({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count })
@@ -627,10 +620,9 @@ export class PageBlobClient extends BlobClient {
     prevSnapshot: string,
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.getPageRangesDiff({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       prevsnapshot: prevSnapshot,
@@ -651,10 +643,9 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobResizeOptions = {}
   ): Promise<Models.PageBlobResizeResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.resize(size, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
     });
@@ -675,10 +666,9 @@ export class PageBlobClient extends BlobClient {
     sequenceNumber?: number,
     options: PageBlobUpdateSequenceNumberOptions = {}
   ): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobSequenceNumber: sequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
@@ -703,9 +693,8 @@ export class PageBlobClient extends BlobClient {
     copySource: string,
     options: PageBlobStartCopyIncrementalOptions = {}
   ): Promise<Models.PageBlobCopyIncrementalResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.pageBlobContext.copyIncremental(copySource, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       modifiedAccessConditions: options.modifiedAccessConditions
     });
   }

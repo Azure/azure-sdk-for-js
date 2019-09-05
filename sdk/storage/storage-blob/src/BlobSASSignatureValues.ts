@@ -177,7 +177,7 @@ export interface BlobSASSignatureValues {
  * // Generate service level SAS for a container with identifier
  * // startTime & permissions are optional when identifier is provided
  * const identifier = "unique-id";
- * await containerURL.setAccessPolicy(Aborter.none, undefined, [
+ * await containerClient.setAccessPolicy(undefined, [
  *   {
  *     accessPolicy: {
  *       expiry: tmr, // Date type

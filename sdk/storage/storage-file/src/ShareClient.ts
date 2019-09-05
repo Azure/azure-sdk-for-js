@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, isNode } from "@azure/core-http";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Share } from "./generated/src/operations";
 import { Metadata } from "./models";
@@ -409,10 +409,8 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async create(options: ShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.create({
-      ...options,
-      abortSignal: aborter
+      ...options
     });
   }
 
@@ -549,9 +547,8 @@ export class ShareClient extends StorageClient {
   public async getProperties(
     options: ShareGetPropertiesOptions = {}
   ): Promise<Models.ShareGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -565,9 +562,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<Models.ShareDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.deleteMethod({
-      abortSignal: aborter,
       ...options
     });
   }
@@ -588,9 +583,8 @@ export class ShareClient extends StorageClient {
     metadata?: Metadata,
     options: ShareSetMetadataOptions = {}
   ): Promise<Models.ShareSetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata
     });
   }
@@ -611,9 +605,8 @@ export class ShareClient extends StorageClient {
   public async getAccessPolicy(
     options: ShareGetAccessPolicyOptions = {}
   ): Promise<ShareGetAccessPolicyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.context.getAccessPolicy({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
 
     const res: ShareGetAccessPolicyResponse = {
@@ -658,7 +651,6 @@ export class ShareClient extends StorageClient {
     shareAcl?: SignedIdentifier[],
     options: ShareSetAccessPolicyOptions = {}
   ): Promise<Models.ShareSetAccessPolicyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of shareAcl || []) {
       acl.push({
@@ -672,7 +664,7 @@ export class ShareClient extends StorageClient {
     }
 
     return this.context.setAccessPolicy({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       shareAcl: acl
     });
   }
@@ -687,9 +679,8 @@ export class ShareClient extends StorageClient {
   public async createSnapshot(
     options: ShareCreateSnapshotOptions = {}
   ): Promise<Models.ShareCreateSnapshotResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.createSnapshot({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       ...options
     });
   }
@@ -706,14 +697,13 @@ export class ShareClient extends StorageClient {
     quotaInGB: number,
     options: ShareSetQuotaOptions = {}
   ): Promise<Models.ShareSetQuotaResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (quotaInGB <= 0 || quotaInGB > 5120) {
       throw new RangeError(
         `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
       );
     }
     return this.context.setQuota({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       quota: quotaInGB
     });
   }
@@ -728,8 +718,7 @@ export class ShareClient extends StorageClient {
   public async getStatistics(
     options: ShareGetStatisticsOptions = {}
   ): Promise<ShareGetStatisticsResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
-    const response = await this.context.getStatistics({ abortSignal: aborter });
+    const response = await this.context.getStatistics({ abortSignal: options.abortSignal });
 
     const GBBytes = 1024 * 1024 * 1024;
     return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };

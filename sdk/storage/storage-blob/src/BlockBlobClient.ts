@@ -14,7 +14,7 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
 import { BlockBlob } from "./generated/src/operations";
 import { BlobHTTPHeaders } from "./generated/src/models";
@@ -569,10 +569,9 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.blockBlobContext.upload(body, contentLength, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
@@ -599,9 +598,8 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions,
       onUploadProgress: options.progress,
       transactionalContentMD5: options.transactionalContentMD5
@@ -637,9 +635,8 @@ export class BlockBlobClient extends BlobClient {
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions,
       sourceContentMD5: options.sourceContentMD5,
       sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count })
@@ -663,12 +660,11 @@ export class BlockBlobClient extends BlobClient {
     blocks: string[],
     options: BlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.blockBlobContext.commitBlockList(
       { latest: blocks },
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         metadata: options.metadata,
@@ -692,9 +688,8 @@ export class BlockBlobClient extends BlobClient {
     listType: Models.BlockListType,
     options: BlockBlobGetBlockListOptions = {}
   ): Promise<Models.BlockBlobGetBlockListResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const res = await this.blockBlobContext.getBlockList(listType, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions
     });
 
