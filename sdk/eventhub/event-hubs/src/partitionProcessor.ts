@@ -21,7 +21,7 @@ export class PartitionProcessor {
    *  This object will have properties like the `partitionId`, `eventHubName` and `consumerGroupName`.
    * @return {Promise<void>}
    */
-  async initialize(partitionContext: PartitionContext): Promise<void> { }
+  async initialize(partitionContext: PartitionContext): Promise<void> {}
 
   /**
    * This method is called before the partition processor is closed by the EventProcessor.
@@ -32,7 +32,7 @@ export class PartitionProcessor {
    *  This object will have properties like the `partitionId`, `eventHubName` and `consumerGroupName`.
    * @return {Promise<void>}
    */
-  async close(reason: CloseReason, partitionContext: PartitionContext): Promise<void> { }
+  async close(reason: CloseReason, partitionContext: PartitionContext): Promise<void> {}
 
   /**
    * This method is called when new events are received.
@@ -45,7 +45,10 @@ export class PartitionProcessor {
    *  This object will have properties like the `partitionId`, `eventHubName` and `consumerGroupName`.
    * @return {Promise<void>}
    */
-  async processEvents(events: ReceivedEventData[], partitionContext: PartitionContext): Promise<void> {
+  async processEvents(
+    events: ReceivedEventData[],
+    partitionContext: PartitionContext
+  ): Promise<void> {
     console.log(JSON.stringify(events));
   }
 
@@ -58,5 +61,5 @@ export class PartitionProcessor {
    *  This object will have properties like the `partitionId`, `eventHubName` and `consumerGroupName`.
    * @return {Promise<void>}
    */
-  async processError(error: Error, partitionContext: PartitionContext): Promise<void> { }
+  async processError(error: Error, partitionContext: PartitionContext): Promise<void> {}
 }

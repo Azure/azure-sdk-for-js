@@ -24,13 +24,13 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
 const env = getEnvVars();
 
-describe("Event Processor", function (): void {
+describe("Event Processor", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   let client: EventHubClient;
-  before("validate environment", async function (): Promise<void> {
+  before("validate environment", async function(): Promise<void> {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -41,15 +41,15 @@ describe("Event Processor", function (): void {
     );
   });
 
-  beforeEach("create the client", function () {
+  beforeEach("create the client", function() {
     client = new EventHubClient(service.connectionString, service.path);
   });
 
-  afterEach("close the connection", async function (): Promise<void> {
+  afterEach("close the connection", async function(): Promise<void> {
     await client.close();
   });
 
-  it("should expose an id", async function (): Promise<void> {
+  it("should expose an id", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
@@ -61,7 +61,7 @@ describe("Event Processor", function (): void {
     id.length.should.be.gt(1);
   });
 
-  it("should treat consecutive start invocations as idempotent", async function (): Promise<void> {
+  it("should treat consecutive start invocations as idempotent", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds();
 
     // ensure we have at least 2 partitions
@@ -144,7 +144,7 @@ describe("Event Processor", function (): void {
     }
   });
 
-  it("should not throw if stop is called without start", async function (): Promise<void> {
+  it("should not throw if stop is called without start", async function(): Promise<void> {
     let didPartitionProcessorStart = false;
 
     class FooPartitionProcessor extends PartitionProcessor {
@@ -175,7 +175,7 @@ describe("Event Processor", function (): void {
     didPartitionProcessorStart.should.be.false;
   });
 
-  it("should support start after stopping", async function (): Promise<void> {
+  it("should support start after stopping", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds();
     let partitionOwnerShip = new Set();
 
@@ -299,8 +299,8 @@ describe("Event Processor", function (): void {
     }
   });
 
-  describe("Partition processor", function (): void {
-    it("should support processing events across multiple partitions", async function (): Promise<
+  describe("Partition processor", function(): void {
+    it("should support processing events across multiple partitions", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds();
@@ -384,7 +384,7 @@ describe("Event Processor", function (): void {
       }
     });
 
-    it("should support processing events across multiple partitions without initialize or close", async function (): Promise<
+    it("should support processing events across multiple partitions without initialize or close", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds();
@@ -457,7 +457,7 @@ describe("Event Processor", function (): void {
       }
     });
 
-    it("should call methods on a PartitionProcessor ", async function (): Promise<void> {
+    it("should call methods on a PartitionProcessor ", async function(): Promise<void> {
       const receivedEvents: EventData[] = [];
       let isinitializeCalled = false;
       let isCloseCalled = false;
@@ -510,8 +510,8 @@ describe("Event Processor", function (): void {
     });
   });
 
-  describe("InMemory Partition Manager", function (): void {
-    it("should claim ownership, get a list of ownership and update checkpoint", async function (): Promise<
+  describe("InMemory Partition Manager", function(): void {
+    it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<
       void
     > {
       const inMemoryPartitionManager = new InMemoryPartitionManager();
@@ -560,7 +560,7 @@ describe("Event Processor", function (): void {
       partitionOwnershipList[0].offset!.should.equals(checkpoint.offset);
     });
 
-    it("should receive events from the checkpoint", async function (): Promise<void> {
+    it("should receive events from the checkpoint", async function(): Promise<void> {
       const partitionIds = await client.getPartitionIds();
 
       // ensure we have at least 2 partitions
@@ -580,7 +580,11 @@ describe("Event Processor", function (): void {
             : partionCount[partitionContext.partitionId]++;
           const existingEvents = checkpointMap.get(partitionContext.partitionId)!;
           for (const event of events) {
-            debug("Received event: '%s' from partition: '%s'", event.body, partitionContext.partitionId);
+            debug(
+              "Received event: '%s' from partition: '%s'",
+              event.body,
+              partitionContext.partitionId
+            );
             if (partionCount[partitionContext.partitionId] <= 50) {
               await partitionContext.updateCheckpoint(event);
               existingEvents.push(event);
@@ -674,8 +678,8 @@ describe("Event Processor", function (): void {
     });
   });
 
-  describe("Load balancing", function (): void {
-    beforeEach("validate partitions", async function (): Promise<void> {
+  describe("Load balancing", function(): void {
+    beforeEach("validate partitions", async function(): Promise<void> {
       const partitionIds = await client.getPartitionIds();
       // ensure we have at least 3 partitions
       partitionIds.length.should.gte(
@@ -684,7 +688,7 @@ describe("Event Processor", function (): void {
       );
     });
 
-    it("should 'steal' partitions until all the  processors have reached a steady-state", async function (): Promise<
+    it("should 'steal' partitions until all the  processors have reached a steady-state", async function(): Promise<
       void
     > {
       const processorByName: Dictionary<EventProcessor> = {};
@@ -790,7 +794,7 @@ describe("Event Processor", function (): void {
       }
     });
 
-    it("should ensure that all the processors reach a steady-state where all partitions are being processed", async function (): Promise<
+    it("should ensure that all the processors reach a steady-state where all partitions are being processed", async function(): Promise<
       void
     > {
       const processorByName: Dictionary<EventProcessor> = {};

@@ -1,43 +1,37 @@
 import {
   EventHubClient,
   ReceivedEventData,
-  EventPosition,
   delay,
   EventProcessor,
   PartitionContext,
   InMemoryPartitionManager,
-  CheckpointManager
+  PartitionProcessor,
+  CloseReason
 } from "@azure/event-hubs";
 
-class SimplePartitionProcessor {
-  private _context: PartitionContext;
-  private _checkpointManager: CheckpointManager;
-  constructor(context: PartitionContext, checkpointManager: CheckpointManager) {
-    this._context = context;
-    this._checkpointManager = checkpointManager;
-  }
-  async processEvents(events: ReceivedEventData[]) {
-    if(events.length === 0){
+class SamplePartitionProcessor extends PartitionProcessor {
+  private _messageCount = 0;
+
+  async processEvents(events: ReceivedEventData[], partitionContext: PartitionContext) {
+    if (events.length === 0) {
       return;
     }
     for (const event of events) {
       console.log(
-        "Received event: '%s' from partition: '%s' and consumer group: '%s'",
-        event.body,
-        this._context.partitionId,
-        this._context.consumerGroupName
+        `Received event: '${event.body}' from partition: '${partitionContext.partitionId}' and consumer group: '${partitionContext.consumerGroupName}'`,
       );
       try {
         // checkpoint using the last event in the batch
-        await this._checkpointManager.updateCheckpoint(events[events.length - 1]);
+        await partitionContext.updateCheckpoint(events[events.length - 1]);
+        this._messageCount++;
         console.log(
           "Successfully checkpointed event: '%s' from partition: '%s'",
           events[events.length - 1].body,
-          this._context.partitionId
+          partitionContext.partitionId
         );
       } catch (err) {
         console.log(
-          `Encountered an error while checkpointing on ${this._context.partitionId}: ${err.message}`
+          `Encountered an error while checkpointing on ${partitionContext.partitionId}: ${err.message}`
         );
       }
     }
@@ -47,12 +41,13 @@ class SimplePartitionProcessor {
     console.log(`Encountered an error: ${error.message}`);
   }
 
-  async initialize() {
-    console.log(`Started processing`);
+  async initialize(partitionContext: PartitionContext) {
+    console.log(`Started processing partition: ${partitionContext.partitionId}`);
   }
 
-  async close() {
-    console.log(`Stopped processing`);
+  async close(reason: CloseReason, partitionContext: PartitionContext) {
+    console.log(`Stopped processing for reason ${reason}`);
+    console.log(`Processed ${this._messageCount} from partition ${partitionContext.partitionId}.`);
   }
 }
 
@@ -63,17 +58,12 @@ const eventHubName = "";
 async function main() {
   const client = new EventHubClient(connectionString, eventHubName);
 
-  const eventProcessorFactory = (context: PartitionContext, checkpoint: CheckpointManager) => {
-    return new SimplePartitionProcessor(context, checkpoint);
-  };
-
   const processor = new EventProcessor(
     EventHubClient.defaultConsumerGroupName,
     client,
-    eventProcessorFactory,
+    SamplePartitionProcessor,
     new InMemoryPartitionManager(),
     {
-      initialEventPosition: EventPosition.earliest(),
       maxBatchSize: 10,
       maxWaitTimeInSeconds: 20
     }

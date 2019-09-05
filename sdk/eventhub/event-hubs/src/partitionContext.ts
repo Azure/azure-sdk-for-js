@@ -47,9 +47,9 @@ export interface Checkpoint {
 }
 
 /**
- * `PartitionContext` holds information on the partition, consumer group and event hub 
+ * `PartitionContext` holds information on the partition, consumer group and event hub
  * being processed by the `EventProcessor`.
- * 
+ *
  * User is never meant to create `PartitionContext` directly. It is only passed to user code
  * by the `EventProcessor`.
  */
@@ -61,8 +61,13 @@ export class PartitionContext {
   private _partitionId: string;
   private _eTag: string = "";
 
-  constructor(eventHubName: string, consumerGroupName: string, partitionId: string, partitionManager: PartitionManager,
-    eventProcessorId: string) {
+  constructor(
+    eventHubName: string,
+    consumerGroupName: string,
+    partitionId: string,
+    partitionManager: PartitionManager,
+    eventProcessorId: string
+  ) {
     this._eventHubName = eventHubName;
     this._consumerGroupName = consumerGroupName;
     this._partitionId = partitionId;
@@ -72,7 +77,7 @@ export class PartitionContext {
 
   /**
    * @property The consumer group name
-   * @readonly 
+   * @readonly
    */
   get consumerGroupName() {
     return this._consumerGroupName;
@@ -80,7 +85,7 @@ export class PartitionContext {
 
   /**
    * @property The event hub name
-   * @readonly 
+   * @readonly
    */
   get eventHubName() {
     return this._eventHubName;
@@ -88,7 +93,7 @@ export class PartitionContext {
 
   /**
    * @property The identifier of the Event Hub partition
-   * @readonly 
+   * @readonly
    */
   get partitionId() {
     return this._partitionId;
