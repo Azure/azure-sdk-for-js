@@ -15,10 +15,9 @@ stages:
         parameters:
           PackagePath: "sdk/cosmosdb/cosmos/"
           PackageName: "@azure/cosmos"
-          Toolchain: rush
           Matrix:
             Windows_Node8:
-              OSVmImage: "vs2017-win2016"
+              OSVmImage: "windows-2019"
               NodeVersion: "8.x"
               TestType: "node"
           PreIntegrationSteps: cosmos-integration-public
