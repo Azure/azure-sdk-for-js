@@ -533,6 +533,10 @@ export class CertificatesClient {
    * @returns Promise<Certificate>
    */
   public async getCertificate(name: string, version: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<Certificate> {
+    if (!version) {
+      throw new Error("The 'version' cannot be empty.");
+    }
+
     let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, { requestOptions });
 
     return this.getCertificateFromCertificateBundle(result);
