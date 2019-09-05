@@ -114,6 +114,28 @@ export function getURLQueries(url: string): { [key: string]: string } {
   return queries;
 }
 
+function getDevConnString(connectionString: string): string {
+  // Development Connection String
+  // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  const partialConnectionString = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;
+        AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;`;
+
+  if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
+    // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
+    let proxyUri = "";
+    const matchCredentials = connectionString.split(";");
+    for (const element of matchCredentials) {
+      if (element.trim().startsWith("DevelopmentStorageProxyUri=")) {
+        proxyUri = element.trim().match("DevelopmentStorageProxyUri=(.*)")![1];
+      }
+    }
+    return partialConnectionString + `QueueEndpoint=${proxyUri}/devstoreaccount1;`;
+  } else {
+    // CONNECTION_STRING=UseDevelopmentStorage=true
+    return partialConnectionString + `QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;`;
+  }
+}
+
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
@@ -132,6 +154,10 @@ export function extractConnectionStringParts(
       }
     }
     return "";
+  }
+
+  if (connectionString.search("UseDevelopmentStorage=true") !== -1) {
+    connectionString = getDevConnString(connectionString);
   }
 
   // Matching QueueEndpoint in the Account connection string
