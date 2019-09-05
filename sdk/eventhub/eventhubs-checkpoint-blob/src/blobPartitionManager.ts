@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { PartitionManager, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-import { ContainerClient, Models } from "@azure/storage-blob";
+import { ContainerClient } from "@azure/storage-blob";
 import * as log from "./log";
 
 /**
@@ -29,26 +29,22 @@ export class BlobPartitionManager implements PartitionManager {
   ): Promise<PartitionOwnership[]> {
     const partitionOwnershipArray: PartitionOwnership[] = [];
     try {
-      for await (const blob of this._containerClient.listBlobsFlat()) {
+      for await (const blob of this._containerClient.listBlobsFlat({
+        include: ["metadata"],
+        prefix: `${eventHubName}/${consumerGroupName}/`
+      })) {
         const blobPath = blob.name.split("/");
         const blobName = blobPath[blobPath.length - 1];
-        const blobClient = this._containerClient.getBlobClient(blob.name);
-        const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download();
         const partitionOwnership: PartitionOwnership = {
           eventHubName,
           consumerGroupName,
-          ownerId: downloadBlockBlobResponse.metadata!.ownerid,
+          ownerId: blob.metadata!.ownerid,
           partitionId: blobName,
-          offset: downloadBlockBlobResponse.metadata
-            ? parseInt(downloadBlockBlobResponse.metadata.offset)
-            : -1,
-          sequenceNumber: downloadBlockBlobResponse.metadata
-            ? parseInt(downloadBlockBlobResponse.metadata.sequencenumber)
-            : -1,
+          offset: blob.metadata ? parseInt(blob.metadata.offset) : -1,
+          sequenceNumber: blob.metadata ? parseInt(blob.metadata.sequencenumber) : -1,
           lastModifiedTimeInMS:
-            downloadBlockBlobResponse.lastModified &&
-            Date.parse(downloadBlockBlobResponse.lastModified.toISOString()),
-          eTag: downloadBlockBlobResponse.eTag,
+            blob.properties.lastModified && Date.parse(blob.properties.lastModified.toISOString()),
+          eTag: blob.properties.etag,
           ownerLevel: 0 // this needs to be removed from eventhubs
         };
         partitionOwnershipArray.push(partitionOwnership);
@@ -71,18 +67,20 @@ export class BlobPartitionManager implements PartitionManager {
     let partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
       const blobName = `${ownership.eventHubName}/${ownership.consumerGroupName}/${ownership.partitionId}`;
-      const blobClient = this._containerClient.getBlobClient(blobName);
-      const blockBlobClient = blobClient.getBlockBlobClient();
       let eTag;
       try {
-        for await (const blob of this._containerClient.listBlobsFlat()) {
+        for await (const blob of this._containerClient.listBlobsFlat({
+          include: ["metadata"],
+          prefix: `${ownership.eventHubName}/${ownership.consumerGroupName}/`
+        })) {
           if (blob.name === blobName) {
-            const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download();
-            eTag = downloadBlockBlobResponse.eTag;
+            eTag = blob.properties.etag;
             break;
           }
         }
         let uploadBlobResponse;
+        const blobClient = this._containerClient.getBlobClient(blobName);
+        const blockBlobClient = blobClient.getBlockBlobClient();
         if (eTag) {
           uploadBlobResponse = await blockBlobClient.upload("", 0, {
             metadata: {
@@ -139,17 +137,15 @@ export class BlobPartitionManager implements PartitionManager {
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
     const blobName = `${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/${checkpoint.partitionId}`;
-    let uploadBlobResponse;
-    const blobClient = this._containerClient.getBlobClient(blobName);
-    const blockBlobClient = blobClient.getBlockBlobClient();
-
     let ownerId;
     let blob;
     try {
-      for await (const blobItem of this._containerClient.listBlobsFlat()) {
+      for await (const blobItem of this._containerClient.listBlobsFlat({
+        include: ["metadata"],
+        prefix: `${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/`
+      })) {
         if (blobItem.name === blobName) {
-          const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download();
-          ownerId = downloadBlockBlobResponse.metadata!.ownerid;
+          ownerId = blobItem.metadata!.ownerid;
           blob = blobItem;
           break;
         }
@@ -181,7 +177,9 @@ export class BlobPartitionManager implements PartitionManager {
       );
     }
     try {
-      uploadBlobResponse = await blockBlobClient.upload("", 0, {
+      const blobClient = this._containerClient.getBlobClient(blobName);
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      const uploadBlobResponse = await blockBlobClient.upload("", 0, {
         metadata: {
           OwnerId: checkpoint.ownerId,
           SequenceNumber: checkpoint.sequenceNumber ? checkpoint.sequenceNumber.toString() : "",
