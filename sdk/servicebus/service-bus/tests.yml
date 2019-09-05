@@ -10,7 +10,7 @@ jobs:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
         Browser_Windows_Node10:
-          OSVmImage: "vs2017-win2016"
+          OSVmImage: "windows-2019"
           TestType: "browser"
       EnvVars:
         AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
