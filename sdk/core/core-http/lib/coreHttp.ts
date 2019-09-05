@@ -108,3 +108,4 @@ export { SasServiceClientCredentials } from "./credentials/sasServiceClientCrede
 export { ResourceSerializer } from "./resourceSerializer";
 export { AtomResourceSerializerBase } from "./atomResourceSerializerBase";
 export { AtomXmlOperationSpec } from "./atomXmlOperationSpec";
+export { ProxySettings } from "./serviceClient";
