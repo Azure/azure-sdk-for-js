@@ -70,58 +70,61 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
   }
 
   /**
-   * Process the response.
    * @ignore
+   * Utility to help transform the response to contain normalized JSON based information
+   * constructed from the raw Atom XML based data received.
    *
-   * @param {WebResource} webResource  The web resource that made the request.
-   * @param {Response}    response     The response object.
+   * @param {Response} response The response object containing data in Atom XML format.
    * @return The normalized responseObject.
    */
   private parseResponse(response: HttpOperationResponse): HttpOperationResponse {
-    const parsedResponse: HttpOperationResponse = this._parseXmlResponseToJson(response);
+    try {
+      if (response.bodyAsText && response.bodyAsText.toString().length > 0) {
+        response.parsedBody = deserializeAtomXmlToJson(response.bodyAsText);
+      }
+    } catch (e) {
+      response.errorBody = {
+        error: { code: "ResponseNotInAtomXMLFormat" }
+      };
+    }
 
     if (response.status >= 200 && response.status < 300 && response.errorBody == undefined) {
       return response;
     }
 
-    const HttpResponseCodes: any = Constants.HttpResponseCodes;
-
-    if (parsedResponse.errorBody == undefined) {
+    if (response.errorBody == undefined) {
+      const HttpResponseCodes: any = Constants.HttpResponseCodes;
       if (Object.keys(HttpResponseCodes).indexOf(response.status.toString()) < 0) {
-        parsedResponse.errorBody = {
+        response.errorBody = {
           error: { code: `UnrecognizedHttpResponseStatus: ${response.status}` }
         };
       } else {
-        parsedResponse.errorBody = { error: { code: HttpResponseCodes[response.status] } };
+        response.errorBody = { error: { code: HttpResponseCodes[response.status] } };
       }
     }
 
-    const normalizedError = this._normalizeError(parsedResponse.errorBody, response);
-    parsedResponse.errorBody = normalizedError;
-    return parsedResponse;
+    // Transform the errorBody to a normalized one
+    const normalizedError = this._normalizeError(response.errorBody, response);
+    response.errorBody = normalizedError;
+    return response;
   }
 
-  private _parseXmlResponseToJson(responseInXml: HttpOperationResponse): HttpOperationResponse {
-    const parsedResponse = responseInXml;
-    try {
-      if (responseInXml.bodyAsText && responseInXml.bodyAsText.toString().length > 0) {
-        parsedResponse.parsedBody = deserializeAtomXmlToJson(responseInXml.bodyAsText);
-      }
-    } catch (e) {
-      parsedResponse.errorBody = {
-        error: { code: "ResponseNotInAtomXMLFormat" }
-      };
-    }
-    return parsedResponse;
-  }
-
-  private _normalizeError(error: any, response: HttpOperationResponse): any {
-    if (isString(error)) {
-      return new Error(error);
-    } else if (error) {
+  /**
+   * @ignore
+   * Utility to help construct the normalized error object based on given `errorBody`
+   * data and other data present in the received `response` object.
+   *
+   * @param errorBody
+   * @param response
+   */
+  private _normalizeError(errorBody: any, response: HttpOperationResponse): any {
+    if (isString(errorBody)) {
+      return new Error(errorBody);
+    } else if (errorBody) {
       const normalizedError: any = {};
-      const odataErrorFormat = !!error["odata.error"];
-      const errorProperties = error.Error || error.error || error["odata.error"] || error;
+      const odataErrorFormat = !!errorBody["odata.error"];
+      const errorProperties =
+        errorBody.Error || errorBody.error || errorBody["odata.error"] || errorBody;
 
       if (odataErrorFormat) {
         Object.keys(errorProperties).forEach((property: string) => {
