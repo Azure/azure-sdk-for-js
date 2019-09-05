@@ -282,9 +282,9 @@ export class FileURL extends StorageURL {
     options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
 
     if (!options.fileAttributes) {
-      // Set Archive as default value, considering it would be Archive by default in service side if None is set.
+      // Note: It would be Archive in service side if None is set.
       const attributes: FileSystemAttributes = new FileSystemAttributes();
-      attributes.archive = true;
+      attributes.none = true;
       options.fileAttributes = attributes;
     }
 

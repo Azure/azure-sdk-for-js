@@ -178,4 +178,22 @@ describe("PageBlobURL", () => {
     propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
   });
+
+  it("uploadPages with invalid CRC64 should fail", async () => {
+    await pageBlobURL.create(Aborter.none, 1024);
+
+    let exceptionCaught = false;
+    try
+    {
+      await pageBlobURL.uploadPages(Aborter.none, "b".repeat(1024), 0, 1024, {
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+        exceptionCaught = true;
+      }
+    }
+
+    assert.ok(exceptionCaught);
+    });
 });

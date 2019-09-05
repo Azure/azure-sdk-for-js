@@ -23,7 +23,21 @@ export interface IBlockBlobUploadOptions {
 export interface IBlockBlobStageBlockOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
   transactionalContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the block content. This hash is used to verify the integrity of the block during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
   transactionalContentCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }
@@ -31,7 +45,23 @@ export interface IBlockBlobStageBlockOptions {
 export interface IBlockBlobStageBlockFromURLOptions {
   range?: IRange;
   leaseAccessConditions?: Models.LeaseAccessConditions;
+
+  /**
+   * An MD5 hash of the content from the URI. 
+   * This hash is used to verify the integrity of the content during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
   sourceContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the content from the URI. 
+   * This hash is used to verify the integrity of the content during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
   sourceContentCrc64?: Uint8Array;
   customerProvidedKey?: Models.CpkInfo;
 }

@@ -344,4 +344,21 @@ describe("BlockBlobURL", () => {
 
     assert.ok(exceptionCaught);
   });
+
+  it("stageBlock with invalid CRC64 should fail", async () => {
+       const content = "Hello World!";
+    let exceptionCaught = false;
+    try
+    {
+      await blockBlobURL.stageBlock(Aborter.none, base64encode("1"), content, content.length, {
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+        exceptionCaught = true;
+      }
+    }
+
+    assert.ok(exceptionCaught);
+  });
 });

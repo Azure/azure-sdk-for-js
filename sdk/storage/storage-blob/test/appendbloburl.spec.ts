@@ -72,4 +72,23 @@ describe("AppendBlobURL", () => {
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
   });
+
+  it("appendBlock with invalid CRC64 should fail", async () => {
+    await appendBlobURL.create(Aborter.none);
+
+    const content = "Hello World!";
+    let exceptionCaught = false;
+    try
+    {
+      await appendBlobURL.appendBlock(Aborter.none, content, content.length, {
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+        exceptionCaught = true;
+      }
+    }
+
+    assert.ok(exceptionCaught);
+  });
 });

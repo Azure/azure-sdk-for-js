@@ -53,11 +53,30 @@ describe("BlobURL", () => {
   });
 
   it("download all parameters set", async () => {
-    const result = await blobURL.download(Aborter.none, 0, 1, {
+    // For browser scenario, please ensure CORS settings exposed headers: content-md5,x-ms-content-crc64
+    // So JS can get contentCrc64 and contentMD5.
+    const result1 = await blobURL.download(Aborter.none, 0, 1, {
+      rangeGetContentCrc64: true
+    });
+    assert.ok(result1.contentCrc64!);
+    assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
+    assert.ok(result1.clientRequestId);
+
+    const result2 = await blobURL.download(Aborter.none, 1, 1, {
       rangeGetContentMD5: true
     });
-    assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
-    assert.ok(result.clientRequestId);
+    assert.ok(result2.contentMD5!);
+
+    let exceptionCaught = false;
+    try{
+      await blobURL.download(Aborter.none, 2, 1, {
+        rangeGetContentMD5: true,
+        rangeGetContentCrc64: true
+      });
+    } catch(err) {
+        exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -379,7 +398,7 @@ describe("BlobURL", () => {
   });
 
   it("startCopyFromURL with rehydrate priority", async () => {
-    const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblob"));
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblobrehydrate"));
     const initialTier = BlockBlobTier.Archive;
     const result = await newBlobURL.startCopyFromURL(
       Aborter.none, 
