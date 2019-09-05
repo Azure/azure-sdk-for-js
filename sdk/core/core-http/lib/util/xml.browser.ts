@@ -16,7 +16,8 @@ export function parseXML(str: string): Promise<any> {
 
 let errorNS = "";
 try {
-  errorNS = parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0].namespaceURI!;
+  errorNS = parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
+    .namespaceURI!;
 } catch (ignored) {
   // Most browsers will return a document containing <parsererror>, but IE will throw.
 }
@@ -48,7 +49,12 @@ function domToObject(node: Node): any {
   const childNodeCount: number = node.childNodes.length;
 
   const firstChildNode: Node = node.childNodes[0];
-  const onlyChildTextValue: string | undefined = (firstChildNode && childNodeCount === 1 && firstChildNode.nodeType === Node.TEXT_NODE && firstChildNode.nodeValue) || undefined;
+  const onlyChildTextValue: string | undefined =
+    (firstChildNode &&
+      childNodeCount === 1 &&
+      firstChildNode.nodeType === Node.TEXT_NODE &&
+      firstChildNode.nodeValue) ||
+    undefined;
 
   const elementWithAttributes: Element | undefined = asElementWithAttributes(node);
   if (elementWithAttributes) {
@@ -93,12 +99,14 @@ const doc = document.implementation.createDocument(null, null, null);
 const serializer = new XMLSerializer();
 
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
-  const rootName = opts && opts.rootName || "root";
+  const rootName = (opts && opts.rootName) || "root";
   const dom = buildNode(obj, rootName)[0];
-  return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom);
+  return (
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+  );
 }
 
-function buildAttributes(attrs: { [key: string]: { toString(): string; } }): Attr[] {
+function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
     const attr = doc.createAttribute(key);
@@ -113,8 +121,7 @@ function buildNode(obj: any, elementName: string): Node[] {
     const elem = doc.createElement(elementName);
     elem.textContent = obj.toString();
     return [elem];
-  }
-  else if (Array.isArray(obj)) {
+  } else if (Array.isArray(obj)) {
     const result = [];
     for (const arrayElem of obj) {
       for (const child of buildNode(arrayElem, elementName)) {
@@ -136,8 +143,7 @@ function buildNode(obj: any, elementName: string): Node[] {
       }
     }
     return [elem];
-  }
-  else {
+  } else {
     throw new Error(`Illegal value passed to buildObject: ${obj}`);
   }
 }
