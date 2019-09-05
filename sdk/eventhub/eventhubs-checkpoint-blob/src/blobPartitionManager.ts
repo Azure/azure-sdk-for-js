@@ -40,8 +40,11 @@ export class BlobPartitionManager implements PartitionManager {
           consumerGroupName,
           ownerId: blob.metadata!.ownerid,
           partitionId: blobName,
-          offset: blob.metadata ? parseInt(blob.metadata.offset) : -1,
-          sequenceNumber: blob.metadata ? parseInt(blob.metadata.sequencenumber) : -1,
+          offset: blob.metadata && blob.metadata.offset ? parseInt(blob.metadata.offset) : -1,
+          sequenceNumber:
+            blob.metadata && blob.metadata.sequencenumber
+              ? parseInt(blob.metadata.sequencenumber)
+              : -1,
           lastModifiedTimeInMS:
             blob.properties.lastModified && Date.parse(blob.properties.lastModified.toISOString()),
           eTag: blob.properties.etag,
@@ -49,11 +52,11 @@ export class BlobPartitionManager implements PartitionManager {
         };
         partitionOwnershipArray.push(partitionOwnership);
       }
+      return partitionOwnershipArray;
     } catch (err) {
-      log.error(`Error ocuured while fetching the list of the blobs.`, err);
+      log.error(`Error ocuured while fetching the list of blobs.`, err);
+      throw new Error(`Error ocuured while fetching the list of blobs. \n${err}`);
     }
-
-    return partitionOwnershipArray;
   }
 
   /**
@@ -67,35 +70,27 @@ export class BlobPartitionManager implements PartitionManager {
     let partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
       const blobName = `${ownership.eventHubName}/${ownership.consumerGroupName}/${ownership.partitionId}`;
-      let eTag;
       try {
-        for await (const blob of this._containerClient.listBlobsFlat({
-          include: ["metadata"],
-          prefix: `${ownership.eventHubName}/${ownership.consumerGroupName}/`
-        })) {
-          if (blob.name === blobName) {
-            eTag = blob.properties.etag;
-            break;
-          }
-        }
-        let uploadBlobResponse;
+        let updatedBlobResponse;
         const blobClient = this._containerClient.getBlobClient(blobName);
-        const blockBlobClient = blobClient.getBlockBlobClient();
-        if (eTag) {
-          uploadBlobResponse = await blockBlobClient.upload("", 0, {
-            metadata: {
-              OwnerId: ownership.ownerId,
+        if (ownership.eTag) {
+          updatedBlobResponse = await blobClient.setMetadata(
+            {
+              OwnerId: ownership.ownerId ? ownership.ownerId : "",
               SequenceNumber: ownership.sequenceNumber ? ownership.sequenceNumber.toString() : "",
               Offset: ownership.offset ? ownership.offset.toString() : ""
             },
-            accessConditions: {
-              modifiedAccessConditions: {
-                ifMatch: eTag
+            {
+              blobAccessConditions: {
+                modifiedAccessConditions: {
+                  ifMatch: ownership.eTag
+                }
               }
             }
-          });
+          );
         } else {
-          uploadBlobResponse = await blockBlobClient.upload("", 0, {
+          const blockBlobClient = blobClient.getBlockBlobClient();
+          updatedBlobResponse = await blockBlobClient.upload("", 0, {
             metadata: {
               OwnerId: ownership.ownerId,
               SequenceNumber: ownership.sequenceNumber ? ownership.sequenceNumber.toString() : "",
@@ -108,20 +103,20 @@ export class BlobPartitionManager implements PartitionManager {
             }
           });
         }
-        ownership.lastModifiedTimeInMS = Date.parse(uploadBlobResponse.lastModified!.toISOString());
-        ownership.eTag = uploadBlobResponse.eTag;
+        if (updatedBlobResponse.lastModified) {
+          ownership.lastModifiedTimeInMS = Date.parse(
+            updatedBlobResponse.lastModified.toISOString()
+          );
+        }
+        ownership.eTag = updatedBlobResponse.eTag;
         partitionOwnershipArray.push(ownership);
         log.blobPartitionManager(
-          `Upload block blob ${blobName} successfully`,
-          `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
-            uploadBlobResponse.eTag
-          }`
+          `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
+          `LastModifiedTime: ${ownership.lastModifiedTimeInMS}, ETag: ${ownership.eTag}`
         );
       } catch (err) {
         log.error(
-          `${[ownership.ownerId]} Error ocuured while claiming ownership for partition: ${
-            ownership.partitionId
-          }`,
+          `Error ocuured while claiming ownership for partition: ${ownership.partitionId}`,
           err
         );
       }
@@ -151,21 +146,18 @@ export class BlobPartitionManager implements PartitionManager {
         }
       }
     } catch (err) {
-      log.error(
-        `${[checkpoint.ownerId]} Error ocuured while downloading the blob for partition: ${
-          checkpoint.partitionId
-        }`,
-        err
+      log.error(`${[checkpoint.ownerId]} Error ocuured while fetching the list of blobs`, err);
+      throw new Error(
+        `${[checkpoint.ownerId]} Error ocuured while fetching the list of blobs.\n ${err}`
       );
-      return "";
     }
 
     if (!blob) {
       log.error(
-        `Checkpoint for partitionId: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
+        `Checkpoint for partition: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
       );
       throw new Error(
-        `Checkpoint for partitionId: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
+        `Checkpoint for partition: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
       );
     }
     if (ownerId !== checkpoint.ownerId) {
@@ -178,35 +170,40 @@ export class BlobPartitionManager implements PartitionManager {
     }
     try {
       const blobClient = this._containerClient.getBlobClient(blobName);
-      const blockBlobClient = blobClient.getBlockBlobClient();
-      const uploadBlobResponse = await blockBlobClient.upload("", 0, {
-        metadata: {
+      const metadataResponse = await blobClient.setMetadata(
+        {
           OwnerId: checkpoint.ownerId,
           SequenceNumber: checkpoint.sequenceNumber ? checkpoint.sequenceNumber.toString() : "",
           Offset: checkpoint.offset ? checkpoint.offset.toString() : ""
         },
-        accessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: checkpoint.eTag
+        {
+          blobAccessConditions: {
+            modifiedAccessConditions: {
+              ifMatch: checkpoint.eTag
+            }
           }
         }
-      });
+      );
 
       log.blobPartitionManager(
-        `Upload block blob ${blobName} successfully`,
-        `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
-          uploadBlobResponse.eTag
+        `[${checkpoint.ownerId}] Updated checkpoint successfully for partition: ${checkpoint.partitionId}`,
+        `LastModifiedTime: ${metadataResponse.lastModified!.toISOString()}, ETag: ${
+          metadataResponse.eTag
         }`
       );
-      return uploadBlobResponse.eTag || "";
+      return metadataResponse.eTag!;
     } catch (err) {
       log.error(
-        `${[checkpoint.ownerId]} Error ocuured while uploading the blob for partition: ${
+        `${[checkpoint.ownerId]} Error ocuured while upating the checkpoint for partition: ${
           checkpoint.partitionId
-        }, hence cannot update the checkpoint`,
+        }.`,
         err
       );
-      return "";
+      throw new Error(
+        `${[checkpoint.ownerId]} Error ocuured while upating the checkpoint for partition: ${
+          checkpoint.partitionId
+        }.\n ${err}`
+      );
     }
   }
 }

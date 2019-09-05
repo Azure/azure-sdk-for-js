@@ -28,13 +28,15 @@ describe("Blob Partition Manager", function(): void {
     );
   });
 
- 
   beforeEach(async () => {
-    containerClient = new ContainerClient(service.storageConnectionString, `container-${Guid.create()}`);
+    containerClient = new ContainerClient(
+      service.storageConnectionString,
+      `container-${Guid.create()}`
+    );
     await containerClient.create();
   });
 
-  afterEach(async() => {
+  afterEach(async () => {
     await containerClient.delete();
   });
 
@@ -235,33 +237,35 @@ describe("Blob Partition Manager", function(): void {
     await partitionManager.updateCheckpoint(checkpoint).catch((err) => {
       debug("Error occured while updating checkpoint", err);
       should.exist(err);
-      err.message.should.equal(`OwnerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${ownershipList[0].ownerId}], hence cannot update the checkpoint.`
+      err.message.should.equal(
+        `OwnerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${ownershipList[0].ownerId}], hence cannot update the checkpoint.`
       );
     });
   });
 
   it("updateCheckpoint on a partition that has not been claimed should throw an error.", async function(): Promise<
-  void
-> {
-  const partitionManager = new BlobPartitionManager(containerClient);
-  const listOwnership = await partitionManager.listOwnership("testEventHub", "testConsumerGroup");
-  should.equal(listOwnership.length, 0);
+    void
+  > {
+    const partitionManager = new BlobPartitionManager(containerClient);
+    const listOwnership = await partitionManager.listOwnership("testEventHub", "testConsumerGroup");
+    should.equal(listOwnership.length, 0);
 
-  const checkpoint: Checkpoint = {
-    eventHubName: "testEventHub",
-    consumerGroupName: "testConsumerGroup",
-    ownerId: "Id2",
-    partitionId: "0",
-    sequenceNumber: 100,
-    offset: 1023,
-    eTag: "etag-123"
-  };
+    const checkpoint: Checkpoint = {
+      eventHubName: "testEventHub",
+      consumerGroupName: "testConsumerGroup",
+      ownerId: "Id2",
+      partitionId: "0",
+      sequenceNumber: 100,
+      offset: 1023,
+      eTag: "etag-123"
+    };
 
-  await partitionManager.updateCheckpoint(checkpoint).catch((err) => {
-    debug("Error occured while updating checkpoint", err);
-    should.exist(err);
-    err.message.should.equal(`Checkpoint for partitionId: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
-    );
+    await partitionManager.updateCheckpoint(checkpoint).catch((err) => {
+      debug("Error occured while updating checkpoint", err);
+      should.exist(err);
+      err.message.should.equal(
+        `Checkpoint for partition: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
+      );
+    });
   });
-});
 }).timeout(90000);
