@@ -7,13 +7,10 @@ import { RestError } from "../restError";
 import { WebResource } from "../webResource";
 import { Constants } from "./constants";
 
-const validUuidRegex = new RegExp(
-  "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
-  "ig"
-);
+const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/gi;
+
 /**
- 
-* A constant that indicates whether the environment is node.js or browser based.
+ * A constant that indicates whether the environment is node.js or browser based.
  */
 export const isNode =
   typeof process !== "undefined" &&
@@ -146,21 +143,6 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
 }
 
 /**
- * Merges source object into the target object
- * @param {object} source The object that needs to be merged
- *
- * @param {object} target The object to be merged into
- *
- * @returns {object} Returns the merged target object.
- */
-export function mergeObjects(source: { [key: string]: any }, target: { [key: string]: any }) {
-  Object.keys(source).forEach((key) => {
-    target[key] = source[key];
-  });
-  return target;
-}
-
-/**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
  * @param {number} t The number of milliseconds to be delayed.
  * @param {T} value The value to be resolved with after a timeout of t milliseconds.
@@ -286,19 +268,6 @@ export function replaceAll(
  */
 export function isPrimitiveType(value: any): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
-}
-
-/**
- * Checks if given `text` starts with the specified `prefix`
- * @param text Input string
- * @return {boolean} - true if yes, false otherwise.
- */
-export function stringStartsWith(text: string, prefix: string): boolean {
-  if (prefix == null) {
-    return true;
-  }
-
-  return text.substr(0, prefix.length) === prefix;
 }
 
 /**

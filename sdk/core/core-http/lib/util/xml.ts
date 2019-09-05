@@ -3,7 +3,7 @@
 
 import * as xml2js from "xml2js";
 import { Constants } from "./constants";
-import { stringStartsWith, isDate, isObject } from "./utils";
+import { isDate, isObject } from "./utils";
 const xmlbuilder: any = require("xmlbuilder");
 
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
@@ -135,7 +135,7 @@ function _writeElementValue(parentElement: any, name: any, value: any): any {
 
       parentElement = parentElement.ele(propertyTagName);
       if (!contentIsUndefinedOrEmpty(value[Constants.XML_VALUE_MARKER])) {
-        if (stringStartsWith(value[Constants.XML_VALUE_MARKER], "<![CDATA[")) {
+        if (new String(value[Constants.XML_VALUE_MARKER]).startsWith("<![CDATA[")) {
           parentElement = parentElement.raw(value[Constants.XML_VALUE_MARKER]);
         } else {
           parentElement = parentElement.txt(value[Constants.XML_VALUE_MARKER]);
@@ -156,7 +156,7 @@ function _writeElementValue(parentElement: any, name: any, value: any): any {
   } else {
     parentElement = parentElement.ele(propertyTagName);
     if (!contentIsUndefinedOrEmpty(value)) {
-      if (stringStartsWith(value.toString().trim(), "<![CDATA[")) {
+      if (new String(value.toString().trim()).startsWith("<![CDATA[")) {
         parentElement = parentElement.raw(value.toString());
       } else {
         parentElement = parentElement.txt(value.toString());
