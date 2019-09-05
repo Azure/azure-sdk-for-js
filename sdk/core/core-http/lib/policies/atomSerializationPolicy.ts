@@ -54,12 +54,15 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       const responseInCustomJson: any = {
         error: parsedResponse.errorBody,
         response: parsedResponse.parsedBody,
-        result: undefined
+        result: shouldParseResponse ? [] : undefined
       };
-      responseInCustomJson.result =
-        shouldParseResponse && serializer
-          ? serializer.parse(responseInCustomJson.response)
-          : undefined;
+
+      if (responseInCustomJson.error == undefined) {
+        responseInCustomJson.result =
+          shouldParseResponse && serializer
+            ? serializer.parse(responseInCustomJson.response)
+            : undefined;
+      }
 
       response.parsedBody = responseInCustomJson;
       return response;

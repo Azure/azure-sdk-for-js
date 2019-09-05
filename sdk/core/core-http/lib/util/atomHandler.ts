@@ -21,7 +21,7 @@ export function parseResultFromAtomResponse(atomResponseInJson: any): any {
     return parseEntryResult(atomResponseInJson.entry);
   }
 
-  throw new Error("Unrecognized result: " + atomResponseInJson);
+  throw new Error("Unrecognized result: " + JSON.stringify(atomResponseInJson));
 }
 
 function parseEntryResult(entry: any): any {
