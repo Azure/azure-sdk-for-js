@@ -20,20 +20,22 @@ class SamplePartitionProcessor extends PartitionProcessor {
       console.log(
         `Received event: '${event.body}' from partition: '${partitionContext.partitionId}' and consumer group: '${partitionContext.consumerGroupName}'`,
       );
-      try {
-        // checkpoint using the last event in the batch
-        await partitionContext.updateCheckpoint(events[events.length - 1]);
-        this._messageCount++;
-        console.log(
-          "Successfully checkpointed event: '%s' from partition: '%s'",
-          events[events.length - 1].body,
-          partitionContext.partitionId
-        );
-      } catch (err) {
-        console.log(
-          `Encountered an error while checkpointing on ${partitionContext.partitionId}: ${err.message}`
-        );
-      }
+      this._messageCount++;
+    }
+
+    try {
+      // checkpoint using the last event in the batch
+      await partitionContext.updateCheckpoint(events[events.length - 1]);
+
+      console.log(
+        "Successfully checkpointed event: '%s' from partition: '%s'",
+        events[events.length - 1].body,
+        partitionContext.partitionId
+      );
+    } catch (err) {
+      console.log(
+        `Encountered an error while checkpointing on ${partitionContext.partitionId}: ${err.message}`
+      );
     }
   }
 

@@ -8,7 +8,7 @@ import { PartitionManager } from "./eventProcessor";
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
  * partition of a consumer group in an Event Hub instance.
  *
- * When the `updateCheckpoint()` method on the `CheckpointManager` class is called by the user, a
+ * When the `updateCheckpoint()` method on the `PartitionContext` class is called by the user, a
  * `Checkpoint` is created internally. It is then stored in the storage solution implemented by the
  * `PartitionManager` chosen by the user when creating an `EventProcessor`.
  *
@@ -49,6 +49,7 @@ export interface Checkpoint {
 /**
  * `PartitionContext` holds information on the partition, consumer group and event hub
  * being processed by the `EventProcessor`.
+ * It also allows users to update checkpoints via the `updateCheckpoint` method.
  *
  * User is never meant to create `PartitionContext` directly. It is only passed to user code
  * by the `EventProcessor`.
@@ -134,7 +135,7 @@ export class PartitionContext {
           ? eventDataOrSequenceNumber
           : eventDataOrSequenceNumber.sequenceNumber,
       offset:
-        typeof eventDataOrSequenceNumber === "number" ? offset! : eventDataOrSequenceNumber.offset,
+        typeof offset === "number" ? offset : (eventDataOrSequenceNumber as ReceivedEventData).offset,
       eTag: this._eTag
     };
 

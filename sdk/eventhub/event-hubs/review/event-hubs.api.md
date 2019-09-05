@@ -167,7 +167,7 @@ export class EventPosition {
 
 // @public
 export class EventProcessor {
-    constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClassName: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
     readonly id: string;
     start(): void;
     stop(): Promise<void>;

@@ -193,7 +193,7 @@ export class EventProcessor {
   constructor(
     consumerGroupName: string,
     eventHubClient: EventHubClient,
-    PartitionProcessorClass: typeof PartitionProcessor,
+    PartitionProcessorClassName: typeof PartitionProcessor,
     partitionManager: PartitionManager,
     options?: EventProcessorOptions
   ) {
@@ -201,7 +201,7 @@ export class EventProcessor {
 
     this._consumerGroupName = consumerGroupName;
     this._eventHubClient = eventHubClient;
-    this._partitionProcessorClass = PartitionProcessorClass;
+    this._partitionProcessorClass = PartitionProcessorClassName;
     this._partitionManager = partitionManager;
     this._processorOptions = options;
     this._pumpManager = new PumpManager(this._id, this._processorOptions);
