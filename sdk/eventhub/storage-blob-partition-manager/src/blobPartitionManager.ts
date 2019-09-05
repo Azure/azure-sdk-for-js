@@ -33,25 +33,32 @@ export class BlobPartitionManager implements PartitionManager {
       const blobPath = blob.name.split("/");
       const blobName = blobPath[blobPath.length - 1];
       const blobClient = this._containerClient.getBlobClient(blob.name);
-      const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download();
-      const partitionOwnership: PartitionOwnership = {
-        eventHubName,
-        consumerGroupName,
-        ownerId: downloadBlockBlobResponse.metadata!.ownerid,
-        partitionId: blobName,
-        offset: downloadBlockBlobResponse.metadata
-          ? parseInt(downloadBlockBlobResponse.metadata.offset)
-          : -1,
-        sequenceNumber: downloadBlockBlobResponse.metadata
-          ? parseInt(downloadBlockBlobResponse.metadata.sequencenumber)
-          : -1,
-        lastModifiedTimeInMS:
-          downloadBlockBlobResponse.lastModified &&
-          Date.parse(downloadBlockBlobResponse.lastModified.toISOString()),
-        eTag: downloadBlockBlobResponse.eTag,
-        ownerLevel: 0 // this needs to be removed from eventhubs
-      };
-      partitionOwnershipArray.push(partitionOwnership);
+      try {
+        const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download();
+        const partitionOwnership: PartitionOwnership = {
+          eventHubName,
+          consumerGroupName,
+          ownerId: downloadBlockBlobResponse.metadata!.ownerid,
+          partitionId: blobName,
+          offset: downloadBlockBlobResponse.metadata
+            ? parseInt(downloadBlockBlobResponse.metadata.offset)
+            : -1,
+          sequenceNumber: downloadBlockBlobResponse.metadata
+            ? parseInt(downloadBlockBlobResponse.metadata.sequencenumber)
+            : -1,
+          lastModifiedTimeInMS:
+            downloadBlockBlobResponse.lastModified &&
+            Date.parse(downloadBlockBlobResponse.lastModified.toISOString()),
+          eTag: downloadBlockBlobResponse.eTag,
+          ownerLevel: 0 // this needs to be removed from eventhubs
+        };
+        partitionOwnershipArray.push(partitionOwnership);
+      } catch (err) {
+        log.error(
+          `Error ocuured while downloading the blob: ${blob.name} for partitionId: ${blobName}.`,
+          err
+        );
+      }
     }
 
     return partitionOwnershipArray;
@@ -160,8 +167,7 @@ export class BlobPartitionManager implements PartitionManager {
       );
       return "";
     }
-
-    if(!blob){
+    if (!blob) {
       log.error(
         `Checkpoint for partitionId: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
       );
