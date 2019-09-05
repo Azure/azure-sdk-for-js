@@ -55,7 +55,7 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "private": false,
   "dependencies": {
     "@azure/core-asynciterator-polyfill": "1.0.0-preview.1"
