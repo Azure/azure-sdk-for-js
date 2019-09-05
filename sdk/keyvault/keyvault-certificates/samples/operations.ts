@@ -18,16 +18,26 @@ async function main(): Promise<void> {
 
   let getResponse: any;
 
-  // Read
+  // Certficates' operations will be pending for some time right after they're created.
+  await client.createCertificate("MyCertificate", {
+    issuerParameters: { name: "Self" },
+    x509CertificateProperties: { subject: "cn=MyCert" }
+  }); 
+
+  // The pending state of the certificate will be visible.
+  const pendingCertificate = await client.getCertificate(certificateName, "");
+  console.log({ pendingCertificate });
+
+  // Reading the certificate's operation (it will be pending)
   getResponse = await client.getCertificateOperation(certificateName);
   console.log("Certificate operation:", getResponse);
 
-  // Cancel
+  // Cancelling the certificate's operation
   await client.cancelCertificateOperation(certificateName);
   getResponse = await client.getCertificateOperation(certificateName);
   console.log("Cancelled certificate operation:", getResponse);
 
-  // Delete
+  // Deleting the certificate's operation
   await client.deleteCertificateOperation(certificateName);
 
   let error;
@@ -38,6 +48,10 @@ async function main(): Promise<void> {
     error = e;
   }
   console.log(error.message); // Pending certificate not found
+
+  // There will be no signs of a pending operation at this point
+  const certificateWithoutOperation = await client.getCertificateWithPolicy(certificateName);
+	console.log("Certificate without operation:", certificateWithoutOperation); 
 }
 
 main().catch((err) => {

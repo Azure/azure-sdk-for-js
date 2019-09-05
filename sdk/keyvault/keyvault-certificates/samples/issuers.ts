@@ -18,13 +18,36 @@ async function main(): Promise<void> {
   const issuerName = "issuerName";
 
   // Create
-  await client.setCertificateIssuer(issuerName, "Test");
+  await client.setCertificateIssuer(issuerName, "Test", {
+    credentials: {
+      accountId: "keyvaultuser",
+    },
+    organizationDetails: {
+      adminDetails: [{
+        firstName: "John",
+        lastName: "Doe",
+        email: "admin@microsoft.com",
+        phone: "4255555555"
+      }]
+    }
+  });
 
-  // Read
+  // We can create a certificate with that issuer's name.
+  await client.createCertificate(certificateName, {
+    certificatePolicy: {
+      issuerParameters: { name: issuerName },
+      x509CertificateProperties: { subject: "cn=MyCert" }
+		}
+  }); 
+
+  // Reading the certificate will give us back the issuer name, but no other information.
+  const certificate = await client.getCertificate(certificateName, "");
+
+  // We can retrieve the issuer this way:
   const getResponse = await client.getCertificateIssuer(issuerName);
   console.log("Certificate issuer: ", getResponse);
 
-  // Delete
+  // We can also delete the issuer.
   await client.deleteCertificateIssuer(issuerName);
   let error;
   try {

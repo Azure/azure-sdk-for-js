@@ -2,6 +2,7 @@ import { CertificatesClient } from "../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates a self-signed certificate, then deletes it, then recovers it.
+// Soft-delete is required for this sample to run: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete
 
 export function delay<T>(t: number, value?: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));

@@ -27,7 +27,7 @@ async function main(): Promise<void> {
     x509CertificateProperties: { subject: "cn=MyCert" }
   });
 
-  // Retrieving the certificate request
+  // Retrieving the certificate's signing request
   const { csr } = await client.getCertificateOperation("MyCertificate");
   const base64Csr = Buffer.from(csr!).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
@@ -37,9 +37,14 @@ ${base64Csr}
 
   // Now, signing the retrieved certificate request with a fake certificate authority.
   // A certificate authority is composed of two pieces, a certificate and a private key.
+	//
   // We made these using openssl, as follows:
+  //
   //   openssl genrsa -out ca.key 2048
   //   openssl req -new -x509 -key ca.key -out ca.crt
+  //
+	// For more information on how to set up a local certificate authority
+	// go to: https://gist.github.com/Soarez/9688998
   childProcess.execSync(
     "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
   );
