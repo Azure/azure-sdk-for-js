@@ -8,8 +8,6 @@ export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 export enum EnvVarKeys {
-  EVENTHUB_CONNECTION_STRING = "EVENTHUB_CONNECTION_STRING",
-  EVENTHUB_NAME = "EVENTHUB_NAME",
   STORAGE_CONNECTION_STRING = "STORAGE_CONNECTION_STRING"
 }
 
@@ -24,8 +22,6 @@ function getEnvVarValue(name: string): string | undefined {
 
 export function getEnvVars(): { [key in EnvVarKeys]: any } {
   return {
-    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING),
-    [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
-    [EnvVarKeys.STORAGE_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.STORAGE_CONNECTION_STRING),
+    [EnvVarKeys.STORAGE_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.STORAGE_CONNECTION_STRING)
   };
 }

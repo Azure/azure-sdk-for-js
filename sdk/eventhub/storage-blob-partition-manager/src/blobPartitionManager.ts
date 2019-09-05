@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { PartitionManager, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, Models } from "@azure/storage-blob";
 import * as log from "./log";
 
 /**
- * A simple in-memory implementation of a `PartitionManager`
+ * A blob storage implementation of a `PartitionManager`
  * @class
  */
 export class BlobPartitionManager implements PartitionManager {
@@ -29,17 +29,27 @@ export class BlobPartitionManager implements PartitionManager {
   ): Promise<PartitionOwnership[]> {
     const partitionOwnershipArray: PartitionOwnership[] = [];
 
-    for await (const blob of this._containerClient.listBlobsFlat({ include: ["metadata"] })) {
+    for await (const blob of this._containerClient.listBlobsFlat()) {
+      const blobPath = blob.name.split("/");
+      const blobName = blobPath[blobPath.length - 1];
+      const blobClient = this._containerClient.getBlobClient(blob.name);
+      const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download();
       const partitionOwnership: PartitionOwnership = {
-        eventHubName, // from EventProcessor
-        consumerGroupName, // from EventProcessor
-        ownerId: blob.metadata!["OwnerId"],
-        partitionId: blob.name, // name of blob
-        offset: parseInt(blob.metadata!["Offset"], 10),
-        sequenceNumber: parseInt(blob.metadata!["SequenceNumber"]),
-        lastModifiedTimeInMS: Date.parse(blob.properties.lastModified.toISOString()),
-        eTag: blob.properties.etag,
-        ownerLevel: 0
+        eventHubName,
+        consumerGroupName,
+        ownerId: downloadBlockBlobResponse.metadata!.ownerid,
+        partitionId: blobName,
+        offset: downloadBlockBlobResponse.metadata
+          ? parseInt(downloadBlockBlobResponse.metadata.offset)
+          : -1,
+        sequenceNumber: downloadBlockBlobResponse.metadata
+          ? parseInt(downloadBlockBlobResponse.metadata.sequencenumber)
+          : -1,
+        lastModifiedTimeInMS:
+          downloadBlockBlobResponse.lastModified &&
+          Date.parse(downloadBlockBlobResponse.lastModified.toISOString()),
+        eTag: downloadBlockBlobResponse.eTag,
+        ownerLevel: 0 // this needs to be removed from eventhubs
       };
       partitionOwnershipArray.push(partitionOwnership);
     }
@@ -57,57 +67,61 @@ export class BlobPartitionManager implements PartitionManager {
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     let partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
-      let blobItem;
-      for await (const blob of this._containerClient.listBlobsFlat()) {
-        if (blob.name === ownership.partitionId) {
-          blobItem = blob;
-        }
-      }
-      const blobClient = this._containerClient.getBlobClient(ownership.partitionId);
+      const blobName = `${ownership.eventHubName}/${ownership.consumerGroupName}/${ownership.partitionId}`;
+      const blobClient = this._containerClient.getBlobClient(blobName);
       const blockBlobClient = blobClient.getBlockBlobClient();
-      if (blobItem && blobItem.properties.etag) {
-        const uploadBlobResponse = await blockBlobClient.upload("", 0, {
-          metadata: {
-            OwnerId: ownership.ownerId,
-            SequenceNumber: ownership.sequenceNumber!.toString(),
-            Offset: ownership.offset!.toString()
-          },
-          accessConditions: {
-            modifiedAccessConditions: {
-              ifMatch: blobItem.properties.etag
-            }
+      let eTag;
+      try {
+        for await (const blob of this._containerClient.listBlobsFlat()) {
+          if (blob.name === blobName) {
+            const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download();
+            eTag = downloadBlockBlobResponse.eTag;
+            break;
           }
-        });
+        }
+        let uploadBlobResponse;
+        if (eTag) {
+          uploadBlobResponse = await blockBlobClient.upload("", 0, {
+            metadata: {
+              OwnerId: ownership.ownerId,
+              SequenceNumber: ownership.sequenceNumber ? ownership.sequenceNumber.toString() : "",
+              Offset: ownership.offset ? ownership.offset.toString() : ""
+            },
+            accessConditions: {
+              modifiedAccessConditions: {
+                ifMatch: eTag
+              }
+            }
+          });
+        } else {
+          uploadBlobResponse = await blockBlobClient.upload("", 0, {
+            metadata: {
+              OwnerId: ownership.ownerId,
+              SequenceNumber: ownership.sequenceNumber ? ownership.sequenceNumber.toString() : "",
+              Offset: ownership.offset ? ownership.offset.toString() : ""
+            },
+            accessConditions: {
+              modifiedAccessConditions: {
+                ifNoneMatch: "*"
+              }
+            }
+          });
+        }
         ownership.lastModifiedTimeInMS = Date.parse(uploadBlobResponse.lastModified!.toISOString());
         ownership.eTag = uploadBlobResponse.eTag;
         partitionOwnershipArray.push(ownership);
         log.blobPartitionManager(
-          `Upload block blob ${ownership.partitionId} successfully`,
+          `Upload block blob ${blobName} successfully`,
           `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
             uploadBlobResponse.eTag
           }`
         );
-      } else {
-        const uploadBlobResponse = await blockBlobClient.upload("", 0, {
-          metadata: {
-            OwnerId: ownership.ownerId,
-            SequenceNumber: ownership.sequenceNumber!.toString(),
-            Offset: ownership.offset!.toString()
-          },
-          accessConditions: {
-            modifiedAccessConditions: {
-              ifNoneMatch: "*"
-            }
-          }
-        });
-        ownership.lastModifiedTimeInMS = Date.parse(uploadBlobResponse.lastModified!.toISOString());
-        ownership.eTag = uploadBlobResponse.eTag;
-        partitionOwnershipArray.push(ownership);
-        log.blobPartitionManager(
-          `Upload block blob ${ownership.partitionId} successfully`,
-          `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
-            uploadBlobResponse.eTag
-          }`
+      } catch (err) {
+        log.error(
+          `${[ownership.ownerId]} Error ocuured while claiming ownership for partition: ${
+            ownership.partitionId
+          }`,
+          err
         );
       }
     }
@@ -121,27 +135,77 @@ export class BlobPartitionManager implements PartitionManager {
    * @return The new eTag on successful update
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
-    const blobClient = this._containerClient.getBlobClient(checkpoint.partitionId);
+    const blobName = `${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/${checkpoint.partitionId}`;
+    let uploadBlobResponse;
+    const blobClient = this._containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
-    const uploadBlobResponse = await blockBlobClient.upload("", 0, {
-      metadata: {
-        OwnerId: checkpoint.ownerId,
-        SequenceNumber: checkpoint.sequenceNumber!.toString(),
-        Offset: checkpoint.offset!.toString()
-      },
-      accessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: checkpoint.eTag
+
+    let ownerId;
+    let blob;
+    try {
+      for await (const blobItem of this._containerClient.listBlobsFlat()) {
+        if (blobItem.name === blobName) {
+          const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download();
+          ownerId = downloadBlockBlobResponse.metadata!.ownerid;
+          blob = blobItem;
+          break;
         }
       }
-    });
+    } catch (err) {
+      log.error(
+        `${[checkpoint.ownerId]} Error ocuured while downloading the blob for partition: ${
+          checkpoint.partitionId
+        }, hence cannot update the checkpoint`,
+        err
+      );
+      return "";
+    }
 
-    log.blobPartitionManager(
-      `Upload block blob ${checkpoint.partitionId} successfully`,
-      `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
-        uploadBlobResponse.eTag
-      }`
-    );
+    if(!blob){
+      log.error(
+        `Checkpoint for partitionId: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
+      );
+      throw new Error(
+        `Checkpoint for partitionId: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
+      );
+    }
+    if (ownerId !== checkpoint.ownerId) {
+      log.error(
+        `ownerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${ownerId}], hence cannot update the checkpoint.`
+      );
+      throw new Error(
+        `OwnerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${ownerId}], hence cannot update the checkpoint.`
+      );
+    }
+    try {
+      uploadBlobResponse = await blockBlobClient.upload("", 0, {
+        metadata: {
+          OwnerId: checkpoint.ownerId,
+          SequenceNumber: checkpoint.sequenceNumber ? checkpoint.sequenceNumber.toString() : "",
+          Offset: checkpoint.offset ? checkpoint.offset.toString() : ""
+        },
+        accessConditions: {
+          modifiedAccessConditions: {
+            ifMatch: checkpoint.eTag
+          }
+        }
+      });
+
+      log.blobPartitionManager(
+        `Upload block blob ${blobName} successfully`,
+        `LastModifiedTime: ${uploadBlobResponse.lastModified!.toISOString()}, ETag: ${
+          uploadBlobResponse.eTag
+        }`
+      );
+    } catch (err) {
+      log.error(
+        `${[checkpoint.ownerId]} Error ocuured while uploading the blob for partition: ${
+          checkpoint.partitionId
+        }, hence cannot update the checkpoint`,
+        err
+      );
+      return "";
+    }
     return uploadBlobResponse.eTag || "";
   }
 }
