@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156758497177601763",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156767559787704832",
    "query": {
     "restype": "share"
    },
@@ -10,19 +10,19 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 08:16:11 GMT",
-    "last-modified": "Wed, 04 Sep 2019 08:16:11 GMT",
+    "date": "Thu, 05 Sep 2019 09:26:37 GMT",
+    "last-modified": "Thu, 05 Sep 2019 09:26:37 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7311025B502E2\"",
-    "x-ms-request-id": "b64c03a4-f01a-0153-37f9-622aba000000",
+    "etag": "\"0x8D731E32717AA0B\"",
+    "x-ms-request-id": "ec818ab9-701a-015d-5bcc-63030a000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "d6a33ec8-470e-415b-9b86-6b24d67c460f",
+    "x-ms-client-request-id": "e7d846af-f5fe-45c1-bcaf-24efe0d9b6c6",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156758497177601763",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156767559787704832",
    "query": {
     "comp": "properties",
     "restype": "share"
@@ -31,19 +31,19 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 08:16:11 GMT",
-    "last-modified": "Wed, 04 Sep 2019 08:16:12 GMT",
+    "date": "Thu, 05 Sep 2019 09:26:37 GMT",
+    "last-modified": "Thu, 05 Sep 2019 09:26:38 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7311025D68E26\"",
-    "x-ms-request-id": "b64c03a8-f01a-0153-3af9-622aba000000",
+    "etag": "\"0x8D731E32738DDFB\"",
+    "x-ms-request-id": "ec818abc-701a-015d-5dcc-63030a000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "9c6eb6c5-ae41-439b-9494-f2914ae95a5d",
+    "x-ms-client-request-id": "1bc1a32b-1e1e-4d5e-8034-971414c01f20",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156758497177601763",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156767559787704832",
    "query": {
     "restype": "share"
    },
@@ -51,22 +51,22 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 08:16:11 GMT",
+    "date": "Thu, 05 Sep 2019 09:26:37 GMT",
     "x-ms-has-legal-hold": "false",
-    "last-modified": "Wed, 04 Sep 2019 08:16:12 GMT",
+    "last-modified": "Thu, 05 Sep 2019 09:26:38 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7311025D68E26\"",
-    "x-ms-request-id": "b64c03ad-f01a-0153-3ef9-622aba000000",
+    "etag": "\"0x8D731E32738DDFB\"",
+    "x-ms-request-id": "ec818abf-701a-015d-5fcc-63030a000000",
     "x-ms-share-quota": "20",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "32937428-95df-4ae3-9f7a-8ef940c8c11a",
+    "x-ms-client-request-id": "431b452c-ea5a-480c-b060-4896a4b2ca0a",
     "x-ms-has-immutability-policy": "false",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.file.core.windows.net/share156758497177601763",
+   "url": "https://fakestorageaccount.file.core.windows.net/share156767559787704832",
    "query": {
     "restype": "share"
    },
@@ -74,16 +74,16 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 08:16:11 GMT",
+    "date": "Thu, 05 Sep 2019 09:26:37 GMT",
     "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "b64c03b1-f01a-0153-42f9-622aba000000",
+    "x-ms-request-id": "ec818ac1-701a-015d-61cc-63030a000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "0cebf890-0bab-495f-9fc1-ca6bc7749589",
+    "x-ms-client-request-id": "2c9de286-212d-47e1-8279-bd38e6bc84c3",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "share": "share156758497177601763"
+  "share": "share156767559787704832"
  }
 }
