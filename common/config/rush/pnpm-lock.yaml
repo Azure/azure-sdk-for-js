@@ -136,7 +136,7 @@ dependencies:
   moment: 2.24.0
   msal: 1.1.3
   nise: 1.5.2
-  nock: 10.0.6
+  nock: 11.3.3
   node-abort-controller: 1.0.3
   node-fetch: 2.6.0
   npm-run-all: 4.1.5
@@ -156,7 +156,6 @@ dependencies:
   rhea-promise: 0.1.15
   rimraf: 3.0.0
   rollup: 1.20.3
-  rollup-plugin-alias: 1.5.2
   rollup-plugin-commonjs: 10.1.0_rollup@1.20.3
   rollup-plugin-inject: 3.0.1
   rollup-plugin-json: 4.0.0
@@ -190,7 +189,7 @@ dependencies:
   util: 0.12.1
   uuid: 3.3.3
   webpack: 4.39.3_webpack@4.39.3
-  webpack-cli: 3.3.7_webpack@4.39.3
+  webpack-cli: 3.3.8_webpack@4.39.3
   webpack-dev-middleware: 3.7.1_webpack@4.39.3
   ws: 7.1.2
   xhr-mock: 2.5.0
@@ -748,7 +747,7 @@ packages:
       '@types/connect': 3.4.32
       '@types/memory-fs': 0.3.2
       '@types/webpack': 4.39.1
-      loglevel: 1.6.3
+      loglevel: 1.6.4
     dev: false
     resolution:
       integrity: sha512-DzNJJ6ah/6t1n8sfAgQyEbZ/OMmFcF9j9P3aesnm7G6/iBFR/qiGin8K89J0RmaWIBzhTMdDg3I5PmKmSv7N9w==
@@ -783,13 +782,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-O6Xgai01b9PB3IGA0lRIp1Ex3JBcxGDhdO0n3NIIpCyDOAjxcIGQFmkvgJpP8anTrthxOUQjBfLdRRi0Zn/TXA==
-  /@types/yargs-parser/13.0.0:
+  /@types/yargs-parser/13.1.0:
     dev: false
     resolution:
-      integrity: sha512-wBlsw+8n21e6eTd4yVv8YD/E3xq0O6nNnJIquutAsFGE7EyMKz7W6RNT6BRu1SmdgmlCZ9tb0X+j+D6HGr8pZw==
+      integrity: sha512-gCubfBUZ6KxzoibJ+SCUc/57Ms1jz5NjHe4+dI2krNmU5zCPAphyLJYyTOg06ueIyfj+SaCUqmzun7ImlxDcKg==
   /@types/yargs/13.0.2:
     dependencies:
-      '@types/yargs-parser': 13.0.0
+      '@types/yargs-parser': 13.1.0
     dev: false
     resolution:
       integrity: sha512-lwwgizwk/bIIU+3ELORkyuOgDjCh7zuWDFqRtPPhhVgq9N1F7CvLNKg1TX4f2duwtKQ0p044Au9r1PLIXHrIzQ==
@@ -2956,10 +2955,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-XQKkaFCt8bSjF5RqOSj8y1v9BCU=
-  /cyclist/0.2.2:
+  /cyclist/1.0.1:
     dev: false
     resolution:
-      integrity: sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
+      integrity: sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
   /d/1.0.1:
     dependencies:
       es5-ext: 0.10.51
@@ -3081,17 +3080,6 @@ packages:
       node: '>=0.12'
     resolution:
       integrity: sha512-+QeIQyN5ZuO+3Uk5DYh6/1eKO0m0YmJFGNmFHGACpf1ClL1nmlV/p4gNgbl2pJGxgXb4faqo6UE+M5ACEMyVcw==
-  /deep-equal/1.1.0:
-    dependencies:
-      is-arguments: 1.0.4
-      is-date-object: 1.0.1
-      is-regex: 1.0.4
-      object-is: 1.0.1
-      object-keys: 1.1.1
-      regexp.prototype.flags: 1.2.0
-    dev: false
-    resolution:
-      integrity: sha512-ZbfWJq/wN1Z273o7mUSjILYqehAktR2NVoSrOukDkU9kg2v/Uv89yU4Cvz8seJeAmtN5oqiefKq8FPuXOboqLw==
   /deep-is/0.1.3:
     dev: false
     resolution:
@@ -5962,12 +5950,12 @@ packages:
       node: '>=6.0'
     resolution:
       integrity: sha512-EEEgFcE9bLgaYUKuozyFfytQM2wDHtXn4tAN41pkaxpNjAykv11GVdeI4tHtmPWW4Xrgh9R/2d7XYghDVjbKKw==
-  /loglevel/1.6.3:
+  /loglevel/1.6.4:
     dev: false
     engines:
       node: '>= 0.6.0'
     resolution:
-      integrity: sha512-LoEDv5pgpvWgPF4kNYuIp0qqSJVWak/dML0RY74xlzMZiT9w77teNAwKYKWBTYjlokMirg+o3jBwp+vlLrcfAA==
+      integrity: sha512-p0b6mOGKcGa+7nnmKbpzR6qloPbrgLcnio++E+14Vo/XffOGwZtRpUhr8dTH/x2oCMmEoIU0Zwm3ZauhvYD17g==
   /lolex/4.2.0:
     dev: false
     resolution:
@@ -6351,7 +6339,7 @@ packages:
       end-of-stream: 1.4.1
       flush-write-stream: 1.1.1
       from2: 2.3.0
-      parallel-transform: 1.1.0
+      parallel-transform: 1.2.0
       pump: 3.0.0
       pumpify: 1.5.1
       stream-each: 1.2.3
@@ -6386,7 +6374,7 @@ packages:
       debug: 4.1.1
       deep-assign: 3.0.0
       import-local: 2.0.0
-      loglevel: 1.6.3
+      loglevel: 1.6.4
       meow: 5.0.0
       nanobus: 4.4.0
     dev: false
@@ -6589,22 +6577,19 @@ packages:
     dev: false
     resolution:
       integrity: sha512-/6RhOUlicRCbE9s+94qCUsyE+pKlVJ5AhIv+jEE7ESKwnbXqulKZ1FYU+XAtHHWE9TinYvAxDUJAb912PwPoWA==
-  /nock/10.0.6:
+  /nock/11.3.3:
     dependencies:
       chai: 4.2.0
       debug: 4.1.1
-      deep-equal: 1.1.0
       json-stringify-safe: 5.0.1
       lodash: 4.17.15
       mkdirp: 0.5.1
-      propagate: 1.0.0
-      qs: 6.8.0
-      semver: 5.7.1
+      propagate: 2.0.1
     dev: false
     engines:
-      node: '>= 6.0'
+      node: '>= 8.0'
     resolution:
-      integrity: sha512-b47OWj1qf/LqSQYnmokNWM8D88KvUl2y7jT0567NB3ZBAZFz2bWp2PC81Xn7u8F2/vJxzkzNZybnemeFa7AZ2w==
+      integrity: sha512-SrRux5onbWf2ItpmietnLYis+C2QYF08hAo9wv/3QLqaLJVHBSVBTL0EvlD8Hjrm7lTH4vExTzr9gQUsPqy5Cg==
   /node-abort-controller/1.0.3:
     dev: false
     resolution:
@@ -6780,12 +6765,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-GJzfBZ6DgDAmnuaM3104jR4s1Myxr3Y3zfIyN4z3UdqN69oSRacNK8UhnobDdC+7J2AHCjGwxQubNJfE70SXXQ==
-  /object-is/1.0.1:
-    dev: false
-    engines:
-      node: '>= 0.4'
-    resolution:
-      integrity: sha1-CqYOyZiaCz7Xlc9NBvYs8a1lObY=
   /object-keys/1.1.1:
     dev: false
     engines:
@@ -7067,14 +7046,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-0DTvPVU3ed8+HNXOu5Bs+o//Mbdj9VNQMUOe9oKCwh8l0GNwpTDMKCWbRjgtD291AWnkAgkqA/LOnQS8AmS1tw==
-  /parallel-transform/1.1.0:
+  /parallel-transform/1.2.0:
     dependencies:
-      cyclist: 0.2.2
+      cyclist: 1.0.1
       inherits: 2.0.4
       readable-stream: 2.3.6
     dev: false
     resolution:
-      integrity: sha1-1BDwZbBdojCB/NEPKIVMKb2jOwY=
+      integrity: sha512-P2vSmIu38uIlvdcU7fDkyrxj33gTUy/ABO5ZUbGowxNCopBq/OoD42bP4UmMrJoPyk4Uqf0mu3mtWBhHCZD8yg==
   /parent-module/1.0.1:
     dependencies:
       callsites: 3.1.0
@@ -7414,12 +7393,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-HeRDUL1RJiLhyA0/grn+PTShlBAcLuh/1BJGtrvjwbvRDCTLLMEz9rOGCV+R3vHY4MixIuoMEd9Yq/XvsTPcjw==
-  /propagate/1.0.0:
+  /propagate/2.0.1:
     dev: false
     engines:
-      '0': node >= 0.8.1
+      node: '>= 8'
     resolution:
-      integrity: sha1-AMLa7t2iDofjeCs0Stuhzd1q1wk=
+      integrity: sha512-vGrhOavPSTz4QVNuBNdcNXePNdNMaO1xj9yBeH1ScQPjk/rhg9sSlCXPhMkFuaNNW/syTvYqsnbIJxMBfRbbag==
   /proxy-addr/2.0.5:
     dependencies:
       forwarded: 0.1.2
@@ -7790,14 +7769,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==
-  /regexp.prototype.flags/1.2.0:
-    dependencies:
-      define-properties: 1.1.3
-    dev: false
-    engines:
-      node: '>= 0.4'
-    resolution:
-      integrity: sha512-ztaw4M1VqgMwl9HlPpOuiYgItcHlunW0He2fE6eNfT6E/CF2FtYi9ofOYe4mKntstYk0Fyh/rDRBdS3AnxjlrA==
   /regexpp/2.0.1:
     dev: false
     engines:
@@ -8084,12 +8055,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==
-  /rollup-plugin-alias/1.5.2:
-    dependencies:
-      slash: 3.0.0
-    dev: false
-    resolution:
-      integrity: sha512-ODeZXhTxpD48sfcYLAFc1BGrsXKDj7o1CSNH3uYbdK3o0NxyMmaQPTNgW+ko+am92DLC8QSTe4kyxTuEkI5S5w==
   /rollup-plugin-commonjs/10.1.0_rollup@1.20.3:
     dependencies:
       estree-walker: 0.6.1
@@ -8447,12 +8412,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-xB8vbDn8FtHNF61LXYlhFK5HDVU=
-  /slash/3.0.0:
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
   /slice-ansi/2.1.0:
     dependencies:
       ansi-styles: 3.2.1
@@ -9722,7 +9681,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==
-  /webpack-cli/3.3.7_webpack@4.39.3:
+  /webpack-cli/3.3.8_webpack@4.39.3:
     dependencies:
       chalk: 2.4.2
       cross-spawn: 6.0.5
@@ -9743,7 +9702,7 @@ packages:
     peerDependencies:
       webpack: 4.x.x
     resolution:
-      integrity: sha512-OhTUCttAsr+IZSMVwGROGRHvT+QAs8H6/mHIl4SvhAwYywjiylYjpwybGx7WQ9Hkb45FhjtsymkwiRRbGJ1SZQ==
+      integrity: sha512-RANYSXwikSWINjHMd/mtesblNSpjpDLoYTBtP99n1RhXqVI/wxN40Auqy42I7y4xrbmRBoA5Zy5E0JSBD5XRhw==
   /webpack-dev-middleware/3.7.1_webpack@4.39.3:
     dependencies:
       memory-fs: 0.4.1
@@ -10485,7 +10444,6 @@ packages:
       regenerator-runtime: 0.13.3
       rimraf: 3.0.0
       rollup: 1.20.3
-      rollup-plugin-alias: 1.5.2
       rollup-plugin-commonjs: 10.1.0_rollup@1.20.3
       rollup-plugin-json: 4.0.0
       rollup-plugin-multi-entry: 2.1.0
@@ -10504,7 +10462,7 @@ packages:
       uglify-js: 3.6.0
       uuid: 3.3.3
       webpack: 4.39.3_webpack@4.39.3
-      webpack-cli: 3.3.7_webpack@4.39.3
+      webpack-cli: 3.3.8_webpack@4.39.3
       webpack-dev-middleware: 3.7.1_webpack@4.39.3
       xhr-mock: 2.5.0
       xml2js: 0.4.22
@@ -10512,7 +10470,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-W96t+GkmAe/7axYZLoo3+/ql7zb3KZvQpMnkkvyW2GncYhFQD/HuGBlUyKS2NROqwgrxc1wSGQ1c5GGQ2GnO6A==
+      integrity: sha512-1pAdeKNcMVa/GMFCQPAjoB+PPY3IplADRCydkBe6poOJG3zEc774lLgK93hzIfHOitmoPCJHbXyqvBrS+vk70Q==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10870,7 +10828,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 10.0.6
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -10893,7 +10851,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-tz28WQ3Ka+eBR+30/GIeecVeSZJCuOmyRfXn1GomVryiNK9iTFlYAh+t7LGXEDqyXykRk0gSyRDKXUX/P8uBTw==
+      integrity: sha512-XPhWKxld+/jgf/0b1E5QGdwL6R0/S54jls2f5jBRrtjsyNgDMgy1PzVAhpTqXTMhCYGV/VV45ughTk39Jh0IDw==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10937,7 +10895,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 10.0.6
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -10960,7 +10918,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-/itlGWefN1oGB9ICht4G2ClrVPUckcE28Ux3HRvKwgq9ID3x79q5BXMVYYj+gKvdfphekf3/EwYhO15WMu4Jiw==
+      integrity: sha512-lHBEyOi83aAJ6tN7B0sAHclfgqR2MhKY6S6PpPHmq9A+IhjbO7ZN6Dk9MZBbEhdjPOlOZDrrpkkmD8uKf1/2NQ==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -11003,7 +10961,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 10.0.6
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -11026,7 +10984,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-gZBBA+499gfSkSDC3maWECLz8rUoNhBDHlTw06yLFD0OspsR+4X3UKoAuur+VrvtzAzCCIKnrjPzFtG0FZwocw==
+      integrity: sha512-AYH0OHeU4yfHkhUDgmIb+08v8G8Bdt/rw4RotP+0XXycSmrEdvef1qmDOtbNtgEO/GV1RvwO6rgRf3sDnxuGtg==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -11150,7 +11108,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 10.0.6
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -11173,7 +11131,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-iwCCDLcyESQgnTe676YxeqUm4ldGc8asFNbWZ9XIRPioA52HwXKN0r6r0uQLPYH0ifPh/k/90JtQCPo+8zeAlA==
+      integrity: sha512-6JJFDGUj5AY8R/wStkv05OdRkLSE05ZPbX03uIJefY4QTxdtaqyCi5s+2lrxbuxE9UGduVSnlB3qh0tgdH2Jhw==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -11220,7 +11178,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 10.0.6
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -11243,7 +11201,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-uVfjEYnf9e+WE0aCyFC2rysjsx5dUjB5BgxXS8geIxKTm9xH65KOcEKSRXGYrpP699GmQCSGpQS/tewudNHmzg==
+      integrity: sha512-Ss14Pm4zCFh4fqOHc2QzsbpTFHkuqkZo+qVXASJvsE7sqzuqFg+W09M2D+uT23k45l44d+x5G5D1dyg1OWmjwA==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -11289,7 +11247,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 10.0.6
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -11312,7 +11270,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-P2qA4IO9RlBnbLgdAbRCft4slXrfeVWSjIvgw39sZUB1iYfL/djWNysbMOnKNk1Elrc+OfvKNnKAK/sUmuFzZw==
+      integrity: sha512-xOXI5NLw/G1ylX0iLrbEsmmANf7/8l1yoKhZ9rcpcFVHj5Jnz0bXEU9RNHK12mAGYRanQ/AJK1HBOJoeNQk9CA==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -11373,7 +11331,7 @@ packages:
       '@types/nock': 10.0.3
       fs-extra: 8.1.0
       nise: 1.5.2
-      nock: 10.0.6
+      nock: 11.3.3
       rimraf: 3.0.0
       rollup: 1.20.3
       rollup-plugin-commonjs: 10.1.0_rollup@1.20.3
@@ -11388,7 +11346,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-Th4aoKzqBwgHdtM/XEyqo4YRKtwZ0uh2h56dPj74OvTDKFw70L7FT5grx8fZtXuv73M9LIkFJQuoJsPhb7F+8g==
+      integrity: sha512-5X0CLSRbJrplwH5JFkcDlSfzxzFeT/veoYhb9NB+q2hTDd9rXRjwePn76IWcVBtUzq2siSgvgrSsioDYiXMUsw==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -11412,7 +11370,6 @@ packages:
       integrity: sha512-RkYcAmpRKuAXwbssMJGmc8uzm3LoQikdGvIqdwioQqURgLagimtd01yH+757XDMvMyOfVwejTTSCZHpqa2Bf6Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
-registry: ''
 specifiers:
   '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': ^3.2.0
@@ -11551,7 +11508,7 @@ specifiers:
   moment: ^2.24.0
   msal: ^1.0.2
   nise: ^1.4.10
-  nock: ^10.0.6
+  nock: ^11.3.2
   node-abort-controller: 1.0.3
   node-fetch: ^2.6.0
   npm-run-all: ^4.1.5
@@ -11571,7 +11528,6 @@ specifiers:
   rhea-promise: ^0.1.15
   rimraf: ^3.0.0
   rollup: ^1.16.3
-  rollup-plugin-alias: ^1.4.0
   rollup-plugin-commonjs: ^10.0.0
   rollup-plugin-inject: ^3.0.0
   rollup-plugin-json: ^4.0.0

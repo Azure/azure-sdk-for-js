@@ -20,19 +20,16 @@ export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
 export { EventHubConsumer, EventIteratorOptions } from "./receiver";
 export { EventDataBatch } from "./eventDataBatch";
-export { CheckpointManager } from "./checkpointManager";
 export {
   EventProcessor,
   CloseReason,
   EventProcessorOptions,
-  PartitionProcessor,
   PartitionManager,
-  PartitionProcessorFactory,
   PartitionOwnership
 } from "./eventProcessor";
-export { PartitionContext } from "./partitionContext";
+export { PartitionContext, Checkpoint } from "./partitionContext";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-export { Checkpoint } from "./checkpointManager";
+export { PartitionProcessor } from "./partitionProcessor";
 export {
   MessagingError,
   DataTransformer,

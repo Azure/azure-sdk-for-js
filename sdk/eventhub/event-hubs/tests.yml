@@ -12,7 +12,7 @@ jobs:
           NodeVersion: "10.x"
           EVENTHUB_NAME: "hub_linux_node10"
         Windows_Node10:
-          OSVmImage: "vs2017-win2016"
+          OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "10.x"
           EVENTHUB_NAME: "hub_windows_node10"
@@ -27,7 +27,7 @@ jobs:
           NodeVersion: "12.x"
           EVENTHUB_NAME: "hub_linux_node12"
         Windows_Node12:
-          OSVmImage: "vs2017-win2016"
+          OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "12.x"
           EVENTHUB_NAME: "hub_windows_node12"
@@ -42,7 +42,7 @@ jobs:
           NodeVersion: "8.x"
           EVENTHUB_NAME: "hub_linux_node8"
         Windows_Node8:
-          OSVmImage: "vs2017-win2016"
+          OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "8.x"
           EVENTHUB_NAME: "hub_windows_node8"

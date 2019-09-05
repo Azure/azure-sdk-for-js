@@ -89,7 +89,7 @@ jobs:
         displayName: "Run Samples"
   # - job: NightlyEmulator
   #   pool:
-  #     vmImage: vs2017-win2016
+  #     vmImage: windows-2019
   #   steps:
   #     - task: azure-cosmosdb.emulator-internal-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
   #       displayName: "Run Azure Cosmos DB Emulator container"
