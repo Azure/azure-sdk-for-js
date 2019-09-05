@@ -38,7 +38,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     let shouldParseResponse = false;
-    let serializer: ResourceSerializer;
+    let serializer: ResourceSerializer | undefined;
     if (request.atomXmlOperationSpec) {
       serializer = request.atomXmlOperationSpec.serializer;
       shouldParseResponse = request.atomXmlOperationSpec.shouldParseResponse;
@@ -47,26 +47,27 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       }
     }
 
-    return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) => {
-      const parsedResponse: HttpOperationResponse = this.parseResponse(response);
+    let response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
 
-      // Construct response with 'result' to be backward compatibile
-      const responseInCustomJson: any = {
-        error: parsedResponse.errorBody,
-        response: parsedResponse.parsedBody,
-        result: shouldParseResponse ? [] : undefined
-      };
+    // Transform response to contain the parsed data
+    response = await this.parseResponse(response);
 
-      if (responseInCustomJson.error == undefined) {
-        responseInCustomJson.result =
-          shouldParseResponse && serializer
-            ? serializer.parse(responseInCustomJson.response)
-            : undefined;
-      }
+    // Construct response with 'result' to be backward compatibile
+    const responseInCustomJson: any = {
+      error: response.errorBody,
+      response: response.parsedBody,
+      result: shouldParseResponse ? [] : undefined
+    };
 
-      response.parsedBody = responseInCustomJson;
-      return response;
-    });
+    if (responseInCustomJson.error == undefined) {
+      responseInCustomJson.result =
+        shouldParseResponse && serializer
+          ? serializer.parse(responseInCustomJson.response)
+          : undefined;
+    }
+
+    response.parsedBody = responseInCustomJson;
+    return response;
   }
 
   /**
@@ -77,10 +78,10 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
    * @param {Response} response The response object containing data in Atom XML format.
    * @return The normalized responseObject.
    */
-  private parseResponse(response: HttpOperationResponse): HttpOperationResponse {
+  private async parseResponse(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     try {
       if (response.bodyAsText && response.bodyAsText.toString().length > 0) {
-        response.parsedBody = deserializeAtomXmlToJson(response.bodyAsText);
+        response.parsedBody = await deserializeAtomXmlToJson(response.bodyAsText);
       }
     } catch (e) {
       response.errorBody = {
