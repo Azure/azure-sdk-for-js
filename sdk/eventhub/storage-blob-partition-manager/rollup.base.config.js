@@ -90,9 +90,9 @@ export function browserConfig(test = false) {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/event-hubs.js",
+      file: "browser/storage-blob-partitionmanager.js",
       format: "umd",
-      name: "Azure.Messaging.EventHubs",
+      name: "Azure.Messaging.EventHubs.BlobPartitionManager",
       sourcemap: true,
       globals: { "ms-rest-js": "msRest" }
     },
