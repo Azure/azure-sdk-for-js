@@ -69,6 +69,8 @@ export {
 
 export interface ProxyOptions {
   url?: string;
+  username?: string;
+  password?: string;
 }
 /**
  * Option interface for Pipeline constructor.
