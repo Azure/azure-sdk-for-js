@@ -67,8 +67,8 @@ main();
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/cognitiveservices-face/dist/cognitiveservices-face.js"></script>
     <script type="text/javascript">
-      const faceKey = "3821e8a46dac493da89a677aeb8b0015";
-      const faceEndPoint = "https://westus2.api.cognitive.microsoft.com/";
+      const faceKey = "<YOUR_FACE_KEY>";
+      const faceEndPoint = "<YOUR_FACE_ENDPOINT>";
       const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
         inHeader: {
           "Ocp-Apim-Subscription-Key": faceKey

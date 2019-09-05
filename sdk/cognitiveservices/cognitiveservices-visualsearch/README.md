@@ -44,7 +44,7 @@ async function main(): Promise<void> {
   });
 
   const insightsToken =
-    "ccid_tmaGQ2eU*mid_D12339146CFEDF3D409CC7A66D2C98D0D71904D4*simid_608022145667564759*thid_OIP.tmaGQ2eUI1yq3yll!_jn9kwHaFZ";
+    process.env["insights_token"] || "<insights_token>";;
 
   const knowledgeRequest = JSON.stringify({
     imageInfo: {
@@ -99,8 +99,7 @@ main();
         }
       );
 
-      const insightsToken =
-        "ccid_tmaGQ2eU*mid_D12339146CFEDF3D409CC7A66D2C98D0D71904D4*simid_608022145667564759*thid_OIP.tmaGQ2eUI1yq3yll!_jn9kwHaFZ";
+      const insightsToken = "<YOUR_INSIGHTS_TOKEN>";
 
       const knowledgeRequest = JSON.stringify({
         imageInfo: {
