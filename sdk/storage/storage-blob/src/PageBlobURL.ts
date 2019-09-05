@@ -38,8 +38,7 @@ export interface IPageBlobUploadPagesFromURLOptions {
 
 export interface IPageBlobClearPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
-
-  // As service support, clear page currently cannot work with/without CPK when blob is encrypted with CPK.
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobGetPageRangesOptions {
@@ -305,8 +304,8 @@ export class PageBlobURL extends BlobURL {
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions
-      //, cpkInfo: options.customerProvidedKey
+      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -388,7 +387,6 @@ export class PageBlobURL extends BlobURL {
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
-      //, cpkInfo: options.customerProvidedKey
     });
   }
 
