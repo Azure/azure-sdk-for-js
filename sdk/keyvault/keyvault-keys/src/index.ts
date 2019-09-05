@@ -141,11 +141,6 @@ export class KeysClient {
     const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
-    if (isNode) {
-      requestPolicyFactories.push(
-        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
-      );
-    }
     requestPolicyFactories = requestPolicyFactories.concat([
       tracingPolicy(),
       userAgentPolicy({ value: userAgentString }),
@@ -164,6 +159,11 @@ export class KeysClient {
         ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
+    if (isNode) {
+      requestPolicyFactories.push(
+        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
+      );
+    }
 
     return {
       httpClient: pipelineOptions.HTTPClient,

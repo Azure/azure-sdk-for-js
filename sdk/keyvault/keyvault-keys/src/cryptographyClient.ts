@@ -442,11 +442,6 @@ export class CryptographyClient {
     const userAgentString: string = CryptographyClient.getUserAgentString(pipelineOptions.telemetry);
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
-    if (isNode) {
-      requestPolicyFactories.push(
-        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
-      );
-    }
     requestPolicyFactories = requestPolicyFactories.concat([
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
@@ -464,6 +459,11 @@ export class CryptographyClient {
         ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
     ]);
+    if (isNode) {
+      requestPolicyFactories.push(
+        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
+      );
+    }
 
     return {
       httpClient: pipelineOptions.HTTPClient,
