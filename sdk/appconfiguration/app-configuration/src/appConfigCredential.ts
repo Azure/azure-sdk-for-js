@@ -1,6 +1,10 @@
 import * as crypto from "crypto";
 import { ServiceClientCredentials, WebResource, URLBuilder } from "@azure/core-http";
 
+/**
+ * @internal
+ * @ignore
+ */
 export class AppConfigCredential implements ServiceClientCredentials {
   private credential: string;
   private secret: string;
@@ -10,6 +14,12 @@ export class AppConfigCredential implements ServiceClientCredentials {
     this.secret = secret;
   }
 
+  /**
+   * Signs a request with the values provided in the credential and secret parameter.
+   *
+   * @param {WebResource} webResource The WebResource to be signed.
+   * @returns {Promise<WebResource>} The signed request object.
+   */
   signRequest(webResource: WebResource): Promise<WebResource> {
     const verb = webResource.method.toUpperCase()
     const utcNow = new Date().toUTCString();
@@ -29,8 +39,8 @@ export class AppConfigCredential implements ServiceClientCredentials {
     const decodedSecret = Buffer.from(this.secret, "base64");
     var signature =
       crypto.createHmac("sha256", decodedSecret)
-      .update(stringToSign)
-      .digest("base64");
+        .update(stringToSign)
+        .digest("base64");
 
     webResource.headers.set("x-ms-date", utcNow);
     webResource.headers.set("x-ms-content-sha256", contentHash);

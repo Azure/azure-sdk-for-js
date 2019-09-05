@@ -16,23 +16,16 @@ export type AddConfigurationSettingOptions = ModelConfigurationClientCreateOrUpd
 // @public (undocumented)
 export type AddConfigurationSettingsResponse = ModelCreateOrUpdateConfigurationSettingResponse;
 
-// @public (undocumented)
+// @public
 export class AppConfigurationClient {
     constructor(connectionString: string);
     constructor(uri: string, credential: TokenCredential);
-    // (undocumented)
     addConfigurationSetting(key: string, configSettings: AddConfigurationSettingConfig, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingsResponse>;
-    // (undocumented)
     deleteConfigurationSetting(key: string, options: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
-    // (undocumented)
     getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
-    // (undocumented)
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>;
-    // (undocumented)
     listRevisions(options?: ListRevisionsOptions): Promise<ListRevisionsResponse>;
-    // (undocumented)
     setConfigurationSetting(key: string, configSettings: SetConfigurationSettingConfig, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
-    // (undocumented)
     updateConfigurationSetting(key: string, configSettings: UpdateConfigurationSettingConfig, options?: UpdateConfigurationSettingOptions): Promise<UpdateConfigurationSettingResponse>;
 }
 
@@ -50,7 +43,6 @@ export type DeleteConfigurationSettingResponse = ModelDeleteConfigurationSetting
 
 // @public (undocumented)
 export interface ETagOption {
-    // (undocumented)
     etag?: string;
 }
 

@@ -35,10 +35,19 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("addConfigurationSetting", () => {
+    it("sample works", async () => {
+      const key = `addConfigSample-${Date.now()}`;
+      let result = await client.setConfigurationSetting(key, {
+        value: "MyValue"
+      });
+
+      assert.equal(key, result.key);
+    });
+
     it("adds a configuration setting", async () => {
       const key = `addConfigTest-${Date.now()}`;
-      const label = "test";
-      const value = "foo";
+      const label = "MyLabel";
+      const value = "MyValue";
       const result = await client.addConfigurationSetting(key, { label, value });
 
       settings.push({ key, label });
@@ -73,8 +82,8 @@ describe("AppConfigurationClient", () => {
   describe("deleteConfigurationSetting", () => {
     it("deletes an existing configuration setting", async () => {
       const key = `deleteConfigTest-${Date.now()}`;
-      const label = "test";
-      const value = "foo";
+      const label = "MyLabel";
+      const value = "MyValue";
 
       // create configuration
       const result = await client.addConfigurationSetting(key, { label, value });
@@ -251,6 +260,21 @@ describe("AppConfigurationClient", () => {
 
       assert.equal(result.length, 2);
     });
+
+    it("sample code works", async () => {
+      const key = `listRevisionsSample-${Date.now()}`;
+
+      // create a new setting
+      await client.addConfigurationSetting(key, { value: "foo1" });
+
+      // update it with a new value
+      await client.setConfigurationSetting(key, { value: "foo2" });
+
+      // retrieves all revisions matching that label
+      const result = await client.listRevisions({ key: [key] });
+
+      assert.equal(result.length, 2);
+    })
   });
 
   describe("setConfigurationSetting", () => {
