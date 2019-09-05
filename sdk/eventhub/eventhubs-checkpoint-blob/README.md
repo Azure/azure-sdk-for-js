@@ -1,4 +1,4 @@
-# Azure Event Hubs checkpoint vlov library for Javascript
+# Azure Event Hubs checkpoint blob library for Javascript
 
 This template serves as a starting point for JavaScript libraries targeting both Node and the Browser and implemented in TypeScript.
 
