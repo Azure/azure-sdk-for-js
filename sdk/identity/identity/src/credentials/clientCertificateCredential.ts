@@ -8,6 +8,7 @@ import { readFileSync } from "fs";
 import { createHash } from "crypto";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { createSpan, getSpanOptions } from "../util/tracingUtils";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -61,9 +62,7 @@ export class ClientCertificateCredential implements TokenCredential {
     const matchCert = this.certificateString.match(certificatePattern);
     const publicKey = matchCert ? matchCert[3] : "";
     if (!publicKey) {
-      throw new Error(
-        "The file at the specified path does not contain a PEM-encoded certificate."
-      );
+      throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
     }
 
     this.certificateThumbprint = createHash("sha1")
@@ -88,6 +87,9 @@ export class ClientCertificateCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    const span = createSpan("ClientCertificateCredential-getToken", getSpanOptions(options));
+    span.start();
+
     const tokenId = uuid.v4();
     const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
     const header: jws.Header = {
@@ -132,6 +134,7 @@ export class ClientCertificateCredential implements TokenCredential {
     });
 
     const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+    span.end();
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 }

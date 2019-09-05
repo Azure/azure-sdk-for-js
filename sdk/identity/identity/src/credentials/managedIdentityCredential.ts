@@ -10,6 +10,7 @@ import {
   TokenCredential
 } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { createSpan, getSpanOptions } from "../util/tracingUtils";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -75,10 +76,13 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
   }
 
-  private createAppServiceMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+  private createAppServiceMsiAuthRequest(
+    resource: string,
+    clientId?: string
+  ): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
-      "api-version": AppServiceMsiApiVersion,
+      "api-version": AppServiceMsiApiVersion
     };
 
     if (clientId) {
@@ -96,7 +100,10 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
   }
 
-  private createCloudShellMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+  private createCloudShellMsiAuthRequest(
+    resource: string,
+    clientId?: string
+  ): RequestPrepareOptions {
     const body: any = {
       resource
     };
@@ -117,7 +124,17 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
   }
 
-  private async pingImdsEndpoint(resource: string, clientId?: string, timeout?: number): Promise<boolean> {
+  private async pingImdsEndpoint(
+    resource: string,
+    clientId?: string,
+    timeout?: number,
+    getTokenOptions?: GetTokenOptions
+  ): Promise<boolean> {
+    const span = createSpan(
+      "ManagedIdentityCredential-pingImdsEndpoint",
+      getSpanOptions(getTokenOptions)
+    );
+    span.start();
     const request = this.createImdsAuthRequest(resource, clientId);
 
     // This will always be populated, but let's make TypeScript happy
@@ -145,10 +162,12 @@ export class ManagedIdentityCredential implements TokenCredential {
         (err.code === RestError.REQUEST_SEND_ERROR || err.code === RestError.REQUEST_ABORTED_ERROR)
       ) {
         // Either request failed or IMDS endpoint isn't available
+        span.end();
         return false;
       }
     }
 
+    span.end();
     // If we received any response, the endpoint is available
     return true;
   }
@@ -159,6 +178,11 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    const span = createSpan(
+      "ManagedIdentityCredential-authenticateManagedIdentity",
+      getSpanOptions(getTokenOptions)
+    );
+    span.start();
     let authRequestOptions: RequestPrepareOptions;
     const resource = this.mapScopesToResource(scopes);
     let expiresInParser: ((requestBody: any) => number) | undefined;
@@ -171,8 +195,13 @@ export class ManagedIdentityCredential implements TokenCredential {
         expiresInParser = (requestBody: any) => {
           // Parse a date format like "06/20/2019 02:57:58 +00:00" and
           // convert it into a JavaScript-formatted date
-          const m = requestBody.expires_on.match(/(\d\d)\/(\d\d)\/(\d\d\d\d) (\d\d):(\d\d):(\d\d) (\+|-)(\d\d):(\d\d)/)
-          return Date.parse(`${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:${m[6]}${m[7]}${m[8]}:${m[9]}`)
+          const m = requestBody.expires_on.match(
+            /(\d\d)\/(\d\d)\/(\d\d\d\d) (\d\d):(\d\d):(\d\d) (\+|-)(\d\d):(\d\d)/
+          );
+          span.end();
+          return Date.parse(
+            `${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:${m[6]}${m[7]}${m[8]}:${m[9]}`
+          );
         };
       } else {
         // Running in Cloud Shell
@@ -180,12 +209,21 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
     } else {
       // Ping the IMDS endpoint to see if it's available
-      if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId, getTokenOptions ? getTokenOptions.timeout : undefined)) {
+      if (
+        !checkIfImdsEndpointAvailable ||
+        (await this.pingImdsEndpoint(
+          resource,
+          clientId,
+          getTokenOptions ? getTokenOptions.timeout : undefined,
+          getTokenOptions
+        ))
+      ) {
         // Running in an Azure VM
         authRequestOptions = this.createImdsAuthRequest(resource, clientId);
       } else {
         // Returning null tells the ManagedIdentityCredential that
         // no MSI authentication endpoints are available
+        span.end();
         return null;
       }
     }
@@ -198,6 +236,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     });
 
     const tokenResponse = await this.identityClient.sendTokenRequest(webResource, expiresInParser);
+    span.end();
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 
@@ -215,18 +254,20 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    const span = createSpan("ManagedIdentityCredential-getToken", getSpanOptions(options));
+    span.start();
     let result: AccessToken | null = null;
 
     // isEndpointAvailable can be true, false, or null,
     // the latter indicating that we don't yet know whether
     // the endpoint is available and need to check for it.
     if (this.isEndpointUnavailable !== true) {
-      result =
-        await this.authenticateManagedIdentity(
-          scopes,
-          this.isEndpointUnavailable === null,
-          this.clientId,
-          options);
+      result = await this.authenticateManagedIdentity(
+        scopes,
+        this.isEndpointUnavailable === null,
+        this.clientId,
+        options
+      );
 
       // If authenticateManagedIdentity returns null, it means no MSI
       // endpoints are available.  In this case, don't try them in future
@@ -234,6 +275,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       this.isEndpointUnavailable = result === null;
     }
 
+    span.end();
     return result;
   }
 }

@@ -4,6 +4,7 @@
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { createSpan, getSpanOptions } from "../util/tracingUtils";
 
 /**
  * Enables authentication to Azure Active Directory with a user's
@@ -57,6 +58,9 @@ export class UsernamePasswordCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    const span = createSpan("UsernamePasswordCredential-getToken", getSpanOptions(options));
+    span.start();
+
     const webResource = this.identityClient.createWebResource({
       url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
       method: "POST",
@@ -78,6 +82,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     });
 
     const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+    span.end();
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 }

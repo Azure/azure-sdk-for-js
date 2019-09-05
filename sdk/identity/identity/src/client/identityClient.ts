@@ -11,6 +11,7 @@ import {
   GetTokenOptions
 } from "@azure/core-http";
 import { AuthenticationError } from "./errors";
+import { createSpan, getSpanOptions } from "../util/tracingUtils";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -22,12 +23,12 @@ export interface TokenResponse {
   /**
    * The AccessToken to be returned from getToken.
    */
-  accessToken: AccessToken,
+  accessToken: AccessToken;
 
   /**
    * The refresh token if the 'offline_access' scope was used.
    */
-  refreshToken?: string
+  refreshToken?: string;
 }
 
 export class IdentityClient extends ServiceClient {
@@ -52,13 +53,15 @@ export class IdentityClient extends ServiceClient {
 
   async sendTokenRequest(
     webResource: WebResource,
-    expiresOnParser?: (responseBody: any) => number,
+    expiresOnParser?: (responseBody: any) => number
   ): Promise<TokenResponse | null> {
     const response = await this.sendRequest(webResource);
 
-    expiresOnParser = expiresOnParser || ((responseBody: any) => {
-      return Date.now() + responseBody.expires_in * 1000
-    });
+    expiresOnParser =
+      expiresOnParser ||
+      ((responseBody: any) => {
+        return Date.now() + responseBody.expires_in * 1000;
+      });
 
     if (response.status === 200 || response.status === 201) {
       return {
@@ -66,7 +69,7 @@ export class IdentityClient extends ServiceClient {
           token: response.parsedBody.access_token,
           expiresOnTimestamp: expiresOnParser(response.parsedBody)
         },
-        refreshToken: response.parsedBody.refresh_token,
+        refreshToken: response.parsedBody.refresh_token
       };
     } else {
       throw new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
@@ -85,6 +88,9 @@ export class IdentityClient extends ServiceClient {
     if (refreshToken === undefined) {
       return null;
     }
+
+    const span = createSpan("IdentityClient-refreshAccessToken", getSpanOptions(options));
+    span.start();
 
     const refreshParams = {
       grant_type: "refresh_token",
@@ -111,9 +117,15 @@ export class IdentityClient extends ServiceClient {
     });
 
     try {
-      return await this.sendTokenRequest(webResource, expiresOnParser);
+      const tokenResponse = await this.sendTokenRequest(webResource, expiresOnParser);
+      span.end();
+      return tokenResponse;
     } catch (err) {
-      if (err instanceof AuthenticationError && err.errorResponse.error === "interaction_required") {
+      span.end();
+      if (
+        err instanceof AuthenticationError &&
+        err.errorResponse.error === "interaction_required"
+      ) {
         // It's likely that the refresh token has expired, so
         // return null so that the credential implementation will
         // initiate the authentication flow again.

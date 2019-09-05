@@ -30,6 +30,10 @@ export interface GetTokenOptions {
    * Timeout for pinging services
    */
   timeout?: number;
+  /**
+   * Span Options for Tracing.
+   */
+  spanOptions?: any;
 }
 
 /**
@@ -58,7 +62,9 @@ export function isTokenCredential(credential: any): credential is TokenCredentia
   // a ServiceClientCredentials implementor (like TokenClientCredentials
   // in ms-rest-nodeauth) doesn't get mistaken for a TokenCredential if
   // it doesn't actually implement TokenCredential also.
-  return credential
-    && typeof credential.getToken === "function"
-    && (credential.signRequest === undefined || credential.getToken.length > 0);
+  return (
+    credential &&
+    typeof credential.getToken === "function" &&
+    (credential.signRequest === undefined || credential.getToken.length > 0)
+  );
 }

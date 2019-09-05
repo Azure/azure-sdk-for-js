@@ -4,6 +4,7 @@
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
+import { createSpan, getSpanOptions } from "../util/tracingUtils";
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -47,9 +48,16 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  async getToken(
+    scopes: string | string[],
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     if (this._credential) {
-      return this._credential.getToken(scopes, options);
+      const span = createSpan("EnvironmentCredential-getToken", getSpanOptions(options));
+      span.start();
+      const tokenResponse = await this._credential.getToken(scopes, options);
+      span.end();
+      return tokenResponse;
     }
 
     return Promise.resolve(null);

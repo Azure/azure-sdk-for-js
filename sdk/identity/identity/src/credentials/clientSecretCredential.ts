@@ -4,6 +4,7 @@
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { createSpan, getSpanOptions } from "../util/tracingUtils";
 
 /**
  * Enables authentication to Azure Active Directory using a client secret
@@ -55,6 +56,9 @@ export class ClientSecretCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    const span = createSpan("ClientSecretCredential-getToken", getSpanOptions(options));
+    span.start();
+
     const webResource = this.identityClient.createWebResource({
       url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
       method: "POST",
@@ -75,6 +79,7 @@ export class ClientSecretCredential implements TokenCredential {
     });
 
     const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+    span.end();
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 }

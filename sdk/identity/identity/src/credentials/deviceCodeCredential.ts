@@ -5,6 +5,7 @@ import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken, delay } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 import { AuthenticationError } from "../client/errors";
+import { createSpan, getSpanOptions } from "../util/tracingUtils";
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -12,12 +13,12 @@ import { AuthenticationError } from "../client/errors";
  * library.
  */
 export interface DeviceCodeResponse {
-  device_code: string,
-  user_code: string,
-  verification_uri: string,
-  expires_in: number,
-  interval: number,
-  message: string
+  device_code: string;
+  user_code: string;
+  verification_uri: string;
+  expires_in: number;
+  interval: number;
+  message: string;
 }
 
 /**
@@ -26,9 +27,9 @@ export interface DeviceCodeResponse {
  * contains an instruction with these details.
  */
 export interface DeviceCodeDetails {
-  userCode: string,
-  verificationUri: string,
-  message: string
+  userCode: string;
+  verificationUri: string;
+  message: string;
 }
 
 /**
@@ -75,6 +76,8 @@ export class DeviceCodeCredential implements TokenCredential {
     scope: string,
     options?: GetTokenOptions
   ): Promise<DeviceCodeResponse> {
+    const span = createSpan("DeviceCodeCredential-sendDeviceCodeRequest", getSpanOptions(options));
+    span.start();
     const webResource = this.identityClient.createWebResource({
       url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/devicecode`,
       method: "POST",
@@ -96,6 +99,7 @@ export class DeviceCodeCredential implements TokenCredential {
       throw new AuthenticationError(response.status, response.bodyAsText);
     }
 
+    span.end();
     return response.parsedBody as DeviceCodeResponse;
   }
 
@@ -103,6 +107,8 @@ export class DeviceCodeCredential implements TokenCredential {
     deviceCodeResponse: DeviceCodeResponse,
     options?: GetTokenOptions
   ): Promise<TokenResponse | null> {
+    const span = createSpan("DeviceCodeCredential-pollForToken", getSpanOptions(options));
+    span.start();
     let tokenResponse: TokenResponse | null = null;
 
     const webResource = this.identityClient.createWebResource({
@@ -128,6 +134,7 @@ export class DeviceCodeCredential implements TokenCredential {
 
         // Check the abort signal before sending the request
         if (options && options.abortSignal && options.abortSignal.aborted) {
+          span.end();
           return null;
         }
 
@@ -138,6 +145,7 @@ export class DeviceCodeCredential implements TokenCredential {
             case "authorization_pending":
               break;
             case "authorization_declined":
+              span.end();
               return null;
             case "expired_token":
               throw err;
@@ -150,6 +158,7 @@ export class DeviceCodeCredential implements TokenCredential {
       }
     }
 
+    span.end();
     return tokenResponse;
   }
 
@@ -167,6 +176,8 @@ export class DeviceCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    const span = createSpan("DeviceCodeCredential-getToken", getSpanOptions(options));
+    span.start();
     let tokenResponse: TokenResponse | null = null;
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
     if (scopeString.indexOf("offline_access") < 0) {
@@ -182,7 +193,8 @@ export class DeviceCodeCredential implements TokenCredential {
         this.lastTokenResponse.refreshToken,
         undefined, // clientSecret not needed for device code auth
         undefined,
-        options);
+        options
+      );
     }
 
     if (tokenResponse === null) {
@@ -198,6 +210,7 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
     this.lastTokenResponse = tokenResponse;
+    span.end();
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 }

@@ -3,6 +3,7 @@
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { AggregateAuthenticationError } from "../client/errors";
+import { createSpan, getSpanOptions } from "../util/tracingUtils";
 
 /**
  * Enables multiple {@link TokenCredential} implementations to be tried in order
@@ -20,7 +21,7 @@ export class ChainedTokenCredential implements TokenCredential {
    * {@link TokenCredential} implementations.  Throws an {@link AggregateAuthenticationError}
    * when one or more credentials throws an {@link AuthenticationError} and
    * no credentials have returned an {@link AccessToken}.
-   * 
+   *
    * @param scopes The list of scopes for which the token will have access.
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
@@ -31,6 +32,9 @@ export class ChainedTokenCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     let token = null;
     const errors = [];
+
+    const span = createSpan("ChainedTokenCredential-getToken", getSpanOptions(options));
+    span.start();
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
@@ -44,6 +48,7 @@ export class ChainedTokenCredential implements TokenCredential {
       throw new AggregateAuthenticationError(errors);
     }
 
+    span.end();
     return token;
   }
 }
