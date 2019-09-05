@@ -136,7 +136,7 @@ dependencies:
   moment: 2.24.0
   msal: 1.1.3
   nise: 1.5.2
-  nock: 11.3.2
+  nock: 11.3.3
   node-abort-controller: 1.0.3
   node-fetch: 2.6.0
   npm-run-all: 4.1.5
@@ -156,7 +156,6 @@ dependencies:
   rhea-promise: 0.1.15
   rimraf: 3.0.0
   rollup: 1.20.3
-  rollup-plugin-alias: 2.0.0
   rollup-plugin-commonjs: 10.1.0_rollup@1.20.3
   rollup-plugin-inject: 3.0.1
   rollup-plugin-json: 4.0.0
@@ -190,7 +189,7 @@ dependencies:
   util: 0.12.1
   uuid: 3.3.3
   webpack: 4.39.3_webpack@4.39.3
-  webpack-cli: 3.3.7_webpack@4.39.3
+  webpack-cli: 3.3.8_webpack@4.39.3
   webpack-dev-middleware: 3.7.1_webpack@4.39.3
   ws: 7.1.2
   xhr-mock: 2.5.0
@@ -748,7 +747,7 @@ packages:
       '@types/connect': 3.4.32
       '@types/memory-fs': 0.3.2
       '@types/webpack': 4.39.1
-      loglevel: 1.6.3
+      loglevel: 1.6.4
     dev: false
     resolution:
       integrity: sha512-DzNJJ6ah/6t1n8sfAgQyEbZ/OMmFcF9j9P3aesnm7G6/iBFR/qiGin8K89J0RmaWIBzhTMdDg3I5PmKmSv7N9w==
@@ -783,13 +782,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-O6Xgai01b9PB3IGA0lRIp1Ex3JBcxGDhdO0n3NIIpCyDOAjxcIGQFmkvgJpP8anTrthxOUQjBfLdRRi0Zn/TXA==
-  /@types/yargs-parser/13.0.0:
+  /@types/yargs-parser/13.1.0:
     dev: false
     resolution:
-      integrity: sha512-wBlsw+8n21e6eTd4yVv8YD/E3xq0O6nNnJIquutAsFGE7EyMKz7W6RNT6BRu1SmdgmlCZ9tb0X+j+D6HGr8pZw==
+      integrity: sha512-gCubfBUZ6KxzoibJ+SCUc/57Ms1jz5NjHe4+dI2krNmU5zCPAphyLJYyTOg06ueIyfj+SaCUqmzun7ImlxDcKg==
   /@types/yargs/13.0.2:
     dependencies:
-      '@types/yargs-parser': 13.0.0
+      '@types/yargs-parser': 13.1.0
     dev: false
     resolution:
       integrity: sha512-lwwgizwk/bIIU+3ELORkyuOgDjCh7zuWDFqRtPPhhVgq9N1F7CvLNKg1TX4f2duwtKQ0p044Au9r1PLIXHrIzQ==
@@ -2956,10 +2955,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-XQKkaFCt8bSjF5RqOSj8y1v9BCU=
-  /cyclist/0.2.2:
+  /cyclist/1.0.1:
     dev: false
     resolution:
-      integrity: sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
+      integrity: sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
   /d/1.0.1:
     dependencies:
       es5-ext: 0.10.51
@@ -5951,12 +5950,12 @@ packages:
       node: '>=6.0'
     resolution:
       integrity: sha512-EEEgFcE9bLgaYUKuozyFfytQM2wDHtXn4tAN41pkaxpNjAykv11GVdeI4tHtmPWW4Xrgh9R/2d7XYghDVjbKKw==
-  /loglevel/1.6.3:
+  /loglevel/1.6.4:
     dev: false
     engines:
       node: '>= 0.6.0'
     resolution:
-      integrity: sha512-LoEDv5pgpvWgPF4kNYuIp0qqSJVWak/dML0RY74xlzMZiT9w77teNAwKYKWBTYjlokMirg+o3jBwp+vlLrcfAA==
+      integrity: sha512-p0b6mOGKcGa+7nnmKbpzR6qloPbrgLcnio++E+14Vo/XffOGwZtRpUhr8dTH/x2oCMmEoIU0Zwm3ZauhvYD17g==
   /lolex/4.2.0:
     dev: false
     resolution:
@@ -6340,7 +6339,7 @@ packages:
       end-of-stream: 1.4.1
       flush-write-stream: 1.1.1
       from2: 2.3.0
-      parallel-transform: 1.1.0
+      parallel-transform: 1.2.0
       pump: 3.0.0
       pumpify: 1.5.1
       stream-each: 1.2.3
@@ -6375,7 +6374,7 @@ packages:
       debug: 4.1.1
       deep-assign: 3.0.0
       import-local: 2.0.0
-      loglevel: 1.6.3
+      loglevel: 1.6.4
       meow: 5.0.0
       nanobus: 4.4.0
     dev: false
@@ -6578,7 +6577,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-/6RhOUlicRCbE9s+94qCUsyE+pKlVJ5AhIv+jEE7ESKwnbXqulKZ1FYU+XAtHHWE9TinYvAxDUJAb912PwPoWA==
-  /nock/11.3.2:
+  /nock/11.3.3:
     dependencies:
       chai: 4.2.0
       debug: 4.1.1
@@ -6590,7 +6589,7 @@ packages:
     engines:
       node: '>= 8.0'
     resolution:
-      integrity: sha512-Bb00vTmuXyucMT9gcnMSiE2n6P5yrRoAyej0eF6ik6VUxG0FKp4RcSx1TzFusEDtY3hMNpsd7ZYUSIvwtNpTrw==
+      integrity: sha512-SrRux5onbWf2ItpmietnLYis+C2QYF08hAo9wv/3QLqaLJVHBSVBTL0EvlD8Hjrm7lTH4vExTzr9gQUsPqy5Cg==
   /node-abort-controller/1.0.3:
     dev: false
     resolution:
@@ -7047,14 +7046,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-0DTvPVU3ed8+HNXOu5Bs+o//Mbdj9VNQMUOe9oKCwh8l0GNwpTDMKCWbRjgtD291AWnkAgkqA/LOnQS8AmS1tw==
-  /parallel-transform/1.1.0:
+  /parallel-transform/1.2.0:
     dependencies:
-      cyclist: 0.2.2
+      cyclist: 1.0.1
       inherits: 2.0.4
       readable-stream: 2.3.6
     dev: false
     resolution:
-      integrity: sha1-1BDwZbBdojCB/NEPKIVMKb2jOwY=
+      integrity: sha512-P2vSmIu38uIlvdcU7fDkyrxj33gTUy/ABO5ZUbGowxNCopBq/OoD42bP4UmMrJoPyk4Uqf0mu3mtWBhHCZD8yg==
   /parent-module/1.0.1:
     dependencies:
       callsites: 3.1.0
@@ -8056,12 +8055,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==
-  /rollup-plugin-alias/2.0.0:
-    dependencies:
-      slash: 3.0.0
-    dev: false
-    resolution:
-      integrity: sha512-JVwxV9nwzjc0q7JmrV9jvZlJ8FykNd5r7RmYps8i/7v+vcmmVpeMvXrljhCboYErf4VZ2z9FEj+fP7eJlEGfug==
   /rollup-plugin-commonjs/10.1.0_rollup@1.20.3:
     dependencies:
       estree-walker: 0.6.1
@@ -8419,12 +8412,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-xB8vbDn8FtHNF61LXYlhFK5HDVU=
-  /slash/3.0.0:
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
   /slice-ansi/2.1.0:
     dependencies:
       ansi-styles: 3.2.1
@@ -9694,7 +9681,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==
-  /webpack-cli/3.3.7_webpack@4.39.3:
+  /webpack-cli/3.3.8_webpack@4.39.3:
     dependencies:
       chalk: 2.4.2
       cross-spawn: 6.0.5
@@ -9715,7 +9702,7 @@ packages:
     peerDependencies:
       webpack: 4.x.x
     resolution:
-      integrity: sha512-OhTUCttAsr+IZSMVwGROGRHvT+QAs8H6/mHIl4SvhAwYywjiylYjpwybGx7WQ9Hkb45FhjtsymkwiRRbGJ1SZQ==
+      integrity: sha512-RANYSXwikSWINjHMd/mtesblNSpjpDLoYTBtP99n1RhXqVI/wxN40Auqy42I7y4xrbmRBoA5Zy5E0JSBD5XRhw==
   /webpack-dev-middleware/3.7.1_webpack@4.39.3:
     dependencies:
       memory-fs: 0.4.1
@@ -10457,7 +10444,6 @@ packages:
       regenerator-runtime: 0.13.3
       rimraf: 3.0.0
       rollup: 1.20.3
-      rollup-plugin-alias: 2.0.0
       rollup-plugin-commonjs: 10.1.0_rollup@1.20.3
       rollup-plugin-json: 4.0.0
       rollup-plugin-multi-entry: 2.1.0
@@ -10476,7 +10462,7 @@ packages:
       uglify-js: 3.6.0
       uuid: 3.3.3
       webpack: 4.39.3_webpack@4.39.3
-      webpack-cli: 3.3.7_webpack@4.39.3
+      webpack-cli: 3.3.8_webpack@4.39.3
       webpack-dev-middleware: 3.7.1_webpack@4.39.3
       xhr-mock: 2.5.0
       xml2js: 0.4.22
@@ -10484,7 +10470,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-t09yP8/4pkH0U+FI9gfdJzRp4H6Q7Sux7MLJxlg+ndu6UnxO7sODPDCPPnhxUQ74VtkTrfCdX80oS5UwtiaZ3Q==
+      integrity: sha512-1pAdeKNcMVa/GMFCQPAjoB+PPY3IplADRCydkBe6poOJG3zEc774lLgK93hzIfHOitmoPCJHbXyqvBrS+vk70Q==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10842,7 +10828,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 11.3.2
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -10909,7 +10895,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 11.3.2
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -10975,7 +10961,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 11.3.2
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -11122,7 +11108,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 11.3.2
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -11192,7 +11178,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 11.3.2
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -11261,7 +11247,7 @@ packages:
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
       nise: 1.5.2
-      nock: 11.3.2
+      nock: 11.3.3
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.19.0
@@ -11345,7 +11331,7 @@ packages:
       '@types/nock': 10.0.3
       fs-extra: 8.1.0
       nise: 1.5.2
-      nock: 11.3.2
+      nock: 11.3.3
       rimraf: 3.0.0
       rollup: 1.20.3
       rollup-plugin-commonjs: 10.1.0_rollup@1.20.3
@@ -11384,7 +11370,6 @@ packages:
       integrity: sha512-RkYcAmpRKuAXwbssMJGmc8uzm3LoQikdGvIqdwioQqURgLagimtd01yH+757XDMvMyOfVwejTTSCZHpqa2Bf6Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
-registry: ''
 specifiers:
   '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': ^3.2.0
@@ -11543,7 +11528,6 @@ specifiers:
   rhea-promise: ^0.1.15
   rimraf: ^3.0.0
   rollup: ^1.16.3
-  rollup-plugin-alias: ^2.0.0
   rollup-plugin-commonjs: ^10.0.0
   rollup-plugin-inject: ^3.0.0
   rollup-plugin-json: ^4.0.0
