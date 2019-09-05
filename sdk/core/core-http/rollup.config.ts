@@ -1,11 +1,9 @@
-/// <reference path=".typings/rollup-plugin-alias.d.ts" />
 /// <reference path=".typings/rollup-plugin-commonjs.d.ts" />
 /// <reference path=".typings/rollup-plugin-json.d.ts" />
 /// <reference path=".typings/rollup-plugin-node-resolve.d.ts" />
 /// <reference path=".typings/rollup-plugin-sourcemaps.d.ts" />
 /// <reference path=".typings/rollup-plugin-visualizer.d.ts" />
 
-import alias from "rollup-plugin-alias";
 import commonjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
 import nodeResolve from "rollup-plugin-node-resolve";
@@ -69,15 +67,6 @@ const browserConfig = {
     banner
   },
   plugins: [
-    alias({
-      entries:[
-        {find: './defaultHttpClient', replacement:'./defaultHttpClient.browser' },
-        {find:'./policies/msRestUserAgentPolicy', replacement:'./policies/msRestUserAgentPolicy.browser'},
-        {find: './policies/proxyPolicy', replacement:'./policies/proxyPolicy.browser'},
-        {find:'./util/xml', replacement:'./util/xml.browser'},
-        {find: './util/base64', replacement:'./util/base64.browser'},
-      ]
-    }),
     nodeResolve({
       mainFields: ["module", "main", "browser"]
     }),
