@@ -11,4 +11,4 @@ export const error = debugModule("azure:event-hubs:error");
  * @ignore
  * log statements for blobPartitionManager
  */
-export const blobPartitionManager = debugModule("azure:storage-blob-partition-manager:blobPartitionManager");
+export const blobPartitionManager = debugModule("azure:eventhubs-checkpoint-blob:blobPartitionManager");
