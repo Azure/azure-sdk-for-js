@@ -125,6 +125,7 @@ export interface CreateKeyOptions {
    * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: msRest.RequestOptionsBase;
+  keySize?: number;
 }
 
 /**

@@ -152,22 +152,51 @@ export namespace ClientEntityContext {
           `The session lock has expired on the session with id ${sessionId}.`
         );
         error.name = "SessionLockLostError";
+        log.error(
+          "[%s] Failed to find receiver '%s' as the session with id '%s' is expired",
+          entityContext.namespace.connectionId,
+          name,
+          sessionId
+        );
         throw error;
       }
 
-      let receiver: MessageReceiver | MessageSession | undefined = undefined;
       if (
         sessionId != null &&
         entityContext.messageSessions[sessionId] &&
         entityContext.messageSessions[sessionId].name === name
       ) {
-        receiver = entityContext.messageSessions[sessionId];
-      } else if (entityContext.streamingReceiver && entityContext.streamingReceiver.name === name) {
-        receiver = entityContext.streamingReceiver;
-      } else if (entityContext.batchingReceiver && entityContext.batchingReceiver.name === name) {
-        receiver = entityContext.batchingReceiver;
+        return entityContext.messageSessions[sessionId];
       }
-      return receiver;
+
+      if (entityContext.streamingReceiver && entityContext.streamingReceiver.name === name) {
+        return entityContext.streamingReceiver;
+      }
+
+      if (entityContext.batchingReceiver && entityContext.batchingReceiver.name === name) {
+        return entityContext.batchingReceiver;
+      }
+
+      let existingReceivers = "";
+      if (sessionId != null && entityContext.messageSessions[sessionId]) {
+        existingReceivers = entityContext.messageSessions[sessionId].name;
+      } else {
+        if (entityContext.streamingReceiver) {
+          existingReceivers = entityContext.streamingReceiver.name;
+        }
+        if (entityContext.batchingReceiver) {
+          existingReceivers +=
+            (existingReceivers ? ", " : "") + entityContext.batchingReceiver.name;
+        }
+      }
+
+      log.error(
+        "[%s] Failed to find receiver '%s' among existing receivers: %s",
+        entityContext.namespace.connectionId,
+        name,
+        existingReceivers
+      );
+      return;
     };
 
     (entityContext as ClientEntityContext).onDetached = async (error?: AmqpError | Error) => {

@@ -17,6 +17,7 @@ export class DocumentProducer {
   private err: Error;
   public previousContinuationToken: string;
   public continuationToken: string;
+  public generation: number = 0;
   private respHeaders: CosmosHeaders;
   private internalExecutionContext: DefaultQueryExecutionContext;
 
@@ -150,6 +151,7 @@ export class DocumentProducer {
 
     try {
       const { result: resources, headers: headerResponse } = await this.internalExecutionContext.fetchMore();
+      ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
         // some more results

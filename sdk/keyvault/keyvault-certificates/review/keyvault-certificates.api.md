@@ -68,6 +68,7 @@ export class CertificatesClient {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult>;
+    cancelCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
     // Warning: (ae-forgotten-export) The symbol "KeyVaultClientCreateCertificateOptionalParams" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
     createCertificate(name: string, options?: KeyVaultClientCreateCertificateOptionalParams): Promise<Certificate>;
@@ -97,7 +98,6 @@ export class CertificatesClient {
     setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
     updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
     updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
-    updateCertificateOperation(name: string, cancel: boolean, options?: RequestOptions): Promise<CertificateOperation>;
     updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptions): Promise<CertificatePolicy>;
     readonly vaultBaseUrl: string;
 }

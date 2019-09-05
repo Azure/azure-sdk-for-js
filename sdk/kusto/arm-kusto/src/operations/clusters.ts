@@ -60,6 +60,19 @@ export class Clusters {
   }
 
   /**
+   * Create or update a Kusto cluster.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param parameters The Kusto cluster parameters supplied to the CreateOrUpdate operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ClustersCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, clusterName: string, parameters: Models.Cluster, options?: msRest.RequestOptionsBase): Promise<Models.ClustersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,clusterName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersCreateOrUpdateResponse>;
+  }
+
+  /**
    * Update a Kusto cluster.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -246,6 +259,26 @@ export class Clusters {
       },
       listSkusByResourceOperationSpec,
       callback) as Promise<Models.ClustersListSkusByResourceResponse>;
+  }
+
+  /**
+   * Create or update a Kusto cluster.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param parameters The Kusto cluster parameters supplied to the CreateOrUpdate operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Models.Cluster, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
   }
 
   /**
@@ -468,6 +501,41 @@ const listSkusByResourceOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ListResourceSkusResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Cluster,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Cluster
+    },
+    201: {
+      bodyMapper: Mappers.Cluster
     },
     default: {
       bodyMapper: Mappers.CloudError
