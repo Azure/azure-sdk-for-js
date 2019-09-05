@@ -70,11 +70,13 @@ const browserConfig = {
   },
   plugins: [
     alias({
-      "./defaultHttpClient": "./defaultHttpClient.browser",
-      "./policies/msRestUserAgentPolicy": "./policies/msRestUserAgentPolicy.browser",
-      "./policies/proxyPolicy": "./policies/proxyPolicy.browser",
-      "./util/xml": "./util/xml.browser",
-      "./util/base64": "./util/base64.browser",
+      entries:[
+        {find: './defaultHttpClient', replacement:'./defaultHttpClient.browser' },
+        {find:'./policies/msRestUserAgentPolicy', replacement:'./policies/msRestUserAgentPolicy.browser'},
+        {find: './policies/proxyPolicy', replacement:'./policies/proxyPolicy.browser'},
+        {find:'./util/xml', replacement:'./util/xml.browser'},
+        {find: './util/base64', replacement:'./util/base64.browser'},
+      ]
     }),
     nodeResolve({
       mainFields: ["module", "main", "browser"]
