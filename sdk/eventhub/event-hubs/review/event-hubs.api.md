@@ -181,13 +181,10 @@ export class EventProcessor {
     stop(): Promise<void>;
 }
 
-// @public (undocumented)
+// @public
 export interface EventProcessorOptions {
-    // (undocumented)
     initialEventPosition?: EventPosition;
-    // (undocumented)
     maxBatchSize?: number;
-    // (undocumented)
     maxWaitTimeInSeconds?: number;
 }
 
