@@ -17,7 +17,7 @@ async function main() {
     `https://${account}.blob.core.windows.net`,
     sharedKeyCredential,
     {
-      proxy: { url: "http://localhost:3128" }
+      proxy: "http://localhost:3128" 
     }
   );
 
