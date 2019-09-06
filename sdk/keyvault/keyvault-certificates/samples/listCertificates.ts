@@ -22,11 +22,11 @@ async function main(): Promise<void> {
   const client = new CertificatesClient(url, credential);
 
   // Creating two self-signed certificates. They will appear as pending initially.
-  const certificate1 = await client.createCertificate("MyCertificate1", {
+  await client.createCertificate("MyCertificate1", {
     issuerParameters: { name: "Self" },
     x509CertificateProperties: { subject: "cn=MyCert" }
   });
-  const certificate2 = await client.createCertificate("MyCertificate2", {
+  await client.createCertificate("MyCertificate2", {
     issuerParameters: { name: "Self" },
     x509CertificateProperties: { subject: "cn=MyCert" }
   });
