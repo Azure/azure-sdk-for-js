@@ -7,20 +7,26 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
  * used when the access token is already known or can be retrieved from an
  * outside source.
  */
-export declare class SimpleTokenCredential implements TokenCredential {
+export class SimpleTokenCredential implements TokenCredential {
   /**
    * The raw token string.  Can be changed when the token needs to be updated.
    */
-  token: string;
+  public token: string;
+
   /**
    * The Date at which the token expires.  Can be changed to update the expiration time.
    */
-  expiresOn: Date;
+  public expiresOn: Date;
+
   /**
    * Creates an instance of TokenCredential.
    * @param {string} token
    */
-  constructor(token: string, expiresOn?: Date);
+  constructor(token: string, expiresOn?: Date) {
+    this.token = token;
+    this.expiresOn = expiresOn ? expiresOn : new Date(Date.now() + 60 * 60 * 1000);
+  }
+
   /**
    * Retrieves the token stored in this RawTokenCredential.
    *
@@ -28,7 +34,15 @@ export declare class SimpleTokenCredential implements TokenCredential {
    * @param _options Ignored since token is already known.
    * @returns {AccessToken} The access token details.
    */
-  getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
+  async getToken(
+    _scopes: string | string[],
+    _options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
+    return {
+      token: this.token,
+      expiresOnTimestamp: this.expiresOn.getTime()
+    };
+  }
 }
 
 export function isBrowser(): boolean {
@@ -71,3 +85,5 @@ export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
     }
   }
 }
+
+export {};
