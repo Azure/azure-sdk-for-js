@@ -20,6 +20,9 @@ pr:
       - sdk/appconfiguration/
 
 jobs:
-  - template: ../../eng/pipelines/templates/jobs/archetype-sdk-client.yml
+  - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
       ServiceDirectory: appconfiguration
+      Artifacts:
+        - name: azure-app-configuration
+          safeName: azureappconfiguration
