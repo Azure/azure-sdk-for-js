@@ -53,7 +53,7 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "sideEffects": false,
+  "sideEffects": true,
   "private": false,
   "devDependencies": {
     "@types/node": "^8.0.0",
