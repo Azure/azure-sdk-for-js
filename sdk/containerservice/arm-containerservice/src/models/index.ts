@@ -1067,6 +1067,69 @@ export interface ManagedClusterWindowsProfile {
 }
 
 /**
+ * Desired managed outbound IPs for the cluster load balancer.
+ */
+export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
+  /**
+   * Desired number of outbound IP created/managed by Azure for the cluster load balancer. Allowed
+   * values must be in the range of 1 to 100 (inclusive). The default value is 1. Default value: 1.
+   */
+  count?: number;
+}
+
+/**
+ * A reference to an Azure resource.
+ */
+export interface ResourceReference {
+  /**
+   * The fully qualified Azure resource id.
+   */
+  id?: string;
+}
+
+/**
+ * Desired outbound IP Prefix resources for the cluster load balancer.
+ */
+export interface ManagedClusterLoadBalancerProfileOutboundIPPrefixes {
+  /**
+   * A list of public IP prefix resources.
+   */
+  publicIPPrefixes?: ResourceReference[];
+}
+
+/**
+ * Desired outbound IP resources for the cluster load balancer.
+ */
+export interface ManagedClusterLoadBalancerProfileOutboundIPs {
+  /**
+   * A list of public IP resources.
+   */
+  publicIPs?: ResourceReference[];
+}
+
+/**
+ * Profile of the managed cluster load balancer
+ */
+export interface ManagedClusterLoadBalancerProfile {
+  /**
+   * Desired managed outbound IPs for the cluster load balancer.
+   */
+  managedOutboundIPs?: ManagedClusterLoadBalancerProfileManagedOutboundIPs;
+  /**
+   * Desired outbound IP Prefix resources for the cluster load balancer.
+   */
+  outboundIPPrefixes?: ManagedClusterLoadBalancerProfileOutboundIPPrefixes;
+  /**
+   * Desired outbound IP resources for the cluster load balancer.
+   */
+  outboundIPs?: ManagedClusterLoadBalancerProfileOutboundIPs;
+  /**
+   * The effective outbound IP resources of the cluster load balancer.
+   */
+  effectiveOutboundIPs?: ResourceReference[];
+}
+
+/**
  * Profile of network configuration.
  */
 export interface ContainerServiceNetworkProfile {
@@ -1104,6 +1167,10 @@ export interface ContainerServiceNetworkProfile {
    * The load balancer sku for the managed cluster. Possible values include: 'standard', 'basic'
    */
   loadBalancerSku?: LoadBalancerSku;
+  /**
+   * Profile of the cluster load balancer.
+   */
+  loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
 }
 
 /**
@@ -1141,6 +1208,20 @@ export interface ManagedClusterAADProfile {
    * deployment subscription.
    */
   tenantID?: string;
+}
+
+/**
+ * Access profile for managed cluster API server.
+ */
+export interface ManagedClusterAPIServerAccessProfile {
+  /**
+   * Authorized IP Ranges to kubernetes API server.
+   */
+  authorizedIPRanges?: string[];
+  /**
+   * Whether to create the cluster as a private cluster or not.
+   */
+  enablePrivateCluster?: boolean;
 }
 
 /**
@@ -1235,9 +1316,9 @@ export interface ManagedCluster extends Resource {
    */
   aadProfile?: ManagedClusterAADProfile;
   /**
-   * (PREVIEW) Authorized IP Ranges to kubernetes API server.
+   * Access profile for managed cluster API server.
    */
-  apiServerAuthorizedIPRanges?: string[];
+  apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
   /**
    * The identity of the managed cluster, if configured.
    */
