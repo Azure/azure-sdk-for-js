@@ -81,6 +81,10 @@ known_content_issues:
   - ["sdk/cosmosdb/cosmos/samples/ContainerManagement/README.md", "#1583"]
   - ["sdk/eventhub/README.md", "#1583"]
   - ["sdk/eventhub/event-hubs/README.md", "#1583"]
+  - [
+      "sdk/eventhub/event-hubs/eventhubs-checkpointstore-blob/README.md",
+      "#1583",
+    ]
   - ["sdk/eventhub/event-hubs/samples/README.md", "#1583"]
   - ["sdk/eventhub/event-processor-host/README.md", "#1583"]
   - ["sdk/eventhub/event-processor-host/samples/README.md", "#1583"]
