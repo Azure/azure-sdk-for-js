@@ -19,7 +19,7 @@ import { ServiceBusAtomXmlConstants } from "../util/constants";
 
 export class TopicResourceSerializer implements ResourceSerializer {
   serialize(resource: any): any {
-    var properties = [
+    const properties = [
       ServiceBusAtomXmlConstants.DEFAULT_MESSAGE_TIME_TO_LIVE,
       ServiceBusAtomXmlConstants.MAX_SIZE_IN_MEGABYTES,
       ServiceBusAtomXmlConstants.REQUIRES_DUPLICATE_DETECTION,

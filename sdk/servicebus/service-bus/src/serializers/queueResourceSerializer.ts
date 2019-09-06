@@ -19,7 +19,7 @@ import { ServiceBusAtomXmlConstants } from "../util/constants";
 
 export class QueueResourceSerializer implements ResourceSerializer {
   serialize(resource: any): any {
-    var properties = [
+    const properties = [
       ServiceBusAtomXmlConstants.LOCK_DURATION,
       ServiceBusAtomXmlConstants.MAX_SIZE_IN_MEGABYTES,
       ServiceBusAtomXmlConstants.REQUIRES_DUPLICATE_DETECTION,

@@ -19,14 +19,14 @@ import { ServiceBusAtomXmlConstants } from "../util/constants";
 
 export class RuleResourceSerializer implements ResourceSerializer {
   serialize(rule: any): any {
-    var properties = ["Name", "Filter", "Action"];
+    const properties = ["Name", "Filter", "Action"];
 
-    var resource: any = {};
+    const resource: any = {};
 
     if (rule) {
-      var filters = [];
+      const filters = [];
       if (rule.sqlExpressionFilter) {
-        var sqlFilter = {
+        const sqlFilter = {
           $: {
             type: "SqlFilter"
           },
@@ -36,7 +36,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
 
         filters.push(sqlFilter);
       } else if (rule.correlationIdFilter) {
-        var correlationFilter = {
+        const correlationFilter = {
           $: {
             type: "CorrelationFilter"
           },
@@ -45,7 +45,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
 
         filters.push(correlationFilter);
       } else if (rule.trueFilter) {
-        var trueFilter = {
+        const trueFilter = {
           $: {
             type: "TrueFilter"
           },
@@ -55,7 +55,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
 
         filters.push(trueFilter);
       } else if (rule.falseFilter) {
-        var falseFilter = {
+        const falseFilter = {
           $: {
             type: "FalseFilter"
           },
@@ -70,10 +70,10 @@ export class RuleResourceSerializer implements ResourceSerializer {
         resource.Filter = filters;
       }
 
-      var actions = [];
+      const actions = [];
 
       if (rule.sqlRuleAction) {
-        var sqlAction = {
+        const sqlAction = {
           $: {
             type: "SqlFilterExpression"
           },
@@ -82,7 +82,7 @@ export class RuleResourceSerializer implements ResourceSerializer {
 
         actions.push(sqlAction);
       } else {
-        var emptyRuleAction = {
+        const emptyRuleAction = {
           $: {
             type: "EmptyRuleAction"
           }

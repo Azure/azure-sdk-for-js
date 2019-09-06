@@ -19,7 +19,7 @@ import { ServiceBusAtomXmlConstants } from "../util/constants";
 
 export class SubscriptionResourceSerializer implements ResourceSerializer {
   serialize(resource: any): any {
-    var properties = [
+    const properties = [
       ServiceBusAtomXmlConstants.LOCK_DURATION,
       ServiceBusAtomXmlConstants.REQUIRES_SESSION,
       ServiceBusAtomXmlConstants.DEFAULT_MESSAGE_TIME_TO_LIVE,
