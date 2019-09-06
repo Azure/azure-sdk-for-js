@@ -1035,33 +1035,40 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
-  // describe("with receiverRuntimeMetricEnabled", function (): void {
-  //   it("should have ReceiverRuntimeInfo populated", async function (): Promise<void> {
-  //     const partitionId = hubInfo.partitionIds[0];
-  //     sender = client.createProducer(partitionId);
-  //     for (let i = 0; i < 10; i++) {
-  //       const ed: EventData = {
-  //         body: "Hello awesome world " + i
-  //       }
-  //       await sender.send(ed);
-  //       debug("sent message - " + i);
-  //     }
-  //     debug("Getting the partition information");
-  //     const pInfo = await client.getPartitionProperties(partitionId);
-  //     debug("partition info: ", pInfo);
-  //     debug("Creating new receiver with offset EndOfStream");
-  //     receiver = client.createConsumer(partitionId, { eventPosition: EventPosition.fromStart(), enableReceiverRuntimeMetric: true });
-  //     let data = await receiver.receive(1, 10);
-  //     debug("receiver.runtimeInfo ", receiver.runtimeInfo);
-  //     data.length.should.equal(1);
-  //     should.exist(receiver.runtimeInfo);
-  //     receiver.runtimeInfo!.lastEnqueuedOffset!.should.equal(pInfo.lastEnqueuedOffset);
-  //     receiver.runtimeInfo!.lastSequenceNumber!.should.equal(pInfo.lastSequenceNumber);
-  //     receiver.runtimeInfo!.lastEnqueuedTimeUtc!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
-  //     receiver.runtimeInfo!.partitionId!.should.equal(pInfo.partitionId);
-  //     receiver.runtimeInfo!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
-  //   });
-  // });
+  describe("with trackLastEnqueuedEventInfo", function (): void {
+    it("should have lastEnqueuedEventInfo populated", async function (): Promise<void> {
+      const partitionId = partitionIds[0];
+      const producer = client.createProducer({partitionId: partitionId});
+      for (let i = 0; i < 10; i++) {
+        const ed: EventData = {
+          body: "Hello awesome world " + i
+        }
+        await producer.send(ed);
+        debug("sent message - " + i);
+      }
+      debug("Getting the partition information");
+      const pInfo = await client.getPartitionProperties(partitionId);
+      debug("partition info: ", pInfo);
+      debug("Creating new receiver with offset EndOfStream");
+      receiver = client.createConsumer(
+        EventHubClient.defaultConsumerGroupName,
+        partitionId,
+        EventPosition.earliest(),
+        {
+          trackLastEnqueuedEventInfo: true
+        }
+      );
+      
+      let data = await receiver.receiveBatch(1, 10);
+      debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventInfo);
+      data.length.should.equal(1);
+      should.exist(receiver.lastEnqueuedEventInfo);
+      receiver.lastEnqueuedEventInfo!.lastEnqueuedOffset!.should.equal(pInfo.lastEnqueuedOffset);
+      receiver.lastEnqueuedEventInfo!.lastEnqueuedSequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
+      receiver.lastEnqueuedEventInfo!.lastEnqueuedTimeUtc!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
+      receiver.lastEnqueuedEventInfo!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
+    });
+  });
 
   describe("with ownerLevel", function(): void {
     it("should behave correctly when a receiver with lower ownerLevel value is connected after a receiver with higher ownerLevel value to a partition in a consumer group", function(done: Mocha.Done): void {

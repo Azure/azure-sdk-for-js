@@ -4,7 +4,7 @@
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./eventHubClient";
-import { OnMessage, OnError, EventHubReceiver } from "./eventHubReceiver";
+import { OnMessage, OnError, EventHubReceiver, ReceiverRuntimeInfo } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {
   RetryConfig,
@@ -21,7 +21,7 @@ import { EventPosition } from "./eventPosition";
 import "@azure/core-asynciterator-polyfill";
 
 /**
- * Options to pass when creating an async iteratable using the `getEventIterator()` method on the 
+ * Options to pass when creating an async iteratable using the `getEventIterator()` method on the
  * `EventHubConsumer`.
  */
 export interface EventIteratorOptions {
@@ -40,7 +40,7 @@ export interface EventIteratorOptions {
  * A consumer is responsible for reading `EventData` from a specific Event Hub partition
  * in the context of a specific consumer group.
  * To create a consumer use the `createConsumer()` method on your `EventHubClient`.
- * 
+ *
  * You can pass the below in the `options` when creating a consumer.
  * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
@@ -51,7 +51,7 @@ export interface EventIteratorOptions {
  * then specify the `ownerLevel` in the `options`.
  * Exclusive consumers were previously referred to as "Epoch Receivers".
  *
- * The consumer can be used to receive messages in a batch using `receiveBatch()` or by registering handlers 
+ * The consumer can be used to receive messages in a batch using `receiveBatch()` or by registering handlers
  * by using `receive()` or via an async iterable got by using `getEventIterator()`
  * @class
  */
@@ -82,6 +82,20 @@ export class EventHubConsumer {
    * @property The set of retry options to configure the receiveBatch operation.
    */
   private _retryOptions: RetryOptions;
+  /**
+   * @property The set of properties for the last event enqueued in a partition.
+   */
+  private _lastEnqueuedEventInfo: ReceiverRuntimeInfo;
+
+  /**
+   * @property The last enqueued event information. This property will only
+   * be enabled when `trackLastEnqueuedEventInfo` option is set to true in the
+   * `client.createConsumer()` method.
+   * @readonly
+   */
+  public get lastEnqueuedEventInfo(): ReceiverRuntimeInfo {
+    return this._lastEnqueuedEventInfo;
+  }
 
   /**
    * @property Returns `true` if the consumer is closed. This can happen either because the consumer
@@ -149,6 +163,7 @@ export class EventHubConsumer {
     this._context = context;
     this._consumerGroup = consumerGroup;
     this._partitionId = partitionId;
+    this._lastEnqueuedEventInfo = {};
     this._receiverOptions = options || {};
     this._retryOptions = this._receiverOptions.retryOptions || {};
     this._baseConsumer = new EventHubReceiver(
@@ -227,6 +242,14 @@ export class EventHubConsumer {
       onAbort
     );
 
+    if (
+      this._receiverOptions.trackLastEnqueuedEventInfo &&
+      this._baseConsumer &&
+      this._baseConsumer.runtimeInfo
+    ) {
+      this._lastEnqueuedEventInfo = this._baseConsumer.runtimeInfo;
+    }
+
     return new ReceiveHandler(baseConsumer);
   }
 
@@ -261,7 +284,7 @@ export class EventHubConsumer {
 
   /**
    * Returns a promise that resolves to an array of events received from the service.
-   * 
+   *
    * @param maxMessageCount The maximum number of messages to receive.
    * @param maxWaitTimeInSeconds The maximum amount of time to wait to build up the requested message count;
    * If not provided, it defaults to 60 seconds.
@@ -349,7 +372,13 @@ export class EventHubConsumer {
         this._baseConsumer.registerHandlers(
           (eventData) => {
             receivedEvents.push(eventData);
-
+            if (
+              this._receiverOptions.trackLastEnqueuedEventInfo &&
+              this._baseConsumer &&
+              this._baseConsumer.runtimeInfo
+            ) {
+              this._lastEnqueuedEventInfo = this._baseConsumer.runtimeInfo;
+            }
             // resolve the operation's promise after the requested
             // number of events are received.
             if (receivedEvents.length === maxMessageCount) {

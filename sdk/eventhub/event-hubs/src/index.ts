@@ -5,7 +5,7 @@
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
-export { OnMessage, OnError } from "./eventHubReceiver";
+export { OnMessage, OnError, ReceiverRuntimeInfo } from "./eventHubReceiver";
 export { ReceiveHandler } from "./receiveHandler";
 export {
   EventHubClient,

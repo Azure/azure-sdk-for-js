@@ -116,6 +116,7 @@ export class EventHubConsumer {
     getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     readonly isClosed: boolean;
     readonly isReceivingMessages: boolean;
+    readonly lastEnqueuedEventInfo: ReceiverRuntimeInfo;
     readonly ownerLevel: number | undefined;
     readonly partitionId: string;
     receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
@@ -126,6 +127,7 @@ export class EventHubConsumer {
 export interface EventHubConsumerOptions {
     ownerLevel?: number;
     retryOptions?: RetryOptions;
+    trackLastEnqueuedEventInfo?: boolean;
 }
 
 // @public
@@ -181,13 +183,10 @@ export class EventProcessor {
     stop(): Promise<void>;
 }
 
-// @public (undocumented)
+// @public
 export interface EventProcessorOptions {
-    // (undocumented)
     initialEventPosition?: EventPosition;
-    // (undocumented)
     maxBatchSize?: number;
-    // (undocumented)
     maxWaitTimeInSeconds?: number;
 }
 
@@ -278,6 +277,14 @@ export class ReceiveHandler {
     readonly isReceiverOpen: boolean;
     readonly partitionId: string | undefined;
     stop(): Promise<void>;
+}
+
+// @public
+export interface ReceiverRuntimeInfo {
+    lastEnqueuedOffset?: string;
+    lastEnqueuedSequenceNumber?: number;
+    lastEnqueuedTimeUtc?: Date;
+    retrievalTime?: Date;
 }
 
 export { RetryOptions }
