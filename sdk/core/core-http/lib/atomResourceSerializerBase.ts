@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNode } from "./util/utils";
 import { Constants } from "./util/constants";
 import { serializeJsonToAtomXml } from "./util/xml";
 import { parseResultFromAtomResponse } from "./util/atomHandler";
@@ -49,12 +48,8 @@ export class AtomResourceSerializerBase {
   }
 
   private static setName(entry: any, nameProperty: any): any {
-    let parsedUrl: any;
-    if (isNode) {
-      parsedUrl = new URL(entry[Constants.ATOM_METADATA_MARKER].id);
-    } else {
-      parsedUrl = new window.URL(entry[Constants.ATOM_METADATA_MARKER].id);
-    }
+    const parsedUrl = new URL(entry[Constants.ATOM_METADATA_MARKER].id);
+
     const parts = parsedUrl.pathname!.split("/");
 
     for (let i = 0; i * 2 < parts.length - 1; i++) {
