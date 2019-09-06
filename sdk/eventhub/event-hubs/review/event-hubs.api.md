@@ -177,7 +177,6 @@ export class EventProcessor {
 
 // @public
 export interface EventProcessorOptions {
-    initialEventPosition?: EventPosition;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
 }
