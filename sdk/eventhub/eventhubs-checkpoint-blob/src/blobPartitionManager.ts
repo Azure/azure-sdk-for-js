@@ -4,6 +4,7 @@
 import { PartitionManager, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 import { ContainerClient } from "@azure/storage-blob";
 import * as log from "./log";
+import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * An implementation of PartitionManager that uses Azure Blob Storage to persist checkpoint data.
@@ -130,6 +131,10 @@ export class BlobPartitionManager implements PartitionManager {
    * @return The new eTag on successful update
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
+    throwTypeErrorIfParameterMissing("ownerId", checkpoint.ownerId);
+    throwTypeErrorIfParameterMissing("sequenceNumber", checkpoint.sequenceNumber);
+    throwTypeErrorIfParameterMissing("offset", checkpoint.offset);
+
     const blobName = `${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/${checkpoint.partitionId}`;
     try {
       const blobClient = this._containerClient.getBlobClient(blobName);
@@ -145,8 +150,8 @@ export class BlobPartitionManager implements PartitionManager {
       const metadataResponse = await blobClient.setMetadata(
         {
           OwnerId: checkpoint.ownerId,
-          SequenceNumber: checkpoint.sequenceNumber ? checkpoint.sequenceNumber.toString() : "",
-          Offset: checkpoint.offset ? checkpoint.offset.toString() : ""
+          SequenceNumber: checkpoint.sequenceNumber.toString(),
+          Offset: checkpoint.offset.toString(),
         },
         {
           blobAccessConditions: {
