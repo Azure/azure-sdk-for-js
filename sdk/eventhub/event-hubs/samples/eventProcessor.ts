@@ -1,3 +1,18 @@
+/*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
+  This sample demonstrates how to use the EventProcessor to process events from all partitions
+  of a consumer group in an Event Hubs instance. It also demonstrates the process of checkpointing an event
+  which helps new instances of Event Processors that may have spun up for scaling or for crash recovery.
+
+  If your Event Hubs instance doesn't have any events, then please run "sendEvents.ts" sample
+  to populate Event Hubs before running this sample.
+
+  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
+*/
+
 import {
   EventHubClient,
   ReceivedEventData,
