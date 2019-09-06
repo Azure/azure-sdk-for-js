@@ -26,7 +26,7 @@ async function main() {
   // will be used as a fallback authentication source.
   // const defaultAzureCredential = new DefaultAzureCredential();
 
-  // You can find more TokenCredential implementations in the @azure/identity library
+  // You can find more TokenCredential implementations in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library
   // to use client secrets, certificates, or managed identities for authentication.
 
   // Use AnonymousCredential when url already includes a SAS signature
