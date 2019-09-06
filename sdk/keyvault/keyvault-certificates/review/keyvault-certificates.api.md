@@ -58,6 +58,7 @@ export interface CertificatePolicy {
     issuerParameters?: IssuerParameters;
     keyProperties?: KeyProperties;
     lifetimeActions?: LifetimeAction[];
+    // Warning: (ae-forgotten-export) The symbol "SecretProperties" needs to be exported by the entry point index.d.ts
     secretProperties?: SecretProperties;
     x509CertificateProperties?: X509CertificateProperties;
 }
@@ -75,7 +76,7 @@ export class CertificatesClient {
     deleteCertificateContacts(options?: RequestOptions): Promise<Contacts>;
     deleteCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
-    getCertificate(name: string, version: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<Certificate>;
+    getCertificate(name: string, version: string, options?: RequestOptions): Promise<Certificate>;
     getCertificateContacts(options?: RequestOptions): Promise<Contacts>;
     getCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer>;
     getCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
@@ -256,11 +257,6 @@ export interface RetryOptions {
     readonly maxRetryDelayInMs?: number;
     readonly retryCount?: number;
     readonly retryIntervalInMS?: number;
-}
-
-// @public
-export interface SecretProperties {
-    contentType?: string;
 }
 
 // @public (undocumented)

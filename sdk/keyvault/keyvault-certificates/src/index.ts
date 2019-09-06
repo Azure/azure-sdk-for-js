@@ -20,6 +20,7 @@ import {
   RequestOptions,
   CertificateAttributes,
   Certificate,
+  CertificateContentType,
   CertificateWithPolicy,
   CertificateTags,
   DeletedCertificate,
@@ -58,7 +59,6 @@ import {
   KeyProperties,
   LifetimeAction,
   OrganizationDetails,
-  SecretProperties,
   X509CertificateProperties
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
@@ -94,7 +94,6 @@ export {
   OrganizationDetails,
   ParsedKeyVaultEntityIdentifier,
   RequestOptions,
-  SecretProperties,
   X509CertificateProperties
 };
 
@@ -260,7 +259,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
+   * const client = new CertificatesClient(url, credentials);
    * // All in one call
    * for await (const certificate of client.listCertificates()) {
    *   console.log(certificate);
@@ -340,7 +339,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
+   * const client = new CertificatesClient(url, credentials);
    * for await (const item of client.listCertificateVersions("MyCertificate")) {
    *   console.log(item.version!);
    * }
@@ -375,8 +374,11 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
-   * await client.createCertificate("MyCertificate");
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
    * await client.deleteCertificate("MyCertificate");
    * ```
    * @summary Deletes a certificate from a specified key vault.
@@ -401,7 +403,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new CertificatesClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -424,7 +426,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new CertificatesClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -453,7 +455,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new CertificatesClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -515,7 +517,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
+   * const client = new CertificatesClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * // All in one call
    * for await (const issuer of client.listCertificateIssuers()) {
@@ -555,7 +557,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
+   * const client = new CertificatesClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * ```
    * @summary Sets the specified certificate issuer.
@@ -585,7 +587,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
+   * const client = new CertificatesClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * await client.updateCertificateIssuer("IssuerName", {
    *   provider: "Provider2"
@@ -612,7 +614,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
+   * const client = new CertificatesClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * const certificateIssuer = await client.getCertificateIssuer("IssuerName");
    * console.log(certificateIssuer);
@@ -637,7 +639,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
+   * const client = new CertificatesClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * await client.deleteCertificateIssuer("IssuerName");
    * ```
@@ -660,8 +662,8 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new SecretsClient(url, credentials);
-   * await client.createCertificate("CertificateName", {
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
    *   issuerParameters: { name: "Self" },
    *   x509CertificateProperties: { subject: "cn=MyCert" }
    * });
@@ -692,6 +694,18 @@ export class CertificatesClient {
 
   /**
    * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * const certificate = await client.getCertificateWithPolicy("MyCertificate");
+   * console.log(certificate);
+   * ```
+   * @summary Retrieves a certificate from the certificate's name (includes the certificate policy)
    * @param name The name of the certificate
    * @param requestOptions The optional parameters
    * @returns Promise<Certificate>
@@ -707,6 +721,19 @@ export class CertificatesClient {
 
   /**
    * Gets information about a specific certificate on a specific version. It won't return the certificate's policy. This operation requires the certificates/get permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
+   * const certificate = await client.getCertificate("MyCertificate", certificateWithPolicy.version!);
+   * console.log(certificate);
+   * ```
+   * @summary Retrieves a certificate from the certificate's name and a specified version
    * @param name The name of the certificate
    * @param version The specific version of the certificate
    * @param requestOptions The optional parameters
@@ -728,6 +755,15 @@ export class CertificatesClient {
   /**
    * Imports an existing valid certificate, containing a private key, into Azure Key Vault. The certificate to be imported can be in either PFX or PEM format.
    * If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates. This operation requires the certificates/import permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * const certificateSecret = await secretsClient.getSecret("MyCertificate");
+   * const base64EncodedCertificate = certificateSecret.value!;
+   * await client.importCertificate("MyCertificate", base64EncodedCertificate);
+   * ```
+   * @summary Imports a certificate from a certificate's secret value
    * @param name The name of the certificate
    * @param base64EncodedCertificate The base64 encoded certificate to import
    * @param options The optional parameters
@@ -750,6 +786,18 @@ export class CertificatesClient {
 
   /**
    * The GetCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * const policy = await client.getCertificatePolicy("MyCertificate");
+   * console.log(policy);
+   * ```
+   * @summary Gets a certificate's policy
    * @param name The name of the certificate
    * @param options The optional parameters
    * @returns Promise<CertificatePolicy>
@@ -765,6 +813,7 @@ export class CertificatesClient {
 
   /**
    * Set specified members in the certificate policy. Leave others as null. This operation requires the certificates/update permission.
+   * @summary Gets a certificate's policy
    * @param name The name of the certificate
    * @param policy The certificate policy
    * @param options The optional parameters
@@ -788,6 +837,21 @@ export class CertificatesClient {
   /**
    * Applies the specified update on the given certificate; the only elements updated are the
    * certificate's attributes. This operation requires the certificates/update permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * await client.updateCertificate("MyCertificate", "", {
+   *   tags: {
+   *     customTag: "value"
+   *   }
+   * });
+   * ```
+   * @summary Updates a certificate
    * @param name The name of the ceritificate
    * @param version The version of the certificate to update
    * @param options The options, including what to update
@@ -805,6 +869,17 @@ export class CertificatesClient {
 
   /**
    * Updates a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * await client.cancelCertificateOperation("MyCertificate");
+   * ```
+   * @summary Cancels a certificate's operation
    * @param name The name of the certificate
    * @param cancel Whether to cancel the operation or not
    * @param options The optional parameters
@@ -826,6 +901,18 @@ export class CertificatesClient {
 
   /**
    * Gets the creation operation associated with a specified certificate. This operation requires the certificates/get permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * const operation = await client.getCertificateOperation("MyCertificate");
+   * console.log(operation);
+   * ```
+   * @summary Gets a certificate's operation
    * @param name The name of the certificate
    * @param options The optional parameters
    * @returns Promise<CertificateOperation>
@@ -842,6 +929,18 @@ export class CertificatesClient {
   /**
    * Deletes the creation operation for a specified certificate that is in the process of being created.
    * The certificate is no longer created. This operation requires the certificates/update permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * await client.deleteCertificateOperation("MyCertificate");
+   * await client.getCertificateOperation("MyCertificate"); // Throws error: Pending certificate not found: "MyCertificate"
+   * ```
+   * @summary Delete a certificate's operation
    * @param name The name of the certificate
    * @param options The optional parameters
    * @returns Promise<CertificateOperation>
@@ -857,6 +956,32 @@ export class CertificatesClient {
 
   /**
    * Performs the merging of a certificate or certificate chain with a key pair currently available in the service. This operation requires the certificates/create permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: {
+   *     name: "Unknown",
+   *     certificateTransparency: false
+   *   },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * const { csr } = await client.getCertificateOperation(certificateName);
+   * const base64Csr = Buffer.from(csr!).toString("base64");
+   * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
+   * fs.writeFileSync("test.csr", wrappedCsr);
+   *
+   * // Certificate available locally made using:
+   * //   openssl genrsa -out ca.key 2048
+   * //   openssl req -new -x509 -key ca.key -out ca.crt
+   * // You can read more about how to create a fake certificate authority here: https://gist.github.com/Soarez/9688998
+   * childProcess.execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
+   * const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
+   *
+   * await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
+   * ```
+   * @summary Merges a signed certificate request into a pending certificate
    * @param name The name of the certificate
    * @param x509Certificates The certificate(s) to merge
    * @param options The optional parameters
@@ -880,6 +1005,17 @@ export class CertificatesClient {
   /**
    * Requests that a backup of the specified certificate be downloaded to the client. All versions of the certificate will be downloaded.
    * This operation requires the certificates/backup permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * const backup = await client.backupCertificate("MyCertificate");
+   * ```
+   * @summary Generates a backup of a certificate
    * @param name The name of the certificate
    * @param options The optional parameters
    * @returns Promise<BackupCertificateResult>
@@ -895,6 +1031,20 @@ export class CertificatesClient {
 
   /**
    * Restores a backed up certificate, and all its versions, to a vault. This operation requires the certificates/restore permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.createCertificate("MyCertificate", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * const backup = await client.backupCertificate("MyCertificate");
+   * await client.deleteCertificate("MyCertificate");
+   * // Some time is required before we're able to restore the certificate
+   * await client.restoreCertificate(backup.value!);
+   * ```
+   * @summary Restores a certificate from a backup
    * @param certificateBackup The back-up certificate to restore from
    * @param options The optional parameters
    * @returns Promise<Certificate>
@@ -953,6 +1103,20 @@ export class CertificatesClient {
   /**
    * Rretrieves the certificates in the current vault which are in a deleted state and ready for recovery or purging. This operation includes deletion-specific
    * information. This operation requires the certificates/get/list permission. This operation can only be enabled on soft-delete enabled vaults.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * for await (const certificate of client.listDeletedCertificates()) {
+   *   console.log(certificate);
+   * }
+   * for await (const page of client.listDeletedCertificates().byPage()) {
+   *   for (const certificate of page) {
+   *     console.log(certificate);
+   *   }
+   * }
+   * ```
+   * @summary Lists deleted certificates
    * @param options The optional parameters
    * @returns PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>
    */
@@ -976,6 +1140,13 @@ export class CertificatesClient {
   /**
    * retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the
    * current deletion recovery level. This operation requires the certificates/get permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * client.getDeletedCertificate("MyDeletedCertificate");
+   * ```
+   * @summary Gets a deleted certificate
    * @param name The name of the certificate
    * @param options The optional parameters
    * @returns Promise<DeletedCertificate>
@@ -992,6 +1163,15 @@ export class CertificatesClient {
   /**
    * Performs an irreversible deletion of the specified certificate, without possibility for recovery. The operation is not available if the
    * recovery level does not specify 'Purgeable'. This operation requires the certificate/purge permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.deleteCertificate("MyCertificate");
+   * // Deleting a certificate takes time, make sure to wait before purging it
+   * client.purgeDeletedCertificate("MyCertificate");
+   * ```
+   * @summary Gets a deleted certificate
    * @param name The name of the deleted certificate to purge
    * @param options The optional parameters
    */
@@ -1004,6 +1184,15 @@ export class CertificatesClient {
   /**
    * Recovers the deleted certificate in the specified vault. This operation can only be performed on a soft-delete enabled vault. This operation
    * requires the certificate/recover permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * await client.deleteCertificate("MyCertificate");
+   * // Deleting a certificate takes time, make sure to wait before recovering it
+   * await client.recoverDeletedCertificate("MyCertificate");
+   * ```
+   * @summary Recovers a deleted cerificate
    * @param name The name of the deleted certificate
    * @param options The optional parameters
    * @returns Promise<Certificate>
