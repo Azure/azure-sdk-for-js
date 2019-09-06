@@ -32,8 +32,7 @@ async function main(): Promise<void> {
   await client.setCertificateContacts(contacts);
 
   getResponse = await client.getCertificateContacts();
-  assert.equal(getResponse.contactList![0].name, "a")
-  assert.equal(getResponse.contactList![1].name, "b")
+  console.log("Contact List:", getResponse.contactList);
 
   await client.deleteCertificateContacts();
 

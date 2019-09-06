@@ -210,14 +210,12 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Creating a certificate with that issuer
     await client.createCertificate(certificateName, {
-      certificatePolicy: {
-        issuerParameters: { name: issuerName },
-        x509CertificateProperties: { subject: "cn=MyCert" }
-			}
+      issuerParameters: { name: issuerName },
+      x509CertificateProperties: { subject: "cn=MyCert" }
     });
 
     // Reading the issuer from the certificate
-    const certificate = await client.getCertificate(certificateName, "");
+    const certificate = await client.getCertificateWithPolicy(certificateName);
     assert.equal(certificate.policy!.issuerParameters, issuerName);
 
     let getResponse: any;
