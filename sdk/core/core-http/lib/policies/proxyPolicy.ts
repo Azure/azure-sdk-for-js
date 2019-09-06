@@ -31,11 +31,7 @@ function loadEnvironmentProxyValue(): string | undefined {
   return undefined;
 }
 
-export function getDefaultProxySettings(
-  proxyUrl?: string,
-  username?: string,
-  password?: string
-): ProxySettings | undefined {
+export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
   if (!proxyUrl) {
     proxyUrl = loadEnvironmentProxyValue();
     if (!proxyUrl) {
@@ -43,19 +39,10 @@ export function getDefaultProxySettings(
     }
   }
   const parsedUrl = URLBuilder.parse(proxyUrl);
-  const proxySettings: ProxySettings = {
+  return {
     host: parsedUrl.getScheme() + "://" + parsedUrl.getHost(),
     port: Number.parseInt(parsedUrl.getPort() || "80")
   };
-
-  return username && password
-    ? {
-        // If username and password are provided
-        ...proxySettings,
-        username,
-        password
-      }
-    : proxySettings;
 }
 
 export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory {
