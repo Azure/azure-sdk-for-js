@@ -6,7 +6,7 @@ import { ContainerClient } from "@azure/storage-blob";
 import * as log from "./log";
 
 /**
- * A blob storage implementation of a `PartitionManager`
+ * An implementation of PartitionManager that uses Azure Blob Storage to persist checkpoint data.
  * @class
  */
 export class BlobPartitionManager implements PartitionManager {
