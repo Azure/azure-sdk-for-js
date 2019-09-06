@@ -94,13 +94,14 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     }
 
     if (response.errorBody == undefined) {
-      const HttpResponseCodes: any = Constants.HttpResponseCodes;
-      if (Object.keys(HttpResponseCodes).indexOf(response.status.toString()) < 0) {
+      const HttpResponseCodes = Constants.HttpResponseCodes;
+      const statusCode = response.status;
+      if (!this.isKnownResponseCode(statusCode)) {
         response.errorBody = {
-          error: { code: `UnrecognizedHttpResponseStatus: ${response.status}` }
+          error: { code: `UnrecognizedHttpResponseStatus: ${statusCode}` }
         };
       } else {
-        response.errorBody = { error: { code: HttpResponseCodes[response.status] } };
+        response.errorBody = { error: { code: HttpResponseCodes[statusCode] } };
       }
     }
 
@@ -108,6 +109,12 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     const normalizedError = this._normalizeError(response.errorBody, response);
     response.errorBody = normalizedError;
     return response;
+  }
+
+  private isKnownResponseCode(
+    statusCode: number
+  ): statusCode is keyof typeof Constants.HttpResponseCodes {
+    return !!(Constants.HttpResponseCodes as { [statusCode: number]: string })[statusCode];
   }
 
   /**

@@ -40,16 +40,16 @@ export function parseXML(str: string): Promise<any> {
 }
 
 export async function deserializeAtomXmlToJson(body: string): Promise<any> {
-  let parsed;
   const parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
-  await parser.parseString(_removeBOM(body.toString()), function(err: any, parsedBody: any) {
-    if (err) {
-      throw err;
-    } else {
-      parsed = parsedBody;
-    }
+  return await new Promise((resolve, reject) => {
+    parser.parseString(_removeBOM(body.toString()), function(err: any, parsedBody: any) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(parsedBody);
+      }
+    });
   });
-  return parsed;
 }
 
 /**
