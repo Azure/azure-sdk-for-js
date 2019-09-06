@@ -9,7 +9,7 @@ import {
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
-describe.only("Utility Helpers", () => {
+describe("Utility Helpers", () => {
   let recorder: any;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";

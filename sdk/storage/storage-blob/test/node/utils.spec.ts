@@ -4,7 +4,7 @@ import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
 
-describe.only("Utility Helpers Node.js only", () => {
+describe("Utility Helpers Node.js only", () => {
   let recorder: any;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
