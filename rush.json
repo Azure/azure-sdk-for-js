@@ -363,8 +363,8 @@
       "projectFolder": "sdk/eventhub/event-hubs"
     },
     {
-      "packageName": "@azure/eventhubs-checkpoint-blob",
-      "projectFolder": "sdk/eventhub/eventhubs-checkpoint-blob"
+      "packageName": "@azure/eventhubs-checkpointstore-blob",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-blob"
     },
     {
       "packageName": "@azure/event-processor-host",
