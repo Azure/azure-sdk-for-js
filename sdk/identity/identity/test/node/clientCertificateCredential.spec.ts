@@ -7,8 +7,10 @@ import path from "path";
 import assert from "assert";
 import { ClientCertificateCredential } from "../../src";
 import { MockAuthHttpClient } from "../authTestUtils";
+import { TracerProxy, SupportedPlugins } from "@azure/core-http";
+import * as tracing from "@opencensus/nodejs";
 
-describe("ClientCertificateCredential", function () {
+describe("ClientCertificateCredential", function() {
   it("loads a PEM-formatted certificate from a file", () => {
     const credential = new ClientCertificateCredential(
       "tenant",
@@ -75,5 +77,40 @@ describe("ClientCertificateCredential", function () {
         "Audience does not have the correct authority or tenantId"
       );
     }
+  });
+
+  it("sends a correctly formated token request with tracer", async () => {
+    const tracer = tracing.start({ samplingRate: 1 }).tracer;
+    TracerProxy.setTracer(tracer, SupportedPlugins.OPENCENSUS);
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+    const mockHttpClient = new MockAuthHttpClient();
+
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-test.crt"),
+      mockHttpClient.identityClientOptions
+    );
+
+    await tracer.startRootSpan({ name: "main" }, async (rootSpan) => {
+      await credential.getToken("scope", {
+        spanOptions: {
+          parent: rootSpan
+        }
+      });
+
+      assert.strictEqual(
+        rootSpan.numberOfChildren,
+        1,
+        `Number of children ${rootSpan.numberOfChildren} is not equal to 1.`
+      );
+      const numberOfDescendants = rootSpan.allDescendants().length;
+      assert.strictEqual(
+        numberOfDescendants,
+        1,
+        `Number of Descendants ${numberOfDescendants} is not equal to 1.`
+      );
+    });
   });
 });

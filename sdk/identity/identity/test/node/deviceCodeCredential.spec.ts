@@ -6,7 +6,12 @@ import { delay } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
 import { MockAuthHttpClient, assertRejects } from "../authTestUtils";
 import { AuthenticationError, ErrorResponse } from "../../src/client/errors";
-import { DeviceCodeCredential, DeviceCodeResponse } from '../../src/credentials/deviceCodeCredential';
+import {
+  DeviceCodeCredential,
+  DeviceCodeResponse
+} from "../../src/credentials/deviceCodeCredential";
+import { TracerProxy, SupportedPlugins } from "@azure/core-http";
+import * as tracing from "@opencensus/nodejs";
 
 const deviceCodeResponse: DeviceCodeResponse = {
   interval: 1,
@@ -14,15 +19,15 @@ const deviceCodeResponse: DeviceCodeResponse = {
   verification_uri: "https://contoso.com/devicelogin",
   device_code: "XXXXXXXXXXXXXXXXXX",
   user_code: "B3920934",
-  message: "Visit https://contoso.com/devicelogin and enter code B3920934",
-}
+  message: "Visit https://contoso.com/devicelogin and enter code B3920934"
+};
 
 const pendingResponse: ErrorResponse = {
   error: "authorization_pending",
   error_description: "Waiting for user to authenticate"
 };
 
-describe("DeviceCodeCredential", function () {
+describe("DeviceCodeCredential", function() {
   this.timeout(10000); // eslint-disable-line no-invalid-this
 
   it("sends a device code request and returns a token when the user completes it", async function() {
@@ -32,14 +37,14 @@ describe("DeviceCodeCredential", function () {
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } }
       ]
     });
 
     const credential = new DeviceCodeCredential(
       "tenant",
       "client",
-      details => assert.equal(details.message, deviceCodeResponse.message),
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
       mockHttpClient.identityClientOptions
     );
 
@@ -47,13 +52,14 @@ describe("DeviceCodeCredential", function () {
     const currentTimestamp = Date.now() + 5000;
 
     if (accessToken === null) {
-      assert.fail("getToken did not return an AccessToken")
+      assert.fail("getToken did not return an AccessToken");
     } else {
-      assert.strictEqual(accessToken.token, "token")
+      assert.strictEqual(accessToken.token, "token");
       assert.ok(
-        accessToken.expiresOnTimestamp >= currentTimestamp - 1000
-        && accessToken.expiresOnTimestamp <= currentTimestamp,
-        `AccessToken.expiresOnTimestamp is not ~${currentTimestamp}: ${accessToken.expiresOnTimestamp}`);
+        accessToken.expiresOnTimestamp >= currentTimestamp - 1000 &&
+          accessToken.expiresOnTimestamp <= currentTimestamp,
+        `AccessToken.expiresOnTimestamp is not ~${currentTimestamp}: ${accessToken.expiresOnTimestamp}`
+      );
     }
   });
 
@@ -61,15 +67,21 @@ describe("DeviceCodeCredential", function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
-        { status: 200, parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" } },
-        { status: 200, parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" } },
+        {
+          status: 200,
+          parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" }
+        },
+        {
+          status: 200,
+          parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" }
+        }
       ]
     });
 
     const credential = new DeviceCodeCredential(
       "tenant",
       "client",
-      details => assert.equal(details.message, deviceCodeResponse.message),
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
       mockHttpClient.identityClientOptions
     );
 
@@ -77,17 +89,19 @@ describe("DeviceCodeCredential", function () {
     const refreshedToken = await credential.getToken("scope");
 
     if (refreshedToken === null) {
-      assert.fail("getToken did not return a refreshed AccessToken")
+      assert.fail("getToken did not return a refreshed AccessToken");
     } else {
       // Basic verification that a refresh request was made with the
       // refresh_token returned by the previous request
       const refreshRequest = mockHttpClient.requests[2];
       assert.ok(
         refreshRequest.body.indexOf(`grant_type=refresh_token`) > -1,
-        "Request does not contain refresh_token grant type");
+        "Request does not contain refresh_token grant type"
+      );
       assert.ok(
         refreshRequest.body.indexOf(`refresh_token=ABC123`) > -1,
-        "Request does not contain refresh token");
+        "Request does not contain refresh token"
+      );
     }
   });
 
@@ -95,17 +109,23 @@ describe("DeviceCodeCredential", function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
-        { status: 200, parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" } },
-        { status: 400, parsedBody: { error: "interaction_required", error_description: "Interaction required" } },
+        {
+          status: 200,
+          parsedBody: { access_token: "token", expires_in: 5, refresh_token: "ABC123" }
+        },
+        {
+          status: 400,
+          parsedBody: { error: "interaction_required", error_description: "Interaction required" }
+        },
         { status: 200, parsedBody: deviceCodeResponse },
-        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } }
       ]
     });
 
     const credential = new DeviceCodeCredential(
       "tenant",
       "client",
-      details => assert.equal(details.message, deviceCodeResponse.message),
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
       mockHttpClient.identityClientOptions
     );
 
@@ -113,14 +133,15 @@ describe("DeviceCodeCredential", function () {
     const refreshedToken = await credential.getToken("scope");
 
     if (refreshedToken === null) {
-      assert.fail("getToken did not return a refreshed AccessToken")
+      assert.fail("getToken did not return a refreshed AccessToken");
     } else {
       // Basic verification that the device code flow was re-initiated
       // once the refresh token request failed with "interaction_required"
       const refreshRequest = mockHttpClient.requests[3];
       assert.ok(
         refreshRequest.url.endsWith("devicecode"),
-        "Device code authorization request was not re-initiated");
+        "Device code authorization request was not re-initiated"
+      );
     }
   });
 
@@ -130,25 +151,23 @@ describe("DeviceCodeCredential", function () {
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 400, parsedBody: { error: "authorization_declined", error_description: "" }},
+        { status: 400, parsedBody: { error: "authorization_declined", error_description: "" } }
       ]
     });
 
     const credential = new DeviceCodeCredential(
       "tenant",
       "client",
-      details => assert.equal(details.message, deviceCodeResponse.message),
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
       mockHttpClient.identityClientOptions
     );
 
-    await assertRejects(
-      credential.getToken("scope"),
-      error => {
-        const authError = error as AuthenticationError;
-        assert.strictEqual(error.name, 'AuthenticationError')
-        assert.strictEqual(authError.errorResponse.error, "authorization_declined")
-        return true;
-      });
+    await assertRejects(credential.getToken("scope"), (error) => {
+      const authError = error as AuthenticationError;
+      assert.strictEqual(error.name, "AuthenticationError");
+      assert.strictEqual(authError.errorResponse.error, "authorization_declined");
+      return true;
+    });
   });
 
   it("throws an AuthenticationError when the authorization token expires", async function() {
@@ -157,50 +176,46 @@ describe("DeviceCodeCredential", function () {
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 400, parsedBody: { error: "expired_token", error_description: "" }},
+        { status: 400, parsedBody: { error: "expired_token", error_description: "" } }
       ]
     });
 
     const credential = new DeviceCodeCredential(
       "tenant",
       "client",
-      details => assert.equal(details.message, deviceCodeResponse.message),
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
       mockHttpClient.identityClientOptions
     );
 
-    await assertRejects(
-      credential.getToken("scope"),
-      error => {
-        const authError = error as AuthenticationError;
-        assert.strictEqual(error.name, 'AuthenticationError')
-        assert.strictEqual(authError.errorResponse.error, "expired_token")
-        return true;
-      });
+    await assertRejects(credential.getToken("scope"), (error) => {
+      const authError = error as AuthenticationError;
+      assert.strictEqual(error.name, "AuthenticationError");
+      assert.strictEqual(authError.errorResponse.error, "expired_token");
+      return true;
+    });
   });
 
   it("throws an AuthenticationError when the client sends the wrong device code", async function() {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
-        { status: 400, parsedBody: { error: "bad_verification_code", error_description: "" }},
+        { status: 400, parsedBody: { error: "bad_verification_code", error_description: "" } }
       ]
     });
 
     const credential = new DeviceCodeCredential(
       "tenant",
       "client",
-      details => assert.equal(details.message, deviceCodeResponse.message),
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
       mockHttpClient.identityClientOptions
     );
 
-    await assertRejects(
-      credential.getToken("scope"),
-      error => {
-        const authError = error as AuthenticationError;
-        assert.strictEqual(error.name, 'AuthenticationError')
-        assert.strictEqual(authError.errorResponse.error, "bad_verification_code")
-        return true;
-      });
+    await assertRejects(credential.getToken("scope"), (error) => {
+      const authError = error as AuthenticationError;
+      assert.strictEqual(error.name, "AuthenticationError");
+      assert.strictEqual(authError.errorResponse.error, "bad_verification_code");
+      return true;
+    });
   });
 
   it("cancels polling when abort signal is raised", async function() {
@@ -209,14 +224,14 @@ describe("DeviceCodeCredential", function () {
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } }
       ]
     });
 
     const credential = new DeviceCodeCredential(
       "tenant",
       "client",
-      details => assert.equal(details.message, deviceCodeResponse.message),
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
       mockHttpClient.identityClientOptions
     );
 
@@ -229,5 +244,47 @@ describe("DeviceCodeCredential", function () {
 
     assert.strictEqual(token, null);
     assert.strictEqual(mockHttpClient.requests.length, 2);
+  });
+
+  it("sends a device code request and returns a token with tracer", async function() {
+    const tracer = tracing.start({ samplingRate: 1 }).tracer;
+    TracerProxy.setTracer(tracer, SupportedPlugins.OPENCENSUS);
+
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        { status: 200, parsedBody: deviceCodeResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } }
+      ]
+    });
+
+    const credential = new DeviceCodeCredential(
+      "tenant",
+      "client",
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
+      mockHttpClient.identityClientOptions
+    );
+
+    await tracer.startRootSpan({ name: "main" }, async (rootSpan) => {
+      const accessToken = await credential.getToken("scope", {
+        spanOptions: {
+          parent: rootSpan
+        }
+      });
+
+      assert.strictEqual(
+        rootSpan.numberOfChildren,
+        1,
+        `Number of children ${rootSpan.numberOfChildren} is not equal to 1.`
+      );
+      const numberOfDescendants = rootSpan.allDescendants().length;
+      assert.strictEqual(
+        numberOfDescendants,
+        3,
+        `Number of Descendants ${numberOfDescendants} is not equal to 3.`
+      );
+    });
   });
 });

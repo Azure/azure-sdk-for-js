@@ -144,6 +144,10 @@ export class ManagedIdentityCredential implements TokenCredential {
       delete request.headers.Metadata;
     }
 
+    request.spanOptions = {
+      parent: span
+    };
+
     // Create a request with a timeout since we expect that
     // not having a "Metadata" header should cause an error to be
     // returned quickly from the endpoint, proving its availability.
@@ -232,6 +236,9 @@ export class ManagedIdentityCredential implements TokenCredential {
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
       abortSignal: getTokenOptions && getTokenOptions.abortSignal,
+      spanOptions: {
+        parent: span
+      },
       ...authRequestOptions
     });
 
@@ -256,6 +263,12 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const span = createSpan("ManagedIdentityCredential-getToken", getSpanOptions(options));
     span.start();
+    if (!options) {
+      options = {};
+    }
+    options.spanOptions = {
+      parent: span
+    };
     let result: AccessToken | null = null;
 
     // isEndpointAvailable can be true, false, or null,

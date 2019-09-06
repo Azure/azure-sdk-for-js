@@ -130,7 +130,10 @@ export class ClientCertificateCredential implements TokenCredential {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      abortSignal: options && options.abortSignal
+      abortSignal: options && options.abortSignal,
+      spanOptions: {
+        parent: span
+      }
     });
 
     const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

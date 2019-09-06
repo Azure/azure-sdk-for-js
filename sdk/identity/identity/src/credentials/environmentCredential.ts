@@ -55,6 +55,12 @@ export class EnvironmentCredential implements TokenCredential {
     if (this._credential) {
       const span = createSpan("EnvironmentCredential-getToken", getSpanOptions(options));
       span.start();
+      if (!options) {
+        options = {};
+      }
+      options.spanOptions = {
+        parent: span
+      };
       const tokenResponse = await this._credential.getToken(scopes, options);
       span.end();
       return tokenResponse;

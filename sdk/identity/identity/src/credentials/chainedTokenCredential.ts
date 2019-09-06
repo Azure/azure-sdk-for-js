@@ -35,6 +35,12 @@ export class ChainedTokenCredential implements TokenCredential {
 
     const span = createSpan("ChainedTokenCredential-getToken", getSpanOptions(options));
     span.start();
+    if (!options) {
+      options = {};
+    }
+    options.spanOptions = {
+      parent: span
+    };
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {

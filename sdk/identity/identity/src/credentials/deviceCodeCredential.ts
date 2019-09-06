@@ -91,7 +91,10 @@ export class DeviceCodeCredential implements TokenCredential {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      abortSignal: options && options.abortSignal
+      abortSignal: options && options.abortSignal,
+      spanOptions: {
+        parent: span
+      }
     });
 
     const response = await this.identityClient.sendRequest(webResource);
@@ -125,7 +128,10 @@ export class DeviceCodeCredential implements TokenCredential {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      abortSignal: options && options.abortSignal
+      abortSignal: options && options.abortSignal,
+      spanOptions: {
+        parent: span
+      }
     });
 
     while (tokenResponse === null) {
@@ -178,6 +184,12 @@ export class DeviceCodeCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const span = createSpan("DeviceCodeCredential-getToken", getSpanOptions(options));
     span.start();
+    if (!options) {
+      options = {};
+    }
+    options.spanOptions = {
+      parent: span
+    };
     let tokenResponse: TokenResponse | null = null;
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
     if (scopeString.indexOf("offline_access") < 0) {
