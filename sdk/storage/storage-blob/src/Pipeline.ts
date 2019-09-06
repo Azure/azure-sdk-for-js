@@ -51,29 +51,6 @@ export {
 };
 
 /**
- * Interface of proxy policy options.
- *
- * @example
- * // Use SharedKeyCredential with storage account and account key
- * // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
- * const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
- * const blobServiceClient = new BlobServiceClient(
- *  `https://${account}.blob.core.windows.net`,
- *  sharedKeyCredential,
- *  {
- *    proxy: { url: "http://localhost:3128" }
- *  });
- *
- * @export
- * @interface ProxyOptions
- */
-
-export interface ProxyOptions {
-  url?: string;
-  username?: string;
-  password?: string;
-}
-/**
  * Option interface for Pipeline constructor.
  *
  * @export
