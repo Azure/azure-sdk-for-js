@@ -22,7 +22,7 @@ export class BlobPartitionManager implements PartitionManager {
    *
    * @param eventHubName The event hub name.
    * @param consumerGroupName The consumer group name.
-   * @return Partition ownership details of all the partitions that have/had an owner..
+   * @return Partition ownership details of all the partitions that have had an owner.
    */
   async listOwnership(
     eventHubName: string,
