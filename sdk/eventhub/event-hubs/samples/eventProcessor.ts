@@ -7,40 +7,38 @@ import {
   InMemoryPartitionManager,
   PartitionProcessor,
   CloseReason
-} from "@azure/event-hubs";
+} from "../src";
 
+// A Sample Partition Processor that keeps track of the number of events processed.
 class SamplePartitionProcessor extends PartitionProcessor {
   private _messageCount = 0;
 
   async processEvents(events: ReceivedEventData[], partitionContext: PartitionContext) {
+    // events can be empty if no events were recevied in the last 60 seconds.
+    // This interval can be configured when creating the EventProcessor
     if (events.length === 0) {
       return;
     }
+
     for (const event of events) {
       console.log(
-        `Received event: '${event.body}' from partition: '${partitionContext.partitionId}' and consumer group: '${partitionContext.consumerGroupName}'`,
+        `Received event: '${event.body}' from partition: '${partitionContext.partitionId}' and consumer group: '${partitionContext.consumerGroupName}'`
       );
       this._messageCount++;
     }
 
-    try {
-      // checkpoint using the last event in the batch
-      await partitionContext.updateCheckpoint(events[events.length - 1]);
-
-      console.log(
-        "Successfully checkpointed event: '%s' from partition: '%s'",
-        events[events.length - 1].body,
-        partitionContext.partitionId
-      );
-    } catch (err) {
-      console.log(
-        `Encountered an error while checkpointing on ${partitionContext.partitionId}: ${err.message}`
-      );
-    }
+    // checkpoint using the last event in the batch
+    const lastEvent = events[events.length - 1];
+    await partitionContext.updateCheckpoint(lastEvent).catch((err) => {
+      console.log(`Error when checkpointing on partition ${partitionContext.partitionId}: `, err);
+    });
+    console.log(
+      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: 'partitionContext.partitionId'`
+    );
   }
 
-  async processError(error: Error) {
-    console.log(`Encountered an error: ${error.message}`);
+  async processError(error: Error, partitionContext: PartitionContext) {
+    console.log(`Encountered an error: ${error.message} when processing partition ${partitionContext.partitionId}`);
   }
 
   async initialize(partitionContext: PartitionContext) {

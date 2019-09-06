@@ -11,7 +11,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubClient, OnMessage, OnError, MessagingError, delay, EventData, EventPosition } from "@azure/event-hubs";
+import { EventHubClient, OnMessage, OnError, delay, EventPosition } from "../src";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
@@ -20,26 +20,25 @@ const eventHubName = "";
 async function main(): Promise<void> {
   const client = new EventHubClient(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
-  const consumer = client.createConsumer("$Default", partitionIds[0], EventPosition.earliest());
+  const consumerGroupName = "$Default";
+  const earliestEventPosition = EventPosition.earliest();
+  const consumer = client.createConsumer(consumerGroupName, partitionIds[0], earliestEventPosition);
 
-  const onMessageHandler: OnMessage = (brokeredMessage: EventData) => {
+  const onMessageHandler: OnMessage = (brokeredMessage) => {
     console.log(`Received event: ${brokeredMessage.body}`);
   };
-  const onErrorHandler: OnError = (err: MessagingError | Error) => {
+  const onErrorHandler: OnError = (err) => {
     console.log("Error occurred: ", err);
   };
 
-  try {
-    const rcvHandler = consumer.receive(onMessageHandler, onErrorHandler);
+  const rcvHandler = consumer.receive(onMessageHandler, onErrorHandler);
 
-    // Waiting long enough before closing the consumer to receive event
-    await delay(5000);
-    await rcvHandler.stop();
-  } finally {
-    await client.close();
-  }
+  // Waiting long enough before closing the consumer to receive event
+  await delay(5000);
+  await rcvHandler.stop();
+  await client.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });
