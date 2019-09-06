@@ -13,7 +13,7 @@ export { OperationArguments } from "./operationArguments";
 export { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
 export { OperationResponse } from "./operationResponse";
 export { OperationSpec } from "./operationSpec";
-export { ServiceClient, ServiceClientOptions, flattenResponse, ProxySettings } from "./serviceClient";
+export { ServiceClient, ServiceClientOptions, flattenResponse } from "./serviceClient";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export { BearerTokenAuthenticationPolicy, bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
