@@ -46,7 +46,7 @@ export class BlobPartitionManager implements PartitionManager {
               ? parseInt(blob.metadata.sequencenumber)
               : -1,
           lastModifiedTimeInMS:
-            blob.properties.lastModified && Date.parse(blob.properties.lastModified.toISOString()),
+            blob.properties.lastModified && blob.properties.lastModified.getTime(),
           eTag: blob.properties.etag,
           ownerLevel: 0 // this needs to be removed from eventhubs
         };
@@ -54,14 +54,14 @@ export class BlobPartitionManager implements PartitionManager {
       }
       return partitionOwnershipArray;
     } catch (err) {
-      log.error(`Error ocuured while fetching the list of blobs.`, err);
-      throw new Error(`Error ocuured while fetching the list of blobs. \n${err}`);
+      log.error(`Error occurred while fetching the list of blobs.`, err);
+      throw new Error(`Error occurred while fetching the list of blobs. \n${err}`);
     }
   }
 
   /**
-   * Claim ownership of a list of partitions. This will return the list of partitions that were owned
-   * successfully.
+   * Claim ownership of a list of partitions. This will return the list of partitions that were 
+   * successfully claimed.
    *
    * @param partitionOwnership The list of partition ownership this instance is claiming to own.
    * @return A list partitions this instance successfully claimed ownership.
@@ -104,9 +104,7 @@ export class BlobPartitionManager implements PartitionManager {
           });
         }
         if (updatedBlobResponse.lastModified) {
-          ownership.lastModifiedTimeInMS = Date.parse(
-            updatedBlobResponse.lastModified.toISOString()
-          );
+          updatedBlobResponse.lastModified.getTime()
         }
         ownership.eTag = updatedBlobResponse.eTag;
         partitionOwnershipArray.push(ownership);
@@ -116,7 +114,7 @@ export class BlobPartitionManager implements PartitionManager {
         );
       } catch (err) {
         log.error(
-          `Error ocuured while claiming ownership for partition: ${ownership.partitionId}`,
+          `Error occurred while claiming ownership for partition: ${ownership.partitionId}`,
           err
         );
       }
@@ -132,44 +130,17 @@ export class BlobPartitionManager implements PartitionManager {
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
     const blobName = `${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/${checkpoint.partitionId}`;
-    let ownerId;
-    let blob;
-    try {
-      for await (const blobItem of this._containerClient.listBlobsFlat({
-        include: ["metadata"],
-        prefix: `${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/`
-      })) {
-        if (blobItem.name === blobName) {
-          ownerId = blobItem.metadata!.ownerid;
-          blob = blobItem;
-          break;
-        }
-      }
-    } catch (err) {
-      log.error(`${[checkpoint.ownerId]} Error ocuured while fetching the list of blobs`, err);
-      throw new Error(
-        `${[checkpoint.ownerId]} Error ocuured while fetching the list of blobs.\n ${err}`
-      );
-    }
-
-    if (!blob) {
-      log.error(
-        `Checkpoint for partition: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
-      );
-      throw new Error(
-        `Checkpoint for partition: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
-      );
-    }
-    if (ownerId !== checkpoint.ownerId) {
-      log.error(
-        `ownerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${ownerId}], hence cannot update the checkpoint.`
-      );
-      throw new Error(
-        `OwnerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${ownerId}], hence cannot update the checkpoint.`
-      );
-    }
     try {
       const blobClient = this._containerClient.getBlobClient(blobName);
+      const properties = await blobClient.getProperties();
+      if (properties.metadata!.ownerid !== checkpoint.ownerId) {
+      log.error(
+        `ownerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${properties.metadata!.ownerid}].`
+      );
+      throw new Error(
+        `ownerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${properties.metadata!.ownerid}].`
+      );
+    }
       const metadataResponse = await blobClient.setMetadata(
         {
           OwnerId: checkpoint.ownerId,
@@ -194,15 +165,15 @@ export class BlobPartitionManager implements PartitionManager {
       return metadataResponse.eTag!;
     } catch (err) {
       log.error(
-        `${[checkpoint.ownerId]} Error ocuured while upating the checkpoint for partition: ${
+        `${[checkpoint.ownerId]} Error occurred while upating the checkpoint for partition: ${
           checkpoint.partitionId
         }.`,
         err
       );
       throw new Error(
-        `${[checkpoint.ownerId]} Error ocuured while upating the checkpoint for partition: ${
+        `${[checkpoint.ownerId]} Error occurred while upating the checkpoint for partition: ${
           checkpoint.partitionId
-        }.\n ${err}`
+        }, ${err}`
       );
     }
   }

@@ -235,14 +235,14 @@ describe("Blob Partition Manager", function(): void {
     };
 
     await partitionManager.updateCheckpoint(checkpoint).catch((err) => {
-      debug("Error occured while updating checkpoint", err);
+      debug("Error occurred while updating checkpoint", err);
       should.exist(err);
-      err.message.should.equal(
-        `OwnerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${ownershipList[0].ownerId}], hence cannot update the checkpoint.`
+      err.message.should.match(
+        /.*ownerId: \[Id2\] doesn\'t match with stored ownerId: \[Id1\].*/
       );
     });
   });
-
+  
   it("updateCheckpoint on a partition that has not been claimed should throw an error.", async function(): Promise<
     void
   > {
@@ -261,10 +261,10 @@ describe("Blob Partition Manager", function(): void {
     };
 
     await partitionManager.updateCheckpoint(checkpoint).catch((err) => {
-      debug("Error occured while updating checkpoint", err);
+      debug("Error occurred while updating checkpoint", err);
       should.exist(err);
-      err.message.should.equal(
-        `Checkpoint for partition: ${checkpoint.partitionId} never claimed, hence cannot update the checkpoint.`
+      err.message.should.match(
+        /.*Error occurred while upating the checkpoint for partition*/
       );
     });
   });
