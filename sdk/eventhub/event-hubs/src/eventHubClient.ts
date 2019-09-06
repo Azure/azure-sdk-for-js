@@ -136,11 +136,11 @@ export interface EventHubConsumerOptions {
   retryOptions?: RetryOptions;
   /**
    * @property
-   * Indicates whether or not the consumer requests metrics for the state of its
-   * partition each time that events are received.
+   * Indicates whether or not the consumer should request information on the last enqueued event on its
+   * associated partition, and track that information as events are received.
 
-   * When metrics are requested, each event received from the Event Hubs service will carry metadata
-   * about the state of a partition that it otherwise would not.  This results in a small amount of
+   * When information about the partition's last enqueued event is being tracked, each event received 
+   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
    * additional network bandwidth consumption that is generally a favorable trade-off when considered
    * against periodically making requests for partition properties using the Event Hub client.
    */

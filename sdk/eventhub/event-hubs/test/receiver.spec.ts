@@ -1063,9 +1063,9 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventInfo);
       data.length.should.equal(1);
       should.exist(receiver.lastEnqueuedEventInfo);
-      receiver.lastEnqueuedEventInfo!.lastEnqueuedOffset!.should.equal(pInfo.lastEnqueuedOffset);
-      receiver.lastEnqueuedEventInfo!.lastEnqueuedSequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
-      receiver.lastEnqueuedEventInfo!.lastEnqueuedTimeUtc!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
+      receiver.lastEnqueuedEventInfo!.offset!.should.equal(pInfo.lastEnqueuedOffset);
+      receiver.lastEnqueuedEventInfo!.sequenceNumber!.should.equal(pInfo.lastEnqueuedSequenceNumber);
+      receiver.lastEnqueuedEventInfo!.enqueuedTime!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
       receiver.lastEnqueuedEventInfo!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
     });
   });

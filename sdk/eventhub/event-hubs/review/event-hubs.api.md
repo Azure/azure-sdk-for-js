@@ -116,7 +116,7 @@ export class EventHubConsumer {
     getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     readonly isClosed: boolean;
     readonly isReceivingMessages: boolean;
-    readonly lastEnqueuedEventInfo: ReceiverRuntimeInfo;
+    readonly lastEnqueuedEventInfo: LastEnqueuedEventInfo;
     readonly ownerLevel: number | undefined;
     readonly partitionId: string;
     receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
@@ -195,6 +195,14 @@ export class InMemoryPartitionManager implements PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+}
+
+// @public
+export interface LastEnqueuedEventInfo {
+    enqueuedTime?: Date;
+    offset?: string;
+    retrievalTime?: Date;
+    sequenceNumber?: number;
 }
 
 export { MessagingError }
@@ -277,14 +285,6 @@ export class ReceiveHandler {
     readonly isReceiverOpen: boolean;
     readonly partitionId: string | undefined;
     stop(): Promise<void>;
-}
-
-// @public
-export interface ReceiverRuntimeInfo {
-    lastEnqueuedOffset?: string;
-    lastEnqueuedSequenceNumber?: number;
-    lastEnqueuedTimeUtc?: Date;
-    retrievalTime?: Date;
 }
 
 export { RetryOptions }
