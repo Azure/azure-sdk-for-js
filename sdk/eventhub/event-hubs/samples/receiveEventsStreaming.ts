@@ -11,7 +11,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubClient, OnMessage, OnError, delay, EventPosition } from "../src";
+import { EventHubClient, OnMessage, OnError, delay, EventPosition } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";

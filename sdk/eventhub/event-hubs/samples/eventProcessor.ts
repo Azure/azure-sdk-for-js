@@ -7,7 +7,7 @@ import {
   InMemoryPartitionManager,
   PartitionProcessor,
   CloseReason
-} from "../src";
+} from "@azure/event-hubs";
 
 // A Sample Partition Processor that keeps track of the number of events processed.
 class SamplePartitionProcessor extends PartitionProcessor {
