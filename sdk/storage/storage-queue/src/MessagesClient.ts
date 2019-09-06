@@ -3,7 +3,7 @@
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -274,9 +274,8 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.messagesContext.clear({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -305,13 +304,12 @@ export class MessagesClient extends StorageClient {
     messageText: string,
     options: MessagesEnqueueOptions = {}
   ): Promise<MessagesEnqueueResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.enqueue(
       {
         messageText: messageText
       },
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         ...options
       }
     );
@@ -339,9 +337,8 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.dequeue({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       ...options
     });
 
@@ -370,9 +367,8 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.peek({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       ...options
     });
 

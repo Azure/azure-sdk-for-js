@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { HttpResponse } from "@azure/core-http";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ListContainersIncludeType } from "./generated/src/models/index";
 import * as Models from "./generated/src/models";
 import { Service } from "./generated/src/operations";
@@ -413,9 +413,8 @@ export class BlobServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getProperties({
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -433,9 +432,8 @@ export class BlobServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.setProperties(properties, {
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -452,9 +450,8 @@ export class BlobServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<Models.ServiceGetStatisticsResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getStatistics({
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -472,9 +469,8 @@ export class BlobServiceClient extends StorageClient {
   public async getAccountInfo(
     options: ServiceGetAccountInfoOptions = {}
   ): Promise<Models.ServiceGetAccountInfoResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getAccountInfo({
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -482,8 +478,6 @@ export class BlobServiceClient extends StorageClient {
    * Returns a list of the containers under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
-   * @param {Aborter} aborter Create a new Aborter instance with AbortSignal.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of containers to be returned with the next listing operation. The
    *                          operation returns the NextMarker value within the response body if the
@@ -499,9 +493,8 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
   ): Promise<Models.ServiceListContainersSegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.listContainersSegment({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       marker,
       ...options
     });
@@ -664,14 +657,13 @@ export class BlobServiceClient extends StorageClient {
     expiry: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.serviceContext.getUserDelegationKey(
       {
         start: truncatedISO8061Date(start, false),
         expiry: truncatedISO8061Date(expiry, false)
       },
       {
-        abortSignal: aborter
+        abortSignal: options.abortSignal
       }
     );
 

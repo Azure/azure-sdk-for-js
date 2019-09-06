@@ -10,7 +10,7 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
 import { AppendBlob } from "./generated/src/operations";
 import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
@@ -318,10 +318,9 @@ export class AppendBlobClient extends BlobClient {
   public async create(
     options: AppendBlobCreateOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.create(0, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
@@ -344,10 +343,9 @@ export class AppendBlobClient extends BlobClient {
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.appendBlobContext.appendBlock(body, contentLength, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
@@ -361,8 +359,6 @@ export class AppendBlobClient extends BlobClient {
    * where the contents are read from a source url.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/append-block-from-url
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} sourceURL
    *                 The url to the blob that will be the source of the copy. A source blob in the same storage account can
    *                 be authenticated via Shared Key. However, if the source is a blob in another account, the source blob
@@ -380,12 +376,11 @@ export class AppendBlobClient extends BlobClient {
     count: number,
     options: AppendBlobAppendBlockFromURLOptions = {}
   ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
     return this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       sourceRange: rangeToString({ offset: sourceOffset, count }),
       sourceContentMD5: options.sourceContentMD5,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,

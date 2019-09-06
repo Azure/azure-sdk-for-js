@@ -3,7 +3,7 @@
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { MessageId } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -197,9 +197,8 @@ export class MessageIdClient extends StorageClient {
     popReceipt: string,
     options: MessageIdDeleteOptions = {}
   ): Promise<Models.MessageIdDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.messageIdContext.deleteMethod(popReceipt, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -226,7 +225,6 @@ export class MessageIdClient extends StorageClient {
     visibilityTimeout?: number,
     options: MessageIdUpdateOptions = {}
   ): Promise<Models.MessageIdUpdateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.messageIdContext.update(
       {
         messageText: message
@@ -234,7 +232,7 @@ export class MessageIdClient extends StorageClient {
       popReceipt,
       visibilityTimeout || 0,
       {
-        abortSignal: aborter
+        abortSignal: options.abortSignal
       }
     );
   }

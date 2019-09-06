@@ -3,7 +3,7 @@
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import * as Models from "./generated/lib/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ListQueuesIncludeType } from "./generated/lib/models";
 import { Service } from "./generated/lib/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -258,9 +258,8 @@ export class QueueServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -278,9 +277,8 @@ export class QueueServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.setProperties(properties, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -297,9 +295,8 @@ export class QueueServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<Models.ServiceGetStatisticsResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getStatistics({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -322,9 +319,8 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.listQueuesSegment({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       marker,
       ...options
     } as Models.ServiceListQueuesSegmentOptionalParams);

@@ -1,8 +1,10 @@
 # Changelog
 
-### Coming soon... Version 12.0.0-preview.3
+### 2019.08 Version 12.0.0-preview.3
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
+
+- Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
 
 ### 2019.08 Version 12.0.0-preview.2
 
