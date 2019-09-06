@@ -52,7 +52,8 @@ export interface Label {
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientListConfigurationSettingsOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientListConfigurationSettingsOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Filter returned values based on their label. '*' can be used as wildcard in the beginning or
    * end of the filter
@@ -76,7 +77,8 @@ export interface ConfigurationClientListConfigurationSettingsOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientGetConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientGetConfigurationSettingOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Label of key to retreive. Default value: '%00'.
    */
@@ -90,7 +92,8 @@ export interface ConfigurationClientGetConfigurationSettingOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Default value: '%00'.
    */
@@ -100,7 +103,8 @@ export interface ConfigurationClientCreateOrUpdateConfigurationSettingOptionalPa
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientDeleteConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientDeleteConfigurationSettingOptionalParams
+  extends coreHttp.RequestOptionsBase {
   label?: string;
 }
 
@@ -133,21 +137,24 @@ export interface ConfigurationClientListLabelsOptionalParams extends coreHttp.Re
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientLockConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientLockConfigurationSettingOptionalParams
+  extends coreHttp.RequestOptionsBase {
   label?: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientUnlockConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientUnlockConfigurationSettingOptionalParams
+  extends coreHttp.RequestOptionsBase {
   label?: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientListRevisionsOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientListRevisionsOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Filter returned values based on their label. '*' can be used as wildcard in the beginning or
    * end of the filter
@@ -171,7 +178,8 @@ export interface ConfigurationClientListRevisionsOptionalParams extends coreHttp
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientListConfigurationSettingsNextOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientListConfigurationSettingsNextOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Obtain representation of the result related to past time.
    */
@@ -181,7 +189,8 @@ export interface ConfigurationClientListConfigurationSettingsNextOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ConfigurationClientListRevisionsNextOptionalParams extends coreHttp.RequestOptionsBase {
+export interface ConfigurationClientListRevisionsNextOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Obtain representation of the result related to past time.
    */
@@ -240,26 +249,27 @@ export type ListConfigurationSettingsResponse = ConfigurationSettingList & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationSettingList;
+  };
 };
 
 /**
  * Contains response data for the getConfigurationSetting operation.
  */
-export type GetConfigurationSettingResponse = ConfigurationSetting & GetConfigurationSettingHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type GetConfigurationSettingResponse = ConfigurationSetting &
+  GetConfigurationSettingHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -275,7 +285,7 @@ export type GetConfigurationSettingResponse = ConfigurationSetting & GetConfigur
        */
       parsedBody: ConfigurationSetting;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdateConfigurationSetting operation.
@@ -285,16 +295,16 @@ export type CreateOrUpdateConfigurationSettingResponse = ConfigurationSetting & 
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationSetting;
+  };
 };
 
 /**
@@ -305,16 +315,16 @@ export type DeleteConfigurationSettingResponse = ConfigurationSetting & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationSetting;
+  };
 };
 
 /**
@@ -325,16 +335,16 @@ export type ListKeysResponse = KeyList & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyList;
+  };
 };
 
 /**
@@ -345,16 +355,16 @@ export type ListLabelsResponse = LabelList & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LabelList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LabelList;
+  };
 };
 
 /**
@@ -365,16 +375,16 @@ export type LockConfigurationSettingResponse = ConfigurationSetting & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationSetting;
+  };
 };
 
 /**
@@ -385,16 +395,16 @@ export type UnlockConfigurationSettingResponse = ConfigurationSetting & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationSetting;
+  };
 };
 
 /**
@@ -405,16 +415,16 @@ export type ListRevisionsResponse = ConfigurationSettingList & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationSettingList;
+  };
 };
 
 /**
@@ -425,16 +435,16 @@ export type ListConfigurationSettingsNextResponse = ConfigurationSettingList & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationSettingList;
+  };
 };
 
 /**
@@ -445,14 +455,14 @@ export type ListRevisionsNextResponse = ConfigurationSettingList & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationSettingList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationSettingList;
+  };
 };

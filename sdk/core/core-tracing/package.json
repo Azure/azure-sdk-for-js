@@ -53,7 +53,7 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "engine": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-tracing",
   "sideEffects": false,

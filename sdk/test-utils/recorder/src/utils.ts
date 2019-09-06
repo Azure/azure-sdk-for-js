@@ -97,3 +97,22 @@ export function isBrowser(): boolean {
 export function delay(milliseconds: number): Promise<void> | null {
   return isPlaybackMode() ? null : new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
+
+/**
+ * Usage - `parseUrl(<url>)`
+ *
+ * @param {string} url The URL you want to parse
+ * @returns {any} An object with the url without parameters, and a query object with all the query properties.
+ */
+export function parseUrl(url: string): any {
+  const [cleanUrl, ...queryParts] = url.split(/[?&]/);
+  const query = queryParts.reduce((query: { [key:string]: any }, part) => {	
+    const [name, value] = part.split(/=/);
+    query[name] = decodeURIComponent(value.replace(/\+/g, ' '));
+    return query;
+  }, {});
+  return {
+    url: cleanUrl,
+    query
+  }
+}

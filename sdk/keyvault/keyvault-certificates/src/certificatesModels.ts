@@ -1,10 +1,21 @@
 import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { CertificatePolicy } from "./core/models";
+import {
+  CertificatePolicy,
+  KeyVaultClientCreateCertificateOptionalParams,
+} from "./core/models";
+
+/**
+ * Defines values for contentType.
+ * Possible values include: 'application/pem', 'application/x-pkcs12'
+ * @readonly
+ * @enum {string}
+ */
+export type CertificateContentType = 'application/pem' | 'application/x-pkcs12' | undefined;
 
 /**
  * @interface
- * An interface representing a full certificate
+ * An interface representing a certificate without the certificate's policy
  */
 export interface Certificate extends CertificateAttributes {
   /**
@@ -20,19 +31,26 @@ export interface Certificate extends CertificateAttributes {
    */
   readonly sid?: string;
   /**
+   * @member {Uint8Array} [cer] CER contents of x509 certificate.
+   */
+  cer?: Uint8Array;
+  /**
+   * @member {CertificateContentType} [contentType] The content type of the secret.
+   */
+  contentType?: CertificateContentType;
+}
+
+/**
+ * @interface
+ * An interface representing a full certificate
+ */
+export interface CertificateWithPolicy extends Certificate { 
+  /**
    * @member {CertificatePolicy} [policy] The management policy.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly policy?: CertificatePolicy;
-  /**
-   * @member {Uint8Array} [cer] CER contents of x509 certificate.
-   */
-  cer?: Uint8Array;
-  /**
-   * @member {string} [contentType] The content type of the secret.
-   */
-  contentType?: string;
 }
 
 /**
@@ -68,7 +86,7 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
-  tags?: { [propertyName: string]: string };
+  tags?: CertificateTags;
   /**
    * @member {Uint8Array} [x509Thumbprint] Thumbprint of the certificate.
    */
@@ -102,37 +120,12 @@ export interface DeletedCertificate extends Certificate {
 
 /**
  * @interface
- * An interface representing options for setting a certificate.
+ * An interface representing options for creating a certificate.
  * Optional Parameters.
  */
-export interface SetCertificateOptions {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * @member {string} [contentType] Type of the certificate value such as a
-   * password.
-   */
-  contentType?: string;
-  /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {Date} [notBefore] Not before date in UTC.
-   */
-  notBefore?: Date;
-  /**
-   * @member {Date} [expires] Expiry date in UTC.
-   */
-  expires?: Date;
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-}
+export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {}
+
+export type CertificateTags = { [propertyName: string]: string };
 
 /**
  * @interface
@@ -143,10 +136,10 @@ export interface SetCertificateOptions {
  */
 export interface UpdateCertificateOptions {
   /**
-   * @member {string} [contentType] Type of the certificate value such as a
+   * @member {CertificateContentType} [contentType] Type of the certificate value such as a
    * password.
    */
-  contentType?: string;
+  contentType?: CertificateContentType;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */
@@ -163,26 +156,7 @@ export interface UpdateCertificateOptions {
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
-  tags?: { [propertyName: string]: string };
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-}
-
-/**
- * @interface
- * An interface representing CertificateClientGetCertificateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface GetCertificateOptions {
-  /**
-   * @member {string} [version] The version of the certificate to retrieve.  If not 
-   * specified the latest version of the certificate will be retrieved.
-   */
-  version?: string;
+  tags?: CertificateTags;
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */

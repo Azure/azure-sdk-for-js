@@ -4,7 +4,8 @@
 import * as assert from "assert";
 import chai from "chai";
 import { CertificatesClient } from "../src";
-import { env, retry, isRecording } from "./utils/recorder";
+import { retry, isRecording } from "./utils/recorder"; 
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 const { expect } = chai;
@@ -16,11 +17,9 @@ describe("Certificates client - list certificates in various ways", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  const basicCertificateProperties = {
-    certificatePolicy: {
-      issuerParameters: { name: "Self" },
-      x509CertificateProperties: { subject: "cn=MyCert" }
-    }
+  const basicCertificatePolicy = {
+    issuerParameters: { name: "Self" },
+    x509CertificateProperties: { subject: "cn=MyCert" }
   };
 
   const includePending = { requestOptions: { includePending: true } };
@@ -59,7 +58,7 @@ describe("Certificates client - list certificates in various ways", () => {
     );
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      await client.createCertificate(name, basicCertificateProperties);
+      await client.createCertificate(name, basicCertificatePolicy);
     }
 
     let found = 0;
@@ -87,7 +86,7 @@ describe("Certificates client - list certificates in various ways", () => {
       );
       const certificateNames = [`${certificateName}0`, `${certificateName}1`];
       for (const name of certificateNames) {
-        await client.createCertificate(name, basicCertificateProperties);
+        await client.createCertificate(name, basicCertificatePolicy);
       }
       for (const name of certificateNames) {
         await client.deleteCertificate(name);
@@ -119,7 +118,7 @@ describe("Certificates client - list certificates in various ways", () => {
     );
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      await client.createCertificate(name, basicCertificateProperties);
+      await client.createCertificate(name, basicCertificatePolicy);
     }
     let found = 0;
     for await (const page of client.listCertificates(includePending).byPage()) {
@@ -135,13 +134,13 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  it("can list deleted certificates", async function() {
+  it("can list deleted certificates by page", async function() {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      await client.createCertificate(name, basicCertificateProperties);
+      await client.createCertificate(name, basicCertificatePolicy);
     }
     for (const name of certificateNames) {
       await client.deleteCertificate(name);
@@ -182,13 +181,10 @@ describe("Certificates client - list certificates in various ways", () => {
     for (const tag of certificateTags) {
       // One can't re-create a certificate while it's pending,
       // so we're retrying until Azure allows us to do this.
-      await retry(async () => client.createCertificate(certificateName, {
-        ...basicCertificateProperties,
-        tags: { tag }
-      }));
+      await retry(async () => client.createCertificate(certificateName, basicCertificatePolicy, true, { tag }));
       let response: any;
       await retry(async () => {
-        response = await client.getCertificate(certificateName, "");
+        response = await client.getCertificateWithPolicy(certificateName);
         if (response.tags!.tag !== tag) throw "retrying due to mismatched tag";
       });
       // Versions don't match. Something must be happening under the hood.

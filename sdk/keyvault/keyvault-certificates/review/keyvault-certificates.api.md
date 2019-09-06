@@ -26,9 +26,8 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
     readonly expires?: Date;
     readonly id?: string;
     readonly notBefore?: Date;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    // Warning: (ae-forgotten-export) The symbol "CertificateTags" needs to be exported by the entry point index.d.ts
+    tags?: CertificateTags;
     readonly updated?: Date;
     readonly x509Thumbprint?: Uint8Array;
 }
@@ -68,19 +67,21 @@ export class CertificatesClient {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult>;
-    // Warning: (ae-forgotten-export) The symbol "KeyVaultClientCreateCertificateOptionalParams" needs to be exported by the entry point index.d.ts
+    cancelCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
     // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
-    createCertificate(name: string, options?: KeyVaultClientCreateCertificateOptionalParams): Promise<Certificate>;
+    createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags): Promise<Certificate>;
     protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptions): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptions): Promise<Contacts>;
     deleteCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
-    getCertificate(name: string, version: string, options?: RequestOptions): Promise<Certificate>;
+    getCertificate(name: string, version: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<Certificate>;
     getCertificateContacts(options?: RequestOptions): Promise<Contacts>;
     getCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer>;
     getCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
     getCertificatePolicy(name: string, options?: RequestOptions): Promise<CertificatePolicy>;
+    // Warning: (ae-forgotten-export) The symbol "CertificateWithPolicy" needs to be exported by the entry point index.d.ts
+    getCertificateWithPolicy(name: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<CertificateWithPolicy>;
     static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedCertificate(name: string, options?: RequestOptions): Promise<DeletedCertificate>;
     importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
@@ -97,7 +98,6 @@ export class CertificatesClient {
     setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
     updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
     updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
-    updateCertificateOperation(name: string, cancel: boolean, options?: RequestOptions): Promise<CertificateOperation>;
     updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptions): Promise<CertificatePolicy>;
     readonly vaultBaseUrl: string;
 }

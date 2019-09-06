@@ -1,3 +1,4 @@
+import * as coreHttp from "@azure/core-http";
 import {
   TokenCredential,
   isTokenCredential,
@@ -14,9 +15,7 @@ import {
   isNode,
   userAgentPolicy
 } from "@azure/core-http";
-
-
-import { RequestOptions, CertificateAttributes, Certificate, DeletedCertificate, CertificateIssuer } from "./certificatesModels";
+import { RequestOptions, CertificateAttributes, Certificate, CertificateWithPolicy, CertificateTags, DeletedCertificate, CertificateIssuer, CertificateContentType } from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/core-http";
 import { NewPipelineOptions, isNewPipelineOptions, ParsedKeyVaultEntityIdentifier, Pipeline, } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
@@ -24,7 +23,6 @@ import {
   CertificateBundle,
   Contacts,
   KeyVaultClientGetCertificatesOptionalParams,
-  KeyVaultClientCreateCertificateOptionalParams,
   KeyVaultClientGetCertificateVersionsOptionalParams,
   KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientSetCertificateIssuerOptionalParams,
@@ -51,7 +49,6 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
-
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import "@azure/core-paging";
@@ -499,24 +496,48 @@ export class CertificatesClient {
   /**
    * Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
    * @param name The name of the certificate
-   * @param options The optional parameters
+   * @param certificatePolicy The certificate's policy
+   * @param enabled Wether this certificate is enabled or not
+   * @param tags Tags for this certificate
    * @returns Promise<Certificate>
    */
-  public async createCertificate(name: string, options?: KeyVaultClientCreateCertificateOptionalParams): Promise<Certificate> {
-    let result = await this.client.createCertificate(this.vaultBaseUrl, name, options);
+  public async createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags): Promise<Certificate> {
+    let result = await this.client.createCertificate(this.vaultBaseUrl, name, {
+      certificateAttributes: {
+        enabled,
+      },
+      tags,
+      certificatePolicy,
+    });
 
     return this.getCertificateFromCertificateBundle(result);
   }
 
   /**
-   * Gets information about a specific certificate. This operation requires the certificates/get permission.
+   * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
    * @param name The name of the certificate
-   * @param version The specific version of the certificate
-   * @param options The optional parameters
+   * @param requestOptions The optional parameters
    * @returns Promise<Certificate>
    */
-  public async getCertificate(name: string, version: string, options?: RequestOptions): Promise<Certificate> {
-    let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, options);
+  public async getCertificateWithPolicy(name: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<CertificateWithPolicy> {
+    let result = await this.client.getCertificate(this.vaultBaseUrl, name, "", { requestOptions });
+
+    return this.getCertificateFromCertificateBundle(result);
+  }
+
+  /**
+   * Gets information about a specific certificate on a specific version. It won't return the certificate's policy. This operation requires the certificates/get permission.
+   * @param name The name of the certificate
+   * @param version The specific version of the certificate
+   * @param requestOptions The optional parameters
+   * @returns Promise<Certificate>
+   */
+  public async getCertificate(name: string, version: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<Certificate> {
+    if (!version) {
+      throw new Error("The 'version' cannot be empty.");
+    }
+
+    let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, { requestOptions });
 
     return this.getCertificateFromCertificateBundle(result);
   }
@@ -581,8 +602,8 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<CertificateOperation>
    */
-  public async updateCertificateOperation(name: string, cancel: boolean, options?: RequestOptions): Promise<CertificateOperation> {
-    let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, cancel, options);
+  public async cancelCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
+    let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, true, options);
 
     return result._response.parsedBody;
   }
@@ -765,11 +786,15 @@ export class CertificatesClient {
       }
     }
 
-    return resultObject;
+    return {
+      ...resultObject,
+      contentType: resultObject.contentType as CertificateContentType
+    }; 
   }
 
   private getDeletedCertificateFromDeletedCertificateBundle(certificateBundle: DeletedCertificateBundle): DeletedCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+
 
     let resultObject;
     if (certificateBundle.attributes) {
@@ -786,7 +811,10 @@ export class CertificatesClient {
       }
     }
 
-    return resultObject;
+    return {
+      ...resultObject,
+      contentType: resultObject.contentType as CertificateContentType
+    };
   }
 
   private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {

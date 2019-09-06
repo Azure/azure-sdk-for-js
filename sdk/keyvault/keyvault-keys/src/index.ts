@@ -3,6 +3,7 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
+  getDefaultUserAgentValue,
   TokenCredential,
   isTokenCredential,
   RequestPolicyFactory,
@@ -17,11 +18,13 @@ import {
   getDefaultProxySettings,
   isNode,
   userAgentPolicy,
-  RequestOptionsBase
+  RequestOptionsBase,
+  tracingPolicy,
+  TracerProxy,
+  Span,
+  SupportedPlugins
 } from "@azure/core-http";
 
-import { TracerProxy, Span, SupportedPlugins } from "@azure/core-tracing";
-import { getDefaultUserAgentValue } from "@azure/core-http";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -111,6 +114,8 @@ export {
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
 
+export { TracerProxy, SupportedPlugins } from "@azure/core-http";
+
 /**
  * The client to interact with the KeyVault keys functionality
  */
@@ -142,6 +147,7 @@ export class KeysClient {
       );
     }
     requestPolicyFactories = requestPolicyFactories.concat([
+      tracingPolicy(),
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer

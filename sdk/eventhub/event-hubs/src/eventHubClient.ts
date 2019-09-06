@@ -134,6 +134,17 @@ export interface EventHubConsumerOptions {
    * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
+  /**
+   * @property
+   * Indicates whether or not the consumer should request information on the last enqueued event on its
+   * associated partition, and track that information as events are received.
+
+   * When information about the partition's last enqueued event is being tracked, each event received 
+   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
+   * additional network bandwidth consumption that is generally a favorable trade-off when considered
+   * against periodically making requests for partition properties using the Event Hub client.
+   */
+  trackLastEnqueuedEventInfo?: boolean;
 }
 
 /**
@@ -200,14 +211,14 @@ export interface EventHubClientOptions {
  * The client is the main point of interaction with Azure Event Hubs service.
  * It offers connection to a specific Event Hub within the Event Hubs namespace along with
  * operations for sending event data, receiving events, and inspecting the connected Event Hub.
- * 
+ *
  * There are multiple ways to create an `EventHubClient`
  * - Use the connection string from the SAS policy created for your Event Hub instance.
- * - Use the connection string from the SAS policy created for your Event Hub namespace, 
+ * - Use the connection string from the SAS policy created for your Event Hub namespace,
  * and the name of the Event Hub instance
  * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
  * and a credentials object.
- * 
+ *
  */
 export class EventHubClient {
   /**

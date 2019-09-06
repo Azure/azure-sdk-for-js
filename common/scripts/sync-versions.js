@@ -1,15 +1,10 @@
-var fs = require("fs");
-var process = require("process");
+const fs = require("fs");
+const process = require("process");
+const parse = require("../lib/jju/parse").parse;
 
 function read(filename) {
-  const txt = fs
-    .readFileSync(filename, "utf8")
-    .replace(/\r/gm, "")
-    .replace(/\n/gm, "«")
-    .replace(/\/\*.*?\*\//gm, "")
-    .replace(/«/gm, "\n")
-    .replace(/\s+\/\/.*/g, "");
-  return JSON.parse(txt);
+  const txt = fs.readFileSync(filename, "utf8");
+  return parse(txt);
 }
 
 function versionToInt(ver) {
@@ -34,9 +29,7 @@ const pjs = {};
 for (const each of rush.projects) {
   const packageName = each.packageName;
   const projectFolder = each.projectFolder;
-  pjs[
-    packageName
-  ] = require(`${__dirname}/../../${projectFolder}/package.json`);
+  pjs[packageName] = require(`${__dirname}/../../${projectFolder}/package.json`);
 }
 
 function setPeerDependencies(pj, dependencies) {
@@ -81,9 +74,7 @@ function fixDeps(pj, dependencies) {
   for (const packageName in dependencies) {
     if (dependencies[packageName] !== packageList[packageName]) {
       console.log(
-        `updating ${pj}:${packageName} from '${
-          dependencies[packageName]
-        }' to '${packageList[packageName]}'`
+        `updating ${pj}:${packageName} from '${dependencies[packageName]}' to '${packageList[packageName]}'`
       );
       dependencies[packageName] = packageList[packageName];
     }
