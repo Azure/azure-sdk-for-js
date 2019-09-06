@@ -15,9 +15,23 @@ import {
   isNode,
   userAgentPolicy
 } from "@azure/core-http";
-import { RequestOptions, CertificateAttributes, Certificate, CertificateWithPolicy, CertificateTags, DeletedCertificate, CertificateIssuer, CertificateContentType } from "./certificatesModels";
+
+import {
+  RequestOptions,
+  CertificateAttributes,
+  Certificate,
+  CertificateWithPolicy,
+  CertificateTags,
+  DeletedCertificate,
+  CertificateIssuer
+} from "./certificatesModels";
 import { getDefaultUserAgentValue } from "@azure/core-http";
-import { NewPipelineOptions, isNewPipelineOptions, ParsedKeyVaultEntityIdentifier, Pipeline, } from "./core/keyVaultBase";
+import {
+  NewPipelineOptions,
+  isNewPipelineOptions,
+  ParsedKeyVaultEntityIdentifier,
+  Pipeline
+} from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
 import {
   CertificateBundle,
@@ -45,7 +59,7 @@ import {
   LifetimeAction,
   OrganizationDetails,
   SecretProperties,
-  X509CertificateProperties,
+  X509CertificateProperties
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
@@ -81,8 +95,8 @@ export {
   ParsedKeyVaultEntityIdentifier,
   RequestOptions,
   SecretProperties,
-  X509CertificateProperties,
-}
+  X509CertificateProperties
+};
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
 
@@ -109,7 +123,9 @@ export class CertificatesClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = CertificatesClient.getUserAgentString(pipelineOptions.telemetry);
+    const userAgentString: string = CertificatesClient.getUserAgentString(
+      pipelineOptions.telemetry
+    );
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
     if (isNode) {
@@ -174,10 +190,7 @@ export class CertificatesClient {
     this.vaultBaseUrl = url;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = CertificatesClient.getDefaultPipeline(
-        credential,
-        pipelineOrOptions
-      );
+      this.pipeline = CertificatesClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
@@ -248,7 +261,9 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]>
    */
-  public listCertificates(options?: RequestOptions): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
+  public listCertificates(
+    options?: RequestOptions
+  ): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
     const iter = this.listCertificatesAll(options);
     let result = {
       next() {
@@ -312,7 +327,10 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateVersionsResponse>
    */
-  public listCertificateVersions(name: string, options?: RequestOptions): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
+  public listCertificateVersions(
+    name: string,
+    options?: RequestOptions
+  ): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
     const iter = this.listCertificateVersionsAll(name, options);
     let result = {
       next() {
@@ -321,7 +339,8 @@ export class CertificatesClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listCertificateVersionsPage(name, settings, options)
+      byPage: (settings: PageSettings = {}) =>
+        this.listCertificateVersionsPage(name, settings, options)
     };
 
     return result;
@@ -339,7 +358,11 @@ export class CertificatesClient {
     certificateName: string,
     options?: RequestOptions
   ): Promise<DeletedCertificate> {
-    const response = await this.client.deleteCertificate(this.vaultBaseUrl, certificateName, options);
+    const response = await this.client.deleteCertificate(
+      this.vaultBaseUrl,
+      certificateName,
+      options
+    );
     return this.getCertificateFromCertificateBundle(response);
   }
 
@@ -360,8 +383,15 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<Contacts>
    */
-  public async setCertificateContacts(contacts: Contact[], options?: RequestOptions): Promise<Contacts> {
-    let result = await this.client.setCertificateContacts(this.vaultBaseUrl, { contactList: contacts }, options);
+  public async setCertificateContacts(
+    contacts: Contact[],
+    options?: RequestOptions
+  ): Promise<Contacts> {
+    let result = await this.client.setCertificateContacts(
+      this.vaultBaseUrl,
+      { contactList: contacts },
+      options
+    );
     return result._response.parsedBody;
   }
 
@@ -419,7 +449,9 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>
    */
-  public listCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]> {
+  public listCertificateIssuers(
+    options?: KeyVaultClientGetCertificateIssuersOptionalParams
+  ): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]> {
     const iter = this.listCertificateIssuersAll(options);
     let result = {
       next() {
@@ -443,8 +475,17 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetCertificateIssuerResponse>
    */
-  public async setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer> {
-    let result = await this.client.setCertificateIssuer(this.vaultBaseUrl, issuerName, provider, options);
+  public async setCertificateIssuer(
+    issuerName: string,
+    provider: string,
+    options?: KeyVaultClientSetCertificateIssuerOptionalParams
+  ): Promise<CertificateIssuer> {
+    let result = await this.client.setCertificateIssuer(
+      this.vaultBaseUrl,
+      issuerName,
+      provider,
+      options
+    );
 
     return result._response.parsedBody;
   }
@@ -457,7 +498,10 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificateIssuerResponse>
    */
-  public async updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer> {
+  public async updateCertificateIssuer(
+    issuerName: string,
+    options?: KeyVaultClientUpdateCertificateIssuerOptionalParams
+  ): Promise<CertificateIssuer> {
     let result = await this.client.updateCertificateIssuer(this.vaultBaseUrl, issuerName, options);
 
     return result._response.parsedBody;
@@ -472,7 +516,10 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateIssuerResponse>
    */
-  public async getCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer> {
+  public async getCertificateIssuer(
+    issuerName: string,
+    options?: RequestOptions
+  ): Promise<CertificateIssuer> {
     let result = await this.client.getCertificateIssuer(this.vaultBaseUrl, issuerName, options);
 
     return result._response.parsedBody;
@@ -486,11 +533,13 @@ export class CertificatesClient {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateIssuerResponse>
    */
-  public async deleteCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer> {
+  public async deleteCertificateIssuer(
+    issuerName: string,
+    options?: RequestOptions
+  ): Promise<CertificateIssuer> {
     let result = await this.client.deleteCertificateIssuer(this.vaultBaseUrl, issuerName, options);
 
     return result._response.parsedBody;
-
   }
 
   /**
@@ -532,13 +581,16 @@ export class CertificatesClient {
    * @param requestOptions The optional parameters
    * @returns Promise<Certificate>
    */
-  public async getCertificate(name: string, version: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<Certificate> {
+  public async getCertificate(
+    name: string,
+    version: string,
+    options?: RequestOptions
+  ): Promise<Certificate> {
     if (!version) {
       throw new Error("The 'version' cannot be empty.");
-    }
+    } 
 
-    let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, { requestOptions });
-
+    let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, options);
     return this.getCertificateFromCertificateBundle(result);
   }
 
@@ -550,8 +602,17 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<Certificate>
    */
-  public async importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate> {
-    let result = await this.client.importCertificate(this.vaultBaseUrl, name, base64EncodedCertificate, options);
+  public async importCertificate(
+    name: string,
+    base64EncodedCertificate: string,
+    options?: KeyVaultClientImportCertificateOptionalParams
+  ): Promise<Certificate> {
+    let result = await this.client.importCertificate(
+      this.vaultBaseUrl,
+      name,
+      base64EncodedCertificate,
+      options
+    );
 
     return this.getCertificateFromCertificateBundle(result);
   }
@@ -562,7 +623,10 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<CertificatePolicy>
    */
-  public async getCertificatePolicy(name: string, options?: RequestOptions): Promise<CertificatePolicy> {
+  public async getCertificatePolicy(
+    name: string,
+    options?: RequestOptions
+  ): Promise<CertificatePolicy> {
     let result = await this.client.getCertificatePolicy(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
@@ -575,8 +639,17 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<CertificatePolicy>
    */
-  public async updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptions): Promise<CertificatePolicy> {
-    let result = await this.client.updateCertificatePolicy(this.vaultBaseUrl, name, policy, options);
+  public async updateCertificatePolicy(
+    name: string,
+    policy: CertificatePolicy,
+    options?: RequestOptions
+  ): Promise<CertificatePolicy> {
+    let result = await this.client.updateCertificatePolicy(
+      this.vaultBaseUrl,
+      name,
+      policy,
+      options
+    );
 
     return result._response.parsedBody;
   }
@@ -589,7 +662,11 @@ export class CertificatesClient {
    * @param options The options, including what to update
    * @returns Promise<Certificate>
    */
-  public async updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate> {
+  public async updateCertificate(
+    name: string,
+    version: string,
+    options?: KeyVaultClientUpdateCertificateOptionalParams
+  ): Promise<Certificate> {
     let result = await this.client.updateCertificate(this.vaultBaseUrl, name, version, options);
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
@@ -602,8 +679,16 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<CertificateOperation>
    */
-  public async cancelCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
-    let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, true, options);
+  public async cancelCertificateOperation(
+    name: string,
+    options?: RequestOptions
+  ): Promise<CertificateOperation> {
+    let result = await this.client.updateCertificateOperation(
+      this.vaultBaseUrl,
+      name,
+      true,
+      options
+    );
 
     return result._response.parsedBody;
   }
@@ -614,7 +699,10 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<CertificateOperation>
    */
-  public async getCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
+  public async getCertificateOperation(
+    name: string,
+    options?: RequestOptions
+  ): Promise<CertificateOperation> {
     let result = await this.client.getCertificateOperation(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
@@ -627,7 +715,10 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<CertificateOperation>
    */
-  public async deleteCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
+  public async deleteCertificateOperation(
+    name: string,
+    options?: RequestOptions
+  ): Promise<CertificateOperation> {
     let result = await this.client.deleteCertificateOperation(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
@@ -640,8 +731,17 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<Certificate>
    */
-  public async mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptions): Promise<Certificate> {
-    let result = await this.client.mergeCertificate(this.vaultBaseUrl, name, x509Certificates, options);
+  public async mergeCertificate(
+    name: string,
+    x509Certificates: Uint8Array[],
+    options?: RequestOptions
+  ): Promise<Certificate> {
+    let result = await this.client.mergeCertificate(
+      this.vaultBaseUrl,
+      name,
+      x509Certificates,
+      options
+    );
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
@@ -653,7 +753,10 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<BackupCertificateResult>
    */
-  public async backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult> {
+  public async backupCertificate(
+    name: string,
+    options?: RequestOptions
+  ): Promise<BackupCertificateResult> {
     let result = await this.client.backupCertificate(this.vaultBaseUrl, name, options);
 
     return result._response.parsedBody;
@@ -665,8 +768,15 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<Certificate>
    */
-  public async restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptions): Promise<Certificate> {
-    let result = await this.client.restoreCertificate(this.vaultBaseUrl, certificateBackup, options);
+  public async restoreCertificate(
+    certificateBackup: Uint8Array,
+    options?: RequestOptions
+  ): Promise<Certificate> {
+    let result = await this.client.restoreCertificate(
+      this.vaultBaseUrl,
+      certificateBackup,
+      options
+    );
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
@@ -715,7 +825,9 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>
    */
-  public listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]> {
+  public listDeletedCertificates(
+    options?: KeyVaultClientGetDeletedCertificatesOptionalParams
+  ): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]> {
     const iter = this.listDeletedCertificatesAll(options);
     let result = {
       next() {
@@ -737,7 +849,10 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<DeletedCertificate>
    */
-  public async getDeletedCertificate(name: string, options?: RequestOptions): Promise<DeletedCertificate> {
+  public async getDeletedCertificate(
+    name: string,
+    options?: RequestOptions
+  ): Promise<DeletedCertificate> {
     let result = await this.client.getDeletedCertificate(this.vaultBaseUrl, name, options);
 
     return this.getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
@@ -762,7 +877,10 @@ export class CertificatesClient {
    * @param options The optional parameters
    * @returns Promise<Certificate>
    */
-  public async recoverDeletedCertificate(name: string, options?: RequestOptions): Promise<Certificate> {
+  public async recoverDeletedCertificate(
+    name: string,
+    options?: RequestOptions
+  ): Promise<Certificate> {
     let result = await this.client.recoverDeletedCertificate(this.vaultBaseUrl, name, options);
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
@@ -777,13 +895,13 @@ export class CertificatesClient {
         ...certificateBundle,
         ...parsedId,
         ...certificateBundle.attributes
-      }
-      delete (resultObject.attributes);
+      };
+      delete resultObject.attributes;
     } else {
       resultObject = {
         ...certificateBundle,
         ...parsedId
-      }
+      };
     }
 
     return {
@@ -792,7 +910,9 @@ export class CertificatesClient {
     }; 
   }
 
-  private getDeletedCertificateFromDeletedCertificateBundle(certificateBundle: DeletedCertificateBundle): DeletedCertificate {
+  private getDeletedCertificateFromDeletedCertificateBundle(
+    certificateBundle: DeletedCertificateBundle
+  ): DeletedCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
 
@@ -802,13 +922,13 @@ export class CertificatesClient {
         ...certificateBundle,
         ...parsedId,
         ...certificateBundle.attributes
-      }
-      delete (resultObject.attributes);
+      };
+      delete resultObject.attributes;
     } else {
       resultObject = {
         ...certificateBundle,
         ...parsedId
-      }
+      };
     }
 
     return {
@@ -826,13 +946,13 @@ export class CertificatesClient {
         ...item,
         ...parsedId,
         ...item.attributes
-      }
-      delete (resultObject.attributes);
+      };
+      delete resultObject.attributes;
     } else {
       resultObject = {
         ...item,
         ...parsedId
-      }
+      };
     }
 
     return resultObject;
