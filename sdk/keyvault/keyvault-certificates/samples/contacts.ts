@@ -1,7 +1,7 @@
 import { CertificatesClient } from "../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
-// This sample creates, updates and deletes certificate issuers.
+// This sample creates, updates and deletes certificate contacts.
 
 async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
