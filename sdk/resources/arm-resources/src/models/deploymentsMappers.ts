@@ -21,6 +21,8 @@ export {
   DeploymentProperties,
   DeploymentPropertiesExtended,
   DeploymentValidateResult,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   GenericResource,
   Identity,
   IdentityUserAssignedIdentitiesValue,
@@ -33,10 +35,10 @@ export {
   Resource,
   ResourceGroup,
   ResourceGroupProperties,
-  ResourceManagementErrorWithDetails,
   Sku,
   SubResource,
   TagCount,
   TagValue,
+  TemplateHashResult,
   TemplateLink
 } from "../models/mappers";
