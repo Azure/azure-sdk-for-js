@@ -211,13 +211,10 @@ export class WebResource {
             pathParam === undefined ||
             !(typeof pathParam === "string" || typeof pathParam === "object")
           ) {
+            const stringifiedPathParameters = JSON.stringify(pathParameters, undefined, 2);
             throw new Error(
               `pathTemplate: ${pathTemplate} contains the path parameter ${pathParamName}` +
-                ` however, it is not present in ${pathParameters} - ${JSON.stringify(
-                  pathParameters,
-                  undefined,
-                  2
-                )}.` +
+                ` however, it is not present in parameters: ${stringifiedPathParameters}.` +
                 `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
                 `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`
             );

@@ -8,6 +8,6 @@
  * regenerated.
  */
 
-export * from "./reservationOrder";
 export * from "./reservation";
+export * from "./reservationOrder";
 export * from "./operation";

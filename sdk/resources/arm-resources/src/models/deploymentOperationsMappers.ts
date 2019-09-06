@@ -11,6 +11,8 @@ export {
   DeploymentOperation,
   DeploymentOperationProperties,
   DeploymentOperationsListResult,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   HttpMessage,
   TargetResource
 } from "../models/mappers";
