@@ -1484,6 +1484,130 @@ export const ManagedClusterWindowsProfile: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedClusterLoadBalancerProfileManagedOutboundIPs: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterLoadBalancerProfile_managedOutboundIPs",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterLoadBalancerProfileManagedOutboundIPs",
+    modelProperties: {
+      count: {
+        serializedName: "count",
+        defaultValue: 1,
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceReference: msRest.CompositeMapper = {
+  serializedName: "ResourceReference",
+  type: {
+    name: "Composite",
+    className: "ResourceReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterLoadBalancerProfileOutboundIPPrefixes: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterLoadBalancerProfile_outboundIPPrefixes",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterLoadBalancerProfileOutboundIPPrefixes",
+    modelProperties: {
+      publicIPPrefixes: {
+        serializedName: "publicIPPrefixes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterLoadBalancerProfileOutboundIPs: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterLoadBalancerProfile_outboundIPs",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterLoadBalancerProfileOutboundIPs",
+    modelProperties: {
+      publicIPs: {
+        serializedName: "publicIPs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterLoadBalancerProfile: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterLoadBalancerProfile",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterLoadBalancerProfile",
+    modelProperties: {
+      managedOutboundIPs: {
+        serializedName: "managedOutboundIPs",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterLoadBalancerProfileManagedOutboundIPs"
+        }
+      },
+      outboundIPPrefixes: {
+        serializedName: "outboundIPPrefixes",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterLoadBalancerProfileOutboundIPPrefixes"
+        }
+      },
+      outboundIPs: {
+        serializedName: "outboundIPs",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterLoadBalancerProfileOutboundIPs"
+        }
+      },
+      effectiveOutboundIPs: {
+        serializedName: "effectiveOutboundIPs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
   serializedName: "ContainerServiceNetworkProfile",
   type: {
@@ -1548,6 +1672,13 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      loadBalancerProfile: {
+        serializedName: "loadBalancerProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterLoadBalancerProfile"
+        }
       }
     }
   }
@@ -1611,6 +1742,33 @@ export const ManagedClusterAADProfile: msRest.CompositeMapper = {
         serializedName: "tenantID",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAPIServerAccessProfile: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterAPIServerAccessProfile",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAPIServerAccessProfile",
+    modelProperties: {
+      authorizedIPRanges: {
+        serializedName: "authorizedIPRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      enablePrivateCluster: {
+        serializedName: "enablePrivateCluster",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1768,15 +1926,11 @@ export const ManagedCluster: msRest.CompositeMapper = {
           className: "ManagedClusterAADProfile"
         }
       },
-      apiServerAuthorizedIPRanges: {
-        serializedName: "properties.apiServerAuthorizedIPRanges",
+      apiServerAccessProfile: {
+        serializedName: "properties.apiServerAccessProfile",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "Composite",
+          className: "ManagedClusterAPIServerAccessProfile"
         }
       },
       identity: {

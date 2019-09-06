@@ -41,14 +41,6 @@ export interface Checkpoint {
 }
 
 // @public
-export class CheckpointManager {
-    // @internal
-    constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, eventProcessorId: string);
-    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
-}
-
-// @public
 export enum CloseReason {
     EventHubException = "EventHubException",
     OwnershipLost = "OwnershipLost",
@@ -177,7 +169,7 @@ export class EventPosition {
 
 // @public
 export class EventProcessor {
-    constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
     readonly id: string;
     start(): void;
     stop(): Promise<void>;
@@ -214,10 +206,13 @@ export type OnError = (error: MessagingError | Error) => void;
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
 // @public
-export interface PartitionContext {
+export class PartitionContext {
+    constructor(eventHubName: string, consumerGroupName: string, partitionId: string, partitionManager: PartitionManager, eventProcessorId: string);
     readonly consumerGroupName: string;
     readonly eventHubName: string;
     readonly partitionId: string;
+    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
 }
 
 // @public
@@ -241,16 +236,11 @@ export interface PartitionOwnership {
 }
 
 // @public
-export interface PartitionProcessor {
-    close?(reason: CloseReason): Promise<void>;
-    initialize?(): Promise<void>;
-    processError(error: Error): Promise<void>;
-    processEvents(events: ReceivedEventData[]): Promise<void>;
-}
-
-// @public
-export interface PartitionProcessorFactory {
-    (context: PartitionContext, checkpointManager: CheckpointManager): PartitionProcessor;
+export class PartitionProcessor {
+    close(reason: CloseReason, partitionContext: PartitionContext): Promise<void>;
+    initialize(partitionContext: PartitionContext): Promise<void>;
+    processError(error: Error, partitionContext: PartitionContext): Promise<void>;
+    processEvents(events: ReceivedEventData[], partitionContext: PartitionContext): Promise<void>;
 }
 
 // @public
@@ -273,6 +263,9 @@ export interface ReceivedEventData {
         [key: string]: any;
     };
     sequenceNumber: number;
+    systemProperties?: {
+        [key: string]: any;
+    };
 }
 
 // @public
