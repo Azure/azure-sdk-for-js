@@ -257,6 +257,21 @@ export class CertificatesClient {
   /**
    * Iterates the latest version of all certificates in the vault.  The full certificate identifier and attributes are provided
    * in the response. No values are returned for the certificates. This operations requires the certificates/list permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * // All in one call
+   * for await (const certificate of client.listCertificates()) {
+   *   console.log(certificate);
+   * } 
+   * // By pages
+   * for await (const page of client.listCertificates().byPage()) {
+   *   for (const certificate of page) {
+   *     console.log(certificate);
+   *   }
+   * } 
+   * ```
    * @summary List all versions of the specified certificate.
    * @param [options] The optional parameters
    * @returns PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]>
@@ -322,6 +337,14 @@ export class CertificatesClient {
   /**
    * Returns the versions of a certificate in the specified key
    * vault. This operation requires the certificates/list permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * for await (const item of client.listCertificateVersions("MyCertificate")) {
+   *   console.log(item.version!);
+   * }
+   * ```
    * @summary List the versions of a certificate.
    * @param name The name of the certificate.
    * @param [options] The optional parameters
@@ -349,6 +372,13 @@ export class CertificatesClient {
   /**
    * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
    * to an individual version of a certificate. This operation requires the certificates/delete permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * await client.createCertificate("MyCertificate");
+   * await client.deleteCertificate("MyCertificate");
+   * ```
    * @summary Deletes a certificate from a specified key vault.
    * @param certificateName The name of the certificate.
    * @param [options] The optional parameters
@@ -367,7 +397,19 @@ export class CertificatesClient {
   }
 
   /**
-   * Deletes the certificate contacts for a specified key vault certificate. This operation requires the certificates/managecontacts permission.
+   * Deletes all of the certificate contacts. This operation requires the certificates/managecontacts permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new SecretsClient(url, credentials);
+   * await client.setCertificateContacts([{
+   *   emailAddress: "b@b.com",
+   *   name: "b",
+   *   phone: "222222222222"  
+   * }]);
+   * await client.deleteCertificateContacts();
+   * ```
+   * @summary Deletes all of the certificate contacts
    * @param options The optional parameters
    * @returns Promise<Contacts>
    */
@@ -379,6 +421,17 @@ export class CertificatesClient {
 
   /**
    * Sets the certificate contacts for the key vault. This operation requires the certificates/managecontacts permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new SecretsClient(url, credentials);
+   * await client.setCertificateContacts([{
+   *   emailAddress: "b@b.com",
+   *   name: "b",
+   *   phone: "222222222222"  
+   * }]);
+   * ```
+   * @summary Sets the certificate contacts.
    * @param contacts The contacts to use
    * @param options The optional parameters
    * @returns Promise<Contacts>
@@ -397,6 +450,19 @@ export class CertificatesClient {
 
   /**
    * Returns the set of certificate contact resources in the specified key vault. This operation requires the certificates/managecontacts permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new SecretsClient(url, credentials);
+   * await client.setCertificateContacts([{
+   *   emailAddress: "b@b.com",
+   *   name: "b",
+   *   phone: "222222222222"  
+   * }]);
+   * const getResponse = await client.getCertificateContacts();
+   * console.log(getResponse.contactList!);
+   * ```
+   * @summary Sets the certificate contacts.
    * @param options The optional parameters
    * @returns Promise<Contacts>
    */
@@ -446,6 +512,23 @@ export class CertificatesClient {
 
   /**
    * Returns the set of certificate issuer resources in the specified key vault. This operation requires the certificates/manageissuers/getissuers permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * await client.setCertificateIssuer("IssuerName", "Provider");
+   * // All in one call
+   * for await (const issuer of client.listCertificateIssuers()) {
+   *   console.log(issuer);
+   * } 
+   * // By pages
+   * for await (const page of client.listCertificateIssuers().byPage()) {
+   *   for (const issuer of page) {
+   *     console.log(issuer);
+   *   }
+   * }
+   * ```
+   * @summary List the certificate issuers.
    * @param options The optional parameters
    * @returns PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>
    */
@@ -469,6 +552,12 @@ export class CertificatesClient {
   /**
    * The SetCertificateIssuer operation adds or updates the specified certificate issuer. This
    * operation requires the certificates/setissuers permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * await client.setCertificateIssuer("IssuerName", "Provider");
+   * ```
    * @summary Sets the specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param provider The issuer provider.
@@ -493,6 +582,15 @@ export class CertificatesClient {
   /**
    * The UpdateCertificateIssuer operation performs an update on the specified certificate issuer
    * entity. This operation requires the certificates/setissuers permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * await client.setCertificateIssuer("IssuerName", "Provider");
+   * await client.updateCertificateIssuer("IssuerName", {
+   *   provider: "Provider2"
+   * });
+   * ```
    * @summary Updates the specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param [options] The optional parameters
@@ -511,7 +609,15 @@ export class CertificatesClient {
    * The GetCertificateIssuer operation returns the specified certificate issuer resources in the
    * specified key vault. This operation requires the certificates/manageissuers/getissuers
    * permission.
-   * @summary Lists the specified certificate issuer.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * await client.setCertificateIssuer("IssuerName", "Provider");
+   * const certificateIssuer = await client.getCertificateIssuer("IssuerName");
+   * console.log(certificateIssuer);
+   * ```
+   * @summary Gets he specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateIssuerResponse>
@@ -528,6 +634,13 @@ export class CertificatesClient {
   /**
    * The DeleteCertificateIssuer operation permanently removes the specified certificate issuer from
    * the vault. This operation requires the certificates/manageissuers/deleteissuers permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * await client.setCertificateIssuer("IssuerName", "Provider");
+   * await client.deleteCertificateIssuer("IssuerName");
+   * ```
    * @summary Deletes the specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param [options] The optional parameters
@@ -544,6 +657,16 @@ export class CertificatesClient {
 
   /**
    * Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new SecretsClient(url, credentials);
+   * await client.createCertificate("CertificateName", {
+   *   issuerParameters: { name: "Self" },
+   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   * });
+   * ```
+   * @summary Creates a certificate
    * @param name The name of the certificate
    * @param certificatePolicy The certificate's policy
    * @param enabled Wether this certificate is enabled or not
