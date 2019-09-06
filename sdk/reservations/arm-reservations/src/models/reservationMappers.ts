@@ -13,12 +13,21 @@ export {
   ExtendedStatusInfo,
   MergeRequest,
   Patch,
+  PatchPropertiesRenewProperties,
+  Properties,
+  PurchaseRequest,
+  PurchaseRequestPropertiesReservedResourceProperties,
+  RenewPropertiesResponse,
+  RenewPropertiesResponseBillingCurrencyTotal,
+  RenewPropertiesResponsePricingCurrencyTotal,
   ReservationList,
   ReservationMergeProperties,
   ReservationOrderResponse,
   ReservationProperties,
   ReservationResponse,
   ReservationSplitProperties,
+  ScopeProperties,
   SkuName,
-  SplitRequest
+  SplitRequest,
+  SubscriptionScopeProperties
 } from "../models/mappers";

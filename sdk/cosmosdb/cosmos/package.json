@@ -28,6 +28,7 @@
     "tsconfig.json"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",
+  "sideEffects": false,
   "types": "./dist/index.d.ts",
   "engine": {
     "node": ">=8.0.0"

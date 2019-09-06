@@ -19,15 +19,15 @@ parameters:
       NodeVersion: "12.x"
       TestType: "node"
     Windows_Node8:
-      OSVmImage: "vs2017-win2016"
+      OSVmImage: "windows-2019"
       NodeVersion: "8.x"
       TestType: "node"
     Windows_Node10:
-      OSVmImage: "vs2017-win2016"
+      OSVmImage: "windows-2019"
       NodeVersion: "10.x"
       TestType: "node"
     Windows_Node12:
-      OSVmImage: "vs2017-win2016"
+      OSVmImage: "windows-2019"
       NodeVersion: "12.x"
       TestType: "node"
     macOS_Node8:
@@ -47,7 +47,7 @@ parameters:
       NodeVersion: "10.x"
       TestType: "browser"
     Browser_Windows_Node10:
-      OSVmImage: "vs2017-win2016"
+      OSVmImage: "windows-2019"
       NodeVersion: "10.x"
       TestType: "browser"
     Browser_macOS_Node10:

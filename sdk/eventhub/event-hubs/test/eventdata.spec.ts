@@ -66,6 +66,29 @@ describe("EventData #RunnableInBrowser", function(): void {
         const testEventData = fromAmqpMessage(testMessage);
         testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
       });
+
+      it("returns systemProperties for unknown message annotations", function(): void {
+        const extraAnnotations = {
+          "x-iot-foo-prop": "just-a-foo",
+          "x-iot-bar-prop": "bar-above-the-rest"
+        };
+        const testEventData = fromAmqpMessage({
+          body: testBody,
+          application_properties: applicationProperties,
+          message_annotations: {
+            ...testAnnotations,
+            ...extraAnnotations
+          }
+        });
+        testEventData
+          .enqueuedTimeUtc!.getTime()
+          .should.equal(testAnnotations["x-opt-enqueued-time"]);
+        testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
+        testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
+        testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
+        testEventData.systemProperties!["x-iot-foo-prop"] = extraAnnotations["x-iot-foo-prop"];
+        testEventData.systemProperties!["x-iot-bar-prop"] = extraAnnotations["x-iot-bar-prop"];
+      });
     });
   });
 

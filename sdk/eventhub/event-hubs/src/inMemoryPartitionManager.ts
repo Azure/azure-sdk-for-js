@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { PartitionManager, PartitionOwnership } from "./eventProcessor";
-import { Checkpoint } from "./checkpointManager";
+import { Checkpoint } from "./partitionContext";
 import { generate_uuid } from "rhea-promise";
 
 /**
