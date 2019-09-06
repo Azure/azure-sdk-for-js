@@ -44,6 +44,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-amqp",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
