@@ -216,7 +216,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Reading the issuer from the certificate
     const certificate = await client.getCertificateWithPolicy(certificateName);
-    assert.equal(certificate.policy!.issuerParameters, issuerName);
+    assert.equal(certificate.policy!.issuerParameters!.name, issuerName);
 
     let getResponse: any;
 
