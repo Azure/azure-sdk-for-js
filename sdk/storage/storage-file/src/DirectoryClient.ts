@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Directory } from "./generated/src/operations";
 import { Metadata } from "./models";
@@ -302,10 +302,9 @@ export class DirectoryClient extends StorageClient {
   public async create(
     options: DirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.create({
       ...options,
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -439,9 +438,8 @@ export class DirectoryClient extends StorageClient {
   public async getProperties(
     options: DirectoryGetPropertiesOptions = {}
   ): Promise<Models.DirectoryGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -457,9 +455,8 @@ export class DirectoryClient extends StorageClient {
   public async delete(
     options: DirectoryDeleteOptions = {}
   ): Promise<Models.DirectoryDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.deleteMethod({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -476,9 +473,8 @@ export class DirectoryClient extends StorageClient {
     metadata?: Metadata,
     options: DirectorySetMetadataOptions = {}
   ): Promise<Models.DirectorySetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata
     });
   }
@@ -658,9 +654,7 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.listFilesAndDirectoriesSegment({
-      abortSignal: aborter,
       marker,
       ...options
     });
@@ -685,10 +679,8 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryListHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     marker = marker === "" ? undefined : marker;
     const response = await this.context.listHandles({
-      abortSignal: aborter,
       marker,
       ...options
     });
@@ -719,10 +711,8 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryForceCloseHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryForceCloseHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     marker = marker === "" ? undefined : marker;
     return this.context.forceCloseHandles("*", {
-      abortSignal: aborter,
       marker,
       ...options
     });
@@ -744,7 +734,6 @@ export class DirectoryClient extends StorageClient {
     handleId: string,
     options: DirectoryForceCloseHandlesOptions = {}
   ): Promise<Models.DirectoryForceCloseHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (handleId === "*") {
       throw new RangeError(
         `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
@@ -752,7 +741,7 @@ export class DirectoryClient extends StorageClient {
     }
 
     return this.context.forceCloseHandles(handleId, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 }

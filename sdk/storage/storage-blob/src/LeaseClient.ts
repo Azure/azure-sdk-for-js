@@ -3,7 +3,7 @@
 
 import { HttpResponse, generateUuid } from "@azure/core-http";
 import * as Models from "../src/generated/src/models";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient } from "./ContainerClient";
 import { Blob, Container } from "./generated/src/operations";
 import { StorageClientContext } from "./generated/src/storageClient";
@@ -163,9 +163,8 @@ export class LeaseClient {
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return await this._containerOrBlobOperation.acquireLease({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       duration,
       modifiedAccessConditions: options.modifiedAccessConditions,
       proposedLeaseId: this._leaseId
@@ -187,12 +186,11 @@ export class LeaseClient {
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this._containerOrBlobOperation.changeLease(
       this._leaseId,
       proposedLeaseId,
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         modifiedAccessConditions: options.modifiedAccessConditions
       }
     );
@@ -212,9 +210,8 @@ export class LeaseClient {
    * @memberof LeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       modifiedAccessConditions: options.modifiedAccessConditions
     });
   }
@@ -230,9 +227,8 @@ export class LeaseClient {
    * @memberof LeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return await this._containerOrBlobOperation.renewLease(this._leaseId, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       modifiedAccessConditions: options.modifiedAccessConditions
     });
   }
@@ -255,9 +251,8 @@ export class LeaseClient {
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const operationOptions = {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       breakPeriod,
       modifiedAccessConditions: options.modifiedAccessConditions
     };

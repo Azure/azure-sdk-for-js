@@ -3,7 +3,7 @@
 
 import * as fs from "fs";
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/src/models";
 import { File } from "./generated/src/operations";
@@ -619,14 +619,13 @@ export class FileClient extends StorageClient {
     size: number,
     options: FileCreateOptions = {}
   ): Promise<Models.FileCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
     }
 
     options.fileHTTPHeaders = options.fileHTTPHeaders || {};
     return this.context.create(size, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       fileHTTPHeaders: options.fileHTTPHeaders,
       metadata: options.metadata
     });
@@ -651,14 +650,13 @@ export class FileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<Models.FileDownloadResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
       throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
     }
 
     const downloadFullFile = offset === 0 && !count;
     const res = await this.context.download({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       onDownloadProgress: !isNode ? options.progress : undefined,
       range: downloadFullFile ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5
@@ -701,14 +699,14 @@ export class FileClient extends StorageClient {
         // );
 
         return (await this.context.download({
-          abortSignal: aborter,
+          abortSignal: options.abortSignal,
           ...updatedOptions
         })).readableStreamBody!;
       },
       offset,
       res.contentLength!,
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         maxRetryRequests: options.maxRetryRequests,
         progress: options.progress
       }
@@ -727,9 +725,8 @@ export class FileClient extends StorageClient {
   public async getProperties(
     options: FileGetPropertiesOptions = {}
   ): Promise<Models.FileGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -752,9 +749,8 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   public async delete(options: FileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.deleteMethod({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -775,9 +771,8 @@ export class FileClient extends StorageClient {
     fileHTTPHeaders: FileHTTPHeaders = {},
     options: FileSetHTTPHeadersOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setHTTPHeaders({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       fileHTTPHeaders
     });
   }
@@ -798,12 +793,11 @@ export class FileClient extends StorageClient {
     length: number,
     options: FileResizeOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (length < 0) {
       throw new RangeError(`Size cannot less than 0 when resizing file.`);
     }
     return this.context.setHTTPHeaders({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       fileContentLength: length
     });
   }
@@ -824,9 +818,8 @@ export class FileClient extends StorageClient {
     metadata: Metadata = {},
     options: FileSetMetadataOptions = {}
   ): Promise<Models.FileSetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata
     });
   }
@@ -850,7 +843,6 @@ export class FileClient extends StorageClient {
     contentLength: number,
     options: FileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
@@ -864,7 +856,7 @@ export class FileClient extends StorageClient {
       "update",
       contentLength,
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         contentMD5: options.contentMD5,
         onUploadProgress: options.progress,
         optionalbody: body
@@ -887,13 +879,12 @@ export class FileClient extends StorageClient {
     contentLength: number,
     options: FileClearRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (offset < 0 || contentLength <= 0) {
       throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
     }
 
     return this.context.uploadRange(rangeToString({ count: contentLength, offset }), "clear", 0, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -907,9 +898,8 @@ export class FileClient extends StorageClient {
   public async getRangeList(
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const originalResponse = await this.context.getRangeList({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       range: options.range ? rangeToString(options.range) : undefined
     });
     return {
@@ -945,9 +935,8 @@ export class FileClient extends StorageClient {
     copySource: string,
     options: FileStartCopyOptions = {}
   ): Promise<Models.FileStartCopyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.startCopy(copySource, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata: options.metadata
     });
   }
@@ -966,9 +955,8 @@ export class FileClient extends StorageClient {
     copyId: string,
     options: FileAbortCopyFromURLOptions = {}
   ): Promise<Models.FileAbortCopyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.abortCopy(copyId, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -1013,7 +1001,6 @@ export class FileClient extends StorageClient {
     size: number,
     options: UploadToAzureFileOptions = {}
   ): Promise<void> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (!options.rangeSize) {
       options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
     }
@@ -1034,7 +1021,7 @@ export class FileClient extends StorageClient {
 
     // Create the file
     await this.create(size, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       fileHTTPHeaders: options.fileHTTPHeaders,
       metadata: options.metadata
     });
@@ -1050,7 +1037,7 @@ export class FileClient extends StorageClient {
           const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
           const contentLength = end - start;
           await this.uploadRange(blobFactory(start, contentLength), start, contentLength, {
-            abortSignal: aborter
+            abortSignal: options.abortSignal
           });
           // Update progress after block is successfully uploaded to server, in case of block trying
           // TODO: Hook with convenience layer progress event in finer level
@@ -1108,7 +1095,6 @@ export class FileClient extends StorageClient {
     size: number,
     options: UploadToAzureFileOptions = {}
   ): Promise<void> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (!options.rangeSize) {
       options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
     }
@@ -1129,7 +1115,7 @@ export class FileClient extends StorageClient {
 
     // Create the file
     await this.create(size, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       fileHTTPHeaders: options.fileHTTPHeaders,
       metadata: options.metadata
     });
@@ -1145,7 +1131,7 @@ export class FileClient extends StorageClient {
           const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
           const contentLength = end - start;
           await this.uploadRange(() => streamFactory(start, contentLength), start, contentLength, {
-            abortSignal: aborter
+            abortSignal: options.abortSignal
           });
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += contentLength;
@@ -1176,7 +1162,6 @@ export class FileClient extends StorageClient {
     count?: number,
     options: DownloadFromAzureFileOptions = {}
   ): Promise<void> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (!options.rangeSize) {
       options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
     }
@@ -1201,7 +1186,7 @@ export class FileClient extends StorageClient {
 
     // Customer doesn't specify length, get it
     if (!count) {
-      const response = await this.getProperties({ abortSignal: aborter });
+      const response = await this.getProperties({ abortSignal: options.abortSignal });
       count = response.contentLength! - offset;
       if (count < 0) {
         throw new RangeError(
@@ -1226,7 +1211,7 @@ export class FileClient extends StorageClient {
           chunkEnd = off + options.rangeSize!;
         }
         const response = await this.download(off, chunkEnd - off, {
-          abortSignal: aborter,
+          abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequestsPerRange
         });
         const stream = response.readableStreamBody!;
@@ -1272,7 +1257,6 @@ export class FileClient extends StorageClient {
     maxBuffers: number,
     options: UploadStreamToAzureFileOptions = {}
   ): Promise<void> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (!options.fileHTTPHeaders) {
       options.fileHTTPHeaders = {};
     }
@@ -1287,7 +1271,7 @@ export class FileClient extends StorageClient {
 
     // Create the file
     await this.create(size, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       fileHTTPHeaders: options.fileHTTPHeaders,
       metadata: options.metadata
     });
@@ -1305,7 +1289,9 @@ export class FileClient extends StorageClient {
           );
         }
 
-        await this.uploadRange(buffer, offset!, buffer.length, { abortSignal: aborter });
+        await this.uploadRange(buffer, offset!, buffer.length, {
+          abortSignal: options.abortSignal
+        });
 
         // Update progress after block is successfully uploaded to server, in case of block trying
         transferProgress += buffer.length;
@@ -1372,10 +1358,9 @@ export class FileClient extends StorageClient {
     marker?: string,
     options: FileListHandlesSegmentOptions = {}
   ): Promise<Models.FileListHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     marker = marker === "" ? undefined : marker;
     const response = await this.context.listHandles({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       marker,
       ...options
     });
@@ -1404,10 +1389,9 @@ export class FileClient extends StorageClient {
     marker?: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<Models.FileForceCloseHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     marker = marker === "" ? undefined : marker;
     return this.context.forceCloseHandles("*", {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       marker
     });
   }
@@ -1427,7 +1411,6 @@ export class FileClient extends StorageClient {
     handleId: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<Models.FileForceCloseHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (handleId === "*") {
       throw new RangeError(
         `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
@@ -1435,7 +1418,7 @@ export class FileClient extends StorageClient {
     }
 
     return this.context.forceCloseHandles(handleId, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 }

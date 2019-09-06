@@ -124,71 +124,79 @@ export function getURLQueries(url: string): { [key: string]: string } {
 export function extractConnectionStringParts(
   connectionString: string
 ): { kind: "AccountConnString" | "SASConnString"; url: string; [key: string]: any } {
-  // Account connection string
+  function getValueInConnString(argument: string) {
+    const matchCredentials = connectionString.split(";");
+    for (const element of matchCredentials) {
+      if (element.trim().startsWith(argument)) {
+        return element.trim().match(argument + "=(.*)")![1];
+      }
+    }
+    return "";
+  }
+
+  // Matching QueueEndpoint in the Account connection string
+  let queueEndpoint = getValueInConnString("QueueEndpoint");
+  // Slicing off '/' at the end if exists
+  // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
+  queueEndpoint = queueEndpoint.endsWith("/") ? queueEndpoint.slice(0, -1) : queueEndpoint;
+
   if (
     connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
     connectionString.search("AccountKey=") !== -1
   ) {
-    const matchCredentials = connectionString.match(
-      "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
-    );
+    // Account connection string
 
-    let defaultEndpointsProtocol;
-    let accountName;
-    let accountKey;
-    let endpointSuffix;
+    let defaultEndpointsProtocol = "";
+    let accountName = "";
+    let accountKey = Buffer.from("accountKey", "base64");
+    let endpointSuffix = "";
 
-    try {
-      defaultEndpointsProtocol = matchCredentials![1] || "";
-      accountName = matchCredentials![2] || "";
-      accountKey = Buffer.from(matchCredentials![3], "base64");
-      endpointSuffix = matchCredentials![4] || "";
-    } catch (err) {
-      throw new Error("Invalid Account Connection String");
+    // Get account name and key
+    accountName = getValueInConnString("AccountName");
+    accountKey = Buffer.from(getValueInConnString("AccountKey"), "base64");
+
+    if (!queueEndpoint) {
+      // QueueEndpoint is not present in the Account connection string
+      // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`
+
+      defaultEndpointsProtocol = getValueInConnString("DefaultEndpointsProtocol");
+      const protocol = defaultEndpointsProtocol!.toLowerCase();
+      if (protocol !== "https" && protocol !== "http") {
+        throw new Error(
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+        );
+      }
+
+      endpointSuffix = getValueInConnString("EndpointSuffix");
+      if (!endpointSuffix) {
+        throw new Error("Invalid EndpointSuffix in the provided Connection String");
+      }
+      queueEndpoint = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
     }
 
-    const protocol = defaultEndpointsProtocol.toLowerCase();
-    if (protocol !== "https" && protocol !== "http") {
-      throw new Error(
-        "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
-      );
-    } else if (!accountName) {
+    if (!accountName) {
       throw new Error("Invalid AccountName in the provided Connection String");
     } else if (accountKey.length === 0) {
       throw new Error("Invalid AccountKey in the provided Connection String");
-    } else if (!endpointSuffix) {
-      throw new Error("Invalid EndpointSuffix in the provided Connection String");
     }
-
-    const url = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
 
     return {
       kind: "AccountConnString",
-      url,
+      url: queueEndpoint,
       accountName,
       accountKey
     };
   } else {
     // SAS connection string
-    const matchCredentials = connectionString.match(
-      "BlobEndpoint=(.*)/;QueueEndpoint=(.*)/;FileEndpoint=(.*)/;TableEndpoint=(.*)/;SharedAccessSignature=(.*)"
-    );
-    let endpoint;
-    let accountSas;
-    try {
-      endpoint = matchCredentials![2] || "";
-      accountSas = matchCredentials![5] || "";
-    } catch (error) {
-      throw new Error("Invalid SAS Connection String");
-    }
 
-    if (!endpoint) {
+    let accountSas = getValueInConnString("SharedAccessSignature");
+    if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
     }
 
-    return { kind: "SASConnString", url: endpoint, accountSas };
+    return { kind: "SASConnString", url: queueEndpoint, accountSas };
   }
 }
 

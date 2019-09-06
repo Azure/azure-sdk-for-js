@@ -1,5 +1,9 @@
 # Changelog
 
+### 2019.08 Version 12.0.0-preview.3
+
+- Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
+
 ### 2019.08 10.4.1
 
 - Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.

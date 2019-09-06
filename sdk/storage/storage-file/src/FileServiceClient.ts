@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Service } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -283,9 +283,8 @@ export class FileServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -303,9 +302,8 @@ export class FileServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.setProperties(properties, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -463,9 +461,7 @@ export class FileServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): Promise<Models.ServiceListSharesSegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.listSharesSegment({
-      abortSignal: aborter,
       marker,
       ...options
     });
