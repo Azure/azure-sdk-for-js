@@ -252,6 +252,9 @@ export interface ReceivedEventData {
         [key: string]: any;
     };
     sequenceNumber: number;
+    systemProperties?: {
+        [key: string]: any;
+    };
 }
 
 // @public
