@@ -87,34 +87,6 @@ export function isValidUuid(uuid: string): boolean {
 }
 
 /**
- * Provides an array of values of an object. For example
- * for a given object { "a": "foo", "b": "bar" }, the method returns ["foo", "bar"].
- *
- * @param {object} obj An object whose properties need to be enumerated so that it"s values can be provided as an array
- *
- * @return {any[]} An array of values of the given object.
- */
-export function objectValues(obj: { [key: string]: any }): any[] {
-  const result: any[] = [];
-  if (obj && obj instanceof Object) {
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        result.push((<any>obj)[key]);
-      }
-    }
-  } else {
-    throw new Error(
-      `The provided object ${JSON.stringify(
-        obj,
-        undefined,
-        2
-      )} is not a valid object that can be enumerated to provide its values as an array.`
-    );
-  }
-  return result;
-}
-
-/**
  * Generated UUID
  *
  * @return {string} RFC4122 v4 UUID.
