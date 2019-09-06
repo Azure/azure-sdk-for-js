@@ -264,13 +264,13 @@ export class CertificatesClient {
    * // All in one call
    * for await (const certificate of client.listCertificates()) {
    *   console.log(certificate);
-   * } 
+   * }
    * // By pages
    * for await (const page of client.listCertificates().byPage()) {
    *   for (const certificate of page) {
    *     console.log(certificate);
    *   }
-   * } 
+   * }
    * ```
    * @summary List all versions of the specified certificate.
    * @param [options] The optional parameters
@@ -405,7 +405,7 @@ export class CertificatesClient {
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
-   *   phone: "222222222222"  
+   *   phone: "222222222222"
    * }]);
    * await client.deleteCertificateContacts();
    * ```
@@ -428,7 +428,7 @@ export class CertificatesClient {
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
-   *   phone: "222222222222"  
+   *   phone: "222222222222"
    * }]);
    * ```
    * @summary Sets the certificate contacts.
@@ -457,7 +457,7 @@ export class CertificatesClient {
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
-   *   phone: "222222222222"  
+   *   phone: "222222222222"
    * }]);
    * const getResponse = await client.getCertificateContacts();
    * console.log(getResponse.contactList!);
@@ -520,7 +520,7 @@ export class CertificatesClient {
    * // All in one call
    * for await (const issuer of client.listCertificateIssuers()) {
    *   console.log(issuer);
-   * } 
+   * }
    * // By pages
    * for await (const page of client.listCertificateIssuers().byPage()) {
    *   for (const issuer of page) {
@@ -673,13 +673,18 @@ export class CertificatesClient {
    * @param tags Tags for this certificate
    * @returns Promise<Certificate>
    */
-  public async createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags): Promise<Certificate> {
+  public async createCertificate(
+    name: string,
+    certificatePolicy: CertificatePolicy,
+    enabled?: boolean,
+    tags?: CertificateTags
+  ): Promise<Certificate> {
     let result = await this.client.createCertificate(this.vaultBaseUrl, name, {
       certificateAttributes: {
-        enabled,
+        enabled
       },
       tags,
-      certificatePolicy,
+      certificatePolicy
     });
 
     return this.getCertificateFromCertificateBundle(result);
@@ -691,7 +696,10 @@ export class CertificatesClient {
    * @param requestOptions The optional parameters
    * @returns Promise<Certificate>
    */
-  public async getCertificateWithPolicy(name: string, requestOptions?: coreHttp.RequestOptionsBase): Promise<CertificateWithPolicy> {
+  public async getCertificateWithPolicy(
+    name: string,
+    requestOptions?: coreHttp.RequestOptionsBase
+  ): Promise<CertificateWithPolicy> {
     let result = await this.client.getCertificate(this.vaultBaseUrl, name, "", { requestOptions });
 
     return this.getCertificateFromCertificateBundle(result);
@@ -711,7 +719,7 @@ export class CertificatesClient {
   ): Promise<Certificate> {
     if (!version) {
       throw new Error("The 'version' cannot be empty.");
-    } 
+    }
 
     let result = await this.client.getCertificate(this.vaultBaseUrl, name, version, options);
     return this.getCertificateFromCertificateBundle(result);
@@ -1030,14 +1038,13 @@ export class CertificatesClient {
     return {
       ...resultObject,
       contentType: resultObject.contentType as CertificateContentType
-    }; 
+    };
   }
 
   private getDeletedCertificateFromDeletedCertificateBundle(
     certificateBundle: DeletedCertificateBundle
   ): DeletedCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
-
 
     let resultObject;
     if (certificateBundle.attributes) {
