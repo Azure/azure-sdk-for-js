@@ -1,7 +1,5 @@
 parameters:
-  Toolchain: "rush"
-  PackageName: "" # For Rush toolchain only
-  PackagePath: "" # For NPM toolchain only
+  PackageName: ""
   PreIntegrationSteps: ""
   PostIntegrationSteps: ""
   ResourceFileLocation: ""
@@ -82,14 +80,28 @@ jobs:
               TEST_APP_ID: $(provisioner-test-app-id)
             displayName: Provision Test-Specific Azure Resources
 
-      - template: ../steps/integration-${{parameters.Toolchain}}.yml
-        parameters:
-          PackageName: ${{parameters.PackageName}}
-          PackagePath: ${{parameters.PackagePath}}
-          PreIntegrationSteps: ${{parameters.PreIntegrationSteps}}
-          PostIntegrationSteps: ${{parameters.PostIntegrationSteps}}
-          TestType: $(TestType)
-          EnvVars: ${{parameters.EnvVars}}
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install dependencies"
+
+      - script: |
+          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose
+        displayName: "Build libraries"
+
+      - script: |
+          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose
+        displayName: "Build test assets"
+
+      - ${{if ne(parameters.PreIntegrationSteps, '')}}:
+          - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
+
+      - script: |
+          node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose
+        displayName: "Integration test libraries"
+        env: ${{parameters.EnvVars}}
+
+      - ${{if ne(parameters.PostIntegrationSteps, '')}}:
+          - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
 
       - ${{ if ne(parameters.ResourceFileLocation, '') }}:
           - pwsh: |
