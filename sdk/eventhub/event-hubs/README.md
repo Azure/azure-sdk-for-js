@@ -214,25 +214,25 @@ While load balancing is a feature we will be adding in the next update, you can 
 example, where we use an [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html) that does checkpointing in memory.
 
 ```javascript
-class SimplePartitionProcessor {
+class SamplePartitionProcessor extends PartitionProcessor {
   // Gets called once before the processing of events from current partition starts.
-  async initialize() {
+  async initialize(partitionContext) {
     /* your code here */
   }
 
   // Gets called for each batch of events that are received.
   // You may choose to use the checkpoint manager to update checkpoints.
-  async processEvents(events) {
+  async processEvents(events, partitionContext) {
     /* your code here */
   }
 
   // Gets called for any error when receiving events.
-  async processError(error) {
+  async processError(error, partitionContext) {
     /* your code here */
   }
 
   // Gets called when Event Processor stops processing events for current partition.
-  async close(reason) {
+  async close(reason, partitionContext) {
     /* your code here */
   }
 }
@@ -241,12 +241,12 @@ const client = new EventHubClient("my-connection-string", "my-event-hub");
 const processor = new EventProcessor(
   EventHubClient.defaultConsumerGroupName,
   client,
-  (partitionContext, checkpointManager) => new SimplePartitionProcessor(),
+  SamplePartitionProcessor,
   new InMemoryPartitionManager()
 );
 await processor.start();
 // At this point, the processor is consuming events from each partition of the Event Hub and
-// delegating them to the SimplePartitionProcessor instance created for that partition.  This
+// delegating them to the SamplePartitionProcessor instance created for that partition.  This
 // processing takes place in the background and will not block.
 //
 // In this example, we'll stop processing after five seconds.

@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -28,6 +28,7 @@
     "tsconfig.json"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",
+  "sideEffects": false,
   "types": "./dist/index.d.ts",
   "engine": {
     "node": ">=8.0.0"
@@ -64,9 +65,11 @@
   },
   "dependencies": {
     "@azure/cosmos-sign": "1.0.2",
+    "@types/debug": "^4.1.4",
     "atob": "2.1.2",
     "binary-search-bounds": "2.0.3",
     "crypto-hash": "1.1.0",
+    "debug": "^4.1.1",
     "fast-json-stable-stringify": "2.0.0",
     "node-abort-controller": "1.0.3",
     "node-fetch": "^2.6.0",
@@ -102,7 +105,7 @@
     "execa": "1.0.0",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
-    "karma-cli": "^1.0.1",
+    "karma-cli": "^2.0.0",
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
@@ -123,7 +126,7 @@
     "sinon": "^7.1.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
-    "typedoc": "0.14.2",
+    "typedoc": "^0.15.0",
     "typescript": "^3.2.2"
   },
   "repository": {

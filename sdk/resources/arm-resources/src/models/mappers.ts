@@ -267,11 +267,35 @@ export const DeploymentExportResult: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceManagementErrorWithDetails: msRest.CompositeMapper = {
-  serializedName: "ResourceManagementErrorWithDetails",
+export const ErrorAdditionalInfo: msRest.CompositeMapper = {
+  serializedName: "ErrorAdditionalInfo",
   type: {
     name: "Composite",
-    className: "ResourceManagementErrorWithDetails",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        readOnly: true,
+        serializedName: "info",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: msRest.CompositeMapper = {
+  serializedName: "ErrorResponse",
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
     modelProperties: {
       code: {
         readOnly: true,
@@ -302,7 +326,20 @@ export const ResourceManagementErrorWithDetails: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceManagementErrorWithDetails"
+              className: "ErrorResponse"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        readOnly: true,
+        serializedName: "additionalInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
             }
           }
         }
@@ -708,13 +745,6 @@ export const DeploymentValidateResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "DeploymentValidateResult",
     modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ResourceManagementErrorWithDetails"
-        }
-      },
       properties: {
         serializedName: "properties",
         type: {
@@ -1519,7 +1549,7 @@ export const ResourceGroupExportResult: msRest.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ResourceManagementErrorWithDetails"
+          className: "ErrorResponse"
         }
       }
     }
@@ -1577,6 +1607,28 @@ export const Operation: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "OperationDisplay"
+        }
+      }
+    }
+  }
+};
+
+export const TemplateHashResult: msRest.CompositeMapper = {
+  serializedName: "TemplateHashResult",
+  type: {
+    name: "Composite",
+    className: "TemplateHashResult",
+    modelProperties: {
+      minifiedTemplate: {
+        serializedName: "minifiedTemplate",
+        type: {
+          name: "String"
+        }
+      },
+      templateHash: {
+        serializedName: "templateHash",
+        type: {
+          name: "String"
         }
       }
     }
