@@ -1,7 +1,7 @@
-import { SimpleTokenCredential } from "@azure/core-http";
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { newPipeline } from "../../src/Pipeline";
+import { SimpleTokenCredential } from "./testutils.common";
 
 export * from "./testutils.common";
 

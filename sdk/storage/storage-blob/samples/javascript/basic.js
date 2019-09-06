@@ -26,12 +26,8 @@ async function main() {
   // will be used as a fallback authentication source.
   // const defaultAzureCredential = new DefaultAzureCredential();
 
-  // Use SimpleTokenCredential with OAuth token.  You can find more
-  // TokenCredential implementations in the @azure/identity library
-  // to use client secrets, certificates, or managed identities for
-  // authentication.
-  // const tokenCredential = new SimpleTokenCredential("token");
-  // tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credentials
+  // You can find more TokenCredential implementations in the @azure/identity library
+  // to use client secrets, certificates, or managed identities for authentication.
 
   // Use AnonymousCredential when url already includes a SAS signature
   // const anonymousCredential = new AnonymousCredential();

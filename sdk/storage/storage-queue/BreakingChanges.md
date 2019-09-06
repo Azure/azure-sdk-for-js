@@ -2,7 +2,7 @@
 
 ### Coming soon... Version 12.0.0-preview.3
 
-- [Breaking] `RawTokenCredential` is dropped in favour of `SimpleTokenCredential` from [@azure/core-http](https://www.npmjs.com/package/@azure/core-http)
+- [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
 
 ### 2019.08 Version 12.0.0-preview.2
 

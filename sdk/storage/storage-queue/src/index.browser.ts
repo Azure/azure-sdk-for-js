@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { RestError, SimpleTokenCredential } from "@azure/core-http";
+import { RestError } from "@azure/core-http";
 
 import * as Models from "./generated/lib/models";
 
@@ -20,4 +20,4 @@ export * from "./QueueClient";
 export * from "./QueueSASPermissions";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
-export { Models, RestError, SimpleTokenCredential };
+export { Models, RestError };
