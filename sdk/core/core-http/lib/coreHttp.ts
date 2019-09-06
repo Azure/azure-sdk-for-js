@@ -25,7 +25,12 @@ export {
 } from "./operationParameter";
 export { OperationResponse } from "./operationResponse";
 export { OperationSpec } from "./operationSpec";
-export { ServiceClient, ServiceClientOptions, flattenResponse } from "./serviceClient";
+export {
+  ServiceClient,
+  ServiceClientOptions,
+  flattenResponse,
+  ProxySettings
+} from "./serviceClient";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export {
