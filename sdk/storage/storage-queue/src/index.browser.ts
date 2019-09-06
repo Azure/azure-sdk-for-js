@@ -7,7 +7,6 @@ import * as Models from "./generated/lib/models";
 
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export * from "./credentials/RawTokenCredential";
 export { IPRange } from "./IPRange";
 export * from "./MessageIdClient";
 export * from "./MessagesClient";

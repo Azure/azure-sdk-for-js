@@ -197,7 +197,7 @@ export interface NewPipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @export
- * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+ * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
  *                                                  or a TokenCredential from @azure/identity.
  * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.

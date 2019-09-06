@@ -12,7 +12,6 @@ export * from "./AccountSASSignatureValues";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/SharedKeyCredential";
-export * from "./credentials/RawTokenCredential";
 export { IPRange } from "./IPRange";
 export * from "./MessageIdClient";
 export * from "./MessagesClient";
