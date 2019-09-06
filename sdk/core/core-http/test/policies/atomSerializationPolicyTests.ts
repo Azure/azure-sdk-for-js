@@ -117,7 +117,7 @@ function getCustomResult(error: any, result: any, response: any): any {
 
 class MockSerializer implements ResourceSerializer {
   serialize(resource: any): any {
-    var properties = ["LockDuration", "MaxSizeInMegabytes"];
+    const properties = ["LockDuration", "MaxSizeInMegabytes"];
 
     return AtomResourceSerializerBase.serializeToAtomXmlRequest(
       "QueueDescription",
