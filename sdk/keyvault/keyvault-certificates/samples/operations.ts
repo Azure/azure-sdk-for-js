@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   await client.createCertificate("MyCertificate", {
     issuerParameters: { name: "Self" },
     x509CertificateProperties: { subject: "cn=MyCert" }
-  }); 
+  });
 
   // The pending state of the certificate will be visible.
   const pendingCertificate = await client.getCertificate(certificateName, "");
@@ -51,7 +51,7 @@ async function main(): Promise<void> {
 
   // There will be no signs of a pending operation at this point
   const certificateWithoutOperation = await client.getCertificateWithPolicy(certificateName);
-	console.log("Certificate without operation:", certificateWithoutOperation); 
+  console.log("Certificate without operation:", certificateWithoutOperation);
 }
 
 main().catch((err) => {

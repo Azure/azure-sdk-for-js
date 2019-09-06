@@ -17,15 +17,18 @@ async function main(): Promise<void> {
 
   // Contacts are created independently of the certificates.
 
-  const contacts = [{
-    emailAddress: "a@a.com",
-    name: "a",
-    phone: "111111111111"
-  }, {
-    emailAddress: "b@b.com",
-    name: "b",
-    phone: "222222222222" 
-  }];
+  const contacts = [
+    {
+      emailAddress: "a@a.com",
+      name: "a",
+      phone: "111111111111"
+    },
+    {
+      emailAddress: "b@b.com",
+      name: "b",
+      phone: "222222222222"
+    }
+  ];
 
   let getResponse: any;
 
@@ -51,4 +54,4 @@ main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
-}); 
+});

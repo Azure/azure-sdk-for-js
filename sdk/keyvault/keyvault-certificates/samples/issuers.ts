@@ -20,15 +20,17 @@ async function main(): Promise<void> {
   // Create
   await client.setCertificateIssuer(issuerName, "Test", {
     credentials: {
-      accountId: "keyvaultuser",
+      accountId: "keyvaultuser"
     },
     organizationDetails: {
-      adminDetails: [{
-        firstName: "John",
-        lastName: "Doe",
-        emailAddress: "admin@microsoft.com",
-        phone: "4255555555"
-      }]
+      adminDetails: [
+        {
+          firstName: "John",
+          lastName: "Doe",
+          emailAddress: "admin@microsoft.com",
+          phone: "4255555555"
+        }
+      ]
     }
   });
 
@@ -36,7 +38,7 @@ async function main(): Promise<void> {
   await client.createCertificate("MyCertificate", {
     issuerParameters: { name: issuerName },
     x509CertificateProperties: { subject: "cn=MyCert" }
-  }); 
+  });
 
   // Reading the certificate will give us back the issuer name, but no other information.
   const certificate = await client.getCertificate("MyCertificate", "");
