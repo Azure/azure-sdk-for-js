@@ -1,11 +1,11 @@
 {
-  "name": "@azure/eventhubs-checkpoint-blob",
+  "name": "@azure/eventhubs-checkpointstore-blob",
   "sdk-type": "client",
   "version": "1.0.0-preview.1",
   "description": "An Azure Storage Blob solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpoint-blob",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -19,7 +19,7 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./typings/eventhubs-checkpoint-blob.d.ts",
+  "types": "./typings/eventhubs-checkpointstore-blob.d.ts",
   "browser": {
     "./dist/index.js": "./browser/index.js"
   },
@@ -30,7 +30,7 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "typings/eventhubs-checkpoint-blob.d.ts",
+    "typings/eventhubs-checkpointstore-blob.d.ts",
     "tsconfig.json"
   ],
   "scripts": {
@@ -50,8 +50,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "mocha -t 1200000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
-    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f html -o event-hubs-lintReport.html || exit 0",
+    "lint:fix": "eslint -c ../../.eslintrc.json src test --ext .ts --fix",
+    "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f html -o event-hubs-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
