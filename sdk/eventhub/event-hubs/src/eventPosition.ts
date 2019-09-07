@@ -121,8 +121,8 @@ export class EventPosition {
    * @returns EventPosition
    */
   static fromOffset(offset: number, isInclusive?: boolean): EventPosition {
-    if (offset == undefined) {
-      throw new Error('Missing parameter "offset"');
+    if (typeof offset !== "number" && offset !== "@latest") {
+      throw new Error(`Invalid offset "${offset}" provided to "fromOffset" method.`);
     }
     return new EventPosition({ offset: offset, isInclusive: isInclusive });
   }
@@ -154,8 +154,10 @@ export class EventPosition {
    * @returns EventPosition
    */
   static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
-    if (enqueuedTime == undefined) {
-      throw new Error('Missing parameter "enqueuedTime"');
+    if (typeof enqueuedTime !== "number" && !(enqueuedTime instanceof Date)) {
+      throw new Error(
+        `Invalid enqueuedTime "${enqueuedTime}" provided to "fromEnqueuedTime" method.`
+      );
     }
     return new EventPosition({ enqueuedTime: enqueuedTime });
   }
