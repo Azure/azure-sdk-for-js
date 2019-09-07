@@ -12,7 +12,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -20,10 +24,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:27 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "303df4ae-3200-44e5-a0ec-1eb2927b9beb",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:15 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "992285d0-fdbe-4fbc-a651-f4e7ca47849f",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -40,6 +51,7 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:27 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "b744c67f-b3dd-4ce3-b5df-27fd1db71e00",
@@ -47,6 +59,15 @@
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
     "x-ms-ests-server": "2.1.9338.12 - EUS ProdSlices",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:15 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "84e6c1d5-dbb6-405b-a6b9-75f773b34600",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9338.12 - SCUS ProdSlices",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -59,11 +80,19 @@
    },
    "requestBody": "{\"policy\":{\"x509_props\":{\"subject\":\"cn=MyCert\"},\"issuer\":{\"name\":\"Self\"}},\"attributes\":{}}",
    "status": 202,
+<<<<<<< HEAD
    "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvmLQ28dLwU/AsPUlSu9g+1cY5/zf6fEkEs78XU5UmbK55HU51j1WOTAaaVhwvdFs1p/0aCjZYh/iXLcSKnioUn48e2xJCpnIbz3OQ6HRc75XOOpqmkz7Vh8/VM9uo1X3WWAaWCjSoDnO6KwUsk/RQuHHdZ81K6OFtvSyeCckGIqTPp9ilvHixPl7WX1ubVcxFxWmCTOH3bUtN3Z2CwA6FLmNTWCyxUGEKV1lQSGLtmSzysdJePWl4kUxvi4lzmRKczI4Kr9eGcUM7pjpdgc45Y7ZlgFqmZfg0ADXBhKyZTgNbENVKMeXTe4lYUegAIQY+xsDbUTLcEo8WQLKQ4snLQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAIcDdvfk8BuBGF5EIJJ9kBgvWTRdIumD6rLz0EejeYvjNADAkbmZaQx4jnrhLGsun4t27+vsPfAdyeF5TD/OMtRwfV7Kj0ynXiNXAnZvHsz/UjTrIOEG0maIfzwuN86XZVysZ/TkXaEo4OFcAQdUjzJaPTvpDQWX2gtg/zTEiEHlHm1gid4nv/Plmsx3lojLXBHjPXZ6AHxtOEqqJ60caz/T6bvCX9qpDzDScslNcUpWxfaucbbUBWhs1VxBspZ2MdVM3HRTEbsrjWC4V0hLQ57c1jonN6X0InIrJTpBz5NhfxfvNAhjR/1feQoBfVZa5EHDTBV43yMhYrF4sH04pqQ=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"1c4efd61ba2c4fef879f58996bb8d54c\"}",
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHoYzBwgtTmbYvdXRMbrp8atPpmfnfQWlUUYBjS13ZBjW+6VnxHTViko+MmYB/cYu8nlGCcDZ/O33SzfZaC/mMvicztEWuLTp6VPUpjQGO9pymnkQ+BttS3PBgn2Ea7ssiUTlPku3d/YqHjVDKpHQ6eIya/SMsWWQFmAsIQ8ppsXp555GVOTmKa5p2aVSXMXuV5QQuuYDtaIJ/l0uk7s5oQNa5Y5qsYk6bFlEYV1K3H+iho4cQvvLVXSTb2K29C0M0re+oK3YbSqPFlrBuRVDXJF0FFczI9XGUZaKNuT0vvArJUL9pADeuQghL9MkivSkGrZVdPFRoMWOIuZwSFQEQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHoU8MxFyXb3tMDJvMhB9xQ5QiBgkIfP5U5Mi9wEndFchNgbuAKaJvmI8EiNUUrZLbaTKx1Ikf38A2F7tYIJ+dIUzU+j6gSNx+1qxXzZDE2VzxNp8VbNykm8jxCLD1Ijhk2oTLghXcFTJYdQRZ0dQ6HEfzQZgnnfkjB0N5iofXUnGXbOzw4OsZkTEwDJR0sslAf+uZ5vIwk9tIADSywHA6DRjjcgEMdTqixig3FIgZJAlnGp2eS+ao++V5/p4uGDSyivUTArYWBx/zNybsgrG6N8c+JFQsbtU+aW4B6YKP4Q/zEHoBQza3Bq8uf21bZSUJzQARvbUnvhDKv2ixNKL0s=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"7718d664e3c84d459c33682ea4870e4e\"}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "202",
@@ -71,11 +100,19 @@
     "content-length": "1329",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:29 GMT",
     "content-type": "application/json; charset=utf-8",
     "location": "https://danrodri-kv.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-74110221226697550/pending?api-version=7.0&request_id=1c4efd61ba2c4fef879f58996bb8d54c",
     "x-ms-request-id": "e1418be0-1535-4782-8ba1-5e0019b651f8",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:16 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "location": "https://danrodri-kv.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-85624100670557150/pending?api-version=7.0&request_id=7718d664e3c84d459c33682ea4870e4e",
+    "x-ms-request-id": "d97d403b-03f3-4ff4-9422-bba8cfc3f845",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "retry-after": "10",
     "expires": "-1"
@@ -93,7 +130,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -101,10 +142,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:29 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "ce806681-3488-4c31-a912-b413a7b42b71",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:16 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "3b7fbe41-b9a9-4e66-8551-5bc96f107eba",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -121,6 +169,7 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:28 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "e6fcdc61-f680-4640-a675-6ec9a2552000",
@@ -128,6 +177,15 @@
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
     "x-ms-ests-server": "2.1.9338.12 - WUS ProdSlices",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:16 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "e810cd0a-b2b8-4456-8c0d-0aafeba74900",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9338.12 - EUS ProdSlices",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -140,11 +198,19 @@
    },
    "requestBody": "{\"policy\":{\"x509_props\":{\"subject\":\"cn=MyCert\"},\"issuer\":{\"name\":\"Self\"}},\"attributes\":{}}",
    "status": 202,
+<<<<<<< HEAD
    "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5jjJTX87NbD0zzl6HPBCxBukhj+YMs8zS3+kSbczaVfH3wjdwI0RdtpAjCXyTKZ558PSoX+o19sw4OGJTC7ejpTaNAAerUUXswlcANgUrchcXTPYEwz12sblYurM1/DcLSP9mcSoDq4fUtWdv72NN3Q8fqVOn9jLiwkjp41kf0sDGoWwIky78PQCWRCWGu0w/hUOUrbjiF+IAqNijvkERzAeS4S97szFGMqDHip8fhppgE5W8H583Ya8VOOJjg4VfhbuPTT6ecT5579lg97ONZwBQ3xVnQp6bJoXMdRZTwf/XfaDsNGw1btpbF6K0tzltA8v8rOwa37alhJn9uMKnwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKQCDIGLKEFp7fA3ykID651dzxDlBS4YtPIKpyZzHfrncMnmndDCUtBCCo/NCUTAV6+2z4f0cg2XknbthCvIKy37xTO3hSfywBwBWOupQ58OsMOi8wwlQD4Q3q5ruLaugplzIsnxK3oNkpW6KO9HwPVYIvm8q4QiCm9xHGg5Ewydi0mpeUKhllv7kzFzO18kJF8tf7mFNYL/w0SBdBo2b3FrysGMLJbA8QMZIEBmd2dqMzSHmOg32Mp4BsZ3k4oCXwv0IZRc7pDePedAIAZE0NkGjz9i3/tpqJ4BkYy9wLWHYNgYt8wCPQp6p6Z4eL99GreO1CQZqx4iS0LJ+h5x5HU=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"c82cb103bbe1437e922726f5a809d3c0\"}",
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2iXvoSOZcwPro12zs+R0rv5kU7dffgiv46vIT9nKr/kO6C9L2XPWbbbgR1DOY6nbU8+IhNCKrRK0w9ytyigKlCp3QmuLnY98bzK+5D28+IM6A+pLxsIWEpDELjXal2nZMcuw1FSgk434o5mhkoBfgfi5AyTNSn5iX0HdgxiTCSV/IK5EG7FTyUtoD8DThTw5YOI99SGf51S8mgpV1TOjd1DQrZevvO5S60U3+r3cpjVtzUAtbS4yn7CtIIP2EzFSDkgcVYJaTvfCDLOkF9PDylPXiIAMt9MYyuH6ywz+JZD2VStsrt9Qy3cNU7VhMuD1CFuLaByQkNdHf66PA5u8AwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAFr7FPctw0hB4pb0Q0y1khd+V0LA6HtK1gZh0DuiOSHVW1roj6IgSHmjH7R2kGJRzOty8kJcSPlSNFJAGDW8+3xwAEbCG65isTIFQqXDPjU8C3u1kYr1FoPmsVdb3x3hQWXj9YAAzl8zJwOoYl7A7U+CP0HXCmm5tfXjAy8+z5wgtlR3va1dtefRiEhMMlPjZ0yw8Cfk7/I0nyIYgh70u1t3KUBUWjFfo7g+rhmxOslFTGhYZarvIOi7W3TfvwLJn16Drg4BcT/Ny1Hmei2JNIRAEcM2MiopiGAu96srIoulZ6wuneIVJy0IRov/lBzMBCA1DBUtzd8+cz8N4TWI+go=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"fcbfac9825d24c29884db08ea77b854b\"}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "202",
@@ -152,11 +218,19 @@
     "content-length": "1329",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:30 GMT",
     "content-type": "application/json; charset=utf-8",
     "location": "https://danrodri-kv.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-74110221226697551/pending?api-version=7.0&request_id=c82cb103bbe1437e922726f5a809d3c0",
     "x-ms-request-id": "7bb85d7a-09a4-4a19-bdb9-7d636f167247",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:16 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "location": "https://danrodri-kv.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-85624100670557151/pending?api-version=7.0&request_id=fcbfac9825d24c29884db08ea77b854b",
+    "x-ms-request-id": "6069c382-3f6d-4692-b1f8-44a1337675f5",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "retry-after": "10",
     "expires": "-1"
@@ -175,7 +249,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -183,10 +261,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:30 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "aecb065b-fd8d-42b6-84d1-5a24f958d182",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:16 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "b9f81701-a838-401e-80dd-1a21f8ba1e60",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -203,6 +288,7 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:29 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "9a8b2d1f-c2fd-4136-ac7f-6ca015081e00",
@@ -210,6 +296,15 @@
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
     "x-ms-ests-server": "2.1.9338.12 - NCUS ProdSlices",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:17 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "39d26f4c-8923-424f-aa51-21c6cafc4900",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9338.12 - WUS ProdSlices",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -223,11 +318,19 @@
    },
    "requestBody": null,
    "status": 200,
+<<<<<<< HEAD
    "response": "{\"value\":[{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0\",\"attributes\":{\"enabled\":false,\"nbf\":1567783228,\"exp\":1599406228,\"created\":1567783828,\"updated\":1567783828},\"subject\":\"\"},{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1\",\"attributes\":{\"enabled\":false,\"nbf\":1567783229,\"exp\":1599406229,\"created\":1567783829,\"updated\":1567783829},\"subject\":\"\"}],\"nextLink\":null}",
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+   "response": "{\"value\":[{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0\",\"attributes\":{\"enabled\":false,\"nbf\":1567876336,\"exp\":1599499336,\"created\":1567876936,\"updated\":1567876936},\"subject\":\"\"},{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1\",\"attributes\":{\"enabled\":false,\"nbf\":1567876337,\"exp\":1599499337,\"created\":1567876937,\"updated\":1567876937},\"subject\":\"\"}],\"nextLink\":null}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "200",
@@ -235,10 +338,17 @@
     "content-length": "505",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:30 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "cbb1d416-5793-412c-8d4e-296fcc4cd8e7",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:17 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "06122fbf-a6c6-4213-b886-2975125d945d",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "expires": "-1"
    }
@@ -255,7 +365,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -263,10 +377,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:30 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "6191b92d-053f-45cc-95ca-d1f8ac9ee69e",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:17 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "d28acb9d-7a1a-4cda-af01-5726cce0db1c",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -283,9 +404,15 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:30 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "4d5c9007-3f75-4fba-ad73-c0587db32000",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:17 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "39d26f4c-8923-424f-aa51-21c6d6fc4900",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
@@ -302,11 +429,19 @@
    },
    "requestBody": null,
    "status": 200,
+<<<<<<< HEAD
    "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canlistcertificates-0\",\"deletedDate\":1567783831,\"scheduledPurgeDate\":1575559831,\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0/1c301407dae44dea9441a694973941a3\",\"attributes\":{\"enabled\":false,\"nbf\":1567783228,\"exp\":1599406228,\"created\":1567783828,\"updated\":1567783828,\"recoveryLevel\":\"Recoverable+Purgeable\"},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1567783828,\"updated\":1567783828}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0/pending\"}}",
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canlistcertificates-0\",\"deletedDate\":1567876938,\"scheduledPurgeDate\":1575652938,\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0/def96e5dc96742de8b6915dcf6b83087\",\"attributes\":{\"enabled\":false,\"nbf\":1567876336,\"exp\":1599499336,\"created\":1567876936,\"updated\":1567876936,\"recoveryLevel\":\"Recoverable+Purgeable\"},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1567876936,\"updated\":1567876936}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-0/pending\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "200",
@@ -314,10 +449,17 @@
     "content-length": "1276",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:31 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "b65b56fe-b95b-4a17-91be-876c4c0123fc",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:17 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "08d716d7-e682-452d-8226-f51fccfc8362",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "expires": "-1"
    }
@@ -334,7 +476,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -342,10 +488,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:31 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "f0d0d253-34c2-4f61-82a6-fcbaf28d64d9",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:17 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "6625bdf0-fde7-430c-b889-0e7df67f8de5",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -362,6 +515,7 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:30 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "b744c67f-b3dd-4ce3-b5df-27fd68b71e00",
@@ -369,6 +523,15 @@
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
     "x-ms-ests-server": "2.1.9338.12 - EUS ProdSlices",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:18 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "08ae4a3b-9fed-4f5e-bf1a-f35bc9f34300",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9338.12 - NCUS ProdSlices",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -385,7 +548,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "409",
@@ -393,10 +560,17 @@
     "content-length": "126",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:31 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "58ba9bbb-f912-4de4-a782-e2a6a693b372",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:18 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "80bbd1a7-2a8c-44b2-91a1-6c4297c46786",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "expires": "-1"
    }
@@ -413,7 +587,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -421,10 +599,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:41 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "cdd3c2aa-b241-41cb-8ffd-2ea65011466f",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:29 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "47b3d6f5-c39a-4aac-8dbd-9ba452cb481a",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -436,14 +621,20 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:41 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "b744c67f-b3dd-4ce3-b5df-27fda7b81e00",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:28 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "5b8500cc-92b0-433f-94b8-63dfaf834600",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
@@ -465,6 +656,7 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
     "server": "Microsoft-IIS/10.0",
     "x-aspnet-version": "4.0.30319",
@@ -474,6 +666,17 @@
     "x-ms-request-id": "cf552ad0-c5ce-45c9-baa7-03edf007ab13",
     "x-ms-keyvault-region": "westus",
     "date": "Fri, 06 Sep 2019 15:30:41 GMT",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "dc935aec-d459-4eaa-832d-235566c94994",
+    "x-ms-keyvault-region": "westus",
+    "date": "Sat, 07 Sep 2019 17:22:29 GMT",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "expires": "-1"
    }
@@ -490,7 +693,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -498,10 +705,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:41 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "aa8d9ec5-3052-43b3-8320-4de676fb13af",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:29 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "6d8387a5-3433-4e32-a4d5-390ba99d2468",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -518,6 +732,7 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:42 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "9a8b2d1f-c2fd-4136-ac7f-6ca079091e00",
@@ -525,6 +740,15 @@
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
     "x-ms-ests-server": "2.1.9338.12 - NCUS ProdSlices",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:28 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "39d26f4c-8923-424f-aa51-21c620fe4900",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9338.12 - WUS ProdSlices",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -537,11 +761,19 @@
    },
    "requestBody": null,
    "status": 200,
+<<<<<<< HEAD
    "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canlistcertificates-1\",\"deletedDate\":1567783842,\"scheduledPurgeDate\":1575559842,\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1/f750fbcd584e479993793ca8a1689722\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/recoverCertificateName-canlistcertificates-1/f750fbcd584e479993793ca8a1689722\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/recoverCertificateName-canlistcertificates-1/f750fbcd584e479993793ca8a1689722\",\"x5t\":\"uqlyt7S3SUonup_RW1XyhMXpwL4\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQBjh/tBdoRA+Y+g61Yune1jANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMTkwOTA2MTUyMDM4WhcNMjAwOTA2MTUzMDM4WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDmOMlNfzs1sPTPOXoc8ELEG6SGP5gyzzNLf6RJtzNpV8ffCN3AjRF22kCMJfJMpnnnw9Khf6jX2zDg4YlMLt6OlNo0AB6tRRezCVwA2BStyFxdM9gTDPXaxuVi6szX8NwtI/2ZxKgOrh9S1Z2/vY03dDx+pU6f2MuLCSOnjWR/SwMahbAiTLvw9AJZEJYa7TD+FQ5StuOIX4gCo2KO+QRHMB5LhL3uzMUYyoMeKnx+GmmATlbwfnzdhrxU44mODhV+Fu49NPp5xPnnv2WD3s41nAFDfFWdCnpsmhcx1FlPB/9d9oOw0bDVu2lsXorS3OW0Dy/ys7BrftqWEmf24wqfAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQGXVsm/2JjECsiisg9EEvgjmNMRTAdBgNVHQ4EFgQUBl1bJv9iYxArIorIPRBL4I5jTEUwDQYJKoZIhvcNAQELBQADggEBAAgS4Bqhf5AeUsg7WNMKfp1uDx+ymPqqbVp+3YZFt7YIW5xU+qhBhWXTIFxkMn5VrrpFTcDsIrYRqDA2O2F0aHkFTtnzFtB51vZ+OL2n5NOlJ+GKWHGMTSvoDZ6t8ZeTWaLl9W8x6H52HWYi2UXJIpfHoMP0w9qZcgNhrIiigDXMIjqCfe0qnnzsccxOJ+LvnJT/EpQCsSEIWMM67NvK6v7Hnsa9UR3H5MpYrxrPF6o8fRxn34BoBgOcktbEpjrBw+v1sbtXpMZyxO3b0MD6dCScxCPpGnMFQ1keaFHpsv0awOF5u82G1B9lTf4fj13TDKryLyqKmYVQ/GWhyfWRMV0=\",\"attributes\":{\"enabled\":true,\"nbf\":1567783238,\"exp\":1599406238,\"created\":1567783838,\"updated\":1567783838,\"recoveryLevel\":\"Recoverable+Purgeable\"},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1567783830,\"updated\":1567783830}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1/pending\"}}",
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canlistcertificates-1\",\"deletedDate\":1567876949,\"scheduledPurgeDate\":1575652949,\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1/4afb6f58ecd04f589e4b5b7a89dc4ce7\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/recoverCertificateName-canlistcertificates-1/4afb6f58ecd04f589e4b5b7a89dc4ce7\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/recoverCertificateName-canlistcertificates-1/4afb6f58ecd04f589e4b5b7a89dc4ce7\",\"x5t\":\"R8k5e9RV_o50Jmas3DOoWbLob7g\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQMHr1F/KTRXuZ8B3stirrTTANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMTkwOTA3MTcxMjI2WhcNMjAwOTA3MTcyMjI2WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDaJe+hI5lzA+ujXbOz5HSu/mRTt19+CK/jq8hP2cqv+Q7oL0vZc9ZttuBHUM5jqdtTz4iE0IqtErTD3K3KKAqUKndCa4udj3xvMr7kPbz4gzoD6kvGwhYSkMQuNdqXadkxy7DUVKCTjfijmaGSgF+B+LkDJM1KfmJfQd2DGJMJJX8grkQbsVPJS2gPwNOFPDlg4j31IZ/nVLyaClXVM6N3UNCtl6+87lLrRTf6vdymNW3NQC1tLjKfsK0gg/YTMVIOSBxVglpO98IMs6QX08PKU9eIgAy30xjK4frLDP4lkPZVK2yu31DLdw1TtWEy4PUIW4toHJCQ10d/ro8Dm7wDAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBT0oGtB9BKjAn/uQdxIFaGWne67ZTAdBgNVHQ4EFgQU9KBrQfQSowJ/7kHcSBWhlp3uu2UwDQYJKoZIhvcNAQELBQADggEBAL915ug7Dib8LLyVg+I3p1QULQlBatRB/dbKz+kWMuUZNdcE356yX16MdX6LYwlw8z2NTk6M2Ili7azI1H9MC0SBtXgS32s0LjELsltqARKDvArM7ES19MozdX4NfCA35fr9OmZgbgQgl+BUmHjHM3pLKa6bNwfacXf0JFqsIcEHyX2Ms8riw3/jtkj7B3pTjl1GOd9P6hF76U9z+tfWi1tmgohQtmJM+GH8CnuAfL2mY3hoMov9X75xC2LoPph2d6bTKHySRsjr+wi/GAzo/PAH8uCfrKXXCrWb6pRqdnyf+3UdnacIXzmTBlXza1oIt8Fmw/Nx+5pBstALEcmUQxM=\",\"attributes\":{\"enabled\":true,\"nbf\":1567876346,\"exp\":1599499346,\"created\":1567876947,\"updated\":1567876947,\"recoveryLevel\":\"Recoverable+Purgeable\"},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1567876937,\"updated\":1567876937}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canlistcertificates-1/pending\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "200",
@@ -549,10 +781,17 @@
     "content-length": "2693",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:42 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "81f49784-a92e-4981-ad17-1f02270ec4b0",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:29 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "7541981a-7c98-48c0-9687-63bdd67abb7d",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "expires": "-1"
    }
@@ -569,7 +808,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -577,10 +820,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:42 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "518d52ef-b132-4cb6-ac1f-4b4b3e235a4f",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:29 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "f1652d54-350b-4f06-ab0c-635060099364",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -597,9 +847,15 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:42 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "f5985c66-195c-4b36-8699-af600dd22200",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:30 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "fe28ad14-644f-4d4e-80ce-a8295dab4800",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
@@ -620,7 +876,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "409",
@@ -628,10 +888,17 @@
     "content-length": "126",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:42 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "6bf4fef6-32ac-4042-9ffe-4900e57e4b62",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:30 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "d7fabe96-ede1-4e86-85e3-884a65406f93",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "expires": "-1"
    }
@@ -648,7 +915,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -656,10 +927,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:52 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "652a3b87-1e12-4fc9-aff8-e11e09d47e71",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:39 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "aedad84f-b3bb-402a-8591-f9cbfa5e6d46",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -676,6 +954,7 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:30:53 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "b744c67f-b3dd-4ce3-b5df-27fddab91e00",
@@ -683,6 +962,15 @@
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
     "x-ms-ests-server": "2.1.9338.12 - EUS ProdSlices",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:40 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "3ba0eeda-eacd-4f28-bed5-e72097d74c00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9338.12 - WUS ProdSlices",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -699,7 +987,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "409",
@@ -707,10 +999,17 @@
     "content-length": "126",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:30:52 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "0404f4a9-4767-4c14-9599-e53ea70eb0ec",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:40 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "85fe06d8-1974-49be-8359-7f6cd69dd636",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "expires": "-1"
    }
@@ -727,7 +1026,11 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -735,10 +1038,17 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
+<<<<<<< HEAD
     "x-ms-keyvault-service-version": "1.1.0.876",
     "date": "Fri, 06 Sep 2019 15:31:02 GMT",
     "content-type": "application/json; charset=utf-8",
     "x-ms-request-id": "2179eb64-4515-4a76-b83b-2a28b0480ec0",
+=======
+    "x-ms-keyvault-service-version": "1.1.0.878",
+    "date": "Sat, 07 Sep 2019 17:22:50 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "1c7820fe-36cb-4826-ac31-7df02060713a",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -750,11 +1060,12 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "date": "Fri, 06 Sep 2019 15:31:03 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "x-ms-request-id": "ffeb46b3-ef23-4776-95b7-2cb787351d00",
@@ -762,6 +1073,15 @@
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
     "x-ms-ests-server": "2.1.9338.12 - SCUS ProdSlices",
+=======
+    "date": "Sat, 07 Sep 2019 17:22:50 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "39d26f4c-8923-424f-aa51-21c68e004a00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9338.12 - WUS ProdSlices",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -779,15 +1099,25 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+<<<<<<< HEAD
     "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
+=======
+    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "server": "Microsoft-IIS/10.0",
     "x-aspnet-version": "4.0.30319",
-    "x-ms-keyvault-service-version": "1.1.0.876",
+    "x-ms-keyvault-service-version": "1.1.0.878",
     "x-powered-by": "ASP.NET",
     "status": "204",
+<<<<<<< HEAD
     "x-ms-request-id": "7ecdb71c-877e-4106-a441-00529841fe82",
     "x-ms-keyvault-region": "westus",
     "date": "Fri, 06 Sep 2019 15:31:03 GMT",
+=======
+    "x-ms-request-id": "ed69564c-02a9-47fa-a2b2-42833d51838a",
+    "x-ms-keyvault-region": "westus",
+    "date": "Sat, 07 Sep 2019 17:22:50 GMT",
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
     "cache-control": "no-cache",
     "expires": "-1"
    }

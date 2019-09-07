@@ -22,11 +22,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
+<<<<<<< HEAD
   'd812cc36-ca25-4e8b-bc39-9a308294383a',
+=======
+  'ba362e48-f206-4f62-b937-b0d47b161e37',
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
   'x-ms-keyvault-service-version',
-  '1.1.0.876',
+  '1.1.0.878',
   'x-ms-keyvault-network-info',
+<<<<<<< HEAD
   'addr=168.62.167.138;act_addr_fam=InterNetwork;',
+=======
+  'addr=13.92.153.51;act_addr_fam=InterNetwork;',
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -36,7 +44,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
+<<<<<<< HEAD
   'Fri, 06 Sep 2019 15:19:55 GMT',
+=======
+  'Sat, 07 Sep 2019 17:40:43 GMT',
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
   'Connection',
   'close' ]);
 
@@ -56,6 +68,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
+<<<<<<< HEAD
   '785d1d1f-fe6c-4c79-999a-84862c992000',
   'x-ms-ests-server',
   '2.1.9338.12 - WUS ProdSlices',
@@ -63,12 +76,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
   'fpc=Atq_ooj6B-FCivLSaB1Gb2A_aSJHAQAAABtwBNUOAAAA; expires=Sun, 06-Oct-2019 15:19:56 GMT; path=/; secure; HttpOnly',
+=======
+  '3c8b2fab-7ecd-421c-8634-9092ac784400',
+  'x-ms-ests-server',
+  '2.1.9338.12 - SCUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=ArWRy81Kw9lDrislwJxcAiU_aSJHAQAAAJriBdUOAAAA; expires=Mon, 07-Oct-2019 17:40:43 GMT; path=/; secure; HttpOnly',
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
+<<<<<<< HEAD
   'Fri, 06 Sep 2019 15:19:55 GMT',
+=======
+  'Sat, 07 Sep 2019 17:40:43 GMT',
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
   'Connection',
   'close',
   'Content-Length',
@@ -93,11 +119,19 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
+<<<<<<< HEAD
   '3ff1b4f6-6135-4a6a-b153-2fd452e97585',
+=======
+  '330ec6a2-a6fc-4396-871a-9337fe7f8a41',
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
   'x-ms-keyvault-service-version',
-  '1.1.0.876',
+  '1.1.0.878',
   'x-ms-keyvault-network-info',
+<<<<<<< HEAD
   'addr=168.62.167.138;act_addr_fam=InterNetwork;',
+=======
+  'addr=13.92.153.51;act_addr_fam=InterNetwork;',
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -107,7 +141,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
+<<<<<<< HEAD
   'Fri, 06 Sep 2019 15:19:55 GMT',
+=======
+  'Sat, 07 Sep 2019 17:40:43 GMT',
+>>>>>>> [KeyVault-Certificates] Tweaks to the tests
   'Connection',
   'close' ]);
 

@@ -39,7 +39,7 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The tests follow
 
-  it("can import a certificate from a backup", async function() {
+  it("can import a certificate from a certificate's base64 secret value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     await client.createCertificate(certificateNames[0], {
