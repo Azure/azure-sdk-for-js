@@ -15,7 +15,10 @@ import {
   getDefaultProxySettings,
   isNode,
   userAgentPolicy,
-  tracingPolicy
+  tracingPolicy,
+  TracerProxy,
+  Span,
+  SupportedPlugins
 } from "@azure/core-http";
 import { RequestOptions, CertificateAttributes, Certificate, CertificateWithPolicy, CertificateTags, DeletedCertificate, CertificateIssuer, CertificateContentType } from "./certificatesModels";
 import { NewPipelineOptions, isNewPipelineOptions, ParsedKeyVaultEntityIdentifier, Pipeline, } from "./core/keyVaultBase";
@@ -50,7 +53,6 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
-import { TracerProxy, Span, SupportedPlugins } from "@azure/core-tracing";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import "@azure/core-paging";

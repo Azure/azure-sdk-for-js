@@ -19,7 +19,10 @@ import {
   getDefaultProxySettings,
   isNode,
   userAgentPolicy,
-  tracingPolicy
+  tracingPolicy,
+  TracerProxy,
+  Span,
+  SupportedPlugins
 } from "@azure/core-http";
 
 import "@azure/core-paging";
@@ -51,7 +54,6 @@ import {
   TelemetryOptions,
   ParsedKeyVaultEntityIdentifier
 } from "./core";
-import { TracerProxy, Span, SupportedPlugins } from "@azure/core-tracing";
 
 export {
   DeletedSecret,
