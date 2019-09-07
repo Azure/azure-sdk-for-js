@@ -121,7 +121,7 @@ export class EventPosition {
    * @returns EventPosition
    */
   static fromOffset(offset: number, isInclusive?: boolean): EventPosition {
-    if (typeof offset !== "number" && offset !== "@latest") {
+    if (typeof offset !== "number" && typeof offset !== "string") {
       throw new Error(`Invalid offset "${offset}" provided to "fromOffset" method.`);
     }
     return new EventPosition({ offset: offset, isInclusive: isInclusive });

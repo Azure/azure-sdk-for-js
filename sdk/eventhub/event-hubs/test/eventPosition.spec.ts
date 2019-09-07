@@ -94,8 +94,13 @@ describe("EventPosition #RunnableInBrowser", function(): void {
       pos.offset!.should.equal(offset);
     });
 
+    it("should accept strings", function(): void {
+      const offset = "12345";
+      const pos = EventPosition.fromOffset(offset as any);
+      pos.offset!.should.equal(offset);
+    });
+
     it("should not accept non-number/non-'@latest' inputs", function(): void {
-      chai.should().throw(() => EventPosition.fromOffset("abc" as any));
       chai.should().throw(() => EventPosition.fromOffset(true as any));
       chai.should().throw(() => EventPosition.fromOffset(false as any));
       chai.should().throw(() => EventPosition.fromOffset(new Date() as any));
