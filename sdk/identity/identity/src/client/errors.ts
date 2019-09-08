@@ -19,9 +19,11 @@ export interface ErrorResponse {
 }
 
 function isErrorResponse(errorResponse: any): errorResponse is ErrorResponse {
-  return errorResponse &&
+  return (
+    errorResponse &&
     typeof errorResponse.error === "string" &&
-    typeof errorResponse.error_description === "string";
+    typeof errorResponse.error_description === "string"
+  );
 }
 
 /**
