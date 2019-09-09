@@ -282,8 +282,8 @@ describe("DeviceCodeCredential", function() {
       const numberOfDescendants = rootSpan.allDescendants().length;
       assert.strictEqual(
         numberOfDescendants,
-        3,
-        `Number of Descendants ${numberOfDescendants} is not equal to 3.`
+        2,
+        `Number of Descendants ${numberOfDescendants} is not equal to 2.`
       );
     });
   });

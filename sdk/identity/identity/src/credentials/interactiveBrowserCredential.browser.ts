@@ -8,7 +8,7 @@ import {
   BrowserLoginStyle,
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
-import { createSpan, getSpanOptions } from "../util/tracingUtils";
+import { createSpan, modifySpanOptions } from "../util/tracingUtils";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -116,7 +116,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions // eslint-disable-line @typescript-eslint/no-unused-vars
   ): Promise<AccessToken | null> {
-    const span = createSpan("InteractiveBrowserCredential-getToken", getSpanOptions(options));
+    const span = createSpan("InteractiveBrowserCredential-getToken", options);
+    options = modifySpanOptions(span, options);
     span.start();
 
     if (!this.msalObject.getAccount()) {

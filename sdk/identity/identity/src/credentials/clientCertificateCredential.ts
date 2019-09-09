@@ -8,7 +8,7 @@ import { readFileSync } from "fs";
 import { createHash } from "crypto";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
-import { createSpan, getSpanOptions } from "../util/tracingUtils";
+import { createSpan, modifySpanOptions } from "../util/tracingUtils";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -87,7 +87,8 @@ export class ClientCertificateCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const span = createSpan("ClientCertificateCredential-getToken", getSpanOptions(options));
+    const span = createSpan("ClientCertificateCredential-getToken", options);
+    options = modifySpanOptions(span, options);
     span.start();
 
     const tokenId = uuid.v4();
@@ -131,9 +132,7 @@ export class ClientCertificateCredential implements TokenCredential {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       abortSignal: options && options.abortSignal,
-      spanOptions: {
-        parent: span
-      }
+      spanOptions: options.spanOptions
     });
 
     const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

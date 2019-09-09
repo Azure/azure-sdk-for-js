@@ -10,7 +10,7 @@ import {
   TokenCredential
 } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
-import { createSpan, getSpanOptions, assignParentSpan } from "../util/tracingUtils";
+import { createSpan, modifySpanOptions } from "../util/tracingUtils";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -130,10 +130,8 @@ export class ManagedIdentityCredential implements TokenCredential {
     timeout?: number,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean> {
-    const span = createSpan(
-      "ManagedIdentityCredential-pingImdsEndpoint",
-      getSpanOptions(getTokenOptions)
-    );
+    const span = createSpan("ManagedIdentityCredential-pingImdsEndpoint", getTokenOptions);
+    getTokenOptions = modifySpanOptions(span, getTokenOptions);
     span.start();
     const request = this.createImdsAuthRequest(resource, clientId);
 
@@ -144,9 +142,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       delete request.headers.Metadata;
     }
 
-    request.spanOptions = {
-      parent: span
-    };
+    request.spanOptions = getTokenOptions.spanOptions;
 
     // Create a request with a timeout since we expect that
     // not having a "Metadata" header should cause an error to be
@@ -184,8 +180,9 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const span = createSpan(
       "ManagedIdentityCredential-authenticateManagedIdentity",
-      getSpanOptions(getTokenOptions)
+      getTokenOptions
     );
+    getTokenOptions = modifySpanOptions(span, getTokenOptions);
     span.start();
     let authRequestOptions: RequestPrepareOptions;
     const resource = this.mapScopesToResource(scopes);
@@ -236,9 +233,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
       abortSignal: getTokenOptions && getTokenOptions.abortSignal,
-      spanOptions: {
-        parent: span
-      },
+      spanOptions: getTokenOptions.spanOptions,
       ...authRequestOptions
     });
 
@@ -261,9 +256,9 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const span = createSpan("ManagedIdentityCredential-getToken", getSpanOptions(options));
+    const span = createSpan("ManagedIdentityCredential-getToken", options);
+    options = modifySpanOptions(span, options);
     span.start();
-    options = assignParentSpan(span, options);
 
     let result: AccessToken | null = null;
 

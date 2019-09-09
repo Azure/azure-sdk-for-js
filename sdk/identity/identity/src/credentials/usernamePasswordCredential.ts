@@ -4,7 +4,7 @@
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
-import { createSpan, getSpanOptions } from "../util/tracingUtils";
+import { createSpan, modifySpanOptions } from "../util/tracingUtils";
 
 /**
  * Enables authentication to Azure Active Directory with a user's
@@ -58,7 +58,8 @@ export class UsernamePasswordCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const span = createSpan("UsernamePasswordCredential-getToken", getSpanOptions(options));
+    const span = createSpan("UsernamePasswordCredential-getToken", options);
+    options = modifySpanOptions(span, options);
     span.start();
 
     const webResource = this.identityClient.createWebResource({
@@ -79,9 +80,7 @@ export class UsernamePasswordCredential implements TokenCredential {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       abortSignal: options && options.abortSignal,
-      spanOptions: {
-        parent: span
-      }
+      spanOptions: options.spanOptions
     });
 
     const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

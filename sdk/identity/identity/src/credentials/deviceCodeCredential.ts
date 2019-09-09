@@ -5,7 +5,7 @@ import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken, delay } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 import { AuthenticationError } from "../client/errors";
-import { createSpan, getSpanOptions, assignParentSpan } from "../util/tracingUtils";
+import { createSpan, modifySpanOptions } from "../util/tracingUtils";
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -76,8 +76,10 @@ export class DeviceCodeCredential implements TokenCredential {
     scope: string,
     options?: GetTokenOptions
   ): Promise<DeviceCodeResponse> {
-    const span = createSpan("DeviceCodeCredential-sendDeviceCodeRequest", getSpanOptions(options));
+    const span = createSpan("DeviceCodeCredential-sendDeviceCodeRequest", options);
+    options = modifySpanOptions(span, options);
     span.start();
+
     const webResource = this.identityClient.createWebResource({
       url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/devicecode`,
       method: "POST",
@@ -92,9 +94,7 @@ export class DeviceCodeCredential implements TokenCredential {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       abortSignal: options && options.abortSignal,
-      spanOptions: {
-        parent: span
-      }
+      spanOptions: options.spanOptions
     });
 
     const response = await this.identityClient.sendRequest(webResource);
@@ -110,7 +110,8 @@ export class DeviceCodeCredential implements TokenCredential {
     deviceCodeResponse: DeviceCodeResponse,
     options?: GetTokenOptions
   ): Promise<TokenResponse | null> {
-    const span = createSpan("DeviceCodeCredential-pollForToken", getSpanOptions(options));
+    const span = createSpan("DeviceCodeCredential-pollForToken", options);
+    options = modifySpanOptions(span, options);
     span.start();
     let tokenResponse: TokenResponse | null = null;
 
@@ -129,9 +130,7 @@ export class DeviceCodeCredential implements TokenCredential {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       abortSignal: options && options.abortSignal,
-      spanOptions: {
-        parent: span
-      }
+      spanOptions: options.spanOptions
     });
 
     while (tokenResponse === null) {
@@ -182,9 +181,9 @@ export class DeviceCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const span = createSpan("DeviceCodeCredential-getToken", getSpanOptions(options));
+    const span = createSpan("DeviceCodeCredential-getToken", options);
+    options = modifySpanOptions(span, options);
     span.start();
-    options = assignParentSpan(span, options);
 
     let tokenResponse: TokenResponse | null = null;
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");

@@ -9,38 +9,26 @@ import { TracerProxy, Span, SupportedPlugins, GetTokenOptions } from "@azure/cor
  * @param name Name of the span
  * @param spanOptions Span Options
  */
-export function createSpan(name: string, spanOptions: any): Span {
+export function createSpan(name: string, options?: GetTokenOptions): Span {
+  const spanOptions = options && options.spanOptions;
   const tracer = TracerProxy.getTracer();
   const span = tracer.startSpan(name, spanOptions);
-  if (tracer.pluginType !== SupportedPlugins.NOOP && (spanOptions && spanOptions.parent)) {
-    spanOptions = { ...spanOptions, parent: span };
-  }
   return span;
 }
 
 /**
- * Gets the Span Options from the Token options. If none exists, returns
- * an empty object.
+ * Modify the span options of the options to the new parent span.
  *
- * @param options Token options from which the span options must be extracted.
+ * @param span Span to be assigned as parent span
+ * @param options options to be modified
  */
-export function getSpanOptions(options?: GetTokenOptions): any {
-  if (!options) {
-    options = {};
-  }
 
-  if (!options.spanOptions) {
-    options.spanOptions = {};
-  }
-
-  return options.spanOptions;
-}
-
-export function assignParentSpan(span: Span, options?: GetTokenOptions): GetTokenOptions {
+export function modifySpanOptions(span: Span, options?: GetTokenOptions): GetTokenOptions {
   if (!options) {
     options = {};
   }
   options.spanOptions = {
+    ...options.spanOptions,
     parent: span
   };
 
