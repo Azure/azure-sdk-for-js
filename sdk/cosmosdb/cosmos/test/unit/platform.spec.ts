@@ -17,7 +17,7 @@ describe("getUserAgent", function() {
 
   it("should allow a custom suffix", () => {
     const suffix = "myApp";
-    assert(getUserAgent("myApp").includes(suffix));
+    assert(getUserAgent(suffix).includes(suffix));
   });
 });
 
