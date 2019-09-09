@@ -1,4 +1,4 @@
-# Azure Event Hubs Checkpoint Store Blob library for Javascript
+# Azure Checkpoint Store client library for Javascript using Storage Blobs
 
 An Azure Storage Blob solution to store checkpoints when using Event Hubs.
 
