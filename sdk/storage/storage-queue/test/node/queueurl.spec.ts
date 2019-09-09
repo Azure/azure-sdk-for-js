@@ -27,6 +27,7 @@ describe("QueueURL Node", () => {
   it("getAccessPolicy", async () => {
     const result = await queueURL.getAccessPolicy(Aborter.none);
     assert.ok(result.requestId);
+    assert.ok(result.clientRequestId);
     assert.ok(result.version);
     assert.ok(result.date);
   });

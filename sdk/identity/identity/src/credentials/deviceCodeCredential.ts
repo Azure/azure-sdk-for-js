@@ -12,12 +12,12 @@ import { AuthenticationError } from "../client/errors";
  * library.
  */
 export interface DeviceCodeResponse {
-  device_code: string,
-  user_code: string,
-  verification_uri: string,
-  expires_in: number,
-  interval: number,
-  message: string
+  device_code: string;
+  user_code: string;
+  verification_uri: string;
+  expires_in: number;
+  interval: number;
+  message: string;
 }
 
 /**
@@ -26,9 +26,9 @@ export interface DeviceCodeResponse {
  * contains an instruction with these details.
  */
 export interface DeviceCodeDetails {
-  userCode: string,
-  verificationUri: string,
-  message: string
+  userCode: string;
+  verificationUri: string;
+  message: string;
 }
 
 /**
@@ -182,7 +182,8 @@ export class DeviceCodeCredential implements TokenCredential {
         this.lastTokenResponse.refreshToken,
         undefined, // clientSecret not needed for device code auth
         undefined,
-        options);
+        options
+      );
     }
 
     if (tokenResponse === null) {

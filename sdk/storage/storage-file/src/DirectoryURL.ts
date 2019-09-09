@@ -1,13 +1,23 @@
 import { Aborter } from "./Aborter";
 import * as Models from "./generated/src/models";
 import { Directory } from "./generated/src/operations";
-import { IMetadata } from "./models";
+import { 
+  IMetadata,
+  IFileAndDirectoryCreateCommonOptions,
+  IFileAndDirectorySetPropertiesCommonOptions,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+} from "./models";
 import { Pipeline } from "./Pipeline";
 import { ShareURL } from "./ShareURL";
 import { StorageURL } from "./StorageURL";
 import { appendToURLPath } from "./utils/utils.common";
+import { FileSystemAttributes } from './FileSystemAttributes';
 
-export interface IDirectoryCreateOptions {
+export interface IDirectoryCreateOptions extends IFileAndDirectoryCreateCommonOptions {
   /**
    * A name-value pair
    * to associate with a file storage object.
@@ -17,6 +27,8 @@ export interface IDirectoryCreateOptions {
    */
   metadata?: IMetadata;
 }
+
+export interface IDirectoryProperties extends IFileAndDirectorySetPropertiesCommonOptions {}
 
 export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
   /**
@@ -141,7 +153,7 @@ export class DirectoryURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IDirectoryCreateOptions} [options]
+   * @param {IDirectoryCreateOptions} [options={}]
    * @returns {Promise<Models.DirectoryCreateResponse>}
    * @memberof DirectoryURL
    */
@@ -149,10 +161,53 @@ export class DirectoryURL extends StorageURL {
     aborter: Aborter,
     options: IDirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
-    return this.context.create({
-      ...options,
-      abortSignal: aborter
-    });
+    options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+
+    if (!options.fileAttributes) {
+      // By default set it as a directory.
+      const attributes: FileSystemAttributes = new FileSystemAttributes();
+      attributes.directory = true; 
+      options.fileAttributes = attributes;
+    }
+
+    return this.context.create(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        metadata: options.metadata,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      });
+  }
+
+  /**
+   * Sets properties on the directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-properties
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {properties} [IDirectoryProperties] Directory properties. If no values are provided,
+   *                                            existing values will be preserved.
+   * @returns {Promise<ISetPropertiesResponse>}
+   * @memberof FileURL
+   */
+  public async setProperties(
+    aborter: Aborter,
+    properties: IDirectoryProperties = {}
+  ): Promise<Models.DirectorySetPropertiesResponse> {
+    properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
+
+    return this.context.setProperties(
+      fileAttributesToString(properties.fileAttributes!),
+      fileCreationTimeToString(properties.creationTime!),
+      fileLastWriteTimeToString(properties.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        filePermission: properties.filePermission,
+        filePermissionKey: properties.filePermissionKey
+      });
   }
 
   /**

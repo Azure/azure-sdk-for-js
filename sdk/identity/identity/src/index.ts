@@ -10,7 +10,10 @@ export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
-export { InteractiveBrowserCredentialOptions, BrowserLoginStyle } from "./credentials/interactiveBrowserCredentialOptions";
+export {
+  InteractiveBrowserCredentialOptions,
+  BrowserLoginStyle
+} from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";

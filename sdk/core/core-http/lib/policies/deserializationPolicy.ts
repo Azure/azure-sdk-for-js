@@ -41,7 +41,7 @@ export function deserializationPolicy(deserializationContentTypes?: Deserializat
   };
 }
 
-export const defaultJsonContentTypes = ["application/json", "text/json"];
+export const defaultJsonContentTypes = ["application/json", "text/json", "text/plain"];
 export const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
 
 /**

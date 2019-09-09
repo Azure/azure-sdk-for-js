@@ -13,13 +13,10 @@ import {
   DeleteConfigurationSettingResponse as ModelDeleteConfigurationSettingResponse,
   GetConfigurationSettingResponse as ModelGetConfigurationSettingResponse,
   ListConfigurationSettingsResponse as ModelListConfigurationSettingsResponse,
-  ListRevisionsResponse as ModelListRevisionsResponse,
+  ListRevisionsResponse as ModelListRevisionsResponse
 } from "./generated/models";
 
-export {
-  ConfigurationSettingList,
-  GetConfigurationSettingHeaders
-} from "./generated/models";
+export { ConfigurationSettingList, GetConfigurationSettingHeaders } from "./generated/models";
 
 export {
   ModelConfigurationSetting,
@@ -33,7 +30,7 @@ export {
   ModelGetConfigurationSettingResponse,
   ModelListConfigurationSettingsResponse,
   ModelListRevisionsResponse
-}
+};
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -44,39 +41,70 @@ const deserializationContentTypes = {
     "application/vnd.microsoft.appconfig.keyset+json",
     "application/vnd.microsoft.appconfig.revs+json"
   ]
-}
+};
 
 export interface ETagOption {
+  /**
+   * Entity tag (etag) of the object
+   */
   etag?: string;
 }
 
-export type AddConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+export type AddConfigurationSettingConfig = Pick<
+  ModelConfigurationSetting,
+  Exclude<keyof ModelConfigurationSetting, "key">
+>;
 export type AddConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
 export type AddConfigurationSettingsResponse = ModelCreateOrUpdateConfigurationSettingResponse;
-export type DeleteConfigurationSettingOptions = ModelConfigurationClientDeleteConfigurationSettingOptionalParams & ETagOption;
+
+export type DeleteConfigurationSettingOptions = ModelConfigurationClientDeleteConfigurationSettingOptionalParams &
+  ETagOption;
 export type DeleteConfigurationSettingResponse = ModelDeleteConfigurationSettingResponse;
+
 export type GetConfigurationSettingOptions = ModelConfigurationClientGetConfigurationSettingOptionalParams;
 export type GetConfigurationSettingResponse = ModelGetConfigurationSettingResponse;
+
 export type ListConfigurationSettingsOptions = ModelConfigurationClientListConfigurationSettingsOptionalParams;
 export type ListConfigurationSettingsResponse = ModelListConfigurationSettingsResponse;
+
 export type ListRevisionsOptions = ModelConfigurationClientListRevisionsOptionalParams;
 export type ListRevisionsResponse = ModelListRevisionsResponse;
-export type SetConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+
+export type SetConfigurationSettingConfig = Pick<
+  ModelConfigurationSetting,
+  Exclude<keyof ModelConfigurationSetting, "key">
+>;
 export type SetConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
 export type SetConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
-export type UpdateConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+
+export type UpdateConfigurationSettingConfig = Pick<
+  ModelConfigurationSetting,
+  Exclude<keyof ModelConfigurationSetting, "key">
+>;
 export type UpdateConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
 export type UpdateConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
 
+/**
+ * Client for the Azure App Configuration service.
+ */
 export class AppConfigurationClient {
   private client: ConfigurationClient;
 
+  /**
+   * Initializes a new instance of the AppConfigurationClient class.
+   * @param connectionString Connection string needed for a client to connect to Azure.
+   */
   constructor(connectionString: string);
+  /**
+   * Initializes a new instance of the AppConfigurationClient class.
+   * @param uri The base URI for the Azure service
+   * @param credential The credentials to use for authentication.
+   */
   constructor(uri: string, credential: TokenCredential);
   constructor(uriOrConnectionString: string, credential?: TokenCredential) {
     const regexMatch = uriOrConnectionString.match(ConnectionStringRegex);
     if (regexMatch) {
-      const credential = new AppConfigCredential(regexMatch[2], regexMatch[3])
+      const credential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
       this.client = new ConfigurationClient(credential, {
         baseUri: regexMatch[1],
         deserializationContentTypes
@@ -85,15 +113,31 @@ export class AppConfigurationClient {
       this.client = new ConfigurationClient(credential, {
         baseUri: uriOrConnectionString,
         deserializationContentTypes
-      })
+      });
     } else {
-      throw new Error("You must provide either a connection string or a URL and a ManagedIdentityCredential.")
+      throw new Error(
+        "You must provide either a connection string or a URL and a ManagedIdentityCredential."
+      );
     }
   }
 
-  addConfigurationSetting(key: string, configSettings: AddConfigurationSettingConfig, options: AddConfigurationSettingOptions = {
-    label: undefined
-  }): Promise<AddConfigurationSettingsResponse> {
+  /**
+   * Add a setting into the Azure App Configuration service, failing if it
+   * already exists.
+   *
+   * Example usage:
+   * ```ts
+   * const result = await client.addConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
+   * ```
+   * @param key The name of the key.
+   * @param configSettings A configuration value.
+   * @param options Optional parameters for the request.
+   */
+  addConfigurationSetting(
+    key: string,
+    configSettings: AddConfigurationSettingConfig,
+    options: AddConfigurationSettingOptions = {}
+  ): Promise<AddConfigurationSettingsResponse> {
     // add the custom header if-none-match=* to only add the key-value if it doesn't already exist
     // create a copy of the options to avoid modifying the user's options
     options = { ...options };
@@ -107,7 +151,20 @@ export class AppConfigurationClient {
     return this.client.createOrUpdateConfigurationSetting(configSettings, key, options);
   }
 
-  deleteConfigurationSetting(key: string, options: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse> {
+  /**
+   * Delete a setting from the Azure App Configuration service
+   *
+   * Example usage:
+   * ```ts
+   * const deletedSetting = await client.deleteConfigurationSetting("MyKey", { label: "MyLabel" });
+   * ```
+   * @param key The name of the key.
+   * @param options Optional parameters for the request.
+   */
+  deleteConfigurationSetting(
+    key: string,
+    options: DeleteConfigurationSettingOptions
+  ): Promise<DeleteConfigurationSettingResponse> {
     // hoist the etag into a custom header to ensure this update fails if the setting has been updated
     options = { ...options };
     const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
@@ -120,23 +177,68 @@ export class AppConfigurationClient {
     return this.client.deleteConfigurationSetting(key, options);
   }
 
-  getConfigurationSetting(key: string, options: GetConfigurationSettingOptions = {
-    label: undefined
-  }): Promise<GetConfigurationSettingResponse> {
+  /**
+   * Gets a setting from the Azure App Configuration service.
+   *
+   * Example code:
+   * ```ts
+   * const setting = await client.getConfigurationSetting("MyKey", { label: "MyLabel" });
+   * ```
+   * @param key The name of the key.
+   * @param options Optional parameters for the request.
+   */
+  getConfigurationSetting(
+    key: string,
+    options?: GetConfigurationSettingOptions
+  ): Promise<GetConfigurationSettingResponse> {
     return this.client.getConfigurationSetting(key, options);
   }
 
-  listConfigurationSettings(options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse> {
+  /**
+   * Lists settings from the Azure App Configuration service, optionally filtered by label,
+   * accept date time or name.
+   *
+   * Example code:
+   * ```ts
+   * const allSettingsWithLabel = await client.listConfigurationSettings({ label: "MyLabel" });
+   * ```
+   * @param options Optional parameters for the request.
+   */
+  listConfigurationSettings(
+    options?: ListConfigurationSettingsOptions
+  ): Promise<ListConfigurationSettingsResponse> {
     return this.client.listConfigurationSettings(options);
   }
 
+  /**
+   * Lists revisions of a set of keys within the Azure App Configuration service.
+   *
+   * Example code:
+   * ```ts
+   * const revisionsForMyKey = await client.listRevisions({ key: ["MyKey"] });
+   * ```
+   * @param options Optional parameters for the request.
+   */
   listRevisions(options?: ListRevisionsOptions): Promise<ListRevisionsResponse> {
     return this.client.listRevisions(options);
   }
 
-  setConfigurationSetting(key: string, configSettings: SetConfigurationSettingConfig, options: SetConfigurationSettingOptions = {
-    label: undefined
-  }): Promise<SetConfigurationSettingResponse> {
+  /**
+   * Sets the value of a key in the Azure App Configuration service, allowing for an optional etag.
+   * @param key The name of the key.
+   * @param configSettings A configuration value.
+   * @param options Optional parameters for the request.
+   *
+   * Example code:
+   * ```ts
+   * let result = await client.setConfigurationSetting("MyKey", { value: "MyValue" });
+   * ```
+   */
+  setConfigurationSetting(
+    key: string,
+    configSettings: SetConfigurationSettingConfig,
+    options: SetConfigurationSettingOptions = {}
+  ): Promise<SetConfigurationSettingResponse> {
     // hoist the etag into a custom header to ensure this update fails if the setting has been updated
     options = { ...options };
 
@@ -151,12 +253,28 @@ export class AppConfigurationClient {
     if (configSettings.label) {
       options.label = configSettings.label;
     }
-    return this.client.createOrUpdateConfigurationSetting(configSettings, key, { ...options, customHeaders });
+    return this.client.createOrUpdateConfigurationSetting(configSettings, key, {
+      ...options,
+      customHeaders
+    });
   }
 
-  async updateConfigurationSetting(key: string, configSettings: UpdateConfigurationSettingConfig, options: UpdateConfigurationSettingOptions = {
-    label: undefined
-  }): Promise<UpdateConfigurationSettingResponse> {
+  /**
+   * Updates the value of a key in the Azure App Configuration service.
+   *
+   * Example code:
+   * ```ts
+   * await client.updateConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
+   * ```
+   * @param key The name of the key.
+   * @param configSettings A configuration value.
+   * @param options Optional parameters for the request.
+   */
+  async updateConfigurationSetting(
+    key: string,
+    configSettings: UpdateConfigurationSettingConfig,
+    options: UpdateConfigurationSettingOptions = {}
+  ): Promise<UpdateConfigurationSettingResponse> {
     // retrieve existing configuration, and populate configSettings for missing fields that aren't null
     const existingConfigurationSettings = await this.getConfigurationSetting(key, {
       abortSignal: options.abortSignal,
@@ -164,6 +282,7 @@ export class AppConfigurationClient {
     });
 
     const updateConfigSettings = { ...configSettings };
+
     if (typeof updateConfigSettings.value === "undefined") {
       updateConfigSettings.value = existingConfigurationSettings.value;
     }
