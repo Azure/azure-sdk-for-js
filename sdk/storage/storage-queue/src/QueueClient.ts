@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Queue } from "./generated/lib/operations";
+import { Queue } from "./generated/src/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";

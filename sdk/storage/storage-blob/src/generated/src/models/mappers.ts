@@ -8,6 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
+
 export const KeyInfo: coreHttp.CompositeMapper = {
   serializedName: "KeyInfo",
   type: {
@@ -106,6 +107,23 @@ export const StorageError: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "StorageError",
     modelProperties: {
+      message: {
+        xmlName: "Message",
+        serializedName: "Message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataLakeStorageErrorError: coreHttp.CompositeMapper = {
+  serializedName: "DataLakeStorageError_error",
+  type: {
+    name: "Composite",
+    className: "DataLakeStorageErrorError",
+    modelProperties: {
       code: {
         xmlName: "Code",
         serializedName: "Code",
@@ -118,6 +136,24 @@ export const StorageError: coreHttp.CompositeMapper = {
         serializedName: "Message",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataLakeStorageError: coreHttp.CompositeMapper = {
+  serializedName: "DataLakeStorageError",
+  type: {
+    name: "Composite",
+    className: "DataLakeStorageError",
+    modelProperties: {
+      error: {
+        xmlName: "error",
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "DataLakeStorageErrorError"
         }
       }
     }
@@ -249,7 +285,11 @@ export const BlobProperties: coreHttp.CompositeMapper = {
         serializedName: "BlobType",
         type: {
           name: "Enum",
-          allowedValues: ["BlockBlob", "PageBlob", "AppendBlob"]
+          allowedValues: [
+            "BlockBlob",
+            "PageBlob",
+            "AppendBlob"
+          ]
         }
       },
       leaseStatus: {
@@ -257,7 +297,10 @@ export const BlobProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseStatus",
         type: {
           name: "Enum",
-          allowedValues: ["locked", "unlocked"]
+          allowedValues: [
+            "locked",
+            "unlocked"
+          ]
         }
       },
       leaseState: {
@@ -265,7 +308,13 @@ export const BlobProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseState",
         type: {
           name: "Enum",
-          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
+          allowedValues: [
+            "available",
+            "leased",
+            "expired",
+            "breaking",
+            "broken"
+          ]
         }
       },
       leaseDuration: {
@@ -273,7 +322,10 @@ export const BlobProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseDuration",
         type: {
           name: "Enum",
-          allowedValues: ["infinite", "fixed"]
+          allowedValues: [
+            "infinite",
+            "fixed"
+          ]
         }
       },
       copyId: {
@@ -288,7 +340,12 @@ export const BlobProperties: coreHttp.CompositeMapper = {
         serializedName: "CopyStatus",
         type: {
           name: "Enum",
-          allowedValues: ["pending", "success", "aborted", "failed"]
+          allowedValues: [
+            "pending",
+            "success",
+            "aborted",
+            "failed"
+          ]
         }
       },
       copySource: {
@@ -375,12 +432,43 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      customerProvidedKeySha256: {
+        xmlName: "CustomerProvidedKeySha256",
+        serializedName: "CustomerProvidedKeySha256",
+        type: {
+          name: "String"
+        }
+      },
       accessTierChangeTime: {
         xmlName: "AccessTierChangeTime",
         serializedName: "AccessTierChangeTime",
         type: {
           name: "DateTimeRfc1123"
         }
+      }
+    }
+  }
+};
+
+export const BlobMetadata: coreHttp.CompositeMapper = {
+  xmlName: "Metadata",
+  serializedName: "BlobMetadata",
+  type: {
+    name: "Composite",
+    className: "BlobMetadata",
+    modelProperties: {
+      encrypted: {
+        xmlIsAttribute: true,
+        xmlName: "Encrypted",
+        serializedName: "Encrypted",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "String"
       }
     }
   }
@@ -430,8 +518,9 @@ export const BlobItem: coreHttp.CompositeMapper = {
         xmlName: "Metadata",
         serializedName: "Metadata",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "BlobMetadata",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -815,7 +904,10 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseStatus",
         type: {
           name: "Enum",
-          allowedValues: ["locked", "unlocked"]
+          allowedValues: [
+            "locked",
+            "unlocked"
+          ]
         }
       },
       leaseState: {
@@ -823,7 +915,13 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseState",
         type: {
           name: "Enum",
-          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
+          allowedValues: [
+            "available",
+            "leased",
+            "expired",
+            "breaking",
+            "broken"
+          ]
         }
       },
       leaseDuration: {
@@ -831,7 +929,10 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseDuration",
         type: {
           name: "Enum",
-          allowedValues: ["infinite", "fixed"]
+          allowedValues: [
+            "infinite",
+            "fixed"
+          ]
         }
       },
       publicAccess: {
@@ -1450,6 +1551,111 @@ export const ModifiedAccessConditions: coreHttp.CompositeMapper = {
   }
 };
 
+export const DirectoryHttpHeaders: coreHttp.CompositeMapper = {
+  xmlName: "directory-http-headers",
+  type: {
+    name: "Composite",
+    className: "DirectoryHttpHeaders",
+    modelProperties: {
+      cacheControl: {
+        xmlName: "cacheControl",
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        xmlName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      contentEncoding: {
+        xmlName: "contentEncoding",
+        type: {
+          name: "String"
+        }
+      },
+      contentLanguage: {
+        xmlName: "contentLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      contentDisposition: {
+        xmlName: "contentDisposition",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SourceModifiedAccessConditions: coreHttp.CompositeMapper = {
+  xmlName: "source-modified-access-conditions",
+  type: {
+    name: "Composite",
+    className: "SourceModifiedAccessConditions",
+    modelProperties: {
+      sourceIfModifiedSince: {
+        xmlName: "sourceIfModifiedSince",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      sourceIfUnmodifiedSince: {
+        xmlName: "sourceIfUnmodifiedSince",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      sourceIfMatch: {
+        xmlName: "sourceIfMatch",
+        type: {
+          name: "String"
+        }
+      },
+      sourceIfNoneMatch: {
+        xmlName: "sourceIfNoneMatch",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CpkInfo: coreHttp.CompositeMapper = {
+  xmlName: "cpk-info",
+  type: {
+    name: "Composite",
+    className: "CpkInfo",
+    modelProperties: {
+      encryptionKey: {
+        xmlName: "encryptionKey",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionKeySha256: {
+        xmlName: "encryptionKeySha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionAlgorithm: {
+        xmlName: "encryptionAlgorithm",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "AES256"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const BlobHTTPHeaders: coreHttp.CompositeMapper = {
   xmlName: "blob-HTTP-headers",
   type: {
@@ -1488,40 +1694,6 @@ export const BlobHTTPHeaders: coreHttp.CompositeMapper = {
       },
       blobContentDisposition: {
         xmlName: "blobContentDisposition",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SourceModifiedAccessConditions: coreHttp.CompositeMapper = {
-  xmlName: "source-modified-access-conditions",
-  type: {
-    name: "Composite",
-    className: "SourceModifiedAccessConditions",
-    modelProperties: {
-      sourceIfModifiedSince: {
-        xmlName: "sourceIfModifiedSince",
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      sourceIfUnmodifiedSince: {
-        xmlName: "sourceIfUnmodifiedSince",
-        type: {
-          name: "DateTimeRfc1123"
-        }
-      },
-      sourceIfMatch: {
-        xmlName: "sourceIfMatch",
-        type: {
-          name: "String"
-        }
-      },
-      sourceIfNoneMatch: {
-        xmlName: "sourceIfNoneMatch",
         type: {
           name: "String"
         }
@@ -1586,6 +1758,12 @@ export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceSetPropertiesHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1614,6 +1792,12 @@ export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceGetPropertiesHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1642,6 +1826,12 @@ export const ServiceGetStatisticsHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceGetStatisticsHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1676,6 +1866,12 @@ export const ServiceListContainersSegmentHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceListContainersSegmentHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1704,6 +1900,12 @@ export const ServiceGetUserDelegationKeyHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceGetUserDelegationKeyHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1738,6 +1940,12 @@ export const ServiceGetAccountInfoHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceGetAccountInfoHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1773,7 +1981,51 @@ export const ServiceGetAccountInfoHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-account-kind",
         type: {
           name: "Enum",
-          allowedValues: ["Storage", "BlobStorage", "StorageV2"]
+          allowedValues: [
+            "Storage",
+            "BlobStorage",
+            "StorageV2"
+          ]
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceSubmitBatchHeaders: coreHttp.CompositeMapper = {
+  serializedName: "service-submitbatch-headers",
+  type: {
+    name: "Composite",
+    className: "ServiceSubmitBatchHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "content-type",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -1802,6 +2054,12 @@ export const ContainerCreateHeaders: coreHttp.CompositeMapper = {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -1866,21 +2124,39 @@ export const ContainerGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: ["infinite", "fixed"]
+          allowedValues: [
+            "infinite",
+            "fixed"
+          ]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
+          allowedValues: [
+            "available",
+            "leased",
+            "expired",
+            "breaking",
+            "broken"
+          ]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: ["locked", "unlocked"]
+          allowedValues: [
+            "locked",
+            "unlocked"
+          ]
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -1935,6 +2211,12 @@ export const ContainerDeleteHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerDeleteHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1979,6 +2261,12 @@ export const ContainerSetMetadataHeaders: coreHttp.CompositeMapper = {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -2033,6 +2321,12 @@ export const ContainerGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -2077,6 +2371,12 @@ export const ContainerSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -2131,6 +2431,12 @@ export const ContainerAcquireLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -2175,6 +2481,12 @@ export const ContainerReleaseLeaseHeaders: coreHttp.CompositeMapper = {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -2225,6 +2537,12 @@ export const ContainerRenewLeaseHeaders: coreHttp.CompositeMapper = {
       },
       leaseId: {
         serializedName: "x-ms-lease-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
@@ -2281,6 +2599,12 @@ export const ContainerBreakLeaseHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -2333,6 +2657,12 @@ export const ContainerChangeLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -2369,6 +2699,12 @@ export const ContainerListBlobFlatSegmentHeaders: coreHttp.CompositeMapper = {
     modelProperties: {
       contentType: {
         serializedName: "content-type",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
@@ -2413,6 +2749,12 @@ export const ContainerListBlobHierarchySegmentHeaders: coreHttp.CompositeMapper 
           name: "String"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -2447,6 +2789,12 @@ export const ContainerGetAccountInfoHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerGetAccountInfoHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -2482,11 +2830,281 @@ export const ContainerGetAccountInfoHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-account-kind",
         type: {
           name: "Enum",
-          allowedValues: ["Storage", "BlobStorage", "StorageV2"]
+          allowedValues: [
+            "Storage",
+            "BlobStorage",
+            "StorageV2"
+          ]
         }
       },
       errorCode: {
         serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DirectoryCreateHeaders: coreHttp.CompositeMapper = {
+  serializedName: "directory-create-headers",
+  type: {
+    name: "Composite",
+    className: "DirectoryCreateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const DirectoryRenameHeaders: coreHttp.CompositeMapper = {
+  serializedName: "directory-rename-headers",
+  type: {
+    name: "Composite",
+    className: "DirectoryRenameHeaders",
+    modelProperties: {
+      marker: {
+        serializedName: "x-ms-continuation",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const DirectoryDeleteHeaders: coreHttp.CompositeMapper = {
+  serializedName: "directory-delete-headers",
+  type: {
+    name: "Composite",
+    className: "DirectoryDeleteHeaders",
+    modelProperties: {
+      marker: {
+        serializedName: "x-ms-continuation",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const DirectorySetAccessControlHeaders: coreHttp.CompositeMapper = {
+  serializedName: "directory-setaccesscontrol-headers",
+  type: {
+    name: "Composite",
+    className: "DirectorySetAccessControlHeaders",
+    modelProperties: {
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DirectoryGetAccessControlHeaders: coreHttp.CompositeMapper = {
+  serializedName: "directory-getaccesscontrol-headers",
+  type: {
+    name: "Composite",
+    className: "DirectoryGetAccessControlHeaders",
+    modelProperties: {
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      xMsOwner: {
+        serializedName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      xMsGroup: {
+        serializedName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      xMsPermissions: {
+        serializedName: "x-ms-permissions",
+        type: {
+          name: "String"
+        }
+      },
+      xMsAcl: {
+        serializedName: "x-ms-acl",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
@@ -2583,7 +3201,11 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-type",
         type: {
           name: "Enum",
-          allowedValues: ["BlockBlob", "PageBlob", "AppendBlob"]
+          allowedValues: [
+            "BlockBlob",
+            "PageBlob",
+            "AppendBlob"
+          ]
         }
       },
       copyCompletionTime: {
@@ -2620,28 +3242,51 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: ["pending", "success", "aborted", "failed"]
+          allowedValues: [
+            "pending",
+            "success",
+            "aborted",
+            "failed"
+          ]
         }
       },
       leaseDuration: {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: ["infinite", "fixed"]
+          allowedValues: [
+            "infinite",
+            "fixed"
+          ]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
+          allowedValues: [
+            "available",
+            "leased",
+            "expired",
+            "breaking",
+            "broken"
+          ]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: ["locked", "unlocked"]
+          allowedValues: [
+            "locked",
+            "unlocked"
+          ]
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -2680,8 +3325,20 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
       blobContentMD5: {
         serializedName: "x-ms-blob-content-md5",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      contentCrc64: {
+        serializedName: "x-ms-content-crc64",
         type: {
           name: "ByteArray"
         }
@@ -2730,7 +3387,11 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-type",
         type: {
           name: "Enum",
-          allowedValues: ["BlockBlob", "PageBlob", "AppendBlob"]
+          allowedValues: [
+            "BlockBlob",
+            "PageBlob",
+            "AppendBlob"
+          ]
         }
       },
       copyCompletionTime: {
@@ -2767,7 +3428,12 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: ["pending", "success", "aborted", "failed"]
+          allowedValues: [
+            "pending",
+            "success",
+            "aborted",
+            "failed"
+          ]
         }
       },
       isIncrementalCopy: {
@@ -2786,21 +3452,33 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: ["infinite", "fixed"]
+          allowedValues: [
+            "infinite",
+            "fixed"
+          ]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
+          allowedValues: [
+            "available",
+            "leased",
+            "expired",
+            "breaking",
+            "broken"
+          ]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: ["locked", "unlocked"]
+          allowedValues: [
+            "locked",
+            "unlocked"
+          ]
         }
       },
       contentLength: {
@@ -2857,6 +3535,12 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -2891,6 +3575,12 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       accessTier: {
@@ -2933,6 +3623,12 @@ export const BlobDeleteHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobDeleteHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -2955,6 +3651,174 @@ export const BlobDeleteHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-error-code",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobSetAccessControlHeaders: coreHttp.CompositeMapper = {
+  serializedName: "blob-setaccesscontrol-headers",
+  type: {
+    name: "Composite",
+    className: "BlobSetAccessControlHeaders",
+    modelProperties: {
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobGetAccessControlHeaders: coreHttp.CompositeMapper = {
+  serializedName: "blob-getaccesscontrol-headers",
+  type: {
+    name: "Composite",
+    className: "BlobGetAccessControlHeaders",
+    modelProperties: {
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      xMsOwner: {
+        serializedName: "x-ms-owner",
+        type: {
+          name: "String"
+        }
+      },
+      xMsGroup: {
+        serializedName: "x-ms-group",
+        type: {
+          name: "String"
+        }
+      },
+      xMsPermissions: {
+        serializedName: "x-ms-permissions",
+        type: {
+          name: "String"
+        }
+      },
+      xMsAcl: {
+        serializedName: "x-ms-acl",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobRenameHeaders: coreHttp.CompositeMapper = {
+  serializedName: "blob-rename-headers",
+  type: {
+    name: "Composite",
+    className: "BlobRenameHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
         }
       }
     }
@@ -2985,6 +3849,12 @@ export const PageBlobCreateHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3007,6 +3877,12 @@ export const PageBlobCreateHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -3043,6 +3919,12 @@ export const AppendBlobCreateHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3065,6 +3947,12 @@ export const AppendBlobCreateHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -3101,6 +3989,12 @@ export const BlockBlobUploadHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3125,6 +4019,12 @@ export const BlockBlobUploadHeaders: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -3141,6 +4041,12 @@ export const BlobUndeleteHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobUndeleteHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3193,6 +4099,12 @@ export const BlobSetHTTPHeadersHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3239,6 +4151,12 @@ export const BlobSetMetadataHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3261,6 +4179,12 @@ export const BlobSetMetadataHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -3293,6 +4217,12 @@ export const BlobAcquireLeaseHeaders: coreHttp.CompositeMapper = {
       },
       leaseId: {
         serializedName: "x-ms-lease-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
@@ -3341,6 +4271,12 @@ export const BlobReleaseLeaseHeaders: coreHttp.CompositeMapper = {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -3395,6 +4331,12 @@ export const BlobRenewLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3439,6 +4381,12 @@ export const BlobChangeLeaseHeaders: coreHttp.CompositeMapper = {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -3499,6 +4447,12 @@ export const BlobBreakLeaseHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3551,6 +4505,12 @@ export const BlobCreateSnapshotHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3567,6 +4527,12 @@ export const BlobCreateSnapshotHeaders: coreHttp.CompositeMapper = {
         serializedName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
         }
       },
       errorCode: {
@@ -3597,6 +4563,12 @@ export const BlobStartCopyFromURLHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3625,7 +4597,12 @@ export const BlobStartCopyFromURLHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: ["pending", "success", "aborted", "failed"]
+          allowedValues: [
+            "pending",
+            "success",
+            "aborted",
+            "failed"
+          ]
         }
       },
       errorCode: {
@@ -3656,6 +4633,12 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3684,7 +4667,9 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: ["success"]
+          allowedValues: [
+            "success"
+          ]
         }
       },
       errorCode: {
@@ -3703,6 +4688,12 @@ export const BlobAbortCopyFromURLHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobAbortCopyFromURLHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3737,6 +4728,12 @@ export const BlobSetTierHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobSetTierHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3765,6 +4762,12 @@ export const BlobGetAccountInfoHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobGetAccountInfoHeaders",
     modelProperties: {
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3800,7 +4803,11 @@ export const BlobGetAccountInfoHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-account-kind",
         type: {
           name: "Enum",
-          allowedValues: ["Storage", "BlobStorage", "StorageV2"]
+          allowedValues: [
+            "Storage",
+            "BlobStorage",
+            "StorageV2"
+          ]
         }
       },
       errorCode: {
@@ -3825,6 +4832,12 @@ export const BlockBlobStageBlockHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3843,10 +4856,22 @@ export const BlockBlobStageBlockHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
       isServerEncrypted: {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -3871,6 +4896,18 @@ export const BlockBlobStageBlockFromURLHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3893,6 +4930,12 @@ export const BlockBlobStageBlockFromURLHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -3929,6 +4972,18 @@ export const BlockBlobCommitBlockListHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -3951,6 +5006,12 @@ export const BlockBlobCommitBlockListHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -3991,6 +5052,12 @@ export const BlockBlobGetBlockListHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-content-length",
         type: {
           name: "Number"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -4045,10 +5112,22 @@ export const PageBlobUploadPagesHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
       blobSequenceNumber: {
         serializedName: "x-ms-blob-sequence-number",
         type: {
           name: "Number"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -4073,6 +5152,12 @@ export const PageBlobUploadPagesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -4109,10 +5194,22 @@ export const PageBlobClearPagesHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
       blobSequenceNumber: {
         serializedName: "x-ms-blob-sequence-number",
         type: {
           name: "Number"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -4167,6 +5264,12 @@ export const PageBlobUploadPagesFromURLHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
       blobSequenceNumber: {
         serializedName: "x-ms-blob-sequence-number",
         type: {
@@ -4195,6 +5298,12 @@ export const PageBlobUploadPagesFromURLHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -4229,6 +5338,12 @@ export const PageBlobGetPageRangesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-content-length",
         type: {
           name: "Number"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -4283,6 +5398,12 @@ export const PageBlobGetPageRangesDiffHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -4333,6 +5454,12 @@ export const PageBlobResizeHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-sequence-number",
         type: {
           name: "Number"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -4387,6 +5514,12 @@ export const PageBlobUpdateSequenceNumberHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -4433,6 +5566,12 @@ export const PageBlobCopyIncrementalHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -4461,7 +5600,12 @@ export const PageBlobCopyIncrementalHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: ["pending", "success", "aborted", "failed"]
+          allowedValues: [
+            "pending",
+            "success",
+            "aborted",
+            "failed"
+          ]
         }
       },
       errorCode: {
@@ -4496,6 +5640,18 @@ export const AppendBlobAppendBlockHeaders: coreHttp.CompositeMapper = {
         serializedName: "content-md5",
         type: {
           name: "ByteArray"
+        }
+      },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
         }
       },
       requestId: {
@@ -4534,6 +5690,12 @@ export const AppendBlobAppendBlockHeaders: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -4568,6 +5730,12 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -4596,6 +5764,12 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-committed-block-count",
         type: {
           name: "Number"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
         }
       },
       errorCode: {

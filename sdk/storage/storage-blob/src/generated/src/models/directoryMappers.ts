@@ -7,20 +7,11 @@
  */
 
 export {
+  DataLakeStorageError,
+  DataLakeStorageErrorError,
   DirectoryCreateHeaders,
   DirectoryDeleteHeaders,
-  DirectoryForceCloseHandlesHeaders,
-  DirectoryGetPropertiesHeaders,
-  DirectoryItem,
-  DirectoryListFilesAndDirectoriesSegmentHeaders,
-  DirectoryListHandlesHeaders,
-  DirectorySetMetadataHeaders,
-  DirectorySetPropertiesHeaders,
-  FileItem,
-  FileProperty,
-  FilesAndDirectoriesListSegment,
-  HandleItem,
-  ListFilesAndDirectoriesSegmentResponse,
-  ListHandlesResponse,
-  StorageError
+  DirectoryGetAccessControlHeaders,
+  DirectoryRenameHeaders,
+  DirectorySetAccessControlHeaders
 } from "../models/mappers";

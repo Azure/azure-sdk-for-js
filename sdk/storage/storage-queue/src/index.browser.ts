@@ -3,7 +3,7 @@
 
 import { RestError } from "@azure/core-http";
 
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";

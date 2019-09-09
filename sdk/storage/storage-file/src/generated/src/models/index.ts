@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 
+import * as coreHttp from "@azure/core-http";
 
 /**
  * An Access policy.
@@ -294,6 +294,17 @@ export interface StorageServiceProperties {
 }
 
 /**
+ * Permission(a security descriptor) described in the Security Descriptor Definition
+ * Language(SDDL).
+ */
+export interface Permission {
+  /**
+   * Permission(a security descriptor) described in the SDDL.
+   */
+  permission: string;
+}
+
+/**
  * Additional parameters for a set of operations, such as: File_create, File_setHTTPHeaders.
  */
 export interface FileHTTPHeaders {
@@ -322,6 +333,20 @@ export interface FileHTTPHeaders {
    * Sets the file's Content-Disposition header.
    */
   fileContentDisposition?: string;
+}
+
+/**
+ * Additional parameters for uploadRangeFromURL operation.
+ */
+export interface SourceModifiedAccessConditions {
+  /**
+   * Specify the crc64 value to operate only on range with a matching crc64 checksum.
+   */
+  sourceIfMatchCrc64?: Uint8Array;
+  /**
+   * Specify the crc64 value to operate only on range without a matching crc64 checksum.
+   */
+  sourceIfNoneMatchCrc64?: Uint8Array;
 }
 
 /**
@@ -458,6 +483,30 @@ export interface ShareCreateSnapshotOptionalParams extends coreHttp.RequestOptio
 /**
  * Optional Parameters.
  */
+export interface ShareCreatePermissionOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ShareGetPermissionOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ShareSetQuotaOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
@@ -541,6 +590,19 @@ export interface DirectoryCreateOptionalParams extends coreHttp.RequestOptionsBa
    * A name-value pair to associate with a file storage object.
    */
   metadata?: { [propertyName: string]: string };
+  /**
+   * If specified the permission (security descriptor) shall be set for the directory/file. This
+   * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
+   * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
+   * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
+   * specified.
+   */
+  filePermission?: string;
+  /**
+   * Key of the permission to be set for the directory/file. Note: Only one of the
+   * x-ms-file-permission or x-ms-file-permission-key should be specified.
+   */
+  filePermissionKey?: string;
 }
 
 /**
@@ -575,6 +637,31 @@ export interface DirectoryDeleteMethodOptionalParams extends coreHttp.RequestOpt
 /**
  * Optional Parameters.
  */
+export interface DirectorySetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * If specified the permission (security descriptor) shall be set for the directory/file. This
+   * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
+   * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
+   * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
+   * specified.
+   */
+  filePermission?: string;
+  /**
+   * Key of the permission to be set for the directory/file. Note: Only one of the
+   * x-ms-file-permission or x-ms-file-permission-key should be specified.
+   */
+  filePermissionKey?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface DirectorySetMetadataOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
@@ -591,8 +678,7 @@ export interface DirectorySetMetadataOptionalParams extends coreHttp.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
-  extends coreHttp.RequestOptionsBase {
+export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Filters the results to return only entries whose name begins with the specified prefix.
    */
@@ -700,6 +786,19 @@ export interface FileCreateOptionalParams extends coreHttp.RequestOptionsBase {
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * If specified the permission (security descriptor) shall be set for the directory/file. This
+   * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
+   * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
+   * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
+   * specified.
+   */
+  filePermission?: string;
+  /**
+   * Key of the permission to be set for the directory/file. Note: Only one of the
+   * x-ms-file-permission or x-ms-file-permission-key should be specified.
+   */
+  filePermissionKey?: string;
+  /**
    * Additional parameters for the operation
    */
   fileHTTPHeaders?: FileHTTPHeaders;
@@ -772,6 +871,19 @@ export interface FileSetHTTPHeadersOptionalParams extends coreHttp.RequestOption
    */
   fileContentLength?: number;
   /**
+   * If specified the permission (security descriptor) shall be set for the directory/file. This
+   * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
+   * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
+   * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
+   * specified.
+   */
+  filePermission?: string;
+  /**
+   * Key of the permission to be set for the directory/file. Note: Only one of the
+   * x-ms-file-permission or x-ms-file-permission-key should be specified.
+   */
+  filePermissionKey?: string;
+  /**
    * Additional parameters for the operation
    */
   fileHTTPHeaders?: FileHTTPHeaders;
@@ -814,6 +926,30 @@ export interface FileUploadRangeOptionalParams extends coreHttp.RequestOptionsBa
    * the operation will fail with error code 400 (Bad Request).
    */
   contentMD5?: Uint8Array;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Bytes of source data in the specified range.
+   */
+  sourceRange?: string;
+  /**
+   * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
+   * Additional parameters for the operation
+   */
+  sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
 }
 
 /**
@@ -863,59 +999,6 @@ export interface FileAbortCopyOptionalParams extends coreHttp.RequestOptionsBase
    * Timeouts for File Service Operations.</a>
    */
   timeoutParameter?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface FileListHandlesOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * A string value that identifies the portion of the list to be returned with the next list
-   * operation. The operation returns a marker value within the response body if the list returned
-   * was not complete. The marker value may then be used in a subsequent call to request the next
-   * set of list items. The marker value is opaque to the client.
-   */
-  marker?: string;
-  /**
-   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
-   * or specifies a value greater than 5,000, the server will return up to 5,000 items.
-   */
-  maxresults?: number;
-  /**
-   * The timeout parameter is expressed in seconds. For more information, see <a
-   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
-   * Timeouts for File Service Operations.</a>
-   */
-  timeoutParameter?: number;
-  /**
-   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
-   * snapshot to query.
-   */
-  sharesnapshot?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface FileForceCloseHandlesOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * The timeout parameter is expressed in seconds. For more information, see <a
-   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
-   * Timeouts for File Service Operations.</a>
-   */
-  timeoutParameter?: number;
-  /**
-   * A string value that identifies the portion of the list to be returned with the next list
-   * operation. The operation returns a marker value within the response body if the list returned
-   * was not complete. The marker value may then be used in a subsequent call to request the next
-   * set of list items. The marker value is opaque to the client.
-   */
-  marker?: string;
-  /**
-   * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
-   * snapshot to query.
-   */
-  sharesnapshot?: string;
 }
 
 /**
@@ -1152,6 +1235,52 @@ export interface ShareCreateSnapshotHeaders {
 }
 
 /**
+ * Defines headers for CreatePermission operation.
+ */
+export interface ShareCreatePermissionHeaders {
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * Key of the permission set for the directory/file.
+   */
+  filePermissionKey?: string;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for GetPermission operation.
+ */
+export interface ShareGetPermissionHeaders {
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
  * Defines headers for SetQuota operation.
  */
 export interface ShareSetQuotaHeaders {
@@ -1339,6 +1468,34 @@ export interface DirectoryCreateHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * Key of the permission set for the directory.
+   */
+  filePermissionKey?: string;
+  /**
+   * Attributes set for the directory.
+   */
+  fileAttributes?: string;
+  /**
+   * Creation time for the directory.
+   */
+  fileCreationTime?: Date;
+  /**
+   * Last write time for the directory.
+   */
+  fileLastWriteTime?: Date;
+  /**
+   * Change time for the directory.
+   */
+  fileChangeTime?: Date;
+  /**
+   * The fileId of the directory.
+   */
+  fileId?: string;
+  /**
+   * The parent fileId of the directory.
+   */
+  fileParentId?: string;
   errorCode?: string;
 }
 
@@ -1375,6 +1532,34 @@ export interface DirectoryGetPropertiesHeaders {
    * using the specified algorithm. Otherwise, the value is set to false.
    */
   isServerEncrypted?: boolean;
+  /**
+   * Attributes set for the directory.
+   */
+  fileAttributes?: string;
+  /**
+   * Creation time for the directory.
+   */
+  fileCreationTime?: Date;
+  /**
+   * Last write time for the directory.
+   */
+  fileLastWriteTime?: Date;
+  /**
+   * Change time for the directory.
+   */
+  fileChangeTime?: Date;
+  /**
+   * Key of the permission set for the directory.
+   */
+  filePermissionKey?: string;
+  /**
+   * The fileId of the directory.
+   */
+  fileId?: string;
+  /**
+   * The parent fileId of the directory.
+   */
+  fileParentId?: string;
   errorCode?: string;
 }
 
@@ -1396,6 +1581,70 @@ export interface DirectoryDeleteHeaders {
    * was initiated.
    */
   date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for SetProperties operation.
+ */
+export interface DirectorySetPropertiesHeaders {
+  /**
+   * The ETag contains a value which represents the version of the file, in quotes.
+   */
+  eTag?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Returns the date and time the directory was last modified. Any operation that modifies the
+   * directory or its properties updates the last modified time. Operations on files do not affect
+   * the last modified time of the directory.
+   */
+  lastModified?: Date;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted?: boolean;
+  /**
+   * Key of the permission set for the directory.
+   */
+  filePermissionKey?: string;
+  /**
+   * Attributes set for the directory.
+   */
+  fileAttributes?: string;
+  /**
+   * Creation time for the directory.
+   */
+  fileCreationTime?: Date;
+  /**
+   * Last write time for the directory.
+   */
+  fileLastWriteTime?: Date;
+  /**
+   * Change time for the directory.
+   */
+  fileChangeTime?: Date;
+  /**
+   * The fileId of the directory.
+   */
+  fileId?: string;
+  /**
+   * The parent fileId of the directory.
+   */
+  fileParentId?: string;
   errorCode?: string;
 }
 
@@ -1544,6 +1793,34 @@ export interface FileCreateHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * Key of the permission set for the file.
+   */
+  filePermissionKey?: string;
+  /**
+   * Attributes set for the file.
+   */
+  fileAttributes?: string;
+  /**
+   * Creation time for the file.
+   */
+  fileCreationTime?: Date;
+  /**
+   * Last write time for the file.
+   */
+  fileLastWriteTime?: Date;
+  /**
+   * Change time for the file.
+   */
+  fileChangeTime?: Date;
+  /**
+   * The fileId of the file.
+   */
+  fileId?: string;
+  /**
+   * The parent fileId of the file.
+   */
+  fileParentId?: string;
   errorCode?: string;
 }
 
@@ -1663,6 +1940,34 @@ export interface FileDownloadHeaders {
    * the file is unencrypted, or if only parts of the file/application metadata are encrypted).
    */
   isServerEncrypted?: boolean;
+  /**
+   * Attributes set for the file.
+   */
+  fileAttributes?: string;
+  /**
+   * Creation time for the file.
+   */
+  fileCreationTime?: Date;
+  /**
+   * Last write time for the file.
+   */
+  fileLastWriteTime?: Date;
+  /**
+   * Change time for the file.
+   */
+  fileChangeTime?: Date;
+  /**
+   * Key of the permission set for the file.
+   */
+  filePermissionKey?: string;
+  /**
+   * The fileId of the file.
+   */
+  fileId?: string;
+  /**
+   * The parent fileId of the file.
+   */
+  fileParentId?: string;
   errorCode?: string;
 }
 
@@ -1769,6 +2074,34 @@ export interface FileGetPropertiesHeaders {
    * the file is unencrypted, or if only parts of the file/application metadata are encrypted).
    */
   isServerEncrypted?: boolean;
+  /**
+   * Attributes set for the file.
+   */
+  fileAttributes?: string;
+  /**
+   * Creation time for the file.
+   */
+  fileCreationTime?: Date;
+  /**
+   * Last write time for the file.
+   */
+  fileLastWriteTime?: Date;
+  /**
+   * Change time for the file.
+   */
+  fileChangeTime?: Date;
+  /**
+   * Key of the permission set for the file.
+   */
+  filePermissionKey?: string;
+  /**
+   * The fileId of the file.
+   */
+  fileId?: string;
+  /**
+   * The parent fileId of the file.
+   */
+  fileParentId?: string;
   errorCode?: string;
 }
 
@@ -1826,6 +2159,34 @@ export interface FileSetHTTPHeadersHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * Key of the permission set for the file.
+   */
+  filePermissionKey?: string;
+  /**
+   * Attributes set for the file.
+   */
+  fileAttributes?: string;
+  /**
+   * Creation time for the file.
+   */
+  fileCreationTime?: Date;
+  /**
+   * Last write time for the file.
+   */
+  fileLastWriteTime?: Date;
+  /**
+   * Change time for the file.
+   */
+  fileChangeTime?: Date;
+  /**
+   * The fileId of the directory.
+   */
+  fileId?: string;
+  /**
+   * The parent fileId of the directory.
+   */
+  fileParentId?: string;
   errorCode?: string;
 }
 
@@ -1879,6 +2240,48 @@ export interface FileUploadRangeHeaders {
    * have been specified in the request headers.
    */
   contentMD5?: Uint8Array;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted?: boolean;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for UploadRangeFromURL operation.
+ */
+export interface FileUploadRangeFromURLHeaders {
+  /**
+   * The ETag contains a value which represents the version of the file, in quotes.
+   */
+  eTag?: string;
+  /**
+   * Returns the date and time the directory was last modified. Any operation that modifies the
+   * share or its properties or metadata updates the last modified time. Operations on files do not
+   * affect the last modified time of the share.
+   */
+  lastModified?: Date;
+  /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the File service; it is not necessarily the same value as may
+   * have been specified in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2073,67 +2476,7 @@ export interface FileForceCloseHandlesHeaders {
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode =
-  | "AccountAlreadyExists"
-  | "AccountBeingCreated"
-  | "AccountIsDisabled"
-  | "AuthenticationFailed"
-  | "AuthorizationFailure"
-  | "ConditionHeadersNotSupported"
-  | "ConditionNotMet"
-  | "EmptyMetadataKey"
-  | "InsufficientAccountPermissions"
-  | "InternalError"
-  | "InvalidAuthenticationInfo"
-  | "InvalidHeaderValue"
-  | "InvalidHttpVerb"
-  | "InvalidInput"
-  | "InvalidMd5"
-  | "InvalidMetadata"
-  | "InvalidQueryParameterValue"
-  | "InvalidRange"
-  | "InvalidResourceName"
-  | "InvalidUri"
-  | "InvalidXmlDocument"
-  | "InvalidXmlNodeValue"
-  | "Md5Mismatch"
-  | "MetadataTooLarge"
-  | "MissingContentLengthHeader"
-  | "MissingRequiredQueryParameter"
-  | "MissingRequiredHeader"
-  | "MissingRequiredXmlNode"
-  | "MultipleConditionHeadersNotSupported"
-  | "OperationTimedOut"
-  | "OutOfRangeInput"
-  | "OutOfRangeQueryParameterValue"
-  | "RequestBodyTooLarge"
-  | "ResourceTypeMismatch"
-  | "RequestUrlFailedToParse"
-  | "ResourceAlreadyExists"
-  | "ResourceNotFound"
-  | "ServerBusy"
-  | "UnsupportedHeader"
-  | "UnsupportedXmlNode"
-  | "UnsupportedQueryParameter"
-  | "UnsupportedHttpVerb"
-  | "CannotDeleteFileOrDirectory"
-  | "ClientCacheFlushDelay"
-  | "DeletePending"
-  | "DirectoryNotEmpty"
-  | "FileLockConflict"
-  | "InvalidFileOrDirectoryPathName"
-  | "ParentNotFound"
-  | "ReadOnlyAttribute"
-  | "ShareAlreadyExists"
-  | "ShareBeingDeleted"
-  | "ShareDisabled"
-  | "ShareNotFound"
-  | "SharingViolation"
-  | "ShareSnapshotInProgress"
-  | "ShareSnapshotCountExceeded"
-  | "ShareSnapshotOperationNotSupported"
-  | "ShareHasSnapshots"
-  | "ContainerQuotaDowngradeNotAllowed";
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'CannotDeleteFileOrDirectory' | 'ClientCacheFlushDelay' | 'DeletePending' | 'DirectoryNotEmpty' | 'FileLockConflict' | 'InvalidFileOrDirectoryPathName' | 'ParentNotFound' | 'ReadOnlyAttribute' | 'ShareAlreadyExists' | 'ShareBeingDeleted' | 'ShareDisabled' | 'ShareNotFound' | 'SharingViolation' | 'ShareSnapshotInProgress' | 'ShareSnapshotCountExceeded' | 'ShareSnapshotOperationNotSupported' | 'ShareHasSnapshots' | 'ContainerQuotaDowngradeNotAllowed';
 
 /**
  * Defines values for DeleteSnapshotsOptionType.
@@ -2141,7 +2484,7 @@ export type StorageErrorCode =
  * @readonly
  * @enum {string}
  */
-export type DeleteSnapshotsOptionType = "include";
+export type DeleteSnapshotsOptionType = 'include';
 
 /**
  * Defines values for ListSharesIncludeType.
@@ -2149,7 +2492,7 @@ export type DeleteSnapshotsOptionType = "include";
  * @readonly
  * @enum {string}
  */
-export type ListSharesIncludeType = "snapshots" | "metadata";
+export type ListSharesIncludeType = 'snapshots' | 'metadata';
 
 /**
  * Defines values for CopyStatusType.
@@ -2157,7 +2500,7 @@ export type ListSharesIncludeType = "snapshots" | "metadata";
  * @readonly
  * @enum {string}
  */
-export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 /**
  * Defines values for FileRangeWriteType.
@@ -2165,7 +2508,7 @@ export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
  * @readonly
  * @enum {string}
  */
-export type FileRangeWriteType = "update" | "clear";
+export type FileRangeWriteType = 'update' | 'clear';
 
 /**
  * Defines values for FileType.
@@ -2173,7 +2516,7 @@ export type FileRangeWriteType = "update" | "clear";
  * @readonly
  * @enum {string}
  */
-export type FileType = "File";
+export type FileType = 'File';
 
 /**
  * Contains response data for the setProperties operation.
@@ -2183,22 +2526,21 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ServiceSetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceSetPropertiesHeaders;
+    };
 };
 
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = StorageServiceProperties &
-  ServiceGetPropertiesHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGetPropertiesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2214,17 +2556,16 @@ export type ServiceGetPropertiesResponse = StorageServiceProperties &
        */
       parsedBody: StorageServiceProperties;
     };
-  };
+};
 
 /**
  * Contains response data for the listSharesSegment operation.
  */
-export type ServiceListSharesSegmentResponse = ListSharesResponse &
-  ServiceListSharesSegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2240,7 +2581,7 @@ export type ServiceListSharesSegmentResponse = ListSharesResponse &
        */
       parsedBody: ListSharesResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the create operation.
@@ -2250,11 +2591,11 @@ export type ShareCreateResponse = ShareCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ShareCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareCreateHeaders;
+    };
 };
 
 /**
@@ -2265,11 +2606,11 @@ export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ShareGetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareGetPropertiesHeaders;
+    };
 };
 
 /**
@@ -2280,11 +2621,11 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ShareDeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareDeleteHeaders;
+    };
 };
 
 /**
@@ -2295,11 +2636,51 @@ export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ShareCreateSnapshotHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareCreateSnapshotHeaders;
+    };
+};
+
+/**
+ * Contains response data for the createPermission operation.
+ */
+export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareCreatePermissionHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getPermission operation.
+ */
+export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareGetPermissionHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Permission;
+    };
 };
 
 /**
@@ -2310,11 +2691,11 @@ export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ShareSetQuotaHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareSetQuotaHeaders;
+    };
 };
 
 /**
@@ -2325,22 +2706,21 @@ export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ShareSetMetadataHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareSetMetadataHeaders;
+    };
 };
 
 /**
  * Contains response data for the getAccessPolicy operation.
  */
-export type ShareGetAccessPolicyResponse = SignedIdentifier[] &
-  ShareGetAccessPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ShareGetAccessPolicyResponse = Array<SignedIdentifier> & ShareGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2356,7 +2736,7 @@ export type ShareGetAccessPolicyResponse = SignedIdentifier[] &
        */
       parsedBody: SignedIdentifier[];
     };
-  };
+};
 
 /**
  * Contains response data for the setAccessPolicy operation.
@@ -2366,22 +2746,21 @@ export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ShareSetAccessPolicyHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareSetAccessPolicyHeaders;
+    };
 };
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export type ShareGetStatisticsResponse = ShareStats &
-  ShareGetStatisticsHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ShareGetStatisticsResponse = ShareStats & ShareGetStatisticsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2397,7 +2776,7 @@ export type ShareGetStatisticsResponse = ShareStats &
        */
       parsedBody: ShareStats;
     };
-  };
+};
 
 /**
  * Contains response data for the create operation.
@@ -2407,11 +2786,11 @@ export type DirectoryCreateResponse = DirectoryCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectoryCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryCreateHeaders;
+    };
 };
 
 /**
@@ -2422,11 +2801,11 @@ export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectoryGetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryGetPropertiesHeaders;
+    };
 };
 
 /**
@@ -2437,11 +2816,26 @@ export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectoryDeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryDeleteHeaders;
+    };
+};
+
+/**
+ * Contains response data for the setProperties operation.
+ */
+export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectorySetPropertiesHeaders;
+    };
 };
 
 /**
@@ -2452,22 +2846,21 @@ export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectorySetMetadataHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectorySetMetadataHeaders;
+    };
 };
 
 /**
  * Contains response data for the listFilesAndDirectoriesSegment operation.
  */
-export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirectoriesSegmentResponse &
-  DirectoryListFilesAndDirectoriesSegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirectoriesSegmentResponse & DirectoryListFilesAndDirectoriesSegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2483,17 +2876,16 @@ export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirect
        */
       parsedBody: ListFilesAndDirectoriesSegmentResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the listHandles operation.
  */
-export type DirectoryListHandlesResponse = ListHandlesResponse &
-  DirectoryListHandlesHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type DirectoryListHandlesResponse = ListHandlesResponse & DirectoryListHandlesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2509,7 +2901,7 @@ export type DirectoryListHandlesResponse = ListHandlesResponse &
        */
       parsedBody: ListHandlesResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the forceCloseHandles operation.
@@ -2519,11 +2911,11 @@ export type DirectoryForceCloseHandlesResponse = DirectoryForceCloseHandlesHeade
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectoryForceCloseHandlesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryForceCloseHandlesHeaders;
+    };
 };
 
 /**
@@ -2534,11 +2926,11 @@ export type FileCreateResponse = FileCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileCreateHeaders;
+    };
 };
 
 /**
@@ -2565,11 +2957,11 @@ export type FileDownloadResponse = FileDownloadHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileDownloadHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileDownloadHeaders;
+    };
 };
 
 /**
@@ -2580,11 +2972,11 @@ export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileGetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileGetPropertiesHeaders;
+    };
 };
 
 /**
@@ -2595,11 +2987,11 @@ export type FileDeleteResponse = FileDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileDeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileDeleteHeaders;
+    };
 };
 
 /**
@@ -2610,11 +3002,11 @@ export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileSetHTTPHeadersHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileSetHTTPHeadersHeaders;
+    };
 };
 
 /**
@@ -2625,11 +3017,11 @@ export type FileSetMetadataResponse = FileSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileSetMetadataHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileSetMetadataHeaders;
+    };
 };
 
 /**
@@ -2640,22 +3032,36 @@ export type FileUploadRangeResponse = FileUploadRangeHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileUploadRangeHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileUploadRangeHeaders;
+    };
+};
+
+/**
+ * Contains response data for the uploadRangeFromURL operation.
+ */
+export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileUploadRangeFromURLHeaders;
+    };
 };
 
 /**
  * Contains response data for the getRangeList operation.
  */
-export type FileGetRangeListResponse = Range[] &
-  FileGetRangeListHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2671,7 +3077,7 @@ export type FileGetRangeListResponse = Range[] &
        */
       parsedBody: Range[];
     };
-  };
+};
 
 /**
  * Contains response data for the startCopy operation.
@@ -2681,11 +3087,11 @@ export type FileStartCopyResponse = FileStartCopyHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileStartCopyHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileStartCopyHeaders;
+    };
 };
 
 /**
@@ -2696,22 +3102,21 @@ export type FileAbortCopyResponse = FileAbortCopyHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileAbortCopyHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileAbortCopyHeaders;
+    };
 };
 
 /**
  * Contains response data for the listHandles operation.
  */
-export type FileListHandlesResponse = ListHandlesResponse &
-  FileListHandlesHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type FileListHandlesResponse = ListHandlesResponse & FileListHandlesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2727,7 +3132,7 @@ export type FileListHandlesResponse = ListHandlesResponse &
        */
       parsedBody: ListHandlesResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the forceCloseHandles operation.
@@ -2737,9 +3142,9 @@ export type FileForceCloseHandlesResponse = FileForceCloseHandlesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: FileForceCloseHandlesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileForceCloseHandlesHeaders;
+    };
 };

@@ -8,10 +8,13 @@
 
 export {
   AccessPolicy,
+  Permission,
   ShareCreateHeaders,
+  ShareCreatePermissionHeaders,
   ShareCreateSnapshotHeaders,
   ShareDeleteHeaders,
   ShareGetAccessPolicyHeaders,
+  ShareGetPermissionHeaders,
   ShareGetPropertiesHeaders,
   ShareGetStatisticsHeaders,
   ShareSetAccessPolicyHeaders,

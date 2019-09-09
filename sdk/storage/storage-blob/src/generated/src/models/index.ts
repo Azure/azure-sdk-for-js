@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { ServiceClientOptions } from "@azure/core-http";
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -64,8 +65,31 @@ export interface UserDelegationKey {
  * An interface representing StorageError.
  */
 export interface StorageError {
-  code?: string;
   message?: string;
+}
+
+/**
+ * The service error response object.
+ */
+export interface DataLakeStorageErrorError {
+  /**
+   * The service error code.
+   */
+  code?: string;
+  /**
+   * The service error message.
+   */
+  message?: string;
+}
+
+/**
+ * An interface representing DataLakeStorageError.
+ */
+export interface DataLakeStorageError {
+  /**
+   * The service error response object.
+   */
+  error?: DataLakeStorageErrorError;
 }
 
 /**
@@ -139,8 +163,8 @@ export interface BlobProperties {
   deletedTime?: Date;
   remainingRetentionDays?: number;
   /**
-   * Possible values include: 'P4', 'P6', 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool',
-   * 'Archive'
+   * Possible values include: 'P4', 'P6', 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70',
+   * 'P80', 'Hot', 'Cool', 'Archive'
    */
   accessTier?: AccessTier;
   accessTierInferred?: boolean;
@@ -148,7 +172,20 @@ export interface BlobProperties {
    * Possible values include: 'rehydrate-pending-to-hot', 'rehydrate-pending-to-cool'
    */
   archiveStatus?: ArchiveStatus;
+  customerProvidedKeySha256?: string;
   accessTierChangeTime?: Date;
+}
+
+/**
+ * An interface representing BlobMetadata.
+ */
+export interface BlobMetadata {
+  encrypted?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property MUST be of type "string". Due
+   * to valid TS constraints we have modeled this as a union of `string | any`.
+   */
+  [property: string]: string | any;
 }
 
 /**
@@ -159,7 +196,7 @@ export interface BlobItem {
   deleted: boolean;
   snapshot: string;
   properties: BlobProperties;
-  metadata?: { [propertyName: string]: string };
+  metadata?: BlobMetadata;
 }
 
 /**
@@ -514,6 +551,80 @@ export interface ModifiedAccessConditions {
 }
 
 /**
+ * Additional parameters for a set of operations, such as: Directory_create, Directory_rename,
+ * Blob_rename.
+ */
+export interface DirectoryHttpHeaders {
+  /**
+   * Cache control for given resource
+   */
+  cacheControl?: string;
+  /**
+   * Content type for given resource
+   */
+  contentType?: string;
+  /**
+   * Content encoding for given resource
+   */
+  contentEncoding?: string;
+  /**
+   * Content language for given resource
+   */
+  contentLanguage?: string;
+  /**
+   * Content disposition for given resource
+   */
+  contentDisposition?: string;
+}
+
+/**
+ * Additional parameters for a set of operations.
+ */
+export interface SourceModifiedAccessConditions {
+  /**
+   * Specify this header value to operate only on a blob if it has been modified since the
+   * specified date/time.
+   */
+  sourceIfModifiedSince?: Date;
+  /**
+   * Specify this header value to operate only on a blob if it has not been modified since the
+   * specified date/time.
+   */
+  sourceIfUnmodifiedSince?: Date;
+  /**
+   * Specify an ETag value to operate only on blobs with a matching value.
+   */
+  sourceIfMatch?: string;
+  /**
+   * Specify an ETag value to operate only on blobs without a matching value.
+   */
+  sourceIfNoneMatch?: string;
+}
+
+/**
+ * Additional parameters for a set of operations.
+ */
+export interface CpkInfo {
+  /**
+   * Optional. Specifies the encryption key to use to encrypt the data provided in the request. If
+   * not specified, encryption is performed with the root account encryption key.  For more
+   * information, see Encryption at Rest for Azure Storage Services.
+   */
+  encryptionKey?: string;
+  /**
+   * The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key
+   * header is provided.
+   */
+  encryptionKeySha256?: string;
+  /**
+   * The algorithm used to produce the encryption key hash. Currently, the only accepted value is
+   * "AES256". Must be provided if the x-ms-encryption-key header is provided. Possible values
+   * include: 'AES256'
+   */
+  encryptionAlgorithm?: EncryptionAlgorithmType;
+}
+
+/**
  * Additional parameters for a set of operations.
  */
 export interface BlobHTTPHeaders {
@@ -546,30 +657,6 @@ export interface BlobHTTPHeaders {
    * Optional. Sets the blob's Content-Disposition header.
    */
   blobContentDisposition?: string;
-}
-
-/**
- * Additional parameters for a set of operations.
- */
-export interface SourceModifiedAccessConditions {
-  /**
-   * Specify this header value to operate only on a blob if it has been modified since the
-   * specified date/time.
-   */
-  sourceIfModifiedSince?: Date;
-  /**
-   * Specify this header value to operate only on a blob if it has not been modified since the
-   * specified date/time.
-   */
-  sourceIfUnmodifiedSince?: Date;
-  /**
-   * Specify an ETag value to operate only on blobs with a matching value.
-   */
-  sourceIfMatch?: string;
-  /**
-   * Specify an ETag value to operate only on blobs without a matching value.
-   */
-  sourceIfNoneMatch?: string;
 }
 
 /**
@@ -612,6 +699,16 @@ export interface AppendPositionAccessConditions {
    * status code 412 - Precondition Failed).
    */
   appendPosition?: number;
+}
+
+/**
+ * An interface representing StorageClientOptions.
+ */
+export interface StorageClientOptions extends ServiceClientOptions {
+  /**
+   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
+   */
+  pathRenameMode?: PathRenameMode;
 }
 
 /**
@@ -728,8 +825,13 @@ export interface ServiceGetUserDelegationKeyOptionalParams extends coreHttp.Requ
 /**
  * Optional Parameters.
  */
-export interface ServiceListContainersSegmentNextOptionalParams
-  extends coreHttp.RequestOptionsBase {
+export interface ServiceSubmitBatchOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1077,8 +1179,7 @@ export interface ContainerListBlobFlatSegmentOptionalParams extends coreHttp.Req
 /**
  * Optional Parameters.
  */
-export interface ContainerListBlobHierarchySegmentOptionalParams
-  extends coreHttp.RequestOptionsBase {
+export interface ContainerListBlobHierarchySegmentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Filters the results to return only containers whose name begins with the specified prefix.
    */
@@ -1120,25 +1221,231 @@ export interface ContainerListBlobHierarchySegmentOptionalParams
 /**
  * Optional Parameters.
  */
-export interface ContainerListBlobFlatSegmentNextOptionalParams
-  extends coreHttp.RequestOptionsBase {
+export interface DirectoryCreateOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Optional.  User-defined properties to be stored with the file or directory, in the format of a
+   * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64
+   * encoded.
+   */
+  directoryProperties?: string;
+  /**
+   * Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX
+   * access permissions for the file owner, the file owning group, and others. Each class may be
+   * granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic
+   * (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+   */
+  posixPermissions?: string;
+  /**
+   * Only valid if Hierarchical Namespace is enabled for the account. This umask restricts
+   * permission settings for file and directory, and will only be applied when default Acl does not
+   * exist in parent directory. If the umask bit has set, it means that the corresponding
+   * permission will be disabled. Otherwise the corresponding permission will be determined by the
+   * permission. A 4-digit octal notation (e.g. 0022) is supported here. If no umask was specified,
+   * a default umask - 0027 will be used.
+   */
+  posixUmask?: string;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  directoryHttpHeaders?: DirectoryHttpHeaders;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ContainerListBlobHierarchySegmentNextOptionalParams
-  extends coreHttp.RequestOptionsBase {
+export interface DirectoryRenameOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * When renaming a directory, the number of paths that are renamed with each invocation is
+   * limited.  If the number of paths to be renamed exceeds this limit, a continuation token is
+   * returned in this response header.  When a continuation token is returned in the response, it
+   * must be specified in a subsequent invocation of the rename operation to continue renaming the
+   * directory.
+   */
+  marker?: string;
+  /**
+   * Optional.  User-defined properties to be stored with the file or directory, in the format of a
+   * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64
+   * encoded.
+   */
+  directoryProperties?: string;
+  /**
+   * Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX
+   * access permissions for the file owner, the file owning group, and others. Each class may be
+   * granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic
+   * (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+   */
+  posixPermissions?: string;
+  /**
+   * Only valid if Hierarchical Namespace is enabled for the account. This umask restricts
+   * permission settings for file and directory, and will only be applied when default Acl does not
+   * exist in parent directory. If the umask bit has set, it means that the corresponding
+   * permission will be disabled. Otherwise the corresponding permission will be determined by the
+   * permission. A 4-digit octal notation (e.g. 0022) is supported here. If no umask was specified,
+   * a default umask - 0027 will be used.
+   */
+  posixUmask?: string;
+  /**
+   * A lease ID for the source path. If specified, the source path must have an active lease and
+   * the leaase ID must match.
+   */
+  sourceLeaseId?: string;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  directoryHttpHeaders?: DirectoryHttpHeaders;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DirectoryDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * When renaming a directory, the number of paths that are renamed with each invocation is
+   * limited.  If the number of paths to be renamed exceeds this limit, a continuation token is
+   * returned in this response header.  When a continuation token is returned in the response, it
+   * must be specified in a subsequent invocation of the rename operation to continue renaming the
+   * directory.
+   */
+  marker?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DirectorySetAccessControlOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Optional. The owner of the blob or directory.
+   */
+  owner?: string;
+  /**
+   * Optional. The owning group of the blob or directory.
+   */
+  group?: string;
+  /**
+   * Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX
+   * access permissions for the file owner, the file owning group, and others. Each class may be
+   * granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic
+   * (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+   */
+  posixPermissions?: string;
+  /**
+   * Sets POSIX access control rights on files and directories. The value is a comma-separated list
+   * of access control entries. Each access control entry (ACE) consists of a scope, a type, a user
+   * or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".
+   */
+  posixAcl?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DirectoryGetAccessControlOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the
+   * identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be
+   * transformed from Azure Active Directory Object IDs to User Principal Names.  If "false", the
+   * values will be returned as Azure Active Directory Object IDs. The default value is false.
+   */
+  upn?: boolean;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -1168,6 +1475,11 @@ export interface BlobDownloadOptionalParams extends coreHttp.RequestOptionsBase 
    */
   rangeGetContentMD5?: boolean;
   /**
+   * When set to true and specified together with the Range, the service returns the CRC64 hash for
+   * the range, as long as the range is less than or equal to 4 MB in size.
+   */
+  rangeGetContentCRC64?: boolean;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -1176,6 +1488,10 @@ export interface BlobDownloadOptionalParams extends coreHttp.RequestOptionsBase 
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -1208,6 +1524,10 @@ export interface BlobGetPropertiesOptionalParams extends coreHttp.RequestOptions
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -1250,6 +1570,144 @@ export interface BlobDeleteMethodOptionalParams extends coreHttp.RequestOptionsB
    * Additional parameters for the operation
    */
   modifiedAccessConditions?: ModifiedAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface BlobSetAccessControlOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Optional. The owner of the blob or directory.
+   */
+  owner?: string;
+  /**
+   * Optional. The owning group of the blob or directory.
+   */
+  group?: string;
+  /**
+   * Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX
+   * access permissions for the file owner, the file owning group, and others. Each class may be
+   * granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic
+   * (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+   */
+  posixPermissions?: string;
+  /**
+   * Sets POSIX access control rights on files and directories. The value is a comma-separated list
+   * of access control entries. Each access control entry (ACE) consists of a scope, a type, a user
+   * or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".
+   */
+  posixAcl?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface BlobGetAccessControlOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the
+   * identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be
+   * transformed from Azure Active Directory Object IDs to User Principal Names.  If "false", the
+   * values will be returned as Azure Active Directory Object IDs. The default value is false.
+   */
+  upn?: boolean;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface BlobRenameOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Optional.  User-defined properties to be stored with the file or directory, in the format of a
+   * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64
+   * encoded.
+   */
+  directoryProperties?: string;
+  /**
+   * Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX
+   * access permissions for the file owner, the file owning group, and others. Each class may be
+   * granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic
+   * (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+   */
+  posixPermissions?: string;
+  /**
+   * Only valid if Hierarchical Namespace is enabled for the account. This umask restricts
+   * permission settings for file and directory, and will only be applied when default Acl does not
+   * exist in parent directory. If the umask bit has set, it means that the corresponding
+   * permission will be disabled. Otherwise the corresponding permission will be determined by the
+   * permission. A 4-digit octal notation (e.g. 0022) is supported here. If no umask was specified,
+   * a default umask - 0027 will be used.
+   */
+  posixUmask?: string;
+  /**
+   * A lease ID for the source path. If specified, the source path must have an active lease and
+   * the leaase ID must match.
+   */
+  sourceLeaseId?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  directoryHttpHeaders?: DirectoryHttpHeaders;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
 }
 
 /**
@@ -1327,6 +1785,10 @@ export interface BlobSetMetadataOptionalParams extends coreHttp.RequestOptionsBa
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -1488,6 +1950,10 @@ export interface BlobCreateSnapshotOptionalParams extends coreHttp.RequestOption
   /**
    * Additional parameters for the operation
    */
+  cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /**
    * Additional parameters for the operation
@@ -1515,6 +1981,16 @@ export interface BlobStartCopyFromURLOptionalParams extends coreHttp.RequestOpti
    * information.
    */
   metadata?: { [propertyName: string]: string };
+  /**
+   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
+   */
+  tier?: AccessTier;
+  /**
+   * Optional: Indicates the priority with which to rehydrate an archived blob. Possible values
+   * include: 'High', 'Standard'
+   */
+  rehydratePriority?: RehydratePriority;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1554,6 +2030,11 @@ export interface BlobCopyFromURLOptionalParams extends coreHttp.RequestOptionsBa
    * information.
    */
   metadata?: { [propertyName: string]: string };
+  /**
+   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
+   */
+  tier?: AccessTier;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1605,6 +2086,11 @@ export interface BlobSetTierOptionalParams extends coreHttp.RequestOptionsBase {
    */
   timeoutParameter?: number;
   /**
+   * Optional: Indicates the priority with which to rehydrate an archived blob. Possible values
+   * include: 'High', 'Standard'
+   */
+  rehydratePriority?: RehydratePriority;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -1647,6 +2133,11 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    */
   requestId?: string;
   /**
+   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
+   */
+  tier?: AccessTier;
+  /**
    * Additional parameters for the operation
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
@@ -1654,6 +2145,10 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -1668,6 +2163,10 @@ export interface PageBlobUploadPagesOptionalParams extends coreHttp.RequestOptio
    * Specify the transactional md5 for the body, to be validated by the service.
    */
   transactionalContentMD5?: Uint8Array;
+  /**
+   * Specify the transactional crc64 for the body, to be validated by the service.
+   */
+  transactionalContentCrc64?: Uint8Array;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
@@ -1687,6 +2186,10 @@ export interface PageBlobUploadPagesOptionalParams extends coreHttp.RequestOptio
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -1723,6 +2226,10 @@ export interface PageBlobClearPagesOptionalParams extends coreHttp.RequestOption
   /**
    * Additional parameters for the operation
    */
+  cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
   sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
   /**
    * Additional parameters for the operation
@@ -1739,6 +2246,10 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends coreHttp.Reque
    */
   sourceContentMD5?: Uint8Array;
   /**
+   * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
@@ -1749,6 +2260,10 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends coreHttp.Reque
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -1870,6 +2385,10 @@ export interface PageBlobResizeOptionalParams extends coreHttp.RequestOptionsBas
   /**
    * Additional parameters for the operation
    */
+  cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -1961,6 +2480,10 @@ export interface AppendBlobCreateOptionalParams extends coreHttp.RequestOptionsB
   /**
    * Additional parameters for the operation
    */
+  cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -1979,6 +2502,10 @@ export interface AppendBlobAppendBlockOptionalParams extends coreHttp.RequestOpt
    */
   transactionalContentMD5?: Uint8Array;
   /**
+   * Specify the transactional crc64 for the body, to be validated by the service.
+   */
+  transactionalContentCrc64?: Uint8Array;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -1991,6 +2518,10 @@ export interface AppendBlobAppendBlockOptionalParams extends coreHttp.RequestOpt
    * Additional parameters for the operation
    */
   appendPositionAccessConditions?: AppendPositionAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2010,16 +2541,28 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends coreHttp.Req
    */
   sourceContentMD5?: Uint8Array;
   /**
+   * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
    */
   timeoutParameter?: number;
   /**
+   * Specify the transactional md5 for the body, to be validated by the service.
+   */
+  transactionalContentMD5?: Uint8Array;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2059,6 +2602,11 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
+   */
+  tier?: AccessTier;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2074,6 +2622,10 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
   /**
    * Additional parameters for the operation
    */
+  cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -2085,6 +2637,10 @@ export interface BlockBlobStageBlockOptionalParams extends coreHttp.RequestOptio
    * Specify the transactional md5 for the body, to be validated by the service.
    */
   transactionalContentMD5?: Uint8Array;
+  /**
+   * Specify the transactional crc64 for the body, to be validated by the service.
+   */
+  transactionalContentCrc64?: Uint8Array;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
@@ -2100,6 +2656,10 @@ export interface BlockBlobStageBlockOptionalParams extends coreHttp.RequestOptio
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
 }
 
 /**
@@ -2115,6 +2675,10 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends coreHttp.Reque
    */
   sourceContentMD5?: Uint8Array;
   /**
+   * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
    * Timeouts for Blob Service Operations.</a>
@@ -2125,6 +2689,10 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends coreHttp.Reque
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2146,6 +2714,14 @@ export interface BlockBlobCommitBlockListOptionalParams extends coreHttp.Request
    */
   timeoutParameter?: number;
   /**
+   * Specify the transactional md5 for the body, to be validated by the service.
+   */
+  transactionalContentMD5?: Uint8Array;
+  /**
+   * Specify the transactional crc64 for the body, to be validated by the service.
+   */
+  transactionalContentCrc64?: Uint8Array;
+  /**
    * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
    * pairs are specified, the operation will copy the metadata from the source blob or file to the
    * destination blob. If one or more name-value pairs are specified, the destination blob is
@@ -2155,6 +2731,11 @@ export interface BlockBlobCommitBlockListOptionalParams extends coreHttp.Request
    * information.
    */
   metadata?: { [propertyName: string]: string };
+  /**
+   * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
+   */
+  tier?: AccessTier;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2168,6 +2749,10 @@ export interface BlockBlobCommitBlockListOptionalParams extends coreHttp.Request
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkInfo?: CpkInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2207,6 +2792,11 @@ export interface BlockBlobGetBlockListOptionalParams extends coreHttp.RequestOpt
  */
 export interface ServiceSetPropertiesHeaders {
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2224,6 +2814,11 @@ export interface ServiceSetPropertiesHeaders {
  */
 export interface ServiceGetPropertiesHeaders {
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2240,6 +2835,11 @@ export interface ServiceGetPropertiesHeaders {
  * Defines headers for GetStatistics operation.
  */
 export interface ServiceGetStatisticsHeaders {
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2263,6 +2863,11 @@ export interface ServiceGetStatisticsHeaders {
  */
 export interface ServiceListContainersSegmentHeaders {
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2279,6 +2884,11 @@ export interface ServiceListContainersSegmentHeaders {
  * Defines headers for GetUserDelegationKey operation.
  */
 export interface ServiceGetUserDelegationKeyHeaders {
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2301,6 +2911,11 @@ export interface ServiceGetUserDelegationKeyHeaders {
  * Defines headers for GetAccountInfo operation.
  */
 export interface ServiceGetAccountInfoHeaders {
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2329,6 +2944,33 @@ export interface ServiceGetAccountInfoHeaders {
 }
 
 /**
+ * Defines headers for SubmitBatch operation.
+ */
+export interface ServiceSubmitBatchHeaders {
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * The media type of the body of the response. For batch requests, this is multipart/mixed;
+   * boundary=batchresponse_GUID
+   */
+  contentType?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version?: string;
+  errorCode?: string;
+}
+
+/**
  * Defines headers for Create operation.
  */
 export interface ContainerCreateHeaders {
@@ -2343,6 +2985,11 @@ export interface ContainerCreateHeaders {
    * of the blob.
    */
   lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2392,6 +3039,11 @@ export interface ContainerGetPropertiesHeaders {
    */
   leaseStatus?: LeaseStatusType;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2427,6 +3079,11 @@ export interface ContainerGetPropertiesHeaders {
  */
 export interface ContainerDeleteHeaders {
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2459,6 +3116,11 @@ export interface ContainerSetMetadataHeaders {
    * of the blob.
    */
   lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2498,6 +3160,11 @@ export interface ContainerGetAccessPolicyHeaders {
    */
   lastModified?: Date;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2530,6 +3197,11 @@ export interface ContainerSetAccessPolicyHeaders {
    * of the blob.
    */
   lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2568,6 +3240,11 @@ export interface ContainerAcquireLeaseHeaders {
    */
   leaseId?: string;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2600,6 +3277,11 @@ export interface ContainerReleaseLeaseHeaders {
    * of the blob.
    */
   lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2638,6 +3320,11 @@ export interface ContainerRenewLeaseHeaders {
    */
   leaseId?: string;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2674,6 +3361,11 @@ export interface ContainerBreakLeaseHeaders {
    * Approximate time remaining in the lease period, in seconds.
    */
   leaseTime?: number;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2712,6 +3404,11 @@ export interface ContainerChangeLeaseHeaders {
    */
   leaseId?: string;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2737,6 +3434,11 @@ export interface ContainerListBlobFlatSegmentHeaders {
    * The media type of the body of the response. For List Blobs this is 'application/xml'
    */
   contentType?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2764,6 +3466,11 @@ export interface ContainerListBlobHierarchySegmentHeaders {
    */
   contentType?: string;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2785,6 +3492,11 @@ export interface ContainerListBlobHierarchySegmentHeaders {
  * Defines headers for GetAccountInfo operation.
  */
 export interface ContainerGetAccountInfoHeaders {
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2810,6 +3522,206 @@ export interface ContainerGetAccountInfoHeaders {
    */
   accountKind?: AccountKind;
   errorCode?: string;
+}
+
+/**
+ * Defines headers for Create operation.
+ */
+export interface DirectoryCreateHeaders {
+  /**
+   * An HTTP entity tag associated with the file or directory.
+   */
+  eTag?: string;
+  /**
+   * The data and time the file or directory was last modified. Write operations on the file or
+   * directory update the last modified time.
+   */
+  lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+  /**
+   * The size of the resource in bytes.
+   */
+  contentLength?: number;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+}
+
+/**
+ * Defines headers for Rename operation.
+ */
+export interface DirectoryRenameHeaders {
+  /**
+   * When renaming a directory, the number of paths that are renamed with each invocation is
+   * limited. If the number of paths to be renamed exceeds this limit, a continuation token is
+   * returned in this response header. When a continuation token is returned in the response, it
+   * must be specified in a subsequent invocation of the rename operation to continue renaming the
+   * directory.
+   */
+  marker?: string;
+  /**
+   * An HTTP entity tag associated with the file or directory.
+   */
+  eTag?: string;
+  /**
+   * The data and time the file or directory was last modified. Write operations on the file or
+   * directory update the last modified time.
+   */
+  lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+  /**
+   * The size of the resource in bytes.
+   */
+  contentLength?: number;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+}
+
+/**
+ * Defines headers for Delete operation.
+ */
+export interface DirectoryDeleteHeaders {
+  /**
+   * When renaming a directory, the number of paths that are renamed with each invocation is
+   * limited. If the number of paths to be renamed exceeds this limit, a continuation token is
+   * returned in this response header. When a continuation token is returned in the response, it
+   * must be specified in a subsequent invocation of the rename operation to continue renaming the
+   * directory.
+   */
+  marker?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+}
+
+/**
+ * Defines headers for SetAccessControl operation.
+ */
+export interface DirectorySetAccessControlHeaders {
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * An HTTP entity tag associated with the file or directory.
+   */
+  eTag?: string;
+  /**
+   * The data and time the file or directory was last modified. Write operations on the file or
+   * directory update the last modified time.
+   */
+  lastModified?: Date;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+}
+
+/**
+ * Defines headers for GetAccessControl operation.
+ */
+export interface DirectoryGetAccessControlHeaders {
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * An HTTP entity tag associated with the file or directory.
+   */
+  eTag?: string;
+  /**
+   * The data and time the file or directory was last modified. Write operations on the file or
+   * directory update the last modified time.
+   */
+  lastModified?: Date;
+  /**
+   * The owner of the file or directory. Included in the response if Hierarchical Namespace is
+   * enabled for the account.
+   */
+  xMsOwner?: string;
+  /**
+   * The owning group of the file or directory. Included in the response if Hierarchical Namespace
+   * is enabled for the account.
+   */
+  xMsGroup?: string;
+  /**
+   * The POSIX access permissions for the file owner, the file owning group, and others. Included
+   * in the response if Hierarchical Namespace is enabled for the account.
+   */
+  xMsPermissions?: string;
+  /**
+   * The POSIX access control list for the file or directory.  Included in the response only if the
+   * action is "getAccessControl" and Hierarchical Namespace is enabled for the account.
+   */
+  xMsAcl?: string;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
 }
 
 /**
@@ -2933,6 +3845,11 @@ export interface BlobDownloadHeaders {
    */
   leaseStatus?: LeaseStatusType;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -2963,12 +3880,24 @@ export interface BlobDownloadHeaders {
    */
   isServerEncrypted?: boolean;
   /**
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned
+   * when the blob was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
+  /**
    * If the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this
    * response header is returned with the value of the whole blob's MD5 value. This value may or
    * may not be equal to the value returned in Content-MD5 header, with the latter calculated from
    * the requested range
    */
   blobContentMD5?: Uint8Array;
+  /**
+   * If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to
+   * true, then the request returns a crc64 for the range, as long as the range size is less than
+   * or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is
+   * specified in the same request, it will fail with 400(Bad Request)
+   */
+  contentCrc64?: Uint8Array;
   errorCode?: string;
 }
 
@@ -3102,6 +4031,11 @@ export interface BlobGetPropertiesHeaders {
    */
   blobSequenceNumber?: number;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3131,6 +4065,11 @@ export interface BlobGetPropertiesHeaders {
    * the blob is unencrypted, or if only parts of the blob/application metadata are encrypted).
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the metadata. This header is only
+   * returned when the metadata was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   /**
    * The tier of page blob on a premium storage account or tier of block blob on blob storage LRS
    * accounts. For a list of allowed premium page blob tiers, see
@@ -3164,6 +4103,11 @@ export interface BlobGetPropertiesHeaders {
  */
 export interface BlobDeleteHeaders {
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3179,6 +4123,129 @@ export interface BlobDeleteHeaders {
    */
   date?: Date;
   errorCode?: string;
+}
+
+/**
+ * Defines headers for SetAccessControl operation.
+ */
+export interface BlobSetAccessControlHeaders {
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * An HTTP entity tag associated with the file or directory.
+   */
+  eTag?: string;
+  /**
+   * The data and time the file or directory was last modified. Write operations on the file or
+   * directory update the last modified time.
+   */
+  lastModified?: Date;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+}
+
+/**
+ * Defines headers for GetAccessControl operation.
+ */
+export interface BlobGetAccessControlHeaders {
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * An HTTP entity tag associated with the file or directory.
+   */
+  eTag?: string;
+  /**
+   * The data and time the file or directory was last modified. Write operations on the file or
+   * directory update the last modified time.
+   */
+  lastModified?: Date;
+  /**
+   * The owner of the file or directory. Included in the response if Hierarchical Namespace is
+   * enabled for the account.
+   */
+  xMsOwner?: string;
+  /**
+   * The owning group of the file or directory. Included in the response if Hierarchical Namespace
+   * is enabled for the account.
+   */
+  xMsGroup?: string;
+  /**
+   * The POSIX access permissions for the file owner, the file owning group, and others. Included
+   * in the response if Hierarchical Namespace is enabled for the account.
+   */
+  xMsPermissions?: string;
+  /**
+   * The POSIX access control list for the file or directory.  Included in the response only if the
+   * action is "getAccessControl" and Hierarchical Namespace is enabled for the account.
+   */
+  xMsAcl?: string;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+}
+
+/**
+ * Defines headers for Rename operation.
+ */
+export interface BlobRenameHeaders {
+  /**
+   * An HTTP entity tag associated with the file or directory.
+   */
+  eTag?: string;
+  /**
+   * The data and time the file or directory was last modified.  Write operations on the file or
+   * directory update the last modified time.
+   */
+  lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+  /**
+   * The size of the resource in bytes.
+   */
+  contentLength?: number;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
 }
 
 /**
@@ -3202,6 +4269,11 @@ export interface PageBlobCreateHeaders {
    */
   contentMD5?: Uint8Array;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3221,6 +4293,11 @@ export interface PageBlobCreateHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned
+   * when the blob was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -3245,6 +4322,11 @@ export interface AppendBlobCreateHeaders {
    */
   contentMD5?: Uint8Array;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3264,6 +4346,11 @@ export interface AppendBlobCreateHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned
+   * when the blob was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -3288,6 +4375,11 @@ export interface BlockBlobUploadHeaders {
    */
   contentMD5?: Uint8Array;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3307,6 +4399,11 @@ export interface BlockBlobUploadHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned
+   * when the blob was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -3314,6 +4411,11 @@ export interface BlockBlobUploadHeaders {
  * Defines headers for Undelete operation.
  */
 export interface BlobUndeleteHeaders {
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3353,6 +4455,11 @@ export interface BlobSetHTTPHeadersHeaders {
    */
   blobSequenceNumber?: number;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3386,6 +4493,11 @@ export interface BlobSetMetadataHeaders {
    */
   lastModified?: Date;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3405,6 +4517,11 @@ export interface BlobSetMetadataHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the metadata. This header is only
+   * returned when the metadata was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -3427,6 +4544,11 @@ export interface BlobAcquireLeaseHeaders {
    * Uniquely identifies a blobs's lease
    */
   leaseId?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3460,6 +4582,11 @@ export interface BlobReleaseLeaseHeaders {
    * the blob.
    */
   lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3498,6 +4625,11 @@ export interface BlobRenewLeaseHeaders {
    */
   leaseId?: string;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3530,6 +4662,11 @@ export interface BlobChangeLeaseHeaders {
    * the blob.
    */
   lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3572,6 +4709,11 @@ export interface BlobBreakLeaseHeaders {
    */
   leaseTime?: number;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3610,6 +4752,11 @@ export interface BlobCreateSnapshotHeaders {
    */
   lastModified?: Date;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3624,6 +4771,12 @@ export interface BlobCreateSnapshotHeaders {
    * initiated
    */
   date?: Date;
+  /**
+   * True if the contents of the request are successfully encrypted using the specified algorithm,
+   * and false otherwise. For a snapshot request, this header is set to true when metadata was
+   * provided in the request and encrypted with a customer-provided key.
+   */
+  isServerEncrypted?: boolean;
   errorCode?: string;
 }
 
@@ -3642,6 +4795,11 @@ export interface BlobStartCopyFromURLHeaders {
    * of the blob.
    */
   lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3686,6 +4844,11 @@ export interface BlobCopyFromURLHeaders {
    */
   lastModified?: Date;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3716,6 +4879,11 @@ export interface BlobCopyFromURLHeaders {
  */
 export interface BlobAbortCopyFromURLHeaders {
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3738,6 +4906,11 @@ export interface BlobAbortCopyFromURLHeaders {
  */
 export interface BlobSetTierHeaders {
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -3754,6 +4927,11 @@ export interface BlobSetTierHeaders {
  * Defines headers for GetAccountInfo operation.
  */
 export interface BlobGetAccountInfoHeaders {
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3786,10 +4964,16 @@ export interface BlobGetAccountInfoHeaders {
  */
 export interface BlockBlobStageBlockHeaders {
   /**
-   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
-   * is returned so that the client can check for message content integrity.
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
    */
   contentMD5?: Uint8Array;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3806,10 +4990,21 @@ export interface BlockBlobStageBlockHeaders {
    */
   date?: Date;
   /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
+  /**
    * The value of this header is set to true if the contents of the request are successfully
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the block. This header is only returned
+   * when the block was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -3818,10 +5013,22 @@ export interface BlockBlobStageBlockHeaders {
  */
 export interface BlockBlobStageBlockFromURLHeaders {
   /**
-   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
-   * is returned so that the client can check for message content integrity.
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
    */
   contentMD5?: Uint8Array;
+  /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3842,6 +5049,11 @@ export interface BlockBlobStageBlockFromURLHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the block. This header is only returned
+   * when the block was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -3861,10 +5073,22 @@ export interface BlockBlobCommitBlockListHeaders {
    */
   lastModified?: Date;
   /**
-   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
-   * is returned so that the client can check for message content integrity.
+   * This header is returned so that the client can check for message content integrity. This
+   * header refers to the content of the request, meaning, in this case, the list of blocks, and
+   * not the content of the blob itself.
    */
   contentMD5?: Uint8Array;
+  /**
+   * This header is returned so that the client can check for message content integrity. This
+   * header refers to the content of the request, meaning, in this case, the list of blocks, and
+   * not the content of the blob itself.
+   */
+  xMsContentCrc64?: Uint8Array;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3885,6 +5109,11 @@ export interface BlockBlobCommitBlockListHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned
+   * when the blob was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -3911,6 +5140,11 @@ export interface BlockBlobGetBlockListHeaders {
    * The size of the blob in bytes.
    */
   blobContentLength?: number;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3950,9 +5184,20 @@ export interface PageBlobUploadPagesHeaders {
    */
   contentMD5?: Uint8Array;
   /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
+  /**
    * The current sequence number for the page blob.
    */
   blobSequenceNumber?: number;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -3973,6 +5218,11 @@ export interface PageBlobUploadPagesHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the pages. This header is only returned
+   * when the pages were encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -3997,9 +5247,20 @@ export interface PageBlobClearPagesHeaders {
    */
   contentMD5?: Uint8Array;
   /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
+  /**
    * The current sequence number for the page blob.
    */
   blobSequenceNumber?: number;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -4039,6 +5300,12 @@ export interface PageBlobUploadPagesFromURLHeaders {
    */
   contentMD5?: Uint8Array;
   /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
+  /**
    * The current sequence number for the page blob.
    */
   blobSequenceNumber?: number;
@@ -4062,6 +5329,11 @@ export interface PageBlobUploadPagesFromURLHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the pages. This header is only returned
+   * when the pages were encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -4084,6 +5356,11 @@ export interface PageBlobGetPageRangesHeaders {
    * The size of the blob in bytes.
    */
   blobContentLength?: number;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -4121,6 +5398,11 @@ export interface PageBlobGetPageRangesDiffHeaders {
    * The size of the blob in bytes.
    */
   blobContentLength?: number;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -4160,6 +5442,11 @@ export interface PageBlobResizeHeaders {
    */
   blobSequenceNumber?: number;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -4198,6 +5485,11 @@ export interface PageBlobUpdateSequenceNumberHeaders {
    */
   blobSequenceNumber?: number;
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -4230,6 +5522,11 @@ export interface PageBlobCopyIncrementalHeaders {
    * of the blob.
    */
   lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -4279,6 +5576,17 @@ export interface AppendBlobAppendBlockHeaders {
    */
   contentMD5?: Uint8Array;
   /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
    */
@@ -4308,6 +5616,11 @@ export interface AppendBlobAppendBlockHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the block. This header is only returned
+   * when the block was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -4331,6 +5644,12 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * is returned so that the client can check for message content integrity.
    */
   contentMD5?: Uint8Array;
+  /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -4356,6 +5675,11 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * blobs.
    */
   blobCommittedBlockCount?: number;
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the block. This header is only returned
+   * when the block was encrypted with a customer-provided key.
+   */
+  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
@@ -4365,7 +5689,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
  * @readonly
  * @enum {string}
  */
-export type PublicAccessType = "container" | "blob";
+export type PublicAccessType = 'container' | 'blob';
 
 /**
  * Defines values for CopyStatusType.
@@ -4373,7 +5697,7 @@ export type PublicAccessType = "container" | "blob";
  * @readonly
  * @enum {string}
  */
-export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 /**
  * Defines values for LeaseDurationType.
@@ -4381,7 +5705,7 @@ export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
  * @readonly
  * @enum {string}
  */
-export type LeaseDurationType = "infinite" | "fixed";
+export type LeaseDurationType = 'infinite' | 'fixed';
 
 /**
  * Defines values for LeaseStateType.
@@ -4389,7 +5713,7 @@ export type LeaseDurationType = "infinite" | "fixed";
  * @readonly
  * @enum {string}
  */
-export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
 
 /**
  * Defines values for LeaseStatusType.
@@ -4397,25 +5721,16 @@ export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "
  * @readonly
  * @enum {string}
  */
-export type LeaseStatusType = "locked" | "unlocked";
+export type LeaseStatusType = 'locked' | 'unlocked';
 
 /**
  * Defines values for AccessTier.
- * Possible values include: 'P4', 'P6', 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
+ * Possible values include: 'P4', 'P6', 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70',
+ * 'P80', 'Hot', 'Cool', 'Archive'
  * @readonly
  * @enum {string}
  */
-export type AccessTier =
-  | "P4"
-  | "P6"
-  | "P10"
-  | "P20"
-  | "P30"
-  | "P40"
-  | "P50"
-  | "Hot"
-  | "Cool"
-  | "Archive";
+export type AccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80' | 'Hot' | 'Cool' | 'Archive';
 
 /**
  * Defines values for ArchiveStatus.
@@ -4423,7 +5738,7 @@ export type AccessTier =
  * @readonly
  * @enum {string}
  */
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool";
+export type ArchiveStatus = 'rehydrate-pending-to-hot' | 'rehydrate-pending-to-cool';
 
 /**
  * Defines values for BlobType.
@@ -4431,7 +5746,7 @@ export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-c
  * @readonly
  * @enum {string}
  */
-export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
+export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
 
 /**
  * Defines values for StorageErrorCode.
@@ -4471,112 +5786,7 @@ export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode =
-  | "AccountAlreadyExists"
-  | "AccountBeingCreated"
-  | "AccountIsDisabled"
-  | "AuthenticationFailed"
-  | "AuthorizationFailure"
-  | "ConditionHeadersNotSupported"
-  | "ConditionNotMet"
-  | "EmptyMetadataKey"
-  | "InsufficientAccountPermissions"
-  | "InternalError"
-  | "InvalidAuthenticationInfo"
-  | "InvalidHeaderValue"
-  | "InvalidHttpVerb"
-  | "InvalidInput"
-  | "InvalidMd5"
-  | "InvalidMetadata"
-  | "InvalidQueryParameterValue"
-  | "InvalidRange"
-  | "InvalidResourceName"
-  | "InvalidUri"
-  | "InvalidXmlDocument"
-  | "InvalidXmlNodeValue"
-  | "Md5Mismatch"
-  | "MetadataTooLarge"
-  | "MissingContentLengthHeader"
-  | "MissingRequiredQueryParameter"
-  | "MissingRequiredHeader"
-  | "MissingRequiredXmlNode"
-  | "MultipleConditionHeadersNotSupported"
-  | "OperationTimedOut"
-  | "OutOfRangeInput"
-  | "OutOfRangeQueryParameterValue"
-  | "RequestBodyTooLarge"
-  | "ResourceTypeMismatch"
-  | "RequestUrlFailedToParse"
-  | "ResourceAlreadyExists"
-  | "ResourceNotFound"
-  | "ServerBusy"
-  | "UnsupportedHeader"
-  | "UnsupportedXmlNode"
-  | "UnsupportedQueryParameter"
-  | "UnsupportedHttpVerb"
-  | "AppendPositionConditionNotMet"
-  | "BlobAlreadyExists"
-  | "BlobNotFound"
-  | "BlobOverwritten"
-  | "BlobTierInadequateForContentLength"
-  | "BlockCountExceedsLimit"
-  | "BlockListTooLong"
-  | "CannotChangeToLowerTier"
-  | "CannotVerifyCopySource"
-  | "ContainerAlreadyExists"
-  | "ContainerBeingDeleted"
-  | "ContainerDisabled"
-  | "ContainerNotFound"
-  | "ContentLengthLargerThanTierLimit"
-  | "CopyAcrossAccountsNotSupported"
-  | "CopyIdMismatch"
-  | "FeatureVersionMismatch"
-  | "IncrementalCopyBlobMismatch"
-  | "IncrementalCopyOfEralierVersionSnapshotNotAllowed"
-  | "IncrementalCopySourceMustBeSnapshot"
-  | "InfiniteLeaseDurationRequired"
-  | "InvalidBlobOrBlock"
-  | "InvalidBlobTier"
-  | "InvalidBlobType"
-  | "InvalidBlockId"
-  | "InvalidBlockList"
-  | "InvalidOperation"
-  | "InvalidPageRange"
-  | "InvalidSourceBlobType"
-  | "InvalidSourceBlobUrl"
-  | "InvalidVersionForPageBlobOperation"
-  | "LeaseAlreadyPresent"
-  | "LeaseAlreadyBroken"
-  | "LeaseIdMismatchWithBlobOperation"
-  | "LeaseIdMismatchWithContainerOperation"
-  | "LeaseIdMismatchWithLeaseOperation"
-  | "LeaseIdMissing"
-  | "LeaseIsBreakingAndCannotBeAcquired"
-  | "LeaseIsBreakingAndCannotBeChanged"
-  | "LeaseIsBrokenAndCannotBeRenewed"
-  | "LeaseLost"
-  | "LeaseNotPresentWithBlobOperation"
-  | "LeaseNotPresentWithContainerOperation"
-  | "LeaseNotPresentWithLeaseOperation"
-  | "MaxBlobSizeConditionNotMet"
-  | "NoPendingCopyOperation"
-  | "OperationNotAllowedOnIncrementalCopyBlob"
-  | "PendingCopyOperation"
-  | "PreviousSnapshotCannotBeNewer"
-  | "PreviousSnapshotNotFound"
-  | "PreviousSnapshotOperationNotSupported"
-  | "SequenceNumberConditionNotMet"
-  | "SequenceNumberIncrementTooLarge"
-  | "SnapshotCountExceeded"
-  | "SnaphotOperationRateExceeded"
-  | "SnapshotsPresent"
-  | "SourceConditionNotMet"
-  | "SystemInUse"
-  | "TargetConditionNotMet"
-  | "UnauthorizedBlobOverwrite"
-  | "BlobBeingRehydrated"
-  | "BlobArchived"
-  | "BlobNotArchived";
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived';
 
 /**
  * Defines values for GeoReplicationStatusType.
@@ -4584,7 +5794,15 @@ export type StorageErrorCode =
  * @readonly
  * @enum {string}
  */
-export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
+
+/**
+ * Defines values for RehydratePriority.
+ * Possible values include: 'High', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type RehydratePriority = 'High' | 'Standard';
 
 /**
  * Defines values for BlockListType.
@@ -4592,7 +5810,7 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  * @readonly
  * @enum {string}
  */
-export type BlockListType = "committed" | "uncommitted" | "all";
+export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 /**
  * Defines values for DeleteSnapshotsOptionType.
@@ -4600,7 +5818,15 @@ export type BlockListType = "committed" | "uncommitted" | "all";
  * @readonly
  * @enum {string}
  */
-export type DeleteSnapshotsOptionType = "include" | "only";
+export type DeleteSnapshotsOptionType = 'include' | 'only';
+
+/**
+ * Defines values for EncryptionAlgorithmType.
+ * Possible values include: 'AES256'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionAlgorithmType = 'AES256';
 
 /**
  * Defines values for ListBlobsIncludeItem.
@@ -4608,12 +5834,7 @@ export type DeleteSnapshotsOptionType = "include" | "only";
  * @readonly
  * @enum {string}
  */
-export type ListBlobsIncludeItem =
-  | "copy"
-  | "deleted"
-  | "metadata"
-  | "snapshots"
-  | "uncommittedblobs";
+export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots' | 'uncommittedblobs';
 
 /**
  * Defines values for ListContainersIncludeType.
@@ -4621,7 +5842,15 @@ export type ListBlobsIncludeItem =
  * @readonly
  * @enum {string}
  */
-export type ListContainersIncludeType = "metadata";
+export type ListContainersIncludeType = 'metadata';
+
+/**
+ * Defines values for PathRenameMode.
+ * Possible values include: 'legacy', 'posix'
+ * @readonly
+ * @enum {string}
+ */
+export type PathRenameMode = 'legacy' | 'posix';
 
 /**
  * Defines values for SequenceNumberActionType.
@@ -4629,7 +5858,7 @@ export type ListContainersIncludeType = "metadata";
  * @readonly
  * @enum {string}
  */
-export type SequenceNumberActionType = "max" | "update" | "increment";
+export type SequenceNumberActionType = 'max' | 'update' | 'increment';
 
 /**
  * Defines values for SkuName.
@@ -4638,12 +5867,7 @@ export type SequenceNumberActionType = "max" | "update" | "increment";
  * @readonly
  * @enum {string}
  */
-export type SkuName =
-  | "Standard_LRS"
-  | "Standard_GRS"
-  | "Standard_RAGRS"
-  | "Standard_ZRS"
-  | "Premium_LRS";
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS';
 
 /**
  * Defines values for AccountKind.
@@ -4651,7 +5875,7 @@ export type SkuName =
  * @readonly
  * @enum {string}
  */
-export type AccountKind = "Storage" | "BlobStorage" | "StorageV2";
+export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2';
 
 /**
  * Defines values for SyncCopyStatusType.
@@ -4659,7 +5883,7 @@ export type AccountKind = "Storage" | "BlobStorage" | "StorageV2";
  * @readonly
  * @enum {string}
  */
-export type SyncCopyStatusType = "success";
+export type SyncCopyStatusType = 'success';
 
 /**
  * Contains response data for the setProperties operation.
@@ -4669,22 +5893,21 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ServiceSetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceSetPropertiesHeaders;
+    };
 };
 
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = StorageServiceProperties &
-  ServiceGetPropertiesHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGetPropertiesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -4700,17 +5923,16 @@ export type ServiceGetPropertiesResponse = StorageServiceProperties &
        */
       parsedBody: StorageServiceProperties;
     };
-  };
+};
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export type ServiceGetStatisticsResponse = StorageServiceStats &
-  ServiceGetStatisticsHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceGetStatisticsResponse = StorageServiceStats & ServiceGetStatisticsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -4726,17 +5948,16 @@ export type ServiceGetStatisticsResponse = StorageServiceStats &
        */
       parsedBody: StorageServiceStats;
     };
-  };
+};
 
 /**
  * Contains response data for the listContainersSegment operation.
  */
-export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse &
-  ServiceListContainersSegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse & ServiceListContainersSegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -4752,17 +5973,16 @@ export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse
        */
       parsedBody: ListContainersSegmentResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the getUserDelegationKey operation.
  */
-export type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
-  ServiceGetUserDelegationKeyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceGetUserDelegationKeyResponse = UserDelegationKey & ServiceGetUserDelegationKeyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -4778,7 +5998,7 @@ export type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
        */
       parsedBody: UserDelegationKey;
     };
-  };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
@@ -4788,11 +6008,42 @@ export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ServiceGetAccountInfoHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceGetAccountInfoHeaders;
+    };
+};
+
+/**
+ * Contains response data for the submitBatch operation.
+ */
+export type ServiceSubmitBatchResponse = ServiceSubmitBatchHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceSubmitBatchHeaders;
+    };
 };
 
 /**
@@ -4803,11 +6054,11 @@ export type ContainerCreateResponse = ContainerCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerCreateHeaders;
+    };
 };
 
 /**
@@ -4818,11 +6069,11 @@ export type ContainerGetPropertiesResponse = ContainerGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerGetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetPropertiesHeaders;
+    };
 };
 
 /**
@@ -4833,11 +6084,11 @@ export type ContainerDeleteResponse = ContainerDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerDeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerDeleteHeaders;
+    };
 };
 
 /**
@@ -4848,22 +6099,21 @@ export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerSetMetadataHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerSetMetadataHeaders;
+    };
 };
 
 /**
  * Contains response data for the getAccessPolicy operation.
  */
-export type ContainerGetAccessPolicyResponse = SignedIdentifier[] &
-  ContainerGetAccessPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ContainerGetAccessPolicyResponse = Array<SignedIdentifier> & ContainerGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -4879,7 +6129,7 @@ export type ContainerGetAccessPolicyResponse = SignedIdentifier[] &
        */
       parsedBody: SignedIdentifier[];
     };
-  };
+};
 
 /**
  * Contains response data for the setAccessPolicy operation.
@@ -4889,11 +6139,11 @@ export type ContainerSetAccessPolicyResponse = ContainerSetAccessPolicyHeaders &
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerSetAccessPolicyHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerSetAccessPolicyHeaders;
+    };
 };
 
 /**
@@ -4904,11 +6154,11 @@ export type ContainerAcquireLeaseResponse = ContainerAcquireLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerAcquireLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerAcquireLeaseHeaders;
+    };
 };
 
 /**
@@ -4919,11 +6169,11 @@ export type ContainerReleaseLeaseResponse = ContainerReleaseLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerReleaseLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerReleaseLeaseHeaders;
+    };
 };
 
 /**
@@ -4934,11 +6184,11 @@ export type ContainerRenewLeaseResponse = ContainerRenewLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerRenewLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerRenewLeaseHeaders;
+    };
 };
 
 /**
@@ -4949,11 +6199,11 @@ export type ContainerBreakLeaseResponse = ContainerBreakLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerBreakLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerBreakLeaseHeaders;
+    };
 };
 
 /**
@@ -4964,22 +6214,21 @@ export type ContainerChangeLeaseResponse = ContainerChangeLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerChangeLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerChangeLeaseHeaders;
+    };
 };
 
 /**
  * Contains response data for the listBlobFlatSegment operation.
  */
-export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse &
-  ContainerListBlobFlatSegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -4995,17 +6244,16 @@ export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse 
        */
       parsedBody: ListBlobsFlatSegmentResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the listBlobHierarchySegment operation.
  */
-export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmentResponse &
-  ContainerListBlobHierarchySegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmentResponse & ContainerListBlobHierarchySegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5021,7 +6269,7 @@ export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmen
        */
       parsedBody: ListBlobsHierarchySegmentResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
@@ -5031,11 +6279,86 @@ export type ContainerGetAccountInfoResponse = ContainerGetAccountInfoHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerGetAccountInfoHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetAccountInfoHeaders;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type DirectoryCreateResponse = DirectoryCreateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryCreateHeaders;
+    };
+};
+
+/**
+ * Contains response data for the rename operation.
+ */
+export type DirectoryRenameResponse = DirectoryRenameHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryRenameHeaders;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryDeleteHeaders;
+    };
+};
+
+/**
+ * Contains response data for the setAccessControl operation.
+ */
+export type DirectorySetAccessControlResponse = DirectorySetAccessControlHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectorySetAccessControlHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAccessControl operation.
+ */
+export type DirectoryGetAccessControlResponse = DirectoryGetAccessControlHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryGetAccessControlHeaders;
+    };
 };
 
 /**
@@ -5062,11 +6385,11 @@ export type BlobDownloadResponse = BlobDownloadHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobDownloadHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobDownloadHeaders;
+    };
 };
 
 /**
@@ -5077,11 +6400,11 @@ export type BlobGetPropertiesResponse = BlobGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobGetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetPropertiesHeaders;
+    };
 };
 
 /**
@@ -5092,11 +6415,56 @@ export type BlobDeleteResponse = BlobDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobDeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobDeleteHeaders;
+    };
+};
+
+/**
+ * Contains response data for the setAccessControl operation.
+ */
+export type BlobSetAccessControlResponse = BlobSetAccessControlHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetAccessControlHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAccessControl operation.
+ */
+export type BlobGetAccessControlResponse = BlobGetAccessControlHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetAccessControlHeaders;
+    };
+};
+
+/**
+ * Contains response data for the rename operation.
+ */
+export type BlobRenameResponse = BlobRenameHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobRenameHeaders;
+    };
 };
 
 /**
@@ -5107,11 +6475,11 @@ export type BlobUndeleteResponse = BlobUndeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobUndeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobUndeleteHeaders;
+    };
 };
 
 /**
@@ -5122,11 +6490,11 @@ export type BlobSetHTTPHeadersResponse = BlobSetHTTPHeadersHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobSetHTTPHeadersHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetHTTPHeadersHeaders;
+    };
 };
 
 /**
@@ -5137,11 +6505,11 @@ export type BlobSetMetadataResponse = BlobSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobSetMetadataHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetMetadataHeaders;
+    };
 };
 
 /**
@@ -5152,11 +6520,11 @@ export type BlobAcquireLeaseResponse = BlobAcquireLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobAcquireLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobAcquireLeaseHeaders;
+    };
 };
 
 /**
@@ -5167,11 +6535,11 @@ export type BlobReleaseLeaseResponse = BlobReleaseLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobReleaseLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobReleaseLeaseHeaders;
+    };
 };
 
 /**
@@ -5182,11 +6550,11 @@ export type BlobRenewLeaseResponse = BlobRenewLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobRenewLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobRenewLeaseHeaders;
+    };
 };
 
 /**
@@ -5197,11 +6565,11 @@ export type BlobChangeLeaseResponse = BlobChangeLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobChangeLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobChangeLeaseHeaders;
+    };
 };
 
 /**
@@ -5212,11 +6580,11 @@ export type BlobBreakLeaseResponse = BlobBreakLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobBreakLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobBreakLeaseHeaders;
+    };
 };
 
 /**
@@ -5227,11 +6595,11 @@ export type BlobCreateSnapshotResponse = BlobCreateSnapshotHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobCreateSnapshotHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobCreateSnapshotHeaders;
+    };
 };
 
 /**
@@ -5242,11 +6610,11 @@ export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobStartCopyFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobStartCopyFromURLHeaders;
+    };
 };
 
 /**
@@ -5257,11 +6625,11 @@ export type BlobCopyFromURLResponse = BlobCopyFromURLHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobCopyFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobCopyFromURLHeaders;
+    };
 };
 
 /**
@@ -5272,11 +6640,11 @@ export type BlobAbortCopyFromURLResponse = BlobAbortCopyFromURLHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobAbortCopyFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobAbortCopyFromURLHeaders;
+    };
 };
 
 /**
@@ -5287,11 +6655,11 @@ export type BlobSetTierResponse = BlobSetTierHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobSetTierHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetTierHeaders;
+    };
 };
 
 /**
@@ -5302,11 +6670,11 @@ export type BlobGetAccountInfoResponse = BlobGetAccountInfoHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobGetAccountInfoHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetAccountInfoHeaders;
+    };
 };
 
 /**
@@ -5317,11 +6685,11 @@ export type PageBlobCreateResponse = PageBlobCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobCreateHeaders;
+    };
 };
 
 /**
@@ -5332,11 +6700,11 @@ export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobUploadPagesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobUploadPagesHeaders;
+    };
 };
 
 /**
@@ -5347,11 +6715,11 @@ export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobClearPagesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobClearPagesHeaders;
+    };
 };
 
 /**
@@ -5362,22 +6730,21 @@ export type PageBlobUploadPagesFromURLResponse = PageBlobUploadPagesFromURLHeade
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobUploadPagesFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobUploadPagesFromURLHeaders;
+    };
 };
 
 /**
  * Contains response data for the getPageRanges operation.
  */
-export type PageBlobGetPageRangesResponse = PageList &
-  PageBlobGetPageRangesHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type PageBlobGetPageRangesResponse = PageList & PageBlobGetPageRangesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5393,17 +6760,16 @@ export type PageBlobGetPageRangesResponse = PageList &
        */
       parsedBody: PageList;
     };
-  };
+};
 
 /**
  * Contains response data for the getPageRangesDiff operation.
  */
-export type PageBlobGetPageRangesDiffResponse = PageList &
-  PageBlobGetPageRangesDiffHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type PageBlobGetPageRangesDiffResponse = PageList & PageBlobGetPageRangesDiffHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5419,7 +6785,7 @@ export type PageBlobGetPageRangesDiffResponse = PageList &
        */
       parsedBody: PageList;
     };
-  };
+};
 
 /**
  * Contains response data for the resize operation.
@@ -5429,11 +6795,11 @@ export type PageBlobResizeResponse = PageBlobResizeHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobResizeHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobResizeHeaders;
+    };
 };
 
 /**
@@ -5444,11 +6810,11 @@ export type PageBlobUpdateSequenceNumberResponse = PageBlobUpdateSequenceNumberH
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobUpdateSequenceNumberHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobUpdateSequenceNumberHeaders;
+    };
 };
 
 /**
@@ -5459,11 +6825,11 @@ export type PageBlobCopyIncrementalResponse = PageBlobCopyIncrementalHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobCopyIncrementalHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobCopyIncrementalHeaders;
+    };
 };
 
 /**
@@ -5474,11 +6840,11 @@ export type AppendBlobCreateResponse = AppendBlobCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: AppendBlobCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AppendBlobCreateHeaders;
+    };
 };
 
 /**
@@ -5489,11 +6855,11 @@ export type AppendBlobAppendBlockResponse = AppendBlobAppendBlockHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: AppendBlobAppendBlockHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AppendBlobAppendBlockHeaders;
+    };
 };
 
 /**
@@ -5504,11 +6870,11 @@ export type AppendBlobAppendBlockFromUrlResponse = AppendBlobAppendBlockFromUrlH
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: AppendBlobAppendBlockFromUrlHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AppendBlobAppendBlockFromUrlHeaders;
+    };
 };
 
 /**
@@ -5519,11 +6885,11 @@ export type BlockBlobUploadResponse = BlockBlobUploadHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlockBlobUploadHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobUploadHeaders;
+    };
 };
 
 /**
@@ -5534,11 +6900,11 @@ export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlockBlobStageBlockHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobStageBlockHeaders;
+    };
 };
 
 /**
@@ -5549,11 +6915,11 @@ export type BlockBlobStageBlockFromURLResponse = BlockBlobStageBlockFromURLHeade
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlockBlobStageBlockFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobStageBlockFromURLHeaders;
+    };
 };
 
 /**
@@ -5564,22 +6930,21 @@ export type BlockBlobCommitBlockListResponse = BlockBlobCommitBlockListHeaders &
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlockBlobCommitBlockListHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobCommitBlockListHeaders;
+    };
 };
 
 /**
  * Contains response data for the getBlockList operation.
  */
-export type BlockBlobGetBlockListResponse = BlockList &
-  BlockBlobGetBlockListHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type BlockBlobGetBlockListResponse = BlockList & BlockBlobGetBlockListHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -5595,4 +6960,4 @@ export type BlockBlobGetBlockListResponse = BlockList &
        */
       parsedBody: BlockList;
     };
-  };
+};

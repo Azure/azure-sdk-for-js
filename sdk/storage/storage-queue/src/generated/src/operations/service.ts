@@ -129,34 +129,6 @@ export class Service {
       listQueuesSegmentOperationSpec,
       callback) as Promise<Models.ServiceListQueuesSegmentResponse>;
   }
-
-  /**
-   * The List Queues Segment operation returns a list of the queues under the specified account
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServiceListQueuesSegmentResponse>
-   */
-  listQueuesSegmentNext(nextPageLink: string, options?: Models.ServiceListQueuesSegmentNextOptionalParams): Promise<Models.ServiceListQueuesSegmentResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listQueuesSegmentNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listQueuesSegmentNext(nextPageLink: string, options: Models.ServiceListQueuesSegmentNextOptionalParams, callback: coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>): void;
-  listQueuesSegmentNext(nextPageLink: string, options?: Models.ServiceListQueuesSegmentNextOptionalParams | coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>): Promise<Models.ServiceListQueuesSegmentResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listQueuesSegmentNextOperationSpec,
-      callback) as Promise<Models.ServiceListQueuesSegmentResponse>;
-  }
 }
 
 // Operation Specifications
@@ -261,30 +233,6 @@ const listQueuesSegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.include,
     Parameters.timeout,
     Parameters.comp2
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListQueuesSegmentResponse,
-      headersMapper: Mappers.ServiceListQueuesSegmentHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError
-    }
-  },
-  isXML: true,
-  serializer
-};
-
-const listQueuesSegmentNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{url}",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.version,

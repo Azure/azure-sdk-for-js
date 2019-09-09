@@ -15,6 +15,7 @@ const packageVersion = "1.0.0";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   version: string;
+  fileRangeWriteFromUrl: string;
   url: string;
 
   /**
@@ -43,6 +44,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
 
     super(undefined, options);
 
+    this.fileRangeWriteFromUrl = 'update';
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.version = version;

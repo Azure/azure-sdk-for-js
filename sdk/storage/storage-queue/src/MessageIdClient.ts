@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { MessageId } from "./generated/lib/operations";
+import { MessageId } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
