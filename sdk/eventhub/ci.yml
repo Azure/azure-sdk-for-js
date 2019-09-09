@@ -36,3 +36,5 @@ stages:
       Artifacts:
         - name: azure-event-hubs
           safeName: azureeventhubs
+        - name: azure-eventhubs-checkpointstore-blob
+          safeName: azureeventhubscheckpointstoreblob
