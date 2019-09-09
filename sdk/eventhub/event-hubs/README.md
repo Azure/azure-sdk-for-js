@@ -210,8 +210,8 @@ The `EventProcessor` will delegate the processing of events to a [PartitionProce
 that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer
 operations including checkpointing and load balancing.
 
-While load balancing is typically useful when running multiples instances of `EventProcessor` across multiple processes or even hosts,
-you can see it action in the below example, where we use an [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html)
+Load balancing is typically useful when running multiple instances of `EventProcessor` across multiple processes or even machines.
+You can see it action in the below example, where we use an [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html)
 that does checkpointing in memory. We pass the `InMemoryPartitionManager` to both instances of `EventProcessor` so that state
 about which partitions are being processed by which instances of `EventProcessor` can be shared.
 

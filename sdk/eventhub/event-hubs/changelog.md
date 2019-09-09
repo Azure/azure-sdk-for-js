@@ -7,8 +7,8 @@
 
 #### Consuming events
 - Received event data will now expose `systemProperties` for message annotations set by the service. ([PR #5008](https://github.com/Azure/azure-sdk-for-js/pull/5008)).
-- Adds `lastEnqueuedEventInfo` property on `EventHubConsumer` when the consumer is created with `trackLastEnqueuedEventInfo` set to `true`.
-This field is updated everytime a message is received and provides details about the last enqueued event in the partition the `EventHubConsumer` is reading from.
+- Adds `lastEnqueuedEventInfo` property on `EventHubConsumer`. When the consumer is created with `trackLastEnqueuedEventInfo` set to `true`, the `lastEnqueuedEventInfo`
+field is updated everytime a message is received and provides details about the last enqueued event in the partition the `EventHubConsumer` is reading from.
 ([PR #5036](https://github.com/Azure/azure-sdk-for-js/pull/5036))
 - Adds load-balancing capabilities to `EventProcessor`. `EventProcesor` will use the data from `PartitionManager` to regulate how many partitions it should read from.
 ([PR #4839](https://github.com/Azure/azure-sdk-for-js/pull/4839)).
