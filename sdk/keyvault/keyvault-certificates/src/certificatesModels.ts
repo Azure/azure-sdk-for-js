@@ -162,20 +162,6 @@ export interface UpdateCertificateOptions {
 
 /**
  * @interface
- * An interface representing optional parameters for CertificateClient paged operations.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface RequestOptions {
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-}
-
-/**
- * @interface
  * An interface representing the issuer of a certificate
  */
 export interface CertificateIssuer {
