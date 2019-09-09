@@ -681,7 +681,7 @@ export class CertificatesClient {
    * @returns Promise<CertificatePolicy>
    */
   public async getCertificatePolicy(name: string, options?: RequestOptions): Promise<CertificatePolicy> {
-    const span = this.createSpan("getCertificatePolicy", options);
+    const span = this.createSpan("getCertificatePolicy", options && options.requestOptions);
     span.start();
  
     let result = await this.client.getCertificatePolicy(this.vaultBaseUrl, name, options)
