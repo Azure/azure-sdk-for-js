@@ -254,7 +254,7 @@ export class CertificatesClient {
    * @returns PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]>
    */
   public listCertificates(options?: RequestOptions): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
-    const span = this.createSpan("listCertificates", options);
+    const span = this.createSpan("listCertificates", options && options.requestOptions);
     span.start();
 
     const iter = this.listCertificatesAll(options);
