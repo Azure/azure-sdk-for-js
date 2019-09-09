@@ -369,7 +369,7 @@ export class SecretsClient {
    * @returns Promise<Secret>
    */
   public async getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret> {
-    const span = this.createSpan("getSecret", options);
+    const span = this.createSpan("getSecret", options && options.requestOptions);
     span.start();
  
     const response = await this.client.getSecret(
@@ -605,7 +605,7 @@ export class SecretsClient {
     secretName: string,
     options?: ListSecretsOptions
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
-    const span = this.createSpan("listSecretVersions", options);
+    const span = this.createSpan("listSecretVersions", options && options.requestOptions);
     span.start();
  
     const iter = this.listSecretVersionsAll(secretName, options);
@@ -677,7 +677,7 @@ export class SecretsClient {
   public listSecrets(
     options?: ListSecretsOptions
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
-    const span = this.createSpan("listSecrets", options);
+    const span = this.createSpan("listSecrets", options && options.requestOptions);
     span.start();
  
     const iter = this.listSecretsAll(options);
@@ -751,7 +751,7 @@ export class SecretsClient {
   public listDeletedSecrets(
     options?: ListSecretsOptions
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
-    const span = this.createSpan("listDeletedSecrets", options);
+    const span = this.createSpan("listDeletedSecrets", options && options.requestOptions);
     span.start();
  
     const iter = this.listDeletedSecretsAll(options);

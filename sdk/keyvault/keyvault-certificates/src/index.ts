@@ -745,7 +745,7 @@ export class CertificatesClient {
    * @returns Promise<CertificateOperation>
    */
   public async cancelCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
-    const span = this.createSpan("cancelCertificateOperation", options);
+    const span = this.createSpan("cancelCertificateOperation", options && options.requestOptions);
     span.start();
  
     let result = await this.client.updateCertificateOperation(this.vaultBaseUrl, name, true, options)
@@ -765,7 +765,7 @@ export class CertificatesClient {
    * @returns Promise<CertificateOperation>
    */
   public async getCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
-    const span = this.createSpan("getCertificateOperation", options);
+    const span = this.createSpan("getCertificateOperation", options && options.requestOptions);
     span.start();
  
     let result = await this.client.getCertificateOperation(this.vaultBaseUrl, name, options)
@@ -786,7 +786,7 @@ export class CertificatesClient {
    * @returns Promise<CertificateOperation>
    */
   public async deleteCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation> {
-    const span = this.createSpan("deleteCertificateOperation", options);
+    const span = this.createSpan("deleteCertificateOperation", options && options.requestOptions);
     span.start();
  
     let result = await this.client.deleteCertificateOperation(this.vaultBaseUrl, name, options)
@@ -807,7 +807,7 @@ export class CertificatesClient {
    * @returns Promise<Certificate>
    */
   public async mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptions): Promise<Certificate> {
-    const span = this.createSpan("mergeCertificate", options);
+    const span = this.createSpan("mergeCertificate", options && options.requestOptions);
     span.start();
     let result = await this.client.mergeCertificate(this.vaultBaseUrl, name, x509Certificates, options)
     .catch((err) => {
@@ -827,7 +827,7 @@ export class CertificatesClient {
    * @returns Promise<BackupCertificateResult>
    */
   public async backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult> {
-    const span = this.createSpan("backupCertificate", options);
+    const span = this.createSpan("backupCertificate", options && options.requestOptions);
     span.start();
  
     let result = await this.client.backupCertificate(this.vaultBaseUrl, name, options)
@@ -847,7 +847,7 @@ export class CertificatesClient {
    * @returns Promise<Certificate>
    */
   public async restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptions): Promise<Certificate> {
-    const span = this.createSpan("restoreCertificate", options);
+    const span = this.createSpan("restoreCertificate", options && options.requestOptions);
     span.start();
 
     let result = await this.client.restoreCertificate(this.vaultBaseUrl, certificateBackup, options)
@@ -932,7 +932,7 @@ export class CertificatesClient {
    * @returns Promise<DeletedCertificate>
    */
   public async getDeletedCertificate(name: string, options?: RequestOptions): Promise<DeletedCertificate> {
-    const span = this.createSpan("getDeletedCertificate", options);
+    const span = this.createSpan("getDeletedCertificate", options && options.requestOptions);
     span.start();
  
     let result = await this.client.getDeletedCertificate(this.vaultBaseUrl, name, options)
@@ -952,7 +952,7 @@ export class CertificatesClient {
    * @param options The optional parameters
    */
   public async purgeDeletedCertificate(name: string, options?: RequestOptions): Promise<null> {
-    const span = this.createSpan("purgeDeletedCertificate", options);
+    const span = this.createSpan("purgeDeletedCertificate", options && options.requestOptions);
     span.start();
  
     await this.client.purgeDeletedCertificate(this.vaultBaseUrl, name, options)
@@ -973,7 +973,7 @@ export class CertificatesClient {
    * @returns Promise<Certificate>
    */
   public async recoverDeletedCertificate(name: string, options?: RequestOptions): Promise<Certificate> {
-    const span = this.createSpan("recoverDeletedCertificate", options);
+    const span = this.createSpan("recoverDeletedCertificate", options && options.requestOptions);
     span.start();
  
     let result = await this.client.recoverDeletedCertificate(this.vaultBaseUrl, name, options)
