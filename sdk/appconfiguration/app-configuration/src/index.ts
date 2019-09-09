@@ -136,7 +136,7 @@ export class AppConfigurationClient {
   addConfigurationSetting(
     key: string,
     configSettings: AddConfigurationSettingConfig,
-    options: AddConfigurationSettingOptions = { label: undefined }
+    options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingsResponse> {
     // add the custom header if-none-match=* to only add the key-value if it doesn't already exist
     // create a copy of the options to avoid modifying the user's options
@@ -145,9 +145,7 @@ export class AppConfigurationClient {
     customHeaders["if-none-match"] = "*";
     options.customHeaders = customHeaders;
 
-    if (configSettings.label) {
-      options.label = configSettings.label;
-    }
+    options.label = configSettings.label;
     return this.client.createOrUpdateConfigurationSetting(configSettings, key, options);
   }
 
@@ -189,8 +187,11 @@ export class AppConfigurationClient {
    */
   getConfigurationSetting(
     key: string,
-    options: GetConfigurationSettingOptions = { label: undefined }
+    options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
+    options = { ...options };
+    options.label = options.label || undefined;
+
     return this.client.getConfigurationSetting(key, options);
   }
 
@@ -237,7 +238,7 @@ export class AppConfigurationClient {
   setConfigurationSetting(
     key: string,
     configSettings: SetConfigurationSettingConfig,
-    options: SetConfigurationSettingOptions = { label: undefined }
+    options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
     // hoist the etag into a custom header to ensure this update fails if the setting has been updated
     options = { ...options };
@@ -250,9 +251,8 @@ export class AppConfigurationClient {
       customHeaders["if-match"] = `"${etag}"`;
     }
 
-    if (configSettings.label) {
-      options.label = configSettings.label;
-    }
+    options.label = configSettings.label;
+    
     return this.client.createOrUpdateConfigurationSetting(configSettings, key, {
       ...options,
       customHeaders
@@ -273,8 +273,9 @@ export class AppConfigurationClient {
   async updateConfigurationSetting(
     key: string,
     configSettings: UpdateConfigurationSettingConfig,
-    options: UpdateConfigurationSettingOptions = { label: undefined }
+    options: UpdateConfigurationSettingOptions = {}
   ): Promise<UpdateConfigurationSettingResponse> {
+    options = { ...options };
     // retrieve existing configuration, and populate configSettings for missing fields that aren't null
     const existingConfigurationSettings = await this.getConfigurationSetting(key, {
       abortSignal: options.abortSignal,
@@ -293,9 +294,7 @@ export class AppConfigurationClient {
       updateConfigSettings.tags = existingConfigurationSettings.tags;
     }
 
-    if (configSettings.label) {
-      options.label = configSettings.label;
-    }
+    options.label = configSettings.label;
 
     const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
     options.customHeaders = customHeaders;
