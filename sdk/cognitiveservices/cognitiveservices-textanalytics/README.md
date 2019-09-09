@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample lets you detect the langauges of input data. In additions, it provides data such as Characters count, transaction count, etc. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview)
 
 ```typescript
 import {

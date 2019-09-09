@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample lets you perform an image search for a query on a custom configuration. The custom configuration can be setup using the Custom search portal. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-custom-search/)
 
 ```typescript
 import {

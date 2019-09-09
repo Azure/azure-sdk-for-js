@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample lets you rank a personalized request object. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/personalizer/)
 
 ```typescript
 import {

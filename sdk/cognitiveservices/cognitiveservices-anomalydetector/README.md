@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample code lets you to determine anamolies with the given time series. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/anomaly-detector/)
 
 ```typescript
 import {

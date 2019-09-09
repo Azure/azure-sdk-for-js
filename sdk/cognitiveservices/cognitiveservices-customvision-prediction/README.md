@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample lets you predict and classify the given image based on your custom vision training. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
 
 ```typescript
 import { PredictionAPIClient } from "@azure/cognitiveservices-customvision-prediction";

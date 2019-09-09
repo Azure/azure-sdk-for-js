@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample lets you detect the facial features on the given image. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/face/overview)
 
 ```typescript
 import { FaceClient, FaceModels } from "@azure/cognitiveservices-face";

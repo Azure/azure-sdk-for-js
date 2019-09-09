@@ -24,6 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample lets you perform a Bing entity search on the query 'Microsoft Azure'. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-entities-search/).
 
 ```typescript
 import { EntitySearchClient } from "@azure/cognitiveservices-entitysearch";
