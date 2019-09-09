@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.0-preview.5 (2019-09-09)
+- Improved tests and upgraded dependencies.
+- Added the browser folder to the released bundle.
+
 ## 4.0.0-preview.4 (2019-08-09)
 - Fixed the missing TypeScript types by adding back the generated `.d.ts` file to the package.json
 
