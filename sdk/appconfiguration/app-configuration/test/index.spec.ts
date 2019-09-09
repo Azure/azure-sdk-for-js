@@ -63,6 +63,8 @@ describe("AppConfigurationClient", () => {
         value: "set",
         label: null
       });
+
+      await client.deleteConfigurationSetting(key, {});
     });
 
     async function compare(expected: { key: string, value: string, label: (string | null) }) {

@@ -136,7 +136,7 @@ export class AppConfigurationClient {
   addConfigurationSetting(
     key: string,
     configSettings: AddConfigurationSettingConfig,
-    options: AddConfigurationSettingOptions = {}
+    options: AddConfigurationSettingOptions = { label: undefined }
   ): Promise<AddConfigurationSettingsResponse> {
     // add the custom header if-none-match=* to only add the key-value if it doesn't already exist
     // create a copy of the options to avoid modifying the user's options
@@ -189,7 +189,7 @@ export class AppConfigurationClient {
    */
   getConfigurationSetting(
     key: string,
-    options?: GetConfigurationSettingOptions
+    options: GetConfigurationSettingOptions = { label: undefined }
   ): Promise<GetConfigurationSettingResponse> {
     return this.client.getConfigurationSetting(key, options);
   }
@@ -237,7 +237,7 @@ export class AppConfigurationClient {
   setConfigurationSetting(
     key: string,
     configSettings: SetConfigurationSettingConfig,
-    options: SetConfigurationSettingOptions = {}
+    options: SetConfigurationSettingOptions = { label: undefined }
   ): Promise<SetConfigurationSettingResponse> {
     // hoist the etag into a custom header to ensure this update fails if the setting has been updated
     options = { ...options };
@@ -273,7 +273,7 @@ export class AppConfigurationClient {
   async updateConfigurationSetting(
     key: string,
     configSettings: UpdateConfigurationSettingConfig,
-    options: UpdateConfigurationSettingOptions = {}
+    options: UpdateConfigurationSettingOptions = { label: undefined }
   ): Promise<UpdateConfigurationSettingResponse> {
     // retrieve existing configuration, and populate configSettings for missing fields that aren't null
     const existingConfigurationSettings = await this.getConfigurationSetting(key, {
