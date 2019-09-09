@@ -99,6 +99,21 @@ describe("FileURL", () => {
 
     const result = await fileURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+    const respFileAttributesFromDownload = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributesFromDownload.readonly);
+    assert.ok(respFileAttributesFromDownload.hidden);
+    assert.ok(respFileAttributesFromDownload.system);
+    assert.ok(respFileAttributesFromDownload.archive);
+    assert.ok(respFileAttributesFromDownload.offline);
+    assert.ok(respFileAttributesFromDownload.notContentIndexed);
+    assert.ok(respFileAttributesFromDownload.noScrubData);
+    assert.ok(respFileAttributesFromDownload.temporary);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!); 
 
     const properties = await fileURL.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, options.fileHTTPHeaders.fileCacheControl);
