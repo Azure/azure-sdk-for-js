@@ -1,9 +1,6 @@
 import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import {
-  CertificatePolicy,
-  KeyVaultClientCreateCertificateOptionalParams,
-} from "./core/models";
+import { CertificatePolicy, KeyVaultClientCreateCertificateOptionalParams } from "./core/models";
 
 /**
  * Defines values for contentType.
@@ -11,7 +8,7 @@ import {
  * @readonly
  * @enum {string}
  */
-export type CertificateContentType = 'application/pem' | 'application/x-pkcs12' | undefined;
+export type CertificateContentType = "application/pem" | "application/x-pkcs12" | undefined;
 
 /**
  * @interface
@@ -44,7 +41,7 @@ export interface Certificate extends CertificateAttributes {
  * @interface
  * An interface representing a full certificate
  */
-export interface CertificateWithPolicy extends Certificate { 
+export interface CertificateWithPolicy extends Certificate {
   /**
    * @member {CertificatePolicy} [policy] The management policy.
    * **NOTE: This property will not be serialized. It can only be populated by
