@@ -373,7 +373,7 @@ export class CertificatesClient {
    * @returns Promise<Contacts>
    */
   public async deleteCertificateContacts(options?: RequestOptions): Promise<Contacts> {
-    const span = this.createSpan("deleteCertificateContacts", options);
+    const span = this.createSpan("deleteCertificateContacts", options && options.requestOptions);
     span.start();
  
     let result = await this.client.deleteCertificateContacts(this.vaultBaseUrl, options)
