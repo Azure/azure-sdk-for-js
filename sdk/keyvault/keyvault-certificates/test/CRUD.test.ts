@@ -224,6 +224,20 @@ describe("Certificates client - create, read, update and delete", () => {
     getResponse = await client.getCertificateIssuer(issuerName);
     assert.equal(getResponse.provider, "Test");
 
+    // Update
+    await client.updateCertificateIssuer(issuerName, {
+      organizationDetails: {
+        adminDetails: [{
+          firstName: "John",
+          lastName: "Doe",
+          emailAddress: "admin@microsoft.com",
+          phone: "4255555555"
+        }]
+      }
+    });
+    getResponse = await client.getCertificateIssuer(issuerName);
+    assert.equal(getResponse.organizationDetails.adminDetails[0].emailAddress, "admin@microsoft.com");
+ 
     // Delete
     await client.deleteCertificateIssuer(issuerName);
     let error;
