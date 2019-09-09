@@ -11,6 +11,11 @@
 - Adds `TracingPolicy` to support setting `traceparent` and `tracestate` headers
 when setting spans in operation as per the [trace context HTTP headers format](https://www.w3.org/TR/trace-context/#trace-context-http-headers-format).
 ([PR #4712](https://github.com/Azure/azure-sdk-for-js/pull/4712)).
+- Adds `text/plain` as an accepted MIME type for JSON output.
+([PR #4975](https://github.com/Azure/azure-sdk-for-js/pull/4975)).
+- Exposes `ProxySettings` type. ([PR #5043](https://github.com/Azure/azure-sdk-for-js/pull/5043)).
+- Fixes bug where `WebResource.clone` would not copy `proxySettings` or `keepAlive` settings.
+([PR #5047](https://github.com/Azure/azure-sdk-for-js/pull/5047)).
 
 ## 1.0.0-preview.2 - 2019-08-05
 
