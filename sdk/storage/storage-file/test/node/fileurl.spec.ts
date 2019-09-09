@@ -8,8 +8,9 @@ import { ShareURL } from "../../src/ShareURL";
 import { bodyToString, getBSU } from "../utils";
 import { Buffer } from "buffer";
 import { record } from "../utils/recorder";
+import { FileSASPermissions, generateFileSASQueryParameters, SharedKeyCredential } from "../../src"
 
-describe("BlockBlobURL Node.js only", () => {
+describe("FileURL Node.js only", () => {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;
@@ -77,5 +78,39 @@ describe("BlockBlobURL Node.js only", () => {
     await fileURL.uploadRange(Aborter.none, body, 0, bodyLength);
     const result = await fileURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, bodyLength), body);
+  });
+
+  it("uploadRangeFromURL", async () => {
+    await fileURL.create(Aborter.none, 1024);
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+
+    // Get a SAS for fileURL
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateFileSASQueryParameters(
+      {
+        expiryTime,
+        shareName,
+        filePath: `${dirName}/${fileName}`,
+        permissions: FileSASPermissions.parse("r").toString()
+      },
+      fileURL.pipeline.factories[fileURL.pipeline.factories.length - 1] as SharedKeyCredential
+    );
+
+    const fileName2 = recorder.getUniqueName("file2");
+    const fileURL2 = FileURL.fromDirectoryURL(dirURL, fileName2);
+
+    await fileURL2.create(Aborter.none, 1024);
+
+    await fileURL2.uploadRangeFromURL(Aborter.none, `${fileURL.url}?${sas}`, 0, 0, 512);
+    await fileURL2.uploadRangeFromURL(Aborter.none, `${fileURL.url}?${sas}`, 512, 512, 512);
+
+    const range1 = await fileURL2.download(Aborter.none, 0, 512);
+    const range2 = await fileURL2.download(Aborter.none, 512, 512);
+
+    assert.equal(await bodyToString(range1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 });

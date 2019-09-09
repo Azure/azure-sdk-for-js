@@ -30,6 +30,7 @@ describe("ContainerURL", () => {
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
+    assert.ok(result.clientRequestId);
     assert.ok(result.version);
     assert.ok(result.date);
   });

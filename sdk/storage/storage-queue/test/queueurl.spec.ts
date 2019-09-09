@@ -42,6 +42,7 @@ describe("QueueURL", () => {
     const result = await queueURL.getProperties(Aborter.none);
     assert.ok(result.approximateMessagesCount! >= 0);
     assert.ok(result.requestId);
+    assert.ok(result.clientRequestId);
     assert.ok(result.version);
     assert.ok(result.date);
   });
