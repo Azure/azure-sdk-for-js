@@ -354,7 +354,7 @@ export class CertificatesClient {
     certificateName: string,
     options?: RequestOptions
   ): Promise<DeletedCertificate> {
-    const span = this.createSpan("deleteCertificate", options);
+    const span = this.createSpan("deleteCertificate", options && options.requestOptions);
     span.start();
  
     const response = await this.client.deleteCertificate(this.vaultBaseUrl, certificateName, options)
