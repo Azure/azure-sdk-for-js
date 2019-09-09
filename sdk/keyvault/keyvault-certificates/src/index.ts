@@ -543,7 +543,7 @@ export class CertificatesClient {
    * @returns Promise<Models.GetCertificateIssuerResponse>
    */
   public async getCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer> {
-    const span = this.createSpan("getCertificateIssuer", options);
+    const span = this.createSpan("getCertificateIssuer", options && options.requestOptions);
     span.start();
  
     let result = await this.client.getCertificateIssuer(this.vaultBaseUrl, issuerName, options)
