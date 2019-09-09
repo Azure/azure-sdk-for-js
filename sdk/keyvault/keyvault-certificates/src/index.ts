@@ -766,7 +766,7 @@ export class CertificatesClient {
     tags?: CertificateTags,
     options?: RequestOptions
   ): Promise<Certificate> {
-    const span = this.createSpan("createCertificate", options);
+    const span = this.createSpan("createCertificate", options && options.requestOptions);
     span.start();
 
     let result = await this.client
