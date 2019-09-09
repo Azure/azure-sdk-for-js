@@ -11,6 +11,7 @@ export {
   BlobFlatListSegment,
   BlobHierarchyListSegment,
   BlobItem,
+  BlobMetadata,
   BlobPrefix,
   BlobProperties,
   ContainerAcquireLeaseHeaders,

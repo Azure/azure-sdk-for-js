@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0-preview.3 - 2019-09-09
+
+- Fixed a ping timeout issue. The timeout is now configurable. ([PR #4941](https://github.com/Azure/azure-sdk-for-js/pull/4941))
+- Fixed IMDS endpoint detection false positive ([PR #4909](https://github.com/Azure/azure-sdk-for-js/pull/4909))
+
 ## 1.0.0-preview.2 - 2019-08-05
 
 - Introduced the following credential types:

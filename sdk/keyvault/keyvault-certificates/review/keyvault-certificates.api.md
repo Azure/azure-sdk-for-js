@@ -78,7 +78,7 @@ export class CertificatesClient {
     deleteCertificateContacts(options?: RequestOptions): Promise<Contacts>;
     deleteCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer>;
     deleteCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
-    getCertificate(name: string, version: string, requestOptions?: RequestOptionsBase): Promise<Certificate>;
+    getCertificate(name: string, version: string, options?: RequestOptions): Promise<Certificate>;
     getCertificateContacts(options?: RequestOptions): Promise<Contacts>;
     getCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer>;
     getCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;

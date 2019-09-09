@@ -6,13 +6,24 @@ import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/src/models";
 import { File } from "./generated/src/operations";
 import { IRange, rangeToString } from "./IRange";
-import { IFileHTTPHeaders, IMetadata } from "./models";
+import { 
+  IFileHTTPHeaders, 
+  IMetadata, 
+  IFileAndDirectoryCreateCommonOptions, 
+  IFileAndDirectorySetPropertiesCommonOptions,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+} from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 import { DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS, FILE_MAX_SIZE_BYTES, FILE_RANGE_MAX_SIZE_BYTES } from "./utils/constants";
 import { appendToURLPath } from "./utils/utils.common";
+import { FileSystemAttributes } from './FileSystemAttributes';
 
-export interface IFileCreateOptions {
+export interface IFileCreateOptions extends IFileAndDirectoryCreateCommonOptions {
   /**
    * File HTTP headers like Content-Type.
    *
@@ -30,6 +41,18 @@ export interface IFileCreateOptions {
    */
   metadata?: IMetadata;
 }
+
+export interface IFileProperties extends IFileAndDirectorySetPropertiesCommonOptions {
+  /**
+   * File HTTP headers like Content-Type.
+   *
+   * @type {IFileHTTPHeaders}
+   * @memberof IFileCreateOptions
+   */
+  fileHTTPHeaders?: IFileHTTPHeaders;
+}
+
+export interface ISetPropertiesResponse extends Models.FileSetHTTPHeadersResponse {}
 
 export interface IFileDownloadOptions {
   /**
@@ -88,6 +111,29 @@ export interface IFileUploadRangeOptions {
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
+
+/**
+ * The option is defined as parity to REST definition.
+ * While it's not ready to be used now, considering Crc64 of source content is 
+ * not accessible.
+ */
+// export interface IFileUploadRangeFromURLOptions {
+//   /**
+//    * Crc64 of the source content.
+//    *
+//    * @type {Uint8Array}
+//    * @memberof IFileUploadRangeFromURLOptions
+//    */
+//   sourceContentCrc64?: Uint8Array;
+
+//   /**
+//    * Source modified access condition.
+//    * 
+//    * @type {Models.SourceModifiedAccessConditions}
+//    * @memberof IFileUploadRangeFromURLOptions
+//    */
+//   sourceModifiedAccessConditions?: Models.SourceModifiedAccessConditions;
+// }
 
 export interface IFileGetRangeListOptions {
   /**
@@ -233,12 +279,29 @@ export class FileURL extends StorageURL {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
     }
 
+    options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+
+    if (!options.fileAttributes) {
+      // Note: It would be Archive in service side if None is set.
+      const attributes: FileSystemAttributes = new FileSystemAttributes();
+      attributes.none = true;
+      options.fileAttributes = attributes;
+    }
+
     options.fileHTTPHeaders = options.fileHTTPHeaders || {};
-    return this.context.create(size, {
-      abortSignal: aborter,
-      fileHTTPHeaders: options.fileHTTPHeaders,
-      metadata: options.metadata
-    });
+
+    return this.context.create(
+      size, 
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        fileHTTPHeaders: options.fileHTTPHeaders,
+        metadata: options.metadata,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      });
   }
 
   /**
@@ -343,6 +406,39 @@ export class FileURL extends StorageURL {
   }
 
   /**
+   * Sets properties on the file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {properties} [IFileProperties] File properties. For file HTTP headers(e.g. Content-Type),
+   *                                       if no values are provided, existing HTTP headers will be removed.
+   *                                       For other file properties(e.g. fileAttributes), if no values are provided,
+   *                                       existing values will be preserved.
+   * @returns {Promise<ISetPropertiesResponse>}
+   * @memberof FileURL
+   */
+  public async setProperties(
+    aborter: Aborter,
+    properties: IFileProperties = {}
+  ): Promise<ISetPropertiesResponse> {
+    properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
+
+    properties.fileHTTPHeaders = properties.fileHTTPHeaders || {};
+
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(properties.fileAttributes!),
+      fileCreationTimeToString(properties.creationTime!),
+      fileLastWriteTimeToString(properties.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        fileHTTPHeaders: properties.fileHTTPHeaders,
+        filePermission: properties.filePermission,
+        filePermissionKey: properties.filePermissionKey
+      });
+  }
+
+  /**
    * Removes the file from the storage account.
    * When a file is successfully deleted, it is immediately removed from the storage
    * account's index and is no longer accessible to clients. The file's data is later
@@ -385,10 +481,20 @@ export class FileURL extends StorageURL {
     aborter: Aborter,
     fileHTTPHeaders: IFileHTTPHeaders = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
-    return this.context.setHTTPHeaders({
-      abortSignal: aborter,
-      fileHTTPHeaders
-    });
+    let options: IFileAndDirectorySetPropertiesCommonOptions = {};
+    // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
+    options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
+
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        fileHTTPHeaders: fileHTTPHeaders,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      });
   }
 
   /**
@@ -411,10 +517,21 @@ export class FileURL extends StorageURL {
     if (length < 0) {
       throw new RangeError(`Size cannot less than 0 when resizing file.`);
     }
-    return this.context.setHTTPHeaders({
-      abortSignal: aborter,
-      fileContentLength: length
-    });
+
+    let options: IFileAndDirectorySetPropertiesCommonOptions = {};
+    // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
+    options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
+
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        fileContentLength: length,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      });
   }
 
   /**
@@ -445,13 +562,13 @@ export class FileURL extends StorageURL {
    * range must be specified. The range can be up to 4 MB in size.
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
+   *                          goto documents of Aborter for more examples about request cancellation.
    * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} offset Offset position of the destination Azure File to upload.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {IFileUploadRangeOptions} [options]
+   * @param {IFileUploadRangeOptions} [options={}]
    * @returns {Promise<Models.FileUploadRangeResponse>}
    * @memberof FileURL
    */
@@ -462,12 +579,12 @@ export class FileURL extends StorageURL {
     contentLength: number,
     options: IFileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
-    if (offset < 0 || contentLength <= 0) {
-      throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
+    if (offset < 0) {
+      throw new RangeError(`offset must be >= 0`);
     }
 
-    if (contentLength > FILE_RANGE_MAX_SIZE_BYTES) {
-      throw new RangeError(`offset must be < ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
+    if (contentLength <= 0 || contentLength > FILE_RANGE_MAX_SIZE_BYTES) {
+      throw new RangeError(`contentLength must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
     }
 
     return this.context.uploadRange(
@@ -479,6 +596,45 @@ export class FileURL extends StorageURL {
         contentMD5: options.contentMD5,
         onUploadProgress: options.progress,
         optionalbody: body
+      }
+    );
+  }
+
+  /**
+   * Upload a range of bytes to a file where the contents are read from a another file's URL.
+   * The range can be up to 4 MB in size.
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation.
+   * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication.
+   * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source file.
+   * @param {number} destOffset Offset of destination file.
+   * @param {number} count Number of bytes to be uploaded from source file.
+   * @returns {Promise<Models.FileUploadRangeFromURLResponse>}
+   * @memberof FileURL
+   */
+  public async uploadRangeFromURL(
+    aborter: Aborter,
+    sourceURL: string,
+    sourceOffset: number,
+    destOffset: number,
+    count: number
+  ): Promise<Models.FileUploadRangeFromURLResponse> {
+    if (sourceOffset < 0 || destOffset < 0) {
+      throw new RangeError(`sourceOffset and destOffset must be >= 0`);
+    }
+
+    if (count <= 0 || count > FILE_RANGE_MAX_SIZE_BYTES) {
+      throw new RangeError(`count must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
+    }
+
+    return this.context.uploadRangeFromURL(
+      rangeToString({ offset: destOffset, count }),
+      sourceURL,
+      rangeToString({ offset: sourceOffset, count }),
+      0,
+      {
+        abortSignal: aborter
       }
     );
   }

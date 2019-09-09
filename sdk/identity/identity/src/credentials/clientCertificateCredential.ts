@@ -61,9 +61,7 @@ export class ClientCertificateCredential implements TokenCredential {
     const matchCert = this.certificateString.match(certificatePattern);
     const publicKey = matchCert ? matchCert[3] : "";
     if (!publicKey) {
-      throw new Error(
-        "The file at the specified path does not contain a PEM-encoded certificate."
-      );
+      throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
     }
 
     this.certificateThumbprint = createHash("sha1")

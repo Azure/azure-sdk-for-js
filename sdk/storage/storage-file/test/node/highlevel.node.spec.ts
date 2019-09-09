@@ -14,7 +14,7 @@ import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
-describe("Highlevel", () => {
+describe("Highlevel Node.js only", () => {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;
