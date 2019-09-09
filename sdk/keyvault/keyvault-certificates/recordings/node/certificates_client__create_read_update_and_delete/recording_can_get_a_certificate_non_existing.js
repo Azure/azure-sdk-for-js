@@ -22,19 +22,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-<<<<<<< HEAD
-  '464dbf92-2f93-4867-bd73-bddb56928f51',
-=======
-  '29576954-0efc-467b-9054-8b8238a689c8',
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+  '6fbe84f0-9ac0-49ba-9d68-022c69fc7e03',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-<<<<<<< HEAD
-  'addr=168.62.167.138;act_addr_fam=InterNetwork;',
-=======
-  'addr=13.92.153.51;act_addr_fam=InterNetwork;',
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+  'addr=40.85.182.188;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -44,18 +36,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-<<<<<<< HEAD
-  'Fri, 06 Sep 2019 15:11:34 GMT',
-=======
-  'Sat, 07 Sep 2019 17:32:38 GMT',
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+  'Mon, 09 Sep 2019 17:30:51 GMT',
   'Connection',
   'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -68,33 +56,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-<<<<<<< HEAD
-  '3444c114-3d62-41c9-9dff-f74cab1e1c00',
+  'd4bc5fe8-dec8-4b3b-a887-d946f33c8b00',
   'x-ms-ests-server',
   '2.1.9338.12 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AmujurE_V2xJoXVDq24I-no_aSJHAQAAACduBNUOAAAA; expires=Sun, 06-Oct-2019 15:11:35 GMT; path=/; secure; HttpOnly',
-=======
-  'baebd86f-414b-4f70-a647-0418f0e73f00',
-  'x-ms-ests-server',
-  '2.1.9338.12 - NCUS ProdSlices',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AsuKYAVsQYJJsqHXBOUlvas_aSJHAQAAALbgBdUOAAAA; expires=Mon, 07-Oct-2019 17:32:38 GMT; path=/; secure; HttpOnly',
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+  'fpc=AjZ2nLznOPFMkqpP89sqTRE_aSJHAQAAAEuDCNUOAAAA; expires=Wed, 09-Oct-2019 17:30:52 GMT; path=/; secure; HttpOnly',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-<<<<<<< HEAD
-  'Fri, 06 Sep 2019 15:11:35 GMT',
-=======
-  'Sat, 07 Sep 2019 17:32:38 GMT',
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+  'Mon, 09 Sep 2019 17:30:51 GMT',
   'Connection',
   'close',
   'Content-Length',
@@ -119,19 +93,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-<<<<<<< HEAD
-  'f852edfe-7da4-4db7-a2f6-618dbfa9d8b5',
-=======
-  '08ca68b8-d36d-41a6-a451-6364f0a5b913',
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+  'b7b32555-3736-4f7f-a1c9-344ce8d292c1',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-<<<<<<< HEAD
-  'addr=168.62.167.138;act_addr_fam=InterNetwork;',
-=======
-  'addr=13.92.153.51;act_addr_fam=InterNetwork;',
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+  'addr=40.85.182.188;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -141,11 +107,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-<<<<<<< HEAD
-  'Fri, 06 Sep 2019 15:11:35 GMT',
-=======
-  'Sat, 07 Sep 2019 17:32:38 GMT',
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+  'Mon, 09 Sep 2019 17:30:52 GMT',
   'Connection',
   'close' ]);
 

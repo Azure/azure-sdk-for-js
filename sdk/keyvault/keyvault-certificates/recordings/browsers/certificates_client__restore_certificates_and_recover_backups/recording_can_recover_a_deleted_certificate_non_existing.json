@@ -12,11 +12,7 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
-<<<<<<< HEAD
-    "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
-=======
-    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+    "x-ms-keyvault-network-info": "addr=40.85.182.188;act_addr_fam=InterNetwork;",
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "401",
@@ -24,17 +20,10 @@
     "content-length": "87",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
-<<<<<<< HEAD
-    "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 06 Sep 2019 15:34:49 GMT",
-    "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "ef02c67e-b7ea-4cdf-b9a3-90f2211e0226",
-=======
     "x-ms-keyvault-service-version": "1.1.0.878",
-    "date": "Sat, 07 Sep 2019 17:27:05 GMT",
+    "date": "Mon, 09 Sep 2019 17:25:59 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "dea0740b-85b4-49c9-981f-786473fa8ad7",
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+    "x-ms-request-id": "2f2fb192-6de2-41c2-b773-f598d765db4e",
     "cache-control": "no-cache",
     "x-content-type-options": "nosniff",
     "expires": "-1"
@@ -51,23 +40,13 @@
     "pragma": "no-cache",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-<<<<<<< HEAD
-    "date": "Fri, 06 Sep 2019 15:34:49 GMT",
+    "date": "Mon, 09 Sep 2019 17:25:59 GMT",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "x-ms-request-id": "ffeb46b3-ef23-4776-95b7-2cb7bc4f1d00",
+    "x-ms-request-id": "5b8500cc-92b0-433f-94b8-63df342d8f00",
     "cache-control": "no-cache, no-store",
     "content-type": "application/json; charset=utf-8",
     "content-length": "1231",
-    "x-ms-ests-server": "2.1.9338.12 - SCUS ProdSlices",
-=======
-    "date": "Sat, 07 Sep 2019 17:27:06 GMT",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "x-ms-request-id": "6fe599fa-9aee-4246-8d7b-44c424fe4300",
-    "cache-control": "no-cache, no-store",
-    "content-type": "application/json; charset=utf-8",
-    "content-length": "1231",
-    "x-ms-ests-server": "2.1.9338.12 - NCUS ProdSlices",
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+    "x-ms-ests-server": "2.1.9338.12 - EUS ProdSlices",
     "referrer-policy": "strict-origin-when-cross-origin",
     "expires": "-1"
    }
@@ -84,29 +63,18 @@
    "responseHeaders": {
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
-<<<<<<< HEAD
-    "x-ms-keyvault-network-info": "addr=168.62.167.138;act_addr_fam=InterNetwork;",
-=======
-    "x-ms-keyvault-network-info": "addr=13.92.153.51;act_addr_fam=InterNetwork;",
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+    "x-ms-keyvault-network-info": "addr=40.85.182.188;act_addr_fam=InterNetwork;",
     "x-aspnet-version": "4.0.30319",
     "x-powered-by": "ASP.NET",
     "status": "404",
     "x-ms-keyvault-region": "westus",
-    "content-length": "156",
+    "content-length": "155",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
-<<<<<<< HEAD
-    "x-ms-keyvault-service-version": "1.1.0.876",
-    "date": "Fri, 06 Sep 2019 15:34:49 GMT",
-    "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "7643ca05-9d24-4021-b217-f0200e345c47",
-=======
     "x-ms-keyvault-service-version": "1.1.0.878",
-    "date": "Sat, 07 Sep 2019 17:27:05 GMT",
+    "date": "Mon, 09 Sep 2019 17:25:59 GMT",
     "content-type": "application/json; charset=utf-8",
-    "x-ms-request-id": "8f5cece7-f4ac-4f0c-83c7-a2330b71f857",
->>>>>>> [KeyVault-Certificates] Tweaks to the tests
+    "x-ms-request-id": "90ccf09c-6d5a-4b27-bfc2-29fbf4ca94e7",
     "cache-control": "no-cache",
     "expires": "-1"
    }
