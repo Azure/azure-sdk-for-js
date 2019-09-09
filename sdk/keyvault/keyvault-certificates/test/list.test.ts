@@ -22,8 +22,6 @@ describe("Certificates client - list certificates in various ways", () => {
     x509CertificateProperties: { subject: "cn=MyCert" }
   };
 
-  const includePending = { requestOptions: { includePending: true } };
-
   beforeEach(async function() {
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
@@ -40,12 +38,12 @@ describe("Certificates client - list certificates in various ways", () => {
 
   it("can purge all certificates", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    for await (const certificate of client.listCertificates(includePending)) {
+    for await (const certificate of client.listCertificates({ includePending: true })) {
       try {
         await testClient.flushCertificate(certificate.name);
       } catch(e) {}
     }
-    for await (const certificate of client.listDeletedCertificates(includePending)) {
+    for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
       try {
         await testClient.purgeCertificate(certificate.name);
       } catch(e) {}
@@ -62,7 +60,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
 
     let found = 0;
-    for await (const certificate of client.listCertificates(includePending)) {
+    for await (const certificate of client.listCertificates({ includePending: true })) {
       // The vault might contain more certificates than the ones we inserted.
       if (!certificateNames.includes(certificate.name)) continue;
       found += 1;
@@ -98,7 +96,7 @@ describe("Certificates client - list certificates in various ways", () => {
       }
 
       let found = 0;
-      for await (const certificate of client.listDeletedCertificates(includePending)) {
+      for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
         // The vault might contain more certificates than the ones we inserted.
         if (!certificateNames.includes(certificate.name)) continue;
         found += 1;
@@ -121,7 +119,7 @@ describe("Certificates client - list certificates in various ways", () => {
       await client.createCertificate(name, basicCertificatePolicy);
     }
     let found = 0;
-    for await (const page of client.listCertificates(includePending).byPage()) {
+    for await (const page of client.listCertificates({ includePending: true }).byPage()) {
       for (const certificate of page) {
         // The vault might contain more certificates than the ones we inserted.
         if (!certificateNames.includes(certificate.name)) continue;
@@ -152,7 +150,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
 
     let found = 0;
-    for await (const page of client.listDeletedCertificates(includePending).byPage()) {
+    for await (const page of client.listDeletedCertificates({ includePending: true }).byPage()) {
       for (const certificate of page) {
         // The vault might contain more certificates than the ones we inserted.
         if (!certificateNames.includes(certificate.name)) continue;
@@ -193,7 +191,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
 
     const results: VersionTagPair[] = [];
-    for await (const item of client.listCertificateVersions(certificateName, includePending)) {
+    for await (const item of client.listCertificateVersions(certificateName, { includePending: true })) {
       const version = item.version!;
       const certificate = await client.getCertificate(certificateName, version);
       // Versions don't match. Something must be happening under the hood.
