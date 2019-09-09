@@ -22,9 +22,22 @@ Before running a sample, update it with the connection string and the Event Hub 
 
 ## Running a sample
 
+Start by copying the sample into a npm project.
+```bash
+mkdir event-hubs-samples
+cd event-hubs-samples
+npm init
+# copy sample into this directory
+```
+
 If you don't have Typescript installed, then use `npm` to install it first.
 ```bash
 npm install -g typescript
+```
+
+Install the `@azure/event-hubs@next` package into your project, as well as any other dependencies you might need.
+```bash
+npm install --save @azure/event-hubs@next
 ```
 
 One way to run Typescript samples is to use `ts-node`. To install `ts-node`, run the below in your sample folder
@@ -32,7 +45,7 @@ One way to run Typescript samples is to use `ts-node`. To install `ts-node`, run
 npm install ts-node
 ```
 
-Copy the sample to your samples folder and use `ts-node` to run it.
+Use `ts-node` to run the sample copied previously.
 ```bash
 ts-node sample.ts
 ```

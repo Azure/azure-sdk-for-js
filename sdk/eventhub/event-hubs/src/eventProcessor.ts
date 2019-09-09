@@ -89,6 +89,7 @@ export interface PartitionOwnership {
  * But in production, you should choose an implementation of the `PartitionManager` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
  *
+ * Implementations of `PartitionManager` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  */
 export interface PartitionManager {
   /**
@@ -123,6 +124,14 @@ export interface PartitionManager {
  * - `maxBatchSize`: The max size of the batch of events passed each time to user code for processing.
  * - `maxWaitTimeInSeconds`: The maximum amount of time to wait to build up the requested message count before
  * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
+ * 
+ * Example usage with default values:
+ * ```ts
+ * {
+ *     maxBatchSize: 1,
+ *     maxWaitTimeInSeconds: 60
+ * }
+ * ```
  */
 export interface EventProcessorOptions {
   /**
@@ -137,7 +146,7 @@ export interface EventProcessorOptions {
 }
 
 /**
- * Event Processor based application consists of one or more instances of EventProcessor which have been
+ * Event Processor based applications consist of one or more instances of EventProcessor which have been
  * configured to consume events from the same Event Hub and consumer group. They balance the
  * workload across different instances by distributing the partitions to be processed among themselves.
  * They also allow the user to track progress when events are processed using checkpoints.
@@ -151,9 +160,9 @@ export interface EventProcessorOptions {
  * - A user implemented class that extends the `PartitionProcessor` class. To get started, you can use the
  * base class `PartitionProcessor` which simply logs the incoming events. To provide your code to process incoming
  * events, extend this class and override the `processEvents()` method. For example:
- * ```
+ * ```ts
  * class SamplePartitionProcessor extends PartitionProcessor {
- *     processEvents: (events, partitionContext) => {
+ *     async processEvents(events: ReceivedEventData[], partitionContext: PartitionContext) {
  *        // user code to process events here
  *        // use `partitionContext` property to get information on the partition
  *        // use `partitionContext.updateCheckpoint()` method to update checkpoints as needed
@@ -162,6 +171,7 @@ export interface EventProcessorOptions {
  * ```
  * - An instance of `PartitionManager`. To get started, you can pass an instance of `InMemoryPartitionManager`.
  * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
+ * Implementations of `PartitionManager` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  *
  * @class EventProcessor
  */
@@ -179,13 +189,13 @@ export class EventProcessor {
   private _partitionLoadBalancer: PartitionLoadBalancer;
 
   /**
-   * @param consumerGroupName The name of the consumer group from which you want to process events
+   * @param consumerGroupName The name of the consumer group from which you want to process events.
    * @param eventHubClient An instance of `EventHubClient` that was created for the Event Hub instance.
-   * @param partitionProcessorFactory A factory method that can return an object that implements the `PartitionProcessor` interface.
+   * @param PartitionProcessorClass A user-provided class that extends the `PartitionProcessor` class.
+   * This class will be responsible for processing and checkpointing events.
    * @param partitionManager An instance of `PartitionManager`. To get started, you can pass an instance of `InMemoryPartitionManager`.
    * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
    * @param options A set of options to configure the Event Processor
-   * - `initialEventPosition` : The position from where to start processing events.
    * - `maxBatchSize`         : The max size of the batch of events passed each time to user code for processing.
    * - `maxWaitTimeInSeconds` : The maximum amount of time to wait to build up the requested message count before
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
@@ -345,7 +355,7 @@ export class EventProcessor {
    * Starts the `EventProcessor`. Based on the number of instances of `EventProcessor` that are running for the
    * same consumer group, the partitions are distributed among these instances to process events.
    *
-   * For each partition, the user provided `PartitionProcessorFactory` is called to create a `PartitionProcessor`.
+   * For each partition, the user provided `PartitionProcessor` is instantiated.
    *
    * Subsequent calls to start will be ignored if this event processor is already running.
    * Calling `start()` after `stop()` is called will restart this event processor.

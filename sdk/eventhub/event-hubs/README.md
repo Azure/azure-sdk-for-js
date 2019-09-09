@@ -210,8 +210,10 @@ The `EventProcessor` will delegate the processing of events to a [PartitionProce
 that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer
 operations including checkpointing and load balancing.
 
-While load balancing is a feature we will be adding in the next update, you can see how to use the `EventProcessor` in the below
-example, where we use an [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html) that does checkpointing in memory.
+While load balancing is ypically useful when running multiples instances of `EventProcessor` across multiple processes or even hosts,
+you can see it action in the below example, where we use an [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html)
+that does checkpointing in memory. We pass the `InMemoryPartitionManager` to both instances of `EventProcessor` so that state
+about which partitions are being processed by which instances of `EventProcessor` can be shared.
 
 ```javascript
 class SamplePartitionProcessor extends PartitionProcessor {
@@ -238,20 +240,29 @@ class SamplePartitionProcessor extends PartitionProcessor {
 }
 
 const client = new EventHubClient("my-connection-string", "my-event-hub");
-const processor = new EventProcessor(
+const partitionManager = new InMemoryPartitionManager();
+const processor1 = new EventProcessor(
   EventHubClient.defaultConsumerGroupName,
   client,
   SamplePartitionProcessor,
-  new InMemoryPartitionManager()
+  partitionManager
 );
-await processor.start();
-// At this point, the processor is consuming events from each partition of the Event Hub and
-// delegating them to the SamplePartitionProcessor instance created for that partition.  This
-// processing takes place in the background and will not block.
+const processor2 = new EventProcessor(
+  EventHubClient.defaultConsumerGroupName,
+  client,
+  SamplePartitionProcessor,
+  partitionManager
+);
+await processor1.start();
+await processor2.start();
+// At this point, both processors are consuming events from different partitions of the Event Hub and
+// delegating them to the SamplePartitionProcessor instance created for that partition.
+// This processing takes place in the background and will not block.
 //
-// In this example, we'll stop processing after five seconds.
-await delay(5000);
-await processor.stop();
+// In this example, we'll stop processing after thirty seconds.
+await delay(30000);
+await processor1.stop();
+await processor2.stop();
 ```
 
 To control the number of events passed to processEvents, use the options argument in the EventProcessor constructor.
