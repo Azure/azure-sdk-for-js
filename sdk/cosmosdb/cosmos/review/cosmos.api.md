@@ -364,6 +364,7 @@ export interface CosmosClientOptions {
     };
     // Warning: (ae-forgotten-export) The symbol "TokenProvider" needs to be exported by the entry point index.d.ts
     tokenProvider?: TokenProvider;
+    userAgentSuffix?: string;
 }
 
 // @public (undocumented)
@@ -578,12 +579,12 @@ export class Items {
     query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
-    readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
     readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
+    readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
 }
@@ -1096,8 +1097,8 @@ export class TimeSpan {
     // (undocumented)
     static additionDoesOverflow(a: number, b: number): boolean;
     // (undocumented)
-    static compare(t1: TimeSpan, t2: TimeSpan): 1 | -1 | 0;
-    compareTo(value: TimeSpan): 1 | -1 | 0;
+    static compare(t1: TimeSpan, t2: TimeSpan): 0 | 1 | -1;
+    compareTo(value: TimeSpan): 0 | 1 | -1;
     // (undocumented)
     days(): number;
     duration(): TimeSpan;
