@@ -1,8 +1,12 @@
 import { CertificatesClient } from "../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
-// This sample creates a self-signed certificate, reads it in various ways,
-// updates the tags of the certificate and finaly deletes the certificate.
+// This sample creates a self-signed certificate, then makes a backup from it,
+// then deletes it and purges it, and finally restores it.
+
+export function delay<T>(t: number, value?: T): Promise<T> {
+  return new Promise((resolve) => setTimeout(() => resolve(value), t));
+}
 
 async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
@@ -24,31 +28,20 @@ async function main(): Promise<void> {
 
   console.log("Certificate: ", certificate);
 
-  // To read a certificate with their policy:
-  const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
-  // Note: It will always read the latest version of the certificate.
+  const backup = await client.backupCertificate("MyCertificate");
 
-  console.log("Certificate with policy:", certificateWithPolicy);
+  await client.deleteCertificate("MyCertificate");
 
-  // To read a certificate from a specific version:
-  const certificateFromVersion = await client.getCertificate(
-    "MyCertificate",
-    certificateWithPolicy.version
-  );
-  // Note: It will not retrieve the certificate's policy.
-  console.log("Certificate from a specific version:", certificateFromVersion);
+  // It might take less time, or more, depending on your location, internet speed and other factors.
+  await delay(10000);
 
-  const updatedCertificate = await client.updateCertificate("MyCertificate", "", {
-    tags: {
-      customTag: "value"
-    }
-  });
-  console.log("Updated certificate:", updatedCertificate);
+  await client.purgeDeletedCertificate("MyCertificate");
 
-  const result = await client.deleteCertificate("MyCertificate");
-  console.log("Recovery Id: ", result.recoveryId);
-  console.log("Deleted Date: ", result.deletedDate);
-  console.log("Scheduled Purge Date: ", result.scheduledPurgeDate);
+  await client.restoreCertificate(backup.value!);
+
+  const restoredCertificate = await client.getCertificateWithPolicy("MyCertificate");
+
+  console.log("Restored certificate: ", restoredCertificate);
 }
 
 main().catch((err) => {
