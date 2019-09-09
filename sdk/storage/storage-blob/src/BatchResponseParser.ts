@@ -29,6 +29,16 @@ export class BatchResponseParser {
     batchResponse: Models.ServiceSubmitBatchResponse,
     subRequests: Map<number, BatchSubRequest>
   ) {
+    if (!batchResponse || !batchResponse.contentType) {
+      // In special case(reported), server may return invalid content-type which could not be parsed.
+      throw new RangeError("batchResponse is malformed or doesn't contain valid content-type.")
+    }
+
+    if (!subRequests || subRequests.size === 0) {
+      // This should be prevent during coding.
+      throw new RangeError("Invalid state: subRequests is not provided or size is 0.")
+    }
+
     this.batchResponse = batchResponse;
     this.subRequests = subRequests;
     this.responseBatchBoundary = this.batchResponse.contentType!.split("=")[1];
