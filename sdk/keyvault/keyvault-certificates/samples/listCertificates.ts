@@ -5,10 +5,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 // then changes one of them and lists all the versions of that certificate,
 // then deletes them, then lists the deleted certificates.
 
-// Recently created certificates will be pending until they're signed.
-// In this test, we are creating self-signed certificates, but they still take some time to change their state.
-const includePending = { requestOptions: { includePending: true } };
-
 async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
@@ -33,13 +29,13 @@ async function main(): Promise<void> {
 
   // Listing all the available certificates in a single call.
   // The certificates we just created are still pending at this point.
-  for await (const certificate of client.listCertificates(includePending)) {
+  for await (const certificate of client.listCertificates({ includePending: true })) {
     console.log("Certificate from a single call: ", certificate);
   }
 
   // Listing all the available certificates by pages.
   let pageCount = 0;
-  for await (const page of client.listCertificates(includePending).byPage()) {
+  for await (const page of client.listCertificates({ includePending: true }).byPage()) {
     for (const certificate of page) {
       console.log(`Certificate from page ${pageCount}: `, certificate);
     }
@@ -55,7 +51,7 @@ async function main(): Promise<void> {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  for await (const item of client.listCertificateVersions("MyCertificate1", includePending)) {
+  for await (const item of client.listCertificateVersions("MyCertificate1", { includePending: true })) {
     const version = item.version!;
     const certificate = await client.getCertificate("MyCertificate1", version);
     console.log(`Certificate from version ${version}: `, certificate);
@@ -64,7 +60,7 @@ async function main(): Promise<void> {
   // Deleting both certificates
   await client.deleteCertificate("MyCertificate1");
   await client.deleteCertificate("MyCertificate2");
-  for await (const certificate of client.listDeletedCertificates(includePending)) {
+  for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
     console.log("Deleted certificate: ", certificate);
   }
 }
