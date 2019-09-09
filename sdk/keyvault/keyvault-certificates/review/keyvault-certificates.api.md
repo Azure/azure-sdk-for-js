@@ -58,7 +58,6 @@ export interface CertificatePolicy {
     issuerParameters?: IssuerParameters;
     keyProperties?: KeyProperties;
     lifetimeActions?: LifetimeAction[];
-    // Warning: (ae-forgotten-export) The symbol "SecretProperties" needs to be exported by the entry point index.d.ts
     secretProperties?: SecretProperties;
     x509CertificateProperties?: X509CertificateProperties;
 }
@@ -257,6 +256,11 @@ export interface RetryOptions {
     readonly maxRetryDelayInMs?: number;
     readonly retryCount?: number;
     readonly retryIntervalInMS?: number;
+}
+
+// @public
+export interface SecretProperties {
+    contentType?: string;
 }
 
 // @public (undocumented)

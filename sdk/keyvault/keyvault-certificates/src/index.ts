@@ -59,6 +59,7 @@ import {
   KeyProperties,
   LifetimeAction,
   OrganizationDetails,
+  SecretProperties,
   X509CertificateProperties
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
@@ -94,6 +95,7 @@ export {
   OrganizationDetails,
   ParsedKeyVaultEntityIdentifier,
   RequestOptions,
+  SecretProperties,
   X509CertificateProperties
 };
 
