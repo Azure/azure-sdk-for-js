@@ -8,7 +8,6 @@ import * as coreHttp from '@azure/core-http';
 import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { SupportedPlugins } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -72,7 +71,7 @@ export class CertificatesClient {
     backupCertificate(name: string, options?: RequestOptions): Promise<BackupCertificateResult>;
     cancelCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
     // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
-    createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags, options?: RequestOptionsBase): Promise<Certificate>;
+    createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags, options?: RequestOptions): Promise<Certificate>;
     protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptions): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptions): Promise<Contacts>;
@@ -84,7 +83,7 @@ export class CertificatesClient {
     getCertificateOperation(name: string, options?: RequestOptions): Promise<CertificateOperation>;
     getCertificatePolicy(name: string, options?: RequestOptions): Promise<CertificatePolicy>;
     // Warning: (ae-forgotten-export) The symbol "CertificateWithPolicy" needs to be exported by the entry point index.d.ts
-    getCertificateWithPolicy(name: string, requestOptions?: RequestOptionsBase): Promise<CertificateWithPolicy>;
+    getCertificateWithPolicy(name: string, options?: RequestOptions): Promise<CertificateWithPolicy>;
     static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedCertificate(name: string, options?: RequestOptions): Promise<DeletedCertificate>;
     importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;

@@ -5,7 +5,6 @@ import {
   RequestPolicyFactory,
   deserializationPolicy,
   signingPolicy,
-  RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
   systemErrorRetryPolicy,
@@ -15,6 +14,7 @@ import {
   getDefaultProxySettings,
   isNode,
   userAgentPolicy,
+  RequestOptionsBase,
   tracingPolicy,
   TracerProxy,
   Span,
@@ -25,7 +25,6 @@ import {
   RequestOptions,
   CertificateAttributes,
   Certificate,
-  CertificateContentType,
   CertificateWithPolicy,
   CertificateTags,
   DeletedCertificate,
@@ -775,7 +774,8 @@ export class CertificatesClient {
     name: string,
     certificatePolicy: CertificatePolicy,
     enabled?: boolean,
-    tags?: CertificateTags
+    tags?: CertificateTags,
+    options?: RequestOptions
   ): Promise<Certificate> {
     const span = this.createSpan("createCertificate", options);
     span.start();
@@ -811,17 +811,17 @@ export class CertificatesClient {
    * ```
    * @summary Retrieves a certificate from the certificate's name (includes the certificate policy)
    * @param name The name of the certificate
-   * @param requestOptions The optional parameters
+   * @param options The optional parameters
    * @returns Promise<Certificate>
    */
   public async getCertificateWithPolicy(
     name: string,
-    requestOptions?: coreHttp.RequestOptionsBase
+    options?: RequestOptions
   ): Promise<CertificateWithPolicy> {
-    const span = this.createSpan("getCertificateWithPolicy", requestOptions);
+    const span = this.createSpan("getCertificateWithPolicy", options);
     span.start();
  
-    let result = await this.client.getCertificate(this.vaultBaseUrl, name, "", { requestOptions })
+    let result = await this.client.getCertificate(this.vaultBaseUrl, name, "", options)
     .catch((err) => {
       span.end();
       throw err;
