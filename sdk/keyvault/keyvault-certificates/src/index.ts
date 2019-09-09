@@ -565,7 +565,7 @@ export class CertificatesClient {
    * @returns Promise<Models.DeleteCertificateIssuerResponse>
    */
   public async deleteCertificateIssuer(issuerName: string, options?: RequestOptions): Promise<CertificateIssuer> {
-    const span = this.createSpan("deleteCertificateIssuer", options);
+    const span = this.createSpan("deleteCertificateIssuer", options && options.requestOptions);
     span.start();
  
     let result = await this.client.deleteCertificateIssuer(this.vaultBaseUrl, issuerName, options)
