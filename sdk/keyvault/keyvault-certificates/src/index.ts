@@ -323,7 +323,7 @@ export class CertificatesClient {
    * @returns Promise<Models.GetCertificateVersionsResponse>
    */
   public listCertificateVersions(name: string, options?: RequestOptions): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
-    const span = this.createSpan("listCertificateVersions", options);
+    const span = this.createSpan("listCertificateVersions", options && options.requestOptions);
     span.start();
  
     const iter = this.listCertificateVersionsAll(name, options);
