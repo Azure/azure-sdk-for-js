@@ -22,10 +22,12 @@ export class MinAggregator implements IAggregator<number> {
    */
   public aggregate(other: number) {
     if (this.value === undefined) {
+      // || typeof this.value === "object"
       this.value = other;
     } else {
-      const otherType = other == null ? "NoValue" : typeof other;
-      if (this.comparer.compareValue(other, otherType, this.value, typeof this.value) < 0) {
+      const otherType = other === null ? "NoValue" : typeof other; // || typeof other === "object"
+      const thisType = this.value === null ? "NoValue" : typeof this.value;
+      if (this.comparer.compareValue(other, otherType, this.value, thisType) < 0) {
         this.value = other;
       }
     }

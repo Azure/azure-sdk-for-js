@@ -68,3 +68,8 @@ export const pumpManager = debugModule("azure:event-hubs:pumpManager");
  * log statements for eventProcessor
  */
 export const eventProcessor = debugModule("azure:event-hubs:eventProcessor");
+/**
+ * @ignore
+ * log statements for partitionLoadBalancer
+ */
+export const partitionLoadBalancer = debugModule("azure:event-hubs:partitionLoadBalancer");

@@ -7,7 +7,7 @@
 
 This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
 
-Please note that this version of the SDK is a compete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
+Please note that this version of the SDK is a complete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
 
 ### Features
 
@@ -159,10 +159,7 @@ async function main() {
   console.log(`List shares`);
   let marker;
   do {
-    const listSharesResponse = await serviceURL.listSharesSegment(
-      Aborter.none,
-      marker
-    );
+    const listSharesResponse = await serviceURL.listSharesSegment(Aborter.none, marker);
 
     marker = listSharesResponse.nextMarker;
     for (const share of listSharesResponse.shareItems) {
@@ -206,8 +203,7 @@ async function main() {
     for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
       console.log(`\tFile: ${file.name}`);
     }
-    for (const directory of listFilesAndDirectoriesResponse.segment
-      .directoryItems) {
+    for (const directory of listFilesAndDirectoriesResponse.segment.directoryItems) {
       console.log(`\tDirectory: ${directory.name}`);
     }
   } while (marker);
@@ -217,9 +213,7 @@ async function main() {
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
   const downloadFileResponse = await fileURL.download(Aborter.none, 0);
   console.log(
-    `Downloaded file content${await streamToString(
-      downloadFileResponse.readableStreamBody
-    )}`
+    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody)}`
   );
 
   // Delete share
@@ -231,7 +225,7 @@ async function main() {
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -246,7 +240,7 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
 ```

@@ -182,13 +182,13 @@ export class Clusters {
   /**
    * @param callback The callback
    */
-  listSkus(callback: msRest.ServiceCallback<Models.ListSkusResult>): void;
+  listSkus(callback: msRest.ServiceCallback<Models.SkuDescriptionList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListSkusResult>): void;
-  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListSkusResult>, callback?: msRest.ServiceCallback<Models.ListSkusResult>): Promise<Models.ClustersListSkusResponse> {
+  listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuDescriptionList>): void;
+  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuDescriptionList>, callback?: msRest.ServiceCallback<Models.SkuDescriptionList>): Promise<Models.ClustersListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -444,7 +444,7 @@ const listSkusOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ListSkusResult
+      bodyMapper: Mappers.SkuDescriptionList
     },
     default: {
       bodyMapper: Mappers.CloudError

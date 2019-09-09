@@ -25,7 +25,12 @@ export {
 } from "./operationParameter";
 export { OperationResponse } from "./operationResponse";
 export { OperationSpec } from "./operationSpec";
-export { ServiceClient, ServiceClientOptions, flattenResponse } from "./serviceClient";
+export {
+  ServiceClient,
+  ServiceClientOptions,
+  flattenResponse,
+  ProxySettings
+} from "./serviceClient";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export {
@@ -48,6 +53,7 @@ export { redirectPolicy } from "./policies/redirectPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export { userAgentPolicy, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
 export { deserializationPolicy, deserializeResponseBody } from "./policies/deserializationPolicy";
+export { tracingPolicy } from "./policies/tracingPolicy";
 export {
   MapperType,
   SimpleMapperType,
@@ -109,3 +115,4 @@ export { ResourceSerializer } from "./resourceSerializer";
 export { AtomResourceSerializerBase } from "./atomResourceSerializerBase";
 export { AtomXmlOperationSpec } from "./atomXmlOperationSpec";
 export { ProxySettings } from "./serviceClient";
+export * from "@azure/core-tracing";

@@ -17,6 +17,8 @@ export interface AccessToken {
 // @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
+    spanOptions?: any;
+    timeout?: number;
 }
 
 // @public

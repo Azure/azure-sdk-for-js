@@ -734,6 +734,24 @@ export const StorageServiceProperties: msRest.CompositeMapper = {
   }
 };
 
+export const Permission: msRest.CompositeMapper = {
+  serializedName: "Permission",
+  type: {
+    name: "Composite",
+    className: "Permission",
+    modelProperties: {
+      permission: {
+        xmlName: "Permission",
+        required: true,
+        serializedName: "Permission",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FileHTTPHeaders: msRest.CompositeMapper = {
   xmlName: "file-HTTP-headers",
   type: {
@@ -774,6 +792,28 @@ export const FileHTTPHeaders: msRest.CompositeMapper = {
         xmlName: "fileContentDisposition",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SourceModifiedAccessConditions: msRest.CompositeMapper = {
+  xmlName: "source-modified-access-conditions",
+  type: {
+    name: "Composite",
+    className: "SourceModifiedAccessConditions",
+    modelProperties: {
+      sourceIfMatchCrc64: {
+        xmlName: "sourceIfMatchCrc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      sourceIfNoneMatchCrc64: {
+        xmlName: "sourceIfNoneMatchCrc64",
+        type: {
+          name: "ByteArray"
         }
       }
     }
@@ -1032,6 +1072,80 @@ export const ShareCreateSnapshotHeaders: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareCreatePermissionHeaders: msRest.CompositeMapper = {
+  serializedName: "share-createpermission-headers",
+  type: {
+    name: "Composite",
+    className: "ShareCreatePermissionHeaders",
+    modelProperties: {
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareGetPermissionHeaders: msRest.CompositeMapper = {
+  serializedName: "share-getpermission-headers",
+  type: {
+    name: "Composite",
+    className: "ShareGetPermissionHeaders",
+    modelProperties: {
       requestId: {
         serializedName: "x-ms-request-id",
         type: {
@@ -1332,6 +1446,48 @@ export const DirectoryCreateHeaders: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1396,6 +1552,48 @@ export const DirectoryGetPropertiesHeaders: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1428,6 +1626,100 @@ export const DirectoryDeleteHeaders: msRest.CompositeMapper = {
         serializedName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DirectorySetPropertiesHeaders: msRest.CompositeMapper = {
+  serializedName: "directory-setproperties-headers",
+  type: {
+    name: "Composite",
+    className: "DirectorySetPropertiesHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -1654,6 +1946,48 @@ export const FileCreateHeaders: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1820,6 +2154,48 @@ export const FileDownloadHeaders: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1974,6 +2350,48 @@ export const FileGetPropertiesHeaders: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -2060,6 +2478,48 @@ export const FileSetHTTPHeadersHeaders: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -2136,6 +2596,64 @@ export const FileUploadRangeHeaders: msRest.CompositeMapper = {
       },
       contentMD5: {
         serializedName: "content-md5",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileUploadRangeFromURLHeaders: msRest.CompositeMapper = {
+  serializedName: "file-uploadrangefromurl-headers",
+  type: {
+    name: "Composite",
+    className: "FileUploadRangeFromURLHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
         type: {
           name: "ByteArray"
         }

@@ -10,7 +10,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
 
 🎉 v3 release! 🎉 Many new features, bug fixes, and a few breaking changes. Primary goals of this release:
 
-- Implement major new features: 
+- Implement major new features:
   - DISTINCT queries
   - LIMIT/OFFSET queries
   - User cancelable requests
@@ -30,17 +30,17 @@ Constructor options have been simplified:
 ```js
 // v2
 const client = new CosmosClient({
-    endpoint: "https://your-database.cosmos.azure.com",
-    auth: {
-        masterKey: "your-primary-key"
-    }
-})
+  endpoint: "https://your-database.cosmos.azure.com",
+  auth: {
+    masterKey: "your-primary-key"
+  }
+});
 
 // v3
 const client = new CosmosClient({
-    endpoint: "https://your-database.cosmos.azure.com",
-    key: "your-primary-key"
-})
+  endpoint: "https://your-database.cosmos.azure.com",
+  key: "your-primary-key"
+});
 ```
 
 #### Simplified QueryIterator API (#238 #316)
@@ -53,7 +53,7 @@ In v2 there were many different ways to iterate or retrieve results from a query
 - iterator.toArray() renamed to iterator.fetchAll()
 - Pages are now proper `Response` objects intead of plain JS objects
 
-``` js
+```js
 const container = client.database(dbId).container(containerId)
 
 // v2
@@ -79,19 +79,23 @@ Previously `upsert` was allowed for non-partitioned collections, but with the AP
 
 #### Item reads will not throw on 404 (#343, Community Request)
 
-``` js
-const container = client.database(dbId).container(containerId)
+```js
+const container = client.database(dbId).container(containerId);
 
 // v2
 try {
-    container.items.read(id, undefined)
+  container.items.read(id, undefined);
 } catch (e) {
-    if (e.code === 404) { console.log('item not found') }
+  if (e.code === 404) {
+    console.log("item not found");
+  }
 }
 
 // v3
-const { result: item }  = container.items.read(id, undefined)
-if (item === undefined) { console.log('item not found') }
+const { result: item } = container.items.read(id, undefined);
+if (item === undefined) {
+  console.log("item not found");
+}
 ```
 
 #### Default Multi Region Write (#335)
@@ -108,17 +112,17 @@ Failed requests now throw proper `Error` or subclasses of `Error`. Previously th
 
 The move to `fetch` internally allows us to use the browser `AbortController` API to support user cancellable operations. In the case of operations where multiple requests are potentially in progress (like cross partition queries), all requests for the operation will be canceled. Modern browser users will already have `AbortController`. Node.js users will need to use a [polyfill library](https://www.npmjs.com/package/node-abort-controller)
 
-``` js
- const controller = new AbortController()
- const {result: item} = await items.query('SELECT * from c', { abortSignal: controller.signal});
- controller.abort()
+```js
+const controller = new AbortController();
+const { result: item } = await items.query("SELECT * from c", { abortSignal: controller.signal });
+controller.abort();
 ```
 
 #### Set throughput as part of db/container create operation (#220)
 
-``` js
-    const { database }  = client.databases.create({ id: 'my-database', throughput: 10000 })
-    database.containers.create({ id: 'my-container', throughput: 10000 })
+```js
+const { database } = client.databases.create({ id: "my-database", throughput: 10000 });
+database.containers.create({ id: "my-container", throughput: 10000 });
 ```
 
 #### @azure/cosmos-sign (#213)
@@ -133,15 +137,15 @@ v2 had custom code to generate item IDs. We have switched to the well known and 
 
 It is now possible to pass a connection string copied from the Azure portal:
 
-``` js
-const client = new CosmosClient("AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=c213asdasdefgdfgrtweaYPpgoeCsHbpRTHhxuMsTaw==;")
+```js
+const client = new CosmosClient("AccountEndpoint=https://test-account.documents.azure.com:443/;AccountKey=<KEY HERE>;");
 ```
 
 #### Add DISTINCT and LIMIT/OFFSET queries (#306)
 
-``` js
- const { results } = await items.query('SELECT DISTINCT VALUE r.name FROM ROOT').fetchAll()
- const { results } = await items.query('SELECT * FROM root r OFFSET 1 LIMIT 2').fetchAll()
+```js
+const { results } = await items.query("SELECT DISTINCT VALUE r.name FROM ROOT").fetchAll();
+const { results } = await items.query("SELECT * FROM root r OFFSET 1 LIMIT 2").fetchAll();
 ```
 
 ### Improved Browser Experience
@@ -162,7 +166,7 @@ While it was possible to use the v2 SDK in the browser it was not an ideal exper
 - Add ttl to ItemDefinition (#341)
 - Fix CP query metrics (#311)
 - Add activityId to FeedResponse (#293)
-- Switch _ts type from string to number (#252)(#295)
+- Switch \_ts type from string to number (#252)(#295)
 - Fix Request Charge Aggregation (#289)
 - Allow blank string partition keys (#277)
 - Add string to conflict query type (#237)

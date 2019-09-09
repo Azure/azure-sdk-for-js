@@ -148,6 +148,9 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.blobCacheControl,
     Parameters.blobContentDisposition,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -173,16 +176,20 @@ const appendBlockOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp14
+    Parameters.comp15
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
     Parameters.maxSize,
     Parameters.appendPosition,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -219,15 +226,20 @@ const appendBlockFromUrlOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp14
+    Parameters.comp15
   ],
   headerParameters: [
     Parameters.sourceUrl,
     Parameters.sourceRange1,
     Parameters.sourceContentMD5,
+    Parameters.sourceContentCrc64,
     Parameters.contentLength,
+    Parameters.transactionalContentMD5,
     Parameters.version,
     Parameters.requestId,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.leaseId0,
     Parameters.maxSize,
     Parameters.appendPosition,

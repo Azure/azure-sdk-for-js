@@ -30,6 +30,7 @@ describe("ContainerURL", () => {
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
+    assert.ok(result.clientRequestId);
     assert.ok(result.version);
     assert.ok(result.date);
   });
@@ -42,6 +43,23 @@ describe("ContainerURL", () => {
           expiry: new Date("2018-12-31T11:22:33.4567890Z"),
           permission: "rwd",
           start: new Date("2017-12-31T11:22:33.4567890Z")
+        },
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    await containerURL.setAccessPolicy(Aborter.none, access, containerAcl);
+    const result = await containerURL.getAccessPolicy(Aborter.none);
+    assert.deepEqual(result.signedIdentifiers, containerAcl);
+    assert.deepEqual(result.blobPublicAccess, access);
+  });
+
+  it("setAccessPolicy should work when expiry and start undefined", async () => {
+    const access: PublicAccessType = "blob";
+    const containerAcl = [
+      {
+        accessPolicy: {
+          permission: "rwd",
         },
         id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
       }

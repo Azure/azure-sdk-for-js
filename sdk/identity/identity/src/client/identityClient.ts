@@ -22,12 +22,12 @@ export interface TokenResponse {
   /**
    * The AccessToken to be returned from getToken.
    */
-  accessToken: AccessToken,
+  accessToken: AccessToken;
 
   /**
    * The refresh token if the 'offline_access' scope was used.
    */
-  refreshToken?: string
+  refreshToken?: string;
 }
 
 export class IdentityClient extends ServiceClient {
@@ -52,13 +52,15 @@ export class IdentityClient extends ServiceClient {
 
   async sendTokenRequest(
     webResource: WebResource,
-    expiresOnParser?: (responseBody: any) => number,
+    expiresOnParser?: (responseBody: any) => number
   ): Promise<TokenResponse | null> {
     const response = await this.sendRequest(webResource);
 
-    expiresOnParser = expiresOnParser || ((responseBody: any) => {
-      return Date.now() + responseBody.expires_in * 1000
-    });
+    expiresOnParser =
+      expiresOnParser ||
+      ((responseBody: any) => {
+        return Date.now() + responseBody.expires_in * 1000;
+      });
 
     if (response.status === 200 || response.status === 201) {
       return {
@@ -66,7 +68,7 @@ export class IdentityClient extends ServiceClient {
           token: response.parsedBody.access_token,
           expiresOnTimestamp: expiresOnParser(response.parsedBody)
         },
-        refreshToken: response.parsedBody.refresh_token,
+        refreshToken: response.parsedBody.refresh_token
       };
     } else {
       throw new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
@@ -113,7 +115,10 @@ export class IdentityClient extends ServiceClient {
     try {
       return await this.sendTokenRequest(webResource, expiresOnParser);
     } catch (err) {
-      if (err instanceof AuthenticationError && err.errorResponse.error === "interaction_required") {
+      if (
+        err instanceof AuthenticationError &&
+        err.errorResponse.error === "interaction_required"
+      ) {
         // It's likely that the refresh token has expired, so
         // return null so that the credential implementation will
         // initiate the authentication flow again.
