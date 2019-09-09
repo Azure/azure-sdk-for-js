@@ -393,7 +393,7 @@ export class CertificatesClient {
    * @returns Promise<Contacts>
    */
   public async setCertificateContacts(contacts: Contact[], options?: RequestOptions): Promise<Contacts> {
-    const span = this.createSpan("setCertificateContacts", options);
+    const span = this.createSpan("setCertificateContacts", options && options.requestOptions);
     span.start();
  
     let result = await this.client.setCertificateContacts(this.vaultBaseUrl, { contactList: contacts }, options)
