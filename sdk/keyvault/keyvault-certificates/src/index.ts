@@ -412,7 +412,7 @@ export class CertificatesClient {
    * @returns Promise<Contacts>
    */
   public async getCertificateContacts(options?: RequestOptions): Promise<Contacts> {
-    const span = this.createSpan("getCertificateContacts", options);
+    const span = this.createSpan("getCertificateContacts", options && options.requestOptions);
     span.start();
  
     let result = await this.client.getCertificateContacts(this.vaultBaseUrl, options)
