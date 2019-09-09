@@ -6,15 +6,18 @@ const packageJson = require("../../package.json");
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
 
-const userAgent = getUserAgent();
-
 describe("getUserAgent", function() {
   it("should contain the current SDK version", () => {
-    assert(userAgent.includes(packageVersion));
+    assert(getUserAgent().includes(packageVersion));
   });
 
   it("should contain the current node version", () => {
-    assert(userAgent.includes(process.version.replace("v", "")));
+    assert(getUserAgent().includes(process.version.replace("v", "")));
+  });
+
+  it("should allow a custom suffix", () => {
+    const suffix = "myApp";
+    assert(getUserAgent(suffix).includes(suffix));
   });
 });
 
