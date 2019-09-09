@@ -5,7 +5,7 @@
 Run the below in your samples folder to install the npm package for Azure Storage Blob library.
 
 ```bash
-npm install @azure/storage-blob@12.0.0-preview.2
+npm install @azure/storage-blob@12.0.0-preview.3
 ```
 
 ## Get account credentials of your storage account
