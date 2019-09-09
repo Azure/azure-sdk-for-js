@@ -809,7 +809,7 @@ export class CertificatesClient {
     name: string,
     options?: RequestOptions
   ): Promise<CertificateWithPolicy> {
-    const span = this.createSpan("getCertificateWithPolicy", options);
+    const span = this.createSpan("getCertificateWithPolicy", options && options.requestOptions);
     span.start();
 
     let result = await this.client
