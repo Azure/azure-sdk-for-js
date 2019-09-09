@@ -1,6 +1,6 @@
 # Breaking Changes
 
-### Coming soon... Version 12.0.0-preview.3
+### 2019.09 Version 12.0.0-preview.3
 
 - `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
 
