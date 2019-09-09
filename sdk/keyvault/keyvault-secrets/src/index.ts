@@ -70,7 +70,13 @@ export {
   UpdateSecretOptions
 };
 
-export { ProxyOptions, RetryOptions, TelemetryOptions };
+export {
+  ProxyOptions,
+  RetryOptions,
+  SupportedPlugins,
+  TracerProxy,
+  TelemetryOptions
+};
 
 /**
  * The client to interact with the KeyVault secrets functionality

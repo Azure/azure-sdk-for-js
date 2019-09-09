@@ -88,7 +88,13 @@ export {
   X509CertificateProperties,
 }
 
-export { ProxyOptions, TelemetryOptions, RetryOptions };
+export {
+  ProxyOptions,
+  RetryOptions,
+  SupportedPlugins,
+  TracerProxy,
+  TelemetryOptions
+};
 
 /**
  * The client to interact with the KeyVault certificates functionality
