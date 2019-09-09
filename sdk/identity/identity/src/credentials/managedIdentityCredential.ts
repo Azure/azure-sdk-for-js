@@ -10,7 +10,7 @@ import {
   TokenCredential
 } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
-import { createSpan, getSpanOptions } from "../util/tracingUtils";
+import { createSpan, getSpanOptions, assignParentSpan } from "../util/tracingUtils";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -263,12 +263,8 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const span = createSpan("ManagedIdentityCredential-getToken", getSpanOptions(options));
     span.start();
-    if (!options) {
-      options = {};
-    }
-    options.spanOptions = {
-      parent: span
-    };
+    options = assignParentSpan(span, options);
+
     let result: AccessToken | null = null;
 
     // isEndpointAvailable can be true, false, or null,

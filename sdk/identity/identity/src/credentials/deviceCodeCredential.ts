@@ -5,7 +5,7 @@ import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken, delay } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 import { AuthenticationError } from "../client/errors";
-import { createSpan, getSpanOptions } from "../util/tracingUtils";
+import { createSpan, getSpanOptions, assignParentSpan } from "../util/tracingUtils";
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -184,12 +184,8 @@ export class DeviceCodeCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const span = createSpan("DeviceCodeCredential-getToken", getSpanOptions(options));
     span.start();
-    if (!options) {
-      options = {};
-    }
-    options.spanOptions = {
-      parent: span
-    };
+    options = assignParentSpan(span, options);
+
     let tokenResponse: TokenResponse | null = null;
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
     if (scopeString.indexOf("offline_access") < 0) {

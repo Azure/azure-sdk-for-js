@@ -35,3 +35,14 @@ export function getSpanOptions(options?: GetTokenOptions): any {
 
   return options.spanOptions;
 }
+
+export function assignParentSpan(span: Span, options?: GetTokenOptions): GetTokenOptions {
+  if (!options) {
+    options = {};
+  }
+  options.spanOptions = {
+    parent: span
+  };
+
+  return options;
+}

@@ -3,7 +3,7 @@
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { AggregateAuthenticationError } from "../client/errors";
-import { createSpan, getSpanOptions } from "../util/tracingUtils";
+import { createSpan, getSpanOptions, assignParentSpan } from "../util/tracingUtils";
 
 /**
  * Enables multiple {@link TokenCredential} implementations to be tried in order
@@ -35,12 +35,7 @@ export class ChainedTokenCredential implements TokenCredential {
 
     const span = createSpan("ChainedTokenCredential-getToken", getSpanOptions(options));
     span.start();
-    if (!options) {
-      options = {};
-    }
-    options.spanOptions = {
-      parent: span
-    };
+    options = assignParentSpan(span, options);
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
