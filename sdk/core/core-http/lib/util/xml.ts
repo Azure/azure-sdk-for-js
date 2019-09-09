@@ -88,7 +88,7 @@ function _getDefaultSettingsForAtomXmlOperations(): any {
 }
 
 /**
- *
+ * @ignore
  * @param str Helper utility to clean up unintended characters that get appended by OS.
  */
 function _removeBOM(str: any) {
@@ -99,7 +99,9 @@ function _removeBOM(str: any) {
   return str;
 }
 
-/*
+/**
+ *
+ * @ignore
  * Writes a single property for an entry or complex type.
  *
  * @param {object} parentElement         Parent DOM element under which the property should be added.

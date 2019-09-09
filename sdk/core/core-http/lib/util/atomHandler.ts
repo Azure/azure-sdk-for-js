@@ -4,11 +4,30 @@
 import { Constants } from "./constants";
 
 /**
+ * Type representing the JSON representation of XML request data
+ */
+export interface XMLRequestInJSON {
+  [key: string]: {
+    $: { xmlns: string };
+    [key: string]: any;
+  };
+}
+
+/**
+ * Type representing the JSON representation of XML response data
+ */
+export interface XMLResponseInJSON {
+  [key: string]: any;
+}
+
+/**
  * Utility to deserialize the given JSON content even further based on
  * if it's a single `entry` or `feed`
- * @param {object} xmlInJson
+ * @param {object} atomResponseInJson
  * */
-export function parseResultFromAtomResponse(atomResponseInJson: any): any {
+export function parseResultFromAtomResponse(
+  atomResponseInJson: any
+): XMLResponseInJSON[] | XMLResponseInJSON | undefined {
   if (!atomResponseInJson) {
     return;
   }
@@ -29,16 +48,26 @@ export function parseResultFromAtomResponse(atomResponseInJson: any): any {
  * Utility to help parse given `entry` result
  * @param entry
  */
-function parseEntryResult(entry: any): any {
-  let result: any;
+function parseEntryResult(entry: any): XMLResponseInJSON | undefined {
+  let result: XMLResponseInJSON;
 
-  const contentElementName = Object.keys(entry.content).filter(function(key) {
+  if (
+    typeof entry !== "object" ||
+    entry == null ||
+    typeof entry.content !== "object" ||
+    entry.content == null
+  ) {
+    return undefined;
+  }
+
+  const contentElementNames = Object.keys(entry.content).filter(function(key) {
     return key !== Constants.XML_METADATA_MARKER;
   });
 
-  if (contentElementName && contentElementName[0]) {
-    delete entry.content[contentElementName[0]][Constants.XML_METADATA_MARKER];
-    result = entry.content[contentElementName[0]];
+  if (contentElementNames && contentElementNames[0]) {
+    const contentRootElementName = contentElementNames[0];
+    delete entry.content[contentRootElementName][Constants.XML_METADATA_MARKER];
+    result = entry.content[contentRootElementName];
 
     if (result) {
       if (entry[Constants.XML_METADATA_MARKER]) {
@@ -47,17 +76,19 @@ function parseEntryResult(entry: any): any {
         result[Constants.ATOM_METADATA_MARKER] = {};
       }
 
-      result[Constants.ATOM_METADATA_MARKER]["ContentRootElement"] = contentElementName;
+      result[Constants.ATOM_METADATA_MARKER]["ContentRootElement"] = contentRootElementName;
 
       Object.keys(entry).forEach((property: string) => {
         if (property !== "content" && property !== Constants.XML_METADATA_MARKER) {
           result[Constants.ATOM_METADATA_MARKER][property] = entry[property];
         }
       });
+
+      return result;
     }
   }
 
-  return result;
+  return undefined;
 }
 
 /**
@@ -65,15 +96,21 @@ function parseEntryResult(entry: any): any {
  * Utility to help parse given `feed` result
  * @param feed
  */
-function parseFeedResult(feed: any): any[] {
+function parseFeedResult(feed: any): XMLResponseInJSON[] {
   const result = [];
-  if (feed.entry) {
+  if (typeof feed === "object" && feed != null && feed.entry) {
     if (Array.isArray(feed.entry)) {
       feed.entry.forEach((entry: any) => {
-        result.push(parseEntryResult(entry));
+        const parsedEntryResult = parseEntryResult(entry);
+        if (parsedEntryResult) {
+          result.push(parsedEntryResult);
+        }
       });
     } else {
-      result.push(parseEntryResult(feed.entry));
+      const parsedEntryResult = parseEntryResult(feed.entry);
+      if (parsedEntryResult) {
+        result.push(parsedEntryResult);
+      }
     }
   }
   return result;
