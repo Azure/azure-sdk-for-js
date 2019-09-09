@@ -702,7 +702,7 @@ export class CertificatesClient {
    * @returns Promise<CertificatePolicy>
    */
   public async updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptions): Promise<CertificatePolicy> {
-    const span = this.createSpan("updateCertificatePolicy", options);
+    const span = this.createSpan("updateCertificatePolicy", options && options.requestOptions);
     span.start();
  
     let result = await this.client.updateCertificatePolicy(this.vaultBaseUrl, name, policy, options)
