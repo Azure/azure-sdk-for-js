@@ -31,7 +31,7 @@ export interface GetTokenOptions {
    */
   timeout?: number;
   /**
-   * Span Options for Tracing.
+   * Options to create a span using the tracer if any was set.
    */
   spanOptions?: any;
 }

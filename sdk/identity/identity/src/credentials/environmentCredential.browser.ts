@@ -6,7 +6,9 @@
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
 
-const BrowserNotSupportedError = new Error("EnvironmentCredential is not supported in the browser.");
+const BrowserNotSupportedError = new Error(
+  "EnvironmentCredential is not supported in the browser."
+);
 
 export class EnvironmentCredential implements TokenCredential {
   constructor(options?: IdentityClientOptions) {
