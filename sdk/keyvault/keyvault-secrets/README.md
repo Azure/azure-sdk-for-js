@@ -134,13 +134,13 @@ const client = new SecretsClient(url, credential);
 The following sections provide code snippets that cover some of the common
 tasks using Azure Key Vault Secrets. The scenarios that are covered here consist of:
 
-- [Creating a secret](#creating-a-secret).
+- [Creating and setting a secret](#creating-and-setting-a-secret).
 - [Getting a secret](#getting-a-secret).
 - [Working with secret attributes](#working-with-secret-attributes).
 - [Deleting a secret](#deleting-a-secret).
 - [Iterating lists of secrets](#iterating-lists-of-secrets).
 
-### Creting a secret
+### Creating and setting a secret
 
 `setSecret` assigns a provided value to the specified secret name. If a secret
 with the same name already exists, then a new version of the secret is created.
@@ -157,8 +157,6 @@ The simplest way to read secrets back from the vault is to get a secret by
 name. This will retrieve the most recent version of the secret. You can
 optionally get a different version of the secret if you also know the version
 you want.
-
-`getSecret` retrieves a secret previously stored in the Key Vault.
 
 ```javascript
 const latestSecret = await client.getSecret(secretName);
