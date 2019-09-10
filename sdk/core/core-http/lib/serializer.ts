@@ -334,7 +334,7 @@ function serializeEnumType(objectName: string, allowedValues: Array<any>, value:
   }
   const isPresent = allowedValues.some((item) => {
     if (typeof item.valueOf() === "string") {
-      return item.toLowerCase() === value.toLowerCase();
+      return item.toLowerCase() === value.toString().toLowerCase();
     }
     return item === value;
   });
