@@ -302,7 +302,7 @@ export class File {
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param callback The callback
    */
-  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param range Writes data to the specified byte range in the file.
    * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
@@ -318,8 +318,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options: Models.FileUploadRangeFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileUploadRangeFromURLResponse> {
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options: Models.FileUploadRangeFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileUploadRangeFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         range,
