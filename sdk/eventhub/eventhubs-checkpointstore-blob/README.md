@@ -49,9 +49,7 @@ They also allow the user to track progress when events are processed using check
 
 ### Create a Partition Manager using Azure Blob Storage
 
-To create a Partition Manager that uses Azure Blob Storage, you need to first have an [Azure subscription](https://azure.microsoft.com/free/) and an [Azure Storage account](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
-
-Then, you can use the below code snippet to create a Partition Manager
+ you can use the below code snippet to create a Partition Manager
 
 ```javascript
 import { ContainerClient } from "@azure/storage-blob",
