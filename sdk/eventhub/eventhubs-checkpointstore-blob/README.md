@@ -26,46 +26,69 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information.
 
+### Key concepts
 
-Event Processor based application consists of one or more instances of `EventProcessor` which have been
+- **Checkpointing** is a process by which readers mark or commit their position within a partition event sequence. Checkpointing is the responsibility of the consumer and occurs on a per-partition basis within a consumer group. This responsibility means that for each consumer group, each partition reader must keep track of its current position in the event stream, and can inform the service when it considers the data stream complete.
+
+  If a reader disconnects from a partition, when it reconnects it begins reading at the checkpoint that was previously submitted by the last reader of that partition in that consumer group. When the reader connects, it passes the offset to the event hub to specify the location at which to start reading. In this way, you can use checkpointing to both mark events as "complete" by downstream applications, and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process. Through this mechanism, checkpointing enables both failover resiliency and event stream replay..
+
+- Event Processor based application consists of one or more instances of `EventProcessor` which have been
 configured to consume events from the same Event Hub and consumer group. They balance the
 workload across different instances by distributing the partitions to be processed among themselves.
 They also allow the user to track progress when events are processed using checkpoints.
  
- A checkpoint is meant to represent the last successfully processed event by the user from a particular
- partition of a consumer group in an Event Hub instance.
+  A checkpoint is meant to represent the last successfully processed event by the user from a particular
+  partition of a consumer group in an Event Hub instance.
  
-A Partition Manager is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
+  A Partition Manager is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
 
 ## Examples
 
-### Persistent event checkpointing with Azure Blob storage
+- [Create a Partition Manager using Azure Blob Storage](#create-a-partition-manager-using-azure-blob-storage)
+- [Checkpoint events using Azure Blob storage](#checkpoint-events-using-azure-blob-storage)
 
-To consume events from all the partitions of an Event Hub, you'll create an [EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html)
-for a specific consumer group. When an Event Hub is created, it provides a default consumer group that can be 
-used to get started.
+### Create a Partition Manager using Azure Blob Storage
 
-The `EventProcessor` will delegate the processing of events to a [PartitionProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/partitionprocessor.html)
-that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer
-operations including checkpointing and load balancing.
+To create a Partition Manager that uses Azure Blob Storage, you need to first have an [Azure subscription](https://azure.microsoft.com/free/) and an [Azure Storage account](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
 
-If you want to store checkpoints in [Azure Storage Blobs](https://azure.microsoft.com/en-us/services/storage/blobs/), you can provide an instance of [BlobPartitionManager](https://azure.github.io/azure-sdk-for-js/eventhubs-checkpointstore-blob/classes/blobpartitionmanager.html) to your Event Processor. `BlobPartitionManager` uses Storage Blobs to store checkpoints and balance partition load among all instances of Event Processors.
-
-you can see how to use the `EventProcessor` in the below
-example, where we use `BlobPartitionManager` that does 
-checkpointing in [Azure Storage Blobs](https://azure.microsoft.com/en-us/services/storage/blobs/).
+Then, you can use the below code snippet to create a Partition Manager
 
 ```javascript
-const client = new EventHubClient("my-connection-string", "my-event-hub");
-const containerClient = new ContainerClient("storage-connection-string", "container-name");
-await containerClient.create();
+import { ContainerClient } from "@azure/storage-blob",
+import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob"
 
-const processor = new EventProcessor(
-  EventHubClient.defaultConsumerGroupName,
-  client,
-PartitionProcessor,
-  new BlobPartitionManager(containerClient)
-);
+const containerClient = new ContainerClient("storage-connection-string", "container-name");
+await containerClient.create(); // This can be skipped if the container already exists
+
+const partitionManager =  new BlobPartitionManager(containerClient);
+```
+
+### Checkpoint events using Azure Blob storage
+
+To checkpoint events received using an EventProcessor to Azure Blob Storage, you will need to pass an instance of the Partition Manager to the Event Processor along with the code to call the `updateCheckpoint()` method.
+
+In this example, we will use a `SamplePartitionProcessor` that extends the `PartitionProcessor` class in order to checkpoint the last event in the batch.
+
+```javascript
+import { ContainerClient } from "@azure/storage-blob",
+import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob"
+import { EventHubClient, PartitionProcessor } from "@azure/event-hubs"
+
+const eventhubClient = new EventHubClient("event-hub-connectionstring")
+const containerClient = new ContainerClient("storage-connection-string", "container-name");
+await containerClient.create(); // This can be skipped if the container already exists
+const partitionManager =  new BlobPartitionManager(containerClient);
+
+SamplePartitionProcessor extends PartitionProcessor  {
+   // add code here to override the processevents method to checkpoint the last event in the batch
+}
+
+const eventProcessor = new EventProcessor(
+    EventHubClient.defaultConsumerGroupName,
+    client,
+    SamplePartitionProcessor,
+    partitionManager);
+eventProcessor.start();
 ```
 
 ## Troubleshooting

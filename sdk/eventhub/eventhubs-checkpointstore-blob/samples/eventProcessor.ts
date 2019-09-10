@@ -20,8 +20,8 @@ import {
   CloseReason
 } from "@azure/event-hubs";
 
-import { ContainerClient } from "@azure/storage-blob",
-import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob"
+import { ContainerClient } from "@azure/storage-blob";
+import { BlobPartitionManager } from "@azure/eventhubs-checkpointstore-blob";
 
 // A Sample Partition Processor that keeps track of the number of events processed.
 class SamplePartitionProcessor extends PartitionProcessor {
