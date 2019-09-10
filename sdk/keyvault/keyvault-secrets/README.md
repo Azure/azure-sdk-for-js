@@ -4,7 +4,7 @@ Azure Key Vault is a service that allows you to encrypt authentication keys,
 storage account keys, data encryption keys, .pfx files, and passwords by using
 keys that are protected by hardware security modules (HSMs). If you would like
 to know more about Azure Key Vault, you may want to review [What is Azure Key
-Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)
+Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview).
 
 Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
@@ -88,9 +88,10 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Key concepts
 
-- The **Secrets client** is the primary interface to interact with Azure Key Vault
-  from a JavaScript application. Once initialized, it provides a basic set of methods
-  that can be used to create, read, update and delete secrets.
+- The **Secrets client** is the primary interface to interact with the API methods
+  related to secrets in the Azure Key Vault API from a JavaScript application.
+  Once initialized, it provides a basic set of methods that can be used to
+  create, read, update and delete secrets.
 - A **Secret version** is a version of a secret in the Key Vault.
   Each time a user assigns a value to a unique secret name, a new **version**
   of that secret is created. Retrieving a secret by a name will always return
@@ -103,7 +104,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - A **Secret backup** can be generated from any created secret. These backups come as
   binary data, and can only be used to regenerate a previously deleted secret.
 
-### Authenticate the client
+## Authenticating the client
 
 To use the Key Vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
 
@@ -136,7 +137,7 @@ tasks using Azure Key Vault Secrets. The scenarios that are covered here consist
 
 - [Creating and setting a secret](#creating-and-setting-a-secret).
 - [Getting a secret](#getting-a-secret).
-- [Working with secret attributes](#working-with-secret-attributes).
+- [Creating and updating secrets with attributes](#creating-and-updating-secrets-with-attributes).
 - [Deleting a secret](#deleting-a-secret).
 - [Iterating lists of secrets](#iterating-lists-of-secrets).
 
@@ -144,7 +145,6 @@ tasks using Azure Key Vault Secrets. The scenarios that are covered here consist
 
 `setSecret` assigns a provided value to the specified secret name. If a secret
 with the same name already exists, then a new version of the secret is created.
-You can also send secret attributes to this method.
 
 ```javascript
 const secretName = "MySecretName";
@@ -155,8 +155,8 @@ const result = await client.setSecret(secretName, "MySecretValue");
 
 The simplest way to read secrets back from the vault is to get a secret by
 name. This will retrieve the most recent version of the secret. You can
-optionally get a different version of the secret if you also know the version
-you want.
+optionally get a different version of the key if you specify it as part of the
+optional parameters.
 
 ```javascript
 const latestSecret = await client.getSecret(secretName);
@@ -165,7 +165,7 @@ const specificSecret = await client.getSecret(secretName, { version: latestSecre
 console.log(`The secret ${secretName} at the version ${latestSecret.version!}: `, getResult);
 ```
 
-### Working with secret attributes
+### Creating and updating secrets with attributes
 
 A secret can have more information than its name and its value. They can also include
 the following attributes:
