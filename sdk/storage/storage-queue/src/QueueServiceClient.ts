@@ -100,7 +100,7 @@ interface ServiceListQueuesSegmentOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType[];
+  include?: ListQueuesIncludeType;
 }
 
 /**
@@ -128,7 +128,7 @@ export interface ServiceListQueuesOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType[];
+  include?: ListQueuesIncludeType;
 }
 
 /**
@@ -320,8 +320,11 @@ export class QueueServiceClient extends StorageClient {
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
     return this.serviceContext.listQueuesSegment({
+      abortSignal: options.abortSignal,
       marker: marker,
-      ...options
+      maxresults: options.maxresults,
+      prefix: options.prefix,
+      include: options.include === undefined ? undefined : [options.include]
     } as Models.ServiceListQueuesSegmentOptionalParams);
   }
 
