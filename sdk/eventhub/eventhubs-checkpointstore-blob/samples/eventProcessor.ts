@@ -65,7 +65,6 @@ class SamplePartitionProcessor extends PartitionProcessor {
   }
 }
 
-// Define connection string and related Event Hubs entity name here
 const connectionString = "";
 const eventHubName = "";
 const storageConnectionString = "";
