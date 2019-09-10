@@ -88,7 +88,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Key concepts
 
-- The **Secrets Client** is the primary interface to interact with Azure Key Vault
+- The **Secrets client** is the primary interface to interact with Azure Key Vault
   from a JavaScript application. Once initialized, it provides a basic set of methods
   that can be used to create, read, update and delete secrets.
 - A **Secret version** is a version of a secret in the Key Vault.
