@@ -36,7 +36,7 @@ describe("AppConfigurationClient", () => {
 
   describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {
-      let key = `noLabelTests-${Date.now()}`;
+      const key = `noLabelTests-${Date.now()}`;
 
       await client.addConfigurationSetting(key, { value: "added" });
 
@@ -68,7 +68,7 @@ describe("AppConfigurationClient", () => {
     });
 
     async function compare(expected: { key: string, value: string, label: (string | null) }) {
-      let actualSettings = await client.getConfigurationSetting(expected.key);
+      const actualSettings = await client.getConfigurationSetting(expected.key);
 
       assert.equal(expected.key, actualSettings.key);
       assert.equal(expected.value, actualSettings.value);
@@ -79,7 +79,7 @@ describe("AppConfigurationClient", () => {
   describe("addConfigurationSetting", () => {
     it("sample works", async () => {
       const key = `addConfigSample-${Date.now()}`;
-      let result = await client.setConfigurationSetting(key, {
+      const result = await client.setConfigurationSetting(key, {
         value: "MyValue"
       });
 
