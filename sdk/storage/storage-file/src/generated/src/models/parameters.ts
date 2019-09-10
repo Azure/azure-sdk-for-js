@@ -663,11 +663,9 @@ export const sourceIfNoneMatchCrc64: coreHttp.OperationParameter = {
   }
 };
 export const sourceRange: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceRange"
-  ],
+  parameterPath: "sourceRange",
   mapper: {
+    required: true,
     serializedName: "x-ms-source-range",
     type: {
       name: "String"

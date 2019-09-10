@@ -939,10 +939,6 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOp
    */
   timeoutParameter?: number;
   /**
-   * Bytes of source data in the specified range.
-   */
-  sourceRange?: string;
-  /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
   sourceContentCrc64?: Uint8Array;
