@@ -88,21 +88,21 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Key concepts
 
-- The **SecretsClient** is the primary interface to interact with Azure Key Vault
+- The **Secrets Client** is the primary interface to interact with Azure Key Vault
   from a JavaScript application. Once initialized, it provides a basic set of methods
   that can be used to create, read, update and delete secrets.
-- Secret **versions** are one or more instances of the same unique secret name.
+- A **Secret version** is a version of a secret in the Key Vault.
   Each time a user assigns a value to a unique secret name, a new **version**
   of that secret is created. Retrieving a secret by a name will always return
   the latest value assigned, unless a specific version is provided to the
   query.
-- If the Key Vault has
-  [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
-  enabled, deleted secrets won't be removed, they will be marked as "deleted"
-  instead, so they can be retrieved or recovered anytime. A deleted secret can
-  only be accessed through specific functions for deleted secrets. Deleted
+- **Soft delete** allows Key Vaults to support deletion and purging as two
+  separate steps, so deleted secrets are not immediately lost. This only happens if the Key Vault
+  has [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+  enabled. A deleted secret won't be available as a normal secret, but they can
+  only be accessed through methods specific for deleted secrets. Deleted
   secrets can't be updated, they can only be either read, recovered or purged.
-- A **backup** can be generated from any created secret. These backups come as
+- A **Secret backup** can be generated from any created secret. These backups come as
   binary data, and can only be used to regenerate a previously deleted secret.
 
 ### Authenticate the client
@@ -146,7 +146,7 @@ tasks using Azure Key Vault Secrets. The scenarios that are covered here consist
 
 `setSecret` assigns a provided value to the specified secret name. If a secret
 with the same name already exists, then a new version of the secret is created.
-You can also send **secret attributes** to this method.
+You can also send secret attributes to this method.
 
 ```javascript
 const secretName = "MySecretName";
