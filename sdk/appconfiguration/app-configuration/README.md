@@ -1,6 +1,10 @@
 # Azure App Configuration client library for JS
 
-This package contains an isomorphic SDK for ConfigurationClient.
+Azure App Configuration is a managed service that helps developers centralize their application configurations simply and securely.
+
+Modern programs, especially programs running in a cloud, generally have many components that are distributed in nature. Spreading configuration settings across these components can lead to hard-to-troubleshoot errors during an application deployment. Use App Configuration to securely store all the settings for your application in one place.
+
+Use the client library for App Configuration to create and manage application configuration settings.
 
 ## Getting started
 
@@ -12,7 +16,7 @@ This package contains an isomorphic SDK for ConfigurationClient.
 ### How to Install
 
 ```bash
-npm install @azure/app-config
+npm install @azure/app-configuration
 ```
 ## Key concepts
 
@@ -31,10 +35,8 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```typescript
-import * as coreHttp from "@azure/core-http";
-import * as coreArm from "@azure/core-arm";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ConfigurationClient, ConfigurationModels, ConfigurationMappers } from "@azure/app-config";
+import { ConfigurationClient, ConfigurationModels, ConfigurationMappers } from "@azure/app-configuration";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
