@@ -6,7 +6,7 @@ import { Pipeline } from "./Pipeline";
 import { escapeURLPath, getURLScheme, iEqual } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { TokenCredential, isTokenCredential } from "@azure/core-http";
+import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 /**
  * A StorageClient represents a based URL class for BlobServiceClient, ContainerClient and etc.
  *
@@ -74,7 +74,7 @@ export abstract class StorageClient {
     this.credential = new AnonymousCredential();
     for (const factory of this.pipeline.factories) {
       if (
-        factory instanceof SharedKeyCredential ||
+        (isNode && factory instanceof SharedKeyCredential) ||
         factory instanceof AnonymousCredential ||
         isTokenCredential(factory)
       ) {

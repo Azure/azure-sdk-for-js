@@ -10,7 +10,8 @@ import {
   WebResource,
   TokenCredential,
   isTokenCredential,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
+  isNode
 } from "@azure/core-http";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -152,7 +153,7 @@ export class BatchDeleteRequest extends BatchRequest {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      (credentialOrOptions instanceof SharedKeyCredential ||
+      ((isNode && credentialOrOptions instanceof SharedKeyCredential) ||
         credentialOrOptions instanceof AnonymousCredential ||
         isTokenCredential(credentialOrOptions))
     ) {
@@ -262,7 +263,7 @@ export class BatchSetTierRequest extends BatchRequest {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      (credentialOrTier instanceof SharedKeyCredential ||
+      ((isNode && credentialOrTier instanceof SharedKeyCredential) ||
         credentialOrTier instanceof AnonymousCredential ||
         isTokenCredential(credentialOrTier))
     ) {
