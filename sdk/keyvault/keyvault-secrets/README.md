@@ -27,7 +27,7 @@ Use the client library for Azure KeyVault Secrets in your Node.js application to
 
 ### Install the package
 
-Install the Azure Event KeyVault Secrets client library using npm
+Install the Azure KeyVault Secrets client library using npm
 
 `npm install @azure/keyvault-secrets`
 
@@ -284,7 +284,7 @@ environment variables:
 - `KEYVAULT_NAME`: The name of the KeyVault you want to run the tests against.
 
 **WARNING:** 
-Integration tests will wipe all of the existing records in the targetted KeyVault.
+Integration tests will wipe all of the existing records in the targeted KeyVault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
