@@ -135,7 +135,6 @@ export interface BatchOptions {
  * Example usage:
  * ```js
  * {
- *     ownerLevel: 0,
  *     retryOptions: {
  *         maxRetries: 4
  *     },

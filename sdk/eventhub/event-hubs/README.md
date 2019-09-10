@@ -16,7 +16,7 @@ The Azure Event Hubs client library allows you to send and receive events in you
 
 Install the Azure Event Hubs client library using npm
 
-`npm install @azure/event-hubs@5.0.0-preview.2`
+`npm install @azure/event-hubs@next`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
@@ -211,8 +211,10 @@ that you provide, allowing you to focus on business logic while the processor ho
 operations including checkpointing and load balancing.
 
 Load balancing is typically useful when running multiple instances of `EventProcessor` across multiple processes or even machines.
-You can see it action in the below example, where we use an [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html)
-that does checkpointing in memory. We pass the `InMemoryPartitionManager` to both instances of `EventProcessor` so that state
+It is recommended to store checkpoints to a persistent store when running in production.
+To get started, in the below example we'll use the [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html)
+that does checkpointing in memory.
+We pass the `InMemoryPartitionManager` to both instances of `EventProcessor` so that state
 about which partitions are being processed by which instances of `EventProcessor` can be shared.
 
 ```javascript

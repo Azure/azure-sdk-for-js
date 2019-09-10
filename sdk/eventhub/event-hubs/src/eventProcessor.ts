@@ -160,9 +160,9 @@ export interface EventProcessorOptions {
  * - A user implemented class that extends the `PartitionProcessor` class. To get started, you can use the
  * base class `PartitionProcessor` which simply logs the incoming events. To provide your code to process incoming
  * events, extend this class and override the `processEvents()` method. For example:
- * ```ts
+ * ```js
  * class SamplePartitionProcessor extends PartitionProcessor {
- *     async processEvents(events: ReceivedEventData[], partitionContext: PartitionContext) {
+ *     async processEvents(events, partitionContext) {
  *        // user code to process events here
  *        // use `partitionContext` property to get information on the partition
  *        // use `partitionContext.updateCheckpoint()` method to update checkpoints as needed
