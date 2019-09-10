@@ -189,8 +189,10 @@ export class AppConfigurationClient {
     key: string,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
+    // temporary workaround - if the user doesn't initialize the label field explicitly to undefined then the default value will make it so you can't get a value without 
+    // a label. Should be able to remove when we use newer generated models.
     options = { ...options };
-    options.label = options.label || undefined;
+    options.label = options.label;
 
     return this.client.getConfigurationSetting(key, options);
   }
