@@ -212,6 +212,7 @@ operations including checkpointing and load balancing.
 
 Load balancing is typically useful when running multiple instances of `EventProcessor` across multiple processes or even machines.
 It is recommended to store checkpoints to a persistent store when running in production.
+Search npm with the prefix `@azure/eventhubs-checkpointstore-` to find packages that support persistent storage of checkpoints.
 To get started, in the below example we'll use the [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html)
 that does checkpointing in memory.
 We pass the `InMemoryPartitionManager` to both instances of `EventProcessor` so that state
