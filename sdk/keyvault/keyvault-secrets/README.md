@@ -99,9 +99,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - **Soft delete** allows Key Vaults to support deletion and purging as two
   separate steps, so deleted secrets are not immediately lost. This only happens if the Key Vault
   has [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
-  enabled. A deleted secret won't be available as a normal secret, but they can
-  only be accessed through methods specific for deleted secrets. Deleted
-  secrets can't be updated, they can only be either read, recovered or purged.
+  enabled.
 - A **Secret backup** can be generated from any created secret. These backups come as
   binary data, and can only be used to regenerate a previously deleted secret.
 
@@ -202,14 +200,31 @@ await client.updateSecretAttributes(secretName, result.version, { enabled: false
 
 ### Deleting a secret
 
-The `deleteSecret` method deletes a secret previously stored in the Key Vault.
-When [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
-is not enabled for the Key Vault, this operation permanently deletes the
-secret.
+The `deleteSecret` method sets a secret up for deletion. This process will
+happen in the background as soon as the necessary resources are available.
 
 ```javascript
 await client.deleteSecret(secretName);
 ```
+
+If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+is enabled for the Key Vault, this operation will only label the secret as a
+_deleted_ secret. A deleted secret can't be updated. They can only be either
+read, recovered or purged.
+
+```javascript
+await client.deleteSecret(secretName);
+
+// If soft-delete is enabled, we can eventually do:
+await client.getDeletedSecret(secretName);
+// Deleted secrets can also be recovered or purged:
+await client.recoverDeletedSecret(secretName);
+// await client.purgeDeletedSecret(secretName);
+```
+
+Since the deletion of a secret won't happen instantly, some time is needed
+after the `deleteSecret` method is called before the deleted secret is
+available to be read, recovered or purged.
 
 ### Iterating lists of secrets
 
