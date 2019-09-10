@@ -2,7 +2,7 @@
 
 An Azure Blob storage based solution to store checkpoints and to aid in load balancing when using `EventProcessor` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/eventhubs-checkpointstore-blob/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/eventhubs-checkpointstore-blob/index.html) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
 
 ## Getting started
 
@@ -10,10 +10,10 @@ An Azure Blob storage based solution to store checkpoints and to aid in load bal
 
 Install the Azure Event Hubs Checkpoint Store Blob library using npm
 
-`npm install @azure/eventhubs-checkpointstore-blob@1.0.0-preview.1`
+`npm install @azure/eventhubs-checkpointstore-blob@latest`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package, and a [Storage account](Add link here)
+[Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 ### Configure Typescript
@@ -30,9 +30,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ## Examples
 
-- [Consume events from all Event Hub partitions](#consume-events-from-all-event-hub-partitions)
-
-### Consume events from all Event Hub partitions
+### Persistent event checkpointing with Azure Blob storage
 
 To consume events from all the partitions of an Event Hub, you'll create an [EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html)
 for a specific consumer group. When an Event Hub is created, it provides a default consumer group that can be 
@@ -49,29 +47,6 @@ example, where we use `BlobPartitionManager` that does
 checkpointing in [Azure Storage Blobs](https://azure.microsoft.com/en-us/services/storage/blobs/).
 
 ```javascript
-class SamplePartitionProcessor extends PartitionProcessor {
-  // Gets called once before the processing of events from current partition starts.
-  async initialize(partitionContext) {
-    /* your code here */
-  }
-
-  // Gets called for each batch of events that are received.
-  // You may choose to use the checkpoint manager to update checkpoints.
-  async processEvents(events, partitionContext) {
-    /* your code here */
-  }
-
-  // Gets called for any error when receiving events.
-  async processError(error, partitionContext) {
-    /* your code here */
-  }
-
-  // Gets called when Event Processor stops processing events for current partition.
-  async close(reason, partitionContext) {
-    /* your code here */
-  }
-}
-
 const client = new EventHubClient("my-connection-string", "my-event-hub");
 const containerClient = new ContainerClient("storage-connection-string", "container-name");
 await containerClient.create();
@@ -82,21 +57,9 @@ const processor = new EventProcessor(
 PartitionProcessor,
   new BlobPartitionManager(containerClient)
 );
-await processor.start();
-// At this point, the processor is consuming events from each partition of the Event Hub and
-// delegating them to the SamplePartitionProcessor instance created for that partition.  This
-// processing takes place in the background and will not block.
-//
-// In this example, we'll stop processing after five seconds.
-await delay(5000);
-await processor.stop();
 ```
 
 ## Troubleshooting
-
-### AMQP Dependencies
-
-The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ### Enable logs
 
@@ -105,25 +68,13 @@ You can set the following environment variable to get the debug logs when using 
 - Getting debug logs from the Eventhubs Checkpointstore Blob
 
 ```bash
-export DEBUG=azure*
-```
-
-- Getting debug logs from the Eventhubs Checkpointstore Blob, Event Hubs SDK and the protocol level library.
-
-```bash
-export DEBUG=azure*,rhea*
-```
-
-- If you are **not interested in viewing the event transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
+export DEBUG=azure:eventhubs-checkpointstore-blob*
 ```
 
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:event-hubs:error,azure:eventhubs-checkpointstore-blob:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:event-hubs:error,azure:eventhubs-checkpointstore-blob:error
 ```
 
 ### Logging to a file
