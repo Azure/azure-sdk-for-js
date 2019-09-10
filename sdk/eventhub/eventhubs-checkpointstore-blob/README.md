@@ -129,6 +129,9 @@ export DEBUG=azure:event-hubs:error,azure:eventhubs-checkpointstore-blob:error
 
 ## Next Steps
 
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples)
+directory for detailed example.
+
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
