@@ -233,24 +233,6 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransfo
 export DEBUG=azure:keyvault-certificates:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
-### Logging to a file
-
-- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
-
-  - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
-    ```bash
-    node your-test-script.js > out.log 2>debug.log
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log` by redirecting stderr to stdout (&1), and then redirect stdout to a file:
-    ```bash
-    node your-test-script.js >out.log 2>&1
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log`.
-
-    ```bash
-      node your-test-script.js &> out.log
-    ```
-
 ## Next steps
 
 Please take a look at the
