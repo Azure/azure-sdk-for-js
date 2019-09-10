@@ -87,14 +87,14 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ### Authenticate the client
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
+To use the Key Vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
 import { SecretsClient } from "@azure/keyvault-secrets";
 ```
 
-Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
+Once these are imported, we can next connect to the Key Vault service. To do this, we'll need to copy some settings from the Key Vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
 // DefaultAzureCredential expects the following three environment variables:
@@ -113,37 +113,73 @@ const client = new SecretsClient(url, credential);
 
 ## Key concepts
 
-### Creating secrets and secret versions
+### Key Vault
 
-Azure Key Vault allows you to create secrets that are stored in the key vault. When a secret is first created, it is given a name and a value. This name acts as a way to reach the secret later.
+The Key Vault is the name given to the Azure product that specializes in the
+management of keys, secrets and certificates. An overview of all the benefits and how
+to accquire this service can be obtained here: https://azure.microsoft.com/en-us/services/key-vault/
 
-Secrets in the key vault can have multiple versions of the same secret. These are called versions of that secret.
+### Secrets
 
-### Getting secrets from the key vault
+Anytime your application or project needs access to sensible information that
+cannot be either publicly accessible, nor stored in plain text format, the good
+practice of storing secret values arises. The Azure Key Vault allows you to
+create, store and manage your application secrets.  When a secret is first
+created, it is given a name and a value (among other attributes). You can later
+retieve the protected secret using the name you initially used.
 
-The simplest way to read secrets back from the vault is to get a secret by name. This will retrieve the most recent version of the secret. You can optionally get a different version of the secret if you also know the version you want.
+### Secret Versions
 
-Key vaults also support listing the secrets they have, as well as listing the all the versions of the given secret.
+Secrets in the Key Vault can have multiple versions. A new version of a secret
+is created each time to assign a secret value to the same name. Retrieving a
+secret by a name will always return the latest value assigned, unless a
+specific version is provided to the query.
 
-### Updating secret attributes
+### Secret Attributes
 
-Once a secret is created, it is possible to update attributes of the secret. For example, if a secret needs to be temporarily unavailable, the `enabled` attribute can be set to false for a time.
+A secret can have more information than its name and its value. They can either
+be enabled or not, contain tags, a content type or expire after a certain date.
+These are called the **secret attributes**, and they can either be sent through
+during the creation of a secret, as part of a newer version of the same secret,
+or sent as an update to a specific version of a secret. The attributes are:
 
-### Working with deleted secrets
+- `tags`: Any set of key-values that can be used to search and filter secrets.
+- `contentType`: Any string that can be used to help the receiver of the secret understand how to use the secret value.
+- `enabled`: A boolean value that determines wether the secret value can be read or not.
+- `notBefore`: A given date after which the secret value can be retrieved.
+- `expires`: A given date after which the secret value cannot be retrieved.
+
+### Deleted Secrets and Soft Deletes
 
 Key vaults allow deleting secrets so that they are no longer available.
 
-In key vaults with 'soft delete' enabled, secrets are not immediately removed but instead marked simply as 'deleted'. These deleted secrets can be listed, purged, and recovered.
+Deleted secrets will be gone forever unless the user creates the Key Vault with
+[soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+enabled, after which if a secret is deleted, they're not immediately removed,
+but instead only marked as "deleted", hidden from retrieval unless the client
+application specifically calls to retrieve deleted secrets. Deleted secrets can
+also be recovered and purged.
+
+### Backups
+
+A Key Vault in Azure will allow you to generate backups of any created secret.
+These backups come as binary data, and can only be used to regenerate a
+previously deleted secret by calling to the `restoreSecret` method.
 
 ## Examples
 
-The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets.
+The following sections provide code snippets that cover some of the common
+tasks using Azure KeyVault Secrets.
 
-Once you have authenticated and created an instance of an `SecretsClient` class (see "Authenticate the client" above), you can create, read, update, and delete secrets:
+Once you have authenticated and created an instance of an `SecretsClient` class
+(see "Authenticate the client" above), you can create, read, update, and delete
+secrets, as follows:
 
 ### Create a secret
 
-`setSecret` creates a secret to be stored in the Azure Key Vault. If a secret with the same name already exists, then a new version of the secret is created.
+`setSecret` assigns a provided value to the specified secret name. If a secret
+with the same name already exists, then a new version of the secret is created.
+You can also send **secret attributes** to this method.
 
 ```javascript
 const secretName = "MySecretName";
@@ -152,36 +188,23 @@ const result = await client.setSecret(secretName, "MySecretValue");
 
 ### Get a secret
 
+The simplest way to read secrets back from the vault is to get a secret by
+name. This will retrieve the most recent version of the secret. You can
+optionally get a different version of the secret if you also know the version
+you want.
+
 `getSecret` retrieves a secret previously stored in the Key Vault.
 
 ```javascript
-const getResult = await client.getSecret(secretName);
-console.log("getResult: ", getResult);
-```
-
-### List all versions of a secret
-
-`listSecretVersions` will list versions of the given secret.
-
-```javascript
-for await (let version of client.listSecretVersions(secretName)) {
-  console.log("version: ", version);
-}
-```
-
-### List all secrets
-
-`listSecrets` will list all secrets in the Key Vault.
-
-```javascript
-for await (let listedSecret of client.listSecrets()) {
-  console.log("secret: ", listedSecret);
-}
+const latestSecret = await client.getSecret(secretName);
+console.log(`Latest version of the secret ${secretName}: `, getResult);
+const specificSecret = await client.getSecret(secretName, { version: latestSecret.version! });
+console.log(`The secret ${secretName} at the version ${latestSecret.version!}: `, getResult);
 ```
 
 ### Update the attributes of a secret
 
-`updateSecretAttributes` updates the attributes of a secret.
+`updateSecretAttributes` allows to update the attributes of a secret without creating a new version.
 
 ```javascript
 const result = getSecret(secretName);
@@ -190,10 +213,58 @@ await client.updateSecretAttributes(secretName, result.version, { enabled: false
 
 ### Delete a secret
 
-`deleteSecret` deletes a secret previously stored in the Key Vault. When [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is not enabled for the Key Vault, this operation permanently deletes the deletes.
+`deleteSecret` deletes a secret previously stored in the Key Vault. When
+[soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+is not enabled for the Key Vault, this operation permanently deletes the
+deletes.
 
 ```javascript
 await client.deleteSecret(secretName);
+```
+
+### Iterating lists of secrets
+
+Using the SecretsClient, you can retrieve and iterate all of your secrets,
+deleted secrets as well as through all the versions of a specific secret.  Here
+are all the API methods that allow you to retrieve and iterate sets of secrets:
+
+- `listSecrets` will list all of your non-deleted secrets by their names, only at their latest versions.
+- `listDeletedSecrets` will list all of your deleted secrets by their names, only at their latest versions.
+- `listSecretVersions` will list all the versions of a secret based on a secret name.
+
+Some examples follow:
+
+```javascript
+for await (let secret of client.listSecrets()) {
+  console.log("Secret: ", secret);
+}
+for await (let deletedSecret of client.listDeletedSecrets()) {
+  console.log("Deleted secret: ", deletedSecret);
+}
+for await (let version of client.listSecretVersions(secretName)) {
+  console.log("Version: ", version);
+}
+```
+
+All of these methods will return **all of the available results** at once. To retrieve them by pages,
+add `.byPage()` right after invoking the API method you want to use, as follows:
+
+```javascript
+for await (let page of client.listSecrets().byPage()) {
+  for (let secret of page) {
+    console.log("Secret: ", secret);
+  }
+}
+for await (let page of client.listDeletedSecrets().byPage()) {
+  for (let deletedSecret of page) {
+    console.log("Deleted secret: ", deletedSecret);
+  }
+}
+for await (let page of client.listSecretVersions(secretName).byPage()) {
+  for (let version of page) {
+    console.log("Version: ", version);
+  }
+}
 ```
 
 ## Troubleshooting
