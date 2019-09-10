@@ -1,7 +1,7 @@
 # Release History
 
-## 4.0.0-preview.5 (2019-09-09)
-- Improved tests and upgraded dependencies.
+## 4.0.0-preview.5 (2019-09-10)
+- Improved the tests, the README and upgraded dependencies.
 - Added the browser folder to the released bundle.
 
 ## 4.0.0-preview.4 (2019-08-09)
