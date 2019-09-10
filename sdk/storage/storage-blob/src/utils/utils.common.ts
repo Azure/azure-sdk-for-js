@@ -247,6 +247,41 @@ export function getURLPath(url: string): string | undefined {
 }
 
 /**
+ * Get URL scheme from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLScheme(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getScheme();
+}
+
+/**
+ * Get URL path and query from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLPathAndQuery(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  const pathString = urlParsed.getPath();
+  if (!pathString) {
+    throw new RangeError("Invalid url without valid path.");
+  }
+
+  let queryString = urlParsed.getQuery() || "";
+  queryString = queryString.trim();
+  if (queryString != "") {
+    queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
+  }
+
+  return `${pathString}${queryString}`;
+}
+
+/**
  * Get URL query key value pairs from an URL string.
  *
  * @export
@@ -498,4 +533,15 @@ export async function readStreamToLocalFile(
 
     rs.pipe(ws);
   });
+}
+/**
+ * If two strings are equal when compared case insensitive.
+ *
+ * @export
+ * @param {string} str1
+ * @param {string} str2
+ * @returns {boolean}
+ */
+export function iEqual(str1: string, str2: string): boolean {
+  return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
 }

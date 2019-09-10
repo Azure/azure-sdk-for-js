@@ -13,6 +13,7 @@ import { getBSU, getConnectionStringFromEnvironment, bodyToString } from "../uti
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record } from "../utils/recorder";
+import { Test_CPK_INFO } from "../utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient Node.js only", () => {
@@ -120,6 +121,52 @@ describe("AppendBlobClient Node.js only", () => {
     await appendBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length);
 
     const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
+    assert.equal(downloadResponse.contentLength!, content.length * 2);
+  });
+
+  it("create, appendBlock, appendBlockFromURL and download with CPK", async () => {
+    const cResp = await appendBlobClient.create({
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    const content = "Hello World!";
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blobClient.upload(content, content.length);
+
+    // Get a SAS for blobURL
+    const factories = (blobClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r").toString()
+      },
+      credential
+    );
+
+    const aResp = await appendBlobClient.appendBlock(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(aResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    const aResp2 = await appendBlobClient.appendBlockFromURL(
+      `${blobClient.url}?${sas}`,
+      0,
+      content.length,
+      { customerProvidedKey: Test_CPK_INFO }
+    );
+    assert.equal(aResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    const downloadResponse = await appendBlobClient.download(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO
+    });
     assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });

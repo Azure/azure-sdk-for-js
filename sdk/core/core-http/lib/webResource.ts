@@ -354,7 +354,9 @@ export class WebResource {
       this.abortSignal,
       this.timeout,
       this.onUploadProgress,
-      this.onDownloadProgress
+      this.onDownloadProgress,
+      this.proxySettings,
+      this.keepAlive
     );
 
     if (this.formData) {

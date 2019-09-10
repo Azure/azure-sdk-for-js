@@ -4,7 +4,16 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Directory } from "./generated/src/operations";
-import { Metadata } from "./models";
+import {
+  Metadata,
+  FileAndDirectoryCreateCommonOptions,
+  FileAndDirectorySetPropertiesCommonOptions,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
+} from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
@@ -13,6 +22,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { FileSystemAttributes } from "./FileSystemAttributes";
 
 /**
  * Options to configure Directory - Create operation.
@@ -20,7 +30,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @export
  * @interface DirectoryCreateOptions
  */
-export interface DirectoryCreateOptions {
+export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -36,6 +46,17 @@ export interface DirectoryCreateOptions {
    * @memberof DirectoryCreateOptions
    */
   metadata?: Metadata;
+}
+
+export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobCreateOptions
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -295,6 +316,7 @@ export class DirectoryClient extends StorageClient {
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
+   *  @param {IDirectoryCreateOptions} [options={}]
    * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
    * @returns {Promise<Models.DirectoryCreateResponse>} Response data for the Directory  operation.
    * @memberof DirectoryClient
@@ -302,10 +324,51 @@ export class DirectoryClient extends StorageClient {
   public async create(
     options: DirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
-    return this.context.create({
-      ...options,
-      abortSignal: options.abortSignal
-    });
+    if (!options.fileAttributes) {
+      options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+      // By default set it as a directory.
+      const attributes: FileSystemAttributes = new FileSystemAttributes();
+      attributes.directory = true;
+      options.fileAttributes = attributes;
+    }
+
+    return this.context.create(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: options.abortSignal,
+        metadata: options.metadata,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      }
+    );
+  }
+
+  /**
+   * Sets properties on the directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-properties
+   *
+   * @param {properties} [DirectoryProperties] Directory properties. If no values are provided,
+   *                                            existing values will be preserved.
+   * @returns {Promise<ISetPropertiesResponse>}
+   * @memberof FileURL
+   */
+  public async setProperties(
+    properties: DirectoryProperties = {}
+  ): Promise<Models.DirectorySetPropertiesResponse> {
+    properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
+
+    return this.context.setProperties(
+      fileAttributesToString(properties.fileAttributes!),
+      fileCreationTimeToString(properties.creationTime!),
+      fileLastWriteTimeToString(properties.lastWriteTime!),
+      {
+        abortSignal: properties.abortSignal,
+        filePermission: properties.filePermission,
+        filePermissionKey: properties.filePermissionKey
+      }
+    );
   }
 
   /**

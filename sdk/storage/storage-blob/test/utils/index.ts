@@ -16,15 +16,13 @@ import {
   AccountSASServices
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { TokenCredential } from "@azure/core-http";
 
 dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
 
-export function getGenericBSU(
-  accountType: string,
-  accountNameSuffix: string = ""
-): BlobServiceClient {
+export function getGenericCredential(accountType: string): SharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -40,33 +38,49 @@ export function getGenericBSU(
     );
   }
 
-  const credentials = new SharedKeyCredential(accountName, accountKey);
-  const pipeline = newPipeline(credentials, {
+  return new SharedKeyCredential(accountName, accountKey);
+}
+
+export function getGenericBSU(
+  accountType: string,
+  accountNameSuffix: string = ""
+): BlobServiceClient {
+  const credential = getGenericCredential(accountType) as SharedKeyCredential;
+
+  const pipeline = newPipeline(credential, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
-  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
+  const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
   return new BlobServiceClient(blobPrimaryURL, pipeline);
+}
+
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  let accountToken: string | undefined;
+
+  accountToken = process.env[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
+  }
+
+  return new SimpleTokenCredential(accountToken);
 }
 
 export function getTokenBSU(): BlobServiceClient {
   const accountNameEnvVar = `ACCOUNT_NAME`;
-  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
 
   let accountName: string | undefined;
-  let accountToken: string | undefined;
 
   accountName = process.env[accountNameEnvVar];
-  accountToken = process.env[accountTokenEnvVar];
 
-  if (!accountName || !accountToken || accountName === "" || accountToken === "") {
-    throw new Error(
-      `${accountNameEnvVar} and/or ${accountTokenEnvVar} environment variables not specified.`
-    );
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
-  const credentials = new SimpleTokenCredential(accountToken);
-  const pipeline = newPipeline(credentials, {
+  const credential = getTokenCredential();
+  const pipeline = newPipeline(credential, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });

@@ -3,7 +3,14 @@
 
 import assert from "assert";
 import { IdentityClientOptions } from "../src";
-import { HttpHeaders, HttpOperationResponse, WebResource, HttpClient, delay, RestError } from "@azure/core-http";
+import {
+  HttpHeaders,
+  HttpOperationResponse,
+  WebResource,
+  HttpClient,
+  delay,
+  RestError
+} from "@azure/core-http";
 
 export interface MockAuthResponse {
   status: number;
@@ -13,8 +20,8 @@ export interface MockAuthResponse {
 }
 
 export interface MockAuthHttpClientOptions {
-  authResponse?: MockAuthResponse | MockAuthResponse[],
-  mockTimeout?: boolean
+  authResponse?: MockAuthResponse | MockAuthResponse[];
+  mockTimeout?: boolean;
 }
 
 export class MockAuthHttpClient implements HttpClient {
@@ -32,22 +39,21 @@ export class MockAuthHttpClient implements HttpClient {
       if (options.authResponse.length === 0) {
         throw new Error("authResponse array must have at least one item");
       }
-      this.authResponses = options.authResponse
+      this.authResponses = options.authResponse;
     } else {
-      this.authResponses = [options.authResponse || {
-        status: 200,
-        headers: new HttpHeaders(),
-        parsedBody: {
-          access_token: "token",
-          expires_in: 120
+      this.authResponses = [
+        options.authResponse || {
+          status: 200,
+          headers: new HttpHeaders(),
+          parsedBody: {
+            access_token: "token",
+            expires_in: 120
+          }
         }
-      }];
+      ];
     }
 
-    this.mockTimeout =
-      options.mockTimeout !== undefined
-        ? options.mockTimeout
-        : false;
+    this.mockTimeout = options.mockTimeout !== undefined ? options.mockTimeout : false;
 
     this.identityClientOptions = {
       authorityHost: "https://authority",
@@ -65,7 +71,7 @@ export class MockAuthHttpClient implements HttpClient {
     }
 
     if (this.requests.length > this.authResponses.length) {
-      throw new Error("The number of requests has exceeded the number of authResponses")
+      throw new Error("The number of requests has exceeded the number of authResponses");
     }
 
     const response = {
@@ -116,6 +122,6 @@ export async function assertRejects(
   try {
     await promise;
   } catch (error) {
-    assert.ok(expected(error), message || "The error didn't pass the assertion predicate.")
+    assert.ok(expected(error), message || "The error didn't pass the assertion predicate.");
   }
 }

@@ -24,6 +24,7 @@ describe("QueueServiceClient", () => {
       .next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 
@@ -209,6 +210,7 @@ describe("QueueServiceClient", () => {
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 

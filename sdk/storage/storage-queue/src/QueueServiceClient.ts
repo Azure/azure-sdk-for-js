@@ -321,8 +321,10 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
     return this.serviceContext.listQueuesSegment({
       abortSignal: options.abortSignal,
-      marker,
-      ...options
+      marker: marker,
+      maxresults: options.maxresults,
+      prefix: options.prefix,
+      include: options.include === undefined ? undefined : [options.include]
     } as Models.ServiceListQueuesSegmentOptionalParams);
   }
 

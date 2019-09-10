@@ -6,6 +6,10 @@ import * as dotenv from "dotenv";
 import { ShareClient, DirectoryClient, FileClient } from "../src";
 import { getBSU, bodyToString } from "./utils";
 import { FileForceCloseHandlesResponse } from "../src/generated/src/models";
+import { DirectoryCreateResponse } from "../src/generated/src/models";
+import { FileSystemAttributes } from "../src/FileSystemAttributes";
+import { truncatedISO8061Date } from "../src/utils/utils.common";
+
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
@@ -14,11 +18,22 @@ describe("FileClient", () => {
   let shareClient: ShareClient;
   let dirName: string;
   let dirClient: DirectoryClient;
+  let defaultDirCreateResp: DirectoryCreateResponse;
   let fileName: string;
   let fileClient: FileClient;
   const content = "Hello World";
 
   let recorder: any;
+
+  let fullFileAttributes = new FileSystemAttributes();
+  fullFileAttributes.readonly = true;
+  fullFileAttributes.hidden = true;
+  fullFileAttributes.system = true;
+  fullFileAttributes.archive = true;
+  fullFileAttributes.temporary = true;
+  fullFileAttributes.offline = true;
+  fullFileAttributes.notContentIndexed = true;
+  fullFileAttributes.noScrubData = true;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -28,7 +43,8 @@ describe("FileClient", () => {
 
     dirName = recorder.getUniqueName("dir");
     dirClient = shareClient.getDirectoryClient(dirName);
-    await dirClient.create();
+
+    defaultDirCreateResp = await dirClient.create();
 
     fileName = recorder.getUniqueName("file");
     fileClient = dirClient.getFileClient(fileName);
@@ -40,15 +56,26 @@ describe("FileClient", () => {
   });
 
   it("create with default parameters", async () => {
-    await fileClient.create(content.length);
-    const result = await fileClient.download();
+    const cResp = await fileClient.create(content.length);
+    assert.equal(cResp.errorCode, undefined);
+    assert.equal(cResp.fileAttributes!, "Archive");
+    assert.ok(cResp.fileChangeTime!);
+    assert.ok(cResp.fileCreationTime!);
+    assert.ok(cResp.fileId!);
+    assert.ok(cResp.fileLastWriteTime!);
+    assert.ok(cResp.fileParentId!);
+    assert.ok(cResp.filePermissionKey!);
+
+    const result = await fileClient.download(0);
     assert.deepStrictEqual(
       await bodyToString(result, content.length),
       "\u0000".repeat(content.length)
     );
   });
 
-  it("create with all parameters set", async () => {
+  it("create with all parameters configured setting filePermissionKey", async () => {
+    const now = recorder.newDate("now");
+
     const options = {
       fileHTTPHeaders: {
         fileCacheControl: "fileCacheControl",
@@ -60,12 +87,31 @@ describe("FileClient", () => {
       metadata: {
         key1: "vala",
         key2: "valb"
-      }
+      },
+      creationTime: now,
+      lastWriteTime: now,
+      filePermissionKey: defaultDirCreateResp.filePermissionKey,
+      fileAttributes: fullFileAttributes
     };
     await fileClient.create(512, options);
 
     const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+    const respFileAttributesFromDownload = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributesFromDownload.readonly);
+    assert.ok(respFileAttributesFromDownload.hidden);
+    assert.ok(respFileAttributesFromDownload.system);
+    assert.ok(respFileAttributesFromDownload.archive);
+    assert.ok(respFileAttributesFromDownload.offline);
+    assert.ok(respFileAttributesFromDownload.notContentIndexed);
+    assert.ok(respFileAttributesFromDownload.noScrubData);
+    assert.ok(respFileAttributesFromDownload.temporary);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
 
     const properties = await fileClient.getProperties();
     assert.equal(properties.cacheControl, options.fileHTTPHeaders.fileCacheControl);
@@ -75,6 +121,92 @@ describe("FileClient", () => {
     assert.equal(properties.contentType, options.fileHTTPHeaders.fileContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
+    assert.equal(properties.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.ok(respFileAttributes.temporary);
+    assert.equal(truncatedISO8061Date(properties.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(properties.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(properties.fileChangeTime!);
+    assert.ok(properties.fileId!);
+    assert.ok(properties.fileParentId!);
+  });
+
+  it("setProperties with default parameters", async () => {
+    await fileClient.create(content.length);
+    await fileClient.setProperties();
+
+    const result = await fileClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, "Archive");
+    assert.ok(result.fileCreationTime!);
+    assert.ok(result.fileLastWriteTime!);
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+  });
+
+  it("setProperties with all parameters configured setting filePermission", async () => {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!
+    );
+
+    const now = recorder.newDate("now");
+
+    const options = {
+      fileHTTPHeaders: {
+        fileCacheControl: "fileCacheControl",
+        fileContentDisposition: "fileContentDisposition",
+        fileContentEncoding: "fileContentEncoding",
+        fileContentLanguage: "fileContentLanguage",
+        fileContentType: "fileContentType"
+      },
+      metadata: {
+        key1: "vala",
+        key2: "valb"
+      },
+      creationTime: now,
+      lastWriteTime: now,
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullFileAttributes
+    };
+
+    await fileClient.create(content.length);
+    await fileClient.setProperties(options);
+
+    const result = await fileClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.ok(respFileAttributes.temporary);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
   });
 
   it("setMetadata with new metadata set", async () => {

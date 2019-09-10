@@ -176,4 +176,25 @@ describe("ShareClient", () => {
       );
     }
   });
+
+  it("create and get permission", async () => {
+    const directoryClient = shareClient.getDirectoryClient("test0");
+
+    const cResp = await directoryClient.create();
+    assert.ok(cResp.filePermissionKey);
+
+    const getPermissionResp = await shareClient.getPermission(cResp.filePermissionKey!);
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
+    assert.ok(getPermissionResp.requestId!);
+    assert.ok(getPermissionResp.version!);
+
+    const createPermResp = await shareClient.createPermission(getPermissionResp.permission);
+    assert.ok(createPermResp.filePermissionKey!);
+    assert.ok(createPermResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(createPermResp.requestId!);
+    assert.ok(createPermResp.version!);
+  });
 });

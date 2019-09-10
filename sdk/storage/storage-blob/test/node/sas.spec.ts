@@ -518,7 +518,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: ContainerSASPermissions.parse("racwdl").toString(),
         protocol: SASProtocol.HTTPSandHTTP,
         startTime: now,
-        version: "2018-11-09"
+        version: "2019-02-02"
       },
       userDelegationKey,
       accountName

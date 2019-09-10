@@ -1,6 +1,6 @@
 # Changelog
 
-### 2019.08 Version 12.0.0-preview.3
+## 2019.08 12.0.0-preview.3
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
 
@@ -10,7 +10,7 @@
 
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
-### 2019.08 Version 12.0.0-preview.2
+## 2019.08 12.0.0-preview.2
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
@@ -22,7 +22,7 @@
   - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
 - Fixed a bug where `MessageIdClient` constructor throws an error `URL is undefined` when the client is created with a valid connection string.
 
-### 2019.07 Version 12.0.0-preview.1
+## 2019.07 12.0.0-preview.1
 
 - [Breaking] Client types are renamed from *URL to *Client.
   - QueueURL, MessagesURL, MessageIdURL, ServiceURL, StorageURL to QueueClient, MessagesClient, MessageIdClient, QueueServiceClient, StorageClient respectively.
@@ -53,7 +53,12 @@
 
 For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
 
-### 2019.7 Version 10.2.0
+## 2019.09 10.3.0
+
+- Updated Azure Storage Service API version to 2019-02-02.
+- Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
+
+## 2019.07 10.2.0
 
 - Fixed a bug that `Aborter` cannot work during retry interval.
 - Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
@@ -64,7 +69,7 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 - Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/en-us/rest/api/storageservices/version-2018-11-09).
 
-### 2019.1 Version 10.1.0
+## 2019.01 10.1.0
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.
 - [Breaking] `SASQueryParameters` is not going to be exported in browser bundle, and will be exported in Node.js runtime.
@@ -75,6 +80,6 @@ For release notes and more information please visit https://aka.ms/azure-sdk-pre
 - Fixed an issue that enqueue/dequeue/peek fail to work with some utf8 characters.
 - Exported HttpRequestBody type for who wants to implement a customized HTTP client.
 
-### 2018.12 Version 10.0.0-preview
+## 2018.12 10.0.0-preview
 
 - Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.

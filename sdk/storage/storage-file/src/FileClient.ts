@@ -8,7 +8,17 @@ import { FileDownloadResponse } from "./FileDownloadResponse";
 import * as Models from "./generated/src/models";
 import { File } from "./generated/src/operations";
 import { Range, rangeToString } from "./Range";
-import { FileHTTPHeaders, Metadata } from "./models";
+import {
+  FileHTTPHeaders,
+  Metadata,
+  FileAndDirectoryCreateCommonOptions,
+  FileAndDirectorySetPropertiesCommonOptions,
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
+} from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import {
@@ -24,6 +34,7 @@ import { Readable } from "stream";
 import { streamToBuffer } from "./utils/utils.node";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { readStreamToLocalFile } from "./utils/utils.common";
+import { FileSystemAttributes } from "./FileSystemAttributes";
 
 /**
  * Options to configure File - Create operation.
@@ -31,7 +42,7 @@ import { readStreamToLocalFile } from "./utils/utils.common";
  * @export
  * @interface FileCreateOptions
  */
-export interface FileCreateOptions {
+export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -56,6 +67,26 @@ export interface FileCreateOptions {
    */
   metadata?: Metadata;
 }
+
+export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobCreateOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * File HTTP headers like Content-Type.
+   *
+   * @type {FileHTTPHeaders}
+   * @memberof FileCreateOptions
+   */
+  fileHTTPHeaders?: FileHTTPHeaders;
+}
+
+export interface SetPropertiesResponse extends Models.FileSetHTTPHeadersResponse {}
 
 /**
  * Options to configure File - Delete operation.
@@ -159,6 +190,46 @@ export interface FileUploadRangeOptions {
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
+
+/**
+ * Options to configure File - Upload Range from URL operation.
+ *
+ * @export
+ * @interface FileUploadRangeFromURLOptions
+ */
+export interface FileUploadRangeFromURLOptions extends Models.FileUploadRangeFromURLOptionalParams {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileUploadRangeFromURLOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * The option is defined as parity to REST definition.
+ * While it's not ready to be used now, considering Crc64 of source content is
+ * not accessible.
+ */
+// export interface IFileUploadRangeFromURLOptions {
+//   /**
+//    * Crc64 of the source content.
+//    *
+//    * @type {Uint8Array}
+//    * @memberof IFileUploadRangeFromURLOptions
+//    */
+//   sourceContentCrc64?: Uint8Array;
+
+//   /**
+//    * Source modified access condition.
+//    *
+//    * @type {Models.SourceModifiedAccessConditions}
+//    * @memberof IFileUploadRangeFromURLOptions
+//    */
+//   sourceModifiedAccessConditions?: Models.SourceModifiedAccessConditions;
+// }
 
 /**
  * Options to configure File - Get Range List operation.
@@ -278,7 +349,7 @@ export interface FileSetMetadataOptions {
  * @export
  * @interface FileHTTPHeadersOptions
  */
-export interface FileSetHTTPHeadersOptions {
+export interface FileSetHTTPHeadersOptions extends FileAndDirectorySetPropertiesCommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -312,7 +383,7 @@ export interface FileAbortCopyFromURLOptions {
  * @export
  * @interface FileResizeOptions
  */
-export interface FileResizeOptions {
+export interface FileResizeOptions extends FileAndDirectorySetPropertiesCommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -622,13 +693,30 @@ export class FileClient extends StorageClient {
     if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
       throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
     }
+    options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+
+    if (!options.fileAttributes) {
+      // Note: It would be Archive in service side if None is set.
+      const attributes: FileSystemAttributes = new FileSystemAttributes();
+      attributes.none = true;
+      options.fileAttributes = attributes;
+    }
 
     options.fileHTTPHeaders = options.fileHTTPHeaders || {};
-    return this.context.create(size, {
-      abortSignal: options.abortSignal,
-      fileHTTPHeaders: options.fileHTTPHeaders,
-      metadata: options.metadata
-    });
+
+    return this.context.create(
+      size,
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: options.abortSignal,
+        fileHTTPHeaders: options.fileHTTPHeaders,
+        metadata: options.metadata,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      }
+    );
   }
 
   /**
@@ -731,6 +819,37 @@ export class FileClient extends StorageClient {
   }
 
   /**
+   * Sets properties on the file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {properties} [IFileProperties] File properties. For file HTTP headers(e.g. Content-Type),
+   *                                       if no values are provided, existing HTTP headers will be removed.
+   *                                       For other file properties(e.g. fileAttributes), if no values are provided,
+   *                                       existing values will be preserved.
+   * @returns {Promise<ISetPropertiesResponse>}
+   * @memberof FileURL
+   */
+  public async setProperties(properties: FileProperties = {}): Promise<SetPropertiesResponse> {
+    properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
+
+    properties.fileHTTPHeaders = properties.fileHTTPHeaders || {};
+
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(properties.fileAttributes!),
+      fileCreationTimeToString(properties.creationTime!),
+      fileLastWriteTimeToString(properties.lastWriteTime!),
+      {
+        abortSignal: properties.abortSignal,
+        fileHTTPHeaders: properties.fileHTTPHeaders,
+        filePermission: properties.filePermission,
+        filePermissionKey: properties.filePermissionKey
+      }
+    );
+  }
+
+  /**
    * Removes the file from the storage account.
    * When a file is successfully deleted, it is immediately removed from the storage
    * account's index and is no longer accessible to clients. The file's data is later
@@ -771,10 +890,19 @@ export class FileClient extends StorageClient {
     fileHTTPHeaders: FileHTTPHeaders = {},
     options: FileSetHTTPHeadersOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
-    return this.context.setHTTPHeaders({
-      abortSignal: options.abortSignal,
-      fileHTTPHeaders
-    });
+    // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
+    options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: options.abortSignal,
+        fileHTTPHeaders: fileHTTPHeaders,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      }
+    );
   }
 
   /**
@@ -796,10 +924,20 @@ export class FileClient extends StorageClient {
     if (length < 0) {
       throw new RangeError(`Size cannot less than 0 when resizing file.`);
     }
-    return this.context.setHTTPHeaders({
-      abortSignal: options.abortSignal,
-      fileContentLength: length
-    });
+    // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
+    options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
+
+    return this.context.setHTTPHeaders(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: options.abortSignal,
+        fileContentLength: length,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      }
+    );
   }
 
   /**
@@ -833,7 +971,7 @@ export class FileClient extends StorageClient {
    * @param {number} offset Offset position of the destination Azure File to upload.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {FileUploadRangeOptions} [options] Options to File Upload Range operation.
+   * @param {FileUploadRangeOptions} [options={}] Options to File Upload Range operation.
    * @returns {Promise<Models.FileUploadRangeResponse>} Response data for the File Upload Range operation.
    * @memberof FileClient
    */
@@ -843,8 +981,12 @@ export class FileClient extends StorageClient {
     contentLength: number,
     options: FileUploadRangeOptions = {}
   ): Promise<Models.FileUploadRangeResponse> {
-    if (offset < 0 || contentLength <= 0) {
-      throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
+    if (offset < 0) {
+      throw new RangeError(`offset must be >= 0`);
+    }
+
+    if (contentLength <= 0 || contentLength > FILE_RANGE_MAX_SIZE_BYTES) {
+      throw new RangeError(`contentLength must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
     }
 
     if (contentLength > FILE_RANGE_MAX_SIZE_BYTES) {
@@ -864,6 +1006,44 @@ export class FileClient extends StorageClient {
     );
   }
 
+  /**
+   * Upload a range of bytes to a file where the contents are read from a another file's URL.
+   * The range can be up to 4 MB in size.
+   *
+   * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication.
+   * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source file.
+   * @param {number} destOffset Offset of destination file.
+   * @param {number} count Number of bytes to be uploaded from source file.
+   * @param {FileUploadRangeFromURLOptions} [options={}] Options to configure File - Upload Range from URL operation.
+   * @returns {Promise<Models.FileUploadRangeFromURLResponse>}
+   * @memberof FileURL
+   */
+  public async uploadRangeFromURL(
+    sourceURL: string,
+    sourceOffset: number,
+    destOffset: number,
+    count: number,
+    options: FileUploadRangeFromURLOptions = {}
+  ): Promise<Models.FileUploadRangeFromURLResponse> {
+    if (sourceOffset < 0 || destOffset < 0) {
+      throw new RangeError(`sourceOffset and destOffset must be >= 0`);
+    }
+
+    if (count <= 0 || count > FILE_RANGE_MAX_SIZE_BYTES) {
+      throw new RangeError(`count must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES} bytes`);
+    }
+
+    return this.context.uploadRangeFromURL(
+      rangeToString({ offset: destOffset, count }),
+      sourceURL,
+      rangeToString({ offset: sourceOffset, count }),
+      0,
+      {
+        abortSignal: options.abortSignal,
+        ...options
+      }
+    );
+  }
   /**
    * Clears the specified range and
    * releases the space used in storage for that range.

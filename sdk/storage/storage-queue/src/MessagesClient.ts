@@ -318,6 +318,7 @@ export class MessagesClient extends StorageClient {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       version: response.version,
       errorCode: response.errorCode,
       messageId: item.messageId,
@@ -346,6 +347,7 @@ export class MessagesClient extends StorageClient {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       dequeuedMessageItems: [],
       version: response.version,
       errorCode: response.errorCode
@@ -376,6 +378,7 @@ export class MessagesClient extends StorageClient {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       peekedMessageItems: [],
       version: response.version,
       errorCode: response.errorCode

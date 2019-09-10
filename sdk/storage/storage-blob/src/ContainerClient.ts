@@ -782,6 +782,7 @@ export class ContainerClient extends StorageClient {
       errorCode: response.errorCode,
       lastModified: response.lastModified,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       signedIdentifiers: [],
       version: response.version
     };

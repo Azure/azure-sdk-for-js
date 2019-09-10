@@ -191,9 +191,32 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can create, read, and delete a certificate issuer", async function() {
     const issuerName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     // Create
-    await client.setCertificateIssuer(issuerName, "Test");
+    await client.setCertificateIssuer(issuerName, "Test", {
+      credentials: {
+        accountId: "keyvaultuser",
+      },
+      organizationDetails: {
+        adminDetails: [{
+          firstName: "John",
+          lastName: "Doe",
+          emailAddress: "admin@microsoft.com",
+          phone: "4255555555"
+        }]
+      }
+    });
+
+    // Creating a certificate with that issuer
+    await client.createCertificate(certificateName, {
+      issuerParameters: { name: issuerName },
+      x509CertificateProperties: { subject: "cn=MyCert" }
+    });
+
+    // Reading the issuer from the certificate
+    const certificate = await client.getCertificateWithPolicy(certificateName);
+    assert.equal(certificate.policy!.issuerParameters!.name, issuerName);
 
     let getResponse: any;
 
@@ -211,6 +234,8 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(error.message, "Issuer not found"); 
+
+    await testClient.flushCertificate(certificateName);
   });
 
   it("can read, cancel and delete a certificate's operation", async function() {
