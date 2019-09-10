@@ -110,9 +110,7 @@ export {
   atomSerializationPolicy,
   AtomSerializationPolicy
 } from "./policies/atomSerializationPolicy";
-export { SasServiceClientCredentials } from "./credentials/sasServiceClientCredentials";
 export { ResourceSerializer } from "./resourceSerializer";
 export { AtomResourceSerializerBase } from "./atomResourceSerializerBase";
 export { AtomXmlOperationSpec } from "./atomXmlOperationSpec";
-export { ProxySettings } from "./serviceClient";
 export * from "@azure/core-tracing";

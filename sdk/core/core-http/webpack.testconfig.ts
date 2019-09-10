@@ -36,10 +36,6 @@ const config: webpack.Configuration = {
       path.resolve(__dirname, "./lib/util/xml.browser.ts")
     ),
     new webpack.NormalModuleReplacementPlugin(
-      /(\.).+util\/crypto/,
-      path.resolve(__dirname, "./lib/util/crypto.browser.ts")
-    ),
-    new webpack.NormalModuleReplacementPlugin(
       /(\.).+defaultHttpClient/,
       path.resolve(__dirname, "./lib/defaultHttpClient.browser.ts")
     ),

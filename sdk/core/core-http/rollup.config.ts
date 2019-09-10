@@ -58,7 +58,6 @@ const nodeConfig = {
  */
 const browserConfig = {
   input: "./es/lib/coreHttp.js",
-  external: ["crypto"],
   output: {
     file: "./dist/coreHttp.browser.js",
     format: "umd",
