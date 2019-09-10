@@ -79,7 +79,7 @@ await containerClient.create();
 const processor = new EventProcessor(
   EventHubClient.defaultConsumerGroupName,
   client,
-  SamplePartitionProcessor,
+PartitionProcessor,
   new BlobPartitionManager(containerClient)
 );
 await processor.start();
