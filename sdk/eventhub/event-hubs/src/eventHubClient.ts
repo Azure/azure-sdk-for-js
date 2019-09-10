@@ -29,9 +29,9 @@ import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
     retryOptions == undefined ||
-    typeof retryOptions.timeoutInMs !== "number" ||
-    !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
+      typeof retryOptions.timeoutInMs !== "number" ||
+      !isFinite(retryOptions.timeoutInMs) ||
+      retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
       ? Constants.defaultOperationTimeoutInMs
       : retryOptions.timeoutInMs;
   return timeoutInMs;
@@ -64,6 +64,13 @@ export interface EventHubProducerOptions {
  * The set of options to configure the `send` operation on the `EventHubProducer`.
  * - `partitionKey` : A value that is hashed to produce a partition assignment.
  * - `abortSignal`  : A signal the request to cancel the send operation.
+ * 
+ * Example usage:
+ * ```js
+ * {
+ *     partitionKey: 'foo'
+ * }
+ * ```
  */
 export interface SendOptions {
   /**
@@ -87,6 +94,14 @@ export interface SendOptions {
  * Not applicable if the `EventHubProducer` was created using a `partitionId`.
  * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
  * - `abortSignal`   : A signal the request to cancel the send operation.
+ * 
+ * Example usage:
+ * ```js
+ * {
+ *     partitionKey: 'foo',
+ *     maxSizeInBytes: 1024 * 1024 // 1 MB
+ * }
+ * ```
  */
 export interface BatchOptions {
   /**
@@ -116,6 +131,16 @@ export interface BatchOptions {
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
  * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  * A simple usage can be `{ "maxRetries": 4 }`.
+ * 
+ * Example usage:
+ * ```js
+ * {
+ *     retryOptions: {
+ *         maxRetries: 4
+ *     },
+ *     trackLastEnqueuedEventInfo: false
+ * }
+ * ```
  */
 export interface EventHubConsumerOptions {
   /**
@@ -159,6 +184,15 @@ export interface EventHubConsumerOptions {
  * over a WebSocket.
  * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
  * A simple usage can be `{ "maxRetries": 4 }`.
+ * 
+ * Example usage:
+ * ```js
+ * {
+ *     retryOptions: {
+ *         maxRetries: 4
+ *     }
+ * }
+ * ```
  * @interface ClientOptions
  */
 export interface EventHubClientOptions {
@@ -322,7 +356,7 @@ export class EventHubClient {
       ) {
         throw new TypeError(
           `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
-            `must contain "EntityPath=<your-event-hub-name>".`
+          `must contain "EntityPath=<your-event-hub-name>".`
         );
       }
       if (
@@ -333,7 +367,7 @@ export class EventHubClient {
       ) {
         throw new TypeError(
           `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
-            `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
+          `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
         );
       }
       connectionString = hostOrConnectionString;
