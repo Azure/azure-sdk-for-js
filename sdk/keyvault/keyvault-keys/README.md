@@ -155,7 +155,7 @@ tasks using Azure Key Vault Keys. The scenarios that are covered here consist of
 - [Deleting a key](#deleting-a-key).
 - [Iterating lists of keys](#iterating-lists-of-keys).
 
-### Creatating a key
+### Creating a key
 
 `createKey` creates a Key to be stored in the Azure Key Vault. If a key with
 the same name already exists, then a new version of the key is created.
@@ -424,7 +424,7 @@ environment variables:
 - `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
 
 **WARNING:** 
-Integration tests will wipe all of the existing records in the targetted Key Vault.
+Integration tests will wipe all of the existing records in the targeted Key Vault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or

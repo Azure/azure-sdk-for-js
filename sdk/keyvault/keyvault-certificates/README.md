@@ -136,7 +136,7 @@ tasks using Azure Key Vault Certificates. The scenarios that are covered here co
 
 - [Creating a certificate](#creating-a-certificate).
 - [Getting a certificate](#getting-a-certificate).
-- [Certificate attributes](#certificte-attributes).
+- [Certificate attributes](#certificate-attributes).
 - [Updating a certificate](#updating-a-certificate).
 - [Deleting a certificate](#deleting-a-certificate).
 - [Iterating lists of certificates](#iterating-lists-of-certificates).
@@ -341,7 +341,7 @@ environment variables:
 - `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
 
 **WARNING:** 
-Integration tests will wipe all of the existing records in the targetted Key Vault.
+Integration tests will wipe all of the existing records in the targeted Key Vault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
