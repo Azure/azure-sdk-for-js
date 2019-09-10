@@ -444,7 +444,7 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.StorageError
     }
   },
-  isXML: true,
+  isXML: false,
   serializer
 };
 
