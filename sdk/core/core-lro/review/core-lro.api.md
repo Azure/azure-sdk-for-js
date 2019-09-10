@@ -4,15 +4,15 @@
 
 ```ts
 
-import { AzureServiceClient } from '@azure/core-arm';
 import { HttpOperationResponse } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
+import { ServiceClient } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public (undocumented)
-export function getDelayInSeconds(azureServiceClient: AzureServiceClient, previousResponse: HttpOperationResponse): number;
+export function getDelayInSeconds(serviceClient: LROServiceClient, previousResponse: HttpOperationResponse): number;
 
 // Warning: (ae-forgotten-export) The symbol "LongRunningOperationStates" needs to be exported by the entry point index.d.ts
 // 
@@ -39,28 +39,24 @@ export class LROPoller {
 // @public (undocumented)
 export interface LROPollState {
     // (undocumented)
-    azureAsyncOperationHeaderValue?: string;
+    appState?: any;
     // (undocumented)
-    initialResponse: HttpOperationResponse;
+    initialResponse?: HttpOperationResponse;
     // (undocumented)
-    locationHeaderValue?: string;
+    mostRecentRequest?: WebResource;
     // (undocumented)
-    mostRecentRequest: WebResource;
-    // (undocumented)
-    mostRecentResponse: HttpOperationResponse;
+    mostRecentResponse?: HttpOperationResponse;
     // (undocumented)
     options?: RequestOptionsBase;
     // (undocumented)
-    pollStrategyType: LROPollStrategyType;
+    resource?: any;
     // (undocumented)
-    resource: any;
-    // (undocumented)
-    state: LongRunningOperationStates;
+    state?: LongRunningOperationStates;
 }
 
 // @public
 export abstract class LROPollStrategy {
-    constructor(_azureServiceClient: AzureServiceClient, _pollState: LROPollState);
+    constructor(_serviceClient: LROServiceClient, _pollState: LROPollState);
     // (undocumented)
     protected abstract doFinalGetResourceRequest(): Promise<void>;
     // (undocumented)
@@ -89,6 +85,12 @@ export abstract class LROPollStrategy {
 
 // @public (undocumented)
 export type LROPollStrategyType = "AzureAsyncOperation" | "Location" | "GetResource";
+
+// @public (undocumented)
+export class LROServiceClient extends ServiceClient {
+    // (undocumented)
+    longRunningOperationRetryTimeout?: number;
+}
 
 
 // (No @packageDocumentation comment for this package)
