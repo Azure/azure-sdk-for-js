@@ -206,7 +206,7 @@ describe("ContainerClient", () => {
       prefix
     })) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.deepStrictEqual(blob.metadata, metadata);
+      assert.ok(isSuperSet(blob.metadata as BlobMetadata, metadata as BlobMetadata));
       i++;
     }
 
@@ -238,11 +238,11 @@ describe("ContainerClient", () => {
 
     let blobItem = await iterator.next();
     assert.ok(blobClients[0].url.indexOf(blobItem.value.name));
-    assert.deepStrictEqual(blobItem.value.metadata, metadata);
+    assert.ok(isSuperSet(blobItem.value.metadata as BlobMetadata, metadata as BlobMetadata));
 
     blobItem = await iterator.next();
     assert.ok(blobClients[1].url.indexOf(blobItem.value.name));
-    assert.deepStrictEqual(blobItem.value.metadata, metadata);
+    assert.ok(isSuperSet(blobItem.value.metadata as BlobMetadata, metadata as BlobMetadata));
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -274,7 +274,7 @@ describe("ContainerClient", () => {
       .byPage({ maxPageSize: 2 })) {
       for (const blob of response.segment.blobItems) {
         assert.ok(blobClients[i].url.indexOf(blob.name));
-        assert.deepStrictEqual(blob.metadata, metadata);
+        assert.ok(isSuperSet(blob.metadata as BlobMetadata, metadata as BlobMetadata));
         i++;
       }
     }
@@ -310,7 +310,7 @@ describe("ContainerClient", () => {
     let response = (await iter.next()).value;
     for (const blob of response.segment.blobItems) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.deepStrictEqual(blob.metadata, metadata);
+      assert.ok(isSuperSet(blob.metadata as BlobMetadata, metadata as BlobMetadata));
       i++;
     }
     // Gets next marker
@@ -326,7 +326,7 @@ describe("ContainerClient", () => {
     // Gets 2 blobs
     for (const blob of response.segment.blobItems) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.deepStrictEqual(blob.metadata, metadata);
+      assert.ok(isSuperSet(blob.metadata as BlobMetadata, metadata as BlobMetadata));
       i++;
     }
 
