@@ -76,7 +76,7 @@ await containerClient.create(); // This can be skipped if the container already 
 const partitionManager =  new BlobPartitionManager(containerClient);
 
 SamplePartitionProcessor extends PartitionProcessor  {
-   processEvents(events, partitionContext) {
+  async processEvents(events, partitionContext) {
   if (events.length) {
     /* custom logic for processing events, then checkpoint*/
     await partitionContext.updateCheckpoint(events[events.length - 1]);
