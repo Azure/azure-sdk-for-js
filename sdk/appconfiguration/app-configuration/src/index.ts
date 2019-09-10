@@ -145,9 +145,7 @@ export class AppConfigurationClient {
     customHeaders["if-none-match"] = "*";
     options.customHeaders = customHeaders;
 
-    if (configSettings.label) {
-      options.label = configSettings.label;
-    }
+    options.label = configSettings.label;
     return this.client.createOrUpdateConfigurationSetting(configSettings, key, options);
   }
 
@@ -189,8 +187,13 @@ export class AppConfigurationClient {
    */
   getConfigurationSetting(
     key: string,
-    options?: GetConfigurationSettingOptions
+    options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
+    // temporary workaround - if the user doesn't initialize the label field explicitly to undefined then the default value will make it so you can't get a value without 
+    // a label. Should be able to remove when we use newer generated models.
+    options = { ...options };
+    options.label = options.label;
+
     return this.client.getConfigurationSetting(key, options);
   }
 
@@ -250,9 +253,8 @@ export class AppConfigurationClient {
       customHeaders["if-match"] = `"${etag}"`;
     }
 
-    if (configSettings.label) {
-      options.label = configSettings.label;
-    }
+    options.label = configSettings.label;
+    
     return this.client.createOrUpdateConfigurationSetting(configSettings, key, {
       ...options,
       customHeaders
@@ -275,6 +277,7 @@ export class AppConfigurationClient {
     configSettings: UpdateConfigurationSettingConfig,
     options: UpdateConfigurationSettingOptions = {}
   ): Promise<UpdateConfigurationSettingResponse> {
+    options = { ...options };
     // retrieve existing configuration, and populate configSettings for missing fields that aren't null
     const existingConfigurationSettings = await this.getConfigurationSetting(key, {
       abortSignal: options.abortSignal,
@@ -293,9 +296,7 @@ export class AppConfigurationClient {
       updateConfigSettings.tags = existingConfigurationSettings.tags;
     }
 
-    if (configSettings.label) {
-      options.label = configSettings.label;
-    }
+    options.label = configSettings.label;
 
     const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
     options.customHeaders = customHeaders;
