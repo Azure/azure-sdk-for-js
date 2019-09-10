@@ -10,7 +10,7 @@ An Azure Blob storage based solution to store checkpoints and to aid in load bal
 
 Install the Azure Event Hubs Checkpoint Store Blob library using npm
 
-`npm install @azure/eventhubs-checkpointstore-blob@latest`
+`npm install @azure/eventhubs-checkpointstore-blob`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/), an
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
@@ -28,9 +28,9 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Key concepts
 
-- **Checkpointing** is a process by which readers mark or commit their position within a partition event sequence. Checkpointing is the responsibility of the consumer and occurs on a per-partition basis within a consumer group. This responsibility     means that for each consumer group, each partition reader must keep track of its current position in the event stream, and can inform the service when it considers the data stream complete.
+- **Checkpointing** is a process by which readers mark or commit their position within a partition event sequence. Checkpointing is the responsibility of the consumer and occurs on a per-partition basis within a consumer group. This responsibility means that for each consumer group, each partition reader must keep track of its current position in the event stream, and can inform the service when it considers the data stream complete.
 
-  If a reader disconnects from a partition, when it reconnects it begins reading at the checkpoint that was previously submitted by the last reader of that partition in that consumer group. When the reader connects, it passes the offset to the event hub to specify the location at which to start reading. In this way, you can use checkpointing to both mark events as "complete" by downstream applications, and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process. Through this mechanism, checkpointing enables both failover resiliency and event stream replay..
+  If a reader disconnects from a partition, when it reconnects it begins reading at the checkpoint that was previously submitted by the last reader of that partition in that consumer group. When the reader connects, it passes the offset to the event hub to specify the location at which to start reading. In this way, you can use checkpointing to both mark events as "complete" by downstream applications, and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process. Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
 - Event Processor based application consists of one or more instances of `EventProcessor` which have been
   configured to consume events from the same Event Hub and consumer group. They balance the
@@ -76,7 +76,12 @@ await containerClient.create(); // This can be skipped if the container already 
 const partitionManager =  new BlobPartitionManager(containerClient);
 
 SamplePartitionProcessor extends PartitionProcessor  {
-   // add code here to override the processevents method to checkpoint the last event in the batch
+   processEvents(events, partitionContext) {
+  if (events.length) {
+    /* custom logic for processing events, then checkpoint*/
+    await partitionContext.updateCheckpoint(events[events.length - 1]);
+  }
+}
 }
 
 const eventProcessor = new EventProcessor(
