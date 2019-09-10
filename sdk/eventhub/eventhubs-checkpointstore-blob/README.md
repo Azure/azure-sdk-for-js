@@ -12,7 +12,7 @@ Install the Azure Event Hubs Checkpoint Store Blob library using npm
 
 `npm install @azure/eventhubs-checkpointstore-blob@latest`
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
+**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/), an
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
