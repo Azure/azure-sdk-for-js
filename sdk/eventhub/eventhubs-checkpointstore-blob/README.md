@@ -8,7 +8,7 @@ An Azure Blob storage based solution to store checkpoints and to aid in load bal
 
 ### Install the package
 
-Install the Azure Event Hubs checkpointstore blob library using npm
+Install the Azure Event Hubs Checkpoint Store Blob library using npm
 
 `npm install @azure/eventhubs-checkpointstore-blob@1.0.0-preview.1`
 
