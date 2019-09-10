@@ -28,18 +28,16 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Key concepts
 
-- **Checkpointing** is a process by which readers mark or commit their position within a partition event sequence. Checkpointing is the responsibility of the consumer and occurs on a per-partition basis within a consumer group. This responsibility means that for each consumer group, each partition reader must keep track of its current position in the event stream, and can inform the service when it considers the data stream complete.
+- **Checkpointing** is a process by which readers mark or commit their position within a partition event sequence. Checkpointing is the responsibility of the consumer and occurs on a per-partition basis within a consumer group. This responsibility     means that for each consumer group, each partition reader must keep track of its current position in the event stream, and can inform the service when it considers the data stream complete.
 
   If a reader disconnects from a partition, when it reconnects it begins reading at the checkpoint that was previously submitted by the last reader of that partition in that consumer group. When the reader connects, it passes the offset to the event hub to specify the location at which to start reading. In this way, you can use checkpointing to both mark events as "complete" by downstream applications, and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process. Through this mechanism, checkpointing enables both failover resiliency and event stream replay..
 
 - Event Processor based application consists of one or more instances of `EventProcessor` which have been
-configured to consume events from the same Event Hub and consumer group. They balance the
-workload across different instances by distributing the partitions to be processed among themselves.
-They also allow the user to track progress when events are processed using checkpoints.
- 
+  configured to consume events from the same Event Hub and consumer group. They balance the
+  workload across different instances by distributing the partitions to be processed among themselves.
+  They also allow the user to track progress when events are processed using checkpoints.
   A checkpoint is meant to represent the last successfully processed event by the user from a particular
   partition of a consumer group in an Event Hub instance.
- 
   A Partition Manager is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
 
 ## Examples
@@ -49,7 +47,7 @@ They also allow the user to track progress when events are processed using check
 
 ### Create a Partition Manager using Azure Blob Storage
 
- you can use the below code snippet to create a Partition Manager
+you can use the below code snippet to create a Partition Manager
 
 ```javascript
 import { ContainerClient } from "@azure/storage-blob",
@@ -65,7 +63,7 @@ const partitionManager =  new BlobPartitionManager(containerClient);
 
 To checkpoint events received using an EventProcessor to Azure Blob Storage, you will need to pass an instance of the Partition Manager to the Event Processor along with the code to call the `updateCheckpoint()` method.
 
-In this example, we will use a `SamplePartitionProcessor` that extends the `PartitionProcessor` class in order to checkpoint the last event in the batch.
+In this example, we will use a `SamplePartitionProcessor` that extends the [PartitionProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/partitionprocessor.html) class in order to checkpoint the last event in the batch.
 
 ```javascript
 import { ContainerClient } from "@azure/storage-blob",
@@ -135,4 +133,3 @@ directory for detailed example.
 If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventhub/eventhubs-checkpointstore-blob/README.png)
-
