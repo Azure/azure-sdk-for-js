@@ -26,7 +26,16 @@ npm install @types/node
 
 You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information.
 
-## Key concepts
+
+Event Processor based application consists of one or more instances of `EventProcessor` which have been
+configured to consume events from the same Event Hub and consumer group. They balance the
+workload across different instances by distributing the partitions to be processed among themselves.
+They also allow the user to track progress when events are processed using checkpoints.
+ 
+ A checkpoint is meant to represent the last successfully processed event by the user from a particular
+ partition of a consumer group in an Event Hub instance.
+ 
+A Partition Manager is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
 
 ## Examples
 
