@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample lets you describe a given image. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/home)
+The following sample describes a given image using Computer Vision. To know more, refer to the [Azure Documentation on Computer Vision](https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/home)
 
 ```typescript
 import {
