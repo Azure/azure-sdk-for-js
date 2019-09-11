@@ -4,6 +4,33 @@
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
 
+- Updated Azure Storage Service API version to 2019-02-02.
+- A new API `BlobServiceClient.submitBatch()` supports Blob Batch operation which allows multiple requests to be sent within a single request body.
+- Added support for customer provided encryption key.
+- Added support for rehydrate priority with additional option to methods `BlobClient.startCopyFromURL()` and `BlobClient.setTier()`.
+- APIs `BlobClient.startCopyFromURL()`, `BlockBlobClient.upload()`, `BlockBlobClient.commitBlockList()` and `PageBlobClient.create()` now support set the blob tier within the API call.
+- Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
+- Exposed options to accept CRC64 as a transactional data integrity mechanism for data transfer APIs.
+
+- Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
+- `expiry` and `start` in `AccessPolicy` are now optional in `ContainerClient.setAccessPolicy` and `ContainerClient.getAccessPolicy`.
+
+- Exported `HttpRequestBody` type for who wants to implement a customized HTTP client.
+- Fixed a bug of `BlobClient.downloadToBuffer()` when provided offset is not 0.
+- Fixed a bug that `Aborter` cannot work during retry interval.
+- Fixed a bug that `Aborter` throws timeout error even though it succeeds of `BlockBlobClient.download()`.
+- Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
+- Export `RetryPolicyType`.
+- `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
+- Service SAS generation now supports snapshot access control from 2018-11-09 in `generateBlobSASQueryParameters()`.
+- Service SAS generation now supports snapshot access control from API version 2018-11-09 in `generateBlobSASQueryParameters()`.
+- A new API `PageBlobClient.uploadPagesFromURL()` allows pages in a page blob to be written using a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for page blobs of any size.
+- A new API `AppendBlobClient.appendBlockFromURL()` commits a new block of data to the end of an append blob. Method uses a range of another blob as a source. This permits synchronous server-side copies to be orchestrated for append blobs of any size.
+- A new API `BlobClient.syncCopyFromURL()` allows a block blob to be copied synchronously using a URL as a source. This API has a maximum size of 256 MB and preserves metadata and block list.
+- A new API `BlobServiceClient.getUserDelegationKey()` added to get a key that can be used to generate a user delegation SAS (shared access signature).
+- Updated HTTP client from axios to node-fetch in Node.js runtime.
+- A new option `keepAliveOptions` added to parameter of `newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
+
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
 
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/proxyAuth.ts)

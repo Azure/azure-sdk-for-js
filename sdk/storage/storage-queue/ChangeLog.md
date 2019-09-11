@@ -4,6 +4,16 @@
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
 
+- Updated Azure Storage Service API version to 2019-02-02.
+- Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
+
+- Fixed a bug that `Aborter` cannot work during retry interval.
+- Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
+- Export `RetryPolicyType`.
+- `Aborter` doesn't require `dom` as tsconfig lib requirement anymore for `Event` type.
+- Updated HTTP client from axios to node-fetch in Node.js runtime.
+- A new option `keepAliveOptions` added to parameter of `newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
+
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
 
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/proxyAuth.ts)
