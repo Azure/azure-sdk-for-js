@@ -1,7 +1,0 @@
-steps:
-  - task: azure-cosmosdb.emulator-internal-preview.run-cosmosdbemulatorcontainer.CosmosDbEmulator@2
-    inputs:
-      username: "$(cosmos-cosmosdb-azurecr-io-username)"
-      password: "$(cosmos-cosmosdb-azurecr-io-password)"
-      defaultPartitionCount: 25
-    displayName: "Run Azure Cosmos DB Emulator container (nightly)"
