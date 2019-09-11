@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample lets you perform a quick test of the given image based on your custom vision training. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
+The following sample performs a quick test of the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
 
 ```typescript
 import {
