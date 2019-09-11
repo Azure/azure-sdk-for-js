@@ -4,20 +4,27 @@ Azure App Configuration is a managed service that helps developers centralize th
 
 Modern programs, especially programs running in a cloud, generally have many components that are distributed in nature. Spreading configuration settings across these components can lead to hard-to-troubleshoot errors during an application deployment. Use App Configuration to securely store all the settings for your application in one place.
 
-Use the client library for App Configuration to create and manage application configuration settings.
+Use the client library for App Configuration to:
+
+* Create centrally stored application configuration settings
+* Retrieve settings
+* Update settings
+* Delete settings
+
+[NPM](https://www.npmjs.com/package/@azure/app-configuration) | []() | [Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)
 
 ## Getting started
 
 ### Currently supported environments
 
 - Node.js version 8.x.x or higher
-- Browser JavaScript
 
 ### How to Install
 
 ```bash
 npm install @azure/app-configuration
 ```
+
 ## Key concepts
 
 ### How to use
