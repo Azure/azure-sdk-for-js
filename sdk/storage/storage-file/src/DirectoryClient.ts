@@ -203,6 +203,31 @@ export interface DirectoryListHandlesSegmentOptions {
 }
 
 /**
+ * Options to configure Directory - List Handles.
+ *
+ * @export
+ * @interface DirectoryListHandlesOptions
+ */
+export interface DirectoryListHandlesOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof DirectoryListHandlesOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Specifies whether operation should apply to the directory specified in the URI, its files, its
+   * subdirectories and their files.
+   *
+   * @type {boolean}
+   * @memberof DirectoryListHandlesOptions
+   */
+  recursive?: boolean;
+}
+
+/**
  * Options to configure Directory - Force Close Handles Segment.
  *
  * @export
@@ -556,7 +581,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse>}
    * @memberof DirectoryClient
    */
-  private async *listSegments(
+  private async *iterateFilesAndDirectoriesSegments(
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): AsyncIterableIterator<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
@@ -576,13 +601,16 @@ export class DirectoryClient extends StorageClient {
    * @returns {AsyncIterableIterator<{ kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem>}
    * @memberof DirectoryClient
    */
-  private async *listItems(
+  private async *listFilesAndDirectoriesItems(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): AsyncIterableIterator<
     { kind: "file" } & Models.FileItem | { kind: "directory" } & Models.DirectoryItem
   > {
     let marker: string | undefined;
-    for await (const listFilesAndDirectoriesResponse of this.listSegments(marker, options)) {
+    for await (const listFilesAndDirectoriesResponse of this.iterateFilesAndDirectoriesSegments(
+      marker,
+      options
+    )) {
       for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
         yield { kind: "file", ...file };
       }
@@ -676,7 +704,7 @@ export class DirectoryClient extends StorageClient {
     Models.DirectoryListFilesAndDirectoriesSegmentResponse
   > {
     // AsyncIterableIterator to iterate over files and directories
-    const iter = this.listItems(options);
+    const iter = this.listFilesAndDirectoriesItems(options);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -694,7 +722,7 @@ export class DirectoryClient extends StorageClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegments(settings.continuationToken, {
+        return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
           maxresults: settings.maxPageSize,
           ...options
         });
@@ -723,11 +751,115 @@ export class DirectoryClient extends StorageClient {
   }
 
   /**
+   * Returns an AsyncIterableIterator for DirectoryListHandlesResponse
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of the list to be
+   *                          returned with the next list handles operation. The operation returns a
+   *                          marker value within the response body if the list returned was not complete.
+   *                          The marker value may then be used in a subsequent call to request the next
+   *                          set of list items.
+   * @param {DirectoryListHandlesSegmentOptions} [options] Options to list handles operation.
+   * @returns {AsyncIterableIterator<Models.DirectoryListHandlesResponse>}
+   * @memberof DirectoryClient
+   */
+  private async *iterateHandleSegments(
+    marker?: string,
+    options: DirectoryListHandlesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.DirectoryListHandlesResponse> {
+    let listHandlesResponse;
+    do {
+      listHandlesResponse = await this.listHandlesSegment(marker, options);
+      marker = listHandlesResponse.nextMarker;
+      yield await listHandlesResponse;
+    } while (marker);
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for handles
+   *
+   * @private
+   * @param {DirectoryListHandlesSegmentOptions} [options] Options to list handles operation.
+   * @returns {AsyncIterableIterator<Models.HandleItem>}
+   * @memberof DirectoryClient
+   */
+  private async *listHandleItems(
+    options: DirectoryListHandlesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.HandleItem> {
+    let marker: string | undefined;
+    for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
+      if (listHandlesResponse.handleList) {
+        for (const handle of listHandlesResponse.handleList) {
+          yield handle;
+        }
+      }
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the handles.
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the handles in pages.
+   *
+   * @example
+   *   let i = 1;
+   *   // TODO
+   * @example
+   *   // Generator syntax .next()
+   *   let i = 1;
+   *   // TODO
+   *
+   * @example
+   *   // Example for .byPage()
+   *   // passing optional maxPageSize in the page settings
+   *   let i = 1;
+   *   // TODO
+   *
+   * @example
+   *   // Passing marker as an argument (similar to the previous example)
+   *   let i = 1;
+   *   // TODO
+   *
+   * @param {DirectoryListHandlesOptions} [options] Options to list handles operation.
+   * @memberof DirectoryClient
+   * @returns {PagedAsyncIterableIterator<Models.HandleItem, Models.DirectoryListHandlesResponse>}
+   * An asyncIterableIterator that supports paging.
+   */
+  public listHandles(
+    options: DirectoryListHandlesOptions = {}
+  ): PagedAsyncIterableIterator<Models.HandleItem, Models.DirectoryListHandlesResponse> {
+    // an AsyncIterableIterator to iterate over handles
+    const iter = this.listHandleItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.iterateHandleSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
+  }
+
+  /**
    * Lists handles for a directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
    *                          returned with the next list handles operation. The operation returns a
    *                          marker value within the response body if the list returned was not complete.
@@ -737,7 +869,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {Promise<Models.DirectoryListHandlesResponse>}
    * @memberof DirectoryClient
    */
-  public async listHandlesSegment(
+  private async listHandlesSegment(
     marker?: string,
     options: DirectoryListHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryListHandlesResponse> {
