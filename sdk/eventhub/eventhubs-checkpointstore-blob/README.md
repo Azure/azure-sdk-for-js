@@ -52,7 +52,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Create a Partition Manager using Azure Blob Storage
 
-Use the below code snippet to create a Partition Manager
+Use the below code snippet to create a Partition Manager. You will need to provide the connection string to your storage account.
 
 ```javascript
 import { ContainerClient } from "@azure/storage-blob",
