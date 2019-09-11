@@ -98,7 +98,7 @@ describe("BlobBatch", () => {
       .listBlobsFlat({
         include: ["snapshots"]
       })
-      .byPage({ maxPageSize: 1 })
+      .byPage({ maxPageSize: 5 })
       .next()).value;
     assert.equal(respList1.segment.blobItems.length, 2);
 
@@ -113,7 +113,7 @@ describe("BlobBatch", () => {
       .listBlobsFlat({
         include: ["snapshots"]
       })
-      .byPage({ maxPageSize: 1 })
+      .byPage({ maxPageSize: 5 })
       .next()).value;
     assert.equal(respList1.segment.blobItems.length, 0);
 
@@ -134,7 +134,7 @@ describe("BlobBatch", () => {
       .listBlobsFlat({
         include: ["snapshots"]
       })
-      .byPage({ maxPageSize: 1 })
+      .byPage({ maxPageSize: 5 })
       .next()).value;
     assert.equal(respList2.segment.blobItems.length, 2);
 
@@ -149,7 +149,7 @@ describe("BlobBatch", () => {
       .listBlobsFlat({
         include: ["snapshots"]
       })
-      .byPage({ maxPageSize: 1 })
+      .byPage({ maxPageSize: 5 })
       .next()).value;
     assert.equal(respList2.segment.blobItems.length, 1);
 
@@ -170,7 +170,7 @@ describe("BlobBatch", () => {
       .listBlobsFlat({
         include: ["snapshots"]
       })
-      .byPage({ maxPageSize: 1 })
+      .byPage({ maxPageSize: 5 })
       .next()).value;
     assert.equal(respList3.segment.blobItems.length, 3);
 
@@ -185,7 +185,7 @@ describe("BlobBatch", () => {
       .listBlobsFlat({
         include: ["snapshots"]
       })
-      .byPage({ maxPageSize: 1 })
+      .byPage({ maxPageSize: 5 })
       .next()).value;
     assert.equal(respList3.segment.blobItems.length, 2);
   });
