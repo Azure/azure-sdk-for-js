@@ -1,4 +1,4 @@
-import { getConnectionStringFromEnvironment, deleteKeyAndLabels } from "./sampleHelpers";
+import { getConnectionStringFromEnvironment, cleanupSampleValues } from "./sampleHelpers";
 
 // NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
 // in a standalone project
@@ -12,7 +12,7 @@ export async function run() {
 
     const greetingKey = "Samples:Greeting";    
     
-    deleteKeyAndLabels([greetingKey], client);
+    cleanupSampleValues([greetingKey], client);
 
     // creating a new setting
     console.log(`Adding in new setting ${greetingKey}`);
@@ -31,7 +31,7 @@ export async function run() {
     await client.deleteConfigurationSetting(greetingKey, {});
     console.log(`${greetingKey} has been deleted`);
 
-    deleteKeyAndLabels([greetingKey], client);
+    cleanupSampleValues([greetingKey], client);    
 }
 
 // If you want to run this sample from a console

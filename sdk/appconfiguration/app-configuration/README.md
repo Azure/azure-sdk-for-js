@@ -10,7 +10,7 @@ Use the client library for App Configuration to create and manage application co
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
+- Node.js version 8.x.x or higher
 - Browser JavaScript
 
 ### How to Install
@@ -52,58 +52,6 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 }).catch((err) => {
   console.error(err);
 });
-```
-
-#### browser - Authentication, client creation and listConfigurationSettings  as an example written in JavaScript.
-
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
-##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
-
-- index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/app-configuration sample</title>
-    <script src="node_modules/@azure/core-http/dist/coreHttp.browser.js"></script>
-    <script src="node_modules/@azure/core-arm/dist/coreArm.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/app-config/dist/app-config.js"></script>
-    <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.AppConfig.ConfigurationClient(res.creds, subscriptionId);
-        const label = ["testlabel"];
-        const key = ["testkey"];
-        const acceptDateTime = new Date().toISOString();
-        const fields = ["etag"];
-        client.listConfigurationSettings(label, key, acceptDateTime, fields).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-      });
-    </script>
-  </head>
-  <body></body>
-</html>
 ```
 
 ## Troubleshooting

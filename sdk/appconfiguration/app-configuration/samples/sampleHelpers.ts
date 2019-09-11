@@ -15,13 +15,12 @@ export function getConnectionStringFromEnvironment() : string {
     return connectionString;
 }
 
-export async function deleteKeyAndLabels(keys: string[], client: AppConfigurationClient) {
+export async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
     const existingSettings = await client.listConfigurationSettings({
         key: keys
     });
 
     for (const setting of existingSettings) {
-        console.log(`Removing key ${setting.key} (and all labels)`);
         await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
     }
 }

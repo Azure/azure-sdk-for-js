@@ -1,4 +1,4 @@
-import { getConnectionStringFromEnvironment, deleteKeyAndLabels } from "./sampleHelpers";
+import { getConnectionStringFromEnvironment, cleanupSampleValues } from "./sampleHelpers";
 
 // NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
 // in a standalone project
@@ -12,7 +12,7 @@ export async function run() {
 
     const urlKey = "Samples:Endpoint:Url";
 
-    deleteKeyAndLabels([urlKey], client);
+    cleanupSampleValues([urlKey], client);
     
     // labels allow you to use the same key with different values for separate environments
     // or clients
@@ -26,7 +26,7 @@ export async function run() {
     const productionEndpoint = await client.getConfigurationSetting(urlKey, { label: "production" });
     console.log(`Endpoint with production label: ${productionEndpoint.value}`);    
 
-    deleteKeyAndLabels([urlKey], client);
+    cleanupSampleValues([urlKey], client);
 } 
 
 // If you want to run this sample from a console
