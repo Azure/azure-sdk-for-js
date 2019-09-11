@@ -457,7 +457,7 @@ export function sanitizeURL(url: string): string {
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   const headers: HttpHeaders = new HttpHeaders();
   for (const header of originalHeader.headersArray()) {
-    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
       headers.set(header.name, "*****");
     } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
       headers.set(header.name, sanitizeURL(header.value));
