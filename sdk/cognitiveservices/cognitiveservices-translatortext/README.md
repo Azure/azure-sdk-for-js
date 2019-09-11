@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample lets you detect the text of input. The input is given in Chinese and the sample lets you detect it correctly. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/)
+The following sample translates the given text which is in Chinese to English. To know more, refer to the [Azure Documentation on Translator](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/)
 
 ```typescript
 import {
