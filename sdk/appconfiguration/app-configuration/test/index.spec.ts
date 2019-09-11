@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { getConnectionStringFromEnvironment } from "../samples/sampleHelpers";
+import { getConnectionStringFromEnvironment } from "./testHelpers";
 import * as dotenv from "dotenv";
 import { AppConfigurationClient } from "../src";
 

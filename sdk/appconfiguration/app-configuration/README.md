@@ -96,8 +96,11 @@ provided by the bot. You will only need to do this once across all repos using o
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-This module's tests are live tests, which require you to have an Azure App Configuration instance. To run the tests 
-you'll need to run `rush update` and then afterwards run `npm run test`.
+This module's tests are live tests, which require you to have an Azure App Configuration instance. To execute the tests 
+you'll need to run:
+1. `rush update`
+2. `rush build`
+3. `npm run test`.
 
 View our tests ([index.spec.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/test/index.spec.ts)) for more details.
 

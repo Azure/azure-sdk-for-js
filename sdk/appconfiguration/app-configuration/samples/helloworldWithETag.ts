@@ -1,5 +1,3 @@
-import { getConnectionStringFromEnvironment, cleanupSampleValues } from "./sampleHelpers";
-
 // NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
 // in a standalone project
 import { AppConfigurationClient } from "../src"
@@ -7,7 +5,8 @@ import { AppConfigurationClient } from "../src"
 export async function run() {
     console.log("Running helloworld sample using etags");
 
-    let connectionString = getConnectionStringFromEnvironment();
+    // You will need to set this environment variable
+    const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
     const client = new AppConfigurationClient(connectionString);
 
     const greetingKey = "Samples:Greeting";
@@ -70,6 +69,16 @@ export async function run() {
     console.log(`The value is now updated to '${currentSetting.value}'`);
 
     cleanupSampleValues([greetingKey], client);
+}
+
+async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
+    const existingSettings = await client.listConfigurationSettings({
+        key: keys
+    });
+
+    for (const setting of existingSettings) {
+        await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    }
 }
 
 // If you want to run this sample from a console
