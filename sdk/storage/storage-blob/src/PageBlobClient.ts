@@ -79,6 +79,13 @@ export interface PageBlobCreateOptions {
    * @memberof PageBlobCreateOptions
    */
   customerProvidedKey?: Models.CpkInfo;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {PremiumPageBlobTier | string}
+   * @memberof PageBlobCreateOptions
+   */
   tier?: PremiumPageBlobTier | string;
 }
 

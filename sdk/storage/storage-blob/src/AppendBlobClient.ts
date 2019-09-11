@@ -114,7 +114,6 @@ export interface AppendBlobAppendBlockOptions {
    * A CRC64 hash of the append block content. This hash is used to verify the integrity of the append block during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
    *
-   *
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
    *
    * @type {Uint8Array}
@@ -170,6 +169,9 @@ export interface AppendBlobAppendBlockFromURLOptions {
    * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
    *
    * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   *
+   * @type {Uint8Array}
+   * @memberof AppendBlobAppendBlockFromURLOptions
    */
   sourceContentCrc64?: Uint8Array;
   /**

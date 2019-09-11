@@ -78,6 +78,9 @@ export interface BlobDownloadOptions {
    * as long as the range is less than or equal to 4 MB in size.
    *
    * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
+   *
+   * @type {boolean}
+   * @memberof BlobDownloadOptions
    */
   rangeGetContentCrc64?: boolean;
   /**
@@ -470,7 +473,21 @@ export interface BlobStartCopyFromURLOptions {
    * @memberof BlobStartCopyFromURLOptions
    */
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | PremiumPageBlobTier | string}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   tier?: BlockBlobTier | PremiumPageBlobTier | string;
+  /**
+   * Rehydrate Priority - possible values include 'High', 'Standard'.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
+   *
+   * @type {Models.RehydratePriority}
+   * @memberof BlobStartCopyFromURLOptions
+   */
   rehydratePriority?: Models.RehydratePriority;
 }
 
@@ -560,6 +577,13 @@ export interface BlobSetTierOptions {
    * @memberof BlobSetTierOptions
    */
   leaseAccessConditions?: Models.LeaseAccessConditions;
+  /**
+   * Rehydrate Priority - possible values include 'High', 'Standard'.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
+   *
+   * @type {Models.RehydratePriority}
+   * @memberof BlobSetTierOptions
+   */
   rehydratePriority?: Models.RehydratePriority;
 }
 

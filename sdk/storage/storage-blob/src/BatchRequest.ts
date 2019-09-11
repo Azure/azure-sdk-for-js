@@ -24,18 +24,25 @@ import {
   HeaderConstants,
   BATCH_MAX_REQUEST,
   HTTP_VERSION_1_1,
-  HTTP_LINE_ENDING
+  HTTP_LINE_ENDING,
+  DefaultStorageScope
 } from "./utils/constants";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
 export interface BatchSubRequest {
   /**
    * The URL of the resource to request operation.
+   *
+   * @type {string}
+   * @memberof BatchSubRequest
    */
   url: string;
 
   /**
    * The credential used for sub request.
+   *
+   * @type {SharedKeyCredential | AnonymousCredential | TokenCredential}
+   * @memberof BatchSubRequest
    */
   credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
 }
@@ -353,7 +360,7 @@ class InnerBatchRequest {
     factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers
     if (!isAnonymousCreds) {
       factories[2] = isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, "https://storage.azure.com/.default")
+        ? bearerTokenAuthenticationPolicy(credential, DefaultStorageScope)
         : credential;
     }
     factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire

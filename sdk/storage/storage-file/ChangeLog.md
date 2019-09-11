@@ -7,7 +7,6 @@
 - Added a new API `ShareClient.getPermission()` which allows for the retrieval of the security descriptor set on a share.
 - Added APIs `DirectoryClient.setProperties()` and `FileClient.setProperties()`, and updated APIs `DirectoryClient.create()` and `FileClient.create()` for setting file permission, attributes, creation time, and last write time.
 - Added a new API `FileClient.uploadRangeFromURL()` which allows range in a file to be written using a range of another file as a source. This permits synchronous server-side copies to be orchestrated for files of any size.
-
 - Fixed a bug of `FileClient.downloadToBuffer()` when provided offset is not 0.
 - Fixed a bug that `Aborter` cannot work during retry interval.
 - Fixed a bug that `Aborter` throws timeout error even though it succeeds of `FileClient.download()`.
@@ -19,11 +18,8 @@
 - The `ShareClient.getStatistics()` now returns the approximate size in bytes with `shareUsageBytes`.
 - Added `DirectoryClient.listHandlesSegment()` and `FileClient.listHandlesSegment()` to returns a list of open handles on a directory or a file.
 - Added `DirectoryClient.forceCloseHandlesSegment()`, `FileClient.forceCloseHandlesSegment()`, `DirectoryClient.forceCloseHandle()` and `FileClient.forceCloseHandle()` to close handles.
-
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
-
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-file/samples/typescript/proxyAuth.ts)
-
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 2019.08 12.0.0-preview.2

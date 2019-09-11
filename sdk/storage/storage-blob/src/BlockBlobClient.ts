@@ -94,6 +94,13 @@ export interface BlockBlobUploadOptions {
    * @memberof BlockBlobUploadOptions
    */
   customerProvidedKey?: Models.CpkInfo;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobUploadOptions
+   */
   tier?: BlockBlobTier | string;
 }
 
