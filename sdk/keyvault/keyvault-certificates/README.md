@@ -134,14 +134,14 @@ const client = new CertificatesClient(url, credential);
 The following sections provide code snippets that cover some of the common
 tasks using Azure Key Vault Certificates. The scenarios that are covered here consist of:
 
-- [Creating a certificate](#creating-a-certificate).
+- [Creating and setting a certificate](#creating-and-setting-a-certificate).
 - [Getting a certificate](#getting-a-certificate).
 - [Certificate attributes](#certificate-attributes).
 - [Updating a certificate](#updating-a-certificate).
 - [Deleting a certificate](#deleting-a-certificate).
 - [Iterating lists of certificates](#iterating-lists-of-certificates).
 
-### Create a certificate
+### Creating and setting a certificate
 
 `setCertificate` creates a certificate to be stored in the Azure Key Vault. If
 a certificate with the same name already exists, a new version of the

@@ -168,7 +168,7 @@ console.log("result: ", result);
 ```
 
 The second parameter sent to `createKey` is the type of the key. Keys can
-either be of type: `EC`, `EC-HSM`, `RSA`, `RSA-HSM` or `oct`.
+either be of type: `EC`, `EC-HSM`, `RSA` or `RSA-HSM`.
 
 ### Getting a key
 
