@@ -28,17 +28,22 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Key concepts
 
-- **Checkpointing** is a process by which readers mark or commit their position within a partition event sequence. Checkpointing is the responsibility of the consumer and occurs on a per-partition basis within a consumer group. This responsibility means that for each consumer group, each partition reader must keep track of its current position in the event stream, and can inform the service when it considers the data stream complete.
+- **Scale:** Create multiple consumers, with each consumer taking ownership of reading from a few Event Hubs partitions.
 
-  If a reader disconnects from a partition, when it reconnects it begins reading at the checkpoint that was previously submitted by the last reader of that partition in that consumer group. When the reader connects, it passes the offset to the event hub to specify the location at which to start reading. In this way, you can use checkpointing to both mark events as "complete" by downstream applications, and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process. Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
-
-- Event Processor based application consists of one or more instances of `EventProcessor` which have been
+- **Load balance:** Event Processor based application consists of one or more instances of `EventProcessor` which have been
   configured to consume events from the same Event Hub and consumer group. They balance the
   workload across different instances by distributing the partitions to be processed among themselves.
-  They also allow the user to track progress when events are processed using checkpoints.
-  A checkpoint is meant to represent the last successfully processed event by the user from a particular
-  partition of a consumer group in an Event Hub instance.
-  A Partition Manager is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
+
+- **Checkpointing:** It is a process by which readers mark or commit their position within a partition event sequence. Checkpointing is the responsibility of the consumer and
+  occurs on a per-partition basis within a consumer group. This responsibility means that for each consumer group, each partition reader must keep track of its current position
+  in the event stream, and can inform the service when it considers the data stream complete.
+
+  If a reader disconnects from a partition, when it reconnects it begins reading at the checkpoint that was previously submitted by the last reader of that partition in that consumer group.
+  When the reader connects, it passes the offset to the event hub to specify the location at which to start reading. In this way, you can use checkpointing to both mark events as "complete" by downstream applications,
+  and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
+  Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
+
+  A [BlobPartitionManager](https://azure.github.io/azure-sdk-for-js/eventhubs-checkpointstore-blob/classes/blobpartitionmanager.html) is a class that implements key methods required by the Event Processor to balance load and update checkpoints.
 
 ## Examples
 
@@ -47,7 +52,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Create a Partition Manager using Azure Blob Storage
 
-you can use the below code snippet to create a Partition Manager
+Use the below code snippet to create a Partition Manager
 
 ```javascript
 import { ContainerClient } from "@azure/storage-blob",
@@ -77,11 +82,11 @@ const partitionManager =  new BlobPartitionManager(containerClient);
 
 SamplePartitionProcessor extends PartitionProcessor  {
   async processEvents(events, partitionContext) {
-  if (events.length) {
-    /* custom logic for processing events, then checkpoint*/
-    await partitionContext.updateCheckpoint(events[events.length - 1]);
+    if (events.length) {
+     /* custom logic for processing events, then checkpoint*/
+      await partitionContext.updateCheckpoint(events[events.length - 1]);
+    } 
   }
-}
 }
 
 const eventProcessor = new EventProcessor(
