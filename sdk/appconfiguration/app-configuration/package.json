@@ -80,7 +80,6 @@
     "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",
     "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
-    "test:watch": "mocha \"test/**/*\" -t 1200000 --require ts-node/register --watch-extensions ts,tsx --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --watch",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
