@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample lets you perform a web search on 'Microsoft Azure'. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/)
+The following sample performs a web search on the text 'Microsoft Azure'. To know more, refer to the [Azure Documentation on Bing Web Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/)
 
 ```typescript
 import {
