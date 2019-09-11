@@ -150,14 +150,14 @@ export class ListManagementImage {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementImageAddImageUrlInputResponse>
    */
-  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.BodyModel, options?: Models.ListManagementImageAddImageUrlInputOptionalParams): Promise<Models.ListManagementImageAddImageUrlInputResponse>;
+  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.ImageUrl, options?: Models.ListManagementImageAddImageUrlInputOptionalParams): Promise<Models.ListManagementImageAddImageUrlInputResponse>;
   /**
    * @param listId List Id of the image list.
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param callback The callback
    */
-  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.BodyModel, callback: msRest.ServiceCallback<Models.Image>): void;
+  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.Image>): void;
   /**
    * @param listId List Id of the image list.
    * @param contentType The content type.
@@ -165,8 +165,8 @@ export class ListManagementImage {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.BodyModel, options: Models.ListManagementImageAddImageUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.Image>): void;
-  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.BodyModel, options?: Models.ListManagementImageAddImageUrlInputOptionalParams | msRest.ServiceCallback<Models.Image>, callback?: msRest.ServiceCallback<Models.Image>): Promise<Models.ListManagementImageAddImageUrlInputResponse> {
+  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.ImageUrl, options: Models.ListManagementImageAddImageUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.Image>): void;
+  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.ImageUrl, options?: Models.ListManagementImageAddImageUrlInputOptionalParams | msRest.ServiceCallback<Models.Image>, callback?: msRest.ServiceCallback<Models.Image>): Promise<Models.ListManagementImageAddImageUrlInputResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -317,7 +317,7 @@ const addImageUrlInputOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
-      ...Mappers.BodyModel,
+      ...Mappers.ImageUrl,
       required: true
     }
   },
