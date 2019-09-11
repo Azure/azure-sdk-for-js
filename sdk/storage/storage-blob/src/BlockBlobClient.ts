@@ -387,7 +387,7 @@ export interface UploadToBlockBlobOptions {
   /**
    * Blob HTTP Headers.
    *
-   * @type {IBlobHTTPHeaders}
+   * @type {BlobHTTPHeaders}
    * @memberof UploadToBlockBlobOptions
    */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;

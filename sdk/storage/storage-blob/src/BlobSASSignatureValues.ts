@@ -234,7 +234,7 @@ export function generateBlobSASQueryParameters(
  *
  * @example
  * // Generate user delegation SAS for a container
- * const userDelegationKey = await serviceURL.getUserDelegationKey(aborter, startTime, expiryTime);
+ * const userDelegationKey = await blobServiceClient.getUserDelegationKey(aborter, startTime, expiryTime);
  * const containerSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
  *     permissions: ContainerSASPermissions.parse("racwdl").toString(), // Required
@@ -250,7 +250,7 @@ export function generateBlobSASQueryParameters(
  *
  * @export
  * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {UserDelegationKey} userDelegationKey Return value of `ServiceURL.getUserDelegationKey()`
+ * @param {UserDelegationKey} userDelegationKey Return value of `blobServiceClient.getUserDelegationKey()`
  * @param {string} accountName
  * @returns {SASQueryParameters}
  */
@@ -323,7 +323,7 @@ export function generateBlobSASQueryParameters(
  * You MUST assign value to identifier or expiryTime & permissions manually if you initial with
  * this constructor.
  *
- * @param {IBlobSASSignatureValues} blobSASSignatureValues
+ * @param {BlobSASSignatureValues} blobSASSignatureValues
  * @param {SharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
@@ -420,7 +420,7 @@ function generateBlobSASQueryParameters20150405(
  * You MUST assign value to identifier or expiryTime & permissions manually if you initial with
  * this constructor.
  *
- * @param {IBlobSASSignatureValues} blobSASSignatureValues
+ * @param {BlobSASSignatureValues} blobSASSignatureValues
  * @param {SharedKeyCredential} sharedKeyCredential
  * @returns {SASQueryParameters}
  */
@@ -520,7 +520,7 @@ function generateBlobSASQueryParameters20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiryTime are required.
  *
- * @param {IBlobSASSignatureValues} blobSASSignatureValues
+ * @param {BlobSASSignatureValues} blobSASSignatureValues
  * @param {UserDelegationKeyCredential} userDelegationKeyCredential
  * @returns {SASQueryParameters}
  */

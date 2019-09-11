@@ -737,8 +737,8 @@ export class BlobServiceClient extends StorageClient {
    *
    * @example
    * let batchSetTierRequest = new BatchSetTierRequest();
-   * await batchSetTierRequest.addSubRequest(blockBlobURL0, "Cool");
-   * await batchSetTierRequest.addSubRequest(blockBlobURL1, "Cool", {
+   * await batchSetTierRequest.addSubRequest(blockBlobClient0, "Cool");
+   * await batchSetTierRequest.addSubRequest(blockBlobClient1, "Cool", {
    *  leaseAccessConditions: { leaseId: leaseId }
    * });
    * const setTierBatchResp = await blobServiceClient.submitBatch(batchSetTierRequest);

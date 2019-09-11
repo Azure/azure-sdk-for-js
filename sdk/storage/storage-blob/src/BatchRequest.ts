@@ -131,12 +131,12 @@ export class BatchDeleteRequest extends BatchRequest {
    * The operation(subrequest) will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {blobUrl} BlobClient The BlobClient.
+   * @param {BlobClient} blobClient The BlobClient.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchDeleteRequest
    */
-  public async addSubRequest(blobURL: BlobClient, options?: BlobDeleteOptions): Promise<void>;
+  public async addSubRequest(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
 
   public async addSubRequest(
     urlOrBlobClient: string | BlobClient,
@@ -235,14 +235,14 @@ export class BatchSetTierRequest extends BatchRequest {
    * The operation(subrequest) will be authenticated and authorized
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {blobUrl} BlobClient The BlobClient.
+   * @param {BlobClient} blobClient The BlobClient.
    * @param {Models.AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
    */
   public async addSubRequest(
-    blobURL: BlobClient,
+    blobClient: BlobClient,
     tier: Models.AccessTier,
     options?: BlobSetTierOptions
   ): Promise<void>;

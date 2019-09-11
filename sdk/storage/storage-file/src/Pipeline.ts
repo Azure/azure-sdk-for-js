@@ -4,10 +4,10 @@
 import {
   BaseRequestPolicy,
   deserializationPolicy,
-  HttpClient as IHttpClient,
+  HttpClient,
   HttpHeaders,
   HttpOperationResponse,
-  HttpPipelineLogger as IHttpPipelineLogger,
+  HttpPipelineLogger,
   HttpPipelineLogLevel,
   HttpRequestBody,
   RequestPolicy,
@@ -32,8 +32,8 @@ import { KeepAlivePolicyFactory, KeepAliveOptions } from "./KeepAlivePolicyFacto
 // own RequestPolicy or HTTPClient
 export {
   deserializationPolicy,
-  IHttpClient,
-  IHttpPipelineLogger,
+  HttpClient,
+  HttpPipelineLogger,
   HttpHeaders,
   HttpPipelineLogLevel,
   HttpOperationResponse,
@@ -55,17 +55,17 @@ export interface PipelineOptions {
   /**
    * Optional. Configures the HTTP pipeline logger.
    *
-   * @type {IHttpPipelineLogger}
+   * @type {HttpPipelineLogger}
    * @memberof PipelineOptions
    */
-  logger?: IHttpPipelineLogger;
+  logger?: HttpPipelineLogger;
   /**
    * Optional. Configures the HTTP client to send requests and receive responses.
    *
-   * @type {IHttpClient}
+   * @type {HttpClient}
    * @memberof PipelineOptions
    */
-  HTTPClient?: IHttpClient;
+  HTTPClient?: HttpClient;
 }
 
 /**
@@ -154,17 +154,17 @@ export interface NewPipelineOptions {
   /**
    * Configures the HTTP pipeline logger.
    *
-   * @type {IHttpPipelineLogger}
+   * @type {HttpPipelineLogger}
    * @memberof NewPipelineOptions
    */
-  logger?: IHttpPipelineLogger;
+  logger?: HttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
-   * @type {IHttpClient}
+   * @type {HttpClient}
    * @memberof NewPipelineOptions
    */
-  httpClient?: IHttpClient;
+  httpClient?: HttpClient;
 }
 
 /**

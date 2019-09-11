@@ -421,7 +421,7 @@ export class AppendBlobClient extends BlobClient {
    * @param {number} count Number of bytes to be appended as a block
    * @param {AppendBlobAppendBlockFromURLOptions} [options={}]
    * @returns {Promise<Models.AppendBlobAppendBlockFromUrlResponse>}
-   * @memberof AppendBlobURL
+   * @memberof AppendBlobClient
    */
   public async appendBlockFromURL(
     sourceURL: string,

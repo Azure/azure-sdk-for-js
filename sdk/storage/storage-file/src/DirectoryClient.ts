@@ -316,7 +316,6 @@ export class DirectoryClient extends StorageClient {
    * Creates a new directory under the specified share or parent directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
-   *  @param {IDirectoryCreateOptions} [options={}]
    * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
    * @returns {Promise<Models.DirectoryCreateResponse>} Response data for the Directory  operation.
    * @memberof DirectoryClient

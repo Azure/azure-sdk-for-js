@@ -824,7 +824,7 @@ export class FileClient extends StorageClient {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {properties} [IFileProperties] File properties. For file HTTP headers(e.g. Content-Type),
+   * @param {FileProperties} [properties] File properties. For file HTTP headers(e.g. Content-Type),
    *                                       if no values are provided, existing HTTP headers will be removed.
    *                                       For other file properties(e.g. fileAttributes), if no values are provided,
    *                                       existing values will be preserved.

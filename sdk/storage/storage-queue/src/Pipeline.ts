@@ -4,10 +4,8 @@
 import {
   BaseRequestPolicy,
   deserializationPolicy,
-  HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
-  HttpPipelineLogger as IHttpPipelineLogger,
   HttpPipelineLogLevel,
   HttpRequestBody,
   RequestPolicy,
@@ -21,7 +19,9 @@ import {
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  ProxySettings
+  ProxySettings,
+  HttpPipelineLogger,
+  HttpClient
 } from "@azure/core-http";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
@@ -37,8 +37,8 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 export {
   BaseRequestPolicy,
   deserializationPolicy,
-  IHttpClient,
-  IHttpPipelineLogger,
+  HttpClient,
+  HttpPipelineLogger,
   HttpHeaders,
   HttpPipelineLogLevel,
   HttpOperationResponse,
@@ -59,17 +59,17 @@ export interface PipelineOptions {
   /**
    * Optional. Configures the HTTP pipeline logger.
    *
-   * @type {IHttpPipelineLogger}
+   * @type {HttpPipelineLogger}
    * @memberof PipelineOptions
    */
-  logger?: IHttpPipelineLogger;
+  logger?: HttpPipelineLogger;
   /**
    * Optional. Configures the HTTP client to send requests and receive responses.
    *
-   * @type {IHttpClient}
+   * @type {HttpClient}
    * @memberof PipelineOptions
    */
-  HTTPClient?: IHttpClient;
+  HTTPClient?: HttpClient;
 }
 
 /**
@@ -160,17 +160,17 @@ export interface NewPipelineOptions {
   /**
    * Configures the HTTP pipeline logger.
    *
-   * @type {IHttpPipelineLogger}
+   * @type {HttpPipelineLogger}
    * @memberof NewPipelineOptions
    */
-  logger?: IHttpPipelineLogger;
+  logger?: HttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
-   * @type {IHttpClient}
+   * @type {HttpClient}
    * @memberof NewPipelineOptions
    */
-  httpClient?: IHttpClient;
+  httpClient?: HttpClient;
 }
 
 /**
