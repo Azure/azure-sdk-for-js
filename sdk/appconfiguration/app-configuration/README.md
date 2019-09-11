@@ -27,38 +27,56 @@ npm install @azure/app-configuration
 
 ## Key concepts
 
+### Configuration Setting
+
+A Configuration Setting is the fundamental resource within a Configuration Store.
+In its simplest form, it is a key and a value. However, there are additional properties such as 
+the modifiable content type and tags fields that allow the value to be interpreted or associated 
+in different ways.
+
+The `label` property of a Configuration Setting provides a way to separate configuration settings 
+into different dimensions. These dimensions are user defined and can take any form. Some common 
+examples of dimensions to use for a label include regions, semantic versions, or environments. 
+Many applications have a required set of configuration keys that have varying values as the 
+application exists across different dimensions.
+
+For example, MaxRequests may be 100 in "NorthAmerica", and 200 in "WestEurope". By creating a 
+Configuration Setting named MaxRequests with a label of "NorthAmerica" and another, only with 
+a different value, in the "WestEurope" label, an application can seamlessly retrieve 
+Configuration Settings as it runs in these two dimensions.
+
 ### How to use
 
-#### nodejs - Authentication, client creation and listConfigurationSettings  as an example written in TypeScript.
-
-##### Install @azure/ms-rest-nodeauth
-
-```bash
-npm install @azure/ms-rest-nodeauth
-```
+#### nodejs - Authentication, client creation and listConfigurationSettings as an example written in TypeScript.
 
 ## Examples
 
 ##### Sample code
 
 ```typescript
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ConfigurationClient, ConfigurationModels, ConfigurationMappers } from "@azure/app-configuration";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { AppConfigurationClient } from "@azure/app-configuration";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new ConfigurationClient(creds, subscriptionId);
+async function run() {
+  const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
+  const client = new AppConfigurationClient(connectionString);
+  
   const label = ["testlabel"];
   const key = ["testkey"];
-  const acceptDateTime = new Date().toISOString();
+  const acceptDateTime = new Date();
   const fields = ["etag"];
-  client.listConfigurationSettings(label, key, acceptDateTime, fields).then((result) => {
+
+  await client.listConfigurationSettings({
+    label,
+    key,
+    acceptDateTime,
+    fields
+  }).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
-}).catch((err) => {
-  console.error(err);
-});
+}
+
+run().catch(err => console.log(err));
 ```
 
 ## Troubleshooting
