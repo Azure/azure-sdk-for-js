@@ -273,7 +273,13 @@ export interface BlockBlobCommitBlockListOptions {
    * @memberof BlockBlobCommitBlockListOptions
    */
   customerProvidedKey?: Models.CpkInfo;
-  accessTier?: Models.AccessTier;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
   tier?: BlockBlobTier | string;
 }
 
