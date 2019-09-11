@@ -48,9 +48,9 @@ export abstract class StorageClient {
    */
   protected readonly storageClientContext: StorageClientContext;
   /**
-   * If the storage url is using https.
-   * @param url
-   * @param pipeline
+   * @protected
+   * @type {boolean}
+   * @memberof StorageClient
    */
   protected readonly isHttps: boolean;
 

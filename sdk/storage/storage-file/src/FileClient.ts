@@ -74,14 +74,14 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileProperties
    */
   abortSignal?: AbortSignalLike;
   /**
    * File HTTP headers like Content-Type.
    *
    * @type {FileHTTPHeaders}
-   * @memberof FileCreateOptions
+   * @memberof FileProperties
    */
   fileHTTPHeaders?: FileHTTPHeaders;
 }
@@ -822,14 +822,12 @@ export class FileClient extends StorageClient {
    * Sets properties on the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {FileProperties} [properties] File properties. For file HTTP headers(e.g. Content-Type),
    *                                       if no values are provided, existing HTTP headers will be removed.
    *                                       For other file properties(e.g. fileAttributes), if no values are provided,
    *                                       existing values will be preserved.
-   * @returns {Promise<ISetPropertiesResponse>}
-   * @memberof FileURL
+   * @returns {Promise<SetPropertiesResponse>}
+   * @memberof FileClient
    */
   public async setProperties(properties: FileProperties = {}): Promise<SetPropertiesResponse> {
     properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);

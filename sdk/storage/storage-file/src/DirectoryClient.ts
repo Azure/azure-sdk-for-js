@@ -54,7 +54,7 @@ export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommon
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryProperties
    */
   abortSignal?: AbortSignalLike;
 }
@@ -350,8 +350,8 @@ export class DirectoryClient extends StorageClient {
    *
    * @param {properties} [DirectoryProperties] Directory properties. If no values are provided,
    *                                            existing values will be preserved.
-   * @returns {Promise<ISetPropertiesResponse>}
-   * @memberof FileURL
+   * @returns {Promise<Models.DirectorySetPropertiesResponse>}
+   * @memberof DirectoryClient
    */
   public async setProperties(
     properties: DirectoryProperties = {}
