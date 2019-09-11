@@ -1179,8 +1179,7 @@ export interface ContainerListBlobFlatSegmentOptionalParams extends coreHttp.Req
 /**
  * Optional Parameters.
  */
-export interface ContainerListBlobHierarchySegmentOptionalParams
-  extends coreHttp.RequestOptionsBase {
+export interface ContainerListBlobHierarchySegmentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Filters the results to return only containers whose name begins with the specified prefix.
    */
@@ -5690,7 +5689,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
  * @readonly
  * @enum {string}
  */
-export type PublicAccessType = "container" | "blob";
+export type PublicAccessType = 'container' | 'blob';
 
 /**
  * Defines values for CopyStatusType.
@@ -5698,7 +5697,7 @@ export type PublicAccessType = "container" | "blob";
  * @readonly
  * @enum {string}
  */
-export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
 
 /**
  * Defines values for LeaseDurationType.
@@ -5706,7 +5705,7 @@ export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
  * @readonly
  * @enum {string}
  */
-export type LeaseDurationType = "infinite" | "fixed";
+export type LeaseDurationType = 'infinite' | 'fixed';
 
 /**
  * Defines values for LeaseStateType.
@@ -5714,7 +5713,7 @@ export type LeaseDurationType = "infinite" | "fixed";
  * @readonly
  * @enum {string}
  */
-export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
 
 /**
  * Defines values for LeaseStatusType.
@@ -5722,7 +5721,7 @@ export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "
  * @readonly
  * @enum {string}
  */
-export type LeaseStatusType = "locked" | "unlocked";
+export type LeaseStatusType = 'locked' | 'unlocked';
 
 /**
  * Defines values for AccessTier.
@@ -5731,21 +5730,7 @@ export type LeaseStatusType = "locked" | "unlocked";
  * @readonly
  * @enum {string}
  */
-export type AccessTier =
-  | "P4"
-  | "P6"
-  | "P10"
-  | "P15"
-  | "P20"
-  | "P30"
-  | "P40"
-  | "P50"
-  | "P60"
-  | "P70"
-  | "P80"
-  | "Hot"
-  | "Cool"
-  | "Archive";
+export type AccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80' | 'Hot' | 'Cool' | 'Archive';
 
 /**
  * Defines values for ArchiveStatus.
@@ -5753,7 +5738,7 @@ export type AccessTier =
  * @readonly
  * @enum {string}
  */
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool";
+export type ArchiveStatus = 'rehydrate-pending-to-hot' | 'rehydrate-pending-to-cool';
 
 /**
  * Defines values for BlobType.
@@ -5761,7 +5746,7 @@ export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-c
  * @readonly
  * @enum {string}
  */
-export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
+export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
 
 /**
  * Defines values for StorageErrorCode.
@@ -5801,112 +5786,7 @@ export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode =
-  | "AccountAlreadyExists"
-  | "AccountBeingCreated"
-  | "AccountIsDisabled"
-  | "AuthenticationFailed"
-  | "AuthorizationFailure"
-  | "ConditionHeadersNotSupported"
-  | "ConditionNotMet"
-  | "EmptyMetadataKey"
-  | "InsufficientAccountPermissions"
-  | "InternalError"
-  | "InvalidAuthenticationInfo"
-  | "InvalidHeaderValue"
-  | "InvalidHttpVerb"
-  | "InvalidInput"
-  | "InvalidMd5"
-  | "InvalidMetadata"
-  | "InvalidQueryParameterValue"
-  | "InvalidRange"
-  | "InvalidResourceName"
-  | "InvalidUri"
-  | "InvalidXmlDocument"
-  | "InvalidXmlNodeValue"
-  | "Md5Mismatch"
-  | "MetadataTooLarge"
-  | "MissingContentLengthHeader"
-  | "MissingRequiredQueryParameter"
-  | "MissingRequiredHeader"
-  | "MissingRequiredXmlNode"
-  | "MultipleConditionHeadersNotSupported"
-  | "OperationTimedOut"
-  | "OutOfRangeInput"
-  | "OutOfRangeQueryParameterValue"
-  | "RequestBodyTooLarge"
-  | "ResourceTypeMismatch"
-  | "RequestUrlFailedToParse"
-  | "ResourceAlreadyExists"
-  | "ResourceNotFound"
-  | "ServerBusy"
-  | "UnsupportedHeader"
-  | "UnsupportedXmlNode"
-  | "UnsupportedQueryParameter"
-  | "UnsupportedHttpVerb"
-  | "AppendPositionConditionNotMet"
-  | "BlobAlreadyExists"
-  | "BlobNotFound"
-  | "BlobOverwritten"
-  | "BlobTierInadequateForContentLength"
-  | "BlockCountExceedsLimit"
-  | "BlockListTooLong"
-  | "CannotChangeToLowerTier"
-  | "CannotVerifyCopySource"
-  | "ContainerAlreadyExists"
-  | "ContainerBeingDeleted"
-  | "ContainerDisabled"
-  | "ContainerNotFound"
-  | "ContentLengthLargerThanTierLimit"
-  | "CopyAcrossAccountsNotSupported"
-  | "CopyIdMismatch"
-  | "FeatureVersionMismatch"
-  | "IncrementalCopyBlobMismatch"
-  | "IncrementalCopyOfEralierVersionSnapshotNotAllowed"
-  | "IncrementalCopySourceMustBeSnapshot"
-  | "InfiniteLeaseDurationRequired"
-  | "InvalidBlobOrBlock"
-  | "InvalidBlobTier"
-  | "InvalidBlobType"
-  | "InvalidBlockId"
-  | "InvalidBlockList"
-  | "InvalidOperation"
-  | "InvalidPageRange"
-  | "InvalidSourceBlobType"
-  | "InvalidSourceBlobUrl"
-  | "InvalidVersionForPageBlobOperation"
-  | "LeaseAlreadyPresent"
-  | "LeaseAlreadyBroken"
-  | "LeaseIdMismatchWithBlobOperation"
-  | "LeaseIdMismatchWithContainerOperation"
-  | "LeaseIdMismatchWithLeaseOperation"
-  | "LeaseIdMissing"
-  | "LeaseIsBreakingAndCannotBeAcquired"
-  | "LeaseIsBreakingAndCannotBeChanged"
-  | "LeaseIsBrokenAndCannotBeRenewed"
-  | "LeaseLost"
-  | "LeaseNotPresentWithBlobOperation"
-  | "LeaseNotPresentWithContainerOperation"
-  | "LeaseNotPresentWithLeaseOperation"
-  | "MaxBlobSizeConditionNotMet"
-  | "NoPendingCopyOperation"
-  | "OperationNotAllowedOnIncrementalCopyBlob"
-  | "PendingCopyOperation"
-  | "PreviousSnapshotCannotBeNewer"
-  | "PreviousSnapshotNotFound"
-  | "PreviousSnapshotOperationNotSupported"
-  | "SequenceNumberConditionNotMet"
-  | "SequenceNumberIncrementTooLarge"
-  | "SnapshotCountExceeded"
-  | "SnaphotOperationRateExceeded"
-  | "SnapshotsPresent"
-  | "SourceConditionNotMet"
-  | "SystemInUse"
-  | "TargetConditionNotMet"
-  | "UnauthorizedBlobOverwrite"
-  | "BlobBeingRehydrated"
-  | "BlobArchived"
-  | "BlobNotArchived";
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived';
 
 /**
  * Defines values for GeoReplicationStatusType.
@@ -5914,7 +5794,7 @@ export type StorageErrorCode =
  * @readonly
  * @enum {string}
  */
-export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 /**
  * Defines values for RehydratePriority.
@@ -5922,7 +5802,7 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  * @readonly
  * @enum {string}
  */
-export type RehydratePriority = "High" | "Standard";
+export type RehydratePriority = 'High' | 'Standard';
 
 /**
  * Defines values for BlockListType.
@@ -5930,7 +5810,7 @@ export type RehydratePriority = "High" | "Standard";
  * @readonly
  * @enum {string}
  */
-export type BlockListType = "committed" | "uncommitted" | "all";
+export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 /**
  * Defines values for DeleteSnapshotsOptionType.
@@ -5938,7 +5818,7 @@ export type BlockListType = "committed" | "uncommitted" | "all";
  * @readonly
  * @enum {string}
  */
-export type DeleteSnapshotsOptionType = "include" | "only";
+export type DeleteSnapshotsOptionType = 'include' | 'only';
 
 /**
  * Defines values for EncryptionAlgorithmType.
@@ -5946,7 +5826,7 @@ export type DeleteSnapshotsOptionType = "include" | "only";
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithmType = "AES256";
+export type EncryptionAlgorithmType = 'AES256';
 
 /**
  * Defines values for ListBlobsIncludeItem.
@@ -5954,12 +5834,7 @@ export type EncryptionAlgorithmType = "AES256";
  * @readonly
  * @enum {string}
  */
-export type ListBlobsIncludeItem =
-  | "copy"
-  | "deleted"
-  | "metadata"
-  | "snapshots"
-  | "uncommittedblobs";
+export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots' | 'uncommittedblobs';
 
 /**
  * Defines values for ListContainersIncludeType.
@@ -5967,7 +5842,7 @@ export type ListBlobsIncludeItem =
  * @readonly
  * @enum {string}
  */
-export type ListContainersIncludeType = "metadata";
+export type ListContainersIncludeType = 'metadata';
 
 /**
  * Defines values for PathRenameMode.
@@ -5975,7 +5850,7 @@ export type ListContainersIncludeType = "metadata";
  * @readonly
  * @enum {string}
  */
-export type PathRenameMode = "legacy" | "posix";
+export type PathRenameMode = 'legacy' | 'posix';
 
 /**
  * Defines values for SequenceNumberActionType.
@@ -5983,7 +5858,7 @@ export type PathRenameMode = "legacy" | "posix";
  * @readonly
  * @enum {string}
  */
-export type SequenceNumberActionType = "max" | "update" | "increment";
+export type SequenceNumberActionType = 'max' | 'update' | 'increment';
 
 /**
  * Defines values for SkuName.
@@ -5992,12 +5867,7 @@ export type SequenceNumberActionType = "max" | "update" | "increment";
  * @readonly
  * @enum {string}
  */
-export type SkuName =
-  | "Standard_LRS"
-  | "Standard_GRS"
-  | "Standard_RAGRS"
-  | "Standard_ZRS"
-  | "Premium_LRS";
+export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS';
 
 /**
  * Defines values for AccountKind.
@@ -6005,7 +5875,7 @@ export type SkuName =
  * @readonly
  * @enum {string}
  */
-export type AccountKind = "Storage" | "BlobStorage" | "StorageV2";
+export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2';
 
 /**
  * Defines values for SyncCopyStatusType.
@@ -6013,7 +5883,7 @@ export type AccountKind = "Storage" | "BlobStorage" | "StorageV2";
  * @readonly
  * @enum {string}
  */
-export type SyncCopyStatusType = "success";
+export type SyncCopyStatusType = 'success';
 
 /**
  * Contains response data for the setProperties operation.
@@ -6023,22 +5893,21 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ServiceSetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceSetPropertiesHeaders;
+    };
 };
 
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = StorageServiceProperties &
-  ServiceGetPropertiesHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGetPropertiesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6054,17 +5923,16 @@ export type ServiceGetPropertiesResponse = StorageServiceProperties &
        */
       parsedBody: StorageServiceProperties;
     };
-  };
+};
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export type ServiceGetStatisticsResponse = StorageServiceStats &
-  ServiceGetStatisticsHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceGetStatisticsResponse = StorageServiceStats & ServiceGetStatisticsHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6080,17 +5948,16 @@ export type ServiceGetStatisticsResponse = StorageServiceStats &
        */
       parsedBody: StorageServiceStats;
     };
-  };
+};
 
 /**
  * Contains response data for the listContainersSegment operation.
  */
-export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse &
-  ServiceListContainersSegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse & ServiceListContainersSegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6106,17 +5973,16 @@ export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse
        */
       parsedBody: ListContainersSegmentResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the getUserDelegationKey operation.
  */
-export type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
-  ServiceGetUserDelegationKeyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ServiceGetUserDelegationKeyResponse = UserDelegationKey & ServiceGetUserDelegationKeyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6132,7 +5998,7 @@ export type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
        */
       parsedBody: UserDelegationKey;
     };
-  };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
@@ -6142,11 +6008,11 @@ export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ServiceGetAccountInfoHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceGetAccountInfoHeaders;
+    };
 };
 
 /**
@@ -6173,11 +6039,11 @@ export type ServiceSubmitBatchResponse = ServiceSubmitBatchHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ServiceSubmitBatchHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceSubmitBatchHeaders;
+    };
 };
 
 /**
@@ -6188,11 +6054,11 @@ export type ContainerCreateResponse = ContainerCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerCreateHeaders;
+    };
 };
 
 /**
@@ -6203,11 +6069,11 @@ export type ContainerGetPropertiesResponse = ContainerGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerGetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetPropertiesHeaders;
+    };
 };
 
 /**
@@ -6218,11 +6084,11 @@ export type ContainerDeleteResponse = ContainerDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerDeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerDeleteHeaders;
+    };
 };
 
 /**
@@ -6233,22 +6099,21 @@ export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerSetMetadataHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerSetMetadataHeaders;
+    };
 };
 
 /**
  * Contains response data for the getAccessPolicy operation.
  */
-export type ContainerGetAccessPolicyResponse = Array<SignedIdentifier> &
-  ContainerGetAccessPolicyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ContainerGetAccessPolicyResponse = Array<SignedIdentifier> & ContainerGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6264,7 +6129,7 @@ export type ContainerGetAccessPolicyResponse = Array<SignedIdentifier> &
        */
       parsedBody: SignedIdentifier[];
     };
-  };
+};
 
 /**
  * Contains response data for the setAccessPolicy operation.
@@ -6274,11 +6139,11 @@ export type ContainerSetAccessPolicyResponse = ContainerSetAccessPolicyHeaders &
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerSetAccessPolicyHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerSetAccessPolicyHeaders;
+    };
 };
 
 /**
@@ -6289,11 +6154,11 @@ export type ContainerAcquireLeaseResponse = ContainerAcquireLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerAcquireLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerAcquireLeaseHeaders;
+    };
 };
 
 /**
@@ -6304,11 +6169,11 @@ export type ContainerReleaseLeaseResponse = ContainerReleaseLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerReleaseLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerReleaseLeaseHeaders;
+    };
 };
 
 /**
@@ -6319,11 +6184,11 @@ export type ContainerRenewLeaseResponse = ContainerRenewLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerRenewLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerRenewLeaseHeaders;
+    };
 };
 
 /**
@@ -6334,11 +6199,11 @@ export type ContainerBreakLeaseResponse = ContainerBreakLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerBreakLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerBreakLeaseHeaders;
+    };
 };
 
 /**
@@ -6349,22 +6214,21 @@ export type ContainerChangeLeaseResponse = ContainerChangeLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerChangeLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerChangeLeaseHeaders;
+    };
 };
 
 /**
  * Contains response data for the listBlobFlatSegment operation.
  */
-export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse &
-  ContainerListBlobFlatSegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse & ContainerListBlobFlatSegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6380,17 +6244,16 @@ export type ContainerListBlobFlatSegmentResponse = ListBlobsFlatSegmentResponse 
        */
       parsedBody: ListBlobsFlatSegmentResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the listBlobHierarchySegment operation.
  */
-export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmentResponse &
-  ContainerListBlobHierarchySegmentHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmentResponse & ContainerListBlobHierarchySegmentHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6406,7 +6269,7 @@ export type ContainerListBlobHierarchySegmentResponse = ListBlobsHierarchySegmen
        */
       parsedBody: ListBlobsHierarchySegmentResponse;
     };
-  };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
@@ -6416,11 +6279,11 @@ export type ContainerGetAccountInfoResponse = ContainerGetAccountInfoHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ContainerGetAccountInfoHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetAccountInfoHeaders;
+    };
 };
 
 /**
@@ -6431,11 +6294,11 @@ export type DirectoryCreateResponse = DirectoryCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectoryCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryCreateHeaders;
+    };
 };
 
 /**
@@ -6446,11 +6309,11 @@ export type DirectoryRenameResponse = DirectoryRenameHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectoryRenameHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryRenameHeaders;
+    };
 };
 
 /**
@@ -6461,11 +6324,11 @@ export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectoryDeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryDeleteHeaders;
+    };
 };
 
 /**
@@ -6476,11 +6339,11 @@ export type DirectorySetAccessControlResponse = DirectorySetAccessControlHeaders
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectorySetAccessControlHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectorySetAccessControlHeaders;
+    };
 };
 
 /**
@@ -6491,11 +6354,11 @@ export type DirectoryGetAccessControlResponse = DirectoryGetAccessControlHeaders
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: DirectoryGetAccessControlHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryGetAccessControlHeaders;
+    };
 };
 
 /**
@@ -6522,11 +6385,11 @@ export type BlobDownloadResponse = BlobDownloadHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobDownloadHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobDownloadHeaders;
+    };
 };
 
 /**
@@ -6537,11 +6400,11 @@ export type BlobGetPropertiesResponse = BlobGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobGetPropertiesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetPropertiesHeaders;
+    };
 };
 
 /**
@@ -6552,11 +6415,11 @@ export type BlobDeleteResponse = BlobDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobDeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobDeleteHeaders;
+    };
 };
 
 /**
@@ -6567,11 +6430,11 @@ export type BlobSetAccessControlResponse = BlobSetAccessControlHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobSetAccessControlHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetAccessControlHeaders;
+    };
 };
 
 /**
@@ -6582,11 +6445,11 @@ export type BlobGetAccessControlResponse = BlobGetAccessControlHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobGetAccessControlHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetAccessControlHeaders;
+    };
 };
 
 /**
@@ -6597,11 +6460,11 @@ export type BlobRenameResponse = BlobRenameHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobRenameHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobRenameHeaders;
+    };
 };
 
 /**
@@ -6612,11 +6475,11 @@ export type BlobUndeleteResponse = BlobUndeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobUndeleteHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobUndeleteHeaders;
+    };
 };
 
 /**
@@ -6627,11 +6490,11 @@ export type BlobSetHTTPHeadersResponse = BlobSetHTTPHeadersHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobSetHTTPHeadersHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetHTTPHeadersHeaders;
+    };
 };
 
 /**
@@ -6642,11 +6505,11 @@ export type BlobSetMetadataResponse = BlobSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobSetMetadataHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetMetadataHeaders;
+    };
 };
 
 /**
@@ -6657,11 +6520,11 @@ export type BlobAcquireLeaseResponse = BlobAcquireLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobAcquireLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobAcquireLeaseHeaders;
+    };
 };
 
 /**
@@ -6672,11 +6535,11 @@ export type BlobReleaseLeaseResponse = BlobReleaseLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobReleaseLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobReleaseLeaseHeaders;
+    };
 };
 
 /**
@@ -6687,11 +6550,11 @@ export type BlobRenewLeaseResponse = BlobRenewLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobRenewLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobRenewLeaseHeaders;
+    };
 };
 
 /**
@@ -6702,11 +6565,11 @@ export type BlobChangeLeaseResponse = BlobChangeLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobChangeLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobChangeLeaseHeaders;
+    };
 };
 
 /**
@@ -6717,11 +6580,11 @@ export type BlobBreakLeaseResponse = BlobBreakLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobBreakLeaseHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobBreakLeaseHeaders;
+    };
 };
 
 /**
@@ -6732,11 +6595,11 @@ export type BlobCreateSnapshotResponse = BlobCreateSnapshotHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobCreateSnapshotHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobCreateSnapshotHeaders;
+    };
 };
 
 /**
@@ -6747,11 +6610,11 @@ export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobStartCopyFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobStartCopyFromURLHeaders;
+    };
 };
 
 /**
@@ -6762,11 +6625,11 @@ export type BlobCopyFromURLResponse = BlobCopyFromURLHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobCopyFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobCopyFromURLHeaders;
+    };
 };
 
 /**
@@ -6777,11 +6640,11 @@ export type BlobAbortCopyFromURLResponse = BlobAbortCopyFromURLHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobAbortCopyFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobAbortCopyFromURLHeaders;
+    };
 };
 
 /**
@@ -6792,11 +6655,11 @@ export type BlobSetTierResponse = BlobSetTierHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobSetTierHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetTierHeaders;
+    };
 };
 
 /**
@@ -6807,11 +6670,11 @@ export type BlobGetAccountInfoResponse = BlobGetAccountInfoHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlobGetAccountInfoHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetAccountInfoHeaders;
+    };
 };
 
 /**
@@ -6822,11 +6685,11 @@ export type PageBlobCreateResponse = PageBlobCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobCreateHeaders;
+    };
 };
 
 /**
@@ -6837,11 +6700,11 @@ export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobUploadPagesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobUploadPagesHeaders;
+    };
 };
 
 /**
@@ -6852,11 +6715,11 @@ export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobClearPagesHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobClearPagesHeaders;
+    };
 };
 
 /**
@@ -6867,22 +6730,21 @@ export type PageBlobUploadPagesFromURLResponse = PageBlobUploadPagesFromURLHeade
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobUploadPagesFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobUploadPagesFromURLHeaders;
+    };
 };
 
 /**
  * Contains response data for the getPageRanges operation.
  */
-export type PageBlobGetPageRangesResponse = PageList &
-  PageBlobGetPageRangesHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type PageBlobGetPageRangesResponse = PageList & PageBlobGetPageRangesHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6898,17 +6760,16 @@ export type PageBlobGetPageRangesResponse = PageList &
        */
       parsedBody: PageList;
     };
-  };
+};
 
 /**
  * Contains response data for the getPageRangesDiff operation.
  */
-export type PageBlobGetPageRangesDiffResponse = PageList &
-  PageBlobGetPageRangesDiffHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type PageBlobGetPageRangesDiffResponse = PageList & PageBlobGetPageRangesDiffHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -6924,7 +6785,7 @@ export type PageBlobGetPageRangesDiffResponse = PageList &
        */
       parsedBody: PageList;
     };
-  };
+};
 
 /**
  * Contains response data for the resize operation.
@@ -6934,11 +6795,11 @@ export type PageBlobResizeResponse = PageBlobResizeHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobResizeHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobResizeHeaders;
+    };
 };
 
 /**
@@ -6949,11 +6810,11 @@ export type PageBlobUpdateSequenceNumberResponse = PageBlobUpdateSequenceNumberH
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobUpdateSequenceNumberHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobUpdateSequenceNumberHeaders;
+    };
 };
 
 /**
@@ -6964,11 +6825,11 @@ export type PageBlobCopyIncrementalResponse = PageBlobCopyIncrementalHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: PageBlobCopyIncrementalHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobCopyIncrementalHeaders;
+    };
 };
 
 /**
@@ -6979,11 +6840,11 @@ export type AppendBlobCreateResponse = AppendBlobCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: AppendBlobCreateHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AppendBlobCreateHeaders;
+    };
 };
 
 /**
@@ -6994,11 +6855,11 @@ export type AppendBlobAppendBlockResponse = AppendBlobAppendBlockHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: AppendBlobAppendBlockHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AppendBlobAppendBlockHeaders;
+    };
 };
 
 /**
@@ -7009,11 +6870,11 @@ export type AppendBlobAppendBlockFromUrlResponse = AppendBlobAppendBlockFromUrlH
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: AppendBlobAppendBlockFromUrlHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AppendBlobAppendBlockFromUrlHeaders;
+    };
 };
 
 /**
@@ -7024,11 +6885,11 @@ export type BlockBlobUploadResponse = BlockBlobUploadHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlockBlobUploadHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobUploadHeaders;
+    };
 };
 
 /**
@@ -7039,11 +6900,11 @@ export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlockBlobStageBlockHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobStageBlockHeaders;
+    };
 };
 
 /**
@@ -7054,11 +6915,11 @@ export type BlockBlobStageBlockFromURLResponse = BlockBlobStageBlockFromURLHeade
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlockBlobStageBlockFromURLHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobStageBlockFromURLHeaders;
+    };
 };
 
 /**
@@ -7069,22 +6930,21 @@ export type BlockBlobCommitBlockListResponse = BlockBlobCommitBlockListHeaders &
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: BlockBlobCommitBlockListHeaders;
-  };
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobCommitBlockListHeaders;
+    };
 };
 
 /**
  * Contains response data for the getBlockList operation.
  */
-export type BlockBlobGetBlockListResponse = BlockList &
-  BlockBlobGetBlockListHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: coreHttp.HttpResponse & {
+export type BlockBlobGetBlockListResponse = BlockList & BlockBlobGetBlockListHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -7100,4 +6960,4 @@ export type BlockBlobGetBlockListResponse = BlockList &
        */
       parsedBody: BlockList;
     };
-  };
+};
