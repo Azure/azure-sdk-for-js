@@ -45,7 +45,7 @@ Configuration Setting named MaxRequests with a label of "NorthAmerica" and anoth
 a different value, in the "WestEurope" label, an application can seamlessly retrieve 
 Configuration Settings as it runs in these two dimensions.
 
-## How to use
+## Examples
 
 #### nodejs - Authentication, client creation and listConfigurationSettings as an example written in TypeScript.
 
