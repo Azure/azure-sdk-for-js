@@ -25,7 +25,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample lets you read the scanned copy of a sample receipt. To know more, Refer the [Azure Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview)
+The following sample reads the scanned copy of a sample receipt. To know more, refer to the [Azure Documentation on Form Recognizer](https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview)
 
 ```typescript
 import { FormRecognizerClient } from "@azure/cognitiveservices-formrecognizer";
