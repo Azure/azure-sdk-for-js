@@ -1,0 +1,71 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156816885172500755",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 11 Sep 2019 02:27:31 GMT",
+    "last-modified": "Wed, 11 Sep 2019 02:27:31 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D7365F9956283B\"",
+    "x-ms-request-id": "96e5623e-201e-0061-2b48-682223000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "3bc301d7-3f53-4003-8b4a-ca0ddd92702d",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156816885172500755",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 11 Sep 2019 02:27:31 GMT",
+    "x-ms-has-legal-hold": "false",
+    "etag": "\"0x8D7365F9956283B\"",
+    "x-ms-client-request-id": "a6b8b995-b472-4513-8f37-1eec98c564ed",
+    "x-ms-has-immutability-policy": "false",
+    "content-length": "0",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "last-modified": "Wed, 11 Sep 2019 02:27:31 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-deny-encryption-scope-override": "false",
+    "x-ms-default-encryption-scope": "$account-encryption-key",
+    "x-ms-request-id": "96e56273-201e-0061-5d48-682223000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156816885172500755",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 11 Sep 2019 02:27:31 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "96e562bd-201e-0061-2048-682223000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "a3d451b1-40c9-4ded-b2c3-218c3ae44af7",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156816885172500755"
+ }
+}

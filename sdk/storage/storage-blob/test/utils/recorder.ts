@@ -160,8 +160,7 @@ const skip = [
   // Skipping for now, further investigation needed on the errors in playback
   "browsers/blobclient/recording_startcopyfromclient.json",
   "node/blockblobclient/recording_can_be_created_with_a_sas_connection_string.js",
-  "browsers/bloburl/recording_startcopyfromurl.json",
-  "browsers/bloburl/recording_startcopyfromurl_with_rehydrate_priority.json",
+  "browsers/blobclient/recording_startcopyfromurl_with_rehydrate_priority.json",
   // Skip for random UUID generated for request boundary and changing x-ms-date used for authentication
   "node/blobbatch/recording_submitbatch_should_report_error_with_invalid_credential_for_batch_request.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete.js",
