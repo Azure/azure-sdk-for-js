@@ -1,95 +1,130 @@
+parameters:
+  RunUnitTests: true
+  Matrix:
+    Linux_Node8:
+      OSVmImage: "ubuntu-16.04"
+      NodeVersion: "8.x"
+    Linux_Node10:
+      OSVmImage: "ubuntu-16.04"
+      NodeVersion: "10.x"
+    Linux_Node12:
+      OSVmImage: "ubuntu-16.04"
+      NodeVersion: "12.x"
+    macOS_Node8:
+      OSVmImage: "macOS-10.13"
+      NodeVersion: "8.x"
+    macOS_Node10:
+      OSVmImage: "macOS-10.13"
+      NodeVersion: "10.x"
+    macOS_Node12:
+      OSVmImage: "macOS-10.13"
+      NodeVersion: "12.x"
+    Windows_Node8:
+      OSVmImage: "windows-2019"
+      NodeVersion: "8.x"
+    Windows_Node10:
+      OSVmImage: "windows-2019"
+      NodeVersion: "10.x"
+    Windows_Node12:
+      OSVmImage: "windows-2019"
+      NodeVersion: "12.x"
+
 jobs:
-  - job: Prepare
+  - job: "Build"
     variables:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: "ubuntu-16.04"
+      vmImage: "$(OSVmImage)"
 
     steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
-
       - script: |
-          npm install -g npm@6.9.0
-        displayName: "Install npm version 6.9.0"
+          echo "##vso[build.addbuildtag]Scheduled"
+        displayName: "Tag scheduled builds"
+        condition: and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
+
+      - template: ../steps/common.yml
 
       - template: ../steps/select-packages.yml
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
-
-  - job: "Build"
-    variables:
-      - template: ../variables/globals.yml
-      - name: GeneratedPackageTargets
-        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
-
-    dependsOn:
-      - Prepare
-
-    pool:
-      vmImage: "ubuntu-16.04"
-
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
-
-      - script: |
-          npm install -g npm@6.9.0
-        displayName: "Install npm version 6.9.0"
 
       - script: |
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
       - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargetsTo)
         displayName: "Build libraries"
+
       - script: |
-          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargets)
+          node common/scripts/install-run-rush.js pack --verbose $(GeneratedPackageTargetsTo)
         displayName: "Pack libraries"
 
+      # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+      # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
       - task: CopyFiles@2
         inputs:
-          contents: "sdk/**/**/*.tgz"
+          sourceFolder: sdk
+          contents: |
+            **/$(coalesceResultFilter)/*.tgz
+            **/$(coalesceResultFilter)/browser/*.zip
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
 
-      - task: PublishPipelineArtifact@0
+      - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
         displayName: "Publish artifacts"
         inputs:
           artifactName: packages
-          targetPath: $(Build.ArtifactStagingDirectory)
+          path: $(Build.ArtifactStagingDirectory)
 
   - job: "Analyze"
-
-    dependsOn:
-      - Prepare
-
+    dependsOn: "Build"
     variables:
       - template: ../variables/globals.yml
-      - name: GeneratedPackageTargets
-        value: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
 
     pool:
-      vmImage: "ubuntu-16.04"
+      vmImage: "$(OSVmImage)"
 
     steps:
-      - task: UsePythonVersion@0
-        displayName: "Use Python 3.6"
-        inputs:
-          versionSpec: "3.6"
+      - template: ../steps/common.yml
 
-      - task: NodeTool@0
+      - template: ../steps/select-packages.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
+
+      - task: DownloadPipelineArtifact@2
         inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
+          buildType: "current"
+          artifactName: packages
+          itemPattern: "*.tgz"
+          targetPath: "$(Agent.TempDirectory)/packagesCurrent"
+        displayName: "Download Current Build artifacts"
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: "specific"
+          project: "29ec6040-b234-4e31-b139-33dc4287b756" #guid for public project
+          definition: 614 #system.definitionId for js - client -ci
+          buildVersionToDownload: "latest"
+          branchName: "master"
+          artifactName: packages
+          itemPattern: "*.tgz"
+          targetPath: "$(Agent.TempDirectory)/packagesMaster"
+        displayName: "Download Latest Master (PipelineTask) artifacts"
+
+      - pwsh: eng/tools/compare-packages.ps1 "$(Agent.TempDirectory)/packagesMaster" "$(Agent.TempDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
+        displayName: "Diff Generated Packages"
+        errorActionPreference: "continue"
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish Report Artifacts"
+        inputs:
+          artifactName: package-diffs
+          path: $(Build.ArtifactStagingDirectory)
 
       - script: |
           pip install setuptools wheel
@@ -98,10 +133,44 @@ jobs:
         displayName: "Verify Readmes"
 
       - script: |
+          npm ci
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+        displayName: "Install tool dependencies"
+
+      - script: |
+          node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+        displayName: "Analyze library dependencies"
+
+      - script: |
           node common/scripts/install-run-rush.js install
-          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargets)
+        displayName: "Install library dependencies"
+
+      - script: |
+          node common/scripts/install-run-rush.js lint $(GeneratedPackageTargetsTo)
+        displayName: "Lint libraries"
+
+      # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+      # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
+      - task: CopyFiles@2
+        inputs:
+          sourceFolder: sdk
+          contents: "**/**/*lintReport.html"
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          flattenFolders: true
+        displayName: "Copy lint reports"
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish Report Artifacts"
+        inputs:
+          artifactName: reports
+          path: $(Build.ArtifactStagingDirectory)
+
+      - script: |
+          node common/scripts/install-run-rush.js audit $(GeneratedPackageTargetsTo)
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-        displayName: "Audit packages"
+        displayName: "Audit libraries"
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
@@ -109,79 +178,52 @@ jobs:
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: "Component Detection"
 
-  - job: "Test"
+  # Only run tests if the matrix has entries
+  - ${{ if eq(parameters.RunUnitTests, 'true') }}:
+      - job: "UnitTest"
 
-    dependsOn:
-      - Prepare
+        strategy:
+          matrix: ${{parameters.Matrix}}
 
-    strategy:
-      matrix:
-        Linux_Node8:
-          OSName: "Linux"
-          OSVmImage: "ubuntu-16.04"
-          NodeVersion: "8.x"
-        Linux_Node10:
-          OSName: "Linux"
-          OSVmImage: "ubuntu-16.04"
-          NodeVersion: "10.x"
-        Linux_Node12:
-          OSName: "Linux"
-          OSVmImage: "ubuntu-16.04"
-          NodeVersion: "12.x"
-        macOS_Node8:
-          OSName: "macOS"
-          OSVmImage: "macOS-10.13"
-          NodeVersion: "8.x"
-        macOS_Node10:
-          OSName: "macOS"
-          OSVmImage: "macOS-10.13"
-          NodeVersion: "10.x"
-        macOS_Node12:
-          OSName: "macOS"
-          OSVmImage: "macOS-10.13"
-          NodeVersion: "12.x"
-        Windows_Node8:
-          OSName: "Windows"
-          OSVmImage: "vs2017-win2016"
-          NodeVersion: "8.x"
-        Windows_Node10:
-          OSName: "Windows"
-          OSVmImage: "vs2017-win2016"
-          NodeVersion: "10.x"
-        Windows_Node12:
-          OSName: "Windows"
-          OSVmImage: "vs2017-win2016"
-          NodeVersion: "12.x"
+        pool:
+          vmImage: "$(OSVmImage)"
 
-    pool:
-      vmImage: "$(OSVmImage)"
+        variables:
+          - template: ../variables/globals.yml
 
-    variables:
-      GeneratedPackageTargets: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
+        steps:
+          - template: ../steps/common.yml
 
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: "$(NodeVersion)"
-        displayName: "Install Node.js $(NodeVersion)"
+          - template: ../steps/select-packages.yml
+            parameters:
+              ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-      - script: |
-          node common/scripts/install-run-rush.js install
-        displayName: "Install dependencies"
+          - script: |
+              node common/scripts/install-run-rush.js install
+            displayName: "Install dependencies"
 
-      - script: |
-          node common/scripts/install-run-rush.js build --verbose $(GeneratedPackageTargets)
-        displayName: "Build libraries"
-      - script: |
-          node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
-        displayName: "Build test assets"
-      - script: |
-          node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargets)
-        displayName: "Test libraries"
+          - script: |
+              node common/scripts/install-run-rush.js build --verbose
+            displayName: "Build libraries"
 
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFiles: "**/test-results.xml"
-          testRunTitle: "$(OSName) Node $(NodeVersion)"
-        condition: succeededOrFailed()
-        displayName: "Publish test results"
+          - script: |
+              node common/scripts/install-run-rush.js build:test --verbose
+            displayName: "Build test assets"
+
+          - script: |
+              node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargetsFrom)
+            displayName: "Test libraries"
+
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFiles: "**/test-results.xml"
+              testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
+            condition: succeededOrFailed()
+            displayName: "Publish NodeJS unit test results"
+
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFiles: "**/test-results.browser.xml"
+              testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
+            condition: succeededOrFailed()
+            displayName: "Publish browser unit test results"

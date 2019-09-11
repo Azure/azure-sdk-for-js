@@ -1,7 +1,10 @@
 steps:
   - script: |
-      npm ci # This causes us to download packages exclusively based on the lock file, faster and more secure.
+      npm ci
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/select-packages
+    displayName: "Install script dependencies"
+
+  - script: |
       npm run select-packages "$(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/!(arm-*)/package.json"
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/select-packages
-    name: SelectPackages
     displayName: "Selecting packages to build"
