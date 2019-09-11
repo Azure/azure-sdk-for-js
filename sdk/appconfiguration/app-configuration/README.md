@@ -56,27 +56,24 @@ Configuration Settings as it runs in these two dimensions.
 ```typescript
 import { AppConfigurationClient } from "@azure/app-configuration";
 
-async function run() {
-  const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
-  const client = new AppConfigurationClient(connectionString);
-  
-  const label = ["testlabel"];
-  const key = ["testkey"];
-  const acceptDateTime = new Date();
-  const fields = ["etag"];
+const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
+const client = new AppConfigurationClient(connectionString);
 
-  await client.listConfigurationSettings({
-    label,
-    key,
-    acceptDateTime,
-    fields
-  }).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}
+const label = ["testlabel"];
+const key = ["testkey"];
+const acceptDateTime = new Date();
+const fields = ["etag"];
 
-run().catch(err => console.log(err));
+await client.listConfigurationSettings({
+  label,
+  key,
+  acceptDateTime,
+  fields
+}).then((result) => {
+  console.log("The result is:");
+  console.log(result);
+});
+
 ```
 
 ## Troubleshooting
