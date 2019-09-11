@@ -369,24 +369,6 @@ You can set the following environment variable to get the debug logs when using 
 export DEBUG=azure*
 ```
 
-- Getting debug logs from the Key Vault Keys SDK and the protocol level library.
-
-```bash
-export DEBUG=azure*,rhea*
-```
-
-- If you are **not interested in viewing the event transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
-```
-
-- If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure:keyvault-keys:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
-```
-
 ## Next steps
 
 Please take a look at the
@@ -399,7 +381,7 @@ This project welcomes contributions and suggestions. Please read the
 [contributing guidelines](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
 for detailed information about how to contribute and what to expect while contributing.
 
-## Testing
+### Testing
 
 To run our tests, first install the dependencies (with `npm install` or `rush install`),
 then run the unit tests with: `npm run unit-test`.
