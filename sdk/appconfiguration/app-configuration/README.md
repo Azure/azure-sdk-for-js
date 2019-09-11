@@ -57,21 +57,10 @@ import { AppConfigurationClient } from "@azure/app-configuration";
 const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
 const client = new AppConfigurationClient(connectionString);
 
-const label = ["testlabel"];
-const key = ["testkey"];
-const acceptDateTime = new Date();
-const fields = ["etag"];
+let configurationSetting = await client.getConfigurationSetting("testkey");
 
-await client.listConfigurationSettings({
-  label,
-  key,
-  acceptDateTime,
-  fields
-}).then((result) => {
-  console.log("The result is:");
-  console.log(result);
-});
-
+console.log("The result is:");
+console.log(configurationSetting.value);
 ```
 
 More examples can be found in the samples folder on [github](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
