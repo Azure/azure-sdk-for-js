@@ -76,6 +76,8 @@ await client.listConfigurationSettings({
 
 ```
 
+More examples can be found in the samples folder on [github](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
+
 ## Troubleshooting
 
 ## Next steps
