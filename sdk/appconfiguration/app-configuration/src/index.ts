@@ -102,6 +102,12 @@ export class AppConfigurationClient {
    */
   constructor(uri: string, credential: TokenCredential);
   constructor(uriOrConnectionString: string, credential?: TokenCredential) {
+    if (uriOrConnectionString == null) {
+      throw new Error(
+        "You must provide a connection string or the URL for your AppConfiguration instance"
+      );
+    }
+
     const regexMatch = uriOrConnectionString.match(ConnectionStringRegex);
     if (regexMatch) {
       const credential = new AppConfigCredential(regexMatch[2], regexMatch[3]);

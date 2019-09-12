@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
+import { getConnectionStringFromEnvironment } from "./testHelpers";
 import * as dotenv from "dotenv";
 import { AppConfigurationClient } from "../src";
 
@@ -9,14 +10,11 @@ dotenv.config();
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
-  const connectionString: string = process.env["APPCONFIG_CONNECTION_STRING"]!;
 
   let client: AppConfigurationClient;
 
   before("validate environment variables", () => {
-    if (!connectionString) {
-      throw new Error("APPCONFIG_CONNECTION_STRING not defined.");
-    }
+    let connectionString = getConnectionStringFromEnvironment();
     client = new AppConfigurationClient(connectionString);
   });
 
@@ -28,6 +26,7 @@ describe("AppConfigurationClient", () => {
 
   describe("constructor", () => {
     it("supports connection string", async () => {
+      const connectionString = getConnectionStringFromEnvironment();
       const client = new AppConfigurationClient(connectionString);
       // make sure a service call succeeds
       await client.listConfigurationSettings();
