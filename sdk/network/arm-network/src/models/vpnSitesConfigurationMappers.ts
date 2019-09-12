@@ -7,6 +7,7 @@
  */
 
 export {
+  discriminators,
   ErrorDetails,
   ErrorModel,
   GetVpnSitesConfigurationRequest

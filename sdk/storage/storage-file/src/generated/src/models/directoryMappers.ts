@@ -15,6 +15,7 @@ export {
   DirectoryListFilesAndDirectoriesSegmentHeaders,
   DirectoryListHandlesHeaders,
   DirectorySetMetadataHeaders,
+  DirectorySetPropertiesHeaders,
   FileItem,
   FileProperty,
   FilesAndDirectoriesListSegment,

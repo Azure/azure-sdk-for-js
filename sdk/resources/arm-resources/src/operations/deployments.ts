@@ -36,6 +36,440 @@ export class Deployments {
    * process finishes, the URI in the Location header returns a status of 204 on success. If the
    * asynchronous request failed, the URI in the Location header returns an error-level status code.
    * @summary Deletes a deployment from the deployment history.
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteAtScope(scope,deploymentName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Checks whether the deployment exists.
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsCheckExistenceAtScopeResponse>
+   */
+  checkExistenceAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCheckExistenceAtScopeResponse>;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  checkExistenceAtScope(scope: string, deploymentName: string, callback: msRest.ServiceCallback<boolean>): void;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkExistenceAtScope(scope: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistenceAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DeploymentsCheckExistenceAtScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        deploymentName,
+        options
+      },
+      checkExistenceAtScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsCheckExistenceAtScopeResponse>;
+  }
+
+  /**
+   * You can provide the template and parameters directly in the request or link to JSON files.
+   * @summary Deploys resources at a given scope.
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Additional parameters supplied to the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsCreateOrUpdateAtScopeResponse>
+   */
+  createOrUpdateAtScope(scope: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCreateOrUpdateAtScopeResponse> {
+    return this.beginCreateOrUpdateAtScope(scope,deploymentName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsCreateOrUpdateAtScopeResponse>;
+  }
+
+  /**
+   * Gets a deployment.
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsGetAtScopeResponse>
+   */
+  getAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsGetAtScopeResponse>;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  getAtScope(scope: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAtScope(scope: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
+  getAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExtended>, callback?: msRest.ServiceCallback<Models.DeploymentExtended>): Promise<Models.DeploymentsGetAtScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        deploymentName,
+        options
+      },
+      getAtScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsGetAtScopeResponse>;
+  }
+
+  /**
+   * You can cancel a deployment only if the provisioningState is Accepted or Running. After the
+   * deployment is canceled, the provisioningState is set to Canceled. Canceling a template
+   * deployment stops the currently running template deployment and leaves the resources partially
+   * deployed.
+   * @summary Cancels a currently running template deployment.
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  cancelAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  cancelAtScope(scope: string, deploymentName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  cancelAtScope(scope: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  cancelAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        deploymentName,
+        options
+      },
+      cancelAtScopeOperationSpec,
+      callback);
+  }
+
+  /**
+   * Validates whether the specified template is syntactically correct and will be accepted by Azure
+   * Resource Manager..
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsValidateAtScopeResponse>
+   */
+  validateAtScope(scope: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsValidateAtScopeResponse>;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param callback The callback
+   */
+  validateAtScope(scope: string, deploymentName: string, parameters: Models.Deployment, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  validateAtScope(scope: string, deploymentName: string, parameters: Models.Deployment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
+  validateAtScope(scope: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentValidateResult>, callback?: msRest.ServiceCallback<Models.DeploymentValidateResult>): Promise<Models.DeploymentsValidateAtScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        deploymentName,
+        parameters,
+        options
+      },
+      validateAtScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsValidateAtScopeResponse>;
+  }
+
+  /**
+   * Exports the template used for specified deployment.
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsExportTemplateAtScopeResponse>
+   */
+  exportTemplateAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsExportTemplateAtScopeResponse>;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  exportTemplateAtScope(scope: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
+  /**
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  exportTemplateAtScope(scope: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
+  exportTemplateAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExportResult>, callback?: msRest.ServiceCallback<Models.DeploymentExportResult>): Promise<Models.DeploymentsExportTemplateAtScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        deploymentName,
+        options
+      },
+      exportTemplateAtScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsExportTemplateAtScopeResponse>;
+  }
+
+  /**
+   * Get all the deployments at the given scope.
+   * @param scope The scope of a deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsListAtScopeResponse>
+   */
+  listAtScope(scope: string, options?: Models.DeploymentsListAtScopeOptionalParams): Promise<Models.DeploymentsListAtScopeResponse>;
+  /**
+   * @param scope The scope of a deployment.
+   * @param callback The callback
+   */
+  listAtScope(scope: string, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  /**
+   * @param scope The scope of a deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtScope(scope: string, options: Models.DeploymentsListAtScopeOptionalParams, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listAtScope(scope: string, options?: Models.DeploymentsListAtScopeOptionalParams | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListAtScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        options
+      },
+      listAtScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsListAtScopeResponse>;
+  }
+
+  /**
+   * A template deployment that is currently running cannot be deleted. Deleting a template
+   * deployment removes the associated deployment operations. This is an asynchronous operation that
+   * returns a status of 202 until the template deployment is successfully deleted. The Location
+   * response header contains the URI that is used to obtain the status of the process. While the
+   * process is running, a call to the URI in the Location header returns a status of 202. When the
+   * process finishes, the URI in the Location header returns a status of 204 on success. If the
+   * asynchronous request failed, the URI in the Location header returns an error-level status code.
+   * @summary Deletes a deployment from the deployment history.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteAtTenantScope(deploymentName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Checks whether the deployment exists.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsCheckExistenceAtTenantScopeResponse>
+   */
+  checkExistenceAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCheckExistenceAtTenantScopeResponse>;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  checkExistenceAtTenantScope(deploymentName: string, callback: msRest.ServiceCallback<boolean>): void;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkExistenceAtTenantScope(deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistenceAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DeploymentsCheckExistenceAtTenantScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        deploymentName,
+        options
+      },
+      checkExistenceAtTenantScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsCheckExistenceAtTenantScopeResponse>;
+  }
+
+  /**
+   * You can provide the template and parameters directly in the request or link to JSON files.
+   * @summary Deploys resources at tenant scope.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Additional parameters supplied to the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsCreateOrUpdateAtTenantScopeResponse>
+   */
+  createOrUpdateAtTenantScope(deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCreateOrUpdateAtTenantScopeResponse> {
+    return this.beginCreateOrUpdateAtTenantScope(deploymentName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsCreateOrUpdateAtTenantScopeResponse>;
+  }
+
+  /**
+   * Gets a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsGetAtTenantScopeResponse>
+   */
+  getAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsGetAtTenantScopeResponse>;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  getAtTenantScope(deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAtTenantScope(deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
+  getAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExtended>, callback?: msRest.ServiceCallback<Models.DeploymentExtended>): Promise<Models.DeploymentsGetAtTenantScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        deploymentName,
+        options
+      },
+      getAtTenantScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsGetAtTenantScopeResponse>;
+  }
+
+  /**
+   * You can cancel a deployment only if the provisioningState is Accepted or Running. After the
+   * deployment is canceled, the provisioningState is set to Canceled. Canceling a template
+   * deployment stops the currently running template deployment and leaves the resources partially
+   * deployed.
+   * @summary Cancels a currently running template deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  cancelAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  cancelAtTenantScope(deploymentName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  cancelAtTenantScope(deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  cancelAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        deploymentName,
+        options
+      },
+      cancelAtTenantScopeOperationSpec,
+      callback);
+  }
+
+  /**
+   * Validates whether the specified template is syntactically correct and will be accepted by Azure
+   * Resource Manager..
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsValidateAtTenantScopeResponse>
+   */
+  validateAtTenantScope(deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsValidateAtTenantScopeResponse>;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param callback The callback
+   */
+  validateAtTenantScope(deploymentName: string, parameters: Models.Deployment, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  validateAtTenantScope(deploymentName: string, parameters: Models.Deployment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
+  validateAtTenantScope(deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentValidateResult>, callback?: msRest.ServiceCallback<Models.DeploymentValidateResult>): Promise<Models.DeploymentsValidateAtTenantScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        deploymentName,
+        parameters,
+        options
+      },
+      validateAtTenantScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsValidateAtTenantScopeResponse>;
+  }
+
+  /**
+   * Exports the template used for specified deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsExportTemplateAtTenantScopeResponse>
+   */
+  exportTemplateAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsExportTemplateAtTenantScopeResponse>;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param callback The callback
+   */
+  exportTemplateAtTenantScope(deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
+  /**
+   * @param deploymentName The name of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  exportTemplateAtTenantScope(deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
+  exportTemplateAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExportResult>, callback?: msRest.ServiceCallback<Models.DeploymentExportResult>): Promise<Models.DeploymentsExportTemplateAtTenantScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        deploymentName,
+        options
+      },
+      exportTemplateAtTenantScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsExportTemplateAtTenantScopeResponse>;
+  }
+
+  /**
+   * Get all the deployments at the tenant scope.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsListAtTenantScopeResponse>
+   */
+  listAtTenantScope(options?: Models.DeploymentsListAtTenantScopeOptionalParams): Promise<Models.DeploymentsListAtTenantScopeResponse>;
+  /**
+   * @param callback The callback
+   */
+  listAtTenantScope(callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtTenantScope(options: Models.DeploymentsListAtTenantScopeOptionalParams, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listAtTenantScope(options?: Models.DeploymentsListAtTenantScopeOptionalParams | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListAtTenantScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listAtTenantScopeOperationSpec,
+      callback) as Promise<Models.DeploymentsListAtTenantScopeResponse>;
+  }
+
+  /**
+   * A template deployment that is currently running cannot be deleted. Deleting a template
+   * deployment removes the associated deployment operations. This is an asynchronous operation that
+   * returns a status of 202 until the template deployment is successfully deleted. The Location
+   * response header contains the URI that is used to obtain the status of the process. While the
+   * process is running, a call to the URI in the Location header returns a status of 202. When the
+   * process finishes, the URI in the Location header returns a status of 204 on success. If the
+   * asynchronous request failed, the URI in the Location header returns an error-level status code.
+   * @summary Deletes a deployment from the deployment history.
    * @param groupId The management group ID.
    * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
@@ -704,6 +1138,122 @@ export class Deployments {
   }
 
   /**
+   * Calculate the hash of the given template.
+   * @param template The template provided to calculate hash.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsCalculateTemplateHashResponse>
+   */
+  calculateTemplateHash(template: any, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCalculateTemplateHashResponse>;
+  /**
+   * @param template The template provided to calculate hash.
+   * @param callback The callback
+   */
+  calculateTemplateHash(template: any, callback: msRest.ServiceCallback<Models.TemplateHashResult>): void;
+  /**
+   * @param template The template provided to calculate hash.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  calculateTemplateHash(template: any, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TemplateHashResult>): void;
+  calculateTemplateHash(template: any, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TemplateHashResult>, callback?: msRest.ServiceCallback<Models.TemplateHashResult>): Promise<Models.DeploymentsCalculateTemplateHashResponse> {
+    return this.client.sendOperationRequest(
+      {
+        template,
+        options
+      },
+      calculateTemplateHashOperationSpec,
+      callback) as Promise<Models.DeploymentsCalculateTemplateHashResponse>;
+  }
+
+  /**
+   * A template deployment that is currently running cannot be deleted. Deleting a template
+   * deployment removes the associated deployment operations. This is an asynchronous operation that
+   * returns a status of 202 until the template deployment is successfully deleted. The Location
+   * response header contains the URI that is used to obtain the status of the process. While the
+   * process is running, a call to the URI in the Location header returns a status of 202. When the
+   * process finishes, the URI in the Location header returns a status of 204 on success. If the
+   * asynchronous request failed, the URI in the Location header returns an error-level status code.
+   * @summary Deletes a deployment from the deployment history.
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteAtScope(scope: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        scope,
+        deploymentName,
+        options
+      },
+      beginDeleteAtScopeOperationSpec,
+      options);
+  }
+
+  /**
+   * You can provide the template and parameters directly in the request or link to JSON files.
+   * @summary Deploys resources at a given scope.
+   * @param scope The scope of a deployment.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Additional parameters supplied to the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdateAtScope(scope: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        scope,
+        deploymentName,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateAtScopeOperationSpec,
+      options);
+  }
+
+  /**
+   * A template deployment that is currently running cannot be deleted. Deleting a template
+   * deployment removes the associated deployment operations. This is an asynchronous operation that
+   * returns a status of 202 until the template deployment is successfully deleted. The Location
+   * response header contains the URI that is used to obtain the status of the process. While the
+   * process is running, a call to the URI in the Location header returns a status of 202. When the
+   * process finishes, the URI in the Location header returns a status of 204 on success. If the
+   * asynchronous request failed, the URI in the Location header returns an error-level status code.
+   * @summary Deletes a deployment from the deployment history.
+   * @param deploymentName The name of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteAtTenantScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        deploymentName,
+        options
+      },
+      beginDeleteAtTenantScopeOperationSpec,
+      options);
+  }
+
+  /**
+   * You can provide the template and parameters directly in the request or link to JSON files.
+   * @summary Deploys resources at tenant scope.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Additional parameters supplied to the operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdateAtTenantScope(deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        deploymentName,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateAtTenantScopeOperationSpec,
+      options);
+  }
+
+  /**
    * A template deployment that is currently running cannot be deleted. Deleting a template
    * deployment removes the associated deployment operations. This is an asynchronous operation that
    * returns a status of 202 until the template deployment is successfully deleted. The Location
@@ -841,6 +1391,62 @@ export class Deployments {
   }
 
   /**
+   * Get all the deployments at the given scope.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsListAtScopeNextResponse>
+   */
+  listAtScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsListAtScopeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listAtScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listAtScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListAtScopeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listAtScopeNextOperationSpec,
+      callback) as Promise<Models.DeploymentsListAtScopeNextResponse>;
+  }
+
+  /**
+   * Get all the deployments at the tenant scope.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsListAtTenantScopeNextResponse>
+   */
+  listAtTenantScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsListAtTenantScopeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listAtTenantScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtTenantScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listAtTenantScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListAtTenantScopeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listAtTenantScopeNextOperationSpec,
+      callback) as Promise<Models.DeploymentsListAtTenantScopeNextResponse>;
+  }
+
+  /**
    * Get all the deployments for a management group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -927,6 +1533,296 @@ export class Deployments {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const checkExistenceAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "HEAD",
+  path: "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.scope,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.scope,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExtended
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const cancelAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+  urlParameters: [
+    Parameters.scope,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const validateAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+  urlParameters: [
+    Parameters.scope,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Deployment,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const exportTemplateAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+  urlParameters: [
+    Parameters.scope,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExportResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{scope}/providers/Microsoft.Resources/deployments/",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.filter,
+    Parameters.top,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const checkExistenceAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "HEAD",
+  path: "providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExtended
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const cancelAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const validateAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Deployment,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const exportTemplateAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExportResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Resources/deployments/",
+  queryParameters: [
+    Parameters.filter,
+    Parameters.top,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const checkExistenceAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}",
@@ -1018,9 +1914,6 @@ const validateAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentValidateResult
-    },
-    400: {
       bodyMapper: Mappers.DeploymentValidateResult
     },
     default: {
@@ -1170,9 +2063,6 @@ const validateAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentValidateResult
-    },
-    400: {
       bodyMapper: Mappers.DeploymentValidateResult
     },
     default: {
@@ -1328,9 +2218,6 @@ const validateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.DeploymentValidateResult
     },
-    400: {
-      bodyMapper: Mappers.DeploymentValidateResult
-    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1381,6 +2268,148 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const calculateTemplateHashOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Resources/calculateTemplateHash",
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "template",
+    mapper: {
+      required: true,
+      serializedName: "template",
+      type: {
+        name: "Object"
+      }
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.TemplateHashResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.scope,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.scope,
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Deployment,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExtended
+    },
+    201: {
+      bodyMapper: Mappers.DeploymentExtended
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "providers/Microsoft.Resources/deployments/{deploymentName}",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Deployment,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentExtended
+    },
+    201: {
+      bodyMapper: Mappers.DeploymentExtended
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -1554,6 +2583,48 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.DeploymentExtended
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtScopeNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtTenantScopeNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

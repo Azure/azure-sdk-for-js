@@ -364,6 +364,7 @@ export interface CosmosClientOptions {
     };
     // Warning: (ae-forgotten-export) The symbol "TokenProvider" needs to be exported by the entry point index.d.ts
     tokenProvider?: TokenProvider;
+    userAgentSuffix?: string;
 }
 
 // @public (undocumented)
@@ -1096,8 +1097,8 @@ export class TimeSpan {
     // (undocumented)
     static additionDoesOverflow(a: number, b: number): boolean;
     // (undocumented)
-    static compare(t1: TimeSpan, t2: TimeSpan): 1 | -1 | 0;
-    compareTo(value: TimeSpan): 1 | -1 | 0;
+    static compare(t1: TimeSpan, t2: TimeSpan): 0 | 1 | -1;
+    compareTo(value: TimeSpan): 0 | 1 | -1;
     // (undocumented)
     days(): number;
     duration(): TimeSpan;

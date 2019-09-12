@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as Models from "./models";
 
 const packageName = "azure-storage-blob";
 const packageVersion = "1.0.0";
@@ -16,6 +17,7 @@ const packageVersion = "1.0.0";
 export class StorageClientContext extends msRest.ServiceClient {
   url: string;
   version: string;
+  pathRenameMode?: Models.PathRenameMode;
 
   /**
    * Initializes a new instance of the StorageClientContext class.
@@ -23,7 +25,7 @@ export class StorageClientContext extends msRest.ServiceClient {
    * operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: msRest.ServiceClientOptions) {
+  constructor(url: string, options?: Models.StorageClientOptions) {
     if (url == undefined) {
       throw new Error("'url' cannot be null.");
     }
@@ -39,9 +41,12 @@ export class StorageClientContext extends msRest.ServiceClient {
 
     super(undefined, options);
 
-    this.version = '2018-11-09';
+    this.version = '2019-02-02';
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.url = url;
+    if (options.pathRenameMode !== null && options.pathRenameMode !== undefined) {
+      this.pathRenameMode = options.pathRenameMode;
+    }
   }
 }

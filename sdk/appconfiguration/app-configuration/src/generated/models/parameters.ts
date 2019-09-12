@@ -11,10 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 export const acceptDateTime: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "acceptDateTime"
-  ],
+  parameterPath: ["options", "acceptDateTime"],
   mapper: {
     serializedName: "Accept-DateTime",
     type: {
@@ -26,17 +23,14 @@ export const acceptLanguage: coreHttp.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
   }
 };
 export const fields: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "fields"
-  ],
+  parameterPath: ["options", "fields"],
   mapper: {
     serializedName: "fields",
     type: {
@@ -51,10 +45,7 @@ export const fields: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const key0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "key"
-  ],
+  parameterPath: ["options", "key"],
   mapper: {
     serializedName: "key",
     type: {
@@ -79,10 +70,7 @@ export const key1: coreHttp.OperationURLParameter = {
   }
 };
 export const label0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "label"
-  ],
+  parameterPath: ["options", "label"],
   mapper: {
     serializedName: "label",
     constraints: {
@@ -100,23 +88,17 @@ export const label0: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const label1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "label"
-  ],
+  parameterPath: ["options", "label"],
   mapper: {
     serializedName: "label",
-    defaultValue: '%00',
+    defaultValue: "%00",
     type: {
       name: "String"
     }
   }
 };
 export const label2: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "label"
-  ],
+  parameterPath: ["options", "label"],
   mapper: {
     serializedName: "label",
     type: {
@@ -125,10 +107,7 @@ export const label2: coreHttp.OperationQueryParameter = {
   }
 };
 export const name: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "name"
-  ],
+  parameterPath: ["options", "name"],
   mapper: {
     serializedName: "name",
     type: {

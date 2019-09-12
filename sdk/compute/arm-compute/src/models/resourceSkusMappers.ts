@@ -15,5 +15,6 @@ export {
   ResourceSkuLocationInfo,
   ResourceSkuRestrictionInfo,
   ResourceSkuRestrictions,
-  ResourceSkusResult
+  ResourceSkusResult,
+  ResourceSkuZoneDetails
 } from "../models/mappers";

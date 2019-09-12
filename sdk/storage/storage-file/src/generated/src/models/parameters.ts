@@ -40,6 +40,18 @@ export const comp10: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
+    defaultValue: 'rangelist',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const comp11: msRest.OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "comp",
     defaultValue: 'copy',
     type: {
       name: "String"
@@ -64,7 +76,7 @@ export const comp3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'metadata',
+    defaultValue: 'filepermission',
     type: {
       name: "String"
     }
@@ -76,7 +88,7 @@ export const comp4: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'acl',
+    defaultValue: 'metadata',
     type: {
       name: "String"
     }
@@ -88,7 +100,7 @@ export const comp5: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'stats',
+    defaultValue: 'acl',
     type: {
       name: "String"
     }
@@ -100,7 +112,7 @@ export const comp6: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'listhandles',
+    defaultValue: 'stats',
     type: {
       name: "String"
     }
@@ -112,7 +124,7 @@ export const comp7: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'forceclosehandles',
+    defaultValue: 'listhandles',
     type: {
       name: "String"
     }
@@ -124,7 +136,7 @@ export const comp8: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'range',
+    defaultValue: 'forceclosehandles',
     type: {
       name: "String"
     }
@@ -136,7 +148,7 @@ export const comp9: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'rangelist',
+    defaultValue: 'range',
     type: {
       name: "String"
     }
@@ -208,6 +220,16 @@ export const deleteSnapshots: msRest.OperationParameter = {
       allowedValues: [
         "include"
       ]
+    }
+  }
+};
+export const fileAttributes: msRest.OperationParameter = {
+  parameterPath: "fileAttributes",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-file-attributes",
+    type: {
+      name: "String"
     }
   }
 };
@@ -311,6 +333,60 @@ export const fileContentType: msRest.OperationParameter = {
     }
   }
 };
+export const fileCreationTime: msRest.OperationParameter = {
+  parameterPath: "fileCreationTime",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-file-creation-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const fileLastWriteTime: msRest.OperationParameter = {
+  parameterPath: "fileLastWriteTime",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-file-last-write-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const filePermission: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "filePermission"
+  ],
+  mapper: {
+    serializedName: "x-ms-file-permission",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const filePermissionKey0: msRest.OperationParameter = {
+  parameterPath: "filePermissionKey",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-file-permission-key",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const filePermissionKey1: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "filePermissionKey"
+  ],
+  mapper: {
+    serializedName: "x-ms-file-permission-key",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const fileRangeWrite: msRest.OperationParameter = {
   parameterPath: "fileRangeWrite",
   mapper: {
@@ -323,6 +399,18 @@ export const fileRangeWrite: msRest.OperationParameter = {
         "update",
         "clear"
       ]
+    }
+  }
+};
+export const fileRangeWriteFromUrl: msRest.OperationParameter = {
+  parameterPath: "fileRangeWriteFromUrl",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "x-ms-write",
+    defaultValue: 'update',
+    type: {
+      name: "String"
     }
   }
 };
@@ -531,6 +619,54 @@ export const sharesnapshot: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "sharesnapshot",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const sourceContentCrc64: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "sourceContentCrc64"
+  ],
+  mapper: {
+    serializedName: "x-ms-source-content-crc64",
+    type: {
+      name: "ByteArray"
+    }
+  }
+};
+export const sourceIfMatchCrc64: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "sourceModifiedAccessConditions",
+    "sourceIfMatchCrc64"
+  ],
+  mapper: {
+    serializedName: "x-ms-source-if-match-crc64",
+    type: {
+      name: "ByteArray"
+    }
+  }
+};
+export const sourceIfNoneMatchCrc64: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "sourceModifiedAccessConditions",
+    "sourceIfNoneMatchCrc64"
+  ],
+  mapper: {
+    serializedName: "x-ms-source-if-none-match-crc64",
+    type: {
+      name: "ByteArray"
+    }
+  }
+};
+export const sourceRange: msRest.OperationParameter = {
+  parameterPath: "sourceRange",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-source-range",
     type: {
       name: "String"
     }

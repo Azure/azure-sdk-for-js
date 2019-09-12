@@ -493,6 +493,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.VirtualNetworkGatewayConnection
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

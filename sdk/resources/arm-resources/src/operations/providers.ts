@@ -107,6 +107,30 @@ export class Providers {
   }
 
   /**
+   * Gets all resource providers for the tenant.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProvidersListAtTenantScopeResponse>
+   */
+  listAtTenantScope(options?: Models.ProvidersListAtTenantScopeOptionalParams): Promise<Models.ProvidersListAtTenantScopeResponse>;
+  /**
+   * @param callback The callback
+   */
+  listAtTenantScope(callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtTenantScope(options: Models.ProvidersListAtTenantScopeOptionalParams, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
+  listAtTenantScope(options?: Models.ProvidersListAtTenantScopeOptionalParams | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListAtTenantScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listAtTenantScopeOperationSpec,
+      callback) as Promise<Models.ProvidersListAtTenantScopeResponse>;
+  }
+
+  /**
    * Gets the specified resource provider.
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param [options] The optional parameters
@@ -135,6 +159,34 @@ export class Providers {
   }
 
   /**
+   * Gets the specified resource provider at the tenant level.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProvidersGetAtTenantScopeResponse>
+   */
+  getAtTenantScope(resourceProviderNamespace: string, options?: Models.ProvidersGetAtTenantScopeOptionalParams): Promise<Models.ProvidersGetAtTenantScopeResponse>;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param callback The callback
+   */
+  getAtTenantScope(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.Provider>): void;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAtTenantScope(resourceProviderNamespace: string, options: Models.ProvidersGetAtTenantScopeOptionalParams, callback: msRest.ServiceCallback<Models.Provider>): void;
+  getAtTenantScope(resourceProviderNamespace: string, options?: Models.ProvidersGetAtTenantScopeOptionalParams | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersGetAtTenantScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceProviderNamespace,
+        options
+      },
+      getAtTenantScopeOperationSpec,
+      callback) as Promise<Models.ProvidersGetAtTenantScopeResponse>;
+  }
+
+  /**
    * Gets all resource providers for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -160,6 +212,34 @@ export class Providers {
       },
       listNextOperationSpec,
       callback) as Promise<Models.ProvidersListNextResponse>;
+  }
+
+  /**
+   * Gets all resource providers for the tenant.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProvidersListAtTenantScopeNextResponse>
+   */
+  listAtTenantScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProvidersListAtTenantScopeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listAtTenantScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAtTenantScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
+  listAtTenantScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListAtTenantScopeNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listAtTenantScopeNextOperationSpec,
+      callback) as Promise<Models.ProvidersListAtTenantScopeNextResponse>;
   }
 }
 
@@ -238,6 +318,28 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers",
+  queryParameters: [
+    Parameters.top,
+    Parameters.expand,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProviderListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}",
@@ -263,7 +365,52 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getAtTenantScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/{resourceProviderNamespace}",
+  urlParameters: [
+    Parameters.resourceProviderNamespace
+  ],
+  queryParameters: [
+    Parameters.expand,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Provider
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProviderListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAtTenantScopeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

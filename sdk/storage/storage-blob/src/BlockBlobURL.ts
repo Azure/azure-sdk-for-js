@@ -6,7 +6,7 @@ import { ContainerURL } from "./ContainerURL";
 import * as Models from "./generated/src/models";
 import { BlockBlob } from "./generated/src/operations";
 import { IRange, rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata } from "./models";
+import { IBlobAccessConditions, IMetadata, ensureCpkIfSpecified, BlockBlobTier, toAccessTier } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -16,24 +16,63 @@ export interface IBlockBlobUploadOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
   progress?: (progress: TransferProgressEvent) => void;
+  customerProvidedKey?: Models.CpkInfo;
+  tier?: BlockBlobTier | string;
 }
 
 export interface IBlockBlobStageBlockOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
   transactionalContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the block content. This hash is used to verify the integrity of the block during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentCrc64?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlockBlobStageBlockFromURLOptions {
   range?: IRange;
   leaseAccessConditions?: Models.LeaseAccessConditions;
+
+  /**
+   * An MD5 hash of the content from the URI. 
+   * This hash is used to verify the integrity of the content during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
   sourceContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the content from the URI. 
+   * This hash is used to verify the integrity of the content during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
+  sourceContentCrc64?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IBlockBlobCommitBlockListOptions {
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
+  customerProvidedKey?: Models.CpkInfo;
+  accessTier?: Models.AccessTier;
+  tier?: BlockBlobTier | string;
 }
 
 export interface IBlockBlobGetBlockListOptions {
@@ -170,13 +209,17 @@ export class BlockBlobURL extends BlobURL {
     options: IBlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blockBlobContext.upload(body, contentLength, {
       abortSignal: aborter,
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      onUploadProgress: options.progress
+      onUploadProgress: options.progress,
+      cpkInfo: options.customerProvidedKey,
+      tier: toAccessTier(options.tier)
     });
   }
 
@@ -201,11 +244,15 @@ export class BlockBlobURL extends BlobURL {
     contentLength: number,
     options: IBlockBlobStageBlockOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
       onUploadProgress: options.progress,
-      transactionalContentMD5: options.transactionalContentMD5
+      transactionalContentMD5: options.transactionalContentMD5,
+      transactionalContentCrc64: options.transactionalContentCrc64,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -241,11 +288,15 @@ export class BlockBlobURL extends BlobURL {
     count?: number,
     options: IBlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
       sourceContentMD5: options.sourceContentMD5,
-      sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count })
+      sourceContentCrc64: options.sourceContentCrc64,
+      sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -270,6 +321,8 @@ export class BlockBlobURL extends BlobURL {
     options: IBlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.blockBlobContext.commitBlockList(
       { latest: blocks },
       {
@@ -277,7 +330,9 @@ export class BlockBlobURL extends BlobURL {
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        tier: toAccessTier(options.tier)
       }
     );
   }

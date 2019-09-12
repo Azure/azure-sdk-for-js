@@ -22,6 +22,7 @@ export {
   ServiceGetUserDelegationKeyHeaders,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
+  ServiceSubmitBatchHeaders,
   StaticWebsite,
   StorageError,
   StorageServiceProperties,

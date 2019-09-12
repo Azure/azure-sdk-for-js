@@ -57,7 +57,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/tests/*.test.js"];
+    baseConfig.input = ["dist-esm/test/*.test.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -128,7 +128,7 @@ export function browserConfig(test = false) {
 
   baseConfig.external = ["fs", "fs-extra", "child_process", "path", "crypto", "constants"];
   if (test) {
-    baseConfig.input = ["dist-esm/tests/*.test.js"];
+    baseConfig.input = ["dist-esm/test/*.test.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     baseConfig.context = "null";

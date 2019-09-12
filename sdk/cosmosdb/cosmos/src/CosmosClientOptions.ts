@@ -41,6 +41,8 @@ export interface CosmosClientOptions {
    * Use an agent such as https://github.com/TooTallNate/node-proxy-agent if you need to connect to Cosmos via a proxy
    */
   agent?: Agent;
+  /** A custom string to append to the default SDK user agent. */
+  userAgentSuffix?: string;
   /** @internal */
   plugins?: PluginConfig[];
 }

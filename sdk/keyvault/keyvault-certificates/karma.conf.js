@@ -57,7 +57,7 @@ module.exports = function(config) {
     },
 
     remapOptions: {
-      exclude: /node_modules|tests/g
+      exclude: /node_modules|test/g
     },
 
     junitReporter: {

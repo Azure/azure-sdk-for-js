@@ -5,7 +5,7 @@ import { ISignedIdentifier, ShareURL } from "../../src/ShareURL";
 import { getBSU } from "./../utils";
 import { record } from "../utils/recorder";
 
-describe("ShareURL", () => {
+describe("ShareURL Node.js only", () => {
   const serviceURL = getBSU();
   let shareName: string;
   let shareURL: ShareURL;
