@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/blobServicesMappers";
+import * as Mappers from "../models/fileServicesMappers";
 import * as Parameters from "../models/parameters";
 import { StorageManagementClientContext } from "../storageManagementClientContext";
 
-/** Class representing a BlobServices. */
-export class BlobServices {
+/** Class representing a FileServices. */
+export class FileServices {
   private readonly client: StorageManagementClientContext;
 
   /**
-   * Create a BlobServices.
+   * Create a FileServices.
    * @param {StorageManagementClientContext} client Reference to the service client.
    */
   constructor(client: StorageManagementClientContext) {
@@ -27,16 +27,16 @@ export class BlobServices {
   }
 
   /**
-   * List blob services of storage account. It returns a collection of one object named default.
+   * List all file services in storage accounts
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BlobServicesListResponse>
+   * @returns Promise<Models.FileServicesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobServicesListResponse>;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileServicesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -45,7 +45,7 @@ export class BlobServices {
    * letters only.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BlobServiceItems>): void;
+  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.FileServiceItems>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -55,8 +55,8 @@ export class BlobServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceItems>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceItems>, callback?: msRest.ServiceCallback<Models.BlobServiceItems>): Promise<Models.BlobServicesListResponse> {
+  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServiceItems>): void;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServiceItems>, callback?: msRest.ServiceCallback<Models.FileServiceItems>): Promise<Models.FileServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,70 +64,63 @@ export class BlobServices {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BlobServicesListResponse>;
+      callback) as Promise<Models.FileServicesListResponse>;
   }
 
   /**
-   * Sets the properties of a storage account’s Blob service, including properties for Storage
-   * Analytics and CORS (Cross-Origin Resource Sharing) rules.
+   * Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
+   * Sharing) rules.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param parameters The properties of a storage account’s Blob service, including properties for
-   * Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BlobServicesSetServicePropertiesResponse>
+   * @returns Promise<Models.FileServicesSetServicePropertiesResponse>
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options?: msRest.RequestOptionsBase): Promise<Models.BlobServicesSetServicePropertiesResponse>;
+  setServiceProperties(resourceGroupName: string, accountName: string, options?: Models.FileServicesSetServicePropertiesOptionalParams): Promise<Models.FileServicesSetServicePropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param parameters The properties of a storage account’s Blob service, including properties for
-   * Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @param callback The callback
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
+  setServiceProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param parameters The properties of a storage account’s Blob service, including properties for
-   * Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceProperties>, callback?: msRest.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.BlobServicesSetServicePropertiesResponse> {
+  setServiceProperties(resourceGroupName: string, accountName: string, options: Models.FileServicesSetServicePropertiesOptionalParams, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
+  setServiceProperties(resourceGroupName: string, accountName: string, options?: Models.FileServicesSetServicePropertiesOptionalParams | msRest.ServiceCallback<Models.FileServiceProperties>, callback?: msRest.ServiceCallback<Models.FileServiceProperties>): Promise<Models.FileServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        parameters,
         options
       },
       setServicePropertiesOperationSpec,
-      callback) as Promise<Models.BlobServicesSetServicePropertiesResponse>;
+      callback) as Promise<Models.FileServicesSetServicePropertiesResponse>;
   }
 
   /**
-   * Gets the properties of a storage account’s Blob service, including properties for Storage
-   * Analytics and CORS (Cross-Origin Resource Sharing) rules.
+   * Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
+   * Sharing) rules.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BlobServicesGetServicePropertiesResponse>
+   * @returns Promise<Models.FileServicesGetServicePropertiesResponse>
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobServicesGetServicePropertiesResponse>;
+  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileServicesGetServicePropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -136,7 +129,7 @@ export class BlobServices {
    * letters only.
    * @param callback The callback
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
+  getServiceProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -146,8 +139,8 @@ export class BlobServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
-  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceProperties>, callback?: msRest.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.BlobServicesGetServicePropertiesResponse> {
+  getServiceProperties(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
+  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServiceProperties>, callback?: msRest.ServiceCallback<Models.FileServiceProperties>): Promise<Models.FileServicesGetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +148,7 @@ export class BlobServices {
         options
       },
       getServicePropertiesOperationSpec,
-      callback) as Promise<Models.BlobServicesGetServicePropertiesResponse>;
+      callback) as Promise<Models.FileServicesGetServicePropertiesResponse>;
   }
 }
 
@@ -163,7 +156,7 @@ export class BlobServices {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
@@ -177,7 +170,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.BlobServiceItems
+      bodyMapper: Mappers.FileServiceItems
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -188,12 +181,12 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const setServicePropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.blobServicesName
+    Parameters.fileServicesName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -202,15 +195,20 @@ const setServicePropertiesOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "parameters",
+    parameterPath: {
+      cors: [
+        "options",
+        "cors"
+      ]
+    },
     mapper: {
-      ...Mappers.BlobServiceProperties,
+      ...Mappers.FileServiceProperties,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.BlobServiceProperties
+      bodyMapper: Mappers.FileServiceProperties
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -221,12 +219,12 @@ const setServicePropertiesOperationSpec: msRest.OperationSpec = {
 
 const getServicePropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.blobServicesName
+    Parameters.fileServicesName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -236,7 +234,7 @@ const getServicePropertiesOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.BlobServiceProperties
+      bodyMapper: Mappers.FileServiceProperties
     },
     default: {
       bodyMapper: Mappers.CloudError
