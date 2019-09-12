@@ -110,8 +110,8 @@
     "test:browser": "npm run build:test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test:node && npm run integration-test:node",
     "test": "npm run test:node && npm run test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.5/sdk/core/amqp-common",
