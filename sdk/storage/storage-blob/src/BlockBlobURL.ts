@@ -71,7 +71,6 @@ export interface IBlockBlobCommitBlockListOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
   customerProvidedKey?: Models.CpkInfo;
-  accessTier?: Models.AccessTier;
   tier?: BlockBlobTier | string;
 }
 
