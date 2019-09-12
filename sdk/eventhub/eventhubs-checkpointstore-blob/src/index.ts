@@ -3,4 +3,3 @@
 /// <reference lib="esnext.asynciterable" />
 
 export { BlobPartitionManager } from "./blobPartitionManager";
-export { ContainerClient } from "@azure/storage-blob";
