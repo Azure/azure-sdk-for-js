@@ -75,7 +75,7 @@ export class PrivateLinkServices {
    * Creates or updates an private link service in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the private link service.
-   * @param parameters Parameters supplied to the create or update private link service operation
+   * @param parameters Parameters supplied to the create or update private link service operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkServicesCreateOrUpdateResponse>
    */
@@ -143,9 +143,9 @@ export class PrivateLinkServices {
    * @param peConnectionName The name of the private end point connection.
    * @param parameters Parameters supplied to approve or reject the private end point connection.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.PrivateLinkServicesUpdatePrivateEndpointConnectionResponse>
    */
-  updatePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, parameters: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updatePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, parameters: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkServicesUpdatePrivateEndpointConnectionResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the private link service.
@@ -153,7 +153,7 @@ export class PrivateLinkServices {
    * @param parameters Parameters supplied to approve or reject the private end point connection.
    * @param callback The callback
    */
-  updatePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, parameters: Models.PrivateEndpointConnection, callback: msRest.ServiceCallback<void>): void;
+  updatePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, parameters: Models.PrivateEndpointConnection, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the private link service.
@@ -162,8 +162,8 @@ export class PrivateLinkServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, parameters: Models.PrivateEndpointConnection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updatePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, parameters: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updatePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, parameters: Models.PrivateEndpointConnection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  updatePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, parameters: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateLinkServicesUpdatePrivateEndpointConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +173,7 @@ export class PrivateLinkServices {
         options
       },
       updatePrivateEndpointConnectionOperationSpec,
-      callback);
+      callback) as Promise<Models.PrivateLinkServicesUpdatePrivateEndpointConnectionResponse>;
   }
 
   /**
@@ -187,6 +187,138 @@ export class PrivateLinkServices {
   deletePrivateEndpointConnection(resourceGroupName: string, serviceName: string, peConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeletePrivateEndpointConnection(resourceGroupName,serviceName,peConnectionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Checks the subscription is visible to private link service
+   * @param location The location of the domain name.
+   * @param parameters The request body of CheckPrivateLinkService API call.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse>
+   */
+  checkPrivateLinkServiceVisibility(location: string, parameters: Models.CheckPrivateLinkServiceVisibilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse>;
+  /**
+   * @param location The location of the domain name.
+   * @param parameters The request body of CheckPrivateLinkService API call.
+   * @param callback The callback
+   */
+  checkPrivateLinkServiceVisibility(location: string, parameters: Models.CheckPrivateLinkServiceVisibilityRequest, callback: msRest.ServiceCallback<Models.PrivateLinkServiceVisibility>): void;
+  /**
+   * @param location The location of the domain name.
+   * @param parameters The request body of CheckPrivateLinkService API call.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkPrivateLinkServiceVisibility(location: string, parameters: Models.CheckPrivateLinkServiceVisibilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkServiceVisibility>): void;
+  checkPrivateLinkServiceVisibility(location: string, parameters: Models.CheckPrivateLinkServiceVisibilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkServiceVisibility>, callback?: msRest.ServiceCallback<Models.PrivateLinkServiceVisibility>): Promise<Models.PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        parameters,
+        options
+      },
+      checkPrivateLinkServiceVisibilityOperationSpec,
+      callback) as Promise<Models.PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse>;
+  }
+
+  /**
+   * Checks the subscription is visible to private link service
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param parameters The request body of CheckPrivateLinkService API call.
+   * @param [options] The optional parameters
+   * @returns
+   * Promise<Models.PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse>
+   */
+  checkPrivateLinkServiceVisibilityByResourceGroup(location: string, resourceGroupName: string, parameters: Models.CheckPrivateLinkServiceVisibilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse>;
+  /**
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param parameters The request body of CheckPrivateLinkService API call.
+   * @param callback The callback
+   */
+  checkPrivateLinkServiceVisibilityByResourceGroup(location: string, resourceGroupName: string, parameters: Models.CheckPrivateLinkServiceVisibilityRequest, callback: msRest.ServiceCallback<Models.PrivateLinkServiceVisibility>): void;
+  /**
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param parameters The request body of CheckPrivateLinkService API call.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkPrivateLinkServiceVisibilityByResourceGroup(location: string, resourceGroupName: string, parameters: Models.CheckPrivateLinkServiceVisibilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkServiceVisibility>): void;
+  checkPrivateLinkServiceVisibilityByResourceGroup(location: string, resourceGroupName: string, parameters: Models.CheckPrivateLinkServiceVisibilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkServiceVisibility>, callback?: msRest.ServiceCallback<Models.PrivateLinkServiceVisibility>): Promise<Models.PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        resourceGroupName,
+        parameters,
+        options
+      },
+      checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec,
+      callback) as Promise<Models.PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse>;
+  }
+
+  /**
+   * Returns all of the private link service ids that can be linked to a Private Endpoint with auto
+   * approved in this subscription in this region.
+   * @param location The location of the domain name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse>
+   */
+  listAutoApprovedPrivateLinkServices(location: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse>;
+  /**
+   * @param location The location of the domain name.
+   * @param callback The callback
+   */
+  listAutoApprovedPrivateLinkServices(location: string, callback: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): void;
+  /**
+   * @param location The location of the domain name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAutoApprovedPrivateLinkServices(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): void;
+  listAutoApprovedPrivateLinkServices(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>, callback?: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        options
+      },
+      listAutoApprovedPrivateLinkServicesOperationSpec,
+      callback) as Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse>;
+  }
+
+  /**
+   * Returns all of the private link service ids that can be linked to a Private Endpoint with auto
+   * approved in this subscription in this region.
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param [options] The optional parameters
+   * @returns
+   * Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse>
+   */
+  listAutoApprovedPrivateLinkServicesByResourceGroup(location: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse>;
+  /**
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param callback The callback
+   */
+  listAutoApprovedPrivateLinkServicesByResourceGroup(location: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): void;
+  /**
+   * @param location The location of the domain name.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAutoApprovedPrivateLinkServicesByResourceGroup(location: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): void;
+  listAutoApprovedPrivateLinkServicesByResourceGroup(location: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>, callback?: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        resourceGroupName,
+        options
+      },
+      listAutoApprovedPrivateLinkServicesByResourceGroupOperationSpec,
+      callback) as Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse>;
   }
 
   /**
@@ -211,7 +343,7 @@ export class PrivateLinkServices {
    * Creates or updates an private link service in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the private link service.
-   * @param parameters Parameters supplied to the create or update private link service operation
+   * @param parameters Parameters supplied to the create or update private link service operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -301,6 +433,65 @@ export class PrivateLinkServices {
       },
       listBySubscriptionNextOperationSpec,
       callback) as Promise<Models.PrivateLinkServicesListBySubscriptionNextResponse>;
+  }
+
+  /**
+   * Returns all of the private link service ids that can be linked to a Private Endpoint with auto
+   * approved in this subscription in this region.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse>
+   */
+  listAutoApprovedPrivateLinkServicesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listAutoApprovedPrivateLinkServicesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAutoApprovedPrivateLinkServicesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): void;
+  listAutoApprovedPrivateLinkServicesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>, callback?: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listAutoApprovedPrivateLinkServicesNextOperationSpec,
+      callback) as Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse>;
+  }
+
+  /**
+   * Returns all of the private link service ids that can be linked to a Private Endpoint with auto
+   * approved in this subscription in this region.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns
+   * Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse>
+   */
+  listAutoApprovedPrivateLinkServicesByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listAutoApprovedPrivateLinkServicesByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAutoApprovedPrivateLinkServicesByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): void;
+  listAutoApprovedPrivateLinkServicesByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>, callback?: msRest.ServiceCallback<Models.AutoApprovedPrivateLinkServicesResult>): Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listAutoApprovedPrivateLinkServicesByResourceGroupNextOperationSpec,
+      callback) as Promise<Models.PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse>;
   }
 }
 
@@ -402,9 +593,123 @@ const updatePrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
     default: {
       bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const checkPrivateLinkServiceVisibilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.CheckPrivateLinkServiceVisibilityRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkServiceVisibility
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.CheckPrivateLinkServiceVisibilityRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkServiceVisibility
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAutoApprovedPrivateLinkServicesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAutoApprovedPrivateLinkServicesByResourceGroupOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/autoApprovedPrivateLinkServices",
+  urlParameters: [
+    Parameters.location0,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -533,6 +838,48 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const listAutoApprovedPrivateLinkServicesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAutoApprovedPrivateLinkServicesByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
