@@ -11,7 +11,7 @@ export async function run() {
 
     const greetingKey = "Samples:Greeting";
 
-    cleanupSampleValues([greetingKey], client);
+    await cleanupSampleValues([greetingKey], client);
 
     // create a new setting as Client Alpha
     console.log(`Client Alpha: adding in new setting ${greetingKey}`);
@@ -68,7 +68,7 @@ export async function run() {
     let currentSetting = await client.getConfigurationSetting(greetingKey);
     console.log(`The value is now updated to '${currentSetting.value}'`);
 
-    cleanupSampleValues([greetingKey], client);
+    await cleanupSampleValues([greetingKey], client);
 }
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {

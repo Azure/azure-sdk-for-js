@@ -26,6 +26,8 @@ describe("AppConfigurationClient", () => {
 
   describe("constructor", () => {
     it("supports connection string", async () => {
+      const connectionString = getConnectionStringFromEnvironment();
+      const client = new AppConfigurationClient(connectionString);
       // make sure a service call succeeds
       await client.listConfigurationSettings();
     });

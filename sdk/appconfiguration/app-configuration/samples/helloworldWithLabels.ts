@@ -11,7 +11,7 @@ export async function run() {
 
     const urlKey = "Samples:Endpoint:Url";
 
-    cleanupSampleValues([urlKey], client);
+    await cleanupSampleValues([urlKey], client);
 
     // labels allow you to use the same key with different values for separate environments
     // or clients
@@ -25,7 +25,7 @@ export async function run() {
     const productionEndpoint = await client.getConfigurationSetting(urlKey, { label: "production" });
     console.log(`Endpoint with production label: ${productionEndpoint.value}`);
 
-    cleanupSampleValues([urlKey], client);
+    await cleanupSampleValues([urlKey], client);
 }
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {

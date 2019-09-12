@@ -11,7 +11,7 @@ export async function run() {
 
     const greetingKey = "Samples:Greeting";    
     
-    cleanupSampleValues([greetingKey], client);
+    await cleanupSampleValues([greetingKey], client);
 
     // creating a new setting
     console.log(`Adding in new setting ${greetingKey}`);
@@ -30,7 +30,7 @@ export async function run() {
     await client.deleteConfigurationSetting(greetingKey, {});
     console.log(`${greetingKey} has been deleted`);
 
-    cleanupSampleValues([greetingKey], client);    
+    await cleanupSampleValues([greetingKey], client);    
 }
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
