@@ -30,6 +30,10 @@ export interface GetTokenOptions {
    * Timeout for pinging services
    */
   timeout?: number;
+  /**
+   * Options to create a span using the tracer if any was set.
+   */
+  spanOptions?: any;
 }
 
 /**

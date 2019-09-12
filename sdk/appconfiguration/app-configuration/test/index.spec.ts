@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
+import { getConnectionStringFromEnvironment } from "./testHelpers";
 import * as dotenv from "dotenv";
 import { AppConfigurationClient } from "../src";
 
@@ -9,14 +10,11 @@ dotenv.config();
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
-  const connectionString: string = process.env["APPCONFIG_CONNECTION_STRING"]!;
 
   let client: AppConfigurationClient;
 
   before("validate environment variables", () => {
-    if (!connectionString) {
-      throw new Error("APPCONFIG_CONNECTION_STRING not defined.");
-    }
+    let connectionString = getConnectionStringFromEnvironment();
     client = new AppConfigurationClient(connectionString);
   });
 
@@ -28,16 +26,59 @@ describe("AppConfigurationClient", () => {
 
   describe("constructor", () => {
     it("supports connection string", async () => {
+      const connectionString = getConnectionStringFromEnvironment();
       const client = new AppConfigurationClient(connectionString);
       // make sure a service call succeeds
       await client.listConfigurationSettings();
     });
   });
 
+  describe("simple usages", () => {
+    it("Add and query a setting without a label", async () => {
+      const key = `noLabelTests-${Date.now()}`;
+
+      await client.addConfigurationSetting(key, { value: "added" });
+
+      await compare({
+        key,
+        value: "added",
+        label: null
+      });
+
+      await client.updateConfigurationSetting(key, { value: "updated" });
+
+      await compare({
+        key,
+        value: "updated",
+        label: null
+      });
+
+      await client.deleteConfigurationSetting(key, {});
+
+      await client.setConfigurationSetting(key, { value: "set" });
+
+      await compare({
+        key,
+        value: "set",
+        label: null
+      });
+
+      await client.deleteConfigurationSetting(key, {});
+    });
+
+    async function compare(expected: { key: string, value: string, label: (string | null) }) {
+      const actualSettings = await client.getConfigurationSetting(expected.key);
+
+      assert.equal(expected.key, actualSettings.key);
+      assert.equal(expected.value, actualSettings.value);
+      assert.equal(expected.label, actualSettings.label);      
+    }
+  });
+
   describe("addConfigurationSetting", () => {
     it("sample works", async () => {
       const key = `addConfigSample-${Date.now()}`;
-      let result = await client.setConfigurationSetting(key, {
+      const result = await client.setConfigurationSetting(key, {
         value: "MyValue"
       });
 

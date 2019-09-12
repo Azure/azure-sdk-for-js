@@ -74,4 +74,62 @@ describe("EventPosition #RunnableInBrowser", function(): void {
       done();
     });
   });
+
+  describe("fromOffset", function(): void {
+    it("should accept a number", function(): void {
+      const offset = 100;
+      const pos = EventPosition.fromOffset(offset);
+      pos.offset!.should.equal(offset);
+    });
+
+    it("should accept 0", function(): void {
+      const offset = 0;
+      const pos = EventPosition.fromOffset(offset);
+      pos.offset!.should.equal(offset);
+    });
+
+    it("should accept '@latest'", function(): void {
+      const offset = "@latest";
+      const pos = EventPosition.fromOffset(offset as any);
+      pos.offset!.should.equal(offset);
+    });
+
+    it("should accept strings", function(): void {
+      const offset = "12345";
+      const pos = EventPosition.fromOffset(offset as any);
+      pos.offset!.should.equal(offset);
+    });
+
+    it("should not accept non-number/non-'@latest' inputs", function(): void {
+      chai.should().throw(() => EventPosition.fromOffset(true as any));
+      chai.should().throw(() => EventPosition.fromOffset(false as any));
+      chai.should().throw(() => EventPosition.fromOffset(new Date() as any));
+      chai.should().throw(() => EventPosition.fromOffset({} as any));
+      chai.should().throw(() => EventPosition.fromOffset(null as any));
+      chai.should().throw(() => EventPosition.fromOffset(undefined as any));
+    });
+  });
+
+  describe("fromEnqueuedTime", function(): void {
+    it("should accept a number", function(): void {
+      const enqueuedTime = Date.now();
+      const pos = EventPosition.fromEnqueuedTime(enqueuedTime);
+      pos.enqueuedTime!.should.equal(enqueuedTime);
+    });
+
+    it("should accept a Date", function(): void {
+      const enqueuedTime = new Date();
+      const pos = EventPosition.fromEnqueuedTime(enqueuedTime);
+      pos.enqueuedTime!.should.equal(enqueuedTime);
+    });
+
+    it("should not accept non-number/non-date inputs", function(): void {
+      chai.should().throw(() => EventPosition.fromEnqueuedTime("abc" as any));
+      chai.should().throw(() => EventPosition.fromEnqueuedTime(true as any));
+      chai.should().throw(() => EventPosition.fromEnqueuedTime(false as any));
+      chai.should().throw(() => EventPosition.fromEnqueuedTime({} as any));
+      chai.should().throw(() => EventPosition.fromEnqueuedTime(null as any));
+      chai.should().throw(() => EventPosition.fromEnqueuedTime(undefined as any));
+    });
+  });
 });

@@ -16,7 +16,7 @@ The Azure Event Hubs client library allows you to send and receive events in you
 
 Install the Azure Event Hubs client library using npm
 
-`npm install @azure/event-hubs@5.0.0-preview.2`
+`npm install @azure/event-hubs@next`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
@@ -203,55 +203,68 @@ for await (const events of consumer.getEventIterator()){
 
 ### Consume events using an Event Processor
 
-Using an `EventHubConsumer` to consume events like in the previous examples puts the responsibility of storing the checkpoints (the last processed event) on the user. Checkpoints are important for restarting the task of processing events from the right position in a partition. Ideally, you would also want to run multiple programs targeting different partitions with some load balancing.
-This is where an [EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html) can help.
+[EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html) is a high level construct which internally uses the `EventHubConsumer` which is mentioned in previous examples
+to receive events from multiple partitions at once.
+
+Typically, Event Processor based applications consist of one or more instances of EventProcessor instances which have been
+configured to consume events from the same Event Hub and consumer group. They balance the
+workload across different instances by distributing the partitions to be processed among themselves.
+They also allow the user to track progress when events are processed using checkpoints.
 
 The `EventProcessor` will delegate the processing of events to a [PartitionProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/partitionprocessor.html)
-that you provide, allowing you to focus on business logic while the processor holds responsibility for managing the underlying consumer
+that you provide, allowing you to focus on business logic while the `EventProcessor` holds responsibility for managing the underlying consumer
 operations including checkpointing and load balancing.
 
-While load balancing is a feature we will be adding in the next update, you can see how to use the `EventProcessor` in the below
-example, where we use an [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html) that does checkpointing in memory.
+A checkpoint is meant to represent the last successfully processed event by the user from a particular
+partition of a consumer group in an Event Hub instance. The `EventProcessor` uses an instance of `PartitionManager`
+to update checkpoints and to store the relevant information required by the load balancing algorithm.
+While for the purposes of getting started you can use the [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html) that is shipped out of the box from this library, 
+it is recommended to use a peristent store when running in production.
+Search npm with the prefix `@azure/eventhubs-checkpointstore-` to find packages that support this and use the `PartitionManager` implementation from one such package.
+
+In the below example, we create two instances of EventProcessor against the same Event Hub and consumer group,
+using an `InMemoryPartitionManager`.
 
 ```javascript
+// Your Partition Processor where you override the `processEvents` method to include your
+// business logic for processing events.
+// You may choose to also override other methods like `initialize`, `close`, `processError` as you see fit
 class SamplePartitionProcessor extends PartitionProcessor {
-  // Gets called once before the processing of events from current partition starts.
-  async initialize(partitionContext) {
-    /* your code here */
-  }
-
-  // Gets called for each batch of events that are received.
-  // You may choose to use the checkpoint manager to update checkpoints.
+  /**
+   * Gets called for each batch of events that are received.
+   * @param events Array of events recieved
+   * @param partitionContext Instance of class `PartitionContext` that holds information about the current
+   * partition, event hub, consumer group and the method `updateCheckpoint` for you to checkpoint an event.
+   */
   async processEvents(events, partitionContext) {
-    /* your code here */
-  }
-
-  // Gets called for any error when receiving events.
-  async processError(error, partitionContext) {
-    /* your code here */
-  }
-
-  // Gets called when Event Processor stops processing events for current partition.
-  async close(reason, partitionContext) {
     /* your code here */
   }
 }
 
 const client = new EventHubClient("my-connection-string", "my-event-hub");
-const processor = new EventProcessor(
+const partitionManager = new InMemoryPartitionManager();
+const processor1 = new EventProcessor(
   EventHubClient.defaultConsumerGroupName,
   client,
   SamplePartitionProcessor,
-  new InMemoryPartitionManager()
+  partitionManager
 );
-await processor.start();
-// At this point, the processor is consuming events from each partition of the Event Hub and
-// delegating them to the SamplePartitionProcessor instance created for that partition.  This
-// processing takes place in the background and will not block.
+const processor2 = new EventProcessor(
+  EventHubClient.defaultConsumerGroupName,
+  client,
+  SamplePartitionProcessor,
+  partitionManager
+);
+await processor1.start();
+await processor2.start();
+// At this point, both processors are consuming events from different partitions of the Event Hub and
+// delegating them to the SamplePartitionProcessor instance created for that partition.
+// This processing takes place in the background and will not block.
 //
-// In this example, we'll stop processing after five seconds.
-await delay(5000);
-await processor.stop();
+// In this example, we'll stop processing after thirty seconds.
+await delay(30000);
+await processor1.stop();
+await processor2.stop();
 ```
 
 To control the number of events passed to processEvents, use the options argument in the EventProcessor constructor.

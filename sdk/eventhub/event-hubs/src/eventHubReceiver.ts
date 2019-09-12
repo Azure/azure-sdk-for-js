@@ -41,26 +41,28 @@ interface CreateReceiverOptions {
 }
 
 /**
- * @internal
- * @ignore
- * Represents the approximate receiver runtime information for a logical partition of an Event Hub.
- * @interface ReceiverRuntimeInfo
+ * A set of information about the last enqueued event of a partition, as observed by the consumer as
+ * events are received from the Event Hubs service
+ * @interface LastEnqueuedEventInfo
  */
-export interface ReceiverRuntimeInfo {
+export interface LastEnqueuedEventInfo {
   /**
-   * @property lastSequenceNumber The logical sequence number of the event.
+   * @property The sequence number of the event that was last enqueued into the Event Hub partition from which
+   * this event was received.
    */
-  lastEnqueuedSequenceNumber?: number;
+  sequenceNumber?: number;
   /**
-   * @property lastEnqueuedTimeUtc The enqueued time of the last event.
+   * @property The date and time, in UTC, that the last event was enqueued into the Event Hub partition from
+   * which this event was received.
    */
-  lastEnqueuedTimeUtc?: Date;
+  enqueuedTime?: Date;
   /**
-   * @property lastEnqueuedOffset The offset of the last enqueued event.
+   * @property The offset of the event that was last enqueued into the Event Hub partition from which
+   * this event was received.
    */
-  lastEnqueuedOffset?: string;
+  offset?: string;
   /**
-   * @property retrievalTime The enqueued time of the last event.
+   * @property The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
    */
   retrievalTime?: Date;
 }
@@ -95,7 +97,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * @property runtimeInfo The receiver runtime info.
    */
-  runtimeInfo: ReceiverRuntimeInfo;
+  runtimeInfo: LastEnqueuedEventInfo;
   /**
    * @property [ownerLevel] The Receiver ownerLevel.
    */
@@ -109,11 +111,6 @@ export class EventHubReceiver extends LinkEntity {
    * the EventHubConsumer.
    */
   options: EventHubConsumerOptions;
-  /**
-   * @property receiverRuntimeMetricEnabled Indicates whether receiver runtime metric
-   * is enabled. Default: false.
-   */
-  receiverRuntimeMetricEnabled: boolean = false;
   /**
    * @property [_receiver] The RHEA AMQP-based receiver link.
    * @private
@@ -231,10 +228,10 @@ export class EventHubReceiver extends LinkEntity {
 
     this._checkpoint = receivedEventData.sequenceNumber;
 
-    if (this.receiverRuntimeMetricEnabled && data) {
-      this.runtimeInfo.lastEnqueuedSequenceNumber = data.lastSequenceNumber;
-      this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
-      this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
+    if (this.options.trackLastEnqueuedEventInfo && data) {
+      this.runtimeInfo.sequenceNumber = data.lastSequenceNumber;
+      this.runtimeInfo.enqueuedTime = data.lastEnqueuedTime;
+      this.runtimeInfo.offset = data.lastEnqueuedOffset;
       this.runtimeInfo.retrievalTime = data.retrievalTime;
       log.receiver(
         "[%s] RuntimeInfo of Receiver '%s' is %O",
@@ -834,7 +831,7 @@ export class EventHubReceiver extends LinkEntity {
       };
     }
 
-    if (this.receiverRuntimeMetricEnabled) {
+    if (this.options.trackLastEnqueuedEventInfo) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
     }
 
