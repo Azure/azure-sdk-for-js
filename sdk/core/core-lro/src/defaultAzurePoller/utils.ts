@@ -1,7 +1,14 @@
-import { HttpOperationResponse, RestError, OperationResponse, OperationSpec } from "@azure/core-http";
+import {
+  HttpOperationResponse,
+  RestError,
+  OperationResponse,
+  OperationSpec
+} from "@azure/core-http";
 import { LongRunningOperationStates } from "../utils/constants";
 
-export function getAzureAsyncOperationHeaderValue(response: HttpOperationResponse): string | undefined {
+export function getAzureAsyncOperationHeaderValue(
+  response: HttpOperationResponse
+): string | undefined {
   return response.headers.get("azure-asyncoperation");
 }
 
@@ -15,7 +22,7 @@ export function getProvisioningState(responseBody: any): LongRunningOperationSta
     }
   }
   return result;
-} 
+}
 
 export function getResponseBody(response: HttpOperationResponse): any {
   let result: any;
