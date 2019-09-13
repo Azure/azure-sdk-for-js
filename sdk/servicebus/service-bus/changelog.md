@@ -1,4 +1,4 @@
-# 2019-09-04 1.0.4
+# 2019-09-12 1.0.4
 
 - Increase timeout value from 20 seconds to 60 seconds when settling messages.
 [PR 4907](https://github.com/Azure/azure-sdk-for-js/pull/4907) related to [bug 3764](https://github.com/Azure/azure-sdk-for-js/issues/3764)
