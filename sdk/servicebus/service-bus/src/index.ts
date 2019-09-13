@@ -6,13 +6,12 @@
 
 export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
-  TokenInfo,
   TokenType,
-  TokenProvider,
+  TokenCredential,
   DataTransformer,
   delay,
   MessagingError
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 
 export { QueueClient } from "./queueClient";
 export { TopicClient } from "./topicClient";

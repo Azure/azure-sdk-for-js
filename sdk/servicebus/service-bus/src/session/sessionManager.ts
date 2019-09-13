@@ -7,7 +7,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { getProcessorCount } from "../util/utils";
 import * as log from "../log";
 import { Semaphore } from "../util/semaphore";
-import { delay, ConditionErrorNameMapper, Constants } from "@azure/amqp-common";
+import { delay, ConditionErrorNameMapper, Constants } from "@azure/core-amqp";
 
 /**
  * @internal

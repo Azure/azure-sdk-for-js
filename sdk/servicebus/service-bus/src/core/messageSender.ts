@@ -25,7 +25,7 @@ import {
   Constants,
   randomNumberFromInterval, 
   delay
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 import {
   SendableMessageInfo,
   toAmqpMessage,
