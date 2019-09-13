@@ -68,7 +68,7 @@ export class PartitionProcessor {
   }
 
   /**
-   * @property The consumer group name
+   * @property The name of the consumer group from where the current partition is being processed. It is set by the `EventProcessor`
    */
   public set consumerGroupName(consumerGroupName: string) {
     if (!this._consumerGroupName) {
