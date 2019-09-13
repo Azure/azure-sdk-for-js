@@ -102,7 +102,7 @@ export class PartitionProcessor {
   }
 
   /**
-   * @property The identifier of the Event Hub partition
+   * @property The identifier of the Event Hub partition that is being processed. It is set by the `EventProcessor`
    */
   public set partitionId(partitionId: string) {
     if (!this._partitionId) {
