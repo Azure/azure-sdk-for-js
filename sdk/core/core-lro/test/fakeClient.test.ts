@@ -74,14 +74,22 @@ describe("Long Running Operations - custom client", function () {
   //   assert.equal(e.message, "Cancellation not supported");
   // });
 
-  // it("allows polling to stop", async function () {
-  //   const poller = await client.startLRO();
-  //   await delay(100);
-  //   assert.equal(poller.retries, 9);
-  //   poller.forget();
-  //   await delay(100);
-  //   assert.equal(poller.retries, 10);
-  // });
+  it("allows polling to stop", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    const responses = Array(20).fill({
+      ...basicResponseStructure,
+      status: 202,
+    });
+    client.setResponses(responses);
+    const poller = await client.startLRO();
+    console.log({ retries: poller.retries });
+    assert.equal(poller.retries, 0);
+    console.log({ retries: poller.retries });
+    assert.equal(poller.retries, 9);
+    poller.forget();
+    console.log({ retries: poller.retries });
+    assert.equal(poller.retries, 10);
+  });
 
   // it("allows manual polling", async function () {
   //   const poller = await client.startLRO({ automatic: false });
