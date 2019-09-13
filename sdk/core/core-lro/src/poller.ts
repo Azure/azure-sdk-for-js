@@ -12,6 +12,7 @@ export interface PollerOptionalParameters {
   millisecondInterval?: number;
   requestOptions?: RequestOptionsBase;
   responses?: HttpOperationResponse[];
+  retries?: number;
   startDate?: Date;
   state?: LongRunningOperationStates;
   stateHistory?: LongRunningOperationStateHistoryItem[];
@@ -21,12 +22,12 @@ export abstract class Poller extends events.EventEmitter {
   private readonly automatic: boolean;
   private millisecondInterval: number = 1000;
   private state: LongRunningOperationStates = "InProgress";
-  public retries: number = 0;
   public finishDate: Date | undefined;
   public forgotten: boolean = false;
   public forgottenDate: Date | undefined;
   public requestOptions: RequestOptionsBase | undefined;
   public responses: HttpOperationResponse[] = [];
+  public retries: number = 0;
   public startDate: Date | undefined;
   public stateHistory: LongRunningOperationStateHistoryItem[] = [];
 
@@ -37,6 +38,7 @@ export abstract class Poller extends events.EventEmitter {
       this.millisecondInterval = options.millisecondInterval!;
     this.requestOptions = options.requestOptions;
     if (Array.isArray(options.responses)) this.responses = options.responses;
+    if (!isNaN(options.retries!)) this.retries = options.retries!;
     if (options.startDate instanceof Date) this.startDate = options.startDate;
     if (options.state) this.state = options.state;
     if (Array.isArray(options.stateHistory)) this.stateHistory = options.stateHistory;
@@ -113,6 +115,7 @@ export abstract class Poller extends events.EventEmitter {
       millisecondInterval: this.millisecondInterval,
       requestOptions: this.requestOptions,
       responses: this.responses,
+      retries: this.retries,
       startDate: this.startDate,
       state: this.state,
       stateHistory: this.stateHistory
