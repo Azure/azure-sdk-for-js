@@ -30,7 +30,6 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
-import { messageDispositionTimeout } from "../util/constants";
 
 /**
  * Enum to denote who is calling the session receiver
@@ -943,7 +942,7 @@ export class MessageSession extends LinkEntity {
     this.isReceivingMessages = true;
 
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
-      let firstMessageWaitTimer: any;
+      let totalWaitTimer: NodeJS.Timer | undefined;;
 
       const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
         this.newMessageWaitTimeoutInSeconds = value;
@@ -981,10 +980,6 @@ export class MessageSession extends LinkEntity {
 
       // Action to be performed on the "message" event.
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
-          firstMessageWaitTimer = undefined;
-        }
         resetTimerOnNewMessageReceived();
         try {
           const data: ServiceBusMessage = new ServiceBusMessage(
@@ -1021,8 +1016,8 @@ export class MessageSession extends LinkEntity {
         // Resetting the newMessageWaitTimeoutInSeconds to undefined since we are done receiving
         // a batch of messages.
         setnewMessageWaitTimeoutInSeconds();
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
+        if (totalWaitTimer) {
+          clearTimeout(totalWaitTimer);
         }
         // Removing listeners, so that the next receiveMessages() call can set them again.
         if (this._receiver) {
@@ -1037,8 +1032,8 @@ export class MessageSession extends LinkEntity {
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
         }
-        if (firstMessageWaitTimer) {
-          clearTimeout(firstMessageWaitTimer);
+        if (totalWaitTimer) {
+          clearTimeout(totalWaitTimer);
         }
 
         // Unsetting the newMessageWaitTimeoutInSeconds to undefined since we are done receiving
@@ -1115,7 +1110,7 @@ export class MessageSession extends LinkEntity {
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, idleTimeoutInSeconds, this.name);
-        firstMessageWaitTimer = setTimeout(
+        totalWaitTimer = setTimeout(
           actionAfterWaitTimeout,
           (idleTimeoutInSeconds as number) * 1000
         );
@@ -1159,7 +1154,7 @@ export class MessageSession extends LinkEntity {
             "Hence rejecting the promise with timeout error",
           this._context.namespace.connectionId,
           delivery.id,
-          messageDispositionTimeout
+          Constants.defaultOperationTimeoutInSeconds * 1000
         );
 
         const e: AmqpError = {
@@ -1169,7 +1164,7 @@ export class MessageSession extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, messageDispositionTimeout);
+      }, Constants.defaultOperationTimeoutInSeconds * 1000);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

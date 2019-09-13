@@ -8,6 +8,8 @@
 
 export {
   CloudError,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   Operation,
   OperationDisplay,
   OperationListResult

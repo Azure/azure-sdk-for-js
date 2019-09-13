@@ -165,20 +165,20 @@ If you want to get back to a completely clean state, you can instead run `rush r
 
 Generally speaking, the following commands are roughly equivalent:
 
-| NPM command                          | Rush command                         | Rush command effect                                              |
-| ------------------------------------ | ------------------------------------ | ---------------------------------------------------------------- |
-| `npm install`                        | `rush update`                        | Install dependencies for all projects in the Rush workspace      |
-| `npm install --save[-dev] <package>` | `rush add -p <package> --caret [--dev]`      | Add or update a dependency in the current project                |
-| `npm build`                          | `rush [re]build`                     | Build all projects in the Rush workspace                         |
-|                                      | `rush [re]build -t <package>`        | Build named project and any projects it depends on               |
-|                                      | `rushx build`                        | Build the current project only                                   |
-| `npm test`                           | `rush test`                          | Run dev tests in all projects in the Rush workspace              |
-|                                      | `rush test -t <packagename>`         | Run dev tests in named project and any projects it depends on    |
-|                                      | `rushx test`                         | Run dev tests in the current project only                        |
-| `npm run <scriptname>`               | `rush <scriptname>`                  | Run named script in all projects in the Rush workspace           |
-|                                      | `rush <scriptname> -t <packagename>` | Run named script in named project and any projects it depends on |
-|                                      | `rushx <scriptname>`                 | Run named script in the current project only                     |
-| `npx <command>`                      | `node_modules/.bin/<command>`        | Run named command provided by installed dependency package       |
+| NPM command                          | Rush command                            | Rush command effect                                              |
+| ------------------------------------ | --------------------------------------- | ---------------------------------------------------------------- |
+| `npm install`                        | `rush update`                           | Install dependencies for all projects in the Rush workspace      |
+| `npm install --save[-dev] <package>` | `rush add -p <package> --caret [--dev]` | Add or update a dependency in the current project                |
+| `npm build`                          | `rush [re]build`                        | Build all projects in the Rush workspace                         |
+|                                      | `rush [re]build -t <package>`           | Build named project and any projects it depends on               |
+|                                      | `rushx build`                           | Build the current project only                                   |
+| `npm test`                           | `rush test`                             | Run dev tests in all projects in the Rush workspace              |
+|                                      | `rush test -t <packagename>`            | Run dev tests in named project and any projects it depends on    |
+|                                      | `rushx test`                            | Run dev tests in the current project only                        |
+| `npm run <scriptname>`               | `rush <scriptname>`                     | Run named script in all projects in the Rush workspace           |
+|                                      | `rush <scriptname> -t <packagename>`    | Run named script in named project and any projects it depends on |
+|                                      | `rushx <scriptname>`                    | Run named script in the current project only                     |
+| `npx <command>`                      | `node_modules/.bin/<command>`           | Run named command provided by installed dependency package       |
 
 ## Onboarding a new library
 

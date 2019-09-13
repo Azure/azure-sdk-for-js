@@ -850,7 +850,6 @@ const beginValidateMoveResourcesOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
-    409: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

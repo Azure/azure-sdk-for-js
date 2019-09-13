@@ -1,3 +1,6 @@
+## 1.0.0-preview.3 - 9th September, 2019
+Updates types for better compatibility with TypeScript 3.6.x. (PR #4928)
+
 ## 1.0.0-preview.2 - 5th August, 2019
 
 - Retry updates

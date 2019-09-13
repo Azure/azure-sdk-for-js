@@ -403,4 +403,48 @@ export class ShareURL extends StorageURL {
     const GBBytes = 1024 * 1024 * 1024;
     return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
   }
+
+  /**
+   * Creates a file permission (a security descriptor) at the share level. 
+   * The created security descriptor can be used for the files/directories in the share. 
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-permission
+   * 
+   * @param aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                goto documents of Aborter for more examples about request cancellation
+   * @param filePermission File permission described in the SDDL
+   */
+  public async createPermission(
+    aborter: Aborter,
+    filePermission: string
+  ): Promise<Models.ShareCreatePermissionResponse> {
+    return this.context.createPermission(
+      {
+        permission: filePermission
+      },
+      {
+        abortSignal: aborter
+      }
+    );
+  }
+
+  /**
+   * Gets the Security Descriptor Definition Language (SDDL) for a given file permission key
+   * which indicates a security descriptor.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-permission
+   * 
+   * @param aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                goto documents of Aborter for more examples about request cancellation
+   * @param filePermissionKey File permission key which indicates the security descriptor of the permission.
+   */
+  public async getPermission(
+    aborter: Aborter,
+    filePermissionKey: string
+  ): Promise<Models.ShareGetPermissionResponse> {
+    return this.context.getPermission(
+      filePermissionKey, 
+      {
+        aborterSignal: aborter
+      }
+    );
+  }
 }

@@ -28,18 +28,24 @@ export class ServiceTags {
 
   /**
    * Gets a list of service tag information resources.
-   * @param location The location.
+   * @param location The location that will be used as a reference for version (not as a filter based
+   * on location, you will get the list of service tags with prefix details across all regions but
+   * limited to the cloud that your subscription belongs to).
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceTagsListResponse>
    */
   list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceTagsListResponse>;
   /**
-   * @param location The location.
+   * @param location The location that will be used as a reference for version (not as a filter based
+   * on location, you will get the list of service tags with prefix details across all regions but
+   * limited to the cloud that your subscription belongs to).
    * @param callback The callback
    */
   list(location: string, callback: msRest.ServiceCallback<Models.ServiceTagsListResult>): void;
   /**
-   * @param location The location.
+   * @param location The location that will be used as a reference for version (not as a filter based
+   * on location, you will get the list of service tags with prefix details across all regions but
+   * limited to the cloud that your subscription belongs to).
    * @param options The optional parameters
    * @param callback The callback
    */

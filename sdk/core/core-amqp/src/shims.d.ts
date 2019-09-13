@@ -11,5 +11,4 @@ interface Navigator {
 interface Window {
   readonly navigator: Navigator;
 }
-declare var window: Window;
 declare var navigator: Navigator;

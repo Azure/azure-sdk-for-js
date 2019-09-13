@@ -7,5 +7,8 @@
  */
 
 export {
+  ErrorResponse,
+  InternalError,
+  PersonalizerError,
   RewardRequest
 } from "../models/mappers";

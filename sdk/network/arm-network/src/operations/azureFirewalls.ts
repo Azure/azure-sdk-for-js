@@ -85,6 +85,42 @@ export class AzureFirewalls {
   }
 
   /**
+   * Updates tags for an Azure Firewall resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the Azure Firewall.
+   * @param parameters Parameters supplied to the create or update Azure Firewall operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AzureFirewallsUpdateTagsResponse>
+   */
+  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the Azure Firewall.
+   * @param parameters Parameters supplied to the create or update Azure Firewall operation.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the Azure Firewall.
+   * @param parameters Parameters supplied to the create or update Azure Firewall operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
+  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewall>, callback?: msRest.ServiceCallback<Models.AzureFirewall>): Promise<Models.AzureFirewallsUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        azureFirewallName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.AzureFirewallsUpdateTagsResponse>;
+  }
+
+  /**
    * Lists all Azure Firewalls in a resource group.
    * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters
@@ -247,6 +283,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AzureFirewall
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.azureFirewallName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.AzureFirewall,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.AzureFirewall

@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-visualsearch";
-const packageVersion = "2.0.1";
+const packageVersion = "3.0.0";
 
 export class VisualSearchClientContext extends msRest.ServiceClient {
   endpoint?: string;
@@ -24,14 +24,15 @@ export class VisualSearchClientContext extends msRest.ServiceClient {
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VisualSearchClientOptions) {
-    if (credentials === null || credentials === undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+    if (credentials == undefined) {
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -39,11 +40,10 @@ export class VisualSearchClientContext extends msRest.ServiceClient {
     super(credentials, options);
 
     this.endpoint = 'https://api.cognitive.microsoft.com';
-    this.baseUri = "{Endpoint}";
+    this.baseUri = "{Endpoint}/bing/v7.0";
     this.requestContentType = "multipart/form-data";
     this.credentials = credentials;
-
-    if(options.endpoint !== null && options.endpoint !== undefined) {
+    if (options.endpoint !== null && options.endpoint !== undefined) {
       this.endpoint = options.endpoint;
     }
   }

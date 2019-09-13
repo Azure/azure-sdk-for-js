@@ -9,7 +9,8 @@
 import { TelemetryInfo } from "./userAgentPolicy";
 
 interface NavigatorEx extends Navigator {
-  readonly oscpu: string | undefined;
+  // oscpu is not yet standards-compliant, but can not be undefined in TypeScript 3.6.2
+  readonly oscpu: string;
 }
 
 export function getDefaultUserAgentKey(): string {

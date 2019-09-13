@@ -1,9 +1,14 @@
-import { TokenCredential } from "../../src";
+import { Credential, TokenCredential } from "../../src";
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { ServiceURL } from "../../src/ServiceURL";
 import { StorageURL } from "../../src/StorageURL";
 
 export * from "./testutils.common";
+
+export function getGenericCredential(accountType: string): Credential {
+  accountType = accountType; // bypass compiling error
+  return new AnonymousCredential();
+}
 
 export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
@@ -24,7 +29,7 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
 
-  const credentials = new AnonymousCredential();
+  const credentials = getGenericCredential(accountType);
   const pipeline = StorageURL.newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
@@ -33,21 +38,35 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   return new ServiceURL(blobPrimaryURL, pipeline);
 }
 
-export function getTokenBSU(): ServiceURL {
-  const accountNameEnvVar = `ACCOUNT_NAME`;
+export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `ACCOUNT_TOKEN`;
-
-  let accountName: string | undefined;
   let accountToken: string | undefined;
 
-  accountName = process.env[accountNameEnvVar];
-  accountToken = process.env[accountTokenEnvVar];
+  accountToken = (window as any).__env__[accountTokenEnvVar];
 
-  if (!accountName || !accountToken || accountName === "" || accountToken === "") {
-    throw new Error(`${accountNameEnvVar} and/or ${accountTokenEnvVar} environment variables not specified.`);
+  if (!accountToken || accountToken === "") {
+    throw new Error(
+      `${accountTokenEnvVar} environment variables not specified.`
+    );
   }
 
-  const credentials = new TokenCredential(accountToken);
+  return new TokenCredential(accountToken);
+}
+
+export function getTokenBSU(): ServiceURL {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+
+  let accountName: string | undefined;
+
+  accountName = (window as any).__env__[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(
+      `${accountNameEnvVar} environment variables not specified.`
+    );
+  }
+
+  const credentials = getTokenCredential();
   const pipeline = StorageURL.newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)

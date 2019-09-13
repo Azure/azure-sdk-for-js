@@ -60,3 +60,13 @@ export const keys: msRest.OperationQueryParameter = {
   },
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "String"
+    }
+  }
+};

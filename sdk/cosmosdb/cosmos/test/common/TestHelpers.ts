@@ -215,3 +215,22 @@ export function replaceOrUpsertPermission(
     return user.permission(body.id).replace(body, options);
   }
 }
+
+export function generateDocuments(docSize: number) {
+  const docs = [];
+  for (let i = 0; i < docSize; i++) {
+    const d = {
+      id: i.toString(),
+      name: "sample document",
+      spam: "eggs" + i.toString(),
+      cnt: i,
+      key: "value",
+      spam2: i === 3 ? "eggs" + i.toString() : i,
+      spam3: `eggs${i % 3}`,
+      boolVar: i % 2 === 0,
+      number: 1.1 * i
+    };
+    docs.push(d);
+  }
+  return docs;
+}

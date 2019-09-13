@@ -150,8 +150,10 @@ export class ServiceURL extends StorageURL {
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
     return this.serviceContext.listQueuesSegment({
       abortSignal: aborter,
-      marker,
-      ...options
+      marker: marker,
+      maxresults: options.maxresults,
+      prefix: options.prefix,
+      include: options.include === undefined ? undefined : [options.include]
     });
   }
 }

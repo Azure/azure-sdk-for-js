@@ -339,6 +339,10 @@ export class ServiceClient {
         if (options.onDownloadProgress) {
           httpRequest.onDownloadProgress = options.onDownloadProgress;
         }
+
+        if (options.spanOptions) {
+          httpRequest.spanOptions = options.spanOptions;
+        }
       }
 
       httpRequest.withCredentials = this._withCredentials;

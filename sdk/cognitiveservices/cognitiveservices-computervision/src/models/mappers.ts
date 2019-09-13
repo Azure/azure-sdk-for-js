@@ -189,6 +189,13 @@ export const AdultInfo: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      isGoryContent: {
+        nullable: false,
+        serializedName: "isGoryContent",
+        type: {
+          name: "Boolean"
+        }
+      },
       adultScore: {
         nullable: false,
         serializedName: "adultScore",
@@ -199,6 +206,13 @@ export const AdultInfo: msRest.CompositeMapper = {
       racyScore: {
         nullable: false,
         serializedName: "racyScore",
+        type: {
+          name: "Number"
+        }
+      },
+      goreScore: {
+        nullable: false,
+        serializedName: "goreScore",
         type: {
           name: "Number"
         }

@@ -137,7 +137,7 @@
     <h1>{{ capitalize repo_name }} Dependency Report</h1>
     <h3>
       Generated at {{ curtime }}
-      {{#if release}}
+      {{#if isrelease}}
         for release <a href="{{ rel_url }}">{{ release }}</a>
       {{else if build}}
         for build <a href="{{ build_url }}">{{ build }}</a>

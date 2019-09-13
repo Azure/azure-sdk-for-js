@@ -5,6 +5,7 @@ import { ShareURL } from "../src/ShareURL";
 import { getBSU } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { DirectoryURL } from '../src';
 dotenv.config({ path: "../.env" });
 
 describe("ShareURL", () => {
@@ -94,5 +95,25 @@ describe("ShareURL", () => {
     assert.notDeepStrictEqual(originProperties.metadata, metadata);
 
     await snapshotShareURL.delete(Aborter.none, {});
+  });
+
+  it("create and get permission", async () => {
+    const directoryURL = DirectoryURL.fromShareURL(shareURL, "test0");
+    const cResp = await directoryURL.create(Aborter.none);
+    assert.ok(cResp.filePermissionKey);
+
+    const getPermissionResp = await shareURL.getPermission(Aborter.none, cResp.filePermissionKey!);
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
+    assert.ok(getPermissionResp.requestId!);
+    assert.ok(getPermissionResp.version!);
+
+    const createPermResp = await shareURL.createPermission(Aborter.none, getPermissionResp.permission);
+    assert.ok(createPermResp.filePermissionKey!);
+    assert.ok(createPermResp.date!)
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(createPermResp.requestId!);
+    assert.ok(createPermResp.version!);
   });
 });

@@ -210,6 +210,7 @@ export class QueueURL extends StorageURL {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       signedIdentifiers: [],
       version: response.version,
       errorCode: response.errorCode
