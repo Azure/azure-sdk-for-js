@@ -48,7 +48,6 @@ export const domainId0: msRest.OperationURLParameter = {
   parameterPath: "domainId",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "domainId",
     type: {
       name: "Uuid"
@@ -138,7 +137,6 @@ export const imageId: msRest.OperationURLParameter = {
   parameterPath: "imageId",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "imageId",
     type: {
       name: "Uuid"
@@ -223,7 +221,6 @@ export const iterationId1: msRest.OperationURLParameter = {
   parameterPath: "iterationId",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "iterationId",
     type: {
       name: "Uuid"
@@ -300,7 +297,6 @@ export const projectId: msRest.OperationURLParameter = {
   parameterPath: "projectId",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "projectId",
     type: {
       name: "Uuid"
@@ -367,7 +363,6 @@ export const tagId: msRest.OperationURLParameter = {
   parameterPath: "tagId",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "tagId",
     type: {
       name: "Uuid"

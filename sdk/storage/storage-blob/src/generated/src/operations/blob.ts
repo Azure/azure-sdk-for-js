@@ -112,6 +112,92 @@ export class Blob {
   }
 
   /**
+   * Set the owner, group, permissions, or access control list for a blob.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobSetAccessControlResponse>
+   */
+  setAccessControl(options?: Models.BlobSetAccessControlOptionalParams): Promise<Models.BlobSetAccessControlResponse>;
+  /**
+   * @param callback The callback
+   */
+  setAccessControl(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  setAccessControl(options: Models.BlobSetAccessControlOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setAccessControl(options?: Models.BlobSetAccessControlOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetAccessControlResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      setAccessControlOperationSpec,
+      callback) as Promise<Models.BlobSetAccessControlResponse>;
+  }
+
+  /**
+   * Get the owner, group, permissions, or access control list for a blob.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobGetAccessControlResponse>
+   */
+  getAccessControl(options?: Models.BlobGetAccessControlOptionalParams): Promise<Models.BlobGetAccessControlResponse>;
+  /**
+   * @param callback The callback
+   */
+  getAccessControl(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAccessControl(options: Models.BlobGetAccessControlOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  getAccessControl(options?: Models.BlobGetAccessControlOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobGetAccessControlResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      getAccessControlOperationSpec,
+      callback) as Promise<Models.BlobGetAccessControlResponse>;
+  }
+
+  /**
+   * Rename a blob/file.  By default, the destination is overwritten and if the destination already
+   * exists and has a lease the lease is broken.  This operation supports conditional HTTP requests.
+   * For more information, see [Specifying Conditional Headers for Blob Service
+   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * To fail if the destination already exists, use a conditional request with If-None-Match: "*".
+   * @param renameSource The file or directory to be renamed. The value must have the following
+   * format: "/{filesysystem}/{path}".  If "x-ms-properties" is specified, the properties will
+   * overwrite the existing properties; otherwise, the existing properties will be preserved.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobRenameResponse>
+   */
+  rename(renameSource: string, options?: Models.BlobRenameOptionalParams): Promise<Models.BlobRenameResponse>;
+  /**
+   * @param renameSource The file or directory to be renamed. The value must have the following
+   * format: "/{filesysystem}/{path}".  If "x-ms-properties" is specified, the properties will
+   * overwrite the existing properties; otherwise, the existing properties will be preserved.
+   * @param callback The callback
+   */
+  rename(renameSource: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param renameSource The file or directory to be renamed. The value must have the following
+   * format: "/{filesysystem}/{path}".  If "x-ms-properties" is specified, the properties will
+   * overwrite the existing properties; otherwise, the existing properties will be preserved.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  rename(renameSource: string, options: Models.BlobRenameOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  rename(renameSource: string, options?: Models.BlobRenameOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobRenameResponse> {
+    return this.client.sendOperationRequest(
+      {
+        renameSource,
+        options
+      },
+      renameOperationSpec,
+      callback) as Promise<Models.BlobRenameResponse>;
+  }
+
+  /**
    * Undelete a blob that was previously soft deleted
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobUndeleteResponse>
@@ -469,20 +555,20 @@ export class Blob {
    * A block blob's tier determines Hot/Cool/Archive storage type. This operation does not update the
    * blob's ETag.
    * @param tier Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
-   * 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobSetTierResponse>
    */
   setTier(tier: Models.AccessTier, options?: Models.BlobSetTierOptionalParams): Promise<Models.BlobSetTierResponse>;
   /**
    * @param tier Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
-   * 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
    * @param callback The callback
    */
   setTier(tier: Models.AccessTier, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param tier Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
-   * 'P10', 'P20', 'P30', 'P40', 'P50', 'Hot', 'Cool', 'Archive'
+   * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -537,9 +623,13 @@ const downloadOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.range0,
     Parameters.rangeGetContentMD5,
+    Parameters.rangeGetContentCRC64,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -586,6 +676,9 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -635,6 +728,118 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const setAccessControlOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "{filesystem}/{path}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.action5
+  ],
+  headerParameters: [
+    Parameters.owner,
+    Parameters.group,
+    Parameters.posixPermissions,
+    Parameters.posixAcl,
+    Parameters.requestId,
+    Parameters.version,
+    Parameters.leaseId0,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.ifModifiedSince,
+    Parameters.ifUnmodifiedSince
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.BlobSetAccessControlHeaders
+    },
+    default: {
+      bodyMapper: Mappers.DataLakeStorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const getAccessControlOperationSpec: msRest.OperationSpec = {
+  httpMethod: "HEAD",
+  path: "{filesystem}/{path}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.upn,
+    Parameters.action6
+  ],
+  headerParameters: [
+    Parameters.requestId,
+    Parameters.version,
+    Parameters.leaseId0,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.ifModifiedSince,
+    Parameters.ifUnmodifiedSince
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.BlobGetAccessControlHeaders
+    },
+    default: {
+      bodyMapper: Mappers.DataLakeStorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const renameOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{filesystem}/{path}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.pathRenameMode
+  ],
+  headerParameters: [
+    Parameters.renameSource,
+    Parameters.directoryProperties,
+    Parameters.posixPermissions,
+    Parameters.posixUmask,
+    Parameters.sourceLeaseId,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.cacheControl,
+    Parameters.contentType,
+    Parameters.contentEncoding,
+    Parameters.contentLanguage,
+    Parameters.contentDisposition,
+    Parameters.leaseId0,
+    Parameters.ifModifiedSince,
+    Parameters.ifUnmodifiedSince,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.sourceIfModifiedSince,
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.sourceIfMatch,
+    Parameters.sourceIfNoneMatch
+  ],
+  responses: {
+    201: {
+      headersMapper: Mappers.BlobRenameHeaders
+    },
+    default: {
+      bodyMapper: Mappers.DataLakeStorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
 const undeleteOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
@@ -643,7 +848,7 @@ const undeleteOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp7
+    Parameters.comp8
   ],
   headerParameters: [
     Parameters.version,
@@ -706,13 +911,16 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.metadata,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -738,7 +946,7 @@ const acquireLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
     Parameters.duration,
@@ -771,7 +979,7 @@ const releaseLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -803,7 +1011,7 @@ const renewLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -835,7 +1043,7 @@ const changeLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -868,7 +1076,7 @@ const breakLeaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
     Parameters.breakPeriod,
@@ -900,12 +1108,15 @@ const createSnapshotOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp8
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.metadata,
     Parameters.version,
     Parameters.requestId,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -935,6 +1146,8 @@ const startCopyFromURLOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.metadata,
+    Parameters.tier0,
+    Parameters.rehydratePriority,
     Parameters.copySource,
     Parameters.version,
     Parameters.requestId,
@@ -971,6 +1184,7 @@ const copyFromURLOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.metadata,
+    Parameters.tier0,
     Parameters.copySource,
     Parameters.version,
     Parameters.requestId,
@@ -1006,7 +1220,7 @@ const abortCopyFromURLOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.copyId,
     Parameters.timeout,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.version,
@@ -1034,10 +1248,11 @@ const setTierOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp10
+    Parameters.comp11
   ],
   headerParameters: [
-    Parameters.tier,
+    Parameters.tier1,
+    Parameters.rehydratePriority,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0

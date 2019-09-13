@@ -31,7 +31,7 @@ import {
   getServiceBusClient
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
-import { throwIfMessageCannotBeSettled, DispositionType } from "../src/serviceBusMessage";
+import { DispositionType } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -463,7 +463,6 @@ describe("Errors after close()", function(): void {
 
   async function testDisposition(operation: DispositionType): Promise<void> {
     let caughtError: Error | undefined;
-    let expectedError: Error | undefined;
 
     try {
       switch (operation) {
@@ -487,18 +486,10 @@ describe("Errors after close()", function(): void {
       caughtError = error;
     }
 
-    try {
-      throwIfMessageCannotBeSettled(
-        undefined,
-        operation,
-        receivedMessage.isSettled,
-        receivedMessage.sessionId
-      );
-    } catch (error) {
-      expectedError = error;
-    }
-
-    should.equal(caughtError && caughtError.message, expectedError && expectedError.message);
+    const expectedErrorMsg =
+      `Failed to ${operation} the message as the AMQP link with which the message was ` +
+      `received is no longer alive.`;
+    should.equal(caughtError && caughtError.message, expectedErrorMsg);
   }
 
   /**

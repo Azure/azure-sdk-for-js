@@ -38,6 +38,7 @@ describe("MessageIdURL", () => {
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
@@ -48,6 +49,7 @@ describe("MessageIdURL", () => {
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(uResult.popReceipt);
 
     let pResult = await messagesURL.peek(Aborter.none);

@@ -258,7 +258,7 @@ export const MigrateMISyncCompleteCommandInput: msRest.CompositeMapper = {
 };
 
 export const CommandProperties: msRest.CompositeMapper = {
-  serializedName: "Unknown",
+  serializedName: "CommandProperties",
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
@@ -630,7 +630,7 @@ export const SsisMigrationInfo: msRest.CompositeMapper = {
 };
 
 export const ConnectionInfo: msRest.CompositeMapper = {
-  serializedName: "Unknown",
+  serializedName: "ConnectionInfo",
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
@@ -881,7 +881,7 @@ export const MigrateSsisTaskInput: msRest.CompositeMapper = {
 };
 
 export const ProjectTaskProperties: msRest.CompositeMapper = {
-  serializedName: "Unknown",
+  serializedName: "ProjectTaskProperties",
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
@@ -8789,7 +8789,7 @@ export const ApiError: msRest.CompositeMapper = {
 };
 
 export const FileStorageInfo: msRest.CompositeMapper = {
-  serializedName: "Unknown",
+  serializedName: "FileStorageInfo",
   type: {
     name: "Composite",
     className: "FileStorageInfo",
@@ -11058,7 +11058,7 @@ export const FileList: msRest.CompositeMapper = {
 export const discriminators = {
   'CommandProperties.Migrate.SqlServer.AzureDbSqlMi.Complete' : MigrateMISyncCompleteCommandProperties,
   'CommandProperties.Migrate.Sync.Complete.Database' : MigrateSyncCompleteCommandProperties,
-  'Unknown' : CommandProperties,
+  'CommandProperties' : CommandProperties,
   'MigrateSsisTaskOutput.SsisProjectLevelOutput' : MigrateSsisTaskOutputProjectLevel,
   'MigrateSsisTaskOutput.MigrationLevelOutput' : MigrateSsisTaskOutputMigrationLevel,
   'MigrateSsisTaskOutput' : MigrateSsisTaskOutput,
@@ -11067,7 +11067,7 @@ export const discriminators = {
   'ConnectionInfo.OracleConnectionInfo' : OracleConnectionInfo,
   'ConnectionInfo.MySqlConnectionInfo' : MySqlConnectionInfo,
   'ConnectionInfo.MongoDbConnectionInfo' : MongoDbConnectionInfo,
-  'Unknown' : ConnectionInfo,
+  'ConnectionInfo' : ConnectionInfo,
   'ConnectionInfo.SqlConnectionInfo' : SqlConnectionInfo,
   'ProjectTaskProperties.Migrate.Ssis' : MigrateSsisTaskProperties,
   'ProjectTaskProperties.GetTDECertificates.Sql' : GetTdeCertificatesSqlTaskProperties,
@@ -11144,7 +11144,7 @@ export const discriminators = {
   'ProjectTaskProperties.ConnectToSource.SqlServer.Sync' : ConnectToSourceSqlServerSyncTaskProperties,
   'ProjectTaskProperties.ConnectToSource.SqlServer' : ConnectToSourceSqlServerTaskProperties,
   'ProjectTaskProperties.Connect.MongoDb' : ConnectToMongoDbTaskProperties,
-  'Unknown' : ProjectTaskProperties,
+  'ProjectTaskProperties' : ProjectTaskProperties,
   'ProjectTaskProperties.ConnectToSource.MySql' : ConnectToSourceMySqlTaskProperties,
   'MigrateSchemaSqlServerSqlDbTaskOutput' : MigrateSchemaSqlServerSqlDbTaskOutput,
   'ProjectTaskProperties.MigrateSchemaSqlServerSqlDb' : MigrateSchemaSqlServerSqlDbTaskProperties,

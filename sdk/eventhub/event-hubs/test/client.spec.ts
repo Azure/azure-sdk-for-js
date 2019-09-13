@@ -23,33 +23,47 @@ import { EnvironmentCredential } from "@azure/identity";
 const env = getEnvVars();
 
 describe("Create EventHubClient #RunnableInBrowser", function(): void {
-  it("throws when it cannot find the Event Hub path", function(): void {
+  it("throws when it cannot find the Event Hub name", function(): void {
     const connectionString = "Endpoint=sb://abc";
     const test = function(): EventHubClient {
       return new EventHubClient(connectionString);
     };
     test.should.throw(
       Error,
-      `Either provide "path" or the "connectionString": "${connectionString}", ` +
-        `must contain EntityPath="<path-to-the-entity>".`
+      `Either provide "eventHubName" or the "connectionString": "${connectionString}", ` +
+        `must contain "EntityPath=<your-event-hub-name>".`
+    );
+  });
+
+  it("throws when EntityPath in Connection string doesn't match with event hub name parameter", function(): void {
+    const connectionString =
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c=;EntityPath=my-event-hub-name";
+    const eventHubName = "event-hub-name";
+    const test = function(): EventHubClient {
+      return new EventHubClient(connectionString, eventHubName);
+    };
+    test.should.throw(
+      Error,
+      `The entity path "my-event-hub-name" in connectionString: "${connectionString}" ` +
+        `doesn't match with eventHubName: "${eventHubName}".`
     );
   });
 
   it("creates an EventHubClient from a connection string", function(): void {
     const client = new EventHubClient(
-      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-path"
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name"
     );
     client.should.be.an.instanceof(EventHubClient);
-    should.equal(client.eventHubName, "my-event-hub-path");
+    should.equal(client.eventHubName, "my-event-hub-name");
   });
 
-  it("creates an EventHubClient from a connection string and an Event Hub path", function(): void {
+  it("creates an EventHubClient from a connection string and an Event Hub name", function(): void {
     const client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c",
-      "my-event-hub-path"
+      "my-event-hub-name"
     );
     client.should.be.an.instanceof(EventHubClient);
-    should.equal(client.eventHubName, "my-event-hub-path");
+    should.equal(client.eventHubName, "my-event-hub-name");
   });
 
   it("creates an EventHubClient from a custom TokenCredential", function(): void {
@@ -61,9 +75,9 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
         };
       }
     };
-    const client = new EventHubClient("abc", "my-event-hub-path", dummyCredential);
+    const client = new EventHubClient("abc","my-event-hub-name", dummyCredential);
     client.should.be.an.instanceof(EventHubClient);
-    should.equal(client.eventHubName, "my-event-hub-path");
+    should.equal(client.eventHubName, "my-event-hub-name");
   });
 
   it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<

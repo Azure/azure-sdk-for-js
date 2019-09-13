@@ -169,21 +169,21 @@ export class ImageModeration {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImageModerationFindFacesUrlInputResponse>
    */
-  findFacesUrlInput(contentType: string, imageUrl: Models.BodyModel, options?: Models.ImageModerationFindFacesUrlInputOptionalParams): Promise<Models.ImageModerationFindFacesUrlInputResponse>;
+  findFacesUrlInput(contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationFindFacesUrlInputOptionalParams): Promise<Models.ImageModerationFindFacesUrlInputResponse>;
   /**
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param callback The callback
    */
-  findFacesUrlInput(contentType: string, imageUrl: Models.BodyModel, callback: msRest.ServiceCallback<Models.FoundFaces>): void;
+  findFacesUrlInput(contentType: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.FoundFaces>): void;
   /**
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param options The optional parameters
    * @param callback The callback
    */
-  findFacesUrlInput(contentType: string, imageUrl: Models.BodyModel, options: Models.ImageModerationFindFacesUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.FoundFaces>): void;
-  findFacesUrlInput(contentType: string, imageUrl: Models.BodyModel, options?: Models.ImageModerationFindFacesUrlInputOptionalParams | msRest.ServiceCallback<Models.FoundFaces>, callback?: msRest.ServiceCallback<Models.FoundFaces>): Promise<Models.ImageModerationFindFacesUrlInputResponse> {
+  findFacesUrlInput(contentType: string, imageUrl: Models.ImageUrl, options: Models.ImageModerationFindFacesUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.FoundFaces>): void;
+  findFacesUrlInput(contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationFindFacesUrlInputOptionalParams | msRest.ServiceCallback<Models.FoundFaces>, callback?: msRest.ServiceCallback<Models.FoundFaces>): Promise<Models.ImageModerationFindFacesUrlInputResponse> {
     return this.client.sendOperationRequest(
       {
         contentType,
@@ -203,14 +203,14 @@ export class ImageModeration {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImageModerationOCRUrlInputResponse>
    */
-  oCRUrlInput(language: string, contentType: string, imageUrl: Models.BodyModel, options?: Models.ImageModerationOCRUrlInputOptionalParams): Promise<Models.ImageModerationOCRUrlInputResponse>;
+  oCRUrlInput(language: string, contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationOCRUrlInputOptionalParams): Promise<Models.ImageModerationOCRUrlInputResponse>;
   /**
    * @param language Language of the terms.
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param callback The callback
    */
-  oCRUrlInput(language: string, contentType: string, imageUrl: Models.BodyModel, callback: msRest.ServiceCallback<Models.OCR>): void;
+  oCRUrlInput(language: string, contentType: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.OCR>): void;
   /**
    * @param language Language of the terms.
    * @param contentType The content type.
@@ -218,8 +218,8 @@ export class ImageModeration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  oCRUrlInput(language: string, contentType: string, imageUrl: Models.BodyModel, options: Models.ImageModerationOCRUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.OCR>): void;
-  oCRUrlInput(language: string, contentType: string, imageUrl: Models.BodyModel, options?: Models.ImageModerationOCRUrlInputOptionalParams | msRest.ServiceCallback<Models.OCR>, callback?: msRest.ServiceCallback<Models.OCR>): Promise<Models.ImageModerationOCRUrlInputResponse> {
+  oCRUrlInput(language: string, contentType: string, imageUrl: Models.ImageUrl, options: Models.ImageModerationOCRUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.OCR>): void;
+  oCRUrlInput(language: string, contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationOCRUrlInputOptionalParams | msRest.ServiceCallback<Models.OCR>, callback?: msRest.ServiceCallback<Models.OCR>): Promise<Models.ImageModerationOCRUrlInputResponse> {
     return this.client.sendOperationRequest(
       {
         language,
@@ -299,21 +299,21 @@ export class ImageModeration {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImageModerationEvaluateUrlInputResponse>
    */
-  evaluateUrlInput(contentType: string, imageUrl: Models.BodyModel, options?: Models.ImageModerationEvaluateUrlInputOptionalParams): Promise<Models.ImageModerationEvaluateUrlInputResponse>;
+  evaluateUrlInput(contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationEvaluateUrlInputOptionalParams): Promise<Models.ImageModerationEvaluateUrlInputResponse>;
   /**
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param callback The callback
    */
-  evaluateUrlInput(contentType: string, imageUrl: Models.BodyModel, callback: msRest.ServiceCallback<Models.Evaluate>): void;
+  evaluateUrlInput(contentType: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.Evaluate>): void;
   /**
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param options The optional parameters
    * @param callback The callback
    */
-  evaluateUrlInput(contentType: string, imageUrl: Models.BodyModel, options: Models.ImageModerationEvaluateUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.Evaluate>): void;
-  evaluateUrlInput(contentType: string, imageUrl: Models.BodyModel, options?: Models.ImageModerationEvaluateUrlInputOptionalParams | msRest.ServiceCallback<Models.Evaluate>, callback?: msRest.ServiceCallback<Models.Evaluate>): Promise<Models.ImageModerationEvaluateUrlInputResponse> {
+  evaluateUrlInput(contentType: string, imageUrl: Models.ImageUrl, options: Models.ImageModerationEvaluateUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.Evaluate>): void;
+  evaluateUrlInput(contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationEvaluateUrlInputOptionalParams | msRest.ServiceCallback<Models.Evaluate>, callback?: msRest.ServiceCallback<Models.Evaluate>): Promise<Models.ImageModerationEvaluateUrlInputResponse> {
     return this.client.sendOperationRequest(
       {
         contentType,
@@ -338,21 +338,21 @@ export class ImageModeration {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImageModerationMatchUrlInputResponse>
    */
-  matchUrlInput(contentType: string, imageUrl: Models.BodyModel, options?: Models.ImageModerationMatchUrlInputOptionalParams): Promise<Models.ImageModerationMatchUrlInputResponse>;
+  matchUrlInput(contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationMatchUrlInputOptionalParams): Promise<Models.ImageModerationMatchUrlInputResponse>;
   /**
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param callback The callback
    */
-  matchUrlInput(contentType: string, imageUrl: Models.BodyModel, callback: msRest.ServiceCallback<Models.MatchResponse>): void;
+  matchUrlInput(contentType: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.MatchResponse>): void;
   /**
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param options The optional parameters
    * @param callback The callback
    */
-  matchUrlInput(contentType: string, imageUrl: Models.BodyModel, options: Models.ImageModerationMatchUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.MatchResponse>): void;
-  matchUrlInput(contentType: string, imageUrl: Models.BodyModel, options?: Models.ImageModerationMatchUrlInputOptionalParams | msRest.ServiceCallback<Models.MatchResponse>, callback?: msRest.ServiceCallback<Models.MatchResponse>): Promise<Models.ImageModerationMatchUrlInputResponse> {
+  matchUrlInput(contentType: string, imageUrl: Models.ImageUrl, options: Models.ImageModerationMatchUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.MatchResponse>): void;
+  matchUrlInput(contentType: string, imageUrl: Models.ImageUrl, options?: Models.ImageModerationMatchUrlInputOptionalParams | msRest.ServiceCallback<Models.MatchResponse>, callback?: msRest.ServiceCallback<Models.MatchResponse>): Promise<Models.ImageModerationMatchUrlInputResponse> {
     return this.client.sendOperationRequest(
       {
         contentType,
@@ -530,7 +530,7 @@ const findFacesUrlInputOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
-      ...Mappers.BodyModel,
+      ...Mappers.ImageUrl,
       required: true
     }
   },
@@ -562,7 +562,7 @@ const oCRUrlInputOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
-      ...Mappers.BodyModel,
+      ...Mappers.ImageUrl,
       required: true
     }
   },
@@ -656,7 +656,7 @@ const evaluateUrlInputOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
-      ...Mappers.BodyModel,
+      ...Mappers.ImageUrl,
       required: true
     }
   },
@@ -687,7 +687,7 @@ const matchUrlInputOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
-      ...Mappers.BodyModel,
+      ...Mappers.ImageUrl,
       required: true
     }
   },

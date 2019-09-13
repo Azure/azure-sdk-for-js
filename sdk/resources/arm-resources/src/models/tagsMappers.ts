@@ -16,6 +16,8 @@ export {
   Dependency,
   DeploymentExtended,
   DeploymentPropertiesExtended,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   GenericResource,
   Identity,
   IdentityUserAssignedIdentitiesValue,

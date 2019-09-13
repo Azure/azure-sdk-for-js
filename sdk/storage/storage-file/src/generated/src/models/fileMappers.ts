@@ -18,6 +18,7 @@ export {
   FileSetHTTPHeadersHeaders,
   FileSetMetadataHeaders,
   FileStartCopyHeaders,
+  FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
   HandleItem,
   ListHandlesResponse,

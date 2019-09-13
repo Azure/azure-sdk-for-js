@@ -35,7 +35,14 @@ export interface EventPositionOptions {
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used in the creation of
- * an `EventHubProducer`.
+ * an `EventHubConsumer` to specify the position in the partition to begin receiving events from.
+ *
+ * Make use of the below static helpers to create an instance of `EventPosition`
+ * - `fromOffset()`
+ * - `fromSequenceNumber()`
+ * - `fromEnqueuedTime()`
+ * - `earliest()`
+ * - `latest()`
  * @class
  */
 export class EventPosition {
@@ -83,6 +90,13 @@ export class EventPosition {
   sequenceNumber?: number;
 
   /**
+   * Instead of constructing an event position using `new Event Position()`, make use of the below static helpers
+   * - `fromOffset()`
+   * - `fromSequenceNumber()`
+   * - `fromEnqueuedTime()`
+   * - `earliest()`
+   * - `latest()`
+   *
    * @constructor
    * @internal
    * @ignore
@@ -107,8 +121,8 @@ export class EventPosition {
    * @returns EventPosition
    */
   static fromOffset(offset: number, isInclusive?: boolean): EventPosition {
-    if (offset == undefined) {
-      throw new Error('Missing parameter "offset"');
+    if (typeof offset !== "number" && typeof offset !== "string") {
+      throw new Error(`Invalid offset "${offset}" provided to "fromOffset" method.`);
     }
     return new EventPosition({ offset: offset, isInclusive: isInclusive });
   }
@@ -140,8 +154,10 @@ export class EventPosition {
    * @returns EventPosition
    */
   static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
-    if (enqueuedTime == undefined) {
-      throw new Error('Missing parameter "enqueuedTime"');
+    if (typeof enqueuedTime !== "number" && !(enqueuedTime instanceof Date)) {
+      throw new Error(
+        `Invalid enqueuedTime "${enqueuedTime}" provided to "fromEnqueuedTime" method.`
+      );
     }
     return new EventPosition({ enqueuedTime: enqueuedTime });
   }

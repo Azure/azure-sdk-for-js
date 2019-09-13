@@ -33,8 +33,13 @@ export {
   ManagedClusterAddonProfile,
   ManagedClusterAgentPoolProfile,
   ManagedClusterAgentPoolProfileProperties,
+  ManagedClusterAPIServerAccessProfile,
   ManagedClusterIdentity,
   ManagedClusterListResult,
+  ManagedClusterLoadBalancerProfile,
+  ManagedClusterLoadBalancerProfileManagedOutboundIPs,
+  ManagedClusterLoadBalancerProfileOutboundIPPrefixes,
+  ManagedClusterLoadBalancerProfileOutboundIPs,
   ManagedClusterPoolUpgradeProfile,
   ManagedClusterPoolUpgradeProfileUpgradesItem,
   ManagedClusterServicePrincipalProfile,
@@ -51,6 +56,7 @@ export {
   OpenShiftRouterProfile,
   PurchasePlan,
   Resource,
+  ResourceReference,
   SubResource,
   TagsObject
 } from "../models/mappers";

@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
-import { TokenCredential } from "../../src";
+import { TokenCredential, Credential } from "../../src";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { ServiceURL } from "../../src/ServiceURL";
 import { StorageURL } from "../../src/StorageURL";
@@ -13,7 +13,7 @@ dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
 
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
+export function getGenericCredential(accountType: string): Credential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -24,34 +24,55 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
-    throw new Error(`${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`);
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+    );
   }
 
-  const credentials = new SharedKeyCredential(accountName, accountKey);
-  const pipeline = StorageURL.newPipeline(credentials, {
+  return new SharedKeyCredential(accountName, accountKey);
+}
+
+export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
+  const credential = getGenericCredential(accountType) as SharedKeyCredential;
+
+  const pipeline = StorageURL.newPipeline(credential, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
-  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net/`;
+  const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
   return new ServiceURL(blobPrimaryURL, pipeline);
+}
+
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  let accountToken: string | undefined;
+
+  accountToken = process.env[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(
+      `${accountTokenEnvVar} environment variables not specified.`
+    );
+  }
+
+  return new TokenCredential(accountToken);
 }
 
 export function getTokenBSU(): ServiceURL {
   const accountNameEnvVar = `ACCOUNT_NAME`;
-  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
 
   let accountName: string | undefined;
-  let accountToken: string | undefined;
 
   accountName = process.env[accountNameEnvVar];
-  accountToken = process.env[accountTokenEnvVar];
 
-  if (!accountName || !accountToken || accountName === "" || accountToken === "") {
-    throw new Error(`${accountNameEnvVar} and/or ${accountTokenEnvVar} environment variables not specified.`);
+  if (!accountName || accountName === "") {
+    throw new Error(
+      `${accountNameEnvVar} environment variables not specified.`
+    );
   }
 
-  const credentials = new TokenCredential(accountToken);
-  const pipeline = StorageURL.newPipeline(credentials, {
+  const credential = getTokenCredential();
+  const pipeline = StorageURL.newPipeline(credential, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
@@ -94,7 +115,11 @@ export async function bodyToString(
   });
 }
 
-export async function createRandomLocalFile(folder: string, blockNumber: number, blockSize: number): Promise<string> {
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSize: number
+): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
