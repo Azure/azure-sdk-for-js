@@ -4,93 +4,106 @@
 
 ```ts
 
+import events from 'events';
 import { HttpOperationResponse } from '@azure/core-http';
+import { OperationResponse } from '@azure/core-http';
+import { OperationSpec } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
-import { RestError } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
+import { RequestPrepareOptions } from '@azure/core-http';
 import { ServiceClient } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public (undocumented)
-export function getDelayInSeconds(serviceClient: LROServiceClient, previousResponse: HttpOperationResponse): number;
-
-// Warning: (ae-forgotten-export) The symbol "LongRunningOperationStates" needs to be exported by the entry point index.d.ts
-// 
-// @public
-export function isFinished(status: LongRunningOperationStates): boolean;
-
-// @public (undocumented)
-export function longRunningOperationStatesEqual(lhs: LongRunningOperationStates, rhs: LongRunningOperationStates): boolean;
-
-// @public
-export class LROPoller {
-    constructor(_lroPollStrategy: LROPollStrategy | undefined, _initialResponse: HttpOperationResponse);
-    getInitialResponse(): HttpOperationResponse;
-    getMostRecentResponse(): HttpOperationResponse;
-    getOperationResponse(): Promise<HttpOperationResponse | undefined>;
-    getOperationStatus(): LongRunningOperationStates;
-    getPollState(): LROPollState | undefined;
-    isFinalStatusAcceptable(): boolean | undefined;
-    isFinished(): boolean;
-    poll(): Promise<LongRunningOperationStates>;
-    pollUntilFinished(): Promise<RestResponse>;
+export class DefaultAzurePoller extends Poller {
+    constructor(client: ServiceClient, options: PollerOptionalParameters);
+    // (undocumented)
+    protected getMillisecondInterval(): number;
+    // (undocumented)
+    protected getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates;
+    // (undocumented)
+    sendPollRequest(): Promise<void>;
+    // (undocumented)
+    startPolling(httpRequest: WebResource): Promise<void>;
 }
 
 // @public (undocumented)
-export interface LROPollState {
+export function getAzureAsyncOperationHeaderValue(response: HttpOperationResponse): string | undefined;
+
+// @public (undocumented)
+export function getOperationResponse(operationSpec: OperationSpec, response: HttpOperationResponse): OperationResponse | undefined;
+
+// @public (undocumented)
+export function getProvisioningState(responseBody: any): LongRunningOperationStates | undefined;
+
+// @public (undocumented)
+export function getResponseBody(response: HttpOperationResponse): any;
+
+// @public (undocumented)
+export interface LongRunningOperationStateHistoryItem {
     // (undocumented)
-    appState?: any;
+    date: Date;
     // (undocumented)
-    initialResponse?: HttpOperationResponse;
-    // (undocumented)
-    mostRecentRequest?: WebResource;
-    // (undocumented)
-    mostRecentResponse?: HttpOperationResponse;
-    // (undocumented)
-    options?: RequestOptionsBase;
-    // (undocumented)
-    resource?: any;
-    // (undocumented)
-    state?: LongRunningOperationStates;
+    state: LongRunningOperationStates;
 }
 
-// @public
-export abstract class LROPollStrategy {
-    constructor(_serviceClient: LROServiceClient, _pollState: LROPollState);
+// @public (undocumented)
+export type LongRunningOperationStates = "InProgress" | "Succeeded" | "Failed" | "Canceled" | "Cancelled";
+
+// @public (undocumented)
+export abstract class Poller extends events.EventEmitter {
+    constructor(options: PollerOptionalParameters);
     // (undocumented)
-    protected abstract doFinalGetResourceRequest(): Promise<void>;
+    finishDate: Date | undefined;
     // (undocumented)
-    getMostRecentResponse(): HttpOperationResponse;
+    forget(): void;
     // (undocumented)
-    getOperationResponse(): Promise<HttpOperationResponse>;
+    forgotten: boolean;
     // (undocumented)
-    getOperationStatus(): LongRunningOperationStates;
+    forgottenDate: Date | undefined;
     // (undocumented)
-    getPollState(): LROPollState;
+    protected abstract getMillisecondInterval(): number;
     // (undocumented)
-    getRestError(): RestError;
+    getState(): LongRunningOperationStates;
     // (undocumented)
-    abstract isFinalStatusAcceptable(): boolean;
-    isFinished(): boolean;
+    protected abstract getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates;
     // (undocumented)
-    protected readonly _pollState: LROPollState;
-    pollUntilFinished(): Promise<boolean>;
+    protected isFinished(state?: LongRunningOperationStates): boolean;
+    // (undocumented)
+    protected poll(): Promise<void>;
+    // (undocumented)
+    protected processResponse(response: HttpOperationResponse): void;
+    // (undocumented)
+    requestOptions: RequestOptionsBase | undefined;
+    // (undocumented)
+    readonly responses: HttpOperationResponse[];
+    // (undocumented)
+    retry(): Promise<void>;
+    // (undocumented)
     abstract sendPollRequest(): Promise<void>;
     // (undocumented)
-    protected shouldDoFinalGetResourceRequest(): boolean;
-    protected updateOperationStatus(statusUrl: string, shouldDeserialize: boolean | ((response: HttpOperationResponse) => boolean)): Promise<HttpOperationResponse>;
+    protected setState(newState: LongRunningOperationStates): void;
     // (undocumented)
-    protected updateState(url: string, shouldDeserialize: boolean | ((response: HttpOperationResponse) => boolean)): Promise<void>;
+    startDate: Date | undefined;
+    // (undocumented)
+    abstract startPolling(httpRequest: WebResource | RequestPrepareOptions): Promise<void>;
+    // (undocumented)
+    readonly stateHistory: LongRunningOperationStateHistoryItem[];
 }
 
 // @public (undocumented)
-export type LROPollStrategyType = "AzureAsyncOperation" | "Location" | "GetResource";
+export interface PollerOptionalParameters {
+    // (undocumented)
+    automatic?: boolean;
+    // (undocumented)
+    millisecondInterval?: number;
+    // (undocumented)
+    options?: boolean;
+    // (undocumented)
+    requestOptions?: RequestOptionsBase;
+}
 
 // @public (undocumented)
-export class LROServiceClient extends ServiceClient {
-    // (undocumented)
-    longRunningOperationRetryTimeout?: number;
-}
+export const terminalStates: LongRunningOperationStates[];
 
 
 // (No @packageDocumentation comment for this package)

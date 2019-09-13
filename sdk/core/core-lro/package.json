@@ -91,11 +91,12 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-arm": "1.0.0-preview.3",
     "@azure/core-http": "1.0.0-preview.3",
+    "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@azure/core-arm": "1.0.0-preview.3",
     "@azure/identity": "1.0.0-preview.3",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",
