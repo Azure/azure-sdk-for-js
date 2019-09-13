@@ -13,9 +13,10 @@ jobs:
           versionSpec: $(NodeVersion)
 
       - task: Npm@1
-        command: install
-        workingDir: samples/SmokeTest/
-        displayName: Install packages
+        inputs:
+          command: install
+          workingDir: samples/SmokeTest/
+          displayName: Install packages
 
       - script: tsc -p ./samples/SmokeTest/
         displayName: "Compile TS"
