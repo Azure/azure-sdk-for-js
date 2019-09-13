@@ -4,5 +4,10 @@ export type LongRunningOperationStates =
   | "Failed"
   | "Canceled"
   | "Cancelled";
- 
-export const terminalStates: LongRunningOperationStates[] = ["Succeeded", "Failed", "Canceled", "Cancelled"];
+
+export const terminalStates: LongRunningOperationStates[] = [
+  "Succeeded",
+  "Failed",
+  "Canceled",
+  "Cancelled"
+];
