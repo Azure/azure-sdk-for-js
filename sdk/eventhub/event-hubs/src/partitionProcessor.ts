@@ -102,34 +102,44 @@ export class PartitionProcessor {
    * @property The consumer group name
    */
   public set consumerGroupName(consumerGroupName: string) {
-    this._consumerGroupName = consumerGroupName;
+    if (!this._consumerGroupName) {
+      this._consumerGroupName = consumerGroupName;
+    }
   }
 
   /**
    * @property The event hub name
    */
   public set eventHubName(eventHubName: string) {
-    this._eventHubName = eventHubName;
+    if (!this._eventHubName) {
+      this._eventHubName = eventHubName;
+    }
   }
 
   /**
    * @property The identifier of the Event Hub partition
    */
   public set partitionId(partitionId: string) {
-    this._partitionId = partitionId;
+    if (!this._partitionId) {
+      this._partitionId = partitionId;
+    }
   }
   /**
    * @property The unique identifier of the event processor
    */
   public set eventProcessorId(eventProcessorId: string) {
-    this._eventProcessorId = eventProcessorId;
+    if (!this._eventProcessorId) {
+      this._eventProcessorId = eventProcessorId;
+    }
   }
 
   /**
    * @property An instance of `PartitionManager`
    */
   public set partitionManager(partitionManager: PartitionManager) {
-    this._partitionManager = partitionManager;
+    if (!this._partitionManager) {
+      this._partitionManager = partitionManager;
+    }
   }
 
   /**
