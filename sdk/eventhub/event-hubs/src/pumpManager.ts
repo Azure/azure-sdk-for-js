@@ -43,7 +43,6 @@ export class PumpManager {
   /**
    * Creates and starts a PartitionPump.
    * @param eventHubClient The EventHubClient to forward to the PartitionPump.
-   * @param partitionContext The PartitionContext to forward to the PartitionPump.
    * @param initialEventPosition The EventPosition to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @param abortSignal Used to cancel pump creation.

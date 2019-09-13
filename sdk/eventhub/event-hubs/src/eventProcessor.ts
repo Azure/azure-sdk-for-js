@@ -157,10 +157,10 @@ export interface EventProcessorOptions {
  * events, extend this class and override the `processEvents()` method. For example:
  * ```js
  * class SamplePartitionProcessor extends PartitionProcessor {
- *     async processEvents(events, partitionContext) {
+ *     async processEvents(events) {
  *        // user code to process events here
- *        // use `partitionContext` property to get information on the partition
- *        // use `partitionContext.updateCheckpoint()` method to update checkpoints as needed
+ *        // use `this` to get information on the partition
+ *        // use `this.updateCheckpoint()` method to update checkpoints as needed
  *     }
  * }
  * ```

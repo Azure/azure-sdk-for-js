@@ -5,7 +5,7 @@ import { ReceivedEventData } from "./eventData";
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
  * partition of a consumer group in an Event Hub instance.
  *
- * When the `updateCheckpoint()` method on the `PartitionContext` class is called by the user, a
+ * When the `updateCheckpoint()` method on the `PartitionProcessor` class is called by the user, a
  * `Checkpoint` is created internally. It is then stored in the storage solution implemented by the
  * `PartitionManager` chosen by the user when creating an `EventProcessor`.
  *
