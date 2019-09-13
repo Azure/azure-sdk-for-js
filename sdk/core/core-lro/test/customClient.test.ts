@@ -107,4 +107,7 @@ describe("Long Running Operations - custom client", function () {
   //   await delay(100);
   //   assert.equal(poller.progress, 0.5); // 0.5 of 1. 50%
   // });
+
+  // it("can reuse one poller state to instantiate another poller", async function () {
+  // });
 });

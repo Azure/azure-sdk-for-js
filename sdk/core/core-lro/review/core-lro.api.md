@@ -9,13 +9,12 @@ import { HttpOperationResponse } from '@azure/core-http';
 import { OperationResponse } from '@azure/core-http';
 import { OperationSpec } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
-import { RequestPrepareOptions } from '@azure/core-http';
 import { ServiceClient } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public (undocumented)
 export class DefaultAzurePoller extends Poller {
-    constructor(client: ServiceClient, options: PollerOptionalParameters);
+    constructor(client: ServiceClient, initialRequest: WebResource, options: PollerOptionalParameters);
     // (undocumented)
     protected getMillisecondInterval(): number;
     // (undocumented)
@@ -23,7 +22,7 @@ export class DefaultAzurePoller extends Poller {
     // (undocumented)
     sendPollRequest(): Promise<void>;
     // (undocumented)
-    startPolling(httpRequest: WebResource): Promise<void>;
+    startPolling(): Promise<void>;
 }
 
 // @public (undocumented)
@@ -71,23 +70,27 @@ export abstract class Poller extends events.EventEmitter {
     // (undocumented)
     protected poll(): Promise<void>;
     // (undocumented)
+    pollUntilDone(): Promise<void>;
+    // (undocumented)
     protected processResponse(response: HttpOperationResponse): void;
     // (undocumented)
     requestOptions: RequestOptionsBase | undefined;
     // (undocumented)
-    readonly responses: HttpOperationResponse[];
+    responses: HttpOperationResponse[];
     // (undocumented)
     retry(): Promise<void>;
     // (undocumented)
     abstract sendPollRequest(): Promise<void>;
     // (undocumented)
+    serialize(): string;
+    // (undocumented)
     protected setState(newState: LongRunningOperationStates): void;
     // (undocumented)
     startDate: Date | undefined;
     // (undocumented)
-    abstract startPolling(httpRequest: WebResource | RequestPrepareOptions): Promise<void>;
+    startPolling(): Promise<void>;
     // (undocumented)
-    readonly stateHistory: LongRunningOperationStateHistoryItem[];
+    stateHistory: LongRunningOperationStateHistoryItem[];
 }
 
 // @public (undocumented)
@@ -97,9 +100,15 @@ export interface PollerOptionalParameters {
     // (undocumented)
     millisecondInterval?: number;
     // (undocumented)
-    options?: boolean;
-    // (undocumented)
     requestOptions?: RequestOptionsBase;
+    // (undocumented)
+    responses?: HttpOperationResponse[];
+    // (undocumented)
+    startDate?: Date;
+    // (undocumented)
+    state?: LongRunningOperationStates;
+    // (undocumented)
+    stateHistory?: LongRunningOperationStateHistoryItem[];
 }
 
 // @public (undocumented)
