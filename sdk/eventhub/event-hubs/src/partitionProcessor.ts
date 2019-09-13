@@ -112,27 +112,11 @@ export class PartitionProcessor {
 
   /**
    * @property The unique identifier of the event processor
-   * @readonly
-   */
-  public get eventProcessorId() {
-    return this._eventProcessorId!;
-  }
-
-  /**
-   * @property The unique identifier of the event processor
    */
   public set eventProcessorId(eventProcessorId: string) {
     if (!this._eventProcessorId) {
       this._eventProcessorId = eventProcessorId;
     }
-  }
-
-  /**
-   * @property An instance of `PartitionManager`
-   * @readonly
-   */
-  public get partitionManager() {
-    return this._partitionManager!;
   }
 
   /**
@@ -179,7 +163,7 @@ export class PartitionProcessor {
   async processError(error: Error): Promise<void> {}
 
   /**
-   * Updates the checkpoint for the partition associated with the `PartitionContext`.
+   * Updates the checkpoint using the event data.
    *
    * A checkpoint is meant to represent the last successfully processed event by the user from a particular
    * partition of a consumer group in an Event Hub instance.
@@ -189,7 +173,7 @@ export class PartitionProcessor {
    */
   public async updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
   /**
-   * Updates the checkpoint for the partition associated with the `PartitionContext`.
+   * Updates the checkpoint using the given offset and sequence number.
    *
    * A checkpoint is meant to represent the last successfully processed event by the user from a particular
    * partition of a consumer group in an Event Hub instance.
