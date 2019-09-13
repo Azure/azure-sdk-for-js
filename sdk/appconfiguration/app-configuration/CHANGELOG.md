@@ -1,6 +1,6 @@
 # 1.0.0-preview.2 (2019-09-13)
 
-Republishing as the readme is not properly showing up. No other changes.
+Republishing as the readme is not properly showing up on npmjs. No other changes.
 
 # 1.0.0-preview.1 (2019-09-12)
 
