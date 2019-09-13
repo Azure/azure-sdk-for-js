@@ -85,7 +85,7 @@ export class PartitionProcessor {
   }
 
   /**
-   * @property The event hub name
+   * @property The name of the event hub to which the current partition belongs. It is set by the `EventProcessor`
    */
   public set eventHubName(eventHubName: string) {
     if (!this._eventHubName) {
