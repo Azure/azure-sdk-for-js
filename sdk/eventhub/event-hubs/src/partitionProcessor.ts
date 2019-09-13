@@ -120,7 +120,7 @@ export class PartitionProcessor {
   }
 
   /**
-   * @property An instance of `PartitionManager`
+   * @property The Partition Manager used for checkpointing events. This is set by the `EventProcessor`
    */
   public set partitionManager(partitionManager: PartitionManager) {
     if (!this._partitionManager) {
