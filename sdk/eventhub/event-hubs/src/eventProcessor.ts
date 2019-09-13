@@ -159,7 +159,7 @@ export interface EventProcessorOptions {
  * class SamplePartitionProcessor extends PartitionProcessor {
  *     async processEvents(events) {
  *        // user code to process events here
- *        // use `this` to get information on the partition
+ *        // Information on the partition being processed is available as properties on the `SamplePartitionProcessor` class
  *        // use `this.updateCheckpoint()` method to update checkpoints as needed
  *     }
  * }
