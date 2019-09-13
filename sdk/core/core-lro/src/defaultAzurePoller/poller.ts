@@ -1,16 +1,31 @@
-import { HttpOperationResponse, RestError, stripRequest, WebResource, ServiceClient } from "@azure/core-http";
-import { getAzureAsyncOperationHeaderValue, getProvisioningState, getResponseBody, getOperationResponse } from "./utils";
+import {
+  HttpOperationResponse,
+  RestError,
+  stripRequest,
+  WebResource,
+  ServiceClient
+} from "@azure/core-http";
+import {
+  getAzureAsyncOperationHeaderValue,
+  getProvisioningState,
+  getResponseBody,
+  getOperationResponse
+} from "./utils";
 import { Poller, PollerOptionalParameters, LongRunningOperationStates } from "../";
 
 export class DefaultAzurePoller extends Poller {
   private client: ServiceClient;
   private initialRequest: WebResource;
 
-  constructor(client: ServiceClient, initialRequest: WebResource, options: PollerOptionalParameters) {
+  constructor(
+    client: ServiceClient,
+    initialRequest: WebResource,
+    options: PollerOptionalParameters
+  ) {
     super(options);
     this.client = client;
     this.initialRequest = initialRequest;
-  } 
+  }
 
   public async startPolling(): Promise<void> {
     const initialResponse = await this.client.sendRequest(this.initialRequest);
@@ -19,14 +34,18 @@ export class DefaultAzurePoller extends Poller {
     if (getAzureAsyncOperationHeaderValue(initialResponse)) {
       this.processResponse(initialResponse);
       this.poll();
-    } else if (statusCode !== 201 && statusCode !== 202 && !this.isFinished(this.getStateFromResponse(initialResponse))) {
+    } else if (
+      statusCode !== 201 &&
+      statusCode !== 202 &&
+      !this.isFinished(this.getStateFromResponse(initialResponse))
+    ) {
       throw new Error("Can't determine long running operation polling strategy.");
     }
   }
 
   protected getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates {
     const responseBody = getResponseBody(response);
-  
+
     let result: LongRunningOperationStates;
     switch (response.status) {
       case 202:
@@ -39,7 +58,9 @@ export class DefaultAzurePoller extends Poller {
         result = getProvisioningState(responseBody) || "InProgress";
         break;
       case 200:
-        const provisioningState: LongRunningOperationStates | undefined = getProvisioningState(responseBody);
+        const provisioningState: LongRunningOperationStates | undefined = getProvisioningState(
+          responseBody
+        );
         if (provisioningState) {
           result = provisioningState;
         } else if (getAzureAsyncOperationHeaderValue(response)) {
@@ -90,10 +111,12 @@ export class DefaultAzurePoller extends Poller {
 
     const statusCode: number = response.status;
     const parsedResponse: any = response.parsedBody;
-    const validStatusCodes = [200, 201, 202, 204]
+    const validStatusCodes = [200, 201, 202, 204];
 
     if (!validStatusCodes.includes(statusCode)) {
-      const error = new RestError(`Invalid status code (${statusCode}) with response body "${response.bodyAsText}" occurred when polling for operation status.`);
+      const error = new RestError(
+        `Invalid status code (${statusCode}) with response body "${response.bodyAsText}" occurred when polling for operation status.`
+      );
       error.statusCode = statusCode;
       error.request = stripRequest(response.request);
       error.response = response;
@@ -104,9 +127,11 @@ export class DefaultAzurePoller extends Poller {
     if (!parsedResponse) {
       throw new Error("The response from long running operation does not contain a body.");
     } else if (!parsedResponse.status) {
-      throw new Error(`The response "${response.bodyAsText}" from long running operation does not contain the status property.`);
+      throw new Error(
+        `The response "${response.bodyAsText}" from long running operation does not contain the status property.`
+      );
     }
 
     this.processResponse(response);
-  } 
-} 
+  }
+}

@@ -1,9 +1,9 @@
 import { delay, HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
 import events from "events";
-import { LongRunningOperationStates, terminalStates } from "./utils/constants"
+import { LongRunningOperationStates, terminalStates } from "./utils/constants";
 
 export interface LongRunningOperationStateHistoryItem {
-  state: LongRunningOperationStates,
+  state: LongRunningOperationStates;
   date: Date;
 }
 
@@ -37,7 +37,9 @@ export abstract class Poller extends events.EventEmitter {
     return terminalStates.includes(state || this.state);
   }
 
-  protected abstract getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates;
+  protected abstract getStateFromResponse(
+    response: HttpOperationResponse
+  ): LongRunningOperationStates;
 
   protected processResponse(response: HttpOperationResponse): void {
     this.responses.push(response);
@@ -49,7 +51,7 @@ export abstract class Poller extends events.EventEmitter {
     this.stateHistory.push({
       state: newState,
       date: new Date()
-    })
+    });
     if (this.isFinished()) {
       this.finishDate = new Date();
     }
@@ -72,7 +74,7 @@ export abstract class Poller extends events.EventEmitter {
   public async startPolling(): Promise<void> {
     this.poll();
   }
- 
+
   protected async poll(): Promise<void> {
     if (!this.automatic) return;
     this.startDate = new Date();
@@ -81,11 +83,11 @@ export abstract class Poller extends events.EventEmitter {
       const interval: number = this.millisecondInterval || this.getMillisecondInterval();
       await delay(interval);
       await this.sendPollRequest();
-    } 
+    }
   }
 
   public pollUntilDone(): Promise<void> {
-    return new Promise(respond => {
+    return new Promise((respond) => {
       this.on("Succeeded", respond);
     });
   }
