@@ -806,22 +806,55 @@ export class DirectoryClient extends StorageClient {
    *
    * @example
    *   let i = 1;
-   *   // TODO
+   *   let iter = dirClient.listHandles();
+   *   for await (const handle of iter) {
+   *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   *   }
    * @example
    *   // Generator syntax .next()
    *   let i = 1;
-   *   // TODO
+   *   iter = await dirClient.listHandles();
+   *   let handleItem = await iter.next();
+   *   while (!handleItem.done) {
+   *     console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
+   *     handleItem = await iter.next();
+   *   }
    *
    * @example
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
    *   let i = 1;
-   *   // TODO
+   *   for await (const response of dirClient.listHandles({ recursive: true }).byPage({ maxPageSize: 20 })) {
+   *     if (response.handleList) {
+   *       for (const handle of response.handleList) {
+   *         console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   *       }
+   *     }
+   *   }
    *
    * @example
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;
-   *   // TODO
+   *   iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
+   *   response = await iterator.next();
+   *   // Prints 2 handles
+   *   if (response.value.handleList) {
+   *     for (const handle of response.value.handleList) {
+   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   *     }
+   *   }
+   *   // Gets next marker
+   *   let marker = response.value.nextMarker;
+   *   // Passing next marker as continuationToken
+   *   console.log(`    continuation`);
+   *   iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
+   *   response = await iterator.next();
+   *   // Prints 2 more handles assuming you have more than four directory/files opened
+   *   if (!response.done && response.value.handleList) {
+   *     for (const handle of response.value.handleList) {
+   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   *     }
+   *   }
    *
    * @param {DirectoryListHandlesOptions} [options] Options to list handles operation.
    * @memberof DirectoryClient
