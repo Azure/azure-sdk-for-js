@@ -18,9 +18,10 @@ export interface PollerOptionalParameters {
 }
 
 export abstract class Poller extends events.EventEmitter {
-  private automatic: boolean;
+  private readonly automatic: boolean;
   private millisecondInterval: number = 1000;
   private state: LongRunningOperationStates = "InProgress";
+  public retries: number = 0;
   public finishDate: Date | undefined;
   public forgotten: boolean = false;
   public forgottenDate: Date | undefined;
@@ -70,10 +71,11 @@ export abstract class Poller extends events.EventEmitter {
     return this.state;
   }
 
-  public abstract async sendPollRequest(): Promise<void>;
+  protected abstract async sendPollRequest(): Promise<void>;
 
   public async retry(): Promise<void> {
     if (this.automatic) throw new Error("Manual retries are disabled on an automatic poller");
+    this.retries += 1;
     return this.sendPollRequest();
   }
 
@@ -89,6 +91,7 @@ export abstract class Poller extends events.EventEmitter {
     while (!this.isFinished()) {
       const interval: number = this.millisecondInterval || this.getMillisecondInterval();
       await delay(interval);
+      this.retries += 1;
       await this.sendPollRequest();
     }
   }

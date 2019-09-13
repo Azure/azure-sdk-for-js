@@ -90,7 +90,7 @@ export class DefaultAzurePoller extends Poller {
     return delayInSeconds * 1000;
   }
 
-  public async sendPollRequest(): Promise<void> {
+  protected async sendPollRequest(): Promise<void> {
     const mostRecentResponse = this.responses[this.responses.length - 1];
     const headerUrl = getAzureAsyncOperationHeaderValue(mostRecentResponse) || "";
 
