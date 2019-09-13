@@ -29,7 +29,7 @@ export class FakePoller extends Poller {
     return 100;
   }
 
-  public async sendPollRequest(): Promise<void> {
+  protected async sendPollRequest(): Promise<void> {
     const response = await this.client.sendRequest(new WebResource());
     this.processResponse(response);
   }
