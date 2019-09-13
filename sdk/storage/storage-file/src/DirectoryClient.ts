@@ -768,11 +768,13 @@ export class DirectoryClient extends StorageClient {
     options: DirectoryListHandlesSegmentOptions = {}
   ): AsyncIterableIterator<Models.DirectoryListHandlesResponse> {
     let listHandlesResponse;
-    do {
-      listHandlesResponse = await this.listHandlesSegment(marker, options);
-      marker = listHandlesResponse.nextMarker;
-      yield await listHandlesResponse;
-    } while (marker);
+    if (!!marker || marker === undefined) {
+      do {
+        listHandlesResponse = await this.listHandlesSegment(marker, options);
+        marker = listHandlesResponse.nextMarker;
+        yield await listHandlesResponse;
+      } while (marker);
+    }
   }
 
   /**

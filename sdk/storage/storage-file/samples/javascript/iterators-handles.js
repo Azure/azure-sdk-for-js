@@ -102,7 +102,7 @@ async function main() {
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
-  iterator = dirClient.listHandles().byPage({ maxPageSize: 100 });
+  iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
   response = await iterator.next();
   // Prints 2 handles
   if (response.value.handleList) {
@@ -113,17 +113,15 @@ async function main() {
   // Gets next marker
   let marker = response.value.nextMarker;
   // Passing next marker as continuationToken
-  //if (!!marker) {
-    console.log(`    continuation`);
-    iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
-    response = await iterator.next();
-    // Prints 2 more handles assuming you have more than four directory/files opened
-    if (response.value.handleList) {
-      for (const handle of response.value.handleList) {
-        console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-      }
+  console.log(`    continuation`);
+  iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 2 });
+  response = await iterator.next();
+  // Prints 2 more handles assuming you have more than four handles
+  if (!response.done && response.value.handleList) {
+    for (const handle of response.value.handleList) {
+      console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
     }
-  //}
+  }
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
