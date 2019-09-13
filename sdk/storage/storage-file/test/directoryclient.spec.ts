@@ -572,7 +572,7 @@ describe("DirectoryClient", () => {
     await subDirClient.delete();
   });
 
-  it.only("listHandles should work", async () => {
+  it("listHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
     const s = serviceClient.getShareClient("share156830612406803206");
