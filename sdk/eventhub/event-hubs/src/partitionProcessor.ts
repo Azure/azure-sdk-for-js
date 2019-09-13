@@ -68,43 +68,20 @@ export class PartitionProcessor {
   }
 
   /**
-   * @property The event hub name
-   * @readonly
-   */
-  public get eventHubName() {
-    return this._eventHubName!;
-  }
-
-  /**
-   * @property The identifier of the Event Hub partition
-   * @readonly
-   */
-  public get partitionId() {
-    return this._partitionId!;
-  }
-  /**
-   * @property The unique identifier of the event processor
-   * @readonly
-   */
-  public get eventProcessorId() {
-    return this._eventProcessorId!;
-  }
-
-  /**
-   * @property An instance of `PartitionManager`
-   * @readonly
-   */
-  public get partitionManager() {
-    return this._partitionManager!;
-  }
-
-  /**
    * @property The consumer group name
    */
   public set consumerGroupName(consumerGroupName: string) {
     if (!this._consumerGroupName) {
       this._consumerGroupName = consumerGroupName;
     }
+  }
+
+  /**
+   * @property The event hub name
+   * @readonly
+   */
+  public get eventHubName() {
+    return this._eventHubName!;
   }
 
   /**
@@ -118,12 +95,29 @@ export class PartitionProcessor {
 
   /**
    * @property The identifier of the Event Hub partition
+   * @readonly
+   */
+  public get partitionId() {
+    return this._partitionId!;
+  }
+
+  /**
+   * @property The identifier of the Event Hub partition
    */
   public set partitionId(partitionId: string) {
     if (!this._partitionId) {
       this._partitionId = partitionId;
     }
   }
+
+  /**
+   * @property The unique identifier of the event processor
+   * @readonly
+   */
+  public get eventProcessorId() {
+    return this._eventProcessorId!;
+  }
+
   /**
    * @property The unique identifier of the event processor
    */
@@ -131,6 +125,14 @@ export class PartitionProcessor {
     if (!this._eventProcessorId) {
       this._eventProcessorId = eventProcessorId;
     }
+  }
+
+  /**
+   * @property An instance of `PartitionManager`
+   * @readonly
+   */
+  public get partitionManager() {
+    return this._partitionManager!;
   }
 
   /**

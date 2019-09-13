@@ -85,7 +85,7 @@ async function main() {
     }
   );
   processor.start();
-  // after 5 seconds, stop processing
+  // after 50 seconds, stop processing
   await delay(50000);
 
   await processor.stop();
