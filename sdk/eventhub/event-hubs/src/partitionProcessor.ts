@@ -60,7 +60,7 @@ export class PartitionProcessor {
   private _partitionId: string | undefined;
   private _eTag: string = "";
   /**
-   * @property The consumer group name
+   * @property The name of the consumer group from where the current partition is being processed. It is set by the `EventProcessor`
    * @readonly
    */
   public get consumerGroupName() {
