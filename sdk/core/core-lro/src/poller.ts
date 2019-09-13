@@ -8,33 +8,41 @@ export interface LongRunningOperationStateHistoryItem {
 }
 
 export interface PollerOptionalParameters {
-  requestOptions?: RequestOptionsBase;
-  millisecondInterval?: number;
   automatic?: boolean;
-  options?: boolean;
+  millisecondInterval?: number;
+  requestOptions?: RequestOptionsBase;
+  responses?: HttpOperationResponse[];
+  startDate?: Date;
+  state?: LongRunningOperationStates;
+  stateHistory?: LongRunningOperationStateHistoryItem[];
 }
 
 export abstract class Poller extends events.EventEmitter {
-  private millisecondInterval: number;
   private automatic: boolean;
+  private millisecondInterval: number = 1000;
   private state: LongRunningOperationStates = "InProgress";
-  public readonly stateHistory: LongRunningOperationStateHistoryItem[] = [];
-  public readonly responses: HttpOperationResponse[] = [];
-  public requestOptions: RequestOptionsBase | undefined;
+  public finishDate: Date | undefined;
   public forgotten: boolean = false;
   public forgottenDate: Date | undefined;
+  public requestOptions: RequestOptionsBase | undefined;
+  public responses: HttpOperationResponse[] = [];
   public startDate: Date | undefined;
-  public finishDate: Date | undefined;
+  public stateHistory: LongRunningOperationStateHistoryItem[] = [];
 
   constructor(options: PollerOptionalParameters) {
     super();
-    this.requestOptions = options.requestOptions;
-    this.millisecondInterval = options.millisecondInterval || 1000;
     this.automatic = typeof options.automatic === "boolean" ? options.automatic : false;
+    if (!isNaN(options.millisecondInterval!))
+      this.millisecondInterval = options.millisecondInterval!;
+    this.requestOptions = options.requestOptions;
+    if (Array.isArray(options.responses)) this.responses = options.responses;
+    if (options.startDate instanceof Date) this.startDate = options.startDate;
+    if (options.state) this.state = options.state;
+    if (Array.isArray(options.stateHistory)) this.stateHistory = options.stateHistory;
   }
 
   protected isFinished(state?: LongRunningOperationStates): boolean {
-    return terminalStates.includes(state || this.state);
+    return this.forgotten || terminalStates.includes(state || this.state);
   }
 
   protected abstract getStateFromResponse(
@@ -79,7 +87,6 @@ export abstract class Poller extends events.EventEmitter {
     if (!this.automatic) return;
     this.startDate = new Date();
     while (!this.isFinished()) {
-      if (this.forgotten) return;
       const interval: number = this.millisecondInterval || this.getMillisecondInterval();
       await delay(interval);
       await this.sendPollRequest();
@@ -95,5 +102,17 @@ export abstract class Poller extends events.EventEmitter {
   public forget(): void {
     this.forgotten = true;
     this.forgottenDate = new Date();
+  }
+
+  public serialize(): string {
+    return JSON.stringify({
+      automatic: this.automatic,
+      millisecondInterval: this.millisecondInterval,
+      requestOptions: this.requestOptions,
+      responses: this.responses,
+      startDate: this.startDate,
+      state: this.state,
+      stateHistory: this.stateHistory
+    });
   }
 }
