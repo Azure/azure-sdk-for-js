@@ -4,23 +4,18 @@
 import uuid from "uuid/v4";
 import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
-import { PartitionContext, Checkpoint } from "./partitionContext";
 import { PumpManager } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import * as log from "./log";
 import { PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
-import { PartitionProcessor } from "./partitionProcessor";
+import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
  * events from a partition in a consumer group of an Event Hub instance.
  */
 export enum CloseReason {
-  /**
-   * The PartitionProcessor was shutdown due to some internal or service exception.
-   */
-  EventHubException = "EventHubException",
   /**
    * Ownership of the partition was lost or transitioned to a new processor instance.
    */
@@ -119,12 +114,12 @@ export interface PartitionManager {
 }
 
 /**
-* A set of options to pass to the constructor of `EventProcessor`.
+ * A set of options to pass to the constructor of `EventProcessor`.
  * You can specify
  * - `maxBatchSize`: The max size of the batch of events passed each time to user code for processing.
  * - `maxWaitTimeInSeconds`: The maximum amount of time to wait to build up the requested message count before
  * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
- * 
+ *
  * Example usage with default values:
  * ```ts
  * {
@@ -269,29 +264,21 @@ export class EventProcessor {
         `[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
       );
 
-      const partitionContext = new PartitionContext(
-        this._eventHubClient.eventHubName,
-        this._consumerGroupName,
-        ownershipRequest.partitionId,
-        this._partitionManager,
-        this._id
-      );
-
       log.partitionLoadBalancer(
         `[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessorFactory.`
       );
       const partitionProcessor = new this._partitionProcessorClass();
+      partitionProcessor.eventHubName = this._eventHubClient.eventHubName;
+      partitionProcessor.consumerGroupName = this._consumerGroupName;
+      partitionProcessor.partitionId = ownershipRequest.partitionId;
+      partitionProcessor.partitionManager = this._partitionManager;
+      partitionProcessor.eventProcessorId = this.id;
 
       const eventPosition = ownershipRequest.sequenceNumber
         ? EventPosition.fromSequenceNumber(ownershipRequest.sequenceNumber)
         : EventPosition.earliest();
 
-      await this._pumpManager.createPump(
-        this._eventHubClient,
-        partitionContext,
-        eventPosition,
-        partitionProcessor
-      );
+      await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
       log.partitionLoadBalancer(`[${this._id}] PartitionPump created successfully.`);
     } catch (err) {
       log.error(

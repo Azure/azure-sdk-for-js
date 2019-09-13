@@ -1,6 +1,47 @@
-import { PartitionContext } from "./partitionContext";
-import { CloseReason } from "./eventProcessor";
+import { CloseReason, PartitionManager } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
+
+/**
+ * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+ * partition of a consumer group in an Event Hub instance.
+ *
+ * When the `updateCheckpoint()` method on the `PartitionContext` class is called by the user, a
+ * `Checkpoint` is created internally. It is then stored in the storage solution implemented by the
+ * `PartitionManager` chosen by the user when creating an `EventProcessor`.
+ *
+ * Users are never expected to interact with `Checkpoint` directly. This interface exists to support the
+ * internal workings of `EventProcessor` and `PartitionManager`.
+ **/
+export interface Checkpoint {
+  /**
+   * @property The event hub name
+   */
+  eventHubName: string;
+  /**
+   * @property The consumer group name
+   */
+  consumerGroupName: string;
+  /**
+   * @property The unique identifier of the event processor
+   */
+  ownerId: string;
+  /**
+   * @property The identifier of the Event Hub partition
+   */
+  partitionId: string;
+  /**
+   * @property The sequence number of the event
+   */
+  sequenceNumber: number;
+  /**
+   * @property The offset of the event.
+   */
+  offset: number;
+  /**
+   * @property The unique identifier for the operation
+   */
+  eTag: string;
+}
 
 /**
  * The `PartitionProcessor` is responsible for processing events received from Event Hubs when using `EventProcessor`
@@ -12,27 +53,100 @@ import { ReceivedEventData } from "./eventData";
  * - Optionally override the `close()` method to implement any tear down or clean up tasks you would want to carry out.
  */
 export class PartitionProcessor {
+  private _partitionManager: PartitionManager | undefined;
+  private _consumerGroupName: string | undefined;
+  private _eventHubName: string | undefined;
+  private _eventProcessorId: string | undefined;
+  private _partitionId: string | undefined;
+  private _eTag: string = "";
+  /**
+   * @property The consumer group name
+   * @readonly
+   */
+  public get consumerGroupName() {
+    return this._consumerGroupName!;
+  }
+
+  /**
+   * @property The event hub name
+   * @readonly
+   */
+  public get eventHubName() {
+    return this._eventHubName!;
+  }
+
+  /**
+   * @property The identifier of the Event Hub partition
+   * @readonly
+   */
+  public get partitionId() {
+    return this._partitionId!;
+  }
+  /**
+   * @property The unique identifier of the event processor
+   * @readonly
+   */
+  public get eventProcessorId() {
+    return this._eventProcessorId!;
+  }
+
+  /**
+   * @property An instance of `PartitionManager`
+   * @readonly
+   */
+  public get partitionManager() {
+    return this._partitionManager!;
+  }
+
+  /**
+   * @property The consumer group name
+   */
+  public set consumerGroupName(consumerGroupName: string) {
+    this._consumerGroupName = consumerGroupName;
+  }
+
+  /**
+   * @property The event hub name
+   */
+  public set eventHubName(eventHubName: string) {
+    this._eventHubName = eventHubName;
+  }
+
+  /**
+   * @property The identifier of the Event Hub partition
+   */
+  public set partitionId(partitionId: string) {
+    this._partitionId = partitionId;
+  }
+  /**
+   * @property The unique identifier of the event processor
+   */
+  public set eventProcessorId(eventProcessorId: string) {
+    this._eventProcessorId = eventProcessorId;
+  }
+
+  /**
+   * @property An instance of `PartitionManager`
+   */
+  public set partitionManager(partitionManager: PartitionManager) {
+    this._partitionManager = partitionManager;
+  }
+
   /**
    * This method is called when the `EventProcessor` takes ownership of a new partition and before any
    * events are received.
    *
-   * @param partitionContext An object that provides information specific to the partition being processed.
-   *  Call the `updateCheckpoint` method to update and store the checkpoint for this partition.
-   *  This object will have properties like the `partitionId`, `eventHubName` and `consumerGroupName`.
    * @return {Promise<void>}
    */
-  async initialize(partitionContext: PartitionContext): Promise<void> {}
+  async initialize(): Promise<void> {}
 
   /**
    * This method is called before the partition processor is closed by the EventProcessor.
    *
    * @param reason The reason for closing this partition processor.
-   * @param partitionContext An object that provides information specific to the partition being processed.
-   *  Call the `updateCheckpoint` method to update and store the checkpoint for this partition.
-   *  This object will have properties like the `partitionId`, `eventHubName` and `consumerGroupName`.
    * @return {Promise<void>}
    */
-  async close(reason: CloseReason, partitionContext: PartitionContext): Promise<void> {}
+  async close(reason: CloseReason): Promise<void> {}
 
   /**
    * This method is called when new events are received.
@@ -40,26 +154,59 @@ export class PartitionProcessor {
    * This is also a good place to update checkpoints as appropriate.
    *
    * @param events The received events to be processed.
-   * @param partitionContext An object that provides information specific to the partition being processed.
-   *  Call the `updateCheckpoint` method to update and store the checkpoint for this partition.
-   *  This object will have properties like the `partitionId`, `eventHubName` and `consumerGroupName`.
    * @return {Promise<void>}
    */
-  async processEvents(
-    events: ReceivedEventData[],
-    partitionContext: PartitionContext
-  ): Promise<void> {
-    console.log(JSON.stringify(events));
-  }
+  async processEvents(events: ReceivedEventData[]): Promise<void> {}
 
   /**
    * This method is called when an error occurs while receiving events from Event Hubs.
    *
    * @param error The error to be processed.
-   * @param partitionContext An object that provides information specific to the partition being processed.
-   *  Call the `updateCheckpoint` method to update and store the checkpoint for this partition.
-   *  This object will have properties like the `partitionId`, `eventHubName` and `consumerGroupName`.
    * @return {Promise<void>}
    */
-  async processError(error: Error, partitionContext: PartitionContext): Promise<void> {}
+  async processError(error: Error): Promise<void> {}
+
+  /**
+   * Updates the checkpoint for the partition associated with the `PartitionContext`.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param eventData The event that you want to update the checkpoint with.
+   * @return Promise<void>
+   */
+  public async updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+  /**
+   * Updates the checkpoint for the partition associated with the `PartitionContext`.
+   *
+   * A checkpoint is meant to represent the last successfully processed event by the user from a particular
+   * partition of a consumer group in an Event Hub instance.
+   *
+   * @param sequenceNumber The sequence number of the event that you want to update the checkpoint with.
+   * @param offset The offset of the event that you want to update the checkpoint with.
+   * @return  Promise<void>.
+   */
+  public async updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
+  public async updateCheckpoint(
+    eventDataOrSequenceNumber: ReceivedEventData | number,
+    offset?: number
+  ): Promise<void> {
+    const checkpoint: Checkpoint = {
+      eventHubName: this._eventHubName!,
+      consumerGroupName: this._consumerGroupName!,
+      ownerId: this._eventProcessorId!,
+      partitionId: this._partitionId!,
+      sequenceNumber:
+        typeof eventDataOrSequenceNumber === "number"
+          ? eventDataOrSequenceNumber
+          : eventDataOrSequenceNumber.sequenceNumber,
+      offset:
+        typeof offset === "number"
+          ? offset
+          : (eventDataOrSequenceNumber as ReceivedEventData).offset,
+      eTag: this._eTag
+    };
+
+    this._eTag = await this._partitionManager!.updateCheckpoint(checkpoint);
+  }
 }
