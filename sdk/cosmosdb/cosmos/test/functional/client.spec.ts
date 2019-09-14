@@ -2,7 +2,12 @@ import assert from "assert";
 import { Agent } from "http";
 import { CosmosClient } from "../../dist-esm";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { getTestDatabase, getTestContainer, generateDocuments, bulkInsertItems } from "../common/TestHelpers";
+import {
+  getTestDatabase,
+  getTestContainer,
+  generateDocuments,
+  bulkInsertItems
+} from "../common/TestHelpers";
 import { AbortController } from "abort-controller";
 
 describe("NodeJS CRUD Tests", function() {
@@ -12,7 +17,11 @@ describe("NodeJS CRUD Tests", function() {
     it("timeout occurs within expected timeframe", async function() {
       // making timeout 1 ms to make sure it will throw
       // (create database request takes 10ms-15ms to finish on emulator)
-      const client = new CosmosClient({ endpoint, key: masterKey, connectionPolicy: { requestTimeout: 1 } });
+      const client = new CosmosClient({
+        endpoint,
+        key: masterKey,
+        connectionPolicy: { requestTimeout: 1 }
+      });
       // create database
       try {
         await getTestDatabase("request timeout", client);
@@ -72,7 +81,9 @@ describe("NodeJS CRUD Tests", function() {
         const signal = controller.signal;
         setTimeout(() => controller.abort(), 5000);
         // Setting maxItemCount = 1 to ensure this query take a long time
-        await container.items.query("SELECT * from c", { abortSignal: signal, maxItemCount: 1 }).fetchAll();
+        await container.items
+          .query("SELECT * from c", { abortSignal: signal, maxItemCount: 1 })
+          .fetchAll();
         assert.fail("Must throw");
       } catch (err) {
         assert.equal(err.name, "AbortError", "client should throw exception");

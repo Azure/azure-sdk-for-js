@@ -50,17 +50,34 @@ describe("Item CRUD", function() {
       replace: "new property"
     };
     try {
-      await createOrUpsertItem(container, itemDefinition, { disableAutomaticIdGeneration: true }, isUpsertTest);
+      await createOrUpsertItem(
+        container,
+        itemDefinition,
+        { disableAutomaticIdGeneration: true },
+        isUpsertTest
+      );
       assert.fail("id generation disabled must throw with invalid id");
     } catch (err) {
-      assert(err !== undefined, "should throw an error because automatic id generation is disabled");
+      assert(
+        err !== undefined,
+        "should throw an error because automatic id generation is disabled"
+      );
     }
-    const { resource: document } = await createOrUpsertItem(container, itemDefinition, undefined, isUpsertTest);
+    const { resource: document } = await createOrUpsertItem(
+      container,
+      itemDefinition,
+      undefined,
+      isUpsertTest
+    );
     assert.equal(document.name, itemDefinition.name);
     assert(document.id !== undefined);
     // read documents after creation
     const { resources: documents2 } = await container.items.readAll().fetchAll();
-    assert.equal(documents2.length, beforeCreateDocumentsCount + 1, "create should increase the number of documents");
+    assert.equal(
+      documents2.length,
+      beforeCreateDocumentsCount + 1,
+      "create should increase the number of documents"
+    );
     // query documents
     const querySpec = {
       query: "SELECT * FROM root r WHERE r.id=@id",
@@ -79,12 +96,23 @@ describe("Item CRUD", function() {
     // replace document
     document.name = "replaced document";
     document.foo = "not bar";
-    const { resource: replacedDocument } = await replaceOrUpsertItem(container, document, undefined, isUpsertTest);
-    assert.equal(replacedDocument.name, "replaced document", "document name property should change");
+    const { resource: replacedDocument } = await replaceOrUpsertItem(
+      container,
+      document,
+      undefined,
+      isUpsertTest
+    );
+    assert.equal(
+      replacedDocument.name,
+      "replaced document",
+      "document name property should change"
+    );
     assert.equal(replacedDocument.foo, "not bar", "property should have changed");
     assert.equal(document.id, replacedDocument.id, "document id should stay the same");
     // read document
-    const { resource: document2 } = await container.item(replacedDocument.id, undefined).read<TestItem>();
+    const { resource: document2 } = await container
+      .item(replacedDocument.id, undefined)
+      .read<TestItem>();
     assert.equal(replacedDocument.id, document2.id);
     // delete document
     const { resource: res } = await container.item(replacedDocument.id, undefined).delete();
@@ -173,7 +201,11 @@ describe("Item CRUD", function() {
       returnedDocuments.length,
       "Expected " + returnedDocuments.length + " documents to be succesfully queried"
     );
-    assert.equal(JSON.stringify(results), JSON.stringify(returnedDocuments), "Unexpected query results");
+    assert.equal(
+      JSON.stringify(results),
+      JSON.stringify(returnedDocuments),
+      "Unexpected query results"
+    );
 
     await bulkDeleteItems(container, returnedDocuments, partitionKey);
   });

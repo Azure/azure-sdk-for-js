@@ -31,8 +31,8 @@ export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[])
   }
 
   sortedRanges = sortedRanges.sort(compareRanges);
-  const partitionKeyOrderedRange = sortedRanges.map(r => r[0]);
-  const orderedPartitionInfo = sortedRanges.map(r => r[1]);
+  const partitionKeyOrderedRange = sortedRanges.map((r) => r[0]);
+  const orderedPartitionInfo = sortedRanges.map((r) => r[1]);
 
   if (!isCompleteSetOfRange(partitionKeyOrderedRange)) {
     return undefined;

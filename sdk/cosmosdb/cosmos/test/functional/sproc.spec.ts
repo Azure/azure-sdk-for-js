@@ -1,7 +1,12 @@
 import assert from "assert";
 import { Constants } from "../../dist-esm";
 import { Container, StoredProcedureDefinition } from "../../dist-esm/client";
-import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import {
+  bulkInsertItems,
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases
+} from "../common/TestHelpers";
 
 // Used for sproc
 declare var getContext: any;
@@ -35,7 +40,9 @@ describe("NodeJS CRUD Tests", function() {
       assert.equal(sproc.body, "function () { const x = 10; }");
 
       // read sprocs after creation
-      const { resources: sprocsAfterCreation } = await container.scripts.storedProcedures.readAll().fetchAll();
+      const {
+        resources: sprocsAfterCreation
+      } = await container.scripts.storedProcedures.readAll().fetchAll();
       assert.equal(
         sprocsAfterCreation.length,
         beforeCreateSprocsCount + 1,
@@ -46,19 +53,25 @@ describe("NodeJS CRUD Tests", function() {
       const querySpec = {
         query: "SELECT * FROM root r"
       };
-      const { resources: queriedSprocs } = await container.scripts.storedProcedures.query(querySpec).fetchAll();
+      const { resources: queriedSprocs } = await container.scripts.storedProcedures
+        .query(querySpec)
+        .fetchAll();
       assert(queriedSprocs.length > 0, "number of sprocs for the query should be > 0");
 
       // replace sproc
       // prettier-ignore
       sproc.body = function () { const x = 20; };
-      const { resource: replacedSproc } = await container.scripts.storedProcedure(sproc.id).replace(sproc);
+      const { resource: replacedSproc } = await container.scripts
+        .storedProcedure(sproc.id)
+        .replace(sproc);
 
       assert.equal(replacedSproc.id, sproc.id);
       assert.equal(replacedSproc.body, "function () { const x = 20; }");
 
       // read sproc
-      const { resource: sprocAfterReplace } = await container.scripts.storedProcedure(replacedSproc.id).read();
+      const { resource: sprocAfterReplace } = await container.scripts
+        .storedProcedure(replacedSproc.id)
+        .read();
       assert.equal(replacedSproc.id, sprocAfterReplace.id);
 
       // delete sproc
@@ -129,11 +142,15 @@ describe("NodeJS CRUD Tests", function() {
       // tslint:enable:object-literal-shorthand
 
       const { resource: retrievedSproc } = await container.scripts.storedProcedures.create(sproc1);
-      const { resource: result } = await container.scripts.storedProcedure(retrievedSproc.id).execute(undefined);
+      const { resource: result } = await container.scripts
+        .storedProcedure(retrievedSproc.id)
+        .execute(undefined);
       assert.equal(result, 999);
 
       const { resource: retrievedSproc2 } = await container.scripts.storedProcedures.create(sproc2);
-      const { resource: result2 } = await container.scripts.storedProcedure(retrievedSproc2.id).execute(undefined);
+      const { resource: result2 } = await container.scripts
+        .storedProcedure(retrievedSproc2.id)
+        .execute(undefined);
       assert.equal(result2, 123456789);
       const { resource: retrievedSproc3 } = await container.scripts.storedProcedures.create(sproc3);
       const { resource: result3 } = await container.scripts
@@ -203,12 +220,16 @@ describe("NodeJS CRUD Tests", function() {
 
     const returnedDocuments = await bulkInsertItems(container, documents);
     const { resource: sproc } = await container.scripts.storedProcedures.create(querySproc);
-    const { resource: result } = await container.scripts.storedProcedure(sproc.id).execute(null, []);
+    const { resource: result } = await container.scripts
+      .storedProcedure(sproc.id)
+      .execute(null, []);
     assert(result !== undefined);
     assert.equal(result.length, 1);
     assert.equal(JSON.stringify(result[0]), JSON.stringify(documents[1]));
 
-    const { resource: result2 } = await container.scripts.storedProcedure(sproc.id).execute(1, null);
+    const { resource: result2 } = await container.scripts
+      .storedProcedure(sproc.id)
+      .execute(1, null);
     assert(result2 !== undefined);
     assert.equal(result2.length, 1);
     assert.equal(JSON.stringify(result2[0]), JSON.stringify(documents[4]));
@@ -218,7 +239,9 @@ describe("NodeJS CRUD Tests", function() {
     // create database
     const database = await getTestDatabase("sproc test database");
     // create container
-    const { resource: containerResult } = await database.containers.create({ id: "sample container" });
+    const { resource: containerResult } = await database.containers.create({
+      id: "sample container"
+    });
 
     const container = await database.container(containerResult.id);
 
@@ -263,7 +286,10 @@ describe("NodeJS CRUD Tests", function() {
       .storedProcedure(retrievedSproc.id)
       .execute(undefined, [], requestOptions);
     assert.equal(result2, "Success!");
-    assert.equal(headers2[Constants.HttpHeaders.ScriptLogResults], encodeURIComponent("The value of x is 1."));
+    assert.equal(
+      headers2[Constants.HttpHeaders.ScriptLogResults],
+      encodeURIComponent("The value of x is 1.")
+    );
 
     requestOptions = { enableScriptLogging: false };
     const { resource: result3, headers: headers3 } = await container.scripts

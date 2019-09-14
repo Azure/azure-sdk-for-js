@@ -17,7 +17,10 @@ export class Offers {
    * @hidden
    * @param client The parent {@link CosmosClient} for the offers.
    */
-  constructor(public readonly client: CosmosClient, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly client: CosmosClient,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Query all offers.
@@ -32,12 +35,12 @@ export class Offers {
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
       return this.clientContext.queryFeed<T>({
         path: "/offers",
         resourceType: ResourceType.offer,
         resourceId: "",
-        resultFn: result => result.Offers,
+        resultFn: (result) => result.Offers,
         query,
         options: innerOptions
       });

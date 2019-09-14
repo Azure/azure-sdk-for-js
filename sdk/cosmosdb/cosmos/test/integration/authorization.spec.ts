@@ -39,7 +39,11 @@ describe("Authorization", function() {
     // give permission to read container, to userReadPermission
     collReadPermission.resource = container.url;
     const { resource: readPermission } = await userRead.permissions.create(collReadPermission);
-    assert.equal(readPermission.id, collReadPermission.id, "permission to read coll1 is not created properly");
+    assert.equal(
+      readPermission.id,
+      collReadPermission.id,
+      "permission to read coll1 is not created properly"
+    );
     collReadPermission = readPermission;
 
     // create userAllPermission
@@ -51,7 +55,11 @@ describe("Authorization", function() {
     // create collAllPermission
     collAllPermission.resource = container.url;
     const { resource: allPermission } = await userAll.permissions.create(collAllPermission);
-    assert.equal(collAllPermission.id, allPermission.id, "permission to read coll2 is not created properly");
+    assert.equal(
+      collAllPermission.id,
+      allPermission.id,
+      "permission to read coll2 is not created properly"
+    );
     collAllPermission = allPermission;
   });
 

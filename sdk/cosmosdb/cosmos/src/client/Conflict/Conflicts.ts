@@ -13,7 +13,10 @@ import { ConflictDefinition } from "./ConflictDefinition";
  * @see {@link Conflict} to read or delete a given {@link Conflict} by id.
  */
 export class Conflicts {
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly container: Container,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Queries all conflicts.
@@ -33,12 +36,12 @@ export class Conflicts {
     const path = getPathFromLink(this.container.url, ResourceType.conflicts);
     const id = getIdFromLink(this.container.url);
 
-    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.conflicts,
         resourceId: id,
-        resultFn: result => result.Conflicts,
+        resultFn: (result) => result.Conflicts,
         query,
         options: innerOptions
       });

@@ -4,7 +4,11 @@ import { getInitialHeader, mergeHeaders } from "../headerUtils";
 
 /** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {
-  constructor(private executionContext: ExecutionContext, private offset: number, private limit: number) {}
+  constructor(
+    private executionContext: ExecutionContext,
+    private offset: number,
+    private limit: number
+  ) {}
 
   public async nextItem(): Promise<Response<any>> {
     const aggregateHeaders = getInitialHeader();

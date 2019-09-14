@@ -89,7 +89,15 @@ async function httpRequest(requestContext: RequestContext) {
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new Error(result.message);
 
-    log.warn(response.status + " " + requestContext.endpoint + " " + requestContext.path + " " + result.message);
+    log.warn(
+      response.status +
+        " " +
+        requestContext.endpoint +
+        " " +
+        requestContext.path +
+        " " +
+        result.message
+    );
 
     errorResponse.code = response.status;
     errorResponse.body = result;
@@ -104,7 +112,10 @@ async function httpRequest(requestContext: RequestContext) {
     }
 
     if (Constants.HttpHeaders.RetryAfterInMilliseconds in headers) {
-      errorResponse.retryAfterInMilliseconds = parseInt(headers[Constants.HttpHeaders.RetryAfterInMilliseconds], 10);
+      errorResponse.retryAfterInMilliseconds = parseInt(
+        headers[Constants.HttpHeaders.RetryAfterInMilliseconds],
+        10
+      );
     }
 
     throw errorResponse;

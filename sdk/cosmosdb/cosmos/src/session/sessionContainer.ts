@@ -38,7 +38,10 @@ export class SessionContainer {
 
   public set(request: SessionContext, resHeaders: CosmosHeaders) {
     // TODO: we check the master logic a few different places. Might not need it.
-    if (!resHeaders || SessionContainer.isReadingFromMaster(request.resourceType, request.operationType)) {
+    if (
+      !resHeaders ||
+      SessionContainer.isReadingFromMaster(request.resourceType, request.operationType)
+    ) {
       return;
     }
 
@@ -79,7 +82,9 @@ export class SessionContainer {
     return atob(ownerId.replace(/-/g, "/")).length === 8;
   }
 
-  private getPartitionKeyRangeIdToTokenMap(collectionName: string): Map<string, VectorSessionToken> {
+  private getPartitionKeyRangeIdToTokenMap(
+    collectionName: string
+  ): Map<string, VectorSessionToken> {
     let rangeIdToTokenMap: Map<string, VectorSessionToken> = null;
     if (collectionName && this.collectionNameToCollectionResourceId.has(collectionName)) {
       rangeIdToTokenMap = this.collectionResourceIdToSessionTokens.get(
@@ -106,7 +111,10 @@ export class SessionContainer {
     return result.slice(0, -1);
   }
 
-  private static compareAndSetToken(newTokenString: string, containerSessionTokens: Map<string, VectorSessionToken>) {
+  private static compareAndSetToken(
+    newTokenString: string,
+    containerSessionTokens: Map<string, VectorSessionToken>
+  ) {
     if (!newTokenString) {
       return;
     }
@@ -128,7 +136,10 @@ export class SessionContainer {
   }
 
   // TODO: have a assert if the type doesn't mastch known types
-  private static isReadingFromMaster(resourceType: ResourceType, operationType: OperationType): boolean {
+  private static isReadingFromMaster(
+    resourceType: ResourceType,
+    operationType: OperationType
+  ): boolean {
     if (
       resourceType === Constants.Path.OffersPathSegment ||
       resourceType === Constants.Path.DatabasesPathSegment ||
@@ -137,7 +148,8 @@ export class SessionContainer {
       resourceType === Constants.Path.TopologyPathSegment ||
       resourceType === Constants.Path.DatabaseAccountPathSegment ||
       resourceType === Constants.Path.PartitionKeyRangesPathSegment ||
-      (resourceType === Constants.Path.CollectionsPathSegment && operationType === OperationType.Query)
+      (resourceType === Constants.Path.CollectionsPathSegment &&
+        operationType === OperationType.Query)
     ) {
       return true;
     }

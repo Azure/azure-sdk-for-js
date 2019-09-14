@@ -334,12 +334,13 @@ describe("RangePartitionResolver", function() {
     });
 
     it("compareFunction throws", function() {
-      const resolver = new RangePartitionResolver("key", [{ range: new Range({ low: "A" }), link: "link1" }], function(
-        a,
-        b
-      ) {
-        throw new Error("Compare error");
-      });
+      const resolver = new RangePartitionResolver(
+        "key",
+        [{ range: new Range({ low: "A" }), link: "link1" }],
+        function(a, b) {
+          throw new Error("Compare error");
+        }
+      );
 
       assert.throws(function() {
         const result = (resolver as any).resolveForRead("A", ["link1"]); // TODO: any

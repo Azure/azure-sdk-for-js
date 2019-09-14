@@ -1,4 +1,7 @@
-import { FetchFunctionCallback, DefaultQueryExecutionContext } from "../../dist-esm/queryExecutionContext";
+import {
+  FetchFunctionCallback,
+  DefaultQueryExecutionContext
+} from "../../dist-esm/queryExecutionContext";
 import { FeedOptions } from "../../dist-esm";
 import assert from "assert";
 import { sleep, Constants } from "../../dist-esm/common";

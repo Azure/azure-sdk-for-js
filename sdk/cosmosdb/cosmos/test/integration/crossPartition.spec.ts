@@ -4,7 +4,12 @@ import { Container, ContainerDefinition } from "../../dist-esm/client";
 import { DataType, IndexKind } from "../../dist-esm/documents";
 import { SqlQuerySpec } from "../../dist-esm/queryExecutionContext";
 import { QueryIterator } from "../../dist-esm/queryIterator";
-import { bulkInsertItems, getTestContainer, removeAllDatabases, generateDocuments } from "../common/TestHelpers";
+import {
+  bulkInsertItems,
+  getTestContainer,
+  removeAllDatabases,
+  generateDocuments
+} from "../common/TestHelpers";
 import { FeedResponse, FeedOptions } from "../../dist-esm";
 
 function compare(key: string) {
@@ -58,17 +63,29 @@ describe("Cross Partition", function() {
     // - bulk inserts documents to the container
     before(async function() {
       await removeAllDatabases();
-      container = await getTestContainer("Validate 中文 Query", undefined, containerDefinition, containerOptions);
+      container = await getTestContainer(
+        "Validate 中文 Query",
+        undefined,
+        containerDefinition,
+        containerOptions
+      );
       await bulkInsertItems(container, documentDefinitions);
     });
 
-    const validateResults = function(actualResults: any[], expectedOrderIds: string[], expectedCount: number) {
+    const validateResults = function(
+      actualResults: any[],
+      expectedOrderIds: string[],
+      expectedCount: number
+    ) {
       assert.equal(
         actualResults.length,
-        expectedCount || (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length,
+        expectedCount ||
+          (expectedOrderIds && expectedOrderIds.length) ||
+          documentDefinitions.length,
         "actual results length doesn't match with expected results length."
       );
-      if (expectedOrderIds) assert.deepStrictEqual(actualResults.map(doc => doc.id || doc), expectedOrderIds);
+      if (expectedOrderIds)
+        assert.deepStrictEqual(actualResults.map((doc) => doc.id || doc), expectedOrderIds);
     };
 
     const validateFetchAll = async function(
@@ -82,10 +99,16 @@ describe("Cross Partition", function() {
       const { resources: results } = response;
       assert.equal(
         results.length,
-        expectedCount || (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length,
+        expectedCount ||
+          (expectedOrderIds && expectedOrderIds.length) ||
+          documentDefinitions.length,
         "invalid number of results"
       );
-      assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
+      assert.equal(
+        queryIterator.hasMoreResults(),
+        false,
+        "hasMoreResults: no more results is left"
+      );
 
       validateResults(results, expectedOrderIds, expectedCount);
       return response;
@@ -104,7 +127,9 @@ describe("Cross Partition", function() {
       let totalIteratorCalls = 0;
       let totalFetchedResults: any[] = [];
       const expectedLength =
-        expectedCount || (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length;
+        expectedCount ||
+        (expectedOrderIds && expectedOrderIds.length) ||
+        documentDefinitions.length;
 
       while (queryIterator.hasMoreResults()) {
         const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
@@ -127,7 +152,11 @@ describe("Cross Partition", function() {
           assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
         } else {
           // no more results
-          assert.equal(expectedLength, totalFetchedResults.length, "executeNext: didn't fetch all the results");
+          assert.equal(
+            expectedLength,
+            totalFetchedResults.length,
+            "executeNext: didn't fetch all the results"
+          );
         }
       }
 
@@ -137,10 +166,15 @@ describe("Cross Partition", function() {
 
       // no more results
       validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
-      assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
+      assert.equal(
+        queryIterator.hasMoreResults(),
+        false,
+        "hasMoreResults: no more results is left"
+      );
       assert(totalExecuteNextRequestCharge > 0);
       const percentDifference =
-        Math.abs(fetchAllResponse.requestCharge - totalExecuteNextRequestCharge) / totalExecuteNextRequestCharge;
+        Math.abs(fetchAllResponse.requestCharge - totalExecuteNextRequestCharge) /
+        totalExecuteNextRequestCharge;
       assert(
         percentDifference <= 0.01,
         "difference between fetchAll request charge and executeNext request charge should be less than 1%"
@@ -153,7 +187,9 @@ describe("Cross Partition", function() {
       expecetedCount: number
     ) {
       const expectedLength =
-        expecetedCount || (expectedOrderIds && expectedOrderIds.length) || documentDefinitions.length;
+        expecetedCount ||
+        (expectedOrderIds && expectedOrderIds.length) ||
+        documentDefinitions.length;
       const results: any[] = [];
       let completed = false;
       for await (const { resources: items } of queryIterator.getAsyncIterator()) {
@@ -184,9 +220,15 @@ describe("Cross Partition", function() {
     }) {
       options.populateQueryMetrics = true;
       const queryIterator = container.items.query(query, options);
-      const fetchAllResponse = await validateFetchAll(queryIterator, options, expectedOrderIds, expectedCount);
+      const fetchAllResponse = await validateFetchAll(
+        queryIterator,
+        options,
+        expectedOrderIds,
+        expectedCount
+      );
       if (expectedRus) {
-        const percentDifference = Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
+        const percentDifference =
+          Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
         assert(
           percentDifference <= 0.05,
           "difference between fetchAll request charge and expected request charge should be less than 5%"
@@ -281,7 +323,11 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1", async function() {
@@ -297,7 +343,12 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds, expectedRus: 35 });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds,
+        expectedRus: 35
+      });
     });
 
     it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 3", async function() {
@@ -313,7 +364,11 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = -1", async function() {
@@ -329,7 +384,11 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate DISTINCT Query", async function() {
@@ -353,7 +412,11 @@ describe("Cross Partition", function() {
       const expectedOrderedIds = ["eggs2", "eggs1", "eggs0"];
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate parallel DISTINCT Query", async function() {
@@ -368,7 +431,11 @@ describe("Cross Partition", function() {
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate DISTINCT Query with maxItemCount = 1", async function() {
@@ -381,7 +448,11 @@ describe("Cross Partition", function() {
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate DISTINCT Query with maxItemCount = 20", async function() {
@@ -394,7 +465,11 @@ describe("Cross Partition", function() {
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate Simple OrderBy Query As String", async function() {
@@ -409,7 +484,11 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate Simple OrderBy Query", async function() {
@@ -573,7 +652,7 @@ describe("Cross Partition", function() {
 
       // select unique ids
       const uniqueIds: any = {};
-      results.forEach(item => {
+      results.forEach((item) => {
         uniqueIds[item.id] = true;
       });
       // assert no duplicate results
@@ -599,7 +678,7 @@ describe("Cross Partition", function() {
 
       // select unique ids
       const uniqueIds: any = {};
-      results.forEach(item => {
+      results.forEach((item) => {
         uniqueIds[item.id] = true;
       });
       // assert no duplicate results
@@ -629,7 +708,7 @@ describe("Cross Partition", function() {
 
       // select unique ids
       const uniqueIds: any = {};
-      results.forEach(item => {
+      results.forEach((item) => {
         uniqueIds[item.id] = true;
       });
       // assert no duplicate results
@@ -722,7 +801,11 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate OrderBy Floating Point Number Query", async function() {
@@ -737,7 +820,11 @@ describe("Cross Partition", function() {
       });
 
       // validates the results size and order
-      await executeQueryAndValidateResults({ query, options, expectedOrderIds: expectedOrderedIds });
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds
+      });
     });
 
     it("Validate OrderBy Boolean Query", async function() {

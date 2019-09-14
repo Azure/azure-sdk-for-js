@@ -83,8 +83,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     // Make priority queue for documentProducers
     // The comparator is supplied by the derived class
-    this.orderByPQ = new PriorityQueue<DocumentProducer>((a: DocumentProducer, b: DocumentProducer) =>
-      this.documentProducerComparator(b, a)
+    this.orderByPQ = new PriorityQueue<DocumentProducer>(
+      (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a)
     );
     // Creating the documentProducers
     this.sem = semaphore(1);
@@ -101,9 +101,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           options.maxDegreeOfParallelism === 0 || options.maxDegreeOfParallelism === undefined
             ? 1
             : // use maximum parallelism if -1 (or less) is provided
-              options.maxDegreeOfParallelism > 0
-              ? Math.min(options.maxDegreeOfParallelism + 1, targetPartitionRanges.length)
-              : targetPartitionRanges.length;
+            options.maxDegreeOfParallelism > 0
+            ? Math.min(options.maxDegreeOfParallelism + 1, targetPartitionRanges.length)
+            : targetPartitionRanges.length;
 
         log.info(
           "Query starting against " +
@@ -153,7 +153,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         });
 
         // Fill up our priority queue with documentProducers
-        targetPartitionQueryExecutionContextList.forEach(documentProducer => {
+        targetPartitionQueryExecutionContextList.forEach((documentProducer) => {
           // has async callback
           const throttledFunc = async () => {
             try {
@@ -189,9 +189,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.sem.take(createDocumentProducersAndFillUpPriorityQueueFunc);
   }
 
-  protected abstract documentProducerComparator(dp1: DocumentProducer, dp2: DocumentProducer): number;
+  protected abstract documentProducerComparator(
+    dp1: DocumentProducer,
+    dp2: DocumentProducer
+  ): number;
   //                                          TODO: any                                TODO: any
-  public getPartitionKeyRangesForContinuation(suppliedCompositeContinuationToken: any, partitionKeyRanges: any) {
+  public getPartitionKeyRangesForContinuation(
+    suppliedCompositeContinuationToken: any,
+    partitionKeyRanges: any
+  ) {
     const startRange: any = {}; // TODO: any
     startRange[PARITIONKEYRANGE.MinInclusive] = suppliedCompositeContinuationToken.range.min;
     startRange[PARITIONKEYRANGE.MaxExclusive] = suppliedCompositeContinuationToken.range.max;
@@ -276,10 +282,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // Removing the invalid documentProducer from the orderByPQ
     const parentDocumentProducer = this.orderByPQ.deq();
     try {
-      const replacementPartitionKeyRanges: any[] = await this._getReplacementPartitionKeyRanges(parentDocumentProducer);
+      const replacementPartitionKeyRanges: any[] = await this._getReplacementPartitionKeyRanges(
+        parentDocumentProducer
+      );
       const replacementDocumentProducers: DocumentProducer[] = [];
       // Create the replacement documentProducers
-      replacementPartitionKeyRanges.forEach(partitionKeyRange => {
+      replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
         // Create replacment document producers with the parent's continuationToken
         const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
           partitionKeyRange,
@@ -462,7 +470,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               try {
                 const headItem = documentProducer.fetchResults[0];
                 if (typeof headItem === "undefined") {
-                  throw new Error("Extracted DocumentProducer from PQ is invalid state with no result!");
+                  throw new Error(
+                    "Extracted DocumentProducer from PQ is invalid state with no result!"
+                  );
                 }
                 this.orderByPQ.enq(documentProducer);
               } catch (e) {
@@ -549,13 +559,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns {Boolean} true if there is other elements to process in the ParallelQueryExecutionContextBase.
    */
   public hasMoreResults() {
-    return !(this.state === ParallelQueryExecutionContextBase.STATES.ended || this.err !== undefined);
+    return !(
+      this.state === ParallelQueryExecutionContextBase.STATES.ended || this.err !== undefined
+    );
   }
 
   /**
    * Creates document producers
    */
-  private _createTargetPartitionQueryExecutionContext(partitionKeyTargetRange: any, continuationToken?: any) {
+  private _createTargetPartitionQueryExecutionContext(
+    partitionKeyTargetRange: any,
+    continuationToken?: any
+  ) {
     // TODO: any
     // creates target partition range Query Execution Context
     let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo.rewrittenQuery;
@@ -575,6 +590,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const options = JSON.parse(JSON.stringify(this.options));
     options.continuationToken = continuationToken;
 
-    return new DocumentProducer(this.clientContext, this.collectionLink, query, partitionKeyTargetRange, options);
+    return new DocumentProducer(
+      this.clientContext,
+      this.collectionLink,
+      query,
+      partitionKeyTargetRange,
+      options
+    );
   }
 }

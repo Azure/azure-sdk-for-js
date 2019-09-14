@@ -4,7 +4,9 @@ import { Resource } from "../Resource";
 import { UserDefinedFunction } from "./UserDefinedFunction";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
 
-export class UserDefinedFunctionResponse extends ResourceResponse<UserDefinedFunctionDefinition & Resource> {
+export class UserDefinedFunctionResponse extends ResourceResponse<
+  UserDefinedFunctionDefinition & Resource
+> {
   constructor(
     resource: UserDefinedFunctionDefinition & Resource,
     headers: CosmosHeaders,

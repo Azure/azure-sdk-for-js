@@ -16,7 +16,7 @@ export class InMemoryCollectionRoutingMap {
    */
   constructor(orderedPartitionKeyRanges: any[], orderedPartitionInfo: any) {
     this.orderedPartitionKeyRanges = orderedPartitionKeyRanges;
-    this.orderedRanges = orderedPartitionKeyRanges.map(pkr => {
+    this.orderedRanges = orderedPartitionKeyRanges.map((pkr) => {
       return new QueryRange(
         pkr[Constants.PartitionKeyRange.MinInclusive],
         pkr[Constants.PartitionKeyRange.MaxExclusive],
@@ -31,15 +31,21 @@ export class InMemoryCollectionRoutingMap {
   }
 
   public getRangeByEffectivePartitionKey(effectivePartitionKeyValue: string) {
-    if (Constants.EffectiveParitionKeyConstants.MinimumInclusiveEffectivePartitionKey === effectivePartitionKeyValue) {
+    if (
+      Constants.EffectiveParitionKeyConstants.MinimumInclusiveEffectivePartitionKey ===
+      effectivePartitionKeyValue
+    ) {
       return this.orderedPartitionKeyRanges[0];
     }
 
-    if (Constants.EffectiveParitionKeyConstants.MaximumExclusiveEffectivePartitionKey === effectivePartitionKeyValue) {
+    if (
+      Constants.EffectiveParitionKeyConstants.MaximumExclusiveEffectivePartitionKey ===
+      effectivePartitionKeyValue
+    ) {
       return undefined;
     }
 
-    const sortedLow = this.orderedRanges.map(r => {
+    const sortedLow = this.orderedRanges.map((r) => {
       return { v: r.min, b: !r.isMinInclusive };
     });
 
@@ -50,7 +56,9 @@ export class InMemoryCollectionRoutingMap {
     );
     // that's an error
     if (index < 0) {
-      throw new Error("error in collection routing map, queried partition key is less than the start range.");
+      throw new Error(
+        "error in collection routing map, queried partition key is less than the start range."
+      );
     }
 
     return this.orderedPartitionKeyRanges[index];
@@ -74,12 +82,14 @@ export class InMemoryCollectionRoutingMap {
   }
 
   public getOverlappingRanges(providedQueryRanges: QueryRange | QueryRange[]) {
-    const pqr: QueryRange[] = Array.isArray(providedQueryRanges) ? providedQueryRanges : [providedQueryRanges];
+    const pqr: QueryRange[] = Array.isArray(providedQueryRanges)
+      ? providedQueryRanges
+      : [providedQueryRanges];
     const minToPartitionRange: any = {}; // TODO: any
-    const sortedLow = this.orderedRanges.map(r => {
+    const sortedLow = this.orderedRanges.map((r) => {
       return { v: r.min, b: !r.isMinInclusive };
     });
-    const sortedHigh = this.orderedRanges.map(r => {
+    const sortedHigh = this.orderedRanges.map((r) => {
       return { v: r.max, b: r.isMaxInclusive };
     });
 
@@ -95,7 +105,9 @@ export class InMemoryCollectionRoutingMap {
       );
 
       if (minIndex < 0) {
-        throw new Error("error in collection routing map, queried value is less than the start range.");
+        throw new Error(
+          "error in collection routing map, queried value is less than the start range."
+        );
       }
 
       const maxIndex = bs.ge(
@@ -104,7 +116,9 @@ export class InMemoryCollectionRoutingMap {
         InMemoryCollectionRoutingMap._vbCompareFunction
       );
       if (maxIndex > sortedHigh.length) {
-        throw new Error("error in collection routing map, queried value is greater than the end range.");
+        throw new Error(
+          "error in collection routing map, queried value is greater than the end range."
+        );
       }
 
       // the for loop doesn't invoke any async callback
@@ -117,10 +131,14 @@ export class InMemoryCollectionRoutingMap {
       }
     }
 
-    const overlappingPartitionKeyRanges = Object.keys(minToPartitionRange).map(k => minToPartitionRange[k]);
+    const overlappingPartitionKeyRanges = Object.keys(minToPartitionRange).map(
+      (k) => minToPartitionRange[k]
+    );
 
     return overlappingPartitionKeyRanges.sort((a, b) => {
-      return a[Constants.PartitionKeyRange.MinInclusive].localeCompare(b[Constants.PartitionKeyRange.MinInclusive]);
+      return a[Constants.PartitionKeyRange.MinInclusive].localeCompare(
+        b[Constants.PartitionKeyRange.MinInclusive]
+      );
     });
   }
 }
