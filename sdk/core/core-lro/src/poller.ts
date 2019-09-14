@@ -1,50 +1,42 @@
 import { delay, HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
-import events from "events";
+import { AbortSignal } from "@azure/abort-controller";
 import { LongRunningOperationStates, terminalStates } from "./utils/constants";
 
-export interface LongRunningOperationStateHistoryItem {
-  state: LongRunningOperationStates;
-  date: Date;
-}
-
 export interface PollerOptionalParameters {
-  automatic?: boolean;
-  millisecondInterval?: number;
+  abortSignal?: AbortSignal;
+  initialResponse?: HttpOperationResponse;
+  intervalInMs?: number;
+  manual?: boolean;
+  noInitialRequest?: boolean;
+  previousResponse?: HttpOperationResponse;
   requestOptions?: RequestOptionsBase;
-  responses?: HttpOperationResponse[];
   retries?: number;
-  startDate?: Date;
   state?: LongRunningOperationStates;
-  stateHistory?: LongRunningOperationStateHistoryItem[];
 }
 
-export abstract class Poller extends events.EventEmitter {
-  private readonly automatic: boolean;
-  private millisecondInterval: number = 1000;
-  private state: LongRunningOperationStates = "InProgress";
-  public finishDate: Date | undefined;
-  public forgotten: boolean = false;
-  public forgottenDate: Date | undefined;
-  public requestOptions: RequestOptionsBase | undefined;
-  public responses: HttpOperationResponse[] = [];
-  public retries: number = 0;
-  public startDate: Date | undefined;
-  public stateHistory: LongRunningOperationStateHistoryItem[] = [];
+export type PollerStateChangeSubscriber = (state?: LongRunningOperationStates, poller?: Poller) => void;
+
+export abstract class Poller {
+  private forgotten: boolean = false;
+  private intervalInMs: number = 1000;
+  private stateChangeSubscribers: PollerStateChangeSubscriber[] = [];
+  private initialResponse?: HttpOperationResponse;
+  protected readonly manual: boolean = false;
+  protected abortSignal?: AbortSignal;
+  protected previousResponse?: HttpOperationResponse;
+  protected requestOptions: RequestOptionsBase | undefined;
+  private _state: LongRunningOperationStates = "InProgress";
 
   constructor(options: PollerOptionalParameters) {
-    super();
-    this.automatic = typeof options.automatic === "boolean" ? options.automatic : false;
-    if (!isNaN(options.millisecondInterval!))
-      this.millisecondInterval = options.millisecondInterval!;
+    if (typeof options.manual === "boolean") this.manual = options.manual;
+    this.intervalInMs = Number(options.intervalInMs);
     this.requestOptions = options.requestOptions;
-    if (Array.isArray(options.responses)) this.responses = options.responses;
-    if (!isNaN(options.retries!)) this.retries = options.retries!;
-    if (options.startDate instanceof Date) this.startDate = options.startDate;
-    if (options.state) this.state = options.state;
-    if (Array.isArray(options.stateHistory)) this.stateHistory = options.stateHistory;
+    if (options.state) this._state = options.state;
+    if (this.manual || options.noInitialRequest) return;
+    this.initialRequest().then(() => this.poll());
   }
 
-  protected isFinished(state?: LongRunningOperationStates): boolean {
+  protected isDone(state?: LongRunningOperationStates): boolean {
     return this.forgotten || terminalStates.includes(state || this.state);
   }
 
@@ -53,72 +45,82 @@ export abstract class Poller extends events.EventEmitter {
   ): LongRunningOperationStates;
 
   protected processResponse(response: HttpOperationResponse): void {
-    this.responses.push(response);
-    this.setState(this.getStateFromResponse(response));
+    if (!this.initialResponse) this.initialResponse = response;
+    this.previousResponse = response;
+    this.state = this.getStateFromResponse(response);
   }
 
-  protected setState(newState: LongRunningOperationStates): void {
-    this.state = newState;
-    this.stateHistory.push({
-      state: newState,
-      date: new Date()
-    });
-    if (this.isFinished()) {
-      this.finishDate = new Date();
-    }
-    this.emit(newState, this);
-  }
+  protected abstract async initialRequest(options?: RequestOptionsBase): Promise<void>;
 
-  public getState(): LongRunningOperationStates {
-    return this.state;
-  }
+  protected abstract async sendRequest(options?: RequestOptionsBase): Promise<void>;
 
-  protected abstract async sendPollRequest(): Promise<void>;
-
-  public async retry(): Promise<void> {
-    if (this.automatic) throw new Error("Manual retries are disabled on an automatic poller");
-    this.retries += 1;
-    return this.sendPollRequest();
-  }
-
-  protected abstract getMillisecondInterval(): number;
-
-  public async startPolling(): Promise<void> {
-    this.poll();
-  }
+  public getInterval(): number {
+    return this.intervalInMs;
+  };
 
   protected async poll(): Promise<void> {
-    if (!this.automatic) return;
-    this.startDate = new Date();
-    while (!this.isFinished()) {
-      const interval: number = this.millisecondInterval || this.getMillisecondInterval();
+    if (this.manual) return;
+    while (!this.isDone()) {
+      const interval: number = this.intervalInMs || this.getInterval();
       await delay(interval);
-      this.retries += 1;
-      await this.sendPollRequest();
+      await this.sendRequest();
     }
   }
 
-  public pollUntilDone(): Promise<void> {
-    return new Promise((respond) => {
-      this.on("Succeeded", respond);
+  public abstract async cancel(options?: RequestOptionsBase): Promise<void>;
+
+  public set state(newState: LongRunningOperationStates) {
+    this._state = newState;
+    for (const subscriber of this.stateChangeSubscribers) {
+      subscriber(newState, this);
+    }
+  }
+
+  public get state(): LongRunningOperationStates {
+    return this._state;
+  }
+
+  public onStateChange(func: PollerStateChangeSubscriber): void {
+    this.stateChangeSubscribers.push(func);
+  }
+
+  public async retry(): Promise<void> {
+    if (!this.manual) throw new Error("Manual retries are disabled on this poller");
+    if (!this.initialResponse) await this.initialRequest();
+    return this.sendRequest();
+  }
+
+  public nextResponse(): Promise<HttpOperationResponse> {
+    return new Promise(resolve => {
+      this.onStateChange(() => {
+        resolve(this.previousResponse);
+      });
+    });
+  }
+ 
+  public done(): Promise<LongRunningOperationStates | undefined> {
+    return new Promise(resolve => {
+      this.onStateChange(state => {
+        if (this.isDone()) {
+          resolve(state);
+        }
+      });
     });
   }
 
   public forget(): void {
     this.forgotten = true;
-    this.forgottenDate = new Date();
   }
 
-  public serialize(): string {
-    return JSON.stringify({
-      automatic: this.automatic,
-      millisecondInterval: this.millisecondInterval,
+  public toJSON(): PollerOptionalParameters {
+    return {
+      abortSignal: this.abortSignal,
+      initialResponse: this.initialResponse,
+      intervalInMs: this.intervalInMs,
+      manual: this.manual,
+      previousResponse: this.previousResponse,
       requestOptions: this.requestOptions,
-      responses: this.responses,
-      retries: this.retries,
-      startDate: this.startDate,
       state: this.state,
-      stateHistory: this.stateHistory
-    });
+    };
   }
 }
