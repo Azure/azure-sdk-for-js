@@ -3,6 +3,7 @@ dependencies:
   '@azure/arm-servicebus': 3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/cosmos-sign': 1.0.2
+  '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
   '@azure/event-hubs': 2.1.1
   '@azure/logger-js': 1.3.2
   '@azure/ms-rest-js': 2.0.4
@@ -296,6 +297,21 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+y3EDcbSFuieOKqw9VyaX7D13LB4LycQIdmLwSqFnSUO0mWl+RBLCKW3RL6XiyWOHRV2sMNT9vwGzwiFZI70vQ==
+  /@azure/eslint-plugin-azure-sdk/2.0.1_9e8391ca70fb0408a9da4393803aa477:
+    dependencies:
+      '@typescript-eslint/parser': 2.0.0_eslint@6.2.1
+      eslint: 6.2.1
+      fast-levenshtein: 2.0.6
+      glob: 7.1.4
+      typescript: 3.6.3
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    peerDependencies:
+      '@typescript-eslint/parser': ^2.0.0
+      eslint: ^6.1.0
+    resolution:
+      integrity: sha512-HszGr6szVke1FOr07hy+JojKm36qh9n3IfYdehZRx7Wi19cY1EUmFq1PT5OasbNC/DoVqB3yx8Olfw4t5YBxVA==
   /@azure/event-hubs/2.1.1:
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
@@ -9838,6 +9854,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-lmQ4L+J6mnu3xweP8+rOrUwzmN+MRAj7TgtJtDaXE5PMyX2kCrklhg3rvOsOIfNeAWMQWO2F1GPc1kMD2vLAfw==
+  /typescript/3.6.3:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
   /uglify-js/3.6.0:
     dependencies:
       commander: 2.20.0
@@ -11020,6 +11043,7 @@ packages:
   'file:projects/cosmos.tgz_webpack@4.39.2':
     dependencies:
       '@azure/cosmos-sign': 1.0.2
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
       '@types/debug': 4.1.5
       '@types/fast-json-stable-stringify': 2.0.0
@@ -11087,7 +11111,7 @@ packages:
     peerDependencies:
       webpack: '*'
     resolution:
-      integrity: sha512-xV8UTlWFCDc+LwkakTOYk4k9WiacCGSBQU/f0sRUT53nlHJuanH6Rm0/8nAHMR8ft9xIqmaE3fhT2GsDnMasjg==
+      integrity: sha512-4IBTRY6qDU0+AWUE5+RicLZV9w84ddBYSgsmVH5dq0Lg3tdpU+PPR6/8gjX3BbKQ3NFttAy70xwwzTJYI93JXQ==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -11933,6 +11957,7 @@ specifiers:
   '@azure/arm-servicebus': ^3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/cosmos-sign': 1.0.2
+  '@azure/eslint-plugin-azure-sdk': ~2.0.1
   '@azure/event-hubs': ^2.1.1
   '@azure/logger-js': ^1.0.2
   '@azure/ms-rest-js': ^2.0.0
