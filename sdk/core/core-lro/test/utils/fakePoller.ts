@@ -25,6 +25,9 @@ export class FakePoller extends Poller {
       case 204:
         result = "Succeeded";
         break;
+      case 205:
+        result = "Cancelled";
+        break;
       default:
         result = "Failed";
         break;
@@ -34,6 +37,9 @@ export class FakePoller extends Poller {
 
   // Ignoring options?: RequestOptionsBase since we won't do a real API call here.
   public async cancel({}): Promise<void> {
+    this.processResponse({
+      status: 205
+    } as HttpOperationResponse);
     return;
   }
 
