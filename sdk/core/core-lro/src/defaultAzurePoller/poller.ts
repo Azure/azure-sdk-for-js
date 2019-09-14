@@ -1,21 +1,22 @@
 import {
   HttpOperationResponse,
+  RequestOptionsBase,
   RestError,
-  stripRequest,
+  ServiceClient,
   WebResource,
-  ServiceClient
+  stripRequest,
 } from "@azure/core-http";
 import {
   getAzureAsyncOperationHeaderValue,
+  getOperationResponse,
   getProvisioningState,
   getResponseBody,
-  getOperationResponse
 } from "./utils";
 import { Poller, PollerOptionalParameters, LongRunningOperationStates } from "../";
 
 export class DefaultAzurePoller extends Poller {
   private client: ServiceClient;
-  private initialRequest: WebResource;
+  private _initialRequest: WebResource;
 
   constructor(
     client: ServiceClient,
@@ -24,20 +25,19 @@ export class DefaultAzurePoller extends Poller {
   ) {
     super(options);
     this.client = client;
-    this.initialRequest = initialRequest;
+    this._initialRequest = initialRequest;
   }
 
-  public async startPolling(): Promise<void> {
-    const initialResponse = await this.client.sendRequest(this.initialRequest);
+  public async initialRequest(): Promise<void> {
+    const initialResponse = await this.client.sendRequest(this._initialRequest);
     const statusCode: number = initialResponse.status;
 
     if (getAzureAsyncOperationHeaderValue(initialResponse)) {
       this.processResponse(initialResponse);
-      this.poll();
     } else if (
       statusCode !== 201 &&
       statusCode !== 202 &&
-      !this.isFinished(this.getStateFromResponse(initialResponse))
+      !this.isDone(this.getStateFromResponse(initialResponse))
     ) {
       throw new Error("Can't determine long running operation polling strategy.");
     }
@@ -77,10 +77,9 @@ export class DefaultAzurePoller extends Poller {
     return result;
   }
 
-  protected getMillisecondInterval(): number {
+  public getInterval(): number {
     let delayInSeconds = 30;
-    const mostRecentResponse = this.responses[this.responses.length - 1];
-    const retryAfterHeaderValue: string | undefined = mostRecentResponse.headers.get("retry-after");
+    const retryAfterHeaderValue: string | undefined = this.previousResponse!.headers.get("retry-after");
     if (retryAfterHeaderValue) {
       const retryAfterDelayInSeconds: number = parseInt(retryAfterHeaderValue);
       if (!Number.isNaN(retryAfterDelayInSeconds)) {
@@ -90,20 +89,20 @@ export class DefaultAzurePoller extends Poller {
     return delayInSeconds * 1000;
   }
 
-  protected async sendPollRequest(): Promise<void> {
-    const mostRecentResponse = this.responses[this.responses.length - 1];
-    const headerUrl = getAzureAsyncOperationHeaderValue(mostRecentResponse) || "";
+  protected async sendRequest(options?: RequestOptionsBase): Promise<void> {
+    const headerUrl = getAzureAsyncOperationHeaderValue(this.previousResponse!) || "";
 
     const requestUrl: string = headerUrl.replace(" ", "%20");
     const httpRequest = new WebResource(requestUrl, "GET");
-    httpRequest.operationSpec = mostRecentResponse.request.operationSpec;
+    httpRequest.operationSpec = this.previousResponse!.request.operationSpec;
     httpRequest.shouldDeserialize = true;
     httpRequest.operationResponseGetter = getOperationResponse;
 
     const response = await this.client.sendRequest(httpRequest);
 
-    if (this.requestOptions && this.requestOptions.customHeaders) {
-      const customHeaders = this.requestOptions.customHeaders;
+    const requestOptions = options || this.requestOptions;
+    if (requestOptions && requestOptions.customHeaders) {
+      const customHeaders = requestOptions.customHeaders;
       for (const headerName of Object.keys(customHeaders)) {
         httpRequest.headers.set(headerName, customHeaders[headerName]);
       }
@@ -133,5 +132,10 @@ export class DefaultAzurePoller extends Poller {
     }
 
     this.processResponse(response);
+  }
+
+  // TODO
+  public async cancel({}): Promise<void> {
+    return;
   }
 }
