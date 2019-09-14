@@ -4,13 +4,13 @@ import {
   RestError,
   ServiceClient,
   WebResource,
-  stripRequest,
+  stripRequest
 } from "@azure/core-http";
 import {
   getAzureAsyncOperationHeaderValue,
   getOperationResponse,
   getProvisioningState,
-  getResponseBody,
+  getResponseBody
 } from "./utils";
 import { Poller, PollerOptionalParameters, LongRunningOperationStates } from "../";
 
@@ -79,7 +79,9 @@ export class DefaultAzurePoller extends Poller {
 
   public getInterval(): number {
     let delayInSeconds = 30;
-    const retryAfterHeaderValue: string | undefined = this.previousResponse!.headers.get("retry-after");
+    const retryAfterHeaderValue: string | undefined = this.previousResponse!.headers.get(
+      "retry-after"
+    );
     if (retryAfterHeaderValue) {
       const retryAfterDelayInSeconds: number = parseInt(retryAfterHeaderValue);
       if (!Number.isNaN(retryAfterDelayInSeconds)) {

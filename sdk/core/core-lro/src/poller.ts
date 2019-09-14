@@ -14,7 +14,10 @@ export interface PollerOptionalParameters {
   state?: LongRunningOperationStates;
 }
 
-export type PollerStateChangeSubscriber = (state?: LongRunningOperationStates, poller?: Poller) => void;
+export type PollerStateChangeSubscriber = (
+  state?: LongRunningOperationStates,
+  poller?: Poller
+) => void;
 
 export abstract class Poller {
   private forgotten: boolean = false;
@@ -56,7 +59,7 @@ export abstract class Poller {
 
   public getInterval(): number {
     return this.intervalInMs;
-  };
+  }
 
   protected async poll(): Promise<void> {
     if (this.manual) return;
@@ -91,16 +94,16 @@ export abstract class Poller {
   }
 
   public nextResponse(): Promise<HttpOperationResponse> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.onStateChange(() => {
         resolve(this.previousResponse);
       });
     });
   }
- 
+
   public done(): Promise<LongRunningOperationStates | undefined> {
-    return new Promise(resolve => {
-      this.onStateChange(state => {
+    return new Promise((resolve) => {
+      this.onStateChange((state) => {
         if (this.isDone()) {
           resolve(state);
         }
@@ -120,7 +123,7 @@ export abstract class Poller {
       manual: this.manual,
       previousResponse: this.previousResponse,
       requestOptions: this.requestOptions,
-      state: this.state,
+      state: this.state
     };
   }
 }
