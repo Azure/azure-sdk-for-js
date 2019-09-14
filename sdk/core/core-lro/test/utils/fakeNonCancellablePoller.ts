@@ -34,7 +34,7 @@ export class FakeNonCancellablePoller extends Poller {
 
   // Ignoring options?: RequestOptionsBase since we won't do a real API call here.
   public async cancel({}): Promise<void> {
-    throw new Error("This poller can't be cancelled");
+    throw new Error("Cancellation not supported");
   }
 
   protected async initialRequest(): Promise<void> {

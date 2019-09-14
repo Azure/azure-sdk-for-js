@@ -41,7 +41,15 @@ describe("Long Running Operations - custom client", function () {
     poller.forget();
   });
 
-  it.skip("shows how to handle a failing initialRequest", async function () {
+  it("shows how to handle a failing initialRequest", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    client.setResponses([{
+      ...basicResponseStructure,
+      status: 404,
+    }]);
+    const poller = await client.startLRO();
+    assert.equal(poller.state, "Failed");
+    poller.forget();
   });
 
   it("can wait until the operation has completed", async function () {
@@ -59,23 +67,39 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(poller.state, "Succeeded");
   });
 
-  // it("can cancel the operation (when cancellation is supported)", async function () {
-  //   // set up a cancel-friendly operation
-  //   const poller = client.beginCancellablePolling();
-  //   await poller.cancel();
-  // });
+  it("can cancel the operation (when cancellation is supported)", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    const responses = Array(20).fill({
+      ...basicResponseStructure,
+      status: 202,
+    });
+    client.setResponses(responses);
+    const poller = await client.startLRO();
+    assert.equal(poller.totalSentRequests, 1);
+    await delay(100);
+    assert.equal(poller.totalSentRequests, 10);
+    await poller.cancel({});
+    assert.equal(poller.state, "Cancelled");
+    poller.forget(); 
+  });
 
-  // it("fails to cancel the operation (when cancellation is not supported)", async function () {
-  //   // set up a cancel-unfriendly operation
-  //   const poller = client.beginUncancellablePolling();
-  //   let error: any;
-  //   try {
-  //     await poller.cancel();
-  //   } catch(e) {
-  //     error = e;
-  //   }
-  //   assert.equal(e.message, "Cancellation not supported");
-  // });
+  it("fails to cancel the operation (when cancellation is not supported)", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    const responses = Array(20).fill({
+      ...basicResponseStructure,
+      status: 202,
+    });
+    client.setResponses(responses);
+    const poller = await client.startNonCancellableLRO();
+    let error: any;
+    try {
+      await poller.cancel({});
+    } catch(e) {
+      error = e;
+    }
+    assert.equal(error.message, "Cancellation not supported");
+    poller.forget(); 
+  });
 
   it("allows polling to stop (forget to continue polling)", async function () {
     const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
