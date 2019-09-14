@@ -1,5 +1,6 @@
 import { CloseReason, PartitionManager } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
+import { LastEnqueuedEventInfo } from "./eventHubReceiver";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -59,6 +60,25 @@ export class PartitionProcessor {
   private _eventProcessorId: string | undefined;
   private _partitionId: string | undefined;
   private _eTag: string = "";
+  private _lastEnqueuedEventInfo: LastEnqueuedEventInfo | undefined;
+
+  /**
+   * @property The last enqueued event information. This property will only
+   * be enabled when `trackLastEnqueuedEventInfo` option is set to true when you create an instance of `EventProcessor`.
+   * @readonly
+   */
+  public get lastEnqueuedEventInfo(): LastEnqueuedEventInfo {
+    return this._lastEnqueuedEventInfo!;
+  }
+
+  /**
+   * @property The last enqueued event information. This property will only
+   * be enabled when `trackLastEnqueuedEventInfo` option is set to true when you create an instance of `EventProcessor`.
+   */
+  public set lastEnqueuedEventInfo(lastEnqueuedEventInfo: LastEnqueuedEventInfo) {
+    this._lastEnqueuedEventInfo = lastEnqueuedEventInfo;
+  }
+
   /**
    * @property The name of the consumer group from where the current partition is being processed. It is set by the `EventProcessor`
    * @readonly

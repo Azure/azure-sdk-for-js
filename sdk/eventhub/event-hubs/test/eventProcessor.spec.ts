@@ -860,4 +860,96 @@ describe("Event Processor", function(): void {
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
     });
   });
+
+  describe("with trackLastEnqueuedEventInfo", function(): void {
+    it("should have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to true", async function(): Promise<
+      void
+    > {
+      const producer = client.createProducer({ partitionId: "0" });
+      const events = [];
+      for (let index = 0; index < 10; index++) {
+        events.push({ body: `Hello world - ${index}` });
+      }
+      await producer.send(events);
+      await producer.close();
+
+      const receivedEvents: EventData[] = [];
+      class SimpleEventProcessor extends PartitionProcessor {
+        async processEvents(events: ReceivedEventData[]) {
+          for (const event of events) {
+            receivedEvents.push(event);
+            debug("Received event", event.body);
+          }
+          debug("Getting the partition information");
+          const patitionInfo = await client.getPartitionProperties(this.partitionId);
+          debug("partition info: ", patitionInfo);
+          should.exist(this.lastEnqueuedEventInfo);
+          this.lastEnqueuedEventInfo!.offset!.should.equal(patitionInfo.lastEnqueuedOffset);
+          this.lastEnqueuedEventInfo!.sequenceNumber!.should.equal(
+            patitionInfo.lastEnqueuedSequenceNumber
+          );
+          this.lastEnqueuedEventInfo!.enqueuedTime!.getTime().should.equal(
+            patitionInfo.lastEnqueuedTimeUtc.getTime()
+          );
+          this.lastEnqueuedEventInfo!.retrievalTime!.getTime().should.be.greaterThan(
+            Date.now() - 60000
+          );
+        }
+      }
+      const processor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        SimpleEventProcessor,
+        new InMemoryPartitionManager(),
+        {
+          trackLastEnqueuedEventInfo: true
+        }
+      );
+
+      processor.start();
+
+      while (receivedEvents.length === 0) {
+        await delay(1000);
+      }
+      await processor.stop();
+    });
+
+    it.only("should not have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to false", async function(): Promise<
+      void
+    > {
+      const producer = client.createProducer({ partitionId: "0" });
+      const events = [];
+      for (let index = 0; index < 5; index++) {
+        events.push({ body: `Hello world - ${index}` });
+      }
+      await producer.send(events);
+      await producer.close();
+
+      const receivedEvents: EventData[] = [];
+      class SimpleEventProcessor extends PartitionProcessor {
+        async processEvents(events: ReceivedEventData[]) {
+          for (const event of events) {
+            receivedEvents.push(event);
+            debug("Received event", event.body);
+          }
+          should.not.exist(this.lastEnqueuedEventInfo);
+        }
+      }
+      const processor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        SimpleEventProcessor,
+        new InMemoryPartitionManager(),
+        {
+          trackLastEnqueuedEventInfo: true
+        }
+      );
+      processor.start();
+
+      while (receivedEvents.length === 0) {
+        await delay(1000);
+      }
+      await processor.stop();
+    });
+  });
 }).timeout(90000);
