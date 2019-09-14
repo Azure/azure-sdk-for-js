@@ -3,7 +3,6 @@
 
 import * as log from "./log";
 import { EventProcessorOptions, CloseReason } from "./eventProcessor";
-import { PartitionContext } from "./partitionContext";
 import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
@@ -12,7 +11,6 @@ import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
 
 export class PartitionPump {
-  private _partitionContext: PartitionContext;
   private _eventHubClient: EventHubClient;
   private _partitionProcessor: PartitionProcessor;
   private _processorOptions: EventProcessorOptions;
@@ -23,14 +21,12 @@ export class PartitionPump {
 
   constructor(
     eventHubClient: EventHubClient,
-    partitionContext: PartitionContext,
     partitionProcessor: PartitionProcessor,
     initialEventPosition: EventPosition,
     options?: EventProcessorOptions
   ) {
     if (!options) options = {};
     this._eventHubClient = eventHubClient;
-    this._partitionContext = partitionContext;
     this._partitionProcessor = partitionProcessor;
     this._initialEventPosition = initialEventPosition;
     this._processorOptions = options;
@@ -44,17 +40,17 @@ export class PartitionPump {
   async start(): Promise<void> {
     this._isReceiving = true;
     try {
-      await this._partitionProcessor.initialize(this._partitionContext);
+      await this._partitionProcessor.initialize();
     } catch {
       // swallow the error from the user-defined code
     }
-    this._receiveEvents(this._partitionContext.partitionId);
+    this._receiveEvents(this._partitionProcessor.partitionId);
     log.partitionPump("Successfully started the receiver.");
   }
 
   private async _receiveEvents(partitionId: string): Promise<void> {
     this._receiver = this._eventHubClient.createConsumer(
-      this._partitionContext.consumerGroupName,
+      this._partitionProcessor.consumerGroupName,
       partitionId,
       this._initialEventPosition,
       { ownerLevel: 0 }
@@ -71,7 +67,7 @@ export class PartitionPump {
         if (!this._isReceiving) {
           return;
         }
-        await this._partitionProcessor.processEvents(receivedEvents, this._partitionContext);
+        await this._partitionProcessor.processEvents(receivedEvents);
       } catch (err) {
         // check if this pump is still receiving
         // it may not be if the EventProcessor was stopped during processEvents
@@ -82,7 +78,7 @@ export class PartitionPump {
 
         // forward error to user's processError and swallow errors they may throw
         try {
-          await this._partitionProcessor.processError(err, this._partitionContext);
+          await this._partitionProcessor.processError(err);
         } catch (err) {
           log.error("An error was thrown by user's processError method: ", err);
         }
@@ -96,10 +92,10 @@ export class PartitionPump {
               return await this.stop(CloseReason.OwnershipLost);
             }
             // this will close the pump and will break us out of the while loop
-            return await this.stop(CloseReason.EventHubException);
+            return await this.stop(CloseReason.Shutdown);
           } catch (err) {
             log.error(
-              `An error occurred while closing the receiver with reason ${CloseReason.EventHubException}: `,
+              `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
               err
             );
           }
@@ -115,7 +111,7 @@ export class PartitionPump {
         await this._receiver.close();
       }
       this._abortController.abort();
-      await this._partitionProcessor.close(reason, this._partitionContext);
+      await this._partitionProcessor.close(reason);
     } catch (err) {
       log.error("An error occurred while closing the receiver.", err);
       throw err;
