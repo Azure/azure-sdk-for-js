@@ -1,8 +1,8 @@
 import { HttpOperationResponse, WebResource, ServiceClient } from "@azure/core-http";
 import { LongRunningOperationStates, Poller, PollerOptionalParameters } from "../../src"
 
-export class FakePoller extends Poller {
-  private client?: ServiceClient;
+export class FakeNonCancellablePoller extends Poller {
+  private client: ServiceClient;
   public totalSentRequests: number = 0;
 
   constructor(client: ServiceClient, options: PollerOptionalParameters) {
@@ -34,15 +34,14 @@ export class FakePoller extends Poller {
 
   // Ignoring options?: RequestOptionsBase since we won't do a real API call here.
   public async cancel({}): Promise<void> {
-    return;
+    throw new Error("This poller can't be cancelled");
   }
 
   protected async initialRequest(): Promise<void> {
     return this.sendRequest();
   };
-
+ 
   protected async sendRequest(): Promise<void> {
-    if (!this.client) return;
     this.totalSentRequests++;
     const response = await this.client.sendRequest(new WebResource());
     this.processResponse(response);

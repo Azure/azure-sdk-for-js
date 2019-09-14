@@ -1,6 +1,7 @@
 import { HttpOperationResponse, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential } from "@azure/core-http";
-import { Poller, PollerOptionalParameters } from "../../src"
+import { PollerOptionalParameters } from "../../src"
 import { FakePoller } from "./fakePoller";
+import { FakeNonCancellablePoller } from "./fakeNonCancellablePoller";
 
 export class FakeClient extends ServiceClient {
   public responses: HttpOperationResponse[];
@@ -16,21 +17,32 @@ export class FakeClient extends ServiceClient {
     this.responses = responses;
   }
 
-  // Normally we would call client.sendRequest.
+  // Normally we would call this.client.sendRequest, from the ServiceClient class.
   public async sendRequest(): Promise<HttpOperationResponse> {
     return this.responses.shift()!;
   }
 
-  public async startLRO(options?: PollerOptionalParameters): Promise<Poller> {
+  public async startLRO(options?: PollerOptionalParameters): Promise<FakePoller> {
     const poller = new FakePoller(
       this,
       {
-        automatic: true,
-        millisecondInterval: 10,
+        manual: false,
+        intervalInMs: 10,
         ...options,
       }
     );
-    await poller.startPolling();
     return poller;
   } 
+
+  public async startNonCancellableLRO(options?: PollerOptionalParameters): Promise<FakeNonCancellablePoller> {
+    const poller = new FakeNonCancellablePoller(
+      this,
+      {
+        manual: false,
+        intervalInMs: 10,
+        ...options,
+      }
+    );
+    return poller;
+  }
 }
