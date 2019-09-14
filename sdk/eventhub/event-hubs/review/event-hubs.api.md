@@ -178,6 +178,7 @@ export class EventProcessor {
 export interface EventProcessorOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
+    trackLastEnqueuedEventInfo?: boolean;
 }
 
 // @public
@@ -230,6 +231,7 @@ export class PartitionProcessor {
     eventHubName: string;
     eventProcessorId: string;
     initialize(): Promise<void>;
+    lastEnqueuedEventInfo: LastEnqueuedEventInfo;
     partitionId: string;
     partitionManager: PartitionManager;
     processError(error: Error): Promise<void>;

@@ -53,7 +53,10 @@ export class PartitionPump {
       this._partitionProcessor.consumerGroupName,
       partitionId,
       this._initialEventPosition,
-      { ownerLevel: 0 }
+      {
+        ownerLevel: 0,
+        trackLastEnqueuedEventInfo: this._processorOptions.trackLastEnqueuedEventInfo
+      }
     );
 
     while (this._isReceiving) {
@@ -63,6 +66,12 @@ export class PartitionPump {
           this._processorOptions.maxWaitTimeInSeconds,
           this._abortController.signal
         );
+        if (
+          this._processorOptions.trackLastEnqueuedEventInfo &&
+          this._receiver.lastEnqueuedEventInfo
+        ) {
+          this._partitionProcessor.lastEnqueuedEventInfo = this._receiver.lastEnqueuedEventInfo;
+        }
         // avoid calling user's processEvents handler if the pump was stopped while receiving events
         if (!this._isReceiving) {
           return;
