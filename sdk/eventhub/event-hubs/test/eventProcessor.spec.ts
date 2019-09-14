@@ -914,7 +914,7 @@ describe("Event Processor", function(): void {
       await processor.stop();
     });
 
-    it.only("should not have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to false", async function(): Promise<
+    it("should not have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to false", async function(): Promise<
       void
     > {
       const producer = client.createProducer({ partitionId: "0" });

@@ -63,8 +63,9 @@ export class PartitionProcessor {
   private _lastEnqueuedEventInfo: LastEnqueuedEventInfo | undefined;
 
   /**
-   * @property The last enqueued event information. This property will only
-   * be enabled when `trackLastEnqueuedEventInfo` option is set to true when you create an instance of `EventProcessor`.
+   * @property Information on the last enqueued event in the partition that is being processed.
+   * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventInfo` option is set to true
+   * when creating an instance of EventProcessor
    * @readonly
    */
   public get lastEnqueuedEventInfo(): LastEnqueuedEventInfo {
@@ -72,8 +73,9 @@ export class PartitionProcessor {
   }
 
   /**
-   * @property The last enqueued event information. This property will only
-   * be enabled when `trackLastEnqueuedEventInfo` option is set to true when you create an instance of `EventProcessor`.
+   * @property Information on the last enqueued event in the partition that is being processed.
+   * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventInfo` option is set to true
+   * when creating an instance of EventProcessor
    */
   public set lastEnqueuedEventInfo(lastEnqueuedEventInfo: LastEnqueuedEventInfo) {
     this._lastEnqueuedEventInfo = lastEnqueuedEventInfo;
