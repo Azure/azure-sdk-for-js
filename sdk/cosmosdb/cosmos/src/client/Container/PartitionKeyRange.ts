@@ -1,6 +1,8 @@
 /**
  * @ignore
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export interface PartitionKeyRange {
   id: string;
   minInclusive: string;

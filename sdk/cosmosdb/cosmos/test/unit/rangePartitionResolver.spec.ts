@@ -1,4 +1,6 @@
-﻿import assert from "assert";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import assert from "assert";
 import { Range, RangePartitionResolver } from "../../dist-esm/range";
 import { CompareFunction } from "../../dist-esm/range";
 

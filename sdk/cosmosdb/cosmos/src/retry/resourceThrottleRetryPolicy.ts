@@ -1,4 +1,6 @@
-﻿import { ErrorResponse } from "../request";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { ErrorResponse } from "../request";
 
 /**
  * This class implements the resource throttle retry policy for requests.

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export interface StoredProcedureDefinition {
   /**
    * The id of the {@link StoredProcedure}.

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { Container, ContainerDefinition, Database } from "../../dist-esm/client";
 import { DataType, IndexKind } from "../../dist-esm/documents";
@@ -221,7 +223,7 @@ describe("Aggregate Query", function() {
 
     aggregateSinglePartitionConfigs.forEach(function({ operator, expected }) {
       const query = `SELECT VALUE ${operator}(r.${testdata.field}) FROM r WHERE r.${partitionKey} = '${uniquePartitionKey}'`;
-      let testName = `${operator} SinglePartition SELECT VALUE`;
+      const testName = `${operator} SinglePartition SELECT VALUE`;
       testConfigs.push({
         testName,
         query,

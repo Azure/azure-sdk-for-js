@@ -1,6 +1,8 @@
 /**
  * @ignore
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export const Constants = {
   MediaTypes: {
     Any: "*/*",

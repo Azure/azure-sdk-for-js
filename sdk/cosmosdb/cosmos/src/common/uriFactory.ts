@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "./constants";
 import { trimSlashFromLeftAndRight, validateResourceId } from "./helper";
 

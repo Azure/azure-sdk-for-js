@@ -1,4 +1,6 @@
-﻿import * as http from "http";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import * as http from "http";
 import * as net from "net";
 import { URL } from "url";
 import ProxyAgent from "proxy-agent";

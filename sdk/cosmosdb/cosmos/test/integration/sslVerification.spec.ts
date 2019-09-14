@@ -1,4 +1,6 @@
-﻿import assert from "assert";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import assert from "assert";
 import { CosmosClient } from "../../dist-esm";
 import { getTestDatabase } from "../common/TestHelpers";
 import https from "https";

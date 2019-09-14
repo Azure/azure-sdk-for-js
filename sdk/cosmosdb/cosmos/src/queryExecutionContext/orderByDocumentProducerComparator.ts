@@ -1,4 +1,6 @@
-﻿import { DocumentProducer } from "./documentProducer";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { DocumentProducer } from "./documentProducer";
 
 // TODO: this smells funny
 /** @hidden */
