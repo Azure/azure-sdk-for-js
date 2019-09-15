@@ -7,6 +7,7 @@ import * as constants from "constants";
 import { isNode } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { CryptographyClient, Key, KeysClient } from "../src";
+import { convertJWKtoPEM } from "../src/cryptographyClient";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { isRecording } from "./utils/recorderUtils";
@@ -34,7 +35,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     recorder = authentication.recorder;
     testClient = authentication.testClient;
     credential = authentication.credential;
-    keyName = testClient.formatName("cryptography-client-test");
+    keyName = testClient.formatName("cryptography-client-test6");
     key = await client.createKey(keyName, "RSA");
     keyVaultUrl = key.vaultUrl;
     keyUrl = key.keyMaterial!.kid as string;
@@ -60,7 +61,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   });
 
   if (isRecording) {
-    it("encrypt & decrypt with RSA1_5", async function() {
+    it.only("encrypt & decrypt with RSA1_5", async function() {
       const text = this.test!.title;
       const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
       const decryptResult = await cryptoClient.decrypt("RSA1_5", encryptResult.result);
@@ -72,7 +73,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function() {
         const text = this.test!.title;
         const key = await cryptoClient.getKey();
-        const keyPEM = keyto.from(key, "jwk").toString("pem", "public_pkcs1");
+        const keyPEM = convertJWKtoPEM(key);
         const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
         const encrypted = crypto.publicEncrypt(padded, Buffer.from(text));
         const decryptResult = await cryptoClient.decrypt("RSA1_5", encrypted);
@@ -94,7 +95,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         const text = this.test!.title;
         const key = await cryptoClient.getKey();
         // Encrypting outside the client since the client will intentionally
-        const keyPEM = keyto.from(key, "jwk").toString("pem", "public_pkcs1");
+        const keyPEM = convertJWKtoPEM(key);
         const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(text));
         const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encrypted);
         const decryptedText = uint8ArrayToString(decryptResult.result);
