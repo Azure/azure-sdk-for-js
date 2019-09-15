@@ -45,16 +45,7 @@ export class AadTokenProvider implements TokenProvider {
       | DeviceTokenCredentials
       | MSITokenCredentials
   ) {
-    if (
-      !credentials ||
-      (credentials &&
-        !(
-          credentials instanceof ApplicationTokenCredentials ||
-          credentials instanceof UserTokenCredentials ||
-          credentials instanceof DeviceTokenCredentials ||
-          credentials instanceof MSITokenCredentials
-        ))
-    ) {
+    if (!credentials || typeof credentials.getToken !== "function" ) {
       throw new TypeError(
         "'credentials' is a required parameter and must be an instance of " +
           "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials."
