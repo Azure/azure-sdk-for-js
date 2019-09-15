@@ -141,3 +141,4 @@
 | [`@azure/storage-datalake`]( sdk/storage/storage-datalake/package.json )| [Readme](sdk/storage/storage-datalake/README.md) |  N/A  | [NPM]( https://www.npmjs.com/package/@azure/storage-datalake ) |
 | [`@azure/storage-file`]( sdk/storage/storage-file/package.json )| [Readme](sdk/storage/storage-file/README.md) | [Changelog](sdk/storage/storage-file/ChangeLog.md) | [NPM]( https://www.npmjs.com/package/@azure/storage-file ) |
 | [`@azure/storage-queue`]( sdk/storage/storage-queue/package.json )| [Readme](sdk/storage/storage-queue/README.md) | [Changelog](sdk/storage/storage-queue/ChangeLog.md) | [NPM]( https://www.npmjs.com/package/@azure/storage-queue ) |
+| [`@azure/amqp-common`]( sdk/core/amqp-common/package.json )| [Readme](sdk/core/amqp-common/README.md) | [Changelog](sdk/core/amqp-common/Changelog.md) |  N/A  |
