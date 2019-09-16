@@ -13,7 +13,7 @@ import { PartitionOwnership } from '@azure/event-hubs';
 export class BlobPartitionManager implements PartitionManager {
     constructor(containerClient: ContainerClient);
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 

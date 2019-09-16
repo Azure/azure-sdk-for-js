@@ -15,6 +15,11 @@ import { LastEnqueuedEventInfo } from "./eventHubReceiver";
  **/
 export interface Checkpoint {
   /**
+   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   */
+  fullyQualifiedNamespace: string;
+  /**
    * @property The event hub name
    */
   eventHubName: string;
@@ -56,6 +61,7 @@ export interface Checkpoint {
 export class PartitionProcessor {
   private _partitionManager: PartitionManager | undefined;
   private _consumerGroupName: string | undefined;
+  private _fullyQualifiedNamespace: string | undefined;
   private _eventHubName: string | undefined;
   private _eventProcessorId: string | undefined;
   private _partitionId: string | undefined;
@@ -79,6 +85,23 @@ export class PartitionProcessor {
    */
   public set lastEnqueuedEventInfo(lastEnqueuedEventInfo: LastEnqueuedEventInfo) {
     this._lastEnqueuedEventInfo = lastEnqueuedEventInfo;
+  }
+
+  /**
+   * @property The fully qualified namespace from where the current partition is being processed. It is set by the `EventProcessor`
+   * @readonly
+   */
+  public get fullyQualifiedNamespace() {
+    return this._consumerGroupName!;
+  }
+
+  /**
+   * @property The fully qualified namespace from where the current partition is being processed. It is set by the `EventProcessor`
+   */
+  public set fullyQualifiedNamespace(fullyQualifiedNamespace: string) {
+    if (!this._fullyQualifiedNamespace) {
+      this._fullyQualifiedNamespace = fullyQualifiedNamespace;
+    }
   }
 
   /**
@@ -210,6 +233,7 @@ export class PartitionProcessor {
     offset?: number
   ): Promise<void> {
     const checkpoint: Checkpoint = {
+      fullyQualifiedNamespace: this._fullyQualifiedNamespace!,
       eventHubName: this._eventHubName!,
       consumerGroupName: this._consumerGroupName!,
       ownerId: this._eventProcessorId!,

@@ -515,6 +515,7 @@ describe("Event Processor", function(): void {
     > {
       const inMemoryPartitionManager = new InMemoryPartitionManager();
       const partitionOwnership1: PartitionOwnership = {
+        fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
         ownerId: generate_uuid(),
@@ -522,6 +523,7 @@ describe("Event Processor", function(): void {
         ownerLevel: 10
       };
       const partitionOwnership2: PartitionOwnership = {
+        fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
         ownerId: generate_uuid(),
@@ -534,12 +536,14 @@ describe("Event Processor", function(): void {
       ]);
       partitionOwnership.length.should.equals(2);
       const ownershiplist = await inMemoryPartitionManager.listOwnership(
+        "myNamespace.servicebus.windows.net",
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
       );
       ownershiplist.length.should.equals(2);
 
       const checkpoint: Checkpoint = {
+        fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
         eventHubName: "myEventHub",
         consumerGroupName: EventHubClient.defaultConsumerGroupName,
         ownerId: generate_uuid(),
@@ -551,12 +555,20 @@ describe("Event Processor", function(): void {
 
       await inMemoryPartitionManager.updateCheckpoint(checkpoint);
       const partitionOwnershipList = await inMemoryPartitionManager.listOwnership(
+        "myNamespace.servicebus.windows.net",
         "myEventHub",
         EventHubClient.defaultConsumerGroupName
       );
       partitionOwnershipList[0].partitionId.should.equals(checkpoint.partitionId);
       partitionOwnershipList[0].sequenceNumber!.should.equals(checkpoint.sequenceNumber);
       partitionOwnershipList[0].offset!.should.equals(checkpoint.offset);
+      partitionOwnershipList[0].fullyQualifiedNamespace!.should.equals(
+        "myNamespace.servicebus.windows.net"
+      );
+      partitionOwnershipList[0].eventHubName!.should.equals("myEventHub");
+      partitionOwnershipList[0].consumerGroupName!.should.equals(
+        EventHubClient.defaultConsumerGroupName
+      );
     });
 
     it("should receive events from the checkpoint", async function(): Promise<void> {
@@ -761,6 +773,7 @@ describe("Event Processor", function(): void {
       const partitionOwnershipMap: Map<string, string[]> = new Map();
 
       const partitionOwnership = await partitionManager.listOwnership(
+        client.fullyQualifiedNamespace,
         client.eventHubName,
         EventHubClient.defaultConsumerGroupName
       );
@@ -841,6 +854,7 @@ describe("Event Processor", function(): void {
       const partitionOwnershipMap: Map<string, string[]> = new Map();
 
       const partitionOwnership = await partitionManager.listOwnership(
+        client.fullyQualifiedNamespace,
         client.eventHubName,
         EventHubClient.defaultConsumerGroupName
       );
