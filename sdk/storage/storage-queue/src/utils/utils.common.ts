@@ -118,7 +118,7 @@ export interface ConnString {
   kind: "AccountConnString" | "SASConnString";
   url: string;
   accountName?: string;
-  accountKey?: Buffer;
+  accountKey?: any;
   accountSas?: string;
   proxyUri?: string; // Development Connection String may contain proxyUri
 }

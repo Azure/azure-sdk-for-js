@@ -156,11 +156,14 @@ export class QueueServiceClient extends StorageClient {
     connectionString: string,
     options?: NewPipelineOptions
   ): QueueServiceClient {
+    if (!options) {
+      options = {};
+    }
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
         const sharedKeyCredential = new SharedKeyCredential(
-          extractedCreds.accountName,
+          extractedCreds.accountName!,
           extractedCreds.accountKey
         );
 
