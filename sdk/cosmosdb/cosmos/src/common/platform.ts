@@ -1,4 +1,4 @@
-﻿import userAgent from "universal-user-agent";
+﻿import { getUserAgent as userAgent } from "universal-user-agent";
 import { Constants } from "./constants";
 
 /**
