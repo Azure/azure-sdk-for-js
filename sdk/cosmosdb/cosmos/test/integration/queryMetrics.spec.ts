@@ -45,16 +45,28 @@ describe("QueryMetrics", function() {
     outputDocumentSize,
     indexUtilizationRatio * retrievedDocumentCount,
     totalQueryExecutionTime,
-    new QueryPreparationTimes(queryCompilationTime, logicalPlanBuildTime, physicalPlanBuildTime, queryOptimizationTime),
+    new QueryPreparationTimes(
+      queryCompilationTime,
+      logicalPlanBuildTime,
+      physicalPlanBuildTime,
+      queryOptimizationTime
+    ),
     indexLookupTime,
     documentLoadTime,
     vmExecutionTime,
-    new RuntimeExecutionTimes(queryEngineExecutionTime, systemFunctionExecutionTime, userDefinedFunctionExecutionTime),
+    new RuntimeExecutionTimes(
+      queryEngineExecutionTime,
+      systemFunctionExecutionTime,
+      userDefinedFunctionExecutionTime
+    ),
     documentWriteTime,
     new ClientSideMetrics(requestCharge)
   );
 
-  const assertQueryMetricsEquality = function(queryMetrics1: QueryMetrics, queryMetrics2: QueryMetrics) {
+  const assertQueryMetricsEquality = function(
+    queryMetrics1: QueryMetrics,
+    queryMetrics2: QueryMetrics
+  ) {
     assert.deepEqual(queryMetrics1.indexHitRatio, queryMetrics2.indexHitRatio);
     assert.deepEqual(queryMetrics1.outputDocumentCount, queryMetrics2.outputDocumentCount);
     assert.deepEqual(queryMetrics1.outputDocumentSize, queryMetrics2.outputDocumentSize);
@@ -97,7 +109,10 @@ describe("QueryMetrics", function() {
       queryMetrics2.runtimeExecutionTimes.userDefinedFunctionExecutionTime
     );
 
-    assert.deepEqual(queryMetrics1.clientSideMetrics.requestCharge, queryMetrics2.clientSideMetrics.requestCharge);
+    assert.deepEqual(
+      queryMetrics1.clientSideMetrics.requestCharge,
+      queryMetrics2.clientSideMetrics.requestCharge
+    );
   };
 
   it("Can Be Cloned", function() {
@@ -128,22 +143,42 @@ describe("QueryMetrics", function() {
     const doubleOutputDocumentCount = outputDocumentCount * 2;
     const doubleOutputDocumentSize = outputDocumentSize * 2;
     const doubleIndexHitCount = indexUtilizationRatio * retrievedDocumentCount * 2;
-    const doubleTotalQueryExecutionTime = TimeSpan.fromMilliseconds(totalQueryExecutionTime.totalMilliseconds() * 2);
-    const doubleQueryCompilationTime = TimeSpan.fromMilliseconds(queryCompilationTime.totalMilliseconds() * 2);
-    const doubleLogicalPlanBuildTime = TimeSpan.fromMilliseconds(logicalPlanBuildTime.totalMilliseconds() * 2);
-    const doublePhysicalPlanBuildTime = TimeSpan.fromMilliseconds(physicalPlanBuildTime.totalMilliseconds() * 2);
-    const doubleIndexLookupTime = TimeSpan.fromMilliseconds(indexLookupTime.totalMilliseconds() * 2);
-    const doubleDocumentLoadTime = TimeSpan.fromMilliseconds(documentLoadTime.totalMilliseconds() * 2);
-    const doubleVMExecutionTime = TimeSpan.fromMilliseconds(vmExecutionTime.totalMilliseconds() * 2);
-    const doubleQueryOptimizationTime = TimeSpan.fromMilliseconds(queryOptimizationTime.totalMilliseconds() * 2);
-    const doubleQueryEngineExecutionTime = TimeSpan.fromMilliseconds(queryEngineExecutionTime.totalMilliseconds() * 2);
+    const doubleTotalQueryExecutionTime = TimeSpan.fromMilliseconds(
+      totalQueryExecutionTime.totalMilliseconds() * 2
+    );
+    const doubleQueryCompilationTime = TimeSpan.fromMilliseconds(
+      queryCompilationTime.totalMilliseconds() * 2
+    );
+    const doubleLogicalPlanBuildTime = TimeSpan.fromMilliseconds(
+      logicalPlanBuildTime.totalMilliseconds() * 2
+    );
+    const doublePhysicalPlanBuildTime = TimeSpan.fromMilliseconds(
+      physicalPlanBuildTime.totalMilliseconds() * 2
+    );
+    const doubleIndexLookupTime = TimeSpan.fromMilliseconds(
+      indexLookupTime.totalMilliseconds() * 2
+    );
+    const doubleDocumentLoadTime = TimeSpan.fromMilliseconds(
+      documentLoadTime.totalMilliseconds() * 2
+    );
+    const doubleVMExecutionTime = TimeSpan.fromMilliseconds(
+      vmExecutionTime.totalMilliseconds() * 2
+    );
+    const doubleQueryOptimizationTime = TimeSpan.fromMilliseconds(
+      queryOptimizationTime.totalMilliseconds() * 2
+    );
+    const doubleQueryEngineExecutionTime = TimeSpan.fromMilliseconds(
+      queryEngineExecutionTime.totalMilliseconds() * 2
+    );
     const doubleSystemFunctionExecutionTime = TimeSpan.fromMilliseconds(
       systemFunctionExecutionTime.totalMilliseconds() * 2
     );
     const doubleUserDefinedFunctionExecutionTime = TimeSpan.fromMilliseconds(
       userDefinedFunctionExecutionTime.totalMilliseconds() * 2
     );
-    const doubleDocumentWriteTime = TimeSpan.fromMilliseconds(documentWriteTime.totalMilliseconds() * 2);
+    const doubleDocumentWriteTime = TimeSpan.fromMilliseconds(
+      documentWriteTime.totalMilliseconds() * 2
+    );
     const doubleRequestCharge = requestCharge * 2;
 
     const expectedQueryMetrics = new QueryMetrics(

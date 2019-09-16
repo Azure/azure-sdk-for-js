@@ -90,7 +90,12 @@ export class UserDefinedFunction {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete({ path, resourceType: ResourceType.udf, resourceId: id, options });
+    const response = await this.clientContext.delete({
+      path,
+      resourceType: ResourceType.udf,
+      resourceId: id,
+      options
+    });
     return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
   }
 }

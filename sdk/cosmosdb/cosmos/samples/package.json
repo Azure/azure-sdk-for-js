@@ -14,6 +14,6 @@
     "IndexManagement": "npx ts-node ./IndexManagement",
     "ChangeFeed": "npx ts-node ./ChangeFeed",
     "BulkUpdateWithSproc": "npx ts-node ./BulkUpdateWithSproc",
-    "all-samples": "npm run ContainerManagement && npm run UserManagement && npm run ServerSideScripts && npm run ItemManagement && npm run DatabaseManagement && npm run ChangeFeed && npm run BulkUpdateWithSproc"
+    "all-samples": "npm run ContainerManagement && npm run UserManagement && npm run ServerSideScripts && npm run DatabaseManagement && npm run ChangeFeed && npm run BulkUpdateWithSproc"
   }
 }

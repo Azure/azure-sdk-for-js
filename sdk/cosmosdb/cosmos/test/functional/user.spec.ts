@@ -18,7 +18,12 @@ describe("NodeJS CRUD Tests", function() {
       const beforeCreateCount = users.length;
 
       // create user
-      const { resource: userDef } = await createOrUpsertUser(database, { id: "new user" }, undefined, isUpsertTest);
+      const { resource: userDef } = await createOrUpsertUser(
+        database,
+        { id: "new user" },
+        undefined,
+        isUpsertTest
+      );
       assert.equal(userDef.id, "new user", "user name error");
       let user = database.user(userDef.id);
 

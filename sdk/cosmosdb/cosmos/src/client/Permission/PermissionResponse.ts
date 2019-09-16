@@ -5,7 +5,9 @@ import { Permission } from "./Permission";
 import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
 
-export class PermissionResponse extends ResourceResponse<PermissionDefinition & PermissionBody & Resource> {
+export class PermissionResponse extends ResourceResponse<
+  PermissionDefinition & PermissionBody & Resource
+> {
   constructor(
     resource: PermissionDefinition & PermissionBody & Resource,
     headers: CosmosHeaders,

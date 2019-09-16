@@ -26,8 +26,12 @@ export class QueryPreparationTimes {
 
       queryCompilationTime = queryCompilationTime.add(queryPreparationTimes.queryCompilationTime);
       logicalPlanBuildTime = logicalPlanBuildTime.add(queryPreparationTimes.logicalPlanBuildTime);
-      physicalPlanBuildTime = physicalPlanBuildTime.add(queryPreparationTimes.physicalPlanBuildTime);
-      queryOptimizationTime = queryOptimizationTime.add(queryPreparationTimes.queryOptimizationTime);
+      physicalPlanBuildTime = physicalPlanBuildTime.add(
+        queryPreparationTimes.physicalPlanBuildTime
+      );
+      queryOptimizationTime = queryOptimizationTime.add(
+        queryPreparationTimes.queryOptimizationTime
+      );
     }
 
     return new QueryPreparationTimes(
@@ -43,14 +47,27 @@ export class QueryPreparationTimes {
    */
   public toDelimitedString() {
     return (
-      `${QueryMetricsConstants.QueryCompileTimeInMs}=${this.queryCompilationTime.totalMilliseconds()};` +
-      `${QueryMetricsConstants.LogicalPlanBuildTimeInMs}=${this.logicalPlanBuildTime.totalMilliseconds()};` +
-      `${QueryMetricsConstants.PhysicalPlanBuildTimeInMs}=${this.physicalPlanBuildTime.totalMilliseconds()};` +
-      `${QueryMetricsConstants.QueryOptimizationTimeInMs}=${this.queryOptimizationTime.totalMilliseconds()}`
+      `${
+        QueryMetricsConstants.QueryCompileTimeInMs
+      }=${this.queryCompilationTime.totalMilliseconds()};` +
+      `${
+        QueryMetricsConstants.LogicalPlanBuildTimeInMs
+      }=${this.logicalPlanBuildTime.totalMilliseconds()};` +
+      `${
+        QueryMetricsConstants.PhysicalPlanBuildTimeInMs
+      }=${this.physicalPlanBuildTime.totalMilliseconds()};` +
+      `${
+        QueryMetricsConstants.QueryOptimizationTimeInMs
+      }=${this.queryOptimizationTime.totalMilliseconds()}`
     );
   }
 
-  public static readonly zero = new QueryPreparationTimes(TimeSpan.zero, TimeSpan.zero, TimeSpan.zero, TimeSpan.zero);
+  public static readonly zero = new QueryPreparationTimes(
+    TimeSpan.zero,
+    TimeSpan.zero,
+    TimeSpan.zero,
+    TimeSpan.zero
+  );
 
   /**
    * Returns a new instance of the QueryPreparationTimes class that is the

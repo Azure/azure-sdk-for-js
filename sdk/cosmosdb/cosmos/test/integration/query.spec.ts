@@ -60,7 +60,12 @@ describe("Test Query Metrics", function() {
       const queryIterator = createdContainer.items.query(query, queryOptions);
 
       while (queryIterator.hasMoreResults()) {
-        const { resources: results, queryMetrics, activityId, requestCharge } = await queryIterator.fetchNext();
+        const {
+          resources: results,
+          queryMetrics,
+          activityId,
+          requestCharge
+        } = await queryIterator.fetchNext();
         assert(activityId, "activityId must exist");
         assert(requestCharge, "requestCharge must exist");
 

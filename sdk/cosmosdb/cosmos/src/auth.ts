@@ -45,7 +45,13 @@ export async function setAuthorizationHeader(
   }
 
   if (clientOptions.key) {
-    setAuthorizationTokenHeaderUsingMasterKey(verb, resourceId, resourceType, headers, clientOptions.key);
+    setAuthorizationTokenHeaderUsingMasterKey(
+      verb,
+      resourceId,
+      resourceType,
+      headers,
+      clientOptions.key
+    );
   } else if (clientOptions.resourceTokens) {
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
       getAuthorizationTokenUsingResourceTokens(clientOptions.resourceTokens, path, resourceId)

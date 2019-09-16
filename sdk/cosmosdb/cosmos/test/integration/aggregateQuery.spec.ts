@@ -93,8 +93,15 @@ describe("Aggregate Query", function() {
         assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
       } else {
         // no more results
-        assert.equal(expectedResults.length, totalFetchedResults.length, "executeNext: didn't fetch all the results");
-        assert(results.length <= pageSize, "executeNext: actual fetch size is more than the requested page size");
+        assert.equal(
+          expectedResults.length,
+          totalFetchedResults.length,
+          "executeNext: didn't fetch all the results"
+        );
+        assert(
+          results.length <= pageSize,
+          "executeNext: actual fetch size is more than the requested page size"
+        );
       }
     }
 
@@ -104,14 +111,18 @@ describe("Aggregate Query", function() {
 
     assert(totalExecuteNextRequestCharge > 0);
     const percentDifference =
-      Math.abs(fetchAllRequestCharge - totalExecuteNextRequestCharge) / totalExecuteNextRequestCharge;
+      Math.abs(fetchAllRequestCharge - totalExecuteNextRequestCharge) /
+      totalExecuteNextRequestCharge;
     assert(
       percentDifference <= 0.01,
       "difference between fetchAll request charge and executeNext request charge should be less than 1%"
     );
   };
 
-  const ValidateAsyncIterator = async function(queryIterator: QueryIterator<any>, expectedResults: any[]) {
+  const ValidateAsyncIterator = async function(
+    queryIterator: QueryIterator<any>,
+    expectedResults: any[]
+  ) {
     const results: any[] = [];
     let completed = false;
     // forEach uses callbacks still, so just wrap in a promise
@@ -127,13 +138,21 @@ describe("Aggregate Query", function() {
     validateResult(results, expectedResults);
   };
 
-  const executeQueryAndValidateResults = async function(query: string | SqlQuerySpec, expectedResults: any[]) {
+  const executeQueryAndValidateResults = async function(
+    query: string | SqlQuerySpec,
+    expectedResults: any[]
+  ) {
     const options: FeedOptions = { maxDegreeOfParallelism: 2, maxItemCount: 1 };
 
     const queryIterator = container.items.query(query, options);
     const fetchAllRequestCharge = await validateFetchAll(queryIterator, expectedResults);
     queryIterator.reset();
-    await validateExecuteNextAndHasMoreResults(queryIterator, options, expectedResults, fetchAllRequestCharge);
+    await validateExecuteNextAndHasMoreResults(
+      queryIterator,
+      options,
+      expectedResults,
+      fetchAllRequestCharge
+    );
     queryIterator.reset();
     await ValidateAsyncIterator(queryIterator, expectedResults);
   };
@@ -180,7 +199,9 @@ describe("Aggregate Query", function() {
     });
 
     const samePartitionSum =
-      (testdata.numberOfDocsWithSamePartitionKey * (testdata.numberOfDocsWithSamePartitionKey + 1)) / 2.0;
+      (testdata.numberOfDocsWithSamePartitionKey *
+        (testdata.numberOfDocsWithSamePartitionKey + 1)) /
+      2.0;
     const aggregateSinglePartitionConfigs = [
       {
         operator: "AVG",
@@ -199,9 +220,7 @@ describe("Aggregate Query", function() {
     ];
 
     aggregateSinglePartitionConfigs.forEach(function({ operator, expected }) {
-      const query = `SELECT VALUE ${operator}(r.${
-        testdata.field
-      }) FROM r WHERE r.${partitionKey} = '${uniquePartitionKey}'`;
+      const query = `SELECT VALUE ${operator}(r.${testdata.field}) FROM r WHERE r.${partitionKey} = '${uniquePartitionKey}'`;
       let testName = `${operator} SinglePartition SELECT VALUE`;
       testConfigs.push({
         testName,
@@ -222,7 +241,9 @@ describe("Aggregate Query", function() {
 
   it("should error for non-VALUE queries", async () => {
     try {
-      const queryIterator = container.items.query("SELECT SUM(r.key) from r WHERE IS_NUMBER(r.key)");
+      const queryIterator = container.items.query(
+        "SELECT SUM(r.key) from r WHERE IS_NUMBER(r.key)"
+      );
       const response = await queryIterator.fetchAll();
       assert.fail("Should throw an error");
     } catch (error) {

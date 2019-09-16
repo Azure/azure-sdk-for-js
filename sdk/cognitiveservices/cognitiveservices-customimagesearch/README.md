@@ -17,71 +17,58 @@ npm install @azure/cognitiveservices-customimagesearch
 
 #### nodejs - Authentication, client creation and imageSearch customInstance as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample performs an image search for given query on a custom configuration. The custom configuration can be setup using the Custom search portal. To know more, refer to the [Azure Documentation on Bing Custom Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-custom-search/)
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { CustomImageSearchClient, CustomImageSearchModels, CustomImageSearchMappers } from "@azure/cognitiveservices-customimagesearch";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {
+  CustomImageSearchClient,
+  CustomImageSearchModels
+} from "@azure/cognitiveservices-customimagesearch";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new CustomImageSearchClient(creds, subscriptionId);
-  const customConfig = "testcustomConfig";
-  const query = "testquery";
-  const acceptLanguage = "testacceptLanguage";
-  const userAgent = "testuserAgent";
-  const clientId = "testclientId";
-  const clientIp = "testclientIp";
-  const location = "westus";
-  const aspect = "All";
-  const color = "ColorOnly";
-  const countryCode = "testcountryCode";
-  const count = 1;
-  const freshness = "Day";
-  const height = 1;
-  const id = "testid";
-  const imageContent = "Face";
-  const imageType = "AnimatedGif";
-  const license = "All";
-  const market = "testmarket";
-  const maxFileSize = 1;
-  const maxHeight = 1;
-  const maxWidth = 1;
-  const minFileSize = 1;
-  const minHeight = 1;
-  const minWidth = 1;
-  const offset = 1;
-  const safeSearch = "Off";
-  const size = "All";
-  const setLang = "testsetLang";
-  const width = 1;
-  client.customInstance.imageSearch(customConfig, query, acceptLanguage, userAgent, clientId, clientIp, location, aspect, color, countryCode, count, freshness, height, id, imageContent, imageType, license, market, maxFileSize, maxHeight, maxWidth, minFileSize, minHeight, minWidth, offset, safeSearch, size, setLang, width).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+async function main(): Promise<void> {
+  const customImageSearchKey =
+    process.env["customImageSearchKey"] || "<customImageSearchKey>";
+  const customImageSearchEndPoint =
+    process.env["customImageSearchEndPoint"] || "<customImageSearchEndPoint>";
+  const customImageConfig =
+    process.env["customImageConfig"] || "<customImageConfig>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    customImageSearchKey
+  );
+  const client = new CustomImageSearchClient(cognitiveServiceCredentials, {
+    endpoint: customImageSearchEndPoint
   });
-}).catch((err) => {
-  console.error(err);
-});
+  const query = "Olympics";
+  const options: CustomImageSearchModels.CustomInstanceImageSearchOptionalParams = {
+    count: 10,
+    safeSearch: "Moderate"
+  };
+  client.customInstance
+    .imageSearch(customImageConfig, query, options)
+    .then(result => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and imageSearch customInstance as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -90,57 +77,40 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-customimagesearch sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-customimagesearch/dist/cognitiveservices-customimagesearch.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const customImageSearchKey = "<YOUR_CUSTOM_IMAGE_SEARCH_KEY>";
+      const customImageSearchEndPoint = "<YOUR_CUSTOM_IMAGE_SEARCH_ENDPOINT>";
+      const customImageConfig = "<YOUR_CUSTOM_IMAGE_CONFIG>";
+
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": customImageSearchKey
         }
-        const client = new Azure.CognitiveservicesCustomimagesearch.CustomImageSearchClient(res.creds, subscriptionId);
-        const customConfig = "testcustomConfig";
-        const query = "testquery";
-        const acceptLanguage = "testacceptLanguage";
-        const userAgent = "testuserAgent";
-        const clientId = "testclientId";
-        const clientIp = "testclientIp";
-        const location = "westus";
-        const aspect = "All";
-        const color = "ColorOnly";
-        const countryCode = "testcountryCode";
-        const count = 1;
-        const freshness = "Day";
-        const height = 1;
-        const id = "testid";
-        const imageContent = "Face";
-        const imageType = "AnimatedGif";
-        const license = "All";
-        const market = "testmarket";
-        const maxFileSize = 1;
-        const maxHeight = 1;
-        const maxWidth = 1;
-        const minFileSize = 1;
-        const minHeight = 1;
-        const minWidth = 1;
-        const offset = 1;
-        const safeSearch = "Off";
-        const size = "All";
-        const setLang = "testsetLang";
-        const width = 1;
-        client.customInstance.imageSearch(customConfig, query, acceptLanguage, userAgent, clientId, clientIp, location, aspect, color, countryCode, count, freshness, height, id, imageContent, imageType, license, market, maxFileSize, maxHeight, maxWidth, minFileSize, minHeight, minWidth, offset, safeSearch, size, setLang, width).then((result) => {
-          console.log("The result is:");
+      });
+
+      const client = new Azure.CognitiveservicesCustomimagesearch.CustomImageSearchClient(
+        cognitiveServiceCredentials,
+        {
+          endpoint: customImageSearchEndPoint
+        }
+      );
+
+      const query = "Olympics";
+      const options = {
+        count: 10,
+        safeSearch: "Moderate"
+      };
+      client.customInstance
+        .imageSearch(customImageConfig, query, options)
+        .then(result => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
@@ -150,6 +120,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-customimagesearch/README.png)
