@@ -13,11 +13,6 @@ import TestClient from "./utils/testClient";
 import { isRecording } from "./utils/recorderUtils";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 
-// let keyto: any;
-// if (isNode) {
-//   keyto = require("@trust/keyto");
-// }
-
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   let client: KeysClient;
   let testClient: TestClient;
@@ -63,7 +58,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   });
 
   if (isRecording) {
-    it.only("encrypt & decrypt with RSA1_5", async function() {
+    it("encrypt & decrypt with RSA1_5", async function() {
       const text = this.test!.title;
       const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
       const decryptResult = await cryptoClient.decrypt("RSA1_5", encryptResult.result);
