@@ -45,21 +45,23 @@ describe("AppConfigurationClient", () => {
         label: null
       });
 
-      await client.updateConfigurationSetting(key, { value: "updated" });
-
-      await compare({
-        key,
-        value: "updated",
-        label: null
-      });
-
       await client.deleteConfigurationSetting(key, {});
 
+      // will recreate the setting
       await client.setConfigurationSetting(key, { value: "set" });
 
       await compare({
         key,
         value: "set",
+        label: null
+      });
+
+      // and now acts as a wholesale update
+      await client.setConfigurationSetting(key, { value: "set a second time" });
+
+      await compare({
+        key,
+        value: "set a second time",
         label: null
       });
 
@@ -781,45 +783,7 @@ describe("AppConfigurationClient", () => {
         result.contentType,
         contentType,
         "Unexpected contentType in result from addConfigurationSetting()."
-      );
-
-      const updatedResult = await client.updateConfigurationSetting(key, { label, value: "foo2" });
-
-      assert.equal(
-        updatedResult.key,
-        key,
-        "Unexpected key in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.label,
-        label,
-        "Unexpected label in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.value,
-        "foo2",
-        "Unexpected value in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.locked,
-        false,
-        "Unexpected locked in result from updateConfigurationSetting()."
-      );
-      assert.deepEqual(
-        updatedResult.tags,
-        tags,
-        "Unexpected tags in result from updateConfigurationSetting()."
-      );
-      assert.strictEqual(
-        updatedResult.contentType,
-        contentType,
-        "Unexpected contentType in result from updateConfigurationSetting()."
-      );
+      );      
     });
 
     it("updates an existing configuration setting (valid etag)", async () => {
@@ -871,61 +835,7 @@ describe("AppConfigurationClient", () => {
         result.contentType,
         contentType,
         "Unexpected contentType in result from addConfigurationSetting()."
-      );
-
-      const updatedResult = await client.updateConfigurationSetting(key, {
-        label,
-        value: "foo2",
-        etag: result.etag
-      });
-
-      assert.equal(
-        updatedResult.key,
-        key,
-        "Unexpected key in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.label,
-        label,
-        "Unexpected label in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.value,
-        "foo2",
-        "Unexpected value in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.locked,
-        false,
-        "Unexpected locked in result from updateConfigurationSetting()."
-      );
-      assert.deepEqual(
-        updatedResult.tags,
-        tags,
-        "Unexpected tags in result from updateConfigurationSetting()."
-      );
-      assert.strictEqual(
-        updatedResult.contentType,
-        contentType,
-        "Unexpected contentType in result from updateConfigurationSetting()."
-      );
-    });
-
-    it("throws when updating a non-existent configuration setting", async () => {
-      const key = `updateConfigTestNA-${Date.now()}`;
-      const label = "test";
-
-      try {
-        await client.updateConfigurationSetting(key, { label, value: "foo" });
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
+      );      
     });
 
     it("throws when updating an existing configuration setting (invalid etag)", async () => {
@@ -978,13 +888,6 @@ describe("AppConfigurationClient", () => {
         contentType,
         "Unexpected contentType in result from addConfigurationSetting()."
       );
-
-      try {
-        await client.updateConfigurationSetting(key, { label, value: "foo2", etag: "incorrect" });
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
     });
   });
 });
