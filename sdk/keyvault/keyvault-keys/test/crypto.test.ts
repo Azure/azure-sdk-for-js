@@ -28,6 +28,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let key: Key;
   let keyVaultUrl: string;
   let keyUrl: string;
+  let keySuffix: string;
 
   before(async function() {
     const authentication = await authenticate(this);
@@ -35,7 +36,8 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     recorder = authentication.recorder;
     testClient = authentication.testClient;
     credential = authentication.credential;
-    keyName = testClient.formatName("cryptography-client-test6");
+    keySuffix = authentication.keySuffix;
+    keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     key = await client.createKey(keyName, "RSA");
     keyVaultUrl = key.vaultUrl;
     keyUrl = key.keyMaterial!.kid as string;
