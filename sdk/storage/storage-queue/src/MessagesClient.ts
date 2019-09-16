@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import * as Models from "./generated/lib/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { Messages } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { Messages } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
@@ -183,7 +183,7 @@ export class MessagesClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
@@ -274,9 +274,8 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.messagesContext.clear({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -305,13 +304,12 @@ export class MessagesClient extends StorageClient {
     messageText: string,
     options: MessagesEnqueueOptions = {}
   ): Promise<MessagesEnqueueResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.enqueue(
       {
         messageText: messageText
       },
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         ...options
       }
     );
@@ -320,6 +318,7 @@ export class MessagesClient extends StorageClient {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       version: response.version,
       errorCode: response.errorCode,
       messageId: item.messageId,
@@ -339,9 +338,8 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.dequeue({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       ...options
     });
 
@@ -349,6 +347,7 @@ export class MessagesClient extends StorageClient {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       dequeuedMessageItems: [],
       version: response.version,
       errorCode: response.errorCode
@@ -370,9 +369,8 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.messagesContext.peek({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       ...options
     });
 
@@ -380,6 +378,7 @@ export class MessagesClient extends StorageClient {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       peekedMessageItems: [],
       version: response.version,
       errorCode: response.errorCode

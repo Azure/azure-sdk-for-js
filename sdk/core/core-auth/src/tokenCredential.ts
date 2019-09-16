@@ -26,6 +26,14 @@ export interface GetTokenOptions {
    * the token request.
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Timeout for pinging services
+   */
+  timeout?: number;
+  /**
+   * Options to create a span using the tracer if any was set.
+   */
+  spanOptions?: any;
 }
 
 /**

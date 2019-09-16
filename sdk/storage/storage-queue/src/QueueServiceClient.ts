@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import * as Models from "./generated/lib/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { ListQueuesIncludeType } from "./generated/lib/models";
-import { Service } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { ListQueuesIncludeType } from "./generated/src/models";
+import { Service } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { QueueClient } from "./QueueClient";
@@ -100,7 +100,7 @@ interface ServiceListQueuesSegmentOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType[];
+  include?: ListQueuesIncludeType;
 }
 
 /**
@@ -128,7 +128,7 @@ export interface ServiceListQueuesOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType[];
+  include?: ListQueuesIncludeType;
 }
 
 /**
@@ -194,7 +194,7 @@ export class QueueServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
@@ -258,9 +258,8 @@ export class QueueServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -278,9 +277,8 @@ export class QueueServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.setProperties(properties, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -297,9 +295,8 @@ export class QueueServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<Models.ServiceGetStatisticsResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getStatistics({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -322,11 +319,12 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.listQueuesSegment({
-      abortSignal: aborter,
-      marker,
-      ...options
+      abortSignal: options.abortSignal,
+      marker: marker,
+      maxresults: options.maxresults,
+      prefix: options.prefix,
+      include: options.include === undefined ? undefined : [options.include]
     } as Models.ServiceListQueuesSegmentOptionalParams);
   }
 

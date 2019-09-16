@@ -7,7 +7,9 @@ import {
   newPipeline,
   SharedKeyCredential,
   ShareClient,
-  DirectoryClient
+  DirectoryClient,
+  generateFileSASQueryParameters,
+  FileSASPermissions
 } from "../../src";
 import { record } from "../utils/recorder";
 
@@ -146,5 +148,41 @@ describe("FileClient Node.js only", () => {
     assert.ok(result.requestId);
     assert.ok(result.version);
     assert.ok(result.date);
+  });
+
+  it("uploadRangeFromURL", async () => {
+    await fileClient.create(1024);
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    await fileClient.uploadRange(content, 0, content.length);
+
+    // Get a SAS for fileURL
+    const factories = (fileClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateFileSASQueryParameters(
+      {
+        expiryTime,
+        shareName,
+        filePath: `${dirName}/${fileName}`,
+        permissions: FileSASPermissions.parse("r").toString()
+      },
+      credential
+    );
+
+    const fileName2 = recorder.getUniqueName("file2");
+    const fileURL2 = dirClient.getFileClient(fileName2);
+
+    await fileURL2.create(1024);
+
+    await fileURL2.uploadRangeFromURL(`${fileClient.url}?${sas}`, 0, 0, 512);
+    await fileURL2.uploadRangeFromURL(`${fileClient.url}?${sas}`, 512, 512, 512);
+
+    const range1 = await fileURL2.download(0, 512);
+    const range2 = await fileURL2.download(512, 512);
+
+    assert.equal(await bodyToString(range1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 });

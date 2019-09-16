@@ -1,64 +1,66 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"share":"share156599439521709198","share156599439521709198":"share156599439521709198156599440225504948"}
+module.exports.testInfo = {"share":"share156816845755406737","share156816845755406737":"share156816845755406737156816845797401917"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156599439521709198')
+  .put('/share156816845755406737')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 16 Aug 2019 22:26:41 GMT',
+  'Wed, 11 Sep 2019 02:20:57 GMT',
   'ETag',
-  '"0x8D72298D02F1552"',
+  '"0x8D7365EAE8575C7"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '59a5abb7-b01a-00bf-6081-546ee7000000',
+  '388cf6ca-a01a-0034-0347-68c954000000',
+  'x-ms-client-request-id',
+  '1597979a-3b31-4e40-9a16-b21fa7a4b6dd',
   'x-ms-version',
-  '2018-11-09',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:26:41 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:20:57 GMT' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/share156599439521709198156599440225504948')
+  .put('/share156816845755406737156816845797401917')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 16 Aug 2019 22:26:42 GMT',
+  'Wed, 11 Sep 2019 02:20:58 GMT',
   'ETag',
-  '"0x8D72298D087A067"',
+  '"0x8D7365EAEC5C234"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ea26c1b5-c01a-0099-2981-54f553000000',
+  '7d85110b-301a-005c-2547-689705000000',
+  'x-ms-client-request-id',
+  '1f350f9f-09e2-486d-ba11-b5f893cc311c',
   'x-ms-version',
-  '2018-11-09',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:26:42 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:20:57 GMT' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/share156599439521709198156599440225504948')
+  .get('/share156816845755406737156816845797401917')
   .query(true)
   .reply(200, "", [ 'Content-Length',
   '0',
   'Last-Modified',
-  'Fri, 16 Aug 2019 22:26:42 GMT',
+  'Wed, 11 Sep 2019 02:20:58 GMT',
   'ETag',
-  '"0x8D72298D087A067"',
+  '"0x8D7365EAEC5C234"',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6b72435e-101a-009b-4281-54f7a9000000',
+  '8a9446be-201a-002e-6347-68e63b000000',
+  'x-ms-client-request-id',
+  '80cbf1ac-6726-407e-b390-f65cf1e31554',
   'x-ms-version',
-  '2018-11-09',
+  '2019-02-02',
   'x-ms-meta-key',
   'value',
   'x-ms-has-immutability-policy',
@@ -68,28 +70,26 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
   'x-ms-share-quota',
   '5120',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,x-ms-meta-key,Last-Modified,ETag,x-ms-has-immutability-policy,x-ms-has-legal-hold,x-ms-share-quota,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-meta-key,Last-Modified,ETag,x-ms-has-immutability-policy,x-ms-has-legal-hold,x-ms-share-quota,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:26:42 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:20:58 GMT' ]);
 
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/share156599439521709198')
+  .delete('/share156816845755406737')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '60d7ff09-301a-0069-4881-54253d000000',
+  'a53a29bd-501a-004c-5947-68a1e3000000',
+  'x-ms-client-request-id',
+  'bb16de1f-32ea-4b14-9f49-26b8e6f6e1a4',
   'x-ms-version',
-  '2018-11-09',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:26:42 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:20:59 GMT' ]);
 

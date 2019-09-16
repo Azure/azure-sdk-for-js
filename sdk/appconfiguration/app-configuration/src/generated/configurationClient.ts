@@ -14,14 +14,16 @@ import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
 import { ConfigurationClientContext } from "./configurationClientContext";
 
-
 class ConfigurationClient extends ConfigurationClientContext {
   /**
    * Initializes a new instance of the ConfigurationClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, options?: Models.ConfigurationClientOptions) {
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    options?: Models.ConfigurationClientOptions
+  ) {
     super(credentials, options);
   }
 
@@ -31,23 +33,36 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListConfigurationSettingsResponse>
    */
-  listConfigurationSettings(options?: Models.ConfigurationClientListConfigurationSettingsOptionalParams): Promise<Models.ListConfigurationSettingsResponse>;
+  listConfigurationSettings(
+    options?: Models.ConfigurationClientListConfigurationSettingsOptionalParams
+  ): Promise<Models.ListConfigurationSettingsResponse>;
   /**
    * @param callback The callback
    */
-  listConfigurationSettings(callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): void;
+  listConfigurationSettings(
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listConfigurationSettings(options: Models.ConfigurationClientListConfigurationSettingsOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): void;
-  listConfigurationSettings(options?: Models.ConfigurationClientListConfigurationSettingsOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSettingList>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): Promise<Models.ListConfigurationSettingsResponse> {
+  listConfigurationSettings(
+    options: Models.ConfigurationClientListConfigurationSettingsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): void;
+  listConfigurationSettings(
+    options?:
+      | Models.ConfigurationClientListConfigurationSettingsOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSettingList>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): Promise<Models.ListConfigurationSettingsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listConfigurationSettingsOperationSpec,
-      callback) as Promise<Models.ListConfigurationSettingsResponse>;
+      callback
+    ) as Promise<Models.ListConfigurationSettingsResponse>;
   }
 
   /**
@@ -57,26 +72,43 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetConfigurationSettingResponse>
    */
-  getConfigurationSetting(key: string, options?: Models.ConfigurationClientGetConfigurationSettingOptionalParams): Promise<Models.GetConfigurationSettingResponse>;
+  getConfigurationSetting(
+    key: string,
+    options?: Models.ConfigurationClientGetConfigurationSettingOptionalParams
+  ): Promise<Models.GetConfigurationSettingResponse>;
   /**
    * @param key string
    * @param callback The callback
    */
-  getConfigurationSetting(key: string, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
+  getConfigurationSetting(
+    key: string,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
   /**
    * @param key string
    * @param options The optional parameters
    * @param callback The callback
    */
-  getConfigurationSetting(key: string, options: Models.ConfigurationClientGetConfigurationSettingOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
-  getConfigurationSetting(key: string, options?: Models.ConfigurationClientGetConfigurationSettingOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSetting>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>): Promise<Models.GetConfigurationSettingResponse> {
+  getConfigurationSetting(
+    key: string,
+    options: Models.ConfigurationClientGetConfigurationSettingOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
+  getConfigurationSetting(
+    key: string,
+    options?:
+      | Models.ConfigurationClientGetConfigurationSettingOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSetting>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): Promise<Models.GetConfigurationSettingResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       getConfigurationSettingOperationSpec,
-      callback) as Promise<Models.GetConfigurationSettingResponse>;
+      callback
+    ) as Promise<Models.GetConfigurationSettingResponse>;
   }
 
   /**
@@ -87,21 +119,41 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateOrUpdateConfigurationSettingResponse>
    */
-  createOrUpdateConfigurationSetting(configurationSetting: Models.ConfigurationSetting, key: string, options?: Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams): Promise<Models.CreateOrUpdateConfigurationSettingResponse>;
+  createOrUpdateConfigurationSetting(
+    configurationSetting: Models.ConfigurationSetting,
+    key: string,
+    options?: Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams
+  ): Promise<Models.CreateOrUpdateConfigurationSettingResponse>;
   /**
    * @param configurationSetting
    * @param key string
    * @param callback The callback
    */
-  createOrUpdateConfigurationSetting(configurationSetting: Models.ConfigurationSetting, key: string, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
+  createOrUpdateConfigurationSetting(
+    configurationSetting: Models.ConfigurationSetting,
+    key: string,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
   /**
    * @param configurationSetting
    * @param key string
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateConfigurationSetting(configurationSetting: Models.ConfigurationSetting, key: string, options: Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
-  createOrUpdateConfigurationSetting(configurationSetting: Models.ConfigurationSetting, key: string, options?: Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSetting>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>): Promise<Models.CreateOrUpdateConfigurationSettingResponse> {
+  createOrUpdateConfigurationSetting(
+    configurationSetting: Models.ConfigurationSetting,
+    key: string,
+    options: Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
+  createOrUpdateConfigurationSetting(
+    configurationSetting: Models.ConfigurationSetting,
+    key: string,
+    options?:
+      | Models.ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSetting>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): Promise<Models.CreateOrUpdateConfigurationSettingResponse> {
     return this.sendOperationRequest(
       {
         configurationSetting,
@@ -109,7 +161,8 @@ class ConfigurationClient extends ConfigurationClientContext {
         options
       },
       createOrUpdateConfigurationSettingOperationSpec,
-      callback) as Promise<Models.CreateOrUpdateConfigurationSettingResponse>;
+      callback
+    ) as Promise<Models.CreateOrUpdateConfigurationSettingResponse>;
   }
 
   /**
@@ -118,33 +171,52 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteConfigurationSettingResponse>
    */
-  deleteConfigurationSetting(key: string, options?: Models.ConfigurationClientDeleteConfigurationSettingOptionalParams): Promise<Models.DeleteConfigurationSettingResponse>;
+  deleteConfigurationSetting(
+    key: string,
+    options?: Models.ConfigurationClientDeleteConfigurationSettingOptionalParams
+  ): Promise<Models.DeleteConfigurationSettingResponse>;
   /**
    * @param key string
    * @param callback The callback
    */
-  deleteConfigurationSetting(key: string, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
+  deleteConfigurationSetting(
+    key: string,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
   /**
    * @param key string
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteConfigurationSetting(key: string, options: Models.ConfigurationClientDeleteConfigurationSettingOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
-  deleteConfigurationSetting(key: string, options?: Models.ConfigurationClientDeleteConfigurationSettingOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSetting>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>): Promise<Models.DeleteConfigurationSettingResponse> {
+  deleteConfigurationSetting(
+    key: string,
+    options: Models.ConfigurationClientDeleteConfigurationSettingOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
+  deleteConfigurationSetting(
+    key: string,
+    options?:
+      | Models.ConfigurationClientDeleteConfigurationSettingOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSetting>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): Promise<Models.DeleteConfigurationSettingResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       deleteConfigurationSettingOperationSpec,
-      callback) as Promise<Models.DeleteConfigurationSettingResponse>;
+      callback
+    ) as Promise<Models.DeleteConfigurationSettingResponse>;
   }
 
   /**
    * @param [options] The optional parameters
    * @returns Promise<Models.ListKeysResponse>
    */
-  listKeys(options?: Models.ConfigurationClientListKeysOptionalParams): Promise<Models.ListKeysResponse>;
+  listKeys(
+    options?: Models.ConfigurationClientListKeysOptionalParams
+  ): Promise<Models.ListKeysResponse>;
   /**
    * @param callback The callback
    */
@@ -153,14 +225,23 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(options: Models.ConfigurationClientListKeysOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyList>): void;
-  listKeys(options?: Models.ConfigurationClientListKeysOptionalParams | coreHttp.ServiceCallback<Models.KeyList>, callback?: coreHttp.ServiceCallback<Models.KeyList>): Promise<Models.ListKeysResponse> {
+  listKeys(
+    options: Models.ConfigurationClientListKeysOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyList>
+  ): void;
+  listKeys(
+    options?:
+      | Models.ConfigurationClientListKeysOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyList>,
+    callback?: coreHttp.ServiceCallback<Models.KeyList>
+  ): Promise<Models.ListKeysResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.ListKeysResponse>;
+      callback
+    ) as Promise<Models.ListKeysResponse>;
   }
 
   /**
@@ -168,7 +249,9 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListLabelsResponse>
    */
-  listLabels(options?: Models.ConfigurationClientListLabelsOptionalParams): Promise<Models.ListLabelsResponse>;
+  listLabels(
+    options?: Models.ConfigurationClientListLabelsOptionalParams
+  ): Promise<Models.ListLabelsResponse>;
   /**
    * @param callback The callback
    */
@@ -177,14 +260,23 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLabels(options: Models.ConfigurationClientListLabelsOptionalParams, callback: coreHttp.ServiceCallback<Models.LabelList>): void;
-  listLabels(options?: Models.ConfigurationClientListLabelsOptionalParams | coreHttp.ServiceCallback<Models.LabelList>, callback?: coreHttp.ServiceCallback<Models.LabelList>): Promise<Models.ListLabelsResponse> {
+  listLabels(
+    options: Models.ConfigurationClientListLabelsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.LabelList>
+  ): void;
+  listLabels(
+    options?:
+      | Models.ConfigurationClientListLabelsOptionalParams
+      | coreHttp.ServiceCallback<Models.LabelList>,
+    callback?: coreHttp.ServiceCallback<Models.LabelList>
+  ): Promise<Models.ListLabelsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listLabelsOperationSpec,
-      callback) as Promise<Models.ListLabelsResponse>;
+      callback
+    ) as Promise<Models.ListLabelsResponse>;
   }
 
   /**
@@ -192,26 +284,43 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.LockConfigurationSettingResponse>
    */
-  lockConfigurationSetting(key: string, options?: Models.ConfigurationClientLockConfigurationSettingOptionalParams): Promise<Models.LockConfigurationSettingResponse>;
+  lockConfigurationSetting(
+    key: string,
+    options?: Models.ConfigurationClientLockConfigurationSettingOptionalParams
+  ): Promise<Models.LockConfigurationSettingResponse>;
   /**
    * @param key
    * @param callback The callback
    */
-  lockConfigurationSetting(key: string, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
+  lockConfigurationSetting(
+    key: string,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
   /**
    * @param key
    * @param options The optional parameters
    * @param callback The callback
    */
-  lockConfigurationSetting(key: string, options: Models.ConfigurationClientLockConfigurationSettingOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
-  lockConfigurationSetting(key: string, options?: Models.ConfigurationClientLockConfigurationSettingOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSetting>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>): Promise<Models.LockConfigurationSettingResponse> {
+  lockConfigurationSetting(
+    key: string,
+    options: Models.ConfigurationClientLockConfigurationSettingOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
+  lockConfigurationSetting(
+    key: string,
+    options?:
+      | Models.ConfigurationClientLockConfigurationSettingOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSetting>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): Promise<Models.LockConfigurationSettingResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       lockConfigurationSettingOperationSpec,
-      callback) as Promise<Models.LockConfigurationSettingResponse>;
+      callback
+    ) as Promise<Models.LockConfigurationSettingResponse>;
   }
 
   /**
@@ -219,33 +328,52 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UnlockConfigurationSettingResponse>
    */
-  unlockConfigurationSetting(key: string, options?: Models.ConfigurationClientUnlockConfigurationSettingOptionalParams): Promise<Models.UnlockConfigurationSettingResponse>;
+  unlockConfigurationSetting(
+    key: string,
+    options?: Models.ConfigurationClientUnlockConfigurationSettingOptionalParams
+  ): Promise<Models.UnlockConfigurationSettingResponse>;
   /**
    * @param key
    * @param callback The callback
    */
-  unlockConfigurationSetting(key: string, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
+  unlockConfigurationSetting(
+    key: string,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
   /**
    * @param key
    * @param options The optional parameters
    * @param callback The callback
    */
-  unlockConfigurationSetting(key: string, options: Models.ConfigurationClientUnlockConfigurationSettingOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>): void;
-  unlockConfigurationSetting(key: string, options?: Models.ConfigurationClientUnlockConfigurationSettingOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSetting>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>): Promise<Models.UnlockConfigurationSettingResponse> {
+  unlockConfigurationSetting(
+    key: string,
+    options: Models.ConfigurationClientUnlockConfigurationSettingOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): void;
+  unlockConfigurationSetting(
+    key: string,
+    options?:
+      | Models.ConfigurationClientUnlockConfigurationSettingOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSetting>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSetting>
+  ): Promise<Models.UnlockConfigurationSettingResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       unlockConfigurationSettingOperationSpec,
-      callback) as Promise<Models.UnlockConfigurationSettingResponse>;
+      callback
+    ) as Promise<Models.UnlockConfigurationSettingResponse>;
   }
 
   /**
    * @param [options] The optional parameters
    * @returns Promise<Models.ListRevisionsResponse>
    */
-  listRevisions(options?: Models.ConfigurationClientListRevisionsOptionalParams): Promise<Models.ListRevisionsResponse>;
+  listRevisions(
+    options?: Models.ConfigurationClientListRevisionsOptionalParams
+  ): Promise<Models.ListRevisionsResponse>;
   /**
    * @param callback The callback
    */
@@ -254,14 +382,23 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRevisions(options: Models.ConfigurationClientListRevisionsOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): void;
-  listRevisions(options?: Models.ConfigurationClientListRevisionsOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSettingList>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): Promise<Models.ListRevisionsResponse> {
+  listRevisions(
+    options: Models.ConfigurationClientListRevisionsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): void;
+  listRevisions(
+    options?:
+      | Models.ConfigurationClientListRevisionsOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSettingList>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): Promise<Models.ListRevisionsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listRevisionsOperationSpec,
-      callback) as Promise<Models.ListRevisionsResponse>;
+      callback
+    ) as Promise<Models.ListRevisionsResponse>;
   }
 
   /**
@@ -271,26 +408,43 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListConfigurationSettingsNextResponse>
    */
-  listConfigurationSettingsNext(nextPageLink: string, options?: Models.ConfigurationClientListConfigurationSettingsNextOptionalParams): Promise<Models.ListConfigurationSettingsNextResponse>;
+  listConfigurationSettingsNext(
+    nextPageLink: string,
+    options?: Models.ConfigurationClientListConfigurationSettingsNextOptionalParams
+  ): Promise<Models.ListConfigurationSettingsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listConfigurationSettingsNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): void;
+  listConfigurationSettingsNext(
+    nextPageLink: string,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listConfigurationSettingsNext(nextPageLink: string, options: Models.ConfigurationClientListConfigurationSettingsNextOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): void;
-  listConfigurationSettingsNext(nextPageLink: string, options?: Models.ConfigurationClientListConfigurationSettingsNextOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSettingList>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): Promise<Models.ListConfigurationSettingsNextResponse> {
+  listConfigurationSettingsNext(
+    nextPageLink: string,
+    options: Models.ConfigurationClientListConfigurationSettingsNextOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): void;
+  listConfigurationSettingsNext(
+    nextPageLink: string,
+    options?:
+      | Models.ConfigurationClientListConfigurationSettingsNextOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSettingList>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): Promise<Models.ListConfigurationSettingsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listConfigurationSettingsNextOperationSpec,
-      callback) as Promise<Models.ListConfigurationSettingsNextResponse>;
+      callback
+    ) as Promise<Models.ListConfigurationSettingsNextResponse>;
   }
 
   /**
@@ -298,26 +452,43 @@ class ConfigurationClient extends ConfigurationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListRevisionsNextResponse>
    */
-  listRevisionsNext(nextPageLink: string, options?: Models.ConfigurationClientListRevisionsNextOptionalParams): Promise<Models.ListRevisionsNextResponse>;
+  listRevisionsNext(
+    nextPageLink: string,
+    options?: Models.ConfigurationClientListRevisionsNextOptionalParams
+  ): Promise<Models.ListRevisionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listRevisionsNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): void;
+  listRevisionsNext(
+    nextPageLink: string,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRevisionsNext(nextPageLink: string, options: Models.ConfigurationClientListRevisionsNextOptionalParams, callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): void;
-  listRevisionsNext(nextPageLink: string, options?: Models.ConfigurationClientListRevisionsNextOptionalParams | coreHttp.ServiceCallback<Models.ConfigurationSettingList>, callback?: coreHttp.ServiceCallback<Models.ConfigurationSettingList>): Promise<Models.ListRevisionsNextResponse> {
+  listRevisionsNext(
+    nextPageLink: string,
+    options: Models.ConfigurationClientListRevisionsNextOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): void;
+  listRevisionsNext(
+    nextPageLink: string,
+    options?:
+      | Models.ConfigurationClientListRevisionsNextOptionalParams
+      | coreHttp.ServiceCallback<Models.ConfigurationSettingList>,
+    callback?: coreHttp.ServiceCallback<Models.ConfigurationSettingList>
+  ): Promise<Models.ListRevisionsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listRevisionsNextOperationSpec,
-      callback) as Promise<Models.ListRevisionsNextResponse>;
+      callback
+    ) as Promise<Models.ListRevisionsNextResponse>;
   }
 }
 
@@ -326,15 +497,8 @@ const serializer = new coreHttp.Serializer(Mappers);
 const listConfigurationSettingsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "kv",
-  queryParameters: [
-    Parameters.label0,
-    Parameters.key0,
-    Parameters.fields
-  ],
-  headerParameters: [
-    Parameters.acceptDateTime,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.label0, Parameters.key0, Parameters.fields],
+  headerParameters: [Parameters.acceptDateTime, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSettingList
@@ -349,16 +513,9 @@ const listConfigurationSettingsOperationSpec: coreHttp.OperationSpec = {
 const getConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "kv/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label1
-  ],
-  headerParameters: [
-    Parameters.acceptDateTime,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label1],
+  headerParameters: [Parameters.acceptDateTime, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting,
@@ -377,15 +534,9 @@ const getConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
 const createOrUpdateConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "kv/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "configurationSetting",
     mapper: {
@@ -407,15 +558,9 @@ const createOrUpdateConfigurationSettingOperationSpec: coreHttp.OperationSpec = 
 const deleteConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "kv/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting
@@ -431,13 +576,8 @@ const deleteConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
 const listKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "keys",
-  queryParameters: [
-    Parameters.name
-  ],
-  headerParameters: [
-    Parameters.acceptDateTime,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.name],
+  headerParameters: [Parameters.acceptDateTime, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyList
@@ -452,14 +592,8 @@ const listKeysOperationSpec: coreHttp.OperationSpec = {
 const listLabelsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "labels",
-  queryParameters: [
-    Parameters.fields,
-    Parameters.name
-  ],
-  headerParameters: [
-    Parameters.acceptDateTime,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.fields, Parameters.name],
+  headerParameters: [Parameters.acceptDateTime, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LabelList
@@ -474,15 +608,9 @@ const listLabelsOperationSpec: coreHttp.OperationSpec = {
 const lockConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "locks/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting
@@ -497,15 +625,9 @@ const lockConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
 const unlockConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "locks/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSetting
@@ -520,15 +642,8 @@ const unlockConfigurationSettingOperationSpec: coreHttp.OperationSpec = {
 const listRevisionsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "revisions",
-  queryParameters: [
-    Parameters.label0,
-    Parameters.key0,
-    Parameters.fields
-  ],
-  headerParameters: [
-    Parameters.acceptDateTime,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.label0, Parameters.key0, Parameters.fields],
+  headerParameters: [Parameters.acceptDateTime, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSettingList
@@ -544,13 +659,8 @@ const listConfigurationSettingsNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "http://localhost",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptDateTime,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptDateTime, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSettingList
@@ -566,13 +676,8 @@ const listRevisionsNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "http://localhost",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptDateTime,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptDateTime, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSettingList

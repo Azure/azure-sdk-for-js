@@ -29,9 +29,9 @@ import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
     retryOptions == undefined ||
-    typeof retryOptions.timeoutInMs !== "number" ||
-    !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
+      typeof retryOptions.timeoutInMs !== "number" ||
+      !isFinite(retryOptions.timeoutInMs) ||
+      retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
       ? Constants.defaultOperationTimeoutInMs
       : retryOptions.timeoutInMs;
   return timeoutInMs;
@@ -64,6 +64,13 @@ export interface EventHubProducerOptions {
  * The set of options to configure the `send` operation on the `EventHubProducer`.
  * - `partitionKey` : A value that is hashed to produce a partition assignment.
  * - `abortSignal`  : A signal the request to cancel the send operation.
+ * 
+ * Example usage:
+ * ```js
+ * {
+ *     partitionKey: 'foo'
+ * }
+ * ```
  */
 export interface SendOptions {
   /**
@@ -87,6 +94,14 @@ export interface SendOptions {
  * Not applicable if the `EventHubProducer` was created using a `partitionId`.
  * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
  * - `abortSignal`   : A signal the request to cancel the send operation.
+ * 
+ * Example usage:
+ * ```js
+ * {
+ *     partitionKey: 'foo',
+ *     maxSizeInBytes: 1024 * 1024 // 1 MB
+ * }
+ * ```
  */
 export interface BatchOptions {
   /**
@@ -116,6 +131,16 @@ export interface BatchOptions {
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
  * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  * A simple usage can be `{ "maxRetries": 4 }`.
+ * 
+ * Example usage:
+ * ```js
+ * {
+ *     retryOptions: {
+ *         maxRetries: 4
+ *     },
+ *     trackLastEnqueuedEventInfo: false
+ * }
+ * ```
  */
 export interface EventHubConsumerOptions {
   /**
@@ -134,6 +159,17 @@ export interface EventHubConsumerOptions {
    * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
    */
   retryOptions?: RetryOptions;
+  /**
+   * @property
+   * Indicates whether or not the consumer should request information on the last enqueued event on its
+   * associated partition, and track that information as events are received.
+
+   * When information about the partition's last enqueued event is being tracked, each event received 
+   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
+   * additional network bandwidth consumption that is generally a favorable trade-off when considered
+   * against periodically making requests for partition properties using the Event Hub client.
+   */
+  trackLastEnqueuedEventInfo?: boolean;
 }
 
 /**
@@ -148,6 +184,15 @@ export interface EventHubConsumerOptions {
  * over a WebSocket.
  * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
  * A simple usage can be `{ "maxRetries": 4 }`.
+ * 
+ * Example usage:
+ * ```js
+ * {
+ *     retryOptions: {
+ *         maxRetries: 4
+ *     }
+ * }
+ * ```
  * @interface ClientOptions
  */
 export interface EventHubClientOptions {
@@ -200,14 +245,14 @@ export interface EventHubClientOptions {
  * The client is the main point of interaction with Azure Event Hubs service.
  * It offers connection to a specific Event Hub within the Event Hubs namespace along with
  * operations for sending event data, receiving events, and inspecting the connected Event Hub.
- * 
+ *
  * There are multiple ways to create an `EventHubClient`
  * - Use the connection string from the SAS policy created for your Event Hub instance.
- * - Use the connection string from the SAS policy created for your Event Hub namespace, 
+ * - Use the connection string from the SAS policy created for your Event Hub namespace,
  * and the name of the Event Hub instance
  * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
  * and a credentials object.
- * 
+ *
  */
 export class EventHubClient {
   /**
@@ -311,7 +356,7 @@ export class EventHubClient {
       ) {
         throw new TypeError(
           `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
-            `must contain "EntityPath=<your-event-hub-name>".`
+          `must contain "EntityPath=<your-event-hub-name>".`
         );
       }
       if (
@@ -322,7 +367,7 @@ export class EventHubClient {
       ) {
         throw new TypeError(
           `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
-            `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
+          `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
         );
       }
       connectionString = hostOrConnectionString;

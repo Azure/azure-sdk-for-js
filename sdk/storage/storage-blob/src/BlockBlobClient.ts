@@ -14,12 +14,18 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
 import { BlockBlob } from "./generated/src/operations";
 import { BlobHTTPHeaders } from "./generated/src/models";
 import { Range, rangeToString } from "./Range";
-import { BlobAccessConditions, Metadata } from "./models";
+import {
+  BlobAccessConditions,
+  Metadata,
+  ensureCpkIfSpecified,
+  BlockBlobTier,
+  toAccessTier
+} from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import {
   setURLParameter,
@@ -81,6 +87,21 @@ export interface BlockBlobUploadOptions {
    * @memberof BlockBlobUploadOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlockBlobUploadOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobUploadOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 
 /**
@@ -113,14 +134,33 @@ export interface BlockBlobStageBlockOptions {
    */
   progress?: (progress: TransferProgressEvent) => void;
   /**
-   * A Uint8Array holding the MD5 hash of the block content.
-   * It is only used to verify the integrity of the block during transport.
-   * It is not stored in with the blob.
+   * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
    *
    * @type {Uint8Array}
    * @memberof BlockBlobStageBlockOptions
    */
   transactionalContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the block content. This hash is used to verify the integrity of the block during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   *
+   * @type {Uint8Array}
+   * @memberof BlockBlobStageBlockOptions
+   */
+  transactionalContentCrc64?: Uint8Array;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlockBlobUploadOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -155,14 +195,33 @@ export interface BlockBlobStageBlockFromURLOptions {
    */
   leaseAccessConditions?: Models.LeaseAccessConditions;
   /**
-   * A Uint8Array holding the MD5 hash of the source block content.
-   * It is only used to verify the integrity of the block during transport.
-   * It is not stored in with the blob.
+   * An MD5 hash of the content from the URI.
+   * This hash is used to verify the integrity of the content during transport of the data from the URI.
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   *
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
    *
    * @type {Uint8Array}
    * @memberof BlockBlobStageBlockFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
+  /**
+   * A CRC64 hash of the content from the URI.
+   * This hash is used to verify the integrity of the content during transport of the data from the URI.
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   *
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   * @type {Uint8Array}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -207,6 +266,21 @@ export interface BlockBlobCommitBlockListOptions {
    * @memberof BlockBlobCommitBlockListOptions
    */
   metadata?: Metadata;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 
 /**
@@ -326,7 +400,7 @@ export interface UploadToBlockBlobOptions {
   /**
    * Blob HTTP Headers.
    *
-   * @type {IBlobHTTPHeaders}
+   * @type {BlobHTTPHeaders}
    * @memberof UploadToBlockBlobOptions
    */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
@@ -569,15 +643,17 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blockBlobContext.upload(body, contentLength, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      onUploadProgress: options.progress
+      onUploadProgress: options.progress,
+      cpkInfo: options.customerProvidedKey,
+      tier: toAccessTier(options.tier)
     });
   }
 
@@ -599,12 +675,14 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions,
       onUploadProgress: options.progress,
-      transactionalContentMD5: options.transactionalContentMD5
+      transactionalContentMD5: options.transactionalContentMD5,
+      transactionalContentCrc64: options.transactionalContentCrc64,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -637,12 +715,14 @@ export class BlockBlobClient extends BlobClient {
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions,
       sourceContentMD5: options.sourceContentMD5,
-      sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count })
+      sourceContentCrc64: options.sourceContentCrc64,
+      sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -663,16 +743,18 @@ export class BlockBlobClient extends BlobClient {
     blocks: string[],
     options: BlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blockBlobContext.commitBlockList(
       { latest: blocks },
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        tier: toAccessTier(options.tier)
       }
     );
   }
@@ -692,9 +774,8 @@ export class BlockBlobClient extends BlobClient {
     listType: Models.BlockListType,
     options: BlockBlobGetBlockListOptions = {}
   ): Promise<Models.BlockBlobGetBlockListResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const res = await this.blockBlobContext.getBlockList(listType, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions
     });
 

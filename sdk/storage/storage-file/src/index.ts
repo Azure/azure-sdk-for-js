@@ -20,6 +20,14 @@ export * from "./credentials/Credential";
 export * from "./credentials/SharedKeyCredential";
 export { IPRange } from "./IPRange";
 export { Range } from "./Range";
+export {
+  FilePermissionInheritType,
+  FilePermissionPreserveType,
+  TimeNowType,
+  TimePreserveType,
+  FileAttributesPreserveType
+} from "./models";
+export * from "./FileSystemAttributes";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";

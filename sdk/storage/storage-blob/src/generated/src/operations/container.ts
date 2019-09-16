@@ -406,62 +406,6 @@ export class Container {
       getAccountInfoOperationSpec,
       callback) as Promise<Models.ContainerGetAccountInfoResponse>;
   }
-
-  /**
-   * [Update] The List Blobs operation returns a list of the blobs under the specified container
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ContainerListBlobFlatSegmentResponse>
-   */
-  listBlobFlatSegmentNext(nextPageLink: string, options?: Models.ContainerListBlobFlatSegmentNextOptionalParams): Promise<Models.ContainerListBlobFlatSegmentResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listBlobFlatSegmentNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listBlobFlatSegmentNext(nextPageLink: string, options: Models.ContainerListBlobFlatSegmentNextOptionalParams, callback: coreHttp.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): void;
-  listBlobFlatSegmentNext(nextPageLink: string, options?: Models.ContainerListBlobFlatSegmentNextOptionalParams | coreHttp.ServiceCallback<Models.ListBlobsFlatSegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): Promise<Models.ContainerListBlobFlatSegmentResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listBlobFlatSegmentNextOperationSpec,
-      callback) as Promise<Models.ContainerListBlobFlatSegmentResponse>;
-  }
-
-  /**
-   * [Update] The List Blobs operation returns a list of the blobs under the specified container
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ContainerListBlobHierarchySegmentResponse>
-   */
-  listBlobHierarchySegmentNext(nextPageLink: string, options?: Models.ContainerListBlobHierarchySegmentNextOptionalParams): Promise<Models.ContainerListBlobHierarchySegmentResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listBlobHierarchySegmentNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listBlobHierarchySegmentNext(nextPageLink: string, options: Models.ContainerListBlobHierarchySegmentNextOptionalParams, callback: coreHttp.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): void;
-  listBlobHierarchySegmentNext(nextPageLink: string, options?: Models.ContainerListBlobHierarchySegmentNextOptionalParams | coreHttp.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listBlobHierarchySegmentNextOperationSpec,
-      callback) as Promise<Models.ContainerListBlobHierarchySegmentResponse>;
-  }
 }
 
 // Operation Specifications
@@ -559,7 +503,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype2,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.metadata,
@@ -589,7 +533,7 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype2,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
     Parameters.version,
@@ -630,7 +574,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype2,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
     Parameters.access,
@@ -681,7 +625,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6,
+    Parameters.comp7,
     Parameters.restype2
   ],
   headerParameters: [
@@ -713,7 +657,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6,
+    Parameters.comp7,
     Parameters.restype2
   ],
   headerParameters: [
@@ -744,7 +688,7 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6,
+    Parameters.comp7,
     Parameters.restype2
   ],
   headerParameters: [
@@ -775,7 +719,7 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6,
+    Parameters.comp7,
     Parameters.restype2
   ],
   headerParameters: [
@@ -806,7 +750,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp6,
+    Parameters.comp7,
     Parameters.restype2
   ],
   headerParameters: [
@@ -838,7 +782,7 @@ const listBlobFlatSegmentOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.prefix,
-    Parameters.marker,
+    Parameters.marker0,
     Parameters.maxresults,
     Parameters.include1,
     Parameters.timeout,
@@ -871,7 +815,7 @@ const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.delimiter,
-    Parameters.marker,
+    Parameters.marker0,
     Parameters.maxresults,
     Parameters.include1,
     Parameters.timeout,
@@ -911,54 +855,6 @@ const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
   responses: {
     200: {
       headersMapper: Mappers.ContainerGetAccountInfoHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError
-    }
-  },
-  isXML: true,
-  serializer
-};
-
-const listBlobFlatSegmentNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{url}",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListBlobsFlatSegmentResponse,
-      headersMapper: Mappers.ContainerListBlobFlatSegmentHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError
-    }
-  },
-  isXML: true,
-  serializer
-};
-
-const listBlobHierarchySegmentNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{url}",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListBlobsHierarchySegmentResponse,
-      headersMapper: Mappers.ContainerListBlobHierarchySegmentHeaders
     },
     default: {
       bodyMapper: Mappers.StorageError

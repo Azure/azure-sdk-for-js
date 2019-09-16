@@ -26,7 +26,7 @@
   },
   "types": "./typings/service-bus.d.ts",
   "engine": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "files": [
     "dist/",
@@ -105,7 +105,7 @@
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^1.1.2",
+    "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",

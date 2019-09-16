@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, isNode } from "@azure/core-http";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Share } from "./generated/src/operations";
 import { Metadata } from "./models";
@@ -260,6 +260,39 @@ export interface ShareCreateSnapshotOptions {
 }
 
 /**
+ * Options to configure Share - Create Permission operation.
+ *
+ * @export
+ * @interface ShareCreatePermissionOptions
+ */
+export interface ShareCreatePermissionOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ShareCreatePermissionOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+/**
+ * Options to configure Share - Get Permission operation.
+ *
+ * @export
+ * @interface ShareGetPermissionOptions
+ */
+export interface ShareGetPermissionOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ShareGetPermissionOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Response - Share Get Statistics Operation.
  *
  * @export
@@ -409,10 +442,8 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async create(options: ShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.create({
-      ...options,
-      abortSignal: aborter
+      ...options
     });
   }
 
@@ -549,9 +580,8 @@ export class ShareClient extends StorageClient {
   public async getProperties(
     options: ShareGetPropertiesOptions = {}
   ): Promise<Models.ShareGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -565,9 +595,7 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<Models.ShareDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.deleteMethod({
-      abortSignal: aborter,
       ...options
     });
   }
@@ -588,9 +616,8 @@ export class ShareClient extends StorageClient {
     metadata?: Metadata,
     options: ShareSetMetadataOptions = {}
   ): Promise<Models.ShareSetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata
     });
   }
@@ -611,9 +638,8 @@ export class ShareClient extends StorageClient {
   public async getAccessPolicy(
     options: ShareGetAccessPolicyOptions = {}
   ): Promise<ShareGetAccessPolicyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.context.getAccessPolicy({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
 
     const res: ShareGetAccessPolicyResponse = {
@@ -658,7 +684,6 @@ export class ShareClient extends StorageClient {
     shareAcl?: SignedIdentifier[],
     options: ShareSetAccessPolicyOptions = {}
   ): Promise<Models.ShareSetAccessPolicyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of shareAcl || []) {
       acl.push({
@@ -672,7 +697,7 @@ export class ShareClient extends StorageClient {
     }
 
     return this.context.setAccessPolicy({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       shareAcl: acl
     });
   }
@@ -687,9 +712,8 @@ export class ShareClient extends StorageClient {
   public async createSnapshot(
     options: ShareCreateSnapshotOptions = {}
   ): Promise<Models.ShareCreateSnapshotResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.createSnapshot({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       ...options
     });
   }
@@ -706,14 +730,13 @@ export class ShareClient extends StorageClient {
     quotaInGB: number,
     options: ShareSetQuotaOptions = {}
   ): Promise<Models.ShareSetQuotaResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (quotaInGB <= 0 || quotaInGB > 5120) {
       throw new RangeError(
         `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
       );
     }
     return this.context.setQuota({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       quota: quotaInGB
     });
   }
@@ -728,10 +751,48 @@ export class ShareClient extends StorageClient {
   public async getStatistics(
     options: ShareGetStatisticsOptions = {}
   ): Promise<ShareGetStatisticsResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
-    const response = await this.context.getStatistics({ abortSignal: aborter });
+    const response = await this.context.getStatistics({ abortSignal: options.abortSignal });
 
     const GBBytes = 1024 * 1024 * 1024;
     return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
+  }
+
+  /**
+   * Creates a file permission (a security descriptor) at the share level.
+   * The created security descriptor can be used for the files/directories in the share.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-permission
+   *
+   * @param {ShareCreatePermissionOptions} [options] Options to Share Create Permission operation.
+   * @param filePermission File permission described in the SDDL
+   */
+  public async createPermission(
+    filePermission: string,
+    options: ShareCreatePermissionOptions = {}
+  ): Promise<Models.ShareCreatePermissionResponse> {
+    return this.context.createPermission(
+      {
+        permission: filePermission
+      },
+      {
+        abortSignal: options.abortSignal
+      }
+    );
+  }
+
+  /**
+   * Gets the Security Descriptor Definition Language (SDDL) for a given file permission key
+   * which indicates a security descriptor.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-permission
+   *
+   * @param {ShareGetPermissionOptions} [options] Options to Share Create Permission operation.
+   * @param filePermissionKey File permission key which indicates the security descriptor of the permission.
+   */
+  public async getPermission(
+    filePermissionKey: string,
+    options: ShareGetPermissionOptions = {}
+  ): Promise<Models.ShareGetPermissionResponse> {
+    return this.context.getPermission(filePermissionKey, {
+      aborterSignal: options.abortSignal
+    });
   }
 }

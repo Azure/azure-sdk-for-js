@@ -24,6 +24,7 @@ describe("QueueServiceClient", () => {
       .next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 
@@ -49,7 +50,7 @@ describe("QueueServiceClient", () => {
 
     const result1 = (await queueServiceClient
       .listQueues({
-        include: ["metadata"],
+        include: "metadata",
         prefix: queueNamePrefix
       })
       .byPage({ maxPageSize: 1 })
@@ -62,7 +63,7 @@ describe("QueueServiceClient", () => {
 
     const result2 = (await queueServiceClient
       .listQueues({
-        include: ["metadata"],
+        include: "metadata",
         prefix: queueNamePrefix
       })
       .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
@@ -90,7 +91,7 @@ describe("QueueServiceClient", () => {
     await queueClient2.create({ metadata: { key: "val" } });
 
     for await (const item of queueServiceClient.listQueues({
-      include: ["metadata"],
+      include: "metadata",
       prefix: queueNamePrefix
     })) {
       assert.ok(item.name.startsWith(queueNamePrefix));
@@ -114,7 +115,7 @@ describe("QueueServiceClient", () => {
     await queueClient2.create({ metadata: { key: "val" } });
 
     let iter1 = await queueServiceClient.listQueues({
-      include: ["metadata"],
+      include: "metadata",
       prefix: queueNamePrefix
     });
     let queueItem = await iter1.next();
@@ -142,7 +143,7 @@ describe("QueueServiceClient", () => {
 
     for await (const response of queueServiceClient
       .listQueues({
-        include: ["metadata"],
+        include: "metadata",
         prefix: queueNamePrefix
       })
       .byPage({ maxPageSize: 2 })) {
@@ -170,7 +171,7 @@ describe("QueueServiceClient", () => {
 
     let iter = queueServiceClient
       .listQueues({
-        include: ["metadata"],
+        include: "metadata",
         prefix: queueNamePrefix
       })
       .byPage({ maxPageSize: 2 });
@@ -187,7 +188,7 @@ describe("QueueServiceClient", () => {
     // Passing next marker as continuationToken
     iter = queueServiceClient
       .listQueues({
-        include: ["metadata"],
+        include: "metadata",
         prefix: queueNamePrefix
       })
       .byPage({ continuationToken: marker, maxPageSize: 10 });
@@ -209,6 +210,7 @@ describe("QueueServiceClient", () => {
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 

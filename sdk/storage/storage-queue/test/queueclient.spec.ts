@@ -40,6 +40,7 @@ describe("QueueClient", () => {
     const result = await queueClient.getProperties();
     assert.ok(result.approximateMessagesCount! >= 0);
     assert.ok(result.requestId);
+    assert.ok(result.clientRequestId);
     assert.ok(result.version);
     assert.ok(result.date);
   });

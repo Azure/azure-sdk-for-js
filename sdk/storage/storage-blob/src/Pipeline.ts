@@ -20,7 +20,8 @@ import {
   isNode,
   TokenCredential,
   isTokenCredential,
-  bearerTokenAuthenticationPolicy
+  bearerTokenAuthenticationPolicy,
+  ProxySettings
 } from "@azure/core-http";
 
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
@@ -31,6 +32,7 @@ import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFacto
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { DefaultStorageScope } from "./utils/constants";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -49,27 +51,6 @@ export {
   RequestPolicyOptions
 };
 
-/**
- * Interface of proxy policy options.
- *
- * @example
- * // Use SharedKeyCredential with storage account and account key
- * // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
- * const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
- * const blobServiceClient = new BlobServiceClient(
- *  `https://${account}.blob.core.windows.net`,
- *  sharedKeyCredential,
- *  {
- *    proxy: { url: "http://localhost:3128" }
- *  });
- *
- * @export
- * @interface ProxyOptions
- */
-
-export interface ProxyOptions {
-  url?: string;
-}
 /**
  * Option interface for Pipeline constructor.
  *
@@ -154,7 +135,7 @@ export class Pipeline {
  * @interface NewPipelineOptions
  */
 export interface NewPipelineOptions {
-  proxy?: ProxyOptions;
+  proxy?: ProxySettings | string;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
@@ -197,7 +178,7 @@ export interface NewPipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @export
- * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+ * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
  *                                                  or a TokenCredential from @azure/identity.
  * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
@@ -221,15 +202,17 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    factories.push(
-      proxyPolicy(
-        getDefaultProxySettings(pipelineOptions.proxy ? pipelineOptions.proxy.url : undefined)
-      )
-    );
+    let proxySettings: ProxySettings | undefined;
+    if (typeof pipelineOptions.proxy === "string") {
+      proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
+    } else {
+      proxySettings = pipelineOptions.proxy;
+    }
+    factories.push(proxyPolicy(proxySettings));
   }
   factories.push(
     isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, "https://storage.azure.com/.default")
+      ? bearerTokenAuthenticationPolicy(credential, DefaultStorageScope)
       : credential
   );
 

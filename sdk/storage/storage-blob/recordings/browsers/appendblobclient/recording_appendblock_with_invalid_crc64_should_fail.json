@@ -1,0 +1,85 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156816879072407567",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 11 Sep 2019 02:26:30 GMT",
+    "last-modified": "Wed, 11 Sep 2019 02:26:30 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D7365F74F9FBE4\"",
+    "x-ms-request-id": "96e4fda2-201e-0061-4448-682223000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "25c815bc-3ec9-4072-8238-3eaeae80cc83",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156816879072407567/blob156816879093103806",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 11 Sep 2019 02:26:30 GMT",
+    "last-modified": "Wed, 11 Sep 2019 02:26:31 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D7365F751A64F6\"",
+    "x-ms-request-id": "96e4fdf9-201e-0061-0d48-682223000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "9a365553-4127-4f08-a93c-a77c1f3b94e0",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156816879072407567/blob156816879093103806",
+   "query": {
+    "comp": "appendblock"
+   },
+   "requestBody": "Hello World!",
+   "status": 400,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>Crc64Mismatch</Code><Message>The CRC64 value specified in the request did not match with the CRC64 value calculated by the server.\nRequestId:96e4fe55-201e-0061-6248-682223000000\nTime:2019-09-11T02:26:31.2740510Z</Message><UserSpecifiedCrc>AQIDBAUGBwg=</UserSpecifiedCrc><ServerCalculatedCrc>peH8Xsgc5QI=</ServerCalculatedCrc></Error>",
+   "responseHeaders": {
+    "date": "Wed, 11 Sep 2019 02:26:30 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-error-code": "Crc64Mismatch",
+    "content-type": "application/xml",
+    "x-ms-request-id": "96e4fe55-201e-0061-6248-682223000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "23b1646b-0215-4187-8c15-4d149d87e7ed",
+    "content-length": "387"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156816879072407567",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Wed, 11 Sep 2019 02:26:30 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "96e4fea6-201e-0061-2e48-682223000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "8434f0f0-8c88-4917-b7d6-96d2c0e87e73",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156816879072407567",
+  "blob": "blob156816879093103806"
+ }
+}

@@ -27,6 +27,7 @@ describe("QueueClient Node.js only", () => {
   it("getAccessPolicy", async () => {
     const result = await queueClient.getAccessPolicy();
     assert.ok(result.requestId);
+    assert.ok(result.clientRequestId);
     assert.ok(result.version);
     assert.ok(result.date);
   });

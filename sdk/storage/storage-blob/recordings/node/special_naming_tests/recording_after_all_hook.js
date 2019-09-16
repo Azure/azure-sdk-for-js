@@ -3,18 +3,18 @@ let nock = require('nock');
 module.exports.testInfo = {}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/1container-with-dash156711955086607213')
+  .delete('/1container-with-dash156816856896007000')
   .query(true)
   .reply(202, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '959ca666-c01e-005e-14bd-5e8992000000',
+  '4923c68d-901e-0015-3847-68a465000000',
+  'x-ms-client-request-id',
+  'ff8682e7-7eaa-43bf-847d-6e231e167005',
   'x-ms-version',
-  '2018-11-09',
+  '2019-02-02',
   'Date',
-  'Thu, 29 Aug 2019 22:59:29 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:23:11 GMT' ]);
 

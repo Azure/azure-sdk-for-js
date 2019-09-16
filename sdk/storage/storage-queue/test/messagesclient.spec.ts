@@ -35,6 +35,7 @@ describe("MessagesClient", () => {
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
@@ -43,6 +44,7 @@ describe("MessagesClient", () => {
     let pResult = await messagesClient.peek();
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(pResult.version);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
@@ -51,6 +53,7 @@ describe("MessagesClient", () => {
     let dqResult = await messagesClient.dequeue();
     assert.ok(dqResult.date);
     assert.ok(dqResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(dqResult.version);
     assert.deepStrictEqual(dqResult.dequeuedMessageItems.length, 1);
     assert.ok(dqResult.dequeuedMessageItems[0].popReceipt);
@@ -60,6 +63,7 @@ describe("MessagesClient", () => {
     let cResult = await messagesClient.clear();
     assert.ok(cResult.date);
     assert.ok(cResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(cResult.version);
 
     // check all messages are cleared

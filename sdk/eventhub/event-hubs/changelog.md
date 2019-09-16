@@ -1,3 +1,25 @@
+### 2019-09-09 5.0.0-preview.3
+
+#### Features
+- Adds load-balancing capabilities to `EventProcessor`. `EventProcesor` will use the data from `PartitionManager` to regulate how many partitions it should read from.
+([PR #4839](https://github.com/Azure/azure-sdk-for-js/pull/4839)).
+- Adds `lastEnqueuedEventInfo` property on `EventHubConsumer`. When the consumer is created with `trackLastEnqueuedEventInfo` set to `true`, the `lastEnqueuedEventInfo`
+field is updated everytime a message is received and provides details about the last enqueued event in the partition the `EventHubConsumer` is reading from.
+([PR #5036](https://github.com/Azure/azure-sdk-for-js/pull/5036))
+- Received event data will now expose `systemProperties` for message annotations set by the service. ([PR #5008](https://github.com/Azure/azure-sdk-for-js/pull/5008)).
+- Improved error messages when constructing an `EventHubClient` with an invalid connection string and Event Hub name combo. ([PR #4899](https://github.com/Azure/azure-sdk-for-js/pull/4899)).
+- Adds client-side type-checking for `EventPosition` static helper methods. ([PR #5052](https://github.com/Azure/azure-sdk-for-js/pull/5052)).
+
+#### Breaking changes
+- The `PartitionProcessor` interface is now a class with default implementations of `initialize`, `close`, `processEvents`, and `processError`.
+([PR #4994](https://github.com/Azure/azure-sdk-for-js/pull/4994)).
+  - Users should extend the `PartitionProcessor` class and override any of the methods that need custom logic.
+  - All 4 methods now accept `PartitionContext` as the last parameter.
+  `PartitionContext` contains information about the partition being processed, as well as the `updateCheckpoint` method that can be used to persist a checkpoint.
+- The `EventProcessor` constructor was changed to no longer accept a `PartitionProcessorFactory` function that returns a `PartitionProcessor`.
+Instead, users should extend the `PartitionProcessor` class and pass the class (not an instance of the class) to the `EventProcessor` constructor.
+([PR #4994](https://github.com/Azure/azure-sdk-for-js/pull/4994)).
+
 ### 2019-08-06 5.0.0-preview.2
 
 #### General

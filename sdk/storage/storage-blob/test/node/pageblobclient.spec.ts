@@ -13,6 +13,7 @@ import {
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, delay } from "../utils/recorder";
+import { Test_CPK_INFO } from "../utils/constants";
 
 describe("PageBlobClient Node.js only", () => {
   const blobServiceClient = getBSU();
@@ -207,5 +208,95 @@ describe("PageBlobClient Node.js only", () => {
     await newClient.create(512);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
+  it("create, uploadPages, uploadPagesFromURL, download, clearPages and resize with CPK", async () => {
+    const cResp = await pageBlobClient.create(1024, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    // Download without CPK should fail.
+    let exceptionCaught = false;
+    try {
+      await blobClient.download(0);
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    const content = "b".repeat(512);
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length);
+
+    // Get a SAS for blobURL
+    const factories = (blobClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const expiryTime = recorder.newDate();
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r").toString()
+      },
+      credential
+    );
+
+    const uResp = await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+    const uResp2 = await pageBlobClient.uploadPagesFromURL(
+      `${blockBlobClient.url}?${sas}`,
+      0,
+      512,
+      512,
+      { customerProvidedKey: Test_CPK_INFO }
+    );
+    assert.equal(uResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    let page1 = await pageBlobClient.download(0, 512, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    const page2 = await pageBlobClient.download(512, 512, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(page2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+
+    // TODO: As service support, Clear page currently cannot work with/without CPK when blob is encrypted with CPK.
+    // This might be optimized further according to service.
+    exceptionCaught = false;
+    try {
+      await pageBlobClient.clearPages(0, 512);
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    // await pageBlobURL.clearPages(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    // page1 = await pageBlobURL.download(Aborter.none, 0, 512, {customerProvidedKey: Test_CPK_INFO});
+    // assert.deepStrictEqual(await bodyToString(page1, 512), "\u0000".repeat(512));
+
+    // Clear page should fail without CPK.
+    // exceptionCaught = false;
+    // try {
+    //   await pageBlobURL.resize(Aborter.none, 2048);
+    // } catch (err) {
+    //   exceptionCaught = true;
+    // }
+    // assert.ok(exceptionCaught);
+
+    // Resize can work without customer encryption key.
+    await pageBlobClient.resize(2048);
+    const pResp = await pageBlobClient.getProperties({
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(pResp.contentLength, "2048");
   });
 });

@@ -14,17 +14,17 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '601f1836-9003-0002-7481-54786b000000',
+  '0ae6059b-c003-0042-4847-684de8000000',
+  'x-ms-client-request-id',
+  '181a66fe-752b-41e4-b6d5-000b3fe86e35',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,Cache-Control,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Cache-Control,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:23:33 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:19:25 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
@@ -35,13 +35,13 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '09ab35d9-c003-0038-4c81-543bc8000000',
+  'db8eefe8-4003-0035-4d47-68c8a9000000',
+  'x-ms-client-request-id',
+  '33ad2288-4fe3-413a-a8c6-4a89a7aa9989',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:23:34 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:19:25 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
@@ -56,15 +56,15 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '89ef03f2-9003-0009-1681-54601f000000',
+  'da029a28-1003-0069-1647-683950000000',
+  'x-ms-client-request-id',
+  'b1708d41-a457-4a2c-ae2b-d83e575ea66c',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,Cache-Control,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Cache-Control,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:23:40 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:19:31 GMT' ]);
 

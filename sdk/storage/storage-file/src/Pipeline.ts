@@ -17,7 +17,8 @@ import {
   WebResource,
   proxyPolicy,
   getDefaultProxySettings,
-  isNode
+  isNode,
+  ProxySettings
 } from "@azure/core-http";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
@@ -43,28 +44,6 @@ export {
   RequestPolicy,
   RequestPolicyOptions
 };
-
-/**
- * Interface of proxy policy options.
- *
- * @example
- *   // Use SharedKeyCredential with storage account and account key
- *   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
- *   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
- *   const serviceClient = new FileServiceClient(
- *     `https://${account}.file.core.windows.net`,
- *     sharedKeyCredential,
- *     {
- *       proxy: { url: "http://localhost:3128" }
- *     }
- *   );
- *
- * @export
- * @interface ProxyOptions
- */
-export interface ProxyOptions {
-  url?: string;
-}
 
 /**
  * Option interface for Pipeline constructor.
@@ -150,7 +129,7 @@ export class Pipeline {
  * @interface NewPipelineOptions
  */
 export interface NewPipelineOptions {
-  proxy?: ProxyOptions;
+  proxy?: ProxySettings | string;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
@@ -216,11 +195,13 @@ export function newPipeline(
 
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
-    factories.push(
-      proxyPolicy(
-        getDefaultProxySettings(pipelineOptions.proxy ? pipelineOptions.proxy.url : undefined)
-      )
-    );
+    let proxySettings: ProxySettings | undefined;
+    if (typeof pipelineOptions.proxy === "string") {
+      proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
+    } else {
+      proxySettings = pipelineOptions.proxy;
+    }
+    factories.push(proxyPolicy(proxySettings));
   }
   factories.push(credential);
 

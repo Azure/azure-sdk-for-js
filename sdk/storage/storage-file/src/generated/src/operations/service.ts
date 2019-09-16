@@ -104,35 +104,6 @@ export class Service {
       listSharesSegmentOperationSpec,
       callback) as Promise<Models.ServiceListSharesSegmentResponse>;
   }
-
-  /**
-   * The List Shares Segment operation returns a list of the shares and share snapshots under the
-   * specified account.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServiceListSharesSegmentResponse>
-   */
-  listSharesSegmentNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase): Promise<Models.ServiceListSharesSegmentResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listSharesSegmentNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.ListSharesResponse>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listSharesSegmentNext(nextPageLink: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ListSharesResponse>): void;
-  listSharesSegmentNext(nextPageLink: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ListSharesResponse>, callback?: coreHttp.ServiceCallback<Models.ListSharesResponse>): Promise<Models.ServiceListSharesSegmentResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listSharesSegmentNextOperationSpec,
-      callback) as Promise<Models.ServiceListSharesSegmentResponse>;
-  }
 }
 
 // Operation Specifications
@@ -208,29 +179,6 @@ const listSharesSegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.include,
     Parameters.timeout,
     Parameters.comp1
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListSharesResponse,
-      headersMapper: Mappers.ServiceListSharesSegmentHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageError
-    }
-  },
-  isXML: true,
-  serializer
-};
-
-const listSharesSegmentNextOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "{url}",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.version

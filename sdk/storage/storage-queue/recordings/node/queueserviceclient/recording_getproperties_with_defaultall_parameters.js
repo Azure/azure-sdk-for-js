@@ -14,15 +14,15 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '299ed0ed-4003-006d-1281-54d0bf000000',
+  '5deb5960-2003-0048-4147-685461000000',
+  'x-ms-client-request-id',
+  'fbb3994b-2bd4-4151-b51c-fad60f730021',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,Cache-Control,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Cache-Control,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:23:33 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:19:25 GMT' ]);
 

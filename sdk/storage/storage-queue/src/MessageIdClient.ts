@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import * as Models from "./generated/lib/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { MessageId } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { MessageId } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -88,7 +88,7 @@ export class MessageIdClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
@@ -197,9 +197,8 @@ export class MessageIdClient extends StorageClient {
     popReceipt: string,
     options: MessageIdDeleteOptions = {}
   ): Promise<Models.MessageIdDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.messageIdContext.deleteMethod(popReceipt, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -226,7 +225,6 @@ export class MessageIdClient extends StorageClient {
     visibilityTimeout?: number,
     options: MessageIdUpdateOptions = {}
   ): Promise<Models.MessageIdUpdateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.messageIdContext.update(
       {
         messageText: message
@@ -234,7 +232,7 @@ export class MessageIdClient extends StorageClient {
       popReceipt,
       visibilityTimeout || 0,
       {
-        abortSignal: aborter
+        abortSignal: options.abortSignal
       }
     );
   }

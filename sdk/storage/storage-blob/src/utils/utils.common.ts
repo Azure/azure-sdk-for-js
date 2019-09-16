@@ -82,71 +82,79 @@ export function escapeURLPath(url: string): string {
 export function extractConnectionStringParts(
   connectionString: string
 ): { kind: "AccountConnString" | "SASConnString"; url: string; [key: string]: any } {
-  // Account connection string
+  function getValueInConnString(argument: string) {
+    const matchCredentials = connectionString.split(";");
+    for (const element of matchCredentials) {
+      if (element.trim().startsWith(argument)) {
+        return element.trim().match(argument + "=(.*)")![1];
+      }
+    }
+    return "";
+  }
+
+  // Matching BlobEndpoint in the Account connection string
+  let blobEndpoint = getValueInConnString("BlobEndpoint");
+  // Slicing off '/' at the end if exists
+  // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
+  blobEndpoint = blobEndpoint.endsWith("/") ? blobEndpoint.slice(0, -1) : blobEndpoint;
+
   if (
     connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
     connectionString.search("AccountKey=") !== -1
   ) {
-    const matchCredentials = connectionString.match(
-      "DefaultEndpointsProtocol=(.*);AccountName=(.*);AccountKey=(.*);EndpointSuffix=(.*)"
-    );
+    // Account connection string
 
-    let defaultEndpointsProtocol;
-    let accountName;
-    let accountKey;
-    let endpointSuffix;
+    let defaultEndpointsProtocol = "";
+    let accountName = "";
+    let accountKey = Buffer.from("accountKey", "base64");
+    let endpointSuffix = "";
 
-    try {
-      defaultEndpointsProtocol = matchCredentials![1] || "";
-      accountName = matchCredentials![2] || "";
-      accountKey = Buffer.from(matchCredentials![3], "base64");
-      endpointSuffix = matchCredentials![4] || "";
-    } catch (err) {
-      throw new Error("Invalid Account Connection String");
+    // Get account name and key
+    accountName = getValueInConnString("AccountName");
+    accountKey = Buffer.from(getValueInConnString("AccountKey"), "base64");
+
+    if (!blobEndpoint) {
+      // BlobEndpoint is not present in the Account connection string
+      // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`
+
+      defaultEndpointsProtocol = getValueInConnString("DefaultEndpointsProtocol");
+      const protocol = defaultEndpointsProtocol!.toLowerCase();
+      if (protocol !== "https" && protocol !== "http") {
+        throw new Error(
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+        );
+      }
+
+      endpointSuffix = getValueInConnString("EndpointSuffix");
+      if (!endpointSuffix) {
+        throw new Error("Invalid EndpointSuffix in the provided Connection String");
+      }
+      blobEndpoint = `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
     }
 
-    const protocol = defaultEndpointsProtocol.toLowerCase();
-    if (protocol !== "https" && protocol !== "http") {
-      throw new Error(
-        "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
-      );
-    } else if (!accountName) {
+    if (!accountName) {
       throw new Error("Invalid AccountName in the provided Connection String");
     } else if (accountKey.length === 0) {
       throw new Error("Invalid AccountKey in the provided Connection String");
-    } else if (!endpointSuffix) {
-      throw new Error("Invalid EndpointSuffix in the provided Connection String");
     }
-
-    const url = `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
 
     return {
       kind: "AccountConnString",
-      url,
+      url: blobEndpoint,
       accountName,
       accountKey
     };
   } else {
     // SAS connection string
-    const matchCredentials = connectionString.match(
-      "BlobEndpoint=(.*)/;QueueEndpoint=(.*)/;FileEndpoint=(.*)/;TableEndpoint=(.*)/;SharedAccessSignature=(.*)"
-    );
-    let endpoint;
-    let accountSas;
-    try {
-      endpoint = matchCredentials![1] || "";
-      accountSas = matchCredentials![5] || "";
-    } catch (error) {
-      throw new Error("Invalid SAS Connection String");
-    }
 
-    if (!endpoint) {
-      throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
+    let accountSas = getValueInConnString("SharedAccessSignature");
+    if (!blobEndpoint) {
+      throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
     }
 
-    return { kind: "SASConnString", url: endpoint, accountSas };
+    return { kind: "SASConnString", url: blobEndpoint, accountSas };
   }
 }
 
@@ -236,6 +244,41 @@ export function setURLHost(url: string, host: string): string {
 export function getURLPath(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
   return urlParsed.getPath();
+}
+
+/**
+ * Get URL scheme from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLScheme(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getScheme();
+}
+
+/**
+ * Get URL path and query from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLPathAndQuery(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  const pathString = urlParsed.getPath();
+  if (!pathString) {
+    throw new RangeError("Invalid url without valid path.");
+  }
+
+  let queryString = urlParsed.getQuery() || "";
+  queryString = queryString.trim();
+  if (queryString != "") {
+    queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
+  }
+
+  return `${pathString}${queryString}`;
 }
 
 /**
@@ -414,7 +457,7 @@ export function sanitizeURL(url: string): string {
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   const headers: HttpHeaders = new HttpHeaders();
   for (const header of originalHeader.headersArray()) {
-    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
       headers.set(header.name, "*****");
     } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
       headers.set(header.name, sanitizeURL(header.value));
@@ -490,4 +533,15 @@ export async function readStreamToLocalFile(
 
     rs.pipe(ws);
   });
+}
+/**
+ * If two strings are equal when compared case insensitive.
+ *
+ * @export
+ * @param {string} str1
+ * @param {string} str2
+ * @returns {boolean}
+ */
+export function iEqual(str1: string, str2: string): boolean {
+  return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
 }

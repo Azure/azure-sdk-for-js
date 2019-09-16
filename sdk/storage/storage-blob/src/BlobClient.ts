@@ -9,11 +9,18 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { Blob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
-import { BlobAccessConditions, Metadata } from "./models";
+import {
+  BlobAccessConditions,
+  Metadata,
+  ensureCpkIfSpecified,
+  BlockBlobTier,
+  PremiumPageBlobTier,
+  toAccessTier
+} from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
@@ -50,19 +57,32 @@ export interface BlobDownloadOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Optional. The version string of the snapshot to download.
+   * An opaque DateTime string value that, when present, specifies the blob snapshot to retrieve.
    *
    * @type {string}
    * @memberof BlobDownloadOptions
    */
   snapshot?: string;
   /**
-   * Specifies whether to retrieve the MD5 hash of the range when downloading a range of bytes.
+   * When this is set to true and download range of blob, the service returns the MD5 hash for the range,
+   * as long as the range is less than or equal to 4 MB in size.
+   *
+   * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
    *
    * @type {boolean}
    * @memberof BlobDownloadOptions
    */
   rangeGetContentMD5?: boolean;
+  /**
+   * When this is set to true and download range of blob, the service returns the CRC64 hash for the range,
+   * as long as the range is less than or equal to 4 MB in size.
+   *
+   * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
+   *
+   * @type {boolean}
+   * @memberof BlobDownloadOptions
+   */
+  rangeGetContentCrc64?: boolean;
   /**
    * Conditions to meet when downloading blobs.
    *
@@ -93,6 +113,13 @@ export interface BlobDownloadOptions {
    * @memberof BlobDownloadOptions
    */
   maxRetryRequests?: number;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobDownloadOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -117,6 +144,13 @@ export interface BlobGetPropertiesOptions {
    * @memberof BlobGetPropertiesOptions
    */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobGetPropertiesOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -150,6 +184,13 @@ export interface BlobDeleteOptions {
    * @memberof BlobDeleteOptions
    */
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobDeleteOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -167,6 +208,13 @@ export interface BlobUndeleteOptions {
    * @memberof BlobUndeleteOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobUndeleteOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -191,6 +239,13 @@ export interface BlobSetHTTPHeadersOptions {
    * @memberof BlobSetHTTPHeadersOptions
    */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobSetHTTPHeadersOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -215,6 +270,13 @@ export interface BlobSetMetadataOptions {
    * @memberof BlobSetMetadataOptions
    */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobSetMetadataOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -366,6 +428,13 @@ export interface BlobCreateSnapshotOptions {
    * @memberof BlobCreateSnapshotOptions
    */
   blobAccessConditions?: BlobAccessConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobCreateSnapshotOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -404,6 +473,22 @@ export interface BlobStartCopyFromURLOptions {
    * @memberof BlobStartCopyFromURLOptions
    */
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | PremiumPageBlobTier | string}
+   * @memberof BlobStartCopyFromURLOptions
+   */
+  tier?: BlockBlobTier | PremiumPageBlobTier | string;
+  /**
+   * Rehydrate Priority - possible values include 'High', 'Standard'.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
+   *
+   * @type {Models.RehydratePriority}
+   * @memberof BlobStartCopyFromURLOptions
+   */
+  rehydratePriority?: Models.RehydratePriority;
 }
 
 /**
@@ -492,6 +577,14 @@ export interface BlobSetTierOptions {
    * @memberof BlobSetTierOptions
    */
   leaseAccessConditions?: Models.LeaseAccessConditions;
+  /**
+   * Rehydrate Priority - possible values include 'High', 'Standard'.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
+   *
+   * @type {Models.RehydratePriority}
+   * @memberof BlobSetTierOptions
+   */
+  rehydratePriority?: Models.RehydratePriority;
 }
 
 /**
@@ -609,7 +702,7 @@ export class BlobClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -778,19 +871,21 @@ export class BlobClient extends StorageClient {
     count?: number,
     options: BlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.blobAccessConditions.modifiedAccessConditions =
       options.blobAccessConditions.modifiedAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     const res = await this.blobContext.download({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
       onDownloadProgress: isNode ? undefined : options.progress,
       range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
       rangeGetContentMD5: options.rangeGetContentMD5,
-      snapshot: options.snapshot
+      rangeGetContentCRC64: options.rangeGetContentCrc64,
+      snapshot: options.snapshot,
+      cpkInfo: options.customerProvidedKey
     });
 
     // Return browser response immediately
@@ -833,7 +928,10 @@ export class BlobClient extends StorageClient {
             count: offset + res.contentLength! - start,
             offset: start
           }),
-          snapshot: options.snapshot
+          rangeGetContentMD5: options.rangeGetContentMD5,
+          rangeGetContentCRC64: options.rangeGetContentCrc64,
+          snapshot: options.snapshot,
+          cpkInfo: options.customerProvidedKey
         };
 
         // Debug purpose only
@@ -844,14 +942,14 @@ export class BlobClient extends StorageClient {
         // );
 
         return (await this.blobContext.download({
-          abortSignal: aborter,
+          abortSignal: options.abortSignal,
           ...updatedOptions
         })).readableStreamBody!;
       },
       offset,
       res.contentLength!,
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         maxRetryRequests: options.maxRetryRequests,
         progress: options.progress
       }
@@ -870,12 +968,13 @@ export class BlobClient extends StorageClient {
   public async getProperties(
     options: BlobGetPropertiesOptions = {}
   ): Promise<Models.BlobGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blobContext.getProperties({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -891,10 +990,9 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     return this.blobContext.deleteMethod({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       deleteSnapshots: options.deleteSnapshots,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
@@ -912,9 +1010,8 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.blobContext.undelete({
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -936,13 +1033,14 @@ export class BlobClient extends StorageClient {
     blobHTTPHeaders?: Models.BlobHTTPHeaders,
     options: BlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blobContext.setHTTPHeaders({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobHTTPHeaders,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -963,13 +1061,14 @@ export class BlobClient extends StorageClient {
     metadata?: Metadata,
     options: BlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blobContext.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -995,13 +1094,14 @@ export class BlobClient extends StorageClient {
   public async createSnapshot(
     options: BlobCreateSnapshotOptions = {}
   ): Promise<Models.BlobCreateSnapshotResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.blobContext.createSnapshot({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -1024,12 +1124,11 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobStartCopyFromURLOptions = {}
   ): Promise<Models.BlobStartCopyFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
     return this.blobContext.startCopyFromURL(copySource, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
@@ -1038,7 +1137,9 @@ export class BlobClient extends StorageClient {
         sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
         sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
         sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-      }
+      },
+      rehydratePriority: options.rehydratePriority,
+      tier: toAccessTier(options.tier)
     });
   }
 
@@ -1056,9 +1157,8 @@ export class BlobClient extends StorageClient {
     copyId: string,
     options: BlobAbortCopyFromURLOptions = {}
   ): Promise<Models.BlobAbortCopyFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.blobContext.abortCopyFromURL(copyId, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions
     });
   }
@@ -1077,12 +1177,11 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobSyncCopyFromURLOptions = {}
   ): Promise<Models.BlobCopyFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
     return this.blobContext.copyFromURL(copySource, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata: options.metadata,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
@@ -1103,19 +1202,19 @@ export class BlobClient extends StorageClient {
    * storage type. This operation does not update the blob's ETag.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
    *
-   * @param {Models.AccessTier} tier The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
+   * @param {BlockBlobTier | PremiumPageBlobTier | string} tier The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
    * @param {BlobSetTierOptions} [options] Optional options to the Blob Set Tier operation.
    * @returns {Promise<Models.BlobsSetTierResponse>}
    * @memberof BlobClient
    */
   public async setTier(
-    tier: Models.AccessTier,
+    tier: BlockBlobTier | PremiumPageBlobTier | string,
     options: BlobSetTierOptions = {}
   ): Promise<Models.BlobSetTierResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
-    return await this.blobContext.setTier(tier, {
-      abortSignal: aborter,
-      leaseAccessConditions: options.leaseAccessConditions
+    return await this.blobContext.setTier(toAccessTier(tier)!, {
+      abortSignal: options.abortSignal,
+      leaseAccessConditions: options.leaseAccessConditions,
+      rehydratePriority: options.rehydratePriority
     });
   }
 

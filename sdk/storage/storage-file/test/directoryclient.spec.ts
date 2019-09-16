@@ -1,9 +1,13 @@
 import * as assert from "assert";
 import { getBSU } from "./utils";
 import * as dotenv from "dotenv";
-import { ShareClient, DirectoryClient } from "../src";
+import { ShareClient, DirectoryClient, FileSystemAttributes } from "../src";
 import { record } from "./utils/recorder";
-import { DirectoryForceCloseHandlesResponse } from "../src/generated/src/models";
+import {
+  DirectoryForceCloseHandlesResponse,
+  DirectoryCreateResponse
+} from "../src/generated/src/models";
+import { truncatedISO8061Date } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
@@ -12,8 +16,17 @@ describe("DirectoryClient", () => {
   let shareClient: ShareClient;
   let dirName: string;
   let dirClient: DirectoryClient;
-
+  let defaultDirCreateResp: DirectoryCreateResponse;
   let recorder: any;
+  let fullDirAttributes = new FileSystemAttributes();
+  fullDirAttributes.readonly = true;
+  fullDirAttributes.hidden = true;
+  fullDirAttributes.system = true;
+  fullDirAttributes.directory = true;
+  fullDirAttributes.archive = true;
+  fullDirAttributes.offline = true;
+  fullDirAttributes.notContentIndexed = true;
+  fullDirAttributes.noScrubData = true;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -23,11 +36,19 @@ describe("DirectoryClient", () => {
 
     dirName = recorder.getUniqueName("dir");
     dirClient = shareClient.getDirectoryClient(dirName);
-    await dirClient.create();
+
+    defaultDirCreateResp = await dirClient.create();
+    assert.equal(defaultDirCreateResp.errorCode, undefined);
+    assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
+    assert.ok(defaultDirCreateResp.fileChangeTime!);
+    assert.ok(defaultDirCreateResp.fileCreationTime!);
+    assert.ok(defaultDirCreateResp.fileId!);
+    assert.ok(defaultDirCreateResp.fileLastWriteTime!);
+    assert.ok(defaultDirCreateResp.fileParentId!);
+    assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
   afterEach(async function() {
-    await dirClient.delete();
     await shareClient.delete();
     recorder.stop();
   });
@@ -62,12 +83,125 @@ describe("DirectoryClient", () => {
     done();
   });
 
-  it("create with all parameters configured", async () => {
-    const cClient = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+  it("create with all parameters configured setting filePermissionKey", async () => {
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
     const metadata = { key: "value" };
-    await cClient.create({ metadata });
-    const result = await cClient.getProperties();
+    const now = recorder.newDate("now");
+
+    await dirClient2.create({
+      metadata: metadata,
+      creationTime: now,
+      lastWriteTime: now,
+      filePermissionKey: defaultDirCreateResp.filePermissionKey,
+      fileAttributes: fullDirAttributes
+    });
+
+    const result = await dirClient2.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+  });
+  it("create with all parameters configured setting filePermission", async () => {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!
+    );
+
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const metadata = { key: "value" };
+    const now = recorder.newDate("now");
+    await dirClient2.create({
+      metadata: metadata,
+      creationTime: now,
+      lastWriteTime: now,
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullDirAttributes
+    });
+
+    const result = await dirClient2.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+  });
+
+  it("setProperties with default parameters", async () => {
+    await dirClient.setProperties();
+
+    const result = await dirClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
+    assert.equal(
+      truncatedISO8061Date(result.fileCreationTime!),
+      truncatedISO8061Date(defaultDirCreateResp.fileCreationTime!)
+    );
+    assert.equal(
+      truncatedISO8061Date(result.fileLastWriteTime!),
+      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteTime!)
+    );
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+  });
+
+  it("setProperties with all parameters configured setting filePermission", async () => {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!
+    );
+
+    const now = recorder.newDate("now");
+
+    await dirClient.setProperties({
+      creationTime: now,
+      lastWriteTime: now,
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullDirAttributes
+    });
+
+    const result = await dirClient.getProperties();
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
   });
 
   it("delete", (done) => {

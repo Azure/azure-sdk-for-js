@@ -1,12 +1,35 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { HttpHeaders } from "../src";
-import { sanitizeHeaders, sanitizeURL } from "../src/utils/utils.common";
+import {
+  sanitizeHeaders,
+  sanitizeURL,
+  extractConnectionStringParts
+} from "../src/utils/utils.common";
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers", () => {
   let recorder: any;
+  const protocol = "https";
+  const endpointSuffix = "core.windows.net";
+  const accountName = "myaccount";
+  const fileEndpoint = `${protocol}://${accountName}.file.${endpointSuffix}`;
+  const sharedAccessSignature = "sasToken";
+
+  function verifySASConnectionString(sasConnectionString: string) {
+    const connectionStringParts = extractConnectionStringParts(sasConnectionString);
+    assert.equal(
+      "SASConnString",
+      connectionStringParts.kind,
+      "extractConnectionStringParts().kind is different than expected."
+    );
+    assert.equal(
+      fileEndpoint,
+      connectionStringParts.url,
+      "extractConnectionStringParts().url is different than expected."
+    );
+  }
 
   beforeEach(async function() {
     recorder = record(this);
@@ -47,6 +70,22 @@ describe("Utility Helpers", () => {
     assert.ok(
       sanitized.get("otherheader")!.indexOf("sasstring") !== -1,
       "Other header should not be changed."
+    );
+  });
+
+  it("extractConnectionStringParts parses sas connection string with queue and file endpoints", async () => {
+    verifySASConnectionString(
+      `FileEndpoint=${fileEndpoint};
+        FileEndpoint=https://storagesample.file.core.windows.net;
+        SharedAccessSignature=${sharedAccessSignature}`
+    );
+  });
+
+  it("extractConnectionStringParts parses sas connection string with queue endpoint", async () => {
+    verifySASConnectionString(
+      `FileEndpoint=${fileEndpoint};
+        FileEndpoint=https://storagesample.file.core.windows.net;
+        SharedAccessSignature=${sharedAccessSignature}`
     );
   });
 });

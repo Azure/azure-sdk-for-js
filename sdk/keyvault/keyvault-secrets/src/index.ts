@@ -3,6 +3,7 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
+  getDefaultUserAgentValue,
   TokenCredential,
   isTokenCredential,
   RequestPolicyFactory,
@@ -17,7 +18,11 @@ import {
   throttlingRetryPolicy,
   getDefaultProxySettings,
   isNode,
-  userAgentPolicy
+  userAgentPolicy,
+  tracingPolicy,
+  TracerProxy,
+  Span,
+  SupportedPlugins
 } from "@azure/core-http";
 
 import "@azure/core-paging";
@@ -49,7 +54,6 @@ import {
   TelemetryOptions,
   ParsedKeyVaultEntityIdentifier
 } from "./core";
-import { getDefaultUserAgentValue } from "@azure/core-http";
 
 export {
   DeletedSecret,
@@ -66,7 +70,13 @@ export {
   UpdateSecretOptions
 };
 
-export { ProxyOptions, RetryOptions, TelemetryOptions };
+export {
+  ProxyOptions,
+  RetryOptions,
+  SupportedPlugins,
+  TracerProxy,
+  TelemetryOptions
+};
 
 /**
  * The client to interact with the KeyVault secrets functionality
@@ -98,6 +108,7 @@ export class SecretsClient {
       );
     }
     requestPolicyFactories = requestPolicyFactories.concat([
+      tracingPolicy(),
       userAgentPolicy({ value: userAgentString }),
       generateClientRequestIdPolicy(),
       deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -230,12 +241,20 @@ export class SecretsClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
+      const span = this.createSpan("setSecret", unflattenedOptions);
+      span.start();
+
       const response = await this.client.setSecret(
         this.vaultBaseUrl,
         secretName,
         value,
         unflattenedOptions
-      );
+      ).catch((err) => {
+        span.end();
+        throw err;
+      });
+
+      span.end();
       return this.getSecretFromSecretBundle(response);
     } else {
       const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
@@ -262,7 +281,16 @@ export class SecretsClient {
     secretName: string,
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
-    const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options);
+    const span = this.createSpan("deleteSecret", options);
+    span.start();
+ 
+    const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, options)
+    .catch((err) => {
+      span.end();
+      throw err;
+    });
+
+    span.end(); 
     return this.getDeletedSecretFromDeletedSecretBundle(response);
   }
 
@@ -305,12 +333,21 @@ export class SecretsClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
+      const span = this.createSpan("updateSecretAttributes", unflattenedOptions);
+      span.start();
+
       const response = await this.client.updateSecret(
         this.vaultBaseUrl,
         secretName,
         secretVersion,
         unflattenedOptions
-      );
+      )
+      .catch((err) => {
+        span.end();
+        throw err;
+      });
+
+      span.end();
       return this.getSecretFromSecretBundle(response);
     } else {
       const response = await this.client.updateSecret(
@@ -338,12 +375,21 @@ export class SecretsClient {
    * @returns Promise<Secret>
    */
   public async getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret> {
+    const span = this.createSpan("getSecret", options && options.requestOptions);
+    span.start();
+ 
     const response = await this.client.getSecret(
       this.vaultBaseUrl,
       secretName,
       options && options.version ? options.version : "",
       options ? options.requestOptions : undefined
-    );
+    )
+    .catch((err) => {
+      span.end();
+      throw err;
+    });
+
+    span.end();
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -365,7 +411,16 @@ export class SecretsClient {
     secretName: string,
     options?: RequestOptionsBase
   ): Promise<DeletedSecret> {
-    const response = await this.client.getDeletedSecret(this.vaultBaseUrl, secretName, options);
+    const span = this.createSpan("getDeletedSecret", options);
+    span.start();
+ 
+    const response = await this.client.getDeletedSecret(this.vaultBaseUrl, secretName, options)
+    .catch((err) => {
+      span.end();
+      throw err;
+    });
+
+    span.end();
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -386,7 +441,16 @@ export class SecretsClient {
    * @returns Promise<void>
    */
   public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
-    await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options);
+    const span = this.createSpan("purgeDeletedSecret", options);
+    span.start();
+ 
+    await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, options)
+    .catch((err) => {
+      span.end();
+      throw err;
+    });
+
+    span.end();
   }
 
   /**
@@ -408,7 +472,16 @@ export class SecretsClient {
     secretName: string,
     options?: RequestOptionsBase
   ): Promise<Secret> {
-    const response = await this.client.recoverDeletedSecret(this.vaultBaseUrl, secretName, options);
+    const span = this.createSpan("recoverDeletedSecret", options);
+    span.start();
+ 
+    const response = await this.client.recoverDeletedSecret(this.vaultBaseUrl, secretName, options)
+    .catch((err) => {
+      span.end();
+      throw err;
+    });
+
+    span.end();
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -427,7 +500,16 @@ export class SecretsClient {
    * @returns Promise<Uint8Array | undefined>
    */
   public async backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array> {
-    const response: any = await this.client.backupSecret(this.vaultBaseUrl, secretName, options);
+    const span = this.createSpan("backupSecret", options);
+    span.start();
+ 
+    const response: any = await this.client.backupSecret(this.vaultBaseUrl, secretName, options)
+    .catch((err) => {
+      span.end();
+      throw err;
+    });
+
+    span.end();
     return response.value;
   }
 
@@ -451,11 +533,20 @@ export class SecretsClient {
     secretBundleBackup: Uint8Array,
     options?: RequestOptionsBase
   ): Promise<Secret> {
+    const span = this.createSpan("restoreSecret", options);
+    span.start();
+ 
     const response = await this.client.restoreSecret(
       this.vaultBaseUrl,
       secretBundleBackup,
       options
-    );
+    )
+    .catch((err) => {
+      span.end();
+      throw err;
+    });
+
+    span.end();
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -520,7 +611,12 @@ export class SecretsClient {
     secretName: string,
     options?: ListSecretsOptions
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
+    const span = this.createSpan("listSecretVersions", options && options.requestOptions);
+    span.start();
+ 
     const iter = this.listSecretVersionsAll(secretName, options);
+
+    span.end();
     return {
       next() {
         return iter.next();
@@ -587,7 +683,12 @@ export class SecretsClient {
   public listSecrets(
     options?: ListSecretsOptions
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
+    const span = this.createSpan("listSecrets", options && options.requestOptions);
+    span.start();
+ 
     const iter = this.listSecretsAll(options);
+
+    span.end();
     return {
       next() {
         return iter.next();
@@ -656,7 +757,12 @@ export class SecretsClient {
   public listDeletedSecrets(
     options?: ListSecretsOptions
   ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
+    const span = this.createSpan("listDeletedSecrets", options && options.requestOptions);
+    span.start();
+ 
     const iter = this.listDeletedSecretsAll(options);
+
+    span.end();
     return {
       next() {
         return iter.next();
@@ -710,5 +816,25 @@ export class SecretsClient {
     }
 
     return resultObject;
+  }
+
+  /**
+   * Creates a span using the tracer that was set by the user
+   * @param methodName The name of the method for which the span is being created.
+   * @param requestOptions The options for the underlying http request. This will be
+   * updated to use the newly created span as the "parent" so that any new spans created
+   * after this point gets the right parent.
+   */
+  private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
+    const tracer = TracerProxy.getTracer();
+    const options = requestOptions || {};
+    const span = tracer.startSpan(methodName, options.spanOptions);
+    if (
+      tracer.pluginType !== SupportedPlugins.NOOP &&
+      (options.spanOptions && options.spanOptions.parent)
+    ) {
+      options.spanOptions = { ...options.spanOptions, parent: span };
+    }
+    return span;
   }
 }

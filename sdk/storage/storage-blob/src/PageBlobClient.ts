@@ -9,12 +9,19 @@ import {
   isNode
 } from "@azure/core-http";
 
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
 import * as Models from "./generated/src/models";
 import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
-import { BlobAccessConditions, Metadata, PageBlobAccessConditions } from "./models";
+import {
+  BlobAccessConditions,
+  Metadata,
+  PageBlobAccessConditions,
+  ensureCpkIfSpecified,
+  PremiumPageBlobTier,
+  toAccessTier
+} from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
@@ -65,6 +72,21 @@ export interface PageBlobCreateOptions {
    * @memberof PageBlobCreateOptions
    */
   metadata?: Metadata;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof PageBlobCreateOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {PremiumPageBlobTier | string}
+   * @memberof PageBlobCreateOptions
+   */
+  tier?: PremiumPageBlobTier | string;
 }
 
 /**
@@ -96,14 +118,32 @@ export interface PageBlobUploadPagesOptions {
    */
   progress?: (progress: TransferProgressEvent) => void;
   /**
-   * A Uint8Array holding the MD5 hash of the blob content.
-   * It is only used to verify the integrity of the block during transport.
-   * It is not stored in with the blob.
+   * An MD5 hash of the content. This hash is used to verify the integrity of the content during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
    *
    * @type {Uint8Array}
    * @memberof PageBlobUploadPagesOptions
    */
   transactionalContentMD5?: Uint8Array;
+  /**
+   * A CRC64 hash of the content. This hash is used to verify the integrity of the content during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   *
+   * @type {Uint8Array}
+   * @memberof PageBlobUploadPagesOptions
+   */
+  transactionalContentCrc64?: Uint8Array;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof PageBlobUploadPagesOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -128,6 +168,13 @@ export interface PageBlobClearPagesOptions {
    * @memberof PageBlobClearPagesOptions
    */
   accessConditions?: PageBlobAccessConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof PageBlobClearPagesOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -281,14 +328,34 @@ export interface PageBlobUploadPagesFromURLOptions {
    */
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
   /**
-   * A Uint8Array holding the MD5 hash of the source block content.
-   * It is only used to verify the integrity of the block during transport.
-   * It is not stored in with the blob.
+   * An MD5 hash of the content from the URI.
+   * This hash is used to verify the integrity of the content during transport of the data from the URI.
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   *
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
    *
    * @type {Uint8Array}
-   * @memberof AppendBlobAppendBlockFromURLOptions
+   * @memberof PageBlobUploadPagesFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
+  /**
+   * A CRC64 hash of the content from the URI.
+   * This hash is used to verify the integrity of the content during transport of the data from the URI.
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   *
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   *
+   * @type {Uint8Array}
+   * @memberof PageBlobUploadPagesFromURLOptions
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof PageBlobUploadPagesFromURLOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -338,7 +405,7 @@ export class PageBlobClient extends BlobClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
@@ -470,15 +537,17 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobCreateOptions = {}
   ): Promise<Models.PageBlobCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.pageBlobContext.create(0, size, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobHTTPHeaders: options.blobHTTPHeaders,
       blobSequenceNumber: options.blobSequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey,
+      tier: toAccessTier(options.tier)
     });
   }
 
@@ -499,16 +568,18 @@ export class PageBlobClient extends BlobClient {
     count: number,
     options: PageBlobUploadPagesOptions = {}
   ): Promise<Models.PageBlobUploadPagesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.pageBlobContext.uploadPages(body, count, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
       range: rangeToString({ offset, count }),
       sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-      transactionalContentMD5: options.transactionalContentMD5
+      transactionalContentMD5: options.transactionalContentMD5,
+      transactionalContentCrc64: options.transactionalContentCrc64,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -517,8 +588,6 @@ export class PageBlobClient extends BlobClient {
    * contents are read from a URL.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
    * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source page blob
    * @param {number} destOffset Offset of destination page blob
@@ -534,18 +603,18 @@ export class PageBlobClient extends BlobClient {
     count: number,
     options: PageBlobUploadPagesFromURLOptions = {}
   ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
-
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return this.pageBlobContext.uploadPagesFromURL(
       sourceURL,
       rangeToString({ offset: sourceOffset, count }),
       0,
       rangeToString({ offset: destOffset, count }),
       {
-        abortSignal: aborter,
+        abortSignal: options.abortSignal,
         sourceContentMD5: options.sourceContentMD5,
+        sourceContentCrc64: options.sourceContentCrc64,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
@@ -554,7 +623,8 @@ export class PageBlobClient extends BlobClient {
           sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-        }
+        },
+        cpkInfo: options.customerProvidedKey
       }
     );
   }
@@ -574,14 +644,14 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobClearPagesOptions = {}
   ): Promise<Models.PageBlobClearPagesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.clearPages(0, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions
+      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -600,10 +670,9 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<Models.PageBlobGetPageRangesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.getPageRanges({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count })
@@ -627,10 +696,9 @@ export class PageBlobClient extends BlobClient {
     prevSnapshot: string,
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.getPageRangesDiff({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       prevsnapshot: prevSnapshot,
@@ -651,10 +719,9 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobResizeOptions = {}
   ): Promise<Models.PageBlobResizeResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.resize(size, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
     });
@@ -675,10 +742,9 @@ export class PageBlobClient extends BlobClient {
     sequenceNumber?: number,
     options: PageBlobUpdateSequenceNumberOptions = {}
   ): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobSequenceNumber: sequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
@@ -703,9 +769,8 @@ export class PageBlobClient extends BlobClient {
     copySource: string,
     options: PageBlobStartCopyIncrementalOptions = {}
   ): Promise<Models.PageBlobCopyIncrementalResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.pageBlobContext.copyIncremental(copySource, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       modifiedAccessConditions: options.modifiedAccessConditions
     });
   }

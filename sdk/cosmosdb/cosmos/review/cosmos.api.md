@@ -364,6 +364,7 @@ export interface CosmosClientOptions {
     };
     // Warning: (ae-forgotten-export) The symbol "TokenProvider" needs to be exported by the entry point index.d.ts
     tokenProvider?: TokenProvider;
+    userAgentSuffix?: string;
 }
 
 // @public (undocumented)
@@ -472,9 +473,11 @@ export interface FeedOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    bufferItems?: boolean;
     continuation?: string;
     continuationTokenLimitInKB?: number;
     enableScanInQuery?: boolean;
+    forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
     maxItemCount?: number;
     populateQueryMetrics?: boolean;

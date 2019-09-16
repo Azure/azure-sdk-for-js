@@ -4,6 +4,8 @@ import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { base64encode, bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
+import { Test_CPK_INFO } from "./utils/constants";
+import { BlockBlobTier } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("BlockBlobClient", () => {
@@ -53,7 +55,8 @@ describe("BlockBlobClient", () => {
     };
     await blockBlobClient.upload(body, body.length, {
       blobHTTPHeaders: options,
-      metadata: options.metadata
+      metadata: options.metadata,
+      tier: BlockBlobTier.Cool
     });
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -63,6 +66,9 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(result.contentLanguage, options.blobContentLanguage);
     assert.deepStrictEqual(result.contentType, options.blobContentType);
     assert.deepStrictEqual(result.metadata, options.metadata);
+
+    const gResp = await blobClient.getProperties();
+    assert.equal(gResp.accessTier, BlockBlobTier.Cool);
   });
 
   it("stageBlock", async () => {
@@ -167,7 +173,8 @@ describe("BlockBlobClient", () => {
     };
     await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
       blobHTTPHeaders: options,
-      metadata: options.metadata
+      metadata: options.metadata,
+      tier: BlockBlobTier.Cool
     });
 
     const listResponse = await blockBlobClient.getBlockList("committed");
@@ -185,6 +192,9 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(result.contentLanguage, options.blobContentLanguage);
     assert.deepStrictEqual(result.contentType, options.blobContentType);
     assert.deepStrictEqual(result.metadata, options.metadata);
+
+    const gResp = await blobClient.getProperties();
+    assert.equal(gResp.accessTier, BlockBlobTier.Cool);
   });
 
   it("getBlockList", async () => {
@@ -238,5 +248,122 @@ describe("BlockBlobClient", () => {
         "Error message is different than expected."
       );
     }
+  });
+
+  it("upload and download with CPK", async () => {
+    const body: string = recorder.getUniqueName("randomstring");
+    const options = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentType: "blobContentType",
+      metadata: {
+        keya: "vala",
+        keyb: "valb"
+      }
+    };
+    const uResp = await blockBlobClient.upload(body, body.length, {
+      blobHTTPHeaders: options,
+      metadata: options.metadata,
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+    const result = await blobClient.download(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+    assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
+    assert.deepStrictEqual(result.contentDisposition, options.blobContentDisposition);
+    assert.deepStrictEqual(result.contentEncoding, options.blobContentEncoding);
+    assert.deepStrictEqual(result.contentLanguage, options.blobContentLanguage);
+    assert.deepStrictEqual(result.contentType, options.blobContentType);
+    assert.deepStrictEqual(result.metadata, options.metadata);
+  });
+
+  it("stageBlock, stageBlockURL and commitBlockList with CPK", async () => {
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    // When testing is in Node.js environment with shared key, setAccessPolicy will work
+    // But in browsers testing with SAS tokens, below will throw an exception, ignore it
+    try {
+      await containerClient.setAccessPolicy("container");
+      // tslint:disable-next-line:no-empty
+    } catch (err) {}
+
+    const newBlockBlobURL = containerClient.getBlockBlobClient(
+      recorder.getUniqueName("newblockblob")
+    );
+    const sResp = await newBlockBlobURL.stageBlock(base64encode("1"), body.substring(0, 4), 4, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(sResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    const sResp2 = await newBlockBlobURL.stageBlockFromURL(
+      base64encode("2"),
+      blockBlobClient.url,
+      4,
+      4,
+      { customerProvidedKey: Test_CPK_INFO }
+    );
+    assert.equal(sResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    await newBlockBlobURL.stageBlockFromURL(base64encode("3"), blockBlobClient.url, 8, 2, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+
+    const listResponse = await newBlockBlobURL.getBlockList("uncommitted");
+    assert.equal(listResponse.uncommittedBlocks!.length, 3);
+    assert.equal(listResponse.uncommittedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.uncommittedBlocks![0].size, 4);
+    assert.equal(listResponse.uncommittedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.uncommittedBlocks![1].size, 4);
+    assert.equal(listResponse.uncommittedBlocks![2].name, base64encode("3"));
+    assert.equal(listResponse.uncommittedBlocks![2].size, 2);
+
+    const cmResp = await newBlockBlobURL.commitBlockList(
+      [base64encode("1"), base64encode("2"), base64encode("3")],
+      { customerProvidedKey: Test_CPK_INFO }
+    );
+    assert.equal(cmResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    const downloadResponse = await newBlockBlobURL.download(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(await bodyToString(downloadResponse, 10), body);
+  });
+
+  it("download without CPK should fail, if upload with CPK", async () => {
+    const body: string = recorder.getUniqueName("randomstring");
+    await blockBlobClient.upload(body, body.length, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+
+    let exceptionCaught = false;
+    try {
+      await blobClient.download(0);
+    } catch (error) {
+      // HTTP/1.1 409 The blob is encrypted with customer specified encryption, but it was not provided in the request.
+      exceptionCaught = true;
+    }
+
+    assert.ok(exceptionCaught);
+  });
+
+  it("stageBlock with invalid CRC64 should fail", async () => {
+    const content = "Hello World!";
+    let exceptionCaught = false;
+    try {
+      await blockBlobClient.stageBlock(base64encode("1"), content, content.length, {
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+        exceptionCaught = true;
+      }
+    }
+
+    assert.ok(exceptionCaught);
   });
 });

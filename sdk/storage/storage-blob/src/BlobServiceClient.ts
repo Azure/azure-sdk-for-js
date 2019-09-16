@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 import { HttpResponse } from "@azure/core-http";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { BatchRequest } from "./BatchRequest";
+import { BatchResponseParser } from "./BatchResponseParser";
+import { ParsedBatchResponse } from "./BatchResponse";
+import { utf8ByteLength } from "./BatchUtils";
 import { ListContainersIncludeType } from "./generated/src/models/index";
 import * as Models from "./generated/src/models";
 import { Service } from "./generated/src/operations";
@@ -101,6 +105,22 @@ export interface ServiceGetUserDelegationKeyOptions {
    *
    * @type {AbortSignalLike}
    * @memberof ServiceGetStatisticsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+/**
+ * Options to configure the Service - Submit Batch Optional Params.
+ *
+ * @export
+ * @interface ServiceSubmitBatchOptionalParams
+ */
+export interface ServiceSubmitBatchOptionalParams extends Models.ServiceSubmitBatchOptionalParams {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceSubmitBatchOptionalParams
    */
   abortSignal?: AbortSignalLike;
 }
@@ -245,6 +265,19 @@ export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
     };
   };
 
+export declare type ServiceSubmitBatchResponse = ParsedBatchResponse &
+  Models.ServiceSubmitBatchHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.ServiceSubmitBatchHeaders;
+    };
+  };
+
 /**
  * A BlobServiceClient represents a Client to the Azure Storage Blob service allowing you
  * to manipulate blob containers.
@@ -304,7 +337,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -413,9 +446,8 @@ export class BlobServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getProperties({
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -433,9 +465,8 @@ export class BlobServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.setProperties(properties, {
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -452,9 +483,8 @@ export class BlobServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<Models.ServiceGetStatisticsResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getStatistics({
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -472,9 +502,8 @@ export class BlobServiceClient extends StorageClient {
   public async getAccountInfo(
     options: ServiceGetAccountInfoOptions = {}
   ): Promise<Models.ServiceGetAccountInfoResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.getAccountInfo({
-      abortSignal: aborter || AbortSignal.none
+      abortSignal: options.abortSignal
     });
   }
 
@@ -482,8 +511,6 @@ export class BlobServiceClient extends StorageClient {
    * Returns a list of the containers under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
-   * @param {Aborter} aborter Create a new Aborter instance with AbortSignal.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of containers to be returned with the next listing operation. The
    *                          operation returns the NextMarker value within the response body if the
@@ -499,9 +526,8 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
   ): Promise<Models.ServiceListContainersSegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.serviceContext.listContainersSegment({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       marker,
       ...options
     });
@@ -664,14 +690,13 @@ export class BlobServiceClient extends StorageClient {
     expiry: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.serviceContext.getUserDelegationKey(
       {
         start: truncatedISO8061Date(start, false),
         expiry: truncatedISO8061Date(expiry, false)
       },
       {
-        abortSignal: aborter
+        abortSignal: options.abortSignal
       }
     );
 
@@ -688,10 +713,80 @@ export class BlobServiceClient extends StorageClient {
     const res: ServiceGetUserDelegationKeyResponse = {
       _response: response._response,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       version: response.version,
       date: response.date,
       errorCode: response.errorCode,
       ...userDelegationKey
+    };
+
+    return res;
+  }
+
+  /**
+   * Submit batch request which consists of multiple subrequests.
+   *
+   * @example
+   * let batchDeleteRequest = new BatchDeleteRequest();
+   * await batchDeleteRequest.addSubRequest(urlInString0, credential0);
+   * await batchDeleteRequest.addSubRequest(urlInString1, credential1, {
+   *  deleteSnapshots: "include"
+   * });
+   * const deleteBatchResp = await blobServiceClient.submitBatch(batchDeleteRequest);
+   * console.log(deleteBatchResp.subResponsesSucceededCount);
+   *
+   * @example
+   * let batchSetTierRequest = new BatchSetTierRequest();
+   * await batchSetTierRequest.addSubRequest(blockBlobClient0, "Cool");
+   * await batchSetTierRequest.addSubRequest(blockBlobClient1, "Cool", {
+   *  leaseAccessConditions: { leaseId: leaseId }
+   * });
+   * const setTierBatchResp = await blobServiceClient.submitBatch(batchSetTierRequest);
+   * console.log(setTierBatchResp.subResponsesSucceededCount);
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   *
+   * @param {BatchRequest} batchRequest Supported batch request: BatchDeleteRequest or BatchSetTierRequest.
+   * @param {ServiceSubmitBatchOptionalParams} [options]
+   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @memberof BlobServiceClient
+   */
+  public async submitBatch(
+    batchRequest: BatchRequest,
+    options: ServiceSubmitBatchOptionalParams = {}
+  ): Promise<ServiceSubmitBatchResponse> {
+    if (!batchRequest || batchRequest.getSubRequests().size == 0) {
+      throw new RangeError("Batch request should contain one or more sub requests.");
+    }
+
+    const batchRequestBody = batchRequest.getHttpRequestBody();
+
+    const rawBatchResponse: Models.ServiceSubmitBatchResponse = await this.serviceContext.submitBatch(
+      batchRequestBody,
+      utf8ByteLength(batchRequestBody),
+      batchRequest.getMultiPartContentType(),
+      {
+        ...options
+      }
+    );
+
+    // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
+    const batchResponseParser = new BatchResponseParser(
+      rawBatchResponse,
+      batchRequest.getSubRequests()
+    );
+    const responseSummary = await batchResponseParser.parseBatchResponse();
+
+    const res: ServiceSubmitBatchResponse = {
+      _response: rawBatchResponse._response,
+      contentType: rawBatchResponse.contentType,
+      errorCode: rawBatchResponse.errorCode,
+      requestId: rawBatchResponse.requestId,
+      clientRequestId: rawBatchResponse.clientRequestId,
+      version: rawBatchResponse.version,
+      subResponses: responseSummary.subResponses,
+      subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
+      subResponsesFailedCount: responseSummary.subResponsesFailedCount
     };
 
     return res;

@@ -970,6 +970,26 @@ export type ClustersGetResponse = Cluster & {
 };
 
 /**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ClustersCreateOrUpdateResponse = Cluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
+    };
+};
+
+/**
  * Contains response data for the update operation.
  */
 export type ClustersUpdateResponse = Cluster & {
@@ -1086,6 +1106,26 @@ export type ClustersListSkusByResourceResponse = ListResourceSkusResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ListResourceSkusResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ClustersBeginCreateOrUpdateResponse = Cluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Cluster;
     };
 };
 

@@ -1,66 +1,66 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"queue":"queue156599415957006450"}
+module.exports.testInfo = {"queue":"queue156816831357204865"}
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/queue156599415957006450')
+  .put('/queue156816831357204865')
   .query(true)
   .reply(201, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd2a5d0c4-2003-00dc-4581-5428c2000000',
+  'a1c9d29e-3003-005c-5f47-689705000000',
+  'x-ms-client-request-id',
+  'a666b8eb-1af8-4ef6-a20d-d8692a3814a2',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:22:39 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:18:33 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .post('/queue156599415957006450/messages', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>")
+  .post('/queue156816831357204865/messages', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>")
   .query(true)
-  .reply(201, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>06d7757b-33ea-4e38-b280-ed1cd18b8c42</MessageId><InsertionTime>Fri, 16 Aug 2019 22:22:40 GMT</InsertionTime><ExpirationTime>Fri, 23 Aug 2019 22:22:40 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAALZqbHYFU1QE=</PopReceipt><TimeNextVisible>Fri, 16 Aug 2019 22:22:40 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>", [ 'Transfer-Encoding',
+  .reply(201, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>7a04fbba-af09-4478-9b07-9bdd43ed74b3</MessageId><InsertionTime>Wed, 11 Sep 2019 02:18:34 GMT</InsertionTime><ExpirationTime>Wed, 18 Sep 2019 02:18:34 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAhpN8Nkdo1QE=</PopReceipt><TimeNextVisible>Wed, 11 Sep 2019 02:18:34 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '41fbf27a-1003-00df-4581-542bc5000000',
+  'e5eb5915-4003-0017-3747-68a69f000000',
+  'x-ms-client-request-id',
+  '6462ef9f-7dc0-4743-8ace-4a945c83f24d',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:22:39 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:18:33 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .post('/queue156599415957006450/messages', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>")
+  .post('/queue156816831357204865/messages', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueueMessage><MessageText>Hello World</MessageText></QueueMessage>")
   .query(true)
-  .reply(201, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>aa3012d3-f85e-4493-88f9-9d3b871a32f7</MessageId><InsertionTime>Fri, 16 Aug 2019 22:22:40 GMT</InsertionTime><ExpirationTime>Fri, 23 Aug 2019 22:22:40 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAJRvJHYFU1QE=</PopReceipt><TimeNextVisible>Fri, 16 Aug 2019 22:22:40 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>", [ 'Transfer-Encoding',
+  .reply(201, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>b67c6069-0452-42b2-8815-37352b7c3f7f</MessageId><InsertionTime>Wed, 11 Sep 2019 02:18:34 GMT</InsertionTime><ExpirationTime>Wed, 18 Sep 2019 02:18:34 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAALvG7Nkdo1QE=</PopReceipt><TimeNextVisible>Wed, 11 Sep 2019 02:18:34 GMT</TimeNextVisible></QueueMessage></QueueMessagesList>", [ 'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b4eae408-3003-0087-6181-542fbe000000',
+  '3bdad21e-9003-003c-6847-68d227000000',
+  'x-ms-client-request-id',
+  'cf4fadd5-fcdc-4c5e-8a0c-6a7c264295c6',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:22:39 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:18:33 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue156599415957006450/messages')
+  .get('/queue156816831357204865/messages')
   .query(true)
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>06d7757b-33ea-4e38-b280-ed1cd18b8c42</MessageId><InsertionTime>Fri, 16 Aug 2019 22:22:40 GMT</InsertionTime><ExpirationTime>Fri, 23 Aug 2019 22:22:40 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>", [ 'Cache-Control',
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>7a04fbba-af09-4478-9b07-9bdd43ed74b3</MessageId><InsertionTime>Wed, 11 Sep 2019 02:18:34 GMT</InsertionTime><ExpirationTime>Wed, 18 Sep 2019 02:18:34 GMT</ExpirationTime><DequeueCount>0</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>", [ 'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
   'chunked',
@@ -69,23 +69,23 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6250f014-8003-00d1-6681-54c7ce000000',
+  '2568a130-2003-0061-0147-682223000000',
+  'x-ms-client-request-id',
+  'dc4626bf-33e0-4708-bc17-73b0e68c63c1',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,Content-Type,Cache-Control,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Content-Type,Cache-Control,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:22:40 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:18:35 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue156599415957006450/messages')
+  .get('/queue156816831357204865/messages')
   .query(true)
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>06d7757b-33ea-4e38-b280-ed1cd18b8c42</MessageId><InsertionTime>Fri, 16 Aug 2019 22:22:40 GMT</InsertionTime><ExpirationTime>Fri, 23 Aug 2019 22:22:40 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAA5h8HMIFU1QE=</PopReceipt><TimeNextVisible>Fri, 16 Aug 2019 22:23:11 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>", [ 'Cache-Control',
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList><QueueMessage><MessageId>7a04fbba-af09-4478-9b07-9bdd43ed74b3</MessageId><InsertionTime>Wed, 11 Sep 2019 02:18:34 GMT</InsertionTime><ExpirationTime>Wed, 18 Sep 2019 02:18:34 GMT</ExpirationTime><PopReceipt>AgAAAAMAAAAAAAAAjyQeSUdo1QE=</PopReceipt><TimeNextVisible>Wed, 11 Sep 2019 02:19:05 GMT</TimeNextVisible><DequeueCount>1</DequeueCount><MessageText>Hello World</MessageText></QueueMessage></QueueMessagesList>", [ 'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
   'chunked',
@@ -94,38 +94,38 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '86a43c61-8003-0016-0f81-54bb0f000000',
+  'c84b2f95-8003-000a-3547-687f75000000',
+  'x-ms-client-request-id',
+  '8b15c59e-3f6b-4038-89b3-b2dc3d8b0250',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,Content-Type,Cache-Control,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Content-Type,Cache-Control,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:22:40 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:18:35 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue156599415957006450/messages')
+  .delete('/queue156816831357204865/messages')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '47b5f966-4003-0022-0e81-5414a7000000',
+  'cc17b52e-4003-0058-3147-686287000000',
+  'x-ms-client-request-id',
+  '23940e50-6dc4-4794-8b35-2052b13c05f2',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:22:41 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:18:35 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/queue156599415957006450/messages')
+  .get('/queue156816831357204865/messages')
   .query(true)
   .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><QueueMessagesList />", [ 'Cache-Control',
   'no-cache',
@@ -136,32 +136,32 @@ nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'e4651c99-4003-0044-4081-54a6fd000000',
+  '96e5580e-e003-001a-2647-684993000000',
+  'x-ms-client-request-id',
+  '480c31c9-5def-4281-870b-f439fd7dbba6',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,Content-Type,Cache-Control,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Content-Type,Cache-Control,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 16 Aug 2019 22:22:41 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:18:36 GMT' ]);
 
 
 nock('https://fakestorageaccount.queue.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/queue156599415957006450')
+  .delete('/queue156816831357204865')
   .query(true)
   .reply(204, "", [ 'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5904ce6b-a003-00e4-7481-54699b000000',
+  'e69b6c3b-0003-001b-1047-68486e000000',
+  'x-ms-client-request-id',
+  '0cfca6a4-e899-4393-a348-fa1065f42fb7',
   'x-ms-version',
-  '2018-03-28',
+  '2019-02-02',
   'Date',
-  'Fri, 16 Aug 2019 22:22:41 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:18:36 GMT' ]);
 

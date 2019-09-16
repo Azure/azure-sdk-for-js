@@ -8,7 +8,7 @@ import {
   isTokenCredential,
   isNode
 } from "@azure/core-http";
-import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Container } from "./generated/src/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
@@ -471,7 +471,7 @@ export class ContainerClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -573,9 +573,6 @@ export class ContainerClient extends StorageClient {
   public async create(
     options: ContainerCreateOptions = {}
   ): Promise<Models.ContainerCreateResponse> {
-    if (!options.abortSignal) {
-      options.abortSignal = AbortSignal.none;
-    }
     // Spread operator in destructuring assignments,
     // this will filter out unwanted properties from the response object into result object
     return this.containerContext.create({
@@ -652,10 +649,8 @@ export class ContainerClient extends StorageClient {
       options.leaseAccessConditions = {};
     }
 
-    const aborter = options.abortSignal || AbortSignal.none;
-
     return this.containerContext.getProperties({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       ...options.leaseAccessConditions
     });
   }
@@ -672,8 +667,6 @@ export class ContainerClient extends StorageClient {
   public async delete(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<Models.ContainerDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
-
     if (!options.containerAccessConditions) {
       options.containerAccessConditions = {};
     }
@@ -699,7 +692,7 @@ export class ContainerClient extends StorageClient {
     }
 
     return this.containerContext.deleteMethod({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions
     });
@@ -723,8 +716,6 @@ export class ContainerClient extends StorageClient {
     metadata?: Metadata,
     options: ContainerSetMetadataOptions = {}
   ): Promise<Models.ContainerSetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
-
     if (!options.containerAccessConditions) {
       options.containerAccessConditions = {};
     }
@@ -751,7 +742,7 @@ export class ContainerClient extends StorageClient {
     }
 
     return this.containerContext.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
       metadata,
       modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions
@@ -777,10 +768,9 @@ export class ContainerClient extends StorageClient {
     if (!options.leaseAccessConditions) {
       options.leaseAccessConditions = {};
     }
-    const aborter = options.abortSignal || AbortSignal.none;
 
     const response = await this.containerContext.getAccessPolicy({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       leaseAccessConditions: options.leaseAccessConditions
     });
 
@@ -792,6 +782,7 @@ export class ContainerClient extends StorageClient {
       errorCode: response.errorCode,
       lastModified: response.lastModified,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       signedIdentifiers: [],
       version: response.version
     };
@@ -838,7 +829,6 @@ export class ContainerClient extends StorageClient {
     containerAcl?: SignedIdentifier[],
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<Models.ContainerSetAccessPolicyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.containerAccessConditions = options.containerAccessConditions || {};
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of containerAcl || []) {
@@ -857,7 +847,7 @@ export class ContainerClient extends StorageClient {
     }
 
     return this.containerContext.setAccessPolicy({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       access,
       containerAcl: acl,
       leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
@@ -949,9 +939,7 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobFlatSegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.containerContext.listBlobFlatSegment({
-      abortSignal: aborter,
       marker,
       ...options
     });
@@ -975,9 +963,7 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.containerContext.listBlobHierarchySegment(delimiter, {
-      abortSignal: aborter,
       marker,
       ...options
     });

@@ -1,10 +1,19 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Directory } from "./generated/src/operations";
-import { Metadata } from "./models";
+import {
+  Metadata,
+  FileAndDirectoryCreateCommonOptions,
+  FileAndDirectorySetPropertiesCommonOptions,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
+} from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
@@ -13,6 +22,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { FileSystemAttributes } from "./FileSystemAttributes";
 
 /**
  * Options to configure Directory - Create operation.
@@ -20,7 +30,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @export
  * @interface DirectoryCreateOptions
  */
-export interface DirectoryCreateOptions {
+export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -36,6 +46,17 @@ export interface DirectoryCreateOptions {
    * @memberof DirectoryCreateOptions
    */
   metadata?: Metadata;
+}
+
+export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof DirectoryProperties
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -302,11 +323,51 @@ export class DirectoryClient extends StorageClient {
   public async create(
     options: DirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
-    return this.context.create({
-      ...options,
-      abortSignal: aborter
-    });
+    if (!options.fileAttributes) {
+      options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+      // By default set it as a directory.
+      const attributes: FileSystemAttributes = new FileSystemAttributes();
+      attributes.directory = true;
+      options.fileAttributes = attributes;
+    }
+
+    return this.context.create(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: options.abortSignal,
+        metadata: options.metadata,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      }
+    );
+  }
+
+  /**
+   * Sets properties on the directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-properties
+   *
+   * @param {properties} [DirectoryProperties] Directory properties. If no values are provided,
+   *                                            existing values will be preserved.
+   * @returns {Promise<Models.DirectorySetPropertiesResponse>}
+   * @memberof DirectoryClient
+   */
+  public async setProperties(
+    properties: DirectoryProperties = {}
+  ): Promise<Models.DirectorySetPropertiesResponse> {
+    properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
+
+    return this.context.setProperties(
+      fileAttributesToString(properties.fileAttributes!),
+      fileCreationTimeToString(properties.creationTime!),
+      fileLastWriteTimeToString(properties.lastWriteTime!),
+      {
+        abortSignal: properties.abortSignal,
+        filePermission: properties.filePermission,
+        filePermissionKey: properties.filePermissionKey
+      }
+    );
   }
 
   /**
@@ -439,9 +500,8 @@ export class DirectoryClient extends StorageClient {
   public async getProperties(
     options: DirectoryGetPropertiesOptions = {}
   ): Promise<Models.DirectoryGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -457,9 +517,8 @@ export class DirectoryClient extends StorageClient {
   public async delete(
     options: DirectoryDeleteOptions = {}
   ): Promise<Models.DirectoryDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.deleteMethod({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -476,9 +535,8 @@ export class DirectoryClient extends StorageClient {
     metadata?: Metadata,
     options: DirectorySetMetadataOptions = {}
   ): Promise<Models.DirectorySetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata
     });
   }
@@ -658,9 +716,7 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.context.listFilesAndDirectoriesSegment({
-      abortSignal: aborter,
       marker,
       ...options
     });
@@ -685,10 +741,8 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryListHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     marker = marker === "" ? undefined : marker;
     const response = await this.context.listHandles({
-      abortSignal: aborter,
       marker,
       ...options
     });
@@ -719,10 +773,8 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryForceCloseHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryForceCloseHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     marker = marker === "" ? undefined : marker;
     return this.context.forceCloseHandles("*", {
-      abortSignal: aborter,
       marker,
       ...options
     });
@@ -744,7 +796,6 @@ export class DirectoryClient extends StorageClient {
     handleId: string,
     options: DirectoryForceCloseHandlesOptions = {}
   ): Promise<Models.DirectoryForceCloseHandlesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     if (handleId === "*") {
       throw new RangeError(
         `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
@@ -752,7 +803,7 @@ export class DirectoryClient extends StorageClient {
     }
 
     return this.context.forceCloseHandles(handleId, {
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 }

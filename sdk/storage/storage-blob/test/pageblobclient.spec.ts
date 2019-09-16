@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { ContainerClient, BlobClient, PageBlobClient } from "../src";
+import { ContainerClient, BlobClient, PageBlobClient, PremiumPageBlobTier } from "../src";
 import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
@@ -64,6 +64,25 @@ describe("PageBlobClient", () => {
     assert.equal(properties.contentType, options.blobHTTPHeaders.blobContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
+  });
+
+  it("create with premium page blob tier", async () => {
+    const options = { tier: PremiumPageBlobTier.P20 };
+
+    try {
+      await pageBlobClient.create(512, options);
+
+      const result = await blobClient.download(0);
+      assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+
+      const properties = await blobClient.getProperties();
+      assert.equal(properties.accessTier, options.tier);
+    } catch (err) {
+      if (err.message.indexOf("AccessTierNotSupportedForBlobType") == -1) {
+        // not found
+        assert.fail("Error thrown while it's not AccessTierNotSupportedForBlobType.");
+      }
+    }
   });
 
   it("uploadPages", async () => {
@@ -148,6 +167,23 @@ describe("PageBlobClient", () => {
     await pageBlobClient.updateSequenceNumber("max", 100);
     propertiesResponse = await pageBlobClient.getProperties();
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
+  });
+
+  it("uploadPages with invalid CRC64 should fail", async () => {
+    await pageBlobClient.create(1024);
+
+    let exceptionCaught = false;
+    try {
+      await pageBlobClient.uploadPages("b".repeat(1024), 0, 1024, {
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+        exceptionCaught = true;
+      }
+    }
+
+    assert.ok(exceptionCaught);
   });
 
   it("can be created with a sas connection string", async () => {

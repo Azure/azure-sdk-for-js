@@ -10,10 +10,15 @@ import {
 } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient } from "./internal";
 import { AppendBlob } from "./generated/src/operations";
-import { AppendBlobAccessConditions, BlobAccessConditions, Metadata } from "./models";
+import {
+  AppendBlobAccessConditions,
+  BlobAccessConditions,
+  Metadata,
+  ensureCpkIfSpecified
+} from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
@@ -58,6 +63,13 @@ export interface AppendBlobCreateOptions {
    * @memberof AppendBlobCreateOptions
    */
   metadata?: Metadata;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof AppendBlobCreateOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -89,14 +101,32 @@ export interface AppendBlobAppendBlockOptions {
    */
   progress?: (progress: TransferProgressEvent) => void;
   /**
-   * A Uint8Array holding the MD5 hash of the blob content.
-   * It is only used to verify the integrity of the block during transport.
-   * It is not stored in with the blob.
+   * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
    *
    * @type {Uint8Array}
    * @memberof AppendBlobAppendBlockOptions
    */
   transactionalContentMD5?: Uint8Array;
+  /**
+   * A CRC64 hash of the append block content. This hash is used to verify the integrity of the append block during transport.
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   *
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   *
+   * @type {Uint8Array}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  transactionalContentCrc64?: Uint8Array;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface AppendBlobAppendBlockFromURLOptions {
@@ -123,14 +153,34 @@ export interface AppendBlobAppendBlockFromURLOptions {
    */
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
   /**
-   * A Uint8Array holding the MD5 hash of the source block content.
-   * It is only used to verify the integrity of the block during transport.
-   * It is not stored in with the blob.
+   * An MD5 hash of the append block content from the URI.
+   * This hash is used to verify the integrity of the append block during transport of the data from the URI.
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   *
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
    *
    * @type {Uint8Array}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
+  /**
+   * A CRC64 hash of the append block content from the URI.
+   * This hash is used to verify the integrity of the append block during transport of the data from the URI.
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   *
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   *
+   * @type {Uint8Array}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 /**
@@ -185,7 +235,7 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
@@ -318,14 +368,16 @@ export class AppendBlobClient extends BlobClient {
   public async create(
     options: AppendBlobCreateOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.appendBlobContext.create(0, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -344,15 +396,18 @@ export class AppendBlobClient extends BlobClient {
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.appendBlobContext.appendBlock(body, contentLength, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       onUploadProgress: options.progress,
-      transactionalContentMD5: options.transactionalContentMD5
+      transactionalContentMD5: options.transactionalContentMD5,
+      transactionalContentCrc64: options.transactionalContentCrc64,
+      cpkInfo: options.customerProvidedKey
     });
   }
 
@@ -361,8 +416,6 @@ export class AppendBlobClient extends BlobClient {
    * where the contents are read from a source url.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/append-block-from-url
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} sourceURL
    *                 The url to the blob that will be the source of the copy. A source blob in the same storage account can
    *                 be authenticated via Shared Key. However, if the source is a blob in another account, the source blob
@@ -372,7 +425,7 @@ export class AppendBlobClient extends BlobClient {
    * @param {number} count Number of bytes to be appended as a block
    * @param {AppendBlobAppendBlockFromURLOptions} [options={}]
    * @returns {Promise<Models.AppendBlobAppendBlockFromUrlResponse>}
-   * @memberof AppendBlobURL
+   * @memberof AppendBlobClient
    */
   public async appendBlockFromURL(
     sourceURL: string,
@@ -380,14 +433,15 @@ export class AppendBlobClient extends BlobClient {
     count: number,
     options: AppendBlobAppendBlockFromURLOptions = {}
   ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     return this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       sourceRange: rangeToString({ offset: sourceOffset, count }),
       sourceContentMD5: options.sourceContentMD5,
+      sourceContentCrc64: options.sourceContentCrc64,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
@@ -396,7 +450,8 @@ export class AppendBlobClient extends BlobClient {
         sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
         sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
         sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-      }
+      },
+      cpkInfo: options.customerProvidedKey
     });
   }
 }

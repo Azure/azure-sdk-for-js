@@ -29,7 +29,7 @@ async function main() {
 
 async function processDeadletterMessageQueue() {
   const queueClient = sbClient.createQueueClient(deadLetterQueueName);
-  const receiver = client.createReceiver(ReceiveMode.peekLock);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   const messages = await receiver.receiveMessages(1);
 

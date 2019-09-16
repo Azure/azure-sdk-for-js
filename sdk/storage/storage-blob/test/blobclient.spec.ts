@@ -5,7 +5,8 @@ import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-http";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay } from "./utils/recorder";
-import { BlobClient, BlockBlobClient, ContainerClient } from "../src";
+import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
+import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
@@ -48,10 +49,32 @@ describe("BlobClient", () => {
   });
 
   it("download all parameters set", async () => {
-    const result = await blobClient.download(0, 1, {
+    // For browser scenario, please ensure CORS settings exposed headers: content-md5,x-ms-content-crc64
+    // So JS can get contentCrc64 and contentMD5.
+    const result1 = await blobClient.download(0, 1, {
+      rangeGetContentCrc64: true
+    });
+    assert.ok(result1.clientRequestId);
+    //assert.ok(result1.contentCrc64!);
+    assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
+    assert.ok(result1.clientRequestId);
+
+    const result2 = await blobClient.download(1, 1, {
       rangeGetContentMD5: true
     });
-    assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
+    assert.ok(result2.clientRequestId);
+    //assert.ok(result2.contentMD5!);
+
+    let exceptionCaught = false;
+    try {
+      await blobClient.download(2, 1, {
+        rangeGetContentMD5: true,
+        rangeGetContentCrc64: true
+      });
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -295,6 +318,115 @@ describe("BlobClient", () => {
         error.message,
         "Error message is different than expected."
       );
+    }
+  });
+
+  it("setMetadata with CPK on a blob uploaded without CPK should fail", async () => {
+    let exceptionCaught = false;
+    try {
+      await blobClient.setMetadata({ a: "a" }, { customerProvidedKey: Test_CPK_INFO });
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("setMetadata, setHTTPHeaders, getProperties and createSnapshot with CPK", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    const smResp = await blobClient.setMetadata(metadata, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    // getProperties without CPK should fail
+    let exceptionCaught = false;
+    try {
+      await blobClient.getProperties();
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    const headers = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentType: "blobContentType"
+    };
+    await blobClient.setHTTPHeaders(headers, { customerProvidedKey: Test_CPK_INFO });
+
+    const gResp = await blobClient.getProperties({ customerProvidedKey: Test_CPK_INFO });
+    assert.equal(gResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+    assert.ok(gResp.date);
+    assert.deepStrictEqual(gResp.blobType, "BlockBlob");
+    assert.ok(gResp.lastModified);
+    assert.deepStrictEqual(gResp.metadata, metadata);
+    assert.deepStrictEqual(gResp.cacheControl, headers.blobCacheControl);
+    assert.deepStrictEqual(gResp.contentType, headers.blobContentType);
+    assert.deepStrictEqual(gResp.contentMD5, headers.blobContentMD5);
+    assert.deepStrictEqual(gResp.contentEncoding, headers.blobContentEncoding);
+    assert.deepStrictEqual(gResp.contentLanguage, headers.blobContentLanguage);
+    assert.deepStrictEqual(gResp.contentDisposition, headers.blobContentDisposition);
+
+    const csResp = await blobClient.createSnapshot({
+      customerProvidedKey: Test_CPK_INFO
+    });
+    //assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
+    assert.ok(csResp.snapshot);
+
+    const blobSnapshotURL = blobClient.withSnapshot(csResp.snapshot!);
+    await blobSnapshotURL.getProperties({ customerProvidedKey: Test_CPK_INFO });
+
+    // getProperties without CPK should fail
+    exceptionCaught = false;
+    try {
+      await blobSnapshotURL.getProperties();
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("startCopyFromURL with rehydrate priority", async () => {
+    const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblobrehydrate"));
+    const initialTier = BlockBlobTier.Archive;
+    const result = await newBlobURL.startCopyFromURL(blobClient.url, {
+      tier: initialTier,
+      rehydratePriority: "Standard"
+    });
+    assert.ok(result.copyId);
+    delay(1 * 1000);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobURL.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    assert.deepStrictEqual(properties2.copySource, blobClient.url);
+    assert.equal(properties2.accessTier, initialTier);
+
+    await newBlobURL.setTier(BlockBlobTier.Hot);
+    const properties3 = await newBlobURL.getProperties();
+    assert.equal(properties3.archiveStatus!.toLowerCase(), "rehydrate-pending-to-hot");
+  });
+
+  it("setTier with rehydrate priority", async () => {
+    await blockBlobClient.setTier("Archive", { rehydratePriority: "High" });
+    await blockBlobClient.setTier("Cool");
+    const properties = await blockBlobClient.getProperties();
+    if (properties.archiveStatus) {
+      assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-cool");
     }
   });
 });

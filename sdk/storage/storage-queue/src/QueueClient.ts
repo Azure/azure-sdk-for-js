@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import * as Models from "./generated/lib/models";
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { Queue } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { Queue } from "./generated/src/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -217,7 +217,7 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential, RawTokenCredential,
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
    * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
@@ -308,10 +308,9 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async create(options: QueueCreateOptions = {}): Promise<Models.QueueCreateResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.create({
       ...options,
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -335,9 +334,8 @@ export class QueueClient extends StorageClient {
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
   ): Promise<Models.QueueGetPropertiesResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.getProperties({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -350,9 +348,8 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.deleteMethod({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
   }
 
@@ -372,9 +369,8 @@ export class QueueClient extends StorageClient {
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
   ): Promise<Models.QueueSetMetadataResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     return this.queueContext.setMetadata({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       metadata
     });
   }
@@ -394,15 +390,15 @@ export class QueueClient extends StorageClient {
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
   ): Promise<QueueGetAccessPolicyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const response = await this.queueContext.getAccessPolicy({
-      abortSignal: aborter
+      abortSignal: options.abortSignal
     });
 
     const res: QueueGetAccessPolicyResponse = {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       signedIdentifiers: [],
       version: response.version,
       errorCode: response.errorCode
@@ -436,7 +432,6 @@ export class QueueClient extends StorageClient {
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
   ): Promise<Models.QueueSetAccessPolicyResponse> {
-    const aborter = options.abortSignal || AbortSignal.none;
     const acl: Models.SignedIdentifier[] = [];
     for (const identifier of queueAcl || []) {
       acl.push({
@@ -450,7 +445,7 @@ export class QueueClient extends StorageClient {
     }
 
     return this.queueContext.setAccessPolicy({
-      abortSignal: aborter,
+      abortSignal: options.abortSignal,
       queueAcl: acl
     });
   }
