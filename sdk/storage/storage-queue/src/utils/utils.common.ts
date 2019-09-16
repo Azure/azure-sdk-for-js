@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, URLBuilder } from "@azure/core-http";
-import { HeaderConstants, URLConstants } from "./constants";
+import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string
@@ -114,26 +114,29 @@ export function getURLQueries(url: string): { [key: string]: string } {
   return queries;
 }
 
-function getDevConnString(connectionString: string): string {
+export interface ConnString {
+  kind: "AccountConnString" | "SASConnString";
+  url: string;
+  accountName?: string;
+  accountKey?: Buffer;
+  accountSas?: string;
+  proxyUri?: string; // Development Connection String may contain proxyUri
+}
+
+function getProxyUriFromDevConnString(connectionString: string): string {
   // Development Connection String
   // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
-  const partialConnectionString = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;
-        AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;`;
-
+  let proxyUri = "";
   if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
     // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
-    let proxyUri = "";
     const matchCredentials = connectionString.split(";");
     for (const element of matchCredentials) {
       if (element.trim().startsWith("DevelopmentStorageProxyUri=")) {
         proxyUri = element.trim().match("DevelopmentStorageProxyUri=(.*)")![1];
       }
     }
-    return partialConnectionString + `QueueEndpoint=${proxyUri}/devstoreaccount1;`;
-  } else {
-    // CONNECTION_STRING=UseDevelopmentStorage=true
-    return partialConnectionString + `QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;`;
   }
+  return proxyUri;
 }
 
 /**
@@ -143,9 +146,8 @@ function getDevConnString(connectionString: string): string {
  * @param {string} connectionString Connection string.
  * @returns {{ kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any }} String key value pairs of the storage account's url and credentials.
  */
-export function extractConnectionStringParts(
-  connectionString: string
-): { kind: "AccountConnString" | "SASConnString"; url: string; [key: string]: any } {
+export function extractConnectionStringParts(connectionString: string): ConnString {
+  let proxyUri = "";
   function getValueInConnString(argument: string) {
     const matchCredentials = connectionString.split(";");
     for (const element of matchCredentials) {
@@ -157,7 +159,9 @@ export function extractConnectionStringParts(
   }
 
   if (connectionString.search("UseDevelopmentStorage=true") !== -1) {
-    connectionString = getDevConnString(connectionString);
+    // Development connection string
+    proxyUri = getProxyUriFromDevConnString(connectionString);
+    connectionString = DevelopmentConnectionString;
   }
 
   // Matching QueueEndpoint in the Account connection string
@@ -210,7 +214,8 @@ export function extractConnectionStringParts(
       kind: "AccountConnString",
       url: queueEndpoint,
       accountName,
-      accountKey
+      accountKey,
+      proxyUri
     };
   } else {
     // SAS connection string
