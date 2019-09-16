@@ -20,7 +20,9 @@ const client = new CosmosClient({
   consistencyLevel: ConsistencyLevel.Session
 });
 
-function getCollection2TokenMap(sessionContainer: SessionContainer): Map<string, Map<string, VectorSessionToken>> {
+function getCollection2TokenMap(
+  sessionContainer: SessionContainer
+): Map<string, Map<string, VectorSessionToken>> {
   return (sessionContainer as any).collectionResourceIdToSessionTokens;
 }
 
@@ -47,12 +49,17 @@ describe("Session Token", function() {
   it("validate session tokens for sequence of operations", async function() {
     const database = await getTestDatabase("session test", client);
 
-    const { resource: createdContainerDef } = await database.containers.create(containerDefinition, containerOptions);
+    const { resource: createdContainerDef } = await database.containers.create(
+      containerDefinition,
+      containerOptions
+    );
     const container = database.container(createdContainerDef.id);
     assert.equal(spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken], undefined);
     // TODO: testing implementation detail by looking at containerResourceIdToSesssionTokens
-    let collRid2SessionToken: Map<string, Map<string, VectorSessionToken>> = (sessionContainer as any)
-      .collectionResourceIdToSessionTokens;
+    let collRid2SessionToken: Map<
+      string,
+      Map<string, VectorSessionToken>
+    > = (sessionContainer as any).collectionResourceIdToSessionTokens;
     assert.equal(collRid2SessionToken.size, 0, "Should have no tokens in container");
 
     const { resource: document1 } = await container.items.create({ id: "1" });
@@ -63,7 +70,11 @@ describe("Session Token", function() {
     );
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
-    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    assert.equal(
+      collRid2SessionToken.size,
+      1,
+      "Should only have one container in the sessioncontainer"
+    );
     const containerRid = collRid2SessionToken.keys().next().value;
     let containerTokens = collRid2SessionToken.get(containerRid);
     assert.equal(containerTokens.size, 1, "Should only have one partition in container");
@@ -86,7 +97,11 @@ describe("Session Token", function() {
     );
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
-    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    assert.equal(
+      collRid2SessionToken.size,
+      1,
+      "Should only have one container in the sessioncontainer"
+    );
     containerTokens = collRid2SessionToken.get(containerRid);
     assert.equal(containerTokens.size, 2, "Should have two partitions in container");
     const keysIterator = containerTokens.keys();
@@ -115,7 +130,11 @@ describe("Session Token", function() {
     );
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
-    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    assert.equal(
+      collRid2SessionToken.size,
+      1,
+      "Should only have one container in the sessioncontainer"
+    );
     containerTokens = collRid2SessionToken.get(containerRid);
     assert.equal(containerTokens.size, 2, "Should have two partitions in container");
     assert.equal(
@@ -144,7 +163,11 @@ describe("Session Token", function() {
     );
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
-    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    assert.equal(
+      collRid2SessionToken.size,
+      1,
+      "Should only have one container in the sessioncontainer"
+    );
     containerTokens = collRid2SessionToken.get(containerRid);
     assert.equal(containerTokens.size, 2, "Should have two partitions in container");
     // TODO: should validate the LSN only increased by 1...
@@ -175,7 +198,11 @@ describe("Session Token", function() {
     );
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
-    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    assert.equal(
+      collRid2SessionToken.size,
+      1,
+      "Should only have one container in the sessioncontainer"
+    );
     containerTokens = collRid2SessionToken.get(containerRid);
     assert.equal(containerTokens.size, 2, "Should have two partitions in container");
     assert.equal(
@@ -205,7 +232,11 @@ describe("Session Token", function() {
       "replace token should be equal"
     );
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
-    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    assert.equal(
+      collRid2SessionToken.size,
+      1,
+      "Should only have one container in the sessioncontainer"
+    );
     containerTokens = collRid2SessionToken.get(containerRid);
     assert.equal(containerTokens.size, 2, "Should have two partitions in container");
     // TODO: should validate the LSN only increased by 1...
@@ -234,7 +265,11 @@ describe("Session Token", function() {
     assert.equal(spy.lastCall.args[0].headers[Constants.HttpHeaders.SessionToken], queryToken);
 
     collRid2SessionToken = getCollection2TokenMap(sessionContainer);
-    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    assert.equal(
+      collRid2SessionToken.size,
+      1,
+      "Should only have one container in the sessioncontainer"
+    );
     containerTokens = collRid2SessionToken.get(containerRid);
     assert.equal(containerTokens.size, 2, "Should have two partitions in container");
     assert.equal(
@@ -290,7 +325,9 @@ describe("Session Token", function() {
       const oldTokens = getCollection2TokenMap(sessionContainer);
       requestContext.headers[Constants.HttpHeaders.SessionToken] = increaseLSN(oldTokens);
     });
-    const applySessionTokenStub = sinon.stub(clientContext as any, "applySessionToken").callsFake(callbackSpy as any);
+    const applySessionTokenStub = sinon
+      .stub(clientContext as any, "applySessionToken")
+      .callsFake(callbackSpy as any);
     const resp = await container.item("1", "1").read();
     assert.equal(resp.resource, undefined);
     assert.equal(resp.substatus, 1002, "Substatus should indicate the LSN didn't catchup.");
@@ -335,7 +372,10 @@ describe("Session Token", function() {
 
     const db = await getTestDatabase("session test", client);
 
-    const { resource: createdContainerDef } = await db.containers.create(containerDefinition, containerOptions);
+    const { resource: createdContainerDef } = await db.containers.create(
+      containerDefinition,
+      containerOptions
+    );
     const createdContainer = db.container(createdContainerDef.id);
 
     const { resource: createdDocument } = await createdContainer.items.create({

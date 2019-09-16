@@ -22,8 +22,12 @@ export class RuntimeExecutionTimes {
         throw new Error("runtimeExecutionTimes has null or undefined item(s)");
       }
 
-      queryEngineExecutionTime = queryEngineExecutionTime.add(runtimeExecutionTimes.queryEngineExecutionTime);
-      systemFunctionExecutionTime = systemFunctionExecutionTime.add(runtimeExecutionTimes.systemFunctionExecutionTime);
+      queryEngineExecutionTime = queryEngineExecutionTime.add(
+        runtimeExecutionTimes.queryEngineExecutionTime
+      );
+      systemFunctionExecutionTime = systemFunctionExecutionTime.add(
+        runtimeExecutionTimes.systemFunctionExecutionTime
+      );
       userDefinedFunctionExecutionTime = userDefinedFunctionExecutionTime.add(
         runtimeExecutionTimes.userDefinedFunctionExecutionTime
       );
@@ -52,7 +56,11 @@ export class RuntimeExecutionTimes {
     );
   }
 
-  public static readonly zero = new RuntimeExecutionTimes(TimeSpan.zero, TimeSpan.zero, TimeSpan.zero);
+  public static readonly zero = new RuntimeExecutionTimes(
+    TimeSpan.zero,
+    TimeSpan.zero,
+    TimeSpan.zero
+  );
 
   /**
    * Returns a new instance of the RuntimeExecutionTimes class that is
@@ -74,8 +82,14 @@ export class RuntimeExecutionTimes {
 
     const vmExecutionTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs);
     const indexLookupTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs);
-    const documentLoadTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentLoadTimeInMs);
-    const documentWriteTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentWriteTimeInMs);
+    const documentLoadTime = timeSpanFromMetrics(
+      metrics,
+      QueryMetricsConstants.DocumentLoadTimeInMs
+    );
+    const documentWriteTime = timeSpanFromMetrics(
+      metrics,
+      QueryMetricsConstants.DocumentWriteTimeInMs
+    );
 
     let queryEngineExecutionTime = TimeSpan.zero;
     queryEngineExecutionTime = queryEngineExecutionTime.add(vmExecutionTime);

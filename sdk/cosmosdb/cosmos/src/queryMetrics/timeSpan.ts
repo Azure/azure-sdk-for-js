@@ -75,7 +75,8 @@ export class TimeSpan {
       throw new Error("milliseconds is not an integer");
     }
 
-    const totalMilliSeconds = (days * 3600 * 24 + hours * 3600 + minutes * 60 + seconds) * 1000 + milliseconds;
+    const totalMilliSeconds =
+      (days * 3600 * 24 + hours * 3600 + minutes * 60 + seconds) * 1000 + milliseconds;
     if (totalMilliSeconds > maxMilliSeconds || totalMilliSeconds < minMilliSeconds) {
       throw new Error("Total number of milliseconds was either too large or too small");
     }

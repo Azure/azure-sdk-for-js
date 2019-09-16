@@ -33,11 +33,13 @@ describe("NodeJS CRUD Tests", function() {
       assert.notEqual(headers[Constants.HttpHeaders.MaxResourceQuota], null);
       assert.notEqual(headers[Constants.HttpHeaders.MaxResourceQuota], "");
       const collectionSize: number = Number(
-        (headers[Constants.HttpHeaders.MaxResourceQuota] as string).split(";").reduce((map: any, obj: string) => {
-          const items = obj.split("=");
-          map[items[0]] = items[1];
-          return map;
-        }, {})[Constants.Quota.CollectionSize]
+        (headers[Constants.HttpHeaders.MaxResourceQuota] as string)
+          .split(";")
+          .reduce((map: any, obj: string) => {
+            const items = obj.split("=");
+            map[items[0]] = items[1];
+            return map;
+          }, {})[Constants.Quota.CollectionSize]
       );
       assert.equal(collectionSize, 10 * mbInBytes, "Collection size is unexpected");
 
@@ -96,7 +98,9 @@ describe("NodeJS CRUD Tests", function() {
       const offerToReplace = Object.assign({}, expectedOffer);
       const oldThroughput = offerToReplace.content.offerThroughput;
       offerToReplace.content.offerThroughput = oldThroughput + 100;
-      const { resource: replacedOffer } = await client.offer(offerToReplace.id).replace(offerToReplace);
+      const { resource: replacedOffer } = await client
+        .offer(offerToReplace.id)
+        .replace(offerToReplace);
       validateOfferResponseBody(replacedOffer);
       // Check if the replaced offer is what we expect.
       assert.equal(replacedOffer.id, offerToReplace.id);

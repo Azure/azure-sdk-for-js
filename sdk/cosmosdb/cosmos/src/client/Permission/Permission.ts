@@ -1,5 +1,11 @@
 import { ClientContext } from "../../ClientContext";
-import { createPermissionUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import {
+  createPermissionUri,
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType
+} from "../../common";
 import { RequestOptions } from "../../request/RequestOptions";
 import { User } from "../User";
 import { PermissionBody } from "./PermissionBody";
@@ -23,7 +29,11 @@ export class Permission {
    * @param user The parent {@link User}.
    * @param id The id of the given {@link Permission}.
    */
-  constructor(public readonly user: User, public readonly id: string, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly user: User,
+    public readonly id: string,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Read the {@link PermissionDefinition} of the given {@link Permission}.
@@ -47,7 +57,10 @@ export class Permission {
    * @param body The specified {@link PermissionDefinition}.
    * @param options
    */
-  public async replace(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse> {
+  public async replace(
+    body: PermissionDefinition,
+    options?: RequestOptions
+  ): Promise<PermissionResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;

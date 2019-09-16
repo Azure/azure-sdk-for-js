@@ -23,6 +23,10 @@ describe("getUserAgent", function() {
 
 describe("Version", function() {
   it("should have matching constant version & package version", function() {
-    assert.equal(constantVersion, packageVersion, "Package.json and Constants.SDKVersion don't match");
+    assert.equal(
+      constantVersion,
+      packageVersion,
+      "Package.json and Constants.SDKVersion don't match"
+    );
   });
 });

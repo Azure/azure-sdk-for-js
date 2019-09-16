@@ -48,7 +48,7 @@ export class RangePartitionResolver {
     if (!Array.isArray(partitionKeyMap)) {
       throw new Error("partitionKeyMap has to be an Array");
     }
-    const allMapEntriesAreValid = partitionKeyMap.every(m => {
+    const allMapEntriesAreValid = partitionKeyMap.every((m) => {
       if (m === undefined || m === null) {
         return false;
       }
@@ -67,7 +67,9 @@ export class RangePartitionResolver {
       return true;
     });
     if (!allMapEntriesAreValid) {
-      throw new Error("All partitionKeyMap entries have to be a tuple {range: Range, link: string }");
+      throw new Error(
+        "All partitionKeyMap entries have to be a tuple {range: Range, link: string }"
+      );
     }
     if (compareFunction !== undefined && typeof compareFunction !== "function") {
       throw new Error("Invalid argument: 'compareFunction' is not a function");
@@ -122,9 +124,9 @@ export class RangePartitionResolver {
    */
   public resolveForRead(partitionKey: PartitionKey) {
     if (partitionKey === undefined || partitionKey === null) {
-      return this.partitionKeyMap.map(i => i.link);
+      return this.partitionKeyMap.map((i) => i.link);
     } else {
-      return this._getIntersectingMapEntries(partitionKey).map(i => i.link);
+      return this._getIntersectingMapEntries(partitionKey).map((i) => i.link);
     }
   }
 
@@ -135,7 +137,7 @@ export class RangePartitionResolver {
   public getFirstContainingMapEntryOrNull(point: any) {
     // TODO: any Point
     const containingMapEntries = this.partitionKeyMap.filter(
-      p => p.range !== undefined && p.range.contains(point, this.compareFunction)
+      (p) => p.range !== undefined && p.range.contains(point, this.compareFunction)
     );
     if (containingMapEntries && containingMapEntries.length > 0) {
       return containingMapEntries[0];
@@ -144,11 +146,17 @@ export class RangePartitionResolver {
   }
 
   public _getIntersectingMapEntries(partitionKey: PartitionKey) {
-    const partitionKeys: PartitionKey[] = Array.isArray(partitionKey) ? partitionKey : [partitionKey];
-    const ranges: Range[] = partitionKeys.map<Range>(p => (Range.isRange(p) ? (p as Range) : new Range({ low: p })));
+    const partitionKeys: PartitionKey[] = Array.isArray(partitionKey)
+      ? partitionKey
+      : [partitionKey];
+    const ranges: Range[] = partitionKeys.map<Range>((p) =>
+      Range.isRange(p) ? (p as Range) : new Range({ low: p })
+    );
 
     return ranges.reduce((result, range) => {
-      return result.concat(this.partitionKeyMap.filter(entry => entry.range.intersect(range, this.compareFunction)));
+      return result.concat(
+        this.partitionKeyMap.filter((entry) => entry.range.intersect(range, this.compareFunction))
+      );
     }, []);
   }
 }

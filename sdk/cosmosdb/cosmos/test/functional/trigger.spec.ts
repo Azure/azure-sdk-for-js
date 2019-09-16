@@ -42,7 +42,9 @@ describe("NodeJS CRUD Tests", function() {
       assert.equal(trigger.body, "serverScript() { var x = 10; }");
 
       // read triggers after creation
-      const { resources: triggersAfterCreation } = await container.scripts.triggers.readAll().fetchAll();
+      const {
+        resources: triggersAfterCreation
+      } = await container.scripts.triggers.readAll().fetchAll();
       assert.equal(
         triggersAfterCreation.length,
         beforeCreateTriggersCount + 1,
@@ -65,13 +67,17 @@ describe("NodeJS CRUD Tests", function() {
       // replace trigger
       // prettier-ignore
       trigger.body = function () { const x = 20; };
-      const { resource: replacedTrigger } = await container.scripts.trigger(trigger.id).replace(trigger);
+      const { resource: replacedTrigger } = await container.scripts
+        .trigger(trigger.id)
+        .replace(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
       assert.equal(replacedTrigger.body, "function () { const x = 20; }");
 
       // read trigger
-      const { resource: triggerAfterReplace } = await container.scripts.trigger(replacedTrigger.id).read();
+      const { resource: triggerAfterReplace } = await container.scripts
+        .trigger(replacedTrigger.id)
+        .read();
       assert.equal(replacedTrigger.id, triggerAfterReplace.id);
 
       // delete trigger
