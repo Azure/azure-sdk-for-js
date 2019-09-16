@@ -682,6 +682,15 @@ export function convertJWKtoPEM(key: JsonWebKey): string {
   let beginBanner = "-----BEGIN RSA PUBLIC KEY-----\n";
   let endBanner = "-----END RSA PUBLIC KEY-----";
 
+  /*
+   Fill in the PEM with 64 character lines as per RFC:
+
+   "To represent the encapsulated text of a PEM message, the encoding
+   function's output is delimited into text lines (using local
+   conventions), with each line except the last containing exactly 64
+   printable characters and the final line containing 64 or fewer
+   printable characters."
+  */
   let outputString = beginBanner;
   let lines = buffer.match(/.{1,64}/g);
   
