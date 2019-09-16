@@ -1,10 +1,10 @@
-import { ResourceSerializer } from "./resourceSerializer";
+import { AtomResourceSerializer } from "./util/atomXmlHelper";
 
 export interface AtomXmlOperationSpec {
   /**
    * The serializer to use in this operation.
    */
-  serializer: ResourceSerializer;
+  serializer: AtomResourceSerializer;
 
   /**
    * Indicates whether the response needs to be parsed.

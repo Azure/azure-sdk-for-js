@@ -110,7 +110,10 @@ export {
   atomSerializationPolicy,
   AtomSerializationPolicy
 } from "./policies/atomSerializationPolicy";
-export { ResourceSerializer } from "./resourceSerializer";
-export { AtomResourceSerializerBase } from "./atomResourceSerializerBase";
+export {
+  AtomResourceSerializer,
+  serializeToAtomXmlRequest,
+  deserializeAtomXmlResponse
+} from "./util/atomXmlHelper";
 export { AtomXmlOperationSpec } from "./atomXmlOperationSpec";
 export * from "@azure/core-tracing";

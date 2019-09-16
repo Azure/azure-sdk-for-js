@@ -7,8 +7,9 @@ import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import {
   HttpClient,
   AtomXmlOperationSpec,
-  AtomResourceSerializerBase,
-  ResourceSerializer
+  AtomResourceSerializer,
+  deserializeAtomXmlResponse,
+  serializeToAtomXmlRequest
 } from "../../lib/coreHttp";
 import {
   AtomSerializationPolicy,
@@ -115,11 +116,11 @@ function getCustomResult(error: any, result: any, response: any): any {
   };
 }
 
-class MockSerializer implements ResourceSerializer {
-  serialize(resource: any): any {
+class MockSerializer implements AtomResourceSerializer {
+  serialize(resource: any): string {
     const properties = ["LockDuration", "MaxSizeInMegabytes"];
 
-    return AtomResourceSerializerBase.serializeToAtomXmlRequest(
+    return serializeToAtomXmlRequest(
       "QueueDescription",
       resource,
       properties,
@@ -127,7 +128,7 @@ class MockSerializer implements ResourceSerializer {
     );
   }
 
-  parse(xml: any): any {
-    return AtomResourceSerializerBase.deserializeAtomResponse(["QueueName"], xml);
+  deserialize(response: HttpOperationResponse, shouldParseResponse: boolean): any {
+    return deserializeAtomXmlResponse(["QueueName"], response, shouldParseResponse);
   }
 }
