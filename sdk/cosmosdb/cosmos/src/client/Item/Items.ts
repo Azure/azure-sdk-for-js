@@ -18,7 +18,9 @@ import { ItemResponse } from "./ItemResponse";
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   const optionsType = typeof options;
-  return options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number");
+  return (
+    options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number")
+  );
 }
 
 /**
@@ -32,7 +34,10 @@ export class Items {
    * @param container The parent container.
    * @hidden
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly container: Container,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Queries all items.
@@ -75,13 +80,20 @@ export class Items {
         path,
         resourceType: ResourceType.item,
         resourceId: id,
-        resultFn: result => (result ? result.Documents : []),
+        resultFn: (result) => (result ? result.Documents : []),
         query,
         options: innerOptions
       });
     };
 
-    return new QueryIterator(this.clientContext, query, options, fetchFunction, this.container.url, ResourceType.item);
+    return new QueryIterator(
+      this.clientContext,
+      query,
+      options,
+      fetchFunction,
+      this.container.url,
+      ResourceType.item
+    );
   }
 
   /**
@@ -132,7 +144,10 @@ export class Items {
     if (!changeFeedOptions && isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
       partitionKey = undefined;
       changeFeedOptions = partitionKeyOrChangeFeedOptions;
-    } else if (partitionKeyOrChangeFeedOptions !== undefined && !isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
+    } else if (
+      partitionKeyOrChangeFeedOptions !== undefined &&
+      !isChangeFeedOptions(partitionKeyOrChangeFeedOptions)
+    ) {
       partitionKey = partitionKeyOrChangeFeedOptions;
     }
 
@@ -187,7 +202,10 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async create<T extends ItemDefinition = any>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
+  public async create<T extends ItemDefinition = any>(
+    body: T,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
     const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
@@ -214,8 +232,19 @@ export class Items {
       partitionKey
     });
 
-    const ref = new Item(this.container, (response.result as any).id, partitionKey, this.clientContext);
-    return new ItemResponse(response.result, response.headers, response.code, response.substatus, ref);
+    const ref = new Item(
+      this.container,
+      (response.result as any).id,
+      partitionKey,
+      this.clientContext
+    );
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      ref
+    );
   }
 
   /**
@@ -238,8 +267,14 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
+  public async upsert<T extends ItemDefinition>(
+    body: T,
+    options?: RequestOptions
+  ): Promise<ItemResponse<T>>;
+  public async upsert<T extends ItemDefinition>(
+    body: T,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
     const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
     const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
@@ -266,7 +301,18 @@ export class Items {
       partitionKey
     });
 
-    const ref = new Item(this.container, (response.result as any).id, partitionKey, this.clientContext);
-    return new ItemResponse(response.result, response.headers, response.code, response.substatus, ref);
+    const ref = new Item(
+      this.container,
+      (response.result as any).id,
+      partitionKey,
+      this.clientContext
+    );
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      ref
+    );
   }
 }

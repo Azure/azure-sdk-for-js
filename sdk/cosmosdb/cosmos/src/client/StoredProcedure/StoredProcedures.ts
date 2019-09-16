@@ -19,7 +19,10 @@ export class StoredProcedures {
    * @param container The parent {@link Container}.
    * @hidden
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly container: Container,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Query all Stored Procedures.
@@ -57,12 +60,12 @@ export class StoredProcedures {
     const path = getPathFromLink(this.container.url, ResourceType.sproc);
     const id = getIdFromLink(this.container.url);
 
-    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.sproc,
         resourceId: id,
-        resultFn: result => result.StoredProcedures,
+        resultFn: (result) => result.StoredProcedures,
         query,
         options: innerOptions
       });
@@ -90,7 +93,10 @@ export class StoredProcedures {
    * specified container. For additional details,
    * refer to the server-side JavaScript API documentation.
    */
-  public async create(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
+  public async create(
+    body: StoredProcedureDefinition,
+    options?: RequestOptions
+  ): Promise<StoredProcedureResponse> {
     if (body.body) {
       body.body = body.body.toString();
     }

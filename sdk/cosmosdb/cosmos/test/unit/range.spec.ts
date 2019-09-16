@@ -18,7 +18,10 @@ describe("Range Tests", function() {
     };
 
     const invalidRangeTest = function(options: any) {
-      invalidOptionsTest(options, /Invalid argument: 'options.low' must be less than or equal than 'options.high'/);
+      invalidOptionsTest(
+        options,
+        /Invalid argument: 'options.low' must be less than or equal than 'options.high'/
+      );
     };
 
     it("options - undefined (ommited argument)", function() {

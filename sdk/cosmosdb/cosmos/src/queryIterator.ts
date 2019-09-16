@@ -138,7 +138,11 @@ export class QueryIterator<T> {
         throw error;
       }
     }
-    return new FeedResponse<T>(response.result, response.headers, this.queryExecutionContext.hasMoreResults());
+    return new FeedResponse<T>(
+      response.result,
+      response.headers,
+      this.queryExecutionContext.hasMoreResults()
+    );
   }
 
   /**
@@ -146,7 +150,10 @@ export class QueryIterator<T> {
    */
   public reset() {
     this.queryPlanPromise = undefined;
-    this.queryExecutionContext = new DefaultQueryExecutionContext(this.options, this.fetchFunctions);
+    this.queryExecutionContext = new DefaultQueryExecutionContext(
+      this.options,
+      this.fetchFunctions
+    );
   }
 
   private async toArrayImplementation(): Promise<FeedResponse<T>> {

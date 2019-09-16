@@ -28,8 +28,14 @@ describe("User Defined Function", function() {
     assert.equal(udf.body, "function () { const x = 10; }");
 
     // read udfs after creation
-    const { resources: udfsAfterCreate } = await container.scripts.userDefinedFunctions.readAll().fetchAll();
-    assert.equal(udfsAfterCreate.length, beforeCreateUdfsCount + 1, "create should increase the number of udfs");
+    const {
+      resources: udfsAfterCreate
+    } = await container.scripts.userDefinedFunctions.readAll().fetchAll();
+    assert.equal(
+      udfsAfterCreate.length,
+      beforeCreateUdfsCount + 1,
+      "create should increase the number of udfs"
+    );
 
     // query udfs
     const querySpec = {
@@ -41,7 +47,9 @@ describe("User Defined Function", function() {
         }
       ]
     };
-    const { resources: results } = await container.scripts.userDefinedFunctions.query(querySpec).fetchAll();
+    const { resources: results } = await container.scripts.userDefinedFunctions
+      .query(querySpec)
+      .fetchAll();
     assert(results.length > 0, "number of results for the query should be > 0");
 
     // replace udf
@@ -54,7 +62,9 @@ describe("User Defined Function", function() {
     assert.equal(replacedUdf.body, "function () { const x = 10; }");
 
     // read udf
-    const { resource: udfAfterReplace } = await container.scripts.userDefinedFunction(replacedUdf.id).read();
+    const { resource: udfAfterReplace } = await container.scripts
+      .userDefinedFunction(replacedUdf.id)
+      .read();
 
     assert.equal(replacedUdf.id, udfAfterReplace.id);
 
@@ -63,7 +73,9 @@ describe("User Defined Function", function() {
 
     // read udfs after deletion
     try {
-      const { resource: badudf } = await container.scripts.userDefinedFunction(replacedUdf.id).read();
+      const { resource: badudf } = await container.scripts
+        .userDefinedFunction(replacedUdf.id)
+        .read();
       assert.fail("Must fail to read after delete");
     } catch (err) {
       const notFoundErrorCode = 404;

@@ -4,7 +4,7 @@ import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 import { StatusCodes } from "../../dist-esm";
 
 async function sleep(time: number) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, time);
   });
 }
@@ -26,11 +26,20 @@ describe("Container TTL", function() {
       await db.containers.create(containerDefinition);
     } catch (err) {
       const badRequestErrorCode = 400;
-      assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
+      assert.equal(
+        err.code,
+        badRequestErrorCode,
+        "response should return error code " + badRequestErrorCode
+      );
     }
   }
 
-  async function createItemWithInvalidTtl(container: Container, itemDefinition: any, itemId: any, ttl: number) {
+  async function createItemWithInvalidTtl(
+    container: Container,
+    itemDefinition: any,
+    itemId: any,
+    ttl: number
+  ) {
     itemDefinition.id = itemId;
     itemDefinition.ttl = ttl;
 
@@ -39,7 +48,11 @@ describe("Container TTL", function() {
       assert.fail("Must throw if using invalid TTL");
     } catch (err) {
       const badRequestErrorCode = 400;
-      assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
+      assert.equal(
+        err.code,
+        badRequestErrorCode,
+        "response should return error code " + badRequestErrorCode
+      );
     }
   }
 
@@ -56,9 +69,24 @@ describe("Container TTL", function() {
     const container = database.container(containerResult.id);
 
     // null, 0, -10 are unsupported value for defaultTtl.Valid values are -1 or a non-zero positive 32-bit integer value
-    await createcontainerWithInvalidDefaultTtl(database, containerDefinition, "sample container2", null);
-    await createcontainerWithInvalidDefaultTtl(database, containerDefinition, "sample container3", 0);
-    await createcontainerWithInvalidDefaultTtl(database, containerDefinition, "sample container4", -10);
+    await createcontainerWithInvalidDefaultTtl(
+      database,
+      containerDefinition,
+      "sample container2",
+      null
+    );
+    await createcontainerWithInvalidDefaultTtl(
+      database,
+      containerDefinition,
+      "sample container3",
+      0
+    );
+    await createcontainerWithInvalidDefaultTtl(
+      database,
+      containerDefinition,
+      "sample container4",
+      -10
+    );
 
     const itemDefinition = {
       id: "doc",
@@ -91,7 +119,11 @@ describe("Container TTL", function() {
     await checkItemGone(container, createdItem);
   }
 
-  async function positiveDefaultTtlStep3(container: Container, createdItem: any, itemDefinition: any) {
+  async function positiveDefaultTtlStep3(
+    container: Container,
+    createdItem: any,
+    itemDefinition: any
+  ) {
     // the created Item should be gone now as it 's ttl value is set to 2 which overrides the containers' s defaultTtl value(5)
     await checkItemGone(container, createdItem);
     itemDefinition.id = "doc4";
@@ -102,7 +134,11 @@ describe("Container TTL", function() {
     await positiveDefaultTtlStep4(container, doc);
   }
 
-  async function positiveDefaultTtlStep2(container: Container, createdItem: any, itemDefinition: any) {
+  async function positiveDefaultTtlStep2(
+    container: Container,
+    createdItem: any,
+    itemDefinition: any
+  ) {
     // the created Item should NOT be gone as it 's ttl value is set to -1(never expire) which overrides the containers' s defaultTtl value
     await checkItemExists(container, createdItem);
     itemDefinition.id = "doc3";
@@ -113,7 +149,11 @@ describe("Container TTL", function() {
     await positiveDefaultTtlStep3(container, doc, itemDefinition);
   }
 
-  async function positiveDefaultTtlStep1(container: Container, createdItem: any, itemDefinition: any) {
+  async function positiveDefaultTtlStep1(
+    container: Container,
+    createdItem: any,
+    itemDefinition: any
+  ) {
     // the created Item should be gone now as it 's ttl value would be same as defaultTtl value of the container
     await checkItemGone(container, createdItem);
     itemDefinition.id = "doc2";

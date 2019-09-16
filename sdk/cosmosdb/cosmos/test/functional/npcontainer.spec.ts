@@ -1,5 +1,11 @@
 import assert from "assert";
-import { CosmosClient, Constants, Container, PluginConfig, CosmosClientOptions } from "../../dist-esm";
+import {
+  CosmosClient,
+  Constants,
+  Container,
+  PluginConfig,
+  CosmosClientOptions
+} from "../../dist-esm";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../dist-esm/common";

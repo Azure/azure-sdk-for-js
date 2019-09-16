@@ -24,7 +24,9 @@ async function exec(cmd) {
       console.log(`Compling with typescript@${version} - Basic`);
       await exec(`npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true`);
       console.log(`Compling with typescript@${version} - Custom lib`);
-      await exec(`npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`);
+      await exec(
+        `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`
+      );
     }
     process.exit(0);
   } catch (error) {
