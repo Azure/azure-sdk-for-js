@@ -27,9 +27,8 @@ export {
   PartitionManager,
   PartitionOwnership
 } from "./eventProcessor";
-export { PartitionContext, Checkpoint } from "./partitionContext";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-export { PartitionProcessor } from "./partitionProcessor";
+export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export {
   MessagingError,
   DataTransformer,

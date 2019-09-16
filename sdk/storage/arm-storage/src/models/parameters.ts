@@ -88,6 +88,18 @@ export const expand: msRest.OperationQueryParameter = {
     }
   }
 };
+export const fileServicesName: msRest.OperationURLParameter = {
+  parameterPath: "fileServicesName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "FileServicesName",
+    defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -188,6 +200,20 @@ export const resourceGroupName: msRest.OperationURLParameter = {
       MaxLength: 90,
       MinLength: 1,
       Pattern: /^[-\w\._\(\)]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const shareName: msRest.OperationURLParameter = {
+  parameterPath: "shareName",
+  mapper: {
+    required: true,
+    serializedName: "shareName",
+    constraints: {
+      MaxLength: 63,
+      MinLength: 3
     },
     type: {
       name: "String"
