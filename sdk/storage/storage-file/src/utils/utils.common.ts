@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as fs from "fs";
+import * as util from "util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants } from "./constants";
@@ -469,3 +470,10 @@ export async function readStreamToLocalFile(rs: NodeJS.ReadableStream, file: str
     rs.pipe(ws);
   });
 }
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Promisified version of fs.stat().
+ */
+export const fsStat = util.promisify(fs.stat);
