@@ -71,6 +71,16 @@ export interface IBlockBlobCommitBlockListOptions {
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
   customerProvidedKey?: Models.CpkInfo;
+
+  /**
+   * @deprecated Please use option tier to indicate the tier to be set on the blob. 
+   * Note: When both accessTier and tier options are set, the value of tier will be used.
+   */
+  accessTier?: Models.AccessTier;
+
+  /**
+   * Indicates the tier to be set on the blob. 
+   */
   tier?: BlockBlobTier | string;
 }
 
@@ -331,7 +341,7 @@ export class BlockBlobURL extends BlobURL {
         metadata: options.metadata,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
         cpkInfo: options.customerProvidedKey,
-        tier: toAccessTier(options.tier)
+        tier: options.tier ? toAccessTier(options.tier) : options.accessTier
       }
     );
   }
