@@ -143,8 +143,6 @@ export class RequestResponseLink implements ReqResLink {
       };
 
       const messageCallback = (context: EventContext) => {
-        // remove the event listeners as they will be registered next time when someone makes a request.
-        this.receiver.removeListener(ReceiverEvents.message, messageCallback);
         if (aborter) {
           aborter.removeEventListener("abort", onAbort);
         }
@@ -170,8 +168,13 @@ export class RequestResponseLink implements ReqResLink {
               request.message_id,
               responseCorrelationId
             );
+            // remove the event listeners as they will be registered next time when someone makes a request.
+            this.receiver.removeListener(ReceiverEvents.message, messageCallback);
             return resolve(context.message);
           } else {
+            // do not remove message listener.
+            // parallel requests listen on the same receiver, so continue waiting until matching message
+            // per correlationId is found.
             log.error(
               "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
                 "Hence dropping this response and waiting for the next one.",
@@ -189,6 +192,8 @@ export class RequestResponseLink implements ReqResLink {
           };
           const error = translate(e);
           log.error(error);
+          // remove the event listeners as they will be registered next time when someone makes a request.
+          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
           return reject(error);
         }
       };

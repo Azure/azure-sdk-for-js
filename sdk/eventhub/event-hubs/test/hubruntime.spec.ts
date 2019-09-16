@@ -12,13 +12,13 @@ const env = getEnvVars();
 
 import { EventHubClient } from "../src";
 import { AbortController } from "@azure/abort-controller";
-describe("RuntimeInformation #RunnableInBrowser", function(): void {
+describe("RuntimeInformation #RunnableInBrowser", function (): void {
   let client: EventHubClient;
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
-  before("validate environment", function(): void {
+  before("validate environment", function (): void {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -29,7 +29,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     );
   });
 
-  afterEach("close the connection", async function(): Promise<void> {
+  afterEach("close the connection", async function (): Promise<void> {
     await client.close();
   });
 
@@ -39,14 +39,14 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     });
   }
 
-  describe("getPartitionIds", function(): void {
-    it("returns an array of partition IDs", async function(): Promise<void> {
+  describe("getPartitionIds", function (): void {
+    it("returns an array of partition IDs", async function (): Promise<void> {
       client = new EventHubClient(service.connectionString, service.path);
       const ids = await client.getPartitionIds();
       ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
     });
 
-    it("respects cancellationTokens", async function(): Promise<void> {
+    it("respects cancellationTokens", async function (): Promise<void> {
       client = new EventHubClient(service.connectionString, service.path);
       try {
         const controller = new AbortController();
@@ -57,10 +57,26 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
       }
     });
+
+    it("can be ran in parallel without retries", async function (): Promise<void> {
+      client = new EventHubClient(service.connectionString, service.path, {
+        retryOptions: {
+          maxRetries: 0
+        }
+      });
+      const results = await Promise.all([
+        client.getPartitionIds(),
+        client.getPartitionIds()
+      ]);
+
+      for (const result of results) {
+        result.should.have.members(arrayOfIncreasingNumbersFromZero(result.length));
+      }
+    });
   });
 
-  describe("hub runtime information", function(): void {
-    it("gets the hub runtime information", async function(): Promise<void> {
+  describe("hub runtime information", function (): void {
+    it("gets the hub runtime information", async function (): Promise<void> {
       client = new EventHubClient(service.connectionString, service.path, {
         userAgent: "/js-event-processor-host=0.2.0"
       });
@@ -74,7 +90,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       hubRuntimeInfo.createdAt.should.be.instanceof(Date);
     });
 
-    it("can cancel a request for hub runtime information", async function(): Promise<void> {
+    it("can cancel a request for hub runtime information", async function (): Promise<void> {
       client = new EventHubClient(service.connectionString, service.path, {
         userAgent: "/js-event-processor-host=0.2.0"
       });
@@ -89,8 +105,8 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("partition runtime information", function(): void {
-    it("should throw an error if partitionId is missing", async function(): Promise<void> {
+  describe("partition runtime information", function (): void {
+    it("should throw an error if partitionId is missing", async function (): Promise<void> {
       try {
         client = new EventHubClient(service.connectionString, service.path);
         await client.getPartitionProperties(undefined as any);
@@ -101,7 +117,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       }
     });
 
-    it("gets the partition runtime information with partitionId as a string", async function(): Promise<
+    it("gets the partition runtime information with partitionId as a string", async function (): Promise<
       void
     > {
       client = new EventHubClient(service.connectionString, service.path);
@@ -114,7 +130,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
 
-    it("gets the partition runtime information with partitionId as a number", async function(): Promise<
+    it("gets the partition runtime information with partitionId as a number", async function (): Promise<
       void
     > {
       client = new EventHubClient(service.connectionString, service.path);
@@ -128,8 +144,8 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     });
 
     const invalidIds = ["XYZ", -1, 1000, "-", " ", ""];
-    invalidIds.forEach(function(id: any): void {
-      it(`should fail the partition runtime information when partitionId is "${id}"`, async function(): Promise<void> {
+    invalidIds.forEach(function (id: any): void {
+      it(`should fail the partition runtime information when partitionId is "${id}"`, async function (): Promise<void> {
         try {
           client = new EventHubClient(service.connectionString, service.path);
           await client.getPartitionProperties(id as any);
@@ -144,7 +160,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       });
     });
 
-    it("can cancel a request for getPartitionInformation", async function(): Promise<void> {
+    it("can cancel a request for getPartitionInformation", async function (): Promise<void> {
       client = new EventHubClient(service.connectionString, service.path);
       try {
         const controller = new AbortController();
