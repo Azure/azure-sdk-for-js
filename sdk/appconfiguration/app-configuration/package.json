@@ -7,6 +7,7 @@
   "dependencies": {
     "@azure/core-arm": "1.0.0-preview.3",
     "@azure/core-http": "1.0.0-preview.3",
+    "@azure/core-paging": "1.0.0-preview.2",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -25,6 +26,7 @@
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
     "assert": "^1.4.1",
+    "autorest": "^2.0.4283",
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -80,6 +82,7 @@
     "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f html -o template-lintReport.html || exit 0",
     "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",
+    "swagger": "autorest --typescript swagger/swagger.md",
     "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
