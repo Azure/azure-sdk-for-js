@@ -24,6 +24,8 @@ class StorageManagementClient extends StorageManagementClientContext {
   managementPolicies: operations.ManagementPolicies;
   blobServices: operations.BlobServices;
   blobContainers: operations.BlobContainers;
+  fileServices: operations.FileServices;
+  fileShares: operations.FileShares;
 
   /**
    * Initializes a new instance of the StorageManagementClient class.
@@ -40,6 +42,8 @@ class StorageManagementClient extends StorageManagementClientContext {
     this.managementPolicies = new operations.ManagementPolicies(this);
     this.blobServices = new operations.BlobServices(this);
     this.blobContainers = new operations.BlobContainers(this);
+    this.fileServices = new operations.FileServices(this);
+    this.fileShares = new operations.FileShares(this);
   }
 }
 
