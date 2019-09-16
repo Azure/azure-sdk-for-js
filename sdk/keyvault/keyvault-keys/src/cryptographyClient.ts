@@ -91,7 +91,6 @@ export class CryptographyClient {
               throw new Error("Key does not support the encrypt operation");
             }
 
-            console.log("key: ", this.key);
             let keyPEM = convertJWKtoPEM(this.key);
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
