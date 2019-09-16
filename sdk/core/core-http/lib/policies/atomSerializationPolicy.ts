@@ -9,7 +9,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { AtomResourceSerializer } from "../util/atomXmlHelper";
+import { AtomXmlSerializer } from "../util/atomXmlHelper";
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialize/deserialize
@@ -43,7 +43,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       );
     }
 
-    const serializer: AtomResourceSerializer = request.atomXmlOperationSpec.serializer;
+    const serializer: AtomXmlSerializer = request.atomXmlOperationSpec.serializer;
 
     if (request.body) {
       request.body = serializer.serialize(JSON.parse(request.body));

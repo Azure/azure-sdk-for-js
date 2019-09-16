@@ -111,7 +111,7 @@ export {
   AtomSerializationPolicy
 } from "./policies/atomSerializationPolicy";
 export {
-  AtomResourceSerializer,
+  AtomXmlSerializer,
   serializeToAtomXmlRequest,
   deserializeAtomXmlResponse
 } from "./util/atomXmlHelper";

@@ -6,7 +6,7 @@ import { isString } from "./utils";
 import { serializeJsonToAtomXml, deserializeAtomXmlToJson } from "./xml";
 import { HttpOperationResponse } from "../httpOperationResponse";
 
-export interface AtomResourceSerializer {
+export interface AtomXmlSerializer {
   serialize(resourceDataInJson: any): string;
 
   deserialize(
