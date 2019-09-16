@@ -17,7 +17,8 @@ import {
   Checkpoint,
   CloseReason,
   ReceivedEventData,
-  PartitionProcessor
+  PartitionProcessor,
+  LastEnqueuedEventInfo
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
@@ -858,6 +859,96 @@ describe("Event Processor", function(): void {
       const n = Math.floor(partitionIds.length / 2);
       partitionOwnershipMap.get(processorByName[`processor-0`].id)!.length.should.oneOf([n, n + 1]);
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
+    });
+  });
+
+  describe("with trackLastEnqueuedEventInfo", function(): void {
+    it("should have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to true", async function(): Promise<
+      void
+    > {
+      const partitionIds = await client.getPartitionIds();
+      for (const partitionId of partitionIds) {
+        const producer = client.createProducer({ partitionId: `${partitionId}` });
+        await producer.send({ body: `Hello world - ${partitionId}` });
+        await producer.close();
+      }
+
+      let partitionIdsSet = new Set();
+      const lastEnqueuedEventInfoMap: Map<string, LastEnqueuedEventInfo> = new Map();
+      class SimpleEventProcessor extends PartitionProcessor {
+        async processEvents(events: ReceivedEventData[]) {
+          partitionIdsSet.add(this.partitionId);
+          lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
+        }
+      }
+      const processor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        SimpleEventProcessor,
+        new InMemoryPartitionManager(),
+        {
+          trackLastEnqueuedEventInfo: true
+        }
+      );
+
+      processor.start();
+
+      while (partitionIdsSet.size !== partitionIds.length) {
+        await delay(1000);
+      }
+      await processor.stop();
+
+      for (const partitionId of partitionIds) {
+        debug("Getting the partition information");
+        const patitionInfo = await client.getPartitionProperties(partitionId);
+        debug("partition info: ", patitionInfo);
+        const results = lastEnqueuedEventInfoMap.get(partitionId)!;
+        should.exist(results);
+        results!.offset!.should.equal(patitionInfo.lastEnqueuedOffset);
+        results!.sequenceNumber!.should.equal(patitionInfo.lastEnqueuedSequenceNumber);
+        results!.enqueuedTime!.getTime().should.equal(patitionInfo.lastEnqueuedTimeUtc.getTime());
+        results!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
+      }
+    });
+
+    it("should not have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to false", async function(): Promise<
+      void
+    > {
+      const partitionIds = await client.getPartitionIds();
+      for (const partitionId of partitionIds) {
+        const producer = client.createProducer({ partitionId: `${partitionId}` });
+        await producer.send({ body: `Hello world - ${partitionId}` });
+        await producer.close();
+      }
+
+      let partitionIdsSet = new Set();
+      const lastEnqueuedEventInfoMap: Map<string, LastEnqueuedEventInfo> = new Map();
+      class SimpleEventProcessor extends PartitionProcessor {
+        async processEvents(events: ReceivedEventData[]) {
+          partitionIdsSet.add(this.partitionId);
+          lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
+        }
+      }
+      const processor = new EventProcessor(
+        EventHubClient.defaultConsumerGroupName,
+        client,
+        SimpleEventProcessor,
+        new InMemoryPartitionManager(),
+        {
+          trackLastEnqueuedEventInfo: false
+        }
+      );
+      processor.start();
+
+      while (partitionIdsSet.size !== partitionIds.length) {
+        await delay(1000);
+      }
+      await processor.stop();
+
+      for (const partitionId of partitionIds) {
+        const results = lastEnqueuedEventInfoMap.get(partitionId)!;
+        should.not.exist(results);
+      }
     });
   });
 }).timeout(90000);
