@@ -26,7 +26,6 @@ export class AppConfigurationClient {
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>;
     listRevisions(options?: ListRevisionsOptions): Promise<ListRevisionsResponse>;
     setConfigurationSetting(key: string, configSettings: SetConfigurationSettingConfig, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
-    updateConfigurationSetting(key: string, configSettings: UpdateConfigurationSettingConfig, options?: UpdateConfigurationSettingOptions): Promise<UpdateConfigurationSettingResponse>;
 }
 
 // @public
@@ -170,15 +169,6 @@ export type SetConfigurationSettingOptions = ModelConfigurationClientCreateOrUpd
 
 // @public (undocumented)
 export type SetConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
-
-// @public (undocumented)
-export type UpdateConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
-
-// @public (undocumented)
-export type UpdateConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-
-// @public (undocumented)
-export type UpdateConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
 
 
 // (No @packageDocumentation comment for this package)

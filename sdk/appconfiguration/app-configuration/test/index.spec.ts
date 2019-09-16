@@ -45,21 +45,23 @@ describe("AppConfigurationClient", () => {
         label: null
       });
 
-      await client.updateConfigurationSetting(key, { value: "updated" });
-
-      await compare({
-        key,
-        value: "updated",
-        label: null
-      });
-
       await client.deleteConfigurationSetting(key, {});
 
+      // will recreate the setting
       await client.setConfigurationSetting(key, { value: "set" });
 
       await compare({
         key,
         value: "set",
+        label: null
+      });
+
+      // and now acts as a wholesale update
+      await client.setConfigurationSetting(key, { value: "set a second time" });
+
+      await compare({
+        key,
+        value: "set a second time",
         label: null
       });
 
@@ -71,7 +73,7 @@ describe("AppConfigurationClient", () => {
 
       assert.equal(expected.key, actualSettings.key);
       assert.equal(expected.value, actualSettings.value);
-      assert.equal(expected.label, actualSettings.label);      
+      assert.equal(expected.label, actualSettings.label);
     }
   });
 
@@ -724,263 +726,6 @@ describe("AppConfigurationClient", () => {
 
       try {
         await client.setConfigurationSetting(key, { label, value: "foo2", etag: "incorrect" });
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
-    });
-  });
-
-  describe("updateConfigurationSetting", () => {
-    it("updates an existing configuration setting", async () => {
-      const key = `updateConfigTest-${Date.now()}`;
-      const label = "test";
-      const contentType = "application/json";
-      const tags = {
-        bar: "baz",
-        car: "caz"
-      };
-
-      // create configuration
-      const result = await client.addConfigurationSetting(key, {
-        label,
-        value: "foo",
-        contentType,
-        tags
-      });
-
-      settings.push({ key, label });
-
-      assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
-      assert.equal(
-        result.label,
-        label,
-        "Unexpected label in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.value,
-        "foo",
-        "Unexpected value in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.locked,
-        false,
-        "Unexpected locked in result from addConfigurationSetting()."
-      );
-      assert.deepEqual(
-        result.tags,
-        tags,
-        "Unexpected tags in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.contentType,
-        contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
-      );
-
-      const updatedResult = await client.updateConfigurationSetting(key, { label, value: "foo2" });
-
-      assert.equal(
-        updatedResult.key,
-        key,
-        "Unexpected key in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.label,
-        label,
-        "Unexpected label in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.value,
-        "foo2",
-        "Unexpected value in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.locked,
-        false,
-        "Unexpected locked in result from updateConfigurationSetting()."
-      );
-      assert.deepEqual(
-        updatedResult.tags,
-        tags,
-        "Unexpected tags in result from updateConfigurationSetting()."
-      );
-      assert.strictEqual(
-        updatedResult.contentType,
-        contentType,
-        "Unexpected contentType in result from updateConfigurationSetting()."
-      );
-    });
-
-    it("updates an existing configuration setting (valid etag)", async () => {
-      const key = `updateConfigTestEtag-${Date.now()}`;
-      const label = "test";
-      const contentType = "application/json";
-      const tags = {
-        bar: "baz",
-        car: "caz"
-      };
-
-      // create configuration
-      const result = await client.addConfigurationSetting(key, {
-        label,
-        value: "foo",
-        contentType,
-        tags
-      });
-
-      settings.push({ key, label });
-
-      assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
-      assert.equal(
-        result.label,
-        label,
-        "Unexpected label in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.value,
-        "foo",
-        "Unexpected value in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.locked,
-        false,
-        "Unexpected locked in result from addConfigurationSetting()."
-      );
-      assert.deepEqual(
-        result.tags,
-        tags,
-        "Unexpected tags in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.contentType,
-        contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
-      );
-
-      const updatedResult = await client.updateConfigurationSetting(key, {
-        label,
-        value: "foo2",
-        etag: result.etag
-      });
-
-      assert.equal(
-        updatedResult.key,
-        key,
-        "Unexpected key in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.label,
-        label,
-        "Unexpected label in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.value,
-        "foo2",
-        "Unexpected value in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.locked,
-        false,
-        "Unexpected locked in result from updateConfigurationSetting()."
-      );
-      assert.deepEqual(
-        updatedResult.tags,
-        tags,
-        "Unexpected tags in result from updateConfigurationSetting()."
-      );
-      assert.strictEqual(
-        updatedResult.contentType,
-        contentType,
-        "Unexpected contentType in result from updateConfigurationSetting()."
-      );
-    });
-
-    it("throws when updating a non-existent configuration setting", async () => {
-      const key = `updateConfigTestNA-${Date.now()}`;
-      const label = "test";
-
-      try {
-        await client.updateConfigurationSetting(key, { label, value: "foo" });
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
-    });
-
-    it("throws when updating an existing configuration setting (invalid etag)", async () => {
-      const key = `updateConfigTestBadEtag-${Date.now()}`;
-      const label = "test";
-      const contentType = "application/json";
-      const tags = {
-        bar: "baz",
-        car: "caz"
-      };
-
-      // create configuration
-      const result = await client.addConfigurationSetting(key, {
-        label,
-        value: "foo",
-        contentType,
-        tags
-      });
-
-      settings.push({ key, label });
-
-      assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
-      assert.equal(
-        result.label,
-        label,
-        "Unexpected label in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.value,
-        "foo",
-        "Unexpected value in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.locked,
-        false,
-        "Unexpected locked in result from addConfigurationSetting()."
-      );
-      assert.deepEqual(
-        result.tags,
-        tags,
-        "Unexpected tags in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.contentType,
-        contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
-      );
-
-      try {
-        await client.updateConfigurationSetting(key, { label, value: "foo2", etag: "incorrect" });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");

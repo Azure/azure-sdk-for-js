@@ -77,13 +77,6 @@ export type SetConfigurationSettingConfig = Pick<
 export type SetConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
 export type SetConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
 
-export type UpdateConfigurationSettingConfig = Pick<
-  ModelConfigurationSetting,
-  Exclude<keyof ModelConfigurationSetting, "key">
->;
-export type UpdateConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-export type UpdateConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
-
 /**
  * Client for the Azure App Configuration service.
  */
@@ -265,55 +258,5 @@ export class AppConfigurationClient {
       ...options,
       customHeaders
     });
-  }
-
-  /**
-   * Updates the value of a key in the Azure App Configuration service.
-   *
-   * Example code:
-   * ```ts
-   * await client.updateConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
-   * ```
-   * @param key The name of the key.
-   * @param configSettings A configuration value.
-   * @param options Optional parameters for the request.
-   */
-  async updateConfigurationSetting(
-    key: string,
-    configSettings: UpdateConfigurationSettingConfig,
-    options: UpdateConfigurationSettingOptions = {}
-  ): Promise<UpdateConfigurationSettingResponse> {
-    options = { ...options };
-    // retrieve existing configuration, and populate configSettings for missing fields that aren't null
-    const existingConfigurationSettings = await this.getConfigurationSetting(key, {
-      abortSignal: options.abortSignal,
-      label: configSettings.label || options.label
-    });
-
-    const updateConfigSettings = { ...configSettings };
-
-    if (typeof updateConfigSettings.value === "undefined") {
-      updateConfigSettings.value = existingConfigurationSettings.value;
-    }
-    if (typeof updateConfigSettings.contentType === "undefined") {
-      updateConfigSettings.contentType = existingConfigurationSettings.contentType;
-    }
-    if (typeof updateConfigSettings.tags === "undefined") {
-      updateConfigSettings.tags = existingConfigurationSettings.tags;
-    }
-
-    options.label = configSettings.label;
-
-    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
-    options.customHeaders = customHeaders;
-
-    const etag = updateConfigSettings.etag;
-    if (etag) {
-      customHeaders["if-match"] = `"${etag}"`;
-    } else if (!customHeaders["if-match"]) {
-      customHeaders["if-match"] = "*";
-    }
-
-    return this.client.createOrUpdateConfigurationSetting(updateConfigSettings, key, options);
   }
 }
