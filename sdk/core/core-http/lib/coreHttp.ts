@@ -106,10 +106,7 @@ export { ServiceClientCredentials } from "./credentials/serviceClientCredentials
 export { TopicCredentials } from "./credentials/topicCredentials";
 export { Authenticator } from "./credentials/credentials";
 
-export {
-  atomSerializationPolicy,
-  AtomSerializationPolicy
-} from "./policies/atomSerializationPolicy";
+export { atomSerializationPolicy } from "./policies/atomSerializationPolicy";
 export {
   AtomXmlSerializer,
   serializeToAtomXmlRequest,

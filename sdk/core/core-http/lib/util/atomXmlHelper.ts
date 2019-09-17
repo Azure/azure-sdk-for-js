@@ -191,13 +191,14 @@ export async function deserializeAtomXmlResponse(
     if (response.errorBody == undefined) {
       const HttpResponseCodes = Constants.HttpResponseCodes;
       const statusCode = response.status;
-      if (!isKnownResponseCode(statusCode)) {
-        response.errorBody = {
-          error: { code: `UnrecognizedHttpResponseStatus: ${statusCode}` }
-        };
-      } else {
-        response.errorBody = { error: { code: HttpResponseCodes[statusCode] } };
-      }
+      const errorCode = isKnownResponseCode(statusCode)
+        ? HttpResponseCodes[statusCode]
+        : `UnrecognizedHttpResponseStatus: ${statusCode}`;
+      response.errorBody = {
+        error: {
+          code: errorCode
+        }
+      };
     }
   }
 
