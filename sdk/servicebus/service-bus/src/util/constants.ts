@@ -11,262 +11,193 @@ export const messageDispositionTimeout = 20000;
 export const max32BitNumber = Math.pow(2, 31) - 1;
 
 /**
- * Defines constants for use with service bus.
+ * The maximum size in megabytes.
  *
- * @const
- * @type {string}
  */
-export const ServiceBusAtomXmlConstants = {
-  /**
-   * The maximum size in megabytes.
-   *
-   * @const
-   * @type {string}
-   */
-  MAX_SIZE_IN_MEGABYTES: "MaxSizeInMegabytes",
+export const MAX_SIZE_IN_MEGABYTES = "MaxSizeInMegabytes";
 
-  /**
-   * The default message time to live.
-   *
-   * @const
-   * @type {string}
-   */
-  DEFAULT_MESSAGE_TIME_TO_LIVE: "DefaultMessageTimeToLive",
+/**
+ * The default message time to live.
+ *
+ */
+export const DEFAULT_MESSAGE_TIME_TO_LIVE = "DefaultMessageTimeToLive";
 
-  /**
-   * The lock duration.
-   *
-   * @const
-   * @type {string}
-   */
-  LOCK_DURATION: "LockDuration",
+/**
+ * The lock duration.
+ *
+ */
+export const LOCK_DURATION = "LockDuration";
 
-  /**
-   * The indication if session is required or not.
-   *
-   * @const
-   * @type {string}
-   */
-  REQUIRES_SESSION: "RequiresSession",
+/**
+ * The indication if session is required or not.
+ *
+ */
+export const REQUIRES_SESSION = "RequiresSession";
 
-  /**
-   * The indication if duplicate detection is required or not.
-   *
-   * @const
-   * @type {string}
-   */
-  REQUIRES_DUPLICATE_DETECTION: "RequiresDuplicateDetection",
+/**
+ * The indication if duplicate detection is required or not.
+ *
+ */
+export const REQUIRES_DUPLICATE_DETECTION = "RequiresDuplicateDetection";
 
-  /**
-   * The indication if dead lettering on message expiration.
-   *
-   * @const
-   * @type {string}
-   */
-  DEAD_LETTERING_ON_MESSAGE_EXPIRATION: "DeadLetteringOnMessageExpiration",
+/**
+ * The indication if dead lettering on message expiration.
+ *
+ */
+export const DEAD_LETTERING_ON_MESSAGE_EXPIRATION = "DeadLetteringOnMessageExpiration";
 
-  /**
-   * The indication if dead lettering on filter evaluation exceptions.
-   *
-   * @const
-   * @type {string}
-   */
-  DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS: "DeadLetteringOnFilterEvaluationExceptions",
+/**
+ * The indication if dead lettering on filter evaluation exceptions.
+ *
+ */
+export const DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS =
+  "DeadLetteringOnFilterEvaluationExceptions";
 
-  /**
-   * The history time window for duplicate detection.
-   *
-   * @const
-   * @type {string}
-   */
-  DUPLICATE_DETECTION_HISTORY_TIME_WINDOW: "DuplicateDetectionHistoryTimeWindow",
+/**
+ * The history time window for duplicate detection.
+ *
+ */
+export const DUPLICATE_DETECTION_HISTORY_TIME_WINDOW = "DuplicateDetectionHistoryTimeWindow";
 
-  /**
-   * The maximum number of subscriptions per topic.
-   *
-   * @const
-   * @type {string}
-   */
-  MAX_SUBSCRIPTIONS_PER_TOPIC: "MaxSubscriptionsPerTopic",
+/**
+ * The maximum number of subscriptions per topic.
+ *
+ */
+export const MAX_SUBSCRIPTIONS_PER_TOPIC = "MaxSubscriptionsPerTopic";
 
-  /**
-   * The maximum amount of sql filters per topic.
-   *
-   * @const
-   * @type {string}
-   */
-  MAX_SQL_FILTERS_PER_TOPIC: "MaxSqlFiltersPerTopic",
+/**
+ * The maximum amount of sql filters per topic.
+ *
+ */
+export const MAX_SQL_FILTERS_PER_TOPIC = "MaxSqlFiltersPerTopic";
 
-  /**
-   * The maximum amount of correlation filters per topic.
-   *
-   * @const
-   * @type {string}
-   */
-  MAX_CORRELATION_FILTERS_PER_TOPIC: "MaxCorrelationFiltersPerTopic",
+/**
+ * The maximum amount of correlation filters per topic.
+ *
+ */
+export const MAX_CORRELATION_FILTERS_PER_TOPIC = "MaxCorrelationFiltersPerTopic";
 
-  /**
-   * The maximum delivery count.
-   *
-   * @const
-   * @type {string}
-   */
-  MAX_DELIVERY_COUNT: "MaxDeliveryCount",
+/**
+ * The maximum delivery count.
+ *
+ */
+export const MAX_DELIVERY_COUNT = "MaxDeliveryCount";
 
-  /**
-   * Indicates if the queue has enabled batch operations.
-   *
-   * @const
-   * @type {string}
-   */
-  ENABLE_BATCHED_OPERATIONS: "EnableBatchedOperations",
+/**
+ * Indicates if the queue has enabled batch operations.
+ *
+ */
+export const ENABLE_BATCHED_OPERATIONS = "EnableBatchedOperations";
 
-  /**
-   * Indicates whether the topic can be ordered
-   *
-   * @const
-   * @type {string}
-   */
-  SUPPORT_ORDERING: "SupportOrdering",
+/**
+ * Indicates whether the topic can be ordered
+ *
+ */
+export const SUPPORT_ORDERING = "SupportOrdering";
 
-  /**
-   * Indicates whether the topic/queue should be split across multiple partitions
-   *
-   * @const
-   * @type {string}
-   */
-  ENABLE_PARTITIONING: "EnablePartitioning",
+/**
+ * Indicates whether the topic/queue should be split across multiple partitions
+ *
+ */
+export const ENABLE_PARTITIONING = "EnablePartitioning";
 
-  /**
-   * Indicates the default rule description.
-   *
-   * @const
-   * @type {string}
-   */
-  DEFAULT_RULE_DESCRIPTION: "DefaultRuleDescription",
+/**
+ * Indicates the default rule description.
+ *
+ */
+export const DEFAULT_RULE_DESCRIPTION = "DefaultRuleDescription";
 
-  /**
-   * The entity's size in bytes.
-   *
-   * @const
-   * @type {string}
-   */
-  SIZE_IN_BYTES: "SizeInBytes",
+/**
+ * The entity's size in bytes.
+ *
+ */
+export const SIZE_IN_BYTES = "SizeInBytes";
 
-  /**
-   * The queue's message count.
-   *
-   * @const
-   * @type {string}
-   */
-  MESSAGE_COUNT: "MessageCount",
+/**
+ * The entity's message count.
+ *
+ */
+export const MESSAGE_COUNT = "MessageCount";
 
-  /**
-   * The topic's subscription count.
-   *
-   * @const
-   * @type {string}
-   */
-  SUBSCRIPTION_COUNT: "SubscriptionCount",
+/**
+ * The topic's subscription count.
+ *
+ */
+export const SUBSCRIPTION_COUNT = "SubscriptionCount";
 
-  /**
-   * The topic's count details.
-   *
-   * @const
-   * @type {string}
-   */
-  COUNT_DETAILS: "CountDetails",
+/**
+ * The topic / subscription's count details.
+ *
+ */
+export const COUNT_DETAILS = "CountDetails";
 
-  /**
-   * The default rule name.
-   *
-   * @const
-   * @type {string}
-   */
-  DEFAULT_RULE_NAME: "$Default",
+/**
+ * The default rule name.
+ *
+ */
+export const DEFAULT_RULE_NAME = "$Default";
 
-  /**
-   * The wrap access token.
-   *
-   * @const
-   * @type {string}
-   */
-  WRAP_ACCESS_TOKEN: "wrap_access_token",
+/**
+ * The wrap access token.
+ *
+ */
+export const WRAP_ACCESS_TOKEN = "wrap_access_token";
 
-  /**
-   * The wrap access token expires utc.
-   *
-   * @const
-   * @type {string}
-   */
-  WRAP_ACCESS_TOKEN_EXPIRES_UTC: "wrap_access_token_expires_utc",
+/**
+ * The wrap access token expires utc.
+ *
+ */
+export const WRAP_ACCESS_TOKEN_EXPIRES_UTC = "wrap_access_token_expires_utc";
 
-  /**
-   * The wrap access token expires in.
-   *
-   * @const
-   * @type {string}
-   */
-  WRAP_ACCESS_TOKEN_EXPIRES_IN: "wrap_access_token_expires_in",
+/**
+ * The wrap access token expires in.
+ *
+ */
+export const WRAP_ACCESS_TOKEN_EXPIRES_IN = "wrap_access_token_expires_in";
 
-  /**
-   * Max idle time before entity is deleted
-   *
-   * @const
-   * @type {string}
-   */
-  AUTO_DELETE_ON_IDLE: "AutoDeleteOnIdle",
+/**
+ * Max idle time before entity is deleted
+ *
+ */
+export const AUTO_DELETE_ON_IDLE = "AutoDeleteOnIdle";
 
-  /**
-   * The status information on response
-   *
-   * @const
-   * @type {string}
-   */
-  STATUS: "Status",
+/**
+ * The status information on response
+ *
+ */
+export const STATUS = "Status";
 
-  /**
-   * The entity to forward to
-   *
-   * @const
-   * @type {string}
-   */
-  FORWARD_TO: "ForwardTo",
+/**
+ * The entity to forward to
+ *
+ */
+export const FORWARD_TO = "ForwardTo";
 
-  /**
-   * The user meta data information
-   *
-   * @const
-   * @type {string}
-   */
-  USER_METADATA: "UserMetadata",
+/**
+ * The user meta data information
+ *
+ */
+export const USER_METADATA = "UserMetadata";
 
-  /**
-   * Entity to forward deadlettered messages to
-   *
-   * @const
-   * @type {string}
-   */
-  FORWARD_DEADLETTERED_MESSAGES_TO: "ForwardDeadLetteredMessagesTo",
+/**
+ * Entity to forward deadlettered messages to
+ *
+ */
+export const FORWARD_DEADLETTERED_MESSAGES_TO = "ForwardDeadLetteredMessagesTo";
 
-  /**
-   * Query string parameter to set Service Bus API version
-   *
-   * @const
-   * @type {string}
-   */
-  API_VERSION_QUERY_KEY: "api-version",
+/**
+ * Query string parameter to set Service Bus API version
+ *
+ */
+export const API_VERSION_QUERY_KEY = "api-version";
 
-  /**
-   * Current API version being sent to service bus
-   *
-   * @const
-   * @type {string}
-   */
-  CURRENT_API_VERSION: "2016-07",
+/**
+ * Current API version being sent to service bus
+ *
+ */
+export const CURRENT_API_VERSION = "2016-07";
 
-  /**
-   * XML namespace string to use for the Atom based requests
-   */
-  XML_NAMESPACE: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
-};
+/**
+ * XML namespace string to use for the Atom based requests
+ */
+export const XML_NAMESPACE = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
