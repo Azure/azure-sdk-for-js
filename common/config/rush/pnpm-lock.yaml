@@ -3,7 +3,6 @@ dependencies:
   '@azure/arm-servicebus': 3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/cosmos-sign': 1.0.2
-  '@azure/event-hubs': 2.1.1
   '@azure/logger-js': 1.3.2
   '@azure/ms-rest-js': 2.0.4
   '@azure/ms-rest-nodeauth': 0.9.3
@@ -238,6 +237,29 @@ packages:
     dev: false
     resolution:
       integrity: sha512-e0nNyP0O802YMb4jq0nsVduIBHRWtmX/AtiWMCDI1f0KtcEmNRPfbP8DxU6iNgwnV09qy3EfaRfSY0vMsYs5cg==
+  /@azure/core-amqp/1.0.0-preview.3_rhea-promise@1.0.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.0-preview.2
+      '@azure/core-auth': 1.0.0-preview.3
+      '@types/async-lock': 1.1.1
+      '@types/is-buffer': 2.0.0
+      async-lock: 1.2.2
+      buffer: 5.4.3
+      debug: 4.1.1
+      events: 3.0.0
+      is-buffer: 2.0.3
+      jssha: 2.3.1
+      process: 0.11.10
+      rhea-promise: 1.0.0
+      stream-browserify: 2.0.2
+      tslib: 1.10.0
+      url: 0.11.0
+      util: 0.12.1
+    dev: false
+    peerDependencies:
+      rhea-promise: ^1.0.0
+    resolution:
+      integrity: sha512-1CpgFoIIjzlwrYg+s4+1Lpe7IiErA/65DN+dO/A58r1nD+0QaBUJYmXrN7EftMHiCwEQF3PEzVx+hECPCxko1Q==
   /@azure/core-asynciterator-polyfill/1.0.0-preview.1:
     dev: false
     resolution:
@@ -296,6 +318,23 @@ packages:
     dev: false
     resolution:
       integrity: sha512-nGnFBPcB/rs+5YWwmHJg+d3Cs7BrjtVfuD1eEv8j+ui2X6uXxB88wom1A2t/7xsSzkunQSrXJ2mCwdHxKI5aHw==
+  /@azure/event-hubs/5.0.0-preview.3:
+    dependencies:
+      '@azure/abort-controller': 1.0.0-preview.2
+      '@azure/core-amqp': 1.0.0-preview.3_rhea-promise@1.0.0
+      '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
+      async-lock: 1.2.2
+      buffer: 5.4.3
+      debug: 4.1.1
+      is-buffer: 2.0.3
+      jssha: 2.3.1
+      process: 0.11.10
+      rhea-promise: 1.0.0
+      tslib: 1.10.0
+      uuid: 3.3.3
+    dev: false
+    resolution:
+      integrity: sha512-iAMVlRiKbyd62rHA9AUyWPwjLOZToPPWVXv0fTg4j45qwF8+KzEsC/z9tIM8pXX+kTJ3tIh/etvo5hFgy0KcgA==
   /@azure/logger-js/1.3.2:
     dependencies:
       tslib: 1.10.0
@@ -2450,6 +2489,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Xpgy0IwHK2N01ncykXTy6FpCWuM+CJSHoPVBLyNqyrWxsedpLvwsYUhf0ME3WRFNUhos0dMamz9cOS/xRDtU5g==
+  /buffer/5.4.3:
+    dependencies:
+      base64-js: 1.3.1
+      ieee754: 1.1.13
+    dev: false
+    resolution:
+      integrity: sha512-zvj65TkFeIt3i6aj5bIvJDzjjQQGs4o/sNoezg1F1kYap9Nu2jcUdpwzRSJTHMMzG0H7bZkn4rNQpImhuxWX2A==
   /builtin-modules/3.1.0:
     dev: false
     engines:
@@ -11085,7 +11131,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-dSWFaHnJUtZJSbLgV7ilycvSBV/SaYksr3eY+rVS6JVs0SfbcaKCkiBnYrhBzfbkU+bsVRPSoQMat5X8vU9Qyw==
+      integrity: sha512-n99KsSk9JmZJ3GxLYLDkoqsrNx9ySKRAMpN11aexaw6MiG6phFl3g52aqvA6XRLfcxtnnK5Wi53UvaaiHDKnCA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -11147,7 +11193,8 @@ packages:
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
     dependencies:
-      '@azure/storage-blob': 12.0.0-preview.2
+      '@azure/event-hubs': 5.0.0-preview.3
+      '@azure/storage-blob': 12.0.0-preview.3
       '@microsoft/api-extractor': 7.3.11
       '@types/chai': 4.2.1
       '@types/chai-as-promised': 7.1.2
@@ -11205,7 +11252,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-Dut7dpUK/OvTBW/rHqAkX8xY+AZKgkS94U6NNfKjrwOQzmTQ0TEmIxtRer6ee5ig2aZY2lPb+3OxLnUydRu/Bw==
+      integrity: sha512-ti5aGtIrZB4gYyuqm+qC47KOAHJC8hAVDaULUVhxiJBQROi+zBJvkQJAfwkOftY6UCLFTzFgW9bvTvQIyhTUoQ==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -11855,7 +11902,6 @@ specifiers:
   '@azure/arm-servicebus': ^3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/cosmos-sign': 1.0.2
-  '@azure/event-hubs': ^2.1.1
   '@azure/logger-js': ^1.0.2
   '@azure/ms-rest-js': ^2.0.0
   '@azure/ms-rest-nodeauth': ^0.9.2
