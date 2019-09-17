@@ -17,7 +17,8 @@ import {
   Checkpoint,
   CloseReason,
   ReceivedEventData,
-  PartitionProcessor
+  PartitionProcessor,
+  LastEnqueuedEventInfo
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { generate_uuid, Dictionary } from "rhea-promise";
@@ -879,35 +880,19 @@ describe("Event Processor", function(): void {
     it("should have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to true", async function(): Promise<
       void
     > {
-      const producer = client.createProducer({ partitionId: "0" });
-      const events = [];
-      for (let index = 0; index < 10; index++) {
-        events.push({ body: `Hello world - ${index}` });
+      const partitionIds = await client.getPartitionIds();
+      for (const partitionId of partitionIds) {
+        const producer = client.createProducer({ partitionId: `${partitionId}` });
+        await producer.send({ body: `Hello world - ${partitionId}` });
+        await producer.close();
       }
-      await producer.send(events);
-      await producer.close();
 
-      const receivedEvents: EventData[] = [];
+      let partitionIdsSet = new Set();
+      const lastEnqueuedEventInfoMap: Map<string, LastEnqueuedEventInfo> = new Map();
       class SimpleEventProcessor extends PartitionProcessor {
         async processEvents(events: ReceivedEventData[]) {
-          for (const event of events) {
-            receivedEvents.push(event);
-            debug("Received event", event.body);
-          }
-          debug("Getting the partition information");
-          const patitionInfo = await client.getPartitionProperties(this.partitionId);
-          debug("partition info: ", patitionInfo);
-          should.exist(this.lastEnqueuedEventInfo);
-          this.lastEnqueuedEventInfo!.offset!.should.equal(patitionInfo.lastEnqueuedOffset);
-          this.lastEnqueuedEventInfo!.sequenceNumber!.should.equal(
-            patitionInfo.lastEnqueuedSequenceNumber
-          );
-          this.lastEnqueuedEventInfo!.enqueuedTime!.getTime().should.equal(
-            patitionInfo.lastEnqueuedTimeUtc.getTime()
-          );
-          this.lastEnqueuedEventInfo!.retrievalTime!.getTime().should.be.greaterThan(
-            Date.now() - 60000
-          );
+          partitionIdsSet.add(this.partitionId);
+          lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
         }
       }
       const processor = new EventProcessor(
@@ -922,31 +907,40 @@ describe("Event Processor", function(): void {
 
       processor.start();
 
-      while (receivedEvents.length === 0) {
+      while (partitionIdsSet.size !== partitionIds.length) {
         await delay(1000);
       }
       await processor.stop();
+
+      for (const partitionId of partitionIds) {
+        debug("Getting the partition information");
+        const patitionInfo = await client.getPartitionProperties(partitionId);
+        debug("partition info: ", patitionInfo);
+        const results = lastEnqueuedEventInfoMap.get(partitionId)!;
+        should.exist(results);
+        results!.offset!.should.equal(patitionInfo.lastEnqueuedOffset);
+        results!.sequenceNumber!.should.equal(patitionInfo.lastEnqueuedSequenceNumber);
+        results!.enqueuedTime!.getTime().should.equal(patitionInfo.lastEnqueuedTimeUtc.getTime());
+        results!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
+      }
     });
 
     it("should not have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to false", async function(): Promise<
       void
     > {
-      const producer = client.createProducer({ partitionId: "0" });
-      const events = [];
-      for (let index = 0; index < 5; index++) {
-        events.push({ body: `Hello world - ${index}` });
+      const partitionIds = await client.getPartitionIds();
+      for (const partitionId of partitionIds) {
+        const producer = client.createProducer({ partitionId: `${partitionId}` });
+        await producer.send({ body: `Hello world - ${partitionId}` });
+        await producer.close();
       }
-      await producer.send(events);
-      await producer.close();
 
-      const receivedEvents: EventData[] = [];
+      let partitionIdsSet = new Set();
+      const lastEnqueuedEventInfoMap: Map<string, LastEnqueuedEventInfo> = new Map();
       class SimpleEventProcessor extends PartitionProcessor {
         async processEvents(events: ReceivedEventData[]) {
-          for (const event of events) {
-            receivedEvents.push(event);
-            debug("Received event", event.body);
-          }
-          should.not.exist(this.lastEnqueuedEventInfo);
+          partitionIdsSet.add(this.partitionId);
+          lastEnqueuedEventInfoMap.set(this.partitionId, this.lastEnqueuedEventInfo);
         }
       }
       const processor = new EventProcessor(
@@ -955,15 +949,20 @@ describe("Event Processor", function(): void {
         SimpleEventProcessor,
         new InMemoryPartitionManager(),
         {
-          trackLastEnqueuedEventInfo: true
+          trackLastEnqueuedEventInfo: false
         }
       );
       processor.start();
 
-      while (receivedEvents.length === 0) {
+      while (partitionIdsSet.size !== partitionIds.length) {
         await delay(1000);
       }
       await processor.stop();
+
+      for (const partitionId of partitionIds) {
+        const results = lastEnqueuedEventInfoMap.get(partitionId)!;
+        should.not.exist(results);
+      }
     });
   });
 }).timeout(90000);
