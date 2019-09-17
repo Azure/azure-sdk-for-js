@@ -20,7 +20,7 @@ import {
 
 import { httpAtomXml } from "./log";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import * as ServiceBusAtomXmlConstants from "./util/constants";
+import * as Constants from "./util/constants";
 
 import { QueueResourceSerializer, QueueOptions } from "./serializers/queueResourceSerializer";
 import { TopicResourceSerializer, TopicOptions } from "./serializers/topicResourceSerializer";
@@ -449,10 +449,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const baseUri = `https://${this.endpoint}/${path}`;
 
     const requestUrl: URLBuilder = URLBuilder.parse(baseUri);
-    requestUrl.setQueryParameter(
-      ServiceBusAtomXmlConstants.API_VERSION_QUERY_KEY,
-      ServiceBusAtomXmlConstants.CURRENT_API_VERSION
-    );
+    requestUrl.setQueryParameter(Constants.API_VERSION_QUERY_KEY, Constants.CURRENT_API_VERSION);
 
     if (queryParams) {
       for (const key of Object.keys(queryParams)) {
