@@ -29,7 +29,9 @@ export class QueryMetrics {
    * @ignore
    */
   public get indexHitRatio() {
-    return this.retrievedDocumentCount === 0 ? 1 : this.indexHitDocumentCount / this.retrievedDocumentCount;
+    return this.retrievedDocumentCount === 0
+      ? 1
+      : this.indexHitDocumentCount / this.retrievedDocumentCount;
   }
 
   /**
@@ -175,7 +177,10 @@ export class QueryMetrics {
    * @memberof QueryMetrics
    * @instance
    */
-  public static createFromDelimitedString(delimitedString: string, clientSideMetrics?: ClientSideMetrics) {
+  public static createFromDelimitedString(
+    delimitedString: string,
+    clientSideMetrics?: ClientSideMetrics
+  ) {
     const metrics = parseDelimitedString(delimitedString);
 
     const indexHitRatio = metrics[QueryMetricsConstants.IndexHitRatio] || 0;
@@ -184,7 +189,10 @@ export class QueryMetrics {
     const outputDocumentCount = metrics[QueryMetricsConstants.OutputDocumentCount] || 0;
     const outputDocumentSize = metrics[QueryMetricsConstants.OutputDocumentSize] || 0;
     const retrievedDocumentSize = metrics[QueryMetricsConstants.RetrievedDocumentSize] || 0;
-    const totalQueryExecutionTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.TotalQueryExecutionTimeInMs);
+    const totalQueryExecutionTime = timeSpanFromMetrics(
+      metrics,
+      QueryMetricsConstants.TotalQueryExecutionTimeInMs
+    );
     return new QueryMetrics(
       retrievedDocumentCount,
       retrievedDocumentSize,

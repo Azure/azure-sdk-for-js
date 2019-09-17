@@ -1,5 +1,12 @@
 import { ClientContext } from "../../ClientContext";
-import { Constants, getIdFromLink, getPathFromLink, isResourceValid, ResourceType, StatusCodes } from "../../common";
+import {
+  Constants,
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+  StatusCodes
+} from "../../common";
 import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
 import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -62,12 +69,12 @@ export class Containers {
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
 
-    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
       return this.clientContext.queryFeed<ContainerDefinition>({
         path,
         resourceType: ResourceType.container,
         resourceId: id,
-        resultFn: result => result.DocumentCollections,
+        resultFn: (result) => result.DocumentCollections,
         query,
         options: innerOptions
       });
@@ -91,7 +98,10 @@ export class Containers {
    * @param body Represents the body of the container.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async create(body: ContainerRequest, options: RequestOptions = {}): Promise<ContainerResponse> {
+  public async create(
+    body: ContainerRequest,
+    options: RequestOptions = {}
+  ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
@@ -143,7 +153,10 @@ export class Containers {
    * @param body Represents the body of the container.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse> {
+  public async createIfNotExists(
+    body: ContainerRequest,
+    options?: RequestOptions
+  ): Promise<ContainerResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
     }

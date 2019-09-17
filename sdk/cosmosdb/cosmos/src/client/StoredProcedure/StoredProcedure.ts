@@ -1,5 +1,11 @@
 import { ClientContext } from "../../ClientContext";
-import { createStoredProcedureUri, getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import {
+  createStoredProcedureUri,
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType
+} from "../../common";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, ResourceResponse } from "../../request";
 import { Container } from "../Container";
@@ -51,7 +57,10 @@ export class StoredProcedure {
    * @param body The specified {@link StoredProcedureDefinition} to replace the existing definition.
    * @param options
    */
-  public async replace(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
+  public async replace(
+    body: StoredProcedureDefinition,
+    options?: RequestOptions
+  ): Promise<StoredProcedureResponse> {
     if (body.body) {
       body.body = body.body.toString();
     }
@@ -110,7 +119,12 @@ export class StoredProcedure {
       const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
       partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
-    const response = await this.clientContext.execute<T>({ sprocLink: this.url, params, options, partitionKey });
+    const response = await this.clientContext.execute<T>({
+      sprocLink: this.url,
+      params,
+      options,
+      partitionKey
+    });
     return new ResourceResponse<T>(response.result, response.headers, response.code);
   }
 }

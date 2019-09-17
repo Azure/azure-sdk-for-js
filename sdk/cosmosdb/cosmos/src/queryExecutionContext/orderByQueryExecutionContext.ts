@@ -6,7 +6,8 @@ import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComp
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 
 /** @hidden */
-export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase implements ExecutionContext {
+export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase
+  implements ExecutionContext {
   private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.

@@ -1,5 +1,10 @@
 import { CosmosClientOptions } from "../../dist-esm/CosmosClientOptions";
-import { ConnectionPolicy, DatabaseAccount, defaultConnectionPolicy, Location } from "../../dist-esm/documents";
+import {
+  ConnectionPolicy,
+  DatabaseAccount,
+  defaultConnectionPolicy,
+  Location
+} from "../../dist-esm/documents";
 import { LocationCache } from "../../dist-esm/LocationCache";
 
 import * as assert from "assert";
@@ -33,22 +38,30 @@ function addScenario(options: { numberOfRegions?: number; useMultipleWriteLocati
 
   if (options.numberOfRegions) {
     connectionPolicy.preferredLocations = regions.slice(0, options.numberOfRegions);
-    databaseAccountConfig.readableLocations = connectionPolicy.preferredLocations.map(locationName => {
-      return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
-    });
+    databaseAccountConfig.readableLocations = connectionPolicy.preferredLocations.map(
+      (locationName) => {
+        return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
+      }
+    );
     if (options.useMultipleWriteLocations) {
       connectionPolicy.useMultipleWriteLocations = options.useMultipleWriteLocations;
       databaseAccountConfig.writableLocations = connectionPolicy.preferredLocations
-        .map(locationName => {
-          return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
+        .map((locationName) => {
+          return {
+            name: locationName,
+            databaseAccountEndpoint: getEndpointFromRegion(locationName)
+          };
         })
         .sort((a, b) => (a.name > b.name ? 1 : -1));
       databaseAccountConfig.enableMultipleWriteLocations = options.useMultipleWriteLocations;
     } else {
       databaseAccountConfig.writableLocations = (connectionPolicy.preferredLocations || regions)
         .slice(0, 1)
-        .map(locationName => {
-          return { name: locationName, databaseAccountEndpoint: getEndpointFromRegion(locationName) };
+        .map((locationName) => {
+          return {
+            name: locationName,
+            databaseAccountEndpoint: getEndpointFromRegion(locationName)
+          };
         })
         .sort((a, b) => (a.name > b.name ? 1 : -1));
     }
@@ -74,9 +87,7 @@ addScenario({ numberOfRegions: 5, useMultipleWriteLocations: true });
 describe("Location Cache", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 2000);
   for (const scenario of scenarios) {
-    describe(`when there is a DatabaseAccount refresh and ${
-      scenario.connectionPolicy.preferredLocations.length
-    } preferred region and multi-region write is ${scenario.connectionPolicy.useMultipleWriteLocations}.`, function() {
+    describe(`when there is a DatabaseAccount refresh and ${scenario.connectionPolicy.preferredLocations.length} preferred region and multi-region write is ${scenario.connectionPolicy.useMultipleWriteLocations}.`, function() {
       const connectionPolicy: ConnectionPolicy = scenario.connectionPolicy;
       const endpoint = scenario.defaultEndpoint;
       const cosmosClientOptions: CosmosClientOptions = { endpoint, connectionPolicy };
@@ -104,7 +115,9 @@ describe("Location Cache", function() {
         const readEndpoint = locationCache.getReadEndpoint();
         assert.equal(
           readEndpoint,
-          scenario.connectionPolicy.preferredLocations.length > 0 ? getEndpointFromRegion(regions[0]) : endpoint,
+          scenario.connectionPolicy.preferredLocations.length > 0
+            ? getEndpointFromRegion(regions[0])
+            : endpoint,
           "read endpoint should match most preferred endpoint after database account info refresh"
         );
       });
@@ -141,7 +154,11 @@ describe("Location Cache", function() {
         });
 
         const writeEndpoint = locationCache.getWriteEndpoint();
-        assert.equal(resolveEndpoint, writeEndpoint, "resolve endpoint should match write endpoint");
+        assert.equal(
+          resolveEndpoint,
+          writeEndpoint,
+          "resolve endpoint should match write endpoint"
+        );
       });
 
       // After this, there are side effects. All the "markUnavailable" ones will remove locations from the list.
@@ -162,8 +179,15 @@ describe("Location Cache", function() {
               retryCount: 1
             });
 
-            assert.equal(resolveEndpoint, writeEndpoint, "resolve endpoint should match write endpoint");
-            const { shouldRefresh, canRefreshInBackground } = locationCache.shouldRefreshEndpoints();
+            assert.equal(
+              resolveEndpoint,
+              writeEndpoint,
+              "resolve endpoint should match write endpoint"
+            );
+            const {
+              shouldRefresh,
+              canRefreshInBackground
+            } = locationCache.shouldRefreshEndpoints();
             assert.equal(shouldRefresh, true, "should need to refresh");
           });
         }
@@ -183,8 +207,15 @@ describe("Location Cache", function() {
               retryCount: 1
             });
 
-            assert.equal(resolveEndpoint, writeEndpoint, "resolve endpoint should match write endpoint");
-            const { shouldRefresh, canRefreshInBackground } = locationCache.shouldRefreshEndpoints();
+            assert.equal(
+              resolveEndpoint,
+              writeEndpoint,
+              "resolve endpoint should match write endpoint"
+            );
+            const {
+              shouldRefresh,
+              canRefreshInBackground
+            } = locationCache.shouldRefreshEndpoints();
             assert.equal(
               shouldRefresh,
               scenario.connectionPolicy.preferredLocations.length > 0,
@@ -208,7 +239,11 @@ describe("Location Cache", function() {
             resourceType: ResourceType.item,
             retryCount: 1
           });
-          assert.equal(resolveEndpoint, readEndpoint, "resolve endpoint should match read endpoint");
+          assert.equal(
+            resolveEndpoint,
+            readEndpoint,
+            "resolve endpoint should match read endpoint"
+          );
           const { shouldRefresh, canRefreshInBackground } = locationCache.shouldRefreshEndpoints();
           assert.equal(shouldRefresh, true, "should need to refresh");
         });
@@ -228,8 +263,15 @@ describe("Location Cache", function() {
               retryCount: 1
             });
 
-            assert.equal(resolveEndpoint, writeEndpoint, "resolve endpoint should match write endpoint");
-            const { shouldRefresh, canRefreshInBackground } = locationCache.shouldRefreshEndpoints();
+            assert.equal(
+              resolveEndpoint,
+              writeEndpoint,
+              "resolve endpoint should match write endpoint"
+            );
+            const {
+              shouldRefresh,
+              canRefreshInBackground
+            } = locationCache.shouldRefreshEndpoints();
             assert.equal(
               shouldRefresh,
               scenario.connectionPolicy.preferredLocations.length > 0,
@@ -252,7 +294,11 @@ describe("Location Cache", function() {
             resourceType: ResourceType.item,
             retryCount: 1
           });
-          assert.equal(resolveEndpoint, readEndpoint, "resolve endpoint should match read endpoint");
+          assert.equal(
+            resolveEndpoint,
+            readEndpoint,
+            "resolve endpoint should match read endpoint"
+          );
           const { shouldRefresh, canRefreshInBackground } = locationCache.shouldRefreshEndpoints();
           assert.equal(
             shouldRefresh,
@@ -276,17 +322,22 @@ describe("Location Cache", function() {
               retryCount: 1
             });
 
-            assert.equal(resolveEndpoint, writeEndpoint, "resolve endpoint should match write endpoint");
-            const { shouldRefresh, canRefreshInBackground } = locationCache.shouldRefreshEndpoints();
+            assert.equal(
+              resolveEndpoint,
+              writeEndpoint,
+              "resolve endpoint should match write endpoint"
+            );
+            const {
+              shouldRefresh,
+              canRefreshInBackground
+            } = locationCache.shouldRefreshEndpoints();
             assert.equal(shouldRefresh, true, "should need to refresh");
           });
         }
       }
     });
 
-    describe(`when there is not a DatabaseAccount refresh and ${
-      scenario.connectionPolicy.preferredLocations.length
-    } preferred regions and multi-region write is ${scenario.connectionPolicy.useMultipleWriteLocations}.`, function() {
+    describe(`when there is not a DatabaseAccount refresh and ${scenario.connectionPolicy.preferredLocations.length} preferred regions and multi-region write is ${scenario.connectionPolicy.useMultipleWriteLocations}.`, function() {
       const connectionPolicy: ConnectionPolicy = scenario.connectionPolicy;
       const endpoint = scenario.defaultEndpoint;
       const cosmosClientOptions: CosmosClientOptions = { endpoint, connectionPolicy };
@@ -350,7 +401,11 @@ describe("Location Cache", function() {
         });
 
         const writeEndpoint = locationCache.getWriteEndpoint();
-        assert.equal(resolveEndpoint, writeEndpoint, "resolve endpoint should match write endpoint");
+        assert.equal(
+          resolveEndpoint,
+          writeEndpoint,
+          "resolve endpoint should match write endpoint"
+        );
       });
 
       // After this, there are side effects. All the "markUnavailable" ones will remove locations from the list.
@@ -385,7 +440,11 @@ describe("Location Cache", function() {
           retryCount: 1
         });
 
-        assert.equal(resolveEndpoint, writeEndpoint, "resolve endpoint should match write endpoint");
+        assert.equal(
+          resolveEndpoint,
+          writeEndpoint,
+          "resolve endpoint should match write endpoint"
+        );
       });
     });
   }

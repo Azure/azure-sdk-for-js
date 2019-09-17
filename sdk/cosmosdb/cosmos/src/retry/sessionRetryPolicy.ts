@@ -46,7 +46,9 @@ export class SessionRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    if (this.globalEndpointManager.canUseMultipleWriteLocations(this.resourceType, this.operationType)) {
+    if (
+      this.globalEndpointManager.canUseMultipleWriteLocations(this.resourceType, this.operationType)
+    ) {
       // If we can write to multiple locations, we should against every write endpoint until we succeed
       const endpoints = isReadRequest(this.operationType)
         ? await this.globalEndpointManager.getReadEndpoints()
@@ -56,7 +58,8 @@ export class SessionRetryPolicy implements RetryPolicy {
       } else {
         retryContext.retryCount = ++this.currentRetryAttemptCount - 1;
         retryContext.retryRequestOnPreferredLocations = this.currentRetryAttemptCount > 1;
-        retryContext.clearSessionTokenNotAvailable = this.currentRetryAttemptCount === endpoints.length;
+        retryContext.clearSessionTokenNotAvailable =
+          this.currentRetryAttemptCount === endpoints.length;
         return true;
       }
     } else {

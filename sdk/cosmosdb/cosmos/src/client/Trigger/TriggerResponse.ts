@@ -5,7 +5,12 @@ import { Trigger } from "./index";
 import { TriggerDefinition } from "./TriggerDefinition";
 
 export class TriggerResponse extends ResourceResponse<TriggerDefinition & Resource> {
-  constructor(resource: TriggerDefinition & Resource, headers: CosmosHeaders, statusCode: number, trigger: Trigger) {
+  constructor(
+    resource: TriggerDefinition & Resource,
+    headers: CosmosHeaders,
+    statusCode: number,
+    trigger: Trigger
+  ) {
     super(resource, headers, statusCode);
     this.trigger = trigger;
   }

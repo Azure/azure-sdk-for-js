@@ -75,12 +75,15 @@ export async function execute({
       requestContext.client.clearSessionToken(requestContext.path);
     }
   }
-  const locationEndpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(requestContext);
+  const locationEndpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
+    requestContext
+  );
   requestContext.endpoint = locationEndpoint;
   requestContext.locationRouting.routeToLocation(locationEndpoint);
   try {
     const response = await executeRequest(requestContext);
-    response.headers[Constants.ThrottleRetryCount] = retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
+    response.headers[Constants.ThrottleRetryCount] =
+      retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
     response.headers[Constants.ThrottleRetryWaitTimeInMs] =
       retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
     return response;
@@ -92,14 +95,18 @@ export async function execute({
       retryPolicy = retryPolicies.endpointDiscoveryRetryPolicy;
     } else if (err.code === StatusCodes.TooManyRequests) {
       retryPolicy = retryPolicies.resourceThrottleRetryPolicy;
-    } else if (err.code === StatusCodes.NotFound && err.substatus === SubStatusCodes.ReadSessionNotAvailable) {
+    } else if (
+      err.code === StatusCodes.NotFound &&
+      err.substatus === SubStatusCodes.ReadSessionNotAvailable
+    ) {
       retryPolicy = retryPolicies.sessionReadRetryPolicy;
     } else {
       retryPolicy = retryPolicies.defaultRetryPolicy;
     }
     const results = await retryPolicy.shouldRetry(err, retryContext, locationEndpoint);
     if (!results) {
-      headers[Constants.ThrottleRetryCount] = retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
+      headers[Constants.ThrottleRetryCount] =
+        retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
       headers[Constants.ThrottleRetryWaitTimeInMs] =
         retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
       err.headers = { ...err.headers, ...headers };

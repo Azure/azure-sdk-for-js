@@ -1,4 +1,11 @@
-import { StoredProcedure, StoredProcedures, Trigger, Triggers, UserDefinedFunction, UserDefinedFunctions } from "../..";
+import {
+  StoredProcedure,
+  StoredProcedures,
+  Trigger,
+  Triggers,
+  UserDefinedFunction,
+  UserDefinedFunctions
+} from "../..";
 import { ClientContext } from "../../ClientContext";
 import { Container } from "../Container/Container";
 
@@ -7,7 +14,10 @@ export class Scripts {
    * @param container The parent {@link Container}.
    * @hidden
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly container: Container,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Used to read, replace, or delete a specific, existing {@link StoredProcedure} by id.

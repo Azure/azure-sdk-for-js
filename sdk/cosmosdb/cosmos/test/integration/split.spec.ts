@@ -1,6 +1,12 @@
 ﻿import { Container } from "../../dist-esm/client";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { Constants, CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../dist-esm";
+import {
+  Constants,
+  CosmosClient,
+  PluginOn,
+  CosmosClientOptions,
+  PluginConfig
+} from "../../dist-esm";
 import { masterKey, endpoint } from "../common/_testConfig";
 import { SubStatusCodes } from "../../dist-esm/common";
 import assert from "assert";

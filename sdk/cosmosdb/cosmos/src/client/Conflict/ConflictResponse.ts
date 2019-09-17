@@ -5,7 +5,12 @@ import { Conflict } from "./Conflict";
 import { ConflictDefinition } from "./ConflictDefinition";
 
 export class ConflictResponse extends ResourceResponse<ConflictDefinition & Resource> {
-  constructor(resource: ConflictDefinition & Resource, headers: CosmosHeaders, statusCode: number, conflict: Conflict) {
+  constructor(
+    resource: ConflictDefinition & Resource,
+    headers: CosmosHeaders,
+    statusCode: number,
+    conflict: Conflict
+  ) {
     super(resource, headers, statusCode);
     this.conflict = conflict;
   }

@@ -24,7 +24,10 @@ export class LocationRouting {
       this.pLocationIndexToRoute = endpointOrIndex;
       this.pIgnorePreferredLocation = ignorePreferredLocation;
       this.pLocationEndpointToRoute = undefined;
-    } else if (typeof ignorePreferredLocation === "undefined" && typeof endpointOrIndex === "string") {
+    } else if (
+      typeof ignorePreferredLocation === "undefined" &&
+      typeof endpointOrIndex === "string"
+    ) {
       this.pLocationEndpointToRoute = endpointOrIndex;
       this.pLocationIndexToRoute = undefined;
       this.pIgnorePreferredLocation = undefined;

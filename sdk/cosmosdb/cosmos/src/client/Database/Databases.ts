@@ -25,7 +25,10 @@ export class Databases {
    * @hidden
    * @param client The parent {@link CosmosClient} for the Database.
    */
-  constructor(public readonly client: CosmosClient, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly client: CosmosClient,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Queries all databases.
@@ -62,12 +65,12 @@ export class Databases {
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const cb: FetchFunctionCallback = innerOptions => {
+    const cb: FetchFunctionCallback = (innerOptions) => {
       return this.clientContext.queryFeed({
         path: "/dbs",
         resourceType: ResourceType.database,
         resourceId: "",
-        resultFn: result => result.Databases,
+        resultFn: (result) => result.Databases,
         query,
         options: innerOptions
       });
@@ -89,7 +92,10 @@ export class Databases {
    * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
-  public async create(body: DatabaseRequest, options: RequestOptions = {}): Promise<DatabaseResponse> {
+  public async create(
+    body: DatabaseRequest,
+    options: RequestOptions = {}
+  ): Promise<DatabaseResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
@@ -129,7 +135,10 @@ export class Databases {
    * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options
    */
-  public async createIfNotExists(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse> {
+  public async createIfNotExists(
+    body: DatabaseRequest,
+    options?: RequestOptions
+  ): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");
     }

@@ -16,7 +16,7 @@ import { endpoint, masterKey } from "../common/_testConfig";
     ({ resource: dbAccount } = await client.getDatabaseAccount());
     // We reverse the order of the preferred locations list to make sure
     // we don't just follow the order we got back from the server
-    PreferredLocations = dbAccount.readableLocations.map(v => v.name).reverse();
+    PreferredLocations = dbAccount.readableLocations.map((v) => v.name).reverse();
     assert(
       PreferredLocations.length > 1,
       "Not a multi-region account. Please add a region before running this test again."

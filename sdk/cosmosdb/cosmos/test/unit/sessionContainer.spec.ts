@@ -66,7 +66,10 @@ describe("SessionContainer", function() {
       multiplePartitions.includes(tokenStringWithNewerVersion),
       "Token string must contain token from updated request"
     );
-    assert(multiplePartitions.includes(tokenFromAnotherPartition), "Token string must contain from new partition");
+    assert(
+      multiplePartitions.includes(tokenFromAnotherPartition),
+      "Token string must contain from new partition"
+    );
 
     // Add a token with has multiple partitions in it, 1 old, and 1 new. Should only keep the new one, but still contain tokens for both
     const p2TokenWithNewerVersion = "2:2#100#1=10#2=50";

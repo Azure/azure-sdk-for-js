@@ -35,7 +35,10 @@ const TYPEORDCOMPARATOR: {
 export class OrderByDocumentProducerComparator {
   constructor(public sortOrder: string[]) {} // TODO: This should be an enum
 
-  public targetPartitionKeyRangeDocProdComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {
+  public targetPartitionKeyRangeDocProdComparator(
+    docProd1: DocumentProducer,
+    docProd2: DocumentProducer
+  ) {
     const a = docProd1.getTargetParitionKeyRange()["minInclusive"];
     const b = docProd2.getTargetParitionKeyRange()["minInclusive"];
     return a === b ? 0 : a > b ? 1 : -1;
@@ -88,7 +91,10 @@ export class OrderByDocumentProducerComparator {
     }
 
     // both are of the same type
-    if (type1Ord === TYPEORDCOMPARATOR["undefined"].ord || type1Ord === TYPEORDCOMPARATOR["NoValue"].ord) {
+    if (
+      type1Ord === TYPEORDCOMPARATOR["undefined"].ord ||
+      type1Ord === TYPEORDCOMPARATOR["NoValue"].ord
+    ) {
       // if both types are undefined or Null they are equal
       return 0;
     }
@@ -109,7 +115,10 @@ export class OrderByDocumentProducerComparator {
 
   public validateOrderByItems(res1: string[], res2: string[]) {
     this._throwIf(res1.length !== res2.length, `Expected ${res1.length}, but got ${res2.length}.`);
-    this._throwIf(res1.length !== this.sortOrder.length, "orderByItems cannot have a different size than sort orders.");
+    this._throwIf(
+      res1.length !== this.sortOrder.length,
+      "orderByItems cannot have a different size than sort orders."
+    );
 
     for (let i = 0; i < this.sortOrder.length; i++) {
       const type1 = this.getType(res1[i]);

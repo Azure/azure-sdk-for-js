@@ -71,7 +71,11 @@ describe("Change Feed Iterator", function() {
       const { result: shouldHaveNoItems } = await iterator.fetchNext();
       assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
       const hasMoreResults = iterator.hasMoreResults;
-      assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
+      assert.equal(
+        hasMoreResults,
+        false,
+        "hasMoreResults should be false when we read the whole page"
+      );
     });
   });
 
@@ -107,20 +111,30 @@ describe("Change Feed Iterator", function() {
       assert(headers.etag, "change feed response should have etag header");
       assert.equal(items.length, 0, "change feed response should have no items on it initially");
 
-      const { resource: itemThatWasCreated, headers: createHeaders } = await container.items.create({
-        id: "item2",
-        prop: 1,
-        key: "0"
-      });
+      const { resource: itemThatWasCreated, headers: createHeaders } = await container.items.create(
+        {
+          id: "item2",
+          prop: 1,
+          key: "0"
+        }
+      );
 
       const { result: itemsAfterCreate } = await iterator.fetchNext();
       assert.equal(itemsAfterCreate.length, 1, "should have 1 item from create");
       const itemThatWasFound = itemsAfterCreate[0];
 
-      assert.notDeepEqual(itemThatWasFound, itemThatWasCreated, "actual should not match with expected value.");
+      assert.notDeepEqual(
+        itemThatWasFound,
+        itemThatWasCreated,
+        "actual should not match with expected value."
+      );
       delete itemThatWasFound._lsn;
       delete itemThatWasFound._metadata;
-      assert.deepEqual(itemThatWasFound, itemThatWasCreated, "actual value doesn't match with expected value.");
+      assert.deepEqual(
+        itemThatWasFound,
+        itemThatWasCreated,
+        "actual value doesn't match with expected value."
+      );
 
       const { result: itemsShouldBeEmptyWithNoNewCreates } = await iterator.fetchNext();
       assert.equal(itemsShouldBeEmptyWithNoNewCreates.length, 0, "should be nothing new");
@@ -134,7 +148,11 @@ describe("Change Feed Iterator", function() {
       const { result: shouldHaveNoItems } = await iterator.fetchNext();
       assert.equal(shouldHaveNoItems.length, 0, "there should be 0 results");
       const hasMoreResults = iterator.hasMoreResults;
-      assert.equal(hasMoreResults, false, "hasMoreResults should be false when we read the whole page");
+      assert.equal(
+        hasMoreResults,
+        false,
+        "hasMoreResults should be false when we read the whole page"
+      );
     });
   });
 });
