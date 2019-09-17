@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-06-01',
+    defaultValue: '2019-07-01',
     type: {
       name: "String"
     }
@@ -38,7 +38,19 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-03-30',
+    defaultValue: '2018-10-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-06-01',
     type: {
       name: "String"
     }
@@ -775,6 +787,16 @@ export const virtualNetworkPeeringName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "virtualNetworkPeeringName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const virtualRouterName: msRest.OperationURLParameter = {
+  parameterPath: "virtualRouterName",
+  mapper: {
+    required: true,
+    serializedName: "virtualRouterName",
     type: {
       name: "String"
     }
