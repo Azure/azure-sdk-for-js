@@ -553,11 +553,13 @@ export class BlobServiceClient extends StorageClient {
     options: ServiceListContainersSegmentOptions = {}
   ): AsyncIterableIterator<Models.ServiceListContainersSegmentResponse> {
     let listContainersSegmentResponse;
-    do {
-      listContainersSegmentResponse = await this.listContainersSegment(marker, options);
-      marker = listContainersSegmentResponse.nextMarker;
-      yield await listContainersSegmentResponse;
-    } while (marker);
+    if (!!marker || marker === undefined) {
+      do {
+        listContainersSegmentResponse = await this.listContainersSegment(marker, options);
+        marker = listContainersSegmentResponse.nextMarker;
+        yield await listContainersSegmentResponse;
+      } while (marker);
+    }
   }
 
   /**

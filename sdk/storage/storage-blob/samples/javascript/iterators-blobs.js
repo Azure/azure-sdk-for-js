@@ -1,4 +1,4 @@
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
@@ -36,6 +36,7 @@ async function main() {
   }
 
   // 1. List blobs
+  console.log("Listing all blobs using iter");
   let i = 1;
   let iter = await containerClient.listBlobsFlat();
   for await (const blob of iter) {
@@ -43,12 +44,14 @@ async function main() {
   }
 
   // 2. Same as the previous example
+  console.log("Listing all blobs");
   i = 1;
   for await (const blob of containerClient.listBlobsFlat()) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
 
   // 3. Generator syntax .next()
+  console.log("Listing all blobs using iter.next()");
   i = 1;
   iter = containerClient.listBlobsFlat();
   let blobItem = await iter.next();
@@ -62,6 +65,7 @@ async function main() {
   ////////////////////////////////////////////////////////
 
   // 4. list containers by page
+  console.log("Listing all blobs by page");
   i = 1;
   for await (const response of containerClient.listBlobsFlat().byPage()) {
     for (const blob of response.segment.blobItems) {
@@ -70,6 +74,7 @@ async function main() {
   }
 
   // 5. Same as the previous example - passing maxPageSize in the page settings
+  console.log("Listing all blobs by page, passing maxPageSize in the page settings");
   i = 1;
   for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
     for (const blob of response.segment.blobItems) {
@@ -78,6 +83,7 @@ async function main() {
   }
 
   // 6. Generator syntax .next()
+  console.log("Listing all blobs by page using iterator.next()");
   i = 1;
   let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 20 });
   let response = await iterator.next();
@@ -90,8 +96,9 @@ async function main() {
   }
 
   // 7. Passing marker as an argument (similar to the previous example)
+  console.log("Listing all blobs by page, using iteartor.next() and continuation token");
   i = 1;
-  iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
+  iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 20 });
   response = await iterator.next();
   let segment = response.value.segment;
   // Prints 2 blob names
@@ -99,14 +106,16 @@ async function main() {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
   // Gets next marker
+  console.log("\tContinuation")
   let marker = response.value.nextMarker;
   // Passing next marker as continuationToken
   iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
   response = await iterator.next();
-  segment = response.value.segment;
   // Prints 5 blob names
-  for (const blob of segment.blobItems) {
-    console.log(`Blob ${i++}: ${blob.name}`);
+  if (!response.done) {
+    for (const blob of response.value.segment.blobItems) {
+      console.log(`Blob ${i++}: ${blob.name}`);
+    }
   }
 
   await containerClient.delete();

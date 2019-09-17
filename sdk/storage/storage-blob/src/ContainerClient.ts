@@ -989,11 +989,13 @@ export class ContainerClient extends StorageClient {
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse> {
     let listBlobsFlatSegmentResponse;
-    do {
-      listBlobsFlatSegmentResponse = await this.listBlobFlatSegment(marker, options);
-      marker = listBlobsFlatSegmentResponse.nextMarker;
-      yield await listBlobsFlatSegmentResponse;
-    } while (marker);
+    if (!!marker || marker === undefined) {
+      do {
+        listBlobsFlatSegmentResponse = await this.listBlobFlatSegment(marker, options);
+        marker = listBlobsFlatSegmentResponse.nextMarker;
+        yield await listBlobsFlatSegmentResponse;
+      } while (marker);
+    }
   }
 
   /**
@@ -1118,15 +1120,17 @@ export class ContainerClient extends StorageClient {
     options: ContainerListBlobsSegmentOptions = {}
   ): AsyncIterableIterator<Models.ContainerListBlobHierarchySegmentResponse> {
     let listBlobsHierarchySegmentResponse;
-    do {
-      listBlobsHierarchySegmentResponse = await this.listBlobHierarchySegment(
-        delimiter,
-        marker,
-        options
-      );
-      marker = listBlobsHierarchySegmentResponse.nextMarker;
-      yield await listBlobsHierarchySegmentResponse;
-    } while (marker);
+    if (!!marker || marker === undefined) {
+      do {
+        listBlobsHierarchySegmentResponse = await this.listBlobHierarchySegment(
+          delimiter,
+          marker,
+          options
+        );
+        marker = listBlobsHierarchySegmentResponse.nextMarker;
+        yield await listBlobsHierarchySegmentResponse;
+      } while (marker);
+    }
   }
 
   /**
