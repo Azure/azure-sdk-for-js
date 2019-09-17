@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/storage-datalake";
-const packageVersion = "0.1.2";
+const packageVersion = "1.0.0";
 
 export class DataLakeStorageClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
