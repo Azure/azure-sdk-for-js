@@ -1,25 +1,11 @@
-//
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 import {
   WebResource,
   ServiceClient,
   ServiceClientOptions,
   HttpOperationResponse,
-  SasServiceClientCredentials,
   AtomXmlOperationSpec,
   signingPolicy,
   userAgentPolicy,
@@ -27,17 +13,27 @@ import {
   proxyPolicy,
   atomSerializationPolicy,
   RequestPolicyFactory,
-  ResourceSerializer,
+  AtomXmlSerializer,
   URLBuilder,
   ProxySettings
 } from "@azure/core-http";
 
 import { httpAtomXml } from "./log";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
+import * as ServiceBusAtomXmlConstants from "./util/constants";
 
-import { QueueResourceSerializer } from "./serializers/queueResourceSerializer";
-import { TopicResourceSerializer } from "./serializers/topicResourceSerializer";
-import { SubscriptionResourceSerializer } from "./serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer } from "./serializers/ruleResourceSerializer";
+import { QueueResourceSerializer, QueueOptions } from "./serializers/queueResourceSerializer";
+import { TopicResourceSerializer, TopicOptions } from "./serializers/topicResourceSerializer";
+import {
+  SubscriptionResourceSerializer,
+  SubscriptionOptions
+} from "./serializers/subscriptionResourceSerializer";
+import { RuleResourceSerializer, RuleOptions } from "./serializers/ruleResourceSerializer";
+
+interface ListRequestOptions {
+  top?: number;
+  skip?: number;
+}
 
 /**
  * All operations return a `Promise<HttpOperationResponse>` object of which the `parsedBody`
@@ -49,12 +45,12 @@ import { RuleResourceSerializer } from "./serializers/ruleResourceSerializer";
  *  }
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
-  endpoint: any;
+  private endpoint: string;
 
-  queueResourceSerializer: ResourceSerializer;
-  topicResourceSerializer: ResourceSerializer;
-  subscriptionResourceSerializer: ResourceSerializer;
-  ruleResourceSerializer: ResourceSerializer;
+  private queueResourceSerializer: AtomXmlSerializer;
+  private topicResourceSerializer: AtomXmlSerializer;
+  private subscriptionResourceSerializer: AtomXmlSerializer;
+  private ruleResourceSerializer: AtomXmlSerializer;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -88,314 +84,281 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
-    this.endpoint = (connectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
+    this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
   }
 
   /**
    * Creates a queue.
-   *
-   * @param {string}             queuePath                                             A string object that represents the name of the queue to create.
-   * @param {object}             [options]                                             The request options.
-   * @param {int}                [options.MaxSizeInMegaBytes]                          Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
-   * @param {PTnHnMnS}           [options.DefaultMessageTimeToLive]                    Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
-   * @param {PTnHnMnS}           [options.LockDuration]                                Determines the amount of time in seconds in which a message should be locked for processing by a receiver. After this period, the message is unlocked and available for consumption by the next receiver. Settable only at queue creation time.
-   * @param {bool}               [options.RequiresSession]                             Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
-   * @param {bool}               [options.RequiresDuplicateDetection]                  Settable only at queue creation time.
-   * @param {bool}               [options.DeadLetteringOnMessageExpiration]            This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
-   * @param {bool}               [options.DuplicateDetectionHistoryTimeWindow]         Specifies the time span during which the Service Bus detects message duplication.
-   * @param {bool}               [options.EnablePartitioning]                          Specifies whether the queue should be partitioned.
-   *                                                                                   `error` will contain information
-   *                                                                                   if an error occurs; otherwise `createqueueresult` will contain
-   *                                                                                   the new queue information.
-   *                                                                                   `response` will contain information related to this operation.
-   * @return {Promise<HttpOperationResponse}
+   * @param queuePath Name of the queue to use
+   * @param queueOptions
    */
-  createQueue(queuePath: string, options: any): Promise<HttpOperationResponse> {
-    return this._createResource(queuePath, options, false, this.queueResourceSerializer);
+  async createQueue(queuePath: string, queueOptions: QueueOptions): Promise<HttpOperationResponse> {
+    return this._putResource(queuePath, queueOptions, false, this.queueResourceSerializer);
   }
 
   /**
-   * Retrieves a queue.
-   *
-   * @param {string}             queuePath                          A string object that represents the name of the queue to retrieve.
-   * @return {Promise<HttpOperationResponse}
+   * Gets a queue.
+   * @param queuePath Name of the queue
    */
-  getQueue(queuePath: string): Promise<HttpOperationResponse> {
+  async getQueue(queuePath: string): Promise<HttpOperationResponse> {
     return this._getResource(queuePath, this.queueResourceSerializer);
   }
 
   /**
-   * Returns a list of queues.
-   *
-   * @param {object}             [options]                                 The request options.
-   * @param {int}                [options.top]                             The top clause for listing queues.
-   * @param {int}                [options.skip]                            The skip clause for listing queues.
-   * @return {Promise<HttpOperationResponse}
+   * Lists existing queues.
+   * @param listRequestOptions
    */
-  async listQueues(options?: any): Promise<HttpOperationResponse> {
-    return this._listResources("$Resources/Queues", options, this.queueResourceSerializer);
+  async listQueues(listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse> {
+    return this._listResources(
+      "$Resources/Queues",
+      listRequestOptions,
+      this.queueResourceSerializer
+    );
   }
 
   /**
-   * Creates a queue.
-   *
-   * @param {string}             queuePath                                             A string object that represents the name of the queue to update.
-   * @param {object}             [options]                                             The request options.
-   * @param {int}                [options.MaxSizeInMegaBytes]                          Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
-   * @param {PTnHnMnS}           [options.DefaultMessageTimeToLive]                    Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
-   * @param {PTnHnMnS}           [options.LockDuration]                                Determines the amount of time in seconds in which a message should be locked for processing by a receiver. After this period, the message is unlocked and available for consumption by the next receiver. Settable only at queue creation time.
-   * @param {bool}               [options.RequiresSession]                             Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
-   * @param {bool}               [options.RequiresDuplicateDetection]                  Settable only at queue creation time.
-   * @param {bool}               [options.DeadLetteringOnMessageExpiration]            This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
-   * @param {bool}               [options.DuplicateDetectionHistoryTimeWindow]         Specifies the time span during which the Service Bus detects message duplication.
-   * @param {bool}               [options.EnablePartitioning]                          Specifies whether the queue should be partitioned.
-   * @return {Promise<HttpOperationResponse}
+   * Updates a queue.
+   * @param queuePath
+   * @param queueOptions
    */
-  async updateQueue(queuePath: any, options: any): Promise<HttpOperationResponse> {
-    return this._createResource(queuePath, options, true, this.queueResourceSerializer);
+  async updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<HttpOperationResponse> {
+    return this._putResource(queuePath, queueOptions, true, this.queueResourceSerializer);
   }
 
   /**
    * Deletes a queue.
-   *
-   * @param {string}             queuePath                A string object that represents the name of the queue to delete.
-   * @return {Promise<HttpOperationResponse}
+   * @param queuePath
    */
-  deleteQueue(queuePath: any): any {
-    return this._deleteResource(queuePath);
+  async deleteQueue(queuePath: string): Promise<HttpOperationResponse> {
+    return this._deleteResource(queuePath, this.queueResourceSerializer);
   }
 
   /**
    * Creates a topic.
-   *
-   * @param {TopicInfo}          topicPath                                                   A Topic object that represents the topic to create.
-   * @param {object}             [options]                                                   The request options.
-   * @param {int}                [options.MaxSizeInMegabytes]                                Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
-   * @param {PTnHnMnS}           [options.DefaultMessageTimeToLive]                          Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
-   * @param {bool}               [options.RequiresDuplicateDetection]                        If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. Settable only at topic creation time.
-   * @param {PTnHnMnS}           [options.DuplicateDetectionHistoryTimeWindow]               Specifies the time span during which the Service Bus will detect message duplication.
-   * @param {bool}               [options.EnableBatchedOperations]                           Specifies if batched operations should be allowed.
-   * @param {int}                [options.SizeInBytes]                                       Specifies the topic size in bytes.
-   * @param {bool}               [options.SupportOrdering]                                   Specifies whether the topic supports message ordering.
-   * @param {bool}               [options.EnablePartitioning]                                Specifies whether the topic should be partitioned
-   * @return {Promise<HttpOperationResponse}
+   * @param topicPath
+   * @param topicOptions
    */
-  createTopic(topicPath: string, options: any): Promise<HttpOperationResponse> {
-    return this._createResource(topicPath, options, false, this.topicResourceSerializer);
+  async createTopic(topicPath: string, topicOptions: TopicOptions): Promise<HttpOperationResponse> {
+    return this._putResource(topicPath, topicOptions, false, this.topicResourceSerializer);
+  }
+
+  /**
+   * Updates a topic.
+   * @param topicPath
+   * @param topicOptions
+   */
+  async updateTopic(topicPath: string, topicOptions: TopicOptions): Promise<HttpOperationResponse> {
+    return this._putResource(topicPath, topicOptions, true, this.topicResourceSerializer);
   }
 
   /**
    * Deletes a topic.
-   *
-   * @param {string}             topicPath               A <code>String</code> object that represents the name of the queue to delete.
-   * @return {Promise<HttpOperationResponse}
+   * @param topicPath
    */
-  deleteTopic(topicPath: any): any {
-    return this._deleteResource(topicPath);
+  async deleteTopic(topicPath: string): Promise<HttpOperationResponse> {
+    return this._deleteResource(topicPath, this.topicResourceSerializer);
   }
 
   /**
-   * Retrieves a topic.
-   *
-   * @param {string}             topicPath                            A <code>String</code> object that represents the name of the topic to retrieve.
-   * @return {Promise<HttpOperationResponse}
+   * Gets a topic.
+   * @param topicPath
    */
-  getTopic(topicPath: string): Promise<HttpOperationResponse> {
+  async getTopic(topicPath: string): Promise<HttpOperationResponse> {
     return this._getResource(topicPath, this.topicResourceSerializer);
   }
 
   /**
-   * Returns a list of topics.
-   *
-   * @param {object}             [options]                                 The request options.
-   * @param {int}                [options.top]                             The number of topics to fetch.
-   * @param {int}                [options.skip]                            The number of topics to skip.
-   * @return {Promise<HttpOperationResponse}
+   * Lists existing topics.
+   * @param listRequestOptions
    */
-  async listTopics(options?: any): Promise<HttpOperationResponse> {
-    return this._listResources("$Resources/Topics", options, this.topicResourceSerializer);
+  async listTopics(listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse> {
+    return this._listResources(
+      "$Resources/Topics",
+      listRequestOptions,
+      this.topicResourceSerializer
+    );
   }
 
   /**
    * Creates a subscription.
-   *
-   * @param {string}             topicPath                                                   A string object that represents the name of the topic for the subscription.
-   * @param {string}             subscriptionPath                                            A string object that represents the name of the subscription.
-   * @param {object}             [options]                                                   The request options.
-   * @param {PTnHnMnS}           [options.LockDuration]                                      The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
-   * @param {bool}               [options.RequiresSession]                                   Settable only at subscription creation time. If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
-   * @param {PTnHnMnS}           [options.DefaultMessageTimeToLive]                          Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
-   * @param {bool}               [options.EnableDeadLetteringOnMessageExpiration]            This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
-   * @param {bool}               [options.EnableDeadLetteringOnFilterEvaluationExceptions]   Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
-   * @return {Promise<HttpOperationResponse}
+   * @param topicPath
+   * @param subscriptionPath
+   * @param subscriptionOptions
    */
-
   createSubscription(
     topicPath: string,
     subscriptionPath: string,
-    options: any
+    subscriptionOptions: SubscriptionOptions
   ): Promise<HttpOperationResponse> {
-    const fullPath = ServiceBusAtomManagementClient.getSubscriptionPath(
-      topicPath,
-      subscriptionPath
+    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
+    return this._putResource(
+      fullPath,
+      subscriptionOptions,
+      false,
+      this.subscriptionResourceSerializer
     );
-    return this._createResource(fullPath, options, false, this.subscriptionResourceSerializer);
+  }
+
+  /**
+   * Updates a subscription.
+   * @param topicPath
+   * @param subscriptionPath
+   * @param subscriptionOptions
+   */
+  updateSubscription(
+    topicPath: string,
+    subscriptionPath: string,
+    subscriptionOptions: SubscriptionOptions
+  ): Promise<HttpOperationResponse> {
+    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
+    return this._putResource(
+      fullPath,
+      subscriptionOptions,
+      true,
+      this.subscriptionResourceSerializer
+    );
   }
 
   /**
    * Deletes a subscription.
-   *
-   * @param {string}             topicPath               A string object that represents the name of the topic for the subscription.
-   * @param {string}             subscriptionPath        A string object that represents the name of the subscription to delete.
-   * @return {Promise<HttpOperationResponse}
+   * @param topicPath
+   * @param subscriptionPath
    */
-  deleteSubscription(topicPath: string, subscriptionPath: string): any {
-    const fullPath = ServiceBusAtomManagementClient.getSubscriptionPath(
-      topicPath,
-      subscriptionPath
-    );
-    return this._deleteResource(fullPath);
+  deleteSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse> {
+    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
+    return this._deleteResource(fullPath, this.subscriptionResourceSerializer);
   }
 
   /**
-   * Retrieves a subscription.
-   *
-   * @param {string}             topicPath                                           A string object that represents the name of the topic for the subscription.
-   * @param {string}             subscription                                        A string object that represents the name of the subscription to retrieve.
-   * @return {Promise<HttpOperationResponse}
+   * Gets a subscription.
+   * @param topicPath
+   * @param subscriptionPath
    */
   getSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse> {
-    const fullPath = ServiceBusAtomManagementClient.getSubscriptionPath(
-      topicPath,
-      subscriptionPath
-    );
+    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
     return this._getResource(fullPath, this.subscriptionResourceSerializer);
   }
 
   /**
-   * Returns a list of subscriptions.
-   *
-   * @param {string}             topicPath                                 A string object that represents the name of the topic for the subscriptions to retrieve.
-   * @param {object}             [options]                                 The request options.
-   * @param {int}                [options.top]                             The number of topics to fetch.
-   * @param {int}                [options.skip]                            The number of topics to skip.
-   * @return {Promise<HttpOperationResponse}
+   * Lists existing subscriptions.
+   * @param topicPath
+   * @param listRequestOptions
    */
-  async listSubscriptions(topicPath: string, options?: any): Promise<HttpOperationResponse> {
+  async listSubscriptions(
+    topicPath: string,
+    listRequestOptions?: ListRequestOptions
+  ): Promise<HttpOperationResponse> {
     return this._listResources(
       topicPath + "/Subscriptions/",
-      options,
+      listRequestOptions,
       this.subscriptionResourceSerializer
     );
   }
 
   /**
    * Creates a rule.
-   *
-   * @param {string}             topicPath                                       A string object that represents the name of the topic for the subscription.
-   * @param {string}             subscriptionPath                                A string object that represents the name of the subscription for which the rule will be created.
-   * @param {string}             rulePath                                        A string object that represents the name of the rule to be created.
-   * @param {object}             [options]                                       The request options.
-   * @param {string}             [options.trueFilter]                            Defines the expression that the rule evaluates as a true filter.
-   * @param {string}             [options.falseFilter]                           Defines the expression that the rule evaluates as a false filter.
-   * @param {string}             [options.sqlExpressionFilter]                   Defines the expression that the rule evaluates. The expression string is interpreted as a SQL92 expression which must evaluate to True or False. Only one between a correlation and a sql expression can be defined.
-   * @param {string}             [options.correlationIdFilter]                   Defines the expression that the rule evaluates. Only the messages whose CorrelationId match the CorrelationId set in the filter expression are allowed. Only one between a correlation and a sql expression can be defined.
-   * @param {string}             [options.sqlRuleAction]                         Defines the expression that the rule evaluates. If the rule is of type SQL, the expression string is interpreted as a SQL92 expression which must evaluate to True or False. If the rule is of type CorrelationFilterExpression then only the messages whose CorrelationId match the CorrelationId set in the filter expression are allowed.
-   * @return {Promise<HttpOperationResponse}
+   * @param topicPath
+   * @param subscriptionPath
+   * @param rule
+   * @param ruleOptions
    */
-  createRule(
+  async createRule(
     topicPath: string,
     subscriptionPath: string,
     rule: string,
-    options: any
+    ruleOptions: RuleOptions
   ): Promise<HttpOperationResponse> {
-    const fullPath = ServiceBusAtomManagementClient.getRulePath(topicPath, subscriptionPath, rule);
+    const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
 
-    return this._createResource(fullPath, options, false, this.ruleResourceSerializer);
+    return this._putResource(fullPath, ruleOptions, false, this.ruleResourceSerializer);
+  }
+
+  /**
+   * Updates a rule.
+   * @param topicPath
+   * @param subscriptionPath
+   * @param rule
+   * @param ruleOptions
+   */
+  async updateRule(
+    topicPath: string,
+    subscriptionPath: string,
+    rule: string,
+    ruleOptions: RuleOptions
+  ): Promise<HttpOperationResponse> {
+    const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
+
+    return this._putResource(fullPath, ruleOptions, true, this.ruleResourceSerializer);
   }
 
   /**
    * Deletes a rule.
-   *
-   * @param {string}             topicPath                                           A string object that represents the name of the topic for the subscription.
-   * @param {string}             subscriptionPath                                    A string object that represents the name of the subscription for which the rule will be deleted.
-   * @param {string}             rulePath                                            A string object that represents the name of the rule to delete.
-   * @return {Promise<HttpOperationResponse}
+   * @param topicPath
+   * @param subscriptionPath
+   * @param rule
    */
-  deleteRule(topicPath: string, subscriptionPath: string, rule: string): any {
-    const fullPath = ServiceBusAtomManagementClient.getRulePath(topicPath, subscriptionPath, rule);
-    return this._deleteResource(fullPath);
-  }
-
-  /**
-   * Retrieves a rule.
-   *
-   * @param {string}             topicPath                                           A string object that represents the name of the topic for the subscription.
-   * @param {string}             subscriptionPath                                    A string object that represents the name of the subscription for which the rule will be retrieved.
-   * @param {string}             rulePath                                            A string object that represents the name of the rule to retrieve.
-   * @return {Promise<HttpOperationResponse}
-   */
-  getRule(
+  async deleteRule(
     topicPath: string,
     subscriptionPath: string,
     rule: string
   ): Promise<HttpOperationResponse> {
-    const fullPath = ServiceBusAtomManagementClient.getRulePath(topicPath, subscriptionPath, rule);
+    const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
+    return this._deleteResource(fullPath, this.ruleResourceSerializer);
+  }
+
+  /**
+   * Gets a rule.
+   * @param topicPath
+   * @param subscriptionPath
+   * @param rule
+   */
+  async getRule(
+    topicPath: string,
+    subscriptionPath: string,
+    rule: string
+  ): Promise<HttpOperationResponse> {
+    const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
     return this._getResource(fullPath, this.ruleResourceSerializer);
   }
 
   /**
-   * Returns a list of rules.
-   *
-   * @param {string}             topicPath                                 A string object that represents the name of the topic for the subscription.
-   * @param {string}             subscriptionPath                          A string object that represents the name of the subscription whose rules are being retrieved.
-   * @param {object}             [options]                                 The request options.
-   * @param {int}                [options.top]                             The number of topics to fetch.
-   * @param {int}                [options.skip]                            The number of topics to skip.
-   * @return {Promise<HttpOperationResponse}
+   * Lists existing rules.
+   * @param topicPath
+   * @param subscriptionPath
+   * @param listRequestOptions
    */
   async listRules(
     topicPath: string,
     subscriptionPath: string,
-    options?: any
+    listRequestOptions?: ListRequestOptions
   ): Promise<HttpOperationResponse> {
-    const fullPath =
-      ServiceBusAtomManagementClient.getSubscriptionPath(topicPath, subscriptionPath) + "/Rules/";
-    return this._listResources(fullPath, options, this.ruleResourceSerializer);
+    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath) + "/Rules/";
+    return this._listResources(fullPath, listRequestOptions, this.ruleResourceSerializer);
   }
 
   /**
-   * Formats a queue path to point towards its dead letter queue.
    *
-   * @param {string}             queuePath                A string object that represents the name of the queue whose dead letter path you want.
-   * @return {string}
-   * The path to the queue's dead letter queue
+   * @param queuePath
    */
-  formatDeadLetterPath(queuePath: any): any {
+  formatDeadLetterPath(queuePath: string): string {
     return `${queuePath}/$DeadLetterQueue`;
   }
 
   /**
-   * Creates a resource.
-   *
-   * @param {string}             path                                                The resource path.
-   * @param {object}             requestBody                                         The resource handler.
-   * @param {boolean}            isUpdate                                            `isUpdate` flag indicates whether the `PUT` request
-   *                                                                                 must attempt to update the resource or to create new one.
-   * @param {ResourceSerializer} serializer                                          The XML serializer to use.
-   * @return {Promise<HttpOperationResponse>}
+   * Creates or updates a resource based on `isUpdate` parameter.
+   * @param path
+   * @param entityOptions
+   * @param isUpdate
+   * @param serializer
    */
-  private async _createResource(
+  private async _putResource(
     path: string,
-    requestBody: any,
+    entityOptions: QueueOptions | TopicOptions | SubscriptionOptions | RuleOptions,
     isUpdate: boolean = false,
-    serializer: ResourceSerializer
+    serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    let webResource: WebResource = new WebResource();
-
-    webResource.method = "PUT";
-    webResource.url = this.getUrl(path);
-    webResource.body = JSON.stringify(requestBody);
+    const webResource: WebResource = new WebResource(this.getUrl(path), "PUT");
+    webResource.body = JSON.stringify(entityOptions);
     if (isUpdate) {
       webResource.headers.set("If-Match", "*");
     }
@@ -413,19 +376,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   /**
    * Gets a resource.
-   *
-   * @param {string}             path                                                The resource path.
-   * @param {ResourceSerializer} serializer                                          The XML serializer to use.
-   * @return {Promise<HttpOperationResponse>}
+   * @param path
+   * @param serializer
    */
   private async _getResource(
     path: string,
-    serializer: ResourceSerializer
+    serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    let webResource: WebResource = new WebResource();
-
-    webResource.method = "GET";
-    webResource.url = this.getUrl(path);
+    const webResource: WebResource = new WebResource(this.getUrl(path), "GET");
 
     const atomXmlOperationSpec: AtomXmlOperationSpec = {
       serializer: serializer,
@@ -437,35 +395,27 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists resources.
-   *
-   * @param {string}             path                                                The resource path.
-   * @param {object}             requestBody                                         The resource handler.
-   * @param {ResourceSerializer} serializer                                          The XML serializer to use.
-   * @return {Promise<HttpOperationResponse>}
+   * Lists existing resources
+   * @param path
+   * @param listRequestOptions
+   * @param serializer
    */
   private async _listResources(
     path: string,
-    requestBody: any,
-    serializer: ResourceSerializer
+    listRequestOptions: ListRequestOptions | undefined,
+    serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    let webResource: WebResource = new WebResource();
-
-    webResource.method = "GET";
-
-    const queryParams: any = {};
-    if (requestBody) {
-      if (requestBody.skip) {
-        queryParams["$skip"] = requestBody.skip;
+    const queryParams: { [key: string]: string } = {};
+    if (listRequestOptions) {
+      if (listRequestOptions.skip) {
+        queryParams["$skip"] = listRequestOptions.skip.toString();
       }
-      if (requestBody.top) {
-        queryParams["$top"] = requestBody.top;
+      if (listRequestOptions.top) {
+        queryParams["$top"] = listRequestOptions.top.toString();
       }
     }
 
-    webResource.url = this.getUrl(path, queryParams);
-
-    console.log(webResource.url);
+    const webResource: WebResource = new WebResource(this.getUrl(path, queryParams), "GET");
 
     const atomXmlOperationSpec: AtomXmlOperationSpec = {
       serializer: serializer,
@@ -477,36 +427,44 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists resources.
-   *
-   * @param {string}             path                                                The resource path.
-   * @return {Promise<HttpOperationResponse>}
+   * Deletes a resource.
+   * @param path
    */
-  private async _deleteResource(path: any): Promise<HttpOperationResponse> {
-    let webResource: WebResource = new WebResource();
+  private async _deleteResource(
+    path: string,
+    serializer: AtomXmlSerializer
+  ): Promise<HttpOperationResponse> {
+    const webResource: WebResource = new WebResource(this.getUrl(path), "DELETE");
 
-    webResource.method = "DELETE";
-    webResource.url = this.getUrl(path);
+    const atomXmlOperationSpec: AtomXmlOperationSpec = {
+      serializer: serializer,
+      shouldParseResponse: false
+    };
+    webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 
     return this.sendRequest(webResource);
   }
 
-  private getUrl(path: string, queryParams?: any) {
-    const baseUri = `https://${this.endpoint}.servicebus.windows.net/${path}`;
+  private getUrl(path: string, queryParams?: { [key: string]: string }): string {
+    const baseUri = `https://${this.endpoint}/${path}`;
 
     const requestUrl: URLBuilder = URLBuilder.parse(baseUri);
-    requestUrl.setQueryParameter(`api-version`, `2017-04`);
+    requestUrl.setQueryParameter(
+      ServiceBusAtomXmlConstants.API_VERSION_QUERY_KEY,
+      ServiceBusAtomXmlConstants.CURRENT_API_VERSION
+    );
 
     if (queryParams) {
-      for (let key of Object.keys(queryParams)) {
+      for (const key of Object.keys(queryParams)) {
         requestUrl.setQueryParameter(key, queryParams[key]);
       }
     }
 
     return requestUrl.toString();
   }
-  private static parseConnectionString(connectionString: string): any {
-    const output: { [k: string]: string } = {};
+
+  private static parseConnectionString(connectionString: string): { [key: string]: string } {
+    const output: { [key: string]: string } = {};
     const parts = connectionString.trim().split(";");
 
     for (let part of parts) {
@@ -534,14 +492,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       output[key] = value;
     }
 
-    return output as any;
+    return output;
   }
 
-  private static getSubscriptionPath(topic: string, subscription: string) {
+  private getSubscriptionPath(topic: string, subscription: string): string {
     return topic + "/Subscriptions/" + subscription;
   }
 
-  private static getRulePath(topic: string, subscription: string, rule: string) {
+  private getRulePath(topic: string, subscription: string, rule: string): string {
     return topic + "/Subscriptions/" + subscription + "/Rules/" + rule;
   }
 }

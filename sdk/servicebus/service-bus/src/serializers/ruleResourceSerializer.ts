@@ -1,27 +1,58 @@
-//
-// Copyright (c) Microsoft and contributors.  All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
-import { AtomResourceSerializerBase, ResourceSerializer } from "@azure/core-http";
-import { ServiceBusAtomXmlConstants } from "../util/constants";
+import {
+  AtomXmlSerializer,
+  serializeToAtomXmlRequest,
+  deserializeAtomXmlResponse,
+  HttpOperationResponse
+} from "@azure/core-http";
+import * as Constants from "../util/constants";
 
-export class RuleResourceSerializer implements ResourceSerializer {
-  serialize(rule: any): any {
+export interface RuleOptions {
+  /**
+   * Name of the rule.
+   */
+  name?: string;
+
+  /**
+   * Defines the expression that the rule evaluates. The expression string is interpreted as a SQL92 expression which must evaluate to True or False. Only one between a correlation and a sql expression can be defined.
+   */
+  sqlExpressionFilter?: string;
+
+  /**
+   * Defines the expression that the rule evaluates. Only the messages whose CorrelationId match the CorrelationId set in the filter expression are allowed. Only one between a correlation and a sql expression can be defined.
+   */
+  correlationFilter?: string;
+
+  /**
+   * Defines the expression that the rule evaluates as a true filter.
+   */
+  trueFilter?: string;
+
+  /**
+   * Defines the expression that the rule evaluates as a false filter.
+   */
+  falseFilter?: string;
+
+  /**
+   * Defines the expression that the rule evaluates. If the rule is of type SQL, the expression string is interpreted as a SQL92 expression which must evaluate to True or False. If the rule is of type CorrelationFilterExpression then only the messages whose CorrelationId match the CorrelationId set in the filter expression are allowed.
+   */
+  sqlRuleAction?: string;
+}
+
+/**
+ * @ignore RuleResourceSerializer for serializing / deserializing Rule entities
+ */
+export class RuleResourceSerializer implements AtomXmlSerializer {
+  serialize(rule: RuleOptions): string {
     const properties = ["Name", "Filter", "Action"];
 
-    const resource: any = {};
+    const resource: { Name: any; Filter: any; Action: any } = {
+      Name: rule.name,
+      Filter: [],
+      Action: []
+    };
 
     if (rule) {
       const filters = [];
@@ -35,12 +66,12 @@ export class RuleResourceSerializer implements ResourceSerializer {
         };
 
         filters.push(sqlFilter);
-      } else if (rule.correlationIdFilter) {
+      } else if (rule.correlationFilter) {
         const correlationFilter = {
           $: {
             type: "CorrelationFilter"
           },
-          CorrelationId: rule.correlationIdFilter
+          CorrelationId: rule.correlationFilter
         };
 
         filters.push(correlationFilter);
@@ -95,19 +126,23 @@ export class RuleResourceSerializer implements ResourceSerializer {
         resource.Action = actions;
       }
     }
-    resource.Name = rule.name;
-    return AtomResourceSerializerBase.serializeToAtomXmlRequest(
+
+    return serializeToAtomXmlRequest(
       "RuleDescription",
       resource,
       properties,
-      ServiceBusAtomXmlConstants.XML_NAMESPACE
+      Constants.XML_NAMESPACE
     );
   }
 
-  parse(atomResponseInJson: any): any {
-    return AtomResourceSerializerBase.deserializeAtomResponse(
+  async deserialize(
+    response: HttpOperationResponse,
+    shouldParseResponse: boolean
+  ): Promise<HttpOperationResponse> {
+    return deserializeAtomXmlResponse(
       ["TopicName", "SubscriptionName", "RuleName"],
-      atomResponseInJson
+      response,
+      shouldParseResponse
     );
   }
 }

@@ -86,4 +86,4 @@ export const sessionManager = debugModule("azure:service-bus:sessionManager");
  * @internal
  * log statements for Atom XML management API over HTTP
  */
-export const httpAtomXml = debugModule("http:service-bus:atom-xml");
+export const httpAtomXml = debugModule("azure:service-bus:atom-xml");
