@@ -1,3 +1,8 @@
+### (Date) 5.0.0-preview.4
+-  Current implementation of the Partition Manager takes the event hub name, consumer group name and partition id to ensure uniqueness for the checkpoint and ownership.
+   Since the same event hub name and consumer group name can exist in another namespace, so we added `fullyQualifiedNamespace` as well to ensure uniqueness.
+  ([PR #5153](https://github.com/Azure/azure-sdk-for-js/pull/5153))
+
 ### 2019-09-09 5.0.0-preview.3
 
 #### Features
