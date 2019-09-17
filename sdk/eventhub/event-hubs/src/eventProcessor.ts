@@ -291,6 +291,7 @@ export class EventProcessor {
         `[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessorFactory.`
       );
       const partitionProcessor = new this._partitionProcessorClass();
+      partitionProcessor.fullyQualifiedNamespace = this._eventHubClient.fullyQualifiedNamespace;
       partitionProcessor.eventHubName = this._eventHubClient.eventHubName;
       partitionProcessor.consumerGroupName = this._consumerGroupName;
       partitionProcessor.partitionId = ownershipRequest.partitionId;

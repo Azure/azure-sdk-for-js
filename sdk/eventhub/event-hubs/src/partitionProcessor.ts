@@ -92,7 +92,7 @@ export class PartitionProcessor {
    * @readonly
    */
   public get fullyQualifiedNamespace() {
-    return this._consumerGroupName!;
+    return this._fullyQualifiedNamespace!;
   }
 
   /**
