@@ -7,7 +7,7 @@ import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import {
   HttpClient,
   AtomXmlOperationSpec,
-  AtomResourceSerializer,
+  AtomXmlSerializer,
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest
 } from "../../lib/coreHttp";
@@ -116,7 +116,7 @@ function getCustomResult(error: any, result: any, response: any): any {
   };
 }
 
-class MockSerializer implements AtomResourceSerializer {
+class MockSerializer implements AtomXmlSerializer {
   serialize(resource: any): string {
     const properties = ["LockDuration", "MaxSizeInMegabytes"];
 
