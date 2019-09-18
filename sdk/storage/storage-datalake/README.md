@@ -25,7 +25,7 @@ This sample lists the file systems in your storage account.  To know more, refer
 import * as msRest from "@azure/ms-rest-js";
 import { DataLakeStorageClient } from "@azure/storage-datalake";
 
-const token = "YOUR_STOARGE_TOKEN";
+const token = "YOUR_STORAGE_TOKEN";
 const credentials = new msRest.TokenCredentials(token);
 const accountName = "YOUR_STORAGE_ACCOUNTNAME";
 
