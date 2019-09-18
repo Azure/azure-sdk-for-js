@@ -32,7 +32,6 @@ dependencies:
   '@rush-temp/template': 'file:projects/template.tgz'
   '@rush-temp/test-utils-recorder': 'file:projects/test-utils-recorder.tgz'
   '@rush-temp/testhub': 'file:projects/testhub.tgz'
-  '@trust/keyto': 0.3.7
   '@types/async-lock': 1.1.1
   '@types/chai': 4.2.0
   '@types/chai-as-promised': 7.1.2
@@ -607,14 +606,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
-  /@trust/keyto/0.3.7:
-    dependencies:
-      asn1.js: 5.2.0
-      base64url: 3.0.1
-      elliptic: 6.5.0
-    dev: false
-    resolution:
-      integrity: sha512-t5kWWCTkPgg24JWVuCTPMx7l13F7YHdxBeJkT1vmoHjROgiOIEAN8eeY+iRmP1Hwsx+S7U55HyuqSsECr08a8A==
   /@types/anymatch/1.3.1:
     dev: false
     resolution:
@@ -11458,7 +11449,6 @@ packages:
       '@azure/core-paging': 1.0.0-preview.1
       '@azure/core-tracing': 1.0.0-preview.1
       '@microsoft/api-extractor': 7.3.8
-      '@trust/keyto': 0.3.7
       '@types/chai': 4.2.0
       '@types/dotenv': 6.1.1
       '@types/fs-extra': 8.0.0
@@ -12009,7 +11999,6 @@ specifiers:
   '@rush-temp/template': 'file:./projects/template.tgz'
   '@rush-temp/test-utils-recorder': 'file:./projects/test-utils-recorder.tgz'
   '@rush-temp/testhub': 'file:./projects/testhub.tgz'
-  '@trust/keyto': 0.3.7
   '@types/async-lock': ^1.1.0
   '@types/chai': ^4.1.6
   '@types/chai-as-promised': ^7.1.0
