@@ -283,26 +283,27 @@ export function parseInkRecognitionResult(responseText: string): InkRecognitionR
   idToRecognitionUnitMap.forEach((value: InkRecognitionUnit, key: Number) => {
     if (idToJsonRecognitionUnitMap.has(key)) {
       let jsonUnit = idToJsonRecognitionUnitMap.get(key);
-      if (jsonUnit) {
-        let parentId = jsonUnit.parentId;
-        if (idToRecognitionUnitMap.has(parentId)) {
-          let parent = idToRecognitionUnitMap.get(parentId);
-          if (parent) {
-            value.parent = parent;
-          }
+      if (!jsonUnit) {
+        return;
+      }
+      let parentId = jsonUnit.parentId;
+      if (idToRecognitionUnitMap.has(parentId)) {
+        let parent = idToRecognitionUnitMap.get(parentId);
+        if (parent) {
+          value.parent = parent;
         }
+      }
 
-        let childIds = jsonUnit.childIds;
-        if (childIds) {
-          childIds.forEach((cid) => {
-            if (idToRecognitionUnitMap.has(cid)) {
-              let child = idToRecognitionUnitMap.get(cid);
-              if (child) {
-                value.children.push(child);
-              }
+      let childIds = jsonUnit.childIds;
+      if (childIds) {
+        childIds.forEach((cid) => {
+          if (idToRecognitionUnitMap.has(cid)) {
+            let child = idToRecognitionUnitMap.get(cid);
+            if (child) {
+              value.children.push(child);
             }
-          });
-        }
+          }
+        });
       }
     }
   });
@@ -320,8 +321,8 @@ export function parseInkRecognitionResult(responseText: string): InkRecognitionR
   if (!idToRecognitionUnitMap.has(InkRecognitionRootId)) {
     // InkRecognitionRoot will be available in GA, build here before then.
     // throw new Error("Fail to pass response: no InkRecognitionRoot present.");
-    result.inkDrawings.forEach(drawing => { result.children.push(drawing); });
-    result.writingRegions.forEach(drawing => { result.children.push(drawing); });
+    result.children = result.children.concat(result.inkDrawings);
+    result.children = result.children.concat(result.writingRegions);
     if(result.children.length === 0) {
       throw new Error("Fail to pass response: no children under InkRecognitonRoot. Response:" + responseText);
     }
