@@ -6,7 +6,7 @@ import { AbortController } from "@azure/abort-controller";
 import { createRandomLocalFile, getBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { ShareClient, DirectoryClient, FileClient } from "../../src";
-import { readStreamToLocalFile } from "../../src/utils/utils.common";
+import { readStreamToLocalFile } from "../../src/utils/utils.node";
 import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
 

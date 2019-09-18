@@ -33,7 +33,7 @@ import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { streamToBuffer } from "./utils/utils.node";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { readStreamToLocalFile, fsStat } from "./utils/utils.common";
+import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 
 /**

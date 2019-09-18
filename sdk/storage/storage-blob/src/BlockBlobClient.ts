@@ -30,9 +30,9 @@ import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import {
   setURLParameter,
   extractConnectionStringParts,
-  generateBlockID,
-  fsStat
+  generateBlockID
 } from "./utils/utils.common";
+import { fsStat } from "./utils/utils.node";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
