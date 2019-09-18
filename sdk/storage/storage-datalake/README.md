@@ -57,7 +57,7 @@ client.filesystem
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/storage-datalake/dist/storage-datalake.js"></script>
     <script type="text/javascript">
-      const token = "YOUR_STOARGE_TOKEN";
+      const token = "YOUR_STORAGE_TOKEN";
       const credentials = new msRest.TokenCredentials(token);
       const accountName = "YOUR_STOARGE_ACCOUNTNAME";
 
