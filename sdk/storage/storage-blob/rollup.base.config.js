@@ -99,7 +99,7 @@ export function browserConfig(test = false, production = false) {
       shim({
         dotenv: `export function config() { }`,
         fs: `
-          export function statSync() { }
+          export function stat() { }
           export function createReadStream() { }
           export function createWriteStream() { }
         `,
