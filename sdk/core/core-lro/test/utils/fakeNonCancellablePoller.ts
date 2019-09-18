@@ -1,4 +1,4 @@
-import { HttpOperationResponse, WebResource, ServiceClient } from "@azure/core-http";
+import { HttpOperationResponse, WebResource, ServiceClient, RequestOptionsBase } from "@azure/core-http";
 import { LongRunningOperationStates, Poller, PollerOptionalParameters } from "../../src"
 
 export class FakeNonCancellablePoller extends Poller {
@@ -13,7 +13,7 @@ export class FakeNonCancellablePoller extends Poller {
     this.client = client;
     // Got to call this again, because I can't set the client before super()
     if (this.manual) return;
-    this.initialRequest().then(() => this.poll());
+    this.initialRequest().then(() => this.loop());
   } 
 
   protected getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates {
@@ -33,7 +33,7 @@ export class FakeNonCancellablePoller extends Poller {
   }
 
   // Ignoring options?: RequestOptionsBase since we won't do a real API call here.
-  public async cancel({}): Promise<void> {
+  public async cancel(_?: RequestOptionsBase): Promise<void> {
     throw new Error("Cancellation not supported");
   }
 
