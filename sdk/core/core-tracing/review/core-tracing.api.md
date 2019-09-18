@@ -11,6 +11,12 @@ export interface Attributes {
 }
 
 // @public
+export interface BinaryFormat {
+    fromBytes(buffer: ArrayBuffer): SpanContext | null;
+    toBytes(spanContext: SpanContext): ArrayBuffer;
+}
+
+// @public
 export enum CanonicalCode {
     ABORTED = 10,
     ALREADY_EXISTS = 6,
@@ -35,6 +41,15 @@ export enum CanonicalCode {
 export interface Event {
     attributes?: Attributes;
     name: string;
+}
+
+// @public
+export type HrTime = [number, number];
+
+// @public
+export interface HttpTextFormat {
+    extract(format: string, carrier: unknown): SpanContext | null;
+    inject(spanContext: SpanContext, format: string, carrier: unknown): void;
 }
 
 // @public
@@ -72,11 +87,13 @@ export class NoOpSpanPlugin implements Span {
 export class NoOpTracePlugin implements Tracer {
     constructor(tracer: any);
     // (undocumented)
-    getBinaryFormat(): unknown;
+    bind<T>(target: T, span?: Span): T;
+    // (undocumented)
+    getBinaryFormat(): BinaryFormat;
     // (undocumented)
     getCurrentSpan(): Span;
     // (undocumented)
-    getHttpTextFormat(): unknown;
+    getHttpTextFormat(): HttpTextFormat;
     // (undocumented)
     readonly pluginType = SupportedPlugins.NOOP;
     // (undocumented)
@@ -118,11 +135,13 @@ export class OpenCensusSpanPlugin implements Span {
 export class OpenCensusTracePlugin implements Tracer {
     constructor(tracer: any);
     // (undocumented)
-    getBinaryFormat(): unknown;
+    bind<T>(target: T, span?: Span): T;
+    // (undocumented)
+    getBinaryFormat(): BinaryFormat;
     // (undocumented)
     getCurrentSpan(): Span;
     // (undocumented)
-    getHttpTextFormat(): unknown;
+    getHttpTextFormat(): HttpTextFormat;
     // (undocumented)
     readonly pluginType = SupportedPlugins.OPENCENSUS;
     // (undocumented)
@@ -144,21 +163,19 @@ export interface Span {
     addEvent(name: string, attributes?: Attributes): this;
     addLink(spanContext: SpanContext, attributes?: Attributes): this;
     context(): SpanContext;
-    end(endTime?: number): void;
+    end(endTime?: TimeInput): void;
     isRecordingEvents(): boolean;
     setAttribute(key: string, value: unknown): this;
     setAttributes(attributes: Attributes): this;
     setStatus(status: Status): this;
-    // (undocumented)
-    start(startTime?: number): void;
     updateName(name: string): this;
 }
 
 // @public
 export interface SpanContext {
     spanId: string;
+    traceFlags?: TraceFlags;
     traceId: string;
-    traceOptions?: TraceOptions;
     traceState?: TraceState;
 }
 
@@ -221,34 +238,39 @@ export enum SupportedPlugins {
 // @public
 export interface TimedEvent extends Event {
     // (undocumented)
-    time: number;
+    time: HrTime;
 }
 
 // @public
-export enum TraceOptions {
+export type TimeInput = HrTime | number | Date;
+
+// @public
+export enum TraceFlags {
     SAMPLED = 1,
     UNSAMPLED = 0
 }
 
 // @public
 export interface Tracer {
-    getBinaryFormat(): unknown;
-    getCurrentSpan(): Span;
-    getHttpTextFormat(): unknown;
-    pluginType: SupportedPlugins;
+    bind<T>(target: T, span?: Span): T;
+    getBinaryFormat(): BinaryFormat;
+    getCurrentSpan(): Span | null;
+    getHttpTextFormat(): HttpTextFormat;
     recordSpanData(span: Span): void;
     startSpan(name: string, options?: SpanOptions): Span;
-    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
+    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(span: Span, fn: T): ReturnType<T>;
 }
 
 // @public (undocumented)
 export class TracerNoOpImpl implements Tracer {
     // (undocumented)
-    getBinaryFormat(): unknown;
+    bind<T>(target: T, span?: Span): T;
+    // (undocumented)
+    getBinaryFormat(): BinaryFormat;
     // (undocumented)
     getCurrentSpan(): Span;
     // (undocumented)
-    getHttpTextFormat(): unknown;
+    getHttpTextFormat(): HttpTextFormat;
     // (undocumented)
     readonly pluginType = SupportedPlugins.NOOP;
     // (undocumented)
