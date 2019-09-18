@@ -23,11 +23,14 @@ export class InMemoryPartitionManager implements PartitionManager {
    * Get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
    *
+   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
    * @param consumerGroupName The consumer group name.
    * @return Partition ownership details of all the partitions that have/had an owner..
    */
   async listOwnership(
+    fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroupName: string
   ): Promise<PartitionOwnership[]> {
