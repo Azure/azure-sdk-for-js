@@ -17,6 +17,12 @@ npm install @azure/cognitiveservices-qnamaker
 
 #### nodejs - Authentication, client creation and getKeys endpointKeys as an example written in TypeScript.
 
+##### Install @azure/ms-rest-azure-js
+
+```bash
+npm install @azure/ms-rest-azure-js
+```
+
 ##### Sample code
 The following sample lists the keys of the QnAMaker endpoint. To know more, refer to the [Azure Documentation on QnAMaker](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/)
 
