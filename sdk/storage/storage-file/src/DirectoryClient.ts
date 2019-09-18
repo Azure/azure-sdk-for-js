@@ -627,6 +627,7 @@ export class DirectoryClient extends StorageClient {
    * .byPage() returns an async iterable iterator to list the files and directories in pages.
    *
    * @example
+   * ```js
    *   let i = 1;
    *   for await (const entity of directoryClient.listFilesAndDirectories()) {
    *     if (entity.kind === "directory") {
@@ -635,8 +636,10 @@ export class DirectoryClient extends StorageClient {
    *       console.log(`${i++} - file\t: ${entity.name}`);
    *     }
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Generator syntax .next()
    *   let i = 1;
    *   let iter = await directoryClient.listFilesAndDirectories();
@@ -649,8 +652,10 @@ export class DirectoryClient extends StorageClient {
    *     }
    *     entity = await iter.next();
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
    *   let i = 1;
@@ -664,8 +669,10 @@ export class DirectoryClient extends StorageClient {
    *       console.log(`${i++} - directory\t: ${dirItem.name}`);
    *     }
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;
    *   let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
@@ -691,6 +698,7 @@ export class DirectoryClient extends StorageClient {
    *   for (const dirItem of response.segment.directoryItems) {
    *     console.log(`${i++} - directory\t: ${dirItem.name}`);
    *   }
+   * ```
    *
    * @param {DirectoryListFilesAndDirectoriesOptions} [options] Options to list files and directories operation.
    * @memberof DirectoryClient
@@ -805,12 +813,16 @@ export class DirectoryClient extends StorageClient {
    * .byPage() returns an async iterable iterator to list the handles in pages.
    *
    * @example
+   * ```js
    *   let i = 1;
    *   let iter = dirClient.listHandles();
    *   for await (const handle of iter) {
    *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
    *   }
+   * ```
+   *
    * @example
+   * ```js
    *   // Generator syntax .next()
    *   let i = 1;
    *   iter = await dirClient.listHandles();
@@ -819,8 +831,10 @@ export class DirectoryClient extends StorageClient {
    *     console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
    *     handleItem = await iter.next();
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
    *   let i = 1;
@@ -831,8 +845,10 @@ export class DirectoryClient extends StorageClient {
    *       }
    *     }
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;
    *   iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
@@ -855,6 +871,7 @@ export class DirectoryClient extends StorageClient {
    *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
    *     }
    *   }
+   * ```
    *
    * @param {DirectoryListHandlesOptions} [options] Options to list handles operation.
    * @memberof DirectoryClient
