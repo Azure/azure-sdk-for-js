@@ -77,6 +77,8 @@ export * from "./virtualNetworkGateways";
 export * from "./virtualNetworkGatewayConnections";
 export * from "./localNetworkGateways";
 export * from "./virtualNetworkTaps";
+export * from "./virtualRouters";
+export * from "./virtualRouterPeerings";
 export * from "./virtualWans";
 export * from "./vpnSites";
 export * from "./vpnSiteLinks";
