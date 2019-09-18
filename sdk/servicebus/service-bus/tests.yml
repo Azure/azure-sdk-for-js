@@ -1,5 +1,15 @@
 trigger: none
 
+resources:
+  repositories:
+    - repository: azure-sdk-build-tools
+      type: git
+      name: internal/azure-sdk-build-tools
+    - repository: azure-sdk-tools
+      type: github
+      name: Azure/azure-sdk-tools
+      endpoint: azure
+
 jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
@@ -10,7 +20,7 @@ jobs:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
         Browser_Windows_Node10:
-          OSVmImage: "vs2017-win2016"
+          OSVmImage: "windows-2019"
           TestType: "browser"
       EnvVars:
         AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)

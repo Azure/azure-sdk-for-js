@@ -11,7 +11,10 @@ export class NoOpSpanPlugin implements Span {
   }
 
   context(): SpanContext {
-    throw new Error("Method not implemented.");
+    return {
+      spanId: "",
+      traceId: ""
+    };
   }
 
   end(endTime?: number): void {

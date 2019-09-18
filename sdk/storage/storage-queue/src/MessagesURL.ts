@@ -199,6 +199,7 @@ export class MessagesURL extends StorageURL {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       version: response.version,
       errorCode: response.errorCode,
       messageId: item.messageId,
@@ -232,6 +233,7 @@ export class MessagesURL extends StorageURL {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       dequeuedMessageItems: [],
       version: response.version,
       errorCode: response.errorCode
@@ -267,6 +269,7 @@ export class MessagesURL extends StorageURL {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       peekedMessageItems: [],
       version: response.version,
       errorCode: response.errorCode

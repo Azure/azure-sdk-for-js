@@ -231,6 +231,7 @@ const uploadOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.contentLength,
     Parameters.metadata,
+    Parameters.tier0,
     Parameters.version,
     Parameters.requestId,
     Parameters.blobType2,
@@ -241,6 +242,9 @@ const uploadOperationSpec: msRest.OperationSpec = {
     Parameters.blobCacheControl,
     Parameters.blobContentDisposition,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -278,14 +282,18 @@ const stageBlockOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeout,
-    Parameters.comp15
+    Parameters.comp16
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.version,
     Parameters.requestId,
-    Parameters.leaseId0
+    Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm
   ],
   requestBody: {
     parameterPath: "body",
@@ -319,15 +327,19 @@ const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeout,
-    Parameters.comp15
+    Parameters.comp16
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.sourceUrl,
     Parameters.sourceRange1,
     Parameters.sourceContentMD5,
+    Parameters.sourceContentCrc64,
     Parameters.version,
     Parameters.requestId,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.leaseId0,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
@@ -354,10 +366,13 @@ const commitBlockListOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp16
+    Parameters.comp17
   ],
   headerParameters: [
+    Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.metadata,
+    Parameters.tier0,
     Parameters.version,
     Parameters.requestId,
     Parameters.blobCacheControl,
@@ -367,6 +382,9 @@ const commitBlockListOperationSpec: msRest.OperationSpec = {
     Parameters.blobContentMD5,
     Parameters.blobContentDisposition,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -402,7 +420,7 @@ const getBlockListOperationSpec: msRest.OperationSpec = {
     Parameters.snapshot,
     Parameters.listType,
     Parameters.timeout,
-    Parameters.comp16
+    Parameters.comp17
   ],
   headerParameters: [
     Parameters.version,

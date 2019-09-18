@@ -126,6 +126,65 @@ export class Share {
   }
 
   /**
+   * Create a permission (a security descriptor).
+   * @param permission Permission(a security descriptor) described in the SDDL.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareCreatePermissionResponse>
+   */
+  createPermission(permission: Models.Permission, options?: Models.ShareCreatePermissionOptionalParams): Promise<Models.ShareCreatePermissionResponse>;
+  /**
+   * @param permission Permission(a security descriptor) described in the SDDL.
+   * @param callback The callback
+   */
+  createPermission(permission: Models.Permission, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param permission Permission(a security descriptor) described in the SDDL.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createPermission(permission: Models.Permission, options: Models.ShareCreatePermissionOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  createPermission(permission: Models.Permission, options?: Models.ShareCreatePermissionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareCreatePermissionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        permission,
+        options
+      },
+      createPermissionOperationSpec,
+      callback) as Promise<Models.ShareCreatePermissionResponse>;
+  }
+
+  /**
+   * Returns the permission (security descriptor) for a given key
+   * @param filePermissionKey Key of the permission to be set for the directory/file. Note: Only one
+   * of the x-ms-file-permission or x-ms-file-permission-key should be specified.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareGetPermissionResponse>
+   */
+  getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams): Promise<Models.ShareGetPermissionResponse>;
+  /**
+   * @param filePermissionKey Key of the permission to be set for the directory/file. Note: Only one
+   * of the x-ms-file-permission or x-ms-file-permission-key should be specified.
+   * @param callback The callback
+   */
+  getPermission(filePermissionKey: string, callback: msRest.ServiceCallback<Models.Permission>): void;
+  /**
+   * @param filePermissionKey Key of the permission to be set for the directory/file. Note: Only one
+   * of the x-ms-file-permission or x-ms-file-permission-key should be specified.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPermission(filePermissionKey: string, options: Models.ShareGetPermissionOptionalParams, callback: msRest.ServiceCallback<Models.Permission>): void;
+  getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams | msRest.ServiceCallback<Models.Permission>, callback?: msRest.ServiceCallback<Models.Permission>): Promise<Models.ShareGetPermissionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        filePermissionKey,
+        options
+      },
+      getPermissionOperationSpec,
+      callback) as Promise<Models.ShareGetPermissionResponse>;
+  }
+
+  /**
    * Sets quota for the specified share.
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareSetQuotaResponse>
@@ -355,6 +414,68 @@ const createSnapshotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const createPermissionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.restype1,
+    Parameters.comp3
+  ],
+  headerParameters: [
+    Parameters.version
+  ],
+  requestBody: {
+    parameterPath: "permission",
+    mapper: {
+      ...Mappers.Permission,
+      required: true
+    }
+  },
+  contentType: "application/xml; charset=utf-8",
+  responses: {
+    201: {
+      headersMapper: Mappers.ShareCreatePermissionHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: false,
+  serializer
+};
+
+const getPermissionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{shareName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.restype1,
+    Parameters.comp3
+  ],
+  headerParameters: [
+    Parameters.filePermissionKey0,
+    Parameters.version
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Permission,
+      headersMapper: Mappers.ShareGetPermissionHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
 const setQuotaOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
@@ -391,7 +512,7 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype1,
-    Parameters.comp3
+    Parameters.comp4
   ],
   headerParameters: [
     Parameters.metadata,
@@ -418,7 +539,7 @@ const getAccessPolicyOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype1,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.version
@@ -457,7 +578,7 @@ const setAccessPolicyOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype1,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.version
@@ -504,7 +625,7 @@ const getStatisticsOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.restype1,
-    Parameters.comp5
+    Parameters.comp6
   ],
   headerParameters: [
     Parameters.version

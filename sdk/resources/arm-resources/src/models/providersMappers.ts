@@ -10,6 +10,8 @@ export {
   AliasPathType,
   AliasType,
   CloudError,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   Provider,
   ProviderListResult,
   ProviderResourceType

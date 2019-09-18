@@ -343,6 +343,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.blobSequenceNumber,
     Parameters.version,
     Parameters.requestId,
+    Parameters.tier0,
     Parameters.blobType0,
     Parameters.blobContentType,
     Parameters.blobContentEncoding,
@@ -351,6 +352,9 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.blobCacheControl,
     Parameters.blobContentDisposition,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -376,16 +380,20 @@ const uploadPagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp11
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.range0,
     Parameters.version,
     Parameters.requestId,
     Parameters.pageWrite0,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
     Parameters.ifSequenceNumberLessThan,
     Parameters.ifSequenceNumberEqualTo,
@@ -425,7 +433,7 @@ const clearPagesOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp11
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -434,6 +442,9 @@ const clearPagesOperationSpec: msRest.OperationSpec = {
     Parameters.requestId,
     Parameters.pageWrite1,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
     Parameters.ifSequenceNumberLessThan,
     Parameters.ifSequenceNumberEqualTo,
@@ -462,17 +473,21 @@ const uploadPagesFromURLOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp11
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.sourceUrl,
     Parameters.sourceRange0,
     Parameters.sourceContentMD5,
+    Parameters.sourceContentCrc64,
     Parameters.contentLength,
     Parameters.range1,
     Parameters.version,
     Parameters.requestId,
     Parameters.pageWrite0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.leaseId0,
     Parameters.ifSequenceNumberLessThanOrEqualTo,
     Parameters.ifSequenceNumberLessThan,
@@ -507,7 +522,7 @@ const getPageRangesOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.timeout,
-    Parameters.comp12
+    Parameters.comp13
   ],
   headerParameters: [
     Parameters.range0,
@@ -542,7 +557,7 @@ const getPageRangesDiffOperationSpec: msRest.OperationSpec = {
     Parameters.snapshot,
     Parameters.timeout,
     Parameters.prevsnapshot,
-    Parameters.comp12
+    Parameters.comp13
   ],
   headerParameters: [
     Parameters.range0,
@@ -582,6 +597,9 @@ const resizeOperationSpec: msRest.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -640,7 +658,7 @@ const copyIncrementalOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp13
+    Parameters.comp14
   ],
   headerParameters: [
     Parameters.copySource,

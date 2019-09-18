@@ -108,6 +108,10 @@ export interface AdultInfo {
    */
   isRacyContent?: boolean;
   /**
+   * A value indicating if the image is gory.
+   */
+  isGoryContent?: boolean;
+  /**
    * Score from 0 to 1 that indicates how much the content is considered adult-oriented within the
    * image.
    */
@@ -116,6 +120,10 @@ export interface AdultInfo {
    * Score from 0 to 1 that indicates how suggestive is the image.
    */
   racyScore?: number;
+  /**
+   * Score from 0 to 1 that indicates how gory is the image.
+   */
+  goreScore?: number;
 }
 
 /**
@@ -516,7 +524,7 @@ export interface OcrResult {
    */
   language?: string;
   /**
-   * The angle, in degrees, of the detected text with respect to the closest horizontal or vertical
+   * The angle, in radians, of the detected text with respect to the closest horizontal or vertical
    * direction. After rotating the input image clockwise by this angle, the recognized text lines
    * become horizontal or vertical. In combination with the orientation property it can be used to
    * overlay recognition results correctly on the original image, by rotating either the original
@@ -526,9 +534,12 @@ export interface OcrResult {
    */
   textAngle?: number;
   /**
-   * Orientation of the text recognized in the image. The value (up, down, left, or right) refers
-   * to the direction that the top of the recognized text is facing, after the image has been
-   * rotated around its center according to the detected text angle (see textAngle property).
+   * Orientation of the text recognized in the image, if requested. The value (up, down, left, or
+   * right) refers to the direction that the top of the recognized text is facing, after the image
+   * has been rotated around its center according to the detected text angle (see textAngle
+   * property).
+   * If detection of the orientation was not requested, or no text is detected, the value is
+   * 'NotDetected'.
    */
   orientation?: string;
   /**
@@ -735,11 +746,12 @@ export interface ComputerVisionClientAnalyzeImageOptionalParams extends msRest.R
    * complete English sentence. Faces - detects if faces are present. If present, generate
    * coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color
    * - determines the accent color, dominant color, and whether an image is black&white. Adult -
-   * detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually
-   * suggestive content is also detected. Objects - detects various objects within an image,
-   * including the approximate location. The Objects argument is only available in English. Brands
-   * - detects various brands within an image, including the approximate location. The Brands
-   * argument is only available in English.
+   * detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory
+   * (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also
+   * detected. Objects - detects various objects within an image, including the approximate
+   * location. The Objects argument is only available in English. Brands - detects various brands
+   * within an image, including the approximate location. The Brands argument is only available in
+   * English.
    */
   visualFeatures?: VisualFeatureTypes[];
   /**
@@ -755,6 +767,10 @@ export interface ComputerVisionClientAnalyzeImageOptionalParams extends msRest.R
    * 'pt', 'zh'. Default value: 'en'.
    */
   language?: Language;
+  /**
+   * Turn off specified domain models when generating the description.
+   */
+  descriptionExclude?: DescriptionExclude[];
 }
 
 /**
@@ -772,6 +788,10 @@ export interface ComputerVisionClientDescribeImageOptionalParams extends msRest.
    * 'pt', 'zh'. Default value: 'en'.
    */
   language?: Language1;
+  /**
+   * Turn off specified domain models when generating the description.
+   */
+  descriptionExclude?: DescriptionExclude[];
 }
 
 /**
@@ -835,11 +855,12 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
    * complete English sentence. Faces - detects if faces are present. If present, generate
    * coordinates, gender and age. ImageType - detects if image is clipart or a line drawing. Color
    * - determines the accent color, dominant color, and whether an image is black&white. Adult -
-   * detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually
-   * suggestive content is also detected. Objects - detects various objects within an image,
-   * including the approximate location. The Objects argument is only available in English. Brands
-   * - detects various brands within an image, including the approximate location. The Brands
-   * argument is only available in English.
+   * detects if the image is pornographic in nature (depicts nudity or a sex act), or is gory
+   * (depicts extreme violence or blood). Sexually suggestive content (aka racy content) is also
+   * detected. Objects - detects various objects within an image, including the approximate
+   * location. The Objects argument is only available in English. Brands - detects various brands
+   * within an image, including the approximate location. The Brands argument is only available in
+   * English.
    */
   visualFeatures?: VisualFeatureTypes[];
   /**
@@ -855,6 +876,10 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
    * 'pt', 'zh'. Default value: 'en'.
    */
   language?: Language4;
+  /**
+   * Turn off specified domain models when generating the description.
+   */
+  descriptionExclude?: DescriptionExclude[];
 }
 
 /**
@@ -872,6 +897,10 @@ export interface ComputerVisionClientDescribeImageInStreamOptionalParams extends
    * 'pt', 'zh'. Default value: 'en'.
    */
   language?: Language5;
+  /**
+   * Turn off specified domain models when generating the description.
+   */
+  descriptionExclude?: DescriptionExclude[];
 }
 
 /**
@@ -994,6 +1023,14 @@ export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
  * @enum {string}
  */
 export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
+
+/**
+ * Defines values for DescriptionExclude.
+ * Possible values include: 'Celebrities', 'Landmarks'
+ * @readonly
+ * @enum {string}
+ */
+export type DescriptionExclude = 'Celebrities' | 'Landmarks';
 
 /**
  * Defines values for OcrLanguages.

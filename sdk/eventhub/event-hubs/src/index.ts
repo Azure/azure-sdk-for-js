@@ -5,7 +5,7 @@
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
-export { OnMessage, OnError } from "./eventHubReceiver";
+export { OnMessage, OnError, LastEnqueuedEventInfo } from "./eventHubReceiver";
 export { ReceiveHandler } from "./receiveHandler";
 export {
   EventHubClient,
@@ -20,19 +20,15 @@ export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventHubProducer } from "./sender";
 export { EventHubConsumer, EventIteratorOptions } from "./receiver";
 export { EventDataBatch } from "./eventDataBatch";
-export { CheckpointManager } from "./checkpointManager";
 export {
   EventProcessor,
   CloseReason,
   EventProcessorOptions,
-  PartitionProcessor,
   PartitionManager,
-  PartitionProcessorFactory,
   PartitionOwnership
 } from "./eventProcessor";
-export { PartitionContext } from "./partitionContext";
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-export { Checkpoint } from "./checkpointManager";
+export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export {
   MessagingError,
   DataTransformer,

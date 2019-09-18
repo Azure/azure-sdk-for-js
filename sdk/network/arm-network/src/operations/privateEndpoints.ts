@@ -75,7 +75,7 @@ export class PrivateEndpoints {
    * Creates or updates an private endpoint in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param privateEndpointName The name of the private endpoint.
-   * @param parameters Parameters supplied to the create or update private endpoint operation
+   * @param parameters Parameters supplied to the create or update private endpoint operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointsCreateOrUpdateResponse>
    */
@@ -158,7 +158,7 @@ export class PrivateEndpoints {
    * Creates or updates an private endpoint in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param privateEndpointName The name of the private endpoint.
-   * @param parameters Parameters supplied to the create or update private endpoint operation
+   * @param parameters Parameters supplied to the create or update private endpoint operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

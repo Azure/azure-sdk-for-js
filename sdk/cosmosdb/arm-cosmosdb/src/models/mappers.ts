@@ -355,6 +355,18 @@ export const DatabaseAccount: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      enableCassandraConnector: {
+        serializedName: "properties.enableCassandraConnector",
+        type: {
+          name: "Boolean"
+        }
+      },
+      connectorOffer: {
+        serializedName: "properties.connectorOffer",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1129,6 +1141,18 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      enableCassandraConnector: {
+        serializedName: "properties.enableCassandraConnector",
+        type: {
+          name: "Boolean"
+        }
+      },
+      connectorOffer: {
+        serializedName: "properties.connectorOffer",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1197,6 +1221,7 @@ export const DatabaseAccountListKeysResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "DatabaseAccountListKeysResult",
     modelProperties: {
+      ...DatabaseAccountListReadOnlyKeysResult.type.modelProperties,
       primaryMasterKey: {
         readOnly: true,
         serializedName: "primaryMasterKey",
@@ -1207,20 +1232,6 @@ export const DatabaseAccountListKeysResult: msRest.CompositeMapper = {
       secondaryMasterKey: {
         readOnly: true,
         serializedName: "secondaryMasterKey",
-        type: {
-          name: "String"
-        }
-      },
-      primaryReadonlyMasterKey: {
-        readOnly: true,
-        serializedName: "properties.primaryReadonlyMasterKey",
-        type: {
-          name: "String"
-        }
-      },
-      secondaryReadonlyMasterKey: {
-        readOnly: true,
-        serializedName: "properties.secondaryReadonlyMasterKey",
         type: {
           name: "String"
         }

@@ -87,8 +87,9 @@ const render = async (context, dest) => {
   context.build_url = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECT}/_build/results?buildId=${process.env.BUILD_BUILDID}`;
   context.commit = process.env.BUILD_SOURCEVERSION;
   context.isfork = process.env.SYSTEM_PULLREQUEST_ISFORK === "True";
-  context.rel_url = process.env.RELEASE_RELEASEWEBURL;
-  context.release = process.env.RELEASE_RELEASENAME;
+  context.isrelease = process.env.SYSTEM_HOSTTYPE === "release" || process.env.SYSTEM_HOSTTYPE === "deployment" || process.env.RELEASE_RELEASENAME != null;
+  context.rel_url = process.env.RELEASE_RELEASEWEBURL || context.build_url;
+  context.release = process.env.RELEASE_RELEASENAME || context.build;
   context.repo = context.isfork ? process.env.BUILD_REPOSITORY_NAME : `Azure/${context.repo_name}`;
   context.curtime = new Date().toISOString();
 

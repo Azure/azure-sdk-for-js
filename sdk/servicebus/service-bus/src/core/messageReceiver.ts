@@ -25,7 +25,6 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
-import { messageDispositionTimeout } from "../util/constants";
 
 /**
  * @internal
@@ -767,6 +766,11 @@ export class MessageReceiver extends LinkEntity {
           this.name,
           this.address
         );
+
+        if (options && options.name) {
+          this.name = options.name;
+        }
+
         this.isConnecting = true;
         await this._negotiateClaim();
         if (!options) {
@@ -918,19 +922,9 @@ export class MessageReceiver extends LinkEntity {
         );
       }
       if (shouldReopen) {
-        const disconnectedReceiverName = this.name;
         // provide a new name to the link while re-connecting it. This ensures that
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
-
-        this.name = options.name!;
-
-        log.receiver(
-          "[%s] Closing the disconnected Receiver '%s' and creating a new one with the name '%s'",
-          this._context.namespace.connectionId,
-          disconnectedReceiverName,
-          this.name
-        );
 
         // shall retry forever at an interval of 15 seconds if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
@@ -1021,7 +1015,7 @@ export class MessageReceiver extends LinkEntity {
             "Hence rejecting the promise with timeout error.",
           this._context.namespace.connectionId,
           delivery.id,
-          messageDispositionTimeout
+          Constants.defaultOperationTimeoutInSeconds * 1000
         );
 
         const e: AmqpError = {
@@ -1031,7 +1025,7 @@ export class MessageReceiver extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, messageDispositionTimeout);
+      }, Constants.defaultOperationTimeoutInSeconds * 1000);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

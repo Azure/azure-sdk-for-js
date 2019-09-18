@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.0-preview.5 (2019-09-11)
+- Improved the tests, the README and upgraded dependencies.
+- Added the browser folder to the released bundle.
+
 ## 4.0.0-preview.3 (2019-08-06)
 - Added a new CryptographyClient to handle cryptography tasks.
 - Added browser support.

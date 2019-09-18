@@ -75,10 +75,13 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
   }
 
-  private createAppServiceMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+  private createAppServiceMsiAuthRequest(
+    resource: string,
+    clientId?: string
+  ): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
-      "api-version": AppServiceMsiApiVersion,
+      "api-version": AppServiceMsiApiVersion
     };
 
     if (clientId) {
@@ -96,7 +99,10 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
   }
 
-  private createCloudShellMsiAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+  private createCloudShellMsiAuthRequest(
+    resource: string,
+    clientId?: string
+  ): RequestPrepareOptions {
     const body: any = {
       resource
     };
@@ -117,7 +123,11 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
   }
 
-  private async pingImdsEndpoint(resource: string, clientId?: string): Promise<boolean> {
+  private async pingImdsEndpoint(
+    resource: string,
+    clientId?: string,
+    timeout?: number
+  ): Promise<boolean> {
     const request = this.createImdsAuthRequest(resource, clientId);
 
     // This will always be populated, but let's make TypeScript happy
@@ -127,16 +137,23 @@ export class ManagedIdentityCredential implements TokenCredential {
       delete request.headers.Metadata;
     }
 
-    // Create a request with a 500 msec timeout since we expect that
+    // Create a request with a timeout since we expect that
     // not having a "Metadata" header should cause an error to be
     // returned quickly from the endpoint, proving its availability.
     const webResource = this.identityClient.createWebResource(request);
-    webResource.timeout = 500;
+    if (timeout) {
+      webResource.timeout = timeout;
+    } else {
+      webResource.timeout = 500;
+    }
 
     try {
       await this.identityClient.sendRequest(webResource);
     } catch (err) {
-      if (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) {
+      if (
+        err instanceof RestError &&
+        (err.code === RestError.REQUEST_SEND_ERROR || err.code === RestError.REQUEST_ABORTED_ERROR)
+      ) {
         // Either request failed or IMDS endpoint isn't available
         return false;
       }
@@ -164,8 +181,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         expiresInParser = (requestBody: any) => {
           // Parse a date format like "06/20/2019 02:57:58 +00:00" and
           // convert it into a JavaScript-formatted date
-          const m = requestBody.expires_on.match(/(\d\d)\/(\d\d)\/(\d\d\d\d) (\d\d):(\d\d):(\d\d) (\+|-)(\d\d):(\d\d)/)
-          return Date.parse(`${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:${m[6]}${m[7]}${m[8]}:${m[9]}`)
+          return Date.parse(requestBody.expires_on);
         };
       } else {
         // Running in Cloud Shell
@@ -173,7 +189,14 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
     } else {
       // Ping the IMDS endpoint to see if it's available
-      if (!checkIfImdsEndpointAvailable || await this.pingImdsEndpoint(resource, clientId)) {
+      if (
+        !checkIfImdsEndpointAvailable ||
+        (await this.pingImdsEndpoint(
+          resource,
+          clientId,
+          getTokenOptions ? getTokenOptions.timeout : undefined
+        ))
+      ) {
         // Running in an Azure VM
         authRequestOptions = this.createImdsAuthRequest(resource, clientId);
       } else {
@@ -214,12 +237,12 @@ export class ManagedIdentityCredential implements TokenCredential {
     // the latter indicating that we don't yet know whether
     // the endpoint is available and need to check for it.
     if (this.isEndpointUnavailable !== true) {
-      result =
-        await this.authenticateManagedIdentity(
-          scopes,
-          this.isEndpointUnavailable === null,
-          this.clientId,
-          options);
+      result = await this.authenticateManagedIdentity(
+        scopes,
+        this.isEndpointUnavailable === null,
+        this.clientId,
+        options
+      );
 
       // If authenticateManagedIdentity returns null, it means no MSI
       // endpoints are available.  In this case, don't try them in future

@@ -1,51 +1,54 @@
 import { CertificatesClient } from "../src";
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
-export function delay<T>(t: number, value?: T): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
-}
+// This sample creates a self-signed certificate, reads it in various ways,
+// updates the tags of the certificate and finaly deletes the certificate.
 
 async function main(): Promise<void> {
-  // EnvironmentCredential expects the following three environment variables:
+  // If you're using MSI, DefaultAzureCredential should "just work".
+  // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = new EnvironmentCredential();
+  const credential = new DefaultAzureCredential();
 
-  const cc = new CertificatesClient(url, credential);
+  const client = new CertificatesClient(url, credential);
 
-  // let result = await cc.createCertificate("MyCertificate2", { certificatePolicy: { issuerParameters: { name: "Self" }, x509CertificateProperties: { subject: "cn=MyCert" } }});
-  // console.log("result: ", result);
+  // Creating a self-signed certificate
+  const certificate = await client.createCertificate("MyCertificate", {
+    issuerParameters: { name: "Self" },
+    x509CertificateProperties: { subject: "cn=MyCert" }
+  });
 
-  // await delay(150000);
+  console.log("Certificate: ", certificate);
 
-  // let result2 = await cc.getCertificate("MyCertificate2", "");
-  // console.log("result: ", result2);
+  // To read a certificate with their policy:
+  const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
+  // Note: It will always read the latest version of the certificate.
 
-  for await (let cert of cc.listCertificates()) {
-    console.log("cert: ", cert);
-    for await (let version of cc.listCertificateVersions(cert.name)) {
-      console.log("version: ", version);
+  console.log("Certificate with policy:", certificateWithPolicy);
 
-      let backedUp = await cc.backupCertificate(cert.name);
-      console.log("backedup: ", backedUp);
+  // To read a certificate from a specific version:
+  const certificateFromVersion = await client.getCertificate(
+    "MyCertificate",
+    certificateWithPolicy.version
+  );
+  // Note: It will not retrieve the certificate's policy.
+  console.log("Certificate from a specific version:", certificateFromVersion);
 
-      let policy = await cc.getCertificatePolicy(cert.name);
-      console.log("policy: ", policy);
-
-      let operation = await cc.getCertificateOperation(cert.name);
-      console.log("operation: ", operation);
+  const updatedCertificate = await client.updateCertificate("MyCertificate", "", {
+    tags: {
+      customTag: "value"
     }
-  }
+  });
+  console.log("Updated certificate:", updatedCertificate);
 
-  for await (let issuer of cc.listCertificateIssuers()) {
-    console.log("issuer: ", issuer);
-  }
-
-  let contacts = await cc.getCertificateContacts();
-  console.log("contact: ", contacts);
+  const result = await client.deleteCertificate("MyCertificate");
+  console.log("Recovery Id: ", result.recoveryId);
+  console.log("Deleted Date: ", result.deletedDate);
+  console.log("Scheduled Purge Date: ", result.scheduledPurgeDate);
 }
 
 main().catch((err) => {

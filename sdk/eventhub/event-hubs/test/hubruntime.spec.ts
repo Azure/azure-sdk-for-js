@@ -57,6 +57,19 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
       }
     });
+
+    it("can be ran in parallel without retries", async function(): Promise<void> {
+      client = new EventHubClient(service.connectionString, service.path, {
+        retryOptions: {
+          maxRetries: 0
+        }
+      });
+      const results = await Promise.all([client.getPartitionIds(), client.getPartitionIds()]);
+
+      for (const result of results) {
+        result.should.have.members(arrayOfIncreasingNumbersFromZero(result.length));
+      }
+    });
   });
 
   describe("hub runtime information", function(): void {
@@ -108,7 +121,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const partitionRuntimeInfo = await client.getPartitionProperties("0");
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubPath.should.equal(service.path);
+      partitionRuntimeInfo.eventHubName.should.equal(service.path);
       partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
@@ -121,7 +134,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const partitionRuntimeInfo = await client.getPartitionProperties(0 as any);
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubPath.should.equal(service.path);
+      partitionRuntimeInfo.eventHubName.should.equal(service.path);
       partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);

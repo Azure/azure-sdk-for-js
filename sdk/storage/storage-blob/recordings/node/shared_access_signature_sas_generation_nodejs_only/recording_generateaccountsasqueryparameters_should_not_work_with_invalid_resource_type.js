@@ -1,28 +1,30 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"tmr":"2019-07-25T09:28:16.762Z"}
+module.exports.testInfo = {"tmr":"2019-09-06T09:29:06.838Z"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')
   .query(true)
-  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthorizationResourceTypeMismatch</Code><Message>This request is not authorized to perform this operation using this resource type.\nRequestId:7638c4b1-e01e-0004-65ca-42cb14000000\nTime:2019-07-25T09:24:38.8210746Z</Message></Error>", [ 'Content-Length',
+  .reply(403, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AuthorizationResourceTypeMismatch</Code><Message>This request is not authorized to perform this operation using this resource type.\nRequestId:f0c9a7d5-401e-00e0-1295-64741a000000\nTime:2019-09-06T09:29:07.1307301Z</Message></Error>", [ 'Content-Length',
   '284',
   'Content-Type',
   'application/xml',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '7638c4b1-e01e-0004-65ca-42cb14000000',
+  'f0c9a7d5-401e-00e0-1295-64741a000000',
+  'x-ms-client-request-id',
+  'b587d4d3-e36d-4c27-b71f-51e7f997530c',
   'x-ms-version',
-  '2018-11-09',
+  '2019-02-02',
   'x-ms-error-code',
   'AuthorizationResourceTypeMismatch',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,x-ms-error-code,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-error-code,Content-Length,Date,Transfer-Encoding,content-md5,x-ms-content-crc64',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 25 Jul 2019 09:24:38 GMT',
+  'Fri, 06 Sep 2019 09:29:06 GMT',
   'Connection',
   'close' ]);
 
