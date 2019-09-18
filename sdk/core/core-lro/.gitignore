@@ -15,4 +15,6 @@ test-results.xml
 
 # Rollup
 !rollup.config.js
+!rollup.base.config.js
+!rollup.test.config.js
 *-stats.html 

@@ -4,7 +4,7 @@
 
 ```ts
 
-import events from 'events';
+import { AbortSignal } from '@azure/abort-controller';
 import { HttpOperationResponse } from '@azure/core-http';
 import { OperationResponse } from '@azure/core-http';
 import { OperationSpec } from '@azure/core-http';
@@ -16,13 +16,15 @@ import { WebResource } from '@azure/core-http';
 export class DefaultAzurePoller extends Poller {
     constructor(client: ServiceClient, initialRequest: WebResource, options: PollerOptionalParameters);
     // (undocumented)
-    protected getMillisecondInterval(): number;
+    cancel({}: {}): Promise<void>;
+    // (undocumented)
+    getInterval(): number;
     // (undocumented)
     protected getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates;
     // (undocumented)
-    sendPollRequest(): Promise<void>;
+    initialRequest(): Promise<void>;
     // (undocumented)
-    startPolling(): Promise<void>;
+    protected sendRequest(options?: RequestOptionsBase): Promise<void>;
 }
 
 // @public (undocumented)
@@ -38,78 +40,75 @@ export function getProvisioningState(responseBody: any): LongRunningOperationSta
 export function getResponseBody(response: HttpOperationResponse): any;
 
 // @public (undocumented)
-export interface LongRunningOperationStateHistoryItem {
-    // (undocumented)
-    date: Date;
-    // (undocumented)
-    state: LongRunningOperationStates;
-}
-
-// @public (undocumented)
 export type LongRunningOperationStates = "InProgress" | "Succeeded" | "Failed" | "Canceled" | "Cancelled";
 
 // @public (undocumented)
-export abstract class Poller extends events.EventEmitter {
+export abstract class Poller {
     constructor(options: PollerOptionalParameters);
     // (undocumented)
-    finishDate: Date | undefined;
+    protected abortSignal?: AbortSignal;
     // (undocumented)
-    forget(): void;
+    abstract cancel(options?: RequestOptionsBase): Promise<void>;
     // (undocumented)
-    forgotten: boolean;
+    done(): Promise<LongRunningOperationStates | undefined>;
     // (undocumented)
-    forgottenDate: Date | undefined;
-    // (undocumented)
-    protected abstract getMillisecondInterval(): number;
-    // (undocumented)
-    getState(): LongRunningOperationStates;
+    getInterval(): number;
     // (undocumented)
     protected abstract getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates;
     // (undocumented)
-    protected isFinished(state?: LongRunningOperationStates): boolean;
+    protected abstract initialRequest(options?: RequestOptionsBase): Promise<void>;
+    // (undocumented)
+    protected isDone(state?: LongRunningOperationStates): boolean;
+    // (undocumented)
+    protected readonly manual: boolean;
+    // (undocumented)
+    nextResponse(): Promise<HttpOperationResponse>;
+    // (undocumented)
+    onStateChange(func: PollerStateChangeSubscriber): void;
     // (undocumented)
     protected poll(): Promise<void>;
     // (undocumented)
-    pollUntilDone(): Promise<void>;
+    protected previousResponse?: HttpOperationResponse;
     // (undocumented)
     protected processResponse(response: HttpOperationResponse): void;
     // (undocumented)
-    requestOptions: RequestOptionsBase | undefined;
-    // (undocumented)
-    responses: HttpOperationResponse[];
+    protected requestOptions: RequestOptionsBase | undefined;
     // (undocumented)
     retry(): Promise<void>;
     // (undocumented)
-    abstract sendPollRequest(): Promise<void>;
+    protected abstract sendRequest(options?: RequestOptionsBase): Promise<void>;
     // (undocumented)
-    serialize(): string;
+    state: LongRunningOperationStates;
     // (undocumented)
-    protected setState(newState: LongRunningOperationStates): void;
+    stop(): void;
     // (undocumented)
-    startDate: Date | undefined;
-    // (undocumented)
-    startPolling(): Promise<void>;
-    // (undocumented)
-    stateHistory: LongRunningOperationStateHistoryItem[];
+    toJSON(): PollerOptionalParameters;
 }
 
 // @public (undocumented)
 export interface PollerOptionalParameters {
     // (undocumented)
-    automatic?: boolean;
+    abortSignal?: AbortSignal;
     // (undocumented)
-    millisecondInterval?: number;
+    initialResponse?: HttpOperationResponse;
+    // (undocumented)
+    intervalInMs?: number;
+    // (undocumented)
+    manual?: boolean;
+    // (undocumented)
+    noInitialRequest?: boolean;
+    // (undocumented)
+    previousResponse?: HttpOperationResponse;
     // (undocumented)
     requestOptions?: RequestOptionsBase;
     // (undocumented)
-    responses?: HttpOperationResponse[];
-    // (undocumented)
-    startDate?: Date;
+    retries?: number;
     // (undocumented)
     state?: LongRunningOperationStates;
-    // (undocumented)
-    stateHistory?: LongRunningOperationStateHistoryItem[];
 }
+
+// @public (undocumented)
+export type PollerStateChangeSubscriber = (state?: LongRunningOperationStates, poller?: Poller) => void;
 
 // @public (undocumented)
 export const terminalStates: LongRunningOperationStates[];

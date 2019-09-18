@@ -23,7 +23,7 @@ describe("Long Running Operations - custom client", function () {
     }]);
     const poller = await client.startLRO();
     assert.equal(poller.state, "InProgress");
-    poller.forget();
+    poller.stop();
   });
 
   it("can query the current operation state (asynchronously)", async function () {
@@ -38,7 +38,7 @@ describe("Long Running Operations - custom client", function () {
     const poller = await client.startLRO({ manual: true });
     await poller.retry(); // Manual polling
     assert.equal(poller.state, "Succeeded");
-    poller.forget();
+    poller.stop();
   });
 
   it("shows how to handle a failing initialRequest", async function () {
@@ -49,7 +49,7 @@ describe("Long Running Operations - custom client", function () {
     }]);
     const poller = await client.startLRO();
     assert.equal(poller.state, "Failed");
-    poller.forget();
+    poller.stop();
   });
 
   it("can wait until the operation has completed", async function () {
@@ -80,7 +80,7 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(poller.totalSentRequests, 10);
     await poller.cancel({});
     assert.equal(poller.state, "Cancelled");
-    poller.forget(); 
+    poller.stop(); 
   });
 
   it("fails to cancel the operation (when cancellation is not supported)", async function () {
@@ -98,10 +98,10 @@ describe("Long Running Operations - custom client", function () {
       error = e;
     }
     assert.equal(error.message, "Cancellation not supported");
-    poller.forget(); 
+    poller.stop(); 
   });
 
-  it("allows polling to stop (forget to continue polling)", async function () {
+  it("allows polling to stop (stop polling)", async function () {
     const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
     const responses = Array(20).fill({
       ...basicResponseStructure,
@@ -112,7 +112,7 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(poller.totalSentRequests, 1);
     await delay(100);
     assert.equal(poller.totalSentRequests, 10);
-    poller.forget();
+    poller.stop();
     await delay(100);
     assert.equal(poller.totalSentRequests, 11);
   });
@@ -143,7 +143,7 @@ describe("Long Running Operations - custom client", function () {
   // });
 
   it("can reuse one poller state to instantiate another poller", async function () {
-    // Let's start with the forgetful test
+    // Let's start with the stopped test
     const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
     const responses = [
       ...Array(19).fill({
@@ -160,7 +160,7 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(poller.totalSentRequests, 1);
     await delay(100);
     assert.equal(poller.totalSentRequests, 10);
-    poller.forget();
+    poller.stop();
     await delay(100);
     assert.equal(poller.totalSentRequests, 11);
     // Let's try to resume this with a new poller.
@@ -174,7 +174,7 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(poller2.totalSentRequests, 1);
     await delay(100);
     assert.equal(poller2.totalSentRequests, 9);
-    poller2.forget();
+    poller2.stop();
     assert.equal(poller2.state, "Succeeded");
   });
 });
