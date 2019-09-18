@@ -59,7 +59,7 @@ client.filesystem
     <script type="text/javascript">
       const token = "YOUR_STORAGE_TOKEN";
       const credentials = new msRest.TokenCredentials(token);
-      const accountName = "YOUR_STOARGE_ACCOUNTNAME";
+      const accountName = "YOUR_STORAGE_ACCOUNTNAME";
 
       const client = new Azure.StorageDatalake.DataLakeStorageClient(
         credentials,
