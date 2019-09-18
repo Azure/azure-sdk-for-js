@@ -60,21 +60,21 @@ export abstract class Poller {
     // (undocumented)
     protected isDone(state?: LongRunningOperationStates): boolean;
     // (undocumented)
+    protected loop(): Promise<void>;
+    // (undocumented)
     protected readonly manual: boolean;
     // (undocumented)
     nextResponse(): Promise<HttpOperationResponse>;
     // (undocumented)
     onStateChange(func: PollerStateChangeSubscriber): void;
     // (undocumented)
-    protected poll(): Promise<void>;
+    poll(options?: RequestOptionsBase): Promise<void>;
     // (undocumented)
     protected previousResponse?: HttpOperationResponse;
     // (undocumented)
     protected processResponse(response: HttpOperationResponse): void;
     // (undocumented)
     protected requestOptions: RequestOptionsBase | undefined;
-    // (undocumented)
-    retry(): Promise<void>;
     // (undocumented)
     protected abstract sendRequest(options?: RequestOptionsBase): Promise<void>;
     // (undocumented)

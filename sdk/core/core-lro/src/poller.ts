@@ -36,7 +36,7 @@ export abstract class Poller {
     this.requestOptions = options.requestOptions;
     if (options.state) this._state = options.state;
     if (this.manual || options.noInitialRequest) return;
-    this.initialRequest().then(() => this.poll());
+    this.initialRequest().then(() => this.loop());
   }
 
   protected isDone(state?: LongRunningOperationStates): boolean {
@@ -61,7 +61,7 @@ export abstract class Poller {
     return this.intervalInMs;
   }
 
-  protected async poll(): Promise<void> {
+  protected async loop(): Promise<void> {
     if (this.manual) return;
     while (!this.isDone()) {
       const interval: number = this.intervalInMs || this.getInterval();
@@ -87,10 +87,10 @@ export abstract class Poller {
     this.stateChangeSubscribers.push(func);
   }
 
-  public async retry(): Promise<void> {
+  public async poll(options?: RequestOptionsBase): Promise<void> {
     if (!this.manual) throw new Error("Manual retries are disabled on this poller");
-    if (!this.initialResponse) await this.initialRequest();
-    return this.sendRequest();
+    if (!this.initialResponse) await this.initialRequest(options);
+    return this.sendRequest(options);
   }
 
   public nextResponse(): Promise<HttpOperationResponse> {
