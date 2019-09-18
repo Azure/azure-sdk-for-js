@@ -24,6 +24,6 @@ export { Span } from "./interfaces/span";
 export { SpanOptions } from "./interfaces/SpanOptions";
 export { Status, CanonicalCode } from "./interfaces/status";
 export { TimedEvent } from "./interfaces/TimedEvent";
-export { TraceOptions } from "./interfaces/trace_options";
+export { TraceFlags } from "./interfaces/trace_flags";
 export { TraceState } from "./interfaces/trace_state";
 export { Tracer } from "./interfaces/tracer";

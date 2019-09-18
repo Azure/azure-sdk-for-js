@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-import { Attributes } from './attributes';
 import { SpanContext } from './span_context';
 
 /**
- * A pointer from the current {@link Span} to another span in the same trace or
- * in a different trace.
+ * Formatter to serializing and deserializing a value with into a binary format.
  */
-export interface Link {
-  /** The {@link SpanContext} of a linked span. */
-  spanContext: SpanContext;
-  /** A set of {@link Attributes} on the link. */
-  attributes?: Attributes;
+export interface BinaryFormat {
+  /**
+   * Serialize the given span context into a Buffer.
+   * @param spanContext The span context to serialize.
+   */
+  toBytes(spanContext: SpanContext): ArrayBuffer;
+
+  /**
+   * Deseralize the given span context from binary encoding. If the input is a
+   * Buffer of incorrect size or unexpected fields, then this function will
+   * return `null`.
+   * @param buffer The span context to deserialize.
+   */
+  fromBytes(buffer: ArrayBuffer): SpanContext | null;
 }

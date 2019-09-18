@@ -4,6 +4,8 @@ import { SpanOptions } from "../../interfaces/SpanOptions";
 import { NoOpSpanPlugin } from "./noOpSpanPlugin";
 import { SpanNoOpImpl } from "../../implementations/noop/spanNoOpImpl";
 import { SupportedPlugins } from '../../utils/supportedPlugins';
+import { BinaryFormat } from "../../interfaces/BinaryFormat";
+import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
 
 export class NoOpTracePlugin implements Tracer {
   private _tracer: any;
@@ -26,13 +28,16 @@ export class NoOpTracePlugin implements Tracer {
   withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T> {
     throw new Error("Method not implemented.");
   }
+  bind<T>(target: T, span?: Span): T {
+    throw new Error("Method not implemented.");
+  }
   recordSpanData(span: Span): void {
     throw new Error("Method not implemented.");
   }
-  getBinaryFormat(): unknown {
+  getBinaryFormat(): BinaryFormat {
     throw new Error("Method not implemented.");
   }
-  getHttpTextFormat(): unknown {
+  getHttpTextFormat(): HttpTextFormat {
     throw new Error("Method not implemented.");
   }
 }

@@ -29,7 +29,7 @@ export class OpenCensusSpanPlugin implements Span {
     return {
       spanId: openCensusSpanContext.spanId,
       traceId: openCensusSpanContext.traceId,
-      traceOptions: openCensusSpanContext.options,
+      traceFlags: openCensusSpanContext.options,
       traceState: new OpenCensusTraceStatePlugin(openCensusSpanContext.traceState)
     };
   }
