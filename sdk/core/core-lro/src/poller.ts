@@ -20,7 +20,7 @@ export type PollerStateChangeSubscriber = (
 ) => void;
 
 export abstract class Poller {
-  private forgotten: boolean = false;
+  private stopped: boolean = false;
   private intervalInMs: number = 1000;
   private stateChangeSubscribers: PollerStateChangeSubscriber[] = [];
   private initialResponse?: HttpOperationResponse;
@@ -40,7 +40,7 @@ export abstract class Poller {
   }
 
   protected isDone(state?: LongRunningOperationStates): boolean {
-    return this.forgotten || terminalStates.includes(state || this.state);
+    return this.stopped || terminalStates.includes(state || this.state);
   }
 
   protected abstract getStateFromResponse(
@@ -111,8 +111,8 @@ export abstract class Poller {
     });
   }
 
-  public forget(): void {
-    this.forgotten = true;
+  public stop(): void {
+    this.stopped = true;
   }
 
   public toJSON(): PollerOptionalParameters {
