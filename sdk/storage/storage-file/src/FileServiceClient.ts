@@ -358,12 +358,15 @@ export class FileServiceClient extends StorageClient {
    * .byPage() returns an async iterable iterator to list the shares in pages.
    *
    * @example
+   * ```js
    *   let i = 1;
    *   for await (const share of serviceClient.listShares()) {
    *     console.log(`Share ${i++}: ${share.name}`);
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Generator syntax .next()
    *   let i = 1;
    *   let iter = await serviceClient.listShares();
@@ -372,8 +375,10 @@ export class FileServiceClient extends StorageClient {
    *     console.log(`Share ${i++}: ${shareItem.value.name}`);
    *     shareItem = await iter.next();
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
    *   let i = 1;
@@ -384,8 +389,10 @@ export class FileServiceClient extends StorageClient {
    *       }
    *     }
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;
    *   let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
@@ -407,6 +414,7 @@ export class FileServiceClient extends StorageClient {
    *       console.log(`Share ${i++}: ${share.name}`);
    *     }
    *   }
+   * ```
    *
    * @param {ServiceListSharesOptions} [options] Options to list shares operation.
    * @memberof FileServiceClient

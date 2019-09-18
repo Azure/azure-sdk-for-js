@@ -160,6 +160,7 @@ export interface BlobSASSignatureValues {
  * this constructor.
  *
  * @example
+ * ```js
  * // Generate service level SAS for a container
  * const containerSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
@@ -172,8 +173,10 @@ export interface BlobSASSignatureValues {
  *   },
  *   sharedKeyCredential // SharedKeyCredential
  * ).toString();
+ * ```
  *
  * @example
+ * ```js
  * // Generate service level SAS for a container with identifier
  * // startTime & permissions are optional when identifier is provided
  * const identifier = "unique-id";
@@ -195,8 +198,10 @@ export interface BlobSASSignatureValues {
  *   },
  *   sharedKeyCredential // SharedKeyCredential
  * ).toString();
+ * ```
  *
  * @example
+ * ```js
  * // Generate service level SAS for a blob
  * const blobSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
@@ -215,6 +220,7 @@ export interface BlobSASSignatureValues {
  *   },
  *   sharedKeyCredential // SharedKeyCredential
  * ).toString();
+ * ```
  *
  * @export
  * @param {BlobSASSignatureValues} blobSASSignatureValues
@@ -233,6 +239,7 @@ export function generateBlobSASQueryParameters(
  * WARNING: identifier will be ignored when generating user delegation SAS, permissions and expiryTime are required.
  *
  * @example
+ * ```js
  * // Generate user delegation SAS for a container
  * const userDelegationKey = await blobServiceClient.getUserDelegationKey(aborter, startTime, expiryTime);
  * const containerSAS = generateBlobSASQueryParameters({
@@ -247,6 +254,7 @@ export function generateBlobSASQueryParameters(
  *   userDelegationKey, // UserDelegationKey
  *   accountName
  * ).toString();
+ * ```
  *
  * @export
  * @param {BlobSASSignatureValues} blobSASSignatureValues

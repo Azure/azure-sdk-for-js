@@ -437,7 +437,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s Blob service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties}
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
    * @param {ServiceGetPropertiesOptions} [options] Options to the Service Get Properties operation.
    * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data for the Service Get Properties operation.
@@ -584,12 +584,15 @@ export class BlobServiceClient extends StorageClient {
    * .byPage() returns an async iterable iterator to list the containers in pages.
    *
    * @example
+   * ```js
    *   let i = 1;
    *   for await (const container of blobServiceClient.listContainers()) {
    *     console.log(`Container ${i++}: ${container.name}`);
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Generator syntax .next()
    *   let i = 1;
    *   iter = blobServiceClient.listContainers();
@@ -598,8 +601,10 @@ export class BlobServiceClient extends StorageClient {
    *     console.log(`Container ${i++}: ${containerItem.value.name}`);
    *     containerItem = await iter.next();
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Example for .byPage()
    *   // passing optional maxPageSize in the page settings
    *   let i = 1;
@@ -610,8 +615,10 @@ export class BlobServiceClient extends StorageClient {
    *       }
    *     }
    *   }
+   * ```
    *
    * @example
+   * ```js
    *   // Passing marker as an argument (similar to the previous example)
    *   let i = 1;
    *   let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
@@ -635,7 +642,7 @@ export class BlobServiceClient extends StorageClient {
    *        console.log(`Container ${i++}: ${container.name}`);
    *     }
    *   }
-   *
+   * ```
    *
    * @param {ServiceListContainersOptions} [options={}] Options to list containers.
    * @returns {PagedAsyncIterableIterator<Models.ContainerItem, Models.ServiceListContainersSegmentResponse>} An asyncIterableIterator that supports paging.
@@ -679,7 +686,6 @@ export class BlobServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
    *
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {Date} start      The start time for the user delegation SAS. Must be within 7 days of the current time
    * @param {Date} expiry     The end time for the user delegation SAS. Must be within 7 days of the current time
    * @returns {Promise<ServiceGetUserDelegationKeyResponse>}
@@ -727,6 +733,7 @@ export class BlobServiceClient extends StorageClient {
    * Submit batch request which consists of multiple subrequests.
    *
    * @example
+   * ```js
    * let batchDeleteRequest = new BatchDeleteRequest();
    * await batchDeleteRequest.addSubRequest(urlInString0, credential0);
    * await batchDeleteRequest.addSubRequest(urlInString1, credential1, {
@@ -734,8 +741,10 @@ export class BlobServiceClient extends StorageClient {
    * });
    * const deleteBatchResp = await blobServiceClient.submitBatch(batchDeleteRequest);
    * console.log(deleteBatchResp.subResponsesSucceededCount);
+   * ```
    *
    * @example
+   * ```js
    * let batchSetTierRequest = new BatchSetTierRequest();
    * await batchSetTierRequest.addSubRequest(blockBlobClient0, "Cool");
    * await batchSetTierRequest.addSubRequest(blockBlobClient1, "Cool", {
@@ -743,6 +752,7 @@ export class BlobServiceClient extends StorageClient {
    * });
    * const setTierBatchResp = await blobServiceClient.submitBatch(batchSetTierRequest);
    * console.log(setTierBatchResp.subResponsesSucceededCount);
+   * ```
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
