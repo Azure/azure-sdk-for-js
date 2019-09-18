@@ -36,7 +36,7 @@ describe("Long Running Operations - custom client", function () {
       status: 204,
     }]);
     const poller = await client.startLRO({ manual: true });
-    await poller.retry(); // Manual polling
+    await poller.poll(); // Manual polling
     assert.equal(poller.state, "Succeeded");
     poller.stop();
   });
@@ -78,7 +78,7 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(poller.totalSentRequests, 1);
     await delay(100);
     assert.equal(poller.totalSentRequests, 10);
-    await poller.cancel({});
+    await poller.cancel();
     assert.equal(poller.state, "Cancelled");
     poller.stop(); 
   });
@@ -93,7 +93,7 @@ describe("Long Running Operations - custom client", function () {
     const poller = await client.startNonCancellableLRO();
     let error: any;
     try {
-      await poller.cancel({});
+      await poller.cancel();
     } catch(e) {
       error = e;
     }
@@ -129,13 +129,14 @@ describe("Long Running Operations - custom client", function () {
     const poller = await client.startLRO();
     let error: any;
     try {
-      await poller.retry();
+      await poller.poll();
     } catch(e) {
       error = e;
     }
     assert.equal(error.message, "Manual retries are disabled on this poller");
   });
 
+  // Should be developed by the client
   // it("documents progress", async function () {
   //   const poller = await client.startLRO();
   //   await delay(100);
@@ -176,5 +177,26 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(poller2.totalSentRequests, 9);
     poller2.stop();
     assert.equal(poller2.state, "Succeeded");
+  });
+
+  it("waits for the next response", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    client.setResponses([{
+      ...basicResponseStructure,
+      status: 202,
+    }, {
+      ...basicResponseStructure,
+      status: 202,
+    }, {
+      ...basicResponseStructure,
+      status: 204,
+    }]);
+    const poller = await client.startLRO();
+    assert.equal(poller.state, "InProgress");
+    assert.equal(poller.totalSentRequests, 1);
+    const response = await poller.nextResponse();
+    assert.equal(response.status, 202);
+    assert.equal(poller.totalSentRequests, 2);
+    poller.stop();
   });
 });

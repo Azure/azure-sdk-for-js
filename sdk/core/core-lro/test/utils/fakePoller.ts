@@ -1,4 +1,4 @@
-import { HttpOperationResponse, WebResource, ServiceClient } from "@azure/core-http";
+import { HttpOperationResponse, WebResource, ServiceClient, RequestOptionsBase } from "@azure/core-http";
 import { LongRunningOperationStates, Poller, PollerOptionalParameters } from "../../src"
 
 export class FakePoller extends Poller {
@@ -13,7 +13,7 @@ export class FakePoller extends Poller {
     this.client = client;
     // Got to call this again, because I can't set the client before super()
     if (this.manual) return;
-    this.initialRequest().then(() => this.poll());
+    this.initialRequest().then(() => this.loop());
   } 
 
   protected getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates {
@@ -36,7 +36,7 @@ export class FakePoller extends Poller {
   }
 
   // Ignoring options?: RequestOptionsBase since we won't do a real API call here.
-  public async cancel({}): Promise<void> {
+  public async cancel(_?: RequestOptionsBase): Promise<void> {
     this.processResponse({
       status: 205
     } as HttpOperationResponse);
