@@ -27,7 +27,7 @@ import { DataLakeStorageClient } from "@azure/storage-datalake";
 
 const token = "YOUR_STOARGE_TOKEN";
 const credentials = new msRest.TokenCredentials(token);
-const accountName = "YOUR_STOARGE_ACCOUNTNAME";
+const accountName = "YOUR_STORAGE_ACCOUNTNAME";
 
 const client = new DataLakeStorageClient(credentials, accountName);
 client.filesystem
