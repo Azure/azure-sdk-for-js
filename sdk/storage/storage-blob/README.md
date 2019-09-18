@@ -115,6 +115,13 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Examples
 
+More samples can be found at
+[Javascript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/javascript)
+and
+[Typescript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript)
+
+Below are the snippets to get started with the Azure Storage blob client library.
+
 ### Create the blob service client
 
 Use the constructor to create a instance of `BlobServiceClient`.
