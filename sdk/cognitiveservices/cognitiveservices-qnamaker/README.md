@@ -21,16 +21,14 @@ npm install @azure/cognitiveservices-qnamaker
 The following sample lists the keys of the QnAMaker endpoint. To know more, refer to the [Azure Documentation on QnAMaker](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/)
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
 import { QnAMakerClient } from "@azure/cognitiveservices-qnamaker";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-const qnaMakerKey = process.env["YOUR_QNAMAKER_KEY"];
+const qnaMakerKey = process.env["YOUR_QNAMAKER_KEY"] || "<YOUR_QNAMAKER_KEY>";
 const endpoint =
   process.env["YOUR_QNAMAKER_ENDPOINT"] || "<YOUR_QNAMAKER_ENDPOINT>";
 
-const creds = new msRest.ApiKeyCredentials({
-  inHeader: { "Ocp-Apim-Subscription-Key": qnaMakerKey }
-});
+const creds = new CognitiveServicesCredentials(qnaMakerKey);
 
 const client = new QnAMakerClient(creds, endpoint);
 client.endpointKeys
