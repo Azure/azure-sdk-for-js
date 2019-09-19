@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { DocumentProducer } from "./documentProducer";
@@ -5,7 +7,8 @@ import { ExecutionContext } from "./ExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 
 /** @hidden */
-export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase implements ExecutionContext {
+export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase
+  implements ExecutionContext {
   /**
    * Provides the ParallelQueryExecutionContext.
    * This class is capable of handling parallelized queries and dervives from ParallelQueryExecutionContextBase.
@@ -36,8 +39,6 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
    * @ignore
    */
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {
-    const a = docProd1.getTargetParitionKeyRange()["minInclusive"];
-    const b = docProd2.getTargetParitionKeyRange()["minInclusive"];
-    return a === b ? 0 : a > b ? 1 : -1;
+    return docProd1.generation - docProd2.generation;
   }
 }

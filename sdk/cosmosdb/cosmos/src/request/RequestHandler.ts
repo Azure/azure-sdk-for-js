@@ -1,7 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import AbortController from "node-abort-controller";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
+import { logger } from "../common/logger";
 import { executePlugins, PluginOn } from "../plugins/Plugin";
 import * as RetryUtility from "../retry/retryUtility";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
@@ -10,6 +13,9 @@ import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
 import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
+
+/** @hidden */
+const log = logger("RequestHandler");
 
 /** @hidden */
 export async function executeRequest(requestContext: RequestContext) {
@@ -85,6 +91,16 @@ async function httpRequest(requestContext: RequestContext) {
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new Error(result.message);
 
+    log.warn(
+      response.status +
+        " " +
+        requestContext.endpoint +
+        " " +
+        requestContext.path +
+        " " +
+        result.message
+    );
+
     errorResponse.code = response.status;
     errorResponse.body = result;
     errorResponse.headers = headers;
@@ -98,7 +114,10 @@ async function httpRequest(requestContext: RequestContext) {
     }
 
     if (Constants.HttpHeaders.RetryAfterInMilliseconds in headers) {
-      errorResponse.retryAfterInMilliseconds = parseInt(headers[Constants.HttpHeaders.RetryAfterInMilliseconds], 10);
+      errorResponse.retryAfterInMilliseconds = parseInt(
+        headers[Constants.HttpHeaders.RetryAfterInMilliseconds],
+        10
+      );
     }
 
     throw errorResponse;

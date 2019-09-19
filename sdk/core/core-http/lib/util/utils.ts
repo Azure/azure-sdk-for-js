@@ -10,7 +10,11 @@ import { Constants } from "./constants";
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
-export const isNode = (typeof process !== "undefined") && !!process.version && !!process.versions && !!process.versions.node;
+export const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
 
 /**
  * Checks if a parsed URL is HTTPS
@@ -77,7 +81,10 @@ export function stripRequest(request: WebResource): WebResource {
  * @return {boolean} True if the uuid is valid; false otherwise.
  */
 export function isValidUuid(uuid: string): boolean {
-  const validUuidRegex = new RegExp("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "ig");
+  const validUuidRegex = new RegExp(
+    "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+    "ig"
+  );
   return validUuidRegex.test(uuid);
 }
 
@@ -89,7 +96,7 @@ export function isValidUuid(uuid: string): boolean {
  *
  * @return {any[]} An array of values of the given object.
  */
-export function objectValues(obj: { [key: string]: any; }): any[] {
+export function objectValues(obj: { [key: string]: any }): any[] {
   const result: any[] = [];
   if (obj && obj instanceof Object) {
     for (const key in obj) {
@@ -98,8 +105,11 @@ export function objectValues(obj: { [key: string]: any; }): any[] {
       }
     }
   } else {
-    throw new Error(`The provided object ${JSON.stringify(obj, undefined, 2)} is not a valid object that can be ` +
-      `enumerated to provide its values as an array.`);
+    const stringifiedObj = JSON.stringify(obj, undefined, 2);
+    throw new Error(
+      `The provided object ${stringifiedObj} is not a valid object that can be ` +
+        `enumerated to provide its values as an array.`
+    );
   }
   return result;
 }
@@ -140,7 +150,7 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
  *
  * @returns {object} Returns the merged target object.
  */
-export function mergeObjects(source: { [key: string]: any; }, target: { [key: string]: any; }) {
+export function mergeObjects(source: { [key: string]: any }, target: { [key: string]: any }) {
   Object.keys(source).forEach((key) => {
     target[key] = source[key];
   });
@@ -168,7 +178,12 @@ export interface ServiceCallback<TResult> {
    * @param {WebResource} [request] The raw/actual request sent to the server if an error did not occur.
    * @param {HttpOperationResponse} [response] The raw/actual response from the server if an error did not occur.
    */
-  (err: Error | RestError | null, result?: TResult, request?: WebResource, response?: HttpOperationResponse): void;
+  (
+    err: Error | RestError | null,
+    result?: TResult,
+    request?: WebResource,
+    response?: HttpOperationResponse
+  ): void;
 }
 
 /**
@@ -182,11 +197,14 @@ export function promiseToCallback(promise: Promise<any>): Function {
     throw new Error("The provided input is not a Promise.");
   }
   return (cb: Function): void => {
-    promise.then((data: any) => {
-      cb(undefined, data);
-    }, (err: Error) => {
-      cb(err);
-    });
+    promise.then(
+      (data: any) => {
+        cb(undefined, data);
+      },
+      (err: Error) => {
+        cb(err);
+      }
+    );
   };
 }
 
@@ -200,11 +218,14 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
     throw new Error("The provided input is not a Promise.");
   }
   return (cb: ServiceCallback<T>): void => {
-    promise.then((data: HttpOperationResponse) => {
-      process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
-    }, (err: Error) => {
-      process.nextTick(cb, err);
-    });
+    promise.then(
+      (data: HttpOperationResponse) => {
+        process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
+      },
+      (err: Error) => {
+        process.nextTick(cb, err);
+      }
+    );
   };
 }
 
@@ -221,8 +242,8 @@ export function prepareXMLRootList(obj: any, elementName: string) {
  * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
  */
 export function applyMixins(targetCtor: any, sourceCtors: any[]): void {
-  sourceCtors.forEach(sourceCtors => {
-    Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
+  sourceCtors.forEach((sourceCtors) => {
+    Object.getOwnPropertyNames(sourceCtors.prototype).forEach((name) => {
       targetCtor.prototype[name] = sourceCtors.prototype[name];
     });
   });
@@ -246,7 +267,11 @@ export function isDuration(value: string): boolean {
  * @param {string} replaceValue The value to replace searchValue with in the value argument.
  * @returns {string | undefined} The value where each instance of searchValue was replaced with replacedValue.
  */
-export function replaceAll(value: string | undefined, searchValue: string, replaceValue: string): string | undefined {
+export function replaceAll(
+  value: string | undefined,
+  searchValue: string,
+  replaceValue: string
+): string | undefined {
   return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }
 

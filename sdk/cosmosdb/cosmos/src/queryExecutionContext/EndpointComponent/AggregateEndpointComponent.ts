@@ -1,5 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Response } from "../../request";
-import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
+import {
+  AverageAggregator,
+  CountAggregator,
+  MaxAggregator,
+  MinAggregator,
+  SumAggregator
+} from "../Aggregators";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { CosmosHeaders } from "../index";
@@ -56,20 +64,16 @@ export class AggregateEndpointComponent implements ExecutionContext {
     const { result: resources, headers } = await this._getQueryResults();
 
     resources.forEach((resource: any) => {
-      // TODO: any
-      this.localAggregators.forEach(aggregator => {
-        let itemValue;
-        // Get the value of the first property if it exists
-        if (resource && Object.keys(resource).length > 0) {
-          const key = Object.keys(resource)[0];
-          itemValue = resource[key];
-        }
-        aggregator.aggregate(itemValue);
+      // Newer API versions rewrite the query to return `item2`. It fixes some legacy issues with the original `item` result
+      // Aggregatior code should use item2 when available
+      const aggregateResult = resource.item2 ? resource.item2 : resource.item;
+      this.localAggregators.forEach((aggregator) => {
+        aggregator.aggregate(aggregateResult);
       });
     });
 
     // Get the aggregated results
-    this.localAggregators.forEach(aggregator => {
+    this.localAggregators.forEach((aggregator) => {
       this.aggregateValues.push(aggregator.getResult());
     });
 
@@ -85,7 +89,10 @@ export class AggregateEndpointComponent implements ExecutionContext {
     const { result: item, headers } = await this.executionContext.nextItem();
     if (item === undefined) {
       // no more results
-      return { result: this.toArrayTempResources, headers: this.getAndResetActiveResponseHeaders() };
+      return {
+        result: this.toArrayTempResources,
+        headers: this.getAndResetActiveResponseHeaders()
+      };
     }
 
     this.toArrayTempResources = this.toArrayTempResources.concat(item);
@@ -154,6 +161,10 @@ export class AggregateEndpointComponent implements ExecutionContext {
     if (!this.started) {
       return true;
     }
-    return !this.started && this.aggregateValues != null && this.aggregateValuesIndex < this.aggregateValues.length - 1;
+    return (
+      !this.started &&
+      this.aggregateValues != null &&
+      this.aggregateValuesIndex < this.aggregateValues.length - 1
+    );
   }
 }

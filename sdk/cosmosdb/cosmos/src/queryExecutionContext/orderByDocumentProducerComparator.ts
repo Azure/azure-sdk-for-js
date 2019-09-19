@@ -1,4 +1,6 @@
-﻿import { DocumentProducer } from "./documentProducer";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { DocumentProducer } from "./documentProducer";
 
 // TODO: this smells funny
 /** @hidden */
@@ -35,7 +37,10 @@ const TYPEORDCOMPARATOR: {
 export class OrderByDocumentProducerComparator {
   constructor(public sortOrder: string[]) {} // TODO: This should be an enum
 
-  public targetPartitionKeyRangeDocProdComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {
+  public targetPartitionKeyRangeDocProdComparator(
+    docProd1: DocumentProducer,
+    docProd2: DocumentProducer
+  ) {
     const a = docProd1.getTargetParitionKeyRange()["minInclusive"];
     const b = docProd2.getTargetParitionKeyRange()["minInclusive"];
     return a === b ? 0 : a > b ? 1 : -1;
@@ -75,6 +80,9 @@ export class OrderByDocumentProducerComparator {
 
   // TODO: This smells funny
   public compareValue(item1: any, type1: string, item2: any, type2: string) {
+    if (type1 === "object" || type2 === "object") {
+      throw new Error("Tried to compare an object type");
+    }
     const type1Ord = TYPEORDCOMPARATOR[type1].ord;
     const type2Ord = TYPEORDCOMPARATOR[type2].ord;
     const typeCmp = type1Ord - type2Ord;
@@ -85,7 +93,10 @@ export class OrderByDocumentProducerComparator {
     }
 
     // both are of the same type
-    if (type1Ord === TYPEORDCOMPARATOR["undefined"].ord || type1Ord === TYPEORDCOMPARATOR["NoValue"].ord) {
+    if (
+      type1Ord === TYPEORDCOMPARATOR["undefined"].ord ||
+      type1Ord === TYPEORDCOMPARATOR["NoValue"].ord
+    ) {
       // if both types are undefined or Null they are equal
       return 0;
     }
@@ -106,7 +117,10 @@ export class OrderByDocumentProducerComparator {
 
   public validateOrderByItems(res1: string[], res2: string[]) {
     this._throwIf(res1.length !== res2.length, `Expected ${res1.length}, but got ${res2.length}.`);
-    this._throwIf(res1.length !== this.sortOrder.length, "orderByItems cannot have a different size than sort orders.");
+    this._throwIf(
+      res1.length !== this.sortOrder.length,
+      "orderByItems cannot have a different size than sort orders."
+    );
 
     for (let i = 0; i < this.sortOrder.length; i++) {
       const type1 = this.getType(res1[i]);

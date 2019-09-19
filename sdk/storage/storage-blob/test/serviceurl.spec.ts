@@ -25,6 +25,8 @@ describe("ServiceURL", () => {
     const result = await serviceURL.listContainersSegment(Aborter.none);
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.clientRequestId);
+    assert.ok(result.clientRequestId!.length > 0);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 
@@ -94,6 +96,8 @@ describe("ServiceURL", () => {
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.clientRequestId);
+    assert.ok(result.clientRequestId!.length > 0);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 
@@ -213,9 +217,9 @@ describe("ServiceURL", () => {
       return;
     }
 
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setHours(now.getHours() + 1);
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
     assert.notDeepStrictEqual(response.value, undefined);

@@ -1,4 +1,6 @@
 /// <reference lib="esnext.asynciterable" />
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "./ClientContext";
 import { getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "./common";
 import {
@@ -26,6 +28,7 @@ export class QueryIterator<T> {
   private fetchAllLastResHeaders: CosmosHeaders;
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
+  private isInitialied: boolean;
   /**
    * @hidden
    */
@@ -43,6 +46,7 @@ export class QueryIterator<T> {
     this.resourceLink = resourceLink;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
+    this.isInitialied = false;
   }
 
   /**
@@ -121,6 +125,10 @@ export class QueryIterator<T> {
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
     this.queryPlanPromise = this.fetchQueryPlan();
+    if (!this.isInitialied) {
+      await this.init();
+    }
+
     let response: Response<any>;
     try {
       response = await this.queryExecutionContext.fetchMore();
@@ -132,7 +140,11 @@ export class QueryIterator<T> {
         throw error;
       }
     }
-    return new FeedResponse<T>(response.result, response.headers, this.queryExecutionContext.hasMoreResults());
+    return new FeedResponse<T>(
+      response.result,
+      response.headers,
+      this.queryExecutionContext.hasMoreResults()
+    );
   }
 
   /**
@@ -140,12 +152,17 @@ export class QueryIterator<T> {
    */
   public reset() {
     this.queryPlanPromise = undefined;
-    this.queryExecutionContext = new DefaultQueryExecutionContext(this.options, this.fetchFunctions);
+    this.queryExecutionContext = new DefaultQueryExecutionContext(
+      this.options,
+      this.fetchFunctions
+    );
   }
 
   private async toArrayImplementation(): Promise<FeedResponse<T>> {
     this.queryPlanPromise = this.fetchQueryPlan();
-
+    if (!this.isInitialied) {
+      await this.init();
+    }
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
@@ -216,5 +233,22 @@ export class QueryIterator<T> {
       error.substatus &&
       error.substatus === SubStatusCodes.CrossPartitionQueryNotServable
     );
+  }
+
+  private initPromise: Promise<void>;
+  private async init() {
+    if (this.isInitialied === true) {
+      return;
+    }
+    if (this.initPromise) {
+      this.initPromise = this._init();
+    }
+    return this.initPromise;
+  }
+  private async _init() {
+    if (this.options.forceQueryPlan === true) {
+      await this.createPipelinedExecutionContext();
+    }
+    this.isInitialied = true;
   }
 }

@@ -1,8 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator";
 import { IAggregator } from "./IAggregator";
 
+export interface MinAggregateResult {
+  min: number;
+  count: number;
+}
+
 /** @hidden */
-export class MinAggregator implements IAggregator<number> {
+export class MinAggregator implements IAggregator {
   private value: number;
   private comparer: OrderByDocumentProducerComparator;
   /**
@@ -20,13 +27,15 @@ export class MinAggregator implements IAggregator<number> {
    * @instance
    * @param other
    */
-  public aggregate(other: number) {
+  public aggregate(other: MinAggregateResult) {
     if (this.value === undefined) {
-      this.value = other;
+      // || typeof this.value === "object"
+      this.value = other.min;
     } else {
-      const otherType = other == null ? "NoValue" : typeof other;
-      if (this.comparer.compareValue(other, otherType, this.value, typeof this.value) < 0) {
-        this.value = other;
+      const otherType = other.min === null ? "NoValue" : typeof other.min; // || typeof other === "object"
+      const thisType = this.value === null ? "NoValue" : typeof this.value;
+      if (this.comparer.compareValue(other.min, otherType, this.value, thisType) < 0) {
+        this.value = other.min;
       }
     }
   }

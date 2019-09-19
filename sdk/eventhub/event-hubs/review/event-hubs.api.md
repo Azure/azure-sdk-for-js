@@ -34,6 +34,7 @@ export interface Checkpoint {
     consumerGroupName: string;
     eTag: string;
     eventHubName: string;
+    fullyQualifiedNamespace: string;
     offset: number;
     ownerId: string;
     partitionId: string;
@@ -41,16 +42,7 @@ export interface Checkpoint {
 }
 
 // @public
-export class CheckpointManager {
-    // @internal
-    constructor(partitionContext: PartitionContext, partitionManager: PartitionManager, eventProcessorId: string);
-    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
-    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
-}
-
-// @public
 export enum CloseReason {
-    EventHubException = "EventHubException",
     OwnershipLost = "OwnershipLost",
     Shutdown = "Shutdown"
 }
@@ -93,6 +85,7 @@ export class EventHubClient {
     createProducer(options?: EventHubProducerOptions): EventHubProducer;
     static defaultConsumerGroupName: string;
     readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
     getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
     getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties>;
@@ -116,6 +109,7 @@ export class EventHubConsumer {
     getEventIterator(options?: EventIteratorOptions): AsyncIterableIterator<ReceivedEventData>;
     readonly isClosed: boolean;
     readonly isReceivingMessages: boolean;
+    readonly lastEnqueuedEventInfo: LastEnqueuedEventInfo;
     readonly ownerLevel: number | undefined;
     readonly partitionId: string;
     receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler;
@@ -126,6 +120,7 @@ export class EventHubConsumer {
 export interface EventHubConsumerOptions {
     ownerLevel?: number;
     retryOptions?: RetryOptions;
+    trackLastEnqueuedEventInfo?: boolean;
 }
 
 // @public
@@ -175,27 +170,32 @@ export class EventPosition {
 
 // @public
 export class EventProcessor {
-    constructor(consumerGroupName: string, eventHubClient: EventHubClient, partitionProcessorFactory: PartitionProcessorFactory, partitionManager: PartitionManager, options?: EventProcessorOptions);
+    constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
     readonly id: string;
     start(): void;
     stop(): Promise<void>;
 }
 
-// @public (undocumented)
+// @public
 export interface EventProcessorOptions {
-    // (undocumented)
-    initialEventPosition?: EventPosition;
-    // (undocumented)
     maxBatchSize?: number;
-    // (undocumented)
     maxWaitTimeInSeconds?: number;
+    trackLastEnqueuedEventInfo?: boolean;
 }
 
 // @public
 export class InMemoryPartitionManager implements PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
+}
+
+// @public
+export interface LastEnqueuedEventInfo {
+    enqueuedTime?: Date;
+    offset?: string;
+    retrievalTime?: Date;
+    sequenceNumber?: number;
 }
 
 export { MessagingError }
@@ -207,16 +207,9 @@ export type OnError = (error: MessagingError | Error) => void;
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
 // @public
-export interface PartitionContext {
-    readonly consumerGroupName: string;
-    readonly eventHubName: string;
-    readonly partitionId: string;
-}
-
-// @public
 export interface PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
@@ -225,6 +218,7 @@ export interface PartitionOwnership {
     consumerGroupName: string;
     eTag?: string;
     eventHubName: string;
+    fullyQualifiedNamespace: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
     ownerId: string;
@@ -234,16 +228,20 @@ export interface PartitionOwnership {
 }
 
 // @public
-export interface PartitionProcessor {
-    close?(reason: CloseReason): Promise<void>;
-    initialize?(): Promise<void>;
+export class PartitionProcessor {
+    close(reason: CloseReason): Promise<void>;
+    consumerGroupName: string;
+    eventHubName: string;
+    eventProcessorId: string;
+    fullyQualifiedNamespace: string;
+    initialize(): Promise<void>;
+    lastEnqueuedEventInfo: LastEnqueuedEventInfo;
+    partitionId: string;
+    partitionManager: PartitionManager;
     processError(error: Error): Promise<void>;
     processEvents(events: ReceivedEventData[]): Promise<void>;
-}
-
-// @public
-export interface PartitionProcessorFactory {
-    (context: PartitionContext, checkpointManager: CheckpointManager): PartitionProcessor;
+    updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
+    updateCheckpoint(sequenceNumber: number, offset: number): Promise<void>;
 }
 
 // @public
@@ -266,6 +264,9 @@ export interface ReceivedEventData {
         [key: string]: any;
     };
     sequenceNumber: number;
+    systemProperties?: {
+        [key: string]: any;
+    };
 }
 
 // @public

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
@@ -19,7 +21,10 @@ export class Triggers {
    * @hidden
    * @param container The parent {@link Container}.
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly container: Container,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Query all Triggers.
@@ -37,12 +42,12 @@ export class Triggers {
     const path = getPathFromLink(this.container.url, ResourceType.trigger);
     const id = getIdFromLink(this.container.url);
 
-    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+    return new QueryIterator(this.clientContext, query, options, (innerOptions) => {
       return this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.trigger,
         resourceId: id,
-        resultFn: result => result.Triggers,
+        resultFn: (result) => result.Triggers,
         query,
         options: innerOptions
       });

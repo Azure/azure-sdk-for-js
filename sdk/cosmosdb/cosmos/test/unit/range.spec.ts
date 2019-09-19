@@ -1,4 +1,6 @@
-﻿import assert from "assert";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import assert from "assert";
 import { Range } from "../../dist-esm/range";
 
 describe("Range Tests", function() {
@@ -18,7 +20,10 @@ describe("Range Tests", function() {
     };
 
     const invalidRangeTest = function(options: any) {
-      invalidOptionsTest(options, /Invalid argument: 'options.low' must be less than or equal than 'options.high'/);
+      invalidOptionsTest(
+        options,
+        /Invalid argument: 'options.low' must be less than or equal than 'options.high'/
+      );
     };
 
     it("options - undefined (ommited argument)", function() {

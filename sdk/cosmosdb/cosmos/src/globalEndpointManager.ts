@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants, OperationType, ResourceType, sleep } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount } from "./documents";
@@ -24,6 +26,7 @@ export class GlobalEndpointManager {
   private locationCache: LocationCache;
   private isRefreshing: boolean;
   private readonly backgroundRefreshTimeIntervalInMS: number;
+  private initPromise: Promise<void>;
 
   /**
    * @constructor GlobalEndpointManager
@@ -31,7 +34,9 @@ export class GlobalEndpointManager {
    */
   constructor(
     options: CosmosClientOptions,
-    private readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>
+    private readDatabaseAccount: (
+      opts: RequestOptions
+    ) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
     this.defaultEndpoint = options.endpoint;
     this.enableEndpointDiscovery = options.connectionPolicy.enableEndpointDiscovery;
@@ -46,7 +51,7 @@ export class GlobalEndpointManager {
    */
   public async getReadEndpoint(): Promise<string> {
     if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+      await this.init();
     }
     return this.locationCache.getReadEndpoint();
   }
@@ -56,21 +61,21 @@ export class GlobalEndpointManager {
    */
   public async getWriteEndpoint(): Promise<string> {
     if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+      await this.init();
     }
     return this.locationCache.getWriteEndpoint();
   }
 
   public async getReadEndpoints(): Promise<ReadonlyArray<string>> {
     if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+      await this.init();
     }
     return this.locationCache.getReadEndpoints();
   }
 
   public async getWriteEndpoints(): Promise<ReadonlyArray<string>> {
     if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+      await this.init();
     }
     return this.locationCache.getWriteEndpoints();
   }
@@ -88,8 +93,8 @@ export class GlobalEndpointManager {
   }
 
   public async resolveServiceEndpoint(request: RequestContext) {
-    if (!this.isEndpointCacheInitialized) {
-      await this.refreshEndpointList();
+    if (!this.isEndpointCacheInitialized && request.resourceType !== ResourceType.none) {
+      await this.init();
     }
     return this.locationCache.resolveServiceEndpoint(request);
   }
@@ -117,6 +122,13 @@ export class GlobalEndpointManager {
         this.isEndpointCacheInitialized = true;
       }
     }
+  }
+
+  private async init(): Promise<void> {
+    if (this.initPromise === undefined) {
+      this.initPromise = this.refreshEndpointList().catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
+    }
+    return this.initPromise;
   }
 
   private backgroundRefresh() {
@@ -171,7 +183,10 @@ export class GlobalEndpointManager {
     if (this.locationCache.prefferredLocations) {
       for (const location of this.locationCache.prefferredLocations) {
         try {
-          const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(this.defaultEndpoint, location);
+          const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(
+            this.defaultEndpoint,
+            location
+          );
           const options = { urlConnection: locationalEndpoint };
           const { resource: databaseAccount } = await this.readDatabaseAccount(options);
           if (databaseAccount) {
@@ -208,7 +223,8 @@ export class GlobalEndpointManager {
         const globalDatabaseAccountName = hostnameParts[0];
 
         // Prepare the locationalDatabaseAccountName as contoso-EastUS for location_name 'East US'
-        const locationalDatabaseAccountName = globalDatabaseAccountName + "-" + locationName.replace(" ", "");
+        const locationalDatabaseAccountName =
+          globalDatabaseAccountName + "-" + locationName.replace(" ", "");
 
         // Replace 'contoso' with 'contoso-EastUS' and
         // return locationalEndpoint as https://contoso-EastUS.documents.azure.com:443/

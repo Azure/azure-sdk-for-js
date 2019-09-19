@@ -15,3 +15,5 @@ export * from "./usages";
 export * from "./managementPolicies";
 export * from "./blobServices";
 export * from "./blobContainers";
+export * from "./fileServices";
+export * from "./fileShares";

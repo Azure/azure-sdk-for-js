@@ -172,6 +172,16 @@ export const resourceType: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const scope: msRest.OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    required: true,
+    serializedName: "scope",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const sourceResourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "sourceResourceGroupName",
   mapper: {

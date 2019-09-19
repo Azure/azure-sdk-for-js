@@ -1,3 +1,6 @@
+/// <reference lib="dom" />
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosHeaders } from "../index";
 
 /**

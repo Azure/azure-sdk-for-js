@@ -1,7 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import uuid from "uuid/v4";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
+import { logger } from "./common/logger";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
@@ -10,14 +14,17 @@ import { executePlugins, PluginOn } from "./plugins/Plugin";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { QueryIterator } from "./queryIterator";
-import { FeedOptions, RequestOptions, Response } from "./request";
 import { ErrorResponse } from "./request";
+import { FeedOptions, RequestOptions, Response } from "./request";
 import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { getHeaders } from "./request/request";
 import { RequestContext } from "./request/RequestContext";
 import { request as executeRequest } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
+
+/** @hidden */
+const log = logger("ClientContext");
 
 /**
  * @hidden
@@ -93,11 +100,7 @@ export class ClientContext {
     path: string;
     resourceType: ResourceType;
     resourceId: string;
-    resultFn: (
-      result: {
-        [key: string]: any;
-      }
-    ) => any[];
+    resultFn: (result: { [key: string]: any }) => any[];
     query: SqlQuerySpec | string;
     options: FeedOptions;
     partitionKeyRangeId?: string;
@@ -122,7 +125,7 @@ export class ClientContext {
       plugins: this.cosmosClientOptions.plugins,
       partitionKey
     };
-
+    const requestId = uuid();
     if (query !== undefined) {
       request.method = HTTPMethod.post;
     }
@@ -136,7 +139,16 @@ export class ClientContext {
       }
     }
     this.applySessionToken(request);
+    log.info(
+      "query " +
+        requestId +
+        " started" +
+        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
+    );
+    log.silly(request);
+    const start = Date.now();
     const response = await executeRequest(request);
+    log.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return this.processQueryFeedResponse(response, !!query, resultFn);
   }
@@ -180,15 +192,19 @@ export class ClientContext {
     return response as any;
   }
 
-  public queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions) {
+  public queryPartitionKeyRanges(
+    collectionLink: string,
+    query?: string | SqlQuerySpec,
+    options?: FeedOptions
+  ) {
     const path = getPathFromLink(collectionLink, ResourceType.pkranges);
     const id = getIdFromLink(collectionLink);
-    const cb: FetchFunctionCallback = innerOptions => {
+    const cb: FetchFunctionCallback = (innerOptions) => {
       return this.queryFeed({
         path,
         resourceType: ResourceType.pkranges,
         resourceId: id,
-        resultFn: result => result.PartitionKeyRanges,
+        resultFn: (result) => result.PartitionKeyRanges,
         query,
         options: innerOptions
       });
@@ -466,7 +482,9 @@ export class ClientContext {
    * @param {string} [options.urlConnection]   - The endpoint url whose database account needs to be retrieved. \
    * If not present, current client's url will be used.
    */
-  public async getDatabaseAccount(options: RequestOptions = {}): Promise<Response<DatabaseAccount>> {
+  public async getDatabaseAccount(
+    options: RequestOptions = {}
+  ): Promise<Response<DatabaseAccount>> {
     const endpoint = options.urlConnection || this.cosmosClientOptions.endpoint;
     const request: RequestContext = {
       endpoint,
@@ -512,7 +530,8 @@ export class ClientContext {
       (!this.isMasterResource(request.resourceType) &&
         (err.code === StatusCodes.PreconditionFailed ||
           err.code === StatusCodes.Conflict ||
-          (err.code === StatusCodes.NotFound && err.substatus !== SubStatusCodes.ReadSessionNotAvailable)))
+          (err.code === StatusCodes.NotFound &&
+            err.substatus !== SubStatusCodes.ReadSessionNotAvailable)))
     ) {
       this.sessionContainer.set(request, resHeaders);
     }
@@ -559,7 +578,10 @@ export class ClientContext {
   private buildHeaders(requestContext: RequestContext) {
     return getHeaders({
       clientOptions: this.cosmosClientOptions,
-      defaultHeaders: { ...this.cosmosClientOptions.defaultHeaders, ...requestContext.options.initialHeaders },
+      defaultHeaders: {
+        ...this.cosmosClientOptions.defaultHeaders,
+        ...requestContext.options.initialHeaders
+      },
       verb: requestContext.method,
       path: requestContext.path,
       resourceId: requestContext.resourceId,

@@ -167,7 +167,7 @@ export class AvailabilitySets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilitySetsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.AvailabilitySetsListBySubscriptionResponse>;
+  listBySubscription(options?: Models.AvailabilitySetsListBySubscriptionOptionalParams): Promise<Models.AvailabilitySetsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -176,8 +176,8 @@ export class AvailabilitySets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionResponse> {
+  listBySubscription(options: Models.AvailabilitySetsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilitySetListResult>): void;
+  listBySubscription(options?: Models.AvailabilitySetsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.AvailabilitySetListResult>, callback?: msRest.ServiceCallback<Models.AvailabilitySetListResult>): Promise<Models.AvailabilitySetsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -426,7 +426,8 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion0,
+    Parameters.expand0
   ],
   headerParameters: [
     Parameters.acceptLanguage

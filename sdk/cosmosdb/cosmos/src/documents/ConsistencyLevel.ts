@@ -7,6 +7,8 @@
  *
  * See https://aka.ms/cosmos-consistency for more detailed documentation on Consistency Levels.
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export enum ConsistencyLevel {
   /**
    * Strong Consistency guarantees that read operations always return the value that was last written.

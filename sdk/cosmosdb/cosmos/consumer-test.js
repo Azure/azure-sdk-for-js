@@ -7,7 +7,7 @@ if (!process.env.SKIP_LATEST) {
 }
 
 async function exec(cmd) {
-  const command = execa.shell(cmd, { cwd: "./consumer-test" });
+  const command = execa(cmd, { cwd: "./consumer-test", shell: true });
   command.stderr.pipe(process.stderr);
   command.stdout.pipe(process.stdout);
   return command;
@@ -21,8 +21,12 @@ async function exec(cmd) {
     await exec("npm install --save ./..");
     console.log("Installing @azure/cosmos as a file dependency");
     for (const version of versions) {
-      console.log(`Compling with typescript@${version}`);
+      console.log(`Compling with typescript@${version} - Basic`);
       await exec(`npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true`);
+      console.log(`Compling with typescript@${version} - Custom lib`);
+      await exec(
+        `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`
+      );
     }
     process.exit(0);
   } catch (error) {

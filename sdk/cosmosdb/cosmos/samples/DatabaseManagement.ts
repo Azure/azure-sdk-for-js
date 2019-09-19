@@ -1,4 +1,6 @@
-﻿import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { endpoint, key, database as databaseId } from "./Shared/config";
 import assert from "assert";

@@ -44,12 +44,14 @@ describe("MessagesURL Node", () => {
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
     let pResult = await messagesURL.peek(Aborter.none, { numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(pResult.version);
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
@@ -64,6 +66,7 @@ describe("MessagesURL Node", () => {
     });
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(dResult.version);
     assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 1);
     assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);

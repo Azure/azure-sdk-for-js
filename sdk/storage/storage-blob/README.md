@@ -8,7 +8,7 @@
 
 This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
 
-Please note that this version of the SDK is a compete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
+Please note that this version of the SDK is a complete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
 
 ### Features
 
@@ -164,10 +164,7 @@ async function main() {
 
   let marker;
   do {
-    const listContainersResponse = await serviceURL.listContainersSegment(
-      Aborter.none,
-      marker
-    );
+    const listContainersResponse = await serviceURL.listContainersSegment(Aborter.none, marker);
 
     marker = listContainersResponse.nextMarker;
     for (const container of listContainersResponse.containerItems) {
@@ -180,33 +177,20 @@ async function main() {
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
   const createContainerResponse = await containerURL.create(Aborter.none);
-  console.log(
-    `Create container ${containerName} successfully`,
-    createContainerResponse.requestId
-  );
+  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
   const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const uploadBlobResponse = await blockBlobURL.upload(
-    Aborter.none,
-    content,
-    content.length
-  );
-  console.log(
-    `Upload block blob ${blobName} successfully`,
-    uploadBlobResponse.requestId
-  );
+  const uploadBlobResponse = await blockBlobURL.upload(Aborter.none, content, content.length);
+  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
   marker = undefined;
   do {
-    const listBlobsResponse = await containerURL.listBlobFlatSegment(
-      Aborter.none,
-      marker
-    );
+    const listBlobsResponse = await containerURL.listBlobFlatSegment(Aborter.none, marker);
 
     marker = listBlobsResponse.nextMarker;
     for (const blob of listBlobsResponse.segment.blobItems) {
@@ -233,7 +217,7 @@ async function main() {
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -248,7 +232,7 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });
 ```

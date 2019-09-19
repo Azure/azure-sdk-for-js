@@ -334,6 +334,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       dResult.dequeuedMessageItems[0].popReceipt
     );
     assert.ok(deleteResult.requestId);
+    assert.ok(deleteResult.clientRequestId);
 
     //const cResult = await messagesURLwithSAS.clear(Aborter.none); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
   });
