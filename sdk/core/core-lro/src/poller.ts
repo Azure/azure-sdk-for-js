@@ -12,6 +12,7 @@ export interface PollerOptionalParameters {
   requestOptions?: RequestOptionsBase;
   retries?: number;
   state?: LongRunningOperationStates;
+  resources?: any;
 }
 
 export type PollerStateChangeSubscriber = (
@@ -29,6 +30,7 @@ export abstract class Poller {
   private initialResponse?: HttpOperationResponse;
   private _state: LongRunningOperationStates = "InProgress";
   protected readonly manual: boolean = false;
+  protected readonly resources: any;
   protected abortSignal?: AbortSignal;
   protected previousResponse?: HttpOperationResponse;
   protected requestOptions: RequestOptionsBase | undefined;
@@ -38,6 +40,7 @@ export abstract class Poller {
     this.intervalInMs = Number(options.intervalInMs);
     this.requestOptions = options.requestOptions;
     if (options.state) this._state = options.state;
+    if (options.resources) this.resources = options.resources;
     if (this.manual || options.noInitialRequest) return;
     this.initialRequest().then(() => this.loop());
   }
