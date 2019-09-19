@@ -70,6 +70,7 @@ dependencies:
   '@types/xml2js': 0.4.4
   '@types/yargs': 13.0.2
   '@typescript-eslint/eslint-plugin': 2.0.0_3cafee28902d96627d4743e014bc28ff
+  '@typescript-eslint/eslint-plugin-tslint': 2.3.0_b840da7ae58bd563f8e3899e03f6a2da
   '@typescript-eslint/parser': 2.0.0_eslint@6.2.1
   abort-controller: 3.0.0
   assert: 1.5.0
@@ -183,6 +184,7 @@ dependencies:
   ts-mocha: 6.0.0_mocha@6.2.0
   ts-node: 8.3.0_typescript@3.5.3
   tslib: 1.10.0
+  tslint: 5.20.0_typescript@3.5.3
   tunnel: 0.0.6
   typedoc: 0.15.0
   typescript: 3.5.3
@@ -927,6 +929,22 @@ packages:
     dev: false
     resolution:
       integrity: sha1-LrHQCl5Ow/pYx2r94S4YK2bcXBw=
+  /@typescript-eslint/eslint-plugin-tslint/2.3.0_b840da7ae58bd563f8e3899e03f6a2da:
+    dependencies:
+      '@typescript-eslint/experimental-utils': 2.3.0_eslint@6.2.1
+      eslint: 6.2.1
+      lodash.memoize: 4.1.2
+      tslint: 5.20.0_typescript@3.5.3
+      typescript: 3.5.3
+    dev: false
+    engines:
+      node: ^8.10.0 || ^10.13.0 || >=11.10.1
+    peerDependencies:
+      eslint: ^5.0.0 || ^6.0.0
+      tslint: ^5.0.0
+      typescript: '*'
+    resolution:
+      integrity: sha512-dhkJtS40dkjPcYlTMNWRMsjz6zOTeT8ZTyNeNZqibc3HfD51LoPj6oYVWrngc4aVCzw/FabEZVu+gRKg+lvlDg==
   /@typescript-eslint/eslint-plugin/2.0.0_3cafee28902d96627d4743e014bc28ff:
     dependencies:
       '@typescript-eslint/experimental-utils': 2.0.0_eslint@6.2.1
@@ -989,6 +1007,19 @@ packages:
       eslint: '*'
     resolution:
       integrity: sha512-ZJGLYXa4nxjNzomaEk1qts38B/vludg2LOM7dRc7SppEKsMPTS1swaTKS/pom+x4d/luJGoG00BDIss7PR1NQA==
+  /@typescript-eslint/experimental-utils/2.3.0_eslint@6.2.1:
+    dependencies:
+      '@types/json-schema': 7.0.3
+      '@typescript-eslint/typescript-estree': 2.3.0
+      eslint: 6.2.1
+      eslint-scope: 5.0.0
+    dev: false
+    engines:
+      node: ^8.10.0 || ^10.13.0 || >=11.10.1
+    peerDependencies:
+      eslint: '*'
+    resolution:
+      integrity: sha512-ry+fgd0Hh33LyzS30bIhX/a1HJpvtnecjQjWxxsZTavrRa1ymdmX7tz+7lPrPAxB018jnNzwNtog6s3OhxPTAg==
   /@typescript-eslint/parser/2.0.0_eslint@6.2.1:
     dependencies:
       '@types/eslint-visitor-keys': 1.0.0
@@ -1037,6 +1068,17 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     resolution:
       integrity: sha512-482ErJJ7QYghBh+KA9G+Fwcuk/PLTy+9NBMz8S+6UFrUUnVvHRNAL7I70kdws2te0FBYEZW7pkDaXoT+y8UARw==
+  /@typescript-eslint/typescript-estree/2.3.0:
+    dependencies:
+      glob: 7.1.4
+      is-glob: 4.0.1
+      lodash.unescape: 4.0.1
+      semver: 6.3.0
+    dev: false
+    engines:
+      node: ^8.10.0 || ^10.13.0 || >=11.10.1
+    resolution:
+      integrity: sha512-WBxfwsTeCOsmQ7cLjow7lgysviBKUW34npShu7dxJYUQCbSG5nfZWZTgmQPKEc+3flpbSM7tjXjQOgETYp+njQ==
   /@webassemblyjs/ast/1.8.5:
     dependencies:
       '@webassemblyjs/helper-module-context': 1.8.5
@@ -2461,6 +2503,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Xpgy0IwHK2N01ncykXTy6FpCWuM+CJSHoPVBLyNqyrWxsedpLvwsYUhf0ME3WRFNUhos0dMamz9cOS/xRDtU5g==
+  /builtin-modules/1.1.1:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-Jw8HbFpywC9bZaR9+Uxf46J4iS8=
   /builtin-modules/3.1.0:
     dev: false
     engines:
@@ -6275,6 +6323,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+  /lodash.memoize/4.1.2:
+    dev: false
+    resolution:
+      integrity: sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
   /lodash.once/4.1.1:
     dev: false
     resolution:
@@ -9740,6 +9792,39 @@ packages:
     dev: false
     resolution:
       integrity: sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+  /tslint/5.20.0_typescript@3.5.3:
+    dependencies:
+      '@babel/code-frame': 7.5.5
+      builtin-modules: 1.1.1
+      chalk: 2.4.2
+      commander: 2.20.0
+      diff: 4.0.1
+      glob: 7.1.4
+      js-yaml: 3.13.1
+      minimatch: 3.0.4
+      mkdirp: 0.5.1
+      resolve: 1.12.0
+      semver: 5.7.1
+      tslib: 1.10.0
+      tsutils: 2.29.0_typescript@3.5.3
+      typescript: 3.5.3
+    dev: false
+    engines:
+      node: '>=4.8.0'
+    hasBin: true
+    peerDependencies:
+      typescript: '>=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev'
+    resolution:
+      integrity: sha512-2vqIvkMHbnx8acMogAERQ/IuINOq6DFqgF8/VDvhEkBqQh/x6SP0Y+OHnKth9/ZcHQSroOZwUQSN18v8KKF0/g==
+  /tsutils/2.29.0_typescript@3.5.3:
+    dependencies:
+      tslib: 1.10.0
+      typescript: 3.5.3
+    dev: false
+    peerDependencies:
+      typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev'
+    resolution:
+      integrity: sha512-g5JVHCIJwzfISaXpXE1qvNalca5Jwob6FjI4AoPlqMusJ6ftFE7IkkFoMhVLRgK+4Kx3gkzb8UZK5t5yTTvEmA==
   /tsutils/3.17.1_typescript@3.5.3:
     dependencies:
       tslib: 1.10.0
@@ -10741,7 +10826,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-/4I0pK3Mg83wRvPClyGYJ2tLtOdfrVgxy++7YG2grjKzDiu9zHyd5rsI2PNAwHKh3uffFwO7cMnnXJPX7HtoTA==
+      integrity: sha512-yL3UwTRBJ5d8zUsqH8wVabgwENM4R1knOIDeWV0OdEkeSYsJ3QJMC0sE8QVSsUwVmUu8/PXIcSMeixdjMUETtw==
       tarball: 'file:projects/app-configuration.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -11050,6 +11135,7 @@ packages:
   'file:projects/cosmos.tgz_webpack@4.39.2':
     dependencies:
       '@azure/cosmos-sign': 1.0.2
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
       '@types/debug': 4.1.5
       '@types/fast-json-stable-stringify': 2.0.0
@@ -11063,6 +11149,7 @@ packages:
       '@types/underscore': 1.9.2
       '@types/uuid': 3.4.5
       '@typescript-eslint/eslint-plugin': 2.0.0_3cafee28902d96627d4743e014bc28ff
+      '@typescript-eslint/eslint-plugin-tslint': 2.3.0_b840da7ae58bd563f8e3899e03f6a2da
       '@typescript-eslint/parser': 2.0.0_eslint@6.2.1
       abort-controller: 3.0.0
       atob: 2.1.2
@@ -11107,6 +11194,7 @@ packages:
       source-map-support: 0.5.13
       ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
+      tslint: 5.20.0_typescript@3.5.3
       typedoc: 0.15.0
       typescript: 3.5.3
       universal-user-agent: 4.0.0
@@ -11117,7 +11205,7 @@ packages:
     peerDependencies:
       webpack: '*'
     resolution:
-      integrity: sha512-bTOIDx/wJkKajvOban9g/1gZ1XZ01Ipa2JxxeJ+kE+9QVbonMY75SEtX4FPYKadCskz2sV0+JRAF7CyqlITypg==
+      integrity: sha512-ZwEE+b0Q+iECvIe11mgtneZ3N4YBla/dWW9WYTtHP2AIwUfc7CIVtRLhwHi/KW5tzJHGK54qvDUnz4pXXJOPHQ==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -12035,6 +12123,7 @@ specifiers:
   '@types/xml2js': ^0.4.3
   '@types/yargs': ^13.0.0
   '@typescript-eslint/eslint-plugin': ^2.0.0
+  '@typescript-eslint/eslint-plugin-tslint': ~2.3.0
   '@typescript-eslint/parser': ^2.0.0
   abort-controller: ^3.0.0
   assert: ^1.4.1
@@ -12148,6 +12237,7 @@ specifiers:
   ts-mocha: ^6.0.0
   ts-node: ^8.3.0
   tslib: ^1.9.3
+  tslint: ^5.0.0
   tunnel: ^0.0.6
   typedoc: ^0.15.0
   typescript: ^3.2.2
