@@ -63,6 +63,14 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "license": "MIT",
+  "tsdoc": {
+    "tsdocFlavor": "AEDoc"
+  },
   "dependencies": {
     "@azure/cosmos-sign": "^1.0.2",
     "@types/debug": "^4.1.4",
@@ -76,7 +84,7 @@
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
     "tslib": "^1.9.3",
-    "universal-user-agent": "^2.1.0",
+    "universal-user-agent": "^4.0.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -96,12 +104,12 @@
     "abort-controller": "^3.0.0",
     "cross-env": "^5.2.0",
     "dotenv": "^8.0.0",
-    "esm": "^3.2.18",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
+    "esm": "^3.2.18",
     "execa": "^1.0.0",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
@@ -112,10 +120,10 @@
     "karma-requirejs": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^4.0.0-rc.6",
-    "mocha-junit-reporter": "^1.18.0",
-    "prettier": "^1.16.4",
     "mocha": "^6.2.0",
+    "mocha-junit-reporter": "^1.18.0",
     "mocha-multi": "^1.1.3",
+    "prettier": "^1.16.4",
     "proxy-agent": "3.0.3",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",
@@ -128,13 +136,5 @@
     "ts-node": "^8.3.0",
     "typedoc": "^0.15.0",
     "typescript": "^3.2.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
-  "license": "MIT",
-  "tsdoc": {
-    "tsdocFlavor": "AEDoc"
   }
 }
