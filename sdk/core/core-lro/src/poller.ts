@@ -103,7 +103,14 @@ export abstract class Poller {
   public async poll(options?: RequestOptionsBase): Promise<void> {
     if (!this.manual) throw new Error("Manual retries are disabled on this poller");
     if (!this.initialResponse) await this.initialRequest(options);
-    return this.sendRequest(options);
+    try {
+      return await this.sendRequest(options);
+    } catch (e) {
+      for (const subscriber of this.pollErrorSubscribers) {
+        subscriber(e);
+      }
+      throw e;
+    }
   }
 
   public nextResponse(): Promise<HttpOperationResponse> {
