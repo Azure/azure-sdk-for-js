@@ -52,6 +52,14 @@ export interface HttpTextFormat {
     inject(spanContext: SpanContext, format: string, carrier: unknown): void;
 }
 
+// @public (undocumented)
+export interface ITracerProxy {
+    // (undocumented)
+    getTracer(): Plugin;
+    // (undocumented)
+    setTracer(tracer: any, tracerPluginType: SupportedPlugins): void;
+}
+
 // @public
 export interface Link {
     attributes?: Attributes;
@@ -241,12 +249,7 @@ export interface Tracer {
 }
 
 // @public (undocumented)
-export class TracerProxy {
-    // (undocumented)
-    static getTracer(): Plugin;
-    // (undocumented)
-    static setTracer(tracer: any, tracerPluginType: SupportedPlugins): void;
-    }
+export const TracerProxy: ITracerProxy;
 
 // @public
 export interface TraceState {

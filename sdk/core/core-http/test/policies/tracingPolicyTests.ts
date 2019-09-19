@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import sinon from "sinon";
-import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Plugin, Span, TracerProxy, RequestPolicyOptions, TraceFlags, NoOpTracePlugin, TracerNoOpImpl } from "../../lib/coreHttp";
+import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Plugin, Span, TracerProxy, RequestPolicyOptions, TraceFlags, NoOpTracePlugin } from "../../lib/coreHttp";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
 interface MockTracer extends Plugin {
@@ -201,7 +201,7 @@ describe("tracingPolicy", function () {
 
   it("will not set headers if span is a NoOpSpan", async () => {
     sinon.stub(TracerProxy, "getTracer").callsFake(() => {
-      return new NoOpTracePlugin(new TracerNoOpImpl());
+      return new NoOpTracePlugin();
     });
 
     const request = new WebResource();

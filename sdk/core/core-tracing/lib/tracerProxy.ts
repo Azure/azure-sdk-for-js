@@ -5,23 +5,25 @@ import { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugi
 import { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
 import { Plugin } from "./interfaces/plugin";
 
-export class TracerProxy {
-  private static _tracerPlugin: Plugin;
 
-  private constructor() { }
+let _tracerPlugin: Plugin;
 
-  public static setTracer(tracer: any, tracerPluginType: SupportedPlugins) {
-    if (tracerPluginType === SupportedPlugins.OPENCENSUS) {
-      TracerProxy._tracerPlugin = new OpenCensusTracePlugin(tracer);
-    } else {
-      TracerProxy._tracerPlugin = new NoOpTracePlugin();
-    }
+export interface ITracerProxy {
+  setTracer(tracer: any, tracerPluginType: SupportedPlugins): void;
+  getTracer(): Plugin;
+}
+
+export function setTracer(tracer: any, tracerPluginType: SupportedPlugins) {
+  if (tracerPluginType === SupportedPlugins.OPENCENSUS) {
+    _tracerPlugin = new OpenCensusTracePlugin(tracer);
+  } else {
+    _tracerPlugin = new NoOpTracePlugin();
   }
+}
 
-  public static getTracer() {
-    if (!TracerProxy._tracerPlugin) {
-      TracerProxy._tracerPlugin = new NoOpTracePlugin();
-    }
-    return TracerProxy._tracerPlugin;
+export function getTracer() {
+  if (!_tracerPlugin) {
+    _tracerPlugin = new NoOpTracePlugin();
   }
+  return _tracerPlugin;
 }

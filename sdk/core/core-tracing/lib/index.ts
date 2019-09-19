@@ -1,6 +1,13 @@
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-export { TracerProxy } from "./tracerProxy";
+
+import { getTracer, setTracer, ITracerProxy } from "./tracerProxy";
+const TracerProxy: ITracerProxy = {
+  getTracer,
+  setTracer,
+};
+export { TracerProxy, ITracerProxy };
 
 // Utils
 export { SupportedPlugins } from "./utils/supportedPlugins";
