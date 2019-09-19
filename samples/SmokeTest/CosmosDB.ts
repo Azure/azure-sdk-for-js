@@ -4,7 +4,7 @@
 // ------------------------------------
 import { CosmosClient, Database, Container } from "@azure/cosmos";
 
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require("uuid/v1");
 
 export class CosmosDB {
   private static dataBaseName = `jsSolarSystem-${uuidv1()}`;
@@ -26,12 +26,12 @@ export class CosmosDB {
 
     const endpoint = process.env["COSMOS_ENDPOINT"] || "<YourEndpoint>";
     const masterKey = process.env["COSMOS_KEY"] || "<YourKey>";
-    CosmosDB.client = new CosmosClient({ endpoint, auth: { masterKey } });
+    CosmosDB.client = new CosmosClient({ endpoint, key: masterKey });
 
     //Ensure that the resource is clean
     try {
       await CosmosDB.DeleteDatabase();
-    } catch { }
+    } catch {}
 
     await CosmosDB.CreateDatabase();
     await CosmosDB.CreateCollection();
@@ -41,14 +41,18 @@ export class CosmosDB {
 
   private static async CreateDatabase() {
     console.log(`Creating "${CosmosDB.dataBaseName}" database...`);
-    const { database: db } = await CosmosDB.client.databases.create({ id: CosmosDB.dataBaseName });
+    const { database: db } = await CosmosDB.client.databases.create({
+      id: CosmosDB.dataBaseName
+    });
     CosmosDB.db = db;
     console.log("\tdone");
   }
 
   private static async CreateCollection() {
     console.log(`Creating "${CosmosDB.collectionName}" collection...`);
-    const { container } = await CosmosDB.db.containers.create({ id: CosmosDB.collectionName });
+    const { container } = await CosmosDB.db.containers.create({
+      id: CosmosDB.collectionName
+    });
     CosmosDB.container = container;
     console.log("\tdone");
   }
@@ -97,6 +101,6 @@ export class CosmosDB {
   }
 
   private static dedent(str: ReadonlyArray<string>) {
-    return str[0].replace(/^\ */gm, '');
+    return str[0].replace(/^\ */gm, "");
   }
 }
