@@ -50,11 +50,11 @@ jobs:
         displayName: "Install dependencies"
 
       - script: |
-          node eng/tools/rush-runner.js build ${{parameters.ServiceDirectory}} --verbose
+          node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose
         displayName: "Build libraries"
 
       - script: |
-          node eng/tools/rush-runner.js pack ${{parameters.ServiceDirectory}} --verbose
+          node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
         displayName: "Pack libraries"
 
       # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
@@ -139,7 +139,7 @@ jobs:
         displayName: "Install library dependencies"
 
       - script: |
-          node eng/tools/rush-runner.js lint ${{parameters.ServiceDirectory}}
+          node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
         displayName: "Lint libraries"
 
       # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
@@ -160,7 +160,7 @@ jobs:
           path: $(Build.ArtifactStagingDirectory)
 
       - script: |
-          node eng/tools/rush-runner.js audit ${{parameters.ServiceDirectory}}
+          node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
         condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
         displayName: "Audit libraries"
 
@@ -199,7 +199,7 @@ jobs:
             displayName: "Build test assets"
 
           - script: |
-              node eng/tools/rush-runner.js unit-test ${{parameters.ServiceDirectory}} --verbose
+              node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose
             displayName: "Test libraries"
 
           - task: PublishTestResults@2
