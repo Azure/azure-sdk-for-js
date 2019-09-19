@@ -21,7 +21,45 @@ const basicResponseStructure = {
 }
 
 describe("Long Running Operations - abort signals", function () {
-  it("should support an abort signal sent to the constructor", async function () {
+  it("should support an abort signal sent through the constructor", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    client.setResponses(Array(20).fill({
+      ...basicResponseStructure,
+      status: 202,
+    }));
+
+    const abortController = new AbortController();
+    const poller = await client.startLRO({
+      requestOptions: {
+        abortSignal: abortController.signal
+      }
+    });
+
+    // Testing subscriptions to the poll errors
+    let pollError: Error | undefined;
+    poller.onPollError((e: Error) => {
+      pollError = e;
+    })
+
+    // Testing catching errors using done()
+    let doneError: Error | undefined;
+    poller.done().catch(e => {
+      doneError = e;
+    })
+
+    assert.equal(poller.state, "InProgress");
+    await delay(100);
+    assert.equal(poller.totalSentRequests, 10);
+    abortController.abort();
+    await delay(50);
+
+    assert.equal(pollError!.message, "The request was aborted");
+    assert.equal(doneError!.message, "The request was aborted");
+    assert.equal(poller.totalSentRequests, 11);
+    poller.stop();
+  }); 
+
+  it("should support an abort signal sent through the constructor (manual poller)", async function () {
     const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
     client.setResponses(Array(20).fill({
       ...basicResponseStructure,
@@ -29,28 +67,68 @@ describe("Long Running Operations - abort signals", function () {
     }));
     const abortController = new AbortController();
     const poller = await client.startLRO({
+      manual: true,
       requestOptions: {
         abortSignal: abortController.signal
       }
     });
+
     // Testing subscriptions to the poll errors
     let pollError: Error | undefined;
-    poller.onPollError(e => {
+    poller.onPollError((e: Error) => {
       pollError = e;
     })
-    // Testing catching errors using done()
-    let doneError: Error | undefined;
-    poller.done().catch(e => {
-      doneError = e;
-    })
-    assert.equal(poller.state, "InProgress");
-    await delay(100);
-    assert.equal(poller.totalSentRequests, 10);
+
+    await poller.poll(); // Manual polling
+    assert.equal(poller.totalSentRequests, 2);
+
     abortController.abort();
-    await delay(50);
+    let manualPollError: Error | undefined;
+    try {
+      await poller.poll(); // Manual polling
+    } catch(e) {
+      manualPollError = e;
+    }
+
+    assert.equal(poller.totalSentRequests, 3);
     assert.equal(pollError!.message, "The request was aborted");
-    assert.equal(doneError!.message, "The request was aborted");
-    assert.equal(poller.totalSentRequests, 11);
+    assert.equal(manualPollError!.message, "The request was aborted");
     poller.stop();
-  }); 
+  });
+
+  it("should support an abort signal sent through the poll parameters (manual poller)", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    client.setResponses(Array(20).fill({
+      ...basicResponseStructure,
+      status: 202,
+    }));
+    const abortController = new AbortController();
+    const poller = await client.startLRO({
+      manual: true,
+    });
+
+    // Testing subscriptions to the poll errors
+    let pollError: Error | undefined;
+    poller.onPollError((e: Error) => {
+      pollError = e;
+    })
+
+    await poller.poll(); // Manual polling
+    assert.equal(poller.totalSentRequests, 2);
+
+    abortController.abort();
+    let manualPollError: Error | undefined;
+    try {
+      await poller.poll({
+        abortSignal: abortController.signal
+      });
+    } catch(e) {
+      manualPollError = e;
+    }
+
+    assert.equal(poller.totalSentRequests, 3);
+    assert.equal(pollError!.message, "The request was aborted");
+    assert.equal(manualPollError!.message, "The request was aborted");
+    poller.stop();
+  });
 });
