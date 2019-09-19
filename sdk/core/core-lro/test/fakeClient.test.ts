@@ -46,17 +46,6 @@ describe("Long Running Operations - custom client", function () {
     poller.stop();
   });
 
-  it("shows how to handle a failing initialRequest", async function () {
-    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
-    client.setResponses([{
-      ...basicResponseStructure,
-      status: 404,
-    }]);
-    const poller = await client.startLRO();
-    assert.equal(poller.state, "Failed");
-    poller.stop();
-  });
-
   it("can wait until the operation has completed", async function () {
     const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
     client.setResponses([{
@@ -80,9 +69,9 @@ describe("Long Running Operations - custom client", function () {
     });
     client.setResponses(responses);
     const poller = await client.startLRO();
-    assert.equal(poller.totalSentRequests, 1);
+    assert.equal(client.totalSentRequests, 1);
     await delay(100);
-    assert.equal(poller.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 10);
     await poller.cancel();
     assert.equal(poller.state, "Cancelled");
     poller.stop(); 
@@ -114,12 +103,12 @@ describe("Long Running Operations - custom client", function () {
     });
     client.setResponses(responses);
     const poller = await client.startLRO();
-    assert.equal(poller.totalSentRequests, 1);
+    assert.equal(client.totalSentRequests, 1);
     await delay(100);
-    assert.equal(poller.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 10);
     poller.stop();
     await delay(100);
-    assert.equal(poller.totalSentRequests, 11);
+    assert.equal(client.totalSentRequests, 11);
   });
 
   it("prevents manual polling if automatic", async function () {
@@ -163,12 +152,12 @@ describe("Long Running Operations - custom client", function () {
     ];
     client.setResponses(responses);
     const poller = await client.startLRO();
-    assert.equal(poller.totalSentRequests, 1);
+    assert.equal(client.totalSentRequests, 1);
     await delay(100);
-    assert.equal(poller.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 10);
     poller.stop();
     await delay(100);
-    assert.equal(poller.totalSentRequests, 11);
+    assert.equal(client.totalSentRequests, 11);
     // Let's try to resume this with a new poller.
     const serialized = poller.toJSON();
     const client2 = new FakeClient(new SimpleTokenCredential("my-fake-token"));
@@ -177,9 +166,9 @@ describe("Long Running Operations - custom client", function () {
       ...serialized,
       manual: false,
     });
-    assert.equal(poller2.totalSentRequests, 1);
+    assert.equal(client2.totalSentRequests, 1);
     await delay(100);
-    assert.equal(poller2.totalSentRequests, 9);
+    assert.equal(client2.totalSentRequests, 9);
     poller2.stop();
     assert.equal(poller2.state, "Succeeded");
   });
@@ -198,10 +187,10 @@ describe("Long Running Operations - custom client", function () {
     }]);
     const poller = await client.startLRO();
     assert.equal(poller.state, "InProgress");
-    assert.equal(poller.totalSentRequests, 1);
+    assert.equal(client.totalSentRequests, 1);
     const response = await poller.nextResponse();
     assert.equal(response.status, 202);
-    assert.equal(poller.totalSentRequests, 2);
+    assert.equal(client.totalSentRequests, 2);
     poller.stop();
   });
 });

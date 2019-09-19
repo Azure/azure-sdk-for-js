@@ -49,13 +49,13 @@ describe("Long Running Operations - abort signals", function () {
 
     assert.equal(poller.state, "InProgress");
     await delay(100);
-    assert.equal(poller.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 10);
     abortController.abort();
     await delay(50);
 
     assert.equal(pollError!.message, "The request was aborted");
     assert.equal(doneError!.message, "The request was aborted");
-    assert.equal(poller.totalSentRequests, 11);
+    assert.equal(client.totalSentRequests, 10);
     poller.stop();
   }); 
 
@@ -80,7 +80,7 @@ describe("Long Running Operations - abort signals", function () {
     })
 
     await poller.poll(); // Manual polling
-    assert.equal(poller.totalSentRequests, 2);
+    assert.equal(client.totalSentRequests, 2);
 
     abortController.abort();
     let manualPollError: Error | undefined;
@@ -90,7 +90,7 @@ describe("Long Running Operations - abort signals", function () {
       manualPollError = e;
     }
 
-    assert.equal(poller.totalSentRequests, 3);
+    assert.equal(client.totalSentRequests, 2);
     assert.equal(pollError!.message, "The request was aborted");
     assert.equal(manualPollError!.message, "The request was aborted");
     poller.stop();
@@ -114,7 +114,7 @@ describe("Long Running Operations - abort signals", function () {
     })
 
     await poller.poll(); // Manual polling
-    assert.equal(poller.totalSentRequests, 2);
+    assert.equal(client.totalSentRequests, 2);
 
     abortController.abort();
     let manualPollError: Error | undefined;
@@ -126,7 +126,7 @@ describe("Long Running Operations - abort signals", function () {
       manualPollError = e;
     }
 
-    assert.equal(poller.totalSentRequests, 3);
+    assert.equal(client.totalSentRequests, 2);
     assert.equal(pollError!.message, "The request was aborted");
     assert.equal(manualPollError!.message, "The request was aborted");
     poller.stop();
@@ -147,9 +147,9 @@ describe("Long Running Operations - abort signals", function () {
       }
     });
 
-    assert.equal(poller.totalSentRequests, 1);
+    assert.equal(client.totalSentRequests, 1);
     await delay(100);
-    assert.equal(poller.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 10);
 
     abortController.abort();
     let cancelError: Error | undefined;
@@ -172,9 +172,9 @@ describe("Long Running Operations - abort signals", function () {
     client.setResponses(responses);
 
     const poller = await client.startLRO();
-    assert.equal(poller.totalSentRequests, 1);
+    assert.equal(client.totalSentRequests, 1);
     await delay(100);
-    assert.equal(poller.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 10);
 
     const abortController = new AbortController();
     abortController.abort();

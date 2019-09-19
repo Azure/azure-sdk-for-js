@@ -6,6 +6,7 @@ import { FakeNonCancellablePoller } from "./fakeNonCancellablePoller";
 export class FakeClient extends ServiceClient {
   public responses: HttpOperationResponse[];
   public credentials: TokenCredential | ServiceClientCredentials;
+  public totalSentRequests: number = 0;
 
   constructor(credentials: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
     super(credentials, options);
@@ -22,16 +23,20 @@ export class FakeClient extends ServiceClient {
     if (options && options.abortSignal && options.abortSignal.aborted) {
       throw new Error("The request was aborted");
     }
+    this.totalSentRequests++;
     return this.responses.shift()!;
   }
 
   public async startLRO(options?: PollerOptionalParameters): Promise<FakePoller> {
+    const requestOptions = options && options.requestOptions;
+    const initialResponse = await this.sendRequest(requestOptions);
     const poller = new FakePoller(
       this,
       {
         manual: false,
         intervalInMs: 10,
         ...options,
+        initialResponse,
       }
     );
     return poller;

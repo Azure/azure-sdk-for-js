@@ -25,8 +25,6 @@ export abstract class Poller {
     // (undocumented)
     protected abstract getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates;
     // (undocumented)
-    protected abstract initialRequest(options?: RequestOptionsBase): Promise<void>;
-    // (undocumented)
     protected isDone(state?: LongRunningOperationStates): boolean;
     // (undocumented)
     protected loop(): Promise<void>;

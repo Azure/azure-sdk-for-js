@@ -41,8 +41,8 @@ export abstract class Poller {
     this.requestOptions = options.requestOptions;
     if (options.state) this._state = options.state;
     if (options.resources) this.resources = options.resources;
-    if (this.manual || options.noInitialRequest) return;
-    this.initialRequest().then(() => this.loop());
+    if (this.manual) return;
+    this.loop();
   }
 
   protected isDone(state?: LongRunningOperationStates): boolean {
@@ -58,8 +58,6 @@ export abstract class Poller {
     this.previousResponse = response;
     this.state = this.getStateFromResponse(response);
   }
-
-  protected abstract async initialRequest(options?: RequestOptionsBase): Promise<void>;
 
   protected abstract async sendRequest(options?: RequestOptionsBase): Promise<void>;
 
@@ -105,7 +103,6 @@ export abstract class Poller {
 
   public async poll(options?: RequestOptionsBase): Promise<void> {
     if (!this.manual) throw new Error("Manual retries are disabled on this poller");
-    if (!this.initialResponse) await this.initialRequest(options);
     try {
       return await this.sendRequest(options);
     } catch (e) {
