@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Container, ContainerDefinition, Database } from "../../dist-esm/client";
+import { Container, ContainerDefinition } from "../../dist-esm/client";
 import { DataType, IndexKind } from "../../dist-esm/documents";
 import { QueryIterator } from "../../dist-esm/index";
 import { SqlQuerySpec } from "../../dist-esm/queryExecutionContext";
@@ -249,6 +249,14 @@ describe("Aggregate Query", function() {
     } catch (error) {
       assert(error);
     }
+  });
+
+  it("should not error for MAX queries on with empty results", async () => {
+    const queryIterator = container.items.query("SELECT VALUE MAX(r.missing) from r", {
+      maxItemCount: 2
+    });
+    const response = await queryIterator.fetchAll();
+    assert(response.resources.length === 0);
   });
 
   it("should error for GROUP BY queries", async () => {

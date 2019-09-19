@@ -1,7 +1,7 @@
 import { IAggregator } from "./IAggregator";
 
 /** @hidden */
-export class CountAggregator implements IAggregator<number> {
+export class CountAggregator implements IAggregator {
   public value: number;
   /**
    * Represents an aggregator for COUNT operator.

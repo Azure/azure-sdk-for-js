@@ -1,5 +1,5 @@
 /** @hidden */
-export interface IAggregator<T> {
-  aggregate: (other: T) => void;
+export interface IAggregator {
+  aggregate: (other: any) => void;
   getResult: () => number;
 }

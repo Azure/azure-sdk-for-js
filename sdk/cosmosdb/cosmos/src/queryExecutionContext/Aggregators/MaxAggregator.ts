@@ -1,8 +1,13 @@
 import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator";
 import { IAggregator } from "./IAggregator";
 
+interface MaxAggregateResult {
+  count: number;
+  max?: number;
+}
+
 /** @hidden */
-export class MaxAggregator implements IAggregator<number> {
+export class MaxAggregator implements IAggregator {
   private value: number;
   private comparer: OrderByDocumentProducerComparator;
   /**
@@ -20,11 +25,13 @@ export class MaxAggregator implements IAggregator<number> {
    * @instance
    * @param other
    */
-  public aggregate(other: number) {
+  public aggregate(other: MaxAggregateResult) {
     if (this.value === undefined) {
-      this.value = other;
-    } else if (this.comparer.compareValue(other, typeof other, this.value, typeof this.value) > 0) {
-      this.value = other;
+      this.value = other.max;
+    } else if (
+      this.comparer.compareValue(other.max, typeof other.max, this.value, typeof this.value) > 0
+    ) {
+      this.value = other.max;
     }
   }
 
