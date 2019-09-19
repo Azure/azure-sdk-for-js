@@ -2,19 +2,13 @@ import { HttpOperationResponse, WebResource, ServiceClient, RequestOptionsBase }
 import { LongRunningOperationStates, Poller, PollerOptionalParameters } from "../../src"
 
 export class FakePoller extends Poller {
-  public totalSentRequests: number = 0;
-
   constructor(client: ServiceClient, options: PollerOptionalParameters) {
     super({
       ...options,
-      noInitialRequest: true,
       resources: {
         client
       }
     });
-    // Got to call this again, because I can't set the client before super()
-    if (this.manual) return;
-    this.initialRequest().then(() => this.loop());
   } 
 
   protected getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates {
@@ -63,13 +57,8 @@ export class FakePoller extends Poller {
     return;
   }
 
-  protected async initialRequest(options?: RequestOptionsBase): Promise<void> {
-    return this.sendRequest(options);
-  };
- 
   protected async sendRequest(options?: RequestOptionsBase): Promise<void> {
     if (!this.resources.client) return;
-    this.totalSentRequests++;
     const requestOptions = options || this.requestOptions;
     const response = await this.resources.client.sendRequest(new WebResource(
       undefined, // url?: string,
