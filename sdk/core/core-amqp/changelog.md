@@ -1,3 +1,7 @@
+## 1.0.0-preview.4 - TBD
+- Fixes bug where calling `sendRequest` from a `RequestResponseLink` mulitple
+times in parallel would result in all but 1 calls being retried.
+
 ## 1.0.0-preview.3 - 9th September, 2019
 Updates types for better compatibility with TypeScript 3.6.x. (PR #4928)
 
