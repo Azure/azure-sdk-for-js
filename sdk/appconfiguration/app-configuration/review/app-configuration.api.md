@@ -7,111 +7,75 @@
 import * as coreHttp from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
-// @public (undocumented)
-export type AddConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
-
-// @public (undocumented)
-export type AddConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-
-// @public (undocumented)
-export type AddConfigurationSettingsResponse = ModelCreateOrUpdateConfigurationSettingResponse;
-
 // @public
 export class AppConfigurationClient {
-    constructor(connectionString: string);
     constructor(uri: string, credential: TokenCredential);
-    addConfigurationSetting(key: string, configSettings: AddConfigurationSettingConfig, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingsResponse>;
-    deleteConfigurationSetting(key: string, options: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
-    getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
+    constructor(connectionString: string);
+    addConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
+    deleteConfigurationSetting(key: string, options: AppConfigurationDeleteKeyValueOptionalParams & ETagOption): Promise<DeleteKeyValueResponse>;
+    getConfigurationSetting(key: string, options?: AppConfigurationGetKeyValueOptionalParams): Promise<GetKeyValueResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>;
-    listRevisions(options?: ListRevisionsOptions): Promise<ListRevisionsResponse>;
-    setConfigurationSetting(key: string, configSettings: SetConfigurationSettingConfig, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
-}
-
-// @public
-export interface ConfigurationSettingList extends Array<ModelConfigurationSetting> {
     // (undocumented)
-    items?: ModelConfigurationSetting[];
-}
-
-// @public (undocumented)
-export type DeleteConfigurationSettingOptions = ModelConfigurationClientDeleteConfigurationSettingOptionalParams & ETagOption;
-
-// @public (undocumented)
-export type DeleteConfigurationSettingResponse = ModelDeleteConfigurationSettingResponse;
-
-// @public (undocumented)
-export interface ETagOption {
-    etag?: string;
+    listConfigurationSettingsNext(nextLink: string, options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>;
+    listRevisions(options?: AppConfigurationGetRevisionsOptionalParams): Promise<GetRevisionsResponse>;
+    setConfigurationSetting(configurationSetting: ConfigurationSettingParam & ETagOption, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
 }
 
 // @public
-export interface GetConfigurationSettingHeaders {
-    lastModifiedHeader: string;
-}
-
-// @public (undocumented)
-export type GetConfigurationSettingOptions = ModelConfigurationClientGetConfigurationSettingOptionalParams;
-
-// @public (undocumented)
-export type GetConfigurationSettingResponse = ModelGetConfigurationSettingResponse;
-
-// @public (undocumented)
-export type ListConfigurationSettingsOptions = ModelConfigurationClientListConfigurationSettingsOptionalParams;
-
-// @public (undocumented)
-export type ListConfigurationSettingsResponse = ModelListConfigurationSettingsResponse;
-
-// @public (undocumented)
-export type ListRevisionsOptions = ModelConfigurationClientListRevisionsOptionalParams;
-
-// @public (undocumented)
-export type ListRevisionsResponse = ModelListRevisionsResponse;
-
-// @public
-export interface ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
+export interface AppConfigurationDeleteKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
+    ifMatch?: string;
     label?: string;
 }
 
 // @public
-export interface ModelConfigurationClientDeleteConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
-    // (undocumented)
+export interface AppConfigurationGetKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
+    acceptDatetime?: string;
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    label?: string;
+    select?: string[];
+}
+
+// @public
+export interface AppConfigurationGetKeyValuesOptionalParams extends coreHttp.RequestOptionsBase {
+    acceptDatetime?: string;
+    after?: string;
+    key?: string;
+    label?: string;
+    select?: string[];
+}
+
+// @public
+export interface AppConfigurationGetRevisionsOptionalParams extends coreHttp.RequestOptionsBase {
+    acceptDatetime?: string;
+    after?: string;
+    key?: string;
+    label?: string;
+    select?: string[];
+}
+
+// @public
+export interface AppConfigurationPutKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
+    entity?: ConfigurationSetting;
+    ifMatch?: string;
+    ifNoneMatch?: string;
     label?: string;
 }
 
 // @public
-export interface ModelConfigurationClientGetConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDateTime?: Date;
-    label?: string;
-}
-
-// @public
-export interface ModelConfigurationClientListConfigurationSettingsOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDateTime?: Date;
-    fields?: string[];
-    key?: string[];
-    label?: string[];
-}
-
-// @public
-export interface ModelConfigurationClientListRevisionsOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDateTime?: Date;
-    fields?: string[];
-    key?: string[];
-    label?: string[];
-}
-
-// @public
-export interface ModelConfigurationSetting {
+export interface ConfigurationSetting {
     // (undocumented)
     contentType?: string;
-    readonly etag?: string;
     // (undocumented)
-    key?: string;
+    etag?: string;
+    // (undocumented)
+    key: string;
     // (undocumented)
     label?: string;
-    readonly lastModified?: Date;
-    readonly locked?: boolean;
+    // (undocumented)
+    lastModified?: Date;
+    // (undocumented)
+    locked?: boolean;
     // (undocumented)
     tags?: {
         [propertyName: string]: string;
@@ -120,55 +84,76 @@ export interface ModelConfigurationSetting {
     value?: string;
 }
 
-// @public
-export type ModelCreateOrUpdateConfigurationSettingResponse = ModelConfigurationSetting & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ModelConfigurationSetting;
-    };
-};
+// @public (undocumented)
+export interface ConfigurationSettingOptions extends Pick<AppConfigurationPutKeyValueOptionalParams, Exclude<keyof AppConfigurationPutKeyValueOptionalParams, 'label' | 'entity'>> {
+}
 
-// @public
-export type ModelDeleteConfigurationSettingResponse = ModelConfigurationSetting & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ModelConfigurationSetting;
-    };
-};
+// @public (undocumented)
+export interface ConfigurationSettingParam extends Pick<ConfigurationSetting, Exclude<keyof ConfigurationSetting, 'locked' | 'etag' | 'lastModified'>> {
+}
 
+// Warning: (ae-forgotten-export) The symbol "DeleteKeyValueHeaders" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export type ModelGetConfigurationSettingResponse = ModelConfigurationSetting & GetConfigurationSettingHeaders & {
+export type DeleteKeyValueResponse = ConfigurationSetting & DeleteKeyValueHeaders & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: GetConfigurationSettingHeaders;
+        parsedHeaders: DeleteKeyValueHeaders;
         bodyAsText: string;
-        parsedBody: ModelConfigurationSetting;
-    };
-};
-
-// @public
-export type ModelListConfigurationSettingsResponse = ConfigurationSettingList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ConfigurationSettingList;
-    };
-};
-
-// @public
-export type ModelListRevisionsResponse = ConfigurationSettingList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ConfigurationSettingList;
+        parsedBody: ConfigurationSetting;
     };
 };
 
 // @public (undocumented)
-export type SetConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+export interface ETagOption {
+    etag?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "GetKeyValueHeaders" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export type GetKeyValueResponse = ConfigurationSetting & GetKeyValueHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GetKeyValueHeaders;
+        bodyAsText: string;
+        parsedBody: ConfigurationSetting;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "KeyValueListResult" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "GetRevisionsHeaders" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export type GetRevisionsResponse = KeyValueListResult & GetRevisionsHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GetRevisionsHeaders;
+        bodyAsText: string;
+        parsedBody: KeyValueListResult;
+    };
+};
 
 // @public (undocumented)
-export type SetConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
+export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationGetKeyValuesOptionalParams, Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, 'key' | 'label' | 'select' | 'after'>> {
+    fields?: (keyof ConfigurationSetting)[];
+    keys?: string[];
+    labels?: string[];
+}
 
+// Warning: (ae-forgotten-export) The symbol "GetKeyValuesResponse" needs to be exported by the entry point index.d.ts
+// 
 // @public (undocumented)
-export type SetConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+export interface ListConfigurationSettingsResponse extends GetKeyValuesResponse {
+}
+
+// Warning: (ae-forgotten-export) The symbol "PutKeyValueHeaders" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export type PutKeyValueResponse = ConfigurationSetting & PutKeyValueHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: PutKeyValueHeaders;
+        bodyAsText: string;
+        parsedBody: ConfigurationSetting;
+    };
+};
 
 
 // (No @packageDocumentation comment for this package)
