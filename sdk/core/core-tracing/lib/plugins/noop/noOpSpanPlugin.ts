@@ -6,11 +6,6 @@ import { Attributes } from "../../interfaces/attributes";
 import { Status } from "../../interfaces/status";
 
 export class NoOpSpanPlugin implements Span {
-  private _span: any;
-
-  constructor(span: any) {
-    this._span = span;
-  }
 
   context(): SpanContext {
     return {
@@ -19,35 +14,35 @@ export class NoOpSpanPlugin implements Span {
     };
   }
 
-  end(endTime?: number): void {
-    this._span.end(endTime);
+  end(_endTime?: number): void {
+    /* Noop */
   }
 
-  start(startTime?: number): void {
-    this._span.start(startTime);
+  start(_startTime?: number): void {
+    /* Noop */
   }
 
-  setAttribute(key: string, value: unknown): this {
+  setAttribute(_key: string, _value: unknown): this {
     throw new Error("Method not implemented.");
   }
 
-  setAttributes(attributes: Attributes): this {
+  setAttributes(_attributes: Attributes): this {
     throw new Error("Method not implemented.");
   }
 
-  addEvent(name: string, attributes?: Attributes): this {
+  addEvent(_name: string, _attributes?: Attributes): this {
     throw new Error("Method not implemented.");
   }
 
-  addLink(spanContext: SpanContext, attributes?: Attributes): this {
+  addLink(_spanContext: SpanContext, _attributes?: Attributes): this {
     throw new Error("Method not implemented.");
   }
 
-  setStatus(status: Status): this {
+  setStatus(_status: Status): this {
     throw new Error("Method not implemented.");
   }
 
-  updateName(name: string): this {
+  updateName(_name: string): this {
     throw new Error("Method not implemented.");
   }
 

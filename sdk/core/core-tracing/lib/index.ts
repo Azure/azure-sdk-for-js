@@ -11,10 +11,6 @@ export { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
 export { OpenCensusSpanPlugin } from "./plugins/opencensus/openCensusSpanPlugin";
 export { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugin";
 
-// Implementations
-export { SpanNoOpImpl } from "./implementations/noop/spanNoOpImpl";
-export { TracerNoOpImpl } from "./implementations/noop/tracerNoOpImpl";
-
 // Interfaces
 export { Attributes } from "./interfaces/attributes";
 export { BinaryFormat } from "./interfaces/BinaryFormat";

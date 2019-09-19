@@ -60,34 +60,32 @@ export interface Link {
 
 // @public (undocumented)
 export class NoOpSpanPlugin implements Span {
-    constructor(span: any);
     // (undocumented)
-    addEvent(name: string, attributes?: Attributes): this;
+    addEvent(_name: string, _attributes?: Attributes): this;
     // (undocumented)
-    addLink(spanContext: SpanContext, attributes?: Attributes): this;
+    addLink(_spanContext: SpanContext, _attributes?: Attributes): this;
     // (undocumented)
     context(): SpanContext;
     // (undocumented)
-    end(endTime?: number): void;
+    end(_endTime?: number): void;
     // (undocumented)
     isRecordingEvents(): boolean;
     // (undocumented)
-    setAttribute(key: string, value: unknown): this;
+    setAttribute(_key: string, _value: unknown): this;
     // (undocumented)
-    setAttributes(attributes: Attributes): this;
+    setAttributes(_attributes: Attributes): this;
     // (undocumented)
-    setStatus(status: Status): this;
+    setStatus(_status: Status): this;
     // (undocumented)
-    start(startTime?: number): void;
+    start(_startTime?: number): void;
     // (undocumented)
-    updateName(name: string): this;
+    updateName(_name: string): this;
 }
 
 // @public (undocumented)
 export class NoOpTracePlugin implements Tracer {
-    constructor(tracer: any);
     // (undocumented)
-    bind<T>(target: T, span?: Span): T;
+    bind<T>(_target: T, _span?: Span): T;
     // (undocumented)
     getBinaryFormat(): BinaryFormat;
     // (undocumented)
@@ -97,11 +95,11 @@ export class NoOpTracePlugin implements Tracer {
     // (undocumented)
     readonly pluginType = SupportedPlugins.NOOP;
     // (undocumented)
-    recordSpanData(span: Span): void;
+    recordSpanData(_span: Span): void;
     // (undocumented)
-    startSpan(name: string, options?: SpanOptions): Span;
+    startSpan(_name: string, _options?: SpanOptions): Span;
     // (undocumented)
-    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
+    withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
 }
 
 // @public (undocumented)
@@ -193,30 +191,6 @@ export enum SpanKind {
     SERVER = 1
 }
 
-// @public (undocumented)
-export class SpanNoOpImpl implements Span {
-    // (undocumented)
-    addEvent(name: string, attributes?: Attributes | undefined): this;
-    // (undocumented)
-    addLink(spanContext: SpanContext, attributes?: Attributes | undefined): this;
-    // (undocumented)
-    context(): SpanContext;
-    // (undocumented)
-    end(endTime?: number): void;
-    // (undocumented)
-    isRecordingEvents(): boolean;
-    // (undocumented)
-    setAttribute(key: string, value: unknown): this;
-    // (undocumented)
-    setAttributes(attributes: Attributes): this;
-    // (undocumented)
-    setStatus(status: Status): this;
-    // (undocumented)
-    start(startTime?: number): void;
-    // (undocumented)
-    updateName(name: string): this;
-}
-
 // @public
 export interface SpanOptions {
     attributes?: Attributes;
@@ -264,26 +238,6 @@ export interface Tracer {
     recordSpanData(span: Span): void;
     startSpan(name: string, options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => ReturnType<T>>(span: Span, fn: T): ReturnType<T>;
-}
-
-// @public (undocumented)
-export class TracerNoOpImpl implements Tracer {
-    // (undocumented)
-    bind<T>(target: T, span?: Span): T;
-    // (undocumented)
-    getBinaryFormat(): BinaryFormat;
-    // (undocumented)
-    getCurrentSpan(): Span;
-    // (undocumented)
-    getHttpTextFormat(): HttpTextFormat;
-    // (undocumented)
-    readonly pluginType = SupportedPlugins.NOOP;
-    // (undocumented)
-    recordSpanData(span: Span): void;
-    // (undocumented)
-    startSpan(name: string, options?: SpanOptions | undefined): Span;
-    // (undocumented)
-    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
 }
 
 // @public (undocumented)

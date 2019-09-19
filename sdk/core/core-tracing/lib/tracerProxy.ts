@@ -3,7 +3,6 @@
 import { SupportedPlugins } from "./utils/supportedPlugins";
 import { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugin";
 import { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
-import { TracerNoOpImpl } from "./implementations/noop/tracerNoOpImpl";
 import { Plugin } from "./interfaces/plugin";
 
 export class TracerProxy {
@@ -15,13 +14,13 @@ export class TracerProxy {
     if (tracerPluginType === SupportedPlugins.OPENCENSUS) {
       TracerProxy._tracerPlugin = new OpenCensusTracePlugin(tracer);
     } else {
-      TracerProxy._tracerPlugin = new NoOpTracePlugin(tracer);
+      TracerProxy._tracerPlugin = new NoOpTracePlugin();
     }
   }
 
   public static getTracer() {
     if (!TracerProxy._tracerPlugin) {
-      TracerProxy._tracerPlugin = new NoOpTracePlugin(new TracerNoOpImpl());
+      TracerProxy._tracerPlugin = new NoOpTracePlugin();
     }
     return TracerProxy._tracerPlugin;
   }
