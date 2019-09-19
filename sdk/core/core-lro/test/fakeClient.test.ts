@@ -5,6 +5,11 @@ import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { FakeClient } from "./utils/fakeClient"
 
+// IMPORTANT:
+// Some tests express expected behaviors through a property called
+// .totalSentRequests, which belongs to an implementation of core-lro's poller,
+// not to the underlying Poller class. Please look at test/utils/fakePoller.ts
+
 const fakeHttpHeaders: HttpHeaders = new HttpHeaders();
 const fakeHttpRequest: WebResource = new WebResource();
 const basicResponseStructure = {

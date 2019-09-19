@@ -19,16 +19,19 @@ export type PollerStateChangeSubscriber = (
   poller?: Poller
 ) => void;
 
+export type PollErrorSubscriber = (e: Error) => void;
+
 export abstract class Poller {
   private stopped: boolean = false;
   private intervalInMs: number = 1000;
   private stateChangeSubscribers: PollerStateChangeSubscriber[] = [];
+  private pollErrorSubscribers: PollErrorSubscriber[] = [];
   private initialResponse?: HttpOperationResponse;
+  private _state: LongRunningOperationStates = "InProgress";
   protected readonly manual: boolean = false;
   protected abortSignal?: AbortSignal;
   protected previousResponse?: HttpOperationResponse;
   protected requestOptions: RequestOptionsBase | undefined;
-  private _state: LongRunningOperationStates = "InProgress";
 
   constructor(options: PollerOptionalParameters) {
     if (typeof options.manual === "boolean") this.manual = options.manual;
@@ -63,11 +66,21 @@ export abstract class Poller {
 
   protected async loop(): Promise<void> {
     if (this.manual) return;
-    while (!this.isDone()) {
-      const interval: number = this.intervalInMs || this.getInterval();
-      await delay(interval);
-      await this.sendRequest();
+    try {
+      while (!this.isDone()) {
+        const interval: number = this.intervalInMs || this.getInterval();
+        await delay(interval);
+        await this.sendRequest();
+      }
+    } catch (e) {
+      for (const subscriber of this.pollErrorSubscribers) {
+        subscriber(e);
+      }
     }
+  }
+
+  public onPollError(func: PollErrorSubscriber): void {
+    this.pollErrorSubscribers.push(func);
   }
 
   public abstract async cancel(options?: RequestOptionsBase): Promise<void>;
@@ -102,12 +115,13 @@ export abstract class Poller {
   }
 
   public done(): Promise<LongRunningOperationStates | undefined> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.onStateChange((state) => {
         if (this.isDone()) {
           resolve(state);
         }
       });
+      this.onPollError(reject);
     });
   }
 

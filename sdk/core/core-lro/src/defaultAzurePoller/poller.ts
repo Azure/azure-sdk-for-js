@@ -137,7 +137,7 @@ export class DefaultAzurePoller extends Poller {
   }
 
   // TODO
-  public async cancel({}): Promise<void> {
+  public async cancel(_?: RequestOptionsBase): Promise<void> {
     return;
   }
 }
