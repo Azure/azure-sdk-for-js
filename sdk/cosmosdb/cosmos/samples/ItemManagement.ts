@@ -1,4 +1,6 @@
-﻿import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
 import { readFileSync } from "fs";
@@ -11,7 +13,7 @@ const itemDefs = JSON.parse(readFileSync("./Shared/Data/Families.json", "utf8"))
 const client = new CosmosClient({ endpoint, key });
 
 async function run() {
-  //ensuring a database & container exists for us to work with
+  // ensuring a database & container exists for us to work with
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({ id: containerId });
 
@@ -42,8 +44,8 @@ async function run() {
     );
   }
 
-  //if we someone else updates this item, its etag on the server would change.
-  //repeating the above read with the old etag would then get a item in the response
+  // if we someone else updates this item, its etag on the server would change.
+  // repeating the above read with the old etag would then get a item in the response
   readDoc.foo = "bar";
   await item.replace(readDoc);
   const { resource: item3, headers: headers3 } = await item.read({
@@ -78,7 +80,7 @@ async function run() {
   console.log("The '" + person.id + "' family has lastName '" + person.lastName + "'");
   console.log("The '" + person.id + "' family has " + person.children.length + " children '");
 
-  //add a new child to this family, and change the family's lastName
+  // add a new child to this family, and change the family's lastName
   const childDef = {
     firstName: "Newborn",
     gender: "unknown",
@@ -132,7 +134,7 @@ async function run() {
   console.log(`Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`);
 
   if (upsertedPerson1.id === upsertedPerson2.id)
-    throw new Error("These two upserted records should have different resource IDs.");
+    {throw new Error("These two upserted records should have different resource IDs.");}
 
   logStep("Delete item '" + item.id + "'");
   await item.delete();

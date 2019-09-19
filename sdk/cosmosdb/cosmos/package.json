@@ -11,7 +11,8 @@
     "azure",
     "nosql",
     "database",
-    "cloud"
+    "cloud",
+    "Azure"
   ],
   "author": "Microsoft Corporation",
   "main": "./dist/index.js",
@@ -63,10 +64,7 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
   "tsdoc": {
     "tsdocFlavor": "AEDoc"
