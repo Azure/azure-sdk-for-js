@@ -74,10 +74,10 @@ if (serviceDirs.length === 0) {
 } else {
   let params = [];
   switch (action.toLowerCase()) {
-    case 'build':
-      params = flatMap(packageNames, (p) => [`--to`, p, `--from`, p]);
-      spawnNode(baseDir, 'common/scripts/install-run-rush.js', action, ...params, ...rushParams);
-      break;
+    // case 'build':
+    //   params = flatMap(packageNames, (p) => [`--to`, p, `--from`, p]);
+    //   spawnNode(baseDir, 'common/scripts/install-run-rush.js', action, ...params, ...rushParams);
+    //   break;
 
     case 'test':
       params = flatMap(packageNames, (p) => [`--from`, p]);
