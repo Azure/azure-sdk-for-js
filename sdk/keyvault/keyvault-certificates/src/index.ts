@@ -752,7 +752,7 @@ export class CertificatesClient {
    * @summary Creates a certificate
    * @param name The name of the certificate
    * @param certificatePolicy The certificate's policy
-   * @param enabled Wether this certificate is enabled or not
+   * @param enabled Whether this certificate is enabled or not
    * @param tags Tags for this certificate
    * @param [options] Optional request parameters
    * @returns Promise<Certificate>

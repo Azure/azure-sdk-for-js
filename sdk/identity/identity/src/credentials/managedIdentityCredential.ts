@@ -181,12 +181,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         expiresInParser = (requestBody: any) => {
           // Parse a date format like "06/20/2019 02:57:58 +00:00" and
           // convert it into a JavaScript-formatted date
-          const m = requestBody.expires_on.match(
-            /(\d\d)\/(\d\d)\/(\d\d\d\d) (\d\d):(\d\d):(\d\d) (\+|-)(\d\d):(\d\d)/
-          );
-          return Date.parse(
-            `${m[3]}-${m[1]}-${m[2]}T${m[4]}:${m[5]}:${m[6]}${m[7]}${m[8]}:${m[9]}`
-          );
+          return Date.parse(requestBody.expires_on);
         };
       } else {
         // Running in Cloud Shell

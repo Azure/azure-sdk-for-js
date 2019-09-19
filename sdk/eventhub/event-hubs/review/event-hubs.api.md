@@ -34,6 +34,7 @@ export interface Checkpoint {
     consumerGroupName: string;
     eTag: string;
     eventHubName: string;
+    fullyQualifiedNamespace: string;
     offset: number;
     ownerId: string;
     partitionId: string;
@@ -84,6 +85,7 @@ export class EventHubClient {
     createProducer(options?: EventHubProducerOptions): EventHubProducer;
     static defaultConsumerGroupName: string;
     readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
     getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
     getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties>;
@@ -184,7 +186,7 @@ export interface EventProcessorOptions {
 // @public
 export class InMemoryPartitionManager implements PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
@@ -207,7 +209,7 @@ export type OnMessage = (eventData: ReceivedEventData) => void;
 // @public
 export interface PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
     updateCheckpoint(checkpoint: Checkpoint): Promise<string>;
 }
 
@@ -216,6 +218,7 @@ export interface PartitionOwnership {
     consumerGroupName: string;
     eTag?: string;
     eventHubName: string;
+    fullyQualifiedNamespace: string;
     lastModifiedTimeInMS?: number;
     offset?: number;
     ownerId: string;
@@ -230,6 +233,7 @@ export class PartitionProcessor {
     consumerGroupName: string;
     eventHubName: string;
     eventProcessorId: string;
+    fullyQualifiedNamespace: string;
     initialize(): Promise<void>;
     lastEnqueuedEventInfo: LastEnqueuedEventInfo;
     partitionId: string;

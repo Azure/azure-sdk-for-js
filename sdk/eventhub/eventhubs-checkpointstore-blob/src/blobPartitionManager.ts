@@ -21,11 +21,14 @@ export class BlobPartitionManager implements PartitionManager {
    * results if there are is no existing ownership information.
    * Partition Ownership contains the information on which EventProcessor is currently processing the partition and the last checkpoint for the partition
    *
+   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
    * @param consumerGroupName The consumer group name.
    * @return Partition ownership details of all the partitions that have had an owner.
    */
   async listOwnership(
+    fullyQualifiedNamespace: string,
     eventHubName: string,
     consumerGroupName: string
   ): Promise<PartitionOwnership[]> {
@@ -33,11 +36,12 @@ export class BlobPartitionManager implements PartitionManager {
     try {
       for await (const blob of this._containerClient.listBlobsFlat({
         include: ["metadata"],
-        prefix: `${eventHubName}/${consumerGroupName}/`
+        prefix: `${fullyQualifiedNamespace}/${eventHubName}/${consumerGroupName}/`
       })) {
         const blobPath = blob.name.split("/");
         const blobName = blobPath[blobPath.length - 1];
         const partitionOwnership: PartitionOwnership = {
+          fullyQualifiedNamespace,
           eventHubName,
           consumerGroupName,
           ownerId: blob.metadata!.ownerid,
@@ -62,7 +66,7 @@ export class BlobPartitionManager implements PartitionManager {
   }
 
   /**
-   * Claim ownership of a list of partitions. This will return the list of partitions that were 
+   * Claim ownership of a list of partitions. This will return the list of partitions that were
    * successfully claimed.
    *
    * @param partitionOwnership The list of partition ownership this instance is claiming to own.
@@ -71,7 +75,7 @@ export class BlobPartitionManager implements PartitionManager {
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     let partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
-      const blobName = `${ownership.eventHubName}/${ownership.consumerGroupName}/${ownership.partitionId}`;
+      const blobName = `${ownership.fullyQualifiedNamespace}/${ownership.eventHubName}/${ownership.consumerGroupName}/${ownership.partitionId}`;
       try {
         let updatedBlobResponse;
         const blobClient = this._containerClient.getBlobClient(blobName);
@@ -106,7 +110,7 @@ export class BlobPartitionManager implements PartitionManager {
           });
         }
         if (updatedBlobResponse.lastModified) {
-          updatedBlobResponse.lastModified.getTime()
+          updatedBlobResponse.lastModified.getTime();
         }
         ownership.eTag = updatedBlobResponse.eTag;
         partitionOwnershipArray.push(ownership);
@@ -135,23 +139,27 @@ export class BlobPartitionManager implements PartitionManager {
     throwTypeErrorIfParameterMissing("sequenceNumber", checkpoint.sequenceNumber);
     throwTypeErrorIfParameterMissing("offset", checkpoint.offset);
 
-    const blobName = `${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/${checkpoint.partitionId}`;
+    const blobName = `${checkpoint.fullyQualifiedNamespace}/${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/${checkpoint.partitionId}`;
     try {
       const blobClient = this._containerClient.getBlobClient(blobName);
       const properties = await blobClient.getProperties();
       if (properties.metadata!.ownerid !== checkpoint.ownerId) {
-      log.error(
-        `ownerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${properties.metadata!.ownerid}].`
-      );
-      throw new Error(
-        `ownerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${properties.metadata!.ownerid}].`
-      );
-    }
+        log.error(
+          `ownerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${
+            properties.metadata!.ownerid
+          }].`
+        );
+        throw new Error(
+          `ownerId: [${checkpoint.ownerId}] doesn't match with stored ownerId: [${
+            properties.metadata!.ownerid
+          }].`
+        );
+      }
       const metadataResponse = await blobClient.setMetadata(
         {
           OwnerId: checkpoint.ownerId,
           SequenceNumber: checkpoint.sequenceNumber.toString(),
-          Offset: checkpoint.offset.toString(),
+          Offset: checkpoint.offset.toString()
         },
         {
           blobAccessConditions: {

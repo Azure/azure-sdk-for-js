@@ -14,6 +14,7 @@ Install the Azure Event Hubs Checkpoint Store Blob library using npm
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/), an
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package, and a [Storage account](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction)
+
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 ### Configure Typescript
@@ -81,10 +82,10 @@ await containerClient.create(); // This can be skipped if the container already 
 const partitionManager =  new BlobPartitionManager(containerClient);
 
 SamplePartitionProcessor extends PartitionProcessor  {
-  async processEvents(events, partitionContext) {
+  async processEvents(events) {
     if (events.length) {
      /* custom logic for processing events, then checkpoint*/
-      await partitionContext.updateCheckpoint(events[events.length - 1]);
+      await this.updateCheckpoint(events[events.length - 1]);
     } 
   }
 }
