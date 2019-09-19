@@ -6,38 +6,7 @@
 
 import { AbortSignal } from '@azure/abort-controller';
 import { HttpOperationResponse } from '@azure/core-http';
-import { OperationResponse } from '@azure/core-http';
-import { OperationSpec } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
-import { ServiceClient } from '@azure/core-http';
-import { WebResource } from '@azure/core-http';
-
-// @public (undocumented)
-export class DefaultAzurePoller extends Poller {
-    constructor(client: ServiceClient, initialRequest: WebResource, options: PollerOptionalParameters);
-    // (undocumented)
-    cancel({}: {}): Promise<void>;
-    // (undocumented)
-    getInterval(): number;
-    // (undocumented)
-    protected getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates;
-    // (undocumented)
-    initialRequest(): Promise<void>;
-    // (undocumented)
-    protected sendRequest(options?: RequestOptionsBase): Promise<void>;
-}
-
-// @public (undocumented)
-export function getAzureAsyncOperationHeaderValue(response: HttpOperationResponse): string | undefined;
-
-// @public (undocumented)
-export function getOperationResponse(operationSpec: OperationSpec, response: HttpOperationResponse): OperationResponse | undefined;
-
-// @public (undocumented)
-export function getProvisioningState(responseBody: any): LongRunningOperationStates | undefined;
-
-// @public (undocumented)
-export function getResponseBody(response: HttpOperationResponse): any;
 
 // @public (undocumented)
 export type LongRunningOperationStates = "InProgress" | "Succeeded" | "Failed" | "Canceled" | "Cancelled";
@@ -66,6 +35,8 @@ export abstract class Poller {
     // (undocumented)
     nextResponse(): Promise<HttpOperationResponse>;
     // (undocumented)
+    onPollError(func: PollErrorSubscriber): void;
+    // (undocumented)
     onStateChange(func: PollerStateChangeSubscriber): void;
     // (undocumented)
     poll(options?: RequestOptionsBase): Promise<void>;
@@ -75,6 +46,8 @@ export abstract class Poller {
     protected processResponse(response: HttpOperationResponse): void;
     // (undocumented)
     protected requestOptions: RequestOptionsBase | undefined;
+    // (undocumented)
+    protected readonly resources: any;
     // (undocumented)
     protected abstract sendRequest(options?: RequestOptionsBase): Promise<void>;
     // (undocumented)
@@ -102,10 +75,15 @@ export interface PollerOptionalParameters {
     // (undocumented)
     requestOptions?: RequestOptionsBase;
     // (undocumented)
+    resources?: any;
+    // (undocumented)
     retries?: number;
     // (undocumented)
     state?: LongRunningOperationStates;
 }
+
+// @public (undocumented)
+export type PollErrorSubscriber = (e: Error) => void;
 
 // @public (undocumented)
 export type PollerStateChangeSubscriber = (state?: LongRunningOperationStates, poller?: Poller) => void;
