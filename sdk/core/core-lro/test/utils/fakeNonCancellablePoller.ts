@@ -2,15 +2,16 @@ import { HttpOperationResponse, WebResource, ServiceClient, RequestOptionsBase }
 import { LongRunningOperationStates, Poller, PollerOptionalParameters } from "../../src"
 
 export class FakeNonCancellablePoller extends Poller {
-  private client?: ServiceClient;
   public totalSentRequests: number = 0;
 
   constructor(client: ServiceClient, options: PollerOptionalParameters) {
     super({
       ...options,
       noInitialRequest: true,
+      resources: {
+        client
+      }
     });
-    this.client = client;
     // Got to call this again, because I can't set the client before super()
     if (this.manual) return;
     this.initialRequest().then(() => this.loop());
@@ -37,7 +38,7 @@ export class FakeNonCancellablePoller extends Poller {
     const requestOptions = options || this.requestOptions;
     if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
       // This will throw
-      await this.client!.sendRequest(new WebResource(
+      await this.resources.client!.sendRequest(new WebResource(
         undefined, // url?: string,
         undefined, // method?: HttpMethods,
         undefined, // body?: any,
@@ -61,10 +62,10 @@ export class FakeNonCancellablePoller extends Poller {
   };
  
   protected async sendRequest(options?: RequestOptionsBase): Promise<void> {
-    if (!this.client) return;
+    if (!this.resources.client) return;
     this.totalSentRequests++;
     const requestOptions = options || this.requestOptions;
-    const response = await this.client.sendRequest(new WebResource(
+    const response = await this.resources.client.sendRequest(new WebResource(
       undefined, // url?: string,
       undefined, // method?: HttpMethods,
       undefined, // body?: any,
