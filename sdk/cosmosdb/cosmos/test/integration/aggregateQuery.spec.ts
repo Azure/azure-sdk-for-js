@@ -259,6 +259,14 @@ describe("Aggregate Query", function() {
     assert(response.resources.length === 0);
   });
 
+  it("should not error for MIN queries on with empty filter", async () => {
+    const queryIterator = container.items.query("SELECT VALUE MIN(r.key) from r WHERE false", {
+      maxItemCount: 2
+    });
+    const response = await queryIterator.fetchAll();
+    assert(response.resources.length === 0);
+  });
+
   it("should error for GROUP BY queries", async () => {
     try {
       const queryIterator = container.items.query("SELECT * from r GROUP BY r.key");
