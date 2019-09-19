@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { StatusCode, SubStatusCode } from "./StatusCodes";

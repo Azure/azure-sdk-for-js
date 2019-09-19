@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { QueryRange } from "../../dist-esm/routing";
 import { createCompleteRoutingMap } from "../../dist-esm/routing/CollectionRoutingMapFactory";

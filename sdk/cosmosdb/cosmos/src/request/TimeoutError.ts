@@ -1,6 +1,8 @@
 /**
  * @ignore
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export const TimeoutErrorCode = "TimeoutError";
 
 export class TimeoutError extends Error {

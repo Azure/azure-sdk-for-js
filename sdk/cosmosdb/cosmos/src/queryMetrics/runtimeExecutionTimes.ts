@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import QueryMetricsConstants from "./queryMetricsConstants";
 import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
 import { TimeSpan } from "./timeSpan";

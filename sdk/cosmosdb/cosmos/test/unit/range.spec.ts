@@ -1,4 +1,6 @@
-﻿import assert from "assert";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import assert from "assert";
 import { Range } from "../../dist-esm/range";
 
 describe("Range Tests", function() {

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { database, key, endpoint } from "./config";
 import { CosmosClient } from "../../dist";
 

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import * as sinon from "sinon";
 import { ClientContext } from "../../dist-esm/ClientContext";
