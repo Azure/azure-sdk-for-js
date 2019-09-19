@@ -4,7 +4,14 @@ Azure Blob storage is Microsoft's object storage solution for the cloud. Blob st
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Blob Storage service.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob) | [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.3) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples) | [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
+Version: 12.0.0-preview.3
+
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.3)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples)
+- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html)
+- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob)
+- [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
 
 ## Key concepts
 
@@ -115,7 +122,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Examples
 
-More samples can be found at
+Samples can be found at
 [Javascript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/javascript)
 and
 [Typescript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript)
@@ -142,13 +149,12 @@ const blobServiceClient = new BlobServiceClient(
 
 ### Create a new container
 
-Use `BlobServiceClient.getContainerClient()` to create a new container.
+Use `BlobServiceClient.getContainerClient()` to get a container client instance then create a new container resource.
 
 ```javascript
 // Create a container
 const containerName = `newcontainer${new Date().getTime()}`;
 const containerClient = blobServiceClient.getContainerClient(containerName);
-
 const createContainerResponse = await containerClient.create();
 console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 ```
@@ -159,17 +165,17 @@ Use `BlobServiceClient.listContainers()` function to iterate the containers,
 with the new `for-await-of` syntax:
 
 ```javascript
-  let i = 1;
-  let iter = await blobServiceClient.listContainers();
-  for await (const container of iter) {
-    console.log(`Container ${i++}: ${container.name}`);
-  }
+let i = 1;
+let iter = await blobServiceClient.listContainers();
+for await (const container of iter) {
+  console.log(`Container ${i++}: ${container.name}`);
+}
 ```
 
 Alternatively without using `for-await-of`:
 
 ```javascript
-i = 1;
+let i = 1;
 iter = blobServiceClient.listContainers();
 let containerItem = await iter.next();
 while (!containerItem.done) {
@@ -181,14 +187,14 @@ while (!containerItem.done) {
 In addition, pagination is supported for listing too via `byPage()`:
 
 ```javascript
-  i = 1;
-  for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
-    if (response.containerItems) {
-      for (const container of response.containerItems) {
-        console.log(`Container ${i++}: ${container.name}`);
-      }
+let i = 1;
+for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
+  if (response.containerItems) {
+    for (const container of response.containerItems) {
+      console.log(`Container ${i++}: ${container.name}`);
     }
   }
+}
 ```
 
 For a complete sample on iterating containers please see [samples/iterators-containers.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/iterators-containers.ts).
@@ -209,11 +215,11 @@ console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.req
 Similar to listing containers.
 
 ```javascript
-  let i = 1;
-  let iter = await containerClient.listBlobsFlat();
-  for await (const blob of iter) {
-    console.log(`Blob ${i++}: ${blob.name}`);
-  }
+let i = 1;
+let iter = await containerClient.listBlobsFlat();
+for await (const blob of iter) {
+  console.log(`Blob ${i++}: ${blob.name}`);
+}
 ```
 
 For a complete sample on iterating blobs please see [samples/iterators-blobs.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/iterators-blobs.ts).
