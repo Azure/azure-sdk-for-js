@@ -23,7 +23,7 @@ const parseArgs = () => {
     if (inFlags) {
       flags.push(arg);
     } else {
-      if (arg !== '*') { // exclude special value "*" meaning all libraries
+      if (arg && arg !== '*') { // exclude empty value and special value "*" meaning all libraries
         services.push(arg);
       }
     }
