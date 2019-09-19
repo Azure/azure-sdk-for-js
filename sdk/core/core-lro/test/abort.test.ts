@@ -131,4 +131,63 @@ describe("Long Running Operations - abort signals", function () {
     assert.equal(manualPollError!.message, "The request was aborted");
     poller.stop();
   });
+
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    const responses = Array(20).fill({
+      ...basicResponseStructure,
+      status: 202,
+    });
+    client.setResponses(responses);
+
+    const abortController = new AbortController();
+    const poller = await client.startLRO({
+      requestOptions: {
+        abortSignal: abortController.signal
+      }
+    });
+
+    assert.equal(poller.totalSentRequests, 1);
+    await delay(100);
+    assert.equal(poller.totalSentRequests, 10);
+
+    abortController.abort();
+    let cancelError: Error | undefined;
+    try {
+      await poller.cancel();
+    } catch(e) {
+      cancelError = e;
+    }
+
+    assert.equal(cancelError!.message, "The request was aborted");
+    poller.stop(); 
+  });
+ 
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from parameters of the cancel method", async function () {
+    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    const responses = Array(20).fill({
+      ...basicResponseStructure,
+      status: 202,
+    });
+    client.setResponses(responses);
+
+    const poller = await client.startLRO();
+    assert.equal(poller.totalSentRequests, 1);
+    await delay(100);
+    assert.equal(poller.totalSentRequests, 10);
+
+    const abortController = new AbortController();
+    abortController.abort();
+    let cancelError: Error | undefined;
+    try {
+      await poller.cancel({
+        abortSignal: abortController.signal
+      });
+    } catch(e) {
+      cancelError = e;
+    }
+
+    assert.equal(cancelError!.message, "The request was aborted");
+    poller.stop(); 
+  });
 });
