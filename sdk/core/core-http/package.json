@@ -73,8 +73,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint \"lib/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../.eslintrc.json lib test --ext .ts -f html -o core-http-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json tsconfig.json \"lib/**/*.ts\" \"test/**/*.ts\" --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json tsconfig.json lib test --ext .ts -f html -o core-http-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -125,6 +125,7 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@azure/logger-js": "^1.0.2",
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",

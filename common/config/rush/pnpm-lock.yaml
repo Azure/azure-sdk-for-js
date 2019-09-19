@@ -3,6 +3,7 @@ dependencies:
   '@azure/arm-servicebus': 3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/cosmos-sign': 1.0.2
+  '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
   '@azure/event-hubs': 2.1.1
   '@azure/logger-js': 1.3.2
   '@azure/ms-rest-js': 2.0.4
@@ -295,6 +296,21 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+y3EDcbSFuieOKqw9VyaX7D13LB4LycQIdmLwSqFnSUO0mWl+RBLCKW3RL6XiyWOHRV2sMNT9vwGzwiFZI70vQ==
+  /@azure/eslint-plugin-azure-sdk/2.0.1_9e8391ca70fb0408a9da4393803aa477:
+    dependencies:
+      '@typescript-eslint/parser': 2.0.0_eslint@6.2.1
+      eslint: 6.2.1
+      fast-levenshtein: 2.0.6
+      glob: 7.1.4
+      typescript: 3.6.3
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    peerDependencies:
+      '@typescript-eslint/parser': ^2.0.0
+      eslint: ^6.1.0
+    resolution:
+      integrity: sha512-HszGr6szVke1FOr07hy+JojKm36qh9n3IfYdehZRx7Wi19cY1EUmFq1PT5OasbNC/DoVqB3yx8Olfw4t5YBxVA==
   /@azure/event-hubs/2.1.1:
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
@@ -1556,14 +1572,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==
-  /asn1.js/5.2.0:
-    dependencies:
-      bn.js: 4.11.8
-      inherits: 2.0.4
-      minimalistic-assert: 1.0.1
-    dev: false
-    resolution:
-      integrity: sha512-Q7hnYGGNYbcmGrCPulXfkEw7oW7qjWeM4ZTALmgpuIcZLxyqqKYWxCZg2UBm8bklrnB4m2mGyJPWfoktdORD8A==
   /asn1/0.2.4:
     dependencies:
       safer-buffer: 2.1.2
@@ -2227,12 +2235,6 @@ packages:
       node: '>= 0.4.0'
     resolution:
       integrity: sha1-R2iMuZu2gE8OBtPnY7HDLlfY5rY=
-  /base64url/3.0.1:
-    dev: false
-    engines:
-      node: '>=6.0.0'
-    resolution:
-      integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
   /bcrypt-pbkdf/1.0.2:
     dependencies:
       tweetnacl: 0.14.5
@@ -9855,6 +9857,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-lmQ4L+J6mnu3xweP8+rOrUwzmN+MRAj7TgtJtDaXE5PMyX2kCrklhg3rvOsOIfNeAWMQWO2F1GPc1kMD2vLAfw==
+  /typescript/3.6.3:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
   /uglify-js/3.6.0:
     dependencies:
       commander: 2.20.0
@@ -10701,7 +10710,7 @@ packages:
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-vDcC9ZxFHAZ1GK8i63eC7rnBVBbGN6JKPNgMETz4CGHji31lXhMdMMx0sjZNiDN1HMv9lojK3KtW+mhsZmEfZQ==
+      integrity: sha512-YwhAi/dV8QU4uVvddHEEchoJUG07D7QbKuQVf5jyvD5oklm8BnoIR5ONWo24G1jQnlIEaFrsFjYbboAt1Xl3bQ==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
@@ -10732,11 +10741,12 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-AsrRtW+zZhSvmerSwQd+BZLgQxuvS/a9QFiRjycytLD6nOKIqDfpBLjaPT2TbLmJ6geQ7hGpTZVPEAetB/wTew==
+      integrity: sha512-/4I0pK3Mg83wRvPClyGYJ2tLtOdfrVgxy++7YG2grjKzDiu9zHyd5rsI2PNAwHKh3uffFwO7cMnnXJPX7HtoTA==
       tarball: 'file:projects/app-configuration.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
     dependencies:
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.0
       '@types/chai-as-promised': 7.1.2
@@ -10800,7 +10810,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-1h8l3bCuZc0m0JmT28x5fMb9T6EtZgU7TpPQ1aPWSozxPqj/S1OabRCkenkMGufmSy3Eup5rWBCkM6Ly2bNyiw==
+      integrity: sha512-O8f70NJBk7/6mhI083dWNWnXFzNOvCGoQWSs+6d/FYbSDNiCRSwgTnZ6ZeEUAL7FbPWOCcEfeqlZsDz9CSE4zA==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -10835,7 +10845,7 @@ packages:
     dev: false
     name: '@rush-temp/core-arm'
     resolution:
-      integrity: sha512-CUyFXyNU8RXwK7x40YPYiqbXLI++JBNuUBKUvLtGOaoe53QhyCr8ehLXWdgPmoz689vNApf0JLcyxFVlthNzbA==
+      integrity: sha512-YLO+Lu8+QdbGXNectrQzC9OCK5HlWogISjARKZSp+sU5/qxtkPpogIJUOctgReTgx3yK4bh/wNBegLsYeXVxvg==
       tarball: 'file:projects/core-arm.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -10853,11 +10863,12 @@ packages:
     dev: false
     name: '@rush-temp/core-asynciterator-polyfill'
     resolution:
-      integrity: sha512-hp2FjyoaLo9iJIGV0Aq7UI8oGzIr29OewVSFfuckKI+2aDUrh6Kamlg/hw/HrZ/a3ybccP3oqGjwA2uze4DoAg==
+      integrity: sha512-X2qR67x/Wgwcs8VjH/m3EA7HFB22mL2sf9YJCvpdIUXvz5ENGH54U4TC8IAc2AxcqlKjOi1pwFUAf9yBf4nAJQ==
       tarball: 'file:projects/core-asynciterator-polyfill.tgz'
     version: 0.0.0
   'file:projects/core-auth.tgz':
     dependencies:
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.52
@@ -10891,11 +10902,12 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-nswzAoZmQ+VTKYH15KXBCLYfFh1fy7Aox0AzSvCcRLCW7ERC1cT6nksMUFwKcuXNQ5X/1T18hlsPLq/IORg0lw==
+      integrity: sha512-fGVgepFqWjAN5Jxlf/YAE7xElRuGy+mDk84yEv/crX+dj98rAbn9QF/tNdY7/06xHwTI1E5cLvPjNISYrLbb4g==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
     dependencies:
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@azure/logger-js': 1.3.2
       '@types/chai': 4.2.0
       '@types/express': 4.17.1
@@ -10974,7 +10986,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-kw/l4vA7twFlSQx4HB9Nxabbip8jAoxb7LM28V8ypDMaLofCrPBsvcKDGUL3I9qgvbFlq7RxqlMK/nOp5lK0oQ==
+      integrity: sha512-tbYfxauAdOzrE3yT5z1WUJd3Kndv6E940DbjOJ5q6EEaj3U3CSp7/kxrOAnJpieqUH5eOoZ/+rJMtGspMXelBA==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -10993,11 +11005,12 @@ packages:
     dev: false
     name: '@rush-temp/core-paging'
     resolution:
-      integrity: sha512-rorSx6Oeq/VsKWv3L8qwnHYihYjPZS/PiCZZrIlGt7WfSH8iS60XFPxRrAiP+zIhosvd1hDlSmQ8k30iIB10QA==
+      integrity: sha512-/l5SA2u/jUrYjvQBf24YFdaoYW4GAdU3iDoGDekLbjH2fSP8wOt/3oDlBM8pxGD54TB7s06Oi4OjBsQN6F5tgw==
       tarball: 'file:projects/core-paging.tgz'
     version: 0.0.0
   'file:projects/core-tracing.tgz':
     dependencies:
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
       '@types/mocha': 5.2.7
       '@types/node': 8.10.52
@@ -11031,7 +11044,7 @@ packages:
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-uc1Cbuqt6Du7IUnDJlVDqJ7QT2jD2VGTKIoM+I6wJdi+zGM5WZJkN6SG8JULMLCNhQbUdbWu+poakWgRCL/1HA==
+      integrity: sha512-kQulnB/+QgGoq4dix6zSTb7odWaxkMsOHYkc9lpXJy98X1zckjDSLlwbbeqviqkDMjMmbqqRimOtOypivt8Dmg==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz_webpack@4.39.2':
@@ -11104,12 +11117,13 @@ packages:
     peerDependencies:
       webpack: '*'
     resolution:
-      integrity: sha512-cyAAbBlisYCWxD5ZqqLmkEdT9rOwH06skOIjsnidhjwST+42UqmZO+kyw+f66bQJUeZDMzp/s/MmjdFD74JgrA==
+      integrity: sha512-bTOIDx/wJkKajvOban9g/1gZ1XZ01Ipa2JxxeJ+kE+9QVbonMY75SEtX4FPYKadCskz2sV0+JRAF7CyqlITypg==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
     dependencies:
       '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
       '@types/async-lock': 1.1.1
       '@types/chai': 4.2.0
@@ -11180,11 +11194,12 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-dSWFaHnJUtZJSbLgV7ilycvSBV/SaYksr3eY+rVS6JVs0SfbcaKCkiBnYrhBzfbkU+bsVRPSoQMat5X8vU9Qyw==
+      integrity: sha512-q+ihScahg5y1w7biapQHL6AYHh90dSPR85HcgxJBykkNQtHCPdJ2p7h0nnQmq5pKrovtJ/ufFpYF7H63+Sl13A==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
     dependencies:
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@azure/event-hubs': 2.1.1
       '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.3.8
@@ -11237,7 +11252,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-6vtDVnWkivQ+k24fNOjeYlpHei8qaqVfhfE3f1ouAVBX6xW+pThwd+i19o5wwa3UDj5y7wvBPXYwtnSqk7i9xw==
+      integrity: sha512-W3yvQ/XpiLD0NxwDCHy8iuOnHcMAQDH0f9g336udX3pgtjhcxwjRVcUzuOK+u5e1At95pTE/LMFJoDFeJGvIrQ==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -11300,7 +11315,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-mqJwjAEt8LDeurRpQk3nQr7VybXrGotQil7C6D1ipGgXsA2z3MNFFgSBLiwLWt8t6CzdI3dKuY5dJ4M5czTh0A==
+      integrity: sha512-fA1airUTMv4LAmlMLTyvSHSkMnWeuQ5u9d4AHuE2RSNEILob7WG5sF09RjNikbJkYMKNLNXO9cZHxEKlrCkm4w==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -11352,13 +11367,14 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-bVFvN9S6o3c3YHXwiTDfwRhXIIYxh3i5qvYhPOJlLVTsmHgsmmQjx0hiF3cE4JayFN91MHtMDJw3pu5BmkovNw==
+      integrity: sha512-yITMvnD9EnzaWxVx7KrQhQ7BftiFe8/i3ykh/ZUi5V8TBOcIhMEYwd3vFoahVqO1TJdo7TCv5KW9+WpKRAByYA==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
     dependencies:
       '@azure/core-paging': 1.0.0-preview.1
       '@azure/core-tracing': 1.0.0-preview.1
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
       '@types/chai': 4.2.0
       '@types/dotenv': 6.1.1
@@ -11420,13 +11436,14 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-foswxnaf00WMfmdCSMw01QGa2w9Ax7smZs044wX3NyQET4LZhSG1Bik/605iK3W7JVHHnx059MjxT+vczT3fsw==
+      integrity: sha512-EFiXgxOsM7nzGDpo24dwAFj3NB9iVcnlYLg2zRasrIHdgnMyvvg2X0RD2yOMQyL/q26nqnS+9CWjbREXFsOvGQ==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
       '@azure/core-paging': 1.0.0-preview.1
       '@azure/core-tracing': 1.0.0-preview.1
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
       '@types/chai': 4.2.0
       '@types/dotenv': 6.1.1
@@ -11488,12 +11505,13 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-ie3kOXjRUtwtMhn8V9bzGpzQUvy2PgBSY020iw4nXpB6oCahkYvZN89ETBTQXzPxPdCSqtda5yc8mCVyYPS/+g==
+      integrity: sha512-+TRnDu0gtivqdc1ccO+PD/1IaljLNQe7v7WsnE5c1Mvl2Bvd1kiCswQpdBPrjTtJBLCfMCfDzelUh4e9FdyNnA==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
     dependencies:
       '@azure/core-paging': 1.0.0-preview.1
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
       '@types/chai': 4.2.0
       '@types/dotenv': 6.1.1
@@ -11555,13 +11573,14 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-PN1/U0hdyQRpbzbGMitJfvE2Y4z8xMtIyLCvBITT2pdIgdNgla3bHGncgbwNrPLG8kEHVPBMf+gRcZqFQaBxxQ==
+      integrity: sha512-BqXds/rjlQUgSVasBkrSTvio8GOQlFlhqQH8wM42OThTLBZvIkdnjoO3wg2+A1geTLQIhhir5dnysg2Xy1oDzQ==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
       '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
       '@azure/arm-servicebus': 3.2.0
+      '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.3.8
       '@types/async-lock': 1.1.1
@@ -11632,7 +11651,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-OJxyb0jtxDQ9KQ4DyrkW1tDPWN+xSQnsXcEFfRQpkkH+1gCClWwVrfsyqtJ1P0/G135HDZJJ2qdjoey6pNJhDw==
+      integrity: sha512-MFTbKJFGZfLMYWcCjdZqdR+qJZ/8MpoNF8/KDB3hkkjkz4cOEZ4oPnCIBhlXR+/Wy2xg609i78c3JGYpml4haw==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -11702,7 +11721,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-76kxW4mT5QbNSGd1oOkcZxqa2ZoZYn5E8LSoui/rWtH3tX1i0lCT/FJhSgcnOQXYMM56Gdno8AqEI5CT9dFRmg==
+      integrity: sha512-6JJFDGUj5AY8R/wStkv05OdRkLSE05ZPbX03uIJefY4QTxdtaqyCi5s+2lrxbuxE9UGduVSnlB3qh0tgdH2Jhw==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
@@ -11772,7 +11791,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-1vuu96rlT8OLbWybGYkV7wXK2iRYEAg9JBdTFS2VbcYWztw2/L5gXM/HrRrnDN891SpDW1KsHNng0oj880UL/Q==
+      integrity: sha512-Ss14Pm4zCFh4fqOHc2QzsbpTFHkuqkZo+qVXASJvsE7sqzuqFg+W09M2D+uT23k45l44d+x5G5D1dyg1OWmjwA==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -11841,7 +11860,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-Sva5UkbRrEXShOKLaZ4ALhk/2RdGETd4oKVAmgRmeo1CACidcSPDvHQC/MJhEgdmM/47YJLMOyKkP/mVSgZqjw==
+      integrity: sha512-xOXI5NLw/G1ylX0iLrbEsmmANf7/8l1yoKhZ9rcpcFVHj5Jnz0bXEU9RNHK12mAGYRanQ/AJK1HBOJoeNQk9CA==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -11891,7 +11910,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-kVQvLrvxsA1WMbSQpOpcTQTIN0HwJKD9PvpY7ZONaZIKwgWTuUM2u0euzQMU4qYBkfvqrAiPSviNf99s2pFjQQ==
+      integrity: sha512-Mr5kH/fT37U2+FhWBOOteBh5HPN07yLkRD2MlYGQ1Y3z6sVRO9H9ruwnSeZXg5xxWvUNsQW77YVOqbgFRzavLQ==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/test-utils-recorder.tgz':
@@ -11919,7 +11938,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-SJjlxlVlW3QPkHFCP+M3QSAgrlVC50hl/ePd/Xmfixx8pl4uiLwm/ZOMmzQ59IfM1zryQw55BNPv2qu5/1hJXA==
+      integrity: sha512-5X0CLSRbJrplwH5JFkcDlSfzxzFeT/veoYhb9NB+q2hTDd9rXRjwePn76IWcVBtUzq2siSgvgrSsioDYiXMUsw==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -11940,7 +11959,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-XZB/wnNqz04DCZBqyhzkkYG8c/XduwpKK8uJbRcnJrvTthx844ix8Cn3nDHaoLlxODmoxP4xosiCiKTIn7EuBw==
+      integrity: sha512-RkYcAmpRKuAXwbssMJGmc8uzm3LoQikdGvIqdwioQqURgLagimtd01yH+757XDMvMyOfVwejTTSCZHpqa2Bf6Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
@@ -11949,6 +11968,7 @@ specifiers:
   '@azure/arm-servicebus': ^3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/cosmos-sign': ^1.0.2
+  '@azure/eslint-plugin-azure-sdk': ^2.0.1
   '@azure/event-hubs': ^2.1.1
   '@azure/logger-js': ^1.0.2
   '@azure/ms-rest-js': ^2.0.0
