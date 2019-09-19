@@ -49,8 +49,8 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       request.body = serializer.serialize(JSON.parse(request.body));
     }
 
-    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
+    let response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
 
-    return await serializer.deserialize(response, request.atomXmlOperationSpec.shouldParseResponse);
+    return await serializer.deserialize(response);
   }
 }

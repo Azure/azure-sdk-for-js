@@ -9,10 +9,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 export interface AtomXmlSerializer {
   serialize(resourceDataInJson: any): string;
 
-  deserialize(
-    response: HttpOperationResponse,
-    shouldParseResponse: boolean
-  ): Promise<HttpOperationResponse>;
+  deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
 }
 
 /**
@@ -172,22 +169,22 @@ function parseFeedResult(feed: any): XMLResponseInJSON[] {
  */
 export async function deserializeAtomXmlResponse(
   nameProperties: string[],
-  response: HttpOperationResponse,
-  shouldParseResponse: boolean
+  response: HttpOperationResponse
 ): Promise<HttpOperationResponse> {
   let atomResponseInJson: any;
   try {
-    if (response.bodyAsText && response.bodyAsText.toString().length > 0) {
+    if (response.bodyAsText) {
       atomResponseInJson = await deserializeAtomXmlToJson(response.bodyAsText);
       response.parsedBody = atomResponseInJson;
     }
   } catch (e) {
-    response.errorBody = {
-      error: { code: "ResponseNotInAtomXMLFormat" }
-    };
+    response.errorBody = { code: "ResponseNotInAtomXMLFormat" };
+    return response;
   }
 
-  if (response.status < 200 || response.status > 300) {
+  // If received data is a non-valid HTTP response, the body is expected to contain error information
+  if (response.status < 200 || response.status >= 300) {
+    response.errorBody = atomResponseInJson;
     if (response.errorBody == undefined) {
       const HttpResponseCodes = Constants.HttpResponseCodes;
       const statusCode = response.status;
@@ -195,26 +192,27 @@ export async function deserializeAtomXmlResponse(
         ? HttpResponseCodes[statusCode]
         : `UnrecognizedHttpResponseStatus: ${statusCode}`;
       response.errorBody = {
-        error: {
-          code: errorCode
-        }
+        code: errorCode
       };
+    } else {
+      // Transform the error info in response body to a normalized one
+      const normalizedError = normalizeError(response);
+      response.errorBody = normalizedError;
     }
   }
 
-  // Transform the errorBody to a normalized one
-  const normalizedError = normalizeError(response.errorBody, response);
-  response.errorBody = normalizedError;
-
   // Construct response with 'result' to be backward compatibile
   const responseInCustomJson: any = {
-    error: response.errorBody,
-    response: response.parsedBody,
-    result: shouldParseResponse ? [] : undefined
+    error: response.errorBody ? response.errorBody : null,
+    response: null,
+    result: []
   };
 
+  let isSuccessful = false;
+
   if (responseInCustomJson.error == undefined) {
-    const result = shouldParseResponse ? parseAtomResult(atomResponseInJson) : undefined;
+    isSuccessful = true;
+    const result = parseAtomResult(atomResponseInJson);
     if (result) {
       if (Array.isArray(result)) {
         result.forEach((entry: XMLResponseInJSON) => {
@@ -226,6 +224,13 @@ export async function deserializeAtomXmlResponse(
     }
     responseInCustomJson.result = result;
   }
+
+  responseInCustomJson.response = buildResponse(
+    isSuccessful,
+    response.parsedBody,
+    response.headers.rawHeaders(),
+    response.status
+  );
 
   response.parsedBody = responseInCustomJson;
   return response;
@@ -268,7 +273,8 @@ function setName(entry: XMLResponseInJSON, nameProperties: any): any {
  * @param errorBody
  * @param response
  */
-function normalizeError(errorBody: any, response: HttpOperationResponse): any {
+function normalizeError(response: HttpOperationResponse): any {
+  const errorBody: any = response.errorBody;
   if (isString(errorBody)) {
     return new Error(errorBody);
   } else if (errorBody) {
@@ -318,17 +324,17 @@ function normalizeError(errorBody: any, response: HttpOperationResponse): any {
       errorMessage += " - " + normalizedError.detail;
     }
 
+    const errorObject: any = { code: errorMessage };
+
     if (response) {
       if (response.status) {
-        normalizedError.statusCode = response.status;
+        errorObject["statusCode"] = response.status;
       }
 
       if (response.headers && response.headers.get("x-ms-request-id")) {
-        normalizedError.requestId = response.headers.get("x-ms-request-id");
+        errorObject["requestId"] = response.headers.get("x-ms-request-id");
       }
     }
-
-    const errorObject: any = { error: { code: errorMessage } };
     Object.keys(normalizedError).forEach((property: string) => {
       errorObject[property] = normalizedError[property];
     });
@@ -336,4 +342,23 @@ function normalizeError(errorBody: any, response: HttpOperationResponse): any {
   }
 
   return undefined;
+}
+
+/**
+ * Builds a response object with normalized key names.
+ * @ignore
+ *
+ * @param isSuccessful Boolean value indicating if the request was successful
+ * @param body The response body.
+ * @param headers The response headers.
+ * @param statusCode The response status code.
+ */
+
+function buildResponse(isSuccessful: boolean, body: any, headers: any, statusCode: number) {
+  return {
+    isSuccessful: isSuccessful,
+    statusCode: statusCode,
+    body: body,
+    headers: headers
+  };
 }

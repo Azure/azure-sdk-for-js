@@ -19,12 +19,8 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
 }
 
 export function parseXML(str: string): Promise<any> {
-  const xmlParser = new xml2js.Parser({
-    explicitArray: false,
-    explicitCharkey: false,
-    explicitRoot: false
-  });
-  return new Promise((resolve, reject) => {
+  const xmlParser = new xml2js.Parser(_getDefaultSettings());
+  const result = new Promise((resolve, reject) => {
     if (!str) {
       reject(new Error("Document is empty"));
     } else {
@@ -37,11 +33,12 @@ export function parseXML(str: string): Promise<any> {
       });
     }
   });
+  return result;
 }
 
 export async function deserializeAtomXmlToJson(body: string): Promise<any> {
   const parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
-  return await new Promise((resolve, reject) => {
+  const result = await new Promise((resolve, reject) => {
     parser.parseString(_removeBOM(body.toString()), function(err: any, parsedBody: any) {
       if (err) {
         reject(err);
@@ -50,9 +47,11 @@ export async function deserializeAtomXmlToJson(body: string): Promise<any> {
       }
     });
   });
+  return result;
 }
 
 /**
+ * @ignore
  * @param {object} content The content payload as it is to be serialized. It should include any root node(s).
  */
 export function serializeJsonToAtomXml(content: any): string {
@@ -71,9 +70,8 @@ export function serializeJsonToAtomXml(content: any): string {
 }
 
 /**
- * Gets the default xml2js settings applicable for Atom based XML operations.
  * @ignore
- * @return {object} The default settings
+ * Gets the default xml2js settings applicable for Atom based XML operations.
  */
 function _getDefaultSettingsForAtomXmlOperations(): any {
   const xml2jsSettings = xml2js.defaults["0.2"];
@@ -81,9 +79,23 @@ function _getDefaultSettingsForAtomXmlOperations(): any {
   xml2jsSettings.trim = false;
   xml2jsSettings.attrkey = "$";
   xml2jsSettings.charkey = "_";
+  xml2jsSettings.explicitCharkey = false;
   xml2jsSettings.explicitArray = false;
   xml2jsSettings.ignoreAttrs = true;
+  return xml2jsSettings;
+}
 
+/**
+ * @ignore
+ * Gets the default settings applicable for general XML operations.
+ */
+function _getDefaultSettings(): any {
+  const xml2jsSettings = xml2js.defaults["0.2"];
+  xml2jsSettings.explicitArray = false;
+  xml2jsSettings.ignoreAttrs = false;
+  xml2jsSettings.explicitCharkey = false;
+  xml2jsSettings.explicitRoot = false;
+  xml2jsSettings.normalize = true;
   return xml2jsSettings;
 }
 

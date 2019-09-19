@@ -11,39 +11,15 @@ import {
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest
 } from "../../lib/coreHttp";
-import {
-  AtomSerializationPolicy,
-  atomSerializationPolicy
-} from "../../lib/policies/atomSerializationPolicy";
-import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
+import { atomSerializationPolicy } from "../../lib/policies/atomSerializationPolicy";
+import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
 
 describe("atomSerializationPolicy", function() {
-  const mockPolicy: RequestPolicy = {
-    sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-      return Promise.resolve({
-        request: request,
-        status: 200,
-        headers: new HttpHeaders()
-      });
-    }
-  };
-
-  it(`should not modify a request that has no request body serializer`, async function() {
-    const atomSerializationPolicy = new AtomSerializationPolicy(
-      mockPolicy,
-      new RequestPolicyOptions()
-    );
-
-    const request = createRequest();
-    request.body = "hello there!";
-
-    await atomSerializationPolicy.sendRequest(request);
-    assert.strictEqual(request.body, "hello there!");
-  });
-
   it("should return an error if receiving a non-XML response body", async function() {
-    const request: WebResource = createRequest();
+    const request: WebResource = createRequest({
+      serializer: new MockSerializer()
+    });
     const mockClient: HttpClient = {
       sendRequest: (req) =>
         Promise.resolve({
@@ -57,13 +33,12 @@ describe("atomSerializationPolicy", function() {
     const policy = atomSerializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepEqual(response.bodyAsText, `{ "simple": "JSONobject" }`);
-    assert.deepEqual(response.parsedBody.error.code, "ResponseNotInAtomXMLFormat");
+    assert.deepEqual(response.errorBody.code, "ResponseNotInAtomXMLFormat");
   });
 
   it("with xml response body, application/xml content-type and AtomXMLOperationSpec", async function() {
     const request: WebResource = createRequest({
-      serializer: new MockSerializer(),
-      shouldParseResponse: false
+      serializer: new MockSerializer()
     });
 
     const expectedResult = {
@@ -74,7 +49,17 @@ describe("atomSerializationPolicy", function() {
         content: {
           QueueDescription: {
             LockDuration: "PT2M",
-            MaxSizeInMegabytes: "1024"
+            MaxSizeInMegabytes: "1024",
+            QueueName: "testQueuePath4",
+            _: {
+              ContentRootElement: "QueueDescription",
+              author: {
+                name: "servicebuslocalperftestspremium1"
+              },
+              id:
+                "https://servicebuslocalperftestspremium1.servicebus.windows.net/testQueuePath4?api-version=2017-04",
+              title: "testQueuePath4"
+            }
           }
         },
         id:
@@ -98,7 +83,7 @@ describe("atomSerializationPolicy", function() {
 
     const policy = atomSerializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepEqual(response.parsedBody, getCustomResult(undefined, undefined, expectedResult));
+    assert.deepEqual(response.parsedBody.response.body, expectedResult);
   });
 });
 
@@ -106,14 +91,6 @@ function createRequest(atomXmlOperationSpec?: AtomXmlOperationSpec): WebResource
   const request = new WebResource();
   request.atomXmlOperationSpec = atomXmlOperationSpec;
   return request;
-}
-
-function getCustomResult(error: any, result: any, response: any): any {
-  return {
-    error: error,
-    result: result,
-    response: response
-  };
 }
 
 class MockSerializer implements AtomXmlSerializer {
@@ -128,7 +105,7 @@ class MockSerializer implements AtomXmlSerializer {
     );
   }
 
-  deserialize(response: HttpOperationResponse, shouldParseResponse: boolean): any {
-    return deserializeAtomXmlResponse(["QueueName"], response, shouldParseResponse);
+  deserialize(response: HttpOperationResponse): any {
+    return deserializeAtomXmlResponse(["QueueName"], response);
   }
 }
