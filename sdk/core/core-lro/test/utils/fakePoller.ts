@@ -36,7 +36,26 @@ export class FakePoller extends Poller {
   }
 
   // Ignoring options?: RequestOptionsBase since we won't do a real API call here.
-  public async cancel(_?: RequestOptionsBase): Promise<void> {
+  public async cancel(options?: RequestOptionsBase): Promise<void> {
+    const requestOptions = options || this.requestOptions;
+    if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
+      // This will throw
+      await this.client!.sendRequest(new WebResource(
+        undefined, // url?: string,
+        undefined, // method?: HttpMethods,
+        undefined, // body?: any,
+        undefined, // query?: { [key: string]: any },
+        undefined, // headers?: { [key: string]: any } | HttpHeaders,
+        undefined, // streamResponseBody?: boolean,
+        undefined, // withCredentials?: boolean,
+        requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,
+        undefined, // timeout?: number,
+        undefined, // onUploadProgress?: (progress: TransferProgressEvent) => void,
+        undefined, // onDownloadProgress?: (progress: TransferProgressEvent) => void,
+        undefined, // proxySettings?: ProxySettings,
+        undefined  // keepAlive?: boolean
+      ));
+    }
     this.processResponse({
       status: 205
     } as HttpOperationResponse);
