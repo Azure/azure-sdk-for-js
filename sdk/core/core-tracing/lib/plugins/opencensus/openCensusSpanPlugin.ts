@@ -13,14 +13,11 @@ export class OpenCensusSpanPlugin implements Span {
 
   constructor(span: any) {
     this._span = span;
+    this._span.start();
   }
 
   end(endTime?: number): void {
     this._span.end(endTime);
-  }
-
-  start(startTime?: number): void {
-    this._span.start(startTime);
   }
 
   context(): SpanContext {
