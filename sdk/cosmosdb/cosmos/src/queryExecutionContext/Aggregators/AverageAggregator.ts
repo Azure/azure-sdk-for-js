@@ -3,13 +3,13 @@
 import { IAggregator } from "./IAggregator";
 
 /** @hidden */
-export interface IAverageAggregator {
+export interface AverageAggregateResult {
   sum: number;
   count: number;
 }
 
 /** @hidden */
-export class AverageAggregator implements IAverageAggregator, IAggregator<IAverageAggregator> {
+export class AverageAggregator implements IAggregator {
   public sum: number;
   public count: number;
   /**
@@ -18,7 +18,7 @@ export class AverageAggregator implements IAverageAggregator, IAggregator<IAvera
    * @instance
    * @param other
    */
-  public aggregate(other: IAverageAggregator) {
+  public aggregate(other: AverageAggregateResult) {
     if (other == null || other.sum == null) {
       return;
     }

@@ -3,7 +3,7 @@
 import { IAggregator } from "./IAggregator";
 
 /** @hidden */
-export class SumAggregator implements IAggregator<number> {
+export class SumAggregator implements IAggregator {
   public sum: number;
   /**
    * Add the provided item to aggregation result.
