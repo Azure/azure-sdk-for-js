@@ -1,4 +1,6 @@
 /** @hidden */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export class TestData {
   public numberOfDocuments: number;
   public field: string;

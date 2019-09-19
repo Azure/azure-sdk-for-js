@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { TriggerOperation, TriggerType } from "../../dist-esm";
 import { TriggerDefinition, Container } from "../../dist-esm/client";
@@ -6,7 +8,7 @@ import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 const notFoundErrorCode = 404;
 
 // Mock for trigger function bodies
-declare var getContext: any;
+declare let getContext: any;
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -103,7 +105,7 @@ describe("NodeJS CRUD Tests", function() {
         // tslint:disable:no-string-throw
         // tslint:disable:object-literal-shorthand
         body: function() {
-          var item = getContext()
+          const item = getContext()
             .getRequest()
             .getBody();
           item.id = item.id.toUpperCase() + "t1";

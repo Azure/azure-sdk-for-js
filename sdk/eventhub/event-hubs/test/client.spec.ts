@@ -57,6 +57,13 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     should.equal(client.eventHubName, "my-event-hub-name");
   });
 
+  it("Verify fullyQualifiedNamespace creating an EventHubClient using a connection string", function(): void {
+    const client = new EventHubClient(
+      "Endpoint=sb://test.servicebus.windows.net/;SharedAccessKeyName=a;SharedAccessKey=b;EntityPath=my-event-hub-name"
+    );
+    should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
+  });
+
   it("creates an EventHubClient from a connection string and an Event Hub name", function(): void {
     const client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c",
@@ -75,7 +82,7 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
         };
       }
     };
-    const client = new EventHubClient("abc","my-event-hub-name", dummyCredential);
+    const client = new EventHubClient("abc", "my-event-hub-name", dummyCredential);
     client.should.be.an.instanceof(EventHubClient);
     should.equal(client.eventHubName, "my-event-hub-name");
   });
@@ -110,6 +117,13 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     const hubInfo = await client.getProperties();
     should.equal(hubInfo.path, client.eventHubName);
     await client.close();
+  });
+
+  it("Verify fullyQualifiedNamespace when creating an EventHubClient from an Azure.Identity credential", function(): void {
+    const endpoint = "test.servicebus.windows.net";
+    const credential = new EnvironmentCredential();
+    const client = new EventHubClient(endpoint, "my-event-hub-name", credential);
+    should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
   });
 });
 

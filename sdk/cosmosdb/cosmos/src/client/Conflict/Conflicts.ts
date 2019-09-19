@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";

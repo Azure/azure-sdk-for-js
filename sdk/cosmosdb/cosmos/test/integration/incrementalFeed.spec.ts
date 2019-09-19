@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { RequestOptions } from "../../dist-esm";
 import { Container, ContainerDefinition } from "../../dist-esm/client";

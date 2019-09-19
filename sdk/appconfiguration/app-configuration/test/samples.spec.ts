@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { runAll } from "../samples";
 
 describe("AppConfiguration samples", () => {

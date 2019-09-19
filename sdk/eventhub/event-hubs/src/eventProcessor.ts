@@ -34,6 +34,11 @@ export enum CloseReason {
  */
 export interface PartitionOwnership {
   /**
+   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   */
+  fullyQualifiedNamespace: string;
+  /**
    * @property The event hub name
    */
   eventHubName: string;
@@ -91,11 +96,17 @@ export interface PartitionManager {
    * Called to get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
    *
+   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net.
    * @param eventHubName The event hub name.
    * @param consumerGroupName The consumer group name.
    * @return A list of partition ownership details of all the partitions that have/had an owner.
    */
-  listOwnership(eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
+  listOwnership(
+    fullyQualifiedNamespace: string,
+    eventHubName: string,
+    consumerGroupName: string
+  ): Promise<PartitionOwnership[]>;
   /**
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
@@ -242,6 +253,7 @@ export class EventProcessor {
     const partitionOwnership: PartitionOwnership = {
       ownerId: this._id,
       partitionId: partitionIdToClaim,
+      fullyQualifiedNamespace: this._eventHubClient.fullyQualifiedNamespace,
       consumerGroupName: this._consumerGroupName,
       eventHubName: this._eventHubClient.eventHubName,
       sequenceNumber: previousPartitionOwnership
@@ -279,6 +291,7 @@ export class EventProcessor {
         `[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessorFactory.`
       );
       const partitionProcessor = new this._partitionProcessorClass();
+      partitionProcessor.fullyQualifiedNamespace = this._eventHubClient.fullyQualifiedNamespace;
       partitionProcessor.eventHubName = this._eventHubClient.eventHubName;
       partitionProcessor.consumerGroupName = this._consumerGroupName;
       partitionProcessor.partitionId = ownershipRequest.partitionId;
@@ -317,6 +330,7 @@ export class EventProcessor {
         const partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
         // Retrieve current partition ownership details from the datastore.
         const partitionOwnership = await this._partitionManager.listOwnership(
+          this._eventHubClient.fullyQualifiedNamespace,
           this._eventHubClient.eventHubName,
           this._consumerGroupName
         );

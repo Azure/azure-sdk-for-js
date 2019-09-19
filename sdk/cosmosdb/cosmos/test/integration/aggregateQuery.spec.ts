@@ -1,5 +1,7 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
-import { Container, ContainerDefinition, Database } from "../../dist-esm/client";
+import { Container, ContainerDefinition } from "../../dist-esm/client";
 import { DataType, IndexKind } from "../../dist-esm/documents";
 import { QueryIterator } from "../../dist-esm/index";
 import { SqlQuerySpec } from "../../dist-esm/queryExecutionContext";
@@ -221,7 +223,7 @@ describe("Aggregate Query", function() {
 
     aggregateSinglePartitionConfigs.forEach(function({ operator, expected }) {
       const query = `SELECT VALUE ${operator}(r.${testdata.field}) FROM r WHERE r.${partitionKey} = '${uniquePartitionKey}'`;
-      let testName = `${operator} SinglePartition SELECT VALUE`;
+      const testName = `${operator} SinglePartition SELECT VALUE`;
       testConfigs.push({
         testName,
         query,
@@ -249,6 +251,22 @@ describe("Aggregate Query", function() {
     } catch (error) {
       assert(error);
     }
+  });
+
+  it("should not error for MAX queries on with empty results", async () => {
+    const queryIterator = container.items.query("SELECT VALUE MAX(r.missing) from r", {
+      maxItemCount: 2
+    });
+    const response = await queryIterator.fetchAll();
+    assert(response.resources.length === 0);
+  });
+
+  it("should not error for MIN queries on with empty filter", async () => {
+    const queryIterator = container.items.query("SELECT VALUE MIN(r.key) from r WHERE false", {
+      maxItemCount: 2
+    });
+    const response = await queryIterator.fetchAll();
+    assert(response.resources.length === 0);
   });
 
   it("should error for GROUP BY queries", async () => {

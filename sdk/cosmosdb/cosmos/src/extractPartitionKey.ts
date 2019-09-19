@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { parsePath } from "./common";
 import { PartitionKey, PartitionKeyDefinition } from "./documents";
 

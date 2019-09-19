@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants, isReadRequest, OperationType, ResourceType } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, Location } from "./documents";

@@ -1,4 +1,6 @@
-﻿import { Container } from "../../dist-esm/client";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { Container } from "../../dist-esm/client";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import {
   Constants,

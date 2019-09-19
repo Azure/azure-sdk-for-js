@@ -177,6 +177,5 @@
 | [`cosmos-serversidescripts-sample`]( sdk/cosmosdb/cosmos/samples/ServerSideScripts/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/ServerSideScripts/README.md) |  N/A  |  N/A  |
 | [`cosmosdb-index-management`]( sdk/cosmosdb/cosmos/samples/IndexManagement/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/IndexManagement/README.md) |  N/A  |  N/A  |
 | [`multiregionwrite`]( sdk/cosmosdb/cosmos/samples/MultiRegionWrite/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/MultiRegionWrite/readme.md) |  N/A  |  N/A  |
-| [`select-packages`]( eng/tools/select-packages/package.json )|  N/A  |  N/A  |  N/A  |
 | [`todo`]( sdk/cosmosdb/cosmos/samples/TodoApp/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/TodoApp/readme.md) |  N/A  |  N/A  |
 | [`user-management`]( sdk/cosmosdb/cosmos/samples/UserManagement/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/UserManagement/README.md) |  N/A  |  N/A  |
