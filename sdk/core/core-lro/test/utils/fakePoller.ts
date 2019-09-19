@@ -43,14 +43,29 @@ export class FakePoller extends Poller {
     return;
   }
 
-  protected async initialRequest(): Promise<void> {
-    return this.sendRequest();
+  protected async initialRequest(options?: RequestOptionsBase): Promise<void> {
+    return this.sendRequest(options);
   };
-
-  protected async sendRequest(): Promise<void> {
+ 
+  protected async sendRequest(options?: RequestOptionsBase): Promise<void> {
     if (!this.client) return;
     this.totalSentRequests++;
-    const response = await this.client.sendRequest(new WebResource());
+    const requestOptions = options || this.requestOptions;
+    const response = await this.client.sendRequest(new WebResource(
+      undefined, // url?: string,
+      undefined, // method?: HttpMethods,
+      undefined, // body?: any,
+      undefined, // query?: { [key: string]: any },
+      undefined, // headers?: { [key: string]: any } | HttpHeaders,
+      undefined, // streamResponseBody?: boolean,
+      undefined, // withCredentials?: boolean,
+      requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,
+      undefined, // timeout?: number,
+      undefined, // onUploadProgress?: (progress: TransferProgressEvent) => void,
+      undefined, // onDownloadProgress?: (progress: TransferProgressEvent) => void,
+      undefined, // proxySettings?: ProxySettings,
+      undefined  // keepAlive?: boolean
+    ));
     this.processResponse(response);
   }
 }

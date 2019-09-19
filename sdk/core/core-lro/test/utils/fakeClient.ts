@@ -1,4 +1,4 @@
-import { HttpOperationResponse, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential } from "@azure/core-http";
+import { HttpOperationResponse, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential, RequestOptionsBase } from "@azure/core-http";
 import { PollerOptionalParameters } from "../../src"
 import { FakePoller } from "./fakePoller";
 import { FakeNonCancellablePoller } from "./fakeNonCancellablePoller";
@@ -18,7 +18,10 @@ export class FakeClient extends ServiceClient {
   }
 
   // Normally we would call this.client.sendRequest, from the ServiceClient class.
-  public async sendRequest(): Promise<HttpOperationResponse> {
+  public async sendRequest(options?: RequestOptionsBase): Promise<HttpOperationResponse> {
+    if (options && options.abortSignal && options.abortSignal.aborted) {
+      throw new Error("The request was aborted");
+    }
     return this.responses.shift()!;
   }
 

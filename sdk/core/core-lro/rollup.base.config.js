@@ -153,4 +153,4 @@ export function browserConfig(test = false) {
   }
 
   return baseConfig;
-} 
+}
