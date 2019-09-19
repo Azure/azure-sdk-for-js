@@ -26,7 +26,6 @@
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
     "assert": "^1.4.1",
-    "autorest": "^2.0.4283",
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
