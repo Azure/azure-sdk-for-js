@@ -117,10 +117,7 @@ export class QueueResourceSerializer implements AtomXmlSerializer {
     );
   }
 
-  async deserialize(
-    response: HttpOperationResponse,
-    shouldParseResponse: boolean
-  ): Promise<HttpOperationResponse> {
-    return deserializeAtomXmlResponse(["QueueName"], response, shouldParseResponse);
+  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    return deserializeAtomXmlResponse(["QueueName"], response);
   }
 }

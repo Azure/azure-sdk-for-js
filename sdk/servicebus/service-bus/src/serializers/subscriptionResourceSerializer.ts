@@ -117,14 +117,7 @@ export class SubscriptionResourceSerializer implements AtomXmlSerializer {
     );
   }
 
-  async deserialize(
-    response: HttpOperationResponse,
-    shouldParseResponse: boolean
-  ): Promise<HttpOperationResponse> {
-    return deserializeAtomXmlResponse(
-      ["TopicName", "SubscriptionName"],
-      response,
-      shouldParseResponse
-    );
+  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    return deserializeAtomXmlResponse(["TopicName", "SubscriptionName"], response);
   }
 }

@@ -366,8 +366,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
 
     const atomXmlOperationSpec: AtomXmlOperationSpec = {
-      serializer: serializer,
-      shouldParseResponse: false
+      serializer: serializer
     };
     webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 
@@ -386,8 +385,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const webResource: WebResource = new WebResource(this.getUrl(path), "GET");
 
     const atomXmlOperationSpec: AtomXmlOperationSpec = {
-      serializer: serializer,
-      shouldParseResponse: true
+      serializer: serializer
     };
     webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 
@@ -418,8 +416,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const webResource: WebResource = new WebResource(this.getUrl(path, queryParams), "GET");
 
     const atomXmlOperationSpec: AtomXmlOperationSpec = {
-      serializer: serializer,
-      shouldParseResponse: true
+      serializer: serializer
     };
     webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 
@@ -437,8 +434,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const webResource: WebResource = new WebResource(this.getUrl(path), "DELETE");
 
     const atomXmlOperationSpec: AtomXmlOperationSpec = {
-      serializer: serializer,
-      shouldParseResponse: false
+      serializer: serializer
     };
     webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 

@@ -11,16 +11,6 @@ import * as Constants from "../util/constants";
 
 export interface TopicOptions {
   /**
-   * Determines the amount of time in seconds in which a message should be locked for processing by a receiver. After this period, the message is unlocked and available for consumption by the next receiver. Settable only at queue creation time.
-   */
-  LockDuration?: string;
-
-  /**
-   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
-   */
-  RequiresSession?: string;
-
-  /**
    * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
    */
   DefaultMessageTimeToLive?: string;
@@ -45,11 +35,6 @@ export interface TopicOptions {
    *
    */
   MaxDeliveryCount?: string;
-
-  /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
-   */
-  DeadLetteringOnMessageExpiration?: string;
 
   /**
    * Specifies if batched operations should be allowed.
@@ -102,13 +87,10 @@ export interface TopicOptions {
 export class TopicResourceSerializer implements AtomXmlSerializer {
   serialize(resource: TopicOptions): string {
     const properties: Array<keyof TopicOptions> = [
-      Constants.LOCK_DURATION,
-      Constants.REQUIRES_SESSION,
       Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
       Constants.MAX_SIZE_IN_MEGABYTES,
       Constants.REQUIRES_DUPLICATE_DETECTION,
       Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
-      Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION,
       Constants.ENABLE_BATCHED_OPERATIONS,
       Constants.AUTO_DELETE_ON_IDLE,
       Constants.SIZE_IN_BYTES,
@@ -127,10 +109,7 @@ export class TopicResourceSerializer implements AtomXmlSerializer {
       Constants.XML_NAMESPACE
     );
   }
-  async deserialize(
-    response: HttpOperationResponse,
-    shouldParseResponse: boolean
-  ): Promise<HttpOperationResponse> {
-    return deserializeAtomXmlResponse(["TopicName"], response, shouldParseResponse);
+  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    return deserializeAtomXmlResponse(["TopicName"], response);
   }
 }
