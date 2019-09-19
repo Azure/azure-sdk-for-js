@@ -19,6 +19,7 @@ export { BinaryFormat } from "./interfaces/BinaryFormat";
 export { Event } from "./interfaces/Event";
 export { HttpTextFormat } from "./interfaces/HttpTextFormat";
 export { Link } from "./interfaces/link";
+export { Plugin } from "./interfaces/plugin";
 export { Sampler } from "./interfaces/Sampler";
 export { SpanContext } from "./interfaces/span_context";
 export { SpanKind } from "./interfaces/span_kind";

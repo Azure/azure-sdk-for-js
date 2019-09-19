@@ -3,10 +3,10 @@
 
 import { assert } from "chai";
 import sinon from "sinon";
-import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Tracer, Span, TracerProxy, RequestPolicyOptions, TraceFlags, NoOpTracePlugin, TracerNoOpImpl } from "../../lib/coreHttp";
+import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Plugin, Span, TracerProxy, RequestPolicyOptions, TraceFlags, NoOpTracePlugin, TracerNoOpImpl } from "../../lib/coreHttp";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
-interface MockTracer extends Tracer {
+interface MockTracer extends Plugin {
   getStartedSpans(): any[];
   startSpanCalled(): boolean;
 }

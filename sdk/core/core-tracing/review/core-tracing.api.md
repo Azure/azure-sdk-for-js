@@ -152,6 +152,11 @@ export class OpenCensusTracePlugin implements Tracer {
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
 }
 
+// @public (undocumented)
+export interface Plugin extends Tracer {
+    readonly pluginType: SupportedPlugins;
+}
+
 // @public
 export interface Sampler {
     shouldSample(parentContext?: SpanContext): boolean;
@@ -284,7 +289,7 @@ export class TracerNoOpImpl implements Tracer {
 // @public (undocumented)
 export class TracerProxy {
     // (undocumented)
-    static getTracer(): Tracer;
+    static getTracer(): Plugin;
     // (undocumented)
     static setTracer(tracer: any, tracerPluginType: SupportedPlugins): void;
     }

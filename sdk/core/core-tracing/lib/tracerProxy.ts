@@ -2,12 +2,12 @@ import { SupportedPlugins } from "./utils/supportedPlugins";
 import { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugin";
 import { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
 import { TracerNoOpImpl } from "./implementations/noop/tracerNoOpImpl";
-import { Tracer } from "./interfaces/tracer";
+import { Plugin } from "./interfaces/plugin";
 
 export class TracerProxy {
-  private static _tracerPlugin: Tracer;
+  private static _tracerPlugin: Plugin;
 
-  private constructor() {}
+  private constructor() { }
 
   public static setTracer(tracer: any, tracerPluginType: SupportedPlugins) {
     if (tracerPluginType === SupportedPlugins.OPENCENSUS) {
