@@ -11,18 +11,14 @@ import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { HttpOperationResponse } from '@azure/core-http';
-import { logPolicy } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
-import { proxyPolicy } from '@azure/core-http';
-import { ResourceSerializer } from '@azure/core-http';
+import { ProxySettings } from '@azure/core-http';
 import { ServiceClient } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
 import { TokenInfo } from '@azure/amqp-common';
 import { TokenProvider } from '@azure/amqp-common';
 import { TokenType } from '@azure/amqp-common';
-import { userAgentPolicy } from '@azure/core-http';
 import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
 
@@ -53,8 +49,6 @@ export { Delivery }
 
 export { HttpOperationResponse }
 
-export { logPolicy }
-
 // @public
 export interface MessageHandlerOptions {
     autoComplete?: boolean;
@@ -74,7 +68,7 @@ export interface OnMessage {
     (message: ServiceBusMessage): Promise<void>;
 }
 
-export { proxyPolicy }
+export { ProxySettings }
 
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
 // 
@@ -165,35 +159,34 @@ export class Sender {
 
 // @public
 export class ServiceBusAtomManagementClient extends ServiceClient {
-    constructor(connectionString: any, options?: ServiceClientOptions);
-    createQueue(queuePath: string, options: any): Promise<HttpOperationResponse>;
-    createRule(topicPath: string, subscriptionPath: string, rule: string, options: any): Promise<HttpOperationResponse>;
-    createSubscription(topicPath: string, subscriptionPath: string, options: any): Promise<HttpOperationResponse>;
-    createTopic(topicPath: string, options: any): Promise<HttpOperationResponse>;
-    deleteQueue(queuePath: any): any;
-    deleteRule(topicPath: string, subscriptionPath: string, rule: string): any;
-    deleteSubscription(topicPath: string, subscriptionPath: string): any;
-    deleteTopic(topicPath: any): any;
+    constructor(connectionString: string, proxySettings?: ProxySettings);
+    // Warning: (ae-forgotten-export) The symbol "QueueOptions" needs to be exported by the entry point index.d.ts
+    createQueue(queuePath: string, queueOptions: QueueOptions): Promise<HttpOperationResponse>;
+    // Warning: (ae-forgotten-export) The symbol "RuleOptions" needs to be exported by the entry point index.d.ts
+    createRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<HttpOperationResponse>;
+    // Warning: (ae-forgotten-export) The symbol "SubscriptionOptions" needs to be exported by the entry point index.d.ts
+    createSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<HttpOperationResponse>;
+    // Warning: (ae-forgotten-export) The symbol "TopicOptions" needs to be exported by the entry point index.d.ts
+    createTopic(topicPath: string, topicOptions: TopicOptions): Promise<HttpOperationResponse>;
+    deleteQueue(queuePath: string): Promise<HttpOperationResponse>;
+    deleteRule(topicPath: string, subscriptionPath: string, rule: string): Promise<HttpOperationResponse>;
+    deleteSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse>;
+    deleteTopic(topicPath: string): Promise<HttpOperationResponse>;
     // (undocumented)
-    endpoint: any;
-    formatDeadLetterPath(queuePath: any): any;
+    formatDeadLetterPath(queuePath: string): string;
     getQueue(queuePath: string): Promise<HttpOperationResponse>;
     getRule(topicPath: string, subscriptionPath: string, rule: string): Promise<HttpOperationResponse>;
     getSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse>;
     getTopic(topicPath: string): Promise<HttpOperationResponse>;
-    listQueues(options?: any): Promise<HttpOperationResponse>;
-    listRules(topicPath: string, subscriptionPath: string, options?: any): Promise<HttpOperationResponse>;
-    listSubscriptions(topicPath: string, options?: any): Promise<HttpOperationResponse>;
-    listTopics(options?: any): Promise<HttpOperationResponse>;
-    // (undocumented)
-    queueResourceSerializer: ResourceSerializer;
-    // (undocumented)
-    ruleResourceSerializer: ResourceSerializer;
-    // (undocumented)
-    subscriptionResourceSerializer: ResourceSerializer;
-    // (undocumented)
-    topicResourceSerializer: ResourceSerializer;
-    updateQueue(queuePath: any, options: any): Promise<HttpOperationResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ListRequestOptions" needs to be exported by the entry point index.d.ts
+    listQueues(listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse>;
+    listRules(topicPath: string, subscriptionPath: string, listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse>;
+    listSubscriptions(topicPath: string, listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse>;
+    listTopics(listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse>;
+    updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<HttpOperationResponse>;
+    updateRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<HttpOperationResponse>;
+    updateSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<HttpOperationResponse>;
+    updateTopic(topicPath: string, topicOptions: TopicOptions): Promise<HttpOperationResponse>;
 }
 
 // @public
@@ -256,8 +249,6 @@ export class ServiceBusMessage implements ReceivedMessage {
     };
     viaPartitionKey?: string;
 }
-
-export { ServiceClientOptions }
 
 // @public
 export interface SessionMessageHandlerOptions {
@@ -322,8 +313,6 @@ export class TopicClient implements Client {
     static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
     readonly id: string;
 }
-
-export { userAgentPolicy }
 
 export { WebSocketImpl }
 
