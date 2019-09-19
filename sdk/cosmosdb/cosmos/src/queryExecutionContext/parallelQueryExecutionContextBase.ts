@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import * as bs from "binary-search-bounds";
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";

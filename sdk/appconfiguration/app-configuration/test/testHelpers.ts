@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AppConfigurationClient } from "../src"
 
 // allow loading from a .env file as an alternative to defining the variable 
@@ -15,12 +18,14 @@ export function getConnectionStringFromEnvironment() : string {
     return connectionString;
 }
 
-export async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
+export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
     const existingSettings = await client.listConfigurationSettings({
-        key: keys
+        keys: keys
     });
 
-    for (const setting of existingSettings) {
-        await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    if (existingSettings.items) {
+        for (const setting of existingSettings.items) {
+            await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+        }
     }
 }

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export interface UserDefinedFunctionDefinition {
   /** The id of the {@link UserDefinedFunction} */
   id?: string;

@@ -1,4 +1,6 @@
-﻿import { Constants } from "../common";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { Constants } from "../common";
 import { QueryMetrics } from "../queryMetrics";
 
 export interface CosmosHeaders {

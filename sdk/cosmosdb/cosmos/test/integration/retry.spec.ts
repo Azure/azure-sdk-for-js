@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { ConnectionPolicy, Constants, CosmosClient, RetryOptions } from "../../dist-esm";
 import * as request from "../../dist-esm/request";

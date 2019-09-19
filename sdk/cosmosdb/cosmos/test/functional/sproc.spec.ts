@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { Constants } from "../../dist-esm";
 import { Container, StoredProcedureDefinition } from "../../dist-esm/client";
@@ -9,7 +11,7 @@ import {
 } from "../common/TestHelpers";
 
 // Used for sproc
-declare var getContext: any;
+declare let getContext: any;
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -103,7 +105,7 @@ describe("NodeJS CRUD Tests", function() {
       const sproc1: StoredProcedureDefinition = {
         id: "storedProcedure1",
         body: function() {
-          for (var i = 0; i < 1000; i++) {
+          for (let i = 0; i < 1000; i++) {
             const item = getContext()
               .getResponse()
               .getBody();
@@ -118,10 +120,10 @@ describe("NodeJS CRUD Tests", function() {
       const sproc2: StoredProcedureDefinition = {
         id: "storedProcedure2",
         body: function() {
-          for (var i = 0; i < 10; i++)
-            getContext()
+          for (let i = 0; i < 10; i++)
+            {getContext()
               .getResponse()
-              .appendValue("Body", i);
+              .appendValue("Body", i);}
         }
       };
 
@@ -184,13 +186,13 @@ describe("NodeJS CRUD Tests", function() {
     const querySproc = {
       id: "querySproc",
       body: function() {
-        var context = getContext();
-        var container = context.getCollection();
-        var response = context.getResponse();
+        const context = getContext();
+        const container = context.getCollection();
+        const response = context.getResponse();
 
         // query for players
-        var query = "SELECT r.id, r.key, r.prop FROM r";
-        var accept = container.queryDocuments(container.getSelfLink(), query, {}, function(
+        const query = "SELECT r.id, r.key, r.prop FROM r";
+        const accept = container.queryDocuments(container.getSelfLink(), query, {}, function(
           err: any,
           documents: any,
           responseOptions: any

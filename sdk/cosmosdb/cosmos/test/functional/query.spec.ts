@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { CosmosClient } from "../../dist-esm";
 import { Container } from "../../dist-esm/client";

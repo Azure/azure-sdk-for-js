@@ -10,6 +10,8 @@
  * @private
  *
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export class VectorSessionToken {
   private static readonly SEGMENT_SEPARATOR = "#";
   private static readonly REGION_PROGRESS_SEPARATOR = "=";
