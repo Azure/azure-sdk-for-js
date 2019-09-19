@@ -1,4 +1,6 @@
 /// <reference lib="esnext.asynciterable" />
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "./ClientContext";
 import { getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "./common";
 import {

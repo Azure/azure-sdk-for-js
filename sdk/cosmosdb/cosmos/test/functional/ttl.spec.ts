@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { Container, ContainerDefinition, Database } from "../../dist-esm/client";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";

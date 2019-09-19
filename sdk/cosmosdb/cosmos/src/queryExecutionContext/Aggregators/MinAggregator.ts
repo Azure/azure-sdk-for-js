@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator";
 import { IAggregator } from "./IAggregator";
 

@@ -1,4 +1,6 @@
 /// <reference lib="esnext.asynciterable" />
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ChangeFeedOptions } from "./ChangeFeedOptions";
 import { ChangeFeedResponse } from "./ChangeFeedResponse";
 import { Resource } from "./client";

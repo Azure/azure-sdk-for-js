@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Document } from "../documents/Document";
 import { PartitionKey } from "../documents/PartitionKey";
 import { CompareFunction, Range } from "./Range";

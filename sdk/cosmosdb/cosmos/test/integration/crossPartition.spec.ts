@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import * as util from "util";
 import { Container, ContainerDefinition } from "../../dist-esm/client";
@@ -85,7 +87,7 @@ describe("Cross Partition", function() {
         "actual results length doesn't match with expected results length."
       );
       if (expectedOrderIds)
-        assert.deepStrictEqual(actualResults.map((doc) => doc.id || doc), expectedOrderIds);
+        {assert.deepStrictEqual(actualResults.map((doc) => doc.id || doc), expectedOrderIds);}
     };
 
     const validateFetchAll = async function(
