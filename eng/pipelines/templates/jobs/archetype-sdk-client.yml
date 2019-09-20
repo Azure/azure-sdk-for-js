@@ -49,15 +49,8 @@ jobs:
       - template: ../steps/common.yml
 
       - script: |
-          npm ci
+          node eng/tools/generate-dev-builds.js "$(Build.BuildNumber)"
         condition: eq(variables['DevBuildRun'],'true')
-        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-dev-builds
-        displayName: "Install tool dependencies"
-
-      - script: |
-          node index.js "$(Build.BuildNumber)"
-        condition: eq(variables['DevBuildRun'],'true')
-        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-dev-builds
         displayName: "Update package versions for dev build"
 
       - script: |
