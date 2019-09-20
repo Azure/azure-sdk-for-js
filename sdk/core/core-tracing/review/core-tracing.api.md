@@ -57,7 +57,7 @@ export interface ITracerProxy {
     // (undocumented)
     getTracer(): Plugin;
     // (undocumented)
-    setTracer(tracer: any, tracerPluginType: SupportedPlugins): void;
+    setTracer(tracer: Plugin): void;
 }
 
 // @public
