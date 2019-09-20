@@ -250,9 +250,7 @@ export class QueueClient extends StorageClient {
       | string,
     options?: NewPipelineOptions
   ) {
-    if (!options) {
-      options = {};
-    }
+    options = options || {};
     let pipeline: Pipeline;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrQueueName;

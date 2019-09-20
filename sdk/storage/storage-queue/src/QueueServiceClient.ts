@@ -156,9 +156,7 @@ export class QueueServiceClient extends StorageClient {
     connectionString: string,
     options?: NewPipelineOptions
   ): QueueServiceClient {
-    if (!options) {
-      options = {};
-    }
+    options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
