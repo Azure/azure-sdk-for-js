@@ -575,8 +575,6 @@ describe("DirectoryClient", () => {
   it("listHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const s = serviceClient.getShareClient("share156830612406803206");
-    dirClient = s.getDirectoryClient("dir156830612568607181");
     const result = (await dirClient
       .listHandles()
       .byPage()

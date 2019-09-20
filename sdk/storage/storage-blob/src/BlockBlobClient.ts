@@ -32,6 +32,7 @@ import {
   extractConnectionStringParts,
   generateBlockID
 } from "./utils/utils.common";
+import { fsStat } from "./utils/utils.node";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
@@ -941,7 +942,7 @@ export class BlockBlobClient extends BlobClient {
     filePath: string,
     options?: UploadToBlockBlobOptions
   ): Promise<BlobUploadCommonResponse> {
-    const size = fs.statSync(filePath).size;
+    const size = (await fsStat(filePath)).size;
     return this.uploadResetableStream(
       (offset, count) =>
         fs.createReadStream(filePath, {

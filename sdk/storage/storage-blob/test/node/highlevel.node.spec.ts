@@ -8,7 +8,7 @@ import { createRandomLocalFile, getBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record } from "../utils/recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
-import { readStreamToLocalFile } from "../../src/utils/utils.common";
+import { readStreamToLocalFile } from "../../src/utils/utils.node";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
