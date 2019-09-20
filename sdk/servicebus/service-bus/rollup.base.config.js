@@ -43,7 +43,7 @@ const ignoreKnownWarnings = (warning) => {
   console.error(`(!) ${warning.message}`);
 };
 
-export function nodeConfig(test = false) {
+export function nodeConfig({ test = false, production = false } = {}) {
   const externalNodeBuiltins = ["events", "util", "os"];
   const baseConfig = {
     input: input,
@@ -89,14 +89,14 @@ export function nodeConfig(test = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (!test) {
+  } else if (production) {
     baseConfig.plugins.push(terser());
   }
 
   return baseConfig;
 }
 
-export function browserConfig(test = false) {
+export function browserConfig({ test = false, production = false } = {}) {
   const baseConfig = {
     input: input,
     external: [],
@@ -170,7 +170,7 @@ export function browserConfig(test = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (!test) {
+  } else if (production) {
     baseConfig.output.file = "browser/service-bus.min.js";
     baseConfig.plugins.push(
       terser({

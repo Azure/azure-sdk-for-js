@@ -1,0 +1,85 @@
+NOTICES AND INFORMATION
+Do Not Translate or Localize
+
+This software incorporates material from third parties. Microsoft makes certain
+open source code available at https://3rdpartysource.microsoft.com, or you may
+send a check or money order for US $5.00, including the product name, the open
+source component name, platform, and version number, to:
+
+Source Code Compliance Team
+Microsoft Corporation
+One Microsoft Way
+Redmond, WA 98052
+USA
+
+Notwithstanding any other terms, you may reverse engineer this software to the
+extent required to debug changes to any libraries licensed under the GNU Lesser
+General Public License.
+
+--------------------------------------------------------------------------------
+Component(s): 
+@azure/ms-rest-node-auth, @azure/amqp-common
+buffer, is-buffer
+process
+debug
+rollup and related browser bundling utilities
+
+Open Source License/Copyright Notice:
+MIT License. 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE
+
+Additional Attribution: 
+@azure/ms-rest-node-auth 0.9.2, @azure/amqp-common 1.0.0 
+                  - Copyright Microsoft Corporation and other contributors.
+buffer 5.2.1, is-buffer 2.0.3 - Copyright (c) Feross Aboukhadijeh, and other contributors.
+process 1.11.10 - Copyright (c) 2013 Roman Shtylman <shtylman@gmail.com>
+debug 4.1.1 - Copyright (c) 2014 TJ Holowaychuk <tj@vision-media.ca>
+Type Definitions - Copyright https://github.com/DefinitelyTyped/DefinitelyTyped
+@types/long 4.0.0 - Project: https://github.com/dcodeIO/long.js 
+                    Peter Kooijmans <https://github.com/peterkooijmans>
+                    Denis Cappellin <https://github.com/cappellin>
+@types/is-buffer 2.0.0 - Project: https://github.com/feross/is-buffer#readme 
+                         Junyoung Choi <https://github.com/rokt33r>
+rollup and related browser bundling utilities 
+                  - https://github.com/rollup/rollup/graphs/contributors
+                  
+--------------------------------------------------------------------------------
+
+Component(s): 
+rhea 1.0.4, rhea-promise 0.1.15, long 4.0.0, tslib 1.9.3
+
+Open Source License/Copyright Notice:
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Additional Attribution:  
+Copyright 2015 Red Hat Inc.
+Copyright Microsoft Corporation and other contributors.
+
+--------------------------------------------------------------------------------
