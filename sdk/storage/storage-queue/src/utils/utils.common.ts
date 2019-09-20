@@ -158,7 +158,7 @@ export function extractConnectionStringParts(connectionString: string): ConnStri
     return "";
   }
 
-  if (connectionString.search("UseDevelopmentStorage=true") !== -1) {
+  if (connectionString.startsWith("UseDevelopmentStorage=true")) {
     // Development connection string
     proxyUri = getProxyUriFromDevConnString(connectionString);
     connectionString = DevelopmentConnectionString;
