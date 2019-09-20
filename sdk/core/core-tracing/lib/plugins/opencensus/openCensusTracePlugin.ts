@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 import { Tracer } from "../../interfaces/tracer";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { Span } from "../../interfaces/span";

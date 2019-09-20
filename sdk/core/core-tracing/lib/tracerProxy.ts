@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 import { SupportedPlugins } from "./utils/supportedPlugins";
 import { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugin";
 import { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
