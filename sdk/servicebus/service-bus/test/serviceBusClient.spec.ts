@@ -341,6 +341,17 @@ describe("Test createFromAadTokenCredentials", function(): void {
     should.equal(msgs.length, 1, "Unexpected number of messages");
   }
 
+  it("throws error when using `CreateFromAadTokenCredentials` in browser #RunInBrowser", async function(): Promise<
+    void
+  > {
+    const credentials: any = {};
+    await testCreateFromAadTokenCredentials(serviceBusEndpoint, credentials).catch((err) => {
+      errorWasThrown = true;
+      should.equal(err.message, "`createFromAadTokenCredentials` is not supported in browser.");
+    });
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
     await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
       errorWasThrown = true;

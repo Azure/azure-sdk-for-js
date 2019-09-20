@@ -22,6 +22,7 @@ import {
   SasTokenProvider
 } from "@azure/amqp-common";
 import { SubscriptionClient } from "./subscriptionClient";
+import { isNode } from "./util/utils";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -244,8 +245,12 @@ export class ServiceBusClient {
       | MSITokenCredentials,
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
-    host = String(host);
-    const tokenProvider = new AadTokenProvider(credentials);
-    return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
+    if (isNode) {
+      host = String(host);
+      const tokenProvider = new AadTokenProvider(credentials);
+      return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
+    } else {
+      throw new Error("`createFromAadTokenCredentials` is not supported in browser.");
+    }
   }
 }
