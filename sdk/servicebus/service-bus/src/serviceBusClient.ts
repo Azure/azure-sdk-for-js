@@ -245,12 +245,13 @@ export class ServiceBusClient {
       | MSITokenCredentials,
     options?: ServiceBusClientOptions
   ): ServiceBusClient {
-    if (isNode) {
-      host = String(host);
-      const tokenProvider = new AadTokenProvider(credentials);
-      return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
-    } else {
-      throw new Error("`createFromAadTokenCredentials` is not supported in browser.");
+    if (!isNode) {
+      throw new Error(
+        "`createFromAadTokenCredentials` cannot be used to create ServiceBusClient as AAD support is not present in browser."
+      );
     }
+    host = String(host);
+    const tokenProvider = new AadTokenProvider(credentials);
+    return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
   }
 }
