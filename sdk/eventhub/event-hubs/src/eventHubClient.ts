@@ -25,6 +25,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
+import { SpanContext, Span } from '@azure/core-tracing';
 
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
@@ -86,6 +87,10 @@ export interface SendOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * The `Span` or `SpanContext` to use as the `parent` of any spans created while sending events.
+   */
+  parentSpan?: Span | SpanContext;
 }
 
 /**
@@ -266,6 +271,11 @@ export class EventHubClient {
   private _clientOptions: EventHubClientOptions;
 
   /**
+   * The Service Bus endpoint.
+   */
+  private _endpoint: string;
+
+  /**
    * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created.
@@ -409,6 +419,8 @@ export class EventHubClient {
 
     ConnectionConfig.validate(config);
 
+    this._endpoint = config.endpoint;
+
     this._clientOptions = options || {};
     this._context = ConnectionContext.create(config, credential, this._clientOptions);
   }
@@ -473,7 +485,7 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(this._context, options);
+    return new EventHubProducer(this.eventHubName, this._endpoint, this._context, options);
   }
 
   /**

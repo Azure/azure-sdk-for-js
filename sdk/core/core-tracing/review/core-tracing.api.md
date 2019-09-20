@@ -56,6 +56,10 @@ export interface HttpTextFormat {
     extract(format: string, carrier: unknown): SpanContext | null;
     inject(spanContext: SpanContext, format: string, carrier: unknown): void;
 }
+export function extractSpanContextFromTraceParent(traceParent: string): SpanContext;
+
+// @public
+export function getTraceParent(spanContext: SpanContext): string;
 
 // @public
 export interface Link {

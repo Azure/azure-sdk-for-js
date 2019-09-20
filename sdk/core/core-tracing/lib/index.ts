@@ -35,3 +35,5 @@ export {
   Tracer as OpenCensusTracer,
   Span as OpenCensusSpan,
 } from "@opencensus/web-types";
+export { getTraceParent } from "./utils/getTraceParent";
+export { extractSpanContextFromTraceParent } from "./utils/extractSpanContext";

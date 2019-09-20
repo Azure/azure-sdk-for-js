@@ -18,6 +18,8 @@ import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { RetryOptions } from '@azure/core-amqp';
 import { SharedKeyCredential } from '@azure/core-amqp';
+import { Span } from '@azure/core-tracing';
+import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -69,16 +71,19 @@ export class EventDataBatch {
     constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
     readonly batchMessage: Buffer | undefined;
     readonly count: number;
+    // @internal
+    readonly _messageSpanContexts: SpanContext[];
     readonly partitionKey: string | undefined;
     readonly sizeInBytes: number;
-    tryAdd(eventData: EventData): boolean;
+    // Warning: (ae-forgotten-export) The symbol "TryAddOptions" needs to be exported by the entry point index.d.ts
+    tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 }
 
 // @public
 export class EventHubClient {
-    constructor(connectionString: string, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
     constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, options?: EventHubClientOptions);
     close(): Promise<void>;
     createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
@@ -126,7 +131,7 @@ export interface EventHubConsumerOptions {
 // @public
 export class EventHubProducer {
     // @internal
-    constructor(context: ConnectionContext, options?: EventHubProducerOptions);
+    constructor(eventHubName: string, endpoint: string, context: ConnectionContext, options?: EventHubProducerOptions);
     close(): Promise<void>;
     createBatch(options?: BatchOptions): Promise<EventDataBatch>;
     readonly isClosed: boolean;
@@ -286,6 +291,7 @@ export { RetryOptions }
 // @public
 export interface SendOptions {
     abortSignal?: AbortSignalLike;
+    parentSpan?: Span | SpanContext;
     partitionKey?: string | null;
 }
 

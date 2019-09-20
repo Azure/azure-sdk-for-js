@@ -6,6 +6,15 @@ import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
 import { message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { Span, SpanContext } from "@azure/core-tracing";
+import { instrumentEventData, TRACEPARENT_PROPERTY, createMessageSpan } from './diagnostics/messageSpan';
+
+export interface TryAddOptions {
+  /**
+   * The `Span` or `SpanContext` to use as the `parent` of any spans created while adding events.
+   */
+  parentSpan?: Span | SpanContext;
+}
 
 /**
  * A class representing a batch of events which can be passed to the `send` method of a `EventProducer` instance.
@@ -50,6 +59,10 @@ export class EventDataBatch {
    * @property Encoded batch message.
    */
   private _batchMessage: Buffer | undefined;
+  /**
+   * List of 'message' span contexts.
+   */
+  private _spanContexts: SpanContext[] = [];
 
   /**
    * EventDataBatch should not be constructed using `new EventDataBatch()`
@@ -107,6 +120,14 @@ export class EventDataBatch {
   }
 
   /**
+   * Gets the "message" span contexts that were created when adding events to the batch.
+   * @internal
+   * @ignore
+   */
+  get _messageSpanContexts(): SpanContext[] {
+    return this._spanContexts;
+  }
+  /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
@@ -114,8 +135,19 @@ export class EventDataBatch {
    * @param eventData  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
-  public tryAdd(eventData: EventData): boolean {
+  public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
+
+    let isInstrumented = false;
+    // check if the event has already been instrumented
+    if (!eventData.properties || !eventData.properties[TRACEPARENT_PROPERTY]) {
+      const messageSpan = createMessageSpan(options.parentSpan);
+      // Create a shallow copy of eventData and eventData.properties in case we add the diagnostic id to the properties.
+      eventData = {...eventData, properties: {...eventData.properties}};
+      isInstrumented = instrumentEventData(eventData, messageSpan);
+      this._spanContexts.push(messageSpan.context());
+      messageSpan.end();
+    }
     // Convert EventData to AmqpMessage.
     const amqpMessage = toAmqpMessage(eventData, this._partitionKey);
     amqpMessage.body = this._context.dataTransformer.encode(eventData.body);
@@ -137,6 +169,9 @@ export class EventDataBatch {
     // this._batchMessage will be used for final send operation
     if (currentSize > this._maxSizeInBytes) {
       this._encodedMessages.pop();
+      if (isInstrumented) {
+        this._spanContexts.pop();
+      }
       return false;
     }
     this._batchMessage = encodedBatchMessage;

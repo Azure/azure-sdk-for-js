@@ -8,6 +8,8 @@ import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch } from "./eventDataBatch";
+import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from '@azure/core-tracing';
+import { instrumentEventData, createMessageSpan } from './diagnostics/messageSpan';
 
 /**
  * A producer responsible for sending events to an Event Hub.
@@ -41,6 +43,9 @@ export class EventHubProducer {
 
   private _eventHubSender: EventHubSender | undefined;
 
+  private _eventHubName: string;
+  private _endpoint: string;
+
   /**
    * @property Returns `true` if either the producer or the client that created it has been closed.
    * @readonly
@@ -57,7 +62,7 @@ export class EventHubProducer {
    * @internal
    * @ignore
    */
-  constructor(context: ConnectionContext, options?: EventHubProducerOptions) {
+  constructor(eventHubName: string, endpoint: string, context: ConnectionContext, options?: EventHubProducerOptions) {
     this._context = context;
     this._senderOptions = options || {};
     const partitionId =
@@ -65,6 +70,8 @@ export class EventHubProducer {
         ? String(this._senderOptions.partitionId)
         : undefined;
     this._eventHubSender = EventHubSender.create(this._context, partitionId);
+    this._eventHubName = eventHubName;
+    this._endpoint = endpoint;
   }
 
   /**
@@ -139,7 +146,7 @@ export class EventHubProducer {
    */
   async send(
     eventData: EventData | EventData[] | EventDataBatch,
-    options?: SendOptions
+    options: SendOptions = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
@@ -154,7 +161,41 @@ export class EventHubProducer {
     if (!Array.isArray(eventData) && !(eventData instanceof EventDataBatch)) {
       eventData = [eventData];
     }
-    return this._eventHubSender!.send(eventData, { ...this._senderOptions, ...options });
+
+    // link message span contexts
+    let spanContextsToLink: SpanContext[] = [];
+    if (Array.isArray(eventData)) {
+      for (let i = 0; i < eventData.length; i++) {
+        const event: EventData = {...eventData[i], properties: {...eventData[i].properties}};
+        const messageSpan = createMessageSpan(options.parentSpan);
+        // since these message spans are created from same context as the send span,
+        // these message spans don't need to be linked.
+        instrumentEventData(event, messageSpan);
+        messageSpan.end();
+      }
+    } else if (eventData instanceof EventDataBatch) {
+      spanContextsToLink = eventData._messageSpanContexts;
+    }
+
+
+    const sendSpan = this._createSendSpan(options.parentSpan);
+    sendSpan.start(); // TODO: remove once #5182 is merged
+    for (const spanContext of spanContextsToLink) {
+      sendSpan.addLink(spanContext);
+    }
+
+    try {
+      const result = await this._eventHubSender!.send(eventData, { ...this._senderOptions, ...options });
+      sendSpan.setStatus({code: CanonicalCode.OK});
+      return result;
+    } catch (err) {
+      sendSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: err.message
+      });
+    } finally {
+      sendSpan.end();
+    }
   }
 
   /**
@@ -181,6 +222,20 @@ export class EventHubProducer {
       );
       throw err;
     }
+  }
+
+  private _createSendSpan(parentSpan?: Span | SpanContext): Span {
+    const tracer = TracerProxy.getTracer();
+    const span = tracer.startSpan("Azure.EventHubs.send", {
+      kind: SpanKind.PRODUCER,
+      parent: parentSpan
+    });
+
+    span.setAttribute("component", "eventhubs");
+    span.setAttribute("message_bus.destination", this._eventHubName);
+    span.setAttribute("peer.address", this._endpoint);
+
+    return span;
   }
 
   private _throwIfSenderOrConnectionClosed(): void {
