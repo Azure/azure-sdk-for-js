@@ -7,34 +7,31 @@ import { Status } from "../../interfaces/status";
 import { OpenCensusTraceStatePlugin } from "./openCensusTraceStatePlugin";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { OpenCensusTracePlugin } from "./openCensusTracePlugin";
+import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan, LinkType } from "../../interfaces/OpenCensus/model";
 
-function isWrappedSpan(span: Span | SpanContext): span is OpenCensusSpanPlugin {
-  return (span as OpenCensusSpanPlugin).getWrappedSpan !== undefined;
+function isWrappedSpan(span?: Span | SpanContext): span is OpenCensusSpanPlugin {
+  return !!span && (span as OpenCensusSpanPlugin).getWrappedSpan !== undefined;
 }
 
 export class OpenCensusSpanPlugin implements Span {
-  private _span: any;
+  private _span: OpenCensusSpan;
 
   public getWrappedSpan() {
     return this._span;
   }
 
   constructor(tracer: OpenCensusTracePlugin, name: string, options: SpanOptions = {}) {
-    const parent = options.parent
-      ? isWrappedSpan(options.parent)
-        ? options.parent.getWrappedSpan()
-        : options.parent
-      : undefined;
+    const parent = isWrappedSpan(options.parent) ? options.parent.getWrappedSpan() : undefined;
 
     this._span = tracer.getWrappedTracer().startChildSpan({
-      name: name,
+      name,
       childOf: parent
     });
-    this._span.start(options.startTime);
+    this._span.start();
   }
 
-  end(endTime?: number): void {
-    this._span.end(endTime);
+  end(_endTime?: number): void {
+    this._span.end();
   }
 
   context(): SpanContext {
@@ -49,7 +46,7 @@ export class OpenCensusSpanPlugin implements Span {
   }
 
   setAttribute(key: string, value: unknown): this {
-    this._span.addAttribute(key, value);
+    this._span.addAttribute(key, value as any);
     return this;
   }
 
@@ -64,7 +61,7 @@ export class OpenCensusSpanPlugin implements Span {
   addLink(spanContext: SpanContext, attributes?: Attributes): this {
     // Since there is no way to specify the link relationship
     // It is set as Unspecified = 0
-    this._span.addLink(spanContext.traceId, spanContext.spanId, 0, attributes);
+    this._span.addLink(spanContext.traceId, spanContext.spanId, LinkType.UNSPECIFIED, attributes as OpenCensusAttributes);
     return this;
   }
 

@@ -7,23 +7,23 @@ import { OpenCensusSpanPlugin } from "../opencensus/openCensusSpanPlugin";
 import { SupportedPlugins } from '../../utils/supportedPlugins';
 import { BinaryFormat } from "../../interfaces/BinaryFormat";
 import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
+import { Tracer as OpenCensusTracer } from "../../interfaces/OpenCensus/model";
 
 export class OpenCensusTracePlugin implements Tracer {
-  private _tracer: any;
+  private _tracer: OpenCensusTracer;
 
   public getWrappedTracer() {
     return this._tracer;
   }
 
-  public constructor(tracer: any) {
+  public constructor(tracer: OpenCensusTracer) {
     this._tracer = tracer;
   }
 
   public readonly pluginType = SupportedPlugins.OPENCENSUS;
 
   startSpan(name: string, options?: SpanOptions): Span {
-    const openCensusSpanPlugin = new OpenCensusSpanPlugin(this, name, options);
-    return openCensusSpanPlugin;
+    return new OpenCensusSpanPlugin(this, name, options);
   }
 
   getCurrentSpan(): Span {
