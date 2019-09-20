@@ -1,3 +1,8 @@
+# 2019-09-19 1.1.0
+
+- Update library to support running all Service Bus operations in browser.
+[PR 5128](https://github.com/Azure/azure-sdk-for-js/pull/5128) related to [issue 3373](https://github.com/Azure/azure-sdk-for-js/issues/3373)
+
 # 2019-09-12 1.0.4
 
 - Increase timeout value from 20 seconds to 60 seconds when settling messages.
