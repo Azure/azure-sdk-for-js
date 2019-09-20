@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { setAuthorizationHeader } from "../auth";
 import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
 import { CosmosClientOptions } from "../CosmosClientOptions";
@@ -69,7 +71,8 @@ export async function getHeaders({
   }
 
   if (options.continuationTokenLimitInKB) {
-    headers[Constants.HttpHeaders.ResponseContinuationTokenLimitInKB] = options.continuationTokenLimitInKB;
+    headers[Constants.HttpHeaders.ResponseContinuationTokenLimitInKB] =
+      options.continuationTokenLimitInKB;
   }
   if (options.continuation) {
     headers[Constants.HttpHeaders.Continuation] = options.continuation;

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { generateHeaders } from "@azure/cosmos-sign";
 import { Constants, getResourceIdFromPath, HTTPMethod, ResourceType } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
@@ -45,7 +47,13 @@ export async function setAuthorizationHeader(
   }
 
   if (clientOptions.key) {
-    setAuthorizationTokenHeaderUsingMasterKey(verb, resourceId, resourceType, headers, clientOptions.key);
+    setAuthorizationTokenHeaderUsingMasterKey(
+      verb,
+      resourceId,
+      resourceType,
+      headers,
+      clientOptions.key
+    );
   } else if (clientOptions.resourceTokens) {
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
       getAuthorizationTokenUsingResourceTokens(clientOptions.resourceTokens, path, resourceId)

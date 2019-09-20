@@ -1,6 +1,8 @@
 /**
  * @ignore
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export class LocationRouting {
   private pIgnorePreferredLocation: boolean;
   private pLocationIndexToRoute: number;
@@ -24,7 +26,10 @@ export class LocationRouting {
       this.pLocationIndexToRoute = endpointOrIndex;
       this.pIgnorePreferredLocation = ignorePreferredLocation;
       this.pLocationEndpointToRoute = undefined;
-    } else if (typeof ignorePreferredLocation === "undefined" && typeof endpointOrIndex === "string") {
+    } else if (
+      typeof ignorePreferredLocation === "undefined" &&
+      typeof endpointOrIndex === "string"
+    ) {
       this.pLocationEndpointToRoute = endpointOrIndex;
       this.pLocationIndexToRoute = undefined;
       this.pIgnorePreferredLocation = undefined;

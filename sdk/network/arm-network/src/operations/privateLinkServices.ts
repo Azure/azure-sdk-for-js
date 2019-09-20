@@ -190,7 +190,7 @@ export class PrivateLinkServices {
   }
 
   /**
-   * Checks the subscription is visible to private link service
+   * Checks whether the subscription is visible to private link service.
    * @param location The location of the domain name.
    * @param parameters The request body of CheckPrivateLinkService API call.
    * @param [options] The optional parameters
@@ -222,7 +222,8 @@ export class PrivateLinkServices {
   }
 
   /**
-   * Checks the subscription is visible to private link service
+   * Checks whether the subscription is visible to private link service in the specified resource
+   * group.
    * @param location The location of the domain name.
    * @param resourceGroupName The name of the resource group.
    * @param parameters The request body of CheckPrivateLinkService API call.

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosClient, CosmosClientOptions } from "../../dist-esm";
 import { RequestContext } from "../../dist-esm/request/RequestContext";
 import { Plugin, Next, PluginConfig } from "../../dist-esm/plugins/Plugin";

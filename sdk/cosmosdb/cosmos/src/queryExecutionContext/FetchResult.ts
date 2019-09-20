@@ -1,4 +1,6 @@
 /** @hidden */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export enum FetchResultType {
   "Done" = 0,
   "Exception" = 1,

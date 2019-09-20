@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { EventHubClient } from "./eventHubClient";
-import { PartitionContext } from "./partitionContext";
 import { EventPosition } from "./eventPosition";
 import { EventProcessorOptions, CloseReason } from "./eventProcessor";
 import { PartitionProcessor } from "./partitionProcessor";
@@ -44,7 +43,6 @@ export class PumpManager {
   /**
    * Creates and starts a PartitionPump.
    * @param eventHubClient The EventHubClient to forward to the PartitionPump.
-   * @param partitionContext The PartitionContext to forward to the PartitionPump.
    * @param initialEventPosition The EventPosition to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @param abortSignal Used to cancel pump creation.
@@ -52,11 +50,10 @@ export class PumpManager {
    */
   public async createPump(
     eventHubClient: EventHubClient,
-    partitionContext: PartitionContext,
     initialEventPosition: EventPosition,
     partitionProcessor: PartitionProcessor
   ): Promise<void> {
-    const partitionId = partitionContext.partitionId;
+    const partitionId = partitionProcessor.partitionId;
     // attempt to get an existing pump
     const existingPump = this._partitionIdToPumps[partitionId];
     if (existingPump) {
@@ -69,14 +66,13 @@ export class PumpManager {
       log.pumpManager(
         `[${this._eventProcessorName}] [${partitionId}] The existing pump is not running.`
       );
-      await this.removePump(partitionId, CloseReason.EventHubException);
+      await this.removePump(partitionId, CloseReason.OwnershipLost);
     }
 
     log.pumpManager(`[${this._eventProcessorName}] [${partitionId}] Creating a new pump.`);
 
     const pump = new PartitionPump(
       eventHubClient,
-      partitionContext,
       partitionProcessor,
       initialEventPosition,
       this._options

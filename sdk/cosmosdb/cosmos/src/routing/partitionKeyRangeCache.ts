@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
 import { getIdFromLink } from "../common/helper";
 import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
@@ -18,10 +20,14 @@ export class PartitionKeyRangeCache {
    * @param {string} collectionLink            - Requested collectionLink
    * @ignore
    */
-  public async onCollectionRoutingMap(collectionLink: string): Promise<InMemoryCollectionRoutingMap> {
+  public async onCollectionRoutingMap(
+    collectionLink: string
+  ): Promise<InMemoryCollectionRoutingMap> {
     const collectionId = getIdFromLink(collectionLink);
     if (this.collectionRoutingMapByCollectionId[collectionId] === undefined) {
-      this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(collectionLink);
+      this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(
+        collectionLink
+      );
     }
     return this.collectionRoutingMapByCollectionId[collectionId];
   }
@@ -38,7 +44,9 @@ export class PartitionKeyRangeCache {
   }
 
   private async requestCollectionRoutingMap(collectionLink: string) {
-    const { resources } = await this.clientContext.queryPartitionKeyRanges(collectionLink).fetchAll();
-    return createCompleteRoutingMap(resources.map(r => [r, true]));
+    const { resources } = await this.clientContext
+      .queryPartitionKeyRanges(collectionLink)
+      .fetchAll();
+    return createCompleteRoutingMap(resources.map((r) => [r, true]));
   }
 }

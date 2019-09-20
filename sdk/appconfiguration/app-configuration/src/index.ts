@@ -1,36 +1,70 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+  
 import { AppConfigCredential } from "./appConfigCredential";
-import { TokenCredential } from "@azure/core-http";
-import { ConfigurationClient } from "./generated/configurationClient";
+import { TokenCredential, URLBuilder } from "@azure/core-http";
+import { AppConfiguration } from "./generated/src/appConfiguration";
 
 import {
-  ConfigurationSetting as ModelConfigurationSetting,
-  ConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams as ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams,
-  CreateOrUpdateConfigurationSettingResponse as ModelCreateOrUpdateConfigurationSettingResponse,
-  ConfigurationClientDeleteConfigurationSettingOptionalParams as ModelConfigurationClientDeleteConfigurationSettingOptionalParams,
-  ConfigurationClientGetConfigurationSettingOptionalParams as ModelConfigurationClientGetConfigurationSettingOptionalParams,
-  ConfigurationClientListConfigurationSettingsOptionalParams as ModelConfigurationClientListConfigurationSettingsOptionalParams,
-  ConfigurationClientListRevisionsOptionalParams as ModelConfigurationClientListRevisionsOptionalParams,
-  DeleteConfigurationSettingResponse as ModelDeleteConfigurationSettingResponse,
-  GetConfigurationSettingResponse as ModelGetConfigurationSettingResponse,
-  ListConfigurationSettingsResponse as ModelListConfigurationSettingsResponse,
-  ListRevisionsResponse as ModelListRevisionsResponse
-} from "./generated/models";
+  KeyValue as ConfigurationSetting,
+  AppConfigurationGetKeyValuesOptionalParams,
+  GetKeyValuesResponse,
 
-export { ConfigurationSettingList, GetConfigurationSettingHeaders } from "./generated/models";
+  PutKeyValueResponse as AddConfigurationSettingResponse,
+  PutKeyValueResponse as SetConfigurationSettingResponse,
+
+  AppConfigurationPutKeyValueOptionalParams as GeneratedPutParams,
+
+  AppConfigurationDeleteKeyValueOptionalParams as DeleteConfigurationSettingOptions,
+  DeleteKeyValueResponse as DeleteConfigurationSettingResponse,
+
+  AppConfigurationGetKeyValueOptionalParams as GetConfigurationSettingOptions,
+  GetKeyValueResponse as GetConfigurationSettingResponse,
+
+  AppConfigurationGetRevisionsOptionalParams as ListRevisionsOptions,
+  GetRevisionsResponse as ListRevisionsResponse
+} from "./generated/src/models/index";
+import { isArray } from 'util';
 
 export {
-  ModelConfigurationSetting,
-  ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams,
-  ModelCreateOrUpdateConfigurationSettingResponse,
-  ModelConfigurationClientDeleteConfigurationSettingOptionalParams,
-  ModelConfigurationClientGetConfigurationSettingOptionalParams,
-  ModelConfigurationClientListConfigurationSettingsOptionalParams,
-  ModelConfigurationClientListRevisionsOptionalParams,
-  ModelDeleteConfigurationSettingResponse,
-  ModelGetConfigurationSettingResponse,
-  ModelListConfigurationSettingsResponse,
-  ModelListRevisionsResponse
-};
+  DeleteKeyValueResponse,
+  PutKeyValueResponse,
+  GetRevisionsResponse,
+  GetKeyValueResponse,
+  AppConfigurationGetKeyValueOptionalParams,
+  AppConfigurationPutKeyValueOptionalParams,
+  AppConfigurationDeleteKeyValueOptionalParams,
+  AppConfigurationGetRevisionsOptionalParams,
+  AppConfigurationGetKeyValuesOptionalParams
+} from "./generated/src/models/index";
+
+export interface ConfigurationSettingParam extends Pick<ConfigurationSetting, Exclude<keyof ConfigurationSetting, 'locked' | 'etag' | 'lastModified'>> {
+}
+
+export interface ConfigurationSettingOptions extends Pick<GeneratedPutParams, Exclude<keyof GeneratedPutParams, 'label' | 'entity'>> {
+}
+
+export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationGetKeyValuesOptionalParams, Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, 'key' | 'label' | 'select' | 'after'>> {
+  /**
+   * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
+   */
+  keys?: string[];
+
+  /**
+   * Filters for wildcard matching (using *) against labels. These conditions are logically OR'd against each other.
+   */
+  labels?: string[];
+
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: (keyof ConfigurationSetting)[];
+}
+
+export interface ListConfigurationSettingsResponse extends GetKeyValuesResponse {
+}
+
+export { ConfigurationSetting };
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -50,45 +84,13 @@ export interface ETagOption {
   etag?: string;
 }
 
-export type AddConfigurationSettingConfig = Pick<
-  ModelConfigurationSetting,
-  Exclude<keyof ModelConfigurationSetting, "key">
->;
-export type AddConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-export type AddConfigurationSettingsResponse = ModelCreateOrUpdateConfigurationSettingResponse;
-
-export type DeleteConfigurationSettingOptions = ModelConfigurationClientDeleteConfigurationSettingOptionalParams &
-  ETagOption;
-export type DeleteConfigurationSettingResponse = ModelDeleteConfigurationSettingResponse;
-
-export type GetConfigurationSettingOptions = ModelConfigurationClientGetConfigurationSettingOptionalParams;
-export type GetConfigurationSettingResponse = ModelGetConfigurationSettingResponse;
-
-export type ListConfigurationSettingsOptions = ModelConfigurationClientListConfigurationSettingsOptionalParams;
-export type ListConfigurationSettingsResponse = ModelListConfigurationSettingsResponse;
-
-export type ListRevisionsOptions = ModelConfigurationClientListRevisionsOptionalParams;
-export type ListRevisionsResponse = ModelListRevisionsResponse;
-
-export type SetConfigurationSettingConfig = Pick<
-  ModelConfigurationSetting,
-  Exclude<keyof ModelConfigurationSetting, "key">
->;
-export type SetConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-export type SetConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
-
-export type UpdateConfigurationSettingConfig = Pick<
-  ModelConfigurationSetting,
-  Exclude<keyof ModelConfigurationSetting, "key">
->;
-export type UpdateConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
-export type UpdateConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+const apiVersion = "1.0";
 
 /**
  * Client for the Azure App Configuration service.
  */
 export class AppConfigurationClient {
-  private client: ConfigurationClient;
+  private client: AppConfiguration;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -111,12 +113,12 @@ export class AppConfigurationClient {
     const regexMatch = uriOrConnectionString.match(ConnectionStringRegex);
     if (regexMatch) {
       const credential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
-      this.client = new ConfigurationClient(credential, {
+      this.client = new AppConfiguration(credential, apiVersion, {
         baseUri: regexMatch[1],
         deserializationContentTypes
       });
     } else if (credential && credential.constructor.name === "ManagedIdentityCredential") {
-      this.client = new ConfigurationClient(credential, {
+      this.client = new AppConfiguration(credential, apiVersion, {
         baseUri: uriOrConnectionString,
         deserializationContentTypes
       });
@@ -133,26 +135,23 @@ export class AppConfigurationClient {
    *
    * Example usage:
    * ```ts
-   * const result = await client.addConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
+   * const result = await client.addConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
    * ```
-   * @param key The name of the key.
-   * @param configSettings A configuration value.
+   * @param configurationSetting A configuration setting.
    * @param options Optional parameters for the request.
    */
-  addConfigurationSetting(
-    key: string,
-    configSettings: AddConfigurationSettingConfig,
-    options: AddConfigurationSettingOptions = {}
-  ): Promise<AddConfigurationSettingsResponse> {
-    // add the custom header if-none-match=* to only add the key-value if it doesn't already exist
-    // create a copy of the options to avoid modifying the user's options
-    options = { ...options };
-    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
-    customHeaders["if-none-match"] = "*";
-    options.customHeaders = customHeaders;
+  async addConfigurationSetting(
+    configurationSetting: ConfigurationSettingParam,
+    options: ConfigurationSettingOptions = {}
+  ): Promise<AddConfigurationSettingResponse> {
+    const result = await this.client.putKeyValue(configurationSetting.key, {
+      ifNoneMatch: "*",
+      label: configurationSetting.label,
+      entity: configurationSetting,
+      ...options
+    });
 
-    options.label = configSettings.label;
-    return this.client.createOrUpdateConfigurationSetting(configSettings, key, options);
+    return result;
   }
 
   /**
@@ -163,22 +162,18 @@ export class AppConfigurationClient {
    * const deletedSetting = await client.deleteConfigurationSetting("MyKey", { label: "MyLabel" });
    * ```
    * @param key The name of the key.
-   * @param options Optional parameters for the request.
+   * @param options Optional parameters for the request (ex: etag, label)
    */
   deleteConfigurationSetting(
     key: string,
-    options: DeleteConfigurationSettingOptions
+    options: DeleteConfigurationSettingOptions & ETagOption
   ): Promise<DeleteConfigurationSettingResponse> {
-    // hoist the etag into a custom header to ensure this update fails if the setting has been updated
-    options = { ...options };
-    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
-    options.customHeaders = customHeaders;
-
-    const etag = options.etag;
-    if (etag) {
-      customHeaders["if-match"] = `"${etag}"`;
+    if (options.etag) {
+      options = { ...options };
+      options.ifMatch = AppConfigurationClient.formatETagForMatchHeaders(options);
     }
-    return this.client.deleteConfigurationSetting(key, options);
+
+    return this.client.deleteKeyValue(key, options);
   }
 
   /**
@@ -191,16 +186,16 @@ export class AppConfigurationClient {
    * @param key The name of the key.
    * @param options Optional parameters for the request.
    */
-  getConfigurationSetting(
+  async getConfigurationSetting(
     key: string,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    // temporary workaround - if the user doesn't initialize the label field explicitly to undefined then the default value will make it so you can't get a value without 
-    // a label. Should be able to remove when we use newer generated models.
-    options = { ...options };
-    options.label = options.label;
+    const result = await this.client.getKeyValue(key, {
+      label: options.label,
+      ...options
+    });
 
-    return this.client.getConfigurationSetting(key, options);
+    return result;
   }
 
   /**
@@ -214,9 +209,22 @@ export class AppConfigurationClient {
    * @param options Optional parameters for the request.
    */
   listConfigurationSettings(
-    options?: ListConfigurationSettingsOptions
+    options: ListConfigurationSettingsOptions = {}
   ): Promise<ListConfigurationSettingsResponse> {
-    return this.client.listConfigurationSettings(options);
+    return this.client.getKeyValues({
+      ...options,
+      ...AppConfigurationClient.formatWildcards(options),
+      select: options.fields
+    });
+  }
+
+  listConfigurationSettingsNext(nextLink: string, options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>  {
+
+    return this.client.getKeyValues({
+      ...options,
+      ...AppConfigurationClient.formatWildcards(options),
+      after: AppConfigurationClient.extractAfterTokenFromNextLink(nextLink)
+    });
   }
 
   /**
@@ -229,91 +237,74 @@ export class AppConfigurationClient {
    * @param options Optional parameters for the request.
    */
   listRevisions(options?: ListRevisionsOptions): Promise<ListRevisionsResponse> {
-    return this.client.listRevisions(options);
+    return this.client.getRevisions(options);
   }
 
   /**
    * Sets the value of a key in the Azure App Configuration service, allowing for an optional etag.
    * @param key The name of the key.
-   * @param configSettings A configuration value.
+   * @param configurationSetting A configuration value.
    * @param options Optional parameters for the request.
    *
    * Example code:
    * ```ts
-   * let result = await client.setConfigurationSetting("MyKey", { value: "MyValue" });
+   * await client.setConfigurationSetting({ key: "MyKey", value: "MyValue" });
    * ```
    */
   setConfigurationSetting(
-    key: string,
-    configSettings: SetConfigurationSettingConfig,
-    options: SetConfigurationSettingOptions = {}
+    configurationSetting: ConfigurationSettingParam & ETagOption,
+    options: ConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    // hoist the etag into a custom header to ensure this update fails if the setting has been updated
-    options = { ...options };
 
-    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
-    options.customHeaders = customHeaders;
-
-    const etag = configSettings.etag;
-    if (etag) {
-      customHeaders["if-match"] = `"${etag}"`;
-    }
-
-    options.label = configSettings.label;
-    
-    return this.client.createOrUpdateConfigurationSetting(configSettings, key, {
-      ...options,
-      customHeaders
+    return this.client.putKeyValue(configurationSetting.key, {
+      label: configurationSetting.label,
+      entity: configurationSetting,
+      ifMatch: AppConfigurationClient.formatETagForMatchHeaders(configurationSetting),
+      ...options
     });
   }
 
-  /**
-   * Updates the value of a key in the Azure App Configuration service.
-   *
-   * Example code:
-   * ```ts
-   * await client.updateConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
-   * ```
-   * @param key The name of the key.
-   * @param configSettings A configuration value.
-   * @param options Optional parameters for the request.
-   */
-  async updateConfigurationSetting(
-    key: string,
-    configSettings: UpdateConfigurationSettingConfig,
-    options: UpdateConfigurationSettingOptions = {}
-  ): Promise<UpdateConfigurationSettingResponse> {
-    options = { ...options };
-    // retrieve existing configuration, and populate configSettings for missing fields that aren't null
-    const existingConfigurationSettings = await this.getConfigurationSetting(key, {
-      abortSignal: options.abortSignal,
-      label: configSettings.label || options.label
-    });
-
-    const updateConfigSettings = { ...configSettings };
-
-    if (typeof updateConfigSettings.value === "undefined") {
-      updateConfigSettings.value = existingConfigurationSettings.value;
-    }
-    if (typeof updateConfigSettings.contentType === "undefined") {
-      updateConfigSettings.contentType = existingConfigurationSettings.contentType;
-    }
-    if (typeof updateConfigSettings.tags === "undefined") {
-      updateConfigSettings.tags = existingConfigurationSettings.tags;
+  private static formatETagForMatchHeaders(objectWithEtag: ETagOption): (string | undefined) {
+    if (objectWithEtag.etag) {
+      return `"${objectWithEtag.etag}"`;
     }
 
-    options.label = configSettings.label;
+    return undefined;
+  }
 
-    const customHeaders: typeof options.customHeaders = { ...options.customHeaders };
-    options.customHeaders = customHeaders;
+  private static formatWildcards(listConfigOptions?: ListConfigurationSettingsOptions): Pick<AppConfigurationGetKeyValuesOptionalParams, 'key' | 'label'> {
 
-    const etag = updateConfigSettings.etag;
-    if (etag) {
-      customHeaders["if-match"] = `"${etag}"`;
-    } else if (!customHeaders["if-match"]) {
-      customHeaders["if-match"] = "*";
+    if (listConfigOptions == null) {
+      return {};
     }
 
-    return this.client.createOrUpdateConfigurationSetting(updateConfigSettings, key, options);
+    let key = undefined;
+
+    if (listConfigOptions.keys) {
+      // TODO: escape commas?
+      key = listConfigOptions.keys.join(",");
+    }
+
+    let label = undefined;
+
+    if (listConfigOptions.labels) {
+      label = listConfigOptions.labels.join(",");
+    }
+
+    return {
+      key,
+      label
+    };
+  }
+
+  private static extractAfterTokenFromNextLink(nextLink: string) {
+    let parsedLink = URLBuilder.parse(nextLink);
+    let afterToken = parsedLink.getQueryParameterValue("after");
+
+    if (afterToken == null || isArray(afterToken)) {
+      throw new Error("Invalid nextLink - invalid after token");
+    }
+
+    return decodeURIComponent(afterToken);
   }
 }

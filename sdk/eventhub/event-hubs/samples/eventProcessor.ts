@@ -18,7 +18,6 @@ import {
   ReceivedEventData,
   delay,
   EventProcessor,
-  PartitionContext,
   InMemoryPartitionManager,
   PartitionProcessor,
   CloseReason
@@ -28,7 +27,7 @@ import {
 class SamplePartitionProcessor extends PartitionProcessor {
   private _messageCount = 0;
 
-  async processEvents(events: ReceivedEventData[], partitionContext: PartitionContext) {
+  async processEvents(events: ReceivedEventData[]) {
     // events can be empty if no events were recevied in the last 60 seconds.
     // This interval can be configured when creating the EventProcessor
     if (events.length === 0) {
@@ -37,32 +36,34 @@ class SamplePartitionProcessor extends PartitionProcessor {
 
     for (const event of events) {
       console.log(
-        `Received event: '${event.body}' from partition: '${partitionContext.partitionId}' and consumer group: '${partitionContext.consumerGroupName}'`
+        `Received event: '${event.body}' from partition: '${this.partitionId}' and consumer group: '${this.consumerGroupName}'`
       );
       this._messageCount++;
     }
 
     // checkpoint using the last event in the batch
     const lastEvent = events[events.length - 1];
-    await partitionContext.updateCheckpoint(lastEvent).catch((err) => {
-      console.log(`Error when checkpointing on partition ${partitionContext.partitionId}: `, err);
+    await this.updateCheckpoint(lastEvent).catch((err) => {
+      console.log(`Error when checkpointing on partition ${this.partitionId}: `, err);
     });
     console.log(
-      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: 'partitionContext.partitionId'`
+      `Successfully checkpointed event with sequence number: ${lastEvent.sequenceNumber} from partition: ${this.partitionId}'`
     );
   }
 
-  async processError(error: Error, partitionContext: PartitionContext) {
-    console.log(`Encountered an error: ${error.message} when processing partition ${partitionContext.partitionId}`);
+  async processError(error: Error) {
+    console.log(
+      `Encountered an error: ${error.message} when processing partition ${this.partitionId}`
+    );
   }
 
-  async initialize(partitionContext: PartitionContext) {
-    console.log(`Started processing partition: ${partitionContext.partitionId}`);
+  async initialize() {
+    console.log(`Started processing partition: ${this.partitionId}`);
   }
 
-  async close(reason: CloseReason, partitionContext: PartitionContext) {
+  async close(reason: CloseReason) {
     console.log(`Stopped processing for reason ${reason}`);
-    console.log(`Processed ${this._messageCount} from partition ${partitionContext.partitionId}.`);
+    console.log(`Processed ${this._messageCount} from partition ${this.partitionId}.`);
   }
 }
 
@@ -83,9 +84,9 @@ async function main() {
       maxWaitTimeInSeconds: 20
     }
   );
-  await processor.start();
-  // after 5 seconds, stop processing
-  await delay(5000);
+  processor.start();
+  // after 50 seconds, stop processing
+  await delay(50000);
 
   await processor.stop();
   await client.close();

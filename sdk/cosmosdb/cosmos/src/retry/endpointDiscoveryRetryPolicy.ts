@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { OperationType } from "../common";
 import { isReadRequest } from "../common/helper";
 import { GlobalEndpointManager } from "../globalEndpointManager";
@@ -24,7 +26,10 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
    * @constructor EndpointDiscoveryRetryPolicy
    * @param {object} globalEndpointManager The GlobalEndpointManager instance.
    */
-  constructor(private globalEndpointManager: GlobalEndpointManager, private operationType: OperationType) {
+  constructor(
+    private globalEndpointManager: GlobalEndpointManager,
+    private operationType: OperationType
+  ) {
     this.maxRetryAttemptCount = EndpointDiscoveryRetryPolicy.maxRetryAttemptCount;
     this.currentRetryAttemptCount = 0;
     this.retryAfterInMilliseconds = EndpointDiscoveryRetryPolicy.retryAfterInMilliseconds;

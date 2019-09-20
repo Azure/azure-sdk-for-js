@@ -1,4 +1,6 @@
-﻿import * as http from "http";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import * as http from "http";
 import * as net from "net";
 import { URL } from "url";
 import ProxyAgent from "proxy-agent";
@@ -16,16 +18,14 @@ if (!isBrowser()) {
 
     proxy.on("connect", (req, clientSocket, head) => {
       const serverUrl = new URL(`http://${req.url}`);
-      const serverSocket = net.connect(
-        parseInt(serverUrl.port, 10),
-        serverUrl.hostname,
-        () => {
-          clientSocket.write("HTTP/1.1 200 Connection Established\r\n" + "Proxy-agent: Node.js-Proxy\r\n" + "\r\n");
-          serverSocket.write(head);
-          serverSocket.pipe(clientSocket);
-          clientSocket.pipe(serverSocket);
-        }
-      );
+      const serverSocket = net.connect(parseInt(serverUrl.port, 10), serverUrl.hostname, () => {
+        clientSocket.write(
+          "HTTP/1.1 200 Connection Established\r\n" + "Proxy-agent: Node.js-Proxy\r\n" + "\r\n"
+        );
+        serverSocket.write(head);
+        serverSocket.pipe(clientSocket);
+        clientSocket.pipe(serverSocket);
+      });
     });
 
     const proxyPort = 8989;
@@ -68,7 +68,9 @@ if (!isBrowser()) {
             await client.databases.create({
               id: addEntropy("ProxyTest")
             });
-            reject(new Error("Should create database in error while the proxy setting is not correct"));
+            reject(
+              new Error("Should create database in error while the proxy setting is not correct")
+            );
           } catch (err) {
             resolve();
           } finally {

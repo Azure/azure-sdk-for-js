@@ -53,8 +53,8 @@
     "integration-test:browser": "node .scripts/buildBrowserTestResources.js && karma start --single-run",
     "integration-test:node": "mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f html -o service-bus-lintReport.html || exit 0",
-    "lint-fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o service-bus-lintReport.html || exit 0",
+    "lint-fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test:browser && npm run integration-test:browser",
@@ -81,6 +81,7 @@
   },
   "devDependencies": {
     "@azure/arm-servicebus": "^3.2.0",
+    "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
