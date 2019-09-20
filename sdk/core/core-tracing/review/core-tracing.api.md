@@ -106,7 +106,7 @@ export class NoOpTracePlugin implements Tracer {
 
 // @public (undocumented)
 export class OpenCensusSpanPlugin implements Span {
-    constructor(span: any);
+    constructor(tracer: OpenCensusTracePlugin, name: string, options?: SpanOptions);
     // (undocumented)
     addEvent(name: string, attributes?: Attributes): this;
     // (undocumented)
@@ -116,7 +116,7 @@ export class OpenCensusSpanPlugin implements Span {
     // (undocumented)
     end(endTime?: number): void;
     // (undocumented)
-    getSpan(): any;
+    getWrappedSpan(): any;
     // (undocumented)
     isRecordingEvents(): boolean;
     // (undocumented)
@@ -125,8 +125,6 @@ export class OpenCensusSpanPlugin implements Span {
     setAttributes(attributes: Attributes): this;
     // (undocumented)
     setStatus(status: Status): this;
-    // (undocumented)
-    start(startTime?: number): void;
     // (undocumented)
     updateName(name: string): this;
 }
@@ -142,6 +140,8 @@ export class OpenCensusTracePlugin implements Tracer {
     getCurrentSpan(): Span;
     // (undocumented)
     getHttpTextFormat(): HttpTextFormat;
+    // (undocumented)
+    getWrappedTracer(): any;
     // (undocumented)
     readonly pluginType = SupportedPlugins.OPENCENSUS;
     // (undocumented)

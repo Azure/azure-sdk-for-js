@@ -9,6 +9,10 @@ import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
 export class OpenCensusTracePlugin implements Tracer {
   private _tracer: any;
 
+  public getWrappedTracer() {
+    return this._tracer;
+  }
+
   public constructor(tracer: any) {
     this._tracer = tracer;
   }
@@ -16,20 +20,7 @@ export class OpenCensusTracePlugin implements Tracer {
   public readonly pluginType = SupportedPlugins.OPENCENSUS;
 
   startSpan(name: string, options?: SpanOptions): Span {
-    const parent = options
-      ? options.parent
-        ? options.parent instanceof OpenCensusSpanPlugin
-          ? options.parent.getSpan()
-          : options.parent
-        : undefined
-      : undefined;
-
-    const span = this._tracer.startChildSpan({
-      name: name,
-      childOf: parent
-    });
-
-    const openCensusSpanPlugin = new OpenCensusSpanPlugin(span);
+    const openCensusSpanPlugin = new OpenCensusSpanPlugin(this, name, options);
     return openCensusSpanPlugin;
   }
 
