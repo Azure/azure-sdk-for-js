@@ -1,3 +1,5 @@
+import * as Models from "./generated/src/models";
+
 // @public
 class AccountSASPermissions {
   add: boolean;
@@ -988,8 +990,6 @@ class LoggingPolicyFactory implements RequestPolicyFactory {
 // WARNING: Unsupported export "BlockBlobCommitBlockListResponse" Currently the "namespace" block only supports constant variables.
 // WARNING: Unsupported export "BlockBlobGetBlockListResponse" Currently the "namespace" block only supports constant variables.
 // @public (undocumented)
-module Models {
-}
 
 // @public
 export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: NewPipelineOptions): Pipeline;
