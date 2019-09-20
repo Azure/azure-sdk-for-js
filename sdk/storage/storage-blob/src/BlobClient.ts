@@ -37,6 +37,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 import { LeaseClient } from "./LeaseClient";
+import { generateBlobSASQueryParameters, BlobSASSignatureValues } from "./BlobSASSignatureValues";
 
 /**
  * Options to configure Blob - Download operation.
@@ -652,6 +653,8 @@ export interface DownloadFromBlobOptions {
   parallelism?: number;
 }
 
+type GenerateSASUrlOptions = Omit<BlobSASSignatureValues, "blobName" | "containerName">;
+
 /**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
@@ -668,6 +671,8 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   private blobContext: Blob;
+  public blobName: string;
+  public containerName: string;
 
   /**
    *
@@ -741,20 +746,27 @@ export class BlobClient extends StorageClient {
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
+    let url: string;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
       (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
+      url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
@@ -762,6 +774,7 @@ export class BlobClient extends StorageClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
+      // (connectionString: string, containerName: string, blobName: string, options?: NewPipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
@@ -772,13 +785,13 @@ export class BlobClient extends StorageClient {
             extractedCreds.accountName,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+          url = extractedCreds.url + "/" + containerName + "/" + blobName;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        urlOrConnectionString =
+        url =
           extractedCreds.url +
           "/" +
           containerName +
@@ -795,7 +808,11 @@ export class BlobClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
-    super(urlOrConnectionString, pipeline);
+
+    super(url, pipeline);
+    const names = this.getBlobAndContainerNamesFromUrl(url);
+    this.blobName = names.blobName;
+    this.containerName = names.containerName;
     this.blobContext = new Blob(this.storageClientContext);
   }
 
@@ -1334,5 +1351,37 @@ export class BlobClient extends StorageClient {
     // The stream is no longer accessible so setting it to undefined.
     (response as any).blobDownloadStream = undefined;
     return response;
+  }
+
+  private getBlobAndContainerNamesFromUrl(
+    url: string
+  ): { blobName: string; containerName: string } {
+    url = url.split("?")[0]; // removing the sas part of url if present
+    const urlWithoutBlobName = url.substring(0, url.lastIndexOf("/"));
+    return {
+      blobName: url.substring(url.lastIndexOf("/") + 1, url.length),
+      containerName: urlWithoutBlobName.substring(
+        urlWithoutBlobName.lastIndexOf("/") + 1,
+        urlWithoutBlobName.length
+      )
+    };
+  }
+
+  public generateSASUrl(
+    options: GenerateSASUrlOptions,
+    sharedKeyCredential: SharedKeyCredential
+  ): string {
+    if (isNode) {
+      return `${this.url}?${generateBlobSASQueryParameters(
+        {
+          blobName: this.blobName,
+          containerName: this.containerName,
+          ...options
+        },
+        sharedKeyCredential
+      )}`;
+    } else {
+      throw new Error("generateSASUrl is only supported in Node.js environment");
+    }
   }
 }

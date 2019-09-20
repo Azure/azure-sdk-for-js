@@ -9,7 +9,9 @@ import {
   ContainerClient,
   BlockBlobClient,
   generateBlobSASQueryParameters,
-  BlobSASPermissions
+  BlobSASPermissions,
+  PageBlobClient,
+  AnonymousCredential
 } from "../../src";
 import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
 import { TokenCredential } from "@azure/core-http";
@@ -354,5 +356,40 @@ describe("BlobClient Node.js only", () => {
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it.only("generateSASUrl should work for blob", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024);
+
+    const blobSAS = blobClient.generateSASUrl(
+      {
+        expiryTime: tmr,
+        permissions: BlobSASPermissions.parse("racwd").toString(),
+        startTime: now
+      },
+      sharedKeyCredential as SharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.url}?${blobSAS}`;
+    const blobClientwithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    await blobClientwithSAS.getProperties();
+
+    await containerClient.delete();
   });
 });
