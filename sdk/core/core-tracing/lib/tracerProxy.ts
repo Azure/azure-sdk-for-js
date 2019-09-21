@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
+import { NoOpTrace } from "./wrappers/noop/noOpTrace";
 import { Plugin } from "./interfaces/plugin";
 
 
@@ -18,7 +18,7 @@ export function setTracer(tracer: Plugin) {
 
 export function getTracer() {
   if (!_tracerPlugin) {
-    _tracerPlugin = new NoOpTracePlugin();
+    _tracerPlugin = new NoOpTrace();
   }
   return _tracerPlugin;
 }

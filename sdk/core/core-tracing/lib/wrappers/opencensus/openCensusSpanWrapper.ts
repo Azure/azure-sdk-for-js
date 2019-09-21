@@ -4,23 +4,23 @@ import { Span } from "../../interfaces/span";
 import { SpanContext } from "../../interfaces/span_context";
 import { Attributes } from "../../interfaces/attributes";
 import { Status } from "../../interfaces/status";
-import { OpenCensusTraceStatePlugin } from "./openCensusTraceStatePlugin";
+import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { SpanOptions } from "../../interfaces/SpanOptions";
-import { OpenCensusTracePlugin } from "./openCensusTracePlugin";
+import { OpenCensusTraceWrapper } from "./openCensusTraceWrapper";
 import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan, LinkType } from "../../interfaces/OpenCensus/model";
 
-function isWrappedSpan(span?: Span | SpanContext): span is OpenCensusSpanPlugin {
-  return !!span && (span as OpenCensusSpanPlugin).getWrappedSpan !== undefined;
+function isWrappedSpan(span?: Span | SpanContext): span is OpenCensusSpanWrapper {
+  return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;
 }
 
-export class OpenCensusSpanPlugin implements Span {
+export class OpenCensusSpanWrapper implements Span {
   private _span: OpenCensusSpan;
 
   public getWrappedSpan() {
     return this._span;
   }
 
-  constructor(tracer: OpenCensusTracePlugin, name: string, options: SpanOptions = {}) {
+  constructor(tracer: OpenCensusTraceWrapper, name: string, options: SpanOptions = {}) {
     const parent = isWrappedSpan(options.parent) ? options.parent.getWrappedSpan() : undefined;
 
     this._span = tracer.getWrappedTracer().startChildSpan({
@@ -41,7 +41,7 @@ export class OpenCensusSpanPlugin implements Span {
       spanId: openCensusSpanContext.spanId,
       traceId: openCensusSpanContext.traceId,
       traceFlags: openCensusSpanContext.options,
-      traceState: new OpenCensusTraceStatePlugin(openCensusSpanContext.traceState)
+      traceState: new OpenCensusTraceStateWrapper(openCensusSpanContext.traceState)
     };
   }
 
@@ -51,7 +51,8 @@ export class OpenCensusSpanPlugin implements Span {
   }
 
   setAttributes(attributes: Attributes): this {
-    throw new Error("Method not implemented.");
+    this._span.attributes = attributes as OpenCensusAttributes;
+    return this;
   }
 
   addEvent(name: string, attributes?: Attributes): this {
@@ -71,10 +72,12 @@ export class OpenCensusSpanPlugin implements Span {
   }
 
   updateName(name: string): this {
-    throw new Error("Method not implemented.");
+    this._span.name = name;
+    return this;
   }
 
   isRecordingEvents(): boolean {
-    throw new Error("Method not implemented.");
+    // NoRecordSpans have an empty traceId
+    return !!this._span.traceId;
   }
 }

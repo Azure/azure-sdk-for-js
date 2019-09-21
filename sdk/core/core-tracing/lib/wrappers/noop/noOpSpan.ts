@@ -5,7 +5,7 @@ import { SpanContext } from "../../interfaces/span_context";
 import { Attributes } from "../../interfaces/attributes";
 import { Status } from "../../interfaces/status";
 
-export class NoOpSpanPlugin implements Span {
+export class NoOpSpan implements Span {
 
   context(): SpanContext {
     return {
@@ -23,30 +23,30 @@ export class NoOpSpanPlugin implements Span {
   }
 
   setAttribute(_key: string, _value: unknown): this {
-    throw new Error("Method not implemented.");
+    return this;
   }
 
   setAttributes(_attributes: Attributes): this {
-    throw new Error("Method not implemented.");
+    return this;
   }
 
   addEvent(_name: string, _attributes?: Attributes): this {
-    throw new Error("Method not implemented.");
+    return this;
   }
 
   addLink(_spanContext: SpanContext, _attributes?: Attributes): this {
-    throw new Error("Method not implemented.");
+    return this;
   }
 
   setStatus(_status: Status): this {
-    throw new Error("Method not implemented.");
+    return this;
   }
 
   updateName(_name: string): this {
-    throw new Error("Method not implemented.");
+    return this;
   }
 
   isRecordingEvents(): boolean {
-    throw new Error("Method not implemented.");
+    return false;
   }
 }

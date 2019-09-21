@@ -3,17 +3,17 @@
 import { Tracer } from "../../interfaces/tracer";
 import { Span } from "../../interfaces/span";
 import { SpanOptions } from "../../interfaces/SpanOptions";
-import { NoOpSpanPlugin } from "./noOpSpanPlugin";
+import { NoOpSpan } from "./noOpSpan";
 import { SupportedPlugins } from '../../utils/supportedPlugins';
 import { BinaryFormat } from "../../interfaces/BinaryFormat";
 import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
 
-export class NoOpTracePlugin implements Tracer {
+export class NoOpTrace implements Tracer {
 
   public readonly pluginType = SupportedPlugins.NOOP;
 
   startSpan(_name: string, _options?: SpanOptions): Span {
-    return new NoOpSpanPlugin();
+    return new NoOpSpan();
   }
 
   getCurrentSpan(): Span {

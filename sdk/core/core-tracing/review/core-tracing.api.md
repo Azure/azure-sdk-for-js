@@ -67,7 +67,7 @@ export interface Link {
 }
 
 // @public (undocumented)
-export class NoOpSpanPlugin implements Span {
+export class NoOpSpan implements Span {
     // (undocumented)
     addEvent(_name: string, _attributes?: Attributes): this;
     // (undocumented)
@@ -91,7 +91,7 @@ export class NoOpSpanPlugin implements Span {
 }
 
 // @public (undocumented)
-export class NoOpTracePlugin implements Tracer {
+export class NoOpTrace implements Tracer {
     // (undocumented)
     bind<T>(_target: T, _span?: Span): T;
     // (undocumented)
@@ -292,8 +292,8 @@ export interface OpenCensusSpanOptions {
 }
 
 // @public (undocumented)
-export class OpenCensusSpanPlugin implements Span {
-    constructor(tracer: OpenCensusTracePlugin, name: string, options?: SpanOptions);
+export class OpenCensusSpanWrapper implements Span {
+    constructor(tracer: OpenCensusTraceWrapper, name: string, options?: SpanOptions);
     // (undocumented)
     addEvent(name: string, attributes?: Attributes): this;
     // (undocumented)
@@ -338,29 +338,6 @@ export interface OpenCensusTraceParams {
     numberOfMessageEventsPerSpan?: number;
 }
 
-// @public (undocumented)
-export class OpenCensusTracePlugin implements Tracer {
-    constructor(tracer: OpenCensusTracer);
-    // (undocumented)
-    bind<T>(target: T, span?: Span): T;
-    // (undocumented)
-    getBinaryFormat(): BinaryFormat;
-    // (undocumented)
-    getCurrentSpan(): Span;
-    // (undocumented)
-    getHttpTextFormat(): HttpTextFormat;
-    // (undocumented)
-    getWrappedTracer(): OpenCensusTracer;
-    // (undocumented)
-    readonly pluginType = SupportedPlugins.OPENCENSUS;
-    // (undocumented)
-    recordSpanData(span: Span): void;
-    // (undocumented)
-    startSpan(name: string, options?: SpanOptions): Span;
-    // (undocumented)
-    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
-}
-
 // @public
 export interface OpenCensusTracer extends OpenCensusTracerBase {
     clearCurrentTrace(): void;
@@ -397,6 +374,29 @@ export interface OpenCensusTracerConfig {
 
 // @public (undocumented)
 export type OpenCensusTraceState = string;
+
+// @public (undocumented)
+export class OpenCensusTraceWrapper implements Tracer {
+    constructor(tracer: OpenCensusTracer);
+    // (undocumented)
+    bind<T>(target: T, span?: Span): T;
+    // (undocumented)
+    getBinaryFormat(): BinaryFormat;
+    // (undocumented)
+    getCurrentSpan(): Span;
+    // (undocumented)
+    getHttpTextFormat(): HttpTextFormat;
+    // (undocumented)
+    getWrappedTracer(): OpenCensusTracer;
+    // (undocumented)
+    readonly pluginType = SupportedPlugins.OPENCENSUS;
+    // (undocumented)
+    recordSpanData(span: Span): void;
+    // (undocumented)
+    startSpan(name: string, options?: SpanOptions): Span;
+    // (undocumented)
+    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
+}
 
 // @public (undocumented)
 export interface Plugin extends Tracer {

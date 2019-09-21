@@ -12,11 +12,11 @@ export { TracerProxy, ITracerProxy };
 // Utils
 export { SupportedPlugins } from "./utils/supportedPlugins";
 
-// Plugins
-export { NoOpSpanPlugin } from "./plugins/noop/noOpSpanPlugin";
-export { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
-export { OpenCensusSpanPlugin } from "./plugins/opencensus/openCensusSpanPlugin";
-export { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugin";
+// Wrappers
+export { NoOpSpan } from "./wrappers/noop/noOpSpan";
+export { NoOpTrace } from "./wrappers/noop/noOpTrace";
+export { OpenCensusSpanWrapper } from "./wrappers/opencensus/openCensusSpanWrapper";
+export { OpenCensusTraceWrapper } from "./wrappers/opencensus/openCensusTraceWrapper";
 
 // Interfaces
 export { Attributes } from "./interfaces/attributes";

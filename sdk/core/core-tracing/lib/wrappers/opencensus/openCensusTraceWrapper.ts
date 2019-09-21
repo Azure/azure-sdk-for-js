@@ -3,13 +3,13 @@
 import { Tracer } from "../../interfaces/tracer";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { Span } from "../../interfaces/span";
-import { OpenCensusSpanPlugin } from "../opencensus/openCensusSpanPlugin";
+import { OpenCensusSpanWrapper } from "./openCensusSpanWrapper";
 import { SupportedPlugins } from '../../utils/supportedPlugins';
 import { BinaryFormat } from "../../interfaces/BinaryFormat";
 import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
 import { Tracer as OpenCensusTracer } from "../../interfaces/OpenCensus/model";
 
-export class OpenCensusTracePlugin implements Tracer {
+export class OpenCensusTraceWrapper implements Tracer {
   private _tracer: OpenCensusTracer;
 
   public getWrappedTracer() {
@@ -23,7 +23,7 @@ export class OpenCensusTracePlugin implements Tracer {
   public readonly pluginType = SupportedPlugins.OPENCENSUS;
 
   startSpan(name: string, options?: SpanOptions): Span {
-    return new OpenCensusSpanPlugin(this, name, options);
+    return new OpenCensusSpanWrapper(this, name, options);
   }
 
   getCurrentSpan(): Span {
