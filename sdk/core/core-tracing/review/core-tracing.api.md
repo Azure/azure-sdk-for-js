@@ -55,9 +55,9 @@ export interface HttpTextFormat {
 // @public (undocumented)
 export interface ITracerProxy {
     // (undocumented)
-    getTracer(): Plugin;
+    getTracer(): Tracer;
     // (undocumented)
-    setTracer(tracer: Plugin): void;
+    setTracer(tracer: Tracer): void;
 }
 
 // @public
@@ -91,7 +91,7 @@ export class NoOpSpan implements Span {
 }
 
 // @public (undocumented)
-export class NoOpTrace implements Tracer {
+export class NoOpTracer implements Tracer {
     // (undocumented)
     bind<T>(_target: T, _span?: Span): T;
     // (undocumented)
@@ -100,8 +100,6 @@ export class NoOpTrace implements Tracer {
     getCurrentSpan(): Span;
     // (undocumented)
     getHttpTextFormat(): HttpTextFormat;
-    // (undocumented)
-    readonly pluginType = SupportedPlugins.NOOP;
     // (undocumented)
     recordSpanData(_span: Span): void;
     // (undocumented)
@@ -389,18 +387,11 @@ export class OpenCensusTraceWrapper implements Tracer {
     // (undocumented)
     getWrappedTracer(): OpenCensusTracer;
     // (undocumented)
-    readonly pluginType = SupportedPlugins.OPENCENSUS;
-    // (undocumented)
     recordSpanData(span: Span): void;
     // (undocumented)
     startSpan(name: string, options?: SpanOptions): Span;
     // (undocumented)
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
-}
-
-// @public (undocumented)
-export interface Plugin extends Tracer {
-    readonly pluginType: SupportedPlugins;
 }
 
 // @public
@@ -452,14 +443,6 @@ export interface SpanOptions {
 export interface Status {
     code: CanonicalCode;
     message?: string;
-}
-
-// @public (undocumented)
-export enum SupportedPlugins {
-    // (undocumented)
-    NOOP = 1,
-    // (undocumented)
-    OPENCENSUS = 0
 }
 
 // @public

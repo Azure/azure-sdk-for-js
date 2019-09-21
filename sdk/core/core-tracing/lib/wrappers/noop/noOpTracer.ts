@@ -4,13 +4,10 @@ import { Tracer } from "../../interfaces/tracer";
 import { Span } from "../../interfaces/span";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { NoOpSpan } from "./noOpSpan";
-import { SupportedPlugins } from '../../utils/supportedPlugins';
 import { BinaryFormat } from "../../interfaces/BinaryFormat";
 import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
 
-export class NoOpTrace implements Tracer {
-
-  public readonly pluginType = SupportedPlugins.NOOP;
+export class NoOpTracer implements Tracer {
 
   startSpan(_name: string, _options?: SpanOptions): Span {
     return new NoOpSpan();

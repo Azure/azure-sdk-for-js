@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { NoOpTrace } from "./wrappers/noop/noOpTrace";
-import { Plugin } from "./interfaces/plugin";
+import { NoOpTracer } from "./wrappers/noop/noOpTracer";
+import { Tracer } from "./interfaces/tracer";
 
 
-let _tracerPlugin: Plugin;
+let _tracerPlugin: Tracer;
 
 export interface ITracerProxy {
-  setTracer(tracer: Plugin): void;
-  getTracer(): Plugin;
+  setTracer(tracer: Tracer): void;
+  getTracer(): Tracer;
 }
 
-export function setTracer(tracer: Plugin) {
+export function setTracer(tracer: Tracer) {
   _tracerPlugin = tracer;
 }
 
 export function getTracer() {
   if (!_tracerPlugin) {
-    _tracerPlugin = new NoOpTrace();
+    _tracerPlugin = new NoOpTracer();
   }
   return _tracerPlugin;
 }

@@ -9,12 +9,9 @@ const TracerProxy: ITracerProxy = {
 };
 export { TracerProxy, ITracerProxy };
 
-// Utils
-export { SupportedPlugins } from "./utils/supportedPlugins";
-
 // Wrappers
 export { NoOpSpan } from "./wrappers/noop/noOpSpan";
-export { NoOpTrace } from "./wrappers/noop/noOpTrace";
+export { NoOpTracer } from "./wrappers/noop/noOpTracer";
 export { OpenCensusSpanWrapper } from "./wrappers/opencensus/openCensusSpanWrapper";
 export { OpenCensusTraceWrapper } from "./wrappers/opencensus/openCensusTraceWrapper";
 
@@ -24,7 +21,6 @@ export { BinaryFormat } from "./interfaces/BinaryFormat";
 export { Event } from "./interfaces/Event";
 export { HttpTextFormat } from "./interfaces/HttpTextFormat";
 export { Link } from "./interfaces/link";
-export { Plugin } from "./interfaces/plugin";
 export { Sampler } from "./interfaces/Sampler";
 export { SpanContext } from "./interfaces/span_context";
 export { SpanKind } from "./interfaces/span_kind";
