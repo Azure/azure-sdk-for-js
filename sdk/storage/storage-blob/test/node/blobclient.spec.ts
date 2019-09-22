@@ -17,6 +17,7 @@ import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../uti
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, delay } from "../utils/recorder";
+import "../../src/generateSASUrl";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
@@ -377,7 +378,7 @@ describe("BlobClient Node.js only", () => {
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
 
-    const blobSAS = blobClient.generateSASUrl(
+    const sasURL = blobClient.generateSASUrl(
       {
         expiryTime: tmr,
         permissions: BlobSASPermissions.parse("racwd").toString(),
@@ -386,7 +387,6 @@ describe("BlobClient Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${blobClient.url}?${blobSAS}`;
     const blobClientwithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
     await blobClientwithSAS.getProperties();
 

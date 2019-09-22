@@ -37,7 +37,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 import { LeaseClient } from "./LeaseClient";
-import { generateBlobSASQueryParameters, BlobSASSignatureValues } from "./BlobSASSignatureValues";
+import { BlobSASSignatureValues } from "./BlobSASSignatureValues";
 
 /**
  * Options to configure Blob - Download operation.
@@ -653,7 +653,7 @@ export interface DownloadFromBlobOptions {
   parallelism?: number;
 }
 
-type GenerateSASUrlOptions = Omit<BlobSASSignatureValues, "blobName" | "containerName">;
+export type GenerateSASUrlOptions = Omit<BlobSASSignatureValues, "blobName" | "containerName">;
 
 /**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
@@ -1367,21 +1367,13 @@ export class BlobClient extends StorageClient {
     };
   }
 
-  public generateSASUrl(
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * @memberof BlobClient
+   */
+  public generateSASUrl!: (
     options: GenerateSASUrlOptions,
     sharedKeyCredential: SharedKeyCredential
-  ): string {
-    if (isNode) {
-      return `${this.url}?${generateBlobSASQueryParameters(
-        {
-          blobName: this.blobName,
-          containerName: this.containerName,
-          ...options
-        },
-        sharedKeyCredential
-      )}`;
-    } else {
-      throw new Error("generateSASUrl is only supported in Node.js environment");
-    }
-  }
+  ) => string;
 }
