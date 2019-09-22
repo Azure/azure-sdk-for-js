@@ -13,11 +13,14 @@ export class AppConfigurationClient {
     constructor(uri: string, credential: TokenCredential);
     constructor(connectionString: string);
     addConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
+    clearReadOnly(key: string, label?: string): Promise<any>;
     deleteConfigurationSetting(key: string, options: AppConfigurationDeleteKeyValueOptionalParams & ETagOption): Promise<DeleteKeyValueResponse>;
     getConfigurationSetting(key: string, options?: AppConfigurationGetKeyValueOptionalParams): Promise<GetKeyValueResponse>;
+    hasChanged(params: ConfigurationSettingId): Promise<boolean>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
-    setConfigurationSetting(configurationSetting: ConfigurationSettingParam & ETagOption, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
+    setConfigurationSetting(configurationSetting: ConfigurationSettingParam & ETagOption, options?: ConfigurationSettingOptions & RespectETagOption): Promise<PutKeyValueResponse>;
+    setReadOnly(key: string, label?: string): Promise<any>;
 }
 
 // @public
@@ -81,6 +84,10 @@ export interface ConfigurationSetting {
     };
     // (undocumented)
     value?: string;
+}
+
+// @public
+export interface ConfigurationSettingId extends Pick<ConfigurationSetting, 'key' | 'label' | 'etag'> {
 }
 
 // @public
@@ -179,6 +186,11 @@ export type PutKeyValueResponse = ConfigurationSetting & PutKeyValueHeaders & {
         parsedBody: ConfigurationSetting;
     };
 };
+
+// @public (undocumented)
+export interface RespectETagOption {
+    respectETag?: boolean;
+}
 
 
 // (No @packageDocumentation comment for this package)

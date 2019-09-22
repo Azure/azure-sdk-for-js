@@ -50,6 +50,12 @@ export interface ConfigurationSettingParam extends Pick<ConfigurationSetting, Ex
 }
 
 /**
+ * Subset of fields from ConfigurationSetting used to identify a setting
+ */
+export interface ConfigurationSettingId extends Pick<ConfigurationSetting, 'key' | 'label' | 'etag'> {
+}
+
+/**
  * Options used when adding or saving a ConfigurationSetting.
  */
 export interface ConfigurationSettingOptions extends Pick<GeneratedPutParams, Exclude<keyof GeneratedPutParams, 'label' | 'entity'>> {
@@ -137,6 +143,13 @@ export interface ETagOption {
    * Entity tag (etag) of the object
    */
   etag?: string;
+}
+
+export interface RespectETagOption {
+  /**
+   * Whether or not we respect the ETag field in the passed-in ConfigurationSetting
+   */
+  respectETag?: boolean;
 }
 
 const apiVersion = "1.0";
@@ -411,14 +424,48 @@ export class AppConfigurationClient {
    */
   setConfigurationSetting(
     configurationSetting: ConfigurationSettingParam & ETagOption,
-    options: ConfigurationSettingOptions = {}
+    options: ConfigurationSettingOptions & RespectETagOption = {}
   ): Promise<SetConfigurationSettingResponse> {
+
+    let ifMatchOption = undefined;
+
+    if (options.respectETag) {
+      ifMatchOption = AppConfigurationClient.formatETagForMatchHeaders(configurationSetting);
+    }
 
     return this.client.putKeyValue(configurationSetting.key, {
       label: configurationSetting.label,
       entity: configurationSetting,
-      ifMatch: AppConfigurationClient.formatETagForMatchHeaders(configurationSetting),
+      ifMatch: ifMatchOption,
       ...options
+    });
+  }
+
+  /** Checks if a value has changed  */
+  async hasChanged(params: ConfigurationSettingId) : Promise<boolean> {
+    const response = await this.client.checkKeyValue(params.key, { label: params.label, etag: params.etag });
+    return response.eTag !== `"${params.etag}"`;
+  }
+
+  /**
+   * Sets a key's value to read only
+   * @param key The name of the setting.
+   * @param label The (optional) label of the setting.
+   */
+  async setReadOnly(key: string, label?: string) : Promise<any> {
+    await this.client.putLock(key, {
+      label: label
+    });
+  }
+
+  /**
+   * Makes the key's value writable again
+   * @param key The name of the setting.
+   * @param label The (optional) label of the setting.
+   */
+  async clearReadOnly(key: string, label?: string) : Promise<any> {
+    await this.client.deleteLock(key, {
+      label: label
     });
   }
 

@@ -29,6 +29,7 @@ export async function deleteKeyCompletely(keys: string[], client: AppConfigurati
   });
 
   for await (const setting of settingsIterator) {
+    await client.clearReadOnly(setting.key);
     await client.deleteConfigurationSetting(setting.key, { label: setting.label });
   }
 }
@@ -68,5 +69,6 @@ export function assertEqualSettings(
   actual = actual.map((setting) => {
     return { key: setting.key, label: setting.label, value: setting.value };
   });
+  
   assert.deepEqual(expected, actual);
 }
