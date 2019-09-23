@@ -21,8 +21,7 @@ import {
   RequestOptionsBase,
   tracingPolicy,
   TracerProxy,
-  Span,
-  SupportedPlugins
+  Span
 } from "@azure/core-http";
 
 import "@azure/core-paging";
@@ -114,7 +113,7 @@ export {
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
 
-export { TracerProxy, SupportedPlugins } from "@azure/core-http";
+export { TracerProxy } from "@azure/core-http";
 
 /**
  * The client to interact with the KeyVault keys functionality
@@ -287,7 +286,7 @@ export class KeysClient {
       const span = this.createSpan("createKey", unflattenedOptions);
 
       const response = await this.client
-        .createKey(this.vaultBaseUrl, name, keyType, unflattenedOptions)
+        .createKey(this.vaultBaseUrl, name, keyType, this.setParentSpan(span, unflattenedOptions))
         .catch((err) => {
           span.end();
           throw err;
@@ -338,7 +337,7 @@ export class KeysClient {
       const span = this.createSpan("createEcKey", unflattenedOptions);
 
       const response = await this.client
-        .createKey(this.vaultBaseUrl, name, options.hsm ? "EC-HSM" : "EC", unflattenedOptions)
+        .createKey(this.vaultBaseUrl, name, options.hsm ? "EC-HSM" : "EC", this.setParentSpan(span, unflattenedOptions))
         .catch((err) => {
           span.end();
           throw err;
@@ -389,7 +388,7 @@ export class KeysClient {
       const span = this.createSpan("createRsaKey", unflattenedOptions);
 
       const response = await this.client
-        .createKey(this.vaultBaseUrl, name, options.hsm ? "RSA-HSM" : "RSA", unflattenedOptions)
+        .createKey(this.vaultBaseUrl, name, options.hsm ? "RSA-HSM" : "RSA", this.setParentSpan(span, unflattenedOptions))
         .catch((err) => {
           span.end();
           throw err;
@@ -440,7 +439,7 @@ export class KeysClient {
       const span = this.createSpan("importKey", unflattenedOptions);
 
       const response = await this.client
-        .importKey(this.vaultBaseUrl, name, key, unflattenedOptions)
+        .importKey(this.vaultBaseUrl, name, key, this.setParentSpan(span, unflattenedOptions))
         .catch((err) => {
           span.end();
           throw err;
@@ -474,7 +473,7 @@ export class KeysClient {
     const span = this.createSpan("deleteKey", requestOptions);
 
     const response = await this.client
-      .deleteKey(this.vaultBaseUrl, name, requestOptions)
+      .deleteKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions))
       .catch((err) => {
         span.end();
         throw err;
@@ -526,7 +525,7 @@ export class KeysClient {
       const span = this.createSpan("updateKey", unflattenedOptions);
 
       const response = await this.client
-        .updateKey(this.vaultBaseUrl, name, keyVersion, unflattenedOptions)
+        .updateKey(this.vaultBaseUrl, name, keyVersion, this.setParentSpan(span, unflattenedOptions))
         .catch((err) => {
           span.end();
           throw err;
@@ -563,7 +562,7 @@ export class KeysClient {
         this.vaultBaseUrl,
         name,
         options && options.version ? options.version : "",
-        requestOptions
+        this.setParentSpan(span, requestOptions)
       )
       .catch((err) => {
         span.end();
@@ -594,7 +593,7 @@ export class KeysClient {
     const span = this.createSpan("getDeletedKey", requestOptions);
 
     const response = await this.client
-      .getDeletedKey(this.vaultBaseUrl, name, requestOptions)
+      .getDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions))
       .catch((err) => {
         span.end();
         throw err;
@@ -625,7 +624,7 @@ export class KeysClient {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("purgeDeletedKey", requestOptions);
 
-    await this.client.purgeDeletedKey(this.vaultBaseUrl, name, requestOptions).catch((err) => {
+    await this.client.purgeDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions)).catch((err) => {
       span.end();
       throw err;
     });
@@ -654,7 +653,7 @@ export class KeysClient {
     const span = this.createSpan("recoverDeletedKey", requestOptions);
 
     const response = await this.client
-      .recoverDeletedKey(this.vaultBaseUrl, name, requestOptions)
+      .recoverDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions))
       .catch((err) => {
         span.end();
         throw err;
@@ -683,7 +682,7 @@ export class KeysClient {
     const span = this.createSpan("backupKey", requestOptions);
 
     const response = await this.client
-      .backupKey(this.vaultBaseUrl, name, requestOptions)
+      .backupKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions))
       .catch((err) => {
         span.end();
         throw err;
@@ -714,7 +713,7 @@ export class KeysClient {
     const span = this.createSpan("restoreKey", requestOptions);
 
     const response = await this.client
-      .restoreKey(this.vaultBaseUrl, backup, requestOptions)
+      .restoreKey(this.vaultBaseUrl, backup, this.setParentSpan(span, requestOptions))
       .catch((err) => {
         span.end();
         throw err;
@@ -783,17 +782,15 @@ export class KeysClient {
    */
   public listKeyVersions(
     name: string,
-    options?: ListKeysOptions
+    options: ListKeysOptions = {}
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
-    if (!options) {
-      options = {};
-    }
-    if (!options.requestOptions) {
-      options.requestOptions = {};
-    }
     const span = this.createSpan("listKeyVersions", options.requestOptions);
+    const updatedOptions: ListKeysOptions = {
+      ...options,
+      requestOptions: this.setParentSpan(span, options.requestOptions)
+    };
 
-    const iter = this.listKeyVersionsAll(name, options);
+    const iter = this.listKeyVersionsAll(name, updatedOptions);
 
     span.end();
     return {
@@ -803,7 +800,7 @@ export class KeysClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listKeyVersionsPage(name, settings, options)
+      byPage: (settings: PageSettings = {}) => this.listKeyVersionsPage(name, settings, updatedOptions)
     };
   }
 
@@ -857,17 +854,15 @@ export class KeysClient {
    * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
    */
   public listKeys(
-    options?: ListKeysOptions
+    options: ListKeysOptions = {}
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
-    if (!options) {
-      options = {};
-    }
-    if (!options.requestOptions) {
-      options.requestOptions = {};
-    }
     const span = this.createSpan("listKeys", options.requestOptions);
+    const updatedOptions: ListKeysOptions = {
+      ...options,
+      requestOptions: this.setParentSpan(span, options.requestOptions)
+    };
 
-    const iter = this.listKeysAll(options);
+    const iter = this.listKeysAll(updatedOptions);
 
     span.end();
     return {
@@ -877,7 +872,7 @@ export class KeysClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listKeysPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listKeysPage(settings, updatedOptions)
     };
   }
 
@@ -936,17 +931,16 @@ export class KeysClient {
    * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
    */
   public listDeletedKeys(
-    options?: ListKeysOptions
+    options: ListKeysOptions = {}
   ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
-    if (!options) {
-      options = {};
-    }
-    if (!options.requestOptions) {
-      options.requestOptions = {};
-    }
     const span = this.createSpan("listDeletedKeys", options.requestOptions);
 
-    const iter = this.listDeletedKeysAll(options);
+    const updatedOptions: ListKeysOptions = {
+      ...options,
+      requestOptions: this.setParentSpan(span, options.requestOptions)
+    };
+
+    const iter = this.listDeletedKeysAll(updatedOptions);
 
     span.end();
     return {
@@ -956,7 +950,7 @@ export class KeysClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, updatedOptions)
     };
   }
 
@@ -1010,19 +1004,29 @@ export class KeysClient {
   /**
    * Creates a span using the tracer that was set by the user
    * @param methodName The name of the method for which the span is being created.
-   * @param requestOptions The options for the underlying http request. This will be
-   * updated to use the newly created span as the "parent" so that any new spans created
-   * after this point gets the right parent.
+   * @param requestOptions The options for the underlying http request.
    */
-  private createSpan(methodName: string, requestOptions: RequestOptionsBase): Span {
+  private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = TracerProxy.getTracer();
-    const span = tracer.startSpan(methodName, requestOptions.spanOptions);
-    if (
-      tracer.pluginType !== SupportedPlugins.NOOP &&
-      (requestOptions.spanOptions && requestOptions.spanOptions.parent)
-    ) {
-      requestOptions.spanOptions = { ...requestOptions.spanOptions, parent: span };
+    return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+  }
+
+  /**
+   * Updates HTTP options to include the given span as the parent of future spans
+   * @param span The span for the current operation
+   * @param options The options for the underlying http request
+   */
+  private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
+    if (span.isRecordingEvents()) {
+      return {
+        ...options,
+        spanOptions: {
+          ...options.spanOptions,
+          parent: span,
+        }
+      }
+    } else {
+      return options;
     }
-    return span;
   }
 }
