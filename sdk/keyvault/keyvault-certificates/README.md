@@ -273,6 +273,55 @@ Since the deletion of a certificate won't happen instantly, some time is needed
 after the `deleteCertificate` method is called before the deleted certificate is
 available to be read, recovered or purged.
 
+### Iterating lists of certificates
+
+Using the CertificatesClient, you can retrieve and iterate through all of the
+certificates in a Certificate Vault, as well as through all of the deleted certificates and the
+versions of a specific certificate. The following API methods are available:
+
+- `listCertificates` will list all of your non-deleted certificates by their names, only
+  at their latest versions.
+- `listDeletedCertificates` will list all of your deleted certificates by their names,
+  only at their latest versions.
+- `listCertificateVersions` will list all the versions of a certificate based on a certificate
+  name.
+
+Which can be used as follows:
+
+```javascript
+for await (let certificate of client.listCertificates()) {
+  console.log("Certificate: ", certificate);
+}
+for await (let deletedCertificate of client.listDeletedCertificates()) {
+  console.log("Deleted certificate: ", deletedCertificate);
+}
+for await (let version of client.listCertificateVersions(certificateName)) {
+  console.log("Version: ", version);
+}
+```
+
+All of these methods will return **all of the available results** at once. To
+retrieve them by pages, add `.byPage()` right after invoking the API method you
+want to use, as follows:
+
+```javascript
+for await (let page of client.listCertificates().byPage()) {
+  for (let certificate of page) {
+    console.log("Certificate: ", certificate);
+  }
+}
+for await (let page of client.listDeletedCertificates().byPage()) {
+  for (let deletedCertificate of page) {
+    console.log("Deleted certificate: ", deletedCertificate);
+  }
+}
+for await (let page of client.listCertificateVersions(certificateName).byPage()) {
+  for (let version of page) {
+    console.log("Version: ", version);
+  }
+}
+```
+
 ## Troubleshooting
 
 ### Enable logs

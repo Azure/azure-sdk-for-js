@@ -246,6 +246,55 @@ Since the deletion of a key won't happen instantly, some time is needed
 after the `deleteKey` method is called before the deleted key is
 available to be read, recovered or purged.
 
+### Iterating lists of keys
+
+Using the KeysClient, you can retrieve and iterate through all of the
+keys in a Key Vault, as well as through all of the deleted keys and the
+versions of a specific key. The following API methods are available:
+
+- `listKeys` will list all of your non-deleted keys by their names, only
+  at their latest versions.
+- `listDeletedKeys` will list all of your deleted keys by their names,
+  only at their latest versions.
+- `listKeyVersions` will list all the versions of a key based on a key
+  name.
+
+Which can be used as follows:
+
+```javascript
+for await (let key of client.listKeys()) {
+  console.log("Key: ", key);
+}
+for await (let deletedKey of client.listDeletedKeys()) {
+  console.log("Deleted key: ", deletedKey);
+}
+for await (let version of client.listKeyVersions(keyName)) {
+  console.log("Version: ", version);
+}
+```
+
+All of these methods will return **all of the available results** at once. To
+retrieve them by pages, add `.byPage()` right after invoking the API method you
+want to use, as follows:
+
+```javascript
+for await (let page of client.listKeys().byPage()) {
+  for (let key of page) {
+    console.log("Key: ", key);
+  }
+}
+for await (let page of client.listDeletedKeys().byPage()) {
+  for (let deletedKey of page) {
+    console.log("Deleted key: ", deletedKey);
+  }
+}
+for await (let page of client.listKeyVersions(keyName).byPage()) {
+  for (let version of page) {
+    console.log("Version: ", version);
+  }
+}
+```
+ 
 ## Cryptography
 
 This library also offers a set of cryptographic utilities available through
