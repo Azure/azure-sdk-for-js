@@ -93,7 +93,7 @@ export class NoOpSpan implements Span {
 // @public (undocumented)
 export class NoOpTracer implements Tracer {
     // (undocumented)
-    bind<T>(_target: T, _span?: Span): T;
+    bind<T>(target: T, _span?: Span): T;
     // (undocumented)
     getBinaryFormat(): BinaryFormat;
     // (undocumented)
@@ -105,7 +105,7 @@ export class NoOpTracer implements Tracer {
     // (undocumented)
     startSpan(_name: string, _options?: SpanOptions): Span;
     // (undocumented)
-    withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
+    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
 }
 
 // @public
