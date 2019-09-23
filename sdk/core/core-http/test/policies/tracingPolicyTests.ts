@@ -3,10 +3,10 @@
 
 import { assert } from "chai";
 import sinon from "sinon";
-import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Tracer, Span, TracerProxy, RequestPolicyOptions, TraceOptions, NoOpTracePlugin, TracerNoOpImpl } from "../../lib/coreHttp";
+import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Plugin, Span, TracerProxy, RequestPolicyOptions, TraceFlags, NoOpTracePlugin, TracerNoOpImpl } from "../../lib/coreHttp";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
-interface MockTracer extends Tracer {
+interface MockTracer extends Plugin {
   getStartedSpans(): any[];
   startSpanCalled(): boolean;
 }
@@ -15,7 +15,7 @@ describe("tracingPolicy", function () {
   function mockTracerFactory(
     traceId?: string,
     spanId?: string,
-    options?: TraceOptions,
+    flags?: TraceFlags,
     state?: string
   ): MockTracer {
     let startedSpan = false;
@@ -31,17 +31,10 @@ describe("tracingPolicy", function () {
       },
       startSpan() {
         startedSpan = true;
-        let started = false;
         let ended = false;
         const mockSpan = {
-          didStart() {
-            return started;
-          },
           didEnd() {
             return ended;
-          },
-          start() {
-            started = true;
           },
           end() {
             ended = true;
@@ -50,17 +43,24 @@ describe("tracingPolicy", function () {
             return {
               traceId,
               spanId,
-              traceOptions: options,
+              traceFlags: flags,
               traceState: {
+                set(_key: string, _value: string) {
+                },
+                unset(_key: string) {
+                },
+                get(_key: string): string | undefined {
+                  return;
+                },
                 serialize() {
-                  return state
+                  return state;
                 }
               }
             }
           }
         };
         spans.push(mockSpan);
-        return mockSpan as any as Span;
+        return mockSpan as Partial<Span>;
       }
     } as any;
   }
@@ -95,7 +95,7 @@ describe("tracingPolicy", function () {
   it("will create a span and correctly set trace headers if spanOptions are available", async () => {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
-    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceOptions.SAMPLED);
+    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
     sinon.stub(TracerProxy, "getTracer").callsFake(() => {
       return mockTracer;
     });
@@ -109,10 +109,9 @@ describe("tracingPolicy", function () {
     assert.isTrue(mockTracer.startSpanCalled());
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didStart());
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.SAMPLED}`);
+    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
     assert.notExists(request.headers.get("tracestate"));
   });
 
@@ -134,10 +133,9 @@ describe("tracingPolicy", function () {
     assert.isTrue(mockTracer.startSpanCalled());
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didStart());
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.UNSAMPLED}`);
+    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.UNSAMPLED}`);
     assert.notExists(request.headers.get("tracestate"));
   });
 
@@ -145,7 +143,7 @@ describe("tracingPolicy", function () {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
-    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceOptions.SAMPLED, mockTraceState);
+    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
     sinon.stub(TracerProxy, "getTracer").callsFake(() => {
       return mockTracer;
     });
@@ -159,10 +157,9 @@ describe("tracingPolicy", function () {
     assert.isTrue(mockTracer.startSpanCalled());
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didStart());
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.SAMPLED}`);
+    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
     assert.equal(request.headers.get("tracestate"), mockTraceState);
   });
 
@@ -170,7 +167,7 @@ describe("tracingPolicy", function () {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
-    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceOptions.SAMPLED, mockTraceState);
+    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
     sinon.stub(TracerProxy, "getTracer").callsFake(() => {
       return mockTracer;
     });
@@ -195,10 +192,9 @@ describe("tracingPolicy", function () {
       assert.isTrue(mockTracer.startSpanCalled());
       assert.lengthOf(mockTracer.getStartedSpans(), 1);
       const span = mockTracer.getStartedSpans()[0];
-      assert.isTrue(span.didStart());
       assert.isTrue(span.didEnd());
 
-      assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.SAMPLED}`);
+      assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
       assert.equal(request.headers.get("tracestate"), mockTraceState);
     }
   });

@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-/** Defines a attributes interface. */
-export interface Attributes {
-  [attributeKey: string]: unknown;
-}
+/** High resolution HrTime: [seconds: number, nanoseconds: number] */
+export type HrTime = [number, number];
+
+/**
+ * Defines TimeInput.
+ *
+ * hrtime, expoch milliseconds, performance.now() or Date
+ */
+export type TimeInput = HrTime | number | Date;

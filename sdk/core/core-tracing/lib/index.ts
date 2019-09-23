@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 export { TracerProxy } from "./tracerProxy";
 
 // Utils
@@ -15,15 +17,19 @@ export { TracerNoOpImpl } from "./implementations/noop/tracerNoOpImpl";
 
 // Interfaces
 export { Attributes } from "./interfaces/attributes";
+export { BinaryFormat } from "./interfaces/BinaryFormat";
 export { Event } from "./interfaces/Event";
+export { HttpTextFormat } from "./interfaces/HttpTextFormat";
 export { Link } from "./interfaces/link";
+export { Plugin } from "./interfaces/plugin";
 export { Sampler } from "./interfaces/Sampler";
 export { SpanContext } from "./interfaces/span_context";
 export { SpanKind } from "./interfaces/span_kind";
 export { Span } from "./interfaces/span";
 export { SpanOptions } from "./interfaces/SpanOptions";
+export { HrTime, TimeInput } from "./interfaces/Time";
 export { Status, CanonicalCode } from "./interfaces/status";
 export { TimedEvent } from "./interfaces/TimedEvent";
-export { TraceOptions } from "./interfaces/trace_options";
+export { TraceFlags } from "./interfaces/trace_flags";
 export { TraceState } from "./interfaces/trace_state";
 export { Tracer } from "./interfaces/tracer";
