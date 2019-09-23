@@ -1,95 +1,90 @@
-import { delay, HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
-import { AbortSignal } from "@azure/abort-controller";
-import { LongRunningOperationStates, terminalStates } from "./utils/constants";
+import { EventEmitter } from "events";
+import { delay, HttpOperationResponse, RequestOptionsBase, ServiceClient } from "@azure/core-http";
 
-export interface PollerOptionalParameters {
-  abortSignal?: AbortSignal;
-  initialResponse?: HttpOperationResponse;
-  intervalInMs?: number;
+export interface PollerOptionalParameters<States> {
   manual?: boolean;
-  noInitialRequest?: boolean;
+  intervalInMs?: number;
+  state?: States;
+  client?: ServiceClient;
+  initialResponse?: HttpOperationResponse;
   previousResponse?: HttpOperationResponse;
   requestOptions?: RequestOptionsBase;
-  retries?: number;
-  state?: LongRunningOperationStates;
-  resources?: any;
+  stopped?: boolean;
 }
 
-export type PollerStateChangeSubscriber = (
-  state?: LongRunningOperationStates,
-  poller?: Poller
-) => void;
-
-export type PollErrorSubscriber = (e: Error) => void;
-
-export abstract class Poller {
+export abstract class Poller<States, Result> extends EventEmitter  {
+  private readonly manual: boolean = false;
   private stopped: boolean = false;
   private intervalInMs: number = 1000;
-  private stateChangeSubscribers: PollerStateChangeSubscriber[] = [];
-  private pollErrorSubscribers: PollErrorSubscriber[] = [];
-  private initialResponse?: HttpOperationResponse;
-  private _state: LongRunningOperationStates = "InProgress";
-  protected readonly manual: boolean = false;
-  protected readonly resources: any;
-  protected abortSignal?: AbortSignal;
+  private _state: States;
+  protected readonly client: ServiceClient;
+  protected initialResponse?: HttpOperationResponse;
   protected previousResponse?: HttpOperationResponse;
   protected requestOptions: RequestOptionsBase | undefined;
+  public stopped: boolean;
 
   constructor(options: PollerOptionalParameters) {
-    if (typeof options.manual === "boolean") this.manual = options.manual;
+    this.manual = Boolean(options.manual);
     this.intervalInMs = Number(options.intervalInMs);
+    this.client = options.client;
+    this.initialResponse = options.initialResponse;
+    this.previousResponse = options.previousResponse;
     this.requestOptions = options.requestOptions;
-    if (options.state) this._state = options.state;
-    if (options.resources) this.resources = options.resources;
-    if (this.manual) return;
-    this.loop();
-  }
+    this.stopped = Boolean(options.stopped);
 
-  protected isDone(state?: LongRunningOperationStates): boolean {
-    return this.stopped || terminalStates.includes(state || this.state);
+    if (options.state) this._state = options.state;
+    if (this.manual) return;
+    this.poll();
   }
 
   protected abstract getStateFromResponse(
     response: HttpOperationResponse
   ): LongRunningOperationStates;
 
-  protected processResponse(response: HttpOperationResponse): void {
+  protected abstract async sendRequest(options?: RequestOptionsBase): Promise<HttpOperationResponse>;
+
+  protected async processResponse(response: HttpOperationResponse): Promise<void | Result> {
     if (!this.initialResponse) this.initialResponse = response;
     this.previousResponse = response;
+    this.emit("newResponse", response, this);
     this.state = this.getStateFromResponse(response);
-  }
-
-  protected abstract async sendRequest(options?: RequestOptionsBase): Promise<void>;
-
-  public getInterval(): number {
-    return this.intervalInMs;
-  }
-
-  protected async loop(): Promise<void> {
-    if (this.manual) return;
-    try {
-      while (!this.isDone()) {
-        const interval: number = this.intervalInMs || this.getInterval();
-        await delay(interval);
-        await this.sendRequest();
-      }
-    } catch (e) {
-      for (const subscriber of this.pollErrorSubscribers) {
-        subscriber(e);
-      }
+    if (this.isDone()) {
+      const result = await this.finalRequest();
+      this.emit("done", result);
+      return result;
     }
   }
 
-  public onPollError(func: PollErrorSubscriber): void {
-    this.pollErrorSubscribers.push(func);
+  protected async poll(): Promise<void> {
+    if (this.manual) return;
+    try {
+      if (!this.initialResponse) {
+        await this.processResponse(await this.initialRequest(this.requestOptions));
+      }
+      while (!this.isDone()) {
+        const interval: number = this.intervalInMs || this.getInterval();
+        await delay(interval);
+        await this.processResponse(await this.sendRequest());
+      }
+    } catch(e) {
+      this.emit("pollError", e, this);
+      throw e;
+    }
   }
 
-  public abstract async cancel(options?: RequestOptionsBase): Promise<void>;
+  public abstract async initialRequest(options?: RequestOptionsBase): Promise<HttpOperationResponse>;
+
+  public abstract async finalRequest(options?: RequestOptionsBase): Promise<Result>;
+
+  public abstract async cancelRequest(options?: RequestOptionsBase): Promise<void>;
+
+  public abstract isDone(): boolean;
 
   public set state(newState: LongRunningOperationStates) {
+    const newState = this.state !== newState;
     this._state = newState;
-    for (const subscriber of this.stateChangeSubscribers) {
-      subscriber(newState, this);
+    if (newState) {
+      this.emit("newState", newState, this);
     }
   }
 
@@ -97,38 +92,27 @@ export abstract class Poller {
     return this._state;
   }
 
-  public onStateChange(func: PollerStateChangeSubscriber): void {
-    this.stateChangeSubscribers.push(func);
+  public getInterval(): number {
+    return this.intervalInMs;
   }
-
-  public async poll(options?: RequestOptionsBase): Promise<void> {
+ 
+  public async pollOnce(options?: RequestOptionsBase): Promise<void | Result> {
     if (!this.manual) throw new Error("Manual retries are disabled on this poller");
     try {
-      return await this.sendRequest(options);
-    } catch (e) {
-      for (const subscriber of this.pollErrorSubscribers) {
-        subscriber(e);
+      if (!this.initialResponse) {
+        await this.processResponse(await this.initialRequest(this.requestOptions));
       }
+      return await this.processResponse(await this.sendRequest());
+    } catch (e) {
+      this.emit("pollError", e, this);
       throw e;
     }
   }
 
-  public nextResponse(): Promise<HttpOperationResponse> {
-    return new Promise((resolve) => {
-      this.onStateChange(() => {
-        resolve(this.previousResponse);
-      });
-    });
-  }
-
-  public done(): Promise<LongRunningOperationStates | undefined> {
+  public done(): Promise<void | Result | Error> {
     return new Promise((resolve, reject) => {
-      this.onStateChange((state) => {
-        if (this.isDone()) {
-          resolve(state);
-        }
-      });
-      this.onPollError(reject);
+      this.on("done", resolve);
+      this.on("pollError", reject);
     });
   }
 
@@ -138,13 +122,12 @@ export abstract class Poller {
 
   public toJSON(): PollerOptionalParameters {
     return {
-      abortSignal: this.abortSignal,
-      initialResponse: this.initialResponse,
-      intervalInMs: this.intervalInMs,
       manual: this.manual,
+      intervalInMs: this.intervalInMs,
+      state: this.state
+      initialResponse: this.initialResponse,
       previousResponse: this.previousResponse,
       requestOptions: this.requestOptions,
-      state: this.state
     };
   }
 }
