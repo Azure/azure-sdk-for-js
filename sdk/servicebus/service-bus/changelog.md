@@ -1,7 +1,6 @@
 # 2019-09-23 1.1.0
 
-- Update library to support running all Service Bus operations in browser.
-- AAD is not supported in browser yet, thus the only way to use library and create ServiceBusClient in browser is by using a connection string.
+- Update library to enable browser bundling so that all Service Bus operations can be run in browser - AAD is not supported in browser yet, thus the only way to use library by creating ServiceBusClient in browser is by using a connection string.
   [PR 5128](https://github.com/Azure/azure-sdk-for-js/pull/5128) related to [issue 3373](https://github.com/Azure/azure-sdk-for-js/issues/3373)
 
 # 2019-09-12 1.0.4
