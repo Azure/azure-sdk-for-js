@@ -42,7 +42,7 @@ export class QueryIterator<T> {
   ) {
     this.query = query;
     this.fetchFunctions = fetchFunctions;
-    this.options = options;
+    this.options = options || {};
     this.resourceLink = resourceLink;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
