@@ -74,7 +74,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - Grant the above mentioned application authorization to perform certificate operations on the keyvault:
 
   ```Bash
-  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --certificate-permissions backup delete get list create deleteissuers getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --certificate-permissions backup create delete deleteissuers get getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
   ```
 
   > --certificate-permissions:
