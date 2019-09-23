@@ -1,17 +1,17 @@
-# 2019-09-22 1.1.0
+# 2019-09-23 1.1.0
 
-- Update library to support running all Service Bus operations in browser. 
+- Update library to support running all Service Bus operations in browser.
 - AAD is not supported in browser yet, thus the only way to use library and create ServiceBusClient in browser is by using a connection string.
-[PR 5128](https://github.com/Azure/azure-sdk-for-js/pull/5128) related to [issue 3373](https://github.com/Azure/azure-sdk-for-js/issues/3373)
+  [PR 5128](https://github.com/Azure/azure-sdk-for-js/pull/5128) related to [issue 3373](https://github.com/Azure/azure-sdk-for-js/issues/3373)
 
 # 2019-09-12 1.0.4
 
 - Increase timeout value from 20 seconds to 60 seconds when settling messages.
-[PR 4907](https://github.com/Azure/azure-sdk-for-js/pull/4907) related to [bug 3764](https://github.com/Azure/azure-sdk-for-js/issues/3764)
+  [PR 4907](https://github.com/Azure/azure-sdk-for-js/pull/4907) related to [bug 3764](https://github.com/Azure/azure-sdk-for-js/issues/3764)
 - Allow time to receive a flow frame from service when sender is not in a sendable state.
-[PR 4908](https://github.com/Azure/azure-sdk-for-js/pull/4908) related to [bug 4764](https://github.com/Azure/azure-sdk-for-js/issues/4764)
+  [PR 4908](https://github.com/Azure/azure-sdk-for-js/pull/4908) related to [bug 4764](https://github.com/Azure/azure-sdk-for-js/issues/4764)
 - Use user provided timeout value for the entirety of the `receiveMessages()` method.
-[PR 4933](https://github.com/Azure/azure-sdk-for-js/pull/4933) related to [bug 4748](https://github.com/Azure/azure-sdk-for-js/issues/4748) 
+  [PR 4933](https://github.com/Azure/azure-sdk-for-js/pull/4933) related to [bug 4748](https://github.com/Azure/azure-sdk-for-js/issues/4748)
 - Improve logging when not able to settle a message due to not having access to the right receiver. [PR 4943](https://github.com/Azure/azure-sdk-for-js/pull/4943)
 - Fix bug where the library consistently fails to settle a message due to having lost reference to the right receiver. [PR 4947](https://github.com/Azure/azure-sdk-for-js/pull/4947)
 
@@ -23,12 +23,12 @@
 # 2019-05-21 1.0.2
 
 - Added missing package.json file to the npm package to fix issues bundling with webpack and other bundlers.
-This fixes the [bug 2857](https://github.com/Azure/azure-sdk-for-js/issues/2857).
+  This fixes the [bug 2857](https://github.com/Azure/azure-sdk-for-js/issues/2857).
 
 # 2019-05-16 1.0.1
 
 - Readme updated to remove the status about this library being in preview. This library is now out
-of preview.
+  of preview.
 
 # 2019-05-16 1.0.0
 
@@ -37,13 +37,14 @@ of preview.
 - Errors thrown explicitly by the library for the user facing apis are documented in jsdocs.
 
 ### Breaking changes
+
 - When Service Bus does not acknowledge a message settlement/disposition request in time, the error
-`ServiceUnavailbleError` is thrown. This is consistent with send requests and requests over the $management link.
+  `ServiceUnavailbleError` is thrown. This is consistent with send requests and requests over the \$management link.
 - The error `MessageLockLostError` or `SessionLockLostError` (based on whether the entity has sessions enabled
-or not) is thrown for a message settlement/disposition request when the AMQP receiver link that was used to receive
-the message has died.
+  or not) is thrown for a message settlement/disposition request when the AMQP receiver link that was used to receive
+  the message has died.
 - User agent string which is passed as a AMQP connection property is updated to follow the new standard.
-For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
+  For example: `azsdk-js-azureservicebus/1.0.0/(NODE-VERSION v10.15.0) Windows_NT 10.0.17763`
 
 # 2019-04-24 1.0.0-preview.3
 

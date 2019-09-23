@@ -117,7 +117,8 @@ export function browserConfig({ test = false, production = false } = {}) {
             // replace dynamic checks with if (false) since this is for
             // browser only. Rollup's dead code elimination will remove
             // any code guarded by if (isNode) { ... }
-            "if (isNode)": "if (false)"
+            "if (isNode)": "if (false)",
+            "if (!isNode)": "if (true)"
           }
         }
       ),
