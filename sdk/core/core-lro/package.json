@@ -93,6 +93,7 @@
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/core-http": "1.0.0-preview.3",
+    "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
