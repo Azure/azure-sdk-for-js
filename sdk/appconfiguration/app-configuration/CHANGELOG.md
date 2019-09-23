@@ -1,3 +1,7 @@
+# 1.0.0-preview.3 (2019-09-23)
+
+- Typings file was incorrectly packaged (#5217)
+
 # 1.0.0-preview.2 (2019-09-13)
 
 Republishing as the readme is not properly showing up on npmjs. No other changes.
