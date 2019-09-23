@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosClientOptions } from "../CosmosClientOptions";
 import { Constants, OperationType, ResourceType } from "./constants";
 

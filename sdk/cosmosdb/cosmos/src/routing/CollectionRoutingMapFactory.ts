@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "../common/constants";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 

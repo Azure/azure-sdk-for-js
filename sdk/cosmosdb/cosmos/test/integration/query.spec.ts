@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { FeedOptions } from "../../dist-esm";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";

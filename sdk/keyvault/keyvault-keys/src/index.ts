@@ -285,7 +285,6 @@ export class KeysClient {
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("createKey", unflattenedOptions);
-      span.start();
 
       const response = await this.client
         .createKey(this.vaultBaseUrl, name, keyType, unflattenedOptions)
@@ -337,7 +336,6 @@ export class KeysClient {
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("createEcKey", unflattenedOptions);
-      span.start();
 
       const response = await this.client
         .createKey(this.vaultBaseUrl, name, options.hsm ? "EC-HSM" : "EC", unflattenedOptions)
@@ -389,7 +387,6 @@ export class KeysClient {
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("createRsaKey", unflattenedOptions);
-      span.start();
 
       const response = await this.client
         .createKey(this.vaultBaseUrl, name, options.hsm ? "RSA-HSM" : "RSA", unflattenedOptions)
@@ -441,7 +438,6 @@ export class KeysClient {
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("importKey", unflattenedOptions);
-      span.start();
 
       const response = await this.client
         .importKey(this.vaultBaseUrl, name, key, unflattenedOptions)
@@ -476,7 +472,6 @@ export class KeysClient {
   public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("deleteKey", requestOptions);
-    span.start();
 
     const response = await this.client
       .deleteKey(this.vaultBaseUrl, name, requestOptions)
@@ -529,7 +524,6 @@ export class KeysClient {
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("updateKey", unflattenedOptions);
-      span.start();
 
       const response = await this.client
         .updateKey(this.vaultBaseUrl, name, keyVersion, unflattenedOptions)
@@ -563,7 +557,6 @@ export class KeysClient {
   public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("getKey", requestOptions);
-    span.start();
 
     const response = await this.client
       .getKey(
@@ -599,7 +592,6 @@ export class KeysClient {
   public async getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("getDeletedKey", requestOptions);
-    span.start();
 
     const response = await this.client
       .getDeletedKey(this.vaultBaseUrl, name, requestOptions)
@@ -632,7 +624,6 @@ export class KeysClient {
   public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("purgeDeletedKey", requestOptions);
-    span.start();
 
     await this.client.purgeDeletedKey(this.vaultBaseUrl, name, requestOptions).catch((err) => {
       span.end();
@@ -661,7 +652,6 @@ export class KeysClient {
   public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("recoverDeletedKey", requestOptions);
-    span.start();
 
     const response = await this.client
       .recoverDeletedKey(this.vaultBaseUrl, name, requestOptions)
@@ -691,7 +681,6 @@ export class KeysClient {
   public async backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("backupKey", requestOptions);
-    span.start();
 
     const response = await this.client
       .backupKey(this.vaultBaseUrl, name, requestOptions)
@@ -723,7 +712,6 @@ export class KeysClient {
   public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("restoreKey", requestOptions);
-    span.start();
 
     const response = await this.client
       .restoreKey(this.vaultBaseUrl, backup, requestOptions)
@@ -804,7 +792,6 @@ export class KeysClient {
       options.requestOptions = {};
     }
     const span = this.createSpan("listKeyVersions", options.requestOptions);
-    span.start();
 
     const iter = this.listKeyVersionsAll(name, options);
 
@@ -879,7 +866,6 @@ export class KeysClient {
       options.requestOptions = {};
     }
     const span = this.createSpan("listKeys", options.requestOptions);
-    span.start();
 
     const iter = this.listKeysAll(options);
 
@@ -959,7 +945,6 @@ export class KeysClient {
       options.requestOptions = {};
     }
     const span = this.createSpan("listDeletedKeys", options.requestOptions);
-    span.start();
 
     const iter = this.listDeletedKeysAll(options);
 

@@ -1,4 +1,6 @@
-﻿﻿import { finish, handleError, logSampleHeader } from "./Shared/handleError";
+﻿﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { finish, handleError, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { database as databaseId, container as containerId, endpoint, key } from "./Shared/config";
 

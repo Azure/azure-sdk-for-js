@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { OperationType } from "../common";
 import { isReadRequest } from "../common/helper";
 import { GlobalEndpointManager } from "../globalEndpointManager";

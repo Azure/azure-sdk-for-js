@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { Container, CosmosClient, PermissionMode } from "../../dist-esm";
 import { Database } from "../../dist-esm/client";
@@ -21,7 +23,7 @@ describe("Authorization", function() {
     id: "container All Permission",
     permissionMode: PermissionMode.All
   };
-  /************** TEST **************/
+  /** ************ TEST **************/
 
   beforeEach(async function() {
     await removeAllDatabases();

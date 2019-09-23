@@ -58,7 +58,8 @@ export const action1: msRest.OperationQueryParameter = {
     type: {
       name: "Enum",
       allowedValues: [
-        "getAccessControl"
+        "getAccessControl",
+        "getStatus"
       ]
     }
   }
@@ -72,6 +73,18 @@ export const cacheControl: msRest.OperationParameter = {
     serializedName: "Cache-Control",
     type: {
       name: "String"
+    }
+  }
+};
+export const close: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "close"
+  ],
+  mapper: {
+    serializedName: "close",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -118,6 +131,21 @@ export const contentLength: msRest.OperationParameter = {
   ],
   mapper: {
     serializedName: "Content-Length",
+    constraints: {
+      InclusiveMinimum: 0
+    },
+    type: {
+      name: "Number"
+    }
+  }
+};
+export const contentMD5: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "contentMD5"
+  ],
+  mapper: {
+    serializedName: "Content-MD5",
     type: {
       name: "String"
     }
@@ -159,17 +187,7 @@ export const dnsSuffix: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const filesystem0: msRest.OperationURLParameter = {
-  parameterPath: "filesystem",
-  mapper: {
-    required: true,
-    serializedName: "filesystem",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const filesystem1: msRest.OperationURLParameter = {
+export const filesystem: msRest.OperationURLParameter = {
   parameterPath: "filesystem",
   mapper: {
     required: true,
@@ -177,7 +195,7 @@ export const filesystem1: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 63,
       MinLength: 3,
-      Pattern: /^[a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$/
+      Pattern: /^[$a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$/
     },
     type: {
       name: "String"
@@ -398,6 +416,18 @@ export const timeout: msRest.OperationQueryParameter = {
     }
   }
 };
+export const upn: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "upn"
+  ],
+  mapper: {
+    serializedName: "upn",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const xMsAcl: msRest.OperationParameter = {
   parameterPath: [
     "options",
@@ -473,6 +503,18 @@ export const xMsContentLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const xMsContentMd5: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "xMsContentMd5"
+  ],
+  mapper: {
+    serializedName: "x-ms-content-md5",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const xMsContentType: msRest.OperationParameter = {
   parameterPath: [
     "options",
@@ -509,23 +551,7 @@ export const xMsGroup: msRest.OperationParameter = {
     }
   }
 };
-export const xMsLeaseAction0: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsLeaseAction"
-  ],
-  mapper: {
-    serializedName: "x-ms-lease-action",
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "renew",
-        "release"
-      ]
-    }
-  }
-};
-export const xMsLeaseAction1: msRest.OperationParameter = {
+export const xMsLeaseAction: msRest.OperationParameter = {
   parameterPath: "xMsLeaseAction",
   mapper: {
     required: true,
@@ -632,6 +658,18 @@ export const xMsProposedLeaseId: msRest.OperationParameter = {
     }
   }
 };
+export const xMsRangeGetContentMd5: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "xMsRangeGetContentMd5"
+  ],
+  mapper: {
+    serializedName: "x-ms-range-get-content-md5",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const xMsRenameSource: msRest.OperationParameter = {
   parameterPath: [
     "options",
@@ -702,6 +740,18 @@ export const xMsSourceLeaseId: msRest.OperationParameter = {
     constraints: {
       Pattern: /^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const xMsUmask: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "xMsUmask"
+  ],
+  mapper: {
+    serializedName: "x-ms-umask",
     type: {
       name: "String"
     }

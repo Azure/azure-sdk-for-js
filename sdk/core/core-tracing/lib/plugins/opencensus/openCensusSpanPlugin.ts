@@ -1,26 +1,40 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 import { Span } from "../../interfaces/span";
 import { SpanContext } from "../../interfaces/span_context";
 import { Attributes } from "../../interfaces/attributes";
 import { Status } from "../../interfaces/status";
 import { OpenCensusTraceStatePlugin } from "./openCensusTraceStatePlugin";
+import { SpanOptions } from "../../interfaces/SpanOptions";
+import { OpenCensusTracePlugin } from "./openCensusTracePlugin";
+
+function isWrappedSpan(span: Span | SpanContext): span is OpenCensusSpanPlugin {
+  return (span as OpenCensusSpanPlugin).getWrappedSpan !== undefined;
+}
 
 export class OpenCensusSpanPlugin implements Span {
   private _span: any;
 
-  public getSpan() {
+  public getWrappedSpan() {
     return this._span;
   }
 
-  constructor(span: any) {
-    this._span = span;
+  constructor(tracer: OpenCensusTracePlugin, name: string, options: SpanOptions = {}) {
+    const parent = options.parent
+      ? isWrappedSpan(options.parent)
+        ? options.parent.getWrappedSpan()
+        : options.parent
+      : undefined;
+
+    this._span = tracer.getWrappedTracer().startChildSpan({
+      name: name,
+      childOf: parent
+    });
+    this._span.start(options.startTime);
   }
 
   end(endTime?: number): void {
     this._span.end(endTime);
-  }
-
-  start(startTime?: number): void {
-    this._span.start(startTime);
   }
 
   context(): SpanContext {
@@ -29,7 +43,7 @@ export class OpenCensusSpanPlugin implements Span {
     return {
       spanId: openCensusSpanContext.spanId,
       traceId: openCensusSpanContext.traceId,
-      traceOptions: openCensusSpanContext.options,
+      traceFlags: openCensusSpanContext.options,
       traceState: new OpenCensusTraceStatePlugin(openCensusSpanContext.traceState)
     };
   }

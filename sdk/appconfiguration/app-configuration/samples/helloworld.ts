@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 // NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
 // in a standalone project
 import { AppConfigurationClient } from "../src"
@@ -9,19 +12,19 @@ export async function run() {
     const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
     const client = new AppConfigurationClient(connectionString);
 
-    const greetingKey = "Samples:Greeting";    
-    
+    const greetingKey = "Samples:Greeting";
+
     await cleanupSampleValues([greetingKey], client);
 
     // creating a new setting
     console.log(`Adding in new setting ${greetingKey}`);
-    await client.addConfigurationSetting(greetingKey, { value: "Hello!" });
+    await client.addConfigurationSetting({ key: greetingKey, value: "Hello!" });
 
     const newSetting = await client.getConfigurationSetting(greetingKey);
     console.log(`${greetingKey} has been set to ${newSetting.value}`);
 
     // changing the value of a setting
-    await client.setConfigurationSetting(greetingKey, { value: "Goodbye!" });
+    await client.setConfigurationSetting({ key: greetingKey, value: "Goodbye!" });
 
     const updatedSetting = await client.getConfigurationSetting(greetingKey);
     console.log(`${greetingKey} has been set to ${updatedSetting.value}`);
@@ -30,16 +33,18 @@ export async function run() {
     await client.deleteConfigurationSetting(greetingKey, {});
     console.log(`${greetingKey} has been deleted`);
 
-    await cleanupSampleValues([greetingKey], client);    
+    await cleanupSampleValues([greetingKey], client);
 }
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
     const existingSettings = await client.listConfigurationSettings({
-        key: keys
+        keys: keys
     });
 
-    for (const setting of existingSettings) {
-        await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    if (existingSettings.items) {
+        for (const setting of existingSettings.items) {
+            await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+        }
     }
 }
 

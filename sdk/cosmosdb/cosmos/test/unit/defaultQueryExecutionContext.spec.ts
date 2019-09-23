@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import {
   FetchFunctionCallback,
   DefaultQueryExecutionContext
@@ -35,13 +37,13 @@ describe("defaultQueryExecutionContext", function() {
 
     await context.fetchMore();
 
-    await sleep(10); //small sleep to make sure we give up event loop so any other fetch functions can get called
+    await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
     assert.strictEqual(calledCount, 1, "Should have only fetched 1 page");
 
     await context.fetchMore();
 
-    await sleep(10); //small sleep to make sure we give up event loop so any other fetch functions can get called
+    await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
     assert.strictEqual(calledCount, 2, "Should have only fetched 2 pages");
   });
@@ -74,13 +76,13 @@ describe("defaultQueryExecutionContext", function() {
 
     await context.fetchMore();
 
-    await sleep(10); //small sleep to make sure we give up event loop so any other fetch functions can get called
+    await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
     assert.strictEqual(calledCount, 2, "Should have fetched 2 pages (one buffered)");
 
     await context.fetchMore();
 
-    await sleep(10); //small sleep to make sure we give up event loop so any other fetch functions can get called
+    await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
     assert.strictEqual(calledCount, 3, "Should have only fetched 3 pages (one buffered)");
   });

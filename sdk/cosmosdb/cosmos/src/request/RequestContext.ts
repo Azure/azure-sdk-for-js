@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
 import { HTTPMethod, OperationType, ResourceType } from "../common";
 import { Agent } from "../CosmosClientOptions";
