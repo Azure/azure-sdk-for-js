@@ -108,6 +108,8 @@ const skip = [
   "browsers/fileclient/recording_download_should_update_progress_and_abort_successfully.json",
   // Unknown reason (recording throws an error, but file is generated and playback works)
   "browsers/fileclient/recording_uploadrange_with_progress_event.json",
+  // Nock issue: https://github.com/Azure/azure-sdk-for-js/issues/5229
+  "node/fileclient/recording_uploadrange_with_progress_event.js",
   // Progress
   "node/fileclient/recording_download_should_update_progress_and_abort_successfully.js",
   // Abort. Nock doesn't record aborted request, should investigate
