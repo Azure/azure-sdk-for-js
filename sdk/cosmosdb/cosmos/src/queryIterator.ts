@@ -240,7 +240,7 @@ export class QueryIterator<T> {
     if (this.isInitialied === true) {
       return;
     }
-    if (this.initPromise) {
+    if (this.initPromise === undefined) {
       this.initPromise = this._init();
     }
     return this.initPromise;
