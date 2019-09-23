@@ -575,7 +575,11 @@ describe("DirectoryClient", () => {
   it("listHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const result = await dirClient.listHandlesSegment(undefined);
+    const result = (await dirClient
+      .listHandles()
+      .byPage()
+      .next()).value;
+
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepStrictEqual(handle.handleId, undefined);
@@ -606,7 +610,10 @@ describe("DirectoryClient", () => {
   it("forceCloseHandle should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const result = await dirClient.listHandlesSegment(undefined);
+    const result = (await dirClient
+      .listHandles()
+      .byPage()
+      .next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);

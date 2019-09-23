@@ -379,13 +379,16 @@ export class QueueServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
    * @example
+   * ```js
    *    let i = 1;
    *    for await (const item of queueServiceClient.listQueues()) {
    *      console.log(`Queue${i}: ${item.name}`);
    *      i++;
    *    }
+   * ```
    *
    * @example
+   * ```js
    *    // Generator syntax .next()
    *    let i = 1;
    *    let iterator = queueServiceClient.listQueues();
@@ -395,8 +398,10 @@ export class QueueServiceClient extends StorageClient {
    *      i++;
    *      item = await iterator.next();
    *    }
+   * ```
    *
    * @example
+   * ```js
    *    // Example for .byPage()
    *    // passing optional maxPageSize in the page settings
    *    let i = 1;
@@ -408,8 +413,10 @@ export class QueueServiceClient extends StorageClient {
    *        }
    *      }
    *    }
+   * ```
    *
    * @example
+   * ```js
    *    let i = 1;
    *    let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
    *    let item = (await iterator.next()).value;
@@ -432,6 +439,7 @@ export class QueueServiceClient extends StorageClient {
    *        i++;
    *      }
    *    }
+   * ```
    *
    * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
    * @memberof QueueServiceClient

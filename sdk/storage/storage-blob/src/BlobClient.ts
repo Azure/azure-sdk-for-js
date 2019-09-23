@@ -27,11 +27,8 @@ import {
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
-import {
-  setURLParameter,
-  extractConnectionStringParts,
-  readStreamToLocalFile
-} from "./utils/utils.common";
+import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
+import { readStreamToLocalFile } from "./utils/utils.node";
 import { AppendBlobClient, StorageClient } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";

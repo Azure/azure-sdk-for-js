@@ -33,7 +33,7 @@ import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { streamToBuffer } from "./utils/utils.node";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { readStreamToLocalFile } from "./utils/utils.common";
+import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 
 /**
@@ -1240,7 +1240,7 @@ export class FileClient extends StorageClient {
    * @returns {(Promise<void>)}
    */
   public async uploadFile(filePath: string, options?: UploadToAzureFileOptions): Promise<void> {
-    const size = fs.statSync(filePath).size;
+    const size = (await fsStat(filePath)).size;
     return this.uploadResetableStream(
       (offset, count) =>
         fs.createReadStream(filePath, {
