@@ -19,11 +19,10 @@ export function getGenericQSU(
   accountType: string,
   accountNameSuffix: string = ""
 ): QueueServiceClient {
-  if (env.TEST_MODE === "emulator-tests") {
-    // Expected environment variables to run tests with the emulator
+  if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+    // Expected environment variable to run tests with the emulator
     // [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
     // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
-    // TEST_MODE=emulator-tests
     return QueueServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   } else {
     const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;

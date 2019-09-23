@@ -43,10 +43,9 @@ Please refers to [RecordAndPlayback.md](./RecordAndPlayback.md) for more details
 
 ### Emulator Tests
 
-- Expected environment variables to run tests with the emulator
+- Expected environment variable to run tests with the emulator
   [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
   - STORAGE_CONNECTION_STRING="UseDevelopmentStorage=true" (or `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri`)
-  - TEST_MODE="emulator-tests"
 
 #### CORS
 
