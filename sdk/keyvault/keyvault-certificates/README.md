@@ -191,9 +191,9 @@ the certificate's policy.
 
 ```javascript
 const latestCertificate = await client.getCertificateWithPolicy(certificateName);
-console.log(`Latest version of the certificate ${certificateName}: `, getResult);
+console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
 const specificCertificate = await client.getCertificate(certificateName, latestCertificate.version!);
-console.log(`The certificate ${certificateName} at the version ${latestCertificate.version!}: `, getResult);
+console.log(`The certificate ${certificateName} at the version ${latestCertificate.version!}: `, specificCertificate);
 ```
 
 ### List all versions of a certificate

@@ -160,9 +160,9 @@ optional parameters.
 
 ```javascript
 const latestSecret = await client.getSecret(secretName);
-console.log(`Latest version of the secret ${secretName}: `, getResult);
+console.log(`Latest version of the secret ${secretName}: `, latestSecret);
 const specificSecret = await client.getSecret(secretName, { version: latestSecret.version! });
-console.log(`The secret ${secretName} at the version ${latestSecret.version!}: `, getResult);
+console.log(`The secret ${secretName} at the version ${latestSecret.version!}: `, specificSecret);
 ```
 
 ### Creating and updating secrets with attributes
