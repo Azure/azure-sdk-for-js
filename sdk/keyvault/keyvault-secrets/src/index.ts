@@ -30,7 +30,15 @@ import {
   SecretBundle,
   DeletedSecretBundle,
   DeletionRecoveryLevel,
-  KeyVaultClientGetSecretsOptionalParams
+  KeyVaultClientGetSecretsOptionalParams,
+  SetSecretResponse,
+  DeleteSecretResponse,
+  UpdateSecretResponse,
+  GetSecretResponse,
+  GetDeletedSecretResponse,
+  RecoverDeletedSecretResponse,
+  BackupSecretResponse,
+  RestoreSecretResponse
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
@@ -241,17 +249,18 @@ export class SecretsClient {
 
       const span = this.createSpan("setSecret", unflattenedOptions);
 
-      const response = await this.client.setSecret(
-        this.vaultBaseUrl,
-        secretName,
-        value,
-        this.setParentSpan(span, unflattenedOptions)
-      ).catch((err) => {
+      let response: SetSecretResponse;
+      try {
+        response = await this.client.setSecret(
+          this.vaultBaseUrl,
+          secretName,
+          value,
+          this.setParentSpan(span, unflattenedOptions)
+        );
+      } finally {
         span.end();
-        throw err;
-      });
+      }
 
-      span.end();
       return this.getSecretFromSecretBundle(response);
     } else {
       const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
@@ -280,13 +289,13 @@ export class SecretsClient {
   ): Promise<DeletedSecret> {
     const span = this.createSpan("deleteSecret", options);
 
-    const response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options))
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let response: DeleteSecretResponse;
+    try {
+      response = await this.client.deleteSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
 
-    span.end();
     return this.getDeletedSecretFromDeletedSecretBundle(response);
   }
 
@@ -331,18 +340,19 @@ export class SecretsClient {
 
       const span = this.createSpan("updateSecretAttributes", unflattenedOptions);
 
-      const response = await this.client.updateSecret(
-        this.vaultBaseUrl,
-        secretName,
-        secretVersion,
-        this.setParentSpan(span, unflattenedOptions)
-      )
-        .catch((err) => {
-          span.end();
-          throw err;
-        });
+      let response: UpdateSecretResponse;
 
-      span.end();
+      try {
+        response = await this.client.updateSecret(
+          this.vaultBaseUrl,
+          secretName,
+          secretVersion,
+          this.setParentSpan(span, unflattenedOptions)
+        );
+      } finally {
+        span.end();
+      }
+
       return this.getSecretFromSecretBundle(response);
     } else {
       const response = await this.client.updateSecret(
@@ -373,18 +383,18 @@ export class SecretsClient {
     const span = this.createSpan("getSecret", options && options.requestOptions);
     const requestOptions = this.setParentSpan(span, options && options.requestOptions);
 
-    const response = await this.client.getSecret(
-      this.vaultBaseUrl,
-      secretName,
-      options && options.version ? options.version : "",
-      requestOptions
-    )
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let response: GetSecretResponse;
+    try {
+      response = await this.client.getSecret(
+        this.vaultBaseUrl,
+        secretName,
+        options && options.version ? options.version : "",
+        requestOptions
+      );
+    } finally {
+      span.end();
+    }
 
-    span.end();
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -408,13 +418,14 @@ export class SecretsClient {
   ): Promise<DeletedSecret> {
     const span = this.createSpan("getDeletedSecret", options);
 
-    const response = await this.client.getDeletedSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options))
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let response: GetDeletedSecretResponse;
 
-    span.end();
+    try {
+      response = await this.client.getDeletedSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -437,13 +448,11 @@ export class SecretsClient {
   public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
     const span = this.createSpan("purgeDeletedSecret", options);
 
-    await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options))
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
-
-    span.end();
+    try {
+      await this.client.purgeDeletedSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -467,13 +476,14 @@ export class SecretsClient {
   ): Promise<Secret> {
     const span = this.createSpan("recoverDeletedSecret", options);
 
-    const response = await this.client.recoverDeletedSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options))
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let response: RecoverDeletedSecretResponse;
 
-    span.end();
+    try {
+      response = await this.client.recoverDeletedSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return this.getSecretFromSecretBundle(response);
   }
 
@@ -491,16 +501,16 @@ export class SecretsClient {
    * @param [options] The optional parameters
    * @returns Promise<Uint8Array | undefined>
    */
-  public async backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array> {
+  public async backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined> {
     const span = this.createSpan("backupSecret", options);
 
-    const response: any = await this.client.backupSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options))
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let response: BackupSecretResponse;
 
-    span.end();
+    try {
+      response = await this.client.backupSecret(this.vaultBaseUrl, secretName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
     return response.value;
   }
 
@@ -526,17 +536,18 @@ export class SecretsClient {
   ): Promise<Secret> {
     const span = this.createSpan("restoreSecret", options);
 
-    const response = await this.client.restoreSecret(
-      this.vaultBaseUrl,
-      secretBundleBackup,
-      this.setParentSpan(span, options)
-    )
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let response: RestoreSecretResponse;
 
-    span.end();
+    try {
+      response = await this.client.restoreSecret(
+        this.vaultBaseUrl,
+        secretBundleBackup,
+        this.setParentSpan(span, options)
+      );
+    } finally {
+      span.end();
+    }
+
     return this.getSecretFromSecretBundle(response);
   }
 
