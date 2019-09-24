@@ -58,7 +58,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
           // replace dynamic checks with if (true) since this is for node only.
           // Allows rollup's dead code elimination to be more aggressive.
           "if (isNode)": "if (true)",
-          "if (!isNode)": "if (true)"
+          "if (!isNode)": "if (false)"
         }
       }),
       nodeResolve({ preferBuiltins: true }),
