@@ -3,7 +3,6 @@ import * as dotenv from "dotenv";
 import {
   BlobClient,
   ContainerClient,
-  AppendBlobClient,
   BlobServiceClient,
   BlockBlobClient,
   PageBlobClient
@@ -54,17 +53,6 @@ describe("Emulator Tests", () => {
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
-  });
-
-  it("AppendBlobClient can be created with a connection string", async () => {
-    const newClient = new AppendBlobClient(
-      getConnectionStringFromEnvironment(),
-      containerName,
-      blobName
-    );
-
-    await newClient.create();
-    await newClient.download();
   });
 
   it("BlobServiceClient can be created from a connection string", async () => {
