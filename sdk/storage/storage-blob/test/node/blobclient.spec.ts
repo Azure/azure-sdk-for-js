@@ -358,7 +358,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it.only("generateSASUrl should work for blob", async () => {
+  it("generateSASUrl should work for blob", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
