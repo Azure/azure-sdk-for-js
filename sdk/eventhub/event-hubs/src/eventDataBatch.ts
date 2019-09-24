@@ -8,7 +8,7 @@ import { message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { Span, SpanContext } from "@azure/core-tracing";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from './diagnostics/messageSpan';
+import { createMessageSpan } from "./diagnostics/messageSpan";
 
 /**
  * The set of options to configure the behavior of `tryAdd`.
@@ -85,7 +85,7 @@ export class EventDataBatch {
   }
 
   /**
-   * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to 
+   * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to
    * produce a partition assignment when the producer is created without a `partitionId`
    * @readonly
    */
@@ -113,9 +113,9 @@ export class EventDataBatch {
   /**
    * @property Represents the single AMQP message which is the result of encoding all the events
    * added into the `EventDataBatch` instance.
-   * 
+   *
    * This is not meant for the user to use directly.
-   * 
+   *
    * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
@@ -136,7 +136,7 @@ export class EventDataBatch {
    * Tries to add an event data to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
-   * 
+   *
    * @param eventData  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
@@ -148,7 +148,7 @@ export class EventDataBatch {
     if (!eventData.properties || !eventData.properties[TRACEPARENT_PROPERTY]) {
       const messageSpan = createMessageSpan(options.parentSpan);
       // Create a shallow copy of eventData and eventData.properties in case we add the diagnostic id to the properties.
-      eventData = {...eventData, properties: {...eventData.properties}};
+      eventData = { ...eventData, properties: { ...eventData.properties } };
       isInstrumented = instrumentEventData(eventData, messageSpan);
       this._spanContexts.push(messageSpan.context());
       messageSpan.end();

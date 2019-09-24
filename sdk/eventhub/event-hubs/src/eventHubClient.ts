@@ -25,9 +25,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
-import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from '@azure/core-tracing';
+import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from "@azure/core-tracing";
 
-type OperationNames = "getProperties"|"getPartitionIds"|"getPartitionProperties";
+type OperationNames = "getProperties" | "getPartitionIds" | "getPartitionProperties";
 
 /**
  * @internal
@@ -481,11 +481,11 @@ export class EventHubClient {
       kind: SpanKind.CLIENT,
       parent: parentSpan
     });
-  
+
     span.setAttribute("component", "eventhubs");
     span.setAttribute("message_bus.destination", this.eventHubName);
     span.setAttribute("peer.address", this._endpoint);
-  
+
     return span;
   }
 

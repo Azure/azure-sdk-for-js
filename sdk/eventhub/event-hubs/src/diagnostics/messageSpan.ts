@@ -1,4 +1,4 @@
-import { SpanContext, Span, TracerProxy, SpanKind } from '@azure/core-tracing';
+import { SpanContext, Span, TracerProxy, SpanKind } from "@azure/core-tracing";
 
 export function createMessageSpan(parentSpan?: Span | SpanContext): Span {
   const tracer = TracerProxy.getTracer();

@@ -8,9 +8,9 @@ import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch } from "./eventDataBatch";
-import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from '@azure/core-tracing';
+import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from "@azure/core-tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from './diagnostics/messageSpan';
+import { createMessageSpan } from "./diagnostics/messageSpan";
 
 /**
  * A producer responsible for sending events to an Event Hub.
@@ -63,7 +63,12 @@ export class EventHubProducer {
    * @internal
    * @ignore
    */
-  constructor(eventHubName: string, endpoint: string, context: ConnectionContext, options?: EventHubProducerOptions) {
+  constructor(
+    eventHubName: string,
+    endpoint: string,
+    context: ConnectionContext,
+    options?: EventHubProducerOptions
+  ) {
     this._context = context;
     this._senderOptions = options || {};
     const partitionId =
@@ -167,7 +172,7 @@ export class EventHubProducer {
     let spanContextsToLink: SpanContext[] = [];
     if (Array.isArray(eventData)) {
       for (let i = 0; i < eventData.length; i++) {
-        const event: EventData = {...eventData[i], properties: {...eventData[i].properties}};
+        const event: EventData = { ...eventData[i], properties: { ...eventData[i].properties } };
         const messageSpan = createMessageSpan(options.parentSpan);
         // since these message spans are created from same context as the send span,
         // these message spans don't need to be linked.
@@ -178,15 +183,17 @@ export class EventHubProducer {
       spanContextsToLink = eventData._messageSpanContexts;
     }
 
-
     const sendSpan = this._createSendSpan(options.parentSpan);
     for (const spanContext of spanContextsToLink) {
       sendSpan.addLink(spanContext);
     }
 
     try {
-      const result = await this._eventHubSender!.send(eventData, { ...this._senderOptions, ...options });
-      sendSpan.setStatus({code: CanonicalCode.OK});
+      const result = await this._eventHubSender!.send(eventData, {
+        ...this._senderOptions,
+        ...options
+      });
+      sendSpan.setStatus({ code: CanonicalCode.OK });
       return result;
     } catch (err) {
       sendSpan.setStatus({
