@@ -144,13 +144,13 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {
     if (isIE()) {
       assert.ok(
         true,
         "Skip this case in IE11 which doesn't have enough memory for downloading validation"
       );
-      return;
+      this.skip();
     }
 
     await blockBlobClient.uploadBrowserData(tempFile1, {

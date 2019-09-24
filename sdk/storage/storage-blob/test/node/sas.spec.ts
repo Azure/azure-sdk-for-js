@@ -481,7 +481,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with all configurations", async () => {
+  it("GenerateUserDelegationSAS should work for container with all configurations", async function() {
     // Try to get BlobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
@@ -492,14 +492,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
     if (blobServiceClientWithToken === undefined) {
-      return;
+      this.skip();
     }
 
     const now = recorder.newDate("now");
     now.setHours(now.getHours() - 1);
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
-    const userDelegationKey = await blobServiceClientWithToken.getUserDelegationKey(now, tmr);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
     // By default, credential is always the last element of pipeline factories
     const factories = (blobServiceClient as any).pipeline.factories;
@@ -537,7 +537,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with minimum parameters", async () => {
+  it("GenerateUserDelegationSAS should work for container with minimum parameters", async function() {
     // Try to get BlobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
@@ -548,14 +548,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
     if (blobServiceClientWithToken === undefined) {
-      return;
+      this.skip();
     }
 
     const now = recorder.newDate("now");
     now.setHours(now.getHours() - 1);
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
-    const userDelegationKey = await blobServiceClientWithToken.getUserDelegationKey(now, tmr);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
     // By default, credential is always the last element of pipeline factories
     const factories = (blobServiceClient as any).pipeline.factories;
@@ -589,7 +589,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob", async () => {
+  it("GenerateUserDelegationSAS should work for blob", async function() {
     // Try to get blobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
@@ -600,14 +600,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
     if (blobServiceClientWithToken === undefined) {
-      return;
+      this.skip();
     }
 
     const now = recorder.newDate("now");
     now.setHours(now.getHours() - 1);
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
-    const userDelegationKey = await blobServiceClientWithToken.getUserDelegationKey(now, tmr);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
     // By default, credential is always the last element of pipeline factories
     const factories = (blobServiceClient as any).pipeline.factories;
@@ -658,7 +658,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob snapshot", async () => {
+  it("GenerateUserDelegationSAS should work for blob snapshot", async function() {
     // Try to get blobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
@@ -669,14 +669,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
     if (blobServiceClientWithToken === undefined) {
-      return;
+      this.skip();
     }
 
     const now = recorder.newDate("now");
     now.setHours(now.getHours() - 1);
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
-    const userDelegationKey = await blobServiceClientWithToken.getUserDelegationKey(now, tmr);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
     // By default, credential is always the last element of pipeline factories
     const factories = (blobServiceClient as any).pipeline.factories;
