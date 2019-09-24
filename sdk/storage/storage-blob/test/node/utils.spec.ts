@@ -46,7 +46,10 @@ describe("Utility Helpers Node.js only", () => {
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
-      assert.ok(error);
+      assert.ok(
+        error.message ===
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+      );
     }
   });
 
