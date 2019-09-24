@@ -68,6 +68,8 @@ class MockTracer extends NoOpTracer {
   }
 }
 
+const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
+
 describe("tracingPolicy", function () {
 
   const mockPolicy: RequestPolicy = {
@@ -103,7 +105,7 @@ describe("tracingPolicy", function () {
     TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -125,7 +127,7 @@ describe("tracingPolicy", function () {
     TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -147,7 +149,7 @@ describe("tracingPolicy", function () {
     TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -169,7 +171,7 @@ describe("tracingPolicy", function () {
     TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create({
       sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -199,7 +201,7 @@ describe("tracingPolicy", function () {
     TracerProxy.setTracer(new NoOpTracer());
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
