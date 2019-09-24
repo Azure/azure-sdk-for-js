@@ -1,11 +1,10 @@
 import * as assert from "assert";
-import { MessagesClient, QueueClient, QueueServiceClient } from "../../src";
+import { MessagesClient, QueueClient, QueueServiceClient, MessageIdClient } from "../../src";
 import { getConnectionStringFromEnvironment } from "../utils";
-import { isBrowser } from "../utils/testutils.common";
+import { isBrowser, getUniqueName } from "../utils/testutils.common";
 
 // Expected environment variables to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
-// TEST_MODE=emulator-tests
 describe("Emulator Tests", () => {
   const messageContent = "Hello World";
   let queueName: string;
@@ -18,7 +17,7 @@ describe("Emulator Tests", () => {
     const queueServiceClient = QueueServiceClient.fromConnectionString(
       getConnectionStringFromEnvironment()
     );
-    queueName = "queue";
+    queueName = getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
   });
@@ -32,6 +31,32 @@ describe("Emulator Tests", () => {
     assert.ok(eResult.insertionTime);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
+  });
+
+  it("MessageIdClient can update message with 64B encoded characters", async () => {
+    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+
+    const eResult = await newClient.enqueue(messageContent);
+    assert.ok(eResult.messageId);
+    assert.ok(eResult.popReceipt);
+
+    const messageIdClient = new MessageIdClient(
+      getConnectionStringFromEnvironment(),
+      queueName,
+      eResult.messageId
+    );
+
+    let buffer = Buffer.alloc(64); //64B
+    buffer.fill("a");
+    buffer.write("aaaa", 0);
+    let newMessage = buffer.toString();
+
+    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
+    assert.ok(uResult.popReceipt);
+
+    let pResult = await newClient.peek();
+    assert.equal(pResult.peekedMessageItems.length, 1);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("QueueClient can be created with a connection string and a queue name", async () => {
