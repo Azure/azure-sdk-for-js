@@ -413,10 +413,10 @@ describe("BlobServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("getUserDelegationKey should work", async () => {
+  it("getUserDelegationKey should work", async function() {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
-    let serviceURLWithToken;
+    let serviceURLWithToken: BlobServiceClient | undefined;
     try {
       serviceURLWithToken = getTokenBSU();
     } catch {}
@@ -424,14 +424,14 @@ describe("BlobServiceClient", () => {
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
     if (serviceURLWithToken === undefined) {
-      return;
+      this.skip();
     }
 
     const now = recorder.newDate("now");
     now.setHours(now.getHours() + 1);
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
-    const response = await serviceURLWithToken.getUserDelegationKey(now, tmr);
+    const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
     assert.notDeepStrictEqual(response.value, undefined);
     assert.notDeepStrictEqual(response.signedVersion, undefined);
     assert.notDeepStrictEqual(response.signedTid, undefined);
