@@ -9,7 +9,8 @@ import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch } from "./eventDataBatch";
 import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from '@azure/core-tracing';
-import { instrumentEventData, createMessageSpan } from './diagnostics/messageSpan';
+import { instrumentEventData } from "./diagnostics/instrumentEventData";
+import { createMessageSpan } from './diagnostics/messageSpan';
 
 /**
  * A producer responsible for sending events to an Event Hub.

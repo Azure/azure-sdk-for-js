@@ -25,6 +25,11 @@ import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
+export interface AbortSignalOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export interface BatchOptions {
     abortSignal?: AbortSignalLike;
     maxSizeInBytes?: number;
@@ -75,15 +80,14 @@ export class EventDataBatch {
     readonly _messageSpanContexts: SpanContext[];
     readonly partitionKey: string | undefined;
     readonly sizeInBytes: number;
-    // Warning: (ae-forgotten-export) The symbol "TryAddOptions" needs to be exported by the entry point index.d.ts
     tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 }
 
 // @public
 export class EventHubClient {
     constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
-    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
     constructor(connectionString: string, options?: EventHubClientOptions);
+    constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
     close(): Promise<void>;
     createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
     static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
@@ -91,9 +95,9 @@ export class EventHubClient {
     static defaultConsumerGroupName: string;
     readonly eventHubName: string;
     readonly fullyQualifiedNamespace: string;
-    getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
-    getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
-    getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties>;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
+    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
 }
 
 // @public
@@ -189,6 +193,18 @@ export interface EventProcessorOptions {
 }
 
 // @public
+export interface GetPartitionIdsOptions extends AbortSignalOptions, ParentSpanOptions {
+}
+
+// @public
+export interface GetPartitionPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {
+}
+
+// @public
+export interface GetPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {
+}
+
+// @public
 export class InMemoryPartitionManager implements PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
@@ -210,6 +226,11 @@ export type OnError = (error: MessagingError | Error) => void;
 
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
+
+// @public
+export interface ParentSpanOptions {
+    parentSpan?: Span | SpanContext;
+}
 
 // @public
 export interface PartitionManager {
@@ -298,6 +319,11 @@ export interface SendOptions {
 export { TokenCredential }
 
 export { TokenType }
+
+// @public
+export interface TryAddOptions {
+    parentSpan?: Span | SpanContext;
+}
 
 export { WebSocketImpl }
 

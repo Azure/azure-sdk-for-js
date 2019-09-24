@@ -51,7 +51,9 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getPartitionIds(controller.signal);
+        await client.getPartitionIds({
+          abortSignal: controller.signal
+        });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
@@ -94,7 +96,9 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getProperties(controller.signal);
+        await client.getProperties({
+          abortSignal: controller.signal
+        });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
@@ -162,7 +166,9 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getPartitionProperties("0", controller.signal);
+        await client.getPartitionProperties("0", {
+          abortSignal: controller.signal
+        });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);

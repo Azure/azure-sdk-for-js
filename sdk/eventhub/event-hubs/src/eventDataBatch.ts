@@ -7,8 +7,13 @@ import { AmqpMessage } from "@azure/core-amqp";
 import { message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { Span, SpanContext } from "@azure/core-tracing";
-import { instrumentEventData, TRACEPARENT_PROPERTY, createMessageSpan } from './diagnostics/messageSpan';
+import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import { createMessageSpan } from './diagnostics/messageSpan';
 
+/**
+ * The set of options to configure the behavior of `tryAdd`.
+ * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
+ */
 export interface TryAddOptions {
   /**
    * The `Span` or `SpanContext` to use as the `parent` of any spans created while adding events.
