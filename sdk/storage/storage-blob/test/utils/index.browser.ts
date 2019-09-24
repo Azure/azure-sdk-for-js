@@ -1,8 +1,9 @@
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
+import { TokenCredential } from "@azure/core-http";
+
 import { BlobServiceClient } from "../../src/BlobServiceClient";
+import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { SimpleTokenCredential } from "./testutils.common";
-import { TokenCredential } from "@azure/core-http";
 
 export * from "./testutils.common";
 
@@ -12,10 +13,11 @@ export function getGenericCredential(accountType: string): AnonymousCredential {
 }
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  envSuffix: string = ""
 ): BlobServiceClient {
-  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
-  const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME${envSuffix}`;
+  const accountSASEnvVar = `${accountType}ACCOUNT_SAS${envSuffix}`;
 
   let accountName: string | undefined;
   let accountSAS: string | undefined;
@@ -80,6 +82,12 @@ export function getBSU(): BlobServiceClient {
 
 export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
+}
+
+// export DFS_ACCOUNT_NAME_OPTIONAL="account"
+// export DFS_ACCOUNT_KEY_OPTIONAL="KEY"
+export function getAdlsBSU(): BlobServiceClient {
+  return getGenericBSU("DFS_", "", "_OPTIONAL");
 }
 
 /**

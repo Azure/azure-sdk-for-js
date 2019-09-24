@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816894706302669",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930918768607707",
    "query": {
     "restype": "container"
    },
@@ -10,58 +10,58 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:06 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:07 GMT",
+    "date": "Tue, 24 Sep 2019 07:08:44 GMT",
+    "last-modified": "Tue, 24 Sep 2019 07:08:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365FD2299F83\"",
-    "x-ms-request-id": "96e5f9bd-201e-0061-0e48-682223000000",
+    "etag": "\"0x8D740BE09E955D1\"",
+    "x-ms-request-id": "0a904ee7-901e-0029-7aa6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "423e370f-9dc0-494c-89b2-c05774b15182",
+    "x-ms-client-request-id": "2b99bd02-3e45-493d-8cda-84e08263d02e",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816894706302669/blob156816894727106933",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930918768607707/blob156930918782902121",
    "query": {},
    "requestBody": null,
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:06 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:07 GMT",
+    "date": "Tue, 24 Sep 2019 07:08:44 GMT",
+    "last-modified": "Tue, 24 Sep 2019 07:08:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365FD249B63C\"",
-    "x-ms-request-id": "96e5fa0d-201e-0061-5448-682223000000",
+    "etag": "\"0x8D740BE09FEC8C1\"",
+    "x-ms-request-id": "0a904f73-901e-0029-70a6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "32a704ca-f385-460b-a34a-3922affbb306",
+    "x-ms-client-request-id": "fb6685b3-5ede-4232-94fa-70b05fd3033b",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816894706302669/blob156816894727106933",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930918768607707/blob156930918782902121",
    "query": {
     "comp": "page"
    },
    "requestBody": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>Crc64Mismatch</Code><Message>The CRC64 value specified in the request did not match with the CRC64 value calculated by the server.\nRequestId:96e5fa5d-201e-0061-1548-682223000000\nTime:2019-09-11T02:29:07.6123654Z</Message><UserSpecifiedCrc>AQIDBAUGBwg=</UserSpecifiedCrc><ServerCalculatedCrc>pK+ypU+jreM=</ServerCalculatedCrc></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>Crc64Mismatch</Code><Message>The CRC64 value specified in the request did not match with the CRC64 value calculated by the server.\nRequestId:0a904fde-901e-0029-4aa6-7248d4000000\nTime:2019-09-24T07:08:45.3937664Z</Message><UserSpecifiedCrc>AQIDBAUGBwg=</UserSpecifiedCrc><ServerCalculatedCrc>pK+ypU+jreM=</ServerCalculatedCrc></Error>",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:06 GMT",
+    "date": "Tue, 24 Sep 2019 07:08:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "Crc64Mismatch",
     "content-type": "application/xml",
-    "x-ms-request-id": "96e5fa5d-201e-0061-1548-682223000000",
+    "x-ms-request-id": "0a904fde-901e-0029-4aa6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "ad13c634-c06f-4946-b70c-9ca950ef5202",
+    "x-ms-client-request-id": "913e4977-cd35-459c-838f-75c391f783e7",
     "content-length": "387"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816894706302669",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930918768607707",
    "query": {
     "restype": "container"
    },
@@ -69,17 +69,17 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:07 GMT",
+    "date": "Tue, 24 Sep 2019 07:08:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "96e5faaa-201e-0061-5b48-682223000000",
+    "x-ms-request-id": "0a90508e-901e-0029-64a6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "431201dc-f36b-44a3-8450-9e196334e9de",
+    "x-ms-client-request-id": "9d94785d-ca4c-4719-a3f6-3c8d99c87b8b",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156816894706302669",
-  "blob": "blob156816894727106933"
+  "container": "container156930918768607707",
+  "blob": "blob156930918782902121"
  }
 }
