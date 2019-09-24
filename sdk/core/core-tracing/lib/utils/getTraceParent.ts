@@ -1,5 +1,5 @@
 import { SpanContext } from "../interfaces/span_context";
-import { TraceOptions } from '../interfaces/trace_options';
+import { TraceFlags } from '../interfaces/trace_flags';
 
 const VERSION = "00";
 
@@ -13,8 +13,8 @@ export function getTraceParent(spanContext: SpanContext): string {
     throw new Error(`Missing required fields "traceId" or "spanId" from spanContext.`);
   }
 
-  const traceOptions = spanContext.traceOptions || TraceOptions.UNSAMPLED;
-  const traceFlags = (traceOptions < 10) ? `0${traceOptions.toString(16)}` : traceOptions.toString(16);
+  const flags = spanContext.traceFlags || TraceFlags.UNSAMPLED;
+  const traceFlags = (flags < 10) ? `0${flags.toString(16)}` : flags.toString(16);
 
   // https://www.w3.org/TR/trace-context/#traceparent-header-field-values
   return `${VERSION}-${spanContext.traceId}-${spanContext.spanId}-${traceFlags}`;

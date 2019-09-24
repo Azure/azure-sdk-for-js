@@ -26,7 +26,6 @@ export function createMessageSpan(parentSpan?: Span | SpanContext): Span {
     kind: SpanKind.INTERNAL,
     parent: parentSpan
   });
-  span.start(); // TODO: remove once #5182 is merged
 
   return span;
 }

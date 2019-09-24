@@ -12,14 +12,14 @@ export function extractSpanContextFromTraceParent(traceParent: string): SpanCont
     throw new Error(`Unable to extract span context from traceparent "${traceParent}".`);
   }
 
-  const [_, traceId, spanId, traceFlags] = parts;
+  const [_, traceId, spanId, traceOptions] = parts;
 
-  const traceOptions = parseInt(traceFlags, 16);
+  const traceFlags = parseInt(traceOptions, 16);
 
   const spanContext: SpanContext = {
     spanId,
     traceId,
-    traceOptions
+    traceFlags
   };
 
   return spanContext;

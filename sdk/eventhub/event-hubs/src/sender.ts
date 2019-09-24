@@ -179,7 +179,6 @@ export class EventHubProducer {
 
 
     const sendSpan = this._createSendSpan(options.parentSpan);
-    sendSpan.start(); // TODO: remove once #5182 is merged
     for (const spanContext of spanContextsToLink) {
       sendSpan.addLink(spanContext);
     }
