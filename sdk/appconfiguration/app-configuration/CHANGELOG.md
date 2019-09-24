@@ -13,14 +13,14 @@ In previous previews:
 ```typescript
 // 1.0.0-preview.3 and below
 await client.addConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
-await client.setConfigurationSetting("MyKey", { value: "MyValue" });
+await client.setConfigurationSetting("MyKey", { label: "MyLabel", value: "MyValue" });
 ```
 
 Now in preview.4:
 ```typescript
 // 1.0.0-preview.4
 await client.addConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
-await client.setConfigurationSetting({ key: "MyKey", value: "MyValue" });
+await client.setConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
 ```
 
 # 1.0.0-preview.3 (2019-09-23)
