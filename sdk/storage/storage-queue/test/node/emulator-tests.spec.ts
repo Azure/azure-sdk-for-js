@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { MessagesClient, QueueClient, QueueServiceClient, MessageIdClient } from "../../src";
-import { getConnectionStringFromEnvironment } from "../utils";
+import { getConnectionStringFromEnvironment, getQSU } from "../utils";
 import { isBrowser, getUniqueName } from "../utils/testutils.common";
 
 // Expected environment variables to run this test-suite
@@ -9,14 +9,12 @@ describe("Emulator Tests", () => {
   const messageContent = "Hello World";
   let queueName: string;
   let queueClient: QueueClient;
+  let queueServiceClient = getQSU();
   const env = isBrowser() ? (window as any).__env__ : process.env;
   beforeEach(async function() {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
-    const queueServiceClient = QueueServiceClient.fromConnectionString(
-      getConnectionStringFromEnvironment()
-    );
     queueName = getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
