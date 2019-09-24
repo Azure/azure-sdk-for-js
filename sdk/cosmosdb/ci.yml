@@ -32,3 +32,6 @@ stages:
       # Disable unit tests because they are no-op. Integration tests from the
       # cosmos-specific template handle this testing.
       RunUnitTests: false
+      Artifacts:
+        - name: azure-cosmos
+          safeName: azurecosmos
