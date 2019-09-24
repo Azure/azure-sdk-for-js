@@ -204,7 +204,7 @@ export function newPipeline(
   if (isNode) {
     // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
     let proxySettings: ProxySettings | undefined;
-    if (typeof pipelineOptions.proxy === "string") {
+    if (typeof pipelineOptions.proxy === "string" || !pipelineOptions.proxy) {
       proxySettings = getDefaultProxySettings(pipelineOptions.proxy);
     } else {
       proxySettings = pipelineOptions.proxy;
