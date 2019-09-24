@@ -37,7 +37,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 import { LeaseClient } from "./LeaseClient";
-import { BlobSASSignatureValues } from "./BlobSASSignatureValues";
+import { BlobSASSignatureValues, generateBlobSASQueryParameters } from "./BlobSASSignatureValues";
 
 /**
  * Options to configure Blob - Download operation.
@@ -1372,8 +1372,21 @@ export class BlobClient extends StorageClient {
    *
    * @memberof BlobClient
    */
-  public generateSASUrl!: (
+  public generateSASUrl(
     options: GenerateSASUrlOptions,
     sharedKeyCredential: SharedKeyCredential
-  ) => string;
+  ): string {
+    if (isNode) {
+      return `${this.url}?${generateBlobSASQueryParameters(
+        {
+          blobName: this.blobName,
+          containerName: this.containerName,
+          ...options
+        },
+        sharedKeyCredential
+      )}`;
+    } else {
+      throw new Error("generateSASUrl is only supported in Node.js environment");
+    }
+  }
 }
