@@ -740,6 +740,7 @@ export class BlobClient extends StorageClient {
     blobNameOrOptions?: string | NewPipelineOptions,
     options?: NewPipelineOptions
   ) {
+    options = options || {};
     let pipeline: Pipeline;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
@@ -769,10 +770,11 @@ export class BlobClient extends StorageClient {
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const sharedKeyCredential = new SharedKeyCredential(
-            extractedCreds.accountName,
+            extractedCreds.accountName!,
             extractedCreds.accountKey
           );
           urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+          options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");

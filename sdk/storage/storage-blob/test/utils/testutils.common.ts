@@ -3,6 +3,8 @@ import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { BlobMetadata } from "../../src/generated/src/models";
 
+export const env = isBrowser() ? (window as any).__env__ : process.env;
+
 /**
  * A TokenCredential that always returns the given token. This class can be
  * used when the access token is already known or can be retrieved from an

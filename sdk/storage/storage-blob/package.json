@@ -45,7 +45,8 @@
     "test": "npm run clean && npm run build:test && npm run integration-test",
     "unit-test:browser": "cross-env TEST_MODE=playback npm run integration-test:browser",
     "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
   },
   "files": [
     "BreakingChanges.md",

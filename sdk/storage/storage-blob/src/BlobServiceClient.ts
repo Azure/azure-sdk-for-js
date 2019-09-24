@@ -309,13 +309,15 @@ export class BlobServiceClient extends StorageClient {
    * @memberof BlobServiceClient
    */
   public static fromConnectionString(connectionString: string, options?: NewPipelineOptions) {
+    options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
         const sharedKeyCredential = new SharedKeyCredential(
-          extractedCreds.accountName,
+          extractedCreds.accountName!,
           extractedCreds.accountKey
         );
+        options.proxy = extractedCreds.proxyUri;
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new BlobServiceClient(extractedCreds.url, pipeline);
       } else {
