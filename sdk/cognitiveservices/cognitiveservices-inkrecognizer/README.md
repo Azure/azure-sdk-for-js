@@ -69,7 +69,7 @@ enum InkStrokeKind {
 
 #### ApplicationType
 
-InkRecognizer is capable to recognize ink that are mixed of writing and drawing. However, if application is certain about user input, it can specify the applicationType. E.g., a form filling app expects all user input to be writing.
+InkRecognizer can recognize ink strokes that are a mix of writing and drawing. However, if application is certain about user input, it can specify the applicationType. E.g., a form filling app expects all user input to be writing.
 
 ```TypeScript
 enum ApplicationKind {
@@ -108,10 +108,10 @@ You can call methods on the InkRecognitionResult. For example, you can search fo
 const targetWord = 'home';
 let occurrence = 0;
 
-var words = result.inkWords;
-result.inkWords.forEach((word) => {
+for (const word of result.inkWords) {
     if (targetWord === word.text) {
-    ++ occurrence;
+        ++ occurrence;
+    }
 }
 console.log(occurrence.toString() + "word found.");
 });
