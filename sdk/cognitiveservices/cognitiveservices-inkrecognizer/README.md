@@ -1,7 +1,5 @@
 # Azure InkRecognizer library for JavaScript
 
-## Introduction
-
 The Ink Recognizer Cognitive Service provides a cloud-based REST API to analyze and recognize digital ink content. Unlike services that use Optical Character Recognition (OCR), the API requires digital ink stroke data as input. Digital ink strokes are time-ordered series of 2D points (X,Y coordinates) that represent the motion of input tools such as digital pens or fingers. It then recognizes the shapes and handwritten content from the input and returns a JSON response containing all recognized entities.
 
 With the Ink Recognizer SDK, you can easily connect to the Azure Ink Recognizer service and recognize handwritten content in your applications. Here are the features you can utilize:
@@ -21,36 +19,23 @@ This SDK will:
 
 ## Getting started
 
+### Install the package
+
+The preferred way to install the Azure InkRecognizer library for Javascript is to use the npm package manager.
+
+Simply type the following into a terminal window:
+
+```bash
+npm install @azure/inkrecognizer
+```
+
 ### Prerequisites
 
 You must have a [Cognitive Services API account][cog_serv_acc]. If you don't have an Azure subscription, you can [create an account][create_acc] for free. You can get your subscription key from the [Azure portal][az_portal] after creating your account, or [Azure website][az_web] after activating a free trial.
 
-### Building the library
-
-Once you clone this repo, you can build the package with the following commands:
-
-```sh
-npm install
-npm run build
-```
-
-Run tests via:
-
-```sh
-npm test
-```
-
-The overall build pipeline looks like the following:
-
-1. TypeScript builds all source files under `./src` to ECMAScript Modules (ESM) under `./dist-esm`
-2. Rollup builds `./dist-esm` to an optimized single file at `./dist/index.js` as the Node entry point.
-3. Rollup builds `./dist-esm` to an optimized browser bundle under `./browser/index.js`.
-
-Tests follow a similar pipeline, only output folders have the `test-` prefix.
-
 ### Key concepts
 
-#### Implement InkStroke and InkPoint
+#### InkStroke and InkPoint
 
 The InkStroke interface represents an ink stroke (a collection of ink points from the time a user places the writing instrument on the writing surface until the the instrument is lifted. You will be expected to implement this interface so that the InkRecognizer Client object can use it to translate the ink to JSON for delivery to the Ink Recognizer service.
 
@@ -72,7 +57,7 @@ interface InkPoint {
 }
 ```
 
-The StrokeKind enum represents the class a stroke belongs to. You are expected to set this value when it is known with absolute certainty. The default value is "Unknown".
+The StrokeKind enum represents the class a stroke belongs to. You are expected to set this value when it is known with absolute certainty. The default value is "Unknown". If all strokes are of certain kind, instead of specifying in each stroke, you can specify the applicationType.
 
 ```TypeScript
 enum InkStrokeKind {
@@ -82,6 +67,20 @@ enum InkStrokeKind {
 }
 ```
 
+#### ApplicationType
+
+InkRecognizer is capable to recognize ink that are mixed of writing and drawing. However, if application is certain about user input, it can specify the applicationType. E.g., a form filling app expects all user input to be writing.
+
+```TypeScript
+enum ApplicationKind {
+    Drawing = "drawing",
+    Writing = "writing",
+    Mixed = "mixed",
+}
+```
+
+### Examples
+
 #### Create client
 
 You will need to then create an InkRecognizerClient object as follows:
@@ -90,29 +89,7 @@ You will need to then create an InkRecognizerClient object as follows:
 const serverBase = "https://api.cognitive.microsoft.com";
 const apiKey = "[Fill your API key]";
 const creds = new corehttp.ApiKeyCredentials({ inHeader: { "'Ocp-Apim-Subscription-Key'": apiKey } });
-
-let options = {} as InkRecognizerClientOptions;
-
-const inkRecognizerClient = new InkRecognizerClient(serverBase, creds, options);
-```
-
-You could also specify different options:
-
-```TypeScript
- /** 
- * @param version - InkRecognizer Service API version to use.
- * @param applicationType - The domain of the application (Writing or Drawing. The default is "Mixed").
- * @param language - IETF BCP 47 language code (for ex. en-US, en-GB, hi-IN etc.) for the strokes.
- * @param unit - The physical unit for the points in the stroke. The default is "Millimeter".
- * @param unitMultiple - A multiplier applied to the unit value to indicate the true unit being used.
- * /
- interface InkRecognizerClientOptions extends ServiceClientOptions {
-  version: ServiceVersion;
-  applicationType: ApplicationKind;
-  language: string;
-  unit: InkPointUnit;
-  unitMultiple: number;
-}
+const inkRecognizerClient = new InkRecognizerClient(serverBase, creds);
 ```
 
 #### Send request
