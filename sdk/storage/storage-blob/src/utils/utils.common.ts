@@ -297,6 +297,7 @@ export function getURLPathAndQuery(url: string): string | undefined {
   }
 
   return `${pathString}${queryString}`;
+}
 
 /**
  * Get URL scheme from an URL string.
@@ -564,6 +565,7 @@ export async function readStreamToLocalFile(
     rs.pipe(ws);
   });
 }
+
 /**
  * If two strings are equal when compared case insensitive.
  *

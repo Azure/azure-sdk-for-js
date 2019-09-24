@@ -116,7 +116,7 @@ export function browserConfig(test = false, production = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "notEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual", "notStrictEqual"]
+          assert: ["ok", "deepEqual", "notEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual", "notStrictEqual", "notDeepStrictEqual"]
         }
       })
     ]

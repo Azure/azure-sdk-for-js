@@ -3,8 +3,8 @@ import { isNode } from "@azure/core-http";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { BlobClient, BlockBlobClient, BlockBlobTier, ContainerClient } from "../src";
-import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import { BlobClient, BlobServiceClient, BlockBlobClient, BlockBlobTier, ContainerClient } from "../src";
+import { bodyToString, getAdlsBSU, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { Test_CPK_INFO } from "./utils/constants";
 import { delay, record } from "./utils/recorder";
 
@@ -18,7 +18,6 @@ describe("BlobClient", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
-
   let recorder: any;
 
   beforeEach(async function() {
@@ -429,13 +428,57 @@ describe("BlobClient", () => {
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-cool");
     }
-  it("set blob permissions should work", async () => {
+  });
+});
+
+// ADLS related APIs depends on following optional environments, otherwise cases will be ignored in a live test
+// When recording test cases "TEST_MODE=record", following environment variables are required
+// DFS_ACCOUNT_NAME_OPTIONAL
+// DFS_ACCOUNT_KEY_OPTIONAL
+// DFS_ACCOUNT_SAS_OPTIONAL
+// DFS_STORAGE_CONNECTION_STRING_OPTIONAL
+describe("BlobClient ADLS", function() {
+  let blobServiceClient: BlobServiceClient;
+  try {
+    blobServiceClient = getAdlsBSU();
+  } catch (err) {}
+
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let blockBlobClient: BlockBlobClient;
+  const content = "Hello World";
+
+  let recorder: any;
+
+  beforeEach(async function() {
+    if (blobServiceClient === undefined) {
+      this.skip();
+    }
+
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.getUniqueName("blob");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
+
+  afterEach(async function() {
+    await containerClient.delete();
+    recorder.stop();
+  });
+
+  it("set blob permissions should work", async function() {
     await blobClient.setPermissions("0666");
     const permissions = await blobClient.getAccessControl();
     assert.deepStrictEqual(permissions.xMsPermissions, "rw-rw-rw-");
   });
 
-  it("set blob permissions with all parameters should work", async () => {
+  it("set blob permissions with all parameters should work", async function() {
     await blobClient.setPermissions("0666", { owner: "$superuser", group: "$superuser" });
     const permissions = await blobClient.getAccessControl();
     assert.deepStrictEqual(permissions.xMsPermissions, "rw-rw-rw-");
@@ -443,7 +486,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(permissions.xMsGroup, "$superuser");
   });
 
-  it("set blob access control should work", async () => {
+  it("set blob access control should work", async function() {
     await blobClient.setAccessControl("user::rwx,group::r-x,other::-w-");
     const permissions = await blobClient.getAccessControl();
     assert.deepStrictEqual(permissions.xMsPermissions, "rwxr-x-w-");
@@ -451,7 +494,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(permissions.xMsGroup, "$superuser");
   });
 
-  it("set blob access control with all parameters should work", async () => {
+  it("set blob access control with all parameters should work", async function() {
     await blobClient.setAccessControl("user::rwx,group::r-x,other::-w-", {
       owner: "$superuser",
       group: "$superuser"

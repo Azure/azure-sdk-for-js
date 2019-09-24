@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816895726902719",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930919655801388",
    "query": {
     "restype": "container"
    },
@@ -10,39 +10,39 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:16 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:17 GMT",
+    "date": "Tue, 24 Sep 2019 07:08:53 GMT",
+    "last-modified": "Tue, 24 Sep 2019 07:08:53 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365FD83EF73A\"",
-    "x-ms-request-id": "96e60868-201e-0061-7248-682223000000",
+    "etag": "\"0x8D740BE0F320EEE\"",
+    "x-ms-request-id": "0a906ec6-901e-0029-68a6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "467339da-eae9-4cf5-9597-6da8c1981356",
+    "x-ms-client-request-id": "f0b6b58e-5d49-4b99-9793-8fdde8bb09bf",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount-secondary.blob.core.windows.net/container156816895726902719",
+   "url": "https://fakestorageaccount-secondary.blob.core.windows.net/container156930919655801388",
    "query": {
     "restype": "container"
    },
    "requestBody": null,
    "status": 404,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>ContainerNotFound</Code><Message>The specified container does not exist.\nRequestId:7423acaf-201e-0037-5748-681c24000000\nTime:2019-09-11T02:29:18.0085709Z</Message></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>ContainerNotFound</Code><Message>The specified container does not exist.\nRequestId:e14fa065-e01e-0126-38a6-723df1000000\nTime:2019-09-24T07:08:54.6203507Z</Message></Error>",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:17 GMT",
+    "date": "Tue, 24 Sep 2019 07:08:53 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "ContainerNotFound",
     "content-type": "application/xml",
-    "x-ms-request-id": "7423acaf-201e-0037-5748-681c24000000",
+    "x-ms-request-id": "e14fa065-e01e-0126-38a6-723df1000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "f088e3d9-9484-45dd-b6ce-3f89b6ad39ec",
+    "x-ms-client-request-id": "9d0dbcf5-7298-4c56-a423-99b797466f7d",
     "content-length": "225"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816895726902719",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930919655801388",
    "query": {
     "restype": "container"
    },
@@ -50,16 +50,16 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:17 GMT",
+    "date": "Tue, 24 Sep 2019 07:08:54 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "96e609ef-201e-0061-5648-682223000000",
+    "x-ms-request-id": "0a9071bb-901e-0029-6ea6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "85e3fbdb-f3bc-4940-adb8-d89b72474946",
+    "x-ms-client-request-id": "58291420-99d9-497a-91d8-67eac8fbfc76",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156816895726902719"
+  "container": "container156930919655801388"
  }
 }

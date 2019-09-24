@@ -641,9 +641,6 @@ export class ContainerClient extends StorageClient {
   public async create(
     options: ContainerCreateOptions = {}
   ): Promise<Models.ContainerCreateResponse> {
-    if (!options.abortSignal) {
-      options.abortSignal = AbortSignal.none;
-    }
     // Spread operator in destructuring assignments,
     // this will filter out unwanted properties from the response object into result object
     return this.containerContext.create({

@@ -1,20 +1,31 @@
 // import * as assert from 'assert';
-import * as dotenv from "dotenv";
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { ContainerClient, DirectoryClient, newPipeline } from "../../src";
+import { BlobServiceClient } from "../../src/BlobServiceClient";
+import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import {
-  getBSU,
-  getConnectionStringFromEnvironment,
-  getSASConnectionStringFromEnvironment
+  getAdlsBSU,
+  getAdlsConnectionStringFromEnvironment,
+  getAdlsSASConnectionStringFromEnvironment,
 } from "../utils";
 import { record } from "../utils/recorder";
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 
 dotenv.config({ path: "../.env" });
 
+// ADLS related APIs depends on following optional environments, otherwise cases will be ignored in a live test
+// When recording test cases "TEST_MODE=record", following environment variables are required
+// DFS_ACCOUNT_NAME_OPTIONAL
+// DFS_ACCOUNT_KEY_OPTIONAL
+// DFS_ACCOUNT_SAS_OPTIONAL
+// DFS_STORAGE_CONNECTION_STRING_OPTIONAL
 describe("DirectoryClient Node.js only", () => {
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
+  try {
+    blobServiceClient = getAdlsBSU();
+  } catch (err) {}
+
   let containerName: string;
   let containerClient: ContainerClient;
   let directoryName: string;
@@ -22,6 +33,10 @@ describe("DirectoryClient Node.js only", () => {
   let recorder: any;
 
   beforeEach(async function() {
+    if (blobServiceClient === undefined) {
+      this.skip();
+    }
+
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -38,7 +53,7 @@ describe("DirectoryClient Node.js only", () => {
 
   it("create DirectoryClient with constructor should work with connection string", async () => {
     const directoryClientCon = new DirectoryClient(
-      getConnectionStringFromEnvironment(),
+      getAdlsConnectionStringFromEnvironment(),
       containerName,
       directoryName
     );
@@ -48,7 +63,7 @@ describe("DirectoryClient Node.js only", () => {
 
   it("create DirectoryClient with constructor should work with SAS connection string", async () => {
     const directoryClientSAS = new DirectoryClient(
-      getSASConnectionStringFromEnvironment(),
+      getAdlsSASConnectionStringFromEnvironment(),
       containerName,
       directoryName
     );
@@ -58,7 +73,7 @@ describe("DirectoryClient Node.js only", () => {
 
   it("create DirectoryClient with constructor should work with url and pipeline", async () => {
     const directoryClientSAS = new DirectoryClient(
-      getSASConnectionStringFromEnvironment(),
+      getAdlsSASConnectionStringFromEnvironment(),
       containerName,
       directoryName
     );
@@ -73,7 +88,7 @@ describe("DirectoryClient Node.js only", () => {
 
   it("create DirectoryClient with constructor should work with url", async () => {
     const directoryClientSAS = new DirectoryClient(
-      getSASConnectionStringFromEnvironment(),
+      getAdlsSASConnectionStringFromEnvironment(),
       containerName,
       directoryName
     );

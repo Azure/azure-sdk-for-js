@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816885757108381",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930908298905568",
    "query": {
     "restype": "container"
    },
@@ -10,63 +10,63 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:27:37 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:27:37 GMT",
+    "date": "Tue, 24 Sep 2019 07:07:00 GMT",
+    "last-modified": "Tue, 24 Sep 2019 07:07:00 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365F9CD25B74\"",
-    "x-ms-request-id": "96e56bb3-201e-0061-2748-682223000000",
+    "etag": "\"0x8D740BDCB8267DC\"",
+    "x-ms-request-id": "0a8ef47c-901e-0029-56a6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "5f1b66ce-a9a8-40cd-841a-6b4919d4a06b",
+    "x-ms-client-request-id": "1c953e19-0a79-473c-a870-ebb023d98d2e",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816885757108381/blockblob%2F0156816885777702768",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930908298905568/blockblob%2F0156930908313808273",
    "query": {},
    "requestBody": "",
    "status": 201,
    "response": "",
    "responseHeaders": {
     "x-ms-content-crc64": "AAAAAAAAAAA=",
-    "date": "Wed, 11 Sep 2019 02:27:37 GMT",
+    "date": "Tue, 24 Sep 2019 07:07:00 GMT",
     "x-ms-encryption-key-sha256": "3QFFFpRA5+XANHqwwbT4yXDmrT/2JaLt/FKHjzhOdoE=",
-    "last-modified": "Wed, 11 Sep 2019 02:27:37 GMT",
+    "last-modified": "Tue, 24 Sep 2019 07:07:00 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
     "x-ms-request-server-encrypted": "true",
-    "x-ms-request-id": "96e56bf8-201e-0061-6548-682223000000",
+    "x-ms-request-id": "0a8ef4f5-901e-0029-44a6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "d8354dd1-3321-4926-a3a4-598aec295345",
+    "x-ms-client-request-id": "b5bcbc63-7d0c-4b37-aaa8-d3e8cd6fd009",
     "content-length": "0",
-    "etag": "\"0x8D7365F9CF18A25\""
+    "etag": "\"0x8D740BDCB97B75E\""
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816885757108381/blockblob%2F1156816885798301093",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930908298905568/blockblob%2F1156930908327801497",
    "query": {},
    "requestBody": "",
    "status": 201,
    "response": "",
    "responseHeaders": {
     "x-ms-content-crc64": "AAAAAAAAAAA=",
-    "date": "Wed, 11 Sep 2019 02:27:37 GMT",
+    "date": "Tue, 24 Sep 2019 07:07:00 GMT",
     "x-ms-encryption-key-sha256": "3QFFFpRA5+XANHqwwbT4yXDmrT/2JaLt/FKHjzhOdoE=",
-    "last-modified": "Wed, 11 Sep 2019 02:27:38 GMT",
+    "last-modified": "Tue, 24 Sep 2019 07:07:00 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
     "x-ms-request-server-encrypted": "true",
-    "x-ms-request-id": "96e56c56-201e-0061-3d48-682223000000",
+    "x-ms-request-id": "0a8ef572-901e-0029-3ca6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "008429ff-83b9-46dc-b1d6-39ae2347d175",
+    "x-ms-client-request-id": "a42810be-0795-4754-83c7-4467bee9b283",
     "content-length": "0",
-    "etag": "\"0x8D7365F9D119B0A\""
+    "etag": "\"0x8D740BDCBAD3F11\""
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816885757108381",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930908298905568",
    "query": {
     "comp": "list",
     "include": "snapshots,metadata,uncommittedblobs,copy,deleted",
@@ -76,20 +76,20 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"container156816885757108381\"><Prefix>blockblob</Prefix><MaxResults>1</MaxResults><Blobs><Blob><Name>blockblob/0156816885777702768</Name><Properties><Creation-Time>Wed, 11 Sep 2019 02:27:37 GMT</Creation-Time><Last-Modified>Wed, 11 Sep 2019 02:27:37 GMT</Last-Modified><Etag>0x8D7365F9CF18A25</Etag><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>AAAAAAAAAAA=</Content-CRC64><Content-MD5>1B2M2Y8AsgTpgAmY7PhCfg==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><CustomerProvidedKeySha256>3QFFFpRA5+XANHqwwbT4yXDmrT/2JaLt/FKHjzhOdoE=</CustomerProvidedKeySha256><TagCount>0</TagCount></Properties><Metadata Encrypted=\"true\" /></Blob></Blobs><NextMarker>2!100!MDAwMDI5IWJsb2NrYmxvYi8xMTU2ODE2ODg1Nzk4MzAxMDkzITAwMDAyOCE5OTk5LTEyLTMxVDIzOjU5OjU5Ljk5OTk5OTlaIQ--</NextMarker></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"container156930908298905568\"><Prefix>blockblob</Prefix><MaxResults>1</MaxResults><Blobs><Blob><Name>blockblob/0156930908313808273</Name><Properties><Creation-Time>Tue, 24 Sep 2019 07:07:00 GMT</Creation-Time><Last-Modified>Tue, 24 Sep 2019 07:07:00 GMT</Last-Modified><Etag>0x8D740BDCB97B75E</Etag><Content-Length>0</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64 /><Content-MD5>1B2M2Y8AsgTpgAmY7PhCfg==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><CustomerProvidedKeySha256>3QFFFpRA5+XANHqwwbT4yXDmrT/2JaLt/FKHjzhOdoE=</CustomerProvidedKeySha256></Properties><Metadata Encrypted=\"true\" /></Blob></Blobs><NextMarker>2!100!MDAwMDI5IWJsb2NrYmxvYi8xMTU2OTMwOTA4MzI3ODAxNDk3ITAwMDAyOCE5OTk5LTEyLTMxVDIzOjU5OjU5Ljk5OTk5OTlaIQ--</NextMarker></EnumerationResults>",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:27:37 GMT",
+    "date": "Tue, 24 Sep 2019 07:07:00 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "96e56ca6-201e-0061-0248-682223000000",
+    "x-ms-request-id": "0a8ef5f0-901e-0029-2fa6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "d928ab39-9cbc-429b-be1e-ac518a8b072d"
+    "x-ms-client-request-id": "165f3c58-8d43-430f-a5d1-21c056978473"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816885757108381",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930908298905568",
    "query": {
     "restype": "container"
    },
@@ -97,18 +97,18 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:27:37 GMT",
+    "date": "Tue, 24 Sep 2019 07:07:00 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "96e56d03-201e-0061-5448-682223000000",
+    "x-ms-request-id": "0a8ef67f-901e-0029-2fa6-7248d4000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "e345ff34-c5e8-4c5f-aaeb-1d207da28584",
+    "x-ms-client-request-id": "b1bc7398-b719-403c-bd56-50bb0652ac01",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156816885757108381",
-  "blockblob/0": "blockblob/0156816885777702768",
-  "blockblob/1": "blockblob/1156816885798301093"
+  "container": "container156930908298905568",
+  "blockblob/0": "blockblob/0156930908313808273",
+  "blockblob/1": "blockblob/1156930908327801497"
  }
 }

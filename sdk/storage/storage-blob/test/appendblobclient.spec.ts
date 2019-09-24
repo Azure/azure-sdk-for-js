@@ -1,9 +1,10 @@
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
+import { AppendBlobClient, ContainerClient } from "../src";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record } from "./utils/recorder";
-import * as dotenv from "dotenv";
-import { AppendBlobClient, ContainerClient } from "../src";
+
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient", () => {

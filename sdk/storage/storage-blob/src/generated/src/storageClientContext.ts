@@ -9,6 +9,7 @@
  */
 
 import * as coreHttp from "@azure/core-http";
+import * as Models from "./models";
 
 const packageName = "azure-storage-blob";
 const packageVersion = "1.0.0";
@@ -16,6 +17,7 @@ const packageVersion = "1.0.0";
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
   version: string;
+  pathRenameMode?: Models.PathRenameMode;
 
   /**
    * Initializes a new instance of the StorageClientContext class.
@@ -23,7 +25,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
    * operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: coreHttp.ServiceClientOptions) {
+  constructor(url: string, options?: Models.StorageClientOptions) {
     if (url == undefined) {
       throw new Error("'url' cannot be null.");
     }
@@ -43,5 +45,8 @@ export class StorageClientContext extends coreHttp.ServiceClient {
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.url = url;
+    if (options.pathRenameMode !== null && options.pathRenameMode !== undefined) {
+      this.pathRenameMode = options.pathRenameMode;
+    }
   }
 }

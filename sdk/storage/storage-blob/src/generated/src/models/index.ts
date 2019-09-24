@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
+import { ServiceClientOptions } from "@azure/core-http";
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -702,6 +702,16 @@ export interface AppendPositionAccessConditions {
 }
 
 /**
+ * An interface representing StorageClientOptions.
+ */
+export interface StorageClientOptions extends ServiceClientOptions {
+  /**
+   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
+   */
+  pathRenameMode?: PathRenameMode;
+}
+
+/**
  * Optional Parameters.
  */
 export interface ServiceSetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
@@ -1278,10 +1288,6 @@ export interface DirectoryRenameOptionalParams extends coreHttp.RequestOptionsBa
    */
   marker?: string;
   /**
-   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
-   */
-  pathRenameMode?: PathRenameMode;
-  /**
    * Optional.  User-defined properties to be stored with the file or directory, in the format of a
    * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64
    * encoded.
@@ -1654,10 +1660,6 @@ export interface BlobRenameOptionalParams extends coreHttp.RequestOptionsBase {
    * Timeouts for Blob Service Operations.</a>
    */
   timeoutParameter?: number;
-  /**
-   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
-   */
-  pathRenameMode?: PathRenameMode;
   /**
    * Optional.  User-defined properties to be stored with the file or directory, in the format of a
    * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64

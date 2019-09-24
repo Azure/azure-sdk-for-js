@@ -1,10 +1,12 @@
+import { delay as restDelay } from "@azure/core-http";
+import * as dotenv from "dotenv";
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
+
 import { getUniqueName, isBrowser } from "../utils";
-import { delay as restDelay } from "@azure/core-http";
 import { blobToString } from "./index.browser";
-import * as dotenv from "dotenv";
+
 dotenv.config({ path: "../.env" });
 
 let nock: any;
@@ -81,6 +83,12 @@ if (isPlayingBack) {
   // Comment following line to skip user delegation key/SAS related cases in record and play
   // which depends on this environment variable
   env.ACCOUNT_TOKEN = "aaaaa";
+  // Comment following 4 lines to skip DFS endpoint needed cases in record and play
+  // which depends on these environment variable
+  env.DFS_ACCOUNT_NAME_OPTIONAL = "fakestorageaccount";
+  env.DFS_ACCOUNT_KEY_OPTIONAL = "aaaa";
+  env.DFS_ACCOUNT_SAS_OPTIONAL = "aaaa";
+  env.DFS_STORAGE_CONNECTION_STRING_OPTIONAL = `DefaultEndpointsProtocol=https;AccountName=${env.DFS_ACCOUNT_NAME_OPTIONAL};AccountKey=${env.DFS_ACCOUNT_KEY_OPTIONAL};EndpointSuffix=core.windows.net`;
 }
 
 export function delay(milliseconds: number): Promise<void> | null {
@@ -222,6 +230,24 @@ abstract class Recorder {
         "aaaaa"
       );
     }
+    if (env.DFS_ACCOUNT_NAME_OPTIONAL) {
+      updatedRecording = updatedRecording.replace(
+        new RegExp(env.DFS_ACCOUNT_NAME_OPTIONAL, "g"),
+        "fakestorageaccount"
+      );
+    }
+    if (env.DFS_ACCOUNT_KEY_OPTIONAL) {
+      updatedRecording = updatedRecording.replace(
+        new RegExp(env.DFS_ACCOUNT_KEY_OPTIONAL, "g"),
+        "aaaaa"
+      );
+    }
+    if (env.DFS_ACCOUNT_SAS_OPTIONAL) {
+      updatedRecording = updatedRecording.replace(
+        new RegExp(env.DFS_ACCOUNT_SAS_OPTIONAL.match("(.*)&sig=(.*)")[2], "g"),
+        "aaaaa"
+      );
+    }
     return updatedRecording;
   }
 
@@ -246,7 +272,11 @@ class NockRecorder extends Recorder {
   }
 
   public playback(): void {
-    this.uniqueTestInfo = require("../recordings/" + this.filepath).testInfo;
+    try {
+      this.uniqueTestInfo = require("../recordings/" + this.filepath).testInfo;
+    } catch (err) {
+      this.uniqueTestInfo = require("../../recordings/" + this.filepath).testInfo;
+    }
   }
 
   public stop(): void {
