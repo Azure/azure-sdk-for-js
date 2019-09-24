@@ -2,14 +2,15 @@
   ONLY AVAILABLE IN NODE.JS RUNTIME
 
   Setup :
-    - Reference - [Authorize access to blobs and queues with Azure Active Directory from a client application](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app)
+    - Reference - Authorize access to blobs and queues with Azure Active Directory from a client application 
+      - https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app
  
     - Register a new AAD application and give permissions to access Azure Storage on behalf of the signed-in user
-      - Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory(in the azure-portal).
+      - Register a new application in the Azure Active Directory(in the azure-portal) - https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
       - In the API permissions section, select Add a permission and choose Microsoft APIs. 
       - Pick `Azure Storage` and select the checkbox next to `user_impersonation` and then click `Add permissions`. This would allow the application to access Azure Storage on behalf of the signed-in user.
     - Grant access to Azure Blob data with RBAC in the Azure Portal 
-      - [RBAC roles for blobs and queues](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-portal).
+      - RBAC roles for blobs and queues - https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-portal.
       - In the azure-portal, go to your storage-account and assign **Storage Blob Data Contributor** role to the registered AAD application from `Access control (IAM)` tab (in the left-side-navbar of your storage account in the azure-portal). 
     
     - Environment setup for the sample
