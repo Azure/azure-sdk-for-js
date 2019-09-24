@@ -1,5 +1,9 @@
 # Changelog
 
+## 2019.09 12.0.0-preview.4
+
+- Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like FileServiceClient or FileClient are instantiated.
+
 ## 2019.08 12.0.0-preview.3
 
 - Updated Azure Storage Service API version to 2019-02-02.
