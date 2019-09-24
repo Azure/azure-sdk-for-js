@@ -299,7 +299,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work with multiple types of credentials for subrequests", async () => {
+  it("submitBatch should work with multiple types of credentials for subrequests", async function() {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let tokenCredential;
@@ -310,7 +310,7 @@ describe("BlobBatch", () => {
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
     if (tokenCredential === undefined) {
-      return;
+      this.skip();
     }
 
     // Upload blobs.

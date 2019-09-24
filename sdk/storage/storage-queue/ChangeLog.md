@@ -2,6 +2,7 @@
 
 ## 2019.09 12.0.0-preview.4
 
+- Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like QueueServiceClient or QueueClient are instantiated.
 - Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
   - Development Connection String
     - `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==; QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;`
