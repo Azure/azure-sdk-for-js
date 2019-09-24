@@ -23,7 +23,15 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["@azure/core-http", "crypto", "fs", "events", "os", "stream", "util"];
+  const externalNodeBuiltins = [
+    "@azure/core-http",
+    "crypto",
+    "fs",
+    "events",
+    "os",
+    "stream",
+    "util"
+  ];
   const baseConfig = {
     input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
@@ -97,6 +105,7 @@ export function browserConfig(test = false, production = false) {
       // fs and os are not used by the browser bundle, so just shim it
       // dotenv doesn't work in the browser, so replace it with a no-op function
       shim({
+        crypto: `export function createHmac() { }`,
         dotenv: `export function config() { }`,
         fs: `
           export function stat() { }
@@ -118,7 +127,15 @@ export function browserConfig(test = false, production = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual", "notDeepStrictEqual"]
+          assert: [
+            "ok",
+            "deepEqual",
+            "equal",
+            "fail",
+            "deepStrictEqual",
+            "notDeepEqual",
+            "notDeepStrictEqual"
+          ]
         }
       })
     ]

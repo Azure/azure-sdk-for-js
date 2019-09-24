@@ -17,7 +17,6 @@ import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../uti
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, delay } from "../utils/recorder";
-import "../../src/generateSASUrl";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
@@ -359,7 +358,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it.only("generateSASUrl should work for blob", async () => {
+  it("generateSASUrl should work for blob", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
