@@ -1,0 +1,11 @@
+{
+  "mode": "file",
+  "out": "../../../docGen/",
+  "excludePrivate": true,
+  "excludeNotExported": true,
+  "includeDeclarations": true,
+  "excludeExternals": false,
+  "name": "@azure/storage-blob",
+  "readme": "./README.md",
+  "exclude": ["src/generated/src/operations/**/*", "**/node_modules/**/*"]
+}
