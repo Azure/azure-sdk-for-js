@@ -31,9 +31,11 @@ describe("atomSerializationPolicy", function() {
     };
 
     const policy = atomSerializationPolicy().create(mockClient, new RequestPolicyOptions());
-    const response = await policy.sendRequest(request);
-    assert.deepEqual(response.bodyAsText, `{ "simple": "JSONobject" }`);
-    assert.deepEqual(response.errorBody.code, "ResponseNotInAtomXMLFormat");
+    try {
+      await policy.sendRequest(request);
+    } catch (err) {
+      assert.deepEqual(err.code, "ResponseNotInAtomXMLFormat");
+    }
   });
 
   it("with xml response body, application/xml content-type and AtomXMLOperationSpec", async function() {

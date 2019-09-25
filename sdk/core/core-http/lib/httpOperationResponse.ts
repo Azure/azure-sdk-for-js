@@ -53,11 +53,6 @@ export interface HttpOperationResponse extends HttpResponse {
   parsedBody?: any;
 
   /**
-   * The error information in JSON or XML
-   */
-  errorBody?: any;
-
-  /**
    * BROWSER ONLY
    *
    * The response body as a browser Blob.

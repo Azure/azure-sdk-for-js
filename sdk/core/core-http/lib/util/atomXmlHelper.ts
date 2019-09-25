@@ -5,6 +5,7 @@ import { Constants } from "./constants";
 import { isString } from "./utils";
 import { serializeJsonToAtomXml, deserializeAtomXmlToJson } from "./xml";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { AtomError } from "../atomError";
 
 export interface AtomXmlSerializer {
   serialize(resourceDataInJson: any): string;
@@ -172,45 +173,41 @@ export async function deserializeAtomXmlResponse(
   response: HttpOperationResponse
 ): Promise<HttpOperationResponse> {
   let atomResponseInJson: any;
+  let errorBody: any;
   try {
     if (response.bodyAsText) {
       atomResponseInJson = await deserializeAtomXmlToJson(response.bodyAsText);
       response.parsedBody = atomResponseInJson;
     }
   } catch (e) {
-    response.errorBody = { code: "ResponseNotInAtomXMLFormat" };
+    errorBody = { code: "ResponseNotInAtomXMLFormat" };
     return response;
   }
 
   // If received data is a non-valid HTTP response, the body is expected to contain error information
   if (response.status < 200 || response.status >= 300) {
-    response.errorBody = atomResponseInJson;
-    if (response.errorBody == undefined) {
+    errorBody = atomResponseInJson;
+    if (errorBody == undefined) {
       const HttpResponseCodes = Constants.HttpResponseCodes;
       const statusCode = response.status;
       const errorCode = isKnownResponseCode(statusCode)
         ? HttpResponseCodes[statusCode]
         : `UnrecognizedHttpResponseStatus: ${statusCode}`;
-      response.errorBody = {
+      errorBody = {
         code: errorCode
       };
-    } else {
-      // Transform the error info in response body to a normalized one
-      const normalizedError = normalizeError(response);
-      response.errorBody = normalizedError;
     }
   }
 
   // Construct response with 'result' to be backward compatibile
-  const responseInCustomJson: any = {
-    error: response.errorBody ? response.errorBody : null,
+  const responseInCustomJson: { response: any; result: any } = {
     response: null,
     result: []
   };
 
   let isSuccessful = false;
 
-  if (responseInCustomJson.error == undefined) {
+  if (errorBody == undefined) {
     isSuccessful = true;
     const result = parseAtomResult(atomResponseInJson);
     if (result) {
@@ -223,6 +220,9 @@ export async function deserializeAtomXmlResponse(
       }
     }
     responseInCustomJson.result = result;
+  } else {
+    // Transform the error info in response body to a normalized one
+    throw buildAtomError(errorBody, response);
   }
 
   responseInCustomJson.response = buildResponse(
@@ -273,75 +273,71 @@ function setName(entry: XMLResponseInJSON, nameProperties: any): any {
  * @param errorBody
  * @param response
  */
-function normalizeError(response: HttpOperationResponse): any {
-  const errorBody: any = response.errorBody;
+function buildAtomError(errorBody: any, response: HttpOperationResponse): AtomError {
   if (isString(errorBody)) {
     return new Error(errorBody);
-  } else if (errorBody) {
-    const normalizedError: any = {};
-    const odataErrorFormat = !!errorBody["odata.error"];
-    const errorProperties =
-      errorBody.Error || errorBody.error || errorBody["odata.error"] || errorBody;
+  }
+  const normalizedError: any = {};
+  const odataErrorFormat = !!errorBody["odata.error"];
+  const errorProperties =
+    errorBody.Error || errorBody.error || errorBody["odata.error"] || errorBody;
 
-    if (odataErrorFormat) {
-      Object.keys(errorProperties).forEach((property: string) => {
-        let value = null;
-        if (
-          property === Constants.ODATA_ERROR_MESSAGE &&
-          !isString(errorProperties[Constants.ODATA_ERROR_MESSAGE])
-        ) {
-          if (errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]) {
-            value =
-              errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE];
-          } else {
-            value = "missing value in the message property of the odata error format";
-          }
+  if (odataErrorFormat) {
+    Object.keys(errorProperties).forEach((property: string) => {
+      let value = null;
+      if (
+        property === Constants.ODATA_ERROR_MESSAGE &&
+        !isString(errorProperties[Constants.ODATA_ERROR_MESSAGE])
+      ) {
+        if (errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]) {
+          value =
+            errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE];
         } else {
-          value = errorProperties[property];
+          value = "missing value in the message property of the odata error format";
         }
-        normalizedError[property.toLowerCase()] = value;
-      });
-    } else {
-      Object.keys(errorProperties).forEach((property: any) => {
-        {
-          let value = null;
-          if (property !== Constants.XML_METADATA_MARKER) {
-            if (
-              errorProperties[property] &&
-              errorProperties[property][Constants.XML_VALUE_MARKER]
-            ) {
-              value = errorProperties[property][Constants.XML_VALUE_MARKER];
-            } else {
-              value = errorProperties[property];
-            }
-            normalizedError[property.toLowerCase()] = value;
-          }
-        }
-      });
-    }
-    let errorMessage = normalizedError.code;
-    if (normalizedError.detail) {
-      errorMessage += " - " + normalizedError.detail;
-    }
-
-    const errorObject: any = { code: errorMessage };
-
-    if (response) {
-      if (response.status) {
-        errorObject["statusCode"] = response.status;
+      } else {
+        value = errorProperties[property];
       }
-
-      if (response.headers && response.headers.get("x-ms-request-id")) {
-        errorObject["requestId"] = response.headers.get("x-ms-request-id");
-      }
-    }
-    Object.keys(normalizedError).forEach((property: string) => {
-      errorObject[property] = normalizedError[property];
+      normalizedError[property.toLowerCase()] = value;
     });
-    return errorObject;
+  } else {
+    Object.keys(errorProperties).forEach((property: any) => {
+      {
+        let value = null;
+        if (property !== Constants.XML_METADATA_MARKER) {
+          if (errorProperties[property] && errorProperties[property][Constants.XML_VALUE_MARKER]) {
+            value = errorProperties[property][Constants.XML_VALUE_MARKER];
+          } else {
+            value = errorProperties[property];
+          }
+          normalizedError[property.toLowerCase()] = value;
+        }
+      }
+    });
+  }
+  let errorMessage = normalizedError.code;
+  if (normalizedError.detail) {
+    errorMessage += " - " + normalizedError.detail;
   }
 
-  return undefined;
+  const errorObject: AtomError = new AtomError(
+    `Error returned by service while performing the management operation`
+  );
+  errorObject.code = errorMessage;
+
+  if (response) {
+    if (response.status) {
+      errorObject["statusCode"] = response.status;
+    }
+
+    if (response.headers && response.headers.get("x-ms-request-id")) {
+      errorObject["requestId"] = response.headers.get("x-ms-request-id");
+    }
+  }
+  Object.keys(normalizedError).forEach((property: string) => {
+    errorObject.additionalProperties[property] = normalizedError[property];
+  });
+  return errorObject;
 }
 
 /**
