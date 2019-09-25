@@ -242,7 +242,8 @@ const listOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FilesystemListHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.FilesystemListHeaders
     }
   },
   serializer
@@ -272,7 +273,8 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FilesystemCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.FilesystemCreateHeaders
     }
   },
   serializer
@@ -304,7 +306,8 @@ const setPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FilesystemSetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.FilesystemSetPropertiesHeaders
     }
   },
   serializer
@@ -333,7 +336,8 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FilesystemGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.FilesystemGetPropertiesHeaders
     }
   },
   serializer
@@ -364,7 +368,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FilesystemDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.FilesystemDeleteHeaders
     }
   },
   serializer

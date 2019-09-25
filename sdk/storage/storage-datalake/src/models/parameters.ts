@@ -59,7 +59,8 @@ export const action1: msRest.OperationQueryParameter = {
       name: "Enum",
       allowedValues: [
         "getAccessControl",
-        "getStatus"
+        "getStatus",
+        "checkAccess"
       ]
     }
   }
@@ -197,6 +198,18 @@ export const filesystem: msRest.OperationURLParameter = {
       MinLength: 3,
       Pattern: /^[$a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const fsAction: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "fsAction"
+  ],
+  mapper: {
+    serializedName: "fsAction",
     type: {
       name: "String"
     }

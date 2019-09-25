@@ -746,7 +746,8 @@ export interface PathGetPropertiesOptionalParams extends msRest.RequestOptionsBa
    * Optional. If the value is "getStatus" only the system defined properties for the path are
    * returned. If the value is "getAccessControl" the access control list is returned in the
    * response headers (Hierarchical Namespace must be enabled for the account), otherwise the
-   * properties are returned. Possible values include: 'getAccessControl', 'getStatus'
+   * properties are returned. Possible values include: 'getAccessControl', 'getStatus',
+   * 'checkAccess'
    */
   action?: PathGetPropertiesAction;
   /**
@@ -758,6 +759,12 @@ export interface PathGetPropertiesOptionalParams extends msRest.RequestOptionsBa
    * have unique friendly names.
    */
   upn?: boolean;
+  /**
+   * Required only for check access action. Valid only when Hierarchical Namespace is enabled for
+   * the account. File system operation read/write/execute in string form, matching regex pattern
+   * '[rwx-]{3}'
+   */
+  fsAction?: string;
   /**
    * Optional. If this header is specified, the operation will be performed only if both of the
    * following conditions are met: i) the path's lease is currently active and ii) the lease ID
@@ -1520,11 +1527,11 @@ export type PathLeaseAction = 'acquire' | 'break' | 'change' | 'renew' | 'releas
 
 /**
  * Defines values for PathGetPropertiesAction.
- * Possible values include: 'getAccessControl', 'getStatus'
+ * Possible values include: 'getAccessControl', 'getStatus', 'checkAccess'
  * @readonly
  * @enum {string}
  */
-export type PathGetPropertiesAction = 'getAccessControl' | 'getStatus';
+export type PathGetPropertiesAction = 'getAccessControl' | 'getStatus' | 'checkAccess';
 
 /**
  * Contains response data for the list operation.

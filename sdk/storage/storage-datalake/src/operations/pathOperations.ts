@@ -283,7 +283,7 @@ export class PathOperations {
    * for a path. This operation supports conditional HTTP requests.  For more information, see
    * [Specifying Conditional Headers for Blob Service
    * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
-   * @summary Get Properties | Get Status | Get Access Control List
+   * @summary Get Properties | Get Status | Get Access Control List | Check Access
    * @param filesystem The filesystem identifier.
    * @param path The file or directory path.
    * @param [options] The optional parameters
@@ -381,7 +381,8 @@ const listOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PathListHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.PathListHeaders
     }
   },
   serializer
@@ -436,7 +437,8 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PathCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.PathCreateHeaders
     }
   },
   serializer
@@ -503,7 +505,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PathUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.PathUpdateHeaders
     }
   },
   serializer
@@ -547,7 +550,8 @@ const leaseOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PathLeaseHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.PathLeaseHeaders
     }
   },
   serializer
@@ -598,7 +602,8 @@ const readOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PathReadHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.PathReadHeaders
     }
   },
   serializer
@@ -616,6 +621,7 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.action1,
     Parameters.upn,
+    Parameters.fsAction,
     Parameters.timeout
   ],
   headerParameters: [
@@ -634,7 +640,8 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PathGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.PathGetPropertiesHeaders
     }
   },
   serializer
@@ -670,7 +677,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PathDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.PathDeleteHeaders
     }
   },
   serializer
