@@ -37,15 +37,13 @@ export async function run() {
 }
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
-    const existingSettings = await client.listConfigurationSettings({
+    const settingsIterator = await client.listConfigurationSettings({
         keys: keys
     });
 
-    if (existingSettings.items) {
-        for (const setting of existingSettings.items) {
-            await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
-        }
-    }
+    for await (const setting of settingsIterator) {
+        await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    }    
 }
 
 // If you want to run this sample from a console

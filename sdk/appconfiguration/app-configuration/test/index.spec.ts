@@ -2,9 +2,14 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { getConnectionStringFromEnvironment } from "./testHelpers";
+import {
+  getConnectionStringFromEnvironment,
+  deleteKeyCompletely,
+  toSortedArray,
+  assertEqualSettings
+} from "./testHelpers";
 import * as dotenv from "dotenv";
-import { ConfigurationSetting, AppConfigurationClient } from "../src";
+import { AppConfigurationClient } from "../src";
 
 dotenv.config();
 
@@ -28,8 +33,14 @@ describe("AppConfigurationClient", () => {
     it("supports connection string", async () => {
       const connectionString = getConnectionStringFromEnvironment();
       const client = new AppConfigurationClient(connectionString);
+
       // make sure a service call succeeds
-      await client.listConfigurationSettings();
+
+      // just not throwing an exception is enough - we just want to make sure that the call
+      // can work.
+      for await (const _ of await client.listConfigurationSettings()) {
+        break;
+      }
     });
   });
 
@@ -68,7 +79,7 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting(key, {});
     });
 
-    async function compare(expected: { key: string, value: string, label: (string | null) }) {
+    async function compare(expected: { key: string; value: string; label: string | null }) {
       const actualSettings = await client.getConfigurationSetting(expected.key);
 
       assert.equal(expected.key, actualSettings.key);
@@ -379,56 +390,130 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("listConfigurationSettings", () => {
+    const now = Date.now();
+    const uniqueLabel = `listConfigSettingsLabel-${now}`;
+
+    before(async () => {
+      await client.addConfigurationSetting({
+        key: `listConfigSettingA-${now}`,
+        label: uniqueLabel,
+        value: "[A] production value"
+      });
+      await client.addConfigurationSetting({
+        key: `listConfigSettingA-${now}`,
+        value: "[A] value"
+      });
+
+      await client.addConfigurationSetting({
+        key: `listConfigSettingB-${now}`,
+        label: uniqueLabel,
+        value: "[B] production value"
+      });
+      await client.addConfigurationSetting({
+        key: `listConfigSettingB-${now}`,
+        value: "[B] value"
+      });
+    });
+
+    after(async () => {
+      await deleteKeyCompletely([`listConfigSettingA-${now}`, `listConfigSettingB-${now}`], client);
+    });
+
     it("undefined doesn't throw and will just return everything", async () => {
-      const response = await client.listConfigurationSettings();
-      assert.equal(200, response._response.status);
+      const settingsIterator = await client.listConfigurationSettings();
+      await settingsIterator.next();
     });
 
-    it("lists available configurationsettings", async () => {
-      const keys = [
-        `listConfigTest1-${Date.now()}`,
-        `listConfigTest2-${Date.now()}`,
-        `listConfigTest3-${Date.now()}`
-      ];
-      const label = `test-list-${Date.now()}`;
-      const value = "foo";
+    it("exact match on label", async () => {
+      // query with a direct label match
+      let byLabelIterator = client.listConfigurationSettings({ labels: [uniqueLabel] });
+      const byLabelSettings = await toSortedArray(byLabelIterator);
 
-      // add configurations
-      for (const key of keys) {
-        await client.addConfigurationSetting({ key, label, value });
-
-        settings.push({ key, label });
-      }
-
-      const results = await client.listConfigurationSettings({ labels: [label] });
-      assert.ok(results.items);
-
-      const items: ConfigurationSetting[] = results.items!;
-
-      assert.equal(items.length, keys.length);
-      // sort keys to make assertions easier
-      items!.sort((a, b) => (a.key! < b.key! ? -1 : 1));
-
-      for (let i = 0; i < keys.length; i++) {
-        assert.equal(
-          items[i].key,
-          keys[i],
-          "Unexpected key in result from listConfigurationSettings()."
-        );
-        assert.equal(
-          items[i].label,
-          label,
-          "Unexpected label in result from listConfigurationSettings()."
-        );
-        assert.equal(
-          items[i].value,
-          value,
-          "Unexpected value in result from listConfigurationSettings()."
-        );
-      }
+      assertEqualSettings(
+        [
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] production value",
+            label: uniqueLabel
+          },
+          {
+            key: `listConfigSettingB-${now}`,
+            value: "[B] production value",
+            label: uniqueLabel
+          }
+        ],
+        byLabelSettings
+      );
     });
 
-    // TODO: this test is entirely too slow and needs to be replaced with 
+    it("label wildcards", async () => {
+      // query with a direct label match
+      let byLabelIterator = client.listConfigurationSettings({
+        labels: ["*" + uniqueLabel.substring(1)]
+      });
+      const byLabelSettings = await toSortedArray(byLabelIterator);
+
+      assertEqualSettings(
+        [
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] production value",
+            label: uniqueLabel
+          },
+          {
+            key: `listConfigSettingB-${now}`,
+            value: "[B] production value",
+            label: uniqueLabel
+          }
+        ],
+        byLabelSettings
+      );
+    });
+
+    it("exact match on key", async () => {
+      let byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`] });
+      const byKeySettings = await toSortedArray(byKeyIterator);
+
+      assertEqualSettings(
+        [
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] production value",
+            label: uniqueLabel
+          },
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] value",
+            label: undefined
+          }
+        ],
+        byKeySettings
+      );
+    });
+
+    it("key wildcards", async () => {
+      // query with a key wildcard
+      let byKeyIterator = client.listConfigurationSettings({ keys: [`*istConfigSettingA-${now}`] });
+      const byKeySettings = await toSortedArray(byKeyIterator);
+
+      assertEqualSettings(
+        [
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] production value",
+            label: uniqueLabel
+          },
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] value",
+            label: undefined
+          }
+        ],
+        byKeySettings
+      );
+    });
+
+    // TODO: this test is entirely too slow and needs to be replaced with
     //  one that uses recorded responses.
     /*
     it("list with multiple pages", async () => {
@@ -478,32 +563,70 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("listRevisions", () => {
-    it("lists revisions for a configuration setting", async () => {
-      // create a setting and update it to create multiple revisions
-      const key = `listRevisionsTest-${Date.now()}`;
-      const label = `test-list-${Date.now()}`;
+    const now = Date.now();
+    const key = `listRevisions-${now}`;
+    const labelA = `list-revisions-A-${now}`;
+    const labelB = `list-revisions-B-${now}`;
 
-      await client.addConfigurationSetting({ key, label, value: "foo1" });
-      await client.setConfigurationSetting({ key, label, value: "foo2" });
+    before(async () => {
+      // we'll generate two sets of keys and labels for this selection
+      await client.addConfigurationSetting({ key, label: labelA, value: "fooA1" });
+      await client.setConfigurationSetting({ key, label: labelA, value: "fooA2" });
 
-      const result = await client.listRevisions({ label: label });
-
-      assert.equal(result.items!.length, 2);
+      await client.addConfigurationSetting({ key, label: labelB, value: "fooB1" });
+      await client.setConfigurationSetting({ key, label: labelB, value: "fooB2" });
     });
 
-    it("sample code works", async () => {
-      const key = `listRevisionsSample-${Date.now()}`;
+    it("exact match on label", async () => {
+      const revisionsWithLabelIterator = await client.listRevisions({ labels: [labelA] });
+      const revisions = await toSortedArray(revisionsWithLabelIterator);
 
-      // create a new setting
-      await client.addConfigurationSetting({ key, value: "foo1" });
+      assertEqualSettings(
+        [{ key, label: labelA, value: "fooA1" }, { key, label: labelA, value: "fooA2" }],
+        revisions
+      );
+    });
 
-      // update it with a new value
-      await client.setConfigurationSetting({ key, value: "foo2" });
+    it("label wildcards", async () => {
+      const revisionsWithLabelIterator = await client.listRevisions({
+        labels: ["*" + labelA.substring(1)]
+      });
+      const revisions = await toSortedArray(revisionsWithLabelIterator);
 
-      // retrieves all revisions matching that label
-      const result = await client.listRevisions({ key: key });
+      assertEqualSettings(
+        [{ key, label: labelA, value: "fooA1" }, { key, label: labelA, value: "fooA2" }],
+        revisions
+      );
+    });
 
-      assert.equal(result.items!.length, 2);
+    it("exact match on key", async () => {
+      const revisionsWithKeyIterator = await client.listRevisions({ keys: [key] });
+      const revisions = await toSortedArray(revisionsWithKeyIterator);
+
+      assertEqualSettings(
+        [
+          { key, label: labelA, value: "fooA1" },
+          { key, label: labelA, value: "fooA2" },
+          { key, label: labelB, value: "fooB1" },
+          { key, label: labelB, value: "fooB2" }
+        ],
+        revisions
+      );
+    });
+
+    it("key wildcards", async () => {
+      const revisionsWithKeyIterator = await client.listRevisions({ keys: ['*' + key.substring(1)] });
+      const revisions = await toSortedArray(revisionsWithKeyIterator);
+
+      assertEqualSettings(
+        [
+          { key, label: labelA, value: "fooA1" },
+          { key, label: labelA, value: "fooA2" },
+          { key, label: labelB, value: "fooB1" },
+          { key, label: labelB, value: "fooB2" }
+        ],
+        revisions
+      );
     });
   });
 
@@ -797,14 +920,20 @@ describe("AppConfigurationClient", () => {
 
   describe("formatETagForMatchHeaders", () => {
     it("undefined", () => {
-      assert.equal(undefined, AppConfigurationClient["formatETagForMatchHeaders"]({
-        etag: undefined
-      }));
+      assert.equal(
+        undefined,
+        AppConfigurationClient["formatETagForMatchHeaders"]({
+          etag: undefined
+        })
+      );
 
-      assert.equal("\"etagishere\"", AppConfigurationClient["formatETagForMatchHeaders"]({
-        etag: "etagishere"
-      }));
-    })
+      assert.equal(
+        '"etagishere"',
+        AppConfigurationClient["formatETagForMatchHeaders"]({
+          etag: "etagishere"
+        })
+      );
+    });
   });
 
   describe("formatWildcards", () => {
@@ -841,7 +970,9 @@ describe("AppConfigurationClient", () => {
 
   describe("extractAfterTokenFromNextLink", () => {
     it("token is extracted and properly unescaped", () => {
-      let token = AppConfigurationClient["extractAfterTokenFromNextLink"]("/kv?key=someKey&api-version=1.0&after=bGlah%3D");
+      let token = AppConfigurationClient["extractAfterTokenFromNextLink"](
+        "/kv?key=someKey&api-version=1.0&after=bGlah%3D"
+      );
       assert.equal("bGlah=", token);
     });
   });

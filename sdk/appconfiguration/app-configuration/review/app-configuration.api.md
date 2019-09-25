@@ -5,6 +5,7 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -14,10 +15,8 @@ export class AppConfigurationClient {
     addConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
     deleteConfigurationSetting(key: string, options: AppConfigurationDeleteKeyValueOptionalParams & ETagOption): Promise<DeleteKeyValueResponse>;
     getConfigurationSetting(key: string, options?: AppConfigurationGetKeyValueOptionalParams): Promise<GetKeyValueResponse>;
-    listConfigurationSettings(options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>;
-    // (undocumented)
-    listConfigurationSettingsNext(nextLink: string, options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>;
-    listRevisions(options?: AppConfigurationGetRevisionsOptionalParams): Promise<GetRevisionsResponse>;
+    listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
+    listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
     setConfigurationSetting(configurationSetting: ConfigurationSettingParam & ETagOption, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
 }
 
@@ -84,11 +83,11 @@ export interface ConfigurationSetting {
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ConfigurationSettingOptions extends Pick<AppConfigurationPutKeyValueOptionalParams, Exclude<keyof AppConfigurationPutKeyValueOptionalParams, 'label' | 'entity'>> {
 }
 
-// @public (undocumented)
+// @public
 export interface ConfigurationSettingParam extends Pick<ConfigurationSetting, Exclude<keyof ConfigurationSetting, 'locked' | 'etag' | 'lastModified'>> {
 }
 
@@ -119,7 +118,22 @@ export type GetKeyValueResponse = ConfigurationSetting & GetKeyValueHeaders & {
     };
 };
 
+// @public
+export interface GetKeyValuesHeaders {
+    syncToken?: string;
+}
+
 // Warning: (ae-forgotten-export) The symbol "KeyValueListResult" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export type GetKeyValuesResponse = KeyValueListResult & GetKeyValuesHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GetKeyValuesHeaders;
+        bodyAsText: string;
+        parsedBody: KeyValueListResult;
+    };
+};
+
 // Warning: (ae-forgotten-export) The symbol "GetRevisionsHeaders" needs to be exported by the entry point index.d.ts
 // 
 // @public
@@ -131,17 +145,28 @@ export type GetRevisionsResponse = KeyValueListResult & GetRevisionsHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
+export interface ListConfigurationSettingPage extends Pick<GetKeyValuesResponse, Exclude<keyof GetKeyValuesResponse, 'items'>> {
+    items: ConfigurationSetting[];
+}
+
+// @public
 export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationGetKeyValuesOptionalParams, Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, 'key' | 'label' | 'select' | 'after'>> {
     fields?: (keyof ConfigurationSetting)[];
     keys?: string[];
     labels?: string[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "GetKeyValuesResponse" needs to be exported by the entry point index.d.ts
-// 
-// @public (undocumented)
-export interface ListConfigurationSettingsResponse extends GetKeyValuesResponse {
+// @public
+export interface ListRevisionsOptions extends Pick<AppConfigurationGetRevisionsOptionalParams, Exclude<keyof AppConfigurationGetRevisionsOptionalParams, 'key' | 'label' | 'select' | 'after'>> {
+    fields?: (keyof ConfigurationSetting)[];
+    keys?: string[];
+    labels?: string[];
+}
+
+// @public
+export interface ListRevisionsPage extends Pick<GetRevisionsResponse, Exclude<keyof GetRevisionsResponse, 'items'>> {
+    items: ConfigurationSetting[];
 }
 
 // Warning: (ae-forgotten-export) The symbol "PutKeyValueHeaders" needs to be exported by the entry point index.d.ts

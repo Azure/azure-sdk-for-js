@@ -36,10 +36,8 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
         keys: keys
     });
 
-    if (existingSettings.items) {
-        for (const setting of existingSettings.items) {
-            await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
-        }
+    for await (const setting of existingSettings) {
+        await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
     }
 }
 
