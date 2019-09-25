@@ -198,7 +198,8 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.QueueCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueCreateHeaders
     }
   },
   isXML: true,
@@ -223,7 +224,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.QueueDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueDeleteHeaders
     }
   },
   isXML: true,
@@ -249,7 +251,8 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.QueueGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -276,7 +279,8 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.QueueSetMetadataHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueSetMetadataHeaders
     }
   },
   isXML: true,
@@ -315,7 +319,8 @@ const getAccessPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.QueueGetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueGetAccessPolicyHeaders
     }
   },
   isXML: true,
@@ -362,7 +367,8 @@ const setAccessPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.QueueSetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.QueueSetAccessPolicyHeaders
     }
   },
   isXML: true,

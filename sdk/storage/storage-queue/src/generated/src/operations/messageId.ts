@@ -142,7 +142,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessageIdUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessageIdUpdateHeaders
     }
   },
   isXML: true,
@@ -168,7 +169,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessageIdDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessageIdDeleteHeaders
     }
   },
   isXML: true,

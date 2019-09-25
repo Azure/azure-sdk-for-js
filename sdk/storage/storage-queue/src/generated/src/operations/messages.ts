@@ -167,7 +167,8 @@ const dequeueOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessagesDequeueHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesDequeueHeaders
     }
   },
   isXML: true,
@@ -192,7 +193,8 @@ const clearOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessagesClearHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesClearHeaders
     }
   },
   isXML: true,
@@ -240,7 +242,8 @@ const enqueueOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessagesEnqueueHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesEnqueueHeaders
     }
   },
   isXML: true,
@@ -280,7 +283,8 @@ const peekOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MessagesPeekHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesPeekHeaders
     }
   },
   isXML: true,
