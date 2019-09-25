@@ -34,20 +34,13 @@ jobs:
         displayName: "Install typedoc"
 
       - script: |
-          npm install nunjucks
-        displayName: "Install nunjucks"
-
-      - script: |
-          npm install fs-extra
-        displayName: "Install fs-extra"
-
-      - script: |
-          npm install yargs
-        displayName: "Install yargs"
+          npm ci
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+        displayName: "Install tool dependencies"
 
       - pwsh: |
           cd $(Build.SourcesDirectory)
-          node .\common\scripts\generate-doc.js --dgOp "dg" $(additionalArgs)
+          node .\eng\tools\generate-doc\index.js --dgOp "dg" $(additionalArgs)
           Copy-Item -Path $(Build.SourcesDirectory)/docGen/* -Destination $(Build.ArtifactStagingDirectory) -Recurse -Force
         displayName: "Generate Typedoc Docs"
 
