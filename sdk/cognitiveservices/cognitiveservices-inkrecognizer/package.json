@@ -1,5 +1,5 @@
 {
-  "name": "@azure/inkrecognizer",
+  "name": "@azure/cognitiveservices-inkrecognizer",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "0.1.0",
@@ -10,7 +10,7 @@
     "stream": "./node_modules/stream-browserify/index.js",
     "./dist/index.js": "./browser/index.js"
   },
-  "types": "types/azure-inkrecognizer.d.ts",
+  "types": "types/azure-cognitiveservices-inkrecognizer.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -41,7 +41,7 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "types/azure-inkrecognizer.d.ts"
+    "types/azure-cognitiveservices-inkrecognizer.d.ts"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [

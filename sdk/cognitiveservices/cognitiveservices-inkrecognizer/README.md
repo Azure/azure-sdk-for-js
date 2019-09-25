@@ -26,7 +26,7 @@ The preferred way to install the Azure InkRecognizer library for Javascript is t
 Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/inkrecognizer
+npm install @azure/cognitiveservices-inkrecognizer
 ```
 
 ### Prerequisites
