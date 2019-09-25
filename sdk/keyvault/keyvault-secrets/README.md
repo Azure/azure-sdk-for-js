@@ -79,7 +79,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
   ```
 
   > --secret-permissions:
-  > Accepted values: backup, delete, get, list, purge, recover, restore, create
+  > Accepted values: backup, delete, get, list, purge, recover, restore, set
 
 - Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
   ```Bash
