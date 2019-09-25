@@ -8,7 +8,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { AtomError } from "../atomError";
 
 export interface AtomXmlSerializer {
-  serialize(resourceDataInJson: any): string;
+  serialize(requestBodyInJson: any): string;
 
   deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
 }
@@ -71,18 +71,29 @@ export function serializeToAtomXmlRequest(
  * @param {object} atomResponseInJson
  * */
 function parseAtomResult(
-  atomResponseInJson: any
+  atomResponseInJson: any,
+  nameProperties: string[]
 ): XMLResponseInJSON[] | XMLResponseInJSON | undefined {
+  let result: any;
   if (!atomResponseInJson) {
     return;
   }
 
   if (atomResponseInJson.feed) {
-    return parseFeedResult(atomResponseInJson.feed);
+    result = parseFeedResult(atomResponseInJson.feed);
+  } else if (atomResponseInJson.entry) {
+    result = parseEntryResult(atomResponseInJson.entry);
   }
 
-  if (atomResponseInJson.entry) {
-    return parseEntryResult(atomResponseInJson.entry);
+  if (result) {
+    if (Array.isArray(result)) {
+      result.forEach((entry: XMLResponseInJSON) => {
+        setName(entry, nameProperties);
+      });
+    } else {
+      setName(result, nameProperties);
+    }
+    return result;
   }
 
   throw new Error("Unrecognized result: " + JSON.stringify(atomResponseInJson));
@@ -180,8 +191,7 @@ export async function deserializeAtomXmlResponse(
       response.parsedBody = atomResponseInJson;
     }
   } catch (e) {
-    errorBody = { code: "ResponseNotInAtomXMLFormat" };
-    return response;
+    throw buildAtomError({ code: "ResponseNotInAtomXMLFormat" }, response);
   }
 
   // If received data is a non-valid HTTP response, the body is expected to contain error information
@@ -190,12 +200,23 @@ export async function deserializeAtomXmlResponse(
     if (errorBody == undefined) {
       const HttpResponseCodes = Constants.HttpResponseCodes;
       const statusCode = response.status;
-      const errorCode = isKnownResponseCode(statusCode)
-        ? HttpResponseCodes[statusCode]
-        : `UnrecognizedHttpResponseStatus: ${statusCode}`;
-      errorBody = {
-        code: errorCode
-      };
+      if (isKnownResponseCode(statusCode)) {
+        throw buildAtomError(
+          {
+            code: HttpResponseCodes[statusCode]
+          },
+          response
+        );
+      } else {
+        throw buildAtomError(
+          {
+            code: `UnrecognizedHttpResponseStatus: ${statusCode}`
+          },
+          response
+        );
+      }
+    } else {
+      throw buildAtomError(errorBody, response);
     }
   }
 
@@ -205,28 +226,11 @@ export async function deserializeAtomXmlResponse(
     result: []
   };
 
-  let isSuccessful = false;
+  const result = parseAtomResult(atomResponseInJson, nameProperties);
 
-  if (errorBody == undefined) {
-    isSuccessful = true;
-    const result = parseAtomResult(atomResponseInJson);
-    if (result) {
-      if (Array.isArray(result)) {
-        result.forEach((entry: XMLResponseInJSON) => {
-          setName(entry, nameProperties);
-        });
-      } else {
-        setName(result, nameProperties);
-      }
-    }
-    responseInCustomJson.result = result;
-  } else {
-    // Transform the error info in response body to a normalized one
-    throw buildAtomError(errorBody, response);
-  }
+  responseInCustomJson.result = result;
 
   responseInCustomJson.response = buildResponse(
-    isSuccessful,
     response.parsedBody,
     response.headers.rawHeaders(),
     response.status
@@ -344,15 +348,14 @@ function buildAtomError(errorBody: any, response: HttpOperationResponse): AtomEr
  * Builds a response object with normalized key names.
  * @ignore
  *
- * @param isSuccessful Boolean value indicating if the request was successful
  * @param body The response body.
  * @param headers The response headers.
  * @param statusCode The response status code.
  */
 
-function buildResponse(isSuccessful: boolean, body: any, headers: any, statusCode: number) {
+function buildResponse(body: any, headers: any, statusCode: number) {
   return {
-    isSuccessful: isSuccessful,
+    isSuccessful: true,
     statusCode: statusCode,
     body: body,
     headers: headers

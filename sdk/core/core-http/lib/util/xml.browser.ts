@@ -108,6 +108,16 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   );
 }
 
+function buildAttributes(doc: any, attrs: { [key: string]: { toString(): string } }): Attr[] {
+  const result = [];
+  for (const key of Object.keys(attrs)) {
+    const attr = doc.createAttribute(key);
+    attr.value = attrs[key].toString();
+    result.push(attr);
+  }
+  return result;
+}
+
 function buildNode(doc: any, obj: any, elementName: string): Node[] {
   if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
     const elem = doc.createElement(elementName);
@@ -138,16 +148,6 @@ function buildNode(doc: any, obj: any, elementName: string): Node[] {
   } else {
     throw new Error(`Illegal value passed to buildObject: ${obj}`);
   }
-}
-
-function buildAttributes(doc: any, attrs: { [key: string]: { toString(): string } }): Attr[] {
-  const result = [];
-  for (const key of Object.keys(attrs)) {
-    const attr = doc.createAttribute(key);
-    attr.value = attrs[key].toString();
-    result.push(attr);
-  }
-  return result;
 }
 
 export function deserializeAtomXmlToJson(body: string): any {

@@ -101,7 +101,8 @@ function _getDefaultSettings(): any {
 
 /**
  * @ignore
- * @param str Helper utility to clean up unintended characters that get appended by OS.
+ * Helper utility to clean up unintended characters that get appended by OS.
+ * @param str
  */
 function _removeBOM(str: any) {
   if (str.charCodeAt(0) === 0xfeff || str.charCodeAt(0) === 0xffef) {

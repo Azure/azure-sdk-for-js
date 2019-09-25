@@ -16,7 +16,7 @@ import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
 
 describe("atomSerializationPolicy", function() {
-  it("should return an error if receiving a non-XML response body", async function() {
+  it("should throw an error if receiving a non-XML response body", async function() {
     const request: WebResource = createRequest({
       serializer: new MockSerializer()
     });
@@ -33,6 +33,7 @@ describe("atomSerializationPolicy", function() {
     const policy = atomSerializationPolicy().create(mockClient, new RequestPolicyOptions());
     try {
       await policy.sendRequest(request);
+      assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
       assert.deepEqual(err.code, "ResponseNotInAtomXMLFormat");
     }

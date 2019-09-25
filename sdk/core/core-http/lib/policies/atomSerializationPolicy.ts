@@ -39,7 +39,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       request.atomXmlOperationSpec.serializer == undefined
     ) {
       throw new Error(
-        "atomXmlOperationSpec and atomXmlOperationSpec.serializer must be supplied on the requests when using this policy."
+        "Failed to send request in the AtomSerializationPolicy due to missing serializer."
       );
     }
 
