@@ -839,7 +839,8 @@ export class SecretsClient {
   }
 
   /**
-   * Updates HTTP options to include the given span as the parent of future spans
+   * Returns updated HTTP options with the given span as the parent of future spans,
+   * if applicable.
    * @param span The span for the current operation
    * @param options The options for the underlying http request
    */

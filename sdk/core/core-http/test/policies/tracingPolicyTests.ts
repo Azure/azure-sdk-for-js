@@ -82,12 +82,6 @@ describe("tracingPolicy", function () {
     }
   };
 
-  afterEach(function () {
-    if (typeof (TracerProxy.getTracer as sinon.SinonStub).restore === "function") {
-      (TracerProxy.getTracer as sinon.SinonStub).restore();
-    }
-  });
-
   it("will not create a span if spanOptions are missing", async () => {
     const mockTracer = new MockTracer();
     TracerProxy.setTracer(mockTracer);

@@ -16,5 +16,8 @@
 
 /** Defines a attributes interface. */
 export interface Attributes {
+  /**
+   * Known attributes.
+   */
   [attributeKey: string]: unknown;
 }
