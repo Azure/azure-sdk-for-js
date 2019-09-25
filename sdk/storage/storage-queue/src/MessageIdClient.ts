@@ -152,10 +152,11 @@ export class MessageIdClient extends StorageClient {
           const messageId = messageIdOrOptions;
 
           const sharedKeyCredential = new SharedKeyCredential(
-            extractedCreds.accountName,
+            extractedCreds.accountName!,
             extractedCreds.accountKey
           );
           urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages/" + messageId;
+          options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");

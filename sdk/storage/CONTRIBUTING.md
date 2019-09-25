@@ -10,9 +10,9 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 ### Install
 
-* Node.js valid LTS versions (>=8.16.0)
-* Browsers like Chrome, Edge or Firefox
-* Clone the source code from GitHub
+- Node.js valid LTS versions (>=8.16.0)
+- Browsers like Chrome, Edge or Firefox
+- Clone the source code from GitHub
 
 ## Tests
 
@@ -40,6 +40,12 @@ The environment variable **TEST_MODE** controls how tests are running.
   - Tests hit the live-service, we don't record the requests/responses
 
 Please refers to [RecordAndPlayback.md](./RecordAndPlayback.md) for more details about record and playback tests.
+
+### Emulator Tests
+
+- Expected environment variable to run tests with the emulator
+  [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
+  - STORAGE_CONNECTION_STRING="UseDevelopmentStorage=true" (or `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri`)
 
 #### CORS
 

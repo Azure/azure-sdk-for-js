@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
-import { getUniqueName, isBrowser } from "../utils";
+import { isBrowser, getUniqueName } from "./testutils.common";
 import { delay as restDelay } from "@azure/core-http";
 import { blobToString } from "./index.browser";
 import * as dotenv from "dotenv";
