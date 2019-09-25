@@ -83,7 +83,7 @@ jobs:
 
       - pwsh: |
           cd $(Build.SourcesDirectory)
-          node .\eng\tools\generate-doc\index.js --dgOp "dg" -i "inc" --inc $(DocArgs)
+          node .\eng\tools\generate-doc\index.js --dgOp "dg" -i "inc" --inc "${{parameters.DocArgs}}"
           Compress-Archive -Path $(Build.SourcesDirectory)/docGen/* -Update -DestinationPath $(Build.ArtifactStagingDirectory)/Documentation.Zip
         displayName: "Generate Typedoc Docs"
 
