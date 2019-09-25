@@ -1,5 +1,6 @@
 {
   "name": "@azure/inkrecognizer",
+  "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "0.1.0",
   "description": "InkRecognizerClient Library with typescript type definitions for node.js and browser.",
