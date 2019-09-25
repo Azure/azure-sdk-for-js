@@ -1,8 +1,11 @@
-import { ServiceClientOptions, ServiceClient, ApiKeyCredentials, signingPolicy, WebResource } from "@azure/core-http";
+import { ServiceClientOptions, ServiceClient, ApiKeyCredentials, signingPolicy, WebResource, getDefaultUserAgentValue } from "@azure/core-http";
 import { InkPointUnit, InkStroke, ApplicationKind, ServiceVersion } from './BaseType';
 import { InkRecognitionError } from './InkRecognitionError';
 import { InkRecognitionResult } from './InkRecognitionResult';
 import { parseInkRecognitionResult } from './InkRecognitionUnitBuilder';
+
+const packageName = "@azure/inkrecognizer";
+const packageVersion = "1.0.0";
 
 /**
  * Default options for the request sent to the InkRecognizer service.
@@ -72,6 +75,11 @@ export class InkRecognizerClient extends ServiceClient {
       options.version = ServiceVersion.Preview_1_0_0;
       options.unit = InkPointUnit.Millimeter;
       options.unitMultiple = 1.0;
+    }
+
+    if(!options.userAgent) {
+      const defaultUserAgent = getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(undefined, {
