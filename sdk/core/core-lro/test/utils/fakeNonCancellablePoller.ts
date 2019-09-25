@@ -1,74 +1,38 @@
-import { HttpOperationResponse, WebResource, ServiceClient, RequestOptionsBase } from "@azure/core-http";
-import { LongRunningOperationStates, Poller, PollerOptionalParameters } from "../../src"
+import { delay, RequestOptionsBase } from "@azure/core-http";
+import { Poller } from "../../src"
+import { FakeServiceClient } from "./fakeServiceClient";
+import { FakeNonCancellableOperation, HttpPollProperties } from "./fakeOperation"
 
-export class FakeNonCancellablePoller extends Poller {
-  constructor(client: ServiceClient, options: PollerOptionalParameters) {
-    super({
-      ...options,
-      resources: {
-        client
-      }
+export class FakeNonCancellablePoller extends Poller<HttpPollProperties> {
+  public intervalInMs: number;
+
+  constructor(
+    client: FakeServiceClient,
+    requestOptions?: RequestOptionsBase,
+    intervalInMs?: number,
+    manual?: boolean,
+  ) {
+    const operation = new FakeNonCancellableOperation({
+      client,
+      requestOptions,
     });
-  } 
 
-  protected getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates {
-    let result: LongRunningOperationStates;
-    switch (response.status) {
-      case 202:
-        result = "InProgress";
-        break;
-      case 204:
-        result = "Succeeded";
-        break;
-      default:
-        result = "Failed";
-        break;
-    }
-    return result;
+    super(
+      operation,
+      manual,
+    );
+
+    this.intervalInMs = intervalInMs || 10;
   }
 
-  // Ignoring options?: RequestOptionsBase since we won't do a real API call here.
-  public async cancel(options?: RequestOptionsBase): Promise<void> {
-    const requestOptions = options || this.requestOptions;
-    if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
-      // This will throw
-      await this.resources.client!.sendRequest(new WebResource(
-        undefined, // url?: string,
-        undefined, // method?: HttpMethods,
-        undefined, // body?: any,
-        undefined, // query?: { [key: string]: any },
-        undefined, // headers?: { [key: string]: any } | HttpHeaders,
-        undefined, // streamResponseBody?: boolean,
-        undefined, // withCredentials?: boolean,
-        requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,
-        undefined, // timeout?: number,
-        undefined, // onUploadProgress?: (progress: TransferProgressEvent) => void,
-        undefined, // onDownloadProgress?: (progress: TransferProgressEvent) => void,
-        undefined, // proxySettings?: ProxySettings,
-        undefined  // keepAlive?: boolean
-      ));
+  public async poll(): Promise<void> {
+    while (!this.stopped && !this.done) {
+      await this.delay();
+      this.operation = await this.operation.update();
     }
-    throw new Error("Cancellation not supported");
   }
 
-  protected async sendRequest(options?: RequestOptionsBase): Promise<void> {
-    if (!this.resources.client) return;
-    const requestOptions = options || this.requestOptions;
-    const response = await this.resources.client.sendRequest(new WebResource(
-      undefined, // url?: string,
-      undefined, // method?: HttpMethods,
-      undefined, // body?: any,
-      undefined, // query?: { [key: string]: any },
-      undefined, // headers?: { [key: string]: any } | HttpHeaders,
-      undefined, // streamResponseBody?: boolean,
-      undefined, // withCredentials?: boolean,
-      requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,
-      undefined, // timeout?: number,
-      undefined, // onUploadProgress?: (progress: TransferProgressEvent) => void,
-      undefined, // onDownloadProgress?: (progress: TransferProgressEvent) => void,
-      undefined, // proxySettings?: ProxySettings,
-      undefined  // keepAlive?: boolean
-    ));
-    this.processResponse(response);
+  async delay(): Promise<void> {
+    return delay(this.intervalInMs);
   }
 }
