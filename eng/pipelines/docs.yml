@@ -35,7 +35,7 @@ jobs:
 
       - script: |
           npm ci
-        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
         displayName: "Install tool dependencies"
 
       - pwsh: |
