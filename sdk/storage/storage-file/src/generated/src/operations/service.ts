@@ -134,7 +134,8 @@ const setPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceSetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceSetPropertiesHeaders
     }
   },
   isXML: true,
@@ -160,7 +161,8 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -189,7 +191,8 @@ const listSharesSegmentOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceListSharesSegmentHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceListSharesSegmentHeaders
     }
   },
   isXML: true,

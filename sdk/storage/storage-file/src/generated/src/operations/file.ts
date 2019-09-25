@@ -523,7 +523,8 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileCreateHeaders
     }
   },
   isXML: true,
@@ -564,7 +565,8 @@ const downloadOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileDownloadHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileDownloadHeaders
     }
   },
   isXML: true,
@@ -589,7 +591,8 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -613,7 +616,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileDeleteHeaders
     }
   },
   isXML: true,
@@ -650,7 +654,8 @@ const setHTTPHeadersOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileSetHTTPHeadersHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileSetHTTPHeadersHeaders
     }
   },
   isXML: true,
@@ -676,7 +681,8 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileSetMetadataHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileSetMetadataHeaders
     }
   },
   isXML: true,
@@ -718,7 +724,8 @@ const uploadRangeOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileUploadRangeHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileUploadRangeHeaders
     }
   },
   isXML: true,
@@ -751,7 +758,8 @@ const uploadRangeFromURLOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileUploadRangeFromURLHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileUploadRangeFromURLHeaders
     }
   },
   isXML: true,
@@ -791,7 +799,8 @@ const getRangeListOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileGetRangeListHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileGetRangeListHeaders
     }
   },
   isXML: true,
@@ -817,7 +826,8 @@ const startCopyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileStartCopyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileStartCopyHeaders
     }
   },
   isXML: true,
@@ -844,7 +854,8 @@ const abortCopyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileAbortCopyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileAbortCopyHeaders
     }
   },
   isXML: true,
@@ -873,7 +884,8 @@ const listHandlesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileListHandlesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileListHandlesHeaders
     }
   },
   isXML: true,
@@ -901,7 +913,8 @@ const forceCloseHandlesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FileForceCloseHandlesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.FileForceCloseHandlesHeaders
     }
   },
   isXML: true,

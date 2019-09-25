@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "azure-storage-file";
-const packageVersion = "1.0.0";
+const packageVersion = "10.3.1";
 
 export class StorageClientContext extends msRest.ServiceClient {
   version: string;
