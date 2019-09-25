@@ -4,6 +4,9 @@
 
 ```ts
 
+import { Span as OpenCensusSpan } from '@opencensus/web-types';
+import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
+
 // @public
 export interface Attributes {
     [attributeKey: string]: unknown;
@@ -87,186 +90,7 @@ export class NoOpTracer implements Tracer {
     withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
 }
 
-// @public
-export interface OpenCensusAnnotation {
-    attributes: OpenCensusAttributes;
-    description: string;
-    timestamp: number;
-}
-
-// @public
-export interface OpenCensusAttributes {
-    // (undocumented)
-    [attributeKey: string]: string | number | boolean;
-}
-
-// @public
-export enum OpenCensusCanonicalCode {
-    ABORTED = 10,
-    ALREADY_EXISTS = 6,
-    CANCELLED = 1,
-    DATA_LOSS = 15,
-    DEADLINE_EXCEEDED = 4,
-    FAILED_PRECONDITION = 9,
-    INTERNAL = 13,
-    INVALID_ARGUMENT = 3,
-    NOT_FOUND = 5,
-    OK = 0,
-    OUT_OF_RANGE = 11,
-    PERMISSION_DENIED = 7,
-    RESOURCE_EXHAUSTED = 8,
-    UNAUTHENTICATED = 16,
-    UNAVAILABLE = 14,
-    UNIMPLEMENTED = 12,
-    UNKNOWN = 2
-}
-
-// @public
-export type OpenCensusFunc<T> = (...args: any[]) => T;
-
-// @public
-export interface OpenCensusHeaderGetter {
-    // (undocumented)
-    getHeader(name: string): string | string[] | undefined;
-}
-
-// @public
-export interface OpenCensusHeaderSetter {
-    // (undocumented)
-    setHeader(name: string, value: string): void;
-}
-
-// @public
-export interface OpenCensusLink {
-    attributes: OpenCensusAttributes;
-    spanId: string;
-    traceId: string;
-    type: OpenCensusLinkType;
-}
-
-// @public
-export enum OpenCensusLinkType {
-    CHILD_LINKED_SPAN = 1,
-    PARENT_LINKED_SPAN = 2,
-    UNSPECIFIED = 0
-}
-
-// @public
-export type OpenCensusLogFunction = (message: any, ...args: any[]) => void;
-
-// @public
-export interface OpenCensusLogger {
-    // (undocumented)
-    debug: OpenCensusLogFunction;
-    // (undocumented)
-    error: OpenCensusLogFunction;
-    // (undocumented)
-    info: OpenCensusLogFunction;
-    level?: string;
-    // (undocumented)
-    warn: OpenCensusLogFunction;
-}
-
-// @public
-export interface OpenCensusMessageEvent {
-    compressedSize?: number;
-    id: number;
-    timestamp: number;
-    type: OpenCensusMessageEventType;
-    uncompressedSize?: number;
-}
-
-// @public
-export enum OpenCensusMessageEventType {
-    RECEIVED = 2,
-    SENT = 1,
-    UNSPECIFIED = 0
-}
-
-// @public
-export interface OpenCensusPropagation {
-    // (undocumented)
-    extract(getter: OpenCensusHeaderGetter): OpenCensusSpanContext | null;
-    // (undocumented)
-    generate(): OpenCensusSpanContext;
-    // (undocumented)
-    inject(setter: OpenCensusHeaderSetter, spanContext: OpenCensusSpanContext): void;
-}
-
-// @public
-export interface OpenCensusSampler {
-    readonly description: string;
-    shouldSample(traceId: string): boolean;
-}
-
-// @public
-export interface OpenCensusSpan {
-    activeTraceParams: OpenCensusTraceParams;
-    addAnnotation(description: string, attributes?: OpenCensusAttributes, timestamp?: number): void;
-    addAttribute(key: string, value: string | number | boolean | object): void;
-    addLink(traceId: string, spanId: string, type: OpenCensusLinkType, attributes?: OpenCensusAttributes): void;
-    addMessageEvent(type: OpenCensusMessageEventType, id: number, timestamp?: number, uncompressedSize?: number, compressedSize?: number): void;
-    allDescendants(): OpenCensusSpan[];
-    annotations: OpenCensusAnnotation[];
-    attributes: OpenCensusAttributes;
-    droppedAnnotationsCount: number;
-    droppedAttributesCount: number;
-    droppedLinksCount: number;
-    droppedMessageEventsCount: number;
-    readonly duration: number;
-    end(): void;
-    readonly ended: boolean;
-    readonly endTime: Date;
-    readonly id: string;
-    isRootSpan(): boolean;
-    kind: OpenCensusSpanKind;
-    links: OpenCensusLink[];
-    logger: OpenCensusLogger;
-    messageEvents: OpenCensusMessageEvent[];
-    name: string;
-    numberOfChildren: number;
-    parentSpanId: string;
-    remoteParent: boolean;
-    setStatus(code: OpenCensusCanonicalCode, message?: string): void;
-    readonly spanContext: OpenCensusSpanContext;
-    spans: OpenCensusSpan[];
-    start(): void;
-    startChildSpan(options?: OpenCensusSpanOptions): OpenCensusSpan;
-    readonly started: boolean;
-    readonly startTime: Date;
-    status: OpenCensusStatus;
-    readonly traceId: string;
-    readonly traceState?: OpenCensusTraceState;
-    truncate(): void;
-}
-
-// @public
-export interface OpenCensusSpanContext {
-    options?: number;
-    spanId: string;
-    traceId: string;
-    traceState?: OpenCensusTraceState;
-}
-
-// @public
-export interface OpenCensusSpanEventListener {
-    onEndSpan(span: OpenCensusSpan): void;
-    onStartSpan(span: OpenCensusSpan): void;
-}
-
-// @public
-export enum OpenCensusSpanKind {
-    CLIENT = 2,
-    SERVER = 1,
-    UNSPECIFIED = 0
-}
-
-// @public
-export interface OpenCensusSpanOptions {
-    childOf?: OpenCensusSpan;
-    kind?: OpenCensusSpanKind;
-    name: string;
-}
+export { OpenCensusSpan }
 
 // @public
 export class OpenCensusSpanWrapper implements Span {
@@ -283,61 +107,7 @@ export class OpenCensusSpanWrapper implements Span {
     updateName(name: string): this;
 }
 
-// @public
-export interface OpenCensusStatus {
-    code: OpenCensusCanonicalCode;
-    message?: string;
-}
-
-// @public
-export interface OpenCensusTraceOptions {
-    kind?: OpenCensusSpanKind;
-    name: string;
-    samplingRate?: number;
-    spanContext?: OpenCensusSpanContext;
-}
-
-// @public
-export interface OpenCensusTraceParams {
-    numberOfAnnontationEventsPerSpan?: number;
-    numberOfAttributesPerSpan?: number;
-    numberOfLinksPerSpan?: number;
-    numberOfMessageEventsPerSpan?: number;
-}
-
-// @public
-export interface OpenCensusTracer extends OpenCensusTracerBase {
-    clearCurrentTrace(): void;
-    currentRootSpan: OpenCensusSpan;
-    wrap<T>(fn: OpenCensusFunc<T>): OpenCensusFunc<T>;
-    wrapEmitter(emitter: NodeJS.EventEmitter): void;
-}
-
-// @public
-export interface OpenCensusTracerBase extends OpenCensusSpanEventListener {
-    readonly active: boolean;
-    activeTraceParams: OpenCensusTraceParams;
-    readonly eventListeners: OpenCensusSpanEventListener[];
-    logger: OpenCensusLogger;
-    readonly propagation: OpenCensusPropagation;
-    registerSpanEventListener(listener: OpenCensusSpanEventListener): void;
-    sampler: OpenCensusSampler;
-    setCurrentRootSpan(root: OpenCensusSpan): void;
-    start(config: OpenCensusTracerConfig): this;
-    startChildSpan(options?: OpenCensusSpanOptions): OpenCensusSpan;
-    startRootSpan<T>(options: OpenCensusTraceOptions, fn: (root: OpenCensusSpan) => T): T;
-    stop(): this;
-    unregisterSpanEventListener(listener: OpenCensusSpanEventListener): void;
-}
-
-// @public
-export interface OpenCensusTracerConfig {
-    defaultAttributes?: OpenCensusAttributes;
-    logger?: OpenCensusLogger;
-    propagation?: OpenCensusPropagation;
-    samplingRate?: number;
-    traceParams?: OpenCensusTraceParams;
-}
+export { OpenCensusTracer }
 
 // @public
 export class OpenCensusTracerWrapper implements Tracer {
@@ -351,9 +121,6 @@ export class OpenCensusTracerWrapper implements Tracer {
     startSpan(name: string, options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
 }
-
-// @public (undocumented)
-export type OpenCensusTraceState = string;
 
 // @public
 export interface Sampler {

@@ -7,7 +7,7 @@ import { Status } from "../../interfaces/status";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
-import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan, LinkType } from "../../interfaces/OpenCensus/model";
+import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan, LinkType } from "@opencensus/web-types";
 
 function isWrappedSpan(span?: Span | SpanContext): span is OpenCensusSpanWrapper {
   return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;

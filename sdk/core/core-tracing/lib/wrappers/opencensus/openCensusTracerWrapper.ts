@@ -6,7 +6,7 @@ import { Span } from "../../interfaces/span";
 import { OpenCensusSpanWrapper } from "./openCensusSpanWrapper";
 import { BinaryFormat } from "../../interfaces/BinaryFormat";
 import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
-import { Tracer as OpenCensusTracer } from "../../interfaces/OpenCensus/model";
+import { Tracer as OpenCensusTracer } from "@opencensus/web-types";
 
 /**
  * An implementation of OpenTelemetry Tracer that wraps an OpenCensus Tracer.

@@ -41,34 +41,4 @@ export { Tracer } from "./interfaces/tracer";
 export {
   Tracer as OpenCensusTracer,
   Span as OpenCensusSpan,
-  TracerBase as OpenCensusTracerBase,
-  Func as OpenCensusFunc,
-  Link as OpenCensusLink,
-  Annotation as OpenCensusAnnotation,
-  Attributes as OpenCensusAttributes,
-  CanonicalCode as OpenCensusCanonicalCode,
-  MessageEvent as OpenCensusMessageEvent,
-  SpanOptions as OpenCensusSpanOptions,
-  SpanContext as OpenCensusSpanContext,
-  TraceOptions as OpenCensusTraceOptions,
-  LinkType as OpenCensusLinkType,
-  MessageEventType as OpenCensusMessageEventType,
-  SpanKind as OpenCensusSpanKind,
-  Status as OpenCensusStatus,
-  SpanEventListener as OpenCensusSpanEventListener,
-  TraceState as OpenCensusTraceState
-} from "./interfaces/OpenCensus/model";
-export { Sampler as OpenCensusSampler } from "./interfaces/OpenCensus/sampler";
-export {
-  Propagation as OpenCensusPropagation,
-  HeaderGetter as OpenCensusHeaderGetter,
-  HeaderSetter as OpenCensusHeaderSetter
-} from "./interfaces/OpenCensus/propagation";
-export {
-  TraceParams as OpenCensusTraceParams,
-  TracerConfig as OpenCensusTracerConfig
-} from "./interfaces/OpenCensus/config";
-export {
-  LogFunction as OpenCensusLogFunction,
-  Logger as OpenCensusLogger
-} from "./interfaces/OpenCensus/common";
+} from "@opencensus/web-types";
