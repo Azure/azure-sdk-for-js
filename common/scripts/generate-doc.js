@@ -200,7 +200,8 @@ for (const eachService of serviceFolders) {
                   if (checks.typedocPresent) {
                     const typedocResult = childProcess.spawnSync(
                       "typedoc",
-                      [docOutputFolder],
+                      [docOutputFolder,
+                      "--ignoreCompilerErrors"],
                       {
                         cwd: eachPackagePath,
                         shell: true
