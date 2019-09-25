@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import sinon from "sinon";
 import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, TracerProxy, RequestPolicyOptions, TraceFlags, NoOpTracer, SpanOptions, SpanContext, NoOpSpan } from "../../lib/coreHttp";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
