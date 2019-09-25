@@ -1,4 +1,4 @@
-# 2019-09-24 1.1.0
+# 2019-09-26 1.1.0
 
 - Add browser support. Authentication using Azure Active Directory credentials is not supported yet - use a connection string instead.
   [PR 5128](https://github.com/Azure/azure-sdk-for-js/pull/5128) related to [issue 3373](https://github.com/Azure/azure-sdk-for-js/issues/3373)
