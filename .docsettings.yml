@@ -2,6 +2,7 @@ omitted_paths:
   - documentation/ServicePrincipal/*
   - eng/tools/analyze-deps/**
   - eng/tools/select-packages/**
+  - eng/tools/generate-doc/**
   - "sdk/*/arm-*"
   - "sdk/cognitiveservices/*"
   - "sdk/identity/identity/test/manual/*"
