@@ -76,6 +76,17 @@ jobs:
           artifactName: packages
           path: $(Build.ArtifactStagingDirectory)
 
+      - script: |
+          npm install
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
+        displayName: "Install tool dependencies"
+
+      - pwsh: |
+              cd $(Build.SourcesDirectory)
+              node .\eng\tools\generate-doc\index.js --dgOp "dg" -i "inc" --inc $(DocArgs)
+              Compress-Archive -Path $(Build.SourcesDirectory)/docGen/* -Update -DestinationPath $(Build.ArtifactStagingDirectory)/Documentation.Zip
+            displayName: "Generate Typedoc Docs"
+
   - job: "Analyze"
     dependsOn: "Build"
     variables:

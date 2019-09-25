@@ -58,3 +58,4 @@ stages:
           safeName: azurecoretracing
         - name: azure-logger
           safeName: azurelogger
+      DocArgs: "abort-controller core-amqp core-arm core-auth core-http core-paging core-tracing"
