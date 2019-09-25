@@ -11,6 +11,7 @@ import {
   GetTokenOptions
 } from "@azure/core-http";
 import { AuthenticationError } from "./errors";
+import { createSpan } from "../util/tracing";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -88,6 +89,8 @@ export class IdentityClient extends ServiceClient {
       return null;
     }
 
+    const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
+
     const refreshParams = {
       grant_type: "refresh_token",
       client_id: clientId,
@@ -109,11 +112,13 @@ export class IdentityClient extends ServiceClient {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
       },
+      spanOptions: newOptions.spanOptions,
       abortSignal: options && options.abortSignal
     });
 
     try {
-      return await this.sendTokenRequest(webResource, expiresOnParser);
+      const response = await this.sendTokenRequest(webResource, expiresOnParser);
+      return response;
     } catch (err) {
       if (
         err instanceof AuthenticationError &&
@@ -126,6 +131,8 @@ export class IdentityClient extends ServiceClient {
       } else {
         throw err;
       }
+    } finally {
+      span.end();
     }
   }
 
