@@ -9,6 +9,9 @@ import {
 } from "@azure/core-http";
 import * as Constants from "../util/constants";
 
+/**
+ * Represents settable options on a topic
+ */
 export interface TopicOptions {
   /**
    * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
@@ -82,6 +85,89 @@ export interface TopicOptions {
 }
 
 /**
+ * Represents all attributes of a topic entity
+ */
+export interface TopicFields extends TopicOptions {
+  /**
+   * Name of the topic
+   */
+
+  TopicName?: string;
+
+  /**
+   * Is anonymous accessible topic option
+   */
+  IsAnonymousAccessible?: string;
+
+  /**
+   * Authorization rules on the topic
+   */
+  AuthorizationRules?: any;
+
+  /**
+   * Topic entity status
+   */
+  Status?: string;
+
+  /**
+   * Created at timestamp
+   */
+  CreatedAt?: string;
+
+  /**
+   * Updated at timestamp
+   */
+  UpdatedAt?: string;
+
+  /**
+   * Accessed at timestamp
+   */
+  AccessedAt?: string;
+
+  /**
+   * Is Express option
+   */
+  IsExpress?: string;
+
+  /**
+   * Enable Subscription Partitioning option
+   */
+  EnableSubscriptionPartitioning?: string;
+
+  /**
+   * Filtering Messages Before Publishing option
+   */
+  FilteringMessagesBeforePublishing?: string;
+
+  /**
+   * Entity availability status
+   */
+  EntityAvailabilityStatus?: string;
+
+  /**
+   * Enable express option
+   */
+  EnableExpress?: string;
+
+  /**
+   * Atom XML content root element body
+   * E.g.,
+      {
+        ContentRootElement: "TopicDescription";
+        id: "<url-to-entity>";
+        title: "<topic-name>";
+        published: "<timestamp>";
+        updated: "<timestamp>";
+        author: {
+          name: "<servicebus-namespace>";
+        };
+        link: "<additional-property>";
+      };
+   */
+  _?: any;
+}
+
+/**
  * @ignore TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {
@@ -97,7 +183,7 @@ export class TopicResourceSerializer implements AtomXmlSerializer {
       Constants.SUPPORT_ORDERING,
       Constants.ENABLE_PARTITIONING,
       Constants.SIZE_IN_BYTES,
-      Constants.MESSAGE_COUNT,
+      Constants.MESSAGE_COUNT, // // max delivery count
       Constants.COUNT_DETAILS,
       Constants.SUBSCRIPTION_COUNT
     ];

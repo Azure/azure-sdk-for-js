@@ -22,27 +22,99 @@ import { httpAtomXml } from "./log";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import * as Constants from "./util/constants";
 
-import { QueueResourceSerializer, QueueOptions } from "./serializers/queueResourceSerializer";
-import { TopicResourceSerializer, TopicOptions } from "./serializers/topicResourceSerializer";
+import {
+  QueueResourceSerializer,
+  QueueFields,
+  QueueOptions
+} from "./serializers/queueResourceSerializer";
+import {
+  TopicResourceSerializer,
+  TopicFields,
+  TopicOptions
+} from "./serializers/topicResourceSerializer";
 import {
   SubscriptionResourceSerializer,
+  SubscriptionFields,
   SubscriptionOptions
 } from "./serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer, RuleOptions } from "./serializers/ruleResourceSerializer";
+import {
+  RuleResourceSerializer,
+  RuleFields,
+  RuleOptions
+} from "./serializers/ruleResourceSerializer";
 
-interface ListRequestOptions {
+/**
+ * Request options for list<entity-type>() operations
+ */
+export interface ListRequestOptions {
   top?: number;
   skip?: number;
 }
 
 /**
- * All operations return a `Promise<HttpOperationResponse>` object of which the `parsedBody`
+ * Represents response contents in JSON format
+ */
+export interface RawResourceResponse {
+  isSuccessful: boolean;
+  statusCode: number;
+  body: any;
+  headers: any;
+}
+
+/**
+ * Represents resource results as returned from the operations.
+ */
+export interface ResourceResult {
+  response: RawResourceResponse;
+  result: any;
+}
+
+/**
+ * Queue result
+ */
+export interface QueueResult extends ResourceResult {
+  result: QueueFields | QueueFields[];
+}
+
+/**
+ * Topic result
+ */
+export interface TopicResult extends ResourceResult {
+  result: TopicFields | TopicFields[];
+}
+
+/**
+ * Subscription result
+ */
+export interface SubscriptionResult extends ResourceResult {
+  result: SubscriptionFields | SubscriptionFields[];
+}
+
+/**
+ * Rule result
+ */
+export interface RuleResult extends ResourceResult {
+  result: RuleFields | RuleFields[];
+}
+
+/**
+ * All internal operations return a `Promise<HttpOperationResponse>` object of which the `parsedBody`
  * is populated with the response in JSON format with following structure:
  *  {
- *   response: <actual response>,
+ *   response:
+ *      {
+ *        isSuccessful: isSuccessful,
+ *        statusCode: statusCode,
+ *        body: body,
+ *        headers: headers
+ *      },
  *   result: <parsed result, if any>,
  *   error: <error information, if any>
  *  }
+ *
+ * Above information is used to construct and return a more strongly typed resource as `QueueResult`,
+ * `TopicResult`, `SubscriptionResult` or `RuleResult`.
+ *
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
   private endpoint: string;
@@ -92,28 +164,42 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param queuePath Name of the queue to use
    * @param queueOptions
    */
-  async createQueue(queuePath: string, queueOptions: QueueOptions): Promise<HttpOperationResponse> {
-    return this._putResource(queuePath, queueOptions, false, this.queueResourceSerializer);
+  async createQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult> {
+    const response: HttpOperationResponse = await this._putResource(
+      queuePath,
+      queueOptions,
+      false,
+      this.queueResourceSerializer
+    );
+    const queueResult: QueueResult = this.buildResourceResult(response);
+    return queueResult;
   }
 
   /**
    * Gets a queue.
    * @param queuePath Name of the queue
    */
-  async getQueue(queuePath: string): Promise<HttpOperationResponse> {
-    return this._getResource(queuePath, this.queueResourceSerializer);
+  async getQueue(queuePath: string): Promise<QueueResult> {
+    const response: HttpOperationResponse = await this._getResource(
+      queuePath,
+      this.queueResourceSerializer
+    );
+    const queueResult: QueueResult = this.buildResourceResult(response);
+    return queueResult;
   }
 
   /**
    * Lists existing queues.
    * @param listRequestOptions
    */
-  async listQueues(listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse> {
-    return this._listResources(
+  async listQueues(listRequestOptions?: ListRequestOptions): Promise<QueueResult> {
+    const response: HttpOperationResponse = await this._listResources(
       "$Resources/Queues",
       listRequestOptions,
       this.queueResourceSerializer
     );
+    const queueResult: QueueResult = this.buildResourceResult(response);
+    return queueResult;
   }
 
   /**
@@ -121,16 +207,28 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param queuePath
    * @param queueOptions
    */
-  async updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<HttpOperationResponse> {
-    return this._putResource(queuePath, queueOptions, true, this.queueResourceSerializer);
+  async updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult> {
+    const response: HttpOperationResponse = await this._putResource(
+      queuePath,
+      queueOptions,
+      true,
+      this.queueResourceSerializer
+    );
+    const queueResult: QueueResult = this.buildResourceResult(response);
+    return queueResult;
   }
 
   /**
    * Deletes a queue.
    * @param queuePath
    */
-  async deleteQueue(queuePath: string): Promise<HttpOperationResponse> {
-    return this._deleteResource(queuePath, this.queueResourceSerializer);
+  async deleteQueue(queuePath: string): Promise<QueueResult> {
+    const response: HttpOperationResponse = await this._deleteResource(
+      queuePath,
+      this.queueResourceSerializer
+    );
+    const queueResult: QueueResult = this.buildResourceResult(response);
+    return queueResult;
   }
 
   /**
@@ -138,8 +236,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicPath
    * @param topicOptions
    */
-  async createTopic(topicPath: string, topicOptions: TopicOptions): Promise<HttpOperationResponse> {
-    return this._putResource(topicPath, topicOptions, false, this.topicResourceSerializer);
+  async createTopic(topicPath: string, topicOptions: TopicOptions): Promise<TopicResult> {
+    const response: HttpOperationResponse = await this._putResource(
+      topicPath,
+      topicOptions,
+      false,
+      this.topicResourceSerializer
+    );
+    const topicResult: TopicResult = this.buildResourceResult(response);
+    return topicResult;
   }
 
   /**
@@ -147,36 +252,55 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicPath
    * @param topicOptions
    */
-  async updateTopic(topicPath: string, topicOptions: TopicOptions): Promise<HttpOperationResponse> {
-    return this._putResource(topicPath, topicOptions, true, this.topicResourceSerializer);
+  async updateTopic(topicPath: string, topicOptions: TopicOptions): Promise<TopicResult> {
+    const response: HttpOperationResponse = await this._putResource(
+      topicPath,
+      topicOptions,
+      true,
+      this.topicResourceSerializer
+    );
+    const topicResult: TopicResult = this.buildResourceResult(response);
+    return topicResult;
   }
 
   /**
    * Deletes a topic.
    * @param topicPath
    */
-  async deleteTopic(topicPath: string): Promise<HttpOperationResponse> {
-    return this._deleteResource(topicPath, this.topicResourceSerializer);
+  async deleteTopic(topicPath: string): Promise<TopicResult> {
+    const response: HttpOperationResponse = await this._deleteResource(
+      topicPath,
+      this.topicResourceSerializer
+    );
+    const topicResult: TopicResult = this.buildResourceResult(response);
+    return topicResult;
   }
 
   /**
    * Gets a topic.
    * @param topicPath
    */
-  async getTopic(topicPath: string): Promise<HttpOperationResponse> {
-    return this._getResource(topicPath, this.topicResourceSerializer);
+  async getTopic(topicPath: string): Promise<TopicResult> {
+    const response: HttpOperationResponse = await this._getResource(
+      topicPath,
+      this.topicResourceSerializer
+    );
+    const topicResult: TopicResult = this.buildResourceResult(response);
+    return topicResult;
   }
 
   /**
    * Lists existing topics.
    * @param listRequestOptions
    */
-  async listTopics(listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse> {
-    return this._listResources(
+  async listTopics(listRequestOptions?: ListRequestOptions): Promise<TopicResult> {
+    const response: HttpOperationResponse = await this._listResources(
       "$Resources/Topics",
       listRequestOptions,
       this.topicResourceSerializer
     );
+    const topicResult: TopicResult = this.buildResourceResult(response);
+    return topicResult;
   }
 
   /**
@@ -185,18 +309,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptionPath
    * @param subscriptionOptions
    */
-  createSubscription(
+  async createSubscription(
     topicPath: string,
     subscriptionPath: string,
     subscriptionOptions: SubscriptionOptions
-  ): Promise<HttpOperationResponse> {
+  ): Promise<SubscriptionResult> {
     const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
-    return this._putResource(
+    const response: HttpOperationResponse = await this._putResource(
       fullPath,
       subscriptionOptions,
       false,
       this.subscriptionResourceSerializer
     );
+    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
+    return subscriptionResult;
   }
 
   /**
@@ -205,18 +331,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptionPath
    * @param subscriptionOptions
    */
-  updateSubscription(
+  async updateSubscription(
     topicPath: string,
     subscriptionPath: string,
     subscriptionOptions: SubscriptionOptions
-  ): Promise<HttpOperationResponse> {
+  ): Promise<SubscriptionResult> {
     const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
-    return this._putResource(
+    const response: HttpOperationResponse = await this._putResource(
       fullPath,
       subscriptionOptions,
       true,
       this.subscriptionResourceSerializer
     );
+    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
+    return subscriptionResult;
   }
 
   /**
@@ -224,9 +352,17 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicPath
    * @param subscriptionPath
    */
-  deleteSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse> {
+  async deleteSubscription(
+    topicPath: string,
+    subscriptionPath: string
+  ): Promise<SubscriptionResult> {
     const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
-    return this._deleteResource(fullPath, this.subscriptionResourceSerializer);
+    const response: HttpOperationResponse = await this._deleteResource(
+      fullPath,
+      this.subscriptionResourceSerializer
+    );
+    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
+    return subscriptionResult;
   }
 
   /**
@@ -234,9 +370,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicPath
    * @param subscriptionPath
    */
-  getSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse> {
+  async getSubscription(topicPath: string, subscriptionPath: string): Promise<SubscriptionResult> {
     const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
-    return this._getResource(fullPath, this.subscriptionResourceSerializer);
+    const response: HttpOperationResponse = await this._getResource(
+      fullPath,
+      this.subscriptionResourceSerializer
+    );
+    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
+    return subscriptionResult;
   }
 
   /**
@@ -247,12 +388,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   async listSubscriptions(
     topicPath: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<HttpOperationResponse> {
-    return this._listResources(
+  ): Promise<SubscriptionResult> {
+    const response: HttpOperationResponse = await this._listResources(
       topicPath + "/Subscriptions/",
       listRequestOptions,
       this.subscriptionResourceSerializer
     );
+    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
+    return subscriptionResult;
   }
 
   /**
@@ -267,10 +410,17 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     subscriptionPath: string,
     rule: string,
     ruleOptions: RuleOptions
-  ): Promise<HttpOperationResponse> {
+  ): Promise<RuleResult> {
     const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
 
-    return this._putResource(fullPath, ruleOptions, false, this.ruleResourceSerializer);
+    const response: HttpOperationResponse = await this._putResource(
+      fullPath,
+      ruleOptions,
+      false,
+      this.ruleResourceSerializer
+    );
+    const ruleResult: RuleResult = this.buildResourceResult(response);
+    return ruleResult;
   }
 
   /**
@@ -285,10 +435,17 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     subscriptionPath: string,
     rule: string,
     ruleOptions: RuleOptions
-  ): Promise<HttpOperationResponse> {
+  ): Promise<RuleResult> {
     const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
 
-    return this._putResource(fullPath, ruleOptions, true, this.ruleResourceSerializer);
+    const response: HttpOperationResponse = await this._putResource(
+      fullPath,
+      ruleOptions,
+      true,
+      this.ruleResourceSerializer
+    );
+    const ruleResult: RuleResult = this.buildResourceResult(response);
+    return ruleResult;
   }
 
   /**
@@ -297,13 +454,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptionPath
    * @param rule
    */
-  async deleteRule(
-    topicPath: string,
-    subscriptionPath: string,
-    rule: string
-  ): Promise<HttpOperationResponse> {
+  async deleteRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult> {
     const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
-    return this._deleteResource(fullPath, this.ruleResourceSerializer);
+    const response: HttpOperationResponse = await this._deleteResource(
+      fullPath,
+      this.ruleResourceSerializer
+    );
+    const ruleResult: RuleResult = this.buildResourceResult(response);
+    return ruleResult;
   }
 
   /**
@@ -312,13 +470,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param subscriptionPath
    * @param rule
    */
-  async getRule(
-    topicPath: string,
-    subscriptionPath: string,
-    rule: string
-  ): Promise<HttpOperationResponse> {
+  async getRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult> {
     const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
-    return this._getResource(fullPath, this.ruleResourceSerializer);
+    const response: HttpOperationResponse = await this._getResource(
+      fullPath,
+      this.ruleResourceSerializer
+    );
+    const ruleResult: RuleResult = this.buildResourceResult(response);
+    return ruleResult;
   }
 
   /**
@@ -331,34 +490,47 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     topicPath: string,
     subscriptionPath: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<HttpOperationResponse> {
+  ): Promise<RuleResult> {
     const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath) + "/Rules/";
-    return this._listResources(fullPath, listRequestOptions, this.ruleResourceSerializer);
+    const response: HttpOperationResponse = await this._listResources(
+      fullPath,
+      listRequestOptions,
+      this.ruleResourceSerializer
+    );
+    const ruleResult: RuleResult = this.buildResourceResult(response);
+    return ruleResult;
   }
 
   /**
-   *
    * @param queuePath
    */
   formatDeadLetterPath(queuePath: string): string {
     return `${queuePath}/$DeadLetterQueue`;
   }
 
+  private buildResourceResult(response: HttpOperationResponse): any {
+    const resourceResult: ResourceResult = {
+      response: response.parsedBody.response,
+      result: response.parsedBody.result
+    };
+    return resourceResult;
+  }
+
   /**
    * Creates or updates a resource based on `isUpdate` parameter.
    * @param path
-   * @param entityOptions
+   * @param entityFields
    * @param isUpdate
    * @param serializer
    */
   private async _putResource(
     path: string,
-    entityOptions: QueueOptions | TopicOptions | SubscriptionOptions | RuleOptions,
+    entityFields: QueueOptions | TopicOptions | SubscriptionOptions | RuleOptions,
     isUpdate: boolean = false,
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(path), "PUT");
-    webResource.body = JSON.stringify(entityOptions);
+    webResource.body = JSON.stringify(entityFields);
     if (isUpdate) {
       webResource.headers.set("If-Match", "*");
     }

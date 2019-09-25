@@ -10,7 +10,6 @@ import { DataTransformer } from '@azure/amqp-common';
 import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
-import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
@@ -47,7 +46,13 @@ export { delay }
 
 export { Delivery }
 
-export { HttpOperationResponse }
+// @public
+export interface ListRequestOptions {
+    // (undocumented)
+    skip?: number;
+    // (undocumented)
+    top?: number;
+}
 
 // @public
 export interface MessageHandlerOptions {
@@ -86,6 +91,58 @@ export class QueueClient implements Client {
 }
 
 // @public
+export interface QueueFields extends QueueOptions {
+    _?: any;
+    AccessedAt?: string;
+    AuthorizationRules?: any;
+    CountDetails?: any;
+    CreatedAt?: string;
+    EnableExpress?: string;
+    EntityAvailabilityStatus?: string;
+    IsAnonymousAccessible?: string;
+    QueueName?: string;
+    Status?: string;
+    SupportOrdering?: string;
+    UpdatedAt?: string;
+}
+
+// @public
+export interface QueueOptions {
+    AutoDeleteOnIdle?: string;
+    DeadLetteringOnMessageExpiration?: string;
+    DefaultMessageTimeToLive?: string;
+    DuplicateDetectionHistoryTimeWindow?: string;
+    EnableBatchedOperations?: string;
+    EnablePartitioning?: string;
+    ForwardDeadLetteredMessagesTo?: string;
+    LockDuration?: string;
+    MaxDeliveryCount?: string;
+    MaxSizeInMegabytes?: string;
+    MessageCount?: string;
+    RequiresDuplicateDetection?: string;
+    RequiresSession?: string;
+    SizeInBytes?: string;
+}
+
+// @public
+export interface QueueResult extends ResourceResult {
+    // (undocumented)
+    result: QueueFields | QueueFields[];
+}
+
+// @public
+export interface RawResourceResponse {
+    // (undocumented)
+    body: any;
+    // (undocumented)
+    headers: any;
+    // (undocumented)
+    isSuccessful: boolean;
+    // (undocumented)
+    statusCode: number;
+}
+
+// @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
@@ -119,10 +176,46 @@ export class Receiver {
     }
 
 // @public
+export interface ResourceResult {
+    // (undocumented)
+    response: RawResourceResponse;
+    // (undocumented)
+    result: any;
+}
+
+// @public
 export interface RuleDescription {
     action?: string;
     filter?: string | CorrelationFilter;
     name: string;
+}
+
+// @public
+export interface RuleFields extends RuleOptions {
+    _?: any;
+    Action?: string;
+    CreatedAt?: string;
+    Filter?: any;
+    Name?: string;
+    RuleName?: string;
+    SubscriptionName?: string;
+    TopicName?: string;
+}
+
+// @public
+export interface RuleOptions {
+    correlationFilter?: string;
+    falseFilter?: string;
+    name?: string;
+    sqlExpressionFilter?: string;
+    sqlRuleAction?: string;
+    trueFilter?: string;
+}
+
+// @public
+export interface RuleResult extends ResourceResult {
+    // (undocumented)
+    result: RuleFields | RuleFields[];
 }
 
 // @public
@@ -160,33 +253,28 @@ export class Sender {
 // @public
 export class ServiceBusAtomManagementClient extends ServiceClient {
     constructor(connectionString: string, proxySettings?: ProxySettings);
-    // Warning: (ae-forgotten-export) The symbol "QueueOptions" needs to be exported by the entry point index.d.ts
-    createQueue(queuePath: string, queueOptions: QueueOptions): Promise<HttpOperationResponse>;
-    // Warning: (ae-forgotten-export) The symbol "RuleOptions" needs to be exported by the entry point index.d.ts
-    createRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<HttpOperationResponse>;
-    // Warning: (ae-forgotten-export) The symbol "SubscriptionOptions" needs to be exported by the entry point index.d.ts
-    createSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<HttpOperationResponse>;
-    // Warning: (ae-forgotten-export) The symbol "TopicOptions" needs to be exported by the entry point index.d.ts
-    createTopic(topicPath: string, topicOptions: TopicOptions): Promise<HttpOperationResponse>;
-    deleteQueue(queuePath: string): Promise<HttpOperationResponse>;
-    deleteRule(topicPath: string, subscriptionPath: string, rule: string): Promise<HttpOperationResponse>;
-    deleteSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse>;
-    deleteTopic(topicPath: string): Promise<HttpOperationResponse>;
+    createQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult>;
+    createRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<RuleResult>;
+    createSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<SubscriptionResult>;
+    createTopic(topicPath: string, topicOptions: TopicOptions): Promise<TopicResult>;
+    deleteQueue(queuePath: string): Promise<QueueResult>;
+    deleteRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult>;
+    deleteSubscription(topicPath: string, subscriptionPath: string): Promise<SubscriptionResult>;
+    deleteTopic(topicPath: string): Promise<TopicResult>;
     // (undocumented)
     formatDeadLetterPath(queuePath: string): string;
-    getQueue(queuePath: string): Promise<HttpOperationResponse>;
-    getRule(topicPath: string, subscriptionPath: string, rule: string): Promise<HttpOperationResponse>;
-    getSubscription(topicPath: string, subscriptionPath: string): Promise<HttpOperationResponse>;
-    getTopic(topicPath: string): Promise<HttpOperationResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ListRequestOptions" needs to be exported by the entry point index.d.ts
-    listQueues(listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse>;
-    listRules(topicPath: string, subscriptionPath: string, listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse>;
-    listSubscriptions(topicPath: string, listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse>;
-    listTopics(listRequestOptions?: ListRequestOptions): Promise<HttpOperationResponse>;
-    updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<HttpOperationResponse>;
-    updateRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<HttpOperationResponse>;
-    updateSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<HttpOperationResponse>;
-    updateTopic(topicPath: string, topicOptions: TopicOptions): Promise<HttpOperationResponse>;
+    getQueue(queuePath: string): Promise<QueueResult>;
+    getRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult>;
+    getSubscription(topicPath: string, subscriptionPath: string): Promise<SubscriptionResult>;
+    getTopic(topicPath: string): Promise<TopicResult>;
+    listQueues(listRequestOptions?: ListRequestOptions): Promise<QueueResult>;
+    listRules(topicPath: string, subscriptionPath: string, listRequestOptions?: ListRequestOptions): Promise<RuleResult>;
+    listSubscriptions(topicPath: string, listRequestOptions?: ListRequestOptions): Promise<SubscriptionResult>;
+    listTopics(listRequestOptions?: ListRequestOptions): Promise<TopicResult>;
+    updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult>;
+    updateRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<RuleResult>;
+    updateSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<SubscriptionResult>;
+    updateTopic(topicPath: string, topicOptions: TopicOptions): Promise<TopicResult>;
 }
 
 // @public
@@ -299,6 +387,42 @@ export class SubscriptionClient implements Client {
     readonly topicName: string;
 }
 
+// @public
+export interface SubscriptionFields extends SubscriptionOptions {
+    _?: any;
+    AccessedAt?: string;
+    CreatedAt?: string;
+    EntityAvailabilityStatus?: string;
+    Status?: string;
+    SubscriptionName?: string;
+    TopicName?: string;
+    UpdatedAt?: string;
+}
+
+// @public
+export interface SubscriptionOptions {
+    AutoDeleteOnIdle?: string;
+    CountDetails?: string;
+    DeadLetteringOnFilterEvaluationExceptions?: string;
+    DeadLetteringOnMessageExpiration?: string;
+    DefaultMessageTimeToLive?: string;
+    EnableBatchedOperations?: string;
+    EnablePartitioning?: string;
+    ForwardDeadLetteredMessagesTo?: string;
+    LockDuration?: string;
+    MaxDeliveryCount?: string;
+    MaxSizeInMegabytes?: string;
+    MessageCount?: string;
+    RequiresSession?: string;
+    SizeInBytes?: string;
+}
+
+// @public
+export interface SubscriptionResult extends ResourceResult {
+    // (undocumented)
+    result: SubscriptionFields | SubscriptionFields[];
+}
+
 export { TokenInfo }
 
 export { TokenProvider }
@@ -312,6 +436,46 @@ export class TopicClient implements Client {
     readonly entityPath: string;
     static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
     readonly id: string;
+}
+
+// @public
+export interface TopicFields extends TopicOptions {
+    _?: any;
+    AccessedAt?: string;
+    AuthorizationRules?: any;
+    CreatedAt?: string;
+    EnableExpress?: string;
+    EnableSubscriptionPartitioning?: string;
+    EntityAvailabilityStatus?: string;
+    FilteringMessagesBeforePublishing?: string;
+    IsAnonymousAccessible?: string;
+    IsExpress?: string;
+    Status?: string;
+    TopicName?: string;
+    UpdatedAt?: string;
+}
+
+// @public
+export interface TopicOptions {
+    AutoDeleteOnIdle?: string;
+    CountDetails?: string;
+    DefaultMessageTimeToLive?: string;
+    DuplicateDetectionHistoryTimeWindow?: string;
+    EnableBatchedOperations?: string;
+    EnablePartitioning?: string;
+    MaxDeliveryCount?: string;
+    MaxSizeInMegabytes?: string;
+    MessageCount?: string;
+    RequiresDuplicateDetection?: string;
+    SizeInBytes?: string;
+    SubscriptionCount?: string;
+    SupportOrdering?: string;
+}
+
+// @public
+export interface TopicResult extends ResourceResult {
+    // (undocumented)
+    result: TopicFields | TopicFields[];
 }
 
 export { WebSocketImpl }

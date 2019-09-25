@@ -9,6 +9,9 @@ import {
 } from "@azure/core-http";
 import * as Constants from "../util/constants";
 
+/**
+ * Represents settable options on a rule
+ */
 export interface RuleOptions {
   /**
    * Name of the rule.
@@ -39,6 +42,68 @@ export interface RuleOptions {
    * Defines the expression that the rule evaluates. If the rule is of type SQL, the expression string is interpreted as a SQL92 expression which must evaluate to True or False. If the rule is of type CorrelationFilterExpression then only the messages whose CorrelationId match the CorrelationId set in the filter expression are allowed.
    */
   sqlRuleAction?: string;
+}
+
+/**
+ * Represents all attributes of a rule entity
+ */
+export interface RuleFields extends RuleOptions {
+  /**
+   * Path name of the rule entity
+   */
+  RuleName?: string;
+
+  /**
+   * Name of topic
+   */
+  TopicName?: string;
+
+  /**
+   * Name of subscription
+   */
+  SubscriptionName?: string;
+
+  /**
+   * Name of the rule
+   */
+  Name?: string;
+
+  /**
+   * JSON representation of Filter object
+   * E.g.,
+   *       {
+              "SqlExpression": "1=1",
+              "CompatibilityLevel": "20"
+            }
+   */
+  Filter?: any;
+
+  /**
+   * Rule action
+   */
+  Action?: string;
+
+  /**
+   * Created at timestamp
+   */
+  CreatedAt?: string;
+
+  /**
+   * Atom XML content root element body
+   * E.g.,
+      {
+        ContentRootElement: "RuleDescription";
+        id: "<url-to-entity>";
+        title: "<rule-name>";
+        published: "<timestamp>";
+        updated: "<timestamp>";
+        author: {
+          name: "<servicebus-namespace>";
+        };
+        link: "<additional-property>";
+      };
+   */
+  _?: any;
 }
 
 /**

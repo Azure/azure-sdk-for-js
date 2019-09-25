@@ -9,6 +9,9 @@ import {
 } from "@azure/core-http";
 import * as Constants from "../util/constants";
 
+/**
+ * Represents settable options on a subscription
+ */
 export interface SubscriptionOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
@@ -85,6 +88,63 @@ export interface SubscriptionOptions {
    *
    */
   CountDetails?: string;
+}
+
+/**
+ * Represents all attributes of a subscription entity
+ */
+export interface SubscriptionFields extends SubscriptionOptions {
+  /**
+   * Name of the subscription
+   */
+  SubscriptionName?: string;
+
+  /**
+   * Name of the topic
+   */
+  TopicName?: string;
+
+  /**
+   * Entity availability status
+   */
+  EntityAvailabilityStatus?: string;
+
+  /**
+   * Queue entity status
+   */
+  Status?: string;
+
+  /**
+   * Created at timestamp
+   */
+  CreatedAt?: string;
+
+  /**
+   * Updated at timestamp
+   */
+  UpdatedAt?: string;
+
+  /**
+   * Accessed at timestamp
+   */
+  AccessedAt?: string;
+
+  /**
+   * Atom XML content root element body
+   * E.g.,
+      {
+        ContentRootElement: "SubscriptionDescription";
+        id: "<url-to-entity>";
+        title: "<subscription-name>";
+        published: "<timestamp>";
+        updated: "<timestamp>";
+        author: {
+          name: "<servicebus-namespace>";
+        };
+        link: "<additional-property>";
+      };
+   */
+  _?: any;
 }
 
 /**

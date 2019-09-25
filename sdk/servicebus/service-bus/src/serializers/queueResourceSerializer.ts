@@ -9,6 +9,9 @@ import {
 } from "@azure/core-http";
 import * as Constants from "../util/constants";
 
+/**
+ * Represents settable options on a queue
+ */
 export interface QueueOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for processing by a receiver. After this period, the message is unlocked and available for consumption by the next receiver. Settable only at queue creation time.
@@ -84,6 +87,92 @@ export interface QueueOptions {
    *
    */
   ForwardDeadLetteredMessagesTo?: string;
+}
+
+/**
+ * Represents all attributes of a queue entity
+ */
+export interface QueueFields extends QueueOptions {
+  /**
+   * Name of the queue
+   */
+  QueueName?: string;
+
+  /**
+   * Is anonymous accessible queue option
+   */
+  IsAnonymousAccessible?: string;
+
+  /**
+   * Authorization rules on the queue
+   */
+  AuthorizationRules?: any;
+
+  /**
+   * Queue entity status
+   */
+  Status?: string;
+
+  /**
+   * Created at timestamp
+   */
+  CreatedAt?: string;
+
+  /**
+   * Updated at timestamp
+   */
+  UpdatedAt?: string;
+
+  /**
+   * Accessed at timestamp
+   */
+  AccessedAt?: string;
+
+  /**
+   * Ordering support for messages
+   */
+  SupportOrdering?: string;
+
+  /**
+   * Count details
+   * E.g.,
+        {
+          "d2p1:ActiveMessageCount": "0";
+          "d2p1:DeadLetterMessageCount": "0";
+          "d2p1:ScheduledMessageCount": "0";
+          "d2p1:TransferMessageCount": "0";
+          "d2p1:TransferDeadLetterMessageCount": "0";
+        };
+   *
+   */
+  CountDetails?: any;
+
+  /**
+   * Entity availability status
+   */
+  EntityAvailabilityStatus?: string;
+
+  /**
+   * Enable express option
+   */
+  EnableExpress?: string;
+
+  /**
+   * Atom XML content root element body
+   * E.g.,
+      {
+        ContentRootElement: "QueueDescription";
+        id: "<url-to-entity>";
+        title: "<queue-name>";
+        published: "<timestamp>";
+        updated: "<timestamp>";
+        author: {
+          name: "<servicebus-namespace>";
+        };
+        link: "<additional-property>";
+      };
+   */
+  _?: any;
 }
 
 /**
