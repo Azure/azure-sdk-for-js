@@ -513,6 +513,7 @@ export class ContainerClient extends StorageClient {
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
+    options = options || {};
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
@@ -537,10 +538,11 @@ export class ContainerClient extends StorageClient {
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const sharedKeyCredential = new SharedKeyCredential(
-            extractedCreds.accountName,
+            extractedCreds.accountName!,
             extractedCreds.accountKey
           );
           urlOrConnectionString = extractedCreds.url + "/" + containerName + "/";
+          options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");

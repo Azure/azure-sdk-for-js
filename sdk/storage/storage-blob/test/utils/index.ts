@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
-import { SimpleTokenCredential } from "./testutils.common";
+import { SimpleTokenCredential, env } from "./testutils.common";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { getUniqueName } from "./testutils.common";
@@ -45,14 +45,18 @@ export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = ""
 ): BlobServiceClient {
-  const credential = getGenericCredential(accountType) as SharedKeyCredential;
+  if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+    return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+  } else {
+    const credential = getGenericCredential(accountType) as SharedKeyCredential;
 
-  const pipeline = newPipeline(credential, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
-  const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
-  return new BlobServiceClient(blobPrimaryURL, pipeline);
+    const pipeline = newPipeline(credential, {
+      // Enable logger when debugging
+      // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+    });
+    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
+    return new BlobServiceClient(blobPrimaryURL, pipeline);
+  }
 }
 
 export function getTokenCredential(): TokenCredential {

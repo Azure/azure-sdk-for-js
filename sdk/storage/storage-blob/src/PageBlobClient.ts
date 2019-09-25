@@ -445,6 +445,7 @@ export class PageBlobClient extends BlobClient {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
     let pipeline: Pipeline;
+    options = options || {};
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
@@ -473,10 +474,11 @@ export class PageBlobClient extends BlobClient {
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const sharedKeyCredential = new SharedKeyCredential(
-            extractedCreds.accountName,
+            extractedCreds.accountName!,
             extractedCreds.accountKey
           );
           urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+          options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");

@@ -3,7 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
-import { HeaderConstants, URLConstants } from "./constants";
+import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -71,6 +71,31 @@ export function escapeURLPath(url: string): string {
   return urlParsed.toString();
 }
 
+export interface ConnString {
+  kind: "AccountConnString" | "SASConnString";
+  url: string;
+  accountName?: string;
+  accountKey?: any;
+  accountSas?: string;
+  proxyUri?: string; // Development Connection String may contain proxyUri
+}
+
+function getProxyUriFromDevConnString(connectionString: string): string {
+  // Development Connection String
+  // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  let proxyUri = "";
+  if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
+    // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
+    const matchCredentials = connectionString.split(";");
+    for (const element of matchCredentials) {
+      if (element.trim().startsWith("DevelopmentStorageProxyUri=")) {
+        proxyUri = element.trim().match("DevelopmentStorageProxyUri=(.*)")![1];
+      }
+    }
+  }
+  return proxyUri;
+}
+
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
@@ -78,9 +103,9 @@ export function escapeURLPath(url: string): string {
  * @param {string} connectionString Connection string.
  * @returns {{ kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any }} String key value pairs of the storage account's url and credentials.
  */
-export function extractConnectionStringParts(
-  connectionString: string
-): { kind: "AccountConnString" | "SASConnString"; url: string; [key: string]: any } {
+export function extractConnectionStringParts(connectionString: string): ConnString {
+  let proxyUri = "";
+
   function getValueInConnString(argument: string) {
     const matchCredentials = connectionString.split(";");
     for (const element of matchCredentials) {
@@ -89,6 +114,12 @@ export function extractConnectionStringParts(
       }
     }
     return "";
+  }
+
+  if (connectionString.startsWith("UseDevelopmentStorage=true")) {
+    // Development connection string
+    proxyUri = getProxyUriFromDevConnString(connectionString);
+    connectionString = DevelopmentConnectionString;
   }
 
   // Matching BlobEndpoint in the Account connection string
@@ -141,7 +172,8 @@ export function extractConnectionStringParts(
       kind: "AccountConnString",
       url: blobEndpoint,
       accountName,
-      accountKey
+      accountKey,
+      proxyUri
     };
   } else {
     // SAS connection string
