@@ -5,7 +5,7 @@ import { InkRecognitionResult } from './InkRecognitionResult';
 import { parseInkRecognitionResult } from './InkRecognitionUnitBuilder';
 
 const packageName = "@azure/inkrecognizer";
-const packageVersion = "1.0.0";
+const packageVersion = "0.1.0";
 
 /**
  * Default options for the request sent to the InkRecognizer service.
