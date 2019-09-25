@@ -1377,7 +1377,8 @@ export class BlobClient extends StorageClient {
     sharedKeyCredential: SharedKeyCredential
   ): string {
     if (isNode) {
-      return `${this.url}?${generateBlobSASQueryParameters(
+      const url = this.url.split("?")[0]; // removing the sas part of url if present
+      return `${url}?${generateBlobSASQueryParameters(
         {
           blobName: this.blobName,
           containerName: this.containerName,
