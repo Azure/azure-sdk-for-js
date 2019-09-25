@@ -21,7 +21,22 @@ export default [
       file: "dist/index.js",
       format: "umd",
       name: "Microsoft.Azure.Cosmos",
-      sourcemap: true
+      sourcemap: true,
+      globals: {
+        "universal-user-agent": "universalUserAgent",
+        "@azure/cosmos-sign": "cosmosSign",
+        "binary-search-bounds": "bs",
+        "crypto-hash": "cryptoHash",
+        "fast-json-stable-stringify": "stableStringify",
+        "uuid/v4": "uuid",
+        "node-abort-controller": "AbortController",
+        "node-fetch": "fetch",
+        tslib: "tslib_1",
+        debug: "debugLib",
+        priorityqueuejs: "PriorityQueue",
+        semaphore: "semaphore",
+        atob: "atob"
+      }
     },
     plugins: [resolve()]
   }
