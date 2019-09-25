@@ -32,7 +32,7 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
-import { getEnvVars, isNode } from "./utils/envVarUtils";
+import { getEnvVars } from "./utils/envVarUtils";
 import { loginWithServicePrincipalSecret } from "./utils/aadUtils";
 
 const should = chai.should();
@@ -340,22 +340,6 @@ describe("Test createFromAadTokenCredentials", function(): void {
     should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
     should.equal(msgs.length, 1, "Unexpected number of messages");
   }
-
-  it("throws error when using `CreateFromAadTokenCredentials` in browser #RunInBrowser", async function(): Promise<
-    void
-  > {
-    if (!isNode) {
-      const credentials: any = {};
-      await testCreateFromAadTokenCredentials(serviceBusEndpoint, credentials).catch((err) => {
-        errorWasThrown = true;
-        should.equal(
-          err.message,
-          "`createFromAadTokenCredentials` cannot be used to create ServiceBusClient as AAD support is not present in browser."
-        );
-      });
-      should.equal(errorWasThrown, true, "Error thrown flag must be true");
-    }
-  });
 
   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
     await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {

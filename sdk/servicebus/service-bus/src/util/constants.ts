@@ -3,7 +3,8 @@
 
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "1.1.0"
+  version: "1.0.4"
 };
+
 
 export const max32BitNumber = Math.pow(2, 31) - 1;
