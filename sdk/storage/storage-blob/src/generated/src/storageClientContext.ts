@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "azure-storage-blob";
-const packageVersion = "1.0.0";
+const packageVersion = "11.0.0";
 
 export class StorageClientContext extends msRest.ServiceClient {
   url: string;

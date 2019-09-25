@@ -206,7 +206,8 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DirectoryCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectoryCreateHeaders
     }
   },
   isXML: true,
@@ -252,7 +253,8 @@ const renameOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DirectoryRenameHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectoryRenameHeaders
     }
   },
   isXML: true,
@@ -284,7 +286,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DirectoryDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectoryDeleteHeaders
     }
   },
   isXML: true,
@@ -319,7 +322,8 @@ const setAccessControlOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DirectorySetAccessControlHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectorySetAccessControlHeaders
     }
   },
   isXML: true,
@@ -351,7 +355,8 @@ const getAccessControlOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DirectoryGetAccessControlHeaders
     },
     default: {
-      bodyMapper: Mappers.DataLakeStorageError
+      bodyMapper: Mappers.DataLakeStorageError,
+      headersMapper: Mappers.DirectoryGetAccessControlHeaders
     }
   },
   isXML: true,

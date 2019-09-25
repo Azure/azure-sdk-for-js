@@ -266,7 +266,8 @@ const uploadOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlockBlobUploadHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobUploadHeaders
     }
   },
   isXML: true,
@@ -311,7 +312,8 @@ const stageBlockOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlockBlobStageBlockHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobStageBlockHeaders
     }
   },
   isXML: true,
@@ -351,7 +353,8 @@ const stageBlockFromURLOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlockBlobStageBlockFromURLHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobStageBlockFromURLHeaders
     }
   },
   isXML: true,
@@ -403,7 +406,8 @@ const commitBlockListOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlockBlobCommitBlockListHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobCommitBlockListHeaders
     }
   },
   isXML: true,
@@ -433,7 +437,8 @@ const getBlockListOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlockBlobGetBlockListHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobGetBlockListHeaders
     }
   },
   isXML: true,

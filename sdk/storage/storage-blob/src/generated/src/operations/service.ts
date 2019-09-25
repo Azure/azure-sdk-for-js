@@ -253,7 +253,8 @@ const setPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceSetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceSetPropertiesHeaders
     }
   },
   isXML: true,
@@ -280,7 +281,8 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -307,7 +309,8 @@ const getStatisticsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceGetStatisticsHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetStatisticsHeaders
     }
   },
   isXML: true,
@@ -337,7 +340,8 @@ const listContainersSegmentOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceListContainersSegmentHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceListContainersSegmentHeaders
     }
   },
   isXML: true,
@@ -372,7 +376,8 @@ const getUserDelegationKeyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders
     }
   },
   isXML: true,
@@ -396,7 +401,8 @@ const getAccountInfoOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceGetAccountInfoHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetAccountInfoHeaders
     }
   },
   isXML: true,
@@ -440,7 +446,8 @@ const submitBatchOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceSubmitBatchHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceSubmitBatchHeaders
     }
   },
   isXML: true,

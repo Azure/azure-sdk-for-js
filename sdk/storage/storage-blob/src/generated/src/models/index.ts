@@ -4777,11 +4777,6 @@ export interface BlobCreateSnapshotHeaders {
    * provided in the request and encrypted with a customer-provided key.
    */
   isServerEncrypted?: boolean;
-  /**
-   * The SHA-256 hash of the encryption key used to encrypt the source blob. This header is only
-   * returned when the blob was encrypted with a customer-provided key.
-   */
-  encryptionKeySha256?: string;
   errorCode?: string;
 }
 
