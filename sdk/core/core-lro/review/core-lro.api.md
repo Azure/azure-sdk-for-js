@@ -4,90 +4,46 @@
 
 ```ts
 
-import { AbortSignal } from '@azure/abort-controller';
-import { HttpOperationResponse } from '@azure/core-http';
-import { RequestOptionsBase } from '@azure/core-http';
-
 // @public (undocumented)
-export type LongRunningOperationStates = "InProgress" | "Succeeded" | "Failed" | "Canceled" | "Cancelled";
-
-// @public (undocumented)
-export abstract class Poller {
-    constructor(options: PollerOptionalParameters);
+export abstract class Poller<T> {
+    constructor(operation: PollOperation<T>, stopped?: boolean);
     // (undocumented)
-    protected abortSignal?: AbortSignal;
+    abstract delay(): Promise<void>;
     // (undocumented)
-    abstract cancel(options?: RequestOptionsBase): Promise<void>;
+    readonly done: boolean;
     // (undocumented)
-    done(): Promise<LongRunningOperationStates | undefined>;
+    operation: PollOperation<T>;
     // (undocumented)
-    getInterval(): number;
+    abstract poll(): Promise<void>;
     // (undocumented)
-    protected abstract getStateFromResponse(response: HttpOperationResponse): LongRunningOperationStates;
-    // (undocumented)
-    protected isDone(state?: LongRunningOperationStates): boolean;
-    // (undocumented)
-    protected loop(): Promise<void>;
-    // (undocumented)
-    protected readonly manual: boolean;
-    // (undocumented)
-    nextResponse(): Promise<HttpOperationResponse>;
-    // (undocumented)
-    onPollError(func: PollErrorSubscriber): void;
-    // (undocumented)
-    onStateChange(func: PollerStateChangeSubscriber): void;
-    // (undocumented)
-    poll(options?: RequestOptionsBase): Promise<void>;
-    // (undocumented)
-    protected previousResponse?: HttpOperationResponse;
-    // (undocumented)
-    protected processResponse(response: HttpOperationResponse): void;
-    // (undocumented)
-    protected requestOptions: RequestOptionsBase | undefined;
-    // (undocumented)
-    protected readonly resources: any;
-    // (undocumented)
-    protected abstract sendRequest(options?: RequestOptionsBase): Promise<void>;
-    // (undocumented)
-    state: LongRunningOperationStates;
+    promise: Promise<void>;
     // (undocumented)
     stop(): void;
     // (undocumented)
-    toJSON(): PollerOptionalParameters;
+    stopped?: boolean;
 }
 
 // @public (undocumented)
-export interface PollerOptionalParameters {
+export interface PollOperation<T> {
     // (undocumented)
-    abortSignal?: AbortSignal;
+    cancel(): Promise<PollOperation<T>>;
     // (undocumented)
-    initialResponse?: HttpOperationResponse;
+    state: PollOperationState<T>;
     // (undocumented)
-    intervalInMs?: number;
-    // (undocumented)
-    manual?: boolean;
-    // (undocumented)
-    noInitialRequest?: boolean;
-    // (undocumented)
-    previousResponse?: HttpOperationResponse;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
-    // (undocumented)
-    resources?: any;
-    // (undocumented)
-    retries?: number;
-    // (undocumented)
-    state?: LongRunningOperationStates;
+    update(): Promise<PollOperation<T>>;
 }
 
 // @public (undocumented)
-export type PollErrorSubscriber = (e: Error) => void;
-
-// @public (undocumented)
-export type PollerStateChangeSubscriber = (state?: LongRunningOperationStates, poller?: Poller) => void;
-
-// @public (undocumented)
-export const terminalStates: LongRunningOperationStates[];
+export interface PollOperationState<T> {
+    // (undocumented)
+    cancelled?: boolean;
+    // (undocumented)
+    completed?: boolean;
+    // (undocumented)
+    error?: Error;
+    // (undocumented)
+    properties: T;
+}
 
 
 // (No @packageDocumentation comment for this package)
