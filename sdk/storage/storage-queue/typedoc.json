@@ -1,6 +1,5 @@
 {
   "mode": "file",
-  "out": "../../../docGen/",
   "excludePrivate": true,
   "excludeNotExported": true,
   "includeDeclarations": true,
