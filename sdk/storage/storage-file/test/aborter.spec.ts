@@ -25,6 +25,15 @@ describe("Aborter", () => {
     recorder.stop();
   });
 
+  it("Should abort after aborter timeout", async () => {
+    try {
+      await shareClient.create({ abortSignal: AbortController.timeout(1) });
+      assert.fail();
+    } catch (err) {
+      assert.equal(err.message, "The request was aborted", "Unexpected error caught: " + err);
+    }
+  });
+
   it("Should not abort after calling abort()", async () => {
     await shareClient.create();
     await shareClient.delete();
@@ -46,15 +55,6 @@ describe("Aborter", () => {
     const aborter = new AbortController();
     await shareClient.create();
     aborter.abort();
-  });
-
-  it("Should abort after aborter timeout", async () => {
-    try {
-      await shareClient.create({ abortSignal: AbortController.timeout(1) });
-      assert.fail();
-    } catch (err) {
-      assert.equal(err.message, "The request was aborted", "Unexpected error caught: " + err);
-    }
   });
 
   it("Should abort after parent aborter calls abort()", async () => {

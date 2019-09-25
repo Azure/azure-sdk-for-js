@@ -25,6 +25,16 @@ describe("Aborter", () => {
     recorder.stop();
   });
 
+  it("Should abort after aborter timeout", async () => {
+    try {
+      await containerClient.create({ abortSignal: AbortController.timeout(1) });
+      assert.fail();
+    } catch (err) {
+      console.log(err);
+      assert.equal(err.message, "The request was aborted", "Unexpected error caught: " + err);
+    }
+  });
+
   it("Should not abort after calling abort()", async () => {
     await containerClient.create({ abortSignal: AbortSignal.none });
   });
@@ -45,15 +55,6 @@ describe("Aborter", () => {
     const aborter = new AbortController();
     await containerClient.create({ abortSignal: aborter.signal });
     aborter.abort();
-  });
-
-  it("Should abort after aborter timeout", async () => {
-    try {
-      await containerClient.create({ abortSignal: AbortController.timeout(1) });
-      assert.fail();
-    } catch (err) {
-      assert.equal(err.message, "The request was aborted", "Unexpected error caught: " + err);
-    }
   });
 
   it("Should abort after father aborter calls abort()", async () => {
