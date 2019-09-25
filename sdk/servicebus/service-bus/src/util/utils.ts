@@ -4,7 +4,6 @@
 import Long from "long";
 import * as log from "../log";
 import { generate_uuid } from "rhea-promise";
-import isBuffer from "is-buffer";
 import { ClientEntityContext } from "../../src/clientEntityContext";
 
 // This is the only dependency we have on DOM types, so rather than require
@@ -138,7 +137,7 @@ export function toBuffer(input: any): Buffer {
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
     input
   );
-  if (isBuffer(input)) {
+  if (Buffer.isBuffer(input)) {
     result = input;
   } else {
     // string, undefined, null, boolean, array, object, number should end up here
