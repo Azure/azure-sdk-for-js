@@ -34,7 +34,7 @@ jobs:
         displayName: "Install typedoc"
 
       - script: |
-          npm ci
+          npm install
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
         displayName: "Install tool dependencies"
 
