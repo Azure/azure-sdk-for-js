@@ -671,8 +671,16 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   private blobContext: Blob;
-  public blobName: string;
-  public containerName: string;
+  private _blobName: string;
+  private _containerName: string;
+
+  public get blobName(): string {
+    return this._blobName;
+  }
+
+  public get containerName(): string {
+    return this._containerName;
+  }
 
   /**
    *
@@ -811,8 +819,8 @@ export class BlobClient extends StorageClient {
 
     super(url, pipeline);
     const names = this.getBlobAndContainerNamesFromUrl(url);
-    this.blobName = names.blobName;
-    this.containerName = names.containerName;
+    this._blobName = names.blobName;
+    this._containerName = names.containerName;
     this.blobContext = new Blob(this.storageClientContext);
   }
 
