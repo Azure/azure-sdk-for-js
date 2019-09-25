@@ -4,7 +4,7 @@ import { InkRecognitionError } from './InkRecognitionError';
 import { InkRecognitionResult } from './InkRecognitionResult';
 import { parseInkRecognitionResult } from './InkRecognitionUnitBuilder';
 
-const packageName = "@azure/inkrecognizer";
+const packageName = "@azure/cognitiveservices-inkrecognizer";
 const packageVersion = "0.1.0";
 
 /**
