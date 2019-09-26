@@ -922,6 +922,20 @@ export interface RequestContext {
     retryCount?: number;
 }
 
+// @public (undocumented)
+export interface RequestInfo {
+    // (undocumented)
+    headers: CosmosHeaders;
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    resourceId: string;
+    // (undocumented)
+    resourceType: ResourceType;
+    // (undocumented)
+    verb: HTTPMethod;
+}
+
 // @public
 export interface RequestOptions extends SharedOptions {
     accessCondition?: {
@@ -1150,8 +1164,6 @@ export class TimeSpan {
     static readonly zero: TimeSpan;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RequestInfo" needs to be exported by the entry point index.d.ts
-// 
 // @public (undocumented)
 export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
