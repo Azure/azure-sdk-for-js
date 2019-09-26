@@ -4,12 +4,7 @@
 import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient"
-import { HttpPollOperation } from "./utils/testOperation"
-
-// IMPORTANT:
-// Some tests express expected behaviors through a property called
-// .totalSentRequests, which belongs to an implementation of core-lro's poller,
-// not to the underlying Poller class. Please look at test/utils/testPoller.ts
+import { TestOperation } from "./utils/testOperation"
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
@@ -227,7 +222,7 @@ describe("Long Running Operations - custom client", function () {
     const poller = await client.startLRO();
 
     let totalOperationUpdates = 0;
-    let lastOperationUpdate: HttpPollOperation = poller.operation;
+    let lastOperationUpdate: TestOperation = poller.operation;
     poller.onProgress(operation => {
       totalOperationUpdates++;
       lastOperationUpdate = operation;
@@ -244,41 +239,49 @@ describe("Long Running Operations - custom client", function () {
     assert.ok(state.completed);
   });
 
-  // it("can reuse one poller state to instantiate another poller", async function () {
-  //   // Let's start with the stopped test
-  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   const responses = [
-  //     ...Array(19).fill({
-  //       ...basicResponseStructure,
-  //       status: 202,
-  //     }),
-  //     {
-  //       ...basicResponseStructure,
-  //       status: 204,
-  //     }
-  //   ];
-  //   client.setResponses(responses);
-  //   const poller = await client.startLRO();
-  //   assert.equal(client.totalSentRequests, 1);
-  //   await delay(100);
-  //   assert.equal(client.totalSentRequests, 10);
-  //   poller.stop();
-  //   await delay(100);
-  //   assert.equal(client.totalSentRequests, 11);
-  //   // Let's try to resume this with a new poller.
-  //   const serialized = poller.toJSON();
-  //   const client2 = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   client2.setResponses(responses);
-  //   const poller2 = await client2.startLRO({
-  //     ...serialized,
-  //     manual: false,
-  //   });
-  //   assert.equal(client2.totalSentRequests, 1);
-  //   await delay(100);
-  //   assert.equal(client2.totalSentRequests, 9);
-  //   poller2.stop();
-  //   assert.equal(poller2.state, "Succeeded");
-  // });
+  it("can reuse one poller state to instantiate another poller", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+
+    // A total of 13 expected responses.
+    const responses = [
+      initialResponse,
+      ...Array(10).fill(basicResponseStructure),
+      doFinalResponse,
+      finalResponse
+    ]
+    client.setResponses(responses);
+
+    const poller = await client.startLRO();
+    poller.done().catch(e => {
+      assert.equal(e.message, "Poller stopped");
+    });
+
+    await delay(100); // The poller loops every 10 milliseconds
+
+    // The first client does the first request, then goes through 9 more (10).
+    assert.equal(client.totalSentRequests, 10);
+
+    poller.stop();
+
+    await delay(100);
+    assert.equal(client.totalSentRequests, 10);
+
+    // Let's try to resume this with a new poller.
+    const serialized = poller.toJSON();
+    const client2 = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client2.setResponses(responses);
+    const poller2 = await client2.startLRO({
+      operation: JSON.parse(serialized)
+    });
+
+    assert.equal(client2.totalSentRequests, 1);
+
+    const result = await poller2.done();
+    assert.equal(result, "Done");
+
+    // The second client doesn't do the first request and goes all the way to the end.
+    assert.equal(client2.totalSentRequests, 12);
+  });
 
   // it("waits for the next response", async function () {
   //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));

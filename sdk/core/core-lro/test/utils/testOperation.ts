@@ -3,7 +3,7 @@ import { PollOperationState, PollOperation } from "../../src"
 import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
 
-export interface HttpPollProperties {
+export interface TestOperationProperties {
   client: TestServiceClient,
   requestOptions?: RequestOptionsBase,
   initialResponse?: HttpOperationResponse,
@@ -11,10 +11,10 @@ export interface HttpPollProperties {
   resultValue?: string,
 }
 
-export interface HttpPollOperation extends PollOperation<HttpPollProperties> {
+export interface TestOperation extends PollOperation<TestOperationProperties> {
 }
  
-async function update(this: HttpPollOperation): Promise<HttpPollOperation> {
+async function update(this: TestOperation): Promise<TestOperation> {
   const { client, requestOptions, initialResponse, previousResponse } = this.properties;
   let response: HttpOperationResponse;
   
@@ -48,7 +48,7 @@ async function update(this: HttpPollOperation): Promise<HttpPollOperation> {
   );
 }
 
-async function cancel(this: HttpPollOperation): Promise<HttpPollOperation> {
+async function cancel(this: TestOperation): Promise<TestOperation> {
   const requestOptions = this.properties.requestOptions;
 
   if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
@@ -73,16 +73,16 @@ async function cancel(this: HttpPollOperation): Promise<HttpPollOperation> {
   );
 }
 
-function toString(this: HttpPollOperation): string {
+function toString(this: TestOperation): string {
   return JSON.stringify({
     state: {
       ...this.state,
     },
-    properties: JSON.stringify(this.properties),
+    properties: this.properties,
   });
 }
 
-async function unsupportedCancel(this: HttpPollOperation): Promise<HttpPollOperation> {
+async function unsupportedCancel(this: TestOperation): Promise<TestOperation> {
   const requestOptions = this.properties.requestOptions;
 
   if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
@@ -93,7 +93,7 @@ async function unsupportedCancel(this: HttpPollOperation): Promise<HttpPollOpera
   throw new Error("Cancellation not supported");
 }
 
-export function makeOperation(state: PollOperationState, properties: HttpPollProperties): HttpPollOperation {
+export function makeOperation(state: PollOperationState, properties: TestOperationProperties): TestOperation {
   return {
     state,
     properties,
@@ -103,7 +103,7 @@ export function makeOperation(state: PollOperationState, properties: HttpPollPro
   }
 }
 
-export function makeNonCancellableOperation(state: PollOperationState, properties: HttpPollProperties): HttpPollOperation {
+export function makeNonCancellableOperation(state: PollOperationState, properties: TestOperationProperties): TestOperation {
   return {
     state,
     properties,
