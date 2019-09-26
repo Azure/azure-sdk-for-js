@@ -1,8 +1,8 @@
 import { HttpResponse } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";
-import * as Models from "./generated/lib/models";
-import { Share } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { Share } from "./generated/src/operations";
 import { IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { ServiceURL } from "./ServiceURL";
@@ -97,6 +97,18 @@ export interface IShareCreateSnapshotOptions {
    */
   metadata?: { [propertyName: string]: string };
 }
+
+export type ShareGetStatisticsResponse = Models.ShareGetStatisticsResponse & {
+  /**
+   * @deprecated shareUsage is going to be deprecated. Please use ShareUsageBytes instead.
+   *
+   * The approximate size of the data stored on the share, rounded up to the nearest gigabyte. Note
+   * that this value may not include all recently created or recently resized files.
+   *
+   * @type {number}
+   */
+  shareUsage: number;
+};
 
 /**
  * A ShareURL represents a URL to the Azure Storage share allowing you to manipulate its directories and files.
@@ -381,12 +393,58 @@ export class ShareURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @returns {Promise<Models.ShareGetStatisticsResponse>}
+   * @returns {Promise<ShareGetStatisticsResponse>}
    * @memberof ShareURL
    */
-  public async getStatistics(aborter: Aborter): Promise<Models.ShareGetStatisticsResponse> {
-    return this.context.getStatistics({
+  public async getStatistics(aborter: Aborter): Promise<ShareGetStatisticsResponse> {
+    const response = await this.context.getStatistics({
       abortSignal: aborter
     });
+    const GBBytes = 1024 * 1024 * 1024;
+    return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
+  }
+
+  /**
+   * Creates a file permission (a security descriptor) at the share level. 
+   * The created security descriptor can be used for the files/directories in the share. 
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-permission
+   * 
+   * @param aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                goto documents of Aborter for more examples about request cancellation
+   * @param filePermission File permission described in the SDDL
+   */
+  public async createPermission(
+    aborter: Aborter,
+    filePermission: string
+  ): Promise<Models.ShareCreatePermissionResponse> {
+    return this.context.createPermission(
+      {
+        permission: filePermission
+      },
+      {
+        abortSignal: aborter
+      }
+    );
+  }
+
+  /**
+   * Gets the Security Descriptor Definition Language (SDDL) for a given file permission key
+   * which indicates a security descriptor.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-permission
+   * 
+   * @param aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                goto documents of Aborter for more examples about request cancellation
+   * @param filePermissionKey File permission key which indicates the security descriptor of the permission.
+   */
+  public async getPermission(
+    aborter: Aborter,
+    filePermissionKey: string
+  ): Promise<Models.ShareGetPermissionResponse> {
+    return this.context.getPermission(
+      filePermissionKey, 
+      {
+        aborterSignal: aborter
+      }
+    );
   }
 }

@@ -19,6 +19,7 @@ export {
   NetworkProfile,
   OSProfile,
   Resource,
+  SapMonitor,
   StorageProfile,
   Tags
 } from "../models/mappers";

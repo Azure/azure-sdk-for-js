@@ -1,138 +1,141 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import qs from "qs";
 import {
   AccessToken,
   ServiceClient,
   ServiceClientOptions,
-  GetTokenOptions,
   WebResource,
-  RequestPrepareOptions
+  RequestPrepareOptions,
+  GetTokenOptions
 } from "@azure/core-http";
+import { AuthenticationError } from "./errors";
+
+const DefaultAuthorityHost = "https://login.microsoftonline.com";
+
+/**
+ * An internal type used to communicate details of a token request's
+ * response that should not be sent back as part of the AccessToken.
+ */
+export interface TokenResponse {
+  /**
+   * The AccessToken to be returned from getToken.
+   */
+  accessToken: AccessToken;
+
+  /**
+   * The refresh token if the 'offline_access' scope was used.
+   */
+  refreshToken?: string;
+}
 
 export class IdentityClient extends ServiceClient {
-  private static readonly DefaultAuthorityHost = "https://login.microsoftonline.com/";
-  private static readonly ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
-  private static readonly MsiApiVersion = "2018-02-01";
-  private static readonly DefaultScopeSuffix = "/.default";
+  public authorityHost: string;
 
   constructor(options?: IdentityClientOptions) {
+    options = options || IdentityClient.getDefaultOptions();
     super(undefined, options);
 
-    if (options !== undefined) {
-      this.baseUri = options.authorityHost;
+    this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
+
+    if (!this.baseUri.startsWith("https:")) {
+      throw new Error("The authorityHost address must use the 'https' protocol.");
     }
   }
 
-  private createWebResource(requestOptions: RequestPrepareOptions): WebResource {
+  createWebResource(requestOptions: RequestPrepareOptions): WebResource {
     const webResource = new WebResource();
     webResource.prepare(requestOptions);
     return webResource;
   }
 
-  private async sendTokenRequest(
-    requestOptions: RequestPrepareOptions
-  ): Promise<AccessToken | null> {
-    const response = await this.sendRequest(requestOptions);
+  async sendTokenRequest(
+    webResource: WebResource,
+    expiresOnParser?: (responseBody: any) => number
+  ): Promise<TokenResponse | null> {
+    const response = await this.sendRequest(webResource);
+
+    expiresOnParser =
+      expiresOnParser ||
+      ((responseBody: any) => {
+        return Date.now() + responseBody.expires_in * 1000;
+      });
+
     if (response.status === 200 || response.status === 201) {
-      const expiresOn = new Date();
-      expiresOn.setSeconds(expiresOn.getSeconds() + response.parsedBody.expires_in);
-
       return {
-        token: response.parsedBody.access_token,
-        expiresOn: expiresOn
+        accessToken: {
+          token: response.parsedBody.access_token,
+          expiresOnTimestamp: expiresOnParser(response.parsedBody)
+        },
+        refreshToken: response.parsedBody.refresh_token
       };
+    } else {
+      throw new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
     }
-
-    return null;
   }
 
-  private mapScopesToResource(scopes: string | string[]): string {
-    let scope = "";
-    if (Array.isArray(scopes)) {
-      if (scopes.length !== 1) {
-        throw "To convert to a resource string the specified array must be exactly length 1";
-      }
-
-      scope = scopes[0];
-    } else if (typeof scopes === "string") {
-      scope = scopes;
-    }
-
-    if (!scope.endsWith(IdentityClient.DefaultScopeSuffix)) {
-      return scope;
-    }
-
-    return scope.substr(0, scope.lastIndexOf(IdentityClient.DefaultScopeSuffix));
-  }
-
-  async authenticate(
+  async refreshAccessToken(
     tenantId: string,
     clientId: string,
-    clientSecret: string,
-    scopes: string | string[],
-    getTokenOptions?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+    scopes: string,
+    refreshToken: string | undefined,
+    clientSecret: string | undefined,
+    expiresOnParser?: (responseBody: any) => number,
+    options?: GetTokenOptions
+  ): Promise<TokenResponse | null> {
+    if (refreshToken === undefined) {
+      return null;
+    }
+
+    const refreshParams = {
+      grant_type: "refresh_token",
+      client_id: clientId,
+      refresh_token: refreshToken,
+      scope: scopes
+    };
+
+    if (clientSecret !== undefined) {
+      (refreshParams as any).client_secret = clientSecret;
+    }
+
     const webResource = this.createWebResource({
-      url: `${this.baseUri}/${tenantId}/oauth2/v2.0/token`,
+      url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
       method: "POST",
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
-      body: qs.stringify({
-        response_type: "token",
-        grant_type: "client_credentials",
-        client_id: clientId,
-        client_secret: clientSecret,
-        scope: typeof scopes === "string" ? scopes : scopes.join(" ")
-      }),
+      body: qs.stringify(refreshParams),
       headers: {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      abortSignal: getTokenOptions && getTokenOptions.abortSignal
+      abortSignal: options && options.abortSignal
     });
 
-    return this.sendTokenRequest(webResource);
-  }
-
-  authenticateManagedIdentity(
-    scopes: string | string[],
-    clientId?: string,
-    getTokenOptions?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const queryParameters: any = {
-      resource: this.mapScopesToResource(scopes),
-      "api-version": IdentityClient.MsiApiVersion
-    };
-
-    if (clientId) {
-      queryParameters.client_id = clientId;
+    try {
+      return await this.sendTokenRequest(webResource, expiresOnParser);
+    } catch (err) {
+      if (
+        err instanceof AuthenticationError &&
+        err.errorResponse.error === "interaction_required"
+      ) {
+        // It's likely that the refresh token has expired, so
+        // return null so that the credential implementation will
+        // initiate the authentication flow again.
+        return null;
+      } else {
+        throw err;
+      }
     }
-
-    const webResource = this.createWebResource({
-      url: IdentityClient.ImdsEndpoint,
-      method: "GET",
-      disableJsonStringifyOnBody: true,
-      deserializationMapper: undefined,
-      queryParameters,
-      headers: {
-        Accept: "application/json",
-        Metadata: true
-      },
-      abortSignal: getTokenOptions && getTokenOptions.abortSignal
-    });
-
-    return this.sendTokenRequest(webResource);
   }
 
   static getDefaultOptions(): IdentityClientOptions {
     return {
-      authorityHost: IdentityClient.DefaultAuthorityHost
+      authorityHost: DefaultAuthorityHost
     };
   }
 }
 
 export interface IdentityClientOptions extends ServiceClientOptions {
-  authorityHost: string;
+  authorityHost?: string;
 }

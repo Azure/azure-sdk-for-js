@@ -1,6 +1,7 @@
 import { HttpResponse } from "@azure/ms-rest-js";
-import * as Models from "../src/generated/lib/models";
+
 import { Aborter } from "./Aborter";
+import * as Models from "./generated/lib/models";
 import { Messages } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { QueueURL } from "./QueueURL";
@@ -198,6 +199,7 @@ export class MessagesURL extends StorageURL {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       version: response.version,
       errorCode: response.errorCode,
       messageId: item.messageId,
@@ -231,6 +233,7 @@ export class MessagesURL extends StorageURL {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       dequeuedMessageItems: [],
       version: response.version,
       errorCode: response.errorCode
@@ -266,6 +269,7 @@ export class MessagesURL extends StorageURL {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       peekedMessageItems: [],
       version: response.version,
       errorCode: response.errorCode

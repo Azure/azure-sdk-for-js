@@ -37,7 +37,11 @@ async function main() {
     }, // Retry options
     telemetry: {
       value: "BasicSample V10.0.0"
-    } // Customized telemetry string
+    }, // Customized telemetry string
+    keepAliveOptions: {
+      // Keep alive is enabled by default, disable keep alive by setting false
+      enable: false
+    }
   });
 
   // List queues

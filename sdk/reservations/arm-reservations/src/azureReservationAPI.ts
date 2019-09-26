@@ -18,8 +18,8 @@ import { AzureReservationAPIContext } from "./azureReservationAPIContext";
 
 class AzureReservationAPI extends AzureReservationAPIContext {
   // Operation groups
-  reservationOrder: operations.ReservationOrder;
   reservation: operations.Reservation;
+  reservationOrder: operations.ReservationOrder;
   operation: operations.Operation;
 
   /**
@@ -29,8 +29,8 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.AzureReservationAPIOptions) {
     super(credentials, options);
-    this.reservationOrder = new operations.ReservationOrder(this);
     this.reservation = new operations.Reservation(this);
+    this.reservationOrder = new operations.ReservationOrder(this);
     this.operation = new operations.Operation(this);
   }
 

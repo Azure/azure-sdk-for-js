@@ -500,7 +500,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -524,7 +524,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName0
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -546,10 +546,10 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -571,11 +571,11 @@ const getAccessProfileOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName,
+    Parameters.resourceName1,
     Parameters.roleName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -597,10 +597,10 @@ const listClusterAdminCredentialsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -622,10 +622,10 @@ const listClusterUserCredentialsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -647,10 +647,10 @@ const getOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -672,10 +672,10 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -707,10 +707,10 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -739,10 +739,10 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -763,10 +763,10 @@ const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -794,10 +794,10 @@ const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -801,7 +801,6 @@ export const SqlVirtualMachine: msRest.CompositeMapper = {
         }
       },
       sqlImageOffer: {
-        readOnly: true,
         serializedName: "properties.sqlImageOffer",
         type: {
           name: "String"
@@ -809,6 +808,12 @@ export const SqlVirtualMachine: msRest.CompositeMapper = {
       },
       sqlServerLicenseType: {
         serializedName: "properties.sqlServerLicenseType",
+        type: {
+          name: "String"
+        }
+      },
+      sqlManagement: {
+        serializedName: "properties.sqlManagement",
         type: {
           name: "String"
         }

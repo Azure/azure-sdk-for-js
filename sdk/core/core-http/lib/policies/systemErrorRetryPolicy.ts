@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
@@ -119,9 +119,9 @@ function retry(policy: SystemErrorRetryPolicy, request: WebResource, operationRe
       err.code === "ECONNRESET" || err.code === "ENOENT")) {
     // If previous operation ended with an error and the policy allows a retry, do that
     return utils.delay(retryData.retryInterval)
-        .then(() => policy._nextPolicy.sendRequest(request.clone()))
-        .then(res => retry(policy, request, res, retryData, err))
-        .catch(err => retry(policy, request, operationResponse, retryData, err));
+      .then(() => policy._nextPolicy.sendRequest(request.clone()))
+      .then(res => retry(policy, request, res, retryData, err))
+      .catch(err => retry(policy, request, operationResponse, retryData, err));
   } else {
     if (err != undefined) {
       // If the operation failed in the end, return all errors instead of just the last one

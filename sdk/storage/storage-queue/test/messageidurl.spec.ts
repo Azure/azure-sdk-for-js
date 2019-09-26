@@ -4,8 +4,8 @@ import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
 import { MessagesURL } from "../src/MessagesURL";
 import { MessageIdURL } from "../src/MessageIdURL";
-import { getQSU, sleep } from "./utils";
-import { record } from "./utils/recorder";
+import { getQSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -38,6 +38,7 @@ describe("MessageIdURL", () => {
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
@@ -48,6 +49,7 @@ describe("MessageIdURL", () => {
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
+    assert.ok(eResult.clientRequestId);
     assert.ok(uResult.popReceipt);
 
     let pResult = await messagesURL.peek(Aborter.none);
@@ -87,7 +89,7 @@ describe("MessageIdURL", () => {
     let pResult = await messagesURL.peek(Aborter.none);
     assert.equal(pResult.peekedMessageItems.length, 0);
 
-    await sleep(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
+    await delay(11 * 1000); // Sleep 11 seconds, and wait the message to be visible again
 
     let pResult2 = await messagesURL.peek(Aborter.none);
     assert.equal(pResult2.peekedMessageItems.length, 1);

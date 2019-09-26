@@ -1,5 +1,5 @@
 import QueryMetricsConstants from "./queryMetricsConstants";
-import { QueryMetricsUtils } from "./queryMetricsUtils";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
 import { TimeSpan } from "./timeSpan";
 
 export class RuntimeExecutionTimes {
@@ -13,10 +13,6 @@ export class RuntimeExecutionTimes {
    * returns a new RuntimeExecutionTimes instance that is the addition of this and the arguments.
    */
   public add(...runtimeExecutionTimesArray: RuntimeExecutionTimes[]) {
-    if (arguments == null || arguments.length === 0) {
-      throw new Error("arguments was null or empty");
-    }
-
     let queryEngineExecutionTime = this.queryEngineExecutionTime;
     let systemFunctionExecutionTime = this.systemFunctionExecutionTime;
     let userDefinedFunctionExecutionTime = this.userDefinedFunctionExecutionTime;
@@ -26,8 +22,12 @@ export class RuntimeExecutionTimes {
         throw new Error("runtimeExecutionTimes has null or undefined item(s)");
       }
 
-      queryEngineExecutionTime = queryEngineExecutionTime.add(runtimeExecutionTimes.queryEngineExecutionTime);
-      systemFunctionExecutionTime = systemFunctionExecutionTime.add(runtimeExecutionTimes.systemFunctionExecutionTime);
+      queryEngineExecutionTime = queryEngineExecutionTime.add(
+        runtimeExecutionTimes.queryEngineExecutionTime
+      );
+      systemFunctionExecutionTime = systemFunctionExecutionTime.add(
+        runtimeExecutionTimes.systemFunctionExecutionTime
+      );
       userDefinedFunctionExecutionTime = userDefinedFunctionExecutionTime.add(
         runtimeExecutionTimes.userDefinedFunctionExecutionTime
       );
@@ -56,7 +56,11 @@ export class RuntimeExecutionTimes {
     );
   }
 
-  public static readonly zero = new RuntimeExecutionTimes(TimeSpan.zero, TimeSpan.zero, TimeSpan.zero);
+  public static readonly zero = new RuntimeExecutionTimes(
+    TimeSpan.zero,
+    TimeSpan.zero,
+    TimeSpan.zero
+  );
 
   /**
    * Returns a new instance of the RuntimeExecutionTimes class that is
@@ -74,12 +78,15 @@ export class RuntimeExecutionTimes {
    * Returns a new instance of the RuntimeExecutionTimes class this is deserialized from a delimited string.
    */
   public static createFromDelimitedString(delimitedString: string) {
-    const metrics = QueryMetricsUtils.parseDelimitedString(delimitedString);
+    const metrics = parseDelimitedString(delimitedString);
 
-    const vmExecutionTime = QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs);
-    const indexLookupTime = QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs);
-    const documentLoadTime = QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.DocumentLoadTimeInMs);
-    const documentWriteTime = QueryMetricsUtils.timeSpanFromMetrics(
+    const vmExecutionTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.VMExecutionTimeInMs);
+    const indexLookupTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs);
+    const documentLoadTime = timeSpanFromMetrics(
+      metrics,
+      QueryMetricsConstants.DocumentLoadTimeInMs
+    );
+    const documentWriteTime = timeSpanFromMetrics(
       metrics,
       QueryMetricsConstants.DocumentWriteTimeInMs
     );
@@ -91,8 +98,8 @@ export class RuntimeExecutionTimes {
     queryEngineExecutionTime = queryEngineExecutionTime.subtract(documentWriteTime);
     return new RuntimeExecutionTimes(
       queryEngineExecutionTime,
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.SystemFunctionExecuteTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.UserDefinedFunctionExecutionTimeInMs)
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.SystemFunctionExecuteTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.UserDefinedFunctionExecutionTimeInMs)
     );
   }
 }

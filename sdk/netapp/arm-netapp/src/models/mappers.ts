@@ -491,8 +491,8 @@ export const CapacityPool: msRest.CompositeMapper = {
         }
       },
       size: {
+        required: true,
         serializedName: "properties.size",
-        defaultValue: 4398046511104,
         constraints: {
           InclusiveMaximum: 549755813888000,
           InclusiveMinimum: 4398046511104
@@ -502,6 +502,7 @@ export const CapacityPool: msRest.CompositeMapper = {
         }
       },
       serviceLevel: {
+        required: true,
         serializedName: "properties.serviceLevel",
         defaultValue: 'Premium',
         type: {
@@ -714,7 +715,6 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       serviceLevel: {
-        required: true,
         serializedName: "properties.serviceLevel",
         defaultValue: 'Premium',
         type: {
@@ -722,6 +722,7 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       usageThreshold: {
+        required: true,
         serializedName: "properties.usageThreshold",
         defaultValue: 107374182400,
         constraints: {
@@ -739,6 +740,17 @@ export const Volume: msRest.CompositeMapper = {
           className: "VolumePropertiesExportPolicy"
         }
       },
+      protocolTypes: {
+        serializedName: "properties.protocolTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -751,7 +763,7 @@ export const Volume: msRest.CompositeMapper = {
         constraints: {
           MaxLength: 36,
           MinLength: 36,
-          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}|(\\?([^\/]*[\/])*)([^\/]+)$/
         },
         type: {
           name: "String"
@@ -770,9 +782,16 @@ export const Volume: msRest.CompositeMapper = {
         }
       },
       subnetId: {
+        required: true,
         serializedName: "properties.subnetId",
         type: {
           name: "String"
+        }
+      },
+      mountTargets: {
+        serializedName: "properties.mountTargets",
+        type: {
+          name: "Object"
         }
       }
     }

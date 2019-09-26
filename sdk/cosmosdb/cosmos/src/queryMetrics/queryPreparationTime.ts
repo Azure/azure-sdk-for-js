@@ -1,5 +1,5 @@
 import QueryMetricsConstants from "./queryMetricsConstants";
-import { QueryMetricsUtils } from "./queryMetricsUtils";
+import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";
 import { TimeSpan } from "./timeSpan";
 
 export class QueryPreparationTimes {
@@ -14,10 +14,6 @@ export class QueryPreparationTimes {
    * returns a new QueryPreparationTimes instance that is the addition of this and the arguments.
    */
   public add(...queryPreparationTimesArray: QueryPreparationTimes[]) {
-    if (arguments == null || arguments.length === 0) {
-      throw new Error("arguments was null or empty");
-    }
-
     let queryCompilationTime = this.queryCompilationTime;
     let logicalPlanBuildTime = this.logicalPlanBuildTime;
     let physicalPlanBuildTime = this.physicalPlanBuildTime;
@@ -30,8 +26,12 @@ export class QueryPreparationTimes {
 
       queryCompilationTime = queryCompilationTime.add(queryPreparationTimes.queryCompilationTime);
       logicalPlanBuildTime = logicalPlanBuildTime.add(queryPreparationTimes.logicalPlanBuildTime);
-      physicalPlanBuildTime = physicalPlanBuildTime.add(queryPreparationTimes.physicalPlanBuildTime);
-      queryOptimizationTime = queryOptimizationTime.add(queryPreparationTimes.queryOptimizationTime);
+      physicalPlanBuildTime = physicalPlanBuildTime.add(
+        queryPreparationTimes.physicalPlanBuildTime
+      );
+      queryOptimizationTime = queryOptimizationTime.add(
+        queryPreparationTimes.queryOptimizationTime
+      );
     }
 
     return new QueryPreparationTimes(
@@ -47,14 +47,27 @@ export class QueryPreparationTimes {
    */
   public toDelimitedString() {
     return (
-      `${QueryMetricsConstants.QueryCompileTimeInMs}=${this.queryCompilationTime.totalMilliseconds()};` +
-      `${QueryMetricsConstants.LogicalPlanBuildTimeInMs}=${this.logicalPlanBuildTime.totalMilliseconds()};` +
-      `${QueryMetricsConstants.PhysicalPlanBuildTimeInMs}=${this.physicalPlanBuildTime.totalMilliseconds()};` +
-      `${QueryMetricsConstants.QueryOptimizationTimeInMs}=${this.queryOptimizationTime.totalMilliseconds()}`
+      `${
+        QueryMetricsConstants.QueryCompileTimeInMs
+      }=${this.queryCompilationTime.totalMilliseconds()};` +
+      `${
+        QueryMetricsConstants.LogicalPlanBuildTimeInMs
+      }=${this.logicalPlanBuildTime.totalMilliseconds()};` +
+      `${
+        QueryMetricsConstants.PhysicalPlanBuildTimeInMs
+      }=${this.physicalPlanBuildTime.totalMilliseconds()};` +
+      `${
+        QueryMetricsConstants.QueryOptimizationTimeInMs
+      }=${this.queryOptimizationTime.totalMilliseconds()}`
     );
   }
 
-  public static readonly zero = new QueryPreparationTimes(TimeSpan.zero, TimeSpan.zero, TimeSpan.zero, TimeSpan.zero);
+  public static readonly zero = new QueryPreparationTimes(
+    TimeSpan.zero,
+    TimeSpan.zero,
+    TimeSpan.zero,
+    TimeSpan.zero
+  );
 
   /**
    * Returns a new instance of the QueryPreparationTimes class that is the
@@ -76,13 +89,13 @@ export class QueryPreparationTimes {
    * @instance
    */
   public static createFromDelimitedString(delimitedString: string) {
-    const metrics = QueryMetricsUtils.parseDelimitedString(delimitedString);
+    const metrics = parseDelimitedString(delimitedString);
 
     return new QueryPreparationTimes(
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryCompileTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.LogicalPlanBuildTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.PhysicalPlanBuildTimeInMs),
-      QueryMetricsUtils.timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryOptimizationTimeInMs)
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryCompileTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.LogicalPlanBuildTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.PhysicalPlanBuildTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryOptimizationTimeInMs)
     );
   }
 }

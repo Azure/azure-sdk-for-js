@@ -1,8 +1,14 @@
+import { Credential, TokenCredential } from "../../src";
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { ServiceURL } from "../../src/ServiceURL";
 import { StorageURL } from "../../src/StorageURL";
 
 export * from "./testutils.common";
+
+export function getGenericCredential(accountType: string): Credential {
+  accountType = accountType; // bypass compiling error
+  return new AnonymousCredential();
+}
 
 export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
@@ -23,12 +29,49 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
 
-  const credentials = new AnonymousCredential();
+  const credentials = getGenericCredential(accountType);
   const pipeline = StorageURL.newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
+  return new ServiceURL(blobPrimaryURL, pipeline);
+}
+
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  let accountToken: string | undefined;
+
+  accountToken = (window as any).__env__[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(
+      `${accountTokenEnvVar} environment variables not specified.`
+    );
+  }
+
+  return new TokenCredential(accountToken);
+}
+
+export function getTokenBSU(): ServiceURL {
+  const accountNameEnvVar = `ACCOUNT_NAME`;
+
+  let accountName: string | undefined;
+
+  accountName = (window as any).__env__[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(
+      `${accountNameEnvVar} environment variables not specified.`
+    );
+  }
+
+  const credentials = getTokenCredential();
+  const pipeline = StorageURL.newPipeline(credentials, {
+    // Enable logger when debugging
+    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  });
+  const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
   return new ServiceURL(blobPrimaryURL, pipeline);
 }
 

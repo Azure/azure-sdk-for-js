@@ -1,29 +1,35 @@
 import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { AppendBlobURL } from "../src/AppendBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
-import * as dotenv from "dotenv";
+import { bodyToString, getBSU } from "./utils";
+import { record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobURL", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let appendBlobURL: AppendBlobURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {
@@ -65,5 +71,24 @@ describe("AppendBlobURL", () => {
     const downloadResponse = await appendBlobURL.download(Aborter.none, 0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
+  });
+
+  it("appendBlock with invalid CRC64 should fail", async () => {
+    await appendBlobURL.create(Aborter.none);
+
+    const content = "Hello World!";
+    let exceptionCaught = false;
+    try
+    {
+      await appendBlobURL.appendBlock(Aborter.none, content, content.length, {
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+        exceptionCaught = true;
+      }
+    }
+
+    assert.ok(exceptionCaught);
   });
 });

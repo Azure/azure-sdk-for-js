@@ -26,7 +26,6 @@ export const application: msRest.OperationQueryParameter = {
     "application"
   ],
   mapper: {
-    nullable: true,
     serializedName: "application",
     type: {
       name: "String"
@@ -59,7 +58,6 @@ export const projectId: msRest.OperationURLParameter = {
   parameterPath: "projectId",
   mapper: {
     required: true,
-    nullable: false,
     serializedName: "projectId",
     type: {
       name: "Uuid"

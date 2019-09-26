@@ -1,6 +1,6 @@
-import * as Models from "../src/generated/lib/models";
 import { Aborter } from "./Aborter";
-import { ListQueuesIncludeType } from "./generated/lib/models/index";
+import * as Models from "./generated/lib/models";
+import { ListQueuesIncludeType } from "./generated/lib/models";
 import { Service } from "./generated/lib/operations";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
@@ -150,8 +150,10 @@ export class ServiceURL extends StorageURL {
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
     return this.serviceContext.listQueuesSegment({
       abortSignal: aborter,
-      marker,
-      ...options
+      marker: marker,
+      maxresults: options.maxresults,
+      prefix: options.prefix,
+      include: options.include === undefined ? undefined : [options.include]
     });
   }
 }

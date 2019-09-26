@@ -1,12 +1,15 @@
-import { IExecutionContext } from ".";
-import { ClientContext } from "../ClientContext";
 import { Constants } from "../common";
+import { logger } from "../common/logger";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
-import { Response } from "../request";
-import { SqlQuerySpec } from "./SqlQuerySpec";
+import { FeedOptions, Response } from "../request";
+import { getInitialHeader } from "./headerUtils";
+import { ExecutionContext } from "./index";
 
 /** @hidden */
-export type FetchFunctionCallback = (options: any) => Promise<Response<any>>;
+const log = logger("defaultQueryExecutionContext");
+
+/** @hidden */
+export type FetchFunctionCallback = (options: FeedOptions) => Promise<Response<any>>;
 
 /** @hidden */
 enum STATES {
@@ -16,16 +19,16 @@ enum STATES {
 }
 
 /** @hidden */
-export class DefaultQueryExecutionContext implements IExecutionContext {
+export class DefaultQueryExecutionContext implements ExecutionContext {
   private static readonly STATES = STATES;
-  private query: string | SqlQuerySpec;
-  private resources: any; // TODO: any resources
+  private resources: any[]; // TODO: any resources
   private currentIndex: number;
   private currentPartitionIndex: number;
   private fetchFunctions: FetchFunctionCallback[];
-  private options: any; // TODO: any options
-  public continuation: any; // TODO: any continuation
+  private options: FeedOptions; // TODO: any options
+  public continuation: string; // TODO: any continuation
   private state: STATES;
+  private nextFetchFunction: Promise<Response<any>>;
   /**
    * Provides the basic Query Execution Context.
    * This wraps the internal logic query execution using provided fetch functions
@@ -37,14 +40,8 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    *                          An array of functions may be used to query more than one partition.
    * @ignore
    */
-  constructor(
-    private clientContext: ClientContext,
-    query: string | SqlQuerySpec,
-    options: any,
-    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
-  ) {
+  constructor(options: any, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]) {
     // TODO: any options
-    this.query = query;
     this.resources = [];
     this.currentIndex = 0;
     this.currentPartitionIndex = 0;
@@ -74,7 +71,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
     if (this.currentIndex < this.resources.length) {
       return {
         result: this.resources[this.currentIndex],
-        headers: undefined
+        headers: getInitialHeader()
       };
     }
 
@@ -97,7 +94,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
       return { result: this.resources[this.currentIndex], headers };
     } else {
       this.state = DefaultQueryExecutionContext.STATES.ended;
-      return { result: undefined, headers: undefined };
+      return { result: undefined, headers: getInitialHeader() };
     }
   }
 
@@ -122,9 +119,14 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    * @memberof DefaultQueryExecutionContext
    * @instance
    */
+  /**
+   * Fetches the next batch of the feed and pass them as an array to a callback
+   * @memberof DefaultQueryExecutionContext
+   * @instance
+   */
   public async fetchMore(): Promise<Response<any>> {
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: undefined, result: undefined };
+      return { headers: getInitialHeader(), result: undefined };
     }
 
     // Keep to the original continuation and to restore the value after fetchFunction call
@@ -133,26 +135,41 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
 
     // Return undefined if there is no more results
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-      return { headers: undefined, result: undefined };
+      return { headers: getInitialHeader(), result: undefined };
     }
 
-    const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
     let resources;
     let responseHeaders;
     try {
-      const response = await fetchFunction(this.options);
+      let p: Promise<Response<any>>;
+      if (this.nextFetchFunction !== undefined) {
+        log.debug("using prefetch");
+        p = this.nextFetchFunction;
+        this.nextFetchFunction = undefined;
+      } else {
+        log.debug("using fresh fetch");
+        p = this.fetchFunctions[this.currentPartitionIndex](this.options);
+      }
+      const response = await p;
       resources = response.result;
       responseHeaders = response.headers;
+
+      this.continuation = responseHeaders[Constants.HttpHeaders.Continuation];
+      if (!this.continuation) {
+        ++this.currentPartitionIndex;
+      }
+
+      if (this.options && this.options.bufferItems === true) {
+        const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
+        this.nextFetchFunction = fetchFunction
+          ? fetchFunction({ ...this.options, continuation: this.continuation })
+          : undefined;
+      }
     } catch (err) {
       this.state = DefaultQueryExecutionContext.STATES.ended;
       // return callback(err, undefined, responseHeaders);
       // TODO: Error and data being returned is an antipattern, this might broken
       throw err;
-    }
-
-    this.continuation = responseHeaders[Constants.HttpHeaders.Continuation];
-    if (!this.continuation) {
-      ++this.currentPartitionIndex;
     }
 
     this.state = DefaultQueryExecutionContext.STATES.inProgress;

@@ -62,7 +62,7 @@ export class Local {
 const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "localbusinesses/v7.0/search/localbusinesses/v7.0/search",
+  path: "bing/v7.0/localbusinesses/search",
   queryParameters: [
     Parameters.countryCode,
     Parameters.market,

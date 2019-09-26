@@ -15,76 +15,80 @@ npm install @azure/cognitiveservices-formrecognizer
 
 ### How to use
 
-#### nodejs - Authentication, client creation and getExtractedKeys  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and getExtractedKeys as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
+
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample reads the scanned copy of a sample receipt. To know more, refer to the [Azure Documentation on Form Recognizer](https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview)
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { FormRecognizerClient, FormRecognizerModels, FormRecognizerMappers } from "@azure/cognitiveservices-formrecognizer";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { FormRecognizerClient } from "@azure/cognitiveservices-formrecognizer";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new FormRecognizerClient(creds, subscriptionId);
-  const id = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-  client.getExtractedKeys(id).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+async function main(): Promise<void> {
+  const formRecognizerKey = process.env["formRecognizerKey"] || "<formRecognizerKey>";
+  const endPoint = process.env["endPoint"] || "<endPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(formRecognizerKey);
+  const client = new FormRecognizerClient(cognitiveServiceCredentials, endPoint);
+
+  client
+    .batchReadReceipt(
+      "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-receipt.png"
+    )
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
-#### browser - Authentication, client creation and getExtractedKeys  as an example written in JavaScript.
-
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
+#### browser - Authentication, client creation and getExtractedKeys as an example written in JavaScript.
 
 ##### Sample code
 
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
-
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-formrecognizer sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-formrecognizer/dist/cognitiveservices-formrecognizer.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const formRecognizerKey = "<YOUR_FORM_RECOGNIZER_KEY>";
+      const endPoint = "<YOUR_FORM_RECOGNIZER_ENDPOINT>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": formRecognizerKey
         }
-        const client = new Azure.CognitiveservicesFormrecognizer.FormRecognizerClient(res.creds, subscriptionId);
-        const id = ec7b1657-199d-4d8a-bbb2-89a11a42e02a;
-        client.getExtractedKeys(id).then((result) => {
-          console.log("The result is:");
+      });
+      const client = new Azure.CognitiveservicesFormrecognizer.FormRecognizerClient(
+        cognitiveServiceCredentials,
+        endPoint
+      );
+      client
+        .batchReadReceipt(
+          "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-receipt.png"
+        )
+        .then((result) => {
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
@@ -94,3 +98,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-formrecognizer/README.png)

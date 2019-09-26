@@ -1,32 +1,39 @@
 import * as assert from "assert";
-import { bodyToString, getBSU, getUniqueName } from "./utils";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { ContainerURL } from "../src/ContainerURL";
 import { PageBlobURL } from "../src/PageBlobURL";
-import * as dotenv from "dotenv";
+import { PremiumPageBlobTier } from "../src/models";
+import { bodyToString, getBSU } from "./utils";
+import { record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobURL", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let pageBlobURL: PageBlobURL;
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {
@@ -63,6 +70,24 @@ describe("PageBlobURL", () => {
     assert.equal(properties.contentType, options.blobHTTPHeaders.blobContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
+  });
+
+  it("create with premium page blob tier", async () => {
+    const options = { tier: PremiumPageBlobTier.P20 };
+
+    try {
+      await pageBlobURL.create(Aborter.none, 512, options);
+
+      const result = await blobURL.download(Aborter.none, 0);
+      assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+
+      const properties = await blobURL.getProperties(Aborter.none);
+      assert.equal(properties.accessTier, options.tier);
+    } catch (err) {
+      if (err.message.indexOf("AccessTierNotSupportedForBlobType") == -1) { // not found
+        assert.fail("Error thrown while it's not AccessTierNotSupportedForBlobType.")
+      }
+    }
   });
 
   it("uploadPages", async () => {
@@ -153,4 +178,22 @@ describe("PageBlobURL", () => {
     propertiesResponse = await pageBlobURL.getProperties(Aborter.none);
     assert.equal(propertiesResponse.blobSequenceNumber!, 100);
   });
+
+  it("uploadPages with invalid CRC64 should fail", async () => {
+    await pageBlobURL.create(Aborter.none, 1024);
+
+    let exceptionCaught = false;
+    try
+    {
+      await pageBlobURL.uploadPages(Aborter.none, "b".repeat(1024), 0, 1024, {
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+        exceptionCaught = true;
+      }
+    }
+
+    assert.ok(exceptionCaught);
+    });
 });

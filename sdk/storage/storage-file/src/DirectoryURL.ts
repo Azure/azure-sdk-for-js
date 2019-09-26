@@ -1,13 +1,23 @@
 import { Aborter } from "./Aborter";
-import * as Models from "./generated/lib/models";
-import { Directory } from "./generated/lib/operations";
-import { IMetadata } from "./models";
+import * as Models from "./generated/src/models";
+import { Directory } from "./generated/src/operations";
+import { 
+  IMetadata,
+  IFileAndDirectoryCreateCommonOptions,
+  IFileAndDirectorySetPropertiesCommonOptions,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+} from "./models";
 import { Pipeline } from "./Pipeline";
 import { ShareURL } from "./ShareURL";
 import { StorageURL } from "./StorageURL";
 import { appendToURLPath } from "./utils/utils.common";
+import { FileSystemAttributes } from './FileSystemAttributes';
 
-export interface IDirectoryCreateOptions {
+export interface IDirectoryCreateOptions extends IFileAndDirectoryCreateCommonOptions {
   /**
    * A name-value pair
    * to associate with a file storage object.
@@ -17,6 +27,8 @@ export interface IDirectoryCreateOptions {
    */
   metadata?: IMetadata;
 }
+
+export interface IDirectoryProperties extends IFileAndDirectorySetPropertiesCommonOptions {}
 
 export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
   /**
@@ -37,6 +49,27 @@ export interface IDirectoryListFilesAndDirectoriesSegmentOptions {
    * @memberof IDirectoryListFilesAndDirectoriesSegmentOptions
    */
   maxresults?: number;
+}
+
+export interface IDirectoryListHandlesSegmentOptions {
+  /**
+   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * or specifies a value greater than 5,000, the server will return up to 5,000 items.
+   */
+  maxresults?: number;
+  /**
+   * Specifies operation should apply to the directory specified in the URI, its files, its
+   * subdirectories and their files.
+   */
+  recursive?: boolean;
+}
+
+export interface IDirectoryForceCloseHandlesSegmentOptions {
+  /**
+   * Specifies operation should apply to the directory specified in the URI, its files, its
+   * subdirectories and their files.
+   */
+  recursive?: boolean;
 }
 
 /**
@@ -120,7 +153,7 @@ export class DirectoryURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @param {IDirectoryCreateOptions} [options]
+   * @param {IDirectoryCreateOptions} [options={}]
    * @returns {Promise<Models.DirectoryCreateResponse>}
    * @memberof DirectoryURL
    */
@@ -128,10 +161,53 @@ export class DirectoryURL extends StorageURL {
     aborter: Aborter,
     options: IDirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
-    return this.context.create({
-      ...options,
-      abortSignal: aborter
-    });
+    options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+
+    if (!options.fileAttributes) {
+      // By default set it as a directory.
+      const attributes: FileSystemAttributes = new FileSystemAttributes();
+      attributes.directory = true; 
+      options.fileAttributes = attributes;
+    }
+
+    return this.context.create(
+      fileAttributesToString(options.fileAttributes!),
+      fileCreationTimeToString(options.creationTime!),
+      fileLastWriteTimeToString(options.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        metadata: options.metadata,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey
+      });
+  }
+
+  /**
+   * Sets properties on the directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-properties
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {properties} [IDirectoryProperties] Directory properties. If no values are provided,
+   *                                            existing values will be preserved.
+   * @returns {Promise<ISetPropertiesResponse>}
+   * @memberof FileURL
+   */
+  public async setProperties(
+    aborter: Aborter,
+    properties: IDirectoryProperties = {}
+  ): Promise<Models.DirectorySetPropertiesResponse> {
+    properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
+
+    return this.context.setProperties(
+      fileAttributesToString(properties.fileAttributes!),
+      fileCreationTimeToString(properties.creationTime!),
+      fileLastWriteTimeToString(properties.lastWriteTime!),
+      {
+        abortSignal: aborter,
+        filePermission: properties.filePermission,
+        filePermissionKey: properties.filePermissionKey
+      });
   }
 
   /**
@@ -208,6 +284,95 @@ export class DirectoryURL extends StorageURL {
       abortSignal: aborter,
       marker,
       ...options
+    });
+  }
+
+  /**
+   * Lists handles for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the portion of the list to be
+   *                          returned with the next list handles operation. The operation returns a
+   *                          marker value within the response body if the list returned was not complete.
+   *                          The marker value may then be used in a subsequent call to request the next
+   *                          set of list items.
+   * @param {IDirectoryListHandlesSegmentOptions} [options={}]
+   * @returns {Promise<Models.DirectoryListHandlesResponse>}
+   * @memberof DirectoryURL
+   */
+  public async listHandlesSegment(
+    aborter: Aborter,
+    marker?: string,
+    options: IDirectoryListHandlesSegmentOptions = {}
+  ): Promise<Models.DirectoryListHandlesResponse> {
+    marker = marker === "" ? undefined : marker;
+    const response = await this.context.listHandles({
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+
+    // TODO: Protocol layer issue that when handle list is in returned XML
+    // response.handleList is an empty string
+    if ((response.handleList as any) === "") {
+      response.handleList = undefined;
+    }
+    return response;
+  }
+
+  /**
+   * Force close all handles for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} [marker] Optional. A string value that identifies the position of handles that will 
+   *                          be closed with the next force close handles operation. 
+   *                          The operation returns a marker value within the response 
+   *                          body if there are more handles to close. The marker value 
+   *                          may then be used in a subsequent call to close the next set of handles.
+   * @param {IDirectoryForceCloseHandlesSegmentOptions} [options={}]
+   * @returns {Promise<Models.DirectoryForceCloseHandlesResponse>}
+   * @memberof DirectoryURL
+   */
+  public async forceCloseHandlesSegment(
+    aborter: Aborter,
+    marker?: string,
+    options: IDirectoryForceCloseHandlesSegmentOptions = {}
+  ): Promise<Models.DirectoryForceCloseHandlesResponse> {
+    marker = marker === "" ? undefined : marker;
+    return this.context.forceCloseHandles("*", {
+      abortSignal: aborter,
+      marker,
+      ...options
+    });
+  }
+
+  /**
+   * Force close a specific handle for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} handleId Specific handle ID, cannot be asterisk "*".
+   *                          Use forceCloseHandlesSegment() to close all handles.
+   * @returns {Promise<Models.DirectoryForceCloseHandlesResponse>}
+   * @memberof DirectoryURL
+   */
+  public async forceCloseHandle(
+    aborter: Aborter,
+    handleId: string
+  ): Promise<Models.DirectoryForceCloseHandlesResponse> {
+    if (handleId === "*") {
+      throw new RangeError(
+        `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
+      );
+    }
+
+    return this.context.forceCloseHandles(handleId, {
+      abortSignal: aborter
     });
   }
 }

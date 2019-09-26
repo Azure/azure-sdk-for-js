@@ -37,6 +37,19 @@ async function testPeekMsgsLength(
   );
 }
 
+async function testReceivedMsgsLength(
+  receiver: Receiver | SessionReceiver,
+  expectedReceivedMsgsLength: number
+): Promise<void> {
+  const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, 5);
+
+  should.equal(
+    receivedMsgs.length,
+    expectedReceivedMsgsLength,
+    "Unexpected number of msgs found when receiving"
+  );
+}
+
 let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
@@ -495,10 +508,10 @@ describe("Cancel single Scheduled message", function(): void {
   });
 
   async function testCancelScheduleMessage(useSessions?: boolean): Promise<void> {
-    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
     const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
     const sender = senderClient.createSender();
-    const sequenceNumber = await sender.scheduleMessage(scheduleTime, testMessages);
+    const sequenceNumber = await sender.scheduleMessage(scheduleTime, testMessage);
 
     await delay(2000);
 
@@ -506,7 +519,7 @@ describe("Cancel single Scheduled message", function(): void {
 
     // Wait until we are sure we have passed the schedule time
     await delay(30000);
-    await testPeekMsgsLength(receiverClient, 0);
+    await testReceivedMsgsLength(receiver, 0);
   }
 
   it("Partitioned Queue: Cancel single Scheduled message", async function(): Promise<void> {
@@ -596,7 +609,7 @@ describe("Cancel multiple Scheduled messages", function(): void {
 
     // Wait until we are sure we have passed the schedule time
     await delay(30000);
-    await testPeekMsgsLength(receiverClient, 0);
+    await testReceivedMsgsLength(receiver, 0);
   }
 
   it("Partitioned Queue: Cancel scheduled messages", async function(): Promise<void> {

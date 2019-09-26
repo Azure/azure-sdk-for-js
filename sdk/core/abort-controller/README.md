@@ -1,15 +1,16 @@
 # Azure Abort Controller library for JS
 
-The `@azure/abort-controller` package provides `AbortController` and `AbortSignal` classes that are compatible
-with the `AbortController` built into modern browsers and the `AbortSignal` used by `fetch`.
-These classes are provided for use with APIs in the Azure SDK for JavaScript that accept an `AbortSignalLike`
-parameter to cancel an operation.
+The `@azure/abort-controller` package provides `AbortController` and `AbortSignal` classes. These classes are compatible
+with the [AbortController](https://developer.mozilla.org/docs/Web/API/AbortController) built into modern browsers
+and the `AbortSignal` used by [fetch](https://developer.mozilla.org/docs/Web/API/Fetch_API).
+Use the `AbortController` class to create an instance of the `AbortSignal` class that can be used to cancel an operation
+in an Azure SDK that accept a parameter of type `AbortSignalLike`.
 
 ## Getting started
 
 ### Installation
 
-- Installing this library
+Install this libray using npm as follows
 
 ```
 npm install @azure/abort-controller
@@ -22,18 +23,21 @@ pending work. The `AbortSignal` can be accessed via the `signal` property on an 
 An `AbortSignal` can also be returned directly from a static method, e.g. `AbortController.timeout(100)`.
 that is cancelled after 100 milliseconds.
 
-Calling `abort()` on the instantiated `AbortController` invokes the regiestered `abort`
+Calling `abort()` on the instantiated `AbortController` invokes the registered `abort`
 event listeners on the associated `AbortSignal`.
 Any subsequent calls to `abort()` on the same controller will have no effect.
 
 The `AbortSignal.none` static property returns an `AbortSignal` that can not be aborted.
 
-`AbortSignals` can also be linked so that when `abort()` is called on parent signal,
-it also fires on all linked signals.
+Multiple instances of an `AbortSignal` can be linked so that calling `abort()` on the parent signal,
+aborts all linked signals.
 This linkage is one-way, meaning that a parent signal can affect a linked signal, but not the other way around.
 To link `AbortSignals` together, pass in the parent signals to the `AbortController` constructor.
 
 ## Examples
+
+The below examples assume that `doAsyncWork` is a function that takes a bag of properties, one of which is
+of the abort signal.
 
 ### Example 1 - basic usage
 
@@ -85,10 +89,6 @@ allTasksController.abort(); // aborts allTasksSignal, subTask
 subTask.abort(); // aborts only subTask
 ```
 
-## Next Steps
-
-Please take a look at the Examples section above to use this package.
-
 ## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor
@@ -98,6 +98,8 @@ contribution. For details, visit https://cla.microsoft.com.
 When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and
 decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot.
 You will only need to do this once across all repos using our CLA.
+
+If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 This project has adopted the Microsoft Open Source Code of Conduct.
 For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional

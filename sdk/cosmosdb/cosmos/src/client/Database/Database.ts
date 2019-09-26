@@ -1,5 +1,5 @@
 import { ClientContext } from "../../ClientContext";
-import { Helper, UriFactory } from "../../common";
+import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
@@ -40,14 +40,18 @@ export class Database {
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
   public get url() {
-    return UriFactory.createDatabaseUri(this.id);
+    return createDatabaseUri(this.id);
   }
 
   /** Returns a new {@link Database} instance.
    *
    * Note: the intention is to get this object from {@link CosmosClient} via `client.database(id)`, not to instantiate it yourself.
    */
-  constructor(public readonly client: CosmosClient, public readonly id: string, private clientContext: ClientContext) {
+  constructor(
+    public readonly client: CosmosClient,
+    public readonly id: string,
+    private clientContext: ClientContext
+  ) {
     this.containers = new Containers(this, this.clientContext);
     this.users = new Users(this, this.clientContext);
   }
@@ -77,27 +81,27 @@ export class Database {
 
   /** Read the definition of the given Database. */
   public async read(options?: RequestOptions): Promise<DatabaseResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.read<DatabaseDefinition>(path, "dbs", id, undefined, options);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      database: this
-    };
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+    const response = await this.clientContext.read<DatabaseDefinition>({
+      path,
+      resourceType: ResourceType.database,
+      resourceId: id,
+      options
+    });
+    return new DatabaseResponse(response.result, response.headers, response.code, this);
   }
 
   /** Delete the given Database. */
   public async delete(options?: RequestOptions): Promise<DatabaseResponse> {
-    const path = Helper.getPathFromLink(this.url);
-    const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.delete<DatabaseDefinition>(path, "dbs", id, undefined, options);
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref: this,
-      database: this
-    };
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+    const response = await this.clientContext.delete<DatabaseDefinition>({
+      path,
+      resourceType: ResourceType.database,
+      resourceId: id,
+      options
+    });
+    return new DatabaseResponse(response.result, response.headers, response.code, this);
   }
 }

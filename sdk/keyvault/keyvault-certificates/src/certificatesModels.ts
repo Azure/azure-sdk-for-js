@@ -1,7 +1,19 @@
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { CertificatePolicy } from "./core/models";
+import { CertificatePolicy, KeyVaultClientCreateCertificateOptionalParams } from "./core/models";
 
+/**
+ * Defines values for contentType.
+ * Possible values include: 'application/pem', 'application/x-pkcs12'
+ * @readonly
+ * @enum {string}
+ */
+export type CertificateContentType = "application/pem" | "application/x-pkcs12" | undefined;
+
+/**
+ * @interface
+ * An interface representing a certificate without the certificate's policy
+ */
 export interface Certificate extends CertificateAttributes {
   /**
    * @member {string} [kid] The key id.
@@ -16,21 +28,32 @@ export interface Certificate extends CertificateAttributes {
    */
   readonly sid?: string;
   /**
+   * @member {Uint8Array} [cer] CER contents of x509 certificate.
+   */
+  cer?: Uint8Array;
+  /**
+   * @member {CertificateContentType} [contentType] The content type of the secret.
+   */
+  contentType?: CertificateContentType;
+}
+
+/**
+ * @interface
+ * An interface representing a full certificate
+ */
+export interface CertificateWithPolicy extends Certificate {
+  /**
    * @member {CertificatePolicy} [policy] The management policy.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly policy?: CertificatePolicy;
-  /**
-   * @member {Uint8Array} [cer] CER contents of x509 certificate.
-   */
-  cer?: Uint8Array;
-  /**
-   * @member {string} [contentType] The content type of the secret.
-   */
-  contentType?: string;
 }
 
+/**
+ * @interface
+ * An interface representing the attributes of a certificate
+ */
 export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The certificate id.
@@ -60,13 +83,17 @@ export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
-  tags?: { [propertyName: string]: string };
+  tags?: CertificateTags;
   /**
    * @member {Uint8Array} [x509Thumbprint] Thumbprint of the certificate.
    */
   readonly x509Thumbprint?: Uint8Array;
 }
 
+/**
+ * @interface
+ * An interface representing a deleted certificate
+ */
 export interface DeletedCertificate extends Certificate {
   /**
    * @member {string} [recoveryId] The url of the recovery object, used to
@@ -90,39 +117,12 @@ export interface DeletedCertificate extends Certificate {
 
 /**
  * @interface
- * An interface representing KeyVaultClientSetCertificateOptionalParams.
+ * An interface representing options for creating a certificate.
  * Optional Parameters.
- *
- * @extends RequestOptionsBase
  */
-export interface SetCertificateOptions {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Application specific
-   * metadata in the form of key-value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * @member {string} [contentType] Type of the certificate value such as a
-   * password.
-   */
-  contentType?: string;
-  /**
-   * @member {boolean} [enabled] Determines whether the object is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {Date} [notBefore] Not before date in UTC.
-   */
-  notBefore?: Date;
-  /**
-   * @member {Date} [expires] Expiry date in UTC.
-   */
-  expires?: Date;
-  /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: msRest.RequestOptionsBase;
-}
+export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {}
+
+export type CertificateTags = { [propertyName: string]: string };
 
 /**
  * @interface
@@ -133,10 +133,10 @@ export interface SetCertificateOptions {
  */
 export interface UpdateCertificateOptions {
   /**
-   * @member {string} [contentType] Type of the certificate value such as a
+   * @member {CertificateContentType} [contentType] Type of the certificate value such as a
    * password.
    */
-  contentType?: string;
+  contentType?: CertificateContentType;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */
@@ -153,46 +153,17 @@ export interface UpdateCertificateOptions {
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
-  tags?: { [propertyName: string]: string };
+  tags?: CertificateTags;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
  * @interface
- * An interface representing CertificateClientGetCertificateOptionalParams.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
+ * An interface representing the issuer of a certificate
  */
-export interface GetCertificateOptions {
-  /**
-   * @member {string} [version] The version of the certificate to retrieve.  If not 
-   * specified the latest version of the certificate will be retrieved.
-   */
-  version?: string;
-  /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: msRest.RequestOptionsBase;
-}
-
-/**
- * @interface
- * An interface representing optional parameters for CertificateClient paged operations.
- * Optional Parameters.
- *
- * @extends RequestOptionsBase
- */
-export interface RequestOptions {
-  /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: msRest.RequestOptionsBase;
-}
-
 export interface CertificateIssuer {
   /**
    * @member {string} [id] Certificate Identifier.
@@ -204,6 +175,10 @@ export interface CertificateIssuer {
   provider?: string;
 }
 
+/**
+ * @interface
+ * An interface representing the attributes of an issuer
+ */
 export interface IssuerAttributes {
   /**
    * @member {string} [id] Certificate Identifier.
@@ -229,11 +204,4 @@ export interface IssuerAttributes {
    * @member {string} [name] Name of the issuer
    */
   name?: string;
-}
-
-export interface Issuer extends IssuerAttributes {
-  accountId?: string;
-  password?: string;
-  organizationId?: string;
-  adminDetails?: string;
 }

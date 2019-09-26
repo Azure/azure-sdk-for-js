@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-personalizer";
-const packageVersion = "1.0.0";
+const packageVersion = "2.0.0";
 
 export class PersonalizerClientContext extends msRest.ServiceClient {
   endpoint: string;

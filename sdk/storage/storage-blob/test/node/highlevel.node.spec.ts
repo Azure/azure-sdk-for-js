@@ -5,39 +5,40 @@ import { PassThrough } from "stream";
 
 import { BlobURL, BlockBlobURL, ContainerURL } from "../../src";
 import { Aborter } from "../../src/Aborter";
-import {
-  downloadBlobToBuffer,
-  uploadFileToBlockBlob,
-  uploadStreamToBlockBlob
-} from "../../src/highlevel.node";
+import { downloadBlobToBuffer, uploadFileToBlockBlob, uploadStreamToBlockBlob } from "../../src/highlevel.node";
 import { IRetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { createRandomLocalFile, getBSU, getUniqueName, readStreamToLocalFile } from "../utils";
+import { createRandomLocalFile, getBSU, readStreamToLocalFile } from "../utils";
+import { record } from "../utils/recorder";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
   const serviceURL = getBSU();
-  let containerName = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let blockBlobURL: BlockBlobURL;
   let tempFileSmall: string;
   let tempFileSmallLength: number;
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   before(async () => {
@@ -62,7 +63,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -79,7 +80,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -95,7 +96,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -175,7 +176,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
 
-    const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
+    const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
@@ -194,7 +195,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
 
-    const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile"));
+    const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
@@ -241,6 +242,39 @@ describe("Highlevel", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
+  });
+
+  it("downloadBlobToBuffer should success when downloading a range inside blob", async () => {
+    await blockBlobURL.upload(Aborter.none, "aaaabbbb", 8);
+
+    const buf = Buffer.alloc(4);
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 4, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "bbbb");
+
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 3, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "abbb");
+
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 2, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aabb");
+
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 1, 4, {
+      blockSize: 4,
+      maxRetryRequestsPerBlock: 5,
+      parallelism: 1
+    });
+    assert.deepStrictEqual(buf.toString(), "aaab");
   });
 
   it("downloadBlobToBuffer should abort", async () => {
@@ -304,7 +338,7 @@ describe("Highlevel", () => {
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -338,7 +372,7 @@ describe("Highlevel", () => {
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -374,7 +408,7 @@ describe("Highlevel", () => {
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -390,7 +424,7 @@ describe("Highlevel", () => {
       parallelism: 20
     });
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;
@@ -426,7 +460,7 @@ describe("Highlevel", () => {
       parallelism: 20
     });
 
-    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile."));
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
 
     let retirableReadableStreamOptions: IRetriableReadableStreamOptions;
     let injectedErrors = 0;

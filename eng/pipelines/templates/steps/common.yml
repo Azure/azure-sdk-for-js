@@ -1,0 +1,18 @@
+steps:
+  - task: UsePythonVersion@0
+    displayName: "Use Python 3.6"
+    inputs:
+      versionSpec: "3.6"
+
+  - template: eng/pipelines/templates/scripts/verify-agent-os.yml@azure-sdk-tools
+    parameters:
+      OSName: $(OSVmImage)
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "$(NodeVersion)"
+    displayName: "Use NodeJS $(NodeVersion)"
+
+  - script: |
+      npm install -g npm@6.9.0
+    displayName: "Install npm 6.9.0"

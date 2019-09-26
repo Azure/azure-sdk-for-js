@@ -1,1 +1,0 @@
-Samples for creating and executing ServerSide Scripts such as Stored Procedures, Triggers and User Defined Functions

@@ -1,4 +1,4 @@
-import { isNode, URLBuilder } from "@azure/ms-rest-js";
+import { AbortSignalLike, isNode, URLBuilder } from "@azure/ms-rest-js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -155,6 +155,41 @@ export function getURLPath(url: string): string | undefined {
 }
 
 /**
+ * Get URL scheme from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLScheme(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getScheme();
+}
+
+/**
+ * Get URL path and query from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLPathAndQuery(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  const pathString = urlParsed.getPath();
+  if (!pathString) {
+    throw new RangeError("Invalid url without valid path.");
+  }
+
+  let queryString = urlParsed.getQuery() || "";
+  queryString = queryString.trim();
+  if (queryString != "") {
+    queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
+  }
+
+  return `${pathString}${queryString}`
+}
+
+/**
  * Get URL query key value pairs from an URL string.
  *
  * @export
@@ -256,6 +291,39 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
 }
 
 /**
+ * Delay specified time interval.
+ *
+ * @export
+ * @param {number} timeInMs
+ * @param {AbortSignalLike} [aborter]
+ * @param {Error} [abortError]
+ */
+export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+  return new Promise((resolve, reject) => {
+    let timeout: any;
+
+    const abortHandler = () => {
+      if (timeout !== undefined) {
+        clearTimeout(timeout);
+      }
+      reject(abortError);
+    }
+
+    const resolveHandler = () => {
+      if (aborter !== undefined) {
+        aborter.removeEventListener("abort", abortHandler);
+      }
+      resolve();
+    };
+
+    timeout = setTimeout(resolveHandler, timeInMs);
+    if (aborter !== undefined) {
+      aborter.addEventListener("abort", abortHandler);
+    }
+  });
+}
+
+/**
  * String.prototype.padStart()
  *
  * @export
@@ -283,4 +351,16 @@ export function padStart(
     }
     return padString.slice(0, targetLength) + currentString;
   }
+}
+
+/**
+ * If two strings are equal when compared case insensitive.
+ *
+ * @export
+ * @param {string} str1
+ * @param {string} str2
+ * @returns {boolean}
+ */
+export function iEqual(str1: string, str2: string): boolean {
+  return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
 }

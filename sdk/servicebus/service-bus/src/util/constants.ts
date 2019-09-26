@@ -3,9 +3,8 @@
 
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "1.0.2"
+  version: "1.0.4"
 };
 
-export const messageDispositionTimeout = 20000;
 
 export const max32BitNumber = Math.pow(2, 31) - 1;

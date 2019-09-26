@@ -1,0 +1,23 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156776232694206071",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Fri, 06 Sep 2019 09:32:17 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "dbd15336-501e-00c3-4d95-64eed9000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "1a09075d-f29b-462f-82d0-a9e7587f32a8",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {}
+}

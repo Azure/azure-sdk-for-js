@@ -69,7 +69,10 @@ export class PartitionPump {
     await this._createNewReceiver();
     await this._scheduleLeaseRenewer();
     log.partitionPump(
-      withHostAndPartition(this._lease, "Successfully started the receiver and scheduled lease renewer.")
+      withHostAndPartition(
+        this._lease,
+        "Successfully started the receiver and scheduled lease renewer."
+      )
     );
   }
 
@@ -84,7 +87,10 @@ export class PartitionPump {
       this._client = this._context.getEventHubClient();
     } catch (err) {
       log.error(
-        withHostAndPartition(partitionId, "An error occurred while creating " + "the eventhub client: %O."),
+        withHostAndPartition(
+          partitionId,
+          "An error occurred while creating " + "the eventhub client: %O."
+        ),
         err
       );
       throw err;
@@ -156,7 +162,10 @@ export class PartitionPump {
     let result: boolean = true;
     let error: Error | undefined;
     log.partitionPump(
-      withHostAndPartition(this._lease, "Lease renewer is active after " + "%d seconds. Trying to renew the lease"),
+      withHostAndPartition(
+        this._lease,
+        "Lease renewer is active after " + "%d seconds. Trying to renew the lease"
+      ),
       this._context.leaseRenewInterval
     );
     try {
@@ -179,7 +188,10 @@ export class PartitionPump {
     }
     if (!result) {
       log.error(
-        withHostAndPartition(this._lease, "Failed to renew the lease, result: %s. " + "Shutting down the receiver."),
+        withHostAndPartition(
+          this._lease,
+          "Failed to renew the lease, result: %s. " + "Shutting down the receiver."
+        ),
         result
       );
       await this._removeReceiver(CloseReason.leaseLost);
@@ -199,7 +211,10 @@ export class PartitionPump {
       try {
         await this._leaseRenewer();
       } catch (err) {
-        log.error(withHostAndPartition(this._lease, "An error occurred in the _leaseRenewer(): %O"), err);
+        log.error(
+          withHostAndPartition(this._lease, "An error occurred in the _leaseRenewer(): %O"),
+          err
+        );
       }
     }, renewalTime);
   }
@@ -272,7 +287,9 @@ export class PartitionPump {
     let result = false;
     if (error) {
       // condition is "amqp:link:stolen"
-      if ((error as MessagingError).condition === ErrorNameConditionMapper.ReceiverDisconnectedError) {
+      if (
+        (error as MessagingError).condition === ErrorNameConditionMapper.ReceiverDisconnectedError
+      ) {
         result = true;
       } else if (error.message.match(/.*New receiver with higher epoch.*/i) !== null) {
         result = true;

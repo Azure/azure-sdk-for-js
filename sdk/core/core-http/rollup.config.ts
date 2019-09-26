@@ -1,11 +1,9 @@
-/// <reference path=".typings/rollup-plugin-alias.d.ts" />
 /// <reference path=".typings/rollup-plugin-commonjs.d.ts" />
 /// <reference path=".typings/rollup-plugin-json.d.ts" />
 /// <reference path=".typings/rollup-plugin-node-resolve.d.ts" />
 /// <reference path=".typings/rollup-plugin-sourcemaps.d.ts" />
 /// <reference path=".typings/rollup-plugin-visualizer.d.ts" />
 
-import alias from "rollup-plugin-alias";
 import commonjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
 import nodeResolve from "rollup-plugin-node-resolve";
@@ -23,8 +21,10 @@ const banner = `/** @license @azure/core-http
 const nodeConfig = {
   input: "./es/lib/coreHttp.js",
   external: [
-    "axios",
     "form-data",
+    "http",
+    "https",
+    "node-fetch",
     "os",
     "stream",
     "tough-cookie",
@@ -41,7 +41,7 @@ const nodeConfig = {
   },
   plugins: [
     nodeResolve({
-      mainFields: ['module']
+      mainFields: ["module", "main"],
     }),
     commonjs(),
     sourcemaps(),
@@ -67,16 +67,8 @@ const browserConfig = {
     banner
   },
   plugins: [
-    alias({
-      "./defaultHttpClient": "./defaultHttpClient.browser",
-      "./policies/msRestUserAgentPolicy": "./policies/msRestUserAgentPolicy.browser",
-      "./policies/proxyPolicy": "./policies/proxyPolicy.browser",
-      "./util/xml": "./util/xml.browser",
-      "./util/base64": "./util/base64.browser",
-    }),
     nodeResolve({
-      mainFields: ['module'],
-      browser: true
+      mainFields: ["module", "main", "browser"]
     }),
     commonjs(),
     sourcemaps(),

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709698104347",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156758142625905175",
    "query": {
     "timeout": "30"
    },
@@ -10,16 +10,17 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "833edd7f-c003-005e-7eb0-208992000000",
-    "x-ms-version": "2018-03-28",
+    "date": "Wed, 04 Sep 2019 07:17:05 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 11 Jun 2019 23:51:36 GMT",
+    "x-ms-request-id": "4d2f7f03-9003-0075-1cf0-629caf000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "a458d97b-96d9-4c16-a96e-92a7e4122d7c",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709698104347",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156758142625905175",
    "query": {
     "comp": "metadata",
     "timeout": "30"
@@ -28,18 +29,19 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Tue, 11 Jun 2019 23:51:36 GMT",
+    "date": "Wed, 04 Sep 2019 07:17:06 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-approximate-messages-count": "0",
-    "x-ms-request-id": "833eddf4-c003-005e-6eb0-208992000000",
+    "x-ms-request-id": "4d2f7f13-9003-0075-29f0-629caf000000",
     "cache-control": "no-cache",
-    "x-ms-version": "2018-03-28",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "645f99ca-8f9b-4315-8f4d-548a54ec8b64",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156029709698104347",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156758142625905175",
    "query": {
     "timeout": "30"
    },
@@ -47,15 +49,16 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "x-ms-request-id": "833ede5d-c003-005e-50b0-208992000000",
-    "x-ms-version": "2018-03-28",
+    "date": "Wed, 04 Sep 2019 07:17:06 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "date": "Tue, 11 Jun 2019 23:51:36 GMT",
+    "x-ms-request-id": "4d2f7f1f-9003-0075-33f0-629caf000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "efb0098b-a28e-4605-9b91-cda17b856715",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue156029709698104347"
+  "queue": "queue156758142625905175"
  }
 }

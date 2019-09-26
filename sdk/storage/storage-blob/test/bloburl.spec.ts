@@ -1,27 +1,35 @@
-import * as assert from "assert";
-
 import { isNode } from "@azure/ms-rest-js";
+import * as assert from "assert";
+import * as dotenv from "dotenv";
+
 import { Aborter } from "../src/Aborter";
 import { BlobURL } from "../src/BlobURL";
 import { BlockBlobURL } from "../src/BlockBlobURL";
 import { ContainerURL } from "../src/ContainerURL";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
-import * as dotenv from "dotenv";
+import { bodyToString, getBSU } from "./utils";
+import { delay, record } from "./utils/recorder";
+import { Test_CPK_INFO } from './utils/constants';
+import { BlockBlobTier } from '../src';
+
 dotenv.config({ path: "../.env" });
+
 describe("BlobURL", () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
-  let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
-  let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  let containerName: string;
+  let containerURL: ContainerURL;
+  let blobName: string;
+  let blobURL: BlobURL;
+  let blockBlobURL: BlockBlobURL;
   const content = "Hello World";
 
-  beforeEach(async () => {
-    containerName = getUniqueName("container");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
-    blobName = getUniqueName("blob");
+    blobName = recorder.getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
     await blockBlobURL.upload(Aborter.none, content, content.length);
@@ -29,18 +37,48 @@ describe("BlobURL", () => {
 
   afterEach(async () => {
     await containerURL.delete(Aborter.none);
+    recorder.stop();
   });
 
-  it("download with with default parameters", async () => {
+  it("download with default parameters", async () => {
     const result = await blobURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
+  it("download should not have aborted error after download finishes", async () => {
+    const aborter = Aborter.none;
+    const result = await blobURL.download(aborter, 0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
+  });
+
   it("download all parameters set", async () => {
-    const result = await blobURL.download(Aborter.none, 0, 1, {
+    // For browser scenario, please ensure CORS settings exposed headers: content-md5,x-ms-content-crc64
+    // So JS can get contentCrc64 and contentMD5.
+    const result1 = await blobURL.download(Aborter.none, 0, 1, {
+      rangeGetContentCrc64: true
+    });
+    assert.ok(result1.clientRequestId);
+    //assert.ok(result1.contentCrc64!);
+    assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
+    assert.ok(result1.clientRequestId);
+
+    const result2 = await blobURL.download(Aborter.none, 1, 1, {
       rangeGetContentMD5: true
     });
-    assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
+    assert.ok(result2.clientRequestId);
+    //assert.ok(result2.contentMD5!);
+
+    let exceptionCaught = false;
+    try{
+      await blobURL.download(Aborter.none, 2, 1, {
+        rangeGetContentMD5: true,
+        rangeGetContentCrc64: true
+      });
+    } catch(err) {
+        exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -105,6 +143,78 @@ describe("BlobURL", () => {
     assert.deepStrictEqual(result.contentDisposition, headers.blobContentDisposition);
   });
 
+  it("setMetadata with CPK on a blob uploaded without CPK should fail", async () => {
+    let exceptionCaught = false;
+    try {
+      await blobURL.setMetadata(Aborter.none, {a: "a"}, {customerProvidedKey: Test_CPK_INFO});
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("setMetadata, setHTTPHeaders, getProperties and createSnapshot with CPK", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobURL = BlobURL.fromContainerURL(containerURL, blobName);
+    blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+    await blockBlobURL.upload(Aborter.none, content, content.length, {customerProvidedKey: Test_CPK_INFO});
+
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    const smResp = await blobURL.setMetadata(Aborter.none, metadata, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    // getProperties without CPK should fail
+    let exceptionCaught = false;
+    try {
+      await blobURL.getProperties(Aborter.none)
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    const headers = {
+      blobCacheControl: "blobCacheControl",
+      blobContentDisposition: "blobContentDisposition",
+      blobContentEncoding: "blobContentEncoding",
+      blobContentLanguage: "blobContentLanguage",
+      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentType: "blobContentType"
+    };
+    await blobURL.setHTTPHeaders(Aborter.none, headers, {customerProvidedKey: Test_CPK_INFO});
+
+    const gResp = await blobURL.getProperties(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
+    assert.equal(gResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+    assert.ok(gResp.date);
+    assert.deepStrictEqual(gResp.blobType, "BlockBlob");
+    assert.ok(gResp.lastModified);
+    assert.deepStrictEqual(gResp.metadata, metadata);
+    assert.deepStrictEqual(gResp.cacheControl, headers.blobCacheControl);
+    assert.deepStrictEqual(gResp.contentType, headers.blobContentType);
+    assert.deepStrictEqual(gResp.contentMD5, headers.blobContentMD5);
+    assert.deepStrictEqual(gResp.contentEncoding, headers.blobContentEncoding);
+    assert.deepStrictEqual(gResp.contentLanguage, headers.blobContentLanguage);
+    assert.deepStrictEqual(gResp.contentDisposition, headers.blobContentDisposition);    
+
+    const csResp = await blobURL.createSnapshot(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
+    //assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
+    assert.ok(csResp.snapshot);
+
+    const blobSnapshotURL = blobURL.withSnapshot(csResp.snapshot!);
+    await blobSnapshotURL.getProperties(Aborter.none, {customerProvidedKey: Test_CPK_INFO});
+
+    // getProperties without CPK should fail
+    exceptionCaught = false;
+    try {
+      await blobSnapshotURL.getProperties(Aborter.none)
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
   it("acquireLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 30;
@@ -141,7 +251,7 @@ describe("BlobURL", () => {
     assert.equal(result.leaseState, "leased");
     assert.equal(result.leaseStatus, "locked");
 
-    await sleep(20 * 1000);
+    await delay(20 * 1000);
 
     const result2 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
@@ -191,7 +301,7 @@ describe("BlobURL", () => {
     assert.equal(result2.leaseState, "breaking");
     assert.equal(result2.leaseStatus, "locked");
 
-    await sleep(5 * 1000);
+    await delay(5 * 1000);
 
     const result3 = await blobURL.getProperties(Aborter.none);
     assert.ok(!result3.leaseDuration);
@@ -260,7 +370,7 @@ describe("BlobURL", () => {
           enabled: true
         }
       });
-      await sleep(15 * 1000);
+      await delay(15 * 1000);
     }
 
     await blobURL.delete(Aborter.none);
@@ -278,7 +388,7 @@ describe("BlobURL", () => {
   });
 
   it("startCopyFromURL", async () => {
-    const newBlobURL = BlobURL.fromContainerURL(containerURL, getUniqueName("copiedblob"));
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblob"));
     const result = await newBlobURL.startCopyFromURL(Aborter.none, blobURL.url);
     assert.ok(result.copyId);
 
@@ -289,11 +399,36 @@ describe("BlobURL", () => {
     assert.deepStrictEqual(properties2.copySource, blobURL.url);
   });
 
+  it("startCopyFromURL with rehydrate priority", async () => {
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblobrehydrate"));
+    const initialTier = BlockBlobTier.Archive;
+    const result = await newBlobURL.startCopyFromURL(
+      Aborter.none, 
+      blobURL.url, 
+      {
+        tier: initialTier,
+        rehydratePriority: "Standard"
+      });
+    assert.ok(result.copyId);
+    delay(1 * 1000);
+
+    const properties1 = await blobURL.getProperties(Aborter.none);
+    const properties2 = await newBlobURL.getProperties(Aborter.none);
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    assert.deepStrictEqual(properties2.copySource, blobURL.url);
+    assert.equal(properties2.accessTier, initialTier);
+
+    await newBlobURL.setTier(Aborter.none, BlockBlobTier.Hot);
+    const properties3 = await newBlobURL.getProperties(Aborter.none);
+    assert.equal(properties3.archiveStatus!.toLowerCase(), "rehydrate-pending-to-hot")
+  });
+
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
-    const newBlobURL = BlobURL.fromContainerURL(containerURL, getUniqueName("copiedblob"));
+    const newBlobURL = BlobURL.fromContainerURL(containerURL, recorder.getUniqueName("copiedblob"));
     const result = await newBlobURL.startCopyFromURL(Aborter.none, blobURL.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    delay(1 * 1000);
 
     try {
       await newBlobURL.abortCopyFromURL(Aborter.none, result.copyId!);
@@ -320,6 +455,15 @@ describe("BlobURL", () => {
     properties = await blockBlobURL.getProperties(Aborter.none);
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
+    }
+  });
+
+  it("setTier with rehydrate priority", async () => {
+    await blockBlobURL.setTier(Aborter.none, "Archive", {rehydratePriority: "High"});
+    await blockBlobURL.setTier(Aborter.none, "Cool");
+    const properties = await blockBlobURL.getProperties(Aborter.none);
+    if (properties.archiveStatus) {
+      assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-cool");
     }
   });
 });

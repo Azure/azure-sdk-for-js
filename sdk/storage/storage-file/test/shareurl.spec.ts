@@ -2,23 +2,29 @@ import * as assert from "assert";
 
 import { Aborter } from "../src/Aborter";
 import { ShareURL } from "../src/ShareURL";
-import { getBSU, getUniqueName } from "./utils";
+import { getBSU } from "./utils";
+import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { DirectoryURL } from '../src';
 dotenv.config({ path: "../.env" });
 
 describe("ShareURL", () => {
   const serviceURL = getBSU();
-  let shareName: string = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+  let shareName: string;
+  let shareURL: ShareURL;
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  beforeEach(async function() {
+    recorder = record(this);
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
   });
 
   afterEach(async () => {
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -48,7 +54,7 @@ describe("ShareURL", () => {
   });
 
   it("create with all parameters configured", async () => {
-    const shareURL2 = ShareURL.fromServiceURL(serviceURL, getUniqueName(shareName));
+    const shareURL2 = ShareURL.fromServiceURL(serviceURL, recorder.getUniqueName(shareName));
     const metadata = { key: "value" };
     await shareURL2.create(Aborter.none, { metadata });
     const result = await shareURL2.getProperties(Aborter.none);
@@ -89,5 +95,25 @@ describe("ShareURL", () => {
     assert.notDeepStrictEqual(originProperties.metadata, metadata);
 
     await snapshotShareURL.delete(Aborter.none, {});
+  });
+
+  it("create and get permission", async () => {
+    const directoryURL = DirectoryURL.fromShareURL(shareURL, "test0");
+    const cResp = await directoryURL.create(Aborter.none);
+    assert.ok(cResp.filePermissionKey);
+
+    const getPermissionResp = await shareURL.getPermission(Aborter.none, cResp.filePermissionKey!);
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
+    assert.ok(getPermissionResp.requestId!);
+    assert.ok(getPermissionResp.version!);
+
+    const createPermResp = await shareURL.createPermission(Aborter.none, getPermissionResp.permission);
+    assert.ok(createPermResp.filePermissionKey!);
+    assert.ok(createPermResp.date!)
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(createPermResp.requestId!);
+    assert.ok(createPermResp.version!);
   });
 });

@@ -1,19 +1,26 @@
+import uuid from "uuid/v4";
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { Helper } from "../../common";
+import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
-import { Resource } from "../Resource";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
+/**
+ * @ignore
+ * @param options
+ */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
   const optionsType = typeof options;
-  return options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number");
+  return (
+    options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number")
+  );
 }
 
 /**
@@ -27,7 +34,10 @@ export class Items {
    * @param container The parent container.
    * @hidden
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly container: Container,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Queries all items.
@@ -41,7 +51,7 @@ export class Items {
    *     {name: "@lastName", value: "Hendricks"}
    *   ]
    * };
-   * const {result: items} = await items.query(querySpec).toArray();
+   * const {result: items} = await items.query(querySpec).fetchAll();
    * ```
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -57,26 +67,33 @@ export class Items {
    *     {name: "@lastName", value: "Hendricks"}
    *   ]
    * };
-   * const {result: items} = await items.query<{firstName: string}>(querySpec).toArray();
+   * const {result: items} = await items.query<{firstName: string}>(querySpec).fetchAll();
    * ```
    */
-  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
-  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+  public query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
+  public query<T>(query: string | SqlQuerySpec, options: FeedOptions = {}): QueryIterator<T> {
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
 
     const fetchFunction: FetchFunctionCallback = (innerOptions: FeedOptions) => {
-      return this.clientContext.queryFeed(
+      return this.clientContext.queryFeed({
         path,
-        "docs",
-        id,
-        result => (result ? result.Documents : []),
+        resourceType: ResourceType.item,
+        resourceId: id,
+        resultFn: (result) => (result ? result.Documents : []),
         query,
-        innerOptions
-      );
+        options: innerOptions
+      });
     };
 
-    return new QueryIterator(this.clientContext, query, options, fetchFunction, this.container.url);
+    return new QueryIterator(
+      this.clientContext,
+      query,
+      options,
+      fetchFunction,
+      this.container.url,
+      ResourceType.item
+    );
   }
 
   /**
@@ -88,9 +105,9 @@ export class Items {
    * @example Read from the beginning of the change feed.
    * ```javascript
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
-   * const firstPage = await iterator.executeNext();
+   * const firstPage = await iterator.fetchNext();
    * const firstPageResults = firstPage.result
-   * const secondPage = await iterator.executeNext();
+   * const secondPage = await iterator.fetchNext();
    * ```
    */
   public readChangeFeed(
@@ -127,7 +144,10 @@ export class Items {
     if (!changeFeedOptions && isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
       partitionKey = undefined;
       changeFeedOptions = partitionKeyOrChangeFeedOptions;
-    } else if (partitionKeyOrChangeFeedOptions !== undefined && !isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
+    } else if (
+      partitionKeyOrChangeFeedOptions !== undefined &&
+      !isChangeFeedOptions(partitionKeyOrChangeFeedOptions)
+    ) {
       partitionKey = partitionKeyOrChangeFeedOptions;
     }
 
@@ -135,19 +155,9 @@ export class Items {
       throw new Error("changeFeedOptions must be a valid object");
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
-    return new ChangeFeedIterator<T>(
-      this.clientContext,
-      id,
-      path,
-      partitionKey,
-      async () => {
-        const bodyWillBeTruthyIfPartitioned = (await this.container.getPartitionKeyDefinition()).body;
-        return !!bodyWillBeTruthyIfPartitioned;
-      },
-      changeFeedOptions
-    );
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
+    return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions);
   }
 
   /**
@@ -158,7 +168,7 @@ export class Items {
    * @param options Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
    * ```typescript
-   * const {body: containerList} = await items.readAll().toArray();
+   * const {body: containerList} = await items.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
@@ -173,23 +183,14 @@ export class Items {
    * @param options Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
    * ```typescript
-   * const {body: containerList} = await items.readAll().toArray();
+   * const {body: containerList} = await items.readAll().fetchAll();
    * ```
    */
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T> {
-    return this.query<T>(undefined, options);
+    return this.query<T>("SELECT * from c", options);
   }
 
-  /**
-   * Create a item.
-   *
-   * There is no set schema for JSON items. They may contain any number of custom properties..
-   *
-   * @param body Represents the body of the item. Can contain any number of user defined properties.
-   * @param options Used for modifying the request (for instance, specifying the partition key).
-   */
-  public async create(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Create a item.
    *
@@ -201,41 +202,49 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async create<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async create<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
-      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
-      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
-    }
+  public async create<T extends ItemDefinition = any>(
+    body: T,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
+    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      (body as ItemDefinition).id = Helper.generateGuidId();
+      body.id = uuid();
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create<T>(body, path, "docs", id, undefined, options);
+    const response = await this.clientContext.create<T>({
+      body,
+      path,
+      resourceType: ResourceType.item,
+      resourceId: id,
+      options,
+      partitionKey
+    });
 
     const ref = new Item(
       this.container,
       (response.result as any).id,
-      (options && options.partitionKey) as string,
+      partitionKey,
       this.clientContext
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      item: ref
-    };
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      ref
+    );
   }
 
   /**
@@ -258,40 +267,52 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
-    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
-      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
-      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
-    }
+  public async upsert<T extends ItemDefinition>(
+    body: T,
+    options?: RequestOptions
+  ): Promise<ItemResponse<T>>;
+  public async upsert<T extends ItemDefinition>(
+    body: T,
+    options: RequestOptions = {}
+  ): Promise<ItemResponse<T>> {
+    const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-      (body as ItemDefinition).id = Helper.generateGuidId();
+      body.id = uuid();
     }
 
     const err = {};
-    if (!Helper.isResourceValid(body, err)) {
+    if (!isResourceValid(body, err)) {
       throw err;
     }
 
-    const path = Helper.getPathFromLink(this.container.url, "docs");
-    const id = Helper.getIdFromLink(this.container.url);
+    const path = getPathFromLink(this.container.url, ResourceType.item);
+    const id = getIdFromLink(this.container.url);
 
-    const response = (await this.clientContext.upsert<T>(body, path, "docs", id, undefined, options)) as T & Resource;
+    const response = await this.clientContext.upsert<T>({
+      body,
+      path,
+      resourceType: ResourceType.item,
+      resourceId: id,
+      options,
+      partitionKey
+    });
 
     const ref = new Item(
       this.container,
       (response.result as any).id,
-      (options && options.partitionKey) as string,
+      partitionKey,
       this.clientContext
     );
-    return {
-      body: response.result,
-      headers: response.headers,
-      ref,
-      item: ref
-    };
+    return new ItemResponse(
+      response.result,
+      response.headers,
+      response.code,
+      response.substatus,
+      ref
+    );
   }
 }

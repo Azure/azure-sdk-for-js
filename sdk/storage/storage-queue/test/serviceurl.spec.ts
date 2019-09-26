@@ -3,8 +3,8 @@ import * as assert from "assert";
 import { Aborter } from "../src/Aborter";
 import { QueueURL } from "../src/QueueURL";
 import { ServiceURL } from "../src/ServiceURL";
-import { getAlternateQSU, getQSU, wait } from "./utils";
-import { record } from "./utils/recorder";
+import { getAlternateQSU, getQSU } from "./utils";
+import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -24,6 +24,7 @@ describe("ServiceURL", () => {
     const result = await serviceURL.listQueuesSegment(Aborter.none);
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 
@@ -79,6 +80,7 @@ describe("ServiceURL", () => {
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
     assert.ok(typeof result.version);
     assert.ok(result.version!.length > 0);
 
@@ -141,7 +143,7 @@ describe("ServiceURL", () => {
     }
 
     await serviceURL.setProperties(Aborter.none, serviceProperties);
-    await wait(5 * 1000);
+    await delay(5 * 1000);
 
     const result = await serviceURL.getProperties(Aborter.none);
     assert.ok(typeof result.requestId);

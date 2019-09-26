@@ -1,16 +1,17 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { fake } from "sinon";
 import { OperationSpec } from "../../lib/operationSpec";
-import { TokenCredential, GetTokenOptions, AccessToken } from "../../lib/credentials/tokenCredential";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions, } from "../../lib/policies/requestPolicy";
 import { Constants } from "../../lib/util/constants";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { HttpHeaders, } from "../../lib/httpHeaders";
 import { WebResource } from "../../lib/webResource";
-import { BearerTokenAuthenticationPolicy, TokenRefreshBufferMs } from "../../lib/policies/bearerTokenAuthenticationPolicy";
+import { BearerTokenAuthenticationPolicy } from "../../lib/policies/bearerTokenAuthenticationPolicy";
+import { ExpiringAccessTokenCache, TokenRefreshBufferMs } from "../../lib/credentials/accessTokenCache";
 
 describe("BearerTokenAuthenticationPolicy", function () {
   const mockPolicy: RequestPolicy = {
@@ -44,10 +45,10 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
   it("refreshes access tokens when they expire", async () => {
     const now = Date.now();
-    const refreshCred1 = new MockRefreshAzureCredential(new Date(now));
-    const refreshCred2 = new MockRefreshAzureCredential(new Date(now + TokenRefreshBufferMs));
+    const refreshCred1 = new MockRefreshAzureCredential(now);
+    const refreshCred2 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs);
     const notRefreshCred1 = new MockRefreshAzureCredential(
-      new Date(now + TokenRefreshBufferMs + 5000)
+      now + TokenRefreshBufferMs + 5000
     );
 
     const credentialsToTest: [MockRefreshAzureCredential, number][] = [
@@ -76,16 +77,17 @@ describe("BearerTokenAuthenticationPolicy", function () {
       mockPolicy,
       new RequestPolicyOptions(),
       credential,
-      scopes);
+      scopes,
+      new ExpiringAccessTokenCache());
   }
 });
 
 class MockRefreshAzureCredential implements TokenCredential {
-  private _expiresOn: Date;
+  private _expiresOnTimestamp: number;
   public authCount = 0;
 
-  constructor(expiresOn: Date) {
-    this._expiresOn = expiresOn;
+  constructor(expiresOnTimestamp: number) {
+    this._expiresOnTimestamp = expiresOnTimestamp;
   }
 
   public getToken(
@@ -93,6 +95,6 @@ class MockRefreshAzureCredential implements TokenCredential {
     _options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     this.authCount++;
-    return Promise.resolve({ token: "mocktoken", expiresOn: this._expiresOn });
+    return Promise.resolve({ token: "mocktoken", expiresOnTimestamp: this._expiresOnTimestamp });
   }
 }

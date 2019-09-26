@@ -20,9 +20,28 @@
     },
     {
       "commandKind": "bulk",
+      "name": "build",
+      "summary": "Build all projects that haven't been built, or have changed since they were last built",
+      "description": "This command is similar to \"rush rebuild\", except that \"rush build\" performs...",
+      "safeForSimultaneousRushProcesses": false,
+      "enableParallelism": true,
+      "ignoreDependencyOrder": false,
+      "ignoreMissingScript": false,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "build:samples",
+      "summary": "Build the samples only in projects",
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "build:test",
       "summary": "Build the test targets only in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
@@ -46,20 +65,23 @@
       "commandKind": "bulk",
       "name": "integration-test:browser",
       "summary": "Execute browser integration tests defined in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
       "name": "integration-test:node",
       "summary": "Execute Node integration tests defined in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
       "name": "integration-test",
       "summary": "Execute integration tests defined in projects",
       "description": "Execute tests which require an actual service instance (live Azure, emulator, etc). Integration tests typically require service endpoints to be specified via environment variables in order to run.",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
@@ -87,6 +109,12 @@
     },
     {
       "commandKind": "bulk",
+      "name": "test-consumer",
+      "summary": "Execute consumer tests defined in projects",
+      "enableParallelism": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "test:node",
       "summary": "Execute Node dev tests defined in projects",
       "enableParallelism": true
@@ -102,20 +130,23 @@
       "commandKind": "bulk",
       "name": "unit-test:browser",
       "summary": "Execute browser unit tests defined in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
       "name": "unit-test:node",
       "summary": "Execute Node unit tests defined in projects",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
     {
       "commandKind": "bulk",
       "name": "unit-test",
       "summary": "Execute unit tests defined in projects",
       "description": "Execute tests which don't need to connect to any external service.",
-      "enableParallelism": true
+      "enableParallelism": true,
+      "allowWarningsInSuccessfulBuild": true
     },
 
     // Optional Scripts
@@ -123,6 +154,14 @@
       "commandKind": "bulk",
       "name": "extract-api",
       "summary": "Run API Extractor on projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+
+    {
+      "commandKind": "bulk",
+      "name": "generate-doc",
+      "summary": "Run typedoc on projects and generate documentation",
       "enableParallelism": true,
       "ignoreMissingScript": true
     },
@@ -165,7 +204,7 @@
       "parameterKind": "flag",
       "longName": "--sync-peers",
       "description": "Also sync peer dependency versions with those in the working directory.",
-      "associatedCommands": [ "sync-versions" ]
+      "associatedCommands": ["sync-versions"]
     }
   ]
 }

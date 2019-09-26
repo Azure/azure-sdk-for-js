@@ -1,10 +1,10 @@
 import { SecretsClient } from "../src";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import fs = require("fs");
+import { DefaultAzureCredential } from "@azure/identity";
 
-function writeFile(filename: string, text: Uint8Array) {
+function writeFile(filename: string, text: Uint8Array): Promise<void> {
   return new Promise((resolve, reject) => {
-    fs.writeFile(filename, text, err => {
+    fs.writeFile(filename, text, (err) => {
       if (err) reject(err);
       else resolve();
     });
@@ -25,30 +25,23 @@ export function delay<T>(t: number, value?: T): Promise<T> {
 }
 
 async function main(): Promise<void> {
-  const clientId = process.env["CLIENT_ID"] || "";
-  const clientSecret = process.env["CLIENT_SECRET"] || "";
-  const tenantId = process.env["TENANT_ID"] || "";
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  // DefaultAzureCredential expects the following three environment variables:
+  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+  // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  const credential = new DefaultAzureCredential();
 
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const credential = await msRestNodeAuth.loginWithServicePrincipalSecret(
-    clientId,
-    clientSecret,
-    tenantId,
-    {
-      tokenAudience: 'https://vault.azure.net'
-    }
-  );
+  const client = new SecretsClient(url, credential);
 
   const secretName = "StorageAccountPassword";
-
-  const client = new SecretsClient(url, credential);
 
   // Create our secret
   await client.setSecret(secretName, "XYZ789");
 
   // Backup secret
-  let backupResult = await client.backupSecret(secretName);
+  const backupResult = await client.backupSecret(secretName);
 
   // Write the backup to a file
   await writeFile("secret_backup.dat", backupResult);
@@ -65,10 +58,10 @@ async function main(): Promise<void> {
 
   // Read our backup from a file
   console.log("about to restore secret");
-  let backupContents = await readFile("secret_backup.dat");
+  const backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
-  let result = await client.restoreSecret(backupContents);
+  const result = await client.restoreSecret(backupContents);
   console.log("Restored secret: ", result);
 
   await client.deleteSecret(secretName);

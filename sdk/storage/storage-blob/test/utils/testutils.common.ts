@@ -1,5 +1,6 @@
 import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
 import { padStart } from "../../src/utils/utils.common";
+import { BlobMetadata } from '../../src/generated/src/models';
 
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
@@ -11,12 +12,6 @@ export function getUniqueName(prefix: string): string {
     5,
     "00000"
   )}`;
-}
-
-export async function sleep(time: number): Promise<void> {
-  return new Promise<void>((resolve) => {
-    setTimeout(resolve, time);
-  });
 }
 
 export function base64encode(content: string): string {
@@ -48,8 +43,22 @@ export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
   }
 }
 
-export async function wait(time: number): Promise<void> {
-  return new Promise<void>((resolve) => {
-    setTimeout(resolve, time);
-  });
+/**
+ * Validate if m1 is super set of m2.
+ * 
+ * @param m1 BlobMetadata
+ * @param m2 BlobMetadata
+ */
+export function isSuperSet(m1: BlobMetadata, m2: BlobMetadata): boolean {
+  if (!m1 || !m2) {
+    throw new RangeError("m1 or m2 is invalid");
+  }
+
+  for (let p in m2) {
+    if (m1[p] !== m2[p]) {
+      return false;
+    }
+  }
+  
+  return true;
 }

@@ -237,6 +237,7 @@ export class Sender {
    */
   async close(): Promise<void> {
     try {
+      this._isClosed = true;
       if (
         this._context.namespace.connection &&
         this._context.namespace.connection.isOpen() &&
@@ -244,7 +245,6 @@ export class Sender {
       ) {
         await this._context.sender.close();
       }
-      this._isClosed = true;
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the Sender for %s: %O",

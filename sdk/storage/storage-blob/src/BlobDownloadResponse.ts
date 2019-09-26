@@ -1,7 +1,7 @@
 import { HttpResponse, isNode } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 import { IMetadata } from "./models";
 import { IRetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
 import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";
@@ -384,6 +384,18 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
   }
 
   /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get clientRequestId(): string | undefined {
+    return this.originalResponse.clientRequestId;
+  }
+
+  /**
    * Indicates the version of the File service used
    * to execute the request.
    *
@@ -393,6 +405,28 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    */
   public get version(): string | undefined {
     return this.originalResponse.version;
+  }
+
+  /**
+   * The SHA-256 hash of the encryption key used to encrypt the blob. This value is only returned
+   * when the blob was encrypted with a customer-provided key.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get encryptionKeySha256(): string | undefined {
+    return this.originalResponse.encryptionKeySha256;
+  }
+
+  /**
+   * If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to
+   * true, then the request returns a crc64 for the range, as long as the range size is less than
+   * or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is
+   * specified in the same request, it will fail with 400(Bad Request)
+   */
+  public get contentCrc64(): Uint8Array | undefined {
+    return this.originalResponse.contentCrc64;
   }
 
   /**

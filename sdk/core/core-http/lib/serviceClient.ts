@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
@@ -16,7 +16,7 @@ import { userAgentPolicy, getDefaultUserAgentHeaderName, getDefaultUserAgentValu
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
-import { signingPolicy } from "./policies/signingPolicy";
+import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
@@ -28,6 +28,8 @@ import { OperationResponse } from "./operationResponse";
 import { ServiceCallback } from "./util/utils";
 import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
+import { signingPolicy } from './policies/signingPolicy';
 
 
 /**
@@ -131,16 +133,12 @@ export class ServiceClient {
   /**
    * The ServiceClient constructor
    * @constructor
-   * @param {ServiceClientCredentials} [credentials] The credentials object used for authentication.
-   * @param {ServiceClientOptions} [options] The service client options that govern the behavior of the client.
+   * @param credentials The credentials used for authentication with the service.
+   * @param options The service client options that govern the behavior of the client.
    */
-  constructor(credentials?: ServiceClientCredentials, options?: ServiceClientOptions) {
+  constructor(credentials?: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
     if (!options) {
       options = {};
-    }
-
-    if (credentials && !credentials.signRequest) {
-      throw new Error("credentials argument needs to implement signRequest method");
     }
 
     this._withCredentials = options.withCredentials || false;
@@ -151,8 +149,39 @@ export class ServiceClient {
     if (Array.isArray(options.requestPolicyFactories)) {
       requestPolicyFactories = options.requestPolicyFactories;
     } else {
-      requestPolicyFactories = createDefaultRequestPolicyFactories(credentials, options);
+      let authPolicyFactory: RequestPolicyFactory | undefined = undefined;
+      if (isTokenCredential(credentials)) {
+        // Create a wrapped RequestPolicyFactory here so that we can provide the
+        // correct scope to the BearerTokenAuthenticationPolicy at the first time
+        // one is requested.  This is needed because generated ServiceClient
+        // implementations do not set baseUri until after ServiceClient's constructor
+        // is finished, leaving baseUri empty at the time when it is needed to
+        // build the correct scope name.
+        const wrappedPolicyFactory: () => RequestPolicyFactory = () => {
+          let bearerTokenPolicyFactory: RequestPolicyFactory | undefined = undefined;
+          let serviceClient = this;
+          return {
+            create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
+              if (bearerTokenPolicyFactory === undefined) {
+                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(credentials, `${serviceClient.baseUri || ""}/.default`)
+              }
+
+              return bearerTokenPolicyFactory.create(nextPolicy, options);
+            }
+          }
+        };
+
+        authPolicyFactory = wrappedPolicyFactory();
+      } else if (credentials && typeof credentials.signRequest === "function") {
+        authPolicyFactory = signingPolicy(credentials);
+      } else if (credentials !== undefined) {
+        throw new Error("The credentials argument must implement the TokenCredential interface");
+      }
+
+      requestPolicyFactories = createDefaultRequestPolicyFactories(authPolicyFactory, options);
       if (options.requestPolicyFactories) {
+        // options.requestPolicyFactories can also be a function that manipulates
+        // the default requestPolicyFactories array
         const newRequestPolicyFactories: void | RequestPolicyFactory[] = options.requestPolicyFactories(requestPolicyFactories);
         if (newRequestPolicyFactories) {
           requestPolicyFactories = newRequestPolicyFactories;
@@ -310,6 +339,10 @@ export class ServiceClient {
         if (options.onDownloadProgress) {
           httpRequest.onDownloadProgress = options.onDownloadProgress;
         }
+
+        if (options.spanOptions) {
+          httpRequest.spanOptions = options.spanOptions;
+        }
       }
 
       httpRequest.withCredentials = this._withCredentials;
@@ -376,10 +409,6 @@ export function serializeRequestBody(serviceClient: ServiceClient, httpRequest: 
   }
 }
 
-function isRequestPolicyFactory(instance: any): instance is RequestPolicyFactory {
-  return typeof instance.create === "function";
-}
-
 function getValueOrFunctionResult(value: undefined | string | ((defaultValue: string) => string), defaultValueCreator: (() => string)): string {
   let result: string;
   if (typeof value === "string") {
@@ -393,19 +422,15 @@ function getValueOrFunctionResult(value: undefined | string | ((defaultValue: st
   return result;
 }
 
-function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
+function createDefaultRequestPolicyFactories(authPolicyFactory: RequestPolicyFactory | undefined, options: ServiceClientOptions): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
     factories.push(generateClientRequestIdPolicy(options.clientRequestIdHeaderName));
   }
 
-  if (credentials) {
-    if (isRequestPolicyFactory(credentials)) {
-      factories.push(credentials);
-    } else {
-      factories.push(signingPolicy(credentials));
-    }
+  if (authPolicyFactory) {
+    factories.push(authPolicyFactory);
   }
 
   const userAgentHeaderName: string = getValueOrFunctionResult(options.userAgentHeaderName, getDefaultUserAgentHeaderName);
@@ -576,7 +601,7 @@ export function flattenResponse(_response: HttpOperationResponse, responseSpec: 
     }
   }
 
-  if (bodyMapper || _response.request.method === "HEAD") {
+  if (bodyMapper || _response.request.method === "HEAD" || utils.isPrimitiveType(_response.parsedBody)) {
     // primitive body types and HEAD booleans
     return addOperationResponse({
       ...parsedHeaders,

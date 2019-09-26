@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { HttpClient } from "../lib/httpClient";
@@ -332,7 +332,7 @@ describe("ServiceClient", function () {
     assert.strictEqual(response._response.status, 200);
     const userAgentHeaderValue: string | undefined = response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name");
     assert(userAgentHeaderValue);
-    assert(userAgentHeaderValue!.startsWith("ms-rest-js/"));
+    assert(userAgentHeaderValue!.startsWith("core-http/"));
     assert(userAgentHeaderValue!.endsWith("/blah blah"));
   });
 

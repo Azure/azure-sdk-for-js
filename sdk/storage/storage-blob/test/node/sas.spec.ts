@@ -14,19 +14,30 @@ import {
   PageBlobURL,
   ServiceURL,
   SharedKeyCredential,
-  StorageURL
+  StorageURL,
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getBSU, getUniqueName } from "../utils";
+import { getBSU, getTokenBSU } from "../utils";
+import { record } from "../utils/recorder";
 
-describe("Shared Access Signature (SAS) generation Node.js only", () => {
+describe("Shared Access Signature (SAS) generation Node.js only", function() {
   const serviceURL = getBSU();
 
+  let recorder: any;
+
+  beforeEach(function() {
+    recorder = record(this);
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   it("generateAccountSASQueryParameters should work", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -57,7 +68,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -91,7 +102,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -125,7 +136,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -162,17 +173,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for container", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const containerName = getUniqueName("container");
+    const containerName = recorder.getUniqueName("container");
     const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
 
@@ -199,22 +210,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerURL.delete(Aborter.none);
   });
 
-  it("generateBlobSASQueryParameters should work for blob", async () => {
-    const now = new Date();
+  it("generateBlobSASQueryParameters should work for blob with previous API version", async () => {
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const containerName = getUniqueName("container");
+    const containerName = recorder.getUniqueName("container");
     const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
 
-    const blobName = getUniqueName("blob");
+    const blobName = recorder.getUniqueName("blob");
     const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
     await blobURL.create(Aborter.none, 1024, {
       blobHTTPHeaders: {
@@ -257,22 +268,139 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerURL.delete(Aborter.none);
   });
 
-  it("generateBlobSASQueryParameters should work for blob with special namings", async () => {
-    const now = new Date();
+  it("generateBlobSASQueryParameters should work for blob", async () => {
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const containerName = getUniqueName("container-with-dash");
+    const containerName = recorder.getUniqueName("container");
     const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
 
-    const blobName = getUniqueName(
+    const blobName = recorder.getUniqueName("blob");
+    const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
+    await blobURL.create(Aborter.none, 1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName,
+        cacheControl: "cache-control-override",
+        containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiryTime: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwd").toString(),
+        protocol: SASProtocol.HTTPSandHTTP,
+        startTime: now
+      },
+      sharedKeyCredential as SharedKeyCredential
+    );
+
+    const sasURL = `${blobURL.url}?${blobSAS}`;
+    const blobURLwithSAS = new PageBlobURL(
+      sasURL,
+      StorageURL.newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobURLwithSAS.getProperties(Aborter.none);
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerURL.delete(Aborter.none);
+  });
+
+  it("generateBlobSASQueryParameters should work for blob snapshot", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = serviceURL.pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+    await containerURL.create(Aborter.none);
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
+    await blobURL.create(Aborter.none, 1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const response = await blobURL.createSnapshot(Aborter.none);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName,
+        cacheControl: "cache-control-override",
+        containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiryTime: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwd").toString(),
+        protocol: SASProtocol.HTTPSandHTTP,
+        startTime: now,
+        snapshotTime: response.snapshot
+      },
+      sharedKeyCredential as SharedKeyCredential
+    );
+
+    const sasURL = `${blobURL.withSnapshot(response.snapshot!).url}&${blobSAS}`;
+    const blobURLwithSAS = new PageBlobURL(
+      sasURL,
+      StorageURL.newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobURLwithSAS.getProperties(Aborter.none);
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerURL.delete(Aborter.none);
+  });
+
+  it("generateBlobSASQueryParameters should work for blob with special namings", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = serviceURL.pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container-with-dash");
+    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+    await containerURL.create(Aborter.none);
+
+    const blobName = recorder.getUniqueName(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
     const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
@@ -319,21 +447,21 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob with access policy", async () => {
-    const now = new Date();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date();
+    const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
     const factories = serviceURL.pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
-    const containerName = getUniqueName("container");
+    const containerName = recorder.getUniqueName("container");
     const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.none);
 
-    const blobName = getUniqueName("blob");
+    const blobName = recorder.getUniqueName("blob");
     const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
     await blobURL.create(Aborter.none, 1024);
 
@@ -364,6 +492,255 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     await blobURLwithSAS.getProperties(Aborter.none);
+    await containerURL.delete(Aborter.none);
+  });
+
+  it("GenerateUserDelegationSAS should work for container with all configurations", async () => {
+    // Try to get serviceURL object with TokenCredential
+    // when ACCOUNT_TOKEN environment variable is set
+    let serviceURLWithToken: ServiceURL | undefined;
+    try {
+      serviceURLWithToken = getTokenBSU();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (serviceURLWithToken === undefined) {
+      return;
+    }
+
+    const now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
+    
+    // By default, credential is always the last element of pipeline factories
+    const factories = serviceURL.pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1] as SharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+    await containerURL.create(Aborter.none);
+
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName,
+        expiryTime: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: ContainerSASPermissions.parse("racwdl").toString(),
+        protocol: SASProtocol.HTTPSandHTTP,
+        startTime: now,
+        version: "2019-02-02"
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasURL = `${containerURL.url}?${containerSAS}`;
+    const containerURLwithSAS = new ContainerURL(
+      sasURL,
+      StorageURL.newPipeline(new AnonymousCredential())
+    );
+
+    await containerURLwithSAS.listBlobFlatSegment(Aborter.none);
+    await containerURL.delete(Aborter.none);
+  });
+
+  it("GenerateUserDelegationSAS should work for container with minimum parameters", async () => {
+    // Try to get serviceURL object with TokenCredential
+    // when ACCOUNT_TOKEN environment variable is set
+    let serviceURLWithToken: ServiceURL | undefined;
+    try {
+      serviceURLWithToken = getTokenBSU();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (serviceURLWithToken === undefined) {
+      return;
+    }
+
+    const now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
+    
+    // By default, credential is always the last element of pipeline factories
+    const factories = serviceURL.pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1] as SharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+    await containerURL.create(Aborter.none);
+
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName,
+        expiryTime: tmr,
+        permissions: ContainerSASPermissions.parse("racwdl").toString(),
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasURL = `${containerURL.url}?${containerSAS}`;
+    const containerURLwithSAS = new ContainerURL(
+      sasURL,
+      StorageURL.newPipeline(new AnonymousCredential())
+    );
+
+    await containerURLwithSAS.listBlobFlatSegment(Aborter.none);
+    await containerURL.delete(Aborter.none);
+  });
+
+  it("GenerateUserDelegationSAS should work for blob", async () => {
+    // Try to get serviceURL object with TokenCredential
+    // when ACCOUNT_TOKEN environment variable is set
+    let serviceURLWithToken: ServiceURL | undefined;
+    try {
+      serviceURLWithToken = getTokenBSU();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (serviceURLWithToken === undefined) {
+      return;
+    }
+
+    const now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
+    
+    // By default, credential is always the last element of pipeline factories
+    const factories = serviceURL.pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1] as SharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+    await containerURL.create(Aborter.none);
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
+    await blobURL.create(Aborter.none, 1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName,
+        cacheControl: "cache-control-override",
+        containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiryTime: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwd").toString(),
+        protocol: SASProtocol.HTTPSandHTTP,
+        startTime: now
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasURL = `${blobURL.url}?${blobSAS}`;
+    const blobURLwithSAS = new PageBlobURL(
+      sasURL,
+      StorageURL.newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobURLwithSAS.getProperties(Aborter.none);
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerURL.delete(Aborter.none);
+  });
+
+  it("GenerateUserDelegationSAS should work for blob snapshot", async () => {
+    // Try to get serviceURL object with TokenCredential
+    // when ACCOUNT_TOKEN environment variable is set
+    let serviceURLWithToken: ServiceURL | undefined;
+    try {
+      serviceURLWithToken = getTokenBSU();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (serviceURLWithToken === undefined) {
+      return;
+    }
+
+    const now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await serviceURLWithToken.getUserDelegationKey(Aborter.none, now, tmr);
+    
+    // By default, credential is always the last element of pipeline factories
+    const factories = serviceURL.pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1] as SharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+    await containerURL.create(Aborter.none);
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobURL = PageBlobURL.fromContainerURL(containerURL, blobName);
+    await blobURL.create(Aborter.none, 1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const response = await blobURL.createSnapshot(Aborter.none);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName,
+        cacheControl: "cache-control-override",
+        containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiryTime: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwd").toString(),
+        protocol: SASProtocol.HTTPSandHTTP,
+        startTime: now,
+        snapshotTime: response.snapshot
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasURL = `${blobURL.withSnapshot(response.snapshot!).url}&${blobSAS}`;
+    const blobURLwithSAS = new PageBlobURL(
+      sasURL,
+      StorageURL.newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobURLwithSAS.getProperties(Aborter.none);
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
     await containerURL.delete(Aborter.none);
   });
 });

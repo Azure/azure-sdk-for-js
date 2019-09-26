@@ -1,7 +1,7 @@
 import { HttpResponse, isNode } from "@azure/ms-rest-js";
 
 import { Aborter } from "./Aborter";
-import * as Models from "./generated/lib/models";
+import * as Models from "./generated/src/models";
 import { IMetadata } from "./models";
 import {
   ReadableStreamGetter,
@@ -323,6 +323,83 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    */
   public get version(): string | undefined {
     return this.originalResponse.version;
+  }
+
+  /**
+   * Attributes set for the file.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof FileDownloadResponse
+   */
+  public get fileAttributes(): string | undefined {
+    return this.originalResponse.fileAttributes;
+  }
+
+  /**
+   * Creation time for the file.
+   *
+   * @readonly
+   * @type {(Date | undefined)}
+   * @memberof FileDownloadResponse
+   */
+  public get fileCreationTime(): Date | undefined {
+    return this.originalResponse.fileCreationTime;
+  }
+
+  /**
+   * Last write time for the file.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof FileDownloadResponse
+   */
+  public get fileLastWriteTime(): Date | undefined {
+    return this.originalResponse.fileLastWriteTime;
+  }
+
+  /**
+   * Change time for the file.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof FileDownloadResponse
+   */
+  public get fileChangeTime(): Date | undefined {
+    return this.originalResponse.fileChangeTime;
+  }
+
+  /**
+   * Key of the permission set for the file.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof FileDownloadResponse
+   */
+  public get filePermissionKey(): string | undefined {
+    return this.originalResponse.filePermissionKey;
+  }
+
+  /**
+   * The fileId of the file.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof FileDownloadResponse
+   */
+  public get fileId(): string | undefined {
+    return this.originalResponse.fileId;
+  }
+
+  /**
+   * The parent fileId of the file.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof FileDownloadResponse
+   */
+  public get fileParentId(): string | undefined {
+    return this.originalResponse.fileParentId;
   }
 
   /**

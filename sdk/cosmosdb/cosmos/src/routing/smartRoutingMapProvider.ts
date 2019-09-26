@@ -1,6 +1,7 @@
-import { PartitionKeyRangeCache, QueryRange } from ".";
 import { ClientContext } from "../ClientContext";
-import { Constants } from "../common";
+import { Constants } from "../common/constants";
+import { PartitionKeyRangeCache } from "./partitionKeyRangeCache";
+import { QueryRange } from "./QueryRange";
 
 /** @hidden */
 export const PARITIONKEYRANGE = Constants.PartitionKeyRange;
@@ -67,7 +68,10 @@ export class SmartRoutingMapProvider {
    * @param sortedRanges
    * @ignore
    */
-  public async getOverlappingRanges(collectionLink: string, sortedRanges: QueryRange[]): Promise<any[]> {
+  public async getOverlappingRanges(
+    collectionLink: string,
+    sortedRanges: QueryRange[]
+  ): Promise<any[]> {
     // validate if the list is non- overlapping and sorted                             TODO: any PartitionKeyRanges
     if (!SmartRoutingMapProvider._isSortedAndNonOverlapping(sortedRanges)) {
       throw new Error("the list of ranges is not a non-overlapping sorted ranges");
@@ -79,7 +83,9 @@ export class SmartRoutingMapProvider {
       return partitionKeyRanges;
     }
 
-    const collectionRoutingMap = await this.partitionKeyRangeCache.onCollectionRoutingMap(collectionLink);
+    const collectionRoutingMap = await this.partitionKeyRangeCache.onCollectionRoutingMap(
+      collectionLink
+    );
 
     let index = 0;
     let currentProvidedRange = sortedRanges[index];
@@ -109,13 +115,18 @@ export class SmartRoutingMapProvider {
       }
       partitionKeyRanges = partitionKeyRanges.concat(overlappingRanges);
 
-      const lastKnownTargetRange = QueryRange.parsePartitionKeyRange(partitionKeyRanges[partitionKeyRanges.length - 1]);
+      const lastKnownTargetRange = QueryRange.parsePartitionKeyRange(
+        partitionKeyRanges[partitionKeyRanges.length - 1]
+      );
       if (!lastKnownTargetRange) {
         throw new Error("expected lastKnowTargetRange to be truthy");
       }
       // the overlapping ranges must contain the requested range
 
-      if (SmartRoutingMapProvider._stringCompare(currentProvidedRange.max, lastKnownTargetRange.max) > 0) {
+      if (
+        SmartRoutingMapProvider._stringCompare(currentProvidedRange.max, lastKnownTargetRange.max) >
+        0
+      ) {
         throw new Error(`error: returned overlapping ranges ${overlappingRanges} \
         does not contain the requested range ${queryRange}`);
       }
@@ -126,7 +137,12 @@ export class SmartRoutingMapProvider {
       }
       currentProvidedRange = sortedRanges[index];
 
-      while (SmartRoutingMapProvider._stringCompare(currentProvidedRange.max, lastKnownTargetRange.max) <= 0) {
+      while (
+        SmartRoutingMapProvider._stringCompare(
+          currentProvidedRange.max,
+          lastKnownTargetRange.max
+        ) <= 0
+      ) {
         // the current range is covered too.just move forward
         if (++index >= sortedRanges.length) {
           return partitionKeyRanges;

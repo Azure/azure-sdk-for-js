@@ -13,12 +13,6 @@ export function getUniqueName(prefix: string): string {
   )}`;
 }
 
-export async function sleep(time: number): Promise<void> {
-  return new Promise<void>((resolve) => {
-    setTimeout(resolve, time);
-  });
-}
-
 export function base64encode(content: string): string {
   return isBrowser() ? btoa(content) : Buffer.from(content).toString("base64");
 }
@@ -46,10 +40,4 @@ export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
         break;
     }
   }
-}
-
-export async function wait(time: number): Promise<void> {
-  return new Promise<void>((resolve) => {
-    setTimeout(resolve, time);
-  });
 }

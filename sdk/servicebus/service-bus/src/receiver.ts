@@ -302,6 +302,7 @@ export class Receiver {
    */
   async close(): Promise<void> {
     try {
+      this._isClosed = true;
       if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
         // Close the streaming receiver.
         if (this._context.streamingReceiver) {
@@ -324,8 +325,6 @@ export class Receiver {
         err
       );
       throw err;
-    } finally {
-      this._isClosed = true;
     }
   }
 

@@ -692,6 +692,64 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   }
 
   /**
+   * Retrieves the load information of a Service Fabric cluster for all the metrics that have load or
+   * capacity defined.
+   * @summary Gets the load of a Service Fabric cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetClusterLoadResponse>
+   */
+  getClusterLoad(options?: Models.ServiceFabricClientGetClusterLoadOptionalParams): Promise<Models.GetClusterLoadResponse>;
+  /**
+   * @param callback The callback
+   */
+  getClusterLoad(callback: msRest.ServiceCallback<Models.ClusterLoadInfo>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getClusterLoad(options: Models.ServiceFabricClientGetClusterLoadOptionalParams, callback: msRest.ServiceCallback<Models.ClusterLoadInfo>): void;
+  getClusterLoad(options?: Models.ServiceFabricClientGetClusterLoadOptionalParams | msRest.ServiceCallback<Models.ClusterLoadInfo>, callback?: msRest.ServiceCallback<Models.ClusterLoadInfo>): Promise<Models.GetClusterLoadResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      getClusterLoadOperationSpec,
+      callback) as Promise<Models.GetClusterLoadResponse>;
+  }
+
+  /**
+   * If verbosity is set to true, then detailed health reports will be generated when replicas cannot
+   * be placed or dropped.
+   * If verbosity is set to false, then no health reports will be generated when replicas cannot be
+   * placed or dropped.
+   * @summary Changes the verbosity of service placement health reporting.
+   * @param enabled The verbosity of service placement health reporting.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  toggleVerboseServicePlacementHealthReporting(enabled: boolean, options?: Models.ServiceFabricClientToggleVerboseServicePlacementHealthReportingOptionalParams): Promise<msRest.RestResponse>;
+  /**
+   * @param enabled The verbosity of service placement health reporting.
+   * @param callback The callback
+   */
+  toggleVerboseServicePlacementHealthReporting(enabled: boolean, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param enabled The verbosity of service placement health reporting.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  toggleVerboseServicePlacementHealthReporting(enabled: boolean, options: Models.ServiceFabricClientToggleVerboseServicePlacementHealthReportingOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  toggleVerboseServicePlacementHealthReporting(enabled: boolean, options?: Models.ServiceFabricClientToggleVerboseServicePlacementHealthReportingOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        enabled,
+        options
+      },
+      toggleVerboseServicePlacementHealthReportingOperationSpec,
+      callback);
+  }
+
+  /**
    * The response includes the name, status, ID, health, uptime, and other details about the nodes.
    * @summary Gets the list of nodes in the Service Fabric cluster.
    * @param [options] The optional parameters
@@ -958,7 +1016,15 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * for this operation to be successful. This operation lets Service Fabric know that the replicas
    * on that node no longer exist, and that Service Fabric should stop waiting for those replicas to
    * come back up. Do not run this cmdlet if the state on the node has not been removed and the node
-   * can come back up with its state intact.
+   * can come back up with its state intact. Starting from Service Fabric 6.5, in order to use this
+   * API for seed nodes, please change the seed nodes to regular (non-seed) nodes and then invoke
+   * this API to remove the node state. If the cluster is running on Azure, after the seed node goes
+   * down, Service Fabric will try to change it to a non-seed node automatically. To make this
+   * happen, make sure the number of non-seed nodes in the primary node type is no less than the
+   * number of Down seed nodes. If necessary, add more nodes to the primary node type to achieve
+   * this. For standalone cluster, if the Down seed node is not expected to come back up with its
+   * state intact, please remove the node from the cluster, see
+   * https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-windows-server-add-remove-nodes
    * @summary Notifies Service Fabric that the persisted state on a node has been permanently removed
    * or lost.
    * @param nodeName The name of the node.
@@ -2819,6 +2885,53 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   }
 
   /**
+   * Returns the information about the unplaced replicas of the service.
+   * If PartitionId is specified, then result will contain information only about unplaced replicas
+   * for that partition.
+   * If PartitionId is not specified, then result will contain information about unplaced replicas
+   * for all partitions of that service.
+   * If OnlyQueryPrimaries is set to true, then result will contain information only about primary
+   * replicas, and will ignore unplaced secondary replicas.
+   * @summary Gets the information about unplaced replica of the service.
+   * @param serviceId The identity of the service. This ID is typically the full name of the service
+   * without the 'fabric:' URI scheme.
+   * Starting from version 6.0, hierarchical names are delimited with the "~" character.
+   * For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be
+   * "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetUnplacedReplicaInformationResponse>
+   */
+  getUnplacedReplicaInformation(serviceId: string, options?: Models.ServiceFabricClientGetUnplacedReplicaInformationOptionalParams): Promise<Models.GetUnplacedReplicaInformationResponse>;
+  /**
+   * @param serviceId The identity of the service. This ID is typically the full name of the service
+   * without the 'fabric:' URI scheme.
+   * Starting from version 6.0, hierarchical names are delimited with the "~" character.
+   * For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be
+   * "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+   * @param callback The callback
+   */
+  getUnplacedReplicaInformation(serviceId: string, callback: msRest.ServiceCallback<Models.UnplacedReplicaInformation>): void;
+  /**
+   * @param serviceId The identity of the service. This ID is typically the full name of the service
+   * without the 'fabric:' URI scheme.
+   * Starting from version 6.0, hierarchical names are delimited with the "~" character.
+   * For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be
+   * "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUnplacedReplicaInformation(serviceId: string, options: Models.ServiceFabricClientGetUnplacedReplicaInformationOptionalParams, callback: msRest.ServiceCallback<Models.UnplacedReplicaInformation>): void;
+  getUnplacedReplicaInformation(serviceId: string, options?: Models.ServiceFabricClientGetUnplacedReplicaInformationOptionalParams | msRest.ServiceCallback<Models.UnplacedReplicaInformation>, callback?: msRest.ServiceCallback<Models.UnplacedReplicaInformation>): Promise<Models.GetUnplacedReplicaInformationResponse> {
+    return this.sendOperationRequest(
+      {
+        serviceId,
+        options
+      },
+      getUnplacedReplicaInformationOperationSpec,
+      callback) as Promise<Models.GetUnplacedReplicaInformationResponse>;
+  }
+
+  /**
    * The response includes the partition ID, partitioning scheme information, keys supported by the
    * partition, status, health, and other details about the partition.
    * @summary Gets the list of partitions of a Service Fabric service.
@@ -3234,6 +3347,81 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   }
 
   /**
+   * This command moves the primary replica of a partition of a stateful service, respecting all
+   * constraints.
+   * If NodeName parameter is specified, primary will be moved to the specified node (if constraints
+   * allow it).
+   * If NodeName parameter is not specified, primary replica will be moved to a random node in the
+   * cluster.
+   * If IgnoreConstraints parameter is specified and set to true, then primary will be moved
+   * regardless of the constraints.
+   * @summary Moves the primary replica of a partition of a stateful service.
+   * @param partitionId The identity of the partition.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  movePrimaryReplica(partitionId: string, options?: Models.ServiceFabricClientMovePrimaryReplicaOptionalParams): Promise<msRest.RestResponse>;
+  /**
+   * @param partitionId The identity of the partition.
+   * @param callback The callback
+   */
+  movePrimaryReplica(partitionId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param partitionId The identity of the partition.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  movePrimaryReplica(partitionId: string, options: Models.ServiceFabricClientMovePrimaryReplicaOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  movePrimaryReplica(partitionId: string, options?: Models.ServiceFabricClientMovePrimaryReplicaOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        partitionId,
+        options
+      },
+      movePrimaryReplicaOperationSpec,
+      callback);
+  }
+
+  /**
+   * This command moves the secondary replica of a partition of a stateful service, respecting all
+   * constraints.
+   * CurrentNodeName parameter must be specified to identify the replica that is moved.
+   * Source node name must be specified, but new node name can be omitted, and in that case replica
+   * is moved to a random node.
+   * If IgnoreConstraints parameter is specified and set to true, then secondary will be moved
+   * regardless of the constraints.
+   * @summary Moves the secondary replica of a partition of a stateful service.
+   * @param partitionId The identity of the partition.
+   * @param currentNodeName The name of the source node for secondary replica move.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  moveSecondaryReplica(partitionId: string, currentNodeName: string, options?: Models.ServiceFabricClientMoveSecondaryReplicaOptionalParams): Promise<msRest.RestResponse>;
+  /**
+   * @param partitionId The identity of the partition.
+   * @param currentNodeName The name of the source node for secondary replica move.
+   * @param callback The callback
+   */
+  moveSecondaryReplica(partitionId: string, currentNodeName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param partitionId The identity of the partition.
+   * @param currentNodeName The name of the source node for secondary replica move.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  moveSecondaryReplica(partitionId: string, currentNodeName: string, options: Models.ServiceFabricClientMoveSecondaryReplicaOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  moveSecondaryReplica(partitionId: string, currentNodeName: string, options?: Models.ServiceFabricClientMoveSecondaryReplicaOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        partitionId,
+        currentNodeName,
+        options
+      },
+      moveSecondaryReplicaOperationSpec,
+      callback);
+  }
+
+  /**
    * For clusters that have the Repair Manager Service configured,
    * this API provides a way to create repair tasks that run automatically or manually.
    * For repair tasks that run automatically, an appropriate repair executor
@@ -3605,44 +3793,44 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @summary Sends a health report on the Service Fabric replica.
    * @param partitionId The identity of the partition.
    * @param replicaId The identifier of the replica.
-   * @param replicaHealthReportServiceKind The kind of service replica (Stateless or Stateful) for
-   * which the health is being reported. Following are the possible values. Possible values include:
-   * 'Stateless', 'Stateful'
+   * @param serviceKind The kind of service replica (Stateless or Stateful) for which the health is
+   * being reported. Following are the possible values. Possible values include: 'Stateless',
+   * 'Stateful'
    * @param healthInformation Describes the health information for the health report. This
    * information needs to be present in all of the health reports sent to the health manager.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reportReplicaHealth(partitionId: string, replicaId: string, replicaHealthReportServiceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportReplicaHealthOptionalParams): Promise<msRest.RestResponse>;
+  reportReplicaHealth(partitionId: string, replicaId: string, serviceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportReplicaHealthOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param partitionId The identity of the partition.
    * @param replicaId The identifier of the replica.
-   * @param replicaHealthReportServiceKind The kind of service replica (Stateless or Stateful) for
-   * which the health is being reported. Following are the possible values. Possible values include:
-   * 'Stateless', 'Stateful'
+   * @param serviceKind The kind of service replica (Stateless or Stateful) for which the health is
+   * being reported. Following are the possible values. Possible values include: 'Stateless',
+   * 'Stateful'
    * @param healthInformation Describes the health information for the health report. This
    * information needs to be present in all of the health reports sent to the health manager.
    * @param callback The callback
    */
-  reportReplicaHealth(partitionId: string, replicaId: string, replicaHealthReportServiceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, callback: msRest.ServiceCallback<void>): void;
+  reportReplicaHealth(partitionId: string, replicaId: string, serviceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param partitionId The identity of the partition.
    * @param replicaId The identifier of the replica.
-   * @param replicaHealthReportServiceKind The kind of service replica (Stateless or Stateful) for
-   * which the health is being reported. Following are the possible values. Possible values include:
-   * 'Stateless', 'Stateful'
+   * @param serviceKind The kind of service replica (Stateless or Stateful) for which the health is
+   * being reported. Following are the possible values. Possible values include: 'Stateless',
+   * 'Stateful'
    * @param healthInformation Describes the health information for the health report. This
    * information needs to be present in all of the health reports sent to the health manager.
    * @param options The optional parameters
    * @param callback The callback
    */
-  reportReplicaHealth(partitionId: string, replicaId: string, replicaHealthReportServiceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportReplicaHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reportReplicaHealth(partitionId: string, replicaId: string, replicaHealthReportServiceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportReplicaHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reportReplicaHealth(partitionId: string, replicaId: string, serviceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options: Models.ServiceFabricClientReportReplicaHealthOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  reportReplicaHealth(partitionId: string, replicaId: string, serviceKind: Models.ReplicaHealthReportServiceKind, healthInformation: Models.HealthInformation, options?: Models.ServiceFabricClientReportReplicaHealthOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         partitionId,
         replicaId,
-        replicaHealthReportServiceKind,
+        serviceKind,
         healthInformation,
         options
       },
@@ -5132,6 +5320,61 @@ class ServiceFabricClient extends ServiceFabricClientContext {
       },
       uploadFileChunkOperationSpec,
       callback);
+  }
+
+  /**
+   * Returns the total size of files at the root and children folders in image store.
+   * @summary Get the folder size at the root of the image store.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetImageStoreRootFolderSizeResponse>
+   */
+  getImageStoreRootFolderSize(options?: Models.ServiceFabricClientGetImageStoreRootFolderSizeOptionalParams): Promise<Models.GetImageStoreRootFolderSizeResponse>;
+  /**
+   * @param callback The callback
+   */
+  getImageStoreRootFolderSize(callback: msRest.ServiceCallback<Models.FolderSizeInfo>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getImageStoreRootFolderSize(options: Models.ServiceFabricClientGetImageStoreRootFolderSizeOptionalParams, callback: msRest.ServiceCallback<Models.FolderSizeInfo>): void;
+  getImageStoreRootFolderSize(options?: Models.ServiceFabricClientGetImageStoreRootFolderSizeOptionalParams | msRest.ServiceCallback<Models.FolderSizeInfo>, callback?: msRest.ServiceCallback<Models.FolderSizeInfo>): Promise<Models.GetImageStoreRootFolderSizeResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      getImageStoreRootFolderSizeOperationSpec,
+      callback) as Promise<Models.GetImageStoreRootFolderSizeResponse>;
+  }
+
+  /**
+   * Gets the total size of file under a image store folder, specified by contentPath. The
+   * contentPath is relative to the root of the image store.
+   * @summary Get the size of a folder in image store
+   * @param contentPath Relative path to file or folder in the image store from its root.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetImageStoreFolderSizeResponse>
+   */
+  getImageStoreFolderSize(contentPath: string, options?: Models.ServiceFabricClientGetImageStoreFolderSizeOptionalParams): Promise<Models.GetImageStoreFolderSizeResponse>;
+  /**
+   * @param contentPath Relative path to file or folder in the image store from its root.
+   * @param callback The callback
+   */
+  getImageStoreFolderSize(contentPath: string, callback: msRest.ServiceCallback<Models.FolderSizeInfo>): void;
+  /**
+   * @param contentPath Relative path to file or folder in the image store from its root.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getImageStoreFolderSize(contentPath: string, options: Models.ServiceFabricClientGetImageStoreFolderSizeOptionalParams, callback: msRest.ServiceCallback<Models.FolderSizeInfo>): void;
+  getImageStoreFolderSize(contentPath: string, options?: Models.ServiceFabricClientGetImageStoreFolderSizeOptionalParams | msRest.ServiceCallback<Models.FolderSizeInfo>, callback?: msRest.ServiceCallback<Models.FolderSizeInfo>): Promise<Models.GetImageStoreFolderSizeResponse> {
+    return this.sendOperationRequest(
+      {
+        contentPath,
+        options
+      },
+      getImageStoreFolderSizeOperationSpec,
+      callback) as Promise<Models.GetImageStoreFolderSizeResponse>;
   }
 
   /**
@@ -8137,6 +8380,41 @@ const getClusterVersionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getClusterLoadOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "$/GetLoadInformation",
+  queryParameters: [
+    Parameters.apiVersion0,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterLoadInfo
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
+const toggleVerboseServicePlacementHealthReportingOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "$/ToggleVerboseServicePlacementHealthReporting",
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.enabled,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
 const getNodeInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes",
@@ -8162,7 +8440,7 @@ const getNodeInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8184,7 +8462,7 @@ const getNodeHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetHealth",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8206,7 +8484,7 @@ const getNodeHealthUsingPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetHealth",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8235,7 +8513,7 @@ const reportNodeHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/ReportHealth",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8262,7 +8540,7 @@ const getNodeLoadInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetLoadInformation",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8283,7 +8561,7 @@ const disableNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/Deactivate",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8309,7 +8587,7 @@ const enableNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/Activate",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8328,7 +8606,7 @@ const removeNodeStateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/RemoveNodeState",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8347,7 +8625,7 @@ const restartNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/Restart",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -8551,7 +8829,7 @@ const getDeployedServiceTypeInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -8585,7 +8863,7 @@ const getDeployedServiceTypeInfoByNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServiceTypes/{serviceTypeName}",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId,
     Parameters.serviceTypeName0
   ],
@@ -8934,7 +9212,7 @@ const getDeployedApplicationInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion4,
@@ -8958,7 +9236,7 @@ const getDeployedApplicationInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -8982,7 +9260,7 @@ const getDeployedApplicationHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetHealth",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -9007,7 +9285,7 @@ const getDeployedApplicationHealthUsingPolicyOperationSpec: msRest.OperationSpec
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetHealth",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -9039,7 +9317,7 @@ const reportDeployedApplicationHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/ReportHealth",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -9377,6 +9655,29 @@ const resolveServiceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getUnplacedReplicaInformationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "Services/{serviceId}/$/GetUnplacedReplicaInformation",
+  urlParameters: [
+    Parameters.serviceId0
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.partitionId0,
+    Parameters.onlyQueryPrimaries,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.UnplacedReplicaInformation
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
 const getPartitionInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Services/{serviceId}/$/GetPartitions",
@@ -9403,7 +9704,7 @@ const getPartitionInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9425,7 +9726,7 @@ const getServiceNameInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetServiceName",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9446,7 +9747,7 @@ const getPartitionHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetHealth",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9470,7 +9771,7 @@ const getPartitionHealthUsingPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/GetHealth",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9501,7 +9802,7 @@ const reportPartitionHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/ReportHealth",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9528,7 +9829,7 @@ const getPartitionLoadInformationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetLoadInformation",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9549,7 +9850,7 @@ const resetPartitionLoadOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/ResetLoad",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9568,7 +9869,7 @@ const recoverPartitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/Recover",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9623,6 +9924,49 @@ const recoverAllPartitionsOperationSpec: msRest.OperationSpec = {
   path: "$/RecoverAllPartitions",
   queryParameters: [
     Parameters.apiVersion0,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
+const movePrimaryReplicaOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "Partitions/{partitionId}/$/MovePrimaryReplica",
+  urlParameters: [
+    Parameters.partitionId1
+  ],
+  queryParameters: [
+    Parameters.apiVersion5,
+    Parameters.nodeName1,
+    Parameters.ignoreConstraints,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
+const moveSecondaryReplicaOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "Partitions/{partitionId}/$/MoveSecondaryReplica",
+  urlParameters: [
+    Parameters.partitionId1
+  ],
+  queryParameters: [
+    Parameters.apiVersion5,
+    Parameters.currentNodeName,
+    Parameters.newNodeName,
+    Parameters.ignoreConstraints,
     Parameters.timeout
   ],
   responses: {
@@ -9811,7 +10155,7 @@ const getReplicaInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetReplicas",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -9833,7 +10177,7 @@ const getReplicaInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetReplicas/{replicaId}",
   urlParameters: [
-    Parameters.partitionId0,
+    Parameters.partitionId1,
     Parameters.replicaId
   ],
   queryParameters: [
@@ -9856,7 +10200,7 @@ const getReplicaHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetHealth",
   urlParameters: [
-    Parameters.partitionId0,
+    Parameters.partitionId1,
     Parameters.replicaId
   ],
   queryParameters: [
@@ -9879,7 +10223,7 @@ const getReplicaHealthUsingPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetHealth",
   urlParameters: [
-    Parameters.partitionId0,
+    Parameters.partitionId1,
     Parameters.replicaId
   ],
   queryParameters: [
@@ -9909,12 +10253,12 @@ const reportReplicaHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/GetReplicas/{replicaId}/$/ReportHealth",
   urlParameters: [
-    Parameters.partitionId0,
+    Parameters.partitionId1,
     Parameters.replicaId
   ],
   queryParameters: [
     Parameters.apiVersion0,
-    Parameters.replicaHealthReportServiceKind,
+    Parameters.serviceKind,
     Parameters.immediate,
     Parameters.timeout
   ],
@@ -9938,12 +10282,12 @@ const getDeployedServiceReplicaInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetReplicas",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
     Parameters.apiVersion0,
-    Parameters.partitionId1,
+    Parameters.partitionId0,
     Parameters.serviceManifestName1,
     Parameters.timeout
   ],
@@ -9974,8 +10318,8 @@ const getDeployedServiceReplicaDetailInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas/{replicaId}/$/GetDetail",
   urlParameters: [
-    Parameters.nodeName,
-    Parameters.partitionId0,
+    Parameters.nodeName0,
+    Parameters.partitionId1,
     Parameters.replicaId
   ],
   queryParameters: [
@@ -9997,8 +10341,8 @@ const getDeployedServiceReplicaDetailInfoByPartitionIdOperationSpec: msRest.Oper
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas",
   urlParameters: [
-    Parameters.nodeName,
-    Parameters.partitionId0
+    Parameters.nodeName0,
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -10019,8 +10363,8 @@ const restartReplicaOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas/{replicaId}/$/Restart",
   urlParameters: [
-    Parameters.nodeName,
-    Parameters.partitionId0,
+    Parameters.nodeName0,
+    Parameters.partitionId1,
     Parameters.replicaId
   ],
   queryParameters: [
@@ -10040,8 +10384,8 @@ const removeReplicaOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetPartitions/{partitionId}/$/GetReplicas/{replicaId}/$/Delete",
   urlParameters: [
-    Parameters.nodeName,
-    Parameters.partitionId0,
+    Parameters.nodeName0,
+    Parameters.partitionId1,
     Parameters.replicaId
   ],
   queryParameters: [
@@ -10062,7 +10406,7 @@ const getDeployedServicePackageInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -10095,7 +10439,7 @@ const getDeployedServicePackageInfoListByNameOperationSpec: msRest.OperationSpec
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId,
     Parameters.servicePackageName
   ],
@@ -10130,7 +10474,7 @@ const getDeployedServicePackageHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}/$/GetHealth",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId,
     Parameters.servicePackageName
   ],
@@ -10154,7 +10498,7 @@ const getDeployedServicePackageHealthUsingPolicyOperationSpec: msRest.OperationS
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}/$/GetHealth",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId,
     Parameters.servicePackageName
   ],
@@ -10185,7 +10529,7 @@ const reportDeployedServicePackageHealthOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetServicePackages/{servicePackageName}/$/ReportHealth",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId,
     Parameters.servicePackageName
   ],
@@ -10214,7 +10558,7 @@ const deployServicePackageToNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/DeployServicePackage",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -10240,7 +10584,7 @@ const getDeployedCodePackageInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -10275,7 +10619,7 @@ const restartDeployedCodePackageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages/$/Restart",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -10302,7 +10646,7 @@ const getContainerLogsDeployedOnNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages/$/ContainerLogs",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -10328,7 +10672,7 @@ const invokeContainerApiOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Nodes/{nodeName}/$/GetApplications/{applicationId}/$/GetCodePackages/$/ContainerApi",
   urlParameters: [
-    Parameters.nodeName,
+    Parameters.nodeName0,
     Parameters.applicationId
   ],
   queryParameters: [
@@ -10360,7 +10704,7 @@ const createComposeDeploymentOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "ComposeDeployments/$/Create",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.timeout
   ],
   requestBody: {
@@ -10386,7 +10730,7 @@ const getComposeDeploymentStatusOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.timeout
   ],
   responses: {
@@ -10404,7 +10748,7 @@ const getComposeDeploymentStatusListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "ComposeDeployments",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.continuationToken,
     Parameters.maxResults,
     Parameters.timeout
@@ -10427,7 +10771,7 @@ const getComposeDeploymentUpgradeProgressOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.timeout
   ],
   responses: {
@@ -10448,7 +10792,7 @@ const removeComposeDeploymentOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.timeout
   ],
   responses: {
@@ -10467,7 +10811,7 @@ const startComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.timeout
   ],
   requestBody: {
@@ -10493,7 +10837,7 @@ const startRollbackComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec =
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion6,
+    Parameters.apiVersion7,
     Parameters.timeout
   ],
   responses: {
@@ -10822,6 +11166,45 @@ const uploadFileChunkOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getImageStoreRootFolderSizeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "ImageStore/$/FolderSize",
+  queryParameters: [
+    Parameters.apiVersion5,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.FolderSizeInfo
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
+const getImageStoreFolderSizeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "ImageStore/{contentPath}/$/FolderSize",
+  urlParameters: [
+    Parameters.contentPath
+  ],
+  queryParameters: [
+    Parameters.apiVersion5,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.FolderSizeInfo
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
 const invokeInfrastructureCommandOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "$/InvokeInfrastructureCommand",
@@ -10877,7 +11260,7 @@ const startDataLossOperationSpec: msRest.OperationSpec = {
   path: "Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartDataLoss",
   urlParameters: [
     Parameters.serviceId0,
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -10899,7 +11282,7 @@ const getDataLossProgressOperationSpec: msRest.OperationSpec = {
   path: "Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/GetDataLossProgress",
   urlParameters: [
     Parameters.serviceId0,
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -10922,7 +11305,7 @@ const startQuorumLossOperationSpec: msRest.OperationSpec = {
   path: "Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartQuorumLoss",
   urlParameters: [
     Parameters.serviceId0,
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -10945,7 +11328,7 @@ const getQuorumLossProgressOperationSpec: msRest.OperationSpec = {
   path: "Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/GetQuorumLossProgress",
   urlParameters: [
     Parameters.serviceId0,
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -10968,7 +11351,7 @@ const startPartitionRestartOperationSpec: msRest.OperationSpec = {
   path: "Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/StartRestart",
   urlParameters: [
     Parameters.serviceId0,
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -10990,7 +11373,7 @@ const getPartitionRestartProgressOperationSpec: msRest.OperationSpec = {
   path: "Faults/Services/{serviceId}/$/GetPartitions/{partitionId}/$/GetRestartProgress",
   urlParameters: [
     Parameters.serviceId0,
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -11012,7 +11395,7 @@ const startNodeTransitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Faults/Nodes/{nodeName}/$/StartTransition/",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -11035,7 +11418,7 @@ const getNodeTransitionProgressOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Faults/Nodes/{nodeName}/$/GetTransitionProgress",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion0,
@@ -11516,7 +11899,7 @@ const enablePartitionBackupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/EnableBackup",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -11542,7 +11925,7 @@ const disablePartitionBackupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/DisableBackup",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -11568,7 +11951,7 @@ const getPartitionBackupConfigurationInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetBackupConfigurationInfo",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -11589,7 +11972,7 @@ const getPartitionBackupListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetBackups",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -11613,7 +11996,7 @@ const suspendPartitionBackupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/SuspendBackup",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -11632,7 +12015,7 @@ const resumePartitionBackupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/ResumeBackup",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -11651,7 +12034,7 @@ const backupPartitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/Backup",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.backupTimeout,
@@ -11678,7 +12061,7 @@ const getPartitionBackupProgressOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetBackupProgress",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -11699,7 +12082,7 @@ const restorePartitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Partitions/{partitionId}/$/Restore",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.restoreTimeout,
@@ -11726,7 +12109,7 @@ const getPartitionRestoreProgressOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Partitions/{partitionId}/$/GetRestoreProgress",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -12014,7 +12397,7 @@ const getContainersEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Containers/Events",
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12048,7 +12431,7 @@ const getNodeEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Nodes/{nodeName}/$/Events",
   urlParameters: [
-    Parameters.nodeName
+    Parameters.nodeName0
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -12261,7 +12644,7 @@ const getPartitionEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Partitions/{partitionId}/$/Events",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,
@@ -12332,7 +12715,7 @@ const getPartitionReplicaEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Partitions/{partitionId}/$/Replicas/{replicaId}/$/Events",
   urlParameters: [
-    Parameters.partitionId0,
+    Parameters.partitionId1,
     Parameters.replicaId
   ],
   queryParameters: [
@@ -12370,7 +12753,7 @@ const getPartitionReplicasEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Partitions/{partitionId}/$/Replicas/Events",
   urlParameters: [
-    Parameters.partitionId0
+    Parameters.partitionId1
   ],
   queryParameters: [
     Parameters.apiVersion1,

@@ -200,7 +200,7 @@ const getAvailableStacksOperationSpec: msRest.OperationSpec = {
   path: "providers/Microsoft.Web/availableStacks",
   queryParameters: [
     Parameters.osTypeSelected,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -220,7 +220,7 @@ const listOperationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Web/operations",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -244,7 +244,7 @@ const getAvailableStacksOnPremOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.osTypeSelected,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -3,49 +3,55 @@
   Licensed under the MIT Licence.
 
   This sample demonstrates how the send() function can be used to send events to Event Hubs.
+  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
 
-  See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about
-  to learn about Event Hubs.
+  Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubClient, EventData } from "@azure/event-hubs";
+import { EventHubClient } from "@azure/event-hubs";
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = "";
-const eventHubsName = "";
-
-const listOfScientists = [
-  { name: "Einstein", firstName: "Albert" },
-  { name: "Heisenberg", firstName: "Werner" },
-  { name: "Curie", firstName: "Marie" },
-  { name: "Hawking", firstName: "Steven" },
-  { name: "Newton", firstName: "Isaac" },
-  { name: "Bohr", firstName: "Niels" },
-  { name: "Faraday", firstName: "Michael" },
-  { name: "Galilei", firstName: "Galileo" },
-  { name: "Kepler", firstName: "Johannes" },
-  { name: "Kopernikus", firstName: "Nikolaus" }
-];
+const eventHubName = "";
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(connectionString, eventHubsName);
-  const partitionIds = await client.getPartitionIds();
+  const client = new EventHubClient(connectionString, eventHubName);
+  const producer = client.createProducer();
 
-  for (let index = 0; index < listOfScientists.length; index++) {
-    const scientist = listOfScientists[index];
-    const eventData: EventData = {
-      body: `${scientist.firstName} ${scientist.name}`
-    };
-    // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
-    // where the body is a JSON object/array.
-    // const eventData = { body: { "message": `${scientist.firstName} ${scientist.name}` } };
-    console.log(`Sending event: ${eventData.body}`);
-    await client.send(eventData, partitionIds[0]);
+  console.log("Sending single event...");
+  await producer.send({ body: "Sent as a single event" }).catch((err) => {
+    console.log("Error when sending single event: ", err);
+  });
+
+  console.log("Sending 10 events at one go...");
+  const events = [];
+  for (let index = 0; index < 10; index++) {
+    events.push({ body: "Sent along with 9 other events" });
+  }
+  await producer.send(events).catch((err) => {
+    console.log("Error when sending 10 events: ", err);
+  });
+
+  console.log("Creating and sending a batch of events...");
+  try {
+    const batch = await producer.createBatch();
+    for (let index = 0; index < 10; index++) {
+      const isAdded = batch.tryAdd({ body: "Sent along with 9 other events using batch" });
+      if (!isAdded) {
+        console.log(`Unable to add event ${index} to the batch`);
+        break;
+      }
+    }
+    await producer.send(batch);
+  } catch (err) {
+    console.log("Error when creating & sending a batch of events: ", err);
   }
 
+  await producer.close();
   await client.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

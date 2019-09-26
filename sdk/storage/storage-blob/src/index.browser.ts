@@ -1,9 +1,11 @@
 import { RestError } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/src/models";
 
 export * from "./Aborter";
 export * from "./AppendBlobURL";
+export * from "./BatchRequest";
+export * from "./BatchResponse";
 export * from "./BlobURL";
 export * from "./BlockBlobURL";
 export * from "./BrowserPolicyFactory";
@@ -15,6 +17,7 @@ export * from "./highlevel.browser";
 export * from "./highlevel.common";
 export { IIPRange } from "./IIPRange";
 export { IRange } from "./IRange";
+export { BlockBlobTier, PremiumPageBlobTier } from "./models";
 export * from "./PageBlobURL";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

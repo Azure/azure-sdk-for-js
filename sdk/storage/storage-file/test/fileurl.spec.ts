@@ -1,43 +1,73 @@
-import * as assert from "assert";
 import { isNode } from "@azure/ms-rest-js";
+import * as assert from "assert";
+import * as dotenv from "dotenv";
 
 import { Aborter } from "../src/Aborter";
 import { DirectoryURL } from "../src/DirectoryURL";
 import { FileURL } from "../src/FileURL";
+import { FileForceCloseHandlesResponse, DirectoryCreateResponse } from "../src/generated/src/models";
 import { ShareURL } from "../src/ShareURL";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
-import * as dotenv from "dotenv";
+import { bodyToString, getBSU } from "./utils";
+import { delay, record } from "./utils/recorder";
+import { FileSystemAttributes } from '../src/FileSystemAttributes';
+import { truncatedISO8061Date } from '../src/utils/utils.common';
+
 dotenv.config({ path: "../.env" });
 
 describe("FileURL", () => {
   const serviceURL = getBSU();
-  let shareName = getUniqueName("share");
-  let shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  let dirName = getUniqueName("dir");
-  let dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-  let fileName = getUniqueName("file");
-  let fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
+  let shareName: string;
+  let shareURL: ShareURL;
+  let dirName: string;
+  let dirURL: DirectoryURL;
+  let defaultDirCreateResp: DirectoryCreateResponse;
+  let fileName: string;
+  let fileURL: FileURL;
   const content = "Hello World";
 
-  beforeEach(async () => {
-    shareName = getUniqueName("share");
+  let recorder: any;
+
+  let fullFileAttributes = new FileSystemAttributes();
+  fullFileAttributes.readonly = true;
+  fullFileAttributes.hidden = true;
+  fullFileAttributes.system = true;
+  fullFileAttributes.archive = true;
+  fullFileAttributes.temporary = true;
+  fullFileAttributes.offline = true;
+  fullFileAttributes.notContentIndexed = true;
+  fullFileAttributes.noScrubData = true;
+
+  beforeEach(async function() {
+    recorder = record(this);
+
+    shareName = recorder.getUniqueName("share");
     shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
     await shareURL.create(Aborter.none);
 
-    dirName = getUniqueName("dir");
+    dirName = recorder.getUniqueName("dir");
     dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    defaultDirCreateResp = await dirURL.create(Aborter.none);
 
-    fileName = getUniqueName("file");
+    fileName = recorder.getUniqueName("file");
     fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
   });
 
   afterEach(async () => {
     await shareURL.delete(Aborter.none);
+    recorder.stop();
   });
 
   it("create with default parameters", async () => {
-    await fileURL.create(Aborter.none, content.length);
+    const cResp = await fileURL.create(Aborter.none, content.length);
+    assert.equal(cResp.errorCode, undefined);
+    assert.equal(cResp.fileAttributes!, "Archive");
+    assert.ok(cResp.fileChangeTime!);
+    assert.ok(cResp.fileCreationTime!);
+    assert.ok(cResp.fileId!);
+    assert.ok(cResp.fileLastWriteTime!);
+    assert.ok(cResp.fileParentId!);
+    assert.ok(cResp.filePermissionKey!);
+
     const result = await fileURL.download(Aborter.none, 0);
     assert.deepStrictEqual(
       await bodyToString(result, content.length),
@@ -45,7 +75,9 @@ describe("FileURL", () => {
     );
   });
 
-  it("create with all parameters set", async () => {
+  it("create with all parameters configured setting filePermissionKey", async () => {
+    const now = recorder.newDate("now");
+
     const options = {
       fileHTTPHeaders: {
         fileCacheControl: "fileCacheControl",
@@ -57,12 +89,31 @@ describe("FileURL", () => {
       metadata: {
         key1: "vala",
         key2: "valb"
-      }
+      },
+      creationTime: now,
+      lastWriteTime: now,
+      filePermissionKey: defaultDirCreateResp.filePermissionKey,
+      fileAttributes: fullFileAttributes
     };
     await fileURL.create(Aborter.none, 512, options);
 
     const result = await fileURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+    const respFileAttributesFromDownload = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributesFromDownload.readonly);
+    assert.ok(respFileAttributesFromDownload.hidden);
+    assert.ok(respFileAttributesFromDownload.system);
+    assert.ok(respFileAttributesFromDownload.archive);
+    assert.ok(respFileAttributesFromDownload.offline);
+    assert.ok(respFileAttributesFromDownload.notContentIndexed);
+    assert.ok(respFileAttributesFromDownload.noScrubData);
+    assert.ok(respFileAttributesFromDownload.temporary);
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!); 
 
     const properties = await fileURL.getProperties(Aborter.none);
     assert.equal(properties.cacheControl, options.fileHTTPHeaders.fileCacheControl);
@@ -72,6 +123,90 @@ describe("FileURL", () => {
     assert.equal(properties.contentType, options.fileHTTPHeaders.fileContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
+    assert.equal(properties.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.ok(respFileAttributes.temporary);
+    assert.equal(truncatedISO8061Date(properties.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(properties.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
+    assert.ok(properties.fileChangeTime!);
+    assert.ok(properties.fileId!);
+    assert.ok(properties.fileParentId!); 
+  });
+
+  it("setProperties with default parameters", async () => {
+    await fileURL.create(Aborter.none, content.length);
+    await fileURL.setProperties(Aborter.none);
+
+    const result = await fileURL.getProperties(Aborter.none);
+    assert.equal(result.errorCode, undefined);
+    assert.equal(result.fileAttributes!, "Archive");
+    assert.ok(result.fileCreationTime!);
+    assert.ok(result.fileLastWriteTime!);
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!); 
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(!result.cacheControl);
+    assert.ok(!result.contentType);
+    assert.ok(!result.contentMD5);
+    assert.ok(!result.contentEncoding);
+    assert.ok(!result.contentLanguage);
+    assert.ok(!result.contentDisposition);
+  });
+
+  it("setProperties with all parameters configured setting filePermission", async () => {
+    const getPermissionResp = await shareURL.getPermission(Aborter.none, defaultDirCreateResp.filePermissionKey!);
+    
+    const now = recorder.newDate("now");
+    
+    const options = {
+      fileHTTPHeaders: {
+        fileCacheControl: "fileCacheControl",
+        fileContentDisposition: "fileContentDisposition",
+        fileContentEncoding: "fileContentEncoding",
+        fileContentLanguage: "fileContentLanguage",
+        fileContentType: "fileContentType"
+      },
+      metadata: {
+        key1: "vala",
+        key2: "valb"
+      },
+      creationTime: now,
+      lastWriteTime: now,
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullFileAttributes
+    };
+
+    await fileURL.create(Aborter.none, content.length);
+    await fileURL.setProperties(Aborter.none, options);
+    
+    const result = await fileURL.getProperties(Aborter.none);
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.ok(respFileAttributes.temporary)
+    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!); 
   });
 
   it("setMetadata with new metadata set", async () => {
@@ -144,7 +279,7 @@ describe("FileURL", () => {
 
   it("startCopyFromURL", async () => {
     await fileURL.create(Aborter.none, 1024);
-    const newFileURL = FileURL.fromDirectoryURL(dirURL, getUniqueName("copiedfile"));
+    const newFileURL = FileURL.fromDirectoryURL(dirURL, recorder.getUniqueName("copiedfile"));
     const result = await newFileURL.startCopyFromURL(Aborter.none, fileURL.url);
     assert.ok(result.copyId);
 
@@ -157,10 +292,10 @@ describe("FileURL", () => {
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileURL.create(Aborter.none, content.length);
-    const newFileURL = FileURL.fromDirectoryURL(dirURL, getUniqueName("copiedfile"));
+    const newFileURL = FileURL.fromDirectoryURL(dirURL, recorder.getUniqueName("copiedfile"));
     const result = await newFileURL.startCopyFromURL(Aborter.none, fileURL.url);
     assert.ok(result.copyId);
-    sleep(1 * 1000);
+    await delay(1 * 1000);
 
     try {
       await newFileURL.abortCopyFromURL(Aborter.none, result.copyId!);
@@ -249,11 +384,21 @@ describe("FileURL", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
   });
 
-  it("download with with default parameters", async () => {
+  it("download with default parameters", async () => {
     await fileURL.create(Aborter.none, content.length);
     await fileURL.uploadRange(Aborter.none, content, 0, content.length);
     const result = await fileURL.download(Aborter.none, 0);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("download should not have aborted error after download finishes", async () => {
+    await fileURL.create(Aborter.none, content.length);
+    await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+
+    const aborter = Aborter.none;
+    const result = await fileURL.download(aborter, 0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    aborter.abort();
   });
 
   it("download all parameters set", async () => {
@@ -304,5 +449,45 @@ describe("FileURL", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {}
     assert.ok(eventTriggered);
+  });
+
+  it("listHandles should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    const result = await fileURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepStrictEqual(handle.handleId, undefined);
+      assert.notDeepStrictEqual(handle.path, undefined);
+      assert.notDeepStrictEqual(handle.fileId, undefined);
+      assert.notDeepStrictEqual(handle.sessionId, undefined);
+      assert.notDeepStrictEqual(handle.clientIp, undefined);
+      assert.notDeepStrictEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("forceCloseHandlesSegment should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    // TODO: Open or create a handle
+
+    let marker: string | undefined = "";
+
+    do {
+      const response: FileForceCloseHandlesResponse = await fileURL.forceCloseHandlesSegment(Aborter.none, marker);
+      marker = response.marker;
+    } while (marker)
+  });
+
+  it("forceCloseHandle should work", async () => {
+    await fileURL.create(Aborter.none, 10);
+
+    // TODO: Open or create a handle
+    
+    const result = await fileURL.listHandlesSegment(Aborter.none, undefined);
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      await dirURL.forceCloseHandle(Aborter.none, handle.handleId);
+    }
   });
 });

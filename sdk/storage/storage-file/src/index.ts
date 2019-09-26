@@ -1,6 +1,6 @@
 import { RestError } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
+import * as Models from "./generated/src/models";
 
 export * from "./Aborter";
 export * from "./AccountSASPermissions";
@@ -21,6 +21,8 @@ export * from "./highlevel.common";
 export * from "./highlevel.node";
 export { IIPRange } from "./IIPRange";
 export { IRange } from "./IRange";
+export { FilePermissionInheritType, FilePermissionPreserveType, TimeNowType, TimePreserveType, FileAttributesPreserveType } from "./models";
+export * from "./FileSystemAttributes";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";

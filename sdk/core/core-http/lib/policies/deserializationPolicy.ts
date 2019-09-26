@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { OperationResponse } from "../operationResponse";
@@ -41,7 +41,7 @@ export function deserializationPolicy(deserializationContentTypes?: Deserializat
   };
 }
 
-export const defaultJsonContentTypes = ["application/json", "text/json"];
+export const defaultJsonContentTypes = ["application/json", "text/json", "text/plain"];
 export const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
 
 /**

@@ -8,14 +8,14 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
 
-const packageName = "@azure/keyvault-keys";
-const packageVersion = "0.0.1";
+const packageName = "@azure/keyvault-certificates";
+const packageVersion = "4.0.0-preview.5";
 
-export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+export class KeyVaultClientContext extends coreArm.AzureServiceClient {
+  credentials: coreHttp.TokenCredential;
   apiVersion?: string;
 
   /**
@@ -23,16 +23,16 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential, options?: coreArm.AzureServiceClientOptions) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if (!options.userAgent) {
-      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+    if(!options.userAgent) {
+      const defaultUserAgent = coreArm.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
@@ -41,14 +41,14 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
     this.apiVersion = '7.0';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = '{vaultBaseUrl}';
+    this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

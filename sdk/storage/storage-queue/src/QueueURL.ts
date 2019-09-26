@@ -1,6 +1,7 @@
 import { HttpResponse } from "@azure/ms-rest-js";
-import * as Models from "../src/generated/lib/models";
+
 import { Aborter } from "./Aborter";
+import * as Models from "./generated/lib/models";
 import { Queue } from "./generated/lib/operations";
 import { IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
@@ -209,6 +210,7 @@ export class QueueURL extends StorageURL {
       _response: response._response,
       date: response.date,
       requestId: response.requestId,
+      clientRequestId: response.clientRequestId,
       signedIdentifiers: [],
       version: response.version,
       errorCode: response.errorCode

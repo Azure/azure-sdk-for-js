@@ -1,12 +1,12 @@
 import { HttpRequestBody, TransferProgressEvent } from "@azure/ms-rest-js";
 
-import * as Models from "../src/generated/lib/models";
 import { Aborter } from "./Aborter";
 import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
-import { PageBlob } from "./generated/lib/operations";
+import * as Models from "./generated/src/models";
+import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./IRange";
-import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions } from "./models";
+import { IBlobAccessConditions, IMetadata, IPageBlobAccessConditions, ensureCpkIfSpecified, PremiumPageBlobTier, toAccessTier } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -16,16 +16,59 @@ export interface IPageBlobCreateOptions {
   blobSequenceNumber?: number;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
   metadata?: IMetadata;
+  customerProvidedKey?: Models.CpkInfo;
+  tier?: PremiumPageBlobTier | string;
 }
 
 export interface IPageBlobUploadPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * An MD5 hash of the content. This hash is used to verify the integrity of the content during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
   transactionalContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the content. This hash is used to verify the integrity of the content during transport. 
+   * When this is specified, the storage service compares the hash of the content that has arrived with this value.
+   * 
+   * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
+   */
+  transactionalContentCrc64?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
+}
+
+export interface IPageBlobUploadPagesFromURLOptions {
+  accessConditions?: IPageBlobAccessConditions;
+  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+
+  /**
+   * An MD5 hash of the content from the URI. 
+   * This hash is used to verify the integrity of the content during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
+  sourceContentMD5?: Uint8Array;
+
+  /**
+   * A CRC64 hash of the content from the URI. 
+   * This hash is used to verify the integrity of the content during transport of the data from the URI. 
+   * When this is specified, the storage service compares the hash of the content that has arrived from the copy-source with this value.
+   * 
+   * sourceContentMD5 and sourceContentCrc64 cannot be set at same time.
+   */
+  sourceContentCrc64?: Uint8Array;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobClearPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
+  customerProvidedKey?: Models.CpkInfo;
 }
 
 export interface IPageBlobGetPageRangesOptions {
@@ -167,13 +210,17 @@ export class PageBlobURL extends BlobURL {
     options: IPageBlobCreateOptions = {}
   ): Promise<Models.PageBlobCreateResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.pageBlobContext.create(0, size, {
       abortSignal: aborter,
       blobHTTPHeaders: options.blobHTTPHeaders,
       blobSequenceNumber: options.blobSequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       metadata: options.metadata,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
+      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+      cpkInfo: options.customerProvidedKey,
+      tier: toAccessTier(options.tier)
     });
   }
 
@@ -185,7 +232,7 @@ export class PageBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} offset Offset of destination page blob
-   * @param {number} count Content length of body, also how many bytes to be uploaded
+   * @param {number} count Content length of the body, also number of bytes to be uploaded
    * @param {IPageBlobUploadPagesOptions} [options]
    * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobURL
@@ -198,6 +245,8 @@ export class PageBlobURL extends BlobURL {
     options: IPageBlobUploadPagesOptions = {}
   ): Promise<Models.PageBlobUploadPagesResponse> {
     options.accessConditions = options.accessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
     return this.pageBlobContext.uploadPages(body, count, {
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
@@ -205,8 +254,60 @@ export class PageBlobURL extends BlobURL {
       onUploadProgress: options.progress,
       range: rangeToString({ offset, count }),
       sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-      transactionalContentMD5: options.transactionalContentMD5
+      transactionalContentMD5: options.transactionalContentMD5,
+      transactionalContentCrc64: options.transactionalContentCrc64,
+      cpkInfo: options.customerProvidedKey
     });
+  }
+
+  /**
+   * The Upload Pages operation writes a range of pages to a page blob where the
+   * contents are read from a URL.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
+   *
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+   *                          goto documents of Aborter for more examples about request cancellation
+   * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
+   * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source page blob
+   * @param {number} destOffset Offset of destination page blob
+   * @param {number} count Number of bytes to be uploaded from source page blob
+   * @param {IPageBlobUploadPagesFromURLOptions} [options={}]
+   * @returns {Promise<Models.PageBlobUploadPagesFromURLResponse>}
+   * @memberof PageBlobURL
+   */
+  public async uploadPagesFromURL(
+    aborter: Aborter,
+    sourceURL: string,
+    sourceOffset: number,
+    destOffset: number,
+    count: number,
+    options: IPageBlobUploadPagesFromURLOptions = {}
+  ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
+    options.accessConditions = options.accessConditions || {};
+    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
+    return this.pageBlobContext.uploadPagesFromURL(
+      sourceURL,
+      rangeToString({ offset: sourceOffset, count }),
+      0,
+      rangeToString({ offset: destOffset, count }),
+      {
+        abortSignal: aborter,
+        sourceContentMD5: options.sourceContentMD5,
+        sourceContentCrc64: options.sourceContentCrc64,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+        },
+        cpkInfo: options.customerProvidedKey
+      }
+    );
   }
 
   /**
@@ -233,7 +334,8 @@ export class PageBlobURL extends BlobURL {
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions
+      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+      cpkInfo: options.customerProvidedKey
     });
   }
 

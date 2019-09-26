@@ -9,7 +9,11 @@
 export {
   discriminators,
   AgentPool,
+  AgentPoolAvailableVersions,
+  AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem,
   AgentPoolListResult,
+  AgentPoolUpgradeProfile,
+  AgentPoolUpgradeProfilePropertiesUpgradesItem,
   BaseResource,
   CloudError,
   ContainerService,
@@ -32,7 +36,14 @@ export {
   ManagedClusterAddonProfile,
   ManagedClusterAgentPoolProfile,
   ManagedClusterAgentPoolProfileProperties,
+  ManagedClusterAPIServerAccessProfile,
+  ManagedClusterIdentity,
+  ManagedClusterLoadBalancerProfile,
+  ManagedClusterLoadBalancerProfileManagedOutboundIPs,
+  ManagedClusterLoadBalancerProfileOutboundIPPrefixes,
+  ManagedClusterLoadBalancerProfileOutboundIPs,
   ManagedClusterServicePrincipalProfile,
+  ManagedClusterWindowsProfile,
   NetworkProfile,
   OpenShiftManagedCluster,
   OpenShiftManagedClusterAADIdentityProvider,
@@ -44,5 +55,6 @@ export {
   OpenShiftRouterProfile,
   PurchasePlan,
   Resource,
+  ResourceReference,
   SubResource
 } from "../models/mappers";

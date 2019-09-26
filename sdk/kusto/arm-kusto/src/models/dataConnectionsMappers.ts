@@ -11,6 +11,7 @@ export {
   AzureEntityResource,
   AzureSku,
   BaseResource,
+  CheckNameResult,
   CloudError,
   Cluster,
   ClusterUpdate,
@@ -18,14 +19,18 @@ export {
   DatabaseStatistics,
   DatabaseUpdate,
   DataConnection,
+  DataConnectionCheckNameRequest,
   DataConnectionListResult,
   DataConnectionValidation,
   DataConnectionValidationListResult,
   DataConnectionValidationResult,
   EventGridDataConnection,
   EventHubDataConnection,
+  IotHubDataConnection,
+  OptimizedAutoscale,
   ProxyResource,
   Resource,
   TrackedResource,
-  TrustedExternalTenant
+  TrustedExternalTenant,
+  VirtualNetworkConfiguration
 } from "../models/mappers";

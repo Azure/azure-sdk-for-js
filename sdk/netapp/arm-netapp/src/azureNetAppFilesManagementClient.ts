@@ -46,25 +46,46 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
    * Check if a resource name is available.
    * @summary Check resource name availability
    * @param location The location
+   * @param name Resource name to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckNameAvailabilityResponse>
    */
-  checkNameAvailability(location: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckNameAvailabilityResponse>;
+  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckNameAvailabilityResponse>;
   /**
    * @param location The location
+   * @param name Resource name to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
    * @param callback The callback
    */
-  checkNameAvailability(location: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
   /**
    * @param location The location
+   * @param name Resource name to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
-  checkNameAvailability(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.CheckNameAvailabilityResponse> {
+  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         location,
+        name,
+        type,
+        resourceGroup,
         options
       },
       checkNameAvailabilityOperationSpec,
@@ -75,25 +96,46 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
    * Check if a file path is available.
    * @summary Check file path availability
    * @param location The location
+   * @param name Resource name to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckFilePathAvailabilityResponse>
    */
-  checkFilePathAvailability(location: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckFilePathAvailabilityResponse>;
+  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckFilePathAvailabilityResponse>;
   /**
    * @param location The location
+   * @param name Resource name to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
    * @param callback The callback
    */
-  checkFilePathAvailability(location: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
   /**
    * @param location The location
+   * @param name Resource name to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkFilePathAvailability(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
-  checkFilePathAvailability(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.CheckFilePathAvailabilityResponse> {
+  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.CheckFilePathAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         location,
+        name,
+        type,
+        resourceGroup,
         options
       },
       checkFilePathAvailabilityOperationSpec,
@@ -116,6 +158,17 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: {
+      name: "name",
+      type: "type",
+      resourceGroup: "resourceGroup"
+    },
+    mapper: {
+      ...Mappers.ResourceNameAvailabilityRequest,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.ResourceNameAvailability
@@ -140,6 +193,17 @@ const checkFilePathAvailabilityOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: {
+      name: "name",
+      type: "type",
+      resourceGroup: "resourceGroup"
+    },
+    mapper: {
+      ...Mappers.ResourceNameAvailabilityRequest,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.ResourceNameAvailability
