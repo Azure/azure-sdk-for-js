@@ -30,6 +30,9 @@ export class TestPoller extends Poller<HttpPollProperties, string> {
   }
 
   async getResult(): Promise<string> {
-    return "Done!";
+    if (!this.isDone()) {
+      return "Not done";
+    }
+    return "Done";
   }
 }

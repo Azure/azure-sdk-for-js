@@ -16,20 +16,127 @@ const basicResponseStructure = {
   headers: testHttpHeaders,
   parsedBody: {
   },
-  request: testHttpRequest
+  request: testHttpRequest,
+  status: 200,
 }
+const initialResponse = {
+  ...basicResponseStructure,
+  parsedBody: {
+    started: true
+  }
+};
+const doFinalResponse = {
+  ...basicResponseStructure,
+  parsedBody: {
+    doFinalResponse: true
+  }
+};
+const finalResponse = {
+  ...basicResponseStructure,
+  parsedBody: {
+    finished: true
+  }
+};
 
 describe("Long Running Operations - custom client", function () {
-  it("can query the current operation state (synchronously)", async function () {
+  it("can automatically poll a long running operation with one promise", async function () {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-    client.setResponses([{
-      ...basicResponseStructure,
-      status: 202,
-    }]);
+    client.setResponses([
+      initialResponse,
+      doFinalResponse,
+      finalResponse
+    ]);
+
     const poller = await client.startLRO();
-    assert.equal(poller.toJSON().properties.initialResponse!.status, 202);
+
+    let operation = poller.toJSON();
+    assert.ok(operation.state.started);
+
+    const result = await poller.done();
+    operation = poller.toJSON();
+
+    assert.ok(operation.properties.initialResponse!.parsedBody.started);
+    assert.ok(operation.properties.previousResponse!.parsedBody.finished);
+    assert.ok(operation.state.completed);
+    assert.equal(result, "Done");
+
     poller.stop();
   });
+
+  it("can automatically poll a long running operation with more than one promise", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      doFinalResponse,
+      finalResponse
+    ]);
+
+    const poller = await client.startLRO();
+
+    let operation = poller.toJSON();
+
+    // synchronously checking the operation state
+    assert.ok(operation.state.started);
+
+    await poller.poll();
+    operation = poller.toJSON();
+    assert.ok(operation.properties.initialResponse!.parsedBody.started);
+    assert.ok(operation.properties.previousResponse!.parsedBody.started);
+
+    await poller.poll();
+    operation = poller.toJSON();
+    assert.ok(operation.properties.previousResponse!.parsedBody.doFinalResponse);
+
+    let result = await poller.getResult();
+    assert.equal(result, "Not done");
+
+    await poller.poll();
+    operation = poller.toJSON();
+    assert.ok(operation.properties.previousResponse!.parsedBody.finished);
+    assert.ok(operation.state.completed);
+
+    result = await poller.getResult();
+    assert.equal(result, "Done");
+
+    poller.stop();
+  });
+
+  it("can manually poll a long running operation", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      doFinalResponse,
+      finalResponse
+    ]);
+
+    const poller = await client.startLRO({ manual: true });
+    let operation = poller.toJSON();
+    assert.ok(operation.state.started);
+
+    await poller.poll();
+    operation = poller.toJSON();
+    assert.ok(operation.properties.initialResponse!.parsedBody.started);
+    assert.ok(operation.properties.previousResponse!.parsedBody.started);
+
+    await poller.poll();
+    operation = poller.toJSON();
+    assert.ok(operation.properties.previousResponse!.parsedBody.doFinalResponse);
+
+    let result = await poller.getResult();
+    assert.equal(result, "Not done");
+
+    await poller.poll();
+    operation = poller.toJSON();
+    assert.ok(operation.properties.previousResponse!.parsedBody.finished);
+    assert.ok(operation.state.completed);
+
+    result = await poller.getResult();
+    assert.equal(result, "Done");
+
+    poller.stop();
+  });
+ 
+  // can query the current operation state (synchronously)
 
   // it("can query the current operation state (asynchronously)", async function () {
   //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));

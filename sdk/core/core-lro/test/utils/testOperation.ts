@@ -24,10 +24,11 @@ async function update(this: HttpPollOperation): Promise<HttpPollOperation> {
     ));
     this.properties.initialResponse = response;
   } else
-  if (previousResponse && previousResponse.parsedBody.isFinal) {
+  if (previousResponse && previousResponse.parsedBody.doFinalResponse) {
     response = await client.sendFinalRequest(new TestWebResource(
       requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,
     ));
+    this.state.completed = true;
   } else {
     response = await client.sendRequest(new TestWebResource(
       requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,

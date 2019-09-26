@@ -7,7 +7,7 @@ export abstract class Poller<TProperties, TResult> {
   private resolve?: (value: TResult) => void;
   private reject?: (error: Error) => void;
   private pollOncePromise?: Promise<void>;
-  public readonly promise: Promise<TResult>;
+  private promise: Promise<TResult>;
   protected operation: PollOperation<TProperties>;
 
   constructor(operation: PollOperation<TProperties>, stopped: boolean = false) {
@@ -17,6 +17,7 @@ export abstract class Poller<TProperties, TResult> {
       this.resolve = resolve;
       this.reject = reject;
     });
+    this.operation.state.started = true;
     if (!this.stopped) {
       this.startPolling();
     }
@@ -26,11 +27,9 @@ export abstract class Poller<TProperties, TResult> {
   abstract async getResult(): Promise<TResult>;
 
   private async startPolling(): Promise<void> {
-    this.operation.state.started = true;
-
     while (!this.isStopped() && !this.isDone()) {
-      await this.delay();
       await this.poll();
+      await this.delay();
     }
   }
 
@@ -58,6 +57,10 @@ export abstract class Poller<TProperties, TResult> {
       });
     }
     return this.pollOncePromise;
+  }
+
+  public done(): Promise<TResult> {
+    return this.promise;
   }
 
   public onProgress(callback: (op: PollOperation<TProperties>) => void): CancelOnProgress {
