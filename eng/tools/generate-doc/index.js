@@ -123,7 +123,7 @@ let docOutputFolder = "--out ./dist/docs ./src";
 
 console.log("process.cwd = " + process.cwd());
 try {
-  const result = childProcess.spawnSync("node common/scripts/install-run-rush.js", ["install"], {
+  const result = childProcess.spawnSync("rush", ["install"], {
     cwd: process.cwd(),
     env: process.env,
     shell: true
