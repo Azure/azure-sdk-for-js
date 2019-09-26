@@ -11,7 +11,7 @@ export interface HttpPollProperties {
   resultValue?: string,
 }
 
-interface HttpPollOperation extends PollOperation<HttpPollProperties> {
+export interface HttpPollOperation extends PollOperation<HttpPollProperties> {
 }
  
 async function update(this: HttpPollOperation): Promise<HttpPollOperation> {
@@ -35,7 +35,9 @@ async function update(this: HttpPollOperation): Promise<HttpPollOperation> {
     ));
   }
 
-  return makeOperation(
+  const maker = this.cancel.name === "unsupportedCancel" ? makeOperation : makeNonCancellableOperation;
+
+  return maker(
     {
       ...this.state
     },
