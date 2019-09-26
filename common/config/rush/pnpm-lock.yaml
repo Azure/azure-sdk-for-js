@@ -1,5 +1,5 @@
 dependencies:
-  '@azure/amqp-common': 1.0.0-preview.7_rhea-promise@0.1.15
+  '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
   '@azure/arm-servicebus': 3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/cosmos-sign': 1.0.2
@@ -10,7 +10,6 @@ dependencies:
   '@azure/ms-rest-nodeauth': 0.9.3
   '@azure/storage-blob': 12.0.0-preview.3
   '@microsoft/api-extractor': 7.3.8
-  '@opencensus/web-types': 0.0.7
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
   '@rush-temp/app-configuration': 'file:projects/app-configuration.tgz'
   '@rush-temp/core-amqp': 'file:projects/core-amqp.tgz'
@@ -232,28 +231,6 @@ packages:
       rhea-promise: ^0.1.15
     resolution:
       integrity: sha512-5XJZaJGtGoPmLhFx5y0vfCXiAHksoA4fdSnHAfkgEm4krhCW1jt1LH/6aJdUwUTJe+bz6m3Pv0sG/ILG0Vd65g==
-  /@azure/amqp-common/1.0.0-preview.7_rhea-promise@0.1.15:
-    dependencies:
-      '@azure/ms-rest-nodeauth': 0.9.3
-      '@types/async-lock': 1.1.1
-      '@types/is-buffer': 2.0.0
-      async-lock: 1.2.2
-      buffer: 5.4.3
-      debug: 3.2.6
-      events: 3.0.0
-      is-buffer: 2.0.3
-      jssha: 2.3.1
-      process: 0.11.10
-      rhea-promise: 0.1.15
-      stream-browserify: 2.0.2
-      tslib: 1.10.0
-      url: 0.11.0
-      util: 0.11.1
-    dev: false
-    peerDependencies:
-      rhea-promise: ^0.1.15
-    resolution:
-      integrity: sha512-Lz8fsedD2YtUPXU0MwXew81XHJsU3OxL9YnHbf23EIhbqb1b5kA92QFjZNOoGiFLwGNfDOEj937M7XUsKoco3Q==
   /@azure/arm-servicebus/3.2.0:
     dependencies:
       '@azure/ms-rest-azure-js': 1.3.8
@@ -583,12 +560,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-518yewjSga1jLdiLrcmpMFlaba5P+50b0TWNFUpC+SL9Yzf0kMi57qw+bMl+rQ08cGqH1vLx4eg9YFUbZXgZ0Q==
-  /@opencensus/web-types/0.0.7:
-    dev: false
-    engines:
-      node: '>=6.0'
-    resolution:
-      integrity: sha512-xB+w7ZDAu3YBzqH44rCmG9/RlrOmFuDPt/bpf17eJr8eZSrLt7nc7LnWdxM9Mmoj/YKMHpxRg28txu3TcpiL+g==
   /@sinonjs/commons/1.6.0:
     dependencies:
       type-detect: 4.0.8
@@ -2532,13 +2503,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Xpgy0IwHK2N01ncykXTy6FpCWuM+CJSHoPVBLyNqyrWxsedpLvwsYUhf0ME3WRFNUhos0dMamz9cOS/xRDtU5g==
-  /buffer/5.4.3:
-    dependencies:
-      base64-js: 1.3.1
-      ieee754: 1.1.13
-    dev: false
-    resolution:
-      integrity: sha512-zvj65TkFeIt3i6aj5bIvJDzjjQQGs4o/sNoezg1F1kYap9Nu2jcUdpwzRSJTHMMzG0H7bZkn4rNQpImhuxWX2A==
   /builtin-modules/1.1.1:
     dev: false
     engines:
@@ -11107,7 +11071,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-jt66TiGDt85L2XM2Y2Q+vDtH/blz78d9VJUdh69a978GE3/vX+ihg1K+8Aways3d92reH48ksAbQU7RvyprgWA==
+      integrity: sha512-tbYfxauAdOzrE3yT5z1WUJd3Kndv6E940DbjOJ5q6EEaj3U3CSp7/kxrOAnJpieqUH5eOoZ/+rJMtGspMXelBA==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -11133,7 +11097,6 @@ packages:
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@microsoft/api-extractor': 7.3.8
-      '@opencensus/web-types': 0.0.7
       '@types/mocha': 5.2.7
       '@types/node': 8.10.52
       '@typescript-eslint/eslint-plugin': 2.0.0_3cafee28902d96627d4743e014bc28ff
@@ -11166,7 +11129,7 @@ packages:
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-ojfEOrDyO28XqPLPsjFRR/XgiI56Ud1b9ne+DwGE8j54pEVZAMR8vMfk392tNuFqzYnwb2tYl3dZ/ILBDZNVZA==
+      integrity: sha512-kQulnB/+QgGoq4dix6zSTb7odWaxkMsOHYkc9lpXJy98X1zckjDSLlwbbeqviqkDMjMmbqqRimOtOypivt8Dmg==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz_webpack@4.39.2':
@@ -11703,7 +11666,7 @@ packages:
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
-      '@azure/amqp-common': 1.0.0-preview.7_rhea-promise@0.1.15
+      '@azure/amqp-common': 1.0.0-preview.6_rhea-promise@0.1.15
       '@azure/arm-servicebus': 3.2.0
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
       '@azure/ms-rest-nodeauth': 0.9.3
@@ -11776,7 +11739,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-ryJ2md8Uy9qpyw/Wwh7Uj2TdODtlj/+6siOqLM2alXJfm8xmqM7pURTR6iVwBiEHY/azhaYFfiMOfZYd3QEKow==
+      integrity: sha512-MFTbKJFGZfLMYWcCjdZqdR+qJZ/8MpoNF8/KDB3hkkjkz4cOEZ4oPnCIBhlXR+/Wy2xg609i78c3JGYpml4haw==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -12089,7 +12052,7 @@ packages:
     version: 0.0.0
 registry: ''
 specifiers:
-  '@azure/amqp-common': 1.0.0-preview.7
+  '@azure/amqp-common': 1.0.0-preview.6
   '@azure/arm-servicebus': ^3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/cosmos-sign': ^1.0.2
@@ -12100,7 +12063,6 @@ specifiers:
   '@azure/ms-rest-nodeauth': ^0.9.2
   '@azure/storage-blob': 12.0.0-preview.3
   '@microsoft/api-extractor': ^7.1.5
-  '@opencensus/web-types': 0.0.7
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/app-configuration': 'file:./projects/app-configuration.tgz'
   '@rush-temp/core-amqp': 'file:./projects/core-amqp.tgz'
