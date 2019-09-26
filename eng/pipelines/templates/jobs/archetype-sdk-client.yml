@@ -49,32 +49,32 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
-      - script: |
-          node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose
-        displayName: "Build libraries"
+      # - script: |
+      #     node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose
+      #   displayName: "Build libraries"
 
-      - script: |
-          node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
-        displayName: "Pack libraries"
+      # - script: |
+      #     node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
+      #   displayName: "Pack libraries"
 
-      # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
-      # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
-      - task: CopyFiles@2
-        inputs:
-          sourceFolder: sdk
-          contents: |
-            **/$(coalesceResultFilter)/*.tgz
-            **/$(coalesceResultFilter)/browser/*.zip
-          targetFolder: $(Build.ArtifactStagingDirectory)
-          flattenFolders: true
-        displayName: "Copy packages"
+      # # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+      # # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
+      # - task: CopyFiles@2
+      #   inputs:
+      #     sourceFolder: sdk
+      #     contents: |
+      #       **/$(coalesceResultFilter)/*.tgz
+      #       **/$(coalesceResultFilter)/browser/*.zip
+      #     targetFolder: $(Build.ArtifactStagingDirectory)
+      #     flattenFolders: true
+      #   displayName: "Copy packages"
 
-      - task: PublishPipelineArtifact@1
-        condition: succeededOrFailed()
-        displayName: "Publish artifacts"
-        inputs:
-          artifactName: packages
-          path: $(Build.ArtifactStagingDirectory)
+      # - task: PublishPipelineArtifact@1
+      #   condition: succeededOrFailed()
+      #   displayName: "Publish artifacts"
+      #   inputs:
+      #     artifactName: packages
+      #     path: $(Build.ArtifactStagingDirectory)
 
       - script: |
           npm install
@@ -83,9 +83,16 @@ jobs:
 
       - pwsh: |
           cd $(Build.SourcesDirectory)
-          node .\eng\tools\generate-doc\index.js --dgOp "dg" -i "inc" --inc "${{parameters.DocArgs}}"
+          node eng\tools\generate-doc\index.js --dgOp "dg" -i "inc" --inc "${{parameters.DocArgs}}"
           Compress-Archive -Path $(Build.SourcesDirectory)/docGen/* -Update -DestinationPath $(Build.ArtifactStagingDirectory)/Documentation.Zip
         displayName: "Generate Typedoc Docs"
+
+       - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish artifacts"
+        inputs:
+          artifactName: documentation
+          path: $(Build.ArtifactStagingDirectory)/Documentation*
 
   - job: "Analyze"
     dependsOn: "Build"
