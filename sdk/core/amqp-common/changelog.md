@@ -1,7 +1,3 @@
-### 2019-9-11 1.0.0-preview.7
-
-- Removes dependency on `ms-rest-node-auth` package. The `credentials` passed in to constructor of `AadTokenProvider` is expected to implement `getToken()` method. [PR 5010](https://github.com/Azure/azure-sdk-for-js/pull/5010)
-
 ### 2019-7-3 1.0.0-preview.6
 
 - Include bug fix where token audience was being set to work only with Event Hubs. The appropriate token audience now needs to be explicitly set on the credentials at time of creation. [PR 4098](https://github.com/Azure/azure-sdk-for-js/pull/4098)
