@@ -1,12 +1,13 @@
-export interface PollOperationState<T> {
+export interface PollOperationState {
+  started?: boolean;
   completed?: boolean;
   cancelled?: boolean;
   error?: Error;
-  properties: T;
 }
 
-export interface PollOperation<T> {
-  state: PollOperationState<T>;
-  update(): Promise<PollOperation<T>>;
-  cancel(): Promise<PollOperation<T>>;
+export interface PollOperation<TProperties> {
+  state: PollOperationState;
+  properties: TProperties;
+  update(): Promise<PollOperation<TProperties>>;
+  cancel(): Promise<PollOperation<TProperties>>;
 }

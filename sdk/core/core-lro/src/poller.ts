@@ -1,32 +1,102 @@
 import { PollOperation } from "./pollOperation";
 
-export abstract class Poller<T> {
-  public stopped?: boolean;
-  public operation: PollOperation<T>; 
-  public promise: Promise<void>;
+type CancelOnProgress = () => void;
 
-  constructor(
-    operation: PollOperation<T>,
-    stopped?: boolean,
-  ) {
+export abstract class Poller<TProperties, TResult> {
+  private stopped: boolean;
+  private resolve?: (value: TResult) => void;
+  private reject?: (error: Error) => void;
+  private pollOncePromise?: Promise<void>;
+  public readonly promise: Promise<TResult>;
+  protected operation: PollOperation<TProperties>;
+
+  constructor(operation: PollOperation<TProperties>, stopped: boolean = false) {
     this.operation = operation;
     this.stopped = stopped;
-    this.promise = this.poll();
+    this.promise = new Promise((resolve, reject) => {
+      this.resolve = resolve;
+      this.reject = reject;
+    });
+    if (!this.stopped) {
+      this.startPolling();
+    }
   }
 
-  public get done(): boolean {
+  abstract async delay(): Promise<void>;
+  abstract async getResult(): Promise<TResult>;
+
+  private async startPolling(): Promise<void> {
+    this.operation.state.started = true;
+
+    while (!this.isStopped() && !this.isDone()) {
+      await this.delay();
+      await this.poll();
+    }
+  }
+
+  private async pollOnce(): Promise<void> {
+    try {
+      if (!this.isDone()) {
+        this.operation = await this.operation.update();
+        if (this.isDone() && this.resolve) {
+          this.resolve(await this.getResult());
+        }
+      }
+    } catch (e) {
+      this.operation.state.error = e;
+      if (this.reject) {
+        this.reject(e);
+      }
+    }
+  }
+
+  public poll(): Promise<void> {
+    if (!this.pollOncePromise) {
+      this.pollOncePromise = this.pollOnce();
+      this.pollOncePromise.finally(() => {
+        this.pollOncePromise = undefined;
+      });
+    }
+    return this.pollOncePromise;
+  }
+
+  public onProgress(callback: (op: PollOperation<TProperties>) => void): CancelOnProgress {
+    let cancel = false;
+    (async () => {
+      while (!cancel && !this.isStopped() && !this.isDone()) {
+        if (!this.pollOncePromise) {
+          await this.delay();
+        } else {
+          await this.pollOncePromise;
+          callback(this.operation);
+        }
+      }
+    })();
+    return (): void => {
+      cancel = true;
+    };
+  }
+
+  public isDone(): boolean {
     return Boolean(
-      this.operation.state.completed || 
-      this.operation.state.cancelled || 
-      this.operation.state.error
+      this.operation.state.completed || this.operation.state.cancelled || this.operation.state.error
     );
   }
 
-  async abstract delay(): Promise<void>;
- 
-  public async abstract poll(): Promise<void>;
-
   public stop(): void {
-    this.stopped = true;
+    if (!this.stopped) {
+      this.stopped = true;
+      if (this.reject) {
+        this.reject(new Error("Poller stopped"));
+      }
+    }
+  }
+
+  public isStopped(): boolean {
+    return this.stopped;
+  }
+
+  public toJSON(): PollOperation<TProperties> {
+    return this.operation;
   }
 }

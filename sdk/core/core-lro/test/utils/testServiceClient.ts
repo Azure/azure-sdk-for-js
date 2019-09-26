@@ -1,6 +1,6 @@
 import { HttpOperationResponse, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential, RequestOptionsBase } from "@azure/core-http";
 
-export class FakeServiceClient extends ServiceClient {
+export class TestServiceClient extends ServiceClient {
   public responses: HttpOperationResponse[];
   public initialResponse?: HttpOperationResponse;
   public finalResponse?: HttpOperationResponse;
