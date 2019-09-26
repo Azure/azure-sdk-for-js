@@ -4,6 +4,7 @@
 import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient"
+import { HttpPollOperation } from "./utils/testOperation"
 
 // IMPORTANT:
 // Some tests express expected behaviors through a property called
@@ -64,8 +65,6 @@ describe("Long Running Operations - custom client", function () {
     assert.ok(properties.previousResponse!.parsedBody.finished);
     assert.ok(state.completed);
     assert.equal(result, "Done");
-
-    poller.stop();
   });
 
   it("can automatically poll a long running operation with more than one promise", async function () {
@@ -149,9 +148,6 @@ describe("Long Running Operations - custom client", function () {
     ]);
 
     const poller = await client.startLRO();
-    poller.done().catch(e => {
-      assert.equal(e.message, "Poller stopped");
-    });
 
     let operation = poller.operation;
     assert.ok(operation.state.started);
@@ -163,68 +159,90 @@ describe("Long Running Operations - custom client", function () {
     await poller.cancel();
     operation = poller.operation;
     assert.ok(operation.state.cancelled);
+  });
+
+  it("fails to cancel the operation (when cancellation is not supported)", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      ...Array(20).fill(basicResponseStructure)
+    ]);
+
+    const poller = await client.startNonCancellableLRO();
+    poller.done().catch(e => {
+      assert.equal(e.message, "Poller stopped");
+    });
+
+    let operation = poller.operation;
+    assert.ok(operation.state.started);
+    assert.equal(client.totalSentRequests, 1);
+
+    await delay(100); // The poller loops every 10 milliseconds
+    assert.equal(client.totalSentRequests, 10);
+
+    let error: any;
+    try {
+      await poller.cancel();
+    } catch(e) {
+      error = e;
+    }
+    assert.equal(error.message, "Cancellation not supported");
     poller.stop(); 
   });
 
-  // it("fails to cancel the operation (when cancellation is not supported)", async function () {
-  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   const responses = Array(20).fill({
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   });
-  //   client.setResponses(responses);
-  //   const poller = await client.startNonCancellableLRO();
-  //   let error: any;
-  //   try {
-  //     await poller.cancel();
-  //   } catch(e) {
-  //     error = e;
-  //   }
-  //   assert.equal(error.message, "Cancellation not supported");
-  //   poller.stop(); 
-  // });
+  it("can stop polling the operation", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      ...Array(20).fill(basicResponseStructure)
+    ]);
 
-  // it("allows polling to stop (stop polling)", async function () {
-  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   const responses = Array(20).fill({
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   });
-  //   client.setResponses(responses);
-  //   const poller = await client.startLRO();
-  //   assert.equal(client.totalSentRequests, 1);
-  //   await delay(100);
-  //   assert.equal(client.totalSentRequests, 10);
-  //   poller.stop();
-  //   await delay(100);
-  //   assert.equal(client.totalSentRequests, 11);
-  // });
+    const poller = await client.startLRO();
+    poller.done().catch(e => {
+      assert.equal(e.message, "Poller stopped");
+    });
+ 
+    let operation = poller.operation;
+    assert.ok(operation.state.started);
+    assert.equal(client.totalSentRequests, 1);
+ 
+    await delay(100); // The poller loops every 10 milliseconds
+    assert.equal(client.totalSentRequests, 10);
 
-  // it("prevents manual polling if automatic", async function () {
-  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   client.setResponses([{
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   }, {
-  //     ...basicResponseStructure,
-  //     status: 204,
-  //   }]);
-  //   const poller = await client.startLRO();
-  //   let error: any;
-  //   try {
-  //     await poller.poll();
-  //   } catch(e) {
-  //     error = e;
-  //   }
-  //   assert.equal(error.message, "Manual retries are disabled on this poller");
-  // });
+    poller.stop();
 
-  // // Should be developed by the client
-  // // it("documents progress", async function () {
-  // //   const poller = await client.startLRO();
-  // //   await delay(100);
-  // //   assert.equal(poller.progress, 0.5); // 0.5 of 1. 50%
-  // // });
+    await delay(100);
+    assert.equal(client.totalSentRequests, 10);
+  });
+
+  it("can document progress", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      ...Array(10).fill(basicResponseStructure),
+      doFinalResponse,
+      finalResponse
+    ]);
+
+    const poller = await client.startLRO();
+
+    let totalOperationUpdates = 0;
+    let lastOperationUpdate: HttpPollOperation = poller.operation;
+    poller.onProgress(operation => {
+      totalOperationUpdates++;
+      lastOperationUpdate = operation;
+    });
+
+    const result = await poller.done();
+    assert.equal(result, "Done");
+
+    assert.equal(totalOperationUpdates, 13);
+
+    const { properties, state } = lastOperationUpdate;
+    assert.ok(properties.initialResponse!.parsedBody.started);
+    assert.ok(properties.previousResponse!.parsedBody.finished);
+    assert.ok(state.completed);
+  });
 
   // it("can reuse one poller state to instantiate another poller", async function () {
   //   // Let's start with the stopped test
