@@ -1,19 +1,23 @@
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-export { TracerProxy } from "./tracerProxy";
 
-// Utils
-export { SupportedPlugins } from "./utils/supportedPlugins";
+import { getTracer, setTracer, ITracerProxy } from "./tracerProxy";
+/**
+ * A global registry for the active OpenTelemtry Tracer.
+ * Clients inside the Azure SDK will use this Tracer for all trace logging.
+ */
+const TracerProxy: ITracerProxy = {
+  getTracer,
+  setTracer,
+};
+export { TracerProxy, ITracerProxy };
 
-// Plugins
-export { NoOpSpanPlugin } from "./plugins/noop/noOpSpanPlugin";
-export { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
-export { OpenCensusSpanPlugin } from "./plugins/opencensus/openCensusSpanPlugin";
-export { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugin";
-
-// Implementations
-export { SpanNoOpImpl } from "./implementations/noop/spanNoOpImpl";
-export { TracerNoOpImpl } from "./implementations/noop/tracerNoOpImpl";
+// Wrappers
+export { NoOpSpan } from "./wrappers/noop/noOpSpan";
+export { NoOpTracer } from "./wrappers/noop/noOpTracer";
+export { OpenCensusSpanWrapper } from "./wrappers/opencensus/openCensusSpanWrapper";
+export { OpenCensusTracerWrapper } from "./wrappers/opencensus/openCensusTracerWrapper";
 
 // Interfaces
 export { Attributes } from "./interfaces/attributes";
@@ -21,7 +25,6 @@ export { BinaryFormat } from "./interfaces/BinaryFormat";
 export { Event } from "./interfaces/Event";
 export { HttpTextFormat } from "./interfaces/HttpTextFormat";
 export { Link } from "./interfaces/link";
-export { Plugin } from "./interfaces/plugin";
 export { Sampler } from "./interfaces/Sampler";
 export { SpanContext } from "./interfaces/span_context";
 export { SpanKind } from "./interfaces/span_kind";
@@ -33,3 +36,9 @@ export { TimedEvent } from "./interfaces/TimedEvent";
 export { TraceFlags } from "./interfaces/trace_flags";
 export { TraceState } from "./interfaces/trace_state";
 export { Tracer } from "./interfaces/tracer";
+
+// OpenCensus Interfaces
+export {
+  Tracer as OpenCensusTracer,
+  Span as OpenCensusSpan,
+} from "@opencensus/web-types";

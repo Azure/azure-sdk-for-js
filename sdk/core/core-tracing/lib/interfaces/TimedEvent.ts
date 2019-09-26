@@ -22,5 +22,8 @@ import { HrTime } from './Time';
  * A timed event is an event with a timestamp.
  */
 export interface TimedEvent extends Event {
+  /**
+   * High resolution timestamp.
+   */
   time: HrTime;
 }
