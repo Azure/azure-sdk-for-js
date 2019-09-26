@@ -58,6 +58,7 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-tracing",
   "sideEffects": false,
   "dependencies": {
+    "@opencensus/web-types": "0.0.7",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

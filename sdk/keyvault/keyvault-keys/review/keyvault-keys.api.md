@@ -11,7 +11,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SupportedPlugins } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 import { TracerProxy } from '@azure/core-http';
 
@@ -243,8 +242,6 @@ export interface RetryOptions {
 export interface SignResult {
     result: Uint8Array;
 }
-
-export { SupportedPlugins }
 
 // @public (undocumented)
 export interface TelemetryOptions {
