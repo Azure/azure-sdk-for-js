@@ -87,7 +87,7 @@ jobs:
           Compress-Archive -Path $(Build.SourcesDirectory)/docGen/* -Update -DestinationPath $(Build.ArtifactStagingDirectory)/Documentation.Zip
         displayName: "Generate Typedoc Docs"
 
-       - task: PublishPipelineArtifact@1
+      - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
         displayName: "Publish artifacts"
         inputs:
