@@ -10,8 +10,8 @@ async function main() {
   //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-windows
   //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-linux
   //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-mac
-  const account = "";
-  const accountKey = "";
+  const account = process.env.ACCOUNT_NAME || "";
+  const accountKey = process.env.ACCOUNT_KEY || "";
   const shareName = "";
   const dirName = "";
 

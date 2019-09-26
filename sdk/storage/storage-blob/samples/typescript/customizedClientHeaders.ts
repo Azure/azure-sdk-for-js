@@ -61,7 +61,7 @@ class RequestIDPolicy extends BaseRequestPolicy {
 
 // Main function
 async function main() {
-  const account = "";
+  const account = process.env.ACCOUNT_NAME || "";
   const accountSas = "";
 
   // Create a default pipeline with newPipeline
