@@ -46,18 +46,15 @@ export interface Event {
 }
 
 // @public
+export function getTracer(): Tracer;
+
+// @public
 export type HrTime = [number, number];
 
 // @public
 export interface HttpTextFormat {
     extract(format: string, carrier: unknown): SpanContext | null;
     inject(spanContext: SpanContext, format: string, carrier: unknown): void;
-}
-
-// @public
-export interface ITracerProxy {
-    getTracer(): Tracer;
-    setTracer(tracer: Tracer): void;
 }
 
 // @public
@@ -129,6 +126,9 @@ export interface Sampler {
 }
 
 // @public
+export function setTracer(tracer: Tracer): void;
+
+// @public
 export interface Span {
     addEvent(name: string, attributes?: Attributes): this;
     addLink(spanContext: SpanContext, attributes?: Attributes): this;
@@ -197,9 +197,6 @@ export interface Tracer {
     startSpan(name: string, options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => ReturnType<T>>(span: Span, fn: T): ReturnType<T>;
 }
-
-// @public
-export const TracerProxy: ITracerProxy;
 
 // @public
 export interface TraceState {

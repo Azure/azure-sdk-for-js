@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TracerProxy, TraceFlags } from "@azure/core-tracing";
+import { getTracer, TraceFlags } from "@azure/core-tracing";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -30,7 +30,7 @@ export class TracingPolicy extends BaseRequestPolicy {
     }
 
     // create a new span
-    const tracer = TracerProxy.getTracer();
+    const tracer = getTracer();
     const span = tracer.startSpan("core-http", request.spanOptions);
 
     try {

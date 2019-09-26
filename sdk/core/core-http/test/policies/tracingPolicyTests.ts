@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, TracerProxy, RequestPolicyOptions, TraceFlags, NoOpTracer, SpanOptions, SpanContext, NoOpSpan } from "../../lib/coreHttp";
+import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, setTracer, RequestPolicyOptions, TraceFlags, NoOpTracer, SpanOptions, SpanContext, NoOpSpan } from "../../lib/coreHttp";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
 class MockSpan extends NoOpSpan {
@@ -83,7 +83,7 @@ describe("tracingPolicy", function () {
 
   it("will not create a span if spanOptions are missing", async () => {
     const mockTracer = new MockTracer();
-    TracerProxy.setTracer(mockTracer);
+    setTracer(mockTracer);
     const request = new WebResource();
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -95,7 +95,7 @@ describe("tracingPolicy", function () {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
-    TracerProxy.setTracer(mockTracer);
+    setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
       parent: ROOT_SPAN
@@ -117,7 +117,7 @@ describe("tracingPolicy", function () {
     const mockSpanId = "2222222222222222";
     // leave out the TraceOptions
     const mockTracer = new MockTracer(mockTraceId, mockSpanId);
-    TracerProxy.setTracer(mockTracer);
+    setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
       parent: ROOT_SPAN
@@ -139,7 +139,7 @@ describe("tracingPolicy", function () {
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
-    TracerProxy.setTracer(mockTracer);
+    setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
       parent: ROOT_SPAN
@@ -161,7 +161,7 @@ describe("tracingPolicy", function () {
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
-    TracerProxy.setTracer(mockTracer);
+    setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
       parent: ROOT_SPAN
@@ -191,7 +191,7 @@ describe("tracingPolicy", function () {
   });
 
   it("will not set headers if span is a NoOpSpan", async () => {
-    TracerProxy.setTracer(new NoOpTracer());
+    setTracer(new NoOpTracer());
     const request = new WebResource();
     request.spanOptions = {
       parent: ROOT_SPAN

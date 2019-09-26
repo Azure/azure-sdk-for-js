@@ -8,26 +8,17 @@ import { Tracer } from "./interfaces/tracer";
 let _tracerPlugin: Tracer;
 
 /**
- * A global registry for the active OpenTelemtry Tracer.
- * Clients inside the Azure SDK will use this Tracer for all trace logging.
- */
-export interface ITracerProxy {
-  /**
-   * Sets the global tracer, enabling tracing.
+   * Sets the global tracer, enabling tracing for the AzureSDK.
    * @param tracer An OpenTelemetry Tracer instance.
    */
-  setTracer(tracer: Tracer): void;
-  /**
-   * Retrieves the active tracer, or returns a
-   * no-op implementation if one is not set.
-   */
-  getTracer(): Tracer;
-}
-
 export function setTracer(tracer: Tracer) {
   _tracerPlugin = tracer;
 }
 
+/**
+   * Retrieves the active tracer, or returns a
+   * no-op implementation if one is not set.
+   */
 export function getTracer() {
   if (!_tracerPlugin) {
     _tracerPlugin = new NoOpTracer();

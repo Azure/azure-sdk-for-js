@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TracerProxy, Span, GetTokenOptions } from "@azure/core-http";
+import { getTracer, Span, GetTokenOptions } from "@azure/core-http";
 
 /**
  * Creates a span using the global tracer.
@@ -9,7 +9,7 @@ import { TracerProxy, Span, GetTokenOptions } from "@azure/core-http";
  * @param options The options for the underlying http request.
  */
 export function createSpan(name: string, options: GetTokenOptions = {}): { span: Span, options: GetTokenOptions } {
-  const tracer = TracerProxy.getTracer();
+  const tracer = getTracer();
   const span = tracer.startSpan(name, options.spanOptions);
   let newOptions = options;
   if (span.isRecordingEvents()) {

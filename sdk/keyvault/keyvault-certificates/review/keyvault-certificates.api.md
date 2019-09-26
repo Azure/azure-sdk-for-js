@@ -11,7 +11,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
-import { TracerProxy } from '@azure/core-http';
 
 // Warning: (ae-forgotten-export) The symbol "Attributes" needs to be exported by the entry point index.d.ts
 // 
@@ -265,8 +264,6 @@ export interface TelemetryOptions {
     // (undocumented)
     value: string;
 }
-
-export { TracerProxy }
 
 // @public
 export interface X509CertificateProperties {
