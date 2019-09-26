@@ -1,7 +1,7 @@
 import { WebResource } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
 
-export class FakeWebResource extends WebResource {
+export class TestWebResource extends WebResource {
   constructor(abortSignal?: AbortSignalLike) {
     super(
       undefined, // url?: string,

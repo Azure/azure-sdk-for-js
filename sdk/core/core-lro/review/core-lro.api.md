@@ -5,36 +5,46 @@
 ```ts
 
 // @public (undocumented)
-export abstract class Poller<T> {
-    constructor(operation: PollOperation<T>, stopped?: boolean);
+export abstract class Poller<TProperties, TResult> {
+    constructor(operation: PollOperation<TProperties>, stopped?: boolean);
     // (undocumented)
     abstract delay(): Promise<void>;
     // (undocumented)
-    readonly done: boolean;
+    abstract getResult(): Promise<TResult>;
     // (undocumented)
-    operation: PollOperation<T>;
+    isDone(): boolean;
     // (undocumented)
-    abstract poll(): Promise<void>;
+    isStopped(): boolean;
+    // Warning: (ae-forgotten-export) The symbol "CancelOnProgress" needs to be exported by the entry point index.d.ts
+    // 
     // (undocumented)
-    promise: Promise<void>;
+    onProgress(callback: (op: PollOperation<TProperties>) => void): CancelOnProgress;
+    // (undocumented)
+    protected operation: PollOperation<TProperties>;
+    // (undocumented)
+    poll(): Promise<void>;
+    // (undocumented)
+    readonly promise: Promise<TResult>;
     // (undocumented)
     stop(): void;
     // (undocumented)
-    stopped?: boolean;
+    toJSON(): PollOperation<TProperties>;
 }
 
 // @public (undocumented)
-export interface PollOperation<T> {
+export interface PollOperation<TProperties> {
     // (undocumented)
-    cancel(): Promise<PollOperation<T>>;
+    cancel(): Promise<PollOperation<TProperties>>;
     // (undocumented)
-    state: PollOperationState<T>;
+    properties: TProperties;
     // (undocumented)
-    update(): Promise<PollOperation<T>>;
+    state: PollOperationState;
+    // (undocumented)
+    update(): Promise<PollOperation<TProperties>>;
 }
 
 // @public (undocumented)
-export interface PollOperationState<T> {
+export interface PollOperationState {
     // (undocumented)
     cancelled?: boolean;
     // (undocumented)
@@ -42,7 +52,7 @@ export interface PollOperationState<T> {
     // (undocumented)
     error?: Error;
     // (undocumented)
-    properties: T;
+    started?: boolean;
 }
 
 

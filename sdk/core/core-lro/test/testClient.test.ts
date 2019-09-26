@@ -3,36 +3,36 @@
 
 import assert from "assert";
 import { SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
-import { FakeClient } from "./utils/fakeClient"
+import { TestClient } from "./utils/testClient"
 
 // IMPORTANT:
 // Some tests express expected behaviors through a property called
 // .totalSentRequests, which belongs to an implementation of core-lro's poller,
-// not to the underlying Poller class. Please look at test/utils/fakePoller.ts
+// not to the underlying Poller class. Please look at test/utils/testPoller.ts
 
-const fakeHttpHeaders: HttpHeaders = new HttpHeaders();
-const fakeHttpRequest: WebResource = new WebResource();
+const testHttpHeaders: HttpHeaders = new HttpHeaders();
+const testHttpRequest: WebResource = new WebResource();
 const basicResponseStructure = {
-  headers: fakeHttpHeaders,
+  headers: testHttpHeaders,
   parsedBody: {
   },
-  request: fakeHttpRequest
+  request: testHttpRequest
 }
 
 describe("Long Running Operations - custom client", function () {
   it("can query the current operation state (synchronously)", async function () {
-    const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([{
       ...basicResponseStructure,
       status: 202,
     }]);
     const poller = await client.startLRO();
-    assert.equal(poller.operation.state.properties.initialResponse!.status, 202);
+    assert.equal(poller.toJSON().properties.initialResponse!.status, 202);
     poller.stop();
   });
 
   // it("can query the current operation state (asynchronously)", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   client.setResponses([{
   //     ...basicResponseStructure,
   //     status: 202,
@@ -47,7 +47,7 @@ describe("Long Running Operations - custom client", function () {
   // });
 
   // it("can wait until the operation has completed", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   client.setResponses([{
   //     ...basicResponseStructure,
   //     status: 202,
@@ -62,7 +62,7 @@ describe("Long Running Operations - custom client", function () {
   // });
 
   // it("can cancel the operation (when cancellation is supported)", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   const responses = Array(20).fill({
   //     ...basicResponseStructure,
   //     status: 202,
@@ -78,7 +78,7 @@ describe("Long Running Operations - custom client", function () {
   // });
 
   // it("fails to cancel the operation (when cancellation is not supported)", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   const responses = Array(20).fill({
   //     ...basicResponseStructure,
   //     status: 202,
@@ -96,7 +96,7 @@ describe("Long Running Operations - custom client", function () {
   // });
 
   // it("allows polling to stop (stop polling)", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   const responses = Array(20).fill({
   //     ...basicResponseStructure,
   //     status: 202,
@@ -112,7 +112,7 @@ describe("Long Running Operations - custom client", function () {
   // });
 
   // it("prevents manual polling if automatic", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   client.setResponses([{
   //     ...basicResponseStructure,
   //     status: 202,
@@ -139,7 +139,7 @@ describe("Long Running Operations - custom client", function () {
 
   // it("can reuse one poller state to instantiate another poller", async function () {
   //   // Let's start with the stopped test
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   const responses = [
   //     ...Array(19).fill({
   //       ...basicResponseStructure,
@@ -160,7 +160,7 @@ describe("Long Running Operations - custom client", function () {
   //   assert.equal(client.totalSentRequests, 11);
   //   // Let's try to resume this with a new poller.
   //   const serialized = poller.toJSON();
-  //   const client2 = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client2 = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   client2.setResponses(responses);
   //   const poller2 = await client2.startLRO({
   //     ...serialized,
@@ -174,7 +174,7 @@ describe("Long Running Operations - custom client", function () {
   // });
 
   // it("waits for the next response", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
+  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
   //   client.setResponses([{
   //     ...basicResponseStructure,
   //     status: 202,
