@@ -10,4 +10,5 @@ export interface PollOperation<TProperties> {
   properties: TProperties;
   update(): Promise<PollOperation<TProperties>>;
   cancel(): Promise<PollOperation<TProperties>>;
+  toString(): string;
 }

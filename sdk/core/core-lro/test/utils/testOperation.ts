@@ -71,6 +71,15 @@ async function cancel(this: HttpPollOperation): Promise<HttpPollOperation> {
   );
 }
 
+function toString(this: HttpPollOperation): string {
+  return JSON.stringify({
+    state: {
+      ...this.state,
+    },
+    properties: JSON.stringify(this.properties),
+  });
+}
+
 async function unsupportedCancel(this: HttpPollOperation): Promise<HttpPollOperation> {
   const requestOptions = this.properties.requestOptions;
 
@@ -88,6 +97,7 @@ export function makeOperation(state: PollOperationState, properties: HttpPollPro
     properties,
     update,
     cancel,
+    toString,
   }
 }
 
@@ -97,5 +107,6 @@ export function makeNonCancellableOperation(state: PollOperationState, propertie
     properties,
     update,
     cancel: unsupportedCancel,
+    toString,
   }
 }

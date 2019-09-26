@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
+import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient"
 
 // IMPORTANT:
@@ -49,15 +49,20 @@ describe("Long Running Operations - custom client", function () {
 
     const poller = await client.startLRO();
 
-    let operation = poller.toJSON();
-    assert.ok(operation.state.started);
+    // synchronously checking the operation state
+    assert.ok(poller.operation.state.started);
 
+    // Checking the serialized version of the operation
+    let serializedOperation = JSON.parse(poller.toJSON());
+    assert.ok(serializedOperation.state.started);
+
+    // Waiting until the operation completes
     const result = await poller.done();
-    operation = poller.toJSON();
+    const { properties, state } = poller.operation;
 
-    assert.ok(operation.properties.initialResponse!.parsedBody.started);
-    assert.ok(operation.properties.previousResponse!.parsedBody.finished);
-    assert.ok(operation.state.completed);
+    assert.ok(properties.initialResponse!.parsedBody.started);
+    assert.ok(properties.previousResponse!.parsedBody.finished);
+    assert.ok(state.completed);
     assert.equal(result, "Done");
 
     poller.stop();
@@ -72,26 +77,24 @@ describe("Long Running Operations - custom client", function () {
     ]);
 
     const poller = await client.startLRO();
+    assert.ok(poller.operation.state.started);
 
-    let operation = poller.toJSON();
-
-    // synchronously checking the operation state
-    assert.ok(operation.state.started);
-
+    // To update the operation state, the following asyncrhonous method is provided:
     await poller.poll();
-    operation = poller.toJSON();
+
+    let operation = poller.operation;
     assert.ok(operation.properties.initialResponse!.parsedBody.started);
     assert.ok(operation.properties.previousResponse!.parsedBody.started);
 
     await poller.poll();
-    operation = poller.toJSON();
+    operation = poller.operation;
     assert.ok(operation.properties.previousResponse!.parsedBody.doFinalResponse);
 
     let result = await poller.getResult();
     assert.equal(result, "Not done");
 
     await poller.poll();
-    operation = poller.toJSON();
+    operation = poller.operation;
     assert.ok(operation.properties.previousResponse!.parsedBody.finished);
     assert.ok(operation.state.completed);
 
@@ -110,23 +113,25 @@ describe("Long Running Operations - custom client", function () {
     ]);
 
     const poller = await client.startLRO({ manual: true });
-    let operation = poller.toJSON();
+    assert.ok(poller.isStopped());
+
+    let operation = poller.operation;
     assert.ok(operation.state.started);
 
     await poller.poll();
-    operation = poller.toJSON();
+    operation = poller.operation;
     assert.ok(operation.properties.initialResponse!.parsedBody.started);
     assert.ok(operation.properties.previousResponse!.parsedBody.started);
 
     await poller.poll();
-    operation = poller.toJSON();
+    operation = poller.operation;
     assert.ok(operation.properties.previousResponse!.parsedBody.doFinalResponse);
 
     let result = await poller.getResult();
     assert.equal(result, "Not done");
 
     await poller.poll();
-    operation = poller.toJSON();
+    operation = poller.operation;
     assert.ok(operation.properties.previousResponse!.parsedBody.finished);
     assert.ok(operation.state.completed);
 
@@ -136,53 +141,30 @@ describe("Long Running Operations - custom client", function () {
     poller.stop();
   });
  
-  // can query the current operation state (synchronously)
+  it("can cancel the operation (when cancellation is supported)", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      ...Array(20).fill(basicResponseStructure)
+    ]);
 
-  // it("can query the current operation state (asynchronously)", async function () {
-  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   client.setResponses([{
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   }, {
-  //     ...basicResponseStructure,
-  //     status: 204,
-  //   }]);
-  //   const poller = await client.startLRO({ manual: true });
-  //   await poller.poll(); // Manual polling
-  //   assert.equal(poller.state, "Succeeded");
-  //   poller.stop();
-  // });
+    const poller = await client.startLRO();
+    poller.done().catch(e => {
+      assert.equal(e.message, "Poller stopped");
+    });
 
-  // it("can wait until the operation has completed", async function () {
-  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   client.setResponses([{
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   }, {
-  //     ...basicResponseStructure,
-  //     status: 204,
-  //   }]);
-  //   const poller = await client.startLRO();
-  //   await poller.done();
-  //   await delay(15);
-  //   assert.equal(poller.state, "Succeeded");
-  // });
+    let operation = poller.operation;
+    assert.ok(operation.state.started);
+    assert.equal(client.totalSentRequests, 1);
 
-  // it("can cancel the operation (when cancellation is supported)", async function () {
-  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   const responses = Array(20).fill({
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   });
-  //   client.setResponses(responses);
-  //   const poller = await client.startLRO();
-  //   assert.equal(client.totalSentRequests, 1);
-  //   await delay(100);
-  //   assert.equal(client.totalSentRequests, 10);
-  //   await poller.cancel();
-  //   assert.equal(poller.state, "Cancelled");
-  //   poller.stop(); 
-  // });
+    await delay(100); // The poller loops every 10 milliseconds
+    assert.equal(client.totalSentRequests, 10);
+
+    await poller.cancel();
+    operation = poller.operation;
+    assert.ok(operation.state.cancelled);
+    poller.stop(); 
+  });
 
   // it("fails to cancel the operation (when cancellation is not supported)", async function () {
   //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
