@@ -138,7 +138,9 @@ describe("Highlevel Node.js only", () => {
         },
         rangeSize: 4 * 1024 * 1024
       });
-    } catch (err) {}
+    } catch (err) {
+      assert.equal(err.message, "The request was aborted", "Unexpected error caught: " + err);
+    }
     assert.ok(eventTriggered);
   });
 
@@ -157,7 +159,9 @@ describe("Highlevel Node.js only", () => {
         },
         rangeSize: 4 * 1024 * 1024
       });
-    } catch (err) {}
+    } catch (err) {
+      assert.equal(err.message, "The request was aborted", "Unexpected error caught: " + err);
+    }
     assert.ok(eventTriggered);
   });
 
@@ -293,7 +297,9 @@ describe("Highlevel Node.js only", () => {
         },
         rangeSize: 1 * 1024
       });
-    } catch (err) {}
+    } catch (err) {
+      assert.equal(err.message, "The request was aborted", "Unexpected error caught: " + err);
+    }
     assert.ok(eventTriggered);
   });
 
@@ -426,7 +432,6 @@ describe("Highlevel Node.js only", () => {
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
-    let expectedError = false;
 
     try {
       const aborter = new AbortController();
@@ -446,10 +451,9 @@ describe("Highlevel Node.js only", () => {
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
-      expectedError = true;
+      assert.equal(error.name, "AbortError", "Unexpected error caught: " + error);
     }
 
-    assert.ok(expectedError);
     fs.unlinkSync(downloadedFile);
   });
 
