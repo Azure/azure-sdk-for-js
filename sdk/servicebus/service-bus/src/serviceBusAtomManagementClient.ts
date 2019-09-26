@@ -22,80 +22,25 @@ import { httpAtomXml } from "./log";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import * as Constants from "./util/constants";
 
-import {
-  QueueResourceSerializer,
-  QueueFields,
-  QueueOptions
-} from "./serializers/queueResourceSerializer";
-import {
-  TopicResourceSerializer,
-  TopicFields,
-  TopicOptions
-} from "./serializers/topicResourceSerializer";
+import { QueueResourceSerializer, QueueOptions } from "./serializers/queueResourceSerializer";
+import { TopicResourceSerializer, TopicOptions } from "./serializers/topicResourceSerializer";
 import {
   SubscriptionResourceSerializer,
-  SubscriptionFields,
   SubscriptionOptions
 } from "./serializers/subscriptionResourceSerializer";
+import { RuleResourceSerializer, RuleOptions } from "./serializers/ruleResourceSerializer";
+
 import {
-  RuleResourceSerializer,
-  RuleFields,
-  RuleOptions
-} from "./serializers/ruleResourceSerializer";
-
-/**
- * Request options for list<entity-type>() operations
- */
-export interface ListRequestOptions {
-  top?: number;
-  skip?: number;
-}
-
-/**
- * Represents response contents in JSON format
- */
-export interface RawResourceResponse {
-  isSuccessful: boolean;
-  statusCode: number;
-  body: any;
-  headers: any;
-}
-
-/**
- * Represents resource results as returned from the operations.
- */
-export interface ResourceResult {
-  response: RawResourceResponse;
-  result: any;
-}
-
-/**
- * Queue result
- */
-export interface QueueResult extends ResourceResult {
-  result: QueueFields | QueueFields[];
-}
-
-/**
- * Topic result
- */
-export interface TopicResult extends ResourceResult {
-  result: TopicFields | TopicFields[];
-}
-
-/**
- * Subscription result
- */
-export interface SubscriptionResult extends ResourceResult {
-  result: SubscriptionFields | SubscriptionFields[];
-}
-
-/**
- * Rule result
- */
-export interface RuleResult extends ResourceResult {
-  result: RuleFields | RuleFields[];
-}
+  ListRequestOptions,
+  QueueResult,
+  ListQueuesResult,
+  TopicResult,
+  ListTopicsResult,
+  SubscriptionResult,
+  ListSubscriptionsResult,
+  RuleResult,
+  ListRulesResult
+} from "./managementOperationInterfaces";
 
 /**
  * All internal operations return a `Promise<HttpOperationResponse>` object of which the `parsedBody`
@@ -171,8 +116,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       false,
       this.queueResourceSerializer
     );
-    const queueResult: QueueResult = this.buildResourceResult(response);
-    return queueResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -184,22 +128,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queuePath,
       this.queueResourceSerializer
     );
-    const queueResult: QueueResult = this.buildResourceResult(response);
-    return queueResult;
+    return this.buildResponse(response);
   }
 
   /**
    * Lists existing queues.
    * @param listRequestOptions
    */
-  async listQueues(listRequestOptions?: ListRequestOptions): Promise<QueueResult> {
+  async listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResult> {
     const response: HttpOperationResponse = await this._listResources(
       "$Resources/Queues",
       listRequestOptions,
       this.queueResourceSerializer
     );
-    const queueResult: QueueResult = this.buildResourceResult(response);
-    return queueResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -214,8 +156,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       true,
       this.queueResourceSerializer
     );
-    const queueResult: QueueResult = this.buildResourceResult(response);
-    return queueResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -227,8 +168,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queuePath,
       this.queueResourceSerializer
     );
-    const queueResult: QueueResult = this.buildResourceResult(response);
-    return queueResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -243,8 +183,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       false,
       this.topicResourceSerializer
     );
-    const topicResult: TopicResult = this.buildResourceResult(response);
-    return topicResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -259,8 +198,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       true,
       this.topicResourceSerializer
     );
-    const topicResult: TopicResult = this.buildResourceResult(response);
-    return topicResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -272,8 +210,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       topicPath,
       this.topicResourceSerializer
     );
-    const topicResult: TopicResult = this.buildResourceResult(response);
-    return topicResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -285,22 +222,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       topicPath,
       this.topicResourceSerializer
     );
-    const topicResult: TopicResult = this.buildResourceResult(response);
-    return topicResult;
+    return this.buildResponse(response);
   }
 
   /**
    * Lists existing topics.
    * @param listRequestOptions
    */
-  async listTopics(listRequestOptions?: ListRequestOptions): Promise<TopicResult> {
+  async listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResult> {
     const response: HttpOperationResponse = await this._listResources(
       "$Resources/Topics",
       listRequestOptions,
       this.topicResourceSerializer
     );
-    const topicResult: TopicResult = this.buildResourceResult(response);
-    return topicResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -321,8 +256,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       false,
       this.subscriptionResourceSerializer
     );
-    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
-    return subscriptionResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -343,8 +277,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       true,
       this.subscriptionResourceSerializer
     );
-    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
-    return subscriptionResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -361,8 +294,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.subscriptionResourceSerializer
     );
-    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
-    return subscriptionResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -376,8 +308,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.subscriptionResourceSerializer
     );
-    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
-    return subscriptionResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -388,14 +319,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   async listSubscriptions(
     topicPath: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<SubscriptionResult> {
+  ): Promise<ListSubscriptionsResult> {
     const response: HttpOperationResponse = await this._listResources(
       topicPath + "/Subscriptions/",
       listRequestOptions,
       this.subscriptionResourceSerializer
     );
-    const subscriptionResult: SubscriptionResult = this.buildResourceResult(response);
-    return subscriptionResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -419,8 +349,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       false,
       this.ruleResourceSerializer
     );
-    const ruleResult: RuleResult = this.buildResourceResult(response);
-    return ruleResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -444,8 +373,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       true,
       this.ruleResourceSerializer
     );
-    const ruleResult: RuleResult = this.buildResourceResult(response);
-    return ruleResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -460,8 +388,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.ruleResourceSerializer
     );
-    const ruleResult: RuleResult = this.buildResourceResult(response);
-    return ruleResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -476,8 +403,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.ruleResourceSerializer
     );
-    const ruleResult: RuleResult = this.buildResourceResult(response);
-    return ruleResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -490,15 +416,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     topicPath: string,
     subscriptionPath: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<RuleResult> {
+  ): Promise<ListRulesResult> {
     const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath) + "/Rules/";
     const response: HttpOperationResponse = await this._listResources(
       fullPath,
       listRequestOptions,
       this.ruleResourceSerializer
     );
-    const ruleResult: RuleResult = this.buildResourceResult(response);
-    return ruleResult;
+    return this.buildResponse(response);
   }
 
   /**
@@ -506,14 +431,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    */
   formatDeadLetterPath(queuePath: string): string {
     return `${queuePath}/$DeadLetterQueue`;
-  }
-
-  private buildResourceResult(response: HttpOperationResponse): any {
-    const resourceResult: ResourceResult = {
-      response: response.parsedBody.response,
-      result: response.parsedBody.result
-    };
-    return resourceResult;
   }
 
   /**
@@ -666,5 +583,11 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   private getRulePath(topic: string, subscription: string, rule: string): string {
     return topic + "/Subscriptions/" + subscription + "/Rules/" + rule;
+  }
+
+  private buildResponse(response: HttpOperationResponse): any {
+    const result: any = response.parsedBody || {};
+    result._response = response;
+    return result;
   }
 }

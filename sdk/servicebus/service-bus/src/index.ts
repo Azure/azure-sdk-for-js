@@ -36,22 +36,21 @@ export {
 } from "./serviceBusMessage";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
-export {
-  ServiceBusAtomManagementClient,
-  ListRequestOptions,
-  RawResourceResponse,
-  QueueResult,
-  TopicResult,
-  SubscriptionResult,
-  RuleResult,
-  ResourceResult
-} from "./serviceBusArmAtomXmlHttpClient";
 export { ProxySettings } from "@azure/core-http";
 
-export { QueueFields, QueueOptions } from "./serializers/queueResourceSerializer";
-export { TopicFields, TopicOptions } from "./serializers/topicResourceSerializer";
+export { ServiceBusAtomManagementClient } from "./serviceBusAtomManagementClient";
 export {
-  SubscriptionFields,
-  SubscriptionOptions
-} from "./serializers/subscriptionResourceSerializer";
-export { RuleFields, RuleOptions } from "./serializers/ruleResourceSerializer";
+  ListRequestOptions,
+  QueueResult,
+  ListQueuesResult,
+  TopicResult,
+  ListTopicsResult,
+  SubscriptionResult,
+  ListSubscriptionsResult,
+  RuleResult,
+  ListRulesResult
+} from "./managementOperationInterfaces";
+export { Queue, QueueOptions } from "./serializers/queueResourceSerializer";
+export { Topic, TopicOptions } from "./serializers/topicResourceSerializer";
+export { Subscription, SubscriptionOptions } from "./serializers/subscriptionResourceSerializer";
+export { Rule, RuleOptions } from "./serializers/ruleResourceSerializer";

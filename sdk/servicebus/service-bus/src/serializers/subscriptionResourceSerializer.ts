@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  AtomXmlSerializer,
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  HttpOperationResponse
-} from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
+import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 
 /**
  * Represents settable options on a subscription
@@ -93,7 +89,7 @@ export interface SubscriptionOptions {
 /**
  * Represents all attributes of a subscription entity
  */
-export interface SubscriptionFields extends SubscriptionOptions {
+export interface Subscription extends SubscriptionOptions {
   /**
    * Name of the subscription
    */

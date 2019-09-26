@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  AtomXmlSerializer,
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  HttpOperationResponse
-} from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
+import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 
 /**
  * Represents settable options on a queue
@@ -92,7 +88,7 @@ export interface QueueOptions {
 /**
  * Represents all attributes of a queue entity
  */
-export interface QueueFields extends QueueOptions {
+export interface Queue extends QueueOptions {
   /**
    * Name of the queue
    */

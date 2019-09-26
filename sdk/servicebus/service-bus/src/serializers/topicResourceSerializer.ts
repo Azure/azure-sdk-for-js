@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  AtomXmlSerializer,
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  HttpOperationResponse
-} from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
+import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 
 /**
  * Represents settable options on a topic
@@ -87,7 +83,7 @@ export interface TopicOptions {
 /**
  * Represents all attributes of a topic entity
  */
-export interface TopicFields extends TopicOptions {
+export interface Topic extends TopicOptions {
   /**
    * Name of the topic
    */

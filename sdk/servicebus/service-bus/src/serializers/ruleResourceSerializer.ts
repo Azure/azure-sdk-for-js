@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  AtomXmlSerializer,
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  HttpOperationResponse
-} from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
+import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 
 /**
  * Represents settable options on a rule
@@ -47,7 +43,7 @@ export interface RuleOptions {
 /**
  * Represents all attributes of a rule entity
  */
-export interface RuleFields extends RuleOptions {
+export interface Rule extends RuleOptions {
   /**
    * Path name of the rule entity
    */

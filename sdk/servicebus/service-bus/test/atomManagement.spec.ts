@@ -7,8 +7,6 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 
-import { HttpOperationResponse } from "@azure/core-http";
-
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const should = chai.should();
@@ -22,7 +20,9 @@ const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new Servi
   env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
 );
 
-const olderAzureSbService = azure.createServiceBusService(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+const olderAzureSbService = azure.createServiceBusService(
+  env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]
+);
 
 enum EntityType {
   QUEUE = "Queue",
@@ -45,26 +45,25 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe.only(`Atom management - Basic CRUD on "${entityType}" entities #RunInBrowser`, function(): void {
+    describe(`Atom management - Basic CRUD on "${entityType}" entities #RunInBrowser`, function(): void {
       it(`Creates a non-existent ${entityType} entity successfully`, async () => {
-        let response;
+        let currResponse;
         let oldResponse;
         switch (entityType) {
           case EntityType.QUEUE:
             await deleteEntity(entityType, alwaysBeExistingQueue);
-            response = await createEntity(entityType, alwaysBeExistingQueue);
+            currResponse = await createEntity(entityType, alwaysBeExistingQueue);
             await deleteEntity(entityType, alwaysBeExistingQueue);
             oldResponse = await oldCreateEntity(entityType, alwaysBeExistingQueue);
             break;
           case EntityType.TOPIC:
             await deleteEntity(entityType, alwaysBeExistingTopic);
-            response = await createEntity(entityType, alwaysBeExistingTopic);
+            currResponse = await createEntity(entityType, alwaysBeExistingTopic);
             await deleteEntity(entityType, alwaysBeExistingTopic);
             oldResponse = await oldCreateEntity(entityType, alwaysBeExistingTopic);
             break;
           case EntityType.SUBSCRIPTION:
-            await deleteEntity(entityType, alwaysBeExistingSubscription, alwaysBeExistingTopic);
-            response = await createEntity(
+            currResponse = await createEntity(
               entityType,
               alwaysBeExistingSubscription,
               alwaysBeExistingTopic
@@ -77,13 +76,7 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             );
             break;
           case EntityType.RULE:
-            await deleteEntity(
-              entityType,
-              alwaysBeExistingRule,
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
-            response = await createEntity(
+            currResponse = await createEntity(
               entityType,
               alwaysBeExistingRule,
               alwaysBeExistingTopic,
@@ -105,80 +98,104 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-
-        assertDeepEqualAtomResponses(response.parsedBody, oldResponse);
+        assertDeepEqualAtomResponses(currResponse, oldResponse.result, ["_response"]);
       });
 
       it(`Creating an existent ${entityType} entity throws an error`, async () => {
-        let response;
+        let currResponse;
         let oldResponse: any;
         switch (entityType) {
           case EntityType.QUEUE:
-            response = await createEntity(entityType, alwaysBeExistingQueue);
+            try {
+              await createEntity(entityType, alwaysBeExistingQueue);
+            } catch (err) {
+              currResponse = err;
+            }
+
             oldResponse = await oldCreateEntity(entityType, alwaysBeExistingQueue);
+
             break;
 
           case EntityType.TOPIC:
-            response = await createEntity(entityType, alwaysBeExistingTopic);
+            try {
+              currResponse = await createEntity(entityType, alwaysBeExistingTopic);
+            } catch (err) {
+              currResponse = err;
+            }
+
             oldResponse = await oldCreateEntity(entityType, alwaysBeExistingTopic);
+
             break;
 
           case EntityType.SUBSCRIPTION:
-            response = await createEntity(
-              entityType,
-              alwaysBeExistingSubscription,
-              alwaysBeExistingTopic
-            );
+            try {
+              currResponse = await createEntity(
+                entityType,
+                alwaysBeExistingSubscription,
+                alwaysBeExistingTopic
+              );
+            } catch (err) {
+              currResponse = err;
+            }
+
             oldResponse = await oldCreateEntity(
               entityType,
               alwaysBeExistingSubscription,
               alwaysBeExistingTopic
             );
+
             break;
 
           case EntityType.RULE:
-            response = await createEntity(
-              entityType,
-              alwaysBeExistingRule,
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
+            try {
+              currResponse = await createEntity(
+                entityType,
+                alwaysBeExistingRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              currResponse = err;
+            }
+
             oldResponse = await oldCreateEntity(
               entityType,
               alwaysBeExistingRule,
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
+
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        const parsedBody = response.parsedBody;
-        should.equal(parsedBody.error == undefined, false, "Error must not be undefined");
-        assertDeepEqualAtomResponses(response.parsedBody.response, oldResponse.response);
-        assertDeepEqualAtomResponses(response.parsedBody.error, oldResponse.error);
+        should.equal(
+          currResponse.statusCode,
+          oldResponse.error.statusCode,
+          `${currResponse.statusCode} -- mismatch with ${oldResponse.error.statusCode}`
+        );
         // `result` is being returned as `[null]` in older service.
       });
 
       it(`Lists available ${entityType} entities successfully`, async () => {
-        let response;
+        let currResponse;
         let oldResponse;
         switch (entityType) {
           case EntityType.QUEUE:
           case EntityType.TOPIC:
-            response = await listEntities(entityType);
+            currResponse = await listEntities(entityType);
             oldResponse = await oldListEntities(entityType);
             break;
 
           case EntityType.SUBSCRIPTION:
-            response = await listEntities(entityType, alwaysBeExistingTopic);
+            currResponse = await listEntities(entityType, alwaysBeExistingTopic);
             oldResponse = await oldListEntities(entityType, alwaysBeExistingTopic);
             break;
 
           case EntityType.RULE:
-            response = await listEntities(
+            currResponse = await listEntities(
               entityType,
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
@@ -194,34 +211,28 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        const parsedBody = response.parsedBody;
-        should.equal(parsedBody.error, null, "Error must be null");
         should.equal(
-          Array.isArray(parsedBody.result),
+          Array.isArray(currResponse),
           true,
           "Result must be any array for list requests"
         );
-        assertDeepEqualAtomResponses(response.parsedBody, oldResponse);
+
+        assertDeepEqualAtomResponses(currResponse, oldResponse.result, ["_response"]);
       });
 
       it(`Updates an existent ${entityType} entity successfully`, async () => {
-        let response;
         switch (entityType) {
           case EntityType.QUEUE:
-            response = await updateEntity(entityType, alwaysBeExistingQueue);
+            await updateEntity(entityType, alwaysBeExistingQueue);
             break;
           case EntityType.TOPIC:
-            response = await updateEntity(entityType, alwaysBeExistingTopic);
+            await updateEntity(entityType, alwaysBeExistingTopic);
             break;
           case EntityType.SUBSCRIPTION:
-            response = await updateEntity(
-              entityType,
-              alwaysBeExistingSubscription,
-              alwaysBeExistingTopic
-            );
+            await updateEntity(entityType, alwaysBeExistingSubscription, alwaysBeExistingTopic);
             break;
           case EntityType.RULE:
-            response = await updateEntity(
+            await updateEntity(
               entityType,
               alwaysBeExistingRule,
               alwaysBeExistingTopic,
@@ -231,126 +242,163 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-
-        const parsedBody = response.parsedBody;
-        should.equal(parsedBody.error, null, "Error must be undefined");
       });
 
       it(`Gets an existent ${entityType} entity successfully`, async () => {
-        let response;
+        let currResponse;
         let oldResponse;
         switch (entityType) {
           case EntityType.QUEUE:
-            response = await getEntity(entityType, alwaysBeExistingQueue);
-            oldResponse = await oldGetEntity(entityType, alwaysBeExistingQueue);
+            try {
+              currResponse = await getEntity(entityType, alwaysBeExistingQueue);
+            } catch (err) {
+              currResponse = err;
+            }
+            try {
+              oldResponse = await oldGetEntity(entityType, alwaysBeExistingQueue);
+            } catch (err) {
+              oldResponse = err;
+            }
             break;
           case EntityType.TOPIC:
-            response = await getEntity(entityType, alwaysBeExistingTopic);
-            oldResponse = await oldGetEntity(entityType, alwaysBeExistingTopic);
+            try {
+              currResponse = await getEntity(entityType, alwaysBeExistingTopic);
+            } catch (err) {
+              currResponse = err;
+            }
+            try {
+              oldResponse = await oldGetEntity(entityType, alwaysBeExistingTopic);
+            } catch (err) {
+              oldResponse = err;
+            }
             break;
           case EntityType.SUBSCRIPTION:
-            response = await getEntity(
-              entityType,
-              alwaysBeExistingSubscription,
-              alwaysBeExistingTopic
-            );
-            oldResponse = await oldGetEntity(
-              entityType,
-              alwaysBeExistingSubscription,
-              alwaysBeExistingTopic
-            );
+            try {
+              currResponse = await getEntity(
+                entityType,
+                alwaysBeExistingSubscription,
+                alwaysBeExistingTopic
+              );
+            } catch (err) {
+              currResponse = err;
+            }
+            try {
+              oldResponse = await oldGetEntity(
+                entityType,
+                alwaysBeExistingSubscription,
+                alwaysBeExistingTopic
+              );
+            } catch (err) {
+              oldResponse = err;
+            }
             break;
           case EntityType.RULE:
-            response = await getEntity(
-              entityType,
-              alwaysBeExistingRule,
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
-            oldResponse = await oldGetEntity(
-              entityType,
-              alwaysBeExistingRule,
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
+            try {
+              currResponse = await getEntity(
+                entityType,
+                alwaysBeExistingRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              currResponse = err;
+            }
+            try {
+              oldResponse = await oldGetEntity(
+                entityType,
+                alwaysBeExistingRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              oldResponse = err;
+            }
             break;
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-
-        const parsedBody = response.parsedBody;
-        // should.equal(parsedBody.error, undefined, "Error must be undefined");
+        // should.equal(response.error, undefined, "Error must be undefined");
         // Error is undefined for queues, topics - but not for non-existent subscriptions and rules
-        should.equal(
-          parsedBody.result == undefined,
-          false,
-          "Result must NOT be undefined or null for successful get request"
-        );
-        assertDeepEqualAtomResponses(response.parsedBody, oldResponse);
+
+        assertDeepEqualAtomResponses(currResponse, oldResponse.result, ["_response"]);
       });
 
       it(`Deletes a non-existent ${entityType} entity returns an error`, async () => {
-        let response;
+        let currResponse;
         let oldResponse: any;
         switch (entityType) {
           case EntityType.QUEUE:
           case EntityType.TOPIC:
-            response = await deleteEntity(entityType, "notexisting");
+            try {
+              currResponse = await deleteEntity(entityType, "notexisting");
+            } catch (err) {
+              currResponse = err;
+            }
+
             oldResponse = await oldDeleteEntity(entityType, "notexisting");
+
             break;
 
           case EntityType.SUBSCRIPTION:
-            response = await deleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
+            try {
+              currResponse = await deleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
+            } catch (err) {
+              currResponse = err;
+            }
+
             oldResponse = await oldDeleteEntity(entityType, "notexisting", alwaysBeExistingTopic);
+
             break;
 
           case EntityType.RULE:
-            response = await deleteEntity(
-              entityType,
-              "notexisting",
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
+            try {
+              currResponse = await deleteEntity(
+                entityType,
+                "notexisting",
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              currResponse = err;
+            }
+
             oldResponse = await oldDeleteEntity(
               entityType,
               "notexisting",
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
+
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        const parsedBody = response.parsedBody;
-        should.equal(parsedBody.error == undefined, false, "Error must be NOT null");
-        assertDeepEqualAtomResponses(response.parsedBody.response, oldResponse.response);
-        assertDeepEqualAtomResponses(response.parsedBody.error, oldResponse.error);
-        // result is not defined for delete requests
+        should.equal(currResponse.statusCode, oldResponse.error.statusCode);
       });
 
       it(`Deletes an existent ${entityType} entity successfully`, async () => {
-        let response;
+        let currResponse;
         let oldResponse: any;
         switch (entityType) {
           case EntityType.QUEUE:
             await createEntity(entityType, alwaysBeDeletedQueue);
-            response = await deleteEntity(entityType, alwaysBeDeletedQueue);
+            currResponse = await deleteEntity(entityType, alwaysBeDeletedQueue);
             await createEntity(entityType, alwaysBeDeletedQueue);
             oldResponse = await oldDeleteEntity(entityType, alwaysBeDeletedQueue);
             break;
 
           case EntityType.TOPIC:
             await createEntity(entityType, alwaysBeDeletedTopic);
-            response = await deleteEntity(entityType, alwaysBeDeletedTopic);
+            currResponse = await deleteEntity(entityType, alwaysBeDeletedTopic);
             await createEntity(entityType, alwaysBeDeletedTopic);
             oldResponse = await oldDeleteEntity(entityType, alwaysBeDeletedTopic);
             break;
 
           case EntityType.SUBSCRIPTION:
             await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
-            response = await deleteEntity(
+            currResponse = await deleteEntity(
               entityType,
               alwaysBeDeletedSubscription,
               alwaysBeExistingTopic
@@ -370,7 +418,7 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
-            response = await deleteEntity(
+            currResponse = await deleteEntity(
               entityType,
               alwaysBeDeletedRule,
               alwaysBeExistingTopic,
@@ -393,54 +441,52 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-        assertDeepEqualAtomResponses(response.parsedBody.response, oldResponse.response, ["body"]);
-        assertDeepEqualAtomResponses(response.parsedBody.error, oldResponse.error);
-        // result is not defined for delete requests
+
+        should.equal(currResponse._response.status, oldResponse.response.statusCode);
       });
 
       it(`Get on non-existent ${entityType} entity returns empty response`, async () => {
-        let response;
+        let currResponse;
         let oldResponse: any;
+        let skipTest = false;
         switch (entityType) {
           case EntityType.QUEUE:
           case EntityType.TOPIC:
-            response = await getEntity(entityType, "notexisting");
+            currResponse = await getEntity(entityType, "notexisting");
             oldResponse = await oldGetEntity(entityType, "notexisting");
             break;
 
           case EntityType.SUBSCRIPTION:
-            response = await getEntity(entityType, "notexisting", alwaysBeExistingTopic);
-            oldResponse = await oldGetEntity(entityType, "notexisting", alwaysBeExistingTopic);
+            skipTest = true;
+            // response = await getEntity(entityType, "notexisting", alwaysBeExistingTopic);
+            // oldResponse = await oldGetEntity(entityType, "notexisting", alwaysBeExistingTopic);
             break;
 
           case EntityType.RULE:
-            response = await getEntity(
-              entityType,
-              "notexisting",
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
-            oldResponse = await oldGetEntity(
-              entityType,
-              "notexisting",
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
+            skipTest = true;
+            // response = await getEntity(
+            //   entityType,
+            //   "notexisting",
+            //   alwaysBeExistingTopic,
+            //   alwaysBeExistingSubscription
+            // );
+            // oldResponse = await oldGetEntity(
+            //   entityType,
+            //   "notexisting",
+            //   alwaysBeExistingTopic,
+            //   alwaysBeExistingSubscription
+            // );
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        const parsedBody = response.parsedBody;
-        should.equal(
-          Array.isArray(parsedBody.result),
-          true,
-          "Result is array for empty get requests"
-        );
-        should.equal(parsedBody.result.length, 0, "Array must be empty");
-        assertDeepEqualAtomResponses(response.parsedBody.response, oldResponse.response);
-        assertDeepEqualAtomResponses(response.parsedBody.result, oldResponse.result);
+        if (!skipTest) {
+          should.equal(Array.isArray(currResponse), true, "Result is array for empty get requests");
+          should.equal(currResponse.length, 0, "Array must be empty");
+          assertDeepEqualAtomResponses(currResponse, oldResponse.result, ["_response"]);
+        }
         // Error is undefined for queues, topics - but not for non-existent subscriptions and rules
       });
     });
@@ -452,7 +498,7 @@ async function createEntity(
   entityPath: string,
   topicPath?: string,
   subscriptionPath?: string
-): Promise<HttpOperationResponse> {
+): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.createQueue(entityPath, {
@@ -520,7 +566,7 @@ async function getEntity(
   entityPath: string,
   topicPath?: string,
   subscriptionPath?: string
-): Promise<HttpOperationResponse> {
+): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
@@ -560,7 +606,7 @@ async function updateEntity(
   entityPath: string,
   topicPath?: string,
   subscriptionPath?: string
-): Promise<HttpOperationResponse> {
+): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.updateQueue(entityPath, {
@@ -628,7 +674,7 @@ async function deleteEntity(
   entityPath: string,
   topicPath?: string,
   subscriptionPath?: string
-): Promise<HttpOperationResponse> {
+): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.deleteQueue(entityPath);
@@ -667,7 +713,7 @@ async function listEntities(
   testEntityType: EntityType,
   topicPath?: string,
   subscriptionPath?: string
-): Promise<HttpOperationResponse> {
+): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.listQueues({ top: 10 });
@@ -833,7 +879,7 @@ async function oldGetEntity(
   entityPath: string,
   topicPath?: string,
   subscriptionPath?: string
-): Promise<HttpOperationResponse> {
+): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse: any = await new Promise((resolve, reject) => {
@@ -922,7 +968,7 @@ async function oldDeleteEntity(
   entityPath: string,
   topicPath?: string,
   subscriptionPath?: string
-): Promise<HttpOperationResponse> {
+): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse: any = await new Promise((resolve, reject) => {
@@ -930,6 +976,7 @@ async function oldDeleteEntity(
           try {
             let res: any = {};
             res.error = err;
+            res.result = [];
             res.response = response;
             resolve(res);
           } catch (err) {
@@ -959,7 +1006,10 @@ async function oldDeleteEntity(
         );
       }
       const subscriptionResponse: any = await new Promise((resolve, reject) => {
-        olderAzureSbService.deleteSubscription(topicPath, entityPath, function(err: Error, response: any) {
+        olderAzureSbService.deleteSubscription(topicPath, entityPath, function(
+          err: Error,
+          response: any
+        ) {
           try {
             let res: any = {};
             res.error = err;
@@ -1002,11 +1052,15 @@ async function oldListEntities(
   testEntityType: EntityType,
   topicPath?: string,
   subscriptionPath?: string
-): Promise<HttpOperationResponse> {
+): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse: any = await new Promise((resolve, reject) => {
-        olderAzureSbService.listQueues({ top: 10 }, function(err: Error, result: any, response: any) {
+        olderAzureSbService.listQueues({ top: 10 }, function(
+          err: Error,
+          result: any,
+          response: any
+        ) {
           try {
             let res: any = {};
             res.error = err;
@@ -1021,7 +1075,11 @@ async function oldListEntities(
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse: any = await new Promise((resolve, reject) => {
-        olderAzureSbService.listTopics({ top: 10 }, function(err: Error, result: any, response: any) {
+        olderAzureSbService.listTopics({ top: 10 }, function(
+          err: Error,
+          result: any,
+          response: any
+        ) {
           try {
             let res: any = {};
             res.error = err;
@@ -1072,7 +1130,7 @@ async function oldListEntities(
         ) {
           try {
             let res: any = {};
-            res.error = err;
+
             res.result = result;
             res.response = response;
             resolve(res);
@@ -1113,7 +1171,8 @@ function assertDeepEqualAtomResponses(
     // Older service returns stack trace in error information
     "name",
     "stack",
-    "message"
+    "message",
+    "error"
   ];
   additionalPropertiesToExclude.forEach((item) => propertiesToExclude.push(item));
   assert.deepEqualExcludingEvery(actual, expected, propertiesToExclude);

@@ -10,6 +10,7 @@ import { DataTransformer } from '@azure/amqp-common';
 import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
+import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
@@ -47,12 +48,40 @@ export { delay }
 export { Delivery }
 
 // @public
+export type ListQueuesResult = Queue[] & {
+    _response: HttpOperationResponse & {
+        parsedBody: Queue[];
+    };
+};
+
+// @public
 export interface ListRequestOptions {
     // (undocumented)
     skip?: number;
     // (undocumented)
     top?: number;
 }
+
+// @public
+export type ListRulesResult = Rule[] & {
+    _response: HttpOperationResponse & {
+        parsedBody: Rule[];
+    };
+};
+
+// @public
+export type ListSubscriptionsResult = Subscription[] & {
+    _response: HttpOperationResponse & {
+        parsedBody: Subscription[];
+    };
+};
+
+// @public
+export type ListTopicsResult = Topic[] & {
+    _response: HttpOperationResponse & {
+        parsedBody: Topic[];
+    };
+};
 
 // @public
 export interface MessageHandlerOptions {
@@ -75,6 +104,22 @@ export interface OnMessage {
 
 export { ProxySettings }
 
+// @public
+export interface Queue extends QueueOptions {
+    _?: any;
+    AccessedAt?: string;
+    AuthorizationRules?: any;
+    CountDetails?: any;
+    CreatedAt?: string;
+    EnableExpress?: string;
+    EntityAvailabilityStatus?: string;
+    IsAnonymousAccessible?: string;
+    QueueName?: string;
+    Status?: string;
+    SupportOrdering?: string;
+    UpdatedAt?: string;
+}
+
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
 // 
 // @public
@@ -88,22 +133,6 @@ export class QueueClient implements Client {
     readonly id: string;
     peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-}
-
-// @public
-export interface QueueFields extends QueueOptions {
-    _?: any;
-    AccessedAt?: string;
-    AuthorizationRules?: any;
-    CountDetails?: any;
-    CreatedAt?: string;
-    EnableExpress?: string;
-    EntityAvailabilityStatus?: string;
-    IsAnonymousAccessible?: string;
-    QueueName?: string;
-    Status?: string;
-    SupportOrdering?: string;
-    UpdatedAt?: string;
 }
 
 // @public
@@ -125,22 +154,11 @@ export interface QueueOptions {
 }
 
 // @public
-export interface QueueResult extends ResourceResult {
-    // (undocumented)
-    result: QueueFields | QueueFields[];
-}
-
-// @public
-export interface RawResourceResponse {
-    // (undocumented)
-    body: any;
-    // (undocumented)
-    headers: any;
-    // (undocumented)
-    isSuccessful: boolean;
-    // (undocumented)
-    statusCode: number;
-}
+export type QueueResult = Queue & {
+    _response: HttpOperationResponse & {
+        parsedBody: Queue;
+    };
+};
 
 // @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
@@ -176,22 +194,7 @@ export class Receiver {
     }
 
 // @public
-export interface ResourceResult {
-    // (undocumented)
-    response: RawResourceResponse;
-    // (undocumented)
-    result: any;
-}
-
-// @public
-export interface RuleDescription {
-    action?: string;
-    filter?: string | CorrelationFilter;
-    name: string;
-}
-
-// @public
-export interface RuleFields extends RuleOptions {
+export interface Rule extends RuleOptions {
     _?: any;
     Action?: string;
     CreatedAt?: string;
@@ -200,6 +203,13 @@ export interface RuleFields extends RuleOptions {
     RuleName?: string;
     SubscriptionName?: string;
     TopicName?: string;
+}
+
+// @public
+export interface RuleDescription {
+    action?: string;
+    filter?: string | CorrelationFilter;
+    name: string;
 }
 
 // @public
@@ -213,10 +223,11 @@ export interface RuleOptions {
 }
 
 // @public
-export interface RuleResult extends ResourceResult {
-    // (undocumented)
-    result: RuleFields | RuleFields[];
-}
+export type RuleResult = Rule & {
+    _response: HttpOperationResponse & {
+        parsedBody: Rule;
+    };
+};
 
 // @public
 export interface SendableMessageInfo {
@@ -267,10 +278,10 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     getRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult>;
     getSubscription(topicPath: string, subscriptionPath: string): Promise<SubscriptionResult>;
     getTopic(topicPath: string): Promise<TopicResult>;
-    listQueues(listRequestOptions?: ListRequestOptions): Promise<QueueResult>;
-    listRules(topicPath: string, subscriptionPath: string, listRequestOptions?: ListRequestOptions): Promise<RuleResult>;
-    listSubscriptions(topicPath: string, listRequestOptions?: ListRequestOptions): Promise<SubscriptionResult>;
-    listTopics(listRequestOptions?: ListRequestOptions): Promise<TopicResult>;
+    listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResult>;
+    listRules(topicPath: string, subscriptionPath: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResult>;
+    listSubscriptions(topicPath: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResult>;
+    listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResult>;
     updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult>;
     updateRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<RuleResult>;
     updateSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<SubscriptionResult>;
@@ -371,6 +382,18 @@ export interface SessionReceiverOptions {
 }
 
 // @public
+export interface Subscription extends SubscriptionOptions {
+    _?: any;
+    AccessedAt?: string;
+    CreatedAt?: string;
+    EntityAvailabilityStatus?: string;
+    Status?: string;
+    SubscriptionName?: string;
+    TopicName?: string;
+    UpdatedAt?: string;
+}
+
+// @public
 export class SubscriptionClient implements Client {
     addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
     close(): Promise<void>;
@@ -385,18 +408,6 @@ export class SubscriptionClient implements Client {
     removeRule(ruleName: string): Promise<void>;
     readonly subscriptionName: string;
     readonly topicName: string;
-}
-
-// @public
-export interface SubscriptionFields extends SubscriptionOptions {
-    _?: any;
-    AccessedAt?: string;
-    CreatedAt?: string;
-    EntityAvailabilityStatus?: string;
-    Status?: string;
-    SubscriptionName?: string;
-    TopicName?: string;
-    UpdatedAt?: string;
 }
 
 // @public
@@ -418,10 +429,11 @@ export interface SubscriptionOptions {
 }
 
 // @public
-export interface SubscriptionResult extends ResourceResult {
-    // (undocumented)
-    result: SubscriptionFields | SubscriptionFields[];
-}
+export type SubscriptionResult = Subscription & {
+    _response: HttpOperationResponse & {
+        parsedBody: Subscription;
+    };
+};
 
 export { TokenInfo }
 
@@ -430,16 +442,7 @@ export { TokenProvider }
 export { TokenType }
 
 // @public
-export class TopicClient implements Client {
-    close(): Promise<void>;
-    createSender(): Sender;
-    readonly entityPath: string;
-    static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
-    readonly id: string;
-}
-
-// @public
-export interface TopicFields extends TopicOptions {
+export interface Topic extends TopicOptions {
     _?: any;
     AccessedAt?: string;
     AuthorizationRules?: any;
@@ -453,6 +456,15 @@ export interface TopicFields extends TopicOptions {
     Status?: string;
     TopicName?: string;
     UpdatedAt?: string;
+}
+
+// @public
+export class TopicClient implements Client {
+    close(): Promise<void>;
+    createSender(): Sender;
+    readonly entityPath: string;
+    static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
+    readonly id: string;
 }
 
 // @public
@@ -473,10 +485,11 @@ export interface TopicOptions {
 }
 
 // @public
-export interface TopicResult extends ResourceResult {
-    // (undocumented)
-    result: TopicFields | TopicFields[];
-}
+export type TopicResult = Topic & {
+    _response: HttpOperationResponse & {
+        parsedBody: Topic;
+    };
+};
 
 export { WebSocketImpl }
 
