@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
+/// <reference lib="esnext.asynciterable" />
+
 import { AppConfigCredential } from "./appConfigCredential";
 import { TokenCredential, URLBuilder } from "@azure/core-http";
 import { AppConfiguration } from "./generated/src/appConfiguration";
