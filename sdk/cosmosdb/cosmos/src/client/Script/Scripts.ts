@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-  StoredProcedure,
-  StoredProcedures,
-  Trigger,
-  Triggers,
-  UserDefinedFunction,
-  UserDefinedFunctions
-} from "../..";
+import { StoredProcedures, StoredProcedure } from "../StoredProcedure";
+import { Trigger, Triggers } from "../Trigger";
+import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";
 import { ClientContext } from "../../ClientContext";
 import { Container } from "../Container/Container";
 
