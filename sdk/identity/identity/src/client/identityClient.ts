@@ -8,7 +8,8 @@ import {
   ServiceClientOptions,
   WebResource,
   RequestPrepareOptions,
-  GetTokenOptions
+  GetTokenOptions,
+  CanonicalCode
 } from "@azure/core-http";
 import { AuthenticationError } from "./errors";
 import { createSpan } from "../util/tracing";
@@ -102,21 +103,22 @@ export class IdentityClient extends ServiceClient {
       (refreshParams as any).client_secret = clientSecret;
     }
 
-    const webResource = this.createWebResource({
-      url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
-      method: "POST",
-      disableJsonStringifyOnBody: true,
-      deserializationMapper: undefined,
-      body: qs.stringify(refreshParams),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      spanOptions: newOptions.spanOptions,
-      abortSignal: options && options.abortSignal
-    });
-
     try {
+
+      const webResource = this.createWebResource({
+        url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
+        method: "POST",
+        disableJsonStringifyOnBody: true,
+        deserializationMapper: undefined,
+        body: qs.stringify(refreshParams),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        spanOptions: newOptions.spanOptions,
+        abortSignal: options && options.abortSignal
+      });
+
       const response = await this.sendTokenRequest(webResource, expiresOnParser);
       return response;
     } catch (err) {
@@ -127,8 +129,16 @@ export class IdentityClient extends ServiceClient {
         // It's likely that the refresh token has expired, so
         // return null so that the credential implementation will
         // initiate the authentication flow again.
+        span.setStatus({
+          code: CanonicalCode.UNAUTHENTICATED,
+          message: err.message
+        })
         return null;
       } else {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: err.message
+        });
         throw err;
       }
     } finally {
