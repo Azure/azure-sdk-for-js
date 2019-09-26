@@ -5,10 +5,12 @@ export class TestServiceClient extends ServiceClient {
   private initialResponse?: HttpOperationResponse;
   private finalResponse?: HttpOperationResponse;
   public credentials: TokenCredential | ServiceClientCredentials;
+  public totalSentRequests: number;
 
   constructor(credentials: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
     super(credentials, options);
     this.credentials = credentials;
+    this.totalSentRequests = 0;
   }
 
   public setResponses(responses: HttpOperationResponse[]): void {
@@ -22,18 +24,21 @@ export class TestServiceClient extends ServiceClient {
     if (options && options.abortSignal && options.abortSignal.aborted) {
       throw new Error("The request was aborted");
     }
+    this.totalSentRequests += 1;
     return this.responses.shift()!;
   }
   public async sendInitialRequest(options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     if (options && options.abortSignal && options.abortSignal.aborted) {
       throw new Error("The request was aborted");
     }
+    this.totalSentRequests += 1;
     return this.initialResponse!;
   }
   public async sendFinalRequest(options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     if (options && options.abortSignal && options.abortSignal.aborted) {
       throw new Error("The request was aborted");
     }
+    this.totalSentRequests += 1;
     return this.finalResponse!;
   }
 }

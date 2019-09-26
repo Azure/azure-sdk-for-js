@@ -8,7 +8,7 @@ export abstract class Poller<TProperties, TResult> {
   private reject?: (error: Error) => void;
   private pollOncePromise?: Promise<void>;
   private promise: Promise<TResult>;
-  protected operation: PollOperation<TProperties>;
+  public operation: PollOperation<TProperties>;
 
   constructor(operation: PollOperation<TProperties>, stopped: boolean = false) {
     this.operation = operation;
@@ -99,7 +99,12 @@ export abstract class Poller<TProperties, TResult> {
     return this.stopped;
   }
 
-  public toJSON(): PollOperation<TProperties> {
-    return this.operation;
+  public async cancel(): Promise<void> {
+    await this.operation.cancel();
+    this.operation.state.cancelled = true;
+  }
+
+  public toJSON(): string {
+    return this.operation.toString();
   }
 }
