@@ -362,7 +362,6 @@ export interface CosmosClientOptions {
     resourceTokens?: {
         [resourcePath: string]: string;
     };
-    // Warning: (ae-forgotten-export) The symbol "TokenProvider" needs to be exported by the entry point index.d.ts
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
 }
@@ -1150,6 +1149,11 @@ export class TimeSpan {
     // (undocumented)
     static readonly zero: TimeSpan;
 }
+
+// Warning: (ae-forgotten-export) The symbol "RequestInfo" needs to be exported by the entry point index.d.ts
+// 
+// @public (undocumented)
+export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 // @public
 export class Trigger {
