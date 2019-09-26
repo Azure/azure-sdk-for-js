@@ -23,6 +23,12 @@ await client.addConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "M
 await client.setConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
 ```
 
+### Enhancements
+
+- `listConfigurationSettings` and `listRevisions` have been changed to return `PagedAsyncIterableIterator`'s,
+  allowing their results to be iterated by page (also returning HTTP response information) or as an
+  iterator of ConfigurationSetting.
+
 # 1.0.0-preview.3 (2019-09-23)
 
 - Typings file was incorrectly packaged (#5217)

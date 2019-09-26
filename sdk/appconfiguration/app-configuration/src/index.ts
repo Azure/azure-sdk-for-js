@@ -1,49 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-  
+
+// https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
+/// <reference lib="esnext.asynciterable" />
+
 import { AppConfigCredential } from "./appConfigCredential";
 import { TokenCredential, URLBuilder } from "@azure/core-http";
 import { AppConfiguration } from "./generated/src/appConfiguration";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import "@azure/core-asynciterator-polyfill";
 
 import {
-  KeyValue as ConfigurationSetting,
-  AppConfigurationGetKeyValuesOptionalParams,
-  GetKeyValuesResponse,
-
-  PutKeyValueResponse as AddConfigurationSettingResponse,
-  PutKeyValueResponse as SetConfigurationSettingResponse,
-
-  AppConfigurationPutKeyValueOptionalParams as GeneratedPutParams,
-
   AppConfigurationDeleteKeyValueOptionalParams as DeleteConfigurationSettingOptions,
-  DeleteKeyValueResponse as DeleteConfigurationSettingResponse,
-
   AppConfigurationGetKeyValueOptionalParams as GetConfigurationSettingOptions,
+  AppConfigurationGetKeyValuesOptionalParams,
+  AppConfigurationGetRevisionsOptionalParams,
+  AppConfigurationPutKeyValueOptionalParams as GeneratedPutParams,
+  DeleteKeyValueResponse as DeleteConfigurationSettingResponse,
   GetKeyValueResponse as GetConfigurationSettingResponse,
-
-  AppConfigurationGetRevisionsOptionalParams as ListRevisionsOptions,
-  GetRevisionsResponse as ListRevisionsResponse
+  GetKeyValuesResponse,
+  GetRevisionsResponse,
+  KeyValue as ConfigurationSetting,
+  PutKeyValueResponse as AddConfigurationSettingResponse,
+  PutKeyValueResponse as SetConfigurationSettingResponse
 } from "./generated/src/models/index";
 import { isArray } from 'util';
 
 export {
-  DeleteKeyValueResponse,
-  PutKeyValueResponse,
-  GetRevisionsResponse,
-  GetKeyValueResponse,
-  AppConfigurationGetKeyValueOptionalParams,
-  AppConfigurationPutKeyValueOptionalParams,
   AppConfigurationDeleteKeyValueOptionalParams,
+  AppConfigurationGetKeyValueOptionalParams,
+  AppConfigurationGetKeyValuesOptionalParams,
   AppConfigurationGetRevisionsOptionalParams,
-  AppConfigurationGetKeyValuesOptionalParams
+  AppConfigurationPutKeyValueOptionalParams,
+  DeleteKeyValueResponse,
+  GetKeyValueResponse,
+  GetKeyValuesHeaders,
+  GetKeyValuesResponse,
+  GetRevisionsResponse,
+  PutKeyValueResponse
 } from "./generated/src/models/index";
 
+/**
+ * A ConfigurationSetting minus any fields that are not settable in 
+ * addConfigurationSetting/setConfigurationSetting (ex: locked)
+ * 
+ * Any place that takes a ConfigurationSettingsParam will also take a ConfigurationSetting.
+ */
 export interface ConfigurationSettingParam extends Pick<ConfigurationSetting, Exclude<keyof ConfigurationSetting, 'locked' | 'etag' | 'lastModified'>> {
 }
 
+/**
+ * Options used when adding or saving a ConfigurationSetting.
+ */
 export interface ConfigurationSettingOptions extends Pick<GeneratedPutParams, Exclude<keyof GeneratedPutParams, 'label' | 'entity'>> {
 }
 
+/**
+ * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
 export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationGetKeyValuesOptionalParams, Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, 'key' | 'label' | 'select' | 'after'>> {
   /**
    * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
@@ -61,8 +77,47 @@ export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationG
   fields?: (keyof ConfigurationSetting)[];
 }
 
-export interface ListConfigurationSettingsResponse extends GetKeyValuesResponse {
+/**
+ * Options for listRevisions that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface ListRevisionsOptions extends Pick<AppConfigurationGetRevisionsOptionalParams, Exclude<keyof AppConfigurationGetRevisionsOptionalParams, 'key' | 'label' | 'select' | 'after'>> {
+  /**
+   * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
+   */
+  keys?: string[];
+
+  /**
+   * Filters for wildcard matching (using *) against labels. These conditions are logically OR'd against each other.
+   */
+  labels?: string[];
+
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: (keyof ConfigurationSetting)[];
 }
+
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListConfigurationSettingPage extends Pick<GetKeyValuesResponse, Exclude<keyof GetKeyValuesResponse, 'items'>> {
+  /**
+    * ConfigurationSettings for this page of results
+    */
+  items: ConfigurationSetting[];
+}
+
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListRevisionsPage extends Pick<GetRevisionsResponse, Exclude<keyof GetRevisionsResponse, 'items'>> {
+  /**
+     * ConfigurationSettings for this page of results
+     */
+    items: ConfigurationSetting[];
+  }
 
 export { ConfigurationSetting };
 
@@ -199,45 +254,148 @@ export class AppConfigurationClient {
   }
 
   /**
-   * Lists settings from the Azure App Configuration service, optionally filtered by label,
-   * accept date time or name.
+   * Lists settings from the Azure App Configuration service, optionally 
+   * filtered by key names, labels and accept datetime.
    *
    * Example code:
    * ```ts
-   * const allSettingsWithLabel = await client.listConfigurationSettings({ label: "MyLabel" });
+   * const allSettingsWithLabel = await client.listConfigurationSettings({ labels: [ "MyLabel" ] });
    * ```
    * @param options Optional parameters for the request.
    */
-  listConfigurationSettings(
+  listConfigurationSettings(options: ListConfigurationSettingsOptions = {}): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage> {
+    const iter = this.getListConfigurationSettingsIterator(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (_: PageSettings = {}) => {
+        // TODO: the appconfig service doesn't currently support letting you select a page size
+        // so we're ignoring their setting for now.
+        return this.listConfigurationSettingsByPage(options);
+      }
+    };
+  }
+
+  private async *getListConfigurationSettingsIterator(options: ListConfigurationSettingsOptions): AsyncIterableIterator<ConfigurationSetting> {
+    for await (const page of this.listConfigurationSettingsByPage(options)) {
+      for (const configurationSetting of page.items) {
+        yield configurationSetting;
+      }
+    }
+  }
+
+  private async *listConfigurationSettingsByPage(
     options: ListConfigurationSettingsOptions = {}
-  ): Promise<ListConfigurationSettingsResponse> {
-    return this.client.getKeyValues({
+  ): AsyncIterableIterator<ListConfigurationSettingPage> {
+
+    let currentResponse = await this.client.getKeyValues({
       ...options,
       ...AppConfigurationClient.formatWildcards(options),
       select: options.fields
     });
+
+    yield* this.createListConfigurationPageFromResponse(currentResponse);
+
+    while (currentResponse.nextLink) {
+      currentResponse = await this.client.getKeyValues({
+        ...options,
+        ...AppConfigurationClient.formatWildcards(options),
+        select: options.fields,
+        after: AppConfigurationClient.extractAfterTokenFromNextLink(currentResponse.nextLink)
+      });
+
+      // TODO: We can get one more "empty" response if we're on
+      // a page boundary but there's no data in the response that's useful
+      if (!currentResponse.items) {
+        break;
+      }
+
+      yield* this.createListConfigurationPageFromResponse(currentResponse);
+    }
   }
 
-  listConfigurationSettingsNext(nextLink: string, options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>  {
-
-    return this.client.getKeyValues({
-      ...options,
-      ...AppConfigurationClient.formatWildcards(options),
-      after: AppConfigurationClient.extractAfterTokenFromNextLink(nextLink)
-    });
+  private *createListConfigurationPageFromResponse(currentResponse: GetKeyValuesResponse) {
+    yield {
+      ...currentResponse,
+      items: currentResponse.items != null ? currentResponse.items : []
+    };
   }
 
   /**
-   * Lists revisions of a set of keys within the Azure App Configuration service.
+   * Lists revisions of a set of keys, optionally filtered by key names, 
+   * labels and accept datetime.
    *
    * Example code:
    * ```ts
-   * const revisionsForMyKey = await client.listRevisions({ key: ["MyKey"] });
+   * const revisionsIterator = await client.listRevisions({ keys: ["MyKey"] });
    * ```
    * @param options Optional parameters for the request.
    */
-  listRevisions(options?: ListRevisionsOptions): Promise<ListRevisionsResponse> {
-    return this.client.getRevisions(options);
+  listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage> {
+    const iter = this.getListRevisionsIterator(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (_: PageSettings = {}) => {
+        // TODO: the appconfig service doesn't currently support letting you select a page size
+        // so we're ignoring their setting for now.
+        return this.listRevisionsByPage(options);
+      }
+    };
+  }
+
+  private async*getListRevisionsIterator(options?: ListRevisionsOptions): AsyncIterableIterator<ConfigurationSetting> {
+    for await (const page of this.listRevisionsByPage(options)) {
+      for (const item of page.items) {
+        yield item;
+      }
+    }
+  }
+
+  private async *listRevisionsByPage(
+    options: ListRevisionsOptions = {}
+  ): AsyncIterableIterator<ListRevisionsPage> {
+
+    let currentResponse = await this.client.getRevisions({
+      ...options,
+      ...AppConfigurationClient.formatWildcards(options),
+      select: options.fields
+    });
+
+    yield {
+      ...currentResponse,
+      items: currentResponse.items != null ? currentResponse.items : []
+    };
+
+    while (currentResponse.nextLink) {
+      currentResponse = await this.client.getRevisions({
+        ...options,
+        ...AppConfigurationClient.formatWildcards(options),
+        select: options.fields,
+        after: AppConfigurationClient.extractAfterTokenFromNextLink(currentResponse.nextLink)
+      });
+
+      // TODO: We can get one more "empty" response if we're on
+      // a page boundary but there's no data in the response that's useful
+      if (!currentResponse.items) {
+        break;
+      }
+
+      yield {
+        ...currentResponse,
+        items: currentResponse.items != null ? currentResponse.items : []
+      };
+    }
   }
 
   /**
