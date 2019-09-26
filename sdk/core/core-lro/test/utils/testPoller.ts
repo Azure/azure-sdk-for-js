@@ -1,9 +1,9 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller } from "../../src"
+import { Poller, PollOperationState } from "../../src"
 import { TestServiceClient } from "./testServiceClient";
-import { makeOperation, HttpPollProperties } from "./testOperation"
+import { makeOperation, TestOperation, TestOperationProperties } from "./testOperation"
 
-export class TestPoller extends Poller<HttpPollProperties, string> {
+export class TestPoller extends Poller<TestOperationProperties, string> {
   public intervalInMs: number;
 
   constructor(
@@ -11,8 +11,18 @@ export class TestPoller extends Poller<HttpPollProperties, string> {
     manual: boolean = false,
     intervalInMs: number = 10,
     requestOptions?: RequestOptionsBase,
+    baseOperation?: TestOperation
   ) {
-    const operation = makeOperation({}, {
+    let state: PollOperationState = {};
+    let properties: TestOperationProperties | undefined = undefined;
+
+    if (baseOperation) {
+      state = baseOperation.state;
+      properties = baseOperation.properties;
+    }
+
+    const operation = makeOperation(state, {
+      ...properties,
       client,
       requestOptions,
     });

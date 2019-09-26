@@ -2,11 +2,13 @@ import { ServiceClientCredentials, ServiceClientOptions, TokenCredential, Reques
 import { TestServiceClient } from "./testServiceClient";
 import { TestPoller } from "./testPoller";
 import { TestNonCancellablePoller } from "./testNonCancellablePoller";
+import { TestOperation } from "./testOperation"
 
 interface StartLROOptions {
   manual?: boolean;
   intervalInMs?: number;
   requestOptions?: RequestOptionsBase;
+  operation?: TestOperation;
 }
 
 export class TestClient extends TestServiceClient {
@@ -19,7 +21,8 @@ export class TestClient extends TestServiceClient {
       this,
       options.manual,
       options.intervalInMs,
-      options.requestOptions
+      options.requestOptions,
+      options.operation
     );
   } 
 
@@ -28,7 +31,8 @@ export class TestClient extends TestServiceClient {
       this,
       options.manual,
       options.intervalInMs,
-      options.requestOptions
+      options.requestOptions,
+      options.operation
     );
   }
 }
