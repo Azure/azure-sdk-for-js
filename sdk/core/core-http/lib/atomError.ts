@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { Constants } from "./util/constants";
-import { isString } from "./util/utils";
 import { HttpOperationResponse } from "./httpOperationResponse";
 
 /**
@@ -29,7 +28,7 @@ export class AtomError extends Error {
  * @param response
  */
 export function buildAtomError(errorBody: any, response: HttpOperationResponse): AtomError {
-  if (isString(errorBody)) {
+  if (typeof errorBody === "string") {
     return new Error(errorBody);
   }
   const normalizedError: any = {};
@@ -42,7 +41,7 @@ export function buildAtomError(errorBody: any, response: HttpOperationResponse):
       let value = null;
       if (
         property === Constants.ODATA_ERROR_MESSAGE &&
-        !isString(errorProperties[Constants.ODATA_ERROR_MESSAGE])
+        typeof errorProperties[Constants.ODATA_ERROR_MESSAGE] !== "string"
       ) {
         if (errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]) {
           value =

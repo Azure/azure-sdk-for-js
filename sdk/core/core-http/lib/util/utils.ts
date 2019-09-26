@@ -252,15 +252,6 @@ export function isDate(value: any): value is Date {
 }
 
 /**
- * Determines whether the given `value` is a `string` object or not.
- * @param {any} value Any entity
- * @return {boolean} - true if yes, false otherwise.
- */
-export function isString(value: any): value is string {
-  return Object.prototype.toString.call(value) == "[object String]";
-}
-
-/**
  * Determines whether the given `value` is a `Object` or not.
  * @param {any} value Any entity
  * @return {boolean} - true if yes, false otherwise.

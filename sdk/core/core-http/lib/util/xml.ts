@@ -39,7 +39,7 @@ export function parseXML(str: string): Promise<any> {
 export async function deserializeAtomXmlToJson(body: string): Promise<any> {
   const parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
   const result = await new Promise((resolve, reject) => {
-    parser.parseString(_removeBOM(body.toString()), function(err: any, parsedBody: any) {
+    parser.parseString(removeBOM(body.toString()), function(err: any, parsedBody: any) {
       if (err) {
         reject(err);
       } else {
@@ -65,7 +65,7 @@ export function serializeJsonToAtomXml(content: any): string {
 
   doc = doc.ele("updated", new Date().toISOString()).up();
 
-  doc = _writeElementValue(doc, "content", content);
+  doc = writeElementValue(doc, "content", content);
   return doc.doc().toString();
 }
 
@@ -104,7 +104,7 @@ function _getDefaultSettings(): any {
  * Helper utility to clean up unintended characters that get appended by OS.
  * @param str
  */
-function _removeBOM(str: string) {
+function removeBOM(str: string) {
   if (str.charCodeAt(0) === 0xfeff || str.charCodeAt(0) === 0xffef) {
     str = str.substring(1);
   }
@@ -121,19 +121,20 @@ function _removeBOM(str: string) {
  * @param {string} name                  Property name.
  * @param {object} value                 Property value.
  * @return {object} The current DOM element.
+ *
  */
-function _writeElementValue(parentElement: any, name: any, value: any): any {
+function writeElementValue(parentElement: any, name: any, value: any): any {
   let ignored = false;
   const propertyTagName = name;
 
-  if (!contentIsUndefinedOrEmpty(value) && isObject(value) && !isDate(value)) {
+  if (value && isObject(value) && !isDate(value)) {
     if (Array.isArray(value) && value.length > 0) {
       // Example:
       // JSON: element: [ { property1: 'hi there' }, { property2: 'hello there' } ]
       // XML: <element><property1>hi there</property1></element><element><property2>hello there</property2></element>
 
       Object.keys(value).forEach(function(i: any) {
-        parentElement = _writeElementValue(parentElement, name, value[i]);
+        parentElement = writeElementValue(parentElement, name, value[i]);
       });
 
       // For an array no element was actually added at this level, so skip uping level.
@@ -147,8 +148,8 @@ function _writeElementValue(parentElement: any, name: any, value: any): any {
       // XML: <element m:type="Edm.String">hi there</element>
 
       parentElement = parentElement.ele(propertyTagName);
-      if (!contentIsUndefinedOrEmpty(value[Constants.XML_VALUE_MARKER])) {
-        if (new String(value[Constants.XML_VALUE_MARKER]).startsWith("<![CDATA[")) {
+      if (value[Constants.XML_VALUE_MARKER]) {
+        if (value[Constants.XML_VALUE_MARKER].toString().startsWith("<![CDATA[")) {
           parentElement = parentElement.raw(value[Constants.XML_VALUE_MARKER]);
         } else {
           parentElement = parentElement.txt(value[Constants.XML_VALUE_MARKER]);
@@ -162,14 +163,19 @@ function _writeElementValue(parentElement: any, name: any, value: any): any {
       parentElement = parentElement.ele(propertyTagName);
       Object.keys(value).forEach((propertyName: string) => {
         if (propertyName !== Constants.XML_METADATA_MARKER && value.hasOwnProperty(propertyName)) {
-          parentElement = _writeElementValue(parentElement, propertyName, value[propertyName]);
+          parentElement = writeElementValue(parentElement, propertyName, value[propertyName]);
         }
       });
     }
   } else {
     parentElement = parentElement.ele(propertyTagName);
-    if (!contentIsUndefinedOrEmpty(value)) {
-      if (new String(value.toString().trim()).startsWith("<![CDATA[")) {
+    if (value) {
+      if (
+        value
+          .toString()
+          .trim()
+          .startsWith("<![CDATA[")
+      ) {
         parentElement = parentElement.raw(value.toString());
       } else {
         parentElement = parentElement.txt(value.toString());
@@ -190,13 +196,4 @@ function _writeElementValue(parentElement: any, name: any, value: any): any {
   }
 
   return parentElement;
-}
-
-/**
- * Determines whether the given `content` is an empty string or not.
- * @param {any} value Any entity
- * @return {boolean} - true if it is equivalent to an empty string, false otherwise.
- */
-function contentIsUndefinedOrEmpty(content: any): boolean {
-  return content == null || content === "";
 }
