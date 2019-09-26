@@ -4,13 +4,7 @@
 import { assert } from "chai";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import {
-  HttpClient,
-  AtomXmlOperationSpec,
-  AtomXmlSerializer,
-  deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest
-} from "../../lib/coreHttp";
+import { HttpClient, AtomXmlOperationSpec, AtomXmlSerializer } from "../../lib/coreHttp";
 import { atomSerializationPolicy } from "../../lib/policies/atomSerializationPolicy";
 import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
@@ -45,30 +39,16 @@ describe("atomSerializationPolicy", function() {
     });
 
     const expectedResult = {
-      entry: {
-        author: {
-          name: "servicebuslocalperftestspremium1"
-        },
-        content: {
-          QueueDescription: {
-            LockDuration: "PT2M",
-            MaxSizeInMegabytes: "1024",
-            QueueName: "testQueuePath4",
-            _: {
-              ContentRootElement: "QueueDescription",
-              author: {
-                name: "servicebuslocalperftestspremium1"
-              },
-              id:
-                "https://servicebuslocalperftestspremium1.servicebus.windows.net/testQueuePath4?api-version=2017-04",
-              title: "testQueuePath4"
-            }
-          }
-        },
+      LockDuration: "PT2M",
+      MaxSizeInMegabytes: "1024",
+      _: {
+        ContentRootElement: "QueueDescription",
         id:
           "https://servicebuslocalperftestspremium1.servicebus.windows.net/testQueuePath4?api-version=2017-04",
-        title: "testQueuePath4"
-      }
+        title: "testQueuePath4",
+        author: { name: "servicebuslocalperftestspremium1" }
+      },
+      QueueName: "testQueuePath4"
     };
 
     const mockClient: HttpClient = {
@@ -86,7 +66,7 @@ describe("atomSerializationPolicy", function() {
 
     const policy = atomSerializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepEqual(response.parsedBody.response.body, expectedResult);
+    assert.deepEqual(response.parsedBody, expectedResult);
   });
 });
 
@@ -97,18 +77,43 @@ function createRequest(atomXmlOperationSpec?: AtomXmlOperationSpec): WebResource
 }
 
 class MockSerializer implements AtomXmlSerializer {
+  // @ts-ignore
   serialize(resource: any): string {
-    const properties = ["LockDuration", "MaxSizeInMegabytes"];
-
-    return serializeToAtomXmlRequest(
-      "QueueDescription",
-      resource,
-      properties,
-      "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
-    );
+    return '<entry xmlns="http://www.w3.org/2005/Atom"><id>https://servicebuslocalperftestspremium1.servicebus.windows.net/testQueuePath4?api-version=2017-04</id><title type="text">testQueuePath4</title><author><name>servicebuslocalperftestspremium1</name></author><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT2M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes></QueueDescription></content></entry>';
   }
 
-  deserialize(response: HttpOperationResponse): any {
-    return deserializeAtomXmlResponse(["QueueName"], response);
+  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    const result = {
+      request: {
+        url: "",
+        method: "GET",
+        headers: { _headersMap: {} },
+        withCredentials: false,
+        timeout: 0,
+        atomXmlOperationSpec: { serializer: {} }
+      },
+      status: 200,
+      headers: {
+        _headersMap: { "content-type": { name: "content-type", value: "application/xml" } }
+      },
+      bodyAsText:
+        '<entry xmlns="http://www.w3.org/2005/Atom"><id>https://servicebuslocalperftestspremium1.servicebus.windows.net/testQueuePath4?api-version=2017-04</id><title type="text">testQueuePath4</title><author><name>servicebuslocalperftestspremium1</name></author><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT2M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes></QueueDescription></content></entry>',
+      parsedBody: {
+        LockDuration: "PT2M",
+        MaxSizeInMegabytes: "1024",
+        _: {
+          ContentRootElement: "QueueDescription",
+          id:
+            "https://servicebuslocalperftestspremium1.servicebus.windows.net/testQueuePath4?api-version=2017-04",
+          title: "testQueuePath4",
+          author: { name: "servicebuslocalperftestspremium1" }
+        },
+        QueueName: "testQueuePath4"
+      }
+    };
+    response.parsedBody = result.parsedBody;
+    return new Promise((resolve) => {
+      resolve(response);
+    });
   }
 }

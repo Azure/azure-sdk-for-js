@@ -104,7 +104,7 @@ function _getDefaultSettings(): any {
  * Helper utility to clean up unintended characters that get appended by OS.
  * @param str
  */
-function _removeBOM(str: any) {
+function _removeBOM(str: string) {
   if (str.charCodeAt(0) === 0xfeff || str.charCodeAt(0) === 0xffef) {
     str = str.substring(1);
   }
@@ -121,8 +121,6 @@ function _removeBOM(str: any) {
  * @param {string} name                  Property name.
  * @param {object} value                 Property value.
  * @return {object} The current DOM element.
- *
- * {Deprecated}
  */
 function _writeElementValue(parentElement: any, name: any, value: any): any {
   let ignored = false;

@@ -1,4 +1,4 @@
-import { AtomXmlSerializer } from "./util/atomXmlHelper";
+import { AtomXmlSerializer } from "./atomXmlSerializer";
 
 export interface AtomXmlOperationSpec {
   /**
