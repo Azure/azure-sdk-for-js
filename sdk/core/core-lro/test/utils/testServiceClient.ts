@@ -1,19 +1,20 @@
 import { HttpOperationResponse, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential, RequestOptionsBase } from "@azure/core-http";
 
 export class TestServiceClient extends ServiceClient {
-  public responses: HttpOperationResponse[];
-  public initialResponse?: HttpOperationResponse;
-  public finalResponse?: HttpOperationResponse;
+  private responses: HttpOperationResponse[] = [];
+  private initialResponse?: HttpOperationResponse;
+  private finalResponse?: HttpOperationResponse;
   public credentials: TokenCredential | ServiceClientCredentials;
 
   constructor(credentials: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
     super(credentials, options);
-    this.responses = [];
     this.credentials = credentials;
   }
 
   public setResponses(responses: HttpOperationResponse[]): void {
-    this.responses = responses;
+    this.initialResponse = responses[0];
+    this.responses = responses.slice(1, -1);
+    this.finalResponse = responses[responses.length - 1];
   }
 
   // Normally we would call this.client.sendRequest, from the ServiceClient class.
