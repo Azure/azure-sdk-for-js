@@ -6,7 +6,7 @@ param (
 $source = Get-ChildItem -Path $pathToDir -Directory
 Write-Host "source = $source"
 
-if((-Not (Test-Path $pathToDest)){
+if((-Not (Test-Path $pathToDest))){
  mkdir $pathToDest
 }
 Foreach ($s in $source){
