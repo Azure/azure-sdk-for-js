@@ -58,4 +58,4 @@ stages:
           safeName: azurecoretracing
         - name: azure-logger
           safeName: azurelogger
-      DocArgs: -i inc --inc core --clientOnly
+      DocArgs: core
