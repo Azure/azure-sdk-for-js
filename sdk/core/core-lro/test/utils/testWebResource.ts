@@ -16,7 +16,7 @@ export class TestWebResource extends WebResource {
       undefined, // onUploadProgress?: (progress: TransferProgressEvent) => void,
       undefined, // onDownloadProgress?: (progress: TransferProgressEvent) => void,
       undefined, // proxySettings?: ProxySettings,
-      undefined  // keepAlive?: boolean
-    )
-  };
+      undefined // keepAlive?: boolean
+    );
+  }
 }

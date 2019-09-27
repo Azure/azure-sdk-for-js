@@ -1,17 +1,16 @@
 import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
-import { TestClient } from "./utils/testClient"
+import { TestClient } from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
 const basicResponseStructure = {
   headers: testHttpHeaders,
-  parsedBody: {
-  },
+  parsedBody: {},
   request: testHttpRequest,
-  status: 200,
-}
+  status: 200
+};
 const initialResponse = {
   ...basicResponseStructure,
   parsedBody: {
@@ -31,8 +30,8 @@ const finalResponse = {
   }
 };
 
-describe("Long Running Operations - custom client", function () {
-  it("should support an abort signal sent through the constructor", async function () {
+describe("Long Running Operations - custom client", function() {
+  it("should support an abort signal sent through the constructor", async function() {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
@@ -52,7 +51,7 @@ describe("Long Running Operations - custom client", function () {
     let pollError: Error | undefined;
     poller.done().catch((e: Error) => {
       pollError = e;
-    })
+    });
 
     assert.ok(poller.operation.state.started);
     await delay(100);
@@ -63,9 +62,9 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(pollError!.message, "The request was aborted");
     assert.equal(client.totalSentRequests, 10);
     poller.stop();
-  }); 
+  });
 
-  it("should support an abort signal sent through the constructor (manual poller)", async function () {
+  it("should support an abort signal sent through the constructor (manual poller)", async function() {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
@@ -86,8 +85,8 @@ describe("Long Running Operations - custom client", function () {
     let pollError: Error | undefined;
     poller.done().catch((e: Error) => {
       pollError = e;
-    })
- 
+    });
+
     await poller.poll(); // Manual polling
     assert.equal(client.totalSentRequests, 1);
 
@@ -98,7 +97,7 @@ describe("Long Running Operations - custom client", function () {
     assert.equal(pollError!.message, "The request was aborted");
   });
 
-  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function () {
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function() {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
@@ -114,28 +113,28 @@ describe("Long Running Operations - custom client", function () {
       }
     });
 
-    poller.done().catch(e => {
+    poller.done().catch((e) => {
       assert.equal(e.message, "Poller stopped");
     });
- 
+
     assert.ok(poller.operation.state.started);
     assert.equal(client.totalSentRequests, 1);
     await delay(100);
     assert.equal(client.totalSentRequests, 10);
- 
+
     abortController.abort();
     let cancelError: Error | undefined;
     try {
       await poller.cancel();
-    } catch(e) {
+    } catch (e) {
       cancelError = e;
     }
- 
+
     assert.equal(cancelError!.message, "The request was aborted");
-    poller.stop(); 
+    poller.stop();
   });
- 
-  it("can abort the cancel method (when cancellation is supported) by with an abortSignal updated on the operation", async function () {
+
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal updated on the operation", async function() {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
@@ -149,8 +148,8 @@ describe("Long Running Operations - custom client", function () {
     // Testing subscriptions to the poll errors
     poller.done().catch((e: Error) => {
       assert.equal(e.message, "Poller stopped");
-    })
- 
+    });
+
     assert.equal(client.totalSentRequests, 1);
     await delay(100);
     assert.equal(client.totalSentRequests, 10);
@@ -166,11 +165,11 @@ describe("Long Running Operations - custom client", function () {
     let cancelError: Error | undefined;
     try {
       await poller.cancel();
-    } catch(e) {
+    } catch (e) {
       cancelError = e;
     }
 
     assert.equal(cancelError!.message, "The request was aborted");
-    poller.stop(); 
+    poller.stop();
   });
 });
