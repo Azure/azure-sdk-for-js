@@ -51,7 +51,17 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE", "ACCOUNT_TOKEN"],
+    envPreprocessor: [
+      "ACCOUNT_NAME",
+      "ACCOUNT_SAS",
+      "TEST_MODE",
+      "ACCOUNT_TOKEN",
+      "AZURE_TENANT_ID",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "ACCOUNT_USERNAME",
+      "ACCOUNT_PASSWORD"
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -129,7 +139,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ["Chrome"],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
