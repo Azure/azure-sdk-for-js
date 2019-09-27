@@ -143,13 +143,13 @@ export class EventDataBatch {
   public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
 
-    let isInstrumented = false;
     // check if the event has already been instrumented
-    if (!eventData.properties || !eventData.properties[TRACEPARENT_PROPERTY]) {
+    const previouslyInstrumented = Boolean(
+      eventData.properties && eventData.properties[TRACEPARENT_PROPERTY]
+    );
+    if (!previouslyInstrumented) {
       const messageSpan = createMessageSpan(options.parentSpan);
-      // Create a shallow copy of eventData and eventData.properties in case we add the diagnostic id to the properties.
-      eventData = { ...eventData, properties: { ...eventData.properties } };
-      isInstrumented = instrumentEventData(eventData, messageSpan);
+      eventData = instrumentEventData(eventData, messageSpan);
       this._spanContexts.push(messageSpan.context());
       messageSpan.end();
     }
@@ -174,7 +174,10 @@ export class EventDataBatch {
     // this._batchMessage will be used for final send operation
     if (currentSize > this._maxSizeInBytes) {
       this._encodedMessages.pop();
-      if (isInstrumented) {
+      if (
+        !previouslyInstrumented &&
+        Boolean(eventData.properties && eventData.properties[TRACEPARENT_PROPERTY])
+      ) {
         this._spanContexts.pop();
       }
       return false;

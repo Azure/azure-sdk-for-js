@@ -172,11 +172,12 @@ export class EventHubProducer {
     let spanContextsToLink: SpanContext[] = [];
     if (Array.isArray(eventData)) {
       for (let i = 0; i < eventData.length; i++) {
-        const event: EventData = { ...eventData[i], properties: { ...eventData[i].properties } };
         const messageSpan = createMessageSpan(options.parentSpan);
         // since these message spans are created from same context as the send span,
         // these message spans don't need to be linked.
-        instrumentEventData(event, messageSpan);
+        const event = instrumentEventData(eventData[i], messageSpan);
+        // replace the original event with the instrumented one
+        eventData[i] = event;
         messageSpan.end();
       }
     } else if (eventData instanceof EventDataBatch) {
@@ -200,6 +201,7 @@ export class EventHubProducer {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
+      throw err;
     } finally {
       sendSpan.end();
     }
