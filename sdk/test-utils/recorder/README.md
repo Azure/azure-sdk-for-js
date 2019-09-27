@@ -8,7 +8,7 @@ questions:
 
 - How to write live tests that can work as unit tests?
 - How to ensure that tests are as fast as they can be?
-- How to avoid wrting mocked versions of our HTTP API?
+- How to avoid writing mocked versions of our HTTP API?
 - How to protect sensitive data from our live tests?
 - How to write tests that support parallelism?
 - How to write isomorphic tests for NodeJS and the Browsers?
@@ -16,7 +16,7 @@ questions:
 Our test-utils-recorder attempts to provide an answer for those questions,
 as you'll be able to see throughout this README.
  
-This library provides interfaces and helper methods to equip the sdks in the
+This library provides interfaces and helper methods to equip the SDKs in the
 azure-sdk-for-js repo with the recording and playback capabilities for the
 tests, it targets HTTP requests in both Node.js and the Browsers.
 
@@ -33,7 +33,7 @@ tests of an sdk.
 - [Examples](#examples).
   - [How to record](#how-to-record).
   - [How to playback](#how-to-playback).
-  - [Updating exisitng recordings](#updating-existing-recordings).
+  - [Updating existing recordings](#updating-existing-recordings).
   - [Skipping tests](#skipping-tests).
   - [Securing sensitive data](#securing-sensitive-data).
   - [Ever-changing tests](#ever-changing-tests).
@@ -47,7 +47,7 @@ tests of an sdk.
 
 - To **record** means to intercept any HTTP request, store it in a file, then
   store the response received from the live resource that was originally
-  targetted. We use a couple of mechanisms to do this for NodeJS and the
+  targeted. We use a couple of mechanisms to do this for NodeJS and the
   browser. The output files are stored in `recordings/node/*` and in
   `recordings/browser/*`, which are relative to the root of the project you're
   be working on.
@@ -60,7 +60,7 @@ We're about to go through how to set up your project to use the test-utils-recor
 We'll be using git and [rush](https://rushjs.io). We understand that both tools
 can be challenging to use, but we expect you to know how to use them by the
 time you decide to use this package. If you encounter any problem with these
-tools, pleae make sure to check at their documentation first, but we're also
+tools, please make sure to check at their documentation first, but we're also
 happy to answer any question! We appreciate that you're reading this 💙
 
 Keep in mind that test-utils-recorder is not a published package. It is only intended to be used
@@ -82,7 +82,7 @@ Having cloned this repository, let's set it up by running the following rush com
     rush install
     rush build
 
-This will optimistically asume you're in a fresh clone.
+This will optimistically assume you're in a fresh clone.
 
 From this point forward, we'll assume that you're developing (perhaps
 contributing!) to one of our libraries. So, your next step is to change
@@ -115,9 +115,9 @@ The common recorder provides the following public methods and properties:
   you want the recorder to stop re-routing your http requests.
 - `env`, which exposes the environment variable's object from either NodeJS or
   the browser (useful on isomorphic tests).
-- `delay`, which is an asynchronous funtion that will resolve once the given milliseconds have elapsed,
-  but only whie the `TEST_MODE` is not `playback`, since you want to make sure you can run the playback tests
-  as fast as posible.
+- `delay`, which is an asynchronous function that will resolve once the given milliseconds have elapsed,
+  but only while the `TEST_MODE` is not `playback`, since you want to make sure you can run the playback tests
+  as fast as possible.
 - `isRecordMode`, which is a shorthand for checking if the environment variable
   `TEST_MODE` is set to `record`.
 - `isPlaybackMode`, which is a shorthand for checking if the environment
@@ -163,8 +163,8 @@ add a way to clear the recordings on your `package.json`, like the following one
 To make sure you're able to do record and playback on your browser tests, make
 sure to configure Karma properly.
 
-The recordingds are separated between NodeJS recordings and browser recordings,
-so to use them on Karma, YOu'll at least need to add the recordings to your
+The recordings are separated between NodeJS recordings and browser recordings,
+so to use them on Karma, You'll at least need to add the recordings to your
 `files` array in your `karma.conf.js`, as follows:
 
     files: [
@@ -287,7 +287,7 @@ To add recorded tests, feel free to extend this file with as many subsequent
 Once you have recorded something, you can run your tests again with `TEST_MODE`
 set to `playback`.  You'll notice how they pass much faster. This time, they
 will not reach out to the remote address, but instead they will respond every
-request accoding to their matching copy stored in the recordings.
+request according to their matching copy stored in the recordings.
 
 ### Update existing recordings
 
@@ -370,7 +370,7 @@ setReplacements([
 
 Some HTTP requests migth have parameters with sensitive information. To get
 them out of your recordings, you can call to `skipQueryParams` with a key-value
-plain object where you speify the name of the query parametert you want to replace,
+plain object where you specify the name of the query parameter you want to replace,
 and the value you want to end up storing, as follows:
 
 ```typescript
