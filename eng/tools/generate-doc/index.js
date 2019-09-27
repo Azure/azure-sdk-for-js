@@ -103,6 +103,7 @@ if (argv.dgOp === "local" && argv.includeMode !== "none") {
   );
   process.exit(1);
 }
+console.log("arv.include = " + argv.include);
 
 if (argv.includeMode === "inc") {
   generateIndexWithTemplate = false;
