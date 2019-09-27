@@ -174,6 +174,27 @@ export interface Status {
 }
 
 // @public
+export class TestSpan extends NoOpSpan {
+    constructor(name: string, context: SpanContext, options?: SpanOptions);
+    context(): SpanContext;
+    end(_endTime?: number): void;
+    endCalled: boolean;
+    isRecordingEvents(): boolean;
+    name: string;
+    options: SpanOptions;
+    setStatus(status: Status): this;
+    status: Status;
+}
+
+// @public
+export class TestTracer extends NoOpTracer {
+    getActiveSpans(): TestSpan[];
+    getKnownSpans(): TestSpan[];
+    getRootSpans(): TestSpan[];
+    startSpan(name: string, options?: SpanOptions): TestSpan;
+    }
+
+// @public
 export interface TimedEvent extends Event {
     time: HrTime;
 }
