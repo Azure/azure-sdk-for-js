@@ -7,7 +7,7 @@ import { Status } from "../../interfaces/status";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
-import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan, LinkType } from "@opencensus/web-types";
+import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan } from "@opencensus/web-types";
 
 function isWrappedSpan(span?: Span | SpanContext): span is OpenCensusSpanWrapper {
   return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;
@@ -101,7 +101,12 @@ export class OpenCensusSpanWrapper implements Span {
   addLink(spanContext: SpanContext, attributes?: Attributes): this {
     // Since there is no way to specify the link relationship,
     // it is set as Unspecified.
-    this._span.addLink(spanContext.traceId, spanContext.spanId, 0 /* LinkType.UNSPECIFIED */, attributes as OpenCensusAttributes);
+    this._span.addLink(
+      spanContext.traceId,
+      spanContext.spanId,
+      0 /* LinkType.UNSPECIFIED */,
+      attributes as OpenCensusAttributes
+    );
     return this;
   }
 
