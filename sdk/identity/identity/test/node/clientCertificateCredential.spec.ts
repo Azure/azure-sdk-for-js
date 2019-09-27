@@ -7,8 +7,9 @@ import path from "path";
 import assert from "assert";
 import { ClientCertificateCredential } from "../../src";
 import { MockAuthHttpClient } from "../authTestUtils";
+import { setTracer, TestTracer, SpanGraph } from "@azure/core-http";
 
-describe("ClientCertificateCredential", function() {
+describe("ClientCertificateCredential", function () {
   it("loads a PEM-formatted certificate from a file", () => {
     const credential = new ClientCertificateCredential(
       "tenant",
@@ -34,7 +35,7 @@ describe("ClientCertificateCredential", function() {
     });
   });
 
-  it("sends a correctly formated token request", async () => {
+  it("sends a correctly formatted token request", async () => {
     const tenantId = "tenantId";
     const clientId = "clientId";
     const mockHttpClient = new MockAuthHttpClient();
@@ -75,5 +76,47 @@ describe("ClientCertificateCredential", function() {
         "Audience does not have the correct authority or tenantId"
       );
     }
+  });
+
+  it("sends a correctly formatted token request while tracing", async () => {
+
+    // create a test Tracer
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+    const mockHttpClient = new MockAuthHttpClient();
+
+    const rootSpan = tracer.startSpan("root");
+
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-test.crt"),
+      mockHttpClient.identityClientOptions
+    );
+
+    await credential.getToken("scope", {
+      spanOptions: {
+        parent: rootSpan,
+      }
+    });
+
+    rootSpan.end();
+
+    assert.deepStrictEqual(tracer.getRootSpans(), [rootSpan]);
+
+    const expectedGraph: SpanGraph = {
+      roots: [{
+        name: rootSpan.name,
+        children: [{
+          name: "Azure.Identity.ClientCertificateCredential-getToken",
+          children: []
+        }]
+      }]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });
