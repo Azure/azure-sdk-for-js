@@ -37,6 +37,7 @@ stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
       ServiceDirectory: template
+      DocArgs: template
       Artifacts:
         - name: azure-template
           safeName: azuretemplate
