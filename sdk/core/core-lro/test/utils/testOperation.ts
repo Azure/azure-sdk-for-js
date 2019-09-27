@@ -1,41 +1,46 @@
 import { HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
-import { PollOperationState, PollOperation } from "../../src"
+import { PollOperationState, PollOperation } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
 
 export interface TestOperationProperties {
-  client: TestServiceClient,
-  requestOptions?: RequestOptionsBase,
-  initialResponse?: HttpOperationResponse,
-  previousResponse?: HttpOperationResponse,
-  resultValue?: string,
+  client: TestServiceClient;
+  requestOptions?: RequestOptionsBase;
+  initialResponse?: HttpOperationResponse;
+  previousResponse?: HttpOperationResponse;
+  resultValue?: string;
 }
 
-export interface TestOperation extends PollOperation<TestOperationProperties> {
-}
- 
+export interface TestOperation extends PollOperation<TestOperationProperties> {}
+
 async function update(this: TestOperation): Promise<TestOperation> {
   const { client, requestOptions, initialResponse, previousResponse } = this.properties;
   let response: HttpOperationResponse;
-  
+
   if (!initialResponse) {
-    response = await client.sendInitialRequest(new TestWebResource(
-      requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,
-    ));
+    response = await client.sendInitialRequest(
+      new TestWebResource(
+        requestOptions && requestOptions.abortSignal // abortSignal?: AbortSignalLike,
+      )
+    );
     this.properties.initialResponse = response;
-  } else
-  if (previousResponse && previousResponse.parsedBody.doFinalResponse) {
-    response = await client.sendFinalRequest(new TestWebResource(
-      requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,
-    ));
+  } else if (previousResponse && previousResponse.parsedBody.doFinalResponse) {
+    response = await client.sendFinalRequest(
+      new TestWebResource(
+        requestOptions && requestOptions.abortSignal // abortSignal?: AbortSignalLike,
+      )
+    );
     this.state.completed = true;
   } else {
-    response = await client.sendRequest(new TestWebResource(
-      requestOptions && requestOptions.abortSignal, // abortSignal?: AbortSignalLike,
-    ));
+    response = await client.sendRequest(
+      new TestWebResource(
+        requestOptions && requestOptions.abortSignal // abortSignal?: AbortSignalLike,
+      )
+    );
   }
 
-  const maker = this.cancel.name === "unsupportedCancel" ? makeOperation : makeNonCancellableOperation;
+  const maker =
+    this.cancel.name === "unsupportedCancel" ? makeOperation : makeNonCancellableOperation;
 
   return maker(
     {
@@ -43,7 +48,7 @@ async function update(this: TestOperation): Promise<TestOperation> {
     },
     {
       ...this.properties,
-      previousResponse: response,
+      previousResponse: response
     }
   );
 }
@@ -64,11 +69,11 @@ async function cancel(this: TestOperation): Promise<TestOperation> {
   return makeOperation(
     {
       ...this.state,
-      cancelled: true,
+      cancelled: true
     },
     {
       ...this.properties,
-      previousResponse: response,
+      previousResponse: response
     }
   );
 }
@@ -76,9 +81,9 @@ async function cancel(this: TestOperation): Promise<TestOperation> {
 function toString(this: TestOperation): string {
   return JSON.stringify({
     state: {
-      ...this.state,
+      ...this.state
     },
-    properties: this.properties,
+    properties: this.properties
   });
 }
 
@@ -93,22 +98,28 @@ async function unsupportedCancel(this: TestOperation): Promise<TestOperation> {
   throw new Error("Cancellation not supported");
 }
 
-export function makeOperation(state: PollOperationState, properties: TestOperationProperties): TestOperation {
+export function makeOperation(
+  state: PollOperationState,
+  properties: TestOperationProperties
+): TestOperation {
   return {
     state,
     properties,
     update,
     cancel,
-    toString,
-  }
+    toString
+  };
 }
 
-export function makeNonCancellableOperation(state: PollOperationState, properties: TestOperationProperties): TestOperation {
+export function makeNonCancellableOperation(
+  state: PollOperationState,
+  properties: TestOperationProperties
+): TestOperation {
   return {
     state,
     properties,
     update,
     cancel: unsupportedCancel,
-    toString,
-  }
+    toString
+  };
 }

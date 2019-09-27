@@ -1,4 +1,11 @@
-import { HttpOperationResponse, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential, RequestOptionsBase } from "@azure/core-http";
+import {
+  HttpOperationResponse,
+  ServiceClient,
+  ServiceClientCredentials,
+  ServiceClientOptions,
+  TokenCredential,
+  RequestOptionsBase
+} from "@azure/core-http";
 
 export class TestServiceClient extends ServiceClient {
   private responses: HttpOperationResponse[] = [];
@@ -7,7 +14,10 @@ export class TestServiceClient extends ServiceClient {
   public credentials: TokenCredential | ServiceClientCredentials;
   public totalSentRequests: number;
 
-  constructor(credentials: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
+  constructor(
+    credentials: TokenCredential | ServiceClientCredentials,
+    options?: ServiceClientOptions
+  ) {
     super(credentials, options);
     this.credentials = credentials;
     this.totalSentRequests = 0;

@@ -1,7 +1,7 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller, PollOperationState } from "../../src"
+import { Poller, PollOperationState } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
-import { makeOperation, TestOperation, TestOperationProperties } from "./testOperation"
+import { makeOperation, TestOperation, TestOperationProperties } from "./testOperation";
 
 export class TestPoller extends Poller<TestOperationProperties, string> {
   public intervalInMs: number;
@@ -24,13 +24,10 @@ export class TestPoller extends Poller<TestOperationProperties, string> {
     const operation = makeOperation(state, {
       ...properties,
       client,
-      requestOptions,
+      requestOptions
     });
 
-    super(
-      operation,
-      manual,
-    );
+    super(operation, manual);
 
     this.intervalInMs = intervalInMs;
   }

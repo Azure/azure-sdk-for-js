@@ -1,8 +1,13 @@
-import { ServiceClientCredentials, ServiceClientOptions, TokenCredential, RequestOptionsBase } from "@azure/core-http";
+import {
+  ServiceClientCredentials,
+  ServiceClientOptions,
+  TokenCredential,
+  RequestOptionsBase
+} from "@azure/core-http";
 import { TestServiceClient } from "./testServiceClient";
 import { TestPoller } from "./testPoller";
 import { TestNonCancellablePoller } from "./testNonCancellablePoller";
-import { TestOperation } from "./testOperation"
+import { TestOperation } from "./testOperation";
 
 interface StartLROOptions {
   manual?: boolean;
@@ -12,7 +17,10 @@ interface StartLROOptions {
 }
 
 export class TestClient extends TestServiceClient {
-  constructor(credentials: TokenCredential | ServiceClientCredentials, options?: ServiceClientOptions) {
+  constructor(
+    credentials: TokenCredential | ServiceClientCredentials,
+    options?: ServiceClientOptions
+  ) {
     super(credentials, options);
   }
 
@@ -24,9 +32,11 @@ export class TestClient extends TestServiceClient {
       options.requestOptions,
       options.operation
     );
-  } 
+  }
 
-  public async startNonCancellableLRO(options: StartLROOptions = {}): Promise<TestNonCancellablePoller> {
+  public async startNonCancellableLRO(
+    options: StartLROOptions = {}
+  ): Promise<TestNonCancellablePoller> {
     return new TestNonCancellablePoller(
       this,
       options.manual,
