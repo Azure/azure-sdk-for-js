@@ -4,20 +4,209 @@
 import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
+import { getStringOrUndefined } from "../util/utils";
+
+const requestProperties: Array<keyof InternalTopicOptions> = [
+  Constants.SIZE_IN_BYTES,
+  Constants.MAX_SIZE_IN_MEGABYTES,
+
+  Constants.MESSAGE_COUNT,
+  Constants.SUBSCRIPTION_COUNT,
+  Constants.MAX_DELIVERY_COUNT,
+
+  Constants.ENABLE_PARTITIONING,
+  Constants.SUPPORT_ORDERING,
+  Constants.ENABLE_BATCHED_OPERATIONS,
+
+  Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
+  Constants.AUTO_DELETE_ON_IDLE,
+
+  Constants.REQUIRES_DUPLICATE_DETECTION,
+  Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW
+];
+
+export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOptions {
+  const internalQueueOptions: InternalTopicOptions = {
+    SizeInBytes: getStringOrUndefined(topicOptions.sizeInBytes),
+    MaxSizeInMegabytes: getStringOrUndefined(topicOptions.maxSizeInMegabytes),
+
+    MessageCount: getStringOrUndefined(topicOptions.messageCount),
+    SubscriptionCount: getStringOrUndefined(topicOptions.subscriptionCount),
+    MaxDeliveryCount: getStringOrUndefined(topicOptions.maxDeliveryCount),
+
+    EnablePartitioning: getStringOrUndefined(topicOptions.enablePartitioning),
+    SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
+    EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
+
+    DefaultMessageTimeToLive: topicOptions.defaultMessageTimeToLive,
+    AutoDeleteOnIdle: topicOptions.autoDeleteOnIdle,
+
+    RequiresDuplicateDetection: getStringOrUndefined(topicOptions.requiresDuplicateDetection),
+    DuplicateDetectionHistoryTimeWindow: topicOptions.duplicateDetectionHistoryTimeWindow
+  };
+  return internalQueueOptions;
+}
+
+export function buildTopic(rawTopic: any): Topic | {} {
+  if (rawTopic == undefined || rawTopic == {}) {
+    return {};
+  } else {
+    const result: Topic = {
+      topicName: rawTopic["TopicName"],
+
+      sizeInBytes: rawTopic["SizeInBytes"],
+      maxSizeInMegabytes: rawTopic["MaxSizeInMegabytes"],
+
+      messageCount: rawTopic["MessageCount"],
+      subscriptionCount: rawTopic["SubscriptionCount"],
+      maxDeliveryCount: rawTopic["MaxDeliveryCount"],
+
+      enablePartitioning: rawTopic["EnablePartitioning"],
+      supportOrdering: rawTopic["SupportOrdering"],
+      enableBatchedOperations: rawTopic["EnableBatchedOperations"],
+
+      defaultMessageTimeToLive: rawTopic["DefaultMessageTimeToLive"],
+      autoDeleteOnIdle: rawTopic["AutoDeleteOnIdle"],
+
+      requiresDuplicateDetection: rawTopic["RequiresDuplicateDetection"],
+      duplicateDetectionHistoryTimeWindow: rawTopic["DuplicateDetectionHistoryTimeWindow"],
+
+      filteringMessagesBeforePublishing: rawTopic["FilteringMessagesBeforePublishing"],
+      enableSubscriptionPartitioning: rawTopic["EnableSubscriptionPartitioning"],
+
+      countDetails: rawTopic["CountDetails"],
+      isExpress: rawTopic["IsExpress"],
+      enableExpress: rawTopic["EnableExpress"],
+
+      authorizationRules: rawTopic["AuthorizationRules"],
+      isAnonymousAccessible: rawTopic["IsAnonymousAccessible"],
+
+      entityAvailabilityStatus: rawTopic["EntityAvailabilityStatus"],
+      status: rawTopic["Status"],
+      createdAt: rawTopic["CreatedAt"],
+      updatedAt: rawTopic["UpdatedAt"],
+      accessedAt: rawTopic["AccessedAt"]
+    };
+    return result;
+  }
+}
 
 /**
  * Represents settable options on a topic
  */
 export interface TopicOptions {
   /**
+   * Specifies the topic size in bytes.
+   */
+  sizeInBytes?: number;
+
+  /**
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
+   */
+  maxSizeInMegabytes?: number;
+
+  /**
+   * The entity's message count.
+   *
+   */
+  messageCount?: number;
+
+  /**
+   * The subscription count on given topic.
+   *
+   */
+  subscriptionCount?: number;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  maxDeliveryCount?: number;
+
+  /**
+   * Specifies whether the topic should be partitioned
+   */
+  enablePartitioning?: boolean;
+
+  /**
+   * Specifies whether the topic supports message ordering.
+   */
+  supportOrdering?: boolean;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations?: boolean;
+
+  /**
    * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
    */
-  DefaultMessageTimeToLive?: string;
+  defaultMessageTimeToLive?: string;
+
+  /**
+   * Max idle time before entity is deleted
+   *
+   */
+  autoDeleteOnIdle?: string;
+
+  /**
+   * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. Settable only at topic creation time.
+   */
+  requiresDuplicateDetection?: boolean;
+
+  /**
+   * Specifies the time span during which the Service Bus will detect message duplication.
+   */
+  duplicateDetectionHistoryTimeWindow?: string;
+}
+
+/**
+ * @ignore
+ * Internal representation of settable options on a topic
+ */
+export interface InternalTopicOptions {
+  /**
+   * Specifies the topic size in bytes.
+   */
+  SizeInBytes?: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
    */
   MaxSizeInMegabytes?: string;
+
+  /**
+   * The entity's message count.
+   *
+   */
+  MessageCount?: string;
+
+  /**
+   * The subscription count on given topic.
+   *
+   */
+  SubscriptionCount?: string;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  MaxDeliveryCount?: string;
+
+  /**
+   * Specifies whether the topic should be partitioned
+   */
+  EnablePartitioning?: string;
+
+  /**
+   * Specifies whether the topic supports message ordering.
+   */
+  SupportOrdering?: string;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  EnableBatchedOperations?: string;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time span specified by the DuplicateDetectionHistoryTimeWindow property. Settable only at topic creation time.
@@ -30,54 +219,15 @@ export interface TopicOptions {
   DuplicateDetectionHistoryTimeWindow?: string;
 
   /**
-   * The maximum delivery count.
-   *
+   * Determines how long a message lives in the associated subscriptions. Subscriptions inherit the TTL from the topic unless they are created explicitly with a smaller TTL. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or will be permanently deleted.
    */
-  MaxDeliveryCount?: string;
-
-  /**
-   * Specifies if batched operations should be allowed.
-   */
-  EnableBatchedOperations?: string;
-
-  /**
-   * Specifies whether the topic supports message ordering.
-   */
-  SupportOrdering?: string;
-
-  /**
-   * Specifies the topic size in bytes.
-   */
-  SizeInBytes?: string;
-
-  /**
-   * Specifies whether the topic should be partitioned
-   */
-  EnablePartitioning?: string;
-
-  /**
-   * The entity's message count.
-   *
-   */
-  MessageCount?: string;
+  DefaultMessageTimeToLive?: string;
 
   /**
    * Max idle time before entity is deleted
    *
    */
   AutoDeleteOnIdle?: string;
-
-  /**
-   * The topic's count details.
-   *
-   */
-  CountDetails?: string;
-
-  /**
-   * The subscription count on given topic.
-   *
-   */
-  SubscriptionCount?: string;
 }
 
 /**
@@ -88,106 +238,79 @@ export interface Topic extends TopicOptions {
    * Name of the topic
    */
 
-  TopicName?: string;
-
-  /**
-   * Is anonymous accessible topic option
-   */
-  IsAnonymousAccessible?: string;
-
-  /**
-   * Authorization rules on the topic
-   */
-  AuthorizationRules?: any;
-
-  /**
-   * Topic entity status
-   */
-  Status?: string;
-
-  /**
-   * Created at timestamp
-   */
-  CreatedAt?: string;
-
-  /**
-   * Updated at timestamp
-   */
-  UpdatedAt?: string;
-
-  /**
-   * Accessed at timestamp
-   */
-  AccessedAt?: string;
-
-  /**
-   * Is Express option
-   */
-  IsExpress?: string;
+  topicName?: string;
 
   /**
    * Enable Subscription Partitioning option
    */
-  EnableSubscriptionPartitioning?: string;
+  enableSubscriptionPartitioning?: string;
 
   /**
    * Filtering Messages Before Publishing option
    */
-  FilteringMessagesBeforePublishing?: string;
+  filteringMessagesBeforePublishing?: string;
 
   /**
-   * Entity availability status
+   * The topic's count details.
+   *
    */
-  EntityAvailabilityStatus?: string;
+  countDetails?: string;
+
+  /**
+   * Is Express option
+   */
+  isExpress?: string;
 
   /**
    * Enable express option
    */
-  EnableExpress?: string;
+  enableExpress?: string;
 
   /**
-   * Atom XML content root element body
-   * E.g.,
-      {
-        ContentRootElement: "TopicDescription";
-        id: "<url-to-entity>";
-        title: "<topic-name>";
-        published: "<timestamp>";
-        updated: "<timestamp>";
-        author: {
-          name: "<servicebus-namespace>";
-        };
-        link: "<additional-property>";
-      };
+   * Is anonymous accessible topic option
    */
-  _?: any;
+  isAnonymousAccessible?: string;
+
+  /**
+   * Authorization rules on the topic
+   */
+  authorizationRules?: any;
+
+  /**
+   * Entity availability status
+   */
+  entityAvailabilityStatus?: string;
+
+  /**
+   * Topic entity status
+   */
+  status?: string;
+
+  /**
+   * Created at timestamp
+   */
+  createdAt?: string;
+
+  /**
+   * Updated at timestamp
+   */
+  updatedAt?: string;
+
+  /**
+   * Accessed at timestamp
+   */
+  accessedAt?: string;
 }
 
 /**
  * @ignore TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: TopicOptions): string {
-    const properties: Array<keyof TopicOptions> = [
-      Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
-      Constants.MAX_SIZE_IN_MEGABYTES,
-      Constants.REQUIRES_DUPLICATE_DETECTION,
-      Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
-      Constants.ENABLE_BATCHED_OPERATIONS,
-      Constants.AUTO_DELETE_ON_IDLE,
-      Constants.SIZE_IN_BYTES,
-      Constants.SUPPORT_ORDERING,
-      Constants.ENABLE_PARTITIONING,
-      Constants.SIZE_IN_BYTES,
-      Constants.MESSAGE_COUNT, // // max delivery count
-      Constants.COUNT_DETAILS,
-      Constants.SUBSCRIPTION_COUNT
-    ];
-
+  serialize(resource: InternalTopicOptions): string {
     return serializeToAtomXmlRequest(
       "TopicDescription",
       resource,
-      properties,
+      requestProperties,
       Constants.XML_NAMESPACE
     );
   }

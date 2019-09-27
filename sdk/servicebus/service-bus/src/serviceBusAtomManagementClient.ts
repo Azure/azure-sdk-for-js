@@ -6,7 +6,6 @@ import {
   ServiceClient,
   ServiceClientOptions,
   HttpOperationResponse,
-  AtomXmlOperationSpec,
   signingPolicy,
   userAgentPolicy,
   logPolicy,
@@ -22,44 +21,148 @@ import { httpAtomXml } from "./log";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import * as Constants from "./util/constants";
 
-import { QueueResourceSerializer, QueueOptions } from "./serializers/queueResourceSerializer";
-import { TopicResourceSerializer, TopicOptions } from "./serializers/topicResourceSerializer";
+import {
+  QueueResourceSerializer,
+  InternalQueueOptions,
+  QueueOptions,
+  buildQueueOptions,
+  Queue,
+  buildQueue
+} from "./serializers/queueResourceSerializer";
+import {
+  TopicResourceSerializer,
+  InternalTopicOptions,
+  TopicOptions,
+  buildTopicOptions,
+  Topic,
+  buildTopic
+} from "./serializers/topicResourceSerializer";
 import {
   SubscriptionResourceSerializer,
-  SubscriptionOptions
+  InternalSubscriptionOptions,
+  SubscriptionOptions,
+  buildSubscriptionOptions,
+  Subscription,
+  buildSubscription
 } from "./serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer, RuleOptions } from "./serializers/ruleResourceSerializer";
-
 import {
-  ListRequestOptions,
-  QueueResult,
-  ListQueuesResult,
-  TopicResult,
-  ListTopicsResult,
-  SubscriptionResult,
-  ListSubscriptionsResult,
-  RuleResult,
-  ListRulesResult
-} from "./managementOperationInterfaces";
+  RuleResourceSerializer,
+  InternalRuleOptions,
+  RuleOptions,
+  buildRuleOptions,
+  Rule,
+  buildRule
+} from "./serializers/ruleResourceSerializer";
+
+/**
+ * Request options for list<entity-type>() operations
+ */
+export interface ServiceBusAtomManagementClientOptions {
+  /**
+   * Count of entities to fetch.
+   */
+  proxySettings?: ProxySettings;
+}
+
+/**
+ * Request options for list<entity-type>() operations
+ */
+export interface ListRequestOptions {
+  /**
+   * Count of entities to fetch.
+   */
+  top?: number;
+
+  /**
+   * Count of entities to skip from being fetched.
+   */
+  skip?: number;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on queue.
+ */
+export type QueueResponse = Queue & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
+
+/**
+ * Represents result of list operation on queues.
+ */
+export interface ListQueuesResponse extends Array<Queue> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export type TopicResponse = Topic & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
+
+/**
+ * Represents result of list operation on topics.
+ */
+export interface ListTopicsResponse extends Array<Topic> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on subscription.
+ */
+export type SubscriptionResponse = Subscription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
+
+/**
+ * Represents result of list operation on subscriptions.
+ */
+export interface ListSubscriptionsResponse extends Array<Subscription> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on rule.
+ */
+export type RuleResponse = Rule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+};
+
+/**
+ * Represents result of list operation on rules.
+ */
+export interface ListRulesResponse extends Array<Rule> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
 
 /**
  * All internal operations return a `Promise<HttpOperationResponse>` object of which the `parsedBody`
- * is populated with the response in JSON format with following structure:
- *  {
- *   response:
- *      {
- *        isSuccessful: isSuccessful,
- *        statusCode: statusCode,
- *        body: body,
- *        headers: headers
- *      },
- *   result: <parsed result, if any>,
- *   error: <error information, if any>
- *  }
- *
- * Above information is used to construct and return a more strongly typed resource as `QueueResult`,
+ * is populated with the parsed result in JSON format which is returned as part of `QueueResult`,
  * `TopicResult`, `SubscriptionResult` or `RuleResult`.
- *
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
   private endpoint: string;
@@ -71,13 +174,19 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
-   * @param options The parameter options
+   * @param connectionString The connection string needed for the client to connect to Azure.
+   * @param options ServiceBusAtomManagementClientOptions
    */
-  constructor(connectionString: string, proxySettings?: ProxySettings) {
+  constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions) {
     const connectionStringObj = ServiceBusAtomManagementClient.parseConnectionString(
       connectionString
     );
+
+    console.log(" --- ", connectionStringObj);
+    if (connectionStringObj.Endpoint == undefined) {
+      throw new Error("Endpoint must be supplied in the connection string");
+    }
+
     const credentials = new SasServiceClientCredentials(
       connectionStringObj.SharedAccessKeyName,
       connectionStringObj.SharedAccessKey
@@ -89,8 +198,8 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     requestPolicyFactories.push(atomSerializationPolicy());
     requestPolicyFactories.push(signingPolicy(credentials));
 
-    if (proxySettings) {
-      requestPolicyFactories.push(proxyPolicy(proxySettings));
+    if (options && options.proxySettings) {
+      requestPolicyFactories.push(proxyPolicy(options.proxySettings));
     }
     const serviceClientOptions: ServiceClientOptions = {
       requestPolicyFactories: requestPolicyFactories
@@ -105,348 +214,362 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Creates a queue.
-   * @param queuePath Name of the queue to use
-   * @param queueOptions
+   * Creates a queue with given name, configured using the given options
+   * @param queueName
+   * @param queueOptions Options to configure the Queue being created.
+   * For example, you can configure a queue to support partitions or sessions
    */
-  async createQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult> {
+  async createQueue(queueName: string, queueOptions?: QueueOptions): Promise<QueueResponse> {
     const response: HttpOperationResponse = await this._putResource(
-      queuePath,
-      queueOptions,
-      false,
-      this.queueResourceSerializer
+      queueName,
+      buildQueueOptions(queueOptions || {}),
+      this.queueResourceSerializer,
+      false
     );
-    return this.buildResponse(response);
+    return this.buildQueueResponse(response);
   }
 
   /**
-   * Gets a queue.
-   * @param queuePath Name of the queue
+   * Returns an object representing the Queue with the given name along with all its properties
+   * @param queueName
    */
-  async getQueue(queuePath: string): Promise<QueueResult> {
+  async getQueue(queueName: string): Promise<QueueResponse> {
     const response: HttpOperationResponse = await this._getResource(
-      queuePath,
+      queueName,
       this.queueResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildQueueResponse(response);
   }
 
   /**
    * Lists existing queues.
    * @param listRequestOptions
    */
-  async listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResult> {
+  async listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse> {
     const response: HttpOperationResponse = await this._listResources(
       "$Resources/Queues",
       listRequestOptions,
       this.queueResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildListQueuesResponse(response);
   }
 
   /**
-   * Updates a queue.
-   * @param queuePath
-   * @param queueOptions
+   * Updates properties on the Queue by the given name based on the given options
+   * @param queueName
+   * @param queueOptions Options to configure the Queue being updated.
+   * For example, you can configure a queue to support partitions or sessions
    */
-  async updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult> {
+  async updateQueue(queueName: string, queueOptions: QueueOptions): Promise<QueueResponse> {
     const response: HttpOperationResponse = await this._putResource(
-      queuePath,
-      queueOptions,
-      true,
-      this.queueResourceSerializer
+      queueName,
+      buildQueueOptions(queueOptions),
+      this.queueResourceSerializer,
+      true
     );
-    return this.buildResponse(response);
+    return this.buildQueueResponse(response);
   }
 
   /**
    * Deletes a queue.
-   * @param queuePath
+   * @param queueName
    */
-  async deleteQueue(queuePath: string): Promise<QueueResult> {
+  async deleteQueue(queueName: string): Promise<QueueResponse> {
     const response: HttpOperationResponse = await this._deleteResource(
-      queuePath,
+      queueName,
       this.queueResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildQueueResponse(response);
   }
 
   /**
-   * Creates a topic.
-   * @param topicPath
-   * @param topicOptions
+   * Creates a topic with given name, configured using the given options
+   * @param topicName
+   * @param topicOptions Options to configure the Topic being created.
+   * For example, you can configure a topic to support partitions or sessions
    */
-  async createTopic(topicPath: string, topicOptions: TopicOptions): Promise<TopicResult> {
+  async createTopic(topicName: string, topicOptions?: TopicOptions): Promise<TopicResponse> {
     const response: HttpOperationResponse = await this._putResource(
-      topicPath,
-      topicOptions,
-      false,
-      this.topicResourceSerializer
+      topicName,
+      buildTopicOptions(topicOptions || {}),
+      this.topicResourceSerializer,
+      false
     );
-    return this.buildResponse(response);
+    return this.buildTopicResponse(response);
   }
 
   /**
-   * Updates a topic.
-   * @param topicPath
-   * @param topicOptions
+   * Updates properties on the Topic by the given name based on the given options
+   * @param topicName
+   * @param topicOptions Options to configure the Topic being updated.
+   * For example, you can configure a topic to support partitions or sessions
    */
-  async updateTopic(topicPath: string, topicOptions: TopicOptions): Promise<TopicResult> {
+  async updateTopic(topicName: string, topicOptions: TopicOptions): Promise<TopicResponse> {
     const response: HttpOperationResponse = await this._putResource(
-      topicPath,
-      topicOptions,
-      true,
-      this.topicResourceSerializer
+      topicName,
+      buildTopicOptions(topicOptions),
+      this.topicResourceSerializer,
+      true
     );
-    return this.buildResponse(response);
+    return this.buildTopicResponse(response);
   }
 
   /**
    * Deletes a topic.
-   * @param topicPath
+   * @param topicName
    */
-  async deleteTopic(topicPath: string): Promise<TopicResult> {
+  async deleteTopic(topicName: string): Promise<TopicResponse> {
     const response: HttpOperationResponse = await this._deleteResource(
-      topicPath,
+      topicName,
       this.topicResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildTopicResponse(response);
   }
 
   /**
-   * Gets a topic.
-   * @param topicPath
+   * Returns an object representing the Topic with the given name along with all its properties
+   * @param topicName
    */
-  async getTopic(topicPath: string): Promise<TopicResult> {
+  async getTopic(topicName: string): Promise<TopicResponse> {
     const response: HttpOperationResponse = await this._getResource(
-      topicPath,
+      topicName,
       this.topicResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildTopicResponse(response);
   }
 
   /**
    * Lists existing topics.
    * @param listRequestOptions
    */
-  async listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResult> {
+  async listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse> {
     const response: HttpOperationResponse = await this._listResources(
       "$Resources/Topics",
       listRequestOptions,
       this.topicResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildListTopicsResponse(response);
   }
 
   /**
-   * Creates a subscription.
-   * @param topicPath
-   * @param subscriptionPath
-   * @param subscriptionOptions
+   * Creates a subscription with given name, configured using the given options
+   * @param topicName
+   * @param subscriptionName
+   * @param subscriptionOptions Options to configure the Subscription being created.
+   * For example, you can configure a Subscription to support partitions or sessions
    */
   async createSubscription(
-    topicPath: string,
-    subscriptionPath: string,
-    subscriptionOptions: SubscriptionOptions
-  ): Promise<SubscriptionResult> {
-    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
+    topicName: string,
+    subscriptionName: string,
+    subscriptionOptions?: SubscriptionOptions
+  ): Promise<SubscriptionResponse> {
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
-      subscriptionOptions,
-      false,
-      this.subscriptionResourceSerializer
+      buildSubscriptionOptions(subscriptionOptions || {}),
+      this.subscriptionResourceSerializer,
+      false
     );
-    return this.buildResponse(response);
+    return this.buildSubscriptionResponse(response);
   }
 
   /**
-   * Updates a subscription.
-   * @param topicPath
-   * @param subscriptionPath
-   * @param subscriptionOptions
+   * Updates properties on the Subscription by the given name based on the given options
+   * @param topicName
+   * @param subscriptionName
+   * @param subscriptionOptions Options to configure the Subscription being updated.
+   * For example, you can configure a Subscription to support partitions or sessions
    */
   async updateSubscription(
-    topicPath: string,
-    subscriptionPath: string,
+    topicName: string,
+    subscriptionName: string,
     subscriptionOptions: SubscriptionOptions
-  ): Promise<SubscriptionResult> {
-    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
+  ): Promise<SubscriptionResponse> {
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
-      subscriptionOptions,
-      true,
-      this.subscriptionResourceSerializer
+      buildSubscriptionOptions(subscriptionOptions),
+      this.subscriptionResourceSerializer,
+      true
     );
-    return this.buildResponse(response);
+    return this.buildSubscriptionResponse(response);
   }
 
   /**
    * Deletes a subscription.
-   * @param topicPath
-   * @param subscriptionPath
+   * @param topicName
+   * @param subscriptionName
    */
   async deleteSubscription(
-    topicPath: string,
-    subscriptionPath: string
-  ): Promise<SubscriptionResult> {
-    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
+    topicName: string,
+    subscriptionName: string
+  ): Promise<SubscriptionResponse> {
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._deleteResource(
       fullPath,
       this.subscriptionResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildSubscriptionResponse(response);
   }
 
   /**
-   * Gets a subscription.
-   * @param topicPath
-   * @param subscriptionPath
+   * Returns an object representing the Subscription with the given name along with all its properties
+   * @param topicName
+   * @param subscriptionName
    */
-  async getSubscription(topicPath: string, subscriptionPath: string): Promise<SubscriptionResult> {
-    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath);
+  async getSubscription(
+    topicName: string,
+    subscriptionName: string
+  ): Promise<SubscriptionResponse> {
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._getResource(
       fullPath,
       this.subscriptionResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildSubscriptionResponse(response);
   }
 
   /**
    * Lists existing subscriptions.
-   * @param topicPath
+   * @param topicName
    * @param listRequestOptions
    */
   async listSubscriptions(
-    topicPath: string,
+    topicName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<ListSubscriptionsResult> {
+  ): Promise<ListSubscriptionsResponse> {
     const response: HttpOperationResponse = await this._listResources(
-      topicPath + "/Subscriptions/",
+      topicName + "/Subscriptions/",
       listRequestOptions,
       this.subscriptionResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildListSubscriptionsResponse(response);
   }
 
   /**
-   * Creates a rule.
-   * @param topicPath
-   * @param subscriptionPath
-   * @param rule
-   * @param ruleOptions
+   * Creates a rule with given name, configured using the given options
+   * @param topicName
+   * @param subscriptionName
+   * @param ruleName
+   * @param ruleOptions Options to configure the Rule being created.
+   * For example, you can configure the filter to apply on associated Topic/Subscription
    */
   async createRule(
-    topicPath: string,
-    subscriptionPath: string,
-    rule: string,
-    ruleOptions: RuleOptions
-  ): Promise<RuleResult> {
-    const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
-
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleOptions?: RuleOptions
+  ): Promise<RuleResponse> {
+    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
-      ruleOptions,
-      false,
-      this.ruleResourceSerializer
+      buildRuleOptions(ruleName, ruleOptions),
+      this.ruleResourceSerializer,
+      false
     );
-    return this.buildResponse(response);
+    return this.buildRuleResponse(response);
   }
 
   /**
-   * Updates a rule.
-   * @param topicPath
-   * @param subscriptionPath
-   * @param rule
-   * @param ruleOptions
+   * Updates properties on the Rule by the given name based on the given options
+   * @param topicName
+   * @param subscriptionName
+   * @param ruleName
+   * @param ruleOptions Options to configure the Rule being updated.
+   * For example, you can configure the filter to apply on associated Topic/Subscription
    */
   async updateRule(
-    topicPath: string,
-    subscriptionPath: string,
-    rule: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
     ruleOptions: RuleOptions
-  ): Promise<RuleResult> {
-    const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
-
+  ): Promise<RuleResponse> {
+    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
-      ruleOptions,
-      true,
-      this.ruleResourceSerializer
+      buildRuleOptions(ruleName, ruleOptions),
+      this.ruleResourceSerializer,
+      true
     );
-    return this.buildResponse(response);
+    return this.buildRuleResponse(response);
   }
 
   /**
    * Deletes a rule.
-   * @param topicPath
-   * @param subscriptionPath
+   * @param topicName
+   * @param subscriptionName
    * @param rule
    */
-  async deleteRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult> {
-    const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
+  async deleteRule(
+    topicName: string,
+    subscriptionName: string,
+    rule: string
+  ): Promise<RuleResponse> {
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule);
     const response: HttpOperationResponse = await this._deleteResource(
       fullPath,
       this.ruleResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildRuleResponse(response);
   }
 
   /**
-   * Gets a rule.
-   * @param topicPath
-   * @param subscriptionPath
-   * @param rule
+   * Returns an object representing the Rule with the given name along with all its properties
+   * @param topicName
+   * @param subscriptioName
+   * @param ruleName
    */
-  async getRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult> {
-    const fullPath = this.getRulePath(topicPath, subscriptionPath, rule);
+  async getRule(
+    topicName: string,
+    subscriptioName: string,
+    ruleName: string
+  ): Promise<RuleResponse> {
+    const fullPath = this.getRulePath(topicName, subscriptioName, ruleName);
     const response: HttpOperationResponse = await this._getResource(
       fullPath,
       this.ruleResourceSerializer
     );
-    return this.buildResponse(response);
+    return this.buildRuleResponse(response);
   }
 
   /**
    * Lists existing rules.
-   * @param topicPath
-   * @param subscriptionPath
+   * @param topicName
+   * @param subscriptionName
    * @param listRequestOptions
    */
   async listRules(
-    topicPath: string,
-    subscriptionPath: string,
+    topicName: string,
+    subscriptionName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<ListRulesResult> {
-    const fullPath = this.getSubscriptionPath(topicPath, subscriptionPath) + "/Rules/";
+  ): Promise<ListRulesResponse> {
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
     const response: HttpOperationResponse = await this._listResources(
       fullPath,
       listRequestOptions,
       this.ruleResourceSerializer
     );
-    return this.buildResponse(response);
-  }
-
-  /**
-   * @param queuePath
-   */
-  formatDeadLetterPath(queuePath: string): string {
-    return `${queuePath}/$DeadLetterQueue`;
+    return this.buildListRulesResponse(response);
   }
 
   /**
    * Creates or updates a resource based on `isUpdate` parameter.
-   * @param path
+   * @param name
    * @param entityFields
    * @param isUpdate
    * @param serializer
    */
   private async _putResource(
-    path: string,
-    entityFields: QueueOptions | TopicOptions | SubscriptionOptions | RuleOptions,
-    isUpdate: boolean = false,
-    serializer: AtomXmlSerializer
+    name: string,
+    entityFields:
+      | InternalQueueOptions
+      | InternalTopicOptions
+      | InternalSubscriptionOptions
+      | InternalRuleOptions,
+    serializer: AtomXmlSerializer,
+    isUpdate: boolean = false
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(path), "PUT");
+    const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
     webResource.body = JSON.stringify(entityFields);
     if (isUpdate) {
       webResource.headers.set("If-Match", "*");
@@ -454,41 +577,39 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
     webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
 
-    const atomXmlOperationSpec: AtomXmlOperationSpec = {
+    webResource.atomXmlOperationSpec = {
       serializer: serializer
     };
-    webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 
     return this.sendRequest(webResource);
   }
 
   /**
    * Gets a resource.
-   * @param path
+   * @param name
    * @param serializer
    */
   private async _getResource(
-    path: string,
+    name: string,
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(path), "GET");
+    const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-    const atomXmlOperationSpec: AtomXmlOperationSpec = {
+    webResource.atomXmlOperationSpec = {
       serializer: serializer
     };
-    webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 
     return this.sendRequest(webResource);
   }
 
   /**
    * Lists existing resources
-   * @param path
+   * @param name
    * @param listRequestOptions
    * @param serializer
    */
   private async _listResources(
-    path: string,
+    name: string,
     listRequestOptions: ListRequestOptions | undefined,
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
@@ -502,30 +623,28 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       }
     }
 
-    const webResource: WebResource = new WebResource(this.getUrl(path, queryParams), "GET");
+    const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
 
-    const atomXmlOperationSpec: AtomXmlOperationSpec = {
+    webResource.atomXmlOperationSpec = {
       serializer: serializer
     };
-    webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 
     return this.sendRequest(webResource);
   }
 
   /**
    * Deletes a resource.
-   * @param path
+   * @param name
    */
   private async _deleteResource(
-    path: string,
+    name: string,
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(path), "DELETE");
+    const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
 
-    const atomXmlOperationSpec: AtomXmlOperationSpec = {
+    webResource.atomXmlOperationSpec = {
       serializer: serializer
     };
-    webResource.atomXmlOperationSpec = atomXmlOperationSpec;
 
     return this.sendRequest(webResource);
   }
@@ -577,17 +696,113 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     return output;
   }
 
-  private getSubscriptionPath(topic: string, subscription: string): string {
-    return topic + "/Subscriptions/" + subscription;
+  private getSubscriptionPath(topicName: string, subscriptionName: string): string {
+    return topicName + "/Subscriptions/" + subscriptionName;
   }
 
-  private getRulePath(topic: string, subscription: string, rule: string): string {
-    return topic + "/Subscriptions/" + subscription + "/Rules/" + rule;
+  private getRulePath(topicName: string, subscriptionName: string, ruleName: string): string {
+    return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
-  private buildResponse(response: HttpOperationResponse): any {
-    const result: any = response.parsedBody || {};
-    result._response = response;
-    return result;
+  getDeadLetterPath(queueName: string): string {
+    return `${queueName}/$DeadLetterQueue`;
+  }
+
+  private buildListQueuesResponse(response: HttpOperationResponse): ListQueuesResponse {
+    console.log("debug - ", JSON.stringify(response, undefined, 2));
+
+    const queues: Queue[] = [];
+    const rawQueueArray: any = response.parsedBody || [];
+    for (let i = 0; i < rawQueueArray.length; i++) {
+      const queue = buildQueue(rawQueueArray[i]);
+      if (queue) {
+        queues.push(queue);
+      }
+    }
+    const listQueuesResponse: ListQueuesResponse = Object.assign(queues, { _response: response });
+    return listQueuesResponse;
+  }
+
+  private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
+    console.log("debug - ", JSON.stringify(response, undefined, 2));
+
+    const queue = buildQueue(response.parsedBody);
+    const queueResponse: QueueResponse = Object.assign(queue, { _response: response });
+    return queueResponse;
+  }
+
+  private buildListTopicsResponse(response: HttpOperationResponse): ListTopicsResponse {
+    console.log("debug - ", JSON.stringify(response, undefined, 2));
+
+    const topics: Topic[] = [];
+    const rawTopicArray: any = response.parsedBody || [];
+    for (let i = 0; i < rawTopicArray.length; i++) {
+      const topic = buildTopic(rawTopicArray[i]);
+      if (topic) {
+        topics.push(topic);
+      }
+    }
+    const listTopicsResponse: ListTopicsResponse = Object.assign(topics, { _response: response });
+    return listTopicsResponse;
+  }
+
+  private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
+    console.log("debug - ", JSON.stringify(response, undefined, 2));
+
+    const topic = buildTopic(response.parsedBody);
+    const topicResponse: TopicResponse = Object.assign(topic, { _response: response });
+    return topicResponse;
+  }
+
+  private buildListSubscriptionsResponse(
+    response: HttpOperationResponse
+  ): ListSubscriptionsResponse {
+    console.log("debug - ", JSON.stringify(response, undefined, 2));
+
+    const subscriptions: Subscription[] = [];
+    const rawSubscriptionArray: any = response.parsedBody || [];
+    for (let i = 0; i < rawSubscriptionArray.length; i++) {
+      const subscription = buildSubscription(rawSubscriptionArray[i]);
+      if (subscription) {
+        subscriptions.push(subscription);
+      }
+    }
+    const listSubscriptionsResponse: ListSubscriptionsResponse = Object.assign(subscriptions, {
+      _response: response
+    });
+    return listSubscriptionsResponse;
+  }
+
+  private buildSubscriptionResponse(response: HttpOperationResponse): SubscriptionResponse {
+    console.log("debug - ", JSON.stringify(response, undefined, 2));
+
+    const subscription = buildSubscription(response.parsedBody);
+    const subscriptionResponse: SubscriptionResponse = Object.assign(subscription, {
+      _response: response
+    });
+    return subscriptionResponse;
+  }
+
+  private buildListRulesResponse(response: HttpOperationResponse): ListRulesResponse {
+    console.log("debug - ", JSON.stringify(response, undefined, 2));
+
+    const rules: Rule[] = [];
+    const rawRuleArray: any = response.parsedBody || [];
+    for (let i = 0; i < rawRuleArray.length; i++) {
+      const rule = buildRule(rawRuleArray[i]);
+      if (rule) {
+        rules.push(rule);
+      }
+    }
+    const listRulesResponse: ListRulesResponse = Object.assign(rules, { _response: response });
+    return listRulesResponse;
+  }
+
+  private buildRuleResponse(response: HttpOperationResponse): RuleResponse {
+    console.log("debug - ", JSON.stringify(response, undefined, 2));
+
+    const rule = buildRule(response.parsedBody);
+    const ruleResponse: RuleResponse = Object.assign(rule, { _response: response });
+    return ruleResponse;
   }
 }

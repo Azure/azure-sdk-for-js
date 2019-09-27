@@ -2,40 +2,44 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
- Below are the management operations that you can do with queues. Simiilar support exists
- for Topics, Subscriptions and rules.
- 
+ This sample demonstrates how to carry out management operations using connection string as the means of authenticating to Azure Service Bus. 
+ While this sample shows queue related management operations, you can do the same for Topics, Subscriptions and rules.
+
 */
 
-import { ServiceBusAtomManagementClient, QueueResult, ListQueuesResult } from "../../../src";
+import {
+  ServiceBusAtomManagementClient,
+  QueueResponse,
+  ListQueuesResponse
+} from "@azure/service-bus";
 
 async function main(): Promise<void> {
   const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
     "<insert-connection-string>"
   );
 
-  const createQueueResult: QueueResult = await serviceBusAtomManagementClient.createQueue(
+  const createQueueResult: QueueResponse = await serviceBusAtomManagementClient.createQueue(
     "testQueue",
     {
-      RequiresSession: "false",
-      EnablePartitioning: "false"
+      requiresSession: "false",
+      enablePartitioning: "false"
     }
   );
   console.log("Created queue: ", createQueueResult.QueueName);
 
-  const getQueueResult: QueueResult = await serviceBusAtomManagementClient.getQueue("testQueue");
+  const getQueueResult: QueueResponse = await serviceBusAtomManagementClient.getQueue("testQueue");
   console.log("Retrieved queue: ", getQueueResult);
 
-  const createAnotherQueueResult: QueueResult = await serviceBusAtomManagementClient.createQueue(
+  const createAnotherQueueResult: QueueResponse = await serviceBusAtomManagementClient.createQueue(
     "anotheTestQueue",
     {
-      RequiresSession: "false",
-      EnablePartitioning: "true"
+      requiresSession: "false",
+      enablePartitioning: "true"
     }
   );
   console.log("Created another queue: ", createAnotherQueueResult.QueueName);
 
-  const listQueuesResult: ListQueuesResult = await serviceBusAtomManagementClient.listQueues();
+  const listQueuesResult: ListQueuesResponse = await serviceBusAtomManagementClient.listQueues();
   console.log("Retrieved list of queues in given namespace: ");
   for (let i = 0; i < listQueuesResult.length; i++) {
     console.log(`Queue #${i + 1} - ${listQueuesResult[i].QueueName}`);
@@ -44,7 +48,7 @@ async function main(): Promise<void> {
   await serviceBusAtomManagementClient.deleteQueue("anotherTestQueue");
   console.log("Deleted queue: anotherTestQueue");
 
-  const listQueuesAgainResult: ListQueuesResult = await serviceBusAtomManagementClient.listQueues();
+  const listQueuesAgainResult: ListQueuesResponse = await serviceBusAtomManagementClient.listQueues();
   console.log("Retrieve list of queues again: ");
   for (let i = 0; i < listQueuesAgainResult.length; i++) {
     console.log(`Queue #${i + 1} - ${listQueuesAgainResult[i].QueueName}`);

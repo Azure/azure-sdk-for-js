@@ -47,41 +47,33 @@ export { delay }
 
 export { Delivery }
 
+export { HttpOperationResponse }
+
 // @public
-export type ListQueuesResult = Queue[] & {
-    _response: HttpOperationResponse & {
-        parsedBody: Queue[];
-    };
-};
+export interface ListQueuesResponse extends Array<Queue> {
+    _response: HttpOperationResponse;
+}
 
 // @public
 export interface ListRequestOptions {
-    // (undocumented)
     skip?: number;
-    // (undocumented)
     top?: number;
 }
 
 // @public
-export type ListRulesResult = Rule[] & {
-    _response: HttpOperationResponse & {
-        parsedBody: Rule[];
-    };
-};
+export interface ListRulesResponse extends Array<Rule> {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type ListSubscriptionsResult = Subscription[] & {
-    _response: HttpOperationResponse & {
-        parsedBody: Subscription[];
-    };
-};
+export interface ListSubscriptionsResponse extends Array<Subscription> {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type ListTopicsResult = Topic[] & {
-    _response: HttpOperationResponse & {
-        parsedBody: Topic[];
-    };
-};
+export interface ListTopicsResponse extends Array<Topic> {
+    _response: HttpOperationResponse;
+}
 
 // @public
 export interface MessageHandlerOptions {
@@ -102,22 +94,21 @@ export interface OnMessage {
     (message: ServiceBusMessage): Promise<void>;
 }
 
-export { ProxySettings }
-
+// Warning: (ae-forgotten-export) The symbol "QueueOptions" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface Queue extends QueueOptions {
-    _?: any;
-    AccessedAt?: string;
-    AuthorizationRules?: any;
-    CountDetails?: any;
-    CreatedAt?: string;
-    EnableExpress?: string;
-    EntityAvailabilityStatus?: string;
-    IsAnonymousAccessible?: string;
-    QueueName?: string;
-    Status?: string;
-    SupportOrdering?: string;
-    UpdatedAt?: string;
+export interface Queue extends QueueOptions_2 {
+    accessedAt?: string;
+    authorizationRules?: any;
+    countDetails?: any;
+    createdAt?: string;
+    enableExpress?: string;
+    entityAvailabilityStatus?: string;
+    isAnonymousAccessible?: string;
+    queueName?: string;
+    status?: string;
+    supportOrdering?: string;
+    updatedAt?: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
@@ -154,10 +145,8 @@ export interface QueueOptions {
 }
 
 // @public
-export type QueueResult = Queue & {
-    _response: HttpOperationResponse & {
-        parsedBody: Queue;
-    };
+export type QueueResponse = Queue & {
+    _response: HttpOperationResponse;
 };
 
 // @public
@@ -194,15 +183,14 @@ export class Receiver {
     }
 
 // @public
-export interface Rule extends RuleOptions {
-    _?: any;
-    Action?: string;
-    CreatedAt?: string;
-    Filter?: any;
-    Name?: string;
-    RuleName?: string;
-    SubscriptionName?: string;
-    TopicName?: string;
+export interface Rule {
+    action?: string;
+    createdAt?: string;
+    // Warning: (ae-forgotten-export) The symbol "Filter" needs to be exported by the entry point index.d.ts
+    filter?: Filter;
+    ruleName?: string;
+    subscriptionName?: string;
+    topicName?: string;
 }
 
 // @public
@@ -214,7 +202,8 @@ export interface RuleDescription {
 
 // @public
 export interface RuleOptions {
-    correlationFilter?: string;
+    // Warning: (ae-forgotten-export) The symbol "CorrelationFilterOptions" needs to be exported by the entry point index.d.ts
+    correlationFilter?: CorrelationFilterOptions;
     falseFilter?: string;
     name?: string;
     sqlExpressionFilter?: string;
@@ -223,10 +212,8 @@ export interface RuleOptions {
 }
 
 // @public
-export type RuleResult = Rule & {
-    _response: HttpOperationResponse & {
-        parsedBody: Rule;
-    };
+export type RuleResponse = Rule & {
+    _response: HttpOperationResponse;
 };
 
 // @public
@@ -263,29 +250,37 @@ export class Sender {
 
 // @public
 export class ServiceBusAtomManagementClient extends ServiceClient {
-    constructor(connectionString: string, proxySettings?: ProxySettings);
-    createQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult>;
-    createRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<RuleResult>;
-    createSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<SubscriptionResult>;
-    createTopic(topicPath: string, topicOptions: TopicOptions): Promise<TopicResult>;
-    deleteQueue(queuePath: string): Promise<QueueResult>;
-    deleteRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult>;
-    deleteSubscription(topicPath: string, subscriptionPath: string): Promise<SubscriptionResult>;
-    deleteTopic(topicPath: string): Promise<TopicResult>;
+    constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions);
+    createQueue(queueName: string, queueOptions?: QueueOptions_2): Promise<QueueResponse>;
+    // Warning: (ae-forgotten-export) The symbol "RuleOptions" needs to be exported by the entry point index.d.ts
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions_2): Promise<RuleResponse>;
+    // Warning: (ae-forgotten-export) The symbol "SubscriptionOptions" needs to be exported by the entry point index.d.ts
+    createSubscription(topicName: string, subscriptionName: string, subscriptionOptions?: SubscriptionOptions_2): Promise<SubscriptionResponse>;
+    // Warning: (ae-forgotten-export) The symbol "TopicOptions" needs to be exported by the entry point index.d.ts
+    createTopic(topicName: string, topicOptions?: TopicOptions_2): Promise<TopicResponse>;
+    deleteQueue(queueName: string): Promise<QueueResponse>;
+    deleteRule(topicName: string, subscriptionName: string, rule: string): Promise<RuleResponse>;
+    deleteSubscription(topicName: string, subscriptionName: string): Promise<SubscriptionResponse>;
+    deleteTopic(topicName: string): Promise<TopicResponse>;
     // (undocumented)
-    formatDeadLetterPath(queuePath: string): string;
-    getQueue(queuePath: string): Promise<QueueResult>;
-    getRule(topicPath: string, subscriptionPath: string, rule: string): Promise<RuleResult>;
-    getSubscription(topicPath: string, subscriptionPath: string): Promise<SubscriptionResult>;
-    getTopic(topicPath: string): Promise<TopicResult>;
-    listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResult>;
-    listRules(topicPath: string, subscriptionPath: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResult>;
-    listSubscriptions(topicPath: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResult>;
-    listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResult>;
-    updateQueue(queuePath: string, queueOptions: QueueOptions): Promise<QueueResult>;
-    updateRule(topicPath: string, subscriptionPath: string, rule: string, ruleOptions: RuleOptions): Promise<RuleResult>;
-    updateSubscription(topicPath: string, subscriptionPath: string, subscriptionOptions: SubscriptionOptions): Promise<SubscriptionResult>;
-    updateTopic(topicPath: string, topicOptions: TopicOptions): Promise<TopicResult>;
+    getDeadLetterPath(queueName: string): string;
+    getQueue(queueName: string): Promise<QueueResponse>;
+    getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<RuleResponse>;
+    getSubscription(topicName: string, subscriptionName: string): Promise<SubscriptionResponse>;
+    getTopic(topicName: string): Promise<TopicResponse>;
+    listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse>;
+    listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
+    listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
+    listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse>;
+    updateQueue(queueName: string, queueOptions: QueueOptions_2): Promise<QueueResponse>;
+    updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions_2): Promise<RuleResponse>;
+    updateSubscription(topicName: string, subscriptionName: string, subscriptionOptions: SubscriptionOptions_2): Promise<SubscriptionResponse>;
+    updateTopic(topicName: string, topicOptions: TopicOptions_2): Promise<TopicResponse>;
+}
+
+// @public
+export interface ServiceBusAtomManagementClientOptions {
+    proxySettings?: ProxySettings;
 }
 
 // @public
@@ -382,15 +377,14 @@ export interface SessionReceiverOptions {
 }
 
 // @public
-export interface Subscription extends SubscriptionOptions {
-    _?: any;
-    AccessedAt?: string;
-    CreatedAt?: string;
-    EntityAvailabilityStatus?: string;
-    Status?: string;
-    SubscriptionName?: string;
-    TopicName?: string;
-    UpdatedAt?: string;
+export interface Subscription extends SubscriptionOptions_2 {
+    accessedAt?: string;
+    createdAt?: string;
+    entityAvailabilityStatus?: string;
+    status?: string;
+    subscriptionName?: string;
+    topicName?: string;
+    updatedAt?: string;
 }
 
 // @public
@@ -413,7 +407,6 @@ export class SubscriptionClient implements Client {
 // @public
 export interface SubscriptionOptions {
     AutoDeleteOnIdle?: string;
-    CountDetails?: string;
     DeadLetteringOnFilterEvaluationExceptions?: string;
     DeadLetteringOnMessageExpiration?: string;
     DefaultMessageTimeToLive?: string;
@@ -429,10 +422,8 @@ export interface SubscriptionOptions {
 }
 
 // @public
-export type SubscriptionResult = Subscription & {
-    _response: HttpOperationResponse & {
-        parsedBody: Subscription;
-    };
+export type SubscriptionResponse = Subscription & {
+    _response: HttpOperationResponse;
 };
 
 export { TokenInfo }
@@ -442,20 +433,20 @@ export { TokenProvider }
 export { TokenType }
 
 // @public
-export interface Topic extends TopicOptions {
-    _?: any;
-    AccessedAt?: string;
-    AuthorizationRules?: any;
-    CreatedAt?: string;
-    EnableExpress?: string;
-    EnableSubscriptionPartitioning?: string;
-    EntityAvailabilityStatus?: string;
-    FilteringMessagesBeforePublishing?: string;
-    IsAnonymousAccessible?: string;
-    IsExpress?: string;
-    Status?: string;
-    TopicName?: string;
-    UpdatedAt?: string;
+export interface Topic extends TopicOptions_2 {
+    accessedAt?: string;
+    authorizationRules?: any;
+    countDetails?: string;
+    createdAt?: string;
+    enableExpress?: string;
+    enableSubscriptionPartitioning?: string;
+    entityAvailabilityStatus?: string;
+    filteringMessagesBeforePublishing?: string;
+    isAnonymousAccessible?: string;
+    isExpress?: string;
+    status?: string;
+    topicName?: string;
+    updatedAt?: string;
 }
 
 // @public
@@ -470,7 +461,6 @@ export class TopicClient implements Client {
 // @public
 export interface TopicOptions {
     AutoDeleteOnIdle?: string;
-    CountDetails?: string;
     DefaultMessageTimeToLive?: string;
     DuplicateDetectionHistoryTimeWindow?: string;
     EnableBatchedOperations?: string;
@@ -485,10 +475,8 @@ export interface TopicOptions {
 }
 
 // @public
-export type TopicResult = Topic & {
-    _response: HttpOperationResponse & {
-        parsedBody: Topic;
-    };
+export type TopicResponse = Topic & {
+    _response: HttpOperationResponse;
 };
 
 export { WebSocketImpl }

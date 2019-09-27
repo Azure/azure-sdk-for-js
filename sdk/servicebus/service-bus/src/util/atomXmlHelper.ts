@@ -5,7 +5,9 @@ import {
   Constants,
   serializeJsonToAtomXml,
   HttpOperationResponse,
-  buildAtomError
+  RestError,
+  stripRequest,
+  stripResponse
 } from "@azure/core-http";
 
 /**
@@ -79,14 +81,14 @@ export async function deserializeAtomXmlResponse(
       const HttpResponseCodes = Constants.HttpResponseCodes;
       const statusCode = response.status;
       if (isKnownResponseCode(statusCode)) {
-        throw buildAtomError(
+        throw buildError(
           {
             code: HttpResponseCodes[statusCode]
           },
           response
         );
       } else {
-        throw buildAtomError(
+        throw buildError(
           {
             code: `UnrecognizedHttpResponseStatus: ${statusCode}`
           },
@@ -94,7 +96,7 @@ export async function deserializeAtomXmlResponse(
         );
       }
     } else {
-      throw buildAtomError(errorBody, response);
+      throw buildError(errorBody, response);
     }
   }
 
@@ -239,4 +241,72 @@ function setName(entry: XMLResponseInJSON, nameProperties: any): any {
       entry[nameProperties[i]] = parts[i * 2 + 1];
     }
   }
+}
+
+/**
+ *
+ * Utility to help construct the normalized `RestError` object based on given `errorBody`
+ * data and other data present in the received `response` object.
+ *
+ * @param errorBody
+ * @param response
+ */
+export function buildError(errorBody: any, response: HttpOperationResponse): RestError {
+  const normalizedError: any = {};
+  const odataErrorFormat = !!errorBody["odata.error"];
+  const errorProperties =
+    errorBody.Error || errorBody.error || errorBody["odata.error"] || errorBody;
+  let errorMessage;
+
+  if (typeof errorBody === "string") {
+    errorMessage = errorBody;
+  } else {
+    if (odataErrorFormat) {
+      Object.keys(errorProperties).forEach((property: string) => {
+        let value = null;
+        if (
+          property === Constants.ODATA_ERROR_MESSAGE &&
+          typeof errorProperties[Constants.ODATA_ERROR_MESSAGE] !== "string"
+        ) {
+          if (errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]) {
+            value =
+              errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE];
+          } else {
+            value = "missing value in the message property of the odata error format";
+          }
+        } else {
+          value = errorProperties[property];
+        }
+        normalizedError[property.toLowerCase()] = value;
+      });
+    } else {
+      Object.keys(errorProperties).forEach((property: any) => {
+        {
+          let value = null;
+          if (property !== Constants.XML_METADATA_MARKER) {
+            if (
+              errorProperties[property] &&
+              errorProperties[property][Constants.XML_VALUE_MARKER]
+            ) {
+              value = errorProperties[property][Constants.XML_VALUE_MARKER];
+            } else {
+              value = errorProperties[property];
+            }
+            normalizedError[property.toLowerCase()] = value;
+          }
+        }
+      });
+    }
+    errorMessage = normalizedError.code;
+    if (normalizedError.detail) {
+      errorMessage += " - " + normalizedError.detail;
+    }
+  }
+
+  const error: RestError = new RestError(`ATOM Service Error: ${errorMessage}`);
+  error.code = normalizedError.code;
+  error.statusCode = response.status;
+  error.request = stripRequest(response.request);
+  error.response = stripResponse(response);
+  return error;
 }

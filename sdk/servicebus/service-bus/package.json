@@ -93,8 +93,6 @@
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
-    "@types/azure-sb": "0.0.35",
-    "azure-sb": "0.11.1",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
