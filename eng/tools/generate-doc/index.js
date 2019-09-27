@@ -23,6 +23,9 @@ function walk(dir, checks) {
       if (settings["private"] === true) {
         checks.isPrivate = true;
       }
+      if (settings["sdk-type"] === "client") {
+        checks.isClient = true;
+      }
     }
     if (fileName == "typedoc.json") {
       checks.typedocPresent = true;
@@ -35,10 +38,10 @@ function walk(dir, checks) {
   return checks;
 }
 
-/* Checking if a package exists in the exclusion/ inclusion list */
-function isPackageInArray(package, inputArray) {
+/* Checking if a service exists in the exclusion/ inclusion list */
+function isServiceInArray(service, inputArray) {
   for (var i in inputArray) {
-    if (inputArray[i] == package) {
+    if (inputArray[i] == service) {
       return true;
     }
   }
@@ -75,18 +78,23 @@ var argv = require("yargs")
       type: "array",
       describe:
         "exclusion list for packages for which the docs should be NOT generated.These packages will be added to index template html generated."
+    },
+    clientOnly: {
+      type: "boolean",
+      default: false,
+      demandOption: true
     }
   })
   .demandOption(
-    ["docGenOutput", "includeMode"],
-    "Please provide both docGen and includeMode arguments to work with this tool"
+    ["docGenOutput", "includeMode", "clientOnly"],
+    "Please provide both docGen, includeMode and clientOnly arguments to work with this tool"
   )
   .help().argv;
 
 /* Variables for inclusion or exclusion package lists */
 let exclusionList = [];
 let inclusionList = [];
-
+console.log("Argv.clientOnly = " + argv.clientOnly);
 /* Generate index html from the template by default */
 let generateIndexWithTemplate = true;
 if (argv.dgOp === "local" && argv.includeMode !== "none") {
@@ -144,26 +152,27 @@ let serviceList = [];
 let count = 0;
 for (const eachService of serviceFolders) {
   count++;
-  //console.log("count = " + count);
-  const eachServicePath = path.join(workingDir, eachService);
-  const stat = fs.statSync(eachServicePath);
+  if (
+    (argv.includeMode === "inc" &&
+      isServiceInArray(eachService, inclusionList)) ||
+    (argv.includeMode === "exc" &&
+      !isServiceInArray(eachService, exclusionList))
+  ) {
+    const eachServicePath = path.join(workingDir, eachService);
+    const stat = fs.statSync(eachServicePath);
 
-  if (stat && stat.isDirectory()) {
-    var packageList = fs.readdirSync(eachServicePath);
+    if (stat && stat.isDirectory()) {
+      var packageList = fs.readdirSync(eachServicePath);
 
-    /* Initializing package list for template index generation */
-    let indexPackageList = [];
-    for (const eachPackage of packageList) {
-      if (
-        (argv.includeMode === "inc" &&
-          isPackageInArray(eachPackage, inclusionList)) ||
-        !(argv.includeMode === "inc")
-      ) {
+      /* Initializing package list for template index generation */
+      let indexPackageList = [];
+      for (const eachPackage of packageList) {
         let checks = {
           isRush: false,
           isPrivate: false,
           srcPresent: false,
-          typedocPresent: false
+          typedocPresent: false,
+          isClient: false
         };
         console.log(
           "checks before walk: checks.isRush = " +
@@ -173,7 +182,9 @@ for (const eachService of serviceFolders) {
             ", checks.srcPresent = " +
             checks.srcPresent +
             ", typedocPresent = " +
-            checks.typedocPresent
+            checks.typedocPresent +
+            ", isClient = " +
+            checks.isClient
         );
         eachPackagePath = path.join(eachServicePath, eachPackage);
         pathToAssets = eachPackagePath + "/assets";
@@ -189,33 +200,39 @@ for (const eachService of serviceFolders) {
               ", checks.srcPresent = " +
               checks.srcPresent +
               ", typedocPresent = " +
-              checks.typedocPresent
+              checks.typedocPresent +
+              ", isClient = " +
+              checks.isClient
           );
           console.log("Path: " + eachPackagePath);
           if (!checks.isPrivate) {
-            if (checks.srcPresent) {
-              if (!checks.isRush) {
-                try {
-                  const npmResult = childProcess.spawnSync("npm", ["install"], {
-                    stdio: "inherit",
-                    cwd: eachPackagePath,
-                    shell: true
-                  });
-                  console.log(
-                    'npmResult.output for "npm install":' + npmResult.output
-                  );
-                } catch (e) {
-                  console.error(`\n\n${e.toString()}\n\n`);
-                  process.exit(1);
+            if ((argv.clientOnly && checks.isClient) || !argv.clientOnly) {
+              if (checks.srcPresent) {
+                if (!checks.isRush) {
+                  try {
+                    const npmResult = childProcess.spawnSync(
+                      "npm",
+                      ["install"],
+                      {
+                        stdio: "inherit",
+                        cwd: eachPackagePath,
+                        shell: true
+                      }
+                    );
+                    console.log(
+                      'npmResult.output for "npm install":' + npmResult.output
+                    );
+                  } catch (e) {
+                    console.error(`\n\n${e.toString()}\n\n`);
+                    process.exit(1);
+                  }
                 }
-              }
-              if (argv.docGenOutput === "dg") {
-                docOutputFolder =
-                  "--out ../../../docGen/" + eachPackage + " ./src";
-              }
+                if (argv.docGenOutput === "dg") {
+                  docOutputFolder =
+                    "--out ../../../docGen/" + eachPackage + " ./src";
+                }
 
-              try {
-                if (!isPackageInArray(eachPackage, exclusionList)) {
+                try {
                   if (checks.typedocPresent) {
                     const typedocResult = childProcess.spawnSync(
                       "typedoc",
@@ -254,32 +271,34 @@ for (const eachService of serviceFolders) {
                         typedocResult.output
                     );
                   }
-                } else {
-                  console.log(
-                    "... NOT RUNNING TYPEDOC on excluded package " + eachPackage
-                  );
+                } catch (e) {
+                  console.error(`\n\n${e.toString()}\n\n`);
+                  process.exit(1);
                 }
-              } catch (e) {
-                console.error(`\n\n${e.toString()}\n\n`);
-                process.exit(1);
-              }
-              if (generateIndexWithTemplate) {
-                /* Adding package to packageList for the template index generation */
-                indexPackageList.push(eachPackage);
+                if (generateIndexWithTemplate) {
+                  /* Adding package to packageList for the template index generation */
+                  indexPackageList.push(eachPackage);
+                }
+              } else {
+                console.log(
+                  "...SKIPPING Since src folder could not be found....."
+                );
               }
             } else {
               console.log(
-                "...SKIPPING Since src folder could not be found....."
+                "...SKIPPING Since package is either not sdkType client"
               );
             }
           } else {
             console.log("...SKIPPING Since package marked as private...");
           }
         }
-      }
-    } //end-for each-package
-    /* Adding service entry for the template index generation */
-    serviceList.push({ name: eachService, packageList: indexPackageList });
+        //}
+      } //end-for each-package
+      /* Adding service entry for the template index generation */
+      serviceList.push({ name: eachService, packageList: indexPackageList });
+    }
+  } else {
   }
 } // end-for ServiceFolders
 console.log("generateIndexWithTemplate=" + generateIndexWithTemplate);
