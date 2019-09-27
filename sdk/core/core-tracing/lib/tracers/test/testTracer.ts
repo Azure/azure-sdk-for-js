@@ -140,7 +140,7 @@ export class TestTracer extends NoOpTracer {
       name,
       context,
       options.kind || SpanKind.INTERNAL,
-      parentContext ? parentContext.traceId : undefined,
+      parentContext ? parentContext.spanId : undefined,
       options.startTime);
     this.knownSpans.push(span);
     if (isRootSpan) {

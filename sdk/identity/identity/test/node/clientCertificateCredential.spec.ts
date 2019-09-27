@@ -79,8 +79,6 @@ describe("ClientCertificateCredential", function () {
   });
 
   it("sends a correctly formatted token request while tracing", async () => {
-
-    // create a test Tracer
     const tracer = new TestTracer();
     setTracer(tracer);
     const tenantId = "tenantId";
@@ -104,7 +102,9 @@ describe("ClientCertificateCredential", function () {
 
     rootSpan.end();
 
-    assert.deepStrictEqual(tracer.getRootSpans(), [rootSpan]);
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
     const expectedGraph: SpanGraph = {
       roots: [{
