@@ -488,6 +488,11 @@ export interface StorageAccountCreateParameters {
    * Account HierarchicalNamespace enabled if sets to true.
    */
   isHnsEnabled?: boolean;
+  /**
+   * Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. Possible
+   * values include: 'Disabled', 'Enabled'
+   */
+  largeFileSharesState?: LargeFileSharesState;
 }
 
 /**
@@ -709,6 +714,11 @@ export interface StorageAccount extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly failoverInProgress?: boolean;
+  /**
+   * Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. Possible
+   * values include: 'Disabled', 'Enabled'
+   */
+  largeFileSharesState?: LargeFileSharesState;
 }
 
 /**
@@ -801,6 +811,11 @@ export interface StorageAccountUpdateParameters {
    * Network rule set
    */
   networkRuleSet?: NetworkRuleSet;
+  /**
+   * Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. Possible
+   * values include: 'Disabled', 'Enabled'
+   */
+  largeFileSharesState?: LargeFileSharesState;
   /**
    * Optional. Indicates the type of storage account. Currently only StorageV2 value supported by
    * server. Possible values include: 'Storage', 'StorageV2', 'BlobStorage', 'FileStorage',
@@ -1876,6 +1891,12 @@ export interface StorageSkuListResult extends Array<Sku> {
  * @extends Array<StorageAccount>
  */
 export interface StorageAccountListResult extends Array<StorageAccount> {
+  /**
+   * Request URL that can be used to query next page of storage accounts. Returned when total
+   * number of requested storage accounts exceed maximum page size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -2022,6 +2043,14 @@ export type DirectoryServiceOptions = 'None' | 'AADDS';
  * @enum {string}
  */
 export type AccessTier = 'Hot' | 'Cool';
+
+/**
+ * Defines values for LargeFileSharesState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type LargeFileSharesState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for GeoReplicationStatus.
@@ -2425,6 +2454,26 @@ export type StorageAccountsBeginCreateResponse = StorageAccount & {
        * The response body as parsed JSON or XML
        */
       parsedBody: StorageAccount;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type StorageAccountsListNextResponse = StorageAccountListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccountListResult;
     };
 };
 

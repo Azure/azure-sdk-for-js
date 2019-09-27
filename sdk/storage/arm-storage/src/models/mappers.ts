@@ -806,6 +806,12 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1129,6 +1135,12 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1282,6 +1294,12 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NetworkRuleSet"
+        }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
         }
       },
       kind: {
@@ -2784,6 +2802,13 @@ export const StorageAccountListResult: msRest.CompositeMapper = {
               className: "StorageAccount"
             }
           }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
