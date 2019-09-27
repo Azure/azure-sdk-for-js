@@ -67,7 +67,7 @@ const browserConfig = {
   },
   plugins: [
     nodeResolve({
-      mainFields: ["module", "browser"],
+      mainFields: ["module", "main", "browser"],
       preferBuiltins: false
     }),
     commonjs(),

@@ -29,7 +29,8 @@ describe("atomSerializationPolicy", function() {
       await policy.sendRequest(request);
       assert.deepEqual(true, false, "Error must be thrown");
     } catch (err) {
-      assert.deepEqual(err.code, "ResponseNotInAtomXMLFormat");
+      assert.deepEqual(err.message, "ResponseNotInAtomXMLFormat");
+      assert.deepEqual(err.code, "PARSE_ERROR");
     }
   });
 

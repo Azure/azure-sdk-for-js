@@ -108,7 +108,7 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   );
 }
 
-function buildAttributes(doc: any, attrs: { [key: string]: { toString(): string } }): Attr[] {
+function buildAttributes(doc: Document, attrs: { [key: string]: { toString(): string } }): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
     const attr = doc.createAttribute(key);
@@ -118,7 +118,7 @@ function buildAttributes(doc: any, attrs: { [key: string]: { toString(): string 
   return result;
 }
 
-function buildNode(doc: any, obj: any, elementName: string): Node[] {
+function buildNode(doc: Document, obj: any, elementName: string): Node[] {
   if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
     const elem = doc.createElement(elementName);
     elem.textContent = obj.toString();
