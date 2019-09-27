@@ -282,25 +282,4 @@ describe("Long Running Operations - custom client", function () {
     // The second client doesn't do the first request and goes all the way to the end.
     assert.equal(client2.totalSentRequests, 12);
   });
-
-  // it("waits for the next response", async function () {
-  //   const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-  //   client.setResponses([{
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   }, {
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   }, {
-  //     ...basicResponseStructure,
-  //     status: 204,
-  //   }]);
-  //   const poller = await client.startLRO();
-  //   assert.equal(poller.state, "InProgress");
-  //   assert.equal(client.totalSentRequests, 1);
-  //   const response = await poller.nextResponse();
-  //   assert.equal(response.status, 202);
-  //   assert.equal(client.totalSentRequests, 2);
-  //   poller.stop();
-  // });
 });
