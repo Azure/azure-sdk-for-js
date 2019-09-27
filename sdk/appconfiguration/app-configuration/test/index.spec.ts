@@ -910,7 +910,7 @@ describe("AppConfigurationClient", () => {
       );
 
       try {
-        await client.setConfigurationSetting({ key, label, value: "foo2", etag: "incorrect" });
+        await client.setConfigurationSetting({ key, label, value: "foo2", etag: "incorrect" }, { respectETag: true });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");

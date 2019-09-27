@@ -9,6 +9,7 @@ import * as assert from "assert";
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
 import * as dotenv from "dotenv";
+import { RestError } from '@azure/core-http';
 dotenv.config();
 
 export function getConnectionStringFromEnvironment(): string {
@@ -29,7 +30,7 @@ export async function deleteKeyCompletely(keys: string[], client: AppConfigurati
   });
 
   for await (const setting of settingsIterator) {
-    await client.clearReadOnly(setting.key);
+    await client.clearReadOnly(setting.key, setting.label);
     await client.deleteConfigurationSetting(setting.key, { label: setting.label });
   }
 }
