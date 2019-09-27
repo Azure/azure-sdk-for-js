@@ -1,193 +1,176 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+import assert from "assert";
+import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
+import { TestClient } from "./utils/testClient"
+import { AbortController } from "@azure/abort-controller";
 
-// import assert from "assert";
-// import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
-// import { FakeClient } from "./utils/fakeClient"
-// import { AbortController } from "@azure/abort-controller";
+const testHttpHeaders: HttpHeaders = new HttpHeaders();
+const testHttpRequest: WebResource = new WebResource();
+const basicResponseStructure = {
+  headers: testHttpHeaders,
+  parsedBody: {
+  },
+  request: testHttpRequest,
+  status: 200,
+}
+const initialResponse = {
+  ...basicResponseStructure,
+  parsedBody: {
+    started: true
+  }
+};
+const doFinalResponse = {
+  ...basicResponseStructure,
+  parsedBody: {
+    doFinalResponse: true
+  }
+};
+const finalResponse = {
+  ...basicResponseStructure,
+  parsedBody: {
+    finished: true
+  }
+};
 
-// IMPORTANT:
-// Some tests express expected behaviors through a property called
-// .totalSentRequests, which belongs to an implementation of core-lro's poller,
-// not to the underlying Poller class. Please look at test/utils/fakePoller.ts
+describe("Long Running Operations - custom client", function () {
+  it("should support an abort signal sent through the constructor", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      ...Array(20).fill(basicResponseStructure),
+      doFinalResponse,
+      finalResponse
+    ]);
 
-// const fakeHttpHeaders: HttpHeaders = new HttpHeaders();
-// const fakeHttpRequest: WebResource = new WebResource();
-// const basicResponseStructure = {
-//   headers: fakeHttpHeaders,
-//   parsedBody: {
-//   },
-//   request: fakeHttpRequest
-// }
+    const abortController = new AbortController();
+    const poller = await client.startLRO({
+      requestOptions: {
+        abortSignal: abortController.signal
+      }
+    });
 
-describe("Long Running Operations - abort signals", function () {
-  // it("should support an abort signal sent through the constructor", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
-  //   client.setResponses(Array(20).fill({
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   }));
+    // Testing subscriptions to the poll errors
+    let pollError: Error | undefined;
+    poller.done().catch((e: Error) => {
+      pollError = e;
+    })
 
-  //   const abortController = new AbortController();
-  //   const poller = await client.startLRO({
-  //     requestOptions: {
-  //       abortSignal: abortController.signal
-  //     }
-  //   });
+    assert.ok(poller.operation.state.started);
+    await delay(100);
+    assert.equal(client.totalSentRequests, 10);
+    abortController.abort();
+    await delay(50);
 
-  //   // Testing subscriptions to the poll errors
-  //   let pollError: Error | undefined;
-  //   poller.onPollError((e: Error) => {
-  //     pollError = e;
-  //   })
+    assert.equal(pollError!.message, "The request was aborted");
+    assert.equal(client.totalSentRequests, 10);
+    poller.stop();
+  }); 
 
-  //   // Testing catching errors using done()
-  //   let doneError: Error | undefined;
-  //   poller.done().catch(e => {
-  //     doneError = e;
-  //   })
+  it("should support an abort signal sent through the constructor (manual poller)", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      ...Array(20).fill(basicResponseStructure),
+      doFinalResponse,
+      finalResponse
+    ]);
 
-  //   assert.equal(poller.state, "InProgress");
-  //   await delay(100);
-  //   assert.equal(client.totalSentRequests, 10);
-  //   abortController.abort();
-  //   await delay(50);
+    const abortController = new AbortController();
+    const poller = await client.startLRO({
+      manual: true,
+      requestOptions: {
+        abortSignal: abortController.signal
+      }
+    });
 
-  //   assert.equal(pollError!.message, "The request was aborted");
-  //   assert.equal(doneError!.message, "The request was aborted");
-  //   assert.equal(client.totalSentRequests, 10);
-  //   poller.stop();
-  // }); 
-
-  // it("should support an abort signal sent through the constructor (manual poller)", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
-  //   client.setResponses(Array(20).fill({
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   }));
-  //   const abortController = new AbortController();
-  //   const poller = await client.startLRO({
-  //     manual: true,
-  //     requestOptions: {
-  //       abortSignal: abortController.signal
-  //     }
-  //   });
-
-  //   // Testing subscriptions to the poll errors
-  //   let pollError: Error | undefined;
-  //   poller.onPollError((e: Error) => {
-  //     pollError = e;
-  //   })
-
-  //   await poller.poll(); // Manual polling
-  //   assert.equal(client.totalSentRequests, 2);
-
-  //   abortController.abort();
-  //   let manualPollError: Error | undefined;
-  //   try {
-  //     await poller.poll(); // Manual polling
-  //   } catch(e) {
-  //     manualPollError = e;
-  //   }
-
-  //   assert.equal(client.totalSentRequests, 2);
-  //   assert.equal(pollError!.message, "The request was aborted");
-  //   assert.equal(manualPollError!.message, "The request was aborted");
-  //   poller.stop();
-  // });
-
-  // it("should support an abort signal sent through the poll parameters (manual poller)", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
-  //   client.setResponses(Array(20).fill({
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   }));
-  //   const abortController = new AbortController();
-  //   const poller = await client.startLRO({
-  //     manual: true,
-  //   });
-
-  //   // Testing subscriptions to the poll errors
-  //   let pollError: Error | undefined;
-  //   poller.onPollError((e: Error) => {
-  //     pollError = e;
-  //   })
-
-  //   await poller.poll(); // Manual polling
-  //   assert.equal(client.totalSentRequests, 2);
-
-  //   abortController.abort();
-  //   let manualPollError: Error | undefined;
-  //   try {
-  //     await poller.poll({
-  //       abortSignal: abortController.signal
-  //     });
-  //   } catch(e) {
-  //     manualPollError = e;
-  //   }
-
-  //   assert.equal(client.totalSentRequests, 2);
-  //   assert.equal(pollError!.message, "The request was aborted");
-  //   assert.equal(manualPollError!.message, "The request was aborted");
-  //   poller.stop();
-  // });
-
-  // it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
-  //   const responses = Array(20).fill({
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   });
-  //   client.setResponses(responses);
-
-  //   const abortController = new AbortController();
-  //   const poller = await client.startLRO({
-  //     requestOptions: {
-  //       abortSignal: abortController.signal
-  //     }
-  //   });
-
-  //   assert.equal(client.totalSentRequests, 1);
-  //   await delay(100);
-  //   assert.equal(client.totalSentRequests, 10);
-
-  //   abortController.abort();
-  //   let cancelError: Error | undefined;
-  //   try {
-  //     await poller.cancel();
-  //   } catch(e) {
-  //     cancelError = e;
-  //   }
-
-  //   assert.equal(cancelError!.message, "The request was aborted");
-  //   poller.stop(); 
-  // });
+    // Testing subscriptions to the poll errors
+    let pollError: Error | undefined;
+    poller.done().catch((e: Error) => {
+      pollError = e;
+    })
  
-  // it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from parameters of the cancel method", async function () {
-  //   const client = new FakeClient(new SimpleTokenCredential("my-fake-token"));
-  //   const responses = Array(20).fill({
-  //     ...basicResponseStructure,
-  //     status: 202,
-  //   });
-  //   client.setResponses(responses);
+    await poller.poll(); // Manual polling
+    assert.equal(client.totalSentRequests, 1);
 
-  //   const poller = await client.startLRO();
-  //   assert.equal(client.totalSentRequests, 1);
-  //   await delay(100);
-  //   assert.equal(client.totalSentRequests, 10);
+    abortController.abort();
+    await poller.poll(); // Manual polling
+    assert.equal(client.totalSentRequests, 1);
+    assert.ok(poller.isDone());
+    assert.equal(pollError!.message, "The request was aborted");
+  });
 
-  //   const abortController = new AbortController();
-  //   abortController.abort();
-  //   let cancelError: Error | undefined;
-  //   try {
-  //     await poller.cancel({
-  //       abortSignal: abortController.signal
-  //     });
-  //   } catch(e) {
-  //     cancelError = e;
-  //   }
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      ...Array(20).fill(basicResponseStructure),
+      doFinalResponse,
+      finalResponse
+    ]);
 
-  //   assert.equal(cancelError!.message, "The request was aborted");
-  //   poller.stop(); 
-  // });
+    const abortController = new AbortController();
+    const poller = await client.startLRO({
+      requestOptions: {
+        abortSignal: abortController.signal
+      }
+    });
+
+    poller.done().catch(e => {
+      assert.equal(e.message, "Poller stopped");
+    });
+ 
+    assert.ok(poller.operation.state.started);
+    assert.equal(client.totalSentRequests, 1);
+    await delay(100);
+    assert.equal(client.totalSentRequests, 10);
+ 
+    abortController.abort();
+    let cancelError: Error | undefined;
+    try {
+      await poller.cancel();
+    } catch(e) {
+      cancelError = e;
+    }
+ 
+    assert.equal(cancelError!.message, "The request was aborted");
+    poller.stop(); 
+  });
+ 
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal updated on the operation", async function () {
+    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    client.setResponses([
+      initialResponse,
+      ...Array(20).fill(basicResponseStructure),
+      doFinalResponse,
+      finalResponse
+    ]);
+
+    const poller = await client.startLRO();
+
+    // Testing subscriptions to the poll errors
+    poller.done().catch((e: Error) => {
+      assert.equal(e.message, "Poller stopped");
+    })
+ 
+    assert.equal(client.totalSentRequests, 1);
+    await delay(100);
+    assert.equal(client.totalSentRequests, 10);
+
+    const abortController = new AbortController();
+    abortController.abort();
+
+    // This also can be done at any point to abort any poll() request.
+    poller.operation.properties.requestOptions = {
+      abortSignal: abortController.signal
+    };
+
+    let cancelError: Error | undefined;
+    try {
+      await poller.cancel();
+    } catch(e) {
+      cancelError = e;
+    }
+
+    assert.equal(cancelError!.message, "The request was aborted");
+    poller.stop(); 
+  });
 });
