@@ -4,7 +4,7 @@
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
-  "module": "dist-esm/index.js",
+  "module": "dist-esm/lib/index.js",
   "browser": {
     "./dist/index.js": "./browser/index.js"
   },
@@ -37,7 +37,7 @@
   "files": [
     "browser/*.js*",
     "dist/",
-    "dist-esm/",
+    "dist-esm/lib/",
     "src/",
     "types/core-tracing.d.ts",
     "ThirdPartyNotices.txt"

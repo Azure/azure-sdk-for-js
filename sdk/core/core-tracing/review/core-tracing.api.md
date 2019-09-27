@@ -46,10 +46,12 @@ export interface Event {
 
 // @public
 export function getTracer(): Tracer;
-export function extractSpanContextFromTraceParent(traceParent: string): SpanContext;
+export function extractSpanContextFromTraceParentHeader(
+  traceParentHeader: string
+): SpanContext | undefined;
 
 // @public
-export function getTraceParent(spanContext: SpanContext): string;
+export function getTraceParentHeader(spanContext: SpanContext): string | undefined;
 
 // @public
 export type HrTime = [number, number];

@@ -30,12 +30,14 @@ export { TraceFlags } from "./interfaces/trace_flags";
 export { TraceState } from "./interfaces/trace_state";
 export { Tracer } from "./interfaces/tracer";
 
+// Utilities
+export {
+  extractSpanContextFromTraceParentHeader,
+  getTraceParentHeader
+} from "./utils/traceParentHeader";
+
 // OpenCensus Interfaces
 export {
   Tracer as OpenCensusTracer,
   Span as OpenCensusSpan,
 } from "@opencensus/web-types";
-export {
-  extractSpanContextFromTraceParentHeader,
-  getTraceParentHeader
-} from "./utils/traceParentHeader";
