@@ -86,8 +86,6 @@ examples/.vs
 examples/bin
 .vs
 TestResults/*
-.vscode/*
-./**/.vscode/*
 
 # Node #
 **/node_modules/
