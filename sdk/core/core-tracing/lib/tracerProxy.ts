@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { NoOpTracer } from "./wrappers/noop/noOpTracer";
+import { NoOpTracer } from "./tracers/noop/noOpTracer";
 import { Tracer } from "./interfaces/tracer";
 
 

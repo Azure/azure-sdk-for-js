@@ -5,10 +5,10 @@
 export { getTracer, setTracer } from "./tracerProxy";
 
 // Wrappers
-export { NoOpSpan } from "./wrappers/noop/noOpSpan";
-export { NoOpTracer } from "./wrappers/noop/noOpTracer";
-export { OpenCensusSpanWrapper } from "./wrappers/opencensus/openCensusSpanWrapper";
-export { OpenCensusTracerWrapper } from "./wrappers/opencensus/openCensusTracerWrapper";
+export { NoOpSpan } from "./tracers/noop/noOpSpan";
+export { NoOpTracer } from "./tracers/noop/noOpTracer";
+export { OpenCensusSpanWrapper } from "./tracers/opencensus/openCensusSpanWrapper";
+export { OpenCensusTracerWrapper } from "./tracers/opencensus/openCensusTracerWrapper";
 
 // Interfaces
 export { Attributes } from "./interfaces/attributes";
