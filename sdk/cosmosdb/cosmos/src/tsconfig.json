@@ -18,7 +18,11 @@
     "composite": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "baseUrl": ".",
+    "paths": {
+      "binary-search-bounds": ["./typings/binary-search-bounds"]
+    }
   },
   "include": ["./**/*"]
 }
