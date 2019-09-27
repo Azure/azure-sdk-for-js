@@ -182,7 +182,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       connectionString
     );
 
-    console.log(" --- ", connectionStringObj);
     if (connectionStringObj.Endpoint == undefined) {
       throw new Error("Endpoint must be supplied in the connection string");
     }
@@ -709,8 +708,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildListQueuesResponse(response: HttpOperationResponse): ListQueuesResponse {
-    console.log("debug - ", JSON.stringify(response, undefined, 2));
-
     const queues: Queue[] = [];
     const rawQueueArray: any = response.parsedBody || [];
     for (let i = 0; i < rawQueueArray.length; i++) {
@@ -724,16 +721,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
-    console.log("debug - ", JSON.stringify(response, undefined, 2));
-
     const queue = buildQueue(response.parsedBody);
     const queueResponse: QueueResponse = Object.assign(queue, { _response: response });
     return queueResponse;
   }
 
   private buildListTopicsResponse(response: HttpOperationResponse): ListTopicsResponse {
-    console.log("debug - ", JSON.stringify(response, undefined, 2));
-
     const topics: Topic[] = [];
     const rawTopicArray: any = response.parsedBody || [];
     for (let i = 0; i < rawTopicArray.length; i++) {
@@ -747,8 +740,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
-    console.log("debug - ", JSON.stringify(response, undefined, 2));
-
     const topic = buildTopic(response.parsedBody);
     const topicResponse: TopicResponse = Object.assign(topic, { _response: response });
     return topicResponse;
@@ -757,8 +748,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildListSubscriptionsResponse(
     response: HttpOperationResponse
   ): ListSubscriptionsResponse {
-    console.log("debug - ", JSON.stringify(response, undefined, 2));
-
     const subscriptions: Subscription[] = [];
     const rawSubscriptionArray: any = response.parsedBody || [];
     for (let i = 0; i < rawSubscriptionArray.length; i++) {
@@ -774,8 +763,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildSubscriptionResponse(response: HttpOperationResponse): SubscriptionResponse {
-    console.log("debug - ", JSON.stringify(response, undefined, 2));
-
     const subscription = buildSubscription(response.parsedBody);
     const subscriptionResponse: SubscriptionResponse = Object.assign(subscription, {
       _response: response
@@ -784,8 +771,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildListRulesResponse(response: HttpOperationResponse): ListRulesResponse {
-    console.log("debug - ", JSON.stringify(response, undefined, 2));
-
     const rules: Rule[] = [];
     const rawRuleArray: any = response.parsedBody || [];
     for (let i = 0; i < rawRuleArray.length; i++) {
@@ -799,8 +784,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildRuleResponse(response: HttpOperationResponse): RuleResponse {
-    console.log("debug - ", JSON.stringify(response, undefined, 2));
-
     const rule = buildRule(response.parsedBody);
     const ruleResponse: RuleResponse = Object.assign(rule, { _response: response });
     return ruleResponse;
