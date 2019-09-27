@@ -2,11 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as assert from "assert";
-import {
-  RequestResponseLink,
-  AmqpMessage,
-  ErrorNameConditionMapper
-} from "../src";
+import { RequestResponseLink, AmqpMessage, ErrorNameConditionMapper } from "../src";
 import { Connection } from "rhea-promise";
 import { stub } from "sinon";
 import EventEmitter from "events";
@@ -16,6 +12,7 @@ describe("RequestResponseLink", function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
+    // @ts-ignore
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
@@ -34,11 +31,7 @@ describe("RequestResponseLink", function() {
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(
-      sessionStub as any,
-      senderStub,
-      receiverStub
-    );
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -65,6 +58,7 @@ describe("RequestResponseLink", function() {
     const rcvr = new EventEmitter();
     let messageId: string = "";
     let counter = 0;
+    // @ts-ignore
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
@@ -89,11 +83,7 @@ describe("RequestResponseLink", function() {
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(
-      sessionStub as any,
-      senderStub,
-      receiverStub
-    );
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
