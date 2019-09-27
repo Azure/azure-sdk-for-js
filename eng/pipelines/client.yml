@@ -16,3 +16,4 @@ jobs:
   - template: templates/jobs/archetype-sdk-client.yml
     parameters:
       ServiceDirectory: $(ServiceDirectory)
+      DocArgs: $(ServiceDirectory)

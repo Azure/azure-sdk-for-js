@@ -153,12 +153,7 @@ let serviceList = [];
 let count = 0;
 for (const eachService of serviceFolders) {
   count++;
-  if (
-    (argv.includeMode === "inc" &&
-      isServiceInArray(eachService, inclusionList)) ||
-    (argv.includeMode === "exc" &&
-      !isServiceInArray(eachService, exclusionList))
-  ) {
+  if ((argv.includeMode === "inc" && isServiceInArray(eachService, inclusionList)) || (argv.includeMode === "exc" && !isServiceInArray(eachService, exclusionList))|| (argv.includeMode === "inc" && argv.include[0] === "*")){
     const eachServicePath = path.join(workingDir, eachService);
     const stat = fs.statSync(eachServicePath);
 
