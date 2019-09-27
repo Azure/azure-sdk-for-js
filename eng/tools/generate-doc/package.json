@@ -11,6 +11,7 @@
   "dependencies": {
     "fs-extra": "^8.1.0",
     "yargs": "^11.1.0",
-    "nunjucks": "^3.2.0"
+    "nunjucks": "^3.2.0",
+    "typedoc": "^0.15.0"
   }
 }
