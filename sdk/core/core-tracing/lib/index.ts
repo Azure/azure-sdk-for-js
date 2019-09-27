@@ -9,7 +9,7 @@ export { NoOpSpan } from "./tracers/noop/noOpSpan";
 export { NoOpTracer } from "./tracers/noop/noOpTracer";
 export { OpenCensusSpanWrapper } from "./tracers/opencensus/openCensusSpanWrapper";
 export { OpenCensusTracerWrapper } from "./tracers/opencensus/openCensusTracerWrapper";
-export { TestTracer } from "./tracers/test/testTracer";
+export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer";
 export { TestSpan } from "./tracers/test/testSpan";
 
 // Interfaces

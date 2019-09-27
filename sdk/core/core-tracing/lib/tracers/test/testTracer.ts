@@ -4,6 +4,33 @@ import { NoOpTracer } from "../noop/noOpTracer";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { TestSpan } from "./testSpan";
 import { SpanContext } from "../../interfaces/span_context";
+import { SpanKind } from "../../interfaces/span_kind";
+
+/**
+ * Simple representation of a Span that only has name and child relationships.
+ * Children should be arranged in the order they were created.
+ */
+export interface SpanGraphNode {
+  /**
+   * The Span name
+   */
+  name: string;
+  /**
+   * All child Spans of this Span
+   */
+  children: SpanGraphNode[];
+}
+
+/**
+ * Contains all the spans for a particular TraceID
+ * starting at unparented roots
+ */
+export interface SpanGraph {
+  /**
+   * All Spans without a parentSpanId
+   */
+  roots: SpanGraphNode[];
+}
 
 /**
  * A mock tracer useful for testing
@@ -49,6 +76,43 @@ export class TestTracer extends NoOpTracer {
   }
 
   /**
+   * Return all Spans for a particular trace, grouped by their
+   * parent Span in a tree-like structure
+   * @param traceId The traceId to return the graph for
+   */
+  getSpanGraph(traceId: string): SpanGraph {
+    const traceSpans = this.knownSpans.filter(span => {
+      return span.context().traceId === traceId;
+    });
+
+    const roots: SpanGraphNode[] = [];
+    const nodeMap: Map<string, SpanGraphNode> = new Map<string, SpanGraphNode>();
+
+    for (const span of traceSpans) {
+      const spanId = span.context().spanId;
+      const node: SpanGraphNode = {
+        name: span.name,
+        children: []
+      };
+      nodeMap.set(spanId, node);
+      if (span.parentSpanId) {
+        const parent = nodeMap.get(span.parentSpanId);
+        if (!parent) {
+          throw new Error(`Span with name ${node.name} has an unknown parentSpan with id ${span.parentSpanId}`);
+        }
+        parent.children.push(node);
+      } else {
+        roots.push(node);
+      }
+    }
+
+    return {
+      roots
+    };
+
+  }
+
+  /**
    * Starts a new Span.
    * @param name The name of the span.
    * @param options The SpanOptions used during Span creation.
@@ -71,7 +135,13 @@ export class TestTracer extends NoOpTracer {
       traceId,
       spanId: this.getNextSpanId()
     }
-    const span = new TestSpan(name, context, options);
+    const span = new TestSpan(
+      this,
+      name,
+      context,
+      options.kind || SpanKind.INTERNAL,
+      parentContext ? parentContext.traceId : undefined,
+      options.startTime);
     this.knownSpans.push(span);
     if (isRootSpan) {
       this.rootSpans.push(span);

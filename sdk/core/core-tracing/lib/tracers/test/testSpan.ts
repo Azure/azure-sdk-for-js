@@ -4,6 +4,10 @@ import { NoOpSpan } from "../noop/noOpSpan";
 import { SpanOptions } from "../../interfaces/SpanOptions";
 import { Status, CanonicalCode } from "../../interfaces/status";
 import { SpanContext } from "../../interfaces/span_context";
+import { TestTracer } from "./testTracer";
+import { SpanKind } from "../../interfaces/span_kind";
+import { TimeInput } from "../../interfaces/Time";
+import { Tracer } from "../../interfaces/tracer";
 
 /**
  * A mock span useful for testing.
@@ -13,37 +17,70 @@ export class TestSpan extends NoOpSpan {
   /**
    * The Span's current name
    */
-  public name: string;
-  /**
-   * The SpanOptions used to create the Span
-   */
-  public options: SpanOptions;
+  name: string;
+
   /**
    * The Span's current status
    */
-  public status: Status;
+  status: Status;
+
+  /**
+   * The Span's kind
+   */
+  kind: SpanKind;
+
   /**
    * True if end() has been called on the Span
    */
-  public endCalled: boolean;
+  endCalled: boolean;
+
+  /**
+   * The start time of the Span
+   */
+  readonly startTime: TimeInput;
+
+  /**
+   * The id of the parent Span, if any.
+   */
+  readonly parentSpanId?: string;
 
   private _context: SpanContext;
+  private readonly _tracer: Tracer;
 
   /**
    * Starts a new Span.
+   * @param parentTracer The tracer that created this Span
    * @param name The name of the span.
    * @param context The SpanContext this span belongs to
-   * @param options The SpanOptions used during Span creation.
+   * @param kind The SpanKind of this Span
+   * @param parentSpanId The identifier of the parent Span
+   * @param startTime The startTime of the event (defaults to now)
    */
-  constructor(name: string, context: SpanContext, options: SpanOptions = {}) {
+  constructor(
+    parentTracer: TestTracer,
+    name: string,
+    context: SpanContext,
+    kind: SpanKind,
+    parentSpanId?: string,
+    startTime: TimeInput = Date.now()) {
     super();
+    this._tracer = parentTracer;
     this.name = name;
-    this.options = options;
+    this.kind = kind;
+    this.startTime = startTime;
+    this.parentSpanId = parentSpanId;
     this.status = {
       code: CanonicalCode.OK
     };
     this.endCalled = false;
     this._context = context;
+  }
+
+  /**
+   * Returns the Tracer that created this Span
+   */
+  tracer(): Tracer {
+    return this._tracer;
   }
 
   /**
