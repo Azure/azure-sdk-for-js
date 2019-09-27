@@ -28,6 +28,7 @@ parameters:
     Windows_Node12:
       OSVmImage: "windows-2019"
       NodeVersion: "12.x"
+  DocArgs: ""
 
 jobs:
   - job: "Build"
