@@ -10,6 +10,7 @@ stages:
         parameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           RunUnitTests: ${{ parameters.RunUnitTests }}
+          DocArgs: ${{parameters.DocArgs}}
 
       - template: ../jobs/archetype-sdk-integration.yml
         parameters:
