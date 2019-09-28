@@ -13,27 +13,37 @@ export class AppConfigurationClient {
     constructor(uri: string, credential: TokenCredential);
     constructor(connectionString: string);
     addConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
+    clearReadOnly(configurationSetting: ConfigurationSettingParam, options?: ClearReadOnlyOptions): Promise<DeleteLockResponse>;
     deleteConfigurationSetting(key: string, options: AppConfigurationDeleteKeyValueOptionalParams & ETagOption): Promise<DeleteKeyValueResponse>;
     getConfigurationSetting(key: string, options?: AppConfigurationGetKeyValueOptionalParams): Promise<GetKeyValueResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
     setConfigurationSetting(configurationSetting: ConfigurationSettingParam & ETagOption, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
+    setReadOnly(configurationSetting: ConfigurationSettingParam, options?: SetReadOnlyOptions): Promise<PutLockResponse>;
 }
 
 // @public
-export interface AppConfigurationDeleteKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
+interface AppConfigurationDeleteKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
     ifMatch?: string;
     label?: string;
 }
 
+export { AppConfigurationDeleteKeyValueOptionalParams }
+
+export { AppConfigurationDeleteKeyValueOptionalParams as DeleteConfigurationSettingOptions }
+
 // @public
-export interface AppConfigurationGetKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
+interface AppConfigurationGetKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
     acceptDatetime?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
     label?: string;
     select?: string[];
 }
+
+export { AppConfigurationGetKeyValueOptionalParams }
+
+export { AppConfigurationGetKeyValueOptionalParams as GetConfigurationSettingOptions }
 
 // @public
 export interface AppConfigurationGetKeyValuesOptionalParams extends coreHttp.RequestOptionsBase {
@@ -61,6 +71,12 @@ export interface AppConfigurationPutKeyValueOptionalParams extends coreHttp.Requ
     label?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "AppConfigurationDeleteLockOptionalParams" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export interface ClearReadOnlyOptions extends Pick<AppConfigurationDeleteLockOptionalParams, Exclude<keyof AppConfigurationDeleteLockOptionalParams, 'label'>> {
+}
+
 // @public
 export interface ConfigurationSetting {
     // (undocumented)
@@ -84,17 +100,25 @@ export interface ConfigurationSetting {
 }
 
 // @public
-export interface ConfigurationSettingOptions extends Pick<AppConfigurationPutKeyValueOptionalParams, Exclude<keyof AppConfigurationPutKeyValueOptionalParams, 'label' | 'entity'>> {
+export interface ConfigurationSettingId extends Pick<ConfigurationSetting, 'key' | 'label'> {
 }
 
 // @public
-export interface ConfigurationSettingParam extends Pick<ConfigurationSetting, Exclude<keyof ConfigurationSetting, 'locked' | 'etag' | 'lastModified'>> {
+export interface ConfigurationSettingOptions extends Pick<AppConfigurationPutKeyValueOptionalParams, Exclude<keyof AppConfigurationPutKeyValueOptionalParams, "label" | "entity">> {
 }
 
-// Warning: (ae-forgotten-export) The symbol "DeleteKeyValueHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export type DeleteKeyValueResponse = ConfigurationSetting & DeleteKeyValueHeaders & {
+export interface ConfigurationSettingParam extends Pick<ConfigurationSetting, Exclude<keyof ConfigurationSetting, "locked" | "etag" | "lastModified">> {
+}
+
+// @public
+export interface DeleteKeyValueHeaders {
+    eTag?: string;
+    syncToken?: string;
+}
+
+// @public
+type DeleteKeyValueResponse = ConfigurationSetting & DeleteKeyValueHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: DeleteKeyValueHeaders;
         bodyAsText: string;
@@ -102,15 +126,39 @@ export type DeleteKeyValueResponse = ConfigurationSetting & DeleteKeyValueHeader
     };
 };
 
+export { DeleteKeyValueResponse as DeleteConfigurationSettingResponse }
+
+export { DeleteKeyValueResponse }
+
+// Warning: (ae-forgotten-export) The symbol "DeleteLockHeaders" needs to be exported by the entry point index.d.ts
+// 
+// @public
+type DeleteLockResponse = ConfigurationSetting & DeleteLockHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: DeleteLockHeaders;
+        bodyAsText: string;
+        parsedBody: ConfigurationSetting;
+    };
+};
+
+export { DeleteLockResponse as ClearReadOnlyResponse }
+
+export { DeleteLockResponse }
+
 // @public (undocumented)
 export interface ETagOption {
     etag?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "GetKeyValueHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export type GetKeyValueResponse = ConfigurationSetting & GetKeyValueHeaders & {
+export interface GetKeyValueHeaders {
+    eTag?: string;
+    lastModifiedHeader?: string;
+    syncToken?: string;
+}
+
+// @public
+type GetKeyValueResponse = ConfigurationSetting & GetKeyValueHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: GetKeyValueHeaders;
         bodyAsText: string;
@@ -118,13 +166,15 @@ export type GetKeyValueResponse = ConfigurationSetting & GetKeyValueHeaders & {
     };
 };
 
+export { GetKeyValueResponse as GetConfigurationSettingResponse }
+
+export { GetKeyValueResponse }
+
 // @public
 export interface GetKeyValuesHeaders {
     syncToken?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "KeyValueListResult" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type GetKeyValuesResponse = KeyValueListResult & GetKeyValuesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -134,8 +184,11 @@ export type GetKeyValuesResponse = KeyValueListResult & GetKeyValuesHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "GetRevisionsHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface GetRevisionsHeaders {
+    syncToken?: string;
+}
+
 // @public
 export type GetRevisionsResponse = KeyValueListResult & GetRevisionsHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -146,39 +199,72 @@ export type GetRevisionsResponse = KeyValueListResult & GetRevisionsHeaders & {
 };
 
 // @public
-export interface ListConfigurationSettingPage extends Pick<GetKeyValuesResponse, Exclude<keyof GetKeyValuesResponse, 'items'>> {
+export interface KeyValueListResult {
+    items?: ConfigurationSetting[];
+    nextLink?: string;
+}
+
+// @public
+export interface ListConfigurationSettingPage extends Pick<GetKeyValuesResponse, Exclude<keyof GetKeyValuesResponse, "items">> {
     items: ConfigurationSetting[];
 }
 
 // @public
-export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationGetKeyValuesOptionalParams, Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, 'key' | 'label' | 'select' | 'after'>> {
+export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationGetKeyValuesOptionalParams, Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "after">> {
     fields?: (keyof ConfigurationSetting)[];
     keys?: string[];
     labels?: string[];
 }
 
 // @public
-export interface ListRevisionsOptions extends Pick<AppConfigurationGetRevisionsOptionalParams, Exclude<keyof AppConfigurationGetRevisionsOptionalParams, 'key' | 'label' | 'select' | 'after'>> {
+export interface ListRevisionsOptions extends Pick<AppConfigurationGetRevisionsOptionalParams, Exclude<keyof AppConfigurationGetRevisionsOptionalParams, "key" | "label" | "select" | "after">> {
     fields?: (keyof ConfigurationSetting)[];
     keys?: string[];
     labels?: string[];
 }
 
 // @public
-export interface ListRevisionsPage extends Pick<GetRevisionsResponse, Exclude<keyof GetRevisionsResponse, 'items'>> {
+export interface ListRevisionsPage extends Pick<GetRevisionsResponse, Exclude<keyof GetRevisionsResponse, "items">> {
     items: ConfigurationSetting[];
 }
 
 // Warning: (ae-forgotten-export) The symbol "PutKeyValueHeaders" needs to be exported by the entry point index.d.ts
 // 
 // @public
-export type PutKeyValueResponse = ConfigurationSetting & PutKeyValueHeaders & {
+type PutKeyValueResponse = ConfigurationSetting & PutKeyValueHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: PutKeyValueHeaders;
         bodyAsText: string;
         parsedBody: ConfigurationSetting;
     };
 };
+
+export { PutKeyValueResponse as AddConfigurationSettingResponse }
+
+export { PutKeyValueResponse }
+
+export { PutKeyValueResponse as SetConfigurationSettingResponse }
+
+// Warning: (ae-forgotten-export) The symbol "PutLockHeaders" needs to be exported by the entry point index.d.ts
+// 
+// @public
+type PutLockResponse = ConfigurationSetting & PutLockHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: PutLockHeaders;
+        bodyAsText: string;
+        parsedBody: ConfigurationSetting;
+    };
+};
+
+export { PutLockResponse }
+
+export { PutLockResponse as SetReadOnlyResponse }
+
+// Warning: (ae-forgotten-export) The symbol "AppConfigurationPutLockOptionalParams" needs to be exported by the entry point index.d.ts
+// 
+// @public
+export interface SetReadOnlyOptions extends Pick<AppConfigurationPutLockOptionalParams, Exclude<keyof AppConfigurationPutLockOptionalParams, 'label'>> {
+}
 
 
 // (No @packageDocumentation comment for this package)
