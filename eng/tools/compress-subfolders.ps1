@@ -7,7 +7,11 @@ $source = Get-ChildItem -Path $pathToDir -Directory
 Write-Host "source = $source"
 
 if((-Not (Test-Path $pathToDest))){
- mkdir $pathToDest
+  mkdir $pathToDest
+}
+
+if((-Not (Test-Path $pathToDir))){
+  mkdir $pathToDir
 }
 Foreach ($s in $source){
   $destination = Join-path -path $pathToDest -ChildPath "$($s.name).zip"
