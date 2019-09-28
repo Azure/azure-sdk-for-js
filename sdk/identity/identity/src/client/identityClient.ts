@@ -132,7 +132,7 @@ export class IdentityClient extends ServiceClient {
         span.setStatus({
           code: CanonicalCode.UNAUTHENTICATED,
           message: err.message
-        })
+        });
         return null;
       } else {
         span.setStatus({
