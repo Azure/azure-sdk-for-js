@@ -20,7 +20,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/eventhub/
+      - sdk/graphrbac/
 
 pr:
   branches:
@@ -31,14 +31,12 @@ pr:
       - hotfix/*
   paths:
     include:
-      - sdk/eventhub/
+      - sdk/graphrbac/
 
-stages: 
+stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
-      ServiceDirectory: eventhub
+      ServiceDirectory: graphrbac
       Artifacts:
-        - name: azure-event-hubs
-          safeName: azureeventhubs
-        - name: azure-eventhubs-checkpointstore-blob
-          safeName: azureeventhubscheckpointstoreblob
+        - name: azure-graph
+          safeName: azuregraph
