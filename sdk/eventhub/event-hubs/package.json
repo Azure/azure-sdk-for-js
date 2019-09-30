@@ -55,8 +55,8 @@
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test:node && npm run integration-test:node",
-    "test": "npm run test:node && npm run test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run build:test:node && npm run integration-test:node",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
