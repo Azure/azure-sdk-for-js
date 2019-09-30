@@ -17,7 +17,7 @@ import {
   ProxySettings
 } from "@azure/core-http";
 
-import { httpAtomXml } from "./log";
+import * as log from "./log";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import * as Constants from "./util/constants";
 
@@ -273,7 +273,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
     const requestPolicyFactories: RequestPolicyFactory[] = [];
     requestPolicyFactories.push(userAgentPolicy());
-    requestPolicyFactories.push(logPolicy(httpAtomXml));
+    requestPolicyFactories.push(logPolicy(log.httpAtomXml));
     requestPolicyFactories.push(atomSerializationPolicy());
     requestPolicyFactories.push(signingPolicy(credentials));
 
@@ -305,6 +305,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer,
       false
     );
+    log.httpAtomXml(
+      `Performing management operation - createQueue() for "${queueName}" with options: ${queueOptions}`
+    );
     return this.buildQueueResponse(response);
   }
 
@@ -317,6 +320,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queueName,
       this.queueResourceSerializer
     );
+    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     return this.buildQueueResponse(response);
   }
 
@@ -329,6 +333,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       "$Resources/Queues",
       listRequestOptions,
       this.queueResourceSerializer
+    );
+    log.httpAtomXml(
+      `Performing management operation - listQueues() with options: ${listRequestOptions}`
     );
     return this.buildListQueuesResponse(response);
   }
@@ -346,6 +353,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.queueResourceSerializer,
       true
     );
+    log.httpAtomXml(
+      `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
+    );
     return this.buildQueueResponse(response);
   }
 
@@ -358,6 +368,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queueName,
       this.queueResourceSerializer
     );
+    log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
     return this.buildQueueResponse(response);
   }
 
@@ -374,6 +385,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.topicResourceSerializer,
       false
     );
+    log.httpAtomXml(
+      `Performing management operation - createTopic() for "${topicName}" with options: ${topicOptions}`
+    );
     return this.buildTopicResponse(response);
   }
 
@@ -386,6 +400,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       topicName,
       this.topicResourceSerializer
     );
+    log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
     return this.buildTopicResponse(response);
   }
 
@@ -398,6 +413,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       "$Resources/Topics",
       listRequestOptions,
       this.topicResourceSerializer
+    );
+    log.httpAtomXml(
+      `Performing management operation - listTopics() with options: ${listRequestOptions}`
     );
     return this.buildListTopicsResponse(response);
   }
@@ -415,6 +433,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.topicResourceSerializer,
       true
     );
+    log.httpAtomXml(
+      `Performing management operation - updateTopic() for "${topicName}" with options: ${topicOptions}`
+    );
     return this.buildTopicResponse(response);
   }
 
@@ -427,6 +448,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       topicName,
       this.topicResourceSerializer
     );
+    log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
     return this.buildTopicResponse(response);
   }
 
@@ -449,6 +471,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer,
       false
     );
+    log.httpAtomXml(
+      `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
+    );
     return this.buildSubscriptionResponse(response);
   }
 
@@ -466,6 +491,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.subscriptionResourceSerializer
     );
+    log.httpAtomXml(
+      `Performing management operation - getSubscription() for "${subscriptionName}"`
+    );
     return this.buildSubscriptionResponse(response);
   }
 
@@ -482,6 +510,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       topicName + "/Subscriptions/",
       listRequestOptions,
       this.subscriptionResourceSerializer
+    );
+    log.httpAtomXml(
+      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
     );
     return this.buildListSubscriptionsResponse(response);
   }
@@ -505,6 +536,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer,
       true
     );
+    log.httpAtomXml(
+      `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
+    );
     return this.buildSubscriptionResponse(response);
   }
 
@@ -521,6 +555,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const response: HttpOperationResponse = await this._deleteResource(
       fullPath,
       this.subscriptionResourceSerializer
+    );
+    log.httpAtomXml(
+      `Performing management operation - deleteSubscription() for "${subscriptionName}"`
     );
     return this.buildSubscriptionResponse(response);
   }
@@ -546,6 +583,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer,
       false
     );
+    log.httpAtomXml(
+      `Performing management operation - createRule() for "${ruleName}" with options: ${ruleOptions}`
+    );
     return this.buildRuleResponse(response);
   }
 
@@ -565,6 +605,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       this.ruleResourceSerializer
     );
+    log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
     return this.buildRuleResponse(response);
   }
 
@@ -584,6 +625,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       fullPath,
       listRequestOptions,
       this.ruleResourceSerializer
+    );
+    log.httpAtomXml(
+      `Performing management operation - listRules() with options: ${listRequestOptions}`
     );
     return this.buildListRulesResponse(response);
   }
@@ -609,6 +653,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer,
       true
     );
+    log.httpAtomXml(
+      `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
+    );
     return this.buildRuleResponse(response);
   }
 
@@ -616,17 +663,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Deletes a rule.
    * @param topicName
    * @param subscriptionName
-   * @param rule
+   * @param ruleName
    */
   async deleteRule(
     topicName: string,
     subscriptionName: string,
-    rule: string
+    ruleName: string
   ): Promise<DeleteRuleResponse> {
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule);
+    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this._deleteResource(
       fullPath,
       this.ruleResourceSerializer
+    );
+    log.httpAtomXml(
+      `Performing management operation - deleteRule() for "${ruleName}"`
     );
     return this.buildRuleResponse(response);
   }
