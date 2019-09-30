@@ -59,10 +59,10 @@ export class AppConfigurationClient {
   /**
    * Initializes a new instance of the AppConfigurationClient class.
    * @param uri The base URI for the Azure service
-   * @param credential The credentials to use for authentication.
+   * @param tokenCredential The credentials to use for authentication.
    */
-  constructor(uri: string, credential: TokenCredential);
-  constructor(uriOrConnectionString: string, credential?: TokenCredential) {
+  constructor(uri: string, tokenCredential: TokenCredential);
+  constructor(uriOrConnectionString: string, tokenCredential?: TokenCredential) {
     if (uriOrConnectionString == null) {
       throw new Error(
         "You must provide a connection string or the URL for your AppConfiguration instance"
@@ -71,13 +71,13 @@ export class AppConfigurationClient {
 
     const regexMatch = uriOrConnectionString.match(ConnectionStringRegex);
     if (regexMatch) {
-      const credential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
-      this.client = new AppConfiguration(credential, apiVersion, {
+      const appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
+      this.client = new AppConfiguration(appConfigCredential, apiVersion, {
         baseUri: regexMatch[1],
         deserializationContentTypes
       });
-    } else if (credential && credential.constructor.name === "ManagedIdentityCredential") {
-      this.client = new AppConfiguration(credential, apiVersion, {
+    } else if (tokenCredential && tokenCredential.constructor.name === "ManagedIdentityCredential") {
+      this.client = new AppConfiguration(tokenCredential, apiVersion, {
         baseUri: uriOrConnectionString,
         deserializationContentTypes
       });
