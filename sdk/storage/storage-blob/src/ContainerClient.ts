@@ -1299,7 +1299,20 @@ export class ContainerClient extends StorageClient {
   }
 
   private getContainerNameFromUrl(): string {
+    //  URL may look like the following
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob";
+
     const urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-    return urlWithoutSAS.substring(urlWithoutSAS.lastIndexOf("/") + 1, urlWithoutSAS.length);
+    const containerName = urlWithoutSAS.substring(
+      urlWithoutSAS.lastIndexOf("/") + 1,
+      urlWithoutSAS.length
+    );
+
+    if (!containerName) {
+      throw new Error("Unable to extract blobName and containerName with provided information.");
+    }
+
+    return containerName;
   }
 }
