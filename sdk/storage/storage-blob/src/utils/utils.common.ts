@@ -529,6 +529,8 @@ export function getAccountNameFromUrl(url: string): string {
     return getValueInConnString(DevelopmentConnectionString, "AccountName");
   } else {
     // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+    // Slicing off '/' at the end if exists
+    url = url.endsWith("/") ? url.slice(0, -1) : url;
 
     const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".blob."));
     if (!accountName) {

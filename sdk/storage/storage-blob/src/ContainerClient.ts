@@ -1300,10 +1300,12 @@ export class ContainerClient extends StorageClient {
 
   private getContainerNameFromUrl(): string {
     //  URL may look like the following
-    // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
-    // "https://myaccount.blob.core.windows.net/mycontainer/blob";
+    // "https://myaccount.blob.core.windows.net/mycontainer?sasString";
+    // "https://myaccount.blob.core.windows.net/mycontainer";
 
-    const urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
     const containerName = urlWithoutSAS.substring(
       urlWithoutSAS.lastIndexOf("/") + 1,
       urlWithoutSAS.length
