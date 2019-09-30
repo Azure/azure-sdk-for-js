@@ -29,14 +29,14 @@ export function formatETagForMatchHeaders(objectWithEtag: ETagOption): string | 
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
 ): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label"> {
-  let key = undefined;
+  let key;
 
   if (listConfigOptions.keys) {
     // TODO: escape commas?
     key = listConfigOptions.keys.join(",");
   }
 
-  let label = undefined;
+  let label;
 
   if (listConfigOptions.labels) {
     label = listConfigOptions.labels.join(",");
