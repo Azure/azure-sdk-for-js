@@ -18,6 +18,7 @@ export { ManagedIdentityCredential } from "./credentials/managedIdentityCredenti
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
+export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export {
   AuthenticationError,
   AggregateAuthenticationError,
