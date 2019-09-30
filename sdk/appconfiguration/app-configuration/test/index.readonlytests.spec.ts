@@ -2,7 +2,7 @@ import { getConnectionStringFromEnvironment, assertThrowsRestError, deleteKeyCom
 import { AppConfigurationClient } from "../src";
 import * as assert from "assert";
 
-describe("appconfig readonly settings tests", () => {
+describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
   const testConfigSetting = { key: `readOnlyTests-${Date.now()}`, value: "world", label: "some label" };
 
