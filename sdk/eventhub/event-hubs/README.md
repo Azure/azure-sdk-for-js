@@ -276,12 +276,16 @@ To control the number of events passed to processEvents, use the options argumen
 You can use `EventHubClient` to work with IotHub as well. This is useful for receiving telemetry data of IotHub from the linked EventHub.
 Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving events would be the possible operations.
 
-- Please notice that the connection string needs to contain the `Endpoint` and `EntityPath` key-value pairs
+- Please notice that the connection string needs to contain the `Endpoint` key-value pair
   in addition to the `SharedAccessKeyName` and `SharedAccessKey` key-value pairs.
+  It can optionally include the name of the IoT Hub as the `EntityPath` value, or the name can be passed separately to the
+  `EventHubClient` constructor.
   e.g. "Endpoint=sb://my-iothub-namespace-<uid>.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
 
 ```javascript
-const client = new EventHubClient("connectionString");
+const client = new EventHubClient("connectionStringWithEntityPath");
+// or
+const client = new EventHubClient("connectionString", "iot-hub-name");
 await client.getProperties();
 await client.getPartitionProperties("partitionId");
 ```
