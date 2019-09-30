@@ -10,13 +10,13 @@ import { EventHubClient } from "@azure/event-hubs";
 const connectionString = "";
 
 async function main(): Promise<void> {
-  const client = await EventHubClient.createFromIotHubConnectionString(connectionString);
+  const client = new EventHubClient(connectionString);
   /*
-   Refer to other samples, and place your code here to send/receive events using the above client
+   Refer to other samples, and place your code here to receive events using the above client
   */
   await client.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

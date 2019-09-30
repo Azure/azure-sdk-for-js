@@ -20,7 +20,6 @@ import { ConnectionContext } from "./connectionContext";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { EventPosition } from "./eventPosition";
 
-import { IotHubClient } from "./iothub/iothubClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
@@ -692,29 +691,6 @@ export class EventHubClient {
     } finally {
       clientSpan.end();
     }
-  }
-
-  /**
-   * Creates an EventHubClient from connection string.
-   * @param iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'.
-   * @param [options] Options that can be provided during client creation.
-   * @returns - Promise<EventHubClient>.
-   * @throws {Error} Thrown if the iothubConnectionString is not provided as a string.
-   */
-  static async createFromIotHubConnectionString(
-    iothubConnectionString: string,
-    options?: EventHubClientOptions
-  ): Promise<EventHubClient> {
-    if (
-      !iothubConnectionString ||
-      (iothubConnectionString && typeof iothubConnectionString !== "string")
-    ) {
-      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
-    }
-    const connectionString = await new IotHubClient(
-      iothubConnectionString
-    ).getEventHubConnectionString();
-    return new EventHubClient(connectionString, options);
   }
 
   /**

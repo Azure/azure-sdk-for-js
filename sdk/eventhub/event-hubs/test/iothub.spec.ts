@@ -12,7 +12,9 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
 describe("EventHub Client with iothub connection string ", function(): void {
-  const service = { connectionString: env[EnvVarKeys.IOTHUB_CONNECTION_STRING] };
+  const service = {
+    connectionString: (env[EnvVarKeys.IOTHUB_CONNECTION_STRING] as string) || ""
+  };
   let client: EventHubClient;
   before("validate environment", async function(): Promise<void> {
     should.exist(
@@ -29,7 +31,7 @@ describe("EventHub Client with iothub connection string ", function(): void {
   });
 
   it("should be able to get hub runtime info", async function(): Promise<void> {
-    client = await EventHubClient.createFromIotHubConnectionString(service.connectionString!);
+    client = new EventHubClient(service.connectionString);
     const runtimeInfo = await client.getProperties();
     debug(">>> RuntimeInfo: ", runtimeInfo);
     should.exist(runtimeInfo, `RuntimeIno does not exist. Found ${runtimeInfo}`);
@@ -41,7 +43,7 @@ describe("EventHub Client with iothub connection string ", function(): void {
   });
 
   it("should be able to receive messages from the event hub", async function(): Promise<void> {
-    client = await EventHubClient.createFromIotHubConnectionString(service.connectionString!);
+    client = new EventHubClient(service.connectionString);
     const receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       "0",
