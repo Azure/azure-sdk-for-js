@@ -99,18 +99,16 @@ export class AppConfigurationClient {
    * @param configurationSetting A configuration setting.
    * @param options Optional parameters for the request.
    */
-  async addConfigurationSetting(
+  addConfigurationSetting(
     configurationSetting: ConfigurationSettingParam,
     options: ConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    const result = await this.client.putKeyValue(configurationSetting.key, {
+    return this.client.putKeyValue(configurationSetting.key, {
       ifNoneMatch: "*",
       label: configurationSetting.label,
       entity: configurationSetting,
       ...options
     });
-
-    return result;
   }
 
   /**
@@ -145,16 +143,14 @@ export class AppConfigurationClient {
    * @param key The name of the key.
    * @param options Optional parameters for the request.
    */
-  async getConfigurationSetting(
+  getConfigurationSetting(
     key: string,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    const result = await this.client.getKeyValue(key, {
+    return this.client.getKeyValue(key, {
       label: options.label,
       ...options
     });
-
-    return result;
   }
 
   /**
@@ -180,7 +176,7 @@ export class AppConfigurationClient {
         return this;
       },
       byPage: (_: PageSettings = {}) => {
-        // TODO: the appconfig service doesn't currently support letting you select a page size
+        // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
         return this.listConfigurationSettingsByPage(options);
       }
@@ -216,8 +212,6 @@ export class AppConfigurationClient {
         after: extractAfterTokenFromNextLink(currentResponse.nextLink)
       });
 
-      // TODO: We can get one more "empty" response if we're on
-      // a page boundary but there's no data in the response that's useful
       if (!currentResponse.items) {
         break;
       }
@@ -256,7 +250,7 @@ export class AppConfigurationClient {
         return this;
       },
       byPage: (_: PageSettings = {}) => {
-        // TODO: the appconfig service doesn't currently support letting you select a page size
+        // The appconfig service doesn't currently support letting you select a page size
         // so we're ignoring their setting for now.
         return this.listRevisionsByPage(options);
       }
@@ -295,8 +289,6 @@ export class AppConfigurationClient {
         after: extractAfterTokenFromNextLink(currentResponse.nextLink)
       });
 
-      // TODO: We can get one more "empty" response if we're on
-      // a page boundary but there's no data in the response that's useful
       if (!currentResponse.items) {
         break;
       }
