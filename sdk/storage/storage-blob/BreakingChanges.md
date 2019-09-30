@@ -1,5 +1,9 @@
 # Breaking Changes
 
+### 2019.09 Version 12.0.0-preview.4
+
+- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on LeaseClient.
+
 ### 2019.09 Version 12.0.0-preview.3
 
 - `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.

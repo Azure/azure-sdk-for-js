@@ -104,7 +104,7 @@ describe("LeaseClient from Container", () => {
     assert.equal(result.leaseStatus, "locked");
 
     const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-    await leaseClient.chanageLease(newGuid);
+    await leaseClient.changeLease(newGuid);
 
     await containerClient.getProperties();
     await leaseClient.releaseLease();
@@ -230,7 +230,7 @@ describe("LeaseClient from Blob", () => {
     assert.equal(result.leaseStatus, "locked");
 
     const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-    await leaseClient.chanageLease(newGuid);
+    await leaseClient.changeLease(newGuid);
 
     await blobClient.getProperties();
     await leaseClient.releaseLease();
