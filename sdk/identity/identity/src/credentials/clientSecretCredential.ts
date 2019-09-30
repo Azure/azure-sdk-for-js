@@ -5,6 +5,7 @@ import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken, CanonicalCode } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
+import { AuthenticationErrorName } from "../client/errors";
 
 /**
  * Enables authentication to Azure Active Directory using a client secret
@@ -81,8 +82,12 @@ export class ClientSecretCredential implements TokenCredential {
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code,
         message: err.message
       });
       throw err;

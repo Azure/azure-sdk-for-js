@@ -12,6 +12,7 @@ import {
 } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
+import { AuthenticationErrorName } from "../client/errors";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -241,8 +242,12 @@ export class ManagedIdentityCredential implements TokenCredential {
       );
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code,
         message: err.message
       });
       throw err;

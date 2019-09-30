@@ -39,19 +39,20 @@ export class ChainedTokenCredential implements TokenCredential {
       try {
         token = await this._sources[i].getToken(scopes, newOptions);
       } catch (err) {
-        span.setStatus({
-          code: CanonicalCode.UNAUTHENTICATED,
-          message: err.message
-        });
         errors.push(err);
       }
     }
 
-    span.end();
-
     if (!token && errors.length > 0) {
-      throw new AggregateAuthenticationError(errors);
+      const err = new AggregateAuthenticationError(errors);
+      span.setStatus({
+        code: CanonicalCode.UNAUTHENTICATED,
+        message: err.message
+      });
+      throw err;
     }
+
+    span.end();
 
     return token;
   }

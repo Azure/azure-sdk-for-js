@@ -9,6 +9,7 @@ import { createHash } from "crypto";
 import { TokenCredential, GetTokenOptions, AccessToken, CanonicalCode } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
+import { AuthenticationErrorName } from "../client/errors";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -87,7 +88,10 @@ export class ClientCertificateCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("ClientCertificateCredential-getToken", options);
+    const { span, options: newOptions } = createSpan(
+      "ClientCertificateCredential-getToken",
+      options
+    );
     try {
       const tokenId = uuid.v4();
       const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
@@ -136,8 +140,12 @@ export class ClientCertificateCredential implements TokenCredential {
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code,
         message: err.message
       });
       throw err;

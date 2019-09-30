@@ -5,6 +5,7 @@ import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken, CanonicalCode } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
+import { AuthenticationErrorName } from "../client/errors";
 
 /**
  * Enables authentication to Azure Active Directory with a user's
@@ -58,7 +59,10 @@ export class UsernamePasswordCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("UsernamePasswordCredential-getToken", options);
+    const { span, options: newOptions } = createSpan(
+      "UsernamePasswordCredential-getToken",
+      options
+    );
     try {
       const webResource = this.identityClient.createWebResource({
         url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
@@ -84,9 +88,13 @@ export class UsernamePasswordCredential implements TokenCredential {
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: err.message,
+        code,
+        message: err.message
       });
       throw err;
     } finally {
