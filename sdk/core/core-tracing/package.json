@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-tracing",
-  "version": "1.0.0-preview.2",
+  "version": "1.0.0-preview.3",
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -58,6 +58,7 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/core/core-tracing",
   "sideEffects": false,
   "dependencies": {
+    "@opencensus/web-types": "0.0.7",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

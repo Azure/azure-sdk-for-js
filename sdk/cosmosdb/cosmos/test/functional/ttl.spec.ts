@@ -97,8 +97,7 @@ describe("Container TTL", function() {
       ttl: 2
     };
 
-    // 0, null, -10 are unsupported value for ttl.Valid values are -1 or a non-zero positive 32-bit integer value
-    await createItemWithInvalidTtl(container, itemDefinition, "doc1", 0);
+    // null, -10 are unsupported value for ttl.Valid values are -1 or a non-zero positive 32-bit integer value
     await createItemWithInvalidTtl(container, itemDefinition, "doc2", null);
     await createItemWithInvalidTtl(container, itemDefinition, "doc3", -10);
   });

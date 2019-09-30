@@ -42,7 +42,7 @@ export class QueryIterator<T> {
   ) {
     this.query = query;
     this.fetchFunctions = fetchFunctions;
-    this.options = options;
+    this.options = options || {};
     this.resourceLink = resourceLink;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
@@ -240,7 +240,7 @@ export class QueryIterator<T> {
     if (this.isInitialied === true) {
       return;
     }
-    if (this.initPromise) {
+    if (this.initPromise === undefined) {
       this.initPromise = this._init();
     }
     return this.initPromise;

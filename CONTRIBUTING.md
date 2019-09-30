@@ -59,7 +59,10 @@ First, make sure you have the prerequisites installed and available on your `$PA
 
 - Git
 - Node 8.x or higher
-- Rush 5.7.3 or higher (install / update globally via `npm install -g @microsoft/rush`)
+- Rush 5.x
+  - Install / update Rush globally via `npm install -g @microsoft/rush`.
+  - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.
+  - If you're unable to install a global tool, you can instead call the wrapper script `node <repo root>/common/scripts/install-run-rush.js` any time the guide instructs you to run `rush`. The wrapper script will install a managed copy of Rush in a temporary directory for you.
 
 Next, get the code:
 

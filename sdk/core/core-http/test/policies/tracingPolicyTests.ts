@@ -2,68 +2,75 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import sinon from "sinon";
-import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, Tracer, Span, TracerProxy, RequestPolicyOptions, TraceOptions, NoOpTracePlugin, TracerNoOpImpl } from "../../lib/coreHttp";
+import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, TracerProxy, RequestPolicyOptions, TraceFlags, NoOpTracer, SpanOptions, SpanContext, NoOpSpan } from "../../lib/coreHttp";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
-interface MockTracer extends Tracer {
-  getStartedSpans(): any[];
-  startSpanCalled(): boolean;
+class MockSpan extends NoOpSpan {
+  private _endCalled = false;
+
+  constructor(private traceId: string, private spanId: string, private flags: TraceFlags, private state: string) {
+    super();
+  }
+
+  didEnd() {
+    return this._endCalled;
+  }
+
+  end() {
+    this._endCalled = true;
+  }
+
+  context(): SpanContext {
+    const state = this.state;
+    return {
+      traceId: this.traceId,
+      spanId: this.spanId,
+      traceFlags: this.flags,
+      traceState: {
+        set(_key: string, _value: string) {
+        },
+        unset(_key: string) {
+        },
+        get(_key: string): string | undefined {
+          return;
+        },
+        serialize() {
+          return state;
+        }
+      }
+    }
+  }
 }
 
-describe("tracingPolicy", function () {
-  function mockTracerFactory(
-    traceId?: string,
-    spanId?: string,
-    options?: TraceOptions,
-    state?: string
-  ): MockTracer {
-    let startedSpan = false;
-    const spans: any[] = [];
-    return {
-      // helper method for testing
-      getStartedSpans() {
-        return spans;
-      },
-      // helper method for testing
-      startSpanCalled() {
-        return startedSpan;
-      },
-      startSpan() {
-        startedSpan = true;
-        let started = false;
-        let ended = false;
-        const mockSpan = {
-          didStart() {
-            return started;
-          },
-          didEnd() {
-            return ended;
-          },
-          start() {
-            started = true;
-          },
-          end() {
-            ended = true;
-          },
-          context() {
-            return {
-              traceId,
-              spanId,
-              traceOptions: options,
-              traceState: {
-                serialize() {
-                  return state
-                }
-              }
-            }
-          }
-        };
-        spans.push(mockSpan);
-        return mockSpan as any as Span;
-      }
-    } as any;
+class MockTracer extends NoOpTracer {
+
+  private spans: MockSpan[] = [];
+  private _startSpanCalled = false;
+
+  constructor(private traceId = "", private spanId = "", private flags = TraceFlags.UNSAMPLED, private state = "") {
+    super();
   }
+
+  getStartedSpans() {
+    return this.spans;
+  }
+
+  startSpanCalled() {
+    return this._startSpanCalled;
+  }
+
+  startSpan(_name: string, _options?: SpanOptions): MockSpan {
+    this._startSpanCalled = true;
+    const span = new MockSpan(this.traceId, this.spanId, this.flags, this.state);
+    this.spans.push(span);
+    return span;
+  }
+}
+
+const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
+
+describe("tracingPolicy", function () {
+
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
@@ -74,17 +81,9 @@ describe("tracingPolicy", function () {
     }
   };
 
-  afterEach(function () {
-    if (typeof (TracerProxy.getTracer as sinon.SinonStub).restore === "function") {
-      (TracerProxy.getTracer as sinon.SinonStub).restore();
-    }
-  });
-
   it("will not create a span if spanOptions are missing", async () => {
-    const mockTracer = mockTracerFactory();
-    sinon.stub(TracerProxy, "getTracer").callsFake(() => {
-      return mockTracer;
-    });
+    const mockTracer = new MockTracer();
+    TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -95,13 +94,11 @@ describe("tracingPolicy", function () {
   it("will create a span and correctly set trace headers if spanOptions are available", async () => {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
-    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceOptions.SAMPLED);
-    sinon.stub(TracerProxy, "getTracer").callsFake(() => {
-      return mockTracer;
-    });
+    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
+    TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -109,10 +106,9 @@ describe("tracingPolicy", function () {
     assert.isTrue(mockTracer.startSpanCalled());
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didStart());
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.SAMPLED}`);
+    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
     assert.notExists(request.headers.get("tracestate"));
   });
 
@@ -120,13 +116,11 @@ describe("tracingPolicy", function () {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     // leave out the TraceOptions
-    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId);
-    sinon.stub(TracerProxy, "getTracer").callsFake(() => {
-      return mockTracer;
-    });
+    const mockTracer = new MockTracer(mockTraceId, mockSpanId);
+    TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -134,10 +128,9 @@ describe("tracingPolicy", function () {
     assert.isTrue(mockTracer.startSpanCalled());
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didStart());
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.UNSAMPLED}`);
+    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.UNSAMPLED}`);
     assert.notExists(request.headers.get("tracestate"));
   });
 
@@ -145,13 +138,11 @@ describe("tracingPolicy", function () {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
-    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceOptions.SAMPLED, mockTraceState);
-    sinon.stub(TracerProxy, "getTracer").callsFake(() => {
-      return mockTracer;
-    });
+    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
+    TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -159,10 +150,9 @@ describe("tracingPolicy", function () {
     assert.isTrue(mockTracer.startSpanCalled());
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didStart());
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.SAMPLED}`);
+    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
     assert.equal(request.headers.get("tracestate"), mockTraceState);
   });
 
@@ -170,13 +160,11 @@ describe("tracingPolicy", function () {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
     const mockTraceState = "foo=bar";
-    const mockTracer = mockTracerFactory(mockTraceId, mockSpanId, TraceOptions.SAMPLED, mockTraceState);
-    sinon.stub(TracerProxy, "getTracer").callsFake(() => {
-      return mockTracer;
-    });
+    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
+    TracerProxy.setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create({
       sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -195,22 +183,18 @@ describe("tracingPolicy", function () {
       assert.isTrue(mockTracer.startSpanCalled());
       assert.lengthOf(mockTracer.getStartedSpans(), 1);
       const span = mockTracer.getStartedSpans()[0];
-      assert.isTrue(span.didStart());
       assert.isTrue(span.didEnd());
 
-      assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceOptions.SAMPLED}`);
+      assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
       assert.equal(request.headers.get("tracestate"), mockTraceState);
     }
   });
 
   it("will not set headers if span is a NoOpSpan", async () => {
-    sinon.stub(TracerProxy, "getTracer").callsFake(() => {
-      return new NoOpTracePlugin(new TracerNoOpImpl());
-    });
-
+    TracerProxy.setTracer(new NoOpTracer());
     const request = new WebResource();
     request.spanOptions = {
-      parent: {} // stub a parent since we aren't testing the startSpan method
+      parent: ROOT_SPAN
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);

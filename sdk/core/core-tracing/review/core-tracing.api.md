@@ -4,10 +4,18 @@
 
 ```ts
 
+import { Span as OpenCensusSpan } from '@opencensus/web-types';
+import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
+
 // @public
 export interface Attributes {
-    // (undocumented)
     [attributeKey: string]: unknown;
+}
+
+// @public
+export interface BinaryFormat {
+    fromBytes(buffer: ArrayBuffer): SpanContext | null;
+    toBytes(spanContext: SpanContext): ArrayBuffer;
 }
 
 // @public
@@ -38,98 +46,79 @@ export interface Event {
 }
 
 // @public
+export type HrTime = [number, number];
+
+// @public
+export interface HttpTextFormat {
+    extract(format: string, carrier: unknown): SpanContext | null;
+    inject(spanContext: SpanContext, format: string, carrier: unknown): void;
+}
+
+// @public
+export interface ITracerProxy {
+    getTracer(): Tracer;
+    setTracer(tracer: Tracer): void;
+}
+
+// @public
 export interface Link {
     attributes?: Attributes;
     spanContext: SpanContext;
 }
 
-// @public (undocumented)
-export class NoOpSpanPlugin implements Span {
-    constructor(span: any);
-    // (undocumented)
-    addEvent(name: string, attributes?: Attributes): this;
-    // (undocumented)
-    addLink(spanContext: SpanContext, attributes?: Attributes): this;
-    // (undocumented)
+// @public
+export class NoOpSpan implements Span {
+    addEvent(_name: string, _attributes?: Attributes): this;
+    addLink(_spanContext: SpanContext, _attributes?: Attributes): this;
     context(): SpanContext;
-    // (undocumented)
-    end(endTime?: number): void;
-    // (undocumented)
+    end(_endTime?: number): void;
     isRecordingEvents(): boolean;
-    // (undocumented)
+    setAttribute(_key: string, _value: unknown): this;
+    setAttributes(_attributes: Attributes): this;
+    setStatus(_status: Status): this;
+    updateName(_name: string): this;
+}
+
+// @public
+export class NoOpTracer implements Tracer {
+    bind<T>(target: T, _span?: Span): T;
+    getBinaryFormat(): BinaryFormat;
+    getCurrentSpan(): Span;
+    getHttpTextFormat(): HttpTextFormat;
+    recordSpanData(_span: Span): void;
+    startSpan(_name: string, _options?: SpanOptions): Span;
+    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
+}
+
+export { OpenCensusSpan }
+
+// @public
+export class OpenCensusSpanWrapper implements Span {
+    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
+    addEvent(name: string, attributes?: Attributes): this;
+    addLink(spanContext: SpanContext, attributes?: Attributes): this;
+    context(): SpanContext;
+    end(_endTime?: number): void;
+    getWrappedSpan(): OpenCensusSpan;
+    isRecordingEvents(): boolean;
     setAttribute(key: string, value: unknown): this;
-    // (undocumented)
     setAttributes(attributes: Attributes): this;
-    // (undocumented)
     setStatus(status: Status): this;
-    // (undocumented)
-    start(startTime?: number): void;
-    // (undocumented)
     updateName(name: string): this;
 }
 
-// @public (undocumented)
-export class NoOpTracePlugin implements Tracer {
-    constructor(tracer: any);
-    // (undocumented)
-    getBinaryFormat(): unknown;
-    // (undocumented)
-    getCurrentSpan(): Span;
-    // (undocumented)
-    getHttpTextFormat(): unknown;
-    // (undocumented)
-    readonly pluginType = SupportedPlugins.NOOP;
-    // (undocumented)
-    recordSpanData(span: Span): void;
-    // (undocumented)
-    startSpan(name: string, options?: SpanOptions): Span;
-    // (undocumented)
-    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
-}
+export { OpenCensusTracer }
 
-// @public (undocumented)
-export class OpenCensusSpanPlugin implements Span {
-    constructor(span: any);
-    // (undocumented)
-    addEvent(name: string, attributes?: Attributes): this;
-    // (undocumented)
-    addLink(spanContext: SpanContext, attributes?: Attributes): this;
-    // (undocumented)
-    context(): SpanContext;
-    // (undocumented)
-    end(endTime?: number): void;
-    // (undocumented)
-    getSpan(): any;
-    // (undocumented)
-    isRecordingEvents(): boolean;
-    // (undocumented)
-    setAttribute(key: string, value: unknown): this;
-    // (undocumented)
-    setAttributes(attributes: Attributes): this;
-    // (undocumented)
-    setStatus(status: Status): this;
-    // (undocumented)
-    start(startTime?: number): void;
-    // (undocumented)
-    updateName(name: string): this;
-}
-
-// @public (undocumented)
-export class OpenCensusTracePlugin implements Tracer {
-    constructor(tracer: any);
-    // (undocumented)
-    getBinaryFormat(): unknown;
-    // (undocumented)
-    getCurrentSpan(): Span;
-    // (undocumented)
-    getHttpTextFormat(): unknown;
-    // (undocumented)
-    readonly pluginType = SupportedPlugins.OPENCENSUS;
-    // (undocumented)
+// @public
+export class OpenCensusTracerWrapper implements Tracer {
+    constructor(tracer: OpenCensusTracer);
+    bind<T>(target: T, span?: Span): T;
+    getBinaryFormat(): BinaryFormat;
+    getCurrentSpan(): Span | null;
+    getHttpTextFormat(): HttpTextFormat;
+    getWrappedTracer(): OpenCensusTracer;
     recordSpanData(span: Span): void;
-    // (undocumented)
     startSpan(name: string, options?: SpanOptions): Span;
-    // (undocumented)
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
 }
 
@@ -144,21 +133,19 @@ export interface Span {
     addEvent(name: string, attributes?: Attributes): this;
     addLink(spanContext: SpanContext, attributes?: Attributes): this;
     context(): SpanContext;
-    end(endTime?: number): void;
+    end(endTime?: TimeInput): void;
     isRecordingEvents(): boolean;
     setAttribute(key: string, value: unknown): this;
     setAttributes(attributes: Attributes): this;
     setStatus(status: Status): this;
-    // (undocumented)
-    start(startTime?: number): void;
     updateName(name: string): this;
 }
 
 // @public
 export interface SpanContext {
     spanId: string;
+    traceFlags?: TraceFlags;
     traceId: string;
-    traceOptions?: TraceOptions;
     traceState?: TraceState;
 }
 
@@ -169,30 +156,6 @@ export enum SpanKind {
     INTERNAL = 0,
     PRODUCER = 3,
     SERVER = 1
-}
-
-// @public (undocumented)
-export class SpanNoOpImpl implements Span {
-    // (undocumented)
-    addEvent(name: string, attributes?: Attributes | undefined): this;
-    // (undocumented)
-    addLink(spanContext: SpanContext, attributes?: Attributes | undefined): this;
-    // (undocumented)
-    context(): SpanContext;
-    // (undocumented)
-    end(endTime?: number): void;
-    // (undocumented)
-    isRecordingEvents(): boolean;
-    // (undocumented)
-    setAttribute(key: string, value: unknown): this;
-    // (undocumented)
-    setAttributes(attributes: Attributes): this;
-    // (undocumented)
-    setStatus(status: Status): this;
-    // (undocumented)
-    start(startTime?: number): void;
-    // (undocumented)
-    updateName(name: string): this;
 }
 
 // @public
@@ -210,62 +173,33 @@ export interface Status {
     message?: string;
 }
 
-// @public (undocumented)
-export enum SupportedPlugins {
-    // (undocumented)
-    NOOP = 1,
-    // (undocumented)
-    OPENCENSUS = 0
-}
-
 // @public
 export interface TimedEvent extends Event {
-    // (undocumented)
-    time: number;
+    time: HrTime;
 }
 
 // @public
-export enum TraceOptions {
+export type TimeInput = HrTime | number | Date;
+
+// @public
+export enum TraceFlags {
     SAMPLED = 1,
     UNSAMPLED = 0
 }
 
 // @public
 export interface Tracer {
-    getBinaryFormat(): unknown;
-    getCurrentSpan(): Span;
-    getHttpTextFormat(): unknown;
-    pluginType: SupportedPlugins;
+    bind<T>(target: T, span?: Span): T;
+    getBinaryFormat(): BinaryFormat;
+    getCurrentSpan(): Span | null;
+    getHttpTextFormat(): HttpTextFormat;
     recordSpanData(span: Span): void;
     startSpan(name: string, options?: SpanOptions): Span;
-    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
+    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(span: Span, fn: T): ReturnType<T>;
 }
 
-// @public (undocumented)
-export class TracerNoOpImpl implements Tracer {
-    // (undocumented)
-    getBinaryFormat(): unknown;
-    // (undocumented)
-    getCurrentSpan(): Span;
-    // (undocumented)
-    getHttpTextFormat(): unknown;
-    // (undocumented)
-    readonly pluginType = SupportedPlugins.NOOP;
-    // (undocumented)
-    recordSpanData(span: Span): void;
-    // (undocumented)
-    startSpan(name: string, options?: SpanOptions | undefined): Span;
-    // (undocumented)
-    withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
-}
-
-// @public (undocumented)
-export class TracerProxy {
-    // (undocumented)
-    static getTracer(): Tracer;
-    // (undocumented)
-    static setTracer(tracer: any, tracerPluginType: SupportedPlugins): void;
-    }
+// @public
+export const TracerProxy: ITracerProxy;
 
 // @public
 export interface TraceState {

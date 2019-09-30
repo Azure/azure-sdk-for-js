@@ -2,10 +2,11 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.0.0-preview.2",
-  "sdk-type": "client",
+  "version": "1.0.0-preview.4",
+  "sdk-type": "client",  
   "dependencies": {
     "@azure/core-arm": "1.0.0-preview.3",
+    "@azure/core-asynciterator-polyfill": "1.0.0-preview.1",
     "@azure/core-http": "1.0.0-preview.3",
     "@azure/core-paging": "1.0.0-preview.2",
     "tslib": "^1.9.3"
@@ -20,7 +21,7 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
+  "types": "./types/app-configuration.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",

@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.2.0",
+  "version": "3.3.1",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -39,7 +39,7 @@
     "build:samples": "tsc -b samples",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc -b src test --verbose",
-    "build": "npm run clean && npm run extract-api && npm run bundle && node writeSDKVersion.js",
+    "build": "npm run clean && npm run extract-api && node writeSDKVersion.js && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TracerProxy, TraceOptions } from "@azure/core-tracing";
+import { TracerProxy, TraceFlags } from "@azure/core-tracing";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -33,15 +33,13 @@ export class TracingPolicy extends BaseRequestPolicy {
     const tracer = TracerProxy.getTracer();
     const span = tracer.startSpan("core-http", request.spanOptions);
 
-    span.start();
-
     try {
       // set headers
       const spanContext = span.context();
       if (spanContext.spanId && spanContext.traceId) {
         request.headers.set(
           "traceparent",
-          `${spanContext.traceId}-${spanContext.spanId}-${spanContext.traceOptions || TraceOptions.UNSAMPLED}`
+          `${spanContext.traceId}-${spanContext.spanId}-${spanContext.traceFlags || TraceFlags.UNSAMPLED}`
         );
         const traceState = spanContext.traceState && spanContext.traceState.serialize();
         // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent

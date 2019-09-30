@@ -10,6 +10,7 @@ import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AtomXmlOperationSpec } from "./atomXmlOperationSpec";
+import { SpanOptions } from "@azure/core-tracing";
 
 export type HttpMethods =
   | "GET"
@@ -88,7 +89,7 @@ export class WebResource {
   /**
    * Options used to create a span when tracing is enabled.
    */
-  spanOptions?: any;
+  spanOptions?: SpanOptions;
 
   constructor(
     url?: string,
@@ -517,7 +518,7 @@ export interface RequestOptionsBase {
   /**
    * Options used to create a span when tracing is enabled.
    */
-  spanOptions?: any;
+  spanOptions?: SpanOptions;
 
   [key: string]: any;
 }

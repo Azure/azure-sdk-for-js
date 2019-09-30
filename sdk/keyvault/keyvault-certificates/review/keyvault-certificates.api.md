@@ -10,7 +10,6 @@ import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SupportedPlugins } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 import { TracerProxy } from '@azure/core-http';
 
@@ -260,8 +259,6 @@ export interface RetryOptions {
 export interface SecretProperties {
     contentType?: string;
 }
-
-export { SupportedPlugins }
 
 // @public (undocumented)
 export interface TelemetryOptions {

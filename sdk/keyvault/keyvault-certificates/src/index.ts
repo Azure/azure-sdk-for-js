@@ -17,8 +17,7 @@ import {
   RequestOptionsBase,
   tracingPolicy,
   TracerProxy,
-  Span,
-  SupportedPlugins
+  Span
 } from "@azure/core-http";
 
 import {
@@ -63,7 +62,29 @@ import {
   LifetimeAction,
   OrganizationDetails,
   SecretProperties,
-  X509CertificateProperties
+  X509CertificateProperties,
+  DeleteCertificateResponse,
+  DeleteCertificateContactsResponse,
+  SetCertificateContactsResponse,
+  GetCertificateContactsResponse,
+  SetCertificateIssuerResponse,
+  UpdateCertificateIssuerResponse,
+  GetCertificateIssuerResponse,
+  DeleteCertificateIssuerResponse,
+  CreateCertificateResponse,
+  GetCertificateResponse,
+  ImportCertificateResponse,
+  GetCertificatePolicyResponse,
+  UpdateCertificatePolicyResponse,
+  UpdateCertificateResponse,
+  UpdateCertificateOperationResponse,
+  GetCertificateOperationResponse,
+  DeleteCertificateOperationResponse,
+  MergeCertificateResponse,
+  BackupCertificateResponse,
+  RestoreCertificateResponse,
+  GetDeletedCertificateResponse,
+  RecoverDeletedCertificateResponse
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
@@ -101,7 +122,7 @@ export {
   X509CertificateProperties
 };
 
-export { ProxyOptions, RetryOptions, SupportedPlugins, TracerProxy, TelemetryOptions };
+export { ProxyOptions, RetryOptions, TracerProxy, TelemetryOptions };
 
 /**
  * The client to interact with the KeyVault certificates functionality
@@ -284,9 +305,9 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
     const span = this.createSpan("listCertificates", options);
-    span.start();
+    const updatedOptions = this.setParentSpan(span, options);
 
-    const iter = this.listCertificatesAll(options);
+    const iter = this.listCertificatesAll(updatedOptions);
 
     span.end();
     let result = {
@@ -296,7 +317,7 @@ export class CertificatesClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listCertificatesPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listCertificatesPage(settings, updatedOptions)
     };
 
     return result;
@@ -364,9 +385,9 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
     const span = this.createSpan("listCertificateVersions", options);
-    span.start();
+    const updatedOptions = this.setParentSpan(span, options);
 
-    const iter = this.listCertificateVersionsAll(name, options);
+    const iter = this.listCertificateVersionsAll(name, updatedOptions);
 
     span.end();
     let result = {
@@ -377,7 +398,7 @@ export class CertificatesClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listCertificateVersionsPage(name, settings, options)
+        this.listCertificateVersionsPage(name, settings, updatedOptions)
     };
 
     return result;
@@ -406,16 +427,15 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<DeletedCertificate> {
     const span = this.createSpan("deleteCertificate", options);
-    span.start();
 
-    const response = await this.client
-      .deleteCertificate(this.vaultBaseUrl, certificateName, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let response: DeleteCertificateResponse;
+    try {
+      response = await this.client
+        .deleteCertificate(this.vaultBaseUrl, certificateName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
 
-    span.end();
     return this.getCertificateFromCertificateBundle(response);
   }
 
@@ -438,16 +458,16 @@ export class CertificatesClient {
    */
   public async deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts> {
     const span = this.createSpan("deleteCertificateContacts", options);
-    span.start();
 
-    let result = await this.client
-      .deleteCertificateContacts(this.vaultBaseUrl, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: DeleteCertificateContactsResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .deleteCertificateContacts(this.vaultBaseUrl, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return result._response.parsedBody;
   }
 
@@ -473,16 +493,15 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<Contacts> {
     const span = this.createSpan("setCertificateContacts", options);
-    span.start();
 
-    let result = await this.client
-      .setCertificateContacts(this.vaultBaseUrl, { contactList: contacts }, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: SetCertificateContactsResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .setCertificateContacts(this.vaultBaseUrl, { contactList: contacts }, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
     return result._response.parsedBody;
   }
 
@@ -506,16 +525,15 @@ export class CertificatesClient {
    */
   public async getCertificateContacts(options?: RequestOptionsBase): Promise<Contacts> {
     const span = this.createSpan("getCertificateContacts", options);
-    span.start();
 
-    let result = await this.client
-      .getCertificateContacts(this.vaultBaseUrl, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: GetCertificateContactsResponse;
+    try {
+      result = await this.client
+        .getCertificateContacts(this.vaultBaseUrl, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
 
-    span.end();
     return result._response.parsedBody;
   }
 
@@ -583,9 +601,9 @@ export class CertificatesClient {
     options?: KeyVaultClientGetCertificateIssuersOptionalParams
   ): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]> {
     const span = this.createSpan("listCertificateIssuers", options);
-    span.start();
+    const updatedOptions = this.setParentSpan(span, options);
 
-    const iter = this.listCertificateIssuersAll(options);
+    const iter = this.listCertificateIssuersAll(updatedOptions);
 
     span.end();
     let result = {
@@ -595,7 +613,7 @@ export class CertificatesClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listCertificateIssuersPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listCertificateIssuersPage(settings, updatedOptions)
     };
 
     return result;
@@ -622,16 +640,15 @@ export class CertificatesClient {
     options?: KeyVaultClientSetCertificateIssuerOptionalParams
   ): Promise<CertificateIssuer> {
     const span = this.createSpan("setCertificateIssuer", options);
-    span.start();
 
-    let result = await this.client
-      .setCertificateIssuer(this.vaultBaseUrl, issuerName, provider, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: SetCertificateIssuerResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .setCertificateIssuer(this.vaultBaseUrl, issuerName, provider, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
     return result._response.parsedBody;
   }
 
@@ -657,16 +674,16 @@ export class CertificatesClient {
     options?: KeyVaultClientUpdateCertificateIssuerOptionalParams
   ): Promise<CertificateIssuer> {
     const span = this.createSpan("updateCertificateIssuer", options);
-    span.start();
 
-    let result = await this.client
-      .updateCertificateIssuer(this.vaultBaseUrl, issuerName, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: UpdateCertificateIssuerResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .updateCertificateIssuer(this.vaultBaseUrl, issuerName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return result._response.parsedBody;
   }
 
@@ -692,16 +709,15 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<CertificateIssuer> {
     const span = this.createSpan("getCertificateIssuer", options);
-    span.start();
 
-    let result = await this.client
-      .getCertificateIssuer(this.vaultBaseUrl, issuerName, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: GetCertificateIssuerResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .getCertificateIssuer(this.vaultBaseUrl, issuerName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
     return result._response.parsedBody;
   }
 
@@ -725,16 +741,16 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<CertificateIssuer> {
     const span = this.createSpan("deleteCertificateIssuer", options);
-    span.start();
 
-    let result = await this.client
-      .deleteCertificateIssuer(this.vaultBaseUrl, issuerName, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: DeleteCertificateIssuerResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .deleteCertificateIssuer(this.vaultBaseUrl, issuerName, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return result._response.parsedBody;
   }
 
@@ -765,23 +781,23 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<Certificate> {
     const span = this.createSpan("createCertificate", options);
-    span.start();
 
-    let result = await this.client
-      .createCertificate(this.vaultBaseUrl, name, {
-        ...options,
-        certificateAttributes: {
-          enabled
-        },
-        tags,
-        certificatePolicy
-      })
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: CreateCertificateResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .createCertificate(this.vaultBaseUrl, name, {
+          ...this.setParentSpan(span, options),
+          certificateAttributes: {
+            enabled
+          },
+          tags,
+          certificatePolicy
+        });
+    } finally {
+      span.end();
+    }
+
     return this.getCertificateFromCertificateBundle(result);
   }
 
@@ -808,16 +824,16 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<CertificateWithPolicy> {
     const span = this.createSpan("getCertificateWithPolicy", options);
-    span.start();
 
-    let result = await this.client
-      .getCertificate(this.vaultBaseUrl, name, "", options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: GetCertificateResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .getCertificate(this.vaultBaseUrl, name, "", this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return this.getCertificateFromCertificateBundle(result);
   }
 
@@ -851,16 +867,16 @@ export class CertificatesClient {
     }
 
     const span = this.createSpan("getCertificate", options);
-    span.start();
 
-    let result = await this.client
-      .getCertificate(this.vaultBaseUrl, name, version, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: GetCertificateResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .getCertificate(this.vaultBaseUrl, name, version, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return this.getCertificateFromCertificateBundle(result);
   }
 
@@ -887,16 +903,16 @@ export class CertificatesClient {
     options?: KeyVaultClientImportCertificateOptionalParams
   ): Promise<Certificate> {
     const span = this.createSpan("importCertificate", options);
-    span.start();
 
-    let result = await this.client
-      .importCertificate(this.vaultBaseUrl, name, base64EncodedCertificate, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: ImportCertificateResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .importCertificate(this.vaultBaseUrl, name, base64EncodedCertificate, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return this.getCertificateFromCertificateBundle(result);
   }
 
@@ -923,16 +939,16 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<CertificatePolicy> {
     const span = this.createSpan("getCertificatePolicy", options);
-    span.start();
 
-    let result = await this.client
-      .getCertificatePolicy(this.vaultBaseUrl, name, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: GetCertificatePolicyResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .getCertificatePolicy(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return result._response.parsedBody;
   }
 
@@ -950,16 +966,14 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<CertificatePolicy> {
     const span = this.createSpan("updateCertificatePolicy", options);
-    span.start();
 
-    let result = await this.client
-      .updateCertificatePolicy(this.vaultBaseUrl, name, policy, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
-
-    span.end();
+    let result: UpdateCertificatePolicyResponse;
+    try {
+      result = await this.client
+        .updateCertificatePolicy(this.vaultBaseUrl, name, policy, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
     return result._response.parsedBody;
   }
 
@@ -992,16 +1006,16 @@ export class CertificatesClient {
     options?: KeyVaultClientUpdateCertificateOptionalParams
   ): Promise<Certificate> {
     const span = this.createSpan("updateCertificate", options);
-    span.start();
 
-    let result = await this.client
-      .updateCertificate(this.vaultBaseUrl, name, version, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: UpdateCertificateResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .updateCertificate(this.vaultBaseUrl, name, version, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
@@ -1028,16 +1042,15 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<CertificateOperation> {
     const span = this.createSpan("cancelCertificateOperation", options);
-    span.start();
 
-    let result = await this.client
-      .updateCertificateOperation(this.vaultBaseUrl, name, true, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: UpdateCertificateOperationResponse;
+    try {
+      result = await this.client
+        .updateCertificateOperation(this.vaultBaseUrl, name, true, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
 
-    span.end();
     return result._response.parsedBody;
   }
 
@@ -1064,16 +1077,16 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<CertificateOperation> {
     const span = this.createSpan("getCertificateOperation", options);
-    span.start();
 
-    let result = await this.client
-      .getCertificateOperation(this.vaultBaseUrl, name, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: GetCertificateOperationResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .getCertificateOperation(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return result._response.parsedBody;
   }
 
@@ -1101,16 +1114,16 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<CertificateOperation> {
     const span = this.createSpan("deleteCertificateOperation", options);
-    span.start();
 
-    let result = await this.client
-      .deleteCertificateOperation(this.vaultBaseUrl, name, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: DeleteCertificateOperationResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .deleteCertificateOperation(this.vaultBaseUrl, name, this.setParentSpan(span, options))
+    } finally {
+      span.end();
+    }
+
     return result._response.parsedBody;
   }
 
@@ -1153,15 +1166,14 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<Certificate> {
     const span = this.createSpan("mergeCertificate", options);
-    span.start();
-    let result = await this.client
-      .mergeCertificate(this.vaultBaseUrl, name, x509Certificates, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
 
-    span.end();
+    let result: MergeCertificateResponse;
+    try {
+      result = await this.client
+        .mergeCertificate(this.vaultBaseUrl, name, x509Certificates, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
@@ -1188,16 +1200,15 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<BackupCertificateResult> {
     const span = this.createSpan("backupCertificate", options);
-    span.start();
 
-    let result = await this.client
-      .backupCertificate(this.vaultBaseUrl, name, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: BackupCertificateResponse;
+    try {
+      result = await this.client
+        .backupCertificate(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
 
-    span.end();
     return result._response.parsedBody;
   }
 
@@ -1226,16 +1237,16 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<Certificate> {
     const span = this.createSpan("restoreCertificate", options);
-    span.start();
 
-    let result = await this.client
-      .restoreCertificate(this.vaultBaseUrl, certificateBackup, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: RestoreCertificateResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .restoreCertificate(this.vaultBaseUrl, certificateBackup, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
@@ -1301,9 +1312,9 @@ export class CertificatesClient {
     options?: KeyVaultClientGetDeletedCertificatesOptionalParams
   ): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]> {
     const span = this.createSpan("listDeletedCertificates", options);
-    span.start();
+    const updatedOptions = this.setParentSpan(span, options);
 
-    const iter = this.listDeletedCertificatesAll(options);
+    const iter = this.listDeletedCertificatesAll(updatedOptions);
 
     span.end();
     let result = {
@@ -1313,7 +1324,7 @@ export class CertificatesClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listDeletedCertificatesPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listDeletedCertificatesPage(settings, updatedOptions)
     };
 
     return result;
@@ -1338,16 +1349,15 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<DeletedCertificate> {
     const span = this.createSpan("getDeletedCertificate", options);
-    span.start();
 
-    let result = await this.client
-      .getDeletedCertificate(this.vaultBaseUrl, name, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: GetDeletedCertificateResponse;
+    try {
+      result = await this.client
+        .getDeletedCertificate(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
 
-    span.end();
     return this.getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
   }
 
@@ -1368,14 +1378,13 @@ export class CertificatesClient {
    */
   public async purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null> {
     const span = this.createSpan("purgeDeletedCertificate", options);
-    span.start();
 
-    await this.client.purgeDeletedCertificate(this.vaultBaseUrl, name, options).catch((err) => {
+    try {
+      await this.client.purgeDeletedCertificate(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+    } finally {
       span.end();
-      throw err;
-    });
+    }
 
-    span.end();
     return null;
   }
 
@@ -1400,16 +1409,16 @@ export class CertificatesClient {
     options?: RequestOptionsBase
   ): Promise<Certificate> {
     const span = this.createSpan("recoverDeletedCertificate", options);
-    span.start();
 
-    let result = await this.client
-      .recoverDeletedCertificate(this.vaultBaseUrl, name, options)
-      .catch((err) => {
-        span.end();
-        throw err;
-      });
+    let result: RecoverDeletedCertificateResponse;
 
-    span.end();
+    try {
+      result = await this.client
+        .recoverDeletedCertificate(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+    } finally {
+      span.end();
+    }
+
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
@@ -1487,20 +1496,30 @@ export class CertificatesClient {
   /**
    * Creates a span using the tracer that was set by the user
    * @param methodName The name of the method for which the span is being created.
-   * @param requestOptions The options for the underlying http request. This will be
-   * updated to use the newly created span as the "parent" so that any new spans created
-   * after this point gets the right parent.
+   * @param requestOptions The options for the underlying http request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = TracerProxy.getTracer();
-    const options = requestOptions || {};
-    const span = tracer.startSpan(methodName, options.spanOptions);
-    if (
-      tracer.pluginType !== SupportedPlugins.NOOP &&
-      (options.spanOptions && options.spanOptions.parent)
-    ) {
-      options.spanOptions = { ...options.spanOptions, parent: span };
+    return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+  }
+
+  /**
+   * Returns updated HTTP options with the given span as the parent of future spans,
+   * if applicable.
+   * @param span The span for the current operation
+   * @param options The options for the underlying http request
+   */
+  private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
+    if (span.isRecordingEvents()) {
+      return {
+        ...options,
+        spanOptions: {
+          ...options.spanOptions,
+          parent: span,
+        }
+      }
+    } else {
+      return options;
     }
-    return span;
   }
 }

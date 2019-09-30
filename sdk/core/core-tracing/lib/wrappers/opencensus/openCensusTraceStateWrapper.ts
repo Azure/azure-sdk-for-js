@@ -7,7 +7,7 @@ import { TraceState } from "../../interfaces/trace_state";
  * @ignore
  * @internal
  */
-export class OpenCensusTraceStatePlugin implements TraceState {
+export class OpenCensusTraceStateWrapper implements TraceState {
   private readonly _state?: string;
 
   constructor(state?: string) {
