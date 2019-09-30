@@ -42,12 +42,20 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
         switch (entityType) {
           case EntityType.QUEUE:
-            await deleteEntity(entityType, alwaysBeExistingQueue);
+            try {
+              await deleteEntity(entityType, alwaysBeExistingQueue);
+            } catch (err) {
+              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
+            }
             response = await createEntity(entityType, alwaysBeExistingQueue);
             should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
             break;
           case EntityType.TOPIC:
-            await deleteEntity(entityType, alwaysBeExistingTopic);
+            try {
+              await deleteEntity(entityType, alwaysBeExistingTopic);
+            } catch (err) {
+              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
+            }
             response = await createEntity(entityType, alwaysBeExistingTopic);
             should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
             break;
@@ -90,7 +98,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
           case EntityType.TOPIC:
             try {
-              response = await createEntity(entityType, alwaysBeExistingTopic);
+              await createEntity(entityType, alwaysBeExistingTopic);
             } catch (err) {
               response = err;
             }
@@ -99,11 +107,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
           case EntityType.SUBSCRIPTION:
             try {
-              response = await createEntity(
-                entityType,
-                alwaysBeExistingSubscription,
-                alwaysBeExistingTopic
-              );
+              await createEntity(entityType, alwaysBeExistingSubscription, alwaysBeExistingTopic);
             } catch (err) {
               response = err;
             }
@@ -112,7 +116,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
           case EntityType.RULE:
             try {
-              response = await createEntity(
+              await createEntity(
                 entityType,
                 alwaysBeExistingRule,
                 alwaysBeExistingTopic,
@@ -276,17 +280,29 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         let response;
         switch (entityType) {
           case EntityType.QUEUE:
-            await createEntity(entityType, alwaysBeDeletedQueue);
+            try {
+              await createEntity(entityType, alwaysBeDeletedQueue);
+            } catch (err) {
+              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
+            }
             response = await deleteEntity(entityType, alwaysBeDeletedQueue);
             break;
 
           case EntityType.TOPIC:
-            await createEntity(entityType, alwaysBeDeletedTopic);
+            try {
+              await createEntity(entityType, alwaysBeDeletedTopic);
+            } catch (err) {
+              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
+            }
             response = await deleteEntity(entityType, alwaysBeDeletedTopic);
             break;
 
           case EntityType.SUBSCRIPTION:
-            await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
+            try {
+              await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
+            } catch (err) {
+              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
+            }
             response = await deleteEntity(
               entityType,
               alwaysBeDeletedSubscription,
@@ -295,12 +311,16 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
             break;
 
           case EntityType.RULE:
-            await createEntity(
-              entityType,
-              alwaysBeDeletedRule,
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
+            try {
+              await createEntity(
+                entityType,
+                alwaysBeDeletedRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
+            }
             response = await deleteEntity(
               entityType,
               alwaysBeDeletedRule,
