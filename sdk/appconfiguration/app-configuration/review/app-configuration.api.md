@@ -33,6 +33,13 @@ export { AppConfigurationDeleteKeyValueOptionalParams }
 export { AppConfigurationDeleteKeyValueOptionalParams as DeleteConfigurationSettingOptions }
 
 // @public
+export interface AppConfigurationDeleteLockOptionalParams extends coreHttp.RequestOptionsBase {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    label?: string;
+}
+
+// @public
 interface AppConfigurationGetKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
     acceptDatetime?: string;
     ifMatch?: string;
@@ -71,8 +78,13 @@ export interface AppConfigurationPutKeyValueOptionalParams extends coreHttp.Requ
     label?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "AppConfigurationDeleteLockOptionalParams" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface AppConfigurationPutLockOptionalParams extends coreHttp.RequestOptionsBase {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    label?: string;
+}
+
 // @public
 export interface ClearReadOnlyOptions extends Pick<AppConfigurationDeleteLockOptionalParams, Exclude<keyof AppConfigurationDeleteLockOptionalParams, 'label'>> {
 }
@@ -130,8 +142,12 @@ export { DeleteKeyValueResponse as DeleteConfigurationSettingResponse }
 
 export { DeleteKeyValueResponse }
 
-// Warning: (ae-forgotten-export) The symbol "DeleteLockHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface DeleteLockHeaders {
+    eTag?: string;
+    syncToken?: string;
+}
+
 // @public
 type DeleteLockResponse = ConfigurationSetting & DeleteLockHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -228,8 +244,12 @@ export interface ListRevisionsPage extends Pick<GetRevisionsResponse, Exclude<ke
     items: ConfigurationSetting[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "PutKeyValueHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface PutKeyValueHeaders {
+    eTag?: string;
+    syncToken?: string;
+}
+
 // @public
 type PutKeyValueResponse = ConfigurationSetting & PutKeyValueHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -245,8 +265,12 @@ export { PutKeyValueResponse }
 
 export { PutKeyValueResponse as SetConfigurationSettingResponse }
 
-// Warning: (ae-forgotten-export) The symbol "PutLockHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface PutLockHeaders {
+    eTag?: string;
+    syncToken?: string;
+}
+
 // @public
 type PutLockResponse = ConfigurationSetting & PutLockHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -260,8 +284,6 @@ export { PutLockResponse }
 
 export { PutLockResponse as SetReadOnlyResponse }
 
-// Warning: (ae-forgotten-export) The symbol "AppConfigurationPutLockOptionalParams" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export interface SetReadOnlyOptions extends Pick<AppConfigurationPutLockOptionalParams, Exclude<keyof AppConfigurationPutLockOptionalParams, 'label'>> {
 }
