@@ -11,7 +11,7 @@ import {
 
 describe("traceParentHeader", () => {
   describe("#extractSpanContextFromTraceParentHeader", () => {
-    it("should extract a SpanContext from a propertly formatted traceparent", () => {
+    it("should extract a SpanContext from a properly formatted traceparent", () => {
       const traceId = "11111111111111111111111111111111";
       const spanId = "2222222222222222";
       const flags = "00";

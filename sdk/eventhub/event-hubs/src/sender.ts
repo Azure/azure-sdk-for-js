@@ -7,7 +7,7 @@ import { EventHubProducerOptions, SendOptions, BatchOptions } from "./eventHubCl
 import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { EventDataBatch } from "./eventDataBatch";
+import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from "@azure/core-tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
@@ -180,7 +180,7 @@ export class EventHubProducer {
         eventData[i] = event;
         messageSpan.end();
       }
-    } else if (eventData instanceof EventDataBatch) {
+    } else if (isEventDataBatch(eventData)) {
       spanContextsToLink = eventData._messageSpanContexts;
     }
 

@@ -11,6 +11,21 @@ import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrum
 import { createMessageSpan } from "./diagnostics/messageSpan";
 
 /**
+ * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
+ * @param eventDataBatch The instance of `EventDataBatch` to verify.
+ * @internal
+ * @ignore
+ */
+export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDataBatch {
+  return (
+    eventDataBatch &&
+    typeof eventDataBatch.tryAdd === "function" &&
+    typeof eventDataBatch.count === "number" &&
+    typeof eventDataBatch.sizeInBytes === "number"
+  );
+}
+
+/**
  * The set of options to configure the behavior of `tryAdd`.
  * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
  */

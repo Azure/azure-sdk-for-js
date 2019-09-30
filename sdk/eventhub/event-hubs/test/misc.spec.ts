@@ -14,9 +14,15 @@ import {
   EventHubClient,
   EventData,
   EventHubProperties,
-  EventHubConsumer
+  EventHubConsumer,
+  ReceivedEventData
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import {
+  TRACEPARENT_PROPERTY,
+  extractSpanContextFromEventData
+} from "../src/diagnostics/instrumentEventData";
+import { TraceFlags } from "@azure/core-tracing";
 const env = getEnvVars();
 
 describe("Misc tests #RunnableInBrowser", function(): void {
@@ -316,5 +322,74 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       totalReceived += data.length;
     }
     should.equal(totalReceived, msgToSendCount);
+  });
+
+  describe("extractSpanContextFromEventData", function() {
+    it("should extract a SpanContext from a properly instrumented EventData", function() {
+      const traceId = "11111111111111111111111111111111";
+      const spanId = "2222222222222222";
+      const flags = "00";
+      const eventData: ReceivedEventData = {
+        body: "This is a test.",
+        enqueuedTimeUtc: new Date(),
+        offset: 0,
+        sequenceNumber: 0,
+        partitionKey: null,
+        properties: {
+          [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
+        }
+      };
+
+      const spanContext = extractSpanContextFromEventData(eventData);
+
+      should.exist(spanContext, "Extracted spanContext should be defined.");
+      should.equal(spanContext!.traceId, traceId, "Extracted traceId does not match expectation.");
+      should.equal(spanContext!.spanId, spanId, "Extracted spanId does not match expectation.");
+      should.equal(
+        spanContext!.traceFlags,
+        TraceFlags.UNSAMPLED,
+        "Extracted traceFlags do not match expectations."
+      );
+    });
+
+    it("should return undefined when EventData is not properly instrumented", function() {
+      const traceId = "11111111111111111111111111111111";
+      const spanId = "2222222222222222";
+      const flags = "00";
+      const eventData: ReceivedEventData = {
+        body: "This is a test.",
+        enqueuedTimeUtc: new Date(),
+        offset: 0,
+        sequenceNumber: 0,
+        partitionKey: null,
+        properties: {
+          [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
+        }
+      };
+
+      const spanContext = extractSpanContextFromEventData(eventData);
+
+      should.not.exist(
+        spanContext,
+        "Invalid diagnosticId version should return undefined spanContext."
+      );
+    });
+
+    it("should return undefined when EventData is not instrumented", function() {
+      const eventData: ReceivedEventData = {
+        body: "This is a test.",
+        enqueuedTimeUtc: new Date(),
+        offset: 0,
+        sequenceNumber: 0,
+        partitionKey: null
+      };
+
+      const spanContext = extractSpanContextFromEventData(eventData);
+
+      should.not.exist(
+        spanContext,
+        `Missing property "${TRACEPARENT_PROPERTY}" should return undefined spanContext.`
+      );
+    });
   });
 }).timeout(60000);

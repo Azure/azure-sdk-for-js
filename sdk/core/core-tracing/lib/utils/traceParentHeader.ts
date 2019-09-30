@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { SpanContext } from '../interfaces/span_context';
-import { TraceFlags } from '../interfaces/trace_flags';
-import * as log from './log';
+import { SpanContext } from "../interfaces/span_context";
+import { TraceFlags } from "../interfaces/trace_flags";
+import * as log from "./log";
+
+const VERSION = "00";
 
 /**
  * Generates a `SpanContext` given a `traceparent` header value.
  * @param traceParent Serialized span context data as a `traceparent` header value.
  * @returns The `SpanContext` generated from the `traceparent` value.
  */
-export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined {
+export function extractSpanContextFromTraceParentHeader(
+  traceParentHeader: string
+): SpanContext | undefined {
   const parts = traceParentHeader.split("-");
 
   if (parts.length !== 4) {
@@ -36,11 +40,8 @@ export function extractSpanContextFromTraceParentHeader(traceParentHeader: strin
   return spanContext;
 }
 
-
-const VERSION = "00";
-
 /**
- * Generates a `traceparent` value given a span context. 
+ * Generates a `traceparent` value given a span context.
  * @param spanContext Contains context for a specific span.
  * @returns The `spanContext` represented as a `traceparent` value.
  */
@@ -59,7 +60,8 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
   }
 
   const flags = spanContext.traceFlags || TraceFlags.UNSAMPLED;
-  const traceFlags = (flags < 10) ? `0${flags.toString(16)}` : flags.toString(16);
+  const hexFlags = flags.toString(16);
+  const traceFlags = hexFlags.length === 1 ? `0${hexFlags}` : hexFlags;
 
   // https://www.w3.org/TR/trace-context/#traceparent-header-field-values
   return `${VERSION}-${spanContext.traceId}-${spanContext.spanId}-${traceFlags}`;

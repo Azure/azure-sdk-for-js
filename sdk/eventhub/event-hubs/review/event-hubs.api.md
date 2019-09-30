@@ -193,6 +193,9 @@ export interface EventProcessorOptions {
 }
 
 // @public
+export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
+
+// @public
 export interface GetPartitionIdsOptions extends AbortSignalOptions, ParentSpanOptions {
 }
 
