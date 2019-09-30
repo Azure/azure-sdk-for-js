@@ -34,7 +34,11 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can create a key while giving a manual type", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const result = await client.createKey(keyName, "RSA");
-    assert.equal(result.properties.name, keyName, "Unexpected key name in result from createKey().");
+    assert.equal(
+      result.properties.name,
+      keyName,
+      "Unexpected key name in result from createKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
@@ -75,7 +79,11 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can create a RSA key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const result = await client.createRsaKey(keyName);
-    assert.equal(result.properties.name, keyName, "Unexpected key name in result from createKey().");
+    assert.equal(
+      result.properties.name,
+      keyName,
+      "Unexpected key name in result from createKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
@@ -85,14 +93,22 @@ describe("Keys client - create, read, update and delete operations", () => {
       keySize: 2048
     };
     const result = await client.createRsaKey(keyName, options);
-    assert.equal(result.properties.name, keyName, "Unexpected key name in result from createKey().");
+    assert.equal(
+      result.properties.name,
+      keyName,
+      "Unexpected key name in result from createKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
   it("can create an EC key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const result = await client.createEcKey(keyName);
-    assert.equal(result.properties.name, keyName, "Unexpected key name in result from createKey().");
+    assert.equal(
+      result.properties.name,
+      keyName,
+      "Unexpected key name in result from createKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
@@ -102,19 +118,21 @@ describe("Keys client - create, read, update and delete operations", () => {
       curve: "P-256"
     };
     const result = await client.createEcKey(keyName, options);
-    assert.equal(result.properties.name, keyName, "Unexpected key name in result from createKey().");
+    assert.equal(
+      result.properties.name,
+      keyName,
+      "Unexpected key name in result from createKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
-  it.only("can create a disabled key", async function() {
+  it("can create a disabled key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options = {
       enabled: false
     };
     const result = await client.createRsaKey(keyName, options);
-    console.log({ result });
     assert.equal(result.properties.enabled, false, "Unexpected enabled value from createKey().");
-    assert.equal(result.properties.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
   });
 
@@ -132,7 +150,11 @@ describe("Keys client - create, read, update and delete operations", () => {
       notBefore.getTime(),
       "Unexpected notBefore value from createKey()."
     );
-    assert.equal(result.properties.name, keyName, "Unexpected key name in result from createKey().");
+    assert.equal(
+      result.properties.name,
+      keyName,
+      "Unexpected key name in result from createKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
@@ -150,7 +172,11 @@ describe("Keys client - create, read, update and delete operations", () => {
       expires.getTime(),
       "Unexpected expires value from createKey()."
     );
-    assert.equal(result.properties.name, keyName, "Unexpected key name in result from createKey().");
+    assert.equal(
+      result.properties.name,
+      keyName,
+      "Unexpected key name in result from createKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
@@ -217,7 +243,11 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const getResult = await client.getKey(keyName);
-    assert.equal(getResult.properties.name, keyName, "Unexpected key name in result from getKey().");
+    assert.equal(
+      getResult.properties.name,
+      keyName,
+      "Unexpected key name in result from getKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
@@ -226,7 +256,11 @@ describe("Keys client - create, read, update and delete operations", () => {
     const { version } = (await client.createKey(keyName, "RSA")).properties;
     const options: GetKeyOptions = { version };
     const getResult = await client.getKey(keyName, options);
-    assert.equal(getResult.properties.version, version, "Unexpected key name in result from getKey().");
+    assert.equal(
+      getResult.properties.version,
+      version,
+      "Unexpected key name in result from getKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
@@ -235,7 +269,11 @@ describe("Keys client - create, read, update and delete operations", () => {
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
     const getResult = await retry(async () => client.getDeletedKey(keyName));
-    assert.equal(getResult.properties.name, keyName, "Unexpected key name in result from getKey().");
+    assert.equal(
+      getResult.properties.name,
+      keyName,
+      "Unexpected key name in result from getKey()."
+    );
     await testClient.purgeKey(keyName);
   });
 

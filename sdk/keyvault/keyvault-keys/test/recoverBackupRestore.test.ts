@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { KeysClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { retry } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder"; 
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
@@ -35,10 +35,18 @@ describe("Keys client - restore keys and recover backups", () => {
     await client.createKey(keyName, "RSA");
     await client.deleteKey(keyName);
     const getDeletedResult = await retry(async () => client.getDeletedKey(keyName));
-    assert.equal(getDeletedResult.properties.name, keyName, "Unexpected key name in result from getKey().");
+    assert.equal(
+      getDeletedResult.properties.name,
+      keyName,
+      "Unexpected key name in result from getKey()."
+    );
     await client.recoverDeletedKey(keyName);
     const getResult = await retry(async () => client.getKey(keyName));
-    assert.equal(getResult.properties.name, keyName, "Unexpected key name in result from getKey().");
+    assert.equal(
+      getResult.properties.name,
+      keyName,
+      "Unexpected key name in result from getKey()."
+    );
     await testClient.flushKey(keyName);
   });
 
@@ -86,7 +94,11 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
     await retry(async () => client.restoreKey(backup as Uint8Array));
     const getResult = await client.getKey(keyName);
-    assert.equal(getResult.properties.name, keyName, "Unexpected key name in result from getKey().");
+    assert.equal(
+      getResult.properties.name,
+      keyName,
+      "Unexpected key name in result from getKey()."
+    );
     await testClient.flushKey(keyName);
   });
 

@@ -282,7 +282,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyProperties: unflattenedProperties
+        keyAttributes: unflattenedProperties
       };
 
       delete unflattenedOptions.enabled;
@@ -295,8 +295,12 @@ export class KeysClient {
       let response: CreateKeyResponse;
 
       try {
-        response = await this.client
-          .createKey(this.vaultBaseUrl, name, keyType, this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.createKey(
+          this.vaultBaseUrl,
+          name,
+          keyType,
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -333,7 +337,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyProperties: unflattenedProperties
+        keyAttributes: unflattenedProperties
       };
 
       delete unflattenedOptions.enabled;
@@ -345,8 +349,12 @@ export class KeysClient {
 
       let response: CreateKeyResponse;
       try {
-        response = await this.client
-          .createKey(this.vaultBaseUrl, name, options.hsm ? "EC-HSM" : "EC", this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.createKey(
+          this.vaultBaseUrl,
+          name,
+          options.hsm ? "EC-HSM" : "EC",
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -384,7 +392,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyProperties: unflattenedProperties
+        keyAttributes: unflattenedProperties
       };
 
       delete unflattenedOptions.enabled;
@@ -392,17 +400,19 @@ export class KeysClient {
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
 
-      console.log({ unflattenedOptions });
       const span = this.createSpan("createRsaKey", unflattenedOptions);
 
       let response: CreateKeyResponse;
       try {
-        response = await this.client
-          .createKey(this.vaultBaseUrl, name, options.hsm ? "RSA-HSM" : "RSA", this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.createKey(
+          this.vaultBaseUrl,
+          name,
+          options.hsm ? "RSA-HSM" : "RSA",
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
-      console.log({ response });
 
       return this.getKeyFromKeyBundle(response);
     } else {
@@ -438,7 +448,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyProperties: unflattenedProperties
+        keyAttributes: unflattenedProperties
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
@@ -449,8 +459,12 @@ export class KeysClient {
 
       let response: ImportKeyResponse;
       try {
-        response = await this.client
-          .importKey(this.vaultBaseUrl, name, key, this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.importKey(
+          this.vaultBaseUrl,
+          name,
+          key,
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -483,8 +497,11 @@ export class KeysClient {
 
     let response: DeleteKeyResponse;
     try {
-      response = await this.client
-        .deleteKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      response = await this.client.deleteKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -524,7 +541,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyProperties: unflattenedProperties
+        keyAttributes: unflattenedProperties
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
@@ -536,8 +553,12 @@ export class KeysClient {
       let response: UpdateKeyResponse;
 
       try {
-        response = await this.client
-          .updateKey(this.vaultBaseUrl, name, keyVersion, this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.updateKey(
+          this.vaultBaseUrl,
+          name,
+          keyVersion,
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -569,13 +590,12 @@ export class KeysClient {
 
     let response: GetKeyResponse;
     try {
-      response = await this.client
-        .getKey(
-          this.vaultBaseUrl,
-          name,
-          options && options.version ? options.version : "",
-          this.setParentSpan(span, requestOptions)
-        );
+      response = await this.client.getKey(
+        this.vaultBaseUrl,
+        name,
+        options && options.version ? options.version : "",
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -603,8 +623,11 @@ export class KeysClient {
 
     let response: GetDeletedKeyResponse;
     try {
-      response = await this.client
-        .getDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      response = await this.client.getDeletedKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -634,11 +657,14 @@ export class KeysClient {
     const span = this.createSpan("purgeDeletedKey", requestOptions);
 
     try {
-      await this.client.purgeDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      await this.client.purgeDeletedKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
-
   }
 
   /**
@@ -663,8 +689,11 @@ export class KeysClient {
 
     let response: RecoverDeletedKeyResponse;
     try {
-      response = await this.client
-        .recoverDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      response = await this.client.recoverDeletedKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -692,8 +721,11 @@ export class KeysClient {
 
     let response: BackupKeyResponse;
     try {
-      response = await this.client
-        .backupKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      response = await this.client.backupKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -723,8 +755,11 @@ export class KeysClient {
 
     let response: RestoreKeyResponse;
     try {
-      response = await this.client
-        .restoreKey(this.vaultBaseUrl, backup, this.setParentSpan(span, requestOptions));
+      response = await this.client.restoreKey(
+        this.vaultBaseUrl,
+        backup,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -809,7 +844,8 @@ export class KeysClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listKeyVersionsPage(name, settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listKeyVersionsPage(name, settings, updatedOptions)
     };
   }
 
@@ -979,7 +1015,6 @@ export class KeysClient {
           ...keyBundle.attributes
         }
       };
-      console.log({ resultObject });
       delete resultObject.properties.attributes;
     } else {
       resultObject = {
@@ -1037,9 +1072,9 @@ export class KeysClient {
         ...options,
         spanOptions: {
           ...options.spanOptions,
-          parent: span,
+          parent: span
         }
-      }
+      };
     } else {
       return options;
     }

@@ -12,8 +12,8 @@ import { DeletionRecoveryLevel } from "./core/models";
  */
 export interface Key {
   /**
-  * @member{KeyProperties}[properties] The properties of the key.
-  */
+   * @member{KeyProperties}[properties] The properties of the key.
+   */
   properties: KeyProperties;
   /**
    * @member {string} [value] The key value.
