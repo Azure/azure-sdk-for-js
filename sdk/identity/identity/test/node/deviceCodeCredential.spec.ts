@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { delay } from "@azure/core-http";
+import { delay, TestTracer, setTracer, SpanGraph } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
 import { MockAuthHttpClient, assertRejects } from "../authTestUtils";
 import { AuthenticationError, ErrorResponse } from "../../src/client/errors";
@@ -25,10 +25,10 @@ const pendingResponse: ErrorResponse = {
   error_description: "Waiting for user to authenticate"
 };
 
-describe("DeviceCodeCredential", function() {
+describe("DeviceCodeCredential", function () {
   this.timeout(10000); // eslint-disable-line no-invalid-this
 
-  it("sends a device code request and returns a token when the user completes it", async function() {
+  it("sends a device code request and returns a token when the user completes it", async function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
@@ -55,13 +55,13 @@ describe("DeviceCodeCredential", function() {
       assert.strictEqual(accessToken.token, "token");
       assert.ok(
         accessToken.expiresOnTimestamp >= currentTimestamp - 1000 &&
-          accessToken.expiresOnTimestamp <= currentTimestamp,
+        accessToken.expiresOnTimestamp <= currentTimestamp,
         `AccessToken.expiresOnTimestamp is not ~${currentTimestamp}: ${accessToken.expiresOnTimestamp}`
       );
     }
   });
 
-  it("refreshes the access token on subsequent getToken requests", async function() {
+  it("refreshes the access token on subsequent getToken requests", async function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
@@ -103,7 +103,7 @@ describe("DeviceCodeCredential", function() {
     }
   });
 
-  it("re-initiates the device code flow when the refresh token expires", async function() {
+  it("re-initiates the device code flow when the refresh token expires", async function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
@@ -143,7 +143,7 @@ describe("DeviceCodeCredential", function() {
     }
   });
 
-  it("throws an AuthenticationError when the user declines the authorization flow", async function() {
+  it("throws an AuthenticationError when the user declines the authorization flow", async function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
@@ -168,7 +168,7 @@ describe("DeviceCodeCredential", function() {
     });
   });
 
-  it("throws an AuthenticationError when the authorization token expires", async function() {
+  it("throws an AuthenticationError when the authorization token expires", async function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
@@ -193,7 +193,7 @@ describe("DeviceCodeCredential", function() {
     });
   });
 
-  it("throws an AuthenticationError when the client sends the wrong device code", async function() {
+  it("throws an AuthenticationError when the client sends the wrong device code", async function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
@@ -216,7 +216,7 @@ describe("DeviceCodeCredential", function() {
     });
   });
 
-  it("cancels polling when abort signal is raised", async function() {
+  it("cancels polling when abort signal is raised", async function () {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
         { status: 200, parsedBody: deviceCodeResponse },
@@ -242,5 +242,59 @@ describe("DeviceCodeCredential", function() {
 
     assert.strictEqual(token, null);
     assert.strictEqual(mockHttpClient.requests.length, 2);
+  });
+
+  it("sends a device code request and returns a token with tracing", async function () {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        { status: 200, parsedBody: deviceCodeResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } }
+      ]
+    });
+
+    const rootSpan = tracer.startSpan("root");
+
+    const credential = new DeviceCodeCredential(
+      "tenant",
+      "client",
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
+      mockHttpClient.identityClientOptions
+    );
+
+    await credential.getToken("scope", {
+      spanOptions: {
+        parent: rootSpan
+      }
+    });
+
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [{
+        name: rootSpan.name,
+        children: [{
+          name: "Azure.Identity.DeviceCodeCredential-getToken",
+          children: [{
+            name: "Azure.Identity.DeviceCodeCredential-sendDeviceCodeRequest",
+            children: []
+          }, {
+            name: "Azure.Identity.DeviceCodeCredential-pollForToken",
+            children: []
+          }]
+        }]
+      }]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });

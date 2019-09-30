@@ -16,7 +16,7 @@ import {
   userAgentPolicy,
   RequestOptionsBase,
   tracingPolicy,
-  TracerProxy,
+  getTracer,
   Span
 } from "@azure/core-http";
 
@@ -122,7 +122,7 @@ export {
   X509CertificateProperties
 };
 
-export { ProxyOptions, RetryOptions, TracerProxy, TelemetryOptions };
+export { ProxyOptions, RetryOptions, TelemetryOptions };
 
 /**
  * The client to interact with the KeyVault certificates functionality
@@ -1499,7 +1499,7 @@ export class CertificatesClient {
    * @param requestOptions The options for the underlying http request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
-    const tracer = TracerProxy.getTracer();
+    const tracer = getTracer();
     return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
   }
 

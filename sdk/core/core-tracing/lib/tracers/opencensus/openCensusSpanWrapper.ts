@@ -99,9 +99,9 @@ export class OpenCensusSpanWrapper implements Span {
    * @param attributes attributes to be added that are associated with the link
    */
   addLink(spanContext: SpanContext, attributes?: Attributes): this {
-    // Since there is no way to specify the link relationship
-    // It is set as Unspecified = 0
-    this._span.addLink(spanContext.traceId, spanContext.spanId, LinkType.UNSPECIFIED, attributes as OpenCensusAttributes);
+    // Since there is no way to specify the link relationship,
+    // it is set as Unspecified.
+    this._span.addLink(spanContext.traceId, spanContext.spanId, 0 /* LinkType.UNSPECIFIED */, attributes as OpenCensusAttributes);
     return this;
   }
 

@@ -20,7 +20,7 @@ import {
   userAgentPolicy,
   RequestOptionsBase,
   tracingPolicy,
-  TracerProxy,
+  getTracer,
   Span
 } from "@azure/core-http";
 
@@ -121,8 +121,6 @@ export {
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
-
-export { TracerProxy } from "@azure/core-http";
 
 /**
  * The client to interact with the KeyVault keys functionality
@@ -1016,7 +1014,7 @@ export class KeysClient {
    * @param requestOptions The options for the underlying http request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
-    const tracer = TracerProxy.getTracer();
+    const tracer = getTracer();
     return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
   }
 

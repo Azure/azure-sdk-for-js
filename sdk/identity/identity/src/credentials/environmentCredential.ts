@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { AccessToken, TokenCredential, GetTokenOptions, CanonicalCode } from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
+import { createSpan } from "../util/tracing";
+import { AuthenticationErrorName } from "../client/errors";
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -48,10 +50,27 @@ export class EnvironmentCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+    const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
     if (this._credential) {
-      return this._credential.getToken(scopes, options);
+      try {
+        return this._credential.getToken(scopes, newOptions);
+      } catch (err) {
+        const code =
+          err.name === AuthenticationErrorName
+            ? CanonicalCode.UNAUTHENTICATED
+            : CanonicalCode.UNKNOWN;
+        span.setStatus({
+          code,
+          message: err.message
+        });
+        throw err;
+      } finally {
+        span.end();
+      }
     }
 
+    span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
+    span.end();
     return Promise.resolve(null);
   }
 }

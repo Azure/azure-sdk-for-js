@@ -20,7 +20,7 @@ import {
   isNode,
   userAgentPolicy,
   tracingPolicy,
-  TracerProxy,
+  getTracer,
   Span
 } from "@azure/core-http";
 
@@ -80,7 +80,6 @@ export {
 export {
   ProxyOptions,
   RetryOptions,
-  TracerProxy,
   TelemetryOptions
 };
 
@@ -834,7 +833,7 @@ export class SecretsClient {
    * @param requestOptions The options for the underlying http request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
-    const tracer = TracerProxy.getTracer();
+    const tracer = getTracer();
     return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
   }
 

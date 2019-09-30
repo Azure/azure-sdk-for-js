@@ -2,9 +2,16 @@
 // Licensed under the MIT License.
 
 import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken, delay } from "@azure/core-http";
+import {
+  TokenCredential,
+  GetTokenOptions,
+  AccessToken,
+  delay,
+  CanonicalCode
+} from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
-import { AuthenticationError } from "../client/errors";
+import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
+import { createSpan } from "../util/tracing";
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -75,28 +82,47 @@ export class DeviceCodeCredential implements TokenCredential {
     scope: string,
     options?: GetTokenOptions
   ): Promise<DeviceCodeResponse> {
-    const webResource = this.identityClient.createWebResource({
-      url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/devicecode`,
-      method: "POST",
-      disableJsonStringifyOnBody: true,
-      deserializationMapper: undefined,
-      body: qs.stringify({
-        client_id: this.clientId,
-        scope
-      }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      abortSignal: options && options.abortSignal
-    });
+    const { span, options: newOptions } = createSpan(
+      "DeviceCodeCredential-sendDeviceCodeRequest",
+      options
+    );
+    try {
+      const webResource = this.identityClient.createWebResource({
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/devicecode`,
+        method: "POST",
+        disableJsonStringifyOnBody: true,
+        deserializationMapper: undefined,
+        body: qs.stringify({
+          client_id: this.clientId,
+          scope
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        abortSignal: options && options.abortSignal,
+        spanOptions: newOptions.spanOptions
+      });
 
-    const response = await this.identityClient.sendRequest(webResource);
-    if (!(response.status === 200 || response.status === 201)) {
-      throw new AuthenticationError(response.status, response.bodyAsText);
+      const response = await this.identityClient.sendRequest(webResource);
+      if (!(response.status === 200 || response.status === 201)) {
+        throw new AuthenticationError(response.status, response.bodyAsText);
+      }
+
+      return response.parsedBody as DeviceCodeResponse;
+    } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
+      span.setStatus({
+        code,
+        message: err.message
+      });
+      throw err;
+    } finally {
+      span.end();
     }
-
-    return response.parsedBody as DeviceCodeResponse;
   }
 
   private async pollForToken(
@@ -104,53 +130,69 @@ export class DeviceCodeCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<TokenResponse | null> {
     let tokenResponse: TokenResponse | null = null;
+    const { span, options: newOptions } = createSpan("DeviceCodeCredential-pollForToken", options);
 
-    const webResource = this.identityClient.createWebResource({
-      url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
-      method: "POST",
-      disableJsonStringifyOnBody: true,
-      deserializationMapper: undefined,
-      body: qs.stringify({
-        grant_type: "urn:ietf:params:oauth:grant-type:device_code",
-        client_id: this.clientId,
-        device_code: deviceCodeResponse.device_code
-      }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      abortSignal: options && options.abortSignal
-    });
+    try {
+      const webResource = this.identityClient.createWebResource({
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
+        method: "POST",
+        disableJsonStringifyOnBody: true,
+        deserializationMapper: undefined,
+        body: qs.stringify({
+          grant_type: "urn:ietf:params:oauth:grant-type:device_code",
+          client_id: this.clientId,
+          device_code: deviceCodeResponse.device_code
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        abortSignal: options && options.abortSignal,
+        spanOptions: newOptions.spanOptions
+      });
 
-    while (tokenResponse === null) {
-      try {
-        await delay(deviceCodeResponse.interval * 1000);
+      while (tokenResponse === null) {
+        try {
+          await delay(deviceCodeResponse.interval * 1000);
 
-        // Check the abort signal before sending the request
-        if (options && options.abortSignal && options.abortSignal.aborted) {
-          return null;
-        }
-
-        tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      } catch (err) {
-        if (err instanceof AuthenticationError) {
-          switch (err.errorResponse.error) {
-            case "authorization_pending":
-              break;
-            case "authorization_declined":
-              return null;
-            case "expired_token":
-              throw err;
-            case "bad_verification_code":
-              throw err;
+          // Check the abort signal before sending the request
+          if (options && options.abortSignal && options.abortSignal.aborted) {
+            return null;
           }
-        } else {
-          throw err;
+
+          tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+        } catch (err) {
+          if (err.name === AuthenticationErrorName) {
+            switch (err.errorResponse.error) {
+              case "authorization_pending":
+                break;
+              case "authorization_declined":
+                return null;
+              case "expired_token":
+                throw err;
+              case "bad_verification_code":
+                throw err;
+            }
+          } else {
+            throw err;
+          }
         }
       }
-    }
 
-    return tokenResponse;
+      return tokenResponse;
+    } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
+      span.setStatus({
+        code,
+        message: err.message
+      });
+      throw err;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -167,38 +209,53 @@ export class DeviceCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    let tokenResponse: TokenResponse | null = null;
-    let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
-    if (scopeString.indexOf("offline_access") < 0) {
-      scopeString += " offline_access";
-    }
+    const { span, options: newOptions } = createSpan("DeviceCodeCredential-getToken", options);
+    try {
+      let tokenResponse: TokenResponse | null = null;
+      let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
+      if (scopeString.indexOf("offline_access") < 0) {
+        scopeString += " offline_access";
+      }
 
-    // Try to use the refresh token first
-    if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
-      tokenResponse = await this.identityClient.refreshAccessToken(
-        this.tenantId,
-        this.clientId,
-        scopeString,
-        this.lastTokenResponse.refreshToken,
-        undefined, // clientSecret not needed for device code auth
-        undefined,
-        options
-      );
-    }
+      // Try to use the refresh token first
+      if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
+        tokenResponse = await this.identityClient.refreshAccessToken(
+          this.tenantId,
+          this.clientId,
+          scopeString,
+          this.lastTokenResponse.refreshToken,
+          undefined, // clientSecret not needed for device code auth
+          undefined,
+          newOptions
+        );
+      }
 
-    if (tokenResponse === null) {
-      const deviceCodeResponse = await this.sendDeviceCodeRequest(scopeString, options);
+      if (tokenResponse === null) {
+        const deviceCodeResponse = await this.sendDeviceCodeRequest(scopeString, newOptions);
 
-      this.userPromptCallback({
-        userCode: deviceCodeResponse.user_code,
-        verificationUri: deviceCodeResponse.verification_uri,
-        message: deviceCodeResponse.message
+        this.userPromptCallback({
+          userCode: deviceCodeResponse.user_code,
+          verificationUri: deviceCodeResponse.verification_uri,
+          message: deviceCodeResponse.message
+        });
+
+        tokenResponse = await this.pollForToken(deviceCodeResponse, newOptions);
+      }
+
+      this.lastTokenResponse = tokenResponse;
+      return (tokenResponse && tokenResponse.accessToken) || null;
+    } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
+      span.setStatus({
+        code,
+        message: err.message
       });
-
-      tokenResponse = await this.pollForToken(deviceCodeResponse, options);
+      throw err;
+    } finally {
+      span.end();
     }
-
-    this.lastTokenResponse = tokenResponse;
-    return (tokenResponse && tokenResponse.accessToken) || null;
   }
 }

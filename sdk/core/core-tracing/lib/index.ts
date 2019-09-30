@@ -2,22 +2,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { getTracer, setTracer, ITracerProxy } from "./tracerProxy";
-/**
- * A global registry for the active OpenTelemtry Tracer.
- * Clients inside the Azure SDK will use this Tracer for all trace logging.
- */
-const TracerProxy: ITracerProxy = {
-  getTracer,
-  setTracer,
-};
-export { TracerProxy, ITracerProxy };
+export { getTracer, setTracer } from "./tracerProxy";
 
-// Wrappers
-export { NoOpSpan } from "./wrappers/noop/noOpSpan";
-export { NoOpTracer } from "./wrappers/noop/noOpTracer";
-export { OpenCensusSpanWrapper } from "./wrappers/opencensus/openCensusSpanWrapper";
-export { OpenCensusTracerWrapper } from "./wrappers/opencensus/openCensusTracerWrapper";
+// Tracers and wrappers
+export { NoOpSpan } from "./tracers/noop/noOpSpan";
+export { NoOpTracer } from "./tracers/noop/noOpTracer";
+export { OpenCensusSpanWrapper } from "./tracers/opencensus/openCensusSpanWrapper";
+export { OpenCensusTracerWrapper } from "./tracers/opencensus/openCensusTracerWrapper";
+export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer";
+export { TestSpan } from "./tracers/test/testSpan";
 
 // Interfaces
 export { Attributes } from "./interfaces/attributes";
