@@ -27,7 +27,8 @@ describe("appconfig readonly settings tests", () => {
     storedSetting = await client.getConfigurationSetting(testConfigSetting.key, { label: testConfigSetting.label });
     assert.ok(storedSetting.locked);
 
-    // now set throws exceptions
-    await assertThrowsRestError(() => client.setConfigurationSetting(testConfigSetting), 409, "Set should fail because the setting is locked");
+    // any modification related methods throw exceptions
+    await assertThrowsRestError(() => client.setConfigurationSetting(testConfigSetting), 409, "Set should fail because the setting is read-only");
+    await assertThrowsRestError(() => client.deleteConfigurationSetting(testConfigSetting.key, { label: testConfigSetting.label }), 409, "Delete should fail because the setting is read-only");
   });
 });
