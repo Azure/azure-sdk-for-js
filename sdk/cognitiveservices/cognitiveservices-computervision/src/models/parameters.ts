@@ -10,6 +10,28 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
+export const descriptionExclude: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "descriptionExclude"
+  ],
+  mapper: {
+    serializedName: "descriptionExclude",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Celebrities",
+            "Landmarks"
+          ]
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
 export const details: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

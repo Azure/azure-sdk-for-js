@@ -1,6 +1,12 @@
-﻿import assert from "assert";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import assert from "assert";
 import { ClientContext } from "../../dist-esm/ClientContext";
-import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../dist-esm/routing";
+import {
+  PartitionKeyRangeCache,
+  QueryRange,
+  SmartRoutingMapProvider
+} from "../../dist-esm/routing";
 import { MockedClientContext } from "../common/MockClientContext";
 
 describe("Smart Routing Map Provider OverlappingRanges", function() {
@@ -27,7 +33,10 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
     { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }
   ];
 
-  const mockedClientContext: ClientContext = new MockedClientContext(partitionKeyRanges, containerId) as any;
+  const mockedClientContext: ClientContext = new MockedClientContext(
+    partitionKeyRanges,
+    containerId
+  ) as any;
   const smartRoutingMapProvider = new SmartRoutingMapProvider(mockedClientContext);
   const partitionKeyRangeCache = new PartitionKeyRangeCache(mockedClientContext);
 
@@ -234,11 +243,19 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
   // Validates the results
   // smartRoutingMapProvider.getOverlappingRanges()
   // partitionKeyRangeCache.getOverlappingRanges() is as expected
-  const validateOverlappingRanges = async function(queryRanges: any, expectedResults: any, errorExpected?: any) {
+  const validateOverlappingRanges = async function(
+    queryRanges: any,
+    expectedResults: any,
+    errorExpected?: any
+  ) {
     try {
       errorExpected = errorExpected || false;
       await validateSmartOverlappingRanges(queryRanges, expectedResults, errorExpected);
-      await validatePartitionKeyRangeCacheOverlappingRanges(queryRanges, expectedResults, errorExpected);
+      await validatePartitionKeyRangeCacheOverlappingRanges(
+        queryRanges,
+        expectedResults,
+        errorExpected
+      );
     } catch (err) {
       throw err;
     }
@@ -249,8 +266,16 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
   // partitionKeyRangeCache.getOverlappingRanges() is the same for both queryRanges1, queryRanges2
   const assertOverlappingRangesAreEqual = async function(queryRanges1: any, queryRanges2: any) {
     try {
-      await assertProviderOverlappingRangesAreEqual(smartRoutingMapProvider, queryRanges1, queryRanges2);
-      await assertProviderOverlappingRangesAreEqual(partitionKeyRangeCache as any, queryRanges1, queryRanges2);
+      await assertProviderOverlappingRangesAreEqual(
+        smartRoutingMapProvider,
+        queryRanges1,
+        queryRanges2
+      );
+      await assertProviderOverlappingRangesAreEqual(
+        partitionKeyRangeCache as any,
+        queryRanges1,
+        queryRanges2
+      );
       await assertBothProvidersResultsEqual(queryRanges1);
     } catch (err) {
       throw err;
@@ -306,9 +331,18 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
 
   // validates that the results of
   // smartRoutingMapProvider.getOverlappingRanges() is as expected
-  const validateSmartOverlappingRanges = async function(queryRanges: any, expectedResults: any, errorExpected: any) {
+  const validateSmartOverlappingRanges = async function(
+    queryRanges: any,
+    expectedResults: any,
+    errorExpected: any
+  ) {
     try {
-      await validateProviderOverlappingRanges(smartRoutingMapProvider, queryRanges, expectedResults, errorExpected);
+      await validateProviderOverlappingRanges(
+        smartRoutingMapProvider,
+        queryRanges,
+        expectedResults,
+        errorExpected
+      );
     } catch (err) {
       throw err;
     }

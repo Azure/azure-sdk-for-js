@@ -1,6 +1,8 @@
 // Ported this implementation to javascript:
 // https://referencesource.microsoft.com/#mscorlib/system/timespan.cs,83e476c1ae112117
 /** @hidden */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 const ticksPerMillisecond = 10000;
 /** @hidden */
 const millisecondsPerTick = 1.0 / ticksPerMillisecond;
@@ -75,7 +77,8 @@ export class TimeSpan {
       throw new Error("milliseconds is not an integer");
     }
 
-    const totalMilliSeconds = (days * 3600 * 24 + hours * 3600 + minutes * 60 + seconds) * 1000 + milliseconds;
+    const totalMilliSeconds =
+      (days * 3600 * 24 + hours * 3600 + minutes * 60 + seconds) * 1000 + milliseconds;
     if (totalMilliSeconds > maxMilliSeconds || totalMilliSeconds < minMilliSeconds) {
       throw new Error("Total number of milliseconds was either too large or too small");
     }

@@ -617,8 +617,8 @@ export const ExportPolicyRule: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      nfsv4: {
-        serializedName: "nfsv4",
+      nfsv41: {
+        serializedName: "nfsv41",
         type: {
           name: "Boolean"
         }
@@ -1062,9 +1062,9 @@ export const Snapshot: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      creationDate: {
+      created: {
         readOnly: true,
-        serializedName: "properties.creationDate",
+        serializedName: "properties.created",
         type: {
           name: "DateTime"
         }

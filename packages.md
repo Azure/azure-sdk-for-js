@@ -124,6 +124,7 @@
 | [`@azure/arm-visualstudio`]( sdk/visualstudio/arm-visualstudio/package.json )| [Readme](sdk/visualstudio/arm-visualstudio/README.md) |  N/A  |  N/A  |
 | [`@azure/arm-webservices`]( sdk/machinelearning/arm-webservices/package.json )| [Readme](sdk/machinelearning/arm-webservices/README.md) |  N/A  |  N/A  |
 | [`@azure/arm-workspaces`]( sdk/machinelearning/arm-workspaces/package.json )| [Readme](sdk/machinelearning/arm-workspaces/README.md) |  N/A  |  N/A  |
+| [`@azure/arm-peering`]( sdk/peering/arm-peering/package.json )| [Readme](sdk/peering/arm-peering/README.md) |  N/A  |  N/A  |
 | [`@azure/batch`]( sdk/batch/batch/package.json )| [Readme](sdk/batch/batch/README.md) |  N/A  |  N/A  |
 | [`@azure/cognitiveservices-anomalydetector`]( sdk/cognitiveservices/cognitiveservices-anomalydetector/package.json )| [Readme](sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md) |  N/A  |  N/A  |
 | [`@azure/cognitiveservices-autosuggest`]( sdk/cognitiveservices/cognitiveservices-autosuggest/package.json )| [Readme](sdk/cognitiveservices/cognitiveservices-autosuggest/README.md) |  N/A  |  N/A  |
@@ -177,6 +178,5 @@
 | [`cosmos-serversidescripts-sample`]( sdk/cosmosdb/cosmos/samples/ServerSideScripts/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/ServerSideScripts/README.md) |  N/A  |  N/A  |
 | [`cosmosdb-index-management`]( sdk/cosmosdb/cosmos/samples/IndexManagement/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/IndexManagement/README.md) |  N/A  |  N/A  |
 | [`multiregionwrite`]( sdk/cosmosdb/cosmos/samples/MultiRegionWrite/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/MultiRegionWrite/readme.md) |  N/A  |  N/A  |
-| [`select-packages`]( eng/tools/select-packages/package.json )|  N/A  |  N/A  |  N/A  |
 | [`todo`]( sdk/cosmosdb/cosmos/samples/TodoApp/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/TodoApp/readme.md) |  N/A  |  N/A  |
 | [`user-management`]( sdk/cosmosdb/cosmos/samples/UserManagement/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/UserManagement/README.md) |  N/A  |  N/A  |

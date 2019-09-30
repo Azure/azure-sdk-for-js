@@ -3,6 +3,8 @@
  * @private
  * @hidden
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export class LocationInfo {
   public preferredLocations: ReadonlyArray<string>;
   public availableReadEndpointByLocation: ReadonlyMap<string, string>;

@@ -54,7 +54,7 @@
   },
   "include": [
     "src/**/*",
-    "test/**/*",
+    "test/**/*"
   ],
   "exclude": [
     "test/manual"

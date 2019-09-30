@@ -29,25 +29,40 @@ export class File {
   /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileCreateResponse>
    */
-  create(fileContentLength: number, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
+  create(fileContentLength: number, fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
   /**
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param callback The callback
    */
-  create(fileContentLength: number, callback: msRest.ServiceCallback<void>): void;
+  create(fileContentLength: number, fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(fileContentLength: number, options: Models.FileCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(fileContentLength: number, options?: Models.FileCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
+  create(fileContentLength: number, fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options: Models.FileCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  create(fileContentLength: number, fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.FileCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
     return this.client.sendOperationRequest(
       {
         fileContentLength,
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime,
         options
       },
       createOperationSpec,
@@ -129,22 +144,37 @@ export class File {
 
   /**
    * Sets HTTP headers on the file.
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSetHTTPHeadersResponse>
    */
-  setHTTPHeaders(options?: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
+  setHTTPHeaders(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
   /**
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param callback The callback
    */
-  setHTTPHeaders(callback: msRest.ServiceCallback<void>): void;
+  setHTTPHeaders(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, callback: msRest.ServiceCallback<void>): void;
   /**
+   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
+   * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
+   * @param fileCreationTime Creation time for the file/directory.
+   * @param fileLastWriteTime Last write time for the file/directory.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setHTTPHeaders(options: Models.FileSetHTTPHeadersOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setHTTPHeaders(options?: Models.FileSetHTTPHeadersOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
+  setHTTPHeaders(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options: Models.FileSetHTTPHeadersOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setHTTPHeaders(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.FileSetHTTPHeadersOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
     return this.client.sendOperationRequest(
       {
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime,
         options
       },
       setHTTPHeadersOperationSpec,
@@ -239,6 +269,67 @@ export class File {
       },
       uploadRangeOperationSpec,
       callback) as Promise<Models.FileUploadRangeResponse>;
+  }
+
+  /**
+   * Upload a range of bytes to a file where the contents are read from a URL.
+   * @param range Writes data to the specified byte range in the file.
+   * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
+   * file to another file within the same storage account, you may use Shared Key to authenticate the
+   * source file. If you are copying a file from another storage account, or if you are copying a
+   * blob from the same storage account or another storage account, then you must authenticate the
+   * source file or blob using a shared access signature. If the source is a public blob, no
+   * authentication is required to perform the copy operation. A file in a share snapshot can also be
+   * specified as a copy source.
+   * @param sourceRange Bytes of source data in the specified range.
+   * @param contentLength Specifies the number of bytes being transmitted in the request body. When
+   * the x-ms-write header is set to clear, the value of this header must be set to zero.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FileUploadRangeFromURLResponse>
+   */
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams): Promise<Models.FileUploadRangeFromURLResponse>;
+  /**
+   * @param range Writes data to the specified byte range in the file.
+   * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
+   * file to another file within the same storage account, you may use Shared Key to authenticate the
+   * source file. If you are copying a file from another storage account, or if you are copying a
+   * blob from the same storage account or another storage account, then you must authenticate the
+   * source file or blob using a shared access signature. If the source is a public blob, no
+   * authentication is required to perform the copy operation. A file in a share snapshot can also be
+   * specified as a copy source.
+   * @param sourceRange Bytes of source data in the specified range.
+   * @param contentLength Specifies the number of bytes being transmitted in the request body. When
+   * the x-ms-write header is set to clear, the value of this header must be set to zero.
+   * @param callback The callback
+   */
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param range Writes data to the specified byte range in the file.
+   * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
+   * file to another file within the same storage account, you may use Shared Key to authenticate the
+   * source file. If you are copying a file from another storage account, or if you are copying a
+   * blob from the same storage account or another storage account, then you must authenticate the
+   * source file or blob using a shared access signature. If the source is a public blob, no
+   * authentication is required to perform the copy operation. A file in a share snapshot can also be
+   * specified as a copy source.
+   * @param sourceRange Bytes of source data in the specified range.
+   * @param contentLength Specifies the number of bytes being transmitted in the request body. When
+   * the x-ms-write header is set to clear, the value of this header must be set to zero.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options: Models.FileUploadRangeFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  uploadRangeFromURL(range: string, copySource: string, sourceRange: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileUploadRangeFromURLResponse> {
+    return this.client.sendOperationRequest(
+      {
+        range,
+        copySource,
+        sourceRange,
+        contentLength,
+        options
+      },
+      uploadRangeFromURLOperationSpec,
+      callback) as Promise<Models.FileUploadRangeFromURLResponse>;
   }
 
   /**
@@ -415,6 +506,11 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.fileContentLength0,
     Parameters.fileTypeConstant,
     Parameters.metadata,
+    Parameters.filePermission,
+    Parameters.filePermissionKey1,
+    Parameters.fileAttributes,
+    Parameters.fileCreationTime,
+    Parameters.fileLastWriteTime,
     Parameters.fileContentType,
     Parameters.fileContentEncoding,
     Parameters.fileContentLanguage,
@@ -537,6 +633,11 @@ const setHTTPHeadersOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.fileContentLength1,
+    Parameters.filePermission,
+    Parameters.filePermissionKey1,
+    Parameters.fileAttributes,
+    Parameters.fileCreationTime,
+    Parameters.fileLastWriteTime,
     Parameters.fileContentType,
     Parameters.fileContentEncoding,
     Parameters.fileContentLanguage,
@@ -564,7 +665,7 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp3
+    Parameters.comp4
   ],
   headerParameters: [
     Parameters.metadata,
@@ -590,7 +691,7 @@ const uploadRangeOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeout,
-    Parameters.comp8
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.range1,
@@ -624,6 +725,39 @@ const uploadRangeOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const uploadRangeFromURLOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}/{directory}/{fileName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.comp9
+  ],
+  headerParameters: [
+    Parameters.range1,
+    Parameters.copySource,
+    Parameters.sourceRange,
+    Parameters.fileRangeWriteFromUrl,
+    Parameters.contentLength,
+    Parameters.sourceContentCrc64,
+    Parameters.version,
+    Parameters.sourceIfMatchCrc64,
+    Parameters.sourceIfNoneMatchCrc64
+  ],
+  responses: {
+    201: {
+      headersMapper: Mappers.FileUploadRangeFromURLHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError
+    }
+  },
+  isXML: true,
+  serializer
+};
+
 const getRangeListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}/{directory}/{fileName}",
@@ -633,7 +767,7 @@ const getRangeListOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.sharesnapshot,
     Parameters.timeout,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.version,
@@ -699,7 +833,7 @@ const abortCopyOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.copyId,
     Parameters.timeout,
-    Parameters.comp10
+    Parameters.comp11
   ],
   headerParameters: [
     Parameters.copyActionAbortConstant,
@@ -728,7 +862,7 @@ const listHandlesOperationSpec: msRest.OperationSpec = {
     Parameters.maxresults,
     Parameters.timeout,
     Parameters.sharesnapshot,
-    Parameters.comp6
+    Parameters.comp7
   ],
   headerParameters: [
     Parameters.version
@@ -756,7 +890,7 @@ const forceCloseHandlesOperationSpec: msRest.OperationSpec = {
     Parameters.timeout,
     Parameters.marker,
     Parameters.sharesnapshot,
-    Parameters.comp7
+    Parameters.comp8
   ],
   headerParameters: [
     Parameters.handleId,

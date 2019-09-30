@@ -1,0 +1,3 @@
+# don't want to check in a copy of the swagger files here
+*.json
+examples

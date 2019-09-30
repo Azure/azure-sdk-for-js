@@ -6,6 +6,10 @@ resources:
     - repository: azure-sdk-build-tools
       type: git
       name: internal/azure-sdk-build-tools
+    - repository: azure-sdk-tools
+      type: github
+      name: Azure/azure-sdk-tools
+      endpoint: azure
 
 trigger:
   branches:
@@ -29,10 +33,12 @@ pr:
     include:
       - sdk/eventhub/
 
-stages:
+stages: 
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
       ServiceDirectory: eventhub
       Artifacts:
         - name: azure-event-hubs
           safeName: azureeventhubs
+        - name: azure-eventhubs-checkpointstore-blob
+          safeName: azureeventhubscheckpointstoreblob

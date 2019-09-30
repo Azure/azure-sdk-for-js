@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import { Constants, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { RequestOptions } from "../../request";

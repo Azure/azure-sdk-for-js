@@ -524,11 +524,11 @@ export interface ServiceListQueuesSegmentOptionalParams extends msRest.RequestOp
    */
   maxresults?: number;
   /**
-   * @member {ListQueuesIncludeType} [include] Include this parameter to
+   * @member {ListQueuesIncludeType[]} [include] Include this parameter to
    * specify that the queues's metadata be returned as part of the response
-   * body. Possible values include: 'metadata'
+   * body.
    */
-  include?: ListQueuesIncludeType;
+  include?: ListQueuesIncludeType[];
   /**
    * @member {number} [timeoutParameter] The The timeout parameter is expressed
    * in seconds. For more information, see <a
@@ -891,6 +891,12 @@ export interface MessageIdDeleteMethodOptionalParams extends msRest.RequestOptio
  */
 export interface ServiceSetPropertiesHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -915,6 +921,12 @@ export interface ServiceSetPropertiesHeaders {
  */
 export interface ServiceGetPropertiesHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -938,6 +950,12 @@ export interface ServiceGetPropertiesHeaders {
  *
  */
 export interface ServiceGetStatisticsHeaders {
+  /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
   /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
@@ -968,6 +986,12 @@ export interface ServiceGetStatisticsHeaders {
  */
 export interface ServiceListQueuesSegmentHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -996,6 +1020,12 @@ export interface ServiceListQueuesSegmentHeaders {
  *
  */
 export interface QueueCreateHeaders {
+  /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
   /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
@@ -1026,6 +1056,12 @@ export interface QueueCreateHeaders {
  */
 export interface QueueDeleteHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -1054,6 +1090,12 @@ export interface QueueDeleteHeaders {
  *
  */
 export interface QueueGetPropertiesHeaders {
+  /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
   /**
    * @member {{ [propertyName: string]: string }} [metadata]
    */
@@ -1094,6 +1136,12 @@ export interface QueueGetPropertiesHeaders {
  */
 export interface QueueSetMetadataHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -1122,6 +1170,12 @@ export interface QueueSetMetadataHeaders {
  *
  */
 export interface QueueGetAccessPolicyHeaders {
+  /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
   /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
@@ -1152,6 +1206,12 @@ export interface QueueGetAccessPolicyHeaders {
  */
 export interface QueueSetAccessPolicyHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -1180,6 +1240,12 @@ export interface QueueSetAccessPolicyHeaders {
  *
  */
 export interface MessagesDequeueHeaders {
+  /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
   /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
@@ -1210,6 +1276,12 @@ export interface MessagesDequeueHeaders {
  */
 export interface MessagesClearHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -1238,6 +1310,12 @@ export interface MessagesClearHeaders {
  *
  */
 export interface MessagesEnqueueHeaders {
+  /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
   /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
@@ -1268,6 +1346,12 @@ export interface MessagesEnqueueHeaders {
  */
 export interface MessagesPeekHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -1296,6 +1380,12 @@ export interface MessagesPeekHeaders {
  *
  */
 export interface MessageIdUpdateHeaders {
+  /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
   /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
@@ -1335,6 +1425,12 @@ export interface MessageIdUpdateHeaders {
  */
 export interface MessageIdDeleteHeaders {
   /**
+   * @member {string} [clientRequestId] If a client request id header is sent
+   * in the request, this header will be present in the response with the same
+   * value.
+   */
+  clientRequestId?: string;
+  /**
    * @member {string} [requestId] This header uniquely identifies the request
    * that was made and can be used for troubleshooting the request.
    */
@@ -1359,14 +1455,14 @@ export interface MessageIdDeleteHeaders {
 /**
  * Defines values for StorageErrorCode.
  * Possible values include: 'AccountAlreadyExists', 'AccountBeingCreated', 'AccountIsDisabled',
- * 'AuthenticationFailed', 'ConditionHeadersNotSupported', 'ConditionNotMet', 'EmptyMetadataKey',
- * 'InsufficientAccountPermissions', 'InternalError', 'InvalidAuthenticationInfo',
- * 'InvalidHeaderValue', 'InvalidHttpVerb', 'InvalidInput', 'InvalidMd5', 'InvalidMetadata',
- * 'InvalidQueryParameterValue', 'InvalidRange', 'InvalidResourceName', 'InvalidUri',
- * 'InvalidXmlDocument', 'InvalidXmlNodeValue', 'Md5Mismatch', 'MetadataTooLarge',
- * 'MissingContentLengthHeader', 'MissingRequiredQueryParameter', 'MissingRequiredHeader',
- * 'MissingRequiredXmlNode', 'MultipleConditionHeadersNotSupported', 'OperationTimedOut',
- * 'OutOfRangeInput', 'OutOfRangeQueryParameterValue', 'RequestBodyTooLarge',
+ * 'AuthenticationFailed', 'AuthorizationFailure', 'ConditionHeadersNotSupported',
+ * 'ConditionNotMet', 'EmptyMetadataKey', 'InsufficientAccountPermissions', 'InternalError',
+ * 'InvalidAuthenticationInfo', 'InvalidHeaderValue', 'InvalidHttpVerb', 'InvalidInput',
+ * 'InvalidMd5', 'InvalidMetadata', 'InvalidQueryParameterValue', 'InvalidRange',
+ * 'InvalidResourceName', 'InvalidUri', 'InvalidXmlDocument', 'InvalidXmlNodeValue', 'Md5Mismatch',
+ * 'MetadataTooLarge', 'MissingContentLengthHeader', 'MissingRequiredQueryParameter',
+ * 'MissingRequiredHeader', 'MissingRequiredXmlNode', 'MultipleConditionHeadersNotSupported',
+ * 'OperationTimedOut', 'OutOfRangeInput', 'OutOfRangeQueryParameterValue', 'RequestBodyTooLarge',
  * 'ResourceTypeMismatch', 'RequestUrlFailedToParse', 'ResourceAlreadyExists', 'ResourceNotFound',
  * 'ServerBusy', 'UnsupportedHeader', 'UnsupportedXmlNode', 'UnsupportedQueryParameter',
  * 'UnsupportedHttpVerb', 'InvalidMarker', 'MessageNotFound', 'MessageTooLarge',
@@ -1375,7 +1471,7 @@ export interface MessageIdDeleteHeaders {
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'InvalidMarker' | 'MessageNotFound' | 'MessageTooLarge' | 'PopReceiptMismatch' | 'QueueAlreadyExists' | 'QueueBeingDeleted' | 'QueueDisabled' | 'QueueNotEmpty' | 'QueueNotFound';
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'InvalidMarker' | 'MessageNotFound' | 'MessageTooLarge' | 'PopReceiptMismatch' | 'QueueAlreadyExists' | 'QueueBeingDeleted' | 'QueueDisabled' | 'QueueNotEmpty' | 'QueueNotFound';
 
 /**
  * Defines values for GeoReplicationStatusType.

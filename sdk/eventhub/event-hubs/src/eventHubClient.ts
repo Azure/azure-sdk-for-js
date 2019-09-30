@@ -64,6 +64,13 @@ export interface EventHubProducerOptions {
  * The set of options to configure the `send` operation on the `EventHubProducer`.
  * - `partitionKey` : A value that is hashed to produce a partition assignment.
  * - `abortSignal`  : A signal the request to cancel the send operation.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     partitionKey: 'foo'
+ * }
+ * ```
  */
 export interface SendOptions {
   /**
@@ -87,6 +94,14 @@ export interface SendOptions {
  * Not applicable if the `EventHubProducer` was created using a `partitionId`.
  * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
  * - `abortSignal`   : A signal the request to cancel the send operation.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     partitionKey: 'foo',
+ *     maxSizeInBytes: 1024 * 1024 // 1 MB
+ * }
+ * ```
  */
 export interface BatchOptions {
   /**
@@ -116,6 +131,16 @@ export interface BatchOptions {
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
  * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  * A simple usage can be `{ "maxRetries": 4 }`.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     retryOptions: {
+ *         maxRetries: 4
+ *     },
+ *     trackLastEnqueuedEventInfo: false
+ * }
+ * ```
  */
 export interface EventHubConsumerOptions {
   /**
@@ -159,6 +184,15 @@ export interface EventHubConsumerOptions {
  * over a WebSocket.
  * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
  * A simple usage can be `{ "maxRetries": 4 }`.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     retryOptions: {
+ *         maxRetries: 4
+ *     }
+ * }
+ * ```
  * @interface ClientOptions
  */
 export interface EventHubClientOptions {
@@ -238,6 +272,16 @@ export class EventHubClient {
    */
   get eventHubName(): string {
     return this._context.config.entityPath;
+  }
+
+  /**
+   * @property
+   * @readonly
+   * The fully qualified Event Hubs namespace for which this client is created. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net.
+   */
+  get fullyQualifiedNamespace(): string {
+    return this._context.config.host;
   }
 
   /**

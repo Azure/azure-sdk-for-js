@@ -1,19 +1,12 @@
 steps:
-  - pwsh: |
-      Invoke-WebRequest -MaximumRetryCount 10 -Uri "https://raw.githubusercontent.com/Azure/azure-sdk-tools/verify-agent-os_1.1.0/scripts/python/verify_agent_os.py" -OutFile "verify_agent_os.py" | Wait-Process
-    workingDirectory: "$(Build.BinariesDirectory)"
-    displayName: "Download verify_agent_os.py"
-
   - task: UsePythonVersion@0
     displayName: "Use Python 3.6"
     inputs:
       versionSpec: "3.6"
 
-  - task: PythonScript@0
-    displayName: "Verify agent OS" # This also sets the friendly name in variable 'OSName'
-    inputs:
-      scriptPath: "$(Build.BinariesDirectory)/verify_agent_os.py"
-      arguments: $(OSVmImage)
+  - template: eng/pipelines/templates/scripts/verify-agent-os.yml@azure-sdk-tools
+    parameters:
+      OSName: $(OSVmImage)
 
   - task: NodeTool@0
     inputs:

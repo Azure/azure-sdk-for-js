@@ -462,8 +462,8 @@ export interface StorageAccountCreateParameters {
    */
   customDomain?: CustomDomain;
   /**
-   * Provides the encryption settings on the account. If left unspecified the account encryption
-   * settings will remain the same. The default setting is unencrypted.
+   * Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be
+   * disabled.
    */
   encryption?: Encryption;
   /**
@@ -488,6 +488,11 @@ export interface StorageAccountCreateParameters {
    * Account HierarchicalNamespace enabled if sets to true.
    */
   isHnsEnabled?: boolean;
+  /**
+   * Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. Possible
+   * values include: 'Disabled', 'Enabled'
+   */
+  largeFileSharesState?: LargeFileSharesState;
 }
 
 /**
@@ -709,6 +714,11 @@ export interface StorageAccount extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly failoverInProgress?: boolean;
+  /**
+   * Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. Possible
+   * values include: 'Disabled', 'Enabled'
+   */
+  largeFileSharesState?: LargeFileSharesState;
 }
 
 /**
@@ -801,6 +811,11 @@ export interface StorageAccountUpdateParameters {
    * Network rule set
    */
   networkRuleSet?: NetworkRuleSet;
+  /**
+   * Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled. Possible
+   * values include: 'Disabled', 'Enabled'
+   */
+  largeFileSharesState?: LargeFileSharesState;
   /**
    * Optional. Indicates the type of storage account. Currently only StorageV2 value supported by
    * server. Possible values include: 'Storage', 'StorageV2', 'BlobStorage', 'FileStorage',
@@ -1007,7 +1022,7 @@ export interface ListServiceSasResponse {
  */
 export interface DateAfterModification {
   /**
-   * Integer value indicating the age in days after last modification
+   * Value indicating the age in days after last modification
    */
   daysAfterModificationGreaterThan: number;
 }
@@ -1035,7 +1050,7 @@ export interface ManagementPolicyBaseBlob {
  */
 export interface DateAfterCreation {
   /**
-   * Integer value indicating the age in days after creation
+   * Value indicating the age in days after creation
    */
   daysAfterCreationGreaterThan: number;
 }
@@ -1486,6 +1501,16 @@ export interface DeleteRetentionPolicy {
 }
 
 /**
+ * The blob service properties for change feed events.
+ */
+export interface ChangeFeed {
+  /**
+   * Indicates whether change feed event logging is enabled for the Blob service.
+   */
+  enabled?: boolean;
+}
+
+/**
  * The properties of a storage account’s Blob service.
  */
 export interface BlobServiceProperties extends Resource {
@@ -1509,6 +1534,10 @@ export interface BlobServiceProperties extends Resource {
    * Automatic Snapshot is enabled if set to true.
    */
   automaticSnapshotPolicyEnabled?: boolean;
+  /**
+   * The blob service properties for change feed events.
+   */
+  changeFeed?: ChangeFeed;
 }
 
 /**
@@ -1553,6 +1582,69 @@ export interface LeaseContainerResponse {
    * Approximate time remaining in the lease period, in seconds.
    */
   leaseTimeSeconds?: string;
+}
+
+/**
+ * The properties of File services in storage account.
+ */
+export interface FileServiceProperties extends Resource {
+  /**
+   * Specifies CORS rules for the File service. You can include up to five CorsRule elements in the
+   * request. If no CorsRule elements are included in the request body, all CORS rules will be
+   * deleted, and CORS will be disabled for the File service.
+   */
+  cors?: CorsRules;
+}
+
+/**
+ * An interface representing FileServiceItems.
+ */
+export interface FileServiceItems {
+  /**
+   * List of file services returned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: FileServiceProperties[];
+}
+
+/**
+ * Properties of the file share, including Id, resource name, resource type, Etag.
+ */
+export interface FileShare extends AzureEntityResource {
+  /**
+   * Returns the date and time the share was last modified.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * A name-value pair to associate with the share as metadata.
+   */
+  metadata?: { [propertyName: string]: string };
+  /**
+   * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
+   * 5TB (5120).
+   */
+  shareQuota?: number;
+}
+
+/**
+ * The file share properties be listed out.
+ */
+export interface FileShareItem extends AzureEntityResource {
+  /**
+   * Returns the date and time the share was last modified.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * A name-value pair to associate with the share as metadata.
+   */
+  metadata?: { [propertyName: string]: string };
+  /**
+   * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
+   * 5TB (5120).
+   */
+  shareQuota?: number;
 }
 
 /**
@@ -1650,6 +1742,66 @@ export interface BlobContainersLeaseOptionalParams extends msRest.RequestOptions
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface FileServicesSetServicePropertiesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specifies CORS rules for the File service. You can include up to five CorsRule elements in the
+   * request. If no CorsRule elements are included in the request body, all CORS rules will be
+   * deleted, and CORS will be disabled for the File service.
+   */
+  cors?: CorsRules;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileSharesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional. Continuation token for the list operation.
+   */
+  skipToken?: string;
+  /**
+   * Optional. Specified maximum number of shares that can be included in the list.
+   */
+  maxpagesize?: string;
+  /**
+   * Optional. When specified, only share names starting with the filter will be listed.
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileSharesCreateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * A name-value pair to associate with the share as metadata.
+   */
+  metadata?: { [propertyName: string]: string };
+  /**
+   * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
+   * 5TB (5120).
+   */
+  shareQuota?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileSharesUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * A name-value pair to associate with the share as metadata.
+   */
+  metadata?: { [propertyName: string]: string };
+  /**
+   * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
+   * 5TB (5120).
+   */
+  shareQuota?: number;
+}
+
+/**
  * An interface representing StorageManagementClientOptions.
  */
 export interface StorageManagementClientOptions extends AzureServiceClientOptions {
@@ -1739,6 +1891,12 @@ export interface StorageSkuListResult extends Array<Sku> {
  * @extends Array<StorageAccount>
  */
 export interface StorageAccountListResult extends Array<StorageAccount> {
+  /**
+   * Request URL that can be used to query next page of storage accounts. Returned when total
+   * number of requested storage accounts exceed maximum page size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -1751,6 +1909,14 @@ export interface UsageListResult extends Array<Usage> {
 
 /**
  * @interface
+ * An interface representing the BlobServiceItems.
+ * @extends Array<BlobServiceProperties>
+ */
+export interface BlobServiceItems extends Array<BlobServiceProperties> {
+}
+
+/**
+ * @interface
  * Response schema. Contains list of blobs returned, and if paging is requested or required, a URL
  * to next page of containers.
  * @extends Array<ListContainerItem>
@@ -1759,6 +1925,21 @@ export interface ListContainerItems extends Array<ListContainerItem> {
   /**
    * Request URL that can be used to query next page of containers. Returned when total number of
    * requested containers exceed maximum page size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response schema. Contains list of shares returned, and if paging is requested or required, a URL
+ * to next page of shares.
+ * @extends Array<FileShareItem>
+ */
+export interface FileShareItems extends Array<FileShareItem> {
+  /**
+   * Request URL that can be used to query next page of shares. Returned when total number of
+   * requested shares exceed maximum page size.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
@@ -1862,6 +2043,14 @@ export type DirectoryServiceOptions = 'None' | 'AADDS';
  * @enum {string}
  */
 export type AccessTier = 'Hot' | 'Cool';
+
+/**
+ * Defines values for LargeFileSharesState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type LargeFileSharesState = 'Disabled' | 'Enabled';
 
 /**
  * Defines values for GeoReplicationStatus.
@@ -2269,6 +2458,26 @@ export type StorageAccountsBeginCreateResponse = StorageAccount & {
 };
 
 /**
+ * Contains response data for the listNext operation.
+ */
+export type StorageAccountsListNextResponse = StorageAccountListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageAccountListResult;
+    };
+};
+
+/**
  * Contains response data for the listByLocation operation.
  */
 export type UsagesListByLocationResponse = UsageListResult & {
@@ -2325,6 +2534,26 @@ export type ManagementPoliciesCreateOrUpdateResponse = ManagementPolicy & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BlobServicesListResponse = BlobServiceItems & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobServiceItems;
     };
 };
 
@@ -2650,5 +2879,165 @@ export type BlobContainersListNextResponse = ListContainerItems & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ListContainerItems;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type FileServicesListResponse = FileServiceItems & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileServiceItems;
+    };
+};
+
+/**
+ * Contains response data for the setServiceProperties operation.
+ */
+export type FileServicesSetServicePropertiesResponse = FileServiceProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileServiceProperties;
+    };
+};
+
+/**
+ * Contains response data for the getServiceProperties operation.
+ */
+export type FileServicesGetServicePropertiesResponse = FileServiceProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileServiceProperties;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type FileSharesListResponse = FileShareItems & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShareItems;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type FileSharesCreateResponse = FileShare & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShare;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type FileSharesUpdateResponse = FileShare & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShare;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type FileSharesGetResponse = FileShare & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShare;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type FileSharesListNextResponse = FileShareItems & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FileShareItems;
     };
 };

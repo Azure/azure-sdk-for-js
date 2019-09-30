@@ -1,9 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
 import { parseConnectionString } from "./common";
 import { Constants } from "./common/constants";
-import { getPlatformDefaultHeaders, getUserAgent } from "./common/platform";
+import { getUserAgent } from "./common/platform";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
@@ -69,21 +71,20 @@ export class CosmosClient {
 
     optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] = Constants.CurrentVersion;
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] =
+      Constants.CurrentVersion;
     if (optionsOrConnectionString.consistencyLevel !== undefined) {
       optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] =
         optionsOrConnectionString.consistencyLevel;
     }
 
-    const platformDefaultHeaders = getPlatformDefaultHeaders() || {};
-    for (const platformDefaultHeader of Object.keys(platformDefaultHeaders)) {
-      optionsOrConnectionString.defaultHeaders[platformDefaultHeader] = platformDefaultHeaders[platformDefaultHeader];
-    }
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent(
+      optionsOrConnectionString.userAgentSuffix
+    );
 
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent();
-
-    const globalEndpointManager = new GlobalEndpointManager(optionsOrConnectionString, async (opts: RequestOptions) =>
-      this.getDatabaseAccount(opts)
+    const globalEndpointManager = new GlobalEndpointManager(
+      optionsOrConnectionString,
+      async (opts: RequestOptions) => this.getDatabaseAccount(opts)
     );
     this.clientContext = new ClientContext(optionsOrConnectionString, globalEndpointManager);
 
@@ -94,7 +95,9 @@ export class CosmosClient {
   /**
    * Get information about the current {@link DatabaseAccount} (including which regions are supported, etc.)
    */
-  public async getDatabaseAccount(options?: RequestOptions): Promise<ResourceResponse<DatabaseAccount>> {
+  public async getDatabaseAccount(
+    options?: RequestOptions
+  ): Promise<ResourceResponse<DatabaseAccount>> {
     const response = await this.clientContext.getDatabaseAccount(options);
     return new ResourceResponse<DatabaseAccount>(response.result, response.headers, response.code);
   }

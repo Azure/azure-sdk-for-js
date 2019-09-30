@@ -1,6 +1,6 @@
 {
   "name": "@azure/template",
-  "version": "0.2.0-preview.1",
+  "version": "0.2.0-preview.2",
   "description": "Template Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",

@@ -2,9 +2,13 @@
 // Licensed under the MIT License.
 
 import * as msal from "msal";
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { AccessToken, TokenCredential, GetTokenOptions, CanonicalCode } from "@azure/core-http";
 import { IdentityClient } from "../client/identityClient";
-import { BrowserLoginStyle, InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
+import {
+  BrowserLoginStyle,
+  InteractiveBrowserCredentialOptions
+} from "./interactiveBrowserCredentialOptions";
+import { createSpan } from "../util/tracing";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -25,24 +29,20 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(
-    tenantId: string,
-    clientId: string,
-    options?: InteractiveBrowserCredentialOptions
-  ) {
+  constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions) {
     options = { ...IdentityClient.getDefaultOptions(), ...options };
 
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
-        throw new Error(`Invalid loginStyle: ${options.loginStyle}`);
+      throw new Error(`Invalid loginStyle: ${options.loginStyle}`);
     }
 
     this.msalConfig = {
       auth: {
         clientId: clientId,
         authority: `${options.authorityHost}/${tenantId}`,
-        ...options.redirectUri && { redirectUri: options.redirectUri},
-        ...options.postLogoutRedirectUri && { redirectUri: options.postLogoutRedirectUri }
+        ...(options.redirectUri && { redirectUri: options.redirectUri }),
+        ...(options.postLogoutRedirectUri && { redirectUri: options.postLogoutRedirectUri })
       },
       cache: {
         cacheLocation: "localStorage",
@@ -67,7 +67,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
     }
   }
 
-  private async acquireToken(authParams: msal.AuthenticationParameters): Promise<msal.AuthResponse | undefined> {
+  private async acquireToken(
+    authParams: msal.AuthenticationParameters
+  ): Promise<msal.AuthResponse | undefined> {
     let authResponse: msal.AuthResponse | undefined;
     try {
       authResponse = await this.msalObject.acquireTokenSilent(authParams);
@@ -98,7 +100,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           break;
       }
 
-      authResponse = authPromise && await authPromise;
+      authResponse = authPromise && (await authPromise);
     }
 
     return authResponse;
@@ -112,23 +114,35 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions // eslint-disable-line @typescript-eslint/no-unused-vars
+    options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    if (!this.msalObject.getAccount()) {
-      await this.login();
-    }
 
-    const authResponse = await this.acquireToken({
-      scopes: Array.isArray(scopes) ? scopes : scopes.split(',')
-    });
+    const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
+    try {
+      if (!this.msalObject.getAccount()) {
+        await this.login();
+      }
 
-    if (authResponse) {
-      return {
-        token: authResponse.accessToken,
-        expiresOnTimestamp: authResponse.expiresOn.getTime()
-      };
-    } else {
-      return null;
+      const authResponse = await this.acquireToken({
+        scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
+      });
+
+      if (authResponse) {
+        return {
+          token: authResponse.accessToken,
+          expiresOnTimestamp: authResponse.expiresOn.getTime()
+        };
+      } else {
+        return null;
+      }
+    } catch (err) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: err.message,
+      });
+      throw err;
+    } finally {
+      span.end();
     }
   }
 }

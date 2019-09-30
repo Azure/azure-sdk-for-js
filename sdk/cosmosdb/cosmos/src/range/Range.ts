@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { PartitionKey } from "../documents";
 
 /** @hidden */
@@ -84,7 +86,8 @@ export class Range {
   // TODO: private?
   public _containsPoint(point: Point, compareFunction?: CompareFunction) {
     return (
-      this._compare(point, this.low, compareFunction) >= 0 && this._compare(point, this.high, compareFunction) <= 0
+      this._compare(point, this.low, compareFunction) >= 0 &&
+      this._compare(point, this.high, compareFunction) <= 0
     );
   }
 
@@ -105,7 +108,8 @@ export class Range {
       throw new Error("Invalid Argument: 'other' is undefined or null");
     }
     const maxLow = this._compare(this.low, range.low, compareFunction) >= 0 ? this.low : range.low;
-    const minHigh = this._compare(this.high, range.high, compareFunction) <= 0 ? this.high : range.high;
+    const minHigh =
+      this._compare(this.high, range.high, compareFunction) <= 0 ? this.high : range.high;
     return this._compare(maxLow, minHigh, compareFunction) <= 0;
   }
 
