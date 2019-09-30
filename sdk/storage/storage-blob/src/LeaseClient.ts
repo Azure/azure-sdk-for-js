@@ -182,7 +182,7 @@ export class LeaseClient {
    * @returns {Promise<LeaseOperationResponse>} Response data for change lease operation.
    * @memberof LeaseClient
    */
-  public async chanageLease(
+  public async changeLease(
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
