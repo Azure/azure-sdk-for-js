@@ -130,7 +130,10 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean> {
-    const { span, options } = createSpan("ManagedIdentityCredential-pingImdsEndpoint", getTokenOptions);
+    const { span, options } = createSpan(
+      "ManagedIdentityCredential-pingImdsEndpoint",
+      getTokenOptions
+    );
     const request = this.createImdsAuthRequest(resource, clientId);
 
     // This will always be populated, but let's make TypeScript happy
@@ -154,9 +157,14 @@ export class ManagedIdentityCredential implements TokenCredential {
       } catch (err) {
         if (
           err instanceof RestError &&
-          (err.code === RestError.REQUEST_SEND_ERROR || err.code === RestError.REQUEST_ABORTED_ERROR)
+          (err.code === RestError.REQUEST_SEND_ERROR ||
+            err.code === RestError.REQUEST_ABORTED_ERROR)
         ) {
           // Either request failed or IMDS endpoint isn't available
+          span.setStatus({
+            code: CanonicalCode.UNAVAILABLE,
+            message: err.message
+          });
           return false;
         }
       }
@@ -166,7 +174,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     } catch (err) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: err.message,
+        message: err.message
       });
       throw err;
     } finally {
@@ -184,10 +192,12 @@ export class ManagedIdentityCredential implements TokenCredential {
     const resource = this.mapScopesToResource(scopes);
     let expiresInParser: ((requestBody: any) => number) | undefined;
 
-    const { span, options } = createSpan("ManagedIdentityCredential-authenticateManagedIdentity", getTokenOptions);
+    const { span, options } = createSpan(
+      "ManagedIdentityCredential-authenticateManagedIdentity",
+      getTokenOptions
+    );
 
     try {
-
       // Detect which type of environment we are running in
       if (process.env.MSI_ENDPOINT) {
         if (process.env.MSI_SECRET) {
@@ -206,11 +216,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         // Ping the IMDS endpoint to see if it's available
         if (
           !checkIfImdsEndpointAvailable ||
-          (await this.pingImdsEndpoint(
-            resource,
-            clientId,
-            options
-          ))
+          (await this.pingImdsEndpoint(resource, clientId, options))
         ) {
           // Running in an Azure VM
           authRequestOptions = this.createImdsAuthRequest(resource, clientId);
@@ -229,12 +235,15 @@ export class ManagedIdentityCredential implements TokenCredential {
         ...authRequestOptions
       });
 
-      const tokenResponse = await this.identityClient.sendTokenRequest(webResource, expiresInParser);
+      const tokenResponse = await this.identityClient.sendTokenRequest(
+        webResource,
+        expiresInParser
+      );
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: err.message,
+        message: err.message
       });
       throw err;
     } finally {
@@ -260,7 +269,6 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     const { span, options: newOptions } = createSpan("ManagedIdentityCredential-getToken", options);
 
-
     try {
       // isEndpointAvailable can be true, false, or null,
       // the latter indicating that we don't yet know whether
@@ -283,7 +291,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     } catch (err) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: err.message,
+        message: err.message
       });
       throw err;
     } finally {
