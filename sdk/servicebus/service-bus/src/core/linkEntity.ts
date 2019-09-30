@@ -123,7 +123,6 @@ export class LinkEntity {
     await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock, () => {
       return this._context.namespace.cbsSession.init();
     });
-
     let tokenObject: AccessToken;
     let tokenType: TokenType;
     if (this._context.namespace.tokenCredential instanceof SharedKeyCredential) {
@@ -140,13 +139,15 @@ export class LinkEntity {
       tokenType = TokenType.CbsTokenTypeJwt;
       this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
     }
-    
     log.link(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.namespace.connectionId,
       this._type,
       this.audience
     );
+    if (!tokenObject) {
+      throw new Error("Token cannot be null");
+    }
     // Acquire the lock to negotiate the CBS claim.
     log.link(
       "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",

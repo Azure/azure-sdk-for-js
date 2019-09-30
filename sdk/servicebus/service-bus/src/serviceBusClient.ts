@@ -62,7 +62,8 @@ export class ServiceBusClient {
    * @constructor
    * @param {ConnectionConfig} config - The connection configuration needed to connect to the
    * Service Bus Namespace.
-   * @param {TokenCredential} [credential] - SharedKeyCredential object or your credential that implements the TokenCredential interface.
+   * @param {TokenCredential} [tokenCredential] - SharedKeyCredential object or your 
+   * credential that implements the TokenCredential interface.
    * @param {ServiceBusClientOptions} - Options to control ways to interact with the Service Bus
    * Namespace.
    */
