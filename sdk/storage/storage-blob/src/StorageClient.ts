@@ -3,7 +3,7 @@
 
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
-import { escapeURLPath, getURLScheme, iEqual } from "./utils/utils.common";
+import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
@@ -21,7 +21,7 @@ export abstract class StorageClient {
    * @memberof StorageClient
    */
   public readonly url: string;
-
+  public readonly accountName: string;
   /**
    * Request policy pipeline.
    *
@@ -63,6 +63,7 @@ export abstract class StorageClient {
   protected constructor(url: string, pipeline: Pipeline) {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
+    this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
       this.url,

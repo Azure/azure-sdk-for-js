@@ -74,7 +74,7 @@ export function escapeURLPath(url: string): string {
 export interface ConnString {
   kind: "AccountConnString" | "SASConnString";
   url: string;
-  accountName?: string;
+  accountName: string;
   accountKey?: any;
   accountSas?: string;
   proxyUri?: string; // Development Connection String may contain proxyUri
@@ -96,25 +96,34 @@ function getProxyUriFromDevConnString(connectionString: string): string {
   return proxyUri;
 }
 
+function getValueInConnString(
+  connectionString: string,
+  argument:
+    | "BlobEndpoint"
+    | "AccountName"
+    | "AccountKey"
+    | "DefaultEndpointsProtocol"
+    | "EndpointSuffix"
+    | "SharedAccessSignature"
+) {
+  const matchCredentials = connectionString.split(";");
+  for (const element of matchCredentials) {
+    if (element.trim().startsWith(argument)) {
+      return element.trim().match(argument + "=(.*)")![1];
+    }
+  }
+  return "";
+}
+
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
  * @export
  * @param {string} connectionString Connection string.
- * @returns {{ kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any }} String key value pairs of the storage account's url and credentials.
+ * @returns {ConnString}  String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnString {
   let proxyUri = "";
-
-  function getValueInConnString(argument: string) {
-    const matchCredentials = connectionString.split(";");
-    for (const element of matchCredentials) {
-      if (element.trim().startsWith(argument)) {
-        return element.trim().match(argument + "=(.*)")![1];
-      }
-    }
-    return "";
-  }
 
   if (connectionString.startsWith("UseDevelopmentStorage=true")) {
     // Development connection string
@@ -123,7 +132,7 @@ export function extractConnectionStringParts(connectionString: string): ConnStri
   }
 
   // Matching BlobEndpoint in the Account connection string
-  let blobEndpoint = getValueInConnString("BlobEndpoint");
+  let blobEndpoint = getValueInConnString(connectionString, "BlobEndpoint");
   // Slicing off '/' at the end if exists
   // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
   blobEndpoint = blobEndpoint.endsWith("/") ? blobEndpoint.slice(0, -1) : blobEndpoint;
@@ -140,14 +149,14 @@ export function extractConnectionStringParts(connectionString: string): ConnStri
     let endpointSuffix = "";
 
     // Get account name and key
-    accountName = getValueInConnString("AccountName");
-    accountKey = Buffer.from(getValueInConnString("AccountKey"), "base64");
+    accountName = getValueInConnString(connectionString, "AccountName");
+    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!blobEndpoint) {
       // BlobEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString("DefaultEndpointsProtocol");
+      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -155,7 +164,7 @@ export function extractConnectionStringParts(connectionString: string): ConnStri
         );
       }
 
-      endpointSuffix = getValueInConnString("EndpointSuffix");
+      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }
@@ -178,14 +187,17 @@ export function extractConnectionStringParts(connectionString: string): ConnStri
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString("SharedAccessSignature");
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountName = getAccountNameFromUrl(blobEndpoint);
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    } else if (!accountName) {
+      throw new Error("Invalid AccountName in the provided SAS Connection String");
     }
 
-    return { kind: "SASConnString", url: blobEndpoint, accountSas };
+    return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
   }
 }
 
@@ -509,4 +521,14 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
  */
 export function iEqual(str1: string, str2: string): boolean {
   return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
+}
+
+export function getAccountNameFromUrl(url: string): string {
+  if (url.startsWith("http://127.0.0.1:10000")) {
+    // Dev Conn String
+    return getValueInConnString(DevelopmentConnectionString, "AccountName");
+  } else {
+    // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+    return url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".blob."));
+  }
 }

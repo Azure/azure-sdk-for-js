@@ -820,7 +820,7 @@ export class BlobClient extends StorageClient {
     ({
       blobName: this._blobName,
       containerName: this._containerName
-    } = this.getBlobAndContainerNamesFromUrl(url));
+    } = this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new Blob(this.storageClientContext);
   }
 
@@ -1361,17 +1361,28 @@ export class BlobClient extends StorageClient {
     return response;
   }
 
-  private getBlobAndContainerNamesFromUrl(
-    url: string
-  ): { blobName: string; containerName: string } {
-    url = url.split("?")[0]; // removing the sas part of url if present
-    const urlWithoutBlobName = url.substring(0, url.lastIndexOf("/"));
-    return {
-      blobName: url.substring(url.lastIndexOf("/") + 1, url.length),
-      containerName: urlWithoutBlobName.substring(
-        urlWithoutBlobName.lastIndexOf("/") + 1,
-        urlWithoutBlobName.length
-      )
-    };
+  private getBlobAndContainerNamesFromUrl(): { blobName: string; containerName: string } {
+    //  URL may look like the following
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob";
+
+    const urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+
+    const blobName = urlWithoutSAS.substring(
+      urlWithoutSAS.lastIndexOf("/") + 1,
+      urlWithoutSAS.length
+    );
+    const urlWithoutBlobName = urlWithoutSAS.substring(0, urlWithoutSAS.lastIndexOf("/"));
+
+    const containerName = urlWithoutBlobName.substring(
+      urlWithoutBlobName.lastIndexOf("/") + 1,
+      urlWithoutBlobName.length
+    );
+
+    if (!blobName || !containerName) {
+      throw new Error("Unable to extract blobName and containerName with provided information.");
+    }
+
+    return { blobName, containerName };
   }
 }
