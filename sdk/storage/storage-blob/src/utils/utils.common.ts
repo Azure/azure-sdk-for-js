@@ -529,6 +529,12 @@ export function getAccountNameFromUrl(url: string): string {
     return getValueInConnString(DevelopmentConnectionString, "AccountName");
   } else {
     // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-    return url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".blob."));
+
+    const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".blob."));
+    if (!accountName) {
+      throw new Error("Unable to extract accountName with provided information.");
+    }
+
+    return accountName;
   }
 }

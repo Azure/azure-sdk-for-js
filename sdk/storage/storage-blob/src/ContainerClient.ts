@@ -1310,7 +1310,7 @@ export class ContainerClient extends StorageClient {
     );
 
     if (!containerName) {
-      throw new Error("Unable to extract blobName and containerName with provided information.");
+      throw new Error("Unable to extract containerName with provided information.");
     }
 
     return containerName;
