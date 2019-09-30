@@ -43,16 +43,39 @@ export {
   ServiceBusAtomManagementClientOptions,
   ListRequestOptions,
   QueueResponse,
+  CreateQueueResponse,
+  GetQueueResponse,
   ListQueuesResponse,
+  UpdateQueueResponse,
+  DeleteQueueResponse,
   TopicResponse,
+  CreateTopicResponse,
+  GetTopicResponse,
   ListTopicsResponse,
+  UpdateTopicResponse,
+  DeleteTopicResponse,
   SubscriptionResponse,
+  CreateSubscriptionResponse,
+  GetSubscriptionResponse,
   ListSubscriptionsResponse,
+  UpdateSubscriptionResponse,
+  DeleteSubscriptionResponse,
   RuleResponse,
-  ListRulesResponse
+  CreateRuleResponse,
+  GetRuleResponse,
+  ListRulesResponse,
+  UpdateRuleResponse,
+  DeleteRuleResponse
 } from "./serviceBusArmAtomXmlHttpClient";
 
-export { Queue, InternalQueueOptions as QueueOptions } from "./serializers/queueResourceSerializer";
-export { Topic, InternalTopicOptions as TopicOptions } from "./serializers/topicResourceSerializer";
-export { Subscription, InternalSubscriptionOptions as SubscriptionOptions } from "./serializers/subscriptionResourceSerializer";
-export { Rule, InternalRuleOptions as RuleOptions } from "./serializers/ruleResourceSerializer";
+export { Queue, QueueOptions } from "./serializers/queueResourceSerializer";
+export { Topic, TopicOptions } from "./serializers/topicResourceSerializer";
+export { Subscription, SubscriptionOptions } from "./serializers/subscriptionResourceSerializer";
+export {
+  Rule,
+  RuleOptions,
+  Filter,
+  CorrelationFilterOptions
+} from "./serializers/ruleResourceSerializer";
+
+export { CountDetails } from "./util/utils";

@@ -4,7 +4,13 @@
 import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
-import { getStringOrUndefined } from "../util/utils";
+import {
+  getStringOrUndefined,
+  getNumberOrUndefined,
+  getBooleanOrUndefined,
+  getCountDetailsOrUndefined,
+  CountDetails
+} from "../util/utils";
 
 const requestProperties: Array<keyof InternalTopicOptions> = [
   Constants.SIZE_IN_BYTES,
@@ -54,32 +60,36 @@ export function buildTopic(rawTopic: any): Topic | {} {
     const result: Topic = {
       topicName: rawTopic["TopicName"],
 
-      sizeInBytes: rawTopic["SizeInBytes"],
-      maxSizeInMegabytes: rawTopic["MaxSizeInMegabytes"],
+      sizeInBytes: getNumberOrUndefined(rawTopic["SizeInBytes"]),
+      maxSizeInMegabytes: getNumberOrUndefined(rawTopic["MaxSizeInMegabytes"]),
 
-      messageCount: rawTopic["MessageCount"],
-      subscriptionCount: rawTopic["SubscriptionCount"],
-      maxDeliveryCount: rawTopic["MaxDeliveryCount"],
+      messageCount: getNumberOrUndefined(rawTopic["MessageCount"]),
+      maxDeliveryCount: getNumberOrUndefined(rawTopic["MaxDeliveryCount"]),
+      subscriptionCount: getNumberOrUndefined(rawTopic["SubscriptionCount"]),
 
-      enablePartitioning: rawTopic["EnablePartitioning"],
-      supportOrdering: rawTopic["SupportOrdering"],
-      enableBatchedOperations: rawTopic["EnableBatchedOperations"],
+      enablePartitioning: getBooleanOrUndefined(rawTopic["EnablePartitioning"]),
+      supportOrdering: getBooleanOrUndefined(rawTopic["SupportOrdering"]),
+      enableBatchedOperations: getBooleanOrUndefined(rawTopic["EnableBatchedOperations"]),
 
       defaultMessageTimeToLive: rawTopic["DefaultMessageTimeToLive"],
       autoDeleteOnIdle: rawTopic["AutoDeleteOnIdle"],
 
-      requiresDuplicateDetection: rawTopic["RequiresDuplicateDetection"],
+      requiresDuplicateDetection: getBooleanOrUndefined(rawTopic["RequiresDuplicateDetection"]),
       duplicateDetectionHistoryTimeWindow: rawTopic["DuplicateDetectionHistoryTimeWindow"],
 
-      filteringMessagesBeforePublishing: rawTopic["FilteringMessagesBeforePublishing"],
-      enableSubscriptionPartitioning: rawTopic["EnableSubscriptionPartitioning"],
+      filteringMessagesBeforePublishing: getBooleanOrUndefined(
+        rawTopic["FilteringMessagesBeforePublishing"]
+      ),
+      enableSubscriptionPartitioning: getBooleanOrUndefined(
+        rawTopic["EnableSubscriptionPartitioning"]
+      ),
 
-      countDetails: rawTopic["CountDetails"],
-      isExpress: rawTopic["IsExpress"],
-      enableExpress: rawTopic["EnableExpress"],
+      countDetails: getCountDetailsOrUndefined(rawTopic["CountDetails"]),
+      isExpress: getBooleanOrUndefined(rawTopic["IsExpress"]),
+      enableExpress: getBooleanOrUndefined(rawTopic["EnableExpress"]),
 
       authorizationRules: rawTopic["AuthorizationRules"],
-      isAnonymousAccessible: rawTopic["IsAnonymousAccessible"],
+      isAnonymousAccessible: getBooleanOrUndefined(rawTopic["IsAnonymousAccessible"]),
 
       entityAvailabilityStatus: rawTopic["EntityAvailabilityStatus"],
       status: rawTopic["Status"],
@@ -243,33 +253,32 @@ export interface Topic extends TopicOptions {
   /**
    * Enable Subscription Partitioning option
    */
-  enableSubscriptionPartitioning?: string;
+  enableSubscriptionPartitioning?: boolean;
 
   /**
    * Filtering Messages Before Publishing option
    */
-  filteringMessagesBeforePublishing?: string;
+  filteringMessagesBeforePublishing?: boolean;
 
   /**
    * The topic's count details.
-   *
    */
-  countDetails?: string;
+  countDetails?: CountDetails;
 
   /**
    * Is Express option
    */
-  isExpress?: string;
+  isExpress?: boolean;
 
   /**
    * Enable express option
    */
-  enableExpress?: string;
+  enableExpress?: boolean;
 
   /**
    * Is anonymous accessible topic option
    */
-  isAnonymousAccessible?: string;
+  isAnonymousAccessible?: boolean;
 
   /**
    * Authorization rules on the topic

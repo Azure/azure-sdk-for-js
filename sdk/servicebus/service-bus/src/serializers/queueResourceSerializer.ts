@@ -4,7 +4,13 @@
 import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
-import { getStringOrUndefined } from "../util/utils";
+import {
+  getStringOrUndefined,
+  getNumberOrUndefined,
+  getBooleanOrUndefined,
+  getCountDetailsOrUndefined,
+  CountDetails
+} from "../util/utils";
 
 const requestProperties: Array<keyof InternalQueueOptions> = [
   Constants.LOCK_DURATION,
@@ -57,37 +63,38 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
 
 export function buildQueue(rawQueue: any): Queue | {} {
   if (rawQueue == undefined || rawQueue == {}) {
-    return { undefined };
+    return {};
   } else {
     const result: Queue = {
       queueName: rawQueue["QueueName"],
 
       lockDuration: rawQueue["LockDuration"],
-      sizeInBytes: rawQueue["SizeInBytes"],
-      maxSizeInMegabytes: rawQueue["MaxSizeInMegabytes"],
+      sizeInBytes: getNumberOrUndefined(rawQueue["SizeInBytes"]),
+      maxSizeInMegabytes: getNumberOrUndefined(rawQueue["MaxSizeInMegabytes"]),
 
-      messageCount: rawQueue["MessageCount"],
+      messageCount: getNumberOrUndefined(rawQueue["MessageCount"]),
+      maxDeliveryCount: getNumberOrUndefined(rawQueue["MaxDeliveryCount"]),
 
-      maxDeliveryCount: rawQueue["MaxDeliveryCount"],
-
-      enablePartitioning: rawQueue["EnablePartitioning"],
-      requiresSession: rawQueue["RequiresSession"],
-      enableBatchedOperations: rawQueue["EnableBatchedOperations"],
+      enablePartitioning: getBooleanOrUndefined(rawQueue["EnablePartitioning"]),
+      requiresSession: getBooleanOrUndefined(rawQueue["RequiresSession"]),
+      enableBatchedOperations: getBooleanOrUndefined(rawQueue["EnableBatchedOperations"]),
 
       defaultMessageTimeToLive: rawQueue["DefaultMessageTimeToLive"],
       autoDeleteOnIdle: rawQueue["AutoDeleteOnIdle"],
 
-      requiresDuplicateDetection: rawQueue["RequiresDuplicateDetection"],
+      requiresDuplicateDetection: getBooleanOrUndefined(rawQueue["RequiresDuplicateDetection"]),
       duplicateDetectionHistoryTimeWindow: rawQueue["DuplicateDetectionHistoryTimeWindow"],
-      deadLetteringOnMessageExpiration: rawQueue["DeadLetteringOnMessageExpiration"],
+      deadLetteringOnMessageExpiration: getBooleanOrUndefined(
+        rawQueue["DeadLetteringOnMessageExpiration"]
+      ),
       forwardDeadLetteredMessagesTo: rawQueue["ForwardDeadLetteredMessagesTo"],
 
-      countDetails: rawQueue["CountDetails"],
-      supportOrdering: rawQueue["SupportOrdering"],
-      enableExpress: rawQueue["EnableExpress"],
+      countDetails: getCountDetailsOrUndefined(rawQueue["CountDetails"]),
+      supportOrdering: getBooleanOrUndefined(rawQueue["SupportOrdering"]),
+      enableExpress: getBooleanOrUndefined(rawQueue["EnableExpress"]),
 
       authorizationRules: rawQueue["AuthorizationRules"],
-      isAnonymousAccessible: rawQueue["IsAnonymousAccessible"],
+      isAnonymousAccessible: getBooleanOrUndefined(rawQueue["IsAnonymousAccessible"]),
 
       entityAvailabilityStatus: rawQueue["EntityAvailabilityStatus"],
       status: rawQueue["Status"],
@@ -270,37 +277,28 @@ export interface Queue extends QueueOptions {
 
   /**
    * Count details
-   * E.g.,
-        {
-          "d2p1:ActiveMessageCount": "0";
-          "d2p1:DeadLetterMessageCount": "0";
-          "d2p1:ScheduledMessageCount": "0";
-          "d2p1:TransferMessageCount": "0";
-          "d2p1:TransferDeadLetterMessageCount": "0";
-        };
-   *
    */
-  countDetails?: any;
+  countDetails?: CountDetails;
 
   /**
    * Ordering support for messages
    */
-  supportOrdering?: string;
+  supportOrdering?: boolean;
 
   /**
    * Enable express option
    */
-  enableExpress?: string;
+  enableExpress?: boolean;
 
   /**
    * Is anonymous accessible queue option
    */
-  isAnonymousAccessible?: string;
+  isAnonymousAccessible?: boolean;
 
   /**
    * Authorization rules on the queue
    */
-  authorizationRules?: any;
+  authorizationRules?: string;
 
   /**
    * Entity availability status

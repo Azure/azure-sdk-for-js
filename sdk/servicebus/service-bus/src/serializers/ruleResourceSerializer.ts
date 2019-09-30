@@ -20,7 +20,7 @@ export function buildRule(rawRule: any): Rule | {} {
       ruleName: rawRule["RuleName"],
       topicName: rawRule["TopicName"],
       subscriptionName: rawRule["SubscriptionName"],
-      filter: rawRule["Filter"],
+      filter: getTopicFilterOrUndefined(rawRule["Filter"]),
       action: rawRule["Action"],
       createdAt: rawRule["CreatedAt"]
     };
@@ -28,21 +28,27 @@ export function buildRule(rawRule: any): Rule | {} {
   }
 }
 
-export function buildFilter(rawFilter: any): Rule | {} {
-  if (rawFilter == undefined || rawFilter == {}) {
-    return {};
+/**
+ *  @ignore
+ * Helper utility to retrieve `filter` value from given input or undefined,
+ * or undefined if not passed in.
+ * @param value
+ */
+function getTopicFilterOrUndefined(value: any): Filter | undefined {
+  if (value == undefined || value == {}) {
+    return undefined;
   } else {
     const result: Filter = {
-      sqlExpression: rawFilter["SqlExpression"],
-      compatibilityLevel: rawFilter["CompatibilityLevel"],
-      correlationId: rawFilter["CorrelationId"],
-      label: rawFilter["Label"],
-      to: rawFilter["To"],
-      replyTo: rawFilter["ReplyTo"],
-      replyToSessionId: rawFilter["ReplyToSessionId"],
-      sessionId: rawFilter["SessionId"],
-      messageId: rawFilter["MessageId"],
-      contentType: rawFilter["ContentType"]
+      sqlExpression: value["SqlExpression"],
+      compatibilityLevel: value["CompatibilityLevel"],
+      correlationId: value["CorrelationId"],
+      label: value["Label"],
+      to: value["To"],
+      replyTo: value["ReplyTo"],
+      replyToSessionId: value["ReplyToSessionId"],
+      sessionId: value["SessionId"],
+      messageId: value["MessageId"],
+      contentType: value["ContentType"]
     };
     return result;
   }
@@ -149,6 +155,9 @@ export interface Rule {
   createdAt?: string;
 }
 
+/**
+ * Represents all possible fields on Topic Filter
+ */
 export interface Filter extends CorrelationFilterOptions {
   /**
    * SQL expression to use.
@@ -161,6 +170,9 @@ export interface Filter extends CorrelationFilterOptions {
   compatibilityLevel: number;
 }
 
+/**
+ * Represents settable options on CorrelationFilter
+ */
 export interface CorrelationFilterOptions {
   /**
    * CorrelationId value

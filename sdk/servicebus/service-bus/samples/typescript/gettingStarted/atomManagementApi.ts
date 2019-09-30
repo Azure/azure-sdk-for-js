@@ -9,7 +9,8 @@
 
 import {
   ServiceBusAtomManagementClient,
-  QueueResponse,
+  CreateQueueResponse,
+  GetQueueResponse,
   ListQueuesResponse
 } from "@azure/service-bus";
 
@@ -18,31 +19,33 @@ async function main(): Promise<void> {
     "<insert-connection-string>"
   );
 
-  const createQueueResult: QueueResponse = await serviceBusAtomManagementClient.createQueue(
+  const createQueueResult: CreateQueueResponse = await serviceBusAtomManagementClient.createQueue(
     "testQueue",
     {
-      requiresSession: "false",
-      enablePartitioning: "false"
+      requiresSession: false,
+      enablePartitioning: false
     }
   );
-  console.log("Created queue: ", createQueueResult.QueueName);
+  console.log("Created queue: ", createQueueResult.queueName);
 
-  const getQueueResult: QueueResponse = await serviceBusAtomManagementClient.getQueue("testQueue");
+  const getQueueResult: GetQueueResponse = await serviceBusAtomManagementClient.getQueue(
+    "testQueue"
+  );
   console.log("Retrieved queue: ", getQueueResult);
 
-  const createAnotherQueueResult: QueueResponse = await serviceBusAtomManagementClient.createQueue(
-    "anotheTestQueue",
+  const createAnotherQueueResult: CreateQueueResponse = await serviceBusAtomManagementClient.createQueue(
+    "anotherTestQueue",
     {
-      requiresSession: "false",
-      enablePartitioning: "true"
+      requiresSession: false,
+      enablePartitioning: true
     }
   );
-  console.log("Created another queue: ", createAnotherQueueResult.QueueName);
+  console.log("Created another queue: ", createAnotherQueueResult.queueName);
 
   const listQueuesResult: ListQueuesResponse = await serviceBusAtomManagementClient.listQueues();
   console.log("Retrieved list of queues in given namespace: ");
   for (let i = 0; i < listQueuesResult.length; i++) {
-    console.log(`Queue #${i + 1} - ${listQueuesResult[i].QueueName}`);
+    console.log(`Queue #${i + 1} - ${listQueuesResult[i].queueName}`);
   }
 
   await serviceBusAtomManagementClient.deleteQueue("anotherTestQueue");
@@ -51,7 +54,7 @@ async function main(): Promise<void> {
   const listQueuesAgainResult: ListQueuesResponse = await serviceBusAtomManagementClient.listQueues();
   console.log("Retrieve list of queues again: ");
   for (let i = 0; i < listQueuesAgainResult.length; i++) {
-    console.log(`Queue #${i + 1} - ${listQueuesAgainResult[i].QueueName}`);
+    console.log(`Queue #${i + 1} - ${listQueuesAgainResult[i].queueName}`);
   }
 }
 

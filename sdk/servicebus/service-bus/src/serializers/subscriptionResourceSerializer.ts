@@ -4,7 +4,13 @@
 import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
-import { getStringOrUndefined } from "../util/utils";
+import {
+  getStringOrUndefined,
+  getNumberOrUndefined,
+  getBooleanOrUndefined,
+  getCountDetailsOrUndefined,
+  CountDetails
+} from "../util/utils";
 
 const requestProperties: Array<keyof InternalSubscriptionOptions> = [
   Constants.LOCK_DURATION,
@@ -63,23 +69,28 @@ export function buildSubscription(rawSubscription: any): Subscription | {} {
       subscriptionName: rawSubscription["SubscriptionName"],
 
       lockDuration: rawSubscription["LockDuration"],
-      sizeInBytes: rawSubscription["SizeInBytes"],
-      maxSizeInMegabytes: rawSubscription["MaxSizeInMegabytes"],
+      sizeInBytes: getNumberOrUndefined(rawSubscription["SizeInBytes"]),
+      maxSizeInMegabytes: getNumberOrUndefined(rawSubscription["MaxSizeInMegabytes"]),
 
-      messageCount: rawSubscription["MessageCount"],
-      maxDeliveryCount: rawSubscription["MaxDeliveryCount"],
+      messageCount: getNumberOrUndefined(rawSubscription["MessageCount"]),
+      maxDeliveryCount: getNumberOrUndefined(rawSubscription["MaxDeliveryCount"]),
 
-      enablePartitioning: rawSubscription["EnablePartitioning"],
-      requiresSession: rawSubscription["RequiresSession"],
-      enableBatchedOperations: rawSubscription["EnableBatchedOperations"],
+      enablePartitioning: getBooleanOrUndefined(rawSubscription["EnablePartitioning"]),
+      requiresSession: getBooleanOrUndefined(rawSubscription["RequiresSession"]),
+      enableBatchedOperations: getBooleanOrUndefined(rawSubscription["EnableBatchedOperations"]),
 
       defaultMessageTimeToLive: rawSubscription["DefaultMessageTimeToLive"],
       autoDeleteOnIdle: rawSubscription["AutoDeleteOnIdle"],
 
-      deadLetteringOnMessageExpiration: rawSubscription["DeadLetteringOnMessageExpiration"],
+      deadLetteringOnMessageExpiration: getBooleanOrUndefined(
+        rawSubscription["DeadLetteringOnMessageExpiration"]
+      ),
       forwardDeadLetteredMessagesTo: rawSubscription["ForwardDeadLetteredMessagesTo"],
-      deadLetteringOnFilterEvaluationExceptions:
-        rawSubscription["DeadLetteringOnFilterEvaluationExceptions"],
+      deadLetteringOnFilterEvaluationExceptions: getBooleanOrUndefined(
+        rawSubscription["DeadLetteringOnFilterEvaluationExceptions"]
+      ),
+
+      countDetails: getCountDetailsOrUndefined(rawSubscription["CountDetails"]),
 
       entityAvailabilityStatus: rawSubscription["EntityAvailabilityStatus"],
       status: rawSubscription["Status"],
@@ -255,6 +266,11 @@ export interface Subscription extends SubscriptionOptions {
    * Name of the topic
    */
   topicName?: string;
+
+  /**
+   * Count details
+   */
+  countDetails?: CountDetails;
 
   /**
    * Entity availability status

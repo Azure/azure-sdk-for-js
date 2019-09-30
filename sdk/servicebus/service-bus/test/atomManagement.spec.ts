@@ -22,18 +22,17 @@ enum EntityType {
   SUBSCRIPTION = "Subscription",
   RULE = "Rule"
 }
+const alwaysBeExistingQueue = "alwaysbeexistingqueue";
+const alwaysBeDeletedQueue = "alwaysbedeletedqueue";
 
-const alwaysBeExistingQueue = "alwaysBeExistingQueue";
-const alwaysBeDeletedQueue = "alwaysBeDeletedQueue";
+const alwaysBeExistingTopic = "alwaysbeexistingtopic";
+const alwaysBeDeletedTopic = "alwaysbedeletedtopic";
 
-const alwaysBeExistingTopic = "alwaysBeExistingTopic";
-const alwaysBeDeletedTopic = "alwaysBeDeletedTopic";
+const alwaysBeExistingSubscription = "alwaysbeexistingsubscription";
+const alwaysBeDeletedSubscription = "alwaysbedeletedsubscription";
 
-const alwaysBeExistingSubscription = "alwaysBeExistingSubscription";
-const alwaysBeDeletedSubscription = "alwaysBeDeletedSubscription";
-
-const alwaysBeExistingRule = "alwaysBeExistingRule";
-const alwaysBeDeletedRule = "alwaysBeDeletedRule";
+const alwaysBeExistingRule = "alwaysbeexistingrule";
+const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
@@ -129,7 +128,7 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(response.status, 409, "Error must not be undefined");
+        should.equal(response.statusCode, 409, "Error must not be undefined");
       });
 
       it(`Lists available ${entityType} entities successfully`, async () => {
@@ -139,12 +138,10 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
           case EntityType.QUEUE:
           case EntityType.TOPIC:
             response = await listEntities(entityType);
-
             break;
 
           case EntityType.SUBSCRIPTION:
             response = await listEntities(entityType, alwaysBeExistingTopic);
-
             break;
 
           case EntityType.RULE:
@@ -153,13 +150,12 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
-
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-
+        console.log(JSON.stringify(response, undefined, 2));
         should.equal(Array.isArray(response), true, "Result must be any array for list requests");
       });
 
@@ -171,11 +167,15 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
             break;
           case EntityType.TOPIC:
-            await updateEntity(entityType, alwaysBeExistingTopic);
+            response = await updateEntity(entityType, alwaysBeExistingTopic);
             should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
             break;
           case EntityType.SUBSCRIPTION:
-            await updateEntity(entityType, alwaysBeExistingSubscription, alwaysBeExistingTopic);
+            response = await updateEntity(
+              entityType,
+              alwaysBeExistingSubscription,
+              alwaysBeExistingTopic
+            );
             should.equal(
               response.subscriptionName,
               alwaysBeExistingSubscription,
@@ -183,7 +183,7 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             );
             break;
           case EntityType.RULE:
-            await updateEntity(
+            response = await updateEntity(
               entityType,
               alwaysBeExistingRule,
               alwaysBeExistingTopic,
@@ -198,7 +198,6 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
 
       it(`Gets an existent ${entityType} entity successfully`, async () => {
         let response;
-
         switch (entityType) {
           case EntityType.QUEUE:
             response = await getEntity(entityType, alwaysBeExistingQueue);
@@ -236,7 +235,6 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
 
       it(`Deletes a non-existent ${entityType} entity returns an error`, async () => {
         let response;
-
         switch (entityType) {
           case EntityType.QUEUE:
           case EntityType.TOPIC:
@@ -245,7 +243,6 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             } catch (err) {
               response = err;
             }
-
             break;
 
           case EntityType.SUBSCRIPTION:
@@ -254,7 +251,6 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             } catch (err) {
               response = err;
             }
-
             break;
 
           case EntityType.RULE:
@@ -268,30 +264,25 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             } catch (err) {
               response = err;
             }
-
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-
-        should.equal(response.status, 404);
+        should.equal(response.statusCode, 404);
       });
 
       it(`Deletes an existent ${entityType} entity successfully`, async () => {
         let response;
-
         switch (entityType) {
           case EntityType.QUEUE:
             await createEntity(entityType, alwaysBeDeletedQueue);
             response = await deleteEntity(entityType, alwaysBeDeletedQueue);
-
             break;
 
           case EntityType.TOPIC:
             await createEntity(entityType, alwaysBeDeletedTopic);
             response = await deleteEntity(entityType, alwaysBeDeletedTopic);
-
             break;
 
           case EntityType.SUBSCRIPTION:
@@ -301,7 +292,6 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
               alwaysBeDeletedSubscription,
               alwaysBeExistingTopic
             );
-
             break;
 
           case EntityType.RULE:
@@ -317,14 +307,12 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
-
             break;
 
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-
-        should.equal(response._response.status, {});
+        should.equal(response._response.status, 200);
       });
 
       it(`Get on non-existent ${entityType} entity returns empty response`, async () => {
@@ -351,7 +339,6 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
             //   alwaysBeExistingTopic,
             //   alwaysBeExistingSubscription
             // );
-
             break;
 
           default:
@@ -359,7 +346,11 @@ const alwaysBeDeletedRule = "alwaysBeDeletedRule";
         }
 
         if (!skipTest) {
-          should.equal(response, {}, "Should receive empty response");
+          should.equal(
+            response.createdAt,
+            undefined,
+            "Should receive empty result and just the raw response"
+          );
         }
         // Error is undefined for queues, topics - but not for non-existent subscriptions and rules
       });

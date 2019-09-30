@@ -90,6 +90,26 @@ export type QueueResponse = Queue & {
 };
 
 /**
+ * Create Queue response
+ */
+export type CreateQueueResponse = QueueResponse;
+
+/**
+ * Get Queue response
+ */
+export type GetQueueResponse = QueueResponse;
+
+/**
+ * Update Queue response
+ */
+export type UpdateQueueResponse = QueueResponse;
+
+/**
+ * Delete Queue response
+ */
+export type DeleteQueueResponse = QueueResponse;
+
+/**
  * Represents result of list operation on queues.
  */
 export interface ListQueuesResponse extends Array<Queue> {
@@ -108,6 +128,26 @@ export type TopicResponse = Topic & {
    */
   _response: HttpOperationResponse;
 };
+
+/**
+ * Create Topic response
+ */
+export type CreateTopicResponse = TopicResponse;
+
+/**
+ * Get Topic response
+ */
+export type GetTopicResponse = TopicResponse;
+
+/**
+ * Update Topic response
+ */
+export type UpdateTopicResponse = TopicResponse;
+
+/**
+ * Delete Topic response
+ */
+export type DeleteTopicResponse = TopicResponse;
 
 /**
  * Represents result of list operation on topics.
@@ -130,6 +170,26 @@ export type SubscriptionResponse = Subscription & {
 };
 
 /**
+ * Create Subscription response
+ */
+export type CreateSubscriptionResponse = SubscriptionResponse;
+
+/**
+ * Get Subscription response
+ */
+export type GetSubscriptionResponse = SubscriptionResponse;
+
+/**
+ * Update Subscription response
+ */
+export type UpdateSubscriptionResponse = SubscriptionResponse;
+
+/**
+ * Delete Subscription response
+ */
+export type DeleteSubscriptionResponse = SubscriptionResponse;
+
+/**
  * Represents result of list operation on subscriptions.
  */
 export interface ListSubscriptionsResponse extends Array<Subscription> {
@@ -148,6 +208,26 @@ export type RuleResponse = Rule & {
    */
   _response: HttpOperationResponse;
 };
+
+/**
+ * Create Rule response
+ */
+export type CreateRuleResponse = RuleResponse;
+
+/**
+ * Get Rule response
+ */
+export type GetRuleResponse = RuleResponse;
+
+/**
+ * Update Rule response
+ */
+export type UpdateRuleResponse = RuleResponse;
+
+/**
+ * Delete Rule response
+ */
+export type DeleteRuleResponse = RuleResponse;
 
 /**
  * Represents result of list operation on rules.
@@ -218,7 +298,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param queueOptions Options to configure the Queue being created.
    * For example, you can configure a queue to support partitions or sessions
    */
-  async createQueue(queueName: string, queueOptions?: QueueOptions): Promise<QueueResponse> {
+  async createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse> {
     const response: HttpOperationResponse = await this._putResource(
       queueName,
       buildQueueOptions(queueOptions || {}),
@@ -232,7 +312,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Returns an object representing the Queue with the given name along with all its properties
    * @param queueName
    */
-  async getQueue(queueName: string): Promise<QueueResponse> {
+  async getQueue(queueName: string): Promise<GetQueueResponse> {
     const response: HttpOperationResponse = await this._getResource(
       queueName,
       this.queueResourceSerializer
@@ -259,7 +339,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param queueOptions Options to configure the Queue being updated.
    * For example, you can configure a queue to support partitions or sessions
    */
-  async updateQueue(queueName: string, queueOptions: QueueOptions): Promise<QueueResponse> {
+  async updateQueue(queueName: string, queueOptions: QueueOptions): Promise<UpdateQueueResponse> {
     const response: HttpOperationResponse = await this._putResource(
       queueName,
       buildQueueOptions(queueOptions),
@@ -273,7 +353,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Deletes a queue.
    * @param queueName
    */
-  async deleteQueue(queueName: string): Promise<QueueResponse> {
+  async deleteQueue(queueName: string): Promise<DeleteQueueResponse> {
     const response: HttpOperationResponse = await this._deleteResource(
       queueName,
       this.queueResourceSerializer
@@ -287,7 +367,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicOptions Options to configure the Topic being created.
    * For example, you can configure a topic to support partitions or sessions
    */
-  async createTopic(topicName: string, topicOptions?: TopicOptions): Promise<TopicResponse> {
+  async createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse> {
     const response: HttpOperationResponse = await this._putResource(
       topicName,
       buildTopicOptions(topicOptions || {}),
@@ -298,38 +378,10 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates properties on the Topic by the given name based on the given options
-   * @param topicName
-   * @param topicOptions Options to configure the Topic being updated.
-   * For example, you can configure a topic to support partitions or sessions
-   */
-  async updateTopic(topicName: string, topicOptions: TopicOptions): Promise<TopicResponse> {
-    const response: HttpOperationResponse = await this._putResource(
-      topicName,
-      buildTopicOptions(topicOptions),
-      this.topicResourceSerializer,
-      true
-    );
-    return this.buildTopicResponse(response);
-  }
-
-  /**
-   * Deletes a topic.
-   * @param topicName
-   */
-  async deleteTopic(topicName: string): Promise<TopicResponse> {
-    const response: HttpOperationResponse = await this._deleteResource(
-      topicName,
-      this.topicResourceSerializer
-    );
-    return this.buildTopicResponse(response);
-  }
-
-  /**
    * Returns an object representing the Topic with the given name along with all its properties
    * @param topicName
    */
-  async getTopic(topicName: string): Promise<TopicResponse> {
+  async getTopic(topicName: string): Promise<GetTopicResponse> {
     const response: HttpOperationResponse = await this._getResource(
       topicName,
       this.topicResourceSerializer
@@ -351,6 +403,34 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
+   * Updates properties on the Topic by the given name based on the given options
+   * @param topicName
+   * @param topicOptions Options to configure the Topic being updated.
+   * For example, you can configure a topic to support partitions or sessions
+   */
+  async updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse> {
+    const response: HttpOperationResponse = await this._putResource(
+      topicName,
+      buildTopicOptions(topicOptions),
+      this.topicResourceSerializer,
+      true
+    );
+    return this.buildTopicResponse(response);
+  }
+
+  /**
+   * Deletes a topic.
+   * @param topicName
+   */
+  async deleteTopic(topicName: string): Promise<DeleteTopicResponse> {
+    const response: HttpOperationResponse = await this._deleteResource(
+      topicName,
+      this.topicResourceSerializer
+    );
+    return this.buildTopicResponse(response);
+  }
+
+  /**
    * Creates a subscription with given name, configured using the given options
    * @param topicName
    * @param subscriptionName
@@ -361,52 +441,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     subscriptionOptions?: SubscriptionOptions
-  ): Promise<SubscriptionResponse> {
+  ): Promise<CreateSubscriptionResponse> {
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
       buildSubscriptionOptions(subscriptionOptions || {}),
       this.subscriptionResourceSerializer,
       false
-    );
-    return this.buildSubscriptionResponse(response);
-  }
-
-  /**
-   * Updates properties on the Subscription by the given name based on the given options
-   * @param topicName
-   * @param subscriptionName
-   * @param subscriptionOptions Options to configure the Subscription being updated.
-   * For example, you can configure a Subscription to support partitions or sessions
-   */
-  async updateSubscription(
-    topicName: string,
-    subscriptionName: string,
-    subscriptionOptions: SubscriptionOptions
-  ): Promise<SubscriptionResponse> {
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this._putResource(
-      fullPath,
-      buildSubscriptionOptions(subscriptionOptions),
-      this.subscriptionResourceSerializer,
-      true
-    );
-    return this.buildSubscriptionResponse(response);
-  }
-
-  /**
-   * Deletes a subscription.
-   * @param topicName
-   * @param subscriptionName
-   */
-  async deleteSubscription(
-    topicName: string,
-    subscriptionName: string
-  ): Promise<SubscriptionResponse> {
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this._deleteResource(
-      fullPath,
-      this.subscriptionResourceSerializer
     );
     return this.buildSubscriptionResponse(response);
   }
@@ -419,7 +460,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   async getSubscription(
     topicName: string,
     subscriptionName: string
-  ): Promise<SubscriptionResponse> {
+  ): Promise<GetSubscriptionResponse> {
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._getResource(
       fullPath,
@@ -446,6 +487,45 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
+   * Updates properties on the Subscription by the given name based on the given options
+   * @param topicName
+   * @param subscriptionName
+   * @param subscriptionOptions Options to configure the Subscription being updated.
+   * For example, you can configure a Subscription to support partitions or sessions
+   */
+  async updateSubscription(
+    topicName: string,
+    subscriptionName: string,
+    subscriptionOptions: SubscriptionOptions
+  ): Promise<UpdateSubscriptionResponse> {
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+    const response: HttpOperationResponse = await this._putResource(
+      fullPath,
+      buildSubscriptionOptions(subscriptionOptions),
+      this.subscriptionResourceSerializer,
+      true
+    );
+    return this.buildSubscriptionResponse(response);
+  }
+
+  /**
+   * Deletes a subscription.
+   * @param topicName
+   * @param subscriptionName
+   */
+  async deleteSubscription(
+    topicName: string,
+    subscriptionName: string
+  ): Promise<DeleteSubscriptionResponse> {
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+    const response: HttpOperationResponse = await this._deleteResource(
+      fullPath,
+      this.subscriptionResourceSerializer
+    );
+    return this.buildSubscriptionResponse(response);
+  }
+
+  /**
    * Creates a rule with given name, configured using the given options
    * @param topicName
    * @param subscriptionName
@@ -458,56 +538,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     subscriptionName: string,
     ruleName: string,
     ruleOptions?: RuleOptions
-  ): Promise<RuleResponse> {
+  ): Promise<CreateRuleResponse> {
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
       buildRuleOptions(ruleName, ruleOptions),
       this.ruleResourceSerializer,
       false
-    );
-    return this.buildRuleResponse(response);
-  }
-
-  /**
-   * Updates properties on the Rule by the given name based on the given options
-   * @param topicName
-   * @param subscriptionName
-   * @param ruleName
-   * @param ruleOptions Options to configure the Rule being updated.
-   * For example, you can configure the filter to apply on associated Topic/Subscription
-   */
-  async updateRule(
-    topicName: string,
-    subscriptionName: string,
-    ruleName: string,
-    ruleOptions: RuleOptions
-  ): Promise<RuleResponse> {
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-    const response: HttpOperationResponse = await this._putResource(
-      fullPath,
-      buildRuleOptions(ruleName, ruleOptions),
-      this.ruleResourceSerializer,
-      true
-    );
-    return this.buildRuleResponse(response);
-  }
-
-  /**
-   * Deletes a rule.
-   * @param topicName
-   * @param subscriptionName
-   * @param rule
-   */
-  async deleteRule(
-    topicName: string,
-    subscriptionName: string,
-    rule: string
-  ): Promise<RuleResponse> {
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule);
-    const response: HttpOperationResponse = await this._deleteResource(
-      fullPath,
-      this.ruleResourceSerializer
     );
     return this.buildRuleResponse(response);
   }
@@ -522,7 +559,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     topicName: string,
     subscriptioName: string,
     ruleName: string
-  ): Promise<RuleResponse> {
+  ): Promise<GetRuleResponse> {
     const fullPath = this.getRulePath(topicName, subscriptioName, ruleName);
     const response: HttpOperationResponse = await this._getResource(
       fullPath,
@@ -549,6 +586,49 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.ruleResourceSerializer
     );
     return this.buildListRulesResponse(response);
+  }
+
+  /**
+   * Updates properties on the Rule by the given name based on the given options
+   * @param topicName
+   * @param subscriptionName
+   * @param ruleName
+   * @param ruleOptions Options to configure the Rule being updated.
+   * For example, you can configure the filter to apply on associated Topic/Subscription
+   */
+  async updateRule(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleOptions: RuleOptions
+  ): Promise<UpdateRuleResponse> {
+    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+    const response: HttpOperationResponse = await this._putResource(
+      fullPath,
+      buildRuleOptions(ruleName, ruleOptions),
+      this.ruleResourceSerializer,
+      true
+    );
+    return this.buildRuleResponse(response);
+  }
+
+  /**
+   * Deletes a rule.
+   * @param topicName
+   * @param subscriptionName
+   * @param rule
+   */
+  async deleteRule(
+    topicName: string,
+    subscriptionName: string,
+    rule: string
+  ): Promise<DeleteRuleResponse> {
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule);
+    const response: HttpOperationResponse = await this._deleteResource(
+      fullPath,
+      this.ruleResourceSerializer
+    );
+    return this.buildRuleResponse(response);
   }
 
   /**

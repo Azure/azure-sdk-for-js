@@ -181,3 +181,108 @@ export function getAssociatedReceiverName(
   }
   return receiverName;
 }
+
+/**
+ *  @ignore
+ * Helper utility to retrieve `string` value from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getStringOrUndefined(value: any): string | undefined {
+  if (value) {
+    return value.toString();
+  } else {
+    return undefined;
+  }
+}
+
+/**
+ *  @ignore
+ * Helper utility to retrieve `number` value from given string or undefined,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getNumberOrUndefined(value: any): number | undefined {
+  if (value) {
+    try {
+      return parseInt(value.toString());
+    } catch (err) {
+      throw new TypeError(`${value} expected to be a number or undefined`);
+    }
+  } else {
+    return undefined;
+  }
+}
+
+/**
+ *  @ignore
+ * Helper utility to retrieve `boolean` value from given string or undefined,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getBooleanOrUndefined(value: any): boolean | undefined {
+  if (value) {
+    return value.toString() === "true";
+  } else {
+    return undefined;
+  }
+}
+
+/**
+ *  @ignore
+ * Helper utility to retrieve `JSON` value from given input or undefined,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getJSONOrUndefined(value: any): number | undefined {
+  if (value) {
+    try {
+      return JSON.parse(JSON.stringify(value));
+    } catch (err) {
+      throw new TypeError(
+        `${JSON.stringify(value, undefined, 2)} expected to be in proper JSON format, or undefined`
+      );
+    }
+  } else {
+    return undefined;
+  }
+}
+
+/**
+ *  @ignore
+ * Helper utility to retrieve `countDetails` value from given input or undefined,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getCountDetailsOrUndefined(value: any): CountDetails | undefined {
+  const jsonValue: any = getJSONOrUndefined(value);
+  if (jsonValue) {
+    try {
+      const result: CountDetails = {
+        activeMessageCount: parseInt(jsonValue["d2p1:ActiveMessageCount"]),
+        deadLetterMessageCount: parseInt(jsonValue["d2p1:DeadLetterMessageCount"]),
+        scheduledMessageCount: parseInt(jsonValue["d2p1:ScheduledMessageCount"]),
+        transferMessageCount: parseInt(jsonValue["d2p1:TransferMessageCount"]),
+        transferDeadLetterMessageCount: parseInt(jsonValue["d2p1:TransferDeadLetterMessageCount"])
+      };
+      return result;
+    } catch (err) {
+      throw new TypeError(
+        `${jsonValue} expected to be in expected CountDetails format with numbers, or undefined`
+      );
+    }
+  } else {
+    return undefined;
+  }
+}
+
+/**
+ * Represents type of `countDetails` in ATOM based management operations
+ */
+export type CountDetails = {
+  activeMessageCount: number;
+  deadLetterMessageCount: number;
+  scheduledMessageCount: number;
+  transferMessageCount: number;
+  transferDeadLetterMessageCount: number;
+};
