@@ -402,6 +402,7 @@ export class KeysClient {
       } finally {
         span.end();
       }
+      console.log({ response });
 
       return this.getKeyFromKeyBundle(response);
     } else {
@@ -978,6 +979,7 @@ export class KeysClient {
           ...keyBundle.attributes
         }
       };
+      console.log({ resultObject });
       delete resultObject.properties.attributes;
     } else {
       resultObject = {
