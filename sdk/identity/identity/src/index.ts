@@ -18,7 +18,12 @@ export { ManagedIdentityCredential } from "./credentials/managedIdentityCredenti
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
-export { AuthenticationError, AggregateAuthenticationError } from "./client/errors";
+export {
+  AuthenticationError,
+  AggregateAuthenticationError,
+  AuthenticationErrorName,
+  AggregateAuthenticationErrorName
+} from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 

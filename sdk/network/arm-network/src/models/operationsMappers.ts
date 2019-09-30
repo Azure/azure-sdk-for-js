@@ -7,6 +7,7 @@
  */
 
 export {
+  discriminators,
   Availability,
   CloudError,
   Dimension,

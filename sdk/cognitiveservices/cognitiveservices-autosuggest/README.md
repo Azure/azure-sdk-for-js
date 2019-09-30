@@ -15,98 +15,105 @@ npm install @azure/cognitiveservices-autosuggest
 
 ### How to use
 
-#### nodejs - Authentication, client creation and autoSuggest  as an example written in TypeScript.
+#### nodejs - Authentication, client creation and autoSuggest as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample gets suggestions from Bing for the given query **Microsoft Azure**. To know more, refer to the [Azure Documentation on Bing Auto Suggest](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-autosuggest/)
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AutoSuggestClient, AutoSuggestModels, AutoSuggestMappers } from "@azure/cognitiveservices-autosuggest";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { AutoSuggestClient, AutoSuggestModels } from "@azure/cognitiveservices-autosuggest";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new AutoSuggestClient(creds, subscriptionId);
-  const query = "testquery";
-  const acceptLanguage = "testacceptLanguage";
-  const pragma = "testpragma";
-  const userAgent = "testuserAgent";
-  const clientId = "testclientId";
-  const clientIp = "testclientIp";
-  const location = "westus";
-  const countryCode = "testcountryCode";
-  const market = "testmarket";
-  const safeSearch = "Off";
-  const setLang = "testsetLang";
-  const responseFormat = ["Json"];
-  client.autoSuggest(query, acceptLanguage, pragma, userAgent, clientId, clientIp, location, countryCode, market, safeSearch, setLang, responseFormat).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+async function main(): Promise<void> {
+  const autoSuggestKey = process.env["autoSuggestKey"] || "<autoSuggestKey>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(autoSuggestKey);
+  const client = new AutoSuggestClient(cognitiveServiceCredentials);
+
+  const query = "Microsoft Azure";
+  const options: AutoSuggestModels.AutoSuggestClientAutoSuggestOptionalParams = {
+    acceptLanguage: "en-US",
+    pragma: "no-cache",
+    clientId: "testclientId",
+    location: "westus2",
+    countryCode: "en-US"
+  };
+
+  client
+    .autoSuggest(query, options)
+    .then((result) => {
+      console.log("The result is:");
+      result.suggestionGroups.forEach((suggestionGroup) => {
+        suggestionGroup.searchSuggestions.forEach((searchSuggestion) => {
+          console.log(`URL: ${searchSuggestion.url}`);
+          console.log(`Display Text: ${searchSuggestion.displayText}`);
+        });
+      });
+    })
+    .catch((err) => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
-#### browser - Authentication, client creation and autoSuggest  as an example written in JavaScript.
-
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
+#### browser - Authentication, client creation and autoSuggest as an example written in JavaScript.
 
 ##### Sample code
 
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-autosuggest sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-autosuggest/dist/cognitiveservices-autosuggest.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const autoSuggestKey = "<YOUR_AUTO_SUGGEST_KEY>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": autoSuggestKey
         }
-        const client = new Azure.CognitiveservicesAutosuggest.AutoSuggestClient(res.creds, subscriptionId);
-        const query = "testquery";
-        const acceptLanguage = "testacceptLanguage";
-        const pragma = "testpragma";
-        const userAgent = "testuserAgent";
-        const clientId = "testclientId";
-        const clientIp = "testclientIp";
-        const location = "westus";
-        const countryCode = "testcountryCode";
-        const market = "testmarket";
-        const safeSearch = "Off";
-        const setLang = "testsetLang";
-        const responseFormat = ["Json"];
-        client.autoSuggest(query, acceptLanguage, pragma, userAgent, clientId, clientIp, location, countryCode, market, safeSearch, setLang, responseFormat).then((result) => {
+      });
+      const client = new Azure.CognitiveservicesAutosuggest.AutoSuggestClient(
+        cognitiveServiceCredentials
+      );
+
+      const query = "Microsoft Azure";
+      const options = {
+        acceptLanguage: "en-US",
+        pragma: "no-cache",
+        clientId: "testclientId",
+        location: "westus2",
+        countryCode: "en-US"
+      };
+
+      client
+        .autoSuggest(query, options)
+        .then((result) => {
           console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
+          result.suggestionGroups.forEach((suggestionGroup) => {
+            suggestionGroup.searchSuggestions.forEach((searchSuggestion) => {
+              console.log(`URL: ${searchSuggestion.url}`);
+              console.log(`Display Text: ${searchSuggestion.displayText}`);
+            });
+          });
+        })
+        .catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
@@ -116,6 +123,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-autosuggest/README.png)

@@ -1,0 +1,22 @@
+{
+  "plugins": ["@azure/azure-sdk", "@typescript-eslint/tslint"],
+  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
+  "parserOptions": {
+    "createDefaultProgram": true
+  },
+  "rules": {
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-extraneous-class": "error",
+    "dot-notation": "off",
+    "some-rule": "off",
+    "@typescript-eslint/tslint/config": [
+      "error",
+      {
+        "rules": {
+          "import-blacklist": [true, "assert", "util"],
+          "no-floating-promises": true
+        }
+      }
+    ]
+  }
+}

@@ -2,6 +2,12 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
+import {
+  getConnectionStringFromEnvironment,
+  deleteKeyCompletely,
+  toSortedArray,
+  assertEqualSettings
+} from "./testHelpers";
 import * as dotenv from "dotenv";
 import { AppConfigurationClient } from "../src";
 
@@ -9,14 +15,11 @@ dotenv.config();
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
-  const connectionString: string = process.env["APPCONFIG_CONNECTION_STRING"]!;
 
   let client: AppConfigurationClient;
 
   before("validate environment variables", () => {
-    if (!connectionString) {
-      throw new Error("APPCONFIG_CONNECTION_STRING not defined.");
-    }
+    let connectionString = getConnectionStringFromEnvironment();
     client = new AppConfigurationClient(connectionString);
   });
 
@@ -28,16 +31,68 @@ describe("AppConfigurationClient", () => {
 
   describe("constructor", () => {
     it("supports connection string", async () => {
+      const connectionString = getConnectionStringFromEnvironment();
       const client = new AppConfigurationClient(connectionString);
+
       // make sure a service call succeeds
-      await client.listConfigurationSettings();
+
+      // just not throwing an exception is enough - we just want to make sure that the call
+      // can work.
+      for await (const _ of await client.listConfigurationSettings()) {
+        break;
+      }
     });
+  });
+
+  describe("simple usages", () => {
+    it("Add and query a setting without a label", async () => {
+      const key = `noLabelTests-${Date.now()}`;
+
+      await client.addConfigurationSetting({ key, value: "added" });
+
+      await compare({
+        key,
+        value: "added",
+        label: null
+      });
+
+      await client.deleteConfigurationSetting(key, {});
+
+      // will recreate the setting
+      await client.setConfigurationSetting({ key, value: "set" });
+
+      await compare({
+        key,
+        value: "set",
+        label: null
+      });
+
+      // and now acts as a wholesale update
+      await client.setConfigurationSetting({ key, value: "set a second time" });
+
+      await compare({
+        key,
+        value: "set a second time",
+        label: null
+      });
+
+      await client.deleteConfigurationSetting(key, {});
+    });
+
+    async function compare(expected: { key: string; value: string; label: string | null }) {
+      const actualSettings = await client.getConfigurationSetting(expected.key);
+
+      assert.equal(expected.key, actualSettings.key);
+      assert.equal(expected.value, actualSettings.value);
+      assert.equal(expected.label, actualSettings.label);
+    }
   });
 
   describe("addConfigurationSetting", () => {
     it("sample works", async () => {
       const key = `addConfigSample-${Date.now()}`;
-      let result = await client.setConfigurationSetting(key, {
+      const result = await client.setConfigurationSetting({
+        key,
         value: "MyValue"
       });
 
@@ -48,7 +103,7 @@ describe("AppConfigurationClient", () => {
       const key = `addConfigTest-${Date.now()}`;
       const label = "MyLabel";
       const value = "MyValue";
-      const result = await client.addConfigurationSetting(key, { label, value });
+      const result = await client.addConfigurationSetting({ key, label, value });
 
       settings.push({ key, label });
 
@@ -69,7 +124,7 @@ describe("AppConfigurationClient", () => {
       const key = `addConfigTestTwice-${Date.now()}`;
       const label = "test";
       const value = "foo";
-      const result = await client.addConfigurationSetting(key, { label, value });
+      const result = await client.addConfigurationSetting({ key, label, value });
 
       settings.push({ key, label });
 
@@ -87,7 +142,7 @@ describe("AppConfigurationClient", () => {
 
       // attempt to add the same setting
       try {
-        await client.addConfigurationSetting(key, { label, value });
+        await client.addConfigurationSetting({ key, label, value });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -102,7 +157,7 @@ describe("AppConfigurationClient", () => {
       const value = "MyValue";
 
       // create configuration
-      const result = await client.addConfigurationSetting(key, { label, value });
+      const result = await client.addConfigurationSetting({ key, label, value });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -149,7 +204,7 @@ describe("AppConfigurationClient", () => {
       const value = "foo";
 
       // create configuration
-      const result = await client.addConfigurationSetting(key, { label, value });
+      const result = await client.addConfigurationSetting({ key, label, value });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -207,7 +262,7 @@ describe("AppConfigurationClient", () => {
       const value = "foo";
 
       // create configuration
-      const result = await client.addConfigurationSetting(key, { label, value });
+      const result = await client.addConfigurationSetting({ key, label, value });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -245,7 +300,7 @@ describe("AppConfigurationClient", () => {
       const contentType = "application/json";
 
       // create configuration
-      const result = await client.addConfigurationSetting(key, { label, value, contentType, tags });
+      const result = await client.addConfigurationSetting({ key, label, value, contentType, tags });
 
       settings.push({ key, label });
 
@@ -335,74 +390,243 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("listConfigurationSettings", () => {
-    it("lists available configurationsettings", async () => {
-      const keys = [
-        `listConfigTest1-${Date.now()}`,
-        `listConfigTest2-${Date.now()}`,
-        `listConfigTest3-${Date.now()}`
-      ];
-      const label = `test-list-${Date.now()}`;
-      const value = "foo";
+    const now = Date.now();
+    const uniqueLabel = `listConfigSettingsLabel-${now}`;
 
-      // add configurations
-      for (const key of keys) {
-        await client.addConfigurationSetting(key, { label, value });
+    before(async () => {
+      await client.addConfigurationSetting({
+        key: `listConfigSettingA-${now}`,
+        label: uniqueLabel,
+        value: "[A] production value"
+      });
+      await client.addConfigurationSetting({
+        key: `listConfigSettingA-${now}`,
+        value: "[A] value"
+      });
 
-        settings.push({ key, label });
-      }
-
-      const results = await client.listConfigurationSettings({ label: [label] });
-
-      assert.equal(results.length, keys.length);
-      // sort keys to make assertions easier
-      results.sort((a, b) => (a.key! < b.key! ? -1 : 1));
-
-      for (let i = 0; i < keys.length; i++) {
-        assert.equal(
-          results[i].key,
-          keys[i],
-          "Unexpected key in result from listConfigurationSettings()."
-        );
-        assert.equal(
-          results[i].label,
-          label,
-          "Unexpected label in result from listConfigurationSettings()."
-        );
-        assert.equal(
-          results[i].value,
-          value,
-          "Unexpected value in result from listConfigurationSettings()."
-        );
-      }
+      await client.addConfigurationSetting({
+        key: `listConfigSettingB-${now}`,
+        label: uniqueLabel,
+        value: "[B] production value"
+      });
+      await client.addConfigurationSetting({
+        key: `listConfigSettingB-${now}`,
+        value: "[B] value"
+      });
     });
+
+    after(async () => {
+      await deleteKeyCompletely([`listConfigSettingA-${now}`, `listConfigSettingB-${now}`], client);
+    });
+
+    it("undefined doesn't throw and will just return everything", async () => {
+      const settingsIterator = await client.listConfigurationSettings();
+      await settingsIterator.next();
+    });
+
+    it("exact match on label", async () => {
+      // query with a direct label match
+      let byLabelIterator = client.listConfigurationSettings({ labels: [uniqueLabel] });
+      const byLabelSettings = await toSortedArray(byLabelIterator);
+
+      assertEqualSettings(
+        [
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] production value",
+            label: uniqueLabel
+          },
+          {
+            key: `listConfigSettingB-${now}`,
+            value: "[B] production value",
+            label: uniqueLabel
+          }
+        ],
+        byLabelSettings
+      );
+    });
+
+    it("label wildcards", async () => {
+      // query with a direct label match
+      let byLabelIterator = client.listConfigurationSettings({
+        labels: ["*" + uniqueLabel.substring(1)]
+      });
+      const byLabelSettings = await toSortedArray(byLabelIterator);
+
+      assertEqualSettings(
+        [
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] production value",
+            label: uniqueLabel
+          },
+          {
+            key: `listConfigSettingB-${now}`,
+            value: "[B] production value",
+            label: uniqueLabel
+          }
+        ],
+        byLabelSettings
+      );
+    });
+
+    it("exact match on key", async () => {
+      let byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`] });
+      const byKeySettings = await toSortedArray(byKeyIterator);
+
+      assertEqualSettings(
+        [
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] production value",
+            label: uniqueLabel
+          },
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] value",
+            label: undefined
+          }
+        ],
+        byKeySettings
+      );
+    });
+
+    it("key wildcards", async () => {
+      // query with a key wildcard
+      let byKeyIterator = client.listConfigurationSettings({ keys: [`*istConfigSettingA-${now}`] });
+      const byKeySettings = await toSortedArray(byKeyIterator);
+
+      assertEqualSettings(
+        [
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] production value",
+            label: uniqueLabel
+          },
+          {
+            key: `listConfigSettingA-${now}`,
+            value: "[A] value",
+            label: undefined
+          }
+        ],
+        byKeySettings
+      );
+    });
+
+    // TODO: this test is entirely too slow and needs to be replaced with
+    //  one that uses recorded responses.
+    /*
+    it("list with multiple pages", async () => {
+      const key = `listMultiplePagesOfResults-${Date.now()}`;
+
+      // this number is arbitrarily chosen to match the size of a page + 1
+      const expectedNumberOfLabels = 200;
+
+      for (let i = 0; i < expectedNumberOfLabels; i++) {
+        await client.addConfigurationSetting({
+          key,
+          value: `the value for ${i}`,
+          label: i.toString()
+        });
+      }
+
+      let listResult = await client.listConfigurationSettings({
+        keys: [key]
+      });
+
+      let allResults = new Set<string>();
+      let nextLinks = [];
+
+      let addLabel = (label: string) => {
+        assert.ok(!allResults.has(label));
+        allResults.add(label);
+      };
+
+      listResult.items!.forEach(item => addLabel(item.label!));
+
+      while (listResult.nextLink) {
+        nextLinks.push(listResult.nextLink);
+
+        listResult = await client.listConfigurationSettingsNext(listResult.nextLink, {
+          keys: [key]
+        });
+
+        listResult.items!.forEach(item => addLabel(item.label!));
+      }
+
+      assert.equal(2, nextLinks.length);
+      assert.equal(expectedNumberOfLabels, allResults.size);
+      
+      await cleanupSampleValues([key], client);
+    });
+    */
   });
+
   describe("listRevisions", () => {
-    it("lists revisions for a configuration setting", async () => {
-      // create a setting and update it to create multiple revisions
-      const key = `listRevisionsTest-${Date.now()}`;
-      const label = `test-list-${Date.now()}`;
+    const now = Date.now();
+    const key = `listRevisions-${now}`;
+    const labelA = `list-revisions-A-${now}`;
+    const labelB = `list-revisions-B-${now}`;
 
-      await client.addConfigurationSetting(key, { label, value: "foo1" });
-      await client.setConfigurationSetting(key, { label, value: "foo2" });
+    before(async () => {
+      // we'll generate two sets of keys and labels for this selection
+      await client.addConfigurationSetting({ key, label: labelA, value: "fooA1" });
+      await client.setConfigurationSetting({ key, label: labelA, value: "fooA2" });
 
-      const result = await client.listRevisions({ label: [label] });
-
-      assert.equal(result.length, 2);
+      await client.addConfigurationSetting({ key, label: labelB, value: "fooB1" });
+      await client.setConfigurationSetting({ key, label: labelB, value: "fooB2" });
     });
 
-    it("sample code works", async () => {
-      const key = `listRevisionsSample-${Date.now()}`;
+    it("exact match on label", async () => {
+      const revisionsWithLabelIterator = await client.listRevisions({ labels: [labelA] });
+      const revisions = await toSortedArray(revisionsWithLabelIterator);
 
-      // create a new setting
-      await client.addConfigurationSetting(key, { value: "foo1" });
+      assertEqualSettings(
+        [{ key, label: labelA, value: "fooA1" }, { key, label: labelA, value: "fooA2" }],
+        revisions
+      );
+    });
 
-      // update it with a new value
-      await client.setConfigurationSetting(key, { value: "foo2" });
+    it("label wildcards", async () => {
+      const revisionsWithLabelIterator = await client.listRevisions({
+        labels: ["*" + labelA.substring(1)]
+      });
+      const revisions = await toSortedArray(revisionsWithLabelIterator);
 
-      // retrieves all revisions matching that label
-      const result = await client.listRevisions({ key: [key] });
+      assertEqualSettings(
+        [{ key, label: labelA, value: "fooA1" }, { key, label: labelA, value: "fooA2" }],
+        revisions
+      );
+    });
 
-      assert.equal(result.length, 2);
+    it("exact match on key", async () => {
+      const revisionsWithKeyIterator = await client.listRevisions({ keys: [key] });
+      const revisions = await toSortedArray(revisionsWithKeyIterator);
+
+      assertEqualSettings(
+        [
+          { key, label: labelA, value: "fooA1" },
+          { key, label: labelA, value: "fooA2" },
+          { key, label: labelB, value: "fooB1" },
+          { key, label: labelB, value: "fooB2" }
+        ],
+        revisions
+      );
+    });
+
+    it("key wildcards", async () => {
+      const revisionsWithKeyIterator = await client.listRevisions({ keys: ['*' + key.substring(1)] });
+      const revisions = await toSortedArray(revisionsWithKeyIterator);
+
+      assertEqualSettings(
+        [
+          { key, label: labelA, value: "fooA1" },
+          { key, label: labelA, value: "fooA2" },
+          { key, label: labelB, value: "fooB1" },
+          { key, label: labelB, value: "fooB2" }
+        ],
+        revisions
+      );
     });
   });
 
@@ -417,7 +641,8 @@ describe("AppConfigurationClient", () => {
       };
 
       // create configuration
-      const result = await client.addConfigurationSetting(key, {
+      const result = await client.addConfigurationSetting({
+        key,
         label,
         value: "foo",
         contentType,
@@ -458,7 +683,7 @@ describe("AppConfigurationClient", () => {
         "Unexpected contentType in result from addConfigurationSetting()."
       );
 
-      const replacedResult = await client.setConfigurationSetting(key, { label, value: "foo2" });
+      const replacedResult = await client.setConfigurationSetting({ key, label, value: "foo2" });
 
       assert.equal(
         replacedResult.key,
@@ -507,7 +732,8 @@ describe("AppConfigurationClient", () => {
       };
 
       // create configuration
-      const result = await client.addConfigurationSetting(key, {
+      const result = await client.addConfigurationSetting({
+        key,
         label,
         value: "foo",
         contentType,
@@ -548,7 +774,8 @@ describe("AppConfigurationClient", () => {
         "Unexpected contentType in result from addConfigurationSetting()."
       );
 
-      const replacedResult = await client.setConfigurationSetting(key, {
+      const replacedResult = await client.setConfigurationSetting({
+        key,
         label,
         value: "foo2",
         etag: result.etag
@@ -596,7 +823,7 @@ describe("AppConfigurationClient", () => {
       const label = "test";
       const value = "foo";
 
-      const result = await client.setConfigurationSetting(key, { label, value: "foo" });
+      const result = await client.setConfigurationSetting({ key, label, value: "foo" });
       assert.equal(result.key, key, "Unexpected key in result from setConfigurationSetting().");
       assert.equal(
         result.label,
@@ -640,7 +867,8 @@ describe("AppConfigurationClient", () => {
       };
 
       // create configuration
-      const result = await client.addConfigurationSetting(key, {
+      const result = await client.addConfigurationSetting({
+        key,
         label,
         value: "foo",
         contentType,
@@ -682,7 +910,7 @@ describe("AppConfigurationClient", () => {
       );
 
       try {
-        await client.setConfigurationSetting(key, { label, value: "foo2", etag: "incorrect" });
+        await client.setConfigurationSetting({ key, label, value: "foo2", etag: "incorrect" });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -690,260 +918,62 @@ describe("AppConfigurationClient", () => {
     });
   });
 
-  describe("updateConfigurationSetting", () => {
-    it("updates an existing configuration setting", async () => {
-      const key = `updateConfigTest-${Date.now()}`;
-      const label = "test";
-      const contentType = "application/json";
-      const tags = {
-        bar: "baz",
-        car: "caz"
-      };
-
-      // create configuration
-      const result = await client.addConfigurationSetting(key, {
-        label,
-        value: "foo",
-        contentType,
-        tags
-      });
-
-      settings.push({ key, label });
-
-      assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
+  describe("formatETagForMatchHeaders", () => {
+    it("undefined", () => {
       assert.equal(
-        result.label,
-        label,
-        "Unexpected label in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.value,
-        "foo",
-        "Unexpected value in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.locked,
-        false,
-        "Unexpected locked in result from addConfigurationSetting()."
-      );
-      assert.deepEqual(
-        result.tags,
-        tags,
-        "Unexpected tags in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.contentType,
-        contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
+        undefined,
+        AppConfigurationClient["formatETagForMatchHeaders"]({
+          etag: undefined
+        })
       );
 
-      const updatedResult = await client.updateConfigurationSetting(key, { label, value: "foo2" });
-
       assert.equal(
-        updatedResult.key,
-        key,
-        "Unexpected key in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.label,
-        label,
-        "Unexpected label in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.value,
-        "foo2",
-        "Unexpected value in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.locked,
-        false,
-        "Unexpected locked in result from updateConfigurationSetting()."
-      );
-      assert.deepEqual(
-        updatedResult.tags,
-        tags,
-        "Unexpected tags in result from updateConfigurationSetting()."
-      );
-      assert.strictEqual(
-        updatedResult.contentType,
-        contentType,
-        "Unexpected contentType in result from updateConfigurationSetting()."
+        '"etagishere"',
+        AppConfigurationClient["formatETagForMatchHeaders"]({
+          etag: "etagishere"
+        })
       );
     });
+  });
 
-    it("updates an existing configuration setting (valid etag)", async () => {
-      const key = `updateConfigTestEtag-${Date.now()}`;
-      const label = "test";
-      const contentType = "application/json";
-      const tags = {
-        bar: "baz",
-        car: "caz"
-      };
-
-      // create configuration
-      const result = await client.addConfigurationSetting(key, {
-        label,
-        value: "foo",
-        contentType,
-        tags
+  describe("formatWildcards", () => {
+    it("undefined", () => {
+      const result = AppConfigurationClient["formatWildcards"]({
+        keys: undefined,
+        labels: undefined
       });
 
-      settings.push({ key, label });
-
-      assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
-      assert.equal(
-        result.label,
-        label,
-        "Unexpected label in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.value,
-        "foo",
-        "Unexpected value in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.locked,
-        false,
-        "Unexpected locked in result from addConfigurationSetting()."
-      );
-      assert.deepEqual(
-        result.tags,
-        tags,
-        "Unexpected tags in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.contentType,
-        contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
-      );
-
-      const updatedResult = await client.updateConfigurationSetting(key, {
-        label,
-        value: "foo2",
-        etag: result.etag
-      });
-
-      assert.equal(
-        updatedResult.key,
-        key,
-        "Unexpected key in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.label,
-        label,
-        "Unexpected label in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.value,
-        "foo2",
-        "Unexpected value in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from updateConfigurationSetting()."
-      );
-      assert.equal(
-        updatedResult.locked,
-        false,
-        "Unexpected locked in result from updateConfigurationSetting()."
-      );
-      assert.deepEqual(
-        updatedResult.tags,
-        tags,
-        "Unexpected tags in result from updateConfigurationSetting()."
-      );
-      assert.strictEqual(
-        updatedResult.contentType,
-        contentType,
-        "Unexpected contentType in result from updateConfigurationSetting()."
-      );
+      assert.ok(!result.key);
+      assert.ok(!result.label);
     });
 
-    it("throws when updating a non-existent configuration setting", async () => {
-      const key = `updateConfigTestNA-${Date.now()}`;
-      const label = "test";
-
-      try {
-        await client.updateConfigurationSetting(key, { label, value: "foo" });
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
-    });
-
-    it("throws when updating an existing configuration setting (invalid etag)", async () => {
-      const key = `updateConfigTestBadEtag-${Date.now()}`;
-      const label = "test";
-      const contentType = "application/json";
-      const tags = {
-        bar: "baz",
-        car: "caz"
-      };
-
-      // create configuration
-      const result = await client.addConfigurationSetting(key, {
-        label,
-        value: "foo",
-        contentType,
-        tags
+    it("single values only", () => {
+      const result = AppConfigurationClient["formatWildcards"]({
+        keys: ["key1"],
+        labels: ["label1"]
       });
 
-      settings.push({ key, label });
+      assert.equal("key1", result.key);
+      assert.equal("label1", result.label);
+    });
 
-      assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
-      assert.equal(
-        result.label,
-        label,
-        "Unexpected label in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.value,
-        "foo",
-        "Unexpected value in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.locked,
-        false,
-        "Unexpected locked in result from addConfigurationSetting()."
-      );
-      assert.deepEqual(
-        result.tags,
-        tags,
-        "Unexpected tags in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.contentType,
-        contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
-      );
+    it("multiple values", () => {
+      const result = AppConfigurationClient["formatWildcards"]({
+        keys: ["key1", "key2"],
+        labels: ["label1", "label2"]
+      });
 
-      try {
-        await client.updateConfigurationSetting(key, { label, value: "foo2", etag: "incorrect" });
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
+      assert.equal("key1,key2", result.key);
+      assert.equal("label1,label2", result.label);
+    });
+  });
+
+  describe("extractAfterTokenFromNextLink", () => {
+    it("token is extracted and properly unescaped", () => {
+      let token = AppConfigurationClient["extractAfterTokenFromNextLink"](
+        "/kv?key=someKey&api-version=1.0&after=bGlah%3D"
+      );
+      assert.equal("bGlah=", token);
     });
   });
 });

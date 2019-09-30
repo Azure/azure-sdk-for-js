@@ -1,4 +1,6 @@
-import { getRequestChargeIfAny } from "../queryExecutionContext";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { getRequestChargeIfAny } from "../queryExecutionContext/headerUtils";
 
 export class ClientSideMetrics {
   constructor(public readonly requestCharge: number) {}

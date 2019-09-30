@@ -1,4 +1,6 @@
 /// <reference lib="esnext.asynciterable" />
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "./ClientContext";
 import { getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "./common";
 import {
@@ -40,7 +42,7 @@ export class QueryIterator<T> {
   ) {
     this.query = query;
     this.fetchFunctions = fetchFunctions;
-    this.options = options;
+    this.options = options || {};
     this.resourceLink = resourceLink;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
@@ -138,7 +140,11 @@ export class QueryIterator<T> {
         throw error;
       }
     }
-    return new FeedResponse<T>(response.result, response.headers, this.queryExecutionContext.hasMoreResults());
+    return new FeedResponse<T>(
+      response.result,
+      response.headers,
+      this.queryExecutionContext.hasMoreResults()
+    );
   }
 
   /**
@@ -146,7 +152,10 @@ export class QueryIterator<T> {
    */
   public reset() {
     this.queryPlanPromise = undefined;
-    this.queryExecutionContext = new DefaultQueryExecutionContext(this.options, this.fetchFunctions);
+    this.queryExecutionContext = new DefaultQueryExecutionContext(
+      this.options,
+      this.fetchFunctions
+    );
   }
 
   private async toArrayImplementation(): Promise<FeedResponse<T>> {
@@ -231,7 +240,7 @@ export class QueryIterator<T> {
     if (this.isInitialied === true) {
       return;
     }
-    if (this.initPromise) {
+    if (this.initPromise === undefined) {
       this.initPromise = this._init();
     }
     return this.initPromise;

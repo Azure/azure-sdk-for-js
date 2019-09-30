@@ -1,15 +1,16 @@
-# Azure KeyVault Secrets client library for JS
+# Azure Key Vault Secrets client library for JS
 
-Azure KeyVault is a service that allows you to encrypt authentication
-keys, storage account keys, data encryption keys, .pfx files, and
-passwords by using keys that are protected by hardware security
-modules (HSMs).
+Azure Key Vault is a service that allows you to encrypt authentication keys,
+storage account keys, data encryption keys, .pfx files, and passwords by using
+keys that are protected by hardware security modules (HSMs). If you would like
+to know more about Azure Key Vault, you may want to review [What is Azure Key
+Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview).
 
-Azure KeyVault Secrets management allows you to securely store and
+Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
 and other secrets.
 
-Use the client library for Azure KeyVault Secrets in your Node.js application to
+Use the client library for Azure Key Vault Secrets in your Node.js application to
 
 - Get, set and delete a secret.
 - Update a secret and it's attributes.
@@ -19,7 +20,7 @@ Use the client library for Azure KeyVault Secrets in your Node.js application to
 - Get all secrets.
 - Get all deleted secrets.
 
-**Please Note:** This is a preview version of the KeyVault Secrets library
+**Please Note:** This is a preview version of the Key Vault Secrets library
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 
@@ -27,12 +28,12 @@ Use the client library for Azure KeyVault Secrets in your Node.js application to
 
 ### Install the package
 
-Install the Azure Event KeyVault Secrets client library using npm
+Install the Azure Key Vault Secrets client library using npm:
 
 `npm install @azure/keyvault-secrets`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[KeyVault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
+[Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
 If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
 ### Configure Typescript
@@ -85,16 +86,34 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
   az keyvault show --name <your-key-vault-name>
   ```
 
-### Authenticate the client
+## Key concepts
 
-To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
+- The **Secrets client** is the primary interface to interact with the API methods
+  related to secrets in the Azure Key Vault API from a JavaScript application.
+  Once initialized, it provides a basic set of methods that can be used to
+  create, read, update and delete secrets.
+- A **Secret version** is a version of a secret in the Key Vault.
+  Each time a user assigns a value to a unique secret name, a new **version**
+  of that secret is created. Retrieving a secret by a name will always return
+  the latest value assigned, unless a specific version is provided to the
+  query.
+- **Soft delete** allows Key Vaults to support deletion and purging as two
+  separate steps, so deleted secrets are not immediately lost. This only happens if the Key Vault
+  has [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+  enabled.
+- A **Secret backup** can be generated from any created secret. These backups come as
+  binary data, and can only be used to regenerate a previously deleted secret.
+
+## Authenticating the client
+
+To use the Key Vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
 import { SecretsClient } from "@azure/keyvault-secrets";
 ```
 
-Once these are imported, we can next connect to the key vault service. To do this, we'll need to copy some settings from the key vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
+Once these are imported, we can next connect to the Key Vault service. To do this, we'll need to copy some settings from the Key Vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:
 
 ```typescript
 // DefaultAzureCredential expects the following three environment variables:
@@ -111,89 +130,147 @@ const url = `https://${vaultName}.vault.azure.net`;
 const client = new SecretsClient(url, credential);
 ```
 
-## Key concepts
-
-### Creating secrets and secret versions
-
-Azure Key Vault allows you to create secrets that are stored in the key vault. When a secret is first created, it is given a name and a value. This name acts as a way to reach the secret later.
-
-Secrets in the key vault can have multiple versions of the same secret. These are called versions of that secret.
-
-### Getting secrets from the key vault
-
-The simplest way to read secrets back from the vault is to get a secret by name. This will retrieve the most recent version of the secret. You can optionally get a different version of the secret if you also know the version you want.
-
-Key vaults also support listing the secrets they have, as well as listing the all the versions of the given secret.
-
-### Updating secret attributes
-
-Once a secret is created, it is possible to update attributes of the secret. For example, if a secret needs to be temporarily unavailable, the `enabled` attribute can be set to false for a time.
-
-### Working with deleted secrets
-
-Key vaults allow deleting secrets so that they are no longer available.
-
-In key vaults with 'soft delete' enabled, secrets are not immediately removed but instead marked simply as 'deleted'. These deleted secrets can be listed, purged, and recovered.
-
 ## Examples
 
-The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Secrets.
+The following sections provide code snippets that cover some of the common
+tasks using Azure Key Vault Secrets. The scenarios that are covered here consist of:
 
-Once you have authenticated and created an instance of an `SecretsClient` class (see "Authenticate the client" above), you can create, read, update, and delete secrets:
+- [Creating and setting a secret](#creating-and-setting-a-secret).
+- [Getting a secret](#getting-a-secret).
+- [Creating and updating secrets with attributes](#creating-and-updating-secrets-with-attributes).
+- [Deleting a secret](#deleting-a-secret).
+- [Iterating lists of secrets](#iterating-lists-of-secrets).
 
-### Create a secret
+### Creating and setting a secret
 
-`setSecret` creates a secret to be stored in the Azure Key Vault. If a secret with the same name already exists, then a new version of the secret is created.
+`setSecret` assigns a provided value to the specified secret name. If a secret
+with the same name already exists, then a new version of the secret is created.
 
 ```javascript
 const secretName = "MySecretName";
 const result = await client.setSecret(secretName, "MySecretValue");
 ```
 
-### Get a secret
+### Getting a secret
 
-`getSecret` retrieves a secret previously stored in the Key Vault.
+The simplest way to read secrets back from the vault is to get a secret by
+name. This will retrieve the most recent version of the secret. You can
+optionally get a different version of the key if you specify it as part of the
+optional parameters.
 
 ```javascript
-const getResult = await client.getSecret(secretName);
-console.log("getResult: ", getResult);
+const latestSecret = await client.getSecret(secretName);
+console.log(`Latest version of the secret ${secretName}: `, getResult);
+const specificSecret = await client.getSecret(secretName, { version: latestSecret.version! });
+console.log(`The secret ${secretName} at the version ${latestSecret.version!}: `, getResult);
 ```
 
-### List all versions of a secret
+### Creating and updating secrets with attributes
 
-`listSecretVersions` will list versions of the given secret.
+A secret can have more information than its name and its value. They can also include
+the following attributes:
+
+- `tags`: Any set of key-values that can be used to search and filter secrets.
+- `contentType`: Any string that can be used to help the receiver of the secret understand how to use the secret value.
+- `enabled`: A boolean value that determines whether the secret value can be read or not.
+- `notBefore`: A given date after which the secret value can be retrieved.
+- `expires`: A given date after which the secret value cannot be retrieved.
+
+An object with these attributes can be sent as the third parameter of
+`setSecret`, right after the secret's name and value, as follows:
 
 ```javascript
-for await (let version of client.listSecretVersions(secretName)) {
-  console.log("version: ", version);
-}
+const result = await client.setSecret(secretName, "MySecretValue", {
+  enabled: false
+});
 ```
 
-### List all secrets
+This will create a new version of the same secret, which will have the latest
+provided attributes.
 
-`listSecrets` will list all secrets in the Key Vault.
-
-```javascript
-for await (let listedSecret of client.listSecrets()) {
-  console.log("secret: ", listedSecret);
-}
-```
-
-### Update the attributes of a secret
-
-`updateSecretAttributes` updates the attributes of a secret.
+Attributes can also be updated to an existing secret version with
+`updateSecretAttributes`, as follows:
 
 ```javascript
-const result = getSecret(secretName);
+const result = client.getSecret(secretName);
 await client.updateSecretAttributes(secretName, result.version, { enabled: false });
 ```
 
-### Delete a secret
+### Deleting a secret
 
-`deleteSecret` deletes a secret previously stored in the Key Vault. When [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is not enabled for the Key Vault, this operation permanently deletes the deletes.
+The `deleteSecret` method sets a secret up for deletion. This process will
+happen in the background as soon as the necessary resources are available.
 
 ```javascript
 await client.deleteSecret(secretName);
+```
+
+If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+is enabled for the Key Vault, this operation will only label the secret as a
+_deleted_ secret. A deleted secret can't be updated. They can only be either
+read, recovered or purged.
+
+```javascript
+await client.deleteSecret(secretName);
+
+// If soft-delete is enabled, we can eventually do:
+await client.getDeletedSecret(secretName);
+// Deleted secrets can also be recovered or purged:
+await client.recoverDeletedSecret(secretName);
+// await client.purgeDeletedSecret(secretName);
+```
+
+Since the deletion of a secret won't happen instantly, some time is needed
+after the `deleteSecret` method is called before the deleted secret is
+available to be read, recovered or purged.
+
+### Iterating lists of secrets
+
+Using the SecretsClient, you can retrieve and iterate through all of the
+secrets in a Key Vault, as well as through all of the deleted secrets and the
+versions of a specific secret. The following API methods are available:
+
+- `listSecrets` will list all of your non-deleted secrets by their names, only
+  at their latest versions.
+- `listDeletedSecrets` will list all of your deleted secrets by their names,
+  only at their latest versions.
+- `listSecretVersions` will list all the versions of a secret based on a secret
+  name.
+
+Which can be used as follows:
+
+```javascript
+for await (let secret of client.listSecrets()) {
+  console.log("Secret: ", secret);
+}
+for await (let deletedSecret of client.listDeletedSecrets()) {
+  console.log("Deleted secret: ", deletedSecret);
+}
+for await (let version of client.listSecretVersions(secretName)) {
+  console.log("Version: ", version);
+}
+```
+
+All of these methods will return **all of the available results** at once. To
+retrieve them by pages, add `.byPage()` right after invoking the API method you
+want to use, as follows:
+
+```javascript
+for await (let page of client.listSecrets().byPage()) {
+  for (let secret of page) {
+    console.log("Secret: ", secret);
+  }
+}
+for await (let page of client.listDeletedSecrets().byPage()) {
+  for (let deletedSecret of page) {
+    console.log("Deleted secret: ", deletedSecret);
+  }
+}
+for await (let page of client.listSecretVersions(secretName).byPage()) {
+  for (let version of page) {
+    console.log("Version: ", version);
+  }
+}
 ```
 
 ## Troubleshooting
@@ -202,47 +279,11 @@ await client.deleteSecret(secretName);
 
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the KeyVault Secrets SDK
+- Getting debug logs from the Key Vault Secrets SDK
 
 ```bash
 export DEBUG=azure*
 ```
-
-- Getting debug logs from the KeyVault Secrets SDK and the protocol level library.
-
-```bash
-export DEBUG=azure*,rhea*
-```
-
-- If you are **not interested in viewing the event transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
-```
-
-- If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure:keyvault-secrets:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
-```
-
-### Logging to a file
-
-- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
-
-  - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
-    ```bash
-    node your-test-script.js > out.log 2>debug.log
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log` by redirecting stderr to stdout (&1), and then redirect stdout to a file:
-    ```bash
-    node your-test-script.js >out.log 2>&1
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log`.
-
-    ```bash
-      node your-test-script.js &> out.log
-    ```
 
 ## Next steps
 
@@ -250,22 +291,13 @@ Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 directory for detailed examples on how to use this library.
 
-- [helloWorld.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/helloWorld.ts) - Create, read, update, and delete secrets
-- [listOperations.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/listOperations.ts) - List secrets all at once, list by page, and list versions of a secret.
-- [backupAndRestore.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/backupAndRestore.ts) - Backup a secret and restore it after it has been deleted.
-- [deleteAndRecover.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/deleteAndRecover.ts) - Deletes a secret and recovers it after. **Note:** this assumes [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is enabled for the key vault.
-
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit <https://cla.microsoft.com.>
+This project welcomes contributions and suggestions. Please read the
+[contributing guidelines](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
+for detailed information about how to contribute and what to expect while contributing.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
+### Testing
 
 To run our tests, first install the dependencies (with `npm install` or `rush install`),
 then run the unit tests with: `npm run unit-test`.
@@ -281,10 +313,10 @@ environment variables:
 - `AZURE_CLIENT_ID`: The Client ID of your Azure account.
 - `AZURE_CLIENT_SECRET`: The secret of your Azure account.
 - `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
-- `KEYVAULT_NAME`: The name of the KeyVault you want to run the tests against.
+- `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
 
 **WARNING:** 
-Integration tests will wipe all of the existing records in the targetted KeyVault.
+Integration tests will wipe all of the existing records in the targeted Key Vault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or

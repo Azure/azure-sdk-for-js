@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/networkProfilesMappers";
 import * as Parameters from "../models/parameters";
@@ -33,29 +34,9 @@ export class NetworkProfiles {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkProfileName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param networkProfileName The name of the NetworkProfile.
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, networkProfileName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param networkProfileName The name of the NetworkProfile.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, networkProfileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, networkProfileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkProfileName,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
+  deleteMethod(resourceGroupName: string, networkProfileName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,networkProfileName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -215,6 +196,24 @@ export class NetworkProfiles {
   }
 
   /**
+   * Deletes the specified network profile.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkProfileName The name of the NetworkProfile.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, networkProfileName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        networkProfileName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
    * Gets all the network profiles in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -273,31 +272,6 @@ export class NetworkProfiles {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.networkProfileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
@@ -431,6 +405,31 @@ const listOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetworkProfileListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.networkProfileName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

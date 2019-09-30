@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosClientOptions } from "../CosmosClientOptions";
 import { Constants, OperationType, ResourceType } from "./constants";
 
@@ -8,7 +10,7 @@ const Regexes = Constants.RegularExpressions;
 export function jsonStringifyAndEscapeNonASCII(arg: any) {
   // TODO: better way for this? Not sure.
   // escapes non-ASCII characters as \uXXXX
-  return JSON.stringify(arg).replace(/[\u0080-\uFFFF]/g, m => {
+  return JSON.stringify(arg).replace(/[\u0080-\uFFFF]/g, (m) => {
     return "\\u" + ("0000" + m.charCodeAt(0).toString(16)).slice(-4);
   });
 }
@@ -79,7 +81,7 @@ export function isReadRequest(operationType: OperationType): boolean {
  * @ignore
  */
 export function sleep(time: number): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
     }, time);
@@ -319,4 +321,5 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
  */
 // https://github.com/iliakan/detect-node/blob/master/index.js
 export const isNode: boolean =
-  Object.prototype.toString.call(typeof process !== "undefined" ? process : 0) === "[object process]";
+  Object.prototype.toString.call(typeof process !== "undefined" ? process : 0) ===
+  "[object process]";

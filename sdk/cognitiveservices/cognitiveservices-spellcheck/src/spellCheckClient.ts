@@ -85,7 +85,11 @@ const spellCheckerOperationSpec: msRest.OperationSpec = {
     Parameters.market,
     Parameters.sessionId,
     Parameters.setLang,
-    Parameters.userId
+    Parameters.userId,
+    Parameters.mode,
+    Parameters.preContextText,
+    Parameters.postContextText,
+    Parameters.text
   ],
   headerParameters: [
     Parameters.xBingApisSDK,
@@ -96,13 +100,6 @@ const spellCheckerOperationSpec: msRest.OperationSpec = {
     Parameters.clientIp,
     Parameters.location
   ],
-  formDataParameters: [
-    Parameters.mode,
-    Parameters.preContextText,
-    Parameters.postContextText,
-    Parameters.text
-  ],
-  contentType: "application/x-www-form-urlencoded",
   responses: {
     200: {
       bodyMapper: Mappers.SpellCheck

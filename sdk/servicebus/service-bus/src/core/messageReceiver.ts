@@ -1015,7 +1015,7 @@ export class MessageReceiver extends LinkEntity {
             "Hence rejecting the promise with timeout error.",
           this._context.namespace.connectionId,
           delivery.id,
-          Constants.defaultOperationTimeoutInSeconds
+          Constants.defaultOperationTimeoutInSeconds * 1000
         );
 
         const e: AmqpError = {
@@ -1025,7 +1025,7 @@ export class MessageReceiver extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, Constants.defaultOperationTimeoutInSeconds);
+      }, Constants.defaultOperationTimeoutInSeconds * 1000);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

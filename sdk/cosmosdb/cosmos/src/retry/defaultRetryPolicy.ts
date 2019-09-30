@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { OperationType } from "../common";
 import { ErrorResponse } from "../request";
 import { TimeoutErrorCode } from "../request/TimeoutError";
@@ -136,7 +138,10 @@ export class DefaultRetryPolicy implements RetryPolicy {
    */
   public async shouldRetry(err: ErrorResponse): Promise<boolean> {
     if (err) {
-      if (this.currentRetryAttemptCount < this.maxRetryAttemptCount && needsRetry(this.operationType, err.code)) {
+      if (
+        this.currentRetryAttemptCount < this.maxRetryAttemptCount &&
+        needsRetry(this.operationType, err.code)
+      ) {
         this.currentRetryAttemptCount++;
         return true;
       }

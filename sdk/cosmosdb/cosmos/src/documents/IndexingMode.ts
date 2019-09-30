@@ -3,6 +3,8 @@
  * @property Consistent
  * @property Lazy
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export enum IndexingMode {
   /**
    * Index is updated synchronously with a create or update operation.

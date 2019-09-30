@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { sha1 } from "crypto-hash";
 import stableStringify from "fast-json-stable-stringify";
 import { Response } from "../../request";

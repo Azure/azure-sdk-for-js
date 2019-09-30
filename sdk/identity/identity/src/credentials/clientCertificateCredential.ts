@@ -6,8 +6,10 @@ import jws from "jws";
 import uuid from "uuid";
 import { readFileSync } from "fs";
 import { createHash } from "crypto";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken, CanonicalCode } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { createSpan } from "../util/tracing";
+import { AuthenticationErrorName } from "../client/errors";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -86,50 +88,69 @@ export class ClientCertificateCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const tokenId = uuid.v4();
-    const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
-    const header: jws.Header = {
-      typ: "JWT",
-      alg: "RS256",
-      x5t: this.certificateX5t
-    };
+    const { span, options: newOptions } = createSpan(
+      "ClientCertificateCredential-getToken",
+      options
+    );
+    try {
+      const tokenId = uuid.v4();
+      const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
+      const header: jws.Header = {
+        typ: "JWT",
+        alg: "RS256",
+        x5t: this.certificateX5t
+      };
 
-    const payload = {
-      iss: this.clientId,
-      sub: this.clientId,
-      aud: audienceUrl,
-      jti: tokenId,
-      nbf: timestampInSeconds(new Date()),
-      exp: timestampInSeconds(addMinutes(new Date(), SelfSignedJwtLifetimeMins))
-    };
+      const payload = {
+        iss: this.clientId,
+        sub: this.clientId,
+        aud: audienceUrl,
+        jti: tokenId,
+        nbf: timestampInSeconds(new Date()),
+        exp: timestampInSeconds(addMinutes(new Date(), SelfSignedJwtLifetimeMins))
+      };
 
-    const clientAssertion = jws.sign({
-      header,
-      payload,
-      secret: this.certificateString
-    });
+      const clientAssertion = jws.sign({
+        header,
+        payload,
+        secret: this.certificateString
+      });
 
-    const webResource = this.identityClient.createWebResource({
-      url: audienceUrl,
-      method: "POST",
-      disableJsonStringifyOnBody: true,
-      deserializationMapper: undefined,
-      body: qs.stringify({
-        response_type: "token",
-        grant_type: "client_credentials",
-        client_id: this.clientId,
-        client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-        client_assertion: clientAssertion,
-        scope: typeof scopes === "string" ? scopes : scopes.join(" ")
-      }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      abortSignal: options && options.abortSignal
-    });
+      const webResource = this.identityClient.createWebResource({
+        url: audienceUrl,
+        method: "POST",
+        disableJsonStringifyOnBody: true,
+        deserializationMapper: undefined,
+        body: qs.stringify({
+          response_type: "token",
+          grant_type: "client_credentials",
+          client_id: this.clientId,
+          client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+          client_assertion: clientAssertion,
+          scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        abortSignal: options && options.abortSignal,
+        spanOptions: newOptions.spanOptions
+      });
 
-    const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-    return (tokenResponse && tokenResponse.accessToken) || null;
+      const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      return (tokenResponse && tokenResponse.accessToken) || null;
+    } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
+      span.setStatus({
+        code,
+        message: err.message
+      });
+      throw err;
+    } finally {
+      span.end();
+    }
   }
 }

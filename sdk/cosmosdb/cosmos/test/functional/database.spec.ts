@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { CosmosClient, DatabaseDefinition } from "../../dist-esm";
 import { endpoint, masterKey } from "../common/_testConfig";
@@ -25,7 +27,11 @@ describe("NodeJS CRUD Tests", function() {
 
       // read databases after creation
       const { resources: databases2 } = await client.databases.readAll().fetchAll();
-      assert.equal(databases2.length, beforeCreateDatabasesCount + 1, "create should increase the number of databases");
+      assert.equal(
+        databases2.length,
+        beforeCreateDatabasesCount + 1,
+        "create should increase the number of databases"
+      );
       // query databases
       const querySpec = {
         query: "SELECT * FROM root r WHERE r.id=@id",

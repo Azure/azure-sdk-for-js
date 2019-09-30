@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "../common";
 import { logger } from "../common/logger";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
