@@ -10,7 +10,7 @@ import { TokenCredential } from '@azure/core-http';
 
 // @public
 export class AppConfigurationClient {
-    constructor(uri: string, credential: TokenCredential);
+    constructor(uri: string, tokenCredential: TokenCredential);
     constructor(connectionString: string);
     addConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
     clearReadOnly(configurationSetting: ConfigurationSettingParam, options?: ClearReadOnlyOptions): Promise<DeleteLockResponse>;

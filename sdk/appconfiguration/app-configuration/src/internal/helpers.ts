@@ -26,12 +26,8 @@ export function formatETagForMatchHeaders(objectWithEtag: ETagOption): string | 
  * @ignore
  */
 export function formatWildcards(
-  listConfigOptions?: ListConfigurationSettingsOptions
+  listConfigOptions: ListConfigurationSettingsOptions
 ): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label"> {
-  if (listConfigOptions == null) {
-    return {};
-  }
-
   let key = undefined;
 
   if (listConfigOptions.keys) {
