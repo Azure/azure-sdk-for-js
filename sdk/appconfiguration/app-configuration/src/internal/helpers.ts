@@ -4,6 +4,7 @@
 import { ETagOption, ListConfigurationSettingsOptions, AppConfigurationGetKeyValuesOptionalParams } from '..';
 import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
+import { ListRevisionsOptions } from '../models';
 
 /**
  * Formats the etag so it can be used with a if-match header
@@ -26,7 +27,7 @@ export function formatETagForMatchHeaders(objectWithEtag: ETagOption): string | 
  * @ignore
  */
 export function formatWildcards(
-  listConfigOptions: ListConfigurationSettingsOptions
+  listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
 ): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label"> {
   let key = undefined;
 
