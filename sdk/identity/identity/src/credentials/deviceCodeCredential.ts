@@ -2,9 +2,15 @@
 // Licensed under the MIT License.
 
 import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken, delay, CanonicalCode } from "@azure/core-http";
+import {
+  TokenCredential,
+  GetTokenOptions,
+  AccessToken,
+  delay,
+  CanonicalCode
+} from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
-import { AuthenticationError } from "../client/errors";
+import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 
 /**
@@ -76,7 +82,10 @@ export class DeviceCodeCredential implements TokenCredential {
     scope: string,
     options?: GetTokenOptions
   ): Promise<DeviceCodeResponse> {
-    const { span, options: newOptions } = createSpan("DeviceCodeCredential-sendDeviceCodeRequest", options);
+    const { span, options: newOptions } = createSpan(
+      "DeviceCodeCredential-sendDeviceCodeRequest",
+      options
+    );
     try {
       const webResource = this.identityClient.createWebResource({
         url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/devicecode`,
@@ -102,10 +111,13 @@ export class DeviceCodeCredential implements TokenCredential {
 
       return response.parsedBody as DeviceCodeResponse;
     } catch (err) {
-      const code = err instanceof AuthenticationError ? CanonicalCode.UNAUTHENTICATED : CanonicalCode.UNKNOWN;
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
       span.setStatus({
         code,
-        message: err.message,
+        message: err.message
       });
       throw err;
     } finally {
@@ -150,7 +162,7 @@ export class DeviceCodeCredential implements TokenCredential {
 
           tokenResponse = await this.identityClient.sendTokenRequest(webResource);
         } catch (err) {
-          if (err instanceof AuthenticationError) {
+          if (err.name === AuthenticationErrorName) {
             switch (err.errorResponse.error) {
               case "authorization_pending":
                 break;
@@ -169,10 +181,13 @@ export class DeviceCodeCredential implements TokenCredential {
 
       return tokenResponse;
     } catch (err) {
-      const code = err instanceof AuthenticationError ? CanonicalCode.UNAUTHENTICATED : CanonicalCode.UNKNOWN;
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
       span.setStatus({
         code,
-        message: err.message,
+        message: err.message
       });
       throw err;
     } finally {
@@ -230,10 +245,13 @@ export class DeviceCodeCredential implements TokenCredential {
       this.lastTokenResponse = tokenResponse;
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
-      const code = err instanceof AuthenticationError ? CanonicalCode.UNAUTHENTICATED : CanonicalCode.UNKNOWN;
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
       span.setStatus({
         code,
-        message: err.message,
+        message: err.message
       });
       throw err;
     } finally {

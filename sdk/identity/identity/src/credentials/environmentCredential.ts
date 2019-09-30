@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions, CanonicalCode } from "@a
 import { IdentityClientOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import { AuthenticationError } from "../client/errors";
+import { AuthenticationErrorName } from "../client/errors";
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -55,7 +55,10 @@ export class EnvironmentCredential implements TokenCredential {
       try {
         return this._credential.getToken(scopes, newOptions);
       } catch (err) {
-        const code = err instanceof AuthenticationError ? CanonicalCode.UNAUTHENTICATED : CanonicalCode.UNKNOWN;
+        const code =
+          err.name === AuthenticationErrorName
+            ? CanonicalCode.UNAUTHENTICATED
+            : CanonicalCode.UNKNOWN;
         span.setStatus({
           code,
           message: err.message

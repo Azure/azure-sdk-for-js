@@ -11,7 +11,7 @@ import {
   GetTokenOptions,
   CanonicalCode
 } from "@azure/core-http";
-import { AuthenticationError } from "./errors";
+import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
@@ -104,7 +104,6 @@ export class IdentityClient extends ServiceClient {
     }
 
     try {
-
       const webResource = this.createWebResource({
         url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
         method: "POST",
@@ -123,7 +122,7 @@ export class IdentityClient extends ServiceClient {
       return response;
     } catch (err) {
       if (
-        err instanceof AuthenticationError &&
+        err.name === AuthenticationErrorName &&
         err.errorResponse.error === "interaction_required"
       ) {
         // It's likely that the refresh token has expired, so
