@@ -465,4 +465,58 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
+
+  it.only("exists returns true on an existing blob", async () => {
+    const result = await blobClient.exists();
+    assert.ok(result, "exists() should return true for an existing blob");
+  });
+
+  it.only("exists returns false on non-existing blob", async () => {
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("blob"));
+    const result = await newBlobClient.exists();
+    assert.ok(result === false, "exists() should return true for an existing blob");
+  });
+
+  it.only("exists works with customer provided key", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+
+    const metadata = { a: "a" };
+    const smResp = await blobClient.setMetadata(metadata, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    const result = await blobClient.exists({
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.ok(result, "exists() should return true");
+  });
+
+  it.only("exists re-throws error from getProperties", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+
+    const metadata = { a: "a" };
+    const smResp = await blobClient.setMetadata(metadata, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.equal(smResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
+
+    let exceptionCaught = false;
+    try {
+      await blobClient.exists();
+    } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
 });

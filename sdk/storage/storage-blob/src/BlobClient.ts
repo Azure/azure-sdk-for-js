@@ -121,6 +121,30 @@ export interface BlobDownloadOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure Blob - Exists operation.
+ *
+ * @export
+ * @interface BlobExistsOptions
+ */
+export interface BlobExistsOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobGetPropertiesOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobSetHTTPHeadersOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
+}
+
+/**
  * Options to configure Blob - Get Properties operation.
  *
  * @export
@@ -989,6 +1013,33 @@ export class BlobClient extends StorageClient {
       throw e;
     } finally {
       span.end();
+    }
+  }
+
+  /**
+   * Returns true if the Azrue blob resource represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing blob might be deleted by other clients or
+   * applications. Vice versa new blobs might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {BlobExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof BlobClient
+   */
+  public async exists(options: BlobExistsOptions = {}): Promise<boolean> {
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        customerProvidedKey: options.customerProvidedKey
+      });
+      return true;
+    } catch (err) {
+      if (err.statusCode === 404) {
+        return false;
+      }
+      throw err;
     }
   }
 

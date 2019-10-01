@@ -120,6 +120,23 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure Container - Exists operation.
+ *
+ * @export
+ * @interface ContainerExistsOptions
+ */
+export interface ContainerExistsOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ContainerDeleteMethodOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Options to configure Container - Set Metadata operation.
  *
  * @export
@@ -606,6 +623,29 @@ export class ContainerClient extends StorageClient {
       throw e;
     } finally {
       span.end();
+    }
+  }
+
+  /**
+   * Returns true if the Azrue container resource represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing container might be deleted by other clients or
+   * applications. Vice versa new containers with the same name might be added by other clients or
+   * applications after this function completes.
+   *
+   * @param {ContainerExistsOptions} [options={}]
+   * @returns {Promise<boolean>}
+   * @memberof ContainerClient
+   */
+  public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
+    try {
+      await this.getProperties({ abortSignal: options.abortSignal });
+      return true;
+    } catch (err) {
+      if (err.statusCode === 404) {
+        return false;
+      }
+      throw err;
     }
   }
 

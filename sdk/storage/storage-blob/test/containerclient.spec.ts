@@ -618,4 +618,17 @@ describe("ContainerClient", () => {
       );
     }
   });
+
+  it.only("exists returns true on an existing container", async () => {
+    const result = await containerClient.exists();
+    assert.ok(result, "exists() should return true for an existing container");
+  });
+
+  it.only("exists returns false on non-existing container", async () => {
+    const newContainerClient = blobServiceClient.getContainerClient(
+      recorder.getUniqueName("container")
+    );
+    const result = await newContainerClient.exists();
+    assert.ok(result === false, "exists() should return true for an existing container");
+  });
 });
