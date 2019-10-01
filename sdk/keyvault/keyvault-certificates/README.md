@@ -78,7 +78,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - Grant the above mentioned application authorization to perform certificate operations on the keyvault:
 
   ```Bash
-  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --certificate-permissions backup delete get list create deleteissuers getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --certificate-permissions backup create delete deleteissuers get getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
   ```
 
   > --certificate-permissions:
@@ -195,9 +195,9 @@ the certificate's policy.
 
 ```javascript
 const latestCertificate = await client.getCertificateWithPolicy(certificateName);
-console.log(`Latest version of the certificate ${certificateName}: `, getResult);
+console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
 const specificCertificate = await client.getCertificate(certificateName, latestCertificate.version!);
-console.log(`The certificate ${certificateName} at the version ${latestCertificate.version!}: `, getResult);
+console.log(`The certificate ${certificateName} at the version ${latestCertificate.version!}: `, specificCertificate);
 ```
 
 ### List all versions of a certificate
@@ -276,6 +276,55 @@ await client.recoverDeletedCertificate(certificateName);
 Since the deletion of a certificate won't happen instantly, some time is needed
 after the `deleteCertificate` method is called before the deleted certificate is
 available to be read, recovered or purged.
+
+### Iterating lists of certificates
+
+Using the CertificatesClient, you can retrieve and iterate through all of the
+certificates in a Certificate Vault, as well as through all of the deleted certificates and the
+versions of a specific certificate. The following API methods are available:
+
+- `listCertificates` will list all of your non-deleted certificates by their names, only
+  at their latest versions.
+- `listDeletedCertificates` will list all of your deleted certificates by their names,
+  only at their latest versions.
+- `listCertificateVersions` will list all the versions of a certificate based on a certificate
+  name.
+
+Which can be used as follows:
+
+```javascript
+for await (let certificate of client.listCertificates()) {
+  console.log("Certificate: ", certificate);
+}
+for await (let deletedCertificate of client.listDeletedCertificates()) {
+  console.log("Deleted certificate: ", deletedCertificate);
+}
+for await (let version of client.listCertificateVersions(certificateName)) {
+  console.log("Version: ", version);
+}
+```
+
+All of these methods will return **all of the available results** at once. To
+retrieve them by pages, add `.byPage()` right after invoking the API method you
+want to use, as follows:
+
+```javascript
+for await (let page of client.listCertificates().byPage()) {
+  for (let certificate of page) {
+    console.log("Certificate: ", certificate);
+  }
+}
+for await (let page of client.listDeletedCertificates().byPage()) {
+  for (let deletedCertificate of page) {
+    console.log("Deleted certificate: ", deletedCertificate);
+  }
+}
+for await (let page of client.listCertificateVersions(certificateName).byPage()) {
+  for (let version of page) {
+    console.log("Version: ", version);
+  }
+}
+```
 
 ## Troubleshooting
 

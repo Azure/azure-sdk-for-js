@@ -87,14 +87,14 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
     export AZURE_TENANT_ID="tenant-ID"
   ```
 
-- Grant the above mentioned application authorization to perform secret operations on the keyvault:
+- Grant the above mentioned application authorization to perform key operations on the keyvault:
 
   ```Bash
-  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --secret-permissions backup delete get list create
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --key-permissions backup create decrypt delete encrypt get import list purge recover restore sign unwrapKey update verify wrapKey
   ```
 
   > --secret-permissions:
-  > Accepted values: backup, delete, get, list, purge, recover, restore, create
+  > Accepted values: backup, create, decrypt, delete, encrypt, get, import, list, purge, recover, restore, sign, unwrapKey, update, verify, wrapKey
 
 - Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:
   ```Bash
@@ -185,9 +185,9 @@ parameters.
 
 ```javascript
 const latestKey = await client.getKey(keyName);
-console.log(`Latest version of the key ${keyName}: `, getResult);
+console.log(`Latest version of the key ${keyName}: `, latestKey);
 const specificKey = await client.getKey(keyName, { version: latestKey.version! });
-console.log(`The key ${keyName} at the version ${latestKey.version!}: `, getResult);
+console.log(`The key ${keyName} at the version ${latestKey.version!}: `, specificKey);
 ```
 
 ### Creating and updating keys with attributes
@@ -216,7 +216,7 @@ Attributes can also be updated to an existing key version with
 `updateKey`, as follows:
 
 ```javascript
-const result = client.createKey(keyName, "RSA");
+const result = await client.createKey(keyName, "RSA");
 await client.updateKey(keyName, result.version, {
   enabled: false
 });
@@ -250,6 +250,55 @@ Since the deletion of a key won't happen instantly, some time is needed
 after the `deleteKey` method is called before the deleted key is
 available to be read, recovered or purged.
 
+### Iterating lists of keys
+
+Using the KeysClient, you can retrieve and iterate through all of the
+keys in a Key Vault, as well as through all of the deleted keys and the
+versions of a specific key. The following API methods are available:
+
+- `listKeys` will list all of your non-deleted keys by their names, only
+  at their latest versions.
+- `listDeletedKeys` will list all of your deleted keys by their names,
+  only at their latest versions.
+- `listKeyVersions` will list all the versions of a key based on a key
+  name.
+
+Which can be used as follows:
+
+```javascript
+for await (let key of client.listKeys()) {
+  console.log("Key: ", key);
+}
+for await (let deletedKey of client.listDeletedKeys()) {
+  console.log("Deleted key: ", deletedKey);
+}
+for await (let version of client.listKeyVersions(keyName)) {
+  console.log("Version: ", version);
+}
+```
+
+All of these methods will return **all of the available results** at once. To
+retrieve them by pages, add `.byPage()` right after invoking the API method you
+want to use, as follows:
+
+```javascript
+for await (let page of client.listKeys().byPage()) {
+  for (let key of page) {
+    console.log("Key: ", key);
+  }
+}
+for await (let page of client.listDeletedKeys().byPage()) {
+  for (let deletedKey of page) {
+    console.log("Deleted key: ", deletedKey);
+  }
+}
+for await (let page of client.listKeyVersions(keyName).byPage()) {
+  for (let version of page) {
+    console.log("Version: ", version);
+  }
+}
+```
+ 
 ## Cryptography
 
 This library also offers a set of cryptographic utilities available through
@@ -292,16 +341,16 @@ const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, 
 `encrypt` will encrypt a message. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
-const encrypt = await cryptographyClient.encrypt("RSA1_5", Buffer.from("My Message"));
-console.log("encrypt result: ", encrypt);
+const encryptResult = await cryptographyClient.encrypt("RSA1_5", Buffer.from("My Message"));
+console.log("encrypt result: ", encryptResult.result);
 ```
 
 ### Decrypt
 `decrypt` will decrypt an encrypted message. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
-const decrypt = await cryptographyClient.decrypt("RSA1_5", encrypt.result);
-console.log("decrypt: ", decrypt.toString());
+const decryptResult = await cryptographyClient.decrypt("RSA1_5", encryptResult.result);
+console.log("decrypt result: ", decryptResult.result.toString());
 ```
 
 ### Sign
@@ -311,28 +360,27 @@ console.log("decrypt: ", decrypt.toString());
 const signatureValue = "MySignature";
 let hash = crypto.createHash("sha256");
 
-hash.update(signatureValue);
-let digest = hash.digest();
+let digest = hash.update(signatureValue).digest();
 console.log("digest: ", digest);
 
-const signature = await cryptoClient.sign("RS256", digest);
-console.log("sign result: ", signature);
+const signResult = await cryptographyClient.sign("RS256", digest);
+console.log("sign result: ", signResult.result);
 ```
 
 ### Sign Data
 `signData` will cryptographically sign a message with a signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
-const signature = await cryptoClient.signData("RS256", Buffer.from("My Message"));
-console.log("sign result: ", signature);
+const signResult = await cryptographyClient.sign("RS256", Buffer.from("My Message"));
+console.log("sign result: ", signResult.result);
 ```
 
 ### Verify
 `verify` will cryptographically verify that the signed digest was signed with the given signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
-const verifyResult = await cryptoClient.verify("RS256", digest, signature.result);
-console.log("verify result: ", verifyResult);
+const verifyResult = await cryptographyClient.verify("RS256", digest, signature.result);
+console.log("verify result: ", verifyResult.result);
 ```
 
 ### Verify Data
@@ -340,24 +388,24 @@ console.log("verify result: ", verifyResult);
 
 ```javascript
 const buffer = Buffer.from("My Message");
-const verifyResult = await cryptoClient.verifyData("RS256", buffer, signature.result);
-console.log("verify result: ", verifyResult);
+const verifyResult = await cryptographyClient.verifyData("RS256", buffer, signature.result);
+console.log("verify result: ", verifyResult.result);
 ```
 
 ### Wrap Key
 `wrapKey` will wrap a key with an encryption layer. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
-const wrapped = await cryptoClient.wrapKey("RSA-OAEP", keyToWrap);
-console.log("wrap result:", wrapped);
+const wrapResult = await cryptographyClient.wrapKey("RSA-OAEP", Buffer.from("My Key"));
+console.log("wrap result:", wrapResult.result);
 ```
 
 ### Unwrap Key
 `unwrapKey` will unwrap a wrapped key. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
-const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
-console.log("unwrap result: ", unwrapped);
+const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);
+console.log("unwrap result: ", unwrapResult.result);
 ```
 
 
