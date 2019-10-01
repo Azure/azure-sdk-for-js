@@ -20,11 +20,11 @@ async function main(): Promise<void> {
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.createCertificate("MyCertificate1", {
     issuerName: "Self",
-    subject: "cn=MyCert",
+    subject: "cn=MyCert"
   });
   await client.createCertificate("MyCertificate2", {
     issuerName: "Self",
-    subject: "cn=MyCert",
+    subject: "cn=MyCert"
   });
 
   // Listing all the available certificates in a single call.
@@ -51,7 +51,9 @@ async function main(): Promise<void> {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  for await (const item of client.listCertificateVersions("MyCertificate1", { includePending: true })) {
+  for await (const item of client.listCertificateVersions("MyCertificate1", {
+    includePending: true
+  })) {
     const version = item.version!;
     const certificate = await client.getCertificate("MyCertificate1", version);
     console.log(`Certificate from version ${version}: `, certificate);

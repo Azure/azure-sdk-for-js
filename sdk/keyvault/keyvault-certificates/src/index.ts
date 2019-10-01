@@ -17,7 +17,7 @@ import {
   RequestOptionsBase,
   tracingPolicy,
   getTracer,
-  Span,
+  Span
 } from "@azure/core-http";
 
 import {
@@ -28,7 +28,7 @@ import {
   CertificateIssuer,
   CertificateContentType,
   CertificatePolicy,
-  CertificateProperties,
+  CertificateProperties
 } from "./certificatesModels";
 import {
   NewPipelineOptions,
@@ -128,31 +128,31 @@ function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
     id: p.id,
     lifetimeActions: p.lifetimeActions,
     keyProperties: {
-      exportable:  p.exportable,
-      keyType:  p.keyType,
-      keySize:  p.keySize,
-      reuseKey:  p.reuseKey,
-      curve:  p.curveType,
+      exportable: p.exportable,
+      keyType: p.keyType,
+      keySize: p.keySize,
+      reuseKey: p.reuseKey,
+      curve: p.curveType
     },
     secretProperties: {
-      contentType: p.contentType,
+      contentType: p.contentType
     },
     x509CertificateProperties: {
       subject: p.subject,
       ekus: p.ekus,
       subjectAlternativeNames: p.subjectAlternativeNames,
       keyUsage: p.keyUsage,
-      validityInMonths: p.validityInMonths,
+      validityInMonths: p.validityInMonths
     },
     issuerParameters: {
       name: p.issuerName,
       certificateType: p.certificateType,
-      certificateTransparency: p.certificateTransparency,
+      certificateTransparency: p.certificateTransparency
     },
     attributes: {
-      recoveryLevel: p.recoveryLevel,
+      recoveryLevel: p.recoveryLevel
     }
-  }
+  };
 }
 
 function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
@@ -165,8 +165,8 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
     ...p.secretProperties,
     ...p.x509CertificateProperties,
     ...p.issuerParameters,
-    ...p.attributes,
-  }
+    ...p.attributes
+  };
 }
 
 /**
@@ -475,8 +475,11 @@ export class CertificatesClient {
 
     let response: DeleteCertificateResponse;
     try {
-      response = await this.client
-        .deleteCertificate(this.vaultBaseUrl, certificateName, this.setParentSpan(span, options));
+      response = await this.client.deleteCertificate(
+        this.vaultBaseUrl,
+        certificateName,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -507,8 +510,10 @@ export class CertificatesClient {
     let result: DeleteCertificateContactsResponse;
 
     try {
-      result = await this.client
-        .deleteCertificateContacts(this.vaultBaseUrl, this.setParentSpan(span, options));
+      result = await this.client.deleteCertificateContacts(
+        this.vaultBaseUrl,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -542,8 +547,11 @@ export class CertificatesClient {
     let result: SetCertificateContactsResponse;
 
     try {
-      result = await this.client
-        .setCertificateContacts(this.vaultBaseUrl, { contactList: contacts }, this.setParentSpan(span, options));
+      result = await this.client.setCertificateContacts(
+        this.vaultBaseUrl,
+        { contactList: contacts },
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -573,8 +581,10 @@ export class CertificatesClient {
 
     let result: GetCertificateContactsResponse;
     try {
-      result = await this.client
-        .getCertificateContacts(this.vaultBaseUrl, this.setParentSpan(span, options));
+      result = await this.client.getCertificateContacts(
+        this.vaultBaseUrl,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -658,7 +668,8 @@ export class CertificatesClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listCertificateIssuersPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listCertificateIssuersPage(settings, updatedOptions)
     };
 
     return result;
@@ -689,8 +700,12 @@ export class CertificatesClient {
     let result: SetCertificateIssuerResponse;
 
     try {
-      result = await this.client
-        .setCertificateIssuer(this.vaultBaseUrl, issuerName, provider, this.setParentSpan(span, options));
+      result = await this.client.setCertificateIssuer(
+        this.vaultBaseUrl,
+        issuerName,
+        provider,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -723,8 +738,11 @@ export class CertificatesClient {
     let result: UpdateCertificateIssuerResponse;
 
     try {
-      result = await this.client
-        .updateCertificateIssuer(this.vaultBaseUrl, issuerName, this.setParentSpan(span, options));
+      result = await this.client.updateCertificateIssuer(
+        this.vaultBaseUrl,
+        issuerName,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -758,8 +776,11 @@ export class CertificatesClient {
     let result: GetCertificateIssuerResponse;
 
     try {
-      result = await this.client
-        .getCertificateIssuer(this.vaultBaseUrl, issuerName, this.setParentSpan(span, options));
+      result = await this.client.getCertificateIssuer(
+        this.vaultBaseUrl,
+        issuerName,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -790,8 +811,11 @@ export class CertificatesClient {
     let result: DeleteCertificateIssuerResponse;
 
     try {
-      result = await this.client
-        .deleteCertificateIssuer(this.vaultBaseUrl, issuerName, this.setParentSpan(span, options));
+      result = await this.client.deleteCertificateIssuer(
+        this.vaultBaseUrl,
+        issuerName,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -829,17 +853,15 @@ export class CertificatesClient {
 
     let result: CreateCertificateResponse;
 
-
     try {
-      result = await this.client
-        .createCertificate(this.vaultBaseUrl, name, {
-          ...this.setParentSpan(span, options),
-          certificateAttributes: {
-            enabled
-          },
-          tags,
-          certificatePolicy: toCorePolicy(certificatePolicy)
-        });
+      result = await this.client.createCertificate(this.vaultBaseUrl, name, {
+        ...this.setParentSpan(span, options),
+        certificateAttributes: {
+          enabled
+        },
+        tags,
+        certificatePolicy: toCorePolicy(certificatePolicy)
+      });
     } finally {
       span.end();
     }
@@ -874,8 +896,12 @@ export class CertificatesClient {
     let result: GetCertificateResponse;
 
     try {
-      result = await this.client
-        .getCertificate(this.vaultBaseUrl, name, "", this.setParentSpan(span, options));
+      result = await this.client.getCertificate(
+        this.vaultBaseUrl,
+        name,
+        "",
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -917,8 +943,12 @@ export class CertificatesClient {
     let result: GetCertificateResponse;
 
     try {
-      result = await this.client
-        .getCertificate(this.vaultBaseUrl, name, version, this.setParentSpan(span, options));
+      result = await this.client.getCertificate(
+        this.vaultBaseUrl,
+        name,
+        version,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -953,8 +983,12 @@ export class CertificatesClient {
     let result: ImportCertificateResponse;
 
     try {
-      result = await this.client
-        .importCertificate(this.vaultBaseUrl, name, base64EncodedCertificate, this.setParentSpan(span, options));
+      result = await this.client.importCertificate(
+        this.vaultBaseUrl,
+        name,
+        base64EncodedCertificate,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -989,8 +1023,11 @@ export class CertificatesClient {
     let result: GetCertificatePolicyResponse;
 
     try {
-      result = await this.client
-        .getCertificatePolicy(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+      result = await this.client.getCertificatePolicy(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1015,8 +1052,12 @@ export class CertificatesClient {
 
     let result: UpdateCertificatePolicyResponse;
     try {
-      result = await this.client
-        .updateCertificatePolicy(this.vaultBaseUrl, name, toCorePolicy(policy), this.setParentSpan(span, options));
+      result = await this.client.updateCertificatePolicy(
+        this.vaultBaseUrl,
+        name,
+        toCorePolicy(policy),
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1056,8 +1097,12 @@ export class CertificatesClient {
     let result: UpdateCertificateResponse;
 
     try {
-      result = await this.client
-        .updateCertificate(this.vaultBaseUrl, name, version, this.setParentSpan(span, options));
+      result = await this.client.updateCertificate(
+        this.vaultBaseUrl,
+        name,
+        version,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1091,8 +1136,12 @@ export class CertificatesClient {
 
     let result: UpdateCertificateOperationResponse;
     try {
-      result = await this.client
-        .updateCertificateOperation(this.vaultBaseUrl, name, true, this.setParentSpan(span, options));
+      result = await this.client.updateCertificateOperation(
+        this.vaultBaseUrl,
+        name,
+        true,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1127,8 +1176,11 @@ export class CertificatesClient {
     let result: GetCertificateOperationResponse;
 
     try {
-      result = await this.client
-        .getCertificateOperation(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+      result = await this.client.getCertificateOperation(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1164,8 +1216,11 @@ export class CertificatesClient {
     let result: DeleteCertificateOperationResponse;
 
     try {
-      result = await this.client
-        .deleteCertificateOperation(this.vaultBaseUrl, name, this.setParentSpan(span, options))
+      result = await this.client.deleteCertificateOperation(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1215,8 +1270,12 @@ export class CertificatesClient {
 
     let result: MergeCertificateResponse;
     try {
-      result = await this.client
-        .mergeCertificate(this.vaultBaseUrl, name, x509Certificates, this.setParentSpan(span, options));
+      result = await this.client.mergeCertificate(
+        this.vaultBaseUrl,
+        name,
+        x509Certificates,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1249,8 +1308,11 @@ export class CertificatesClient {
 
     let result: BackupCertificateResponse;
     try {
-      result = await this.client
-        .backupCertificate(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+      result = await this.client.backupCertificate(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1287,8 +1349,11 @@ export class CertificatesClient {
     let result: RestoreCertificateResponse;
 
     try {
-      result = await this.client
-        .restoreCertificate(this.vaultBaseUrl, certificateBackup, this.setParentSpan(span, options));
+      result = await this.client.restoreCertificate(
+        this.vaultBaseUrl,
+        certificateBackup,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1370,7 +1435,8 @@ export class CertificatesClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listDeletedCertificatesPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listDeletedCertificatesPage(settings, updatedOptions)
     };
 
     return result;
@@ -1398,8 +1464,11 @@ export class CertificatesClient {
 
     let result: GetDeletedCertificateResponse;
     try {
-      result = await this.client
-        .getDeletedCertificate(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+      result = await this.client.getDeletedCertificate(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1426,7 +1495,11 @@ export class CertificatesClient {
     const span = this.createSpan("purgeDeletedCertificate", options);
 
     try {
-      await this.client.purgeDeletedCertificate(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+      await this.client.purgeDeletedCertificate(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1459,8 +1532,11 @@ export class CertificatesClient {
     let result: RecoverDeletedCertificateResponse;
 
     try {
-      result = await this.client
-        .recoverDeletedCertificate(this.vaultBaseUrl, name, this.setParentSpan(span, options));
+      result = await this.client.recoverDeletedCertificate(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, options)
+      );
     } finally {
       span.end();
     }
@@ -1468,7 +1544,9 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  private getCertificateFromCertificateBundle(certificateBundle: CertificateBundle): Certificate | CertificateWithPolicy {
+  private getCertificateFromCertificateBundle(
+    certificateBundle: CertificateBundle
+  ): Certificate | CertificateWithPolicy {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
     const policy = toPublicPolicy(certificateBundle.policy || {});
@@ -1477,13 +1555,13 @@ export class CertificatesClient {
       ...parsedId,
       ...certificateBundle,
       ...certificateBundle.attributes
-    }
+    };
     delete properties.policy;
 
     return {
       contentType: certificateBundle.contentType as CertificateContentType,
       policy,
-      properties,
+      properties
     };
   }
 
@@ -1539,9 +1617,9 @@ export class CertificatesClient {
         ...options,
         spanOptions: {
           ...options.spanOptions,
-          parent: span,
+          parent: span
         }
-      }
+      };
     } else {
       return options;
     }

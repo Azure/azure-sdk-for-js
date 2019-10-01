@@ -1,6 +1,14 @@
 import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { SecretProperties, X509CertificateProperties, CertificateAttributes, KeyVaultClientCreateCertificateOptionalParams, JsonWebKeyType, JsonWebKeyCurveName, LifetimeAction } from "./core/models";
+import {
+  SecretProperties,
+  X509CertificateProperties,
+  CertificateAttributes,
+  KeyVaultClientCreateCertificateOptionalParams,
+  JsonWebKeyType,
+  JsonWebKeyCurveName,
+  LifetimeAction
+} from "./core/models";
 
 /**
  * Defines values for contentType.
@@ -58,7 +66,10 @@ export interface CertificateWithPolicy extends Certificate {
  * @interface
  * An interface representing a certificate's policy
  */
-export interface CertificatePolicy extends SecretProperties, X509CertificateProperties, CertificateAttributes {
+export interface CertificatePolicy
+  extends SecretProperties,
+    X509CertificateProperties,
+    CertificateAttributes {
   /**
    * The certificate id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
