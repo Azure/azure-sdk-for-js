@@ -442,6 +442,10 @@ export class ContainerClient extends StorageClient {
    */
   private containerContext: Container;
 
+  private _containerName: string;
+  public get containerName(): string {
+    return this._containerName;
+  }
   /**
    *
    * Creates an instance of ContainerClient.
@@ -513,25 +517,33 @@ export class ContainerClient extends StorageClient {
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
+    let url: string;
     options = options || {};
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
       (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
+      url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string"
     ) {
+      // (connectionString: string, containerName: string, blobName: string, options?: NewPipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
@@ -541,15 +553,14 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + containerName + "/";
+          url = extractedCreds.url + "/" + containerName + "/";
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        urlOrConnectionString =
-          extractedCreds.url + "/" + containerName + "?" + extractedCreds.accountSas;
+        url = extractedCreds.url + "/" + containerName + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -559,7 +570,8 @@ export class ContainerClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for containerName parameter");
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
+    this._containerName = this.getContainerNameFromUrl();
     this.containerContext = new Container(this.storageClientContext);
   }
 
@@ -1284,5 +1296,25 @@ export class ContainerClient extends StorageClient {
         });
       }
     };
+  }
+
+  private getContainerNameFromUrl(): string {
+    //  URL may look like the following
+    // "https://myaccount.blob.core.windows.net/mycontainer?sasString";
+    // "https://myaccount.blob.core.windows.net/mycontainer";
+
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const containerName = urlWithoutSAS.substring(
+      urlWithoutSAS.lastIndexOf("/") + 1,
+      urlWithoutSAS.length
+    );
+
+    if (!containerName) {
+      throw new Error("Unable to extract containerName with provided information.");
+    }
+
+    return containerName;
   }
 }

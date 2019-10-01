@@ -668,6 +668,16 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   private blobContext: Blob;
+  private _blobName: string;
+  private _containerName: string;
+
+  public get blobName(): string {
+    return this._blobName;
+  }
+
+  public get containerName(): string {
+    return this._containerName;
+  }
 
   /**
    *
@@ -742,20 +752,27 @@ export class BlobClient extends StorageClient {
   ) {
     options = options || {};
     let pipeline: Pipeline;
+    let url: string;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
       (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
+      url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
@@ -763,6 +780,7 @@ export class BlobClient extends StorageClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
+      // (connectionString: string, containerName: string, blobName: string, options?: NewPipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
@@ -773,14 +791,14 @@ export class BlobClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+          url = extractedCreds.url + "/" + containerName + "/" + blobName;
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        urlOrConnectionString =
+        url =
           extractedCreds.url +
           "/" +
           containerName +
@@ -797,7 +815,12 @@ export class BlobClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
-    super(urlOrConnectionString, pipeline);
+
+    super(url, pipeline);
+    ({
+      blobName: this._blobName,
+      containerName: this._containerName
+    } = this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new Blob(this.storageClientContext);
   }
 
@@ -1336,5 +1359,31 @@ export class BlobClient extends StorageClient {
     // The stream is no longer accessible so setting it to undefined.
     (response as any).blobDownloadStream = undefined;
     return response;
+  }
+
+  private getBlobAndContainerNamesFromUrl(): { blobName: string; containerName: string } {
+    //  URL may look like the following
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob";
+
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const blobName = urlWithoutSAS.substring(
+      urlWithoutSAS.lastIndexOf("/") + 1,
+      urlWithoutSAS.length
+    );
+    const urlWithoutBlobName = urlWithoutSAS.substring(0, urlWithoutSAS.lastIndexOf("/"));
+
+    const containerName = urlWithoutBlobName.substring(
+      urlWithoutBlobName.lastIndexOf("/") + 1,
+      urlWithoutBlobName.length
+    );
+
+    if (!blobName || !containerName) {
+      throw new Error("Unable to extract blobName and containerName with provided information.");
+    }
+
+    return { blobName, containerName };
   }
 }
