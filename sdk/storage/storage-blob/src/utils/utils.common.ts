@@ -71,7 +71,7 @@ export function escapeURLPath(url: string): string {
   return urlParsed.toString();
 }
 
-export interface ConnString {
+export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";
   url: string;
   accountName?: string;
@@ -103,7 +103,7 @@ function getProxyUriFromDevConnString(connectionString: string): string {
  * @param {string} connectionString Connection string.
  * @returns {{ kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any }} String key value pairs of the storage account's url and credentials.
  */
-export function extractConnectionStringParts(connectionString: string): ConnString {
+export function extractConnectionStringParts(connectionString: string): ConnectionString {
   let proxyUri = "";
 
   function getValueInConnString(argument: string) {
