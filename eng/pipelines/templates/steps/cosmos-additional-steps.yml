@@ -4,12 +4,14 @@ parameters:
 
 steps:
   - bash: |
-      node common/scripts/install-run-rush.js test-consumer -t "${{parameters.PackageName}}" --verbose
+      cd $(PackagePath)
+      node ../../../common/scripts/install-run-rushx.js test-consumer --verbose
     condition: succeededOrFailed()
     displayName: "TypeScript Consumer Tests - Cosmos"
 
   - script: |
-      node common/scripts/install-run-rush.js build:samples -t "${{parameters.PackageName}}" --verbose
+      cd $(PackagePath)
+      node ../../../common/scripts/install-run-rushx.js build:samples --verbose
     condition: succeededOrFailed()
     displayName: "Typecheck Samples - Cosmos"
 
