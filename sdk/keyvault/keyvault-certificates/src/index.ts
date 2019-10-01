@@ -17,11 +17,10 @@ import {
   RequestOptionsBase,
   tracingPolicy,
   getTracer,
-  Span
+  Span,
 } from "@azure/core-http";
 
 import {
-  CertificateAttributes,
   Certificate,
   CertificateWithPolicy,
   CertificateTags,
@@ -29,6 +28,7 @@ import {
   CertificateIssuer,
   CertificateContentType,
   CertificatePolicy,
+  CertificateProperties,
 } from "./certificatesModels";
 import {
   NewPipelineOptions,
@@ -47,7 +47,6 @@ import {
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   KeyVaultClientImportCertificateOptionalParams,
   KeyVaultClientUpdateCertificateOptionalParams,
-  CertificateAttributes as BaseCertificateAttributes,
   CertificateOperation,
   CertificatePolicy as CoreCertificatePolicy,
   BackupCertificateResult,
@@ -96,8 +95,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 export {
-  BaseCertificateAttributes,
-  CertificateAttributes,
+  CertificateProperties,
   CertificateIssuer,
   CertificateOperation,
   CertificatePolicy,
@@ -125,7 +123,7 @@ export {
 
 export { ProxyOptions, RetryOptions, TelemetryOptions };
 
-function toCorePolicy(p: CertificatePolicy): CoreCertificatePolicy {
+function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
   return {
     id: p.id,
     lifetimeActions: p.lifetimeActions,
@@ -157,12 +155,12 @@ function toCorePolicy(p: CertificatePolicy): CoreCertificatePolicy {
   }
 }
 
-function toPublicPolicy(p: CoreCertificatePolicy): CertificatePolicy {
+function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
   return {
     id: p.id,
     lifetimeActions: p.lifetimeActions,
-    curveType: p.keyProperties.curve,
-    issuerName: p.isseurParameters.name,
+    curveType: p.keyProperties && p.keyProperties.curve,
+    issuerName: p.issuerParameters && p.issuerParameters.name,
     ...p.keyProperties,
     ...p.secretProperties,
     ...p.x509CertificateProperties,
@@ -291,7 +289,7 @@ export class CertificatesClient {
   private async *listCertificatesPage(
     continuationState: PageSettings,
     options?: RequestOptionsBase
-  ): AsyncIterableIterator<CertificateAttributes[]> {
+  ): AsyncIterableIterator<Certificate[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -316,12 +314,12 @@ export class CertificatesClient {
 
   private async *listCertificatesAll(
     options?: RequestOptionsBase
-  ): AsyncIterableIterator<CertificateAttributes> {
+  ): AsyncIterableIterator<Certificate> {
     const f = {};
 
     for await (const page of this.listCertificatesPage(f, options)) {
-      for (const item of page) {
-        yield item;
+      for (const certificate of page) {
+        yield certificate;
       }
     }
   }
@@ -346,11 +344,11 @@ export class CertificatesClient {
    * ```
    * @summary List all versions of the specified certificate.
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]>
+   * @returns PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>
    */
   public listCertificates(
     options?: RequestOptionsBase
-  ): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
+  ): PagedAsyncIterableIterator<Certificate, Certificate[]> {
     const span = this.createSpan("listCertificates", options);
     const updatedOptions = this.setParentSpan(span, options);
 
@@ -374,7 +372,7 @@ export class CertificatesClient {
     name: string,
     continuationState: PageSettings,
     options?: RequestOptionsBase
-  ): AsyncIterableIterator<CertificateAttributes[]> {
+  ): AsyncIterableIterator<Certificate[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificateVersionsOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -401,7 +399,7 @@ export class CertificatesClient {
   private async *listCertificateVersionsAll(
     name: string,
     options?: RequestOptionsBase
-  ): AsyncIterableIterator<CertificateAttributes> {
+  ): AsyncIterableIterator<Certificate> {
     const f = {};
 
     for await (const page of this.listCertificateVersionsPage(name, f, options)) {
@@ -430,7 +428,7 @@ export class CertificatesClient {
   public listCertificateVersions(
     name: string,
     options?: RequestOptionsBase
-  ): PagedAsyncIterableIterator<CertificateAttributes, CertificateAttributes[]> {
+  ): PagedAsyncIterableIterator<Certificate, Certificate[]> {
     const span = this.createSpan("listCertificateVersions", options);
     const updatedOptions = this.setParentSpan(span, options);
 
@@ -483,7 +481,7 @@ export class CertificatesClient {
       span.end();
     }
 
-    return this.getCertificateFromCertificateBundle(response);
+    return this.getDeletedCertificateFromDeletedCertificateBundle(response);
   }
 
   /**
@@ -840,7 +838,7 @@ export class CertificatesClient {
             enabled
           },
           tags,
-          toCorePolicy(certificatePolicy)
+          certificatePolicy: toCorePolicy(certificatePolicy)
         });
     } finally {
       span.end();
@@ -1470,27 +1468,22 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  private getCertificateFromCertificateBundle(certificateBundle: CertificateBundle): Certificate {
+  private getCertificateFromCertificateBundle(certificateBundle: CertificateBundle): Certificate | CertificateWithPolicy {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
-    let resultObject;
-    if (certificateBundle.attributes) {
-      resultObject = {
-        ...certificateBundle,
-        ...parsedId,
-        ...certificateBundle.attributes
-      };
-      delete resultObject.attributes;
-    } else {
-      resultObject = {
-        ...certificateBundle,
-        ...parsedId
-      };
+    const policy = toPublicPolicy(certificateBundle.policy || {});
+
+    const properties = {
+      ...parsedId,
+      ...certificateBundle,
+      ...certificateBundle.attributes
     }
+    delete properties.policy;
 
     return {
-      ...resultObject,
-      contentType: resultObject.contentType as CertificateContentType
+      contentType: certificateBundle.contentType as CertificateContentType,
+      policy,
+      properties,
     };
   }
 
@@ -1499,46 +1492,29 @@ export class CertificatesClient {
   ): DeletedCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
-    let resultObject;
-    if (certificateBundle.attributes) {
-      resultObject = {
-        ...certificateBundle,
-        ...parsedId,
-        ...certificateBundle.attributes
-      };
-      delete resultObject.attributes;
-    } else {
-      resultObject = {
-        ...certificateBundle,
-        ...parsedId
-      };
-    }
-
     return {
-      ...resultObject,
-      contentType: resultObject.contentType as CertificateContentType
+      contentType: certificateBundle.contentType as CertificateContentType,
+      recoveryId: certificateBundle.recoveryId,
+      scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
+      deletedDate: certificateBundle.deletedDate,
+      properties: {
+        ...parsedId,
+        ...certificateBundle,
+        ...certificateBundle.attributes
+      }
     };
   }
 
   private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", item.id);
 
-    let resultObject;
-    if (item.attributes) {
-      resultObject = {
+    return {
+      properties: {
         ...item,
         ...parsedId,
         ...item.attributes
-      };
-      delete resultObject.attributes;
-    } else {
-      resultObject = {
-        ...item,
-        ...parsedId
-      };
-    }
-
-    return resultObject;
+      }
+    };
   }
 
   /**

@@ -71,7 +71,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     const updated = await client.getCertificateWithPolicy(certificateName);
     assert.equal(
-      updated!.tags!.customTag!,
+      updated!.properties.tags!.customTag!,
       "value",
       "Expect attribute 'tags' to be updated."
     );
@@ -210,13 +210,13 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Creating a certificate with that issuer
     await client.createCertificate(certificateName, {
-      issuerParameters: { name: issuerName },
-      x509CertificateProperties: { subject: "cn=MyCert" }
+      issuerName,
+      subject: "cn=MyCert",
     });
 
     // Reading the issuer from the certificate
     const certificate = await client.getCertificateWithPolicy(certificateName);
-    assert.equal(certificate.properties.policy!.issuerParameters!.name, issuerName);
+    assert.equal(certificate.policy!.issuerName, issuerName);
 
     let getResponse: any;
 

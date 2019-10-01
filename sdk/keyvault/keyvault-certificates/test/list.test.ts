@@ -151,9 +151,9 @@ describe("Certificates client - list certificates in various ways", () => {
 
     let found = 0;
     for await (const page of client.listDeletedCertificates({ includePending: true }).byPage()) {
-      for (const certificate of page) {
+      for (const deleteCertificate of page) {
         // The vault might contain more certificates than the ones we inserted.
-        if (!certificateNames.includes(certificate.properties.name)) continue;
+        if (!certificateNames.includes(deleteCertificate.properties.name)) continue;
         found += 1;
       }
     }
@@ -183,19 +183,19 @@ describe("Certificates client - list certificates in various ways", () => {
       let response: any;
       await retry(async () => {
         response = await client.getCertificateWithPolicy(certificateName);
-        if (response.tags!.tag !== tag) throw "retrying due to mismatched tag";
+        if (response.properties.tags!.tag !== tag) throw "retrying due to mismatched tag";
       });
       // Versions don't match. Something must be happening under the hood.
-      // versions.push({ version: response.version!, tag: response.tags!.tag });
-      versions.push({ tag: response.tags!.tag });
+      // versions.push({ version: response.version!, tag: response.properties.tags!.tag });
+      versions.push({ tag: response.properties.tags!.tag });
     }
 
     const results: VersionTagPair[] = [];
     for await (const item of client.listCertificateVersions(certificateName, { includePending: true })) {
-      const version = item.version!;
+      const version = item.properties.version!;
       const certificate = await client.getCertificate(certificateName, version);
       // Versions don't match. Something must be happening under the hood.
-      // results.push({ version: item.version!, tag: certificate.properties.tags!.tag! });
+      // results.push({ version: item.properties.version!, tag: certificate.properties.tags!.tag! });
       results.push({ tag: certificate.properties.tags!.tag! });
     }
 
@@ -216,7 +216,7 @@ describe("Certificates client - list certificates in various ways", () => {
     for await (const page of client.listCertificateVersions(certificateName).byPage()) {
       for (const version of page) {
         assert.equal(
-          version.name,
+          version.properties.name,
           certificateName,
           "Unexpected key name in result from listKeyVersions()."
         );

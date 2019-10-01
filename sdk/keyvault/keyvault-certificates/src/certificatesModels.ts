@@ -1,6 +1,6 @@
 import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { SecretProperties, X509CertificateProperties, CertificateAttributes, KeyVaultClientCreateCertificateOptionalParams, JsonWebKeyType, JsonWebKeyCurveName } from "./core/models";
+import { SecretProperties, X509CertificateProperties, CertificateAttributes, KeyVaultClientCreateCertificateOptionalParams, JsonWebKeyType, JsonWebKeyCurveName, LifetimeAction } from "./core/models";
 
 /**
  * Defines values for contentType.
