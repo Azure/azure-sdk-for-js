@@ -71,16 +71,22 @@ export function escapeURLPath(url: string): string {
   return urlParsed.toString();
 }
 
+export interface ConnectionString {
+  kind: "AccountConnString" | "SASConnString";
+  url: string;
+  accountName?: string;
+  accountKey?: any;
+  accountSas?: string;
+}
+
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
  * @export
  * @param {string} connectionString Connection string.
- * @returns {{ kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any }} String key value pairs of the storage account's url and credentials.
+ * @returns {ConnectionString} String key value pairs of the storage account's url and credentials.
  */
-export function extractConnectionStringParts(
-  connectionString: string
-): { kind: "AccountConnString" | "SASConnString"; url: string; [key: string]: any } {
+export function extractConnectionStringParts(connectionString: string): ConnectionString {
   function getValueInConnString(argument: string) {
     const matchCredentials = connectionString.split(";");
     for (const element of matchCredentials) {
