@@ -25,7 +25,14 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
+import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
 
+type OperationNames = "getProperties" | "getPartitionIds" | "getPartitionProperties";
+
+/**
+ * @internal
+ * @ignore
+ */
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
     retryOptions == undefined ||
@@ -36,6 +43,50 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
       : retryOptions.timeoutInMs;
   return timeoutInMs;
 }
+
+/**
+ * The set of options to configure request cancellation.
+ * - `abortSignal` : A signal used to cancel an asynchronous operation.
+ */
+export interface AbortSignalOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * The set of options to manually propagate `Span` context for distributed tracing.
+ * - `parentSpan` : The `Span` or `SpanContext` for the operation to use as a `parent` when creating its own span.
+ */
+export interface ParentSpanOptions {
+  /**
+   * The `Span` or `SpanContext` to use as the `parent` of any spans created while calling operations that make a request to the service.
+   */
+  parentSpan?: Span | SpanContext;
+}
+
+/**
+ * The set of options to configure the behavior of `getProperties`.
+ * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+ * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
+ */
+export interface GetPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {}
+
+/**
+ * The set of options to configure the behavior of `getPartitionProperties`.
+ * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+ * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
+ */
+export interface GetPartitionPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {}
+
+/**
+ * The set of options to configure the behavior of `getPartitionIds`.
+ * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+ * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
+ */
+export interface GetPartitionIdsOptions extends AbortSignalOptions, ParentSpanOptions {}
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -63,7 +114,7 @@ export interface EventHubProducerOptions {
 /**
  * The set of options to configure the `send` operation on the `EventHubProducer`.
  * - `partitionKey` : A value that is hashed to produce a partition assignment.
- * - `abortSignal`  : A signal the request to cancel the send operation.
+ * - `abortSignal`  : A signal used to cancel the send operation.
  *
  * Example usage:
  * ```js
@@ -86,6 +137,10 @@ export interface SendOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * The `Span` or `SpanContext` to use as the `parent` of any spans created while sending events.
+   */
+  parentSpan?: Span | SpanContext;
 }
 
 /**
@@ -266,6 +321,11 @@ export class EventHubClient {
   private _clientOptions: EventHubClientOptions;
 
   /**
+   * The Service Bus endpoint.
+   */
+  private _endpoint: string;
+
+  /**
    * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created.
@@ -409,8 +469,24 @@ export class EventHubClient {
 
     ConnectionConfig.validate(config);
 
+    this._endpoint = config.endpoint;
+
     this._clientOptions = options || {};
     this._context = ConnectionContext.create(config, credential, this._clientOptions);
+  }
+
+  private _createClientSpan(operationName: OperationNames, parentSpan?: Span | SpanContext): Span {
+    const tracer = getTracer();
+    const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
+      kind: SpanKind.CLIENT,
+      parent: parentSpan
+    });
+
+    span.setAttribute("component", "eventhubs");
+    span.setAttribute("message_bus.destination", this.eventHubName);
+    span.setAttribute("peer.address", this._endpoint);
+
+    return span;
   }
 
   /**
@@ -473,7 +549,7 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(this._context, options);
+    return new EventHubProducer(this.eventHubName, this._endpoint, this._context, options);
   }
 
   /**
@@ -527,68 +603,94 @@ export class EventHubClient {
 
   /**
    * Provides the Event Hub runtime information.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with EventHubProperties.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties> {
+  async getProperties(options: GetPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
+    const clientSpan = this._createClientSpan("getProperties", options.parentSpan);
     try {
-      return await this._context.managementSession!.getHubRuntimeInformation({
+      const result = await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
-        abortSignal
+        abortSignal: options.abortSignal
       });
+      clientSpan.setStatus({ code: CanonicalCode.OK });
+      return result;
     } catch (err) {
+      clientSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: err.message
+      });
       log.error("An error occurred while getting the hub runtime information: %O", err);
       throw err;
+    } finally {
+      clientSpan.end();
     }
   }
 
   /**
    * Provides an array of partitionIds.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with an Array of strings.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
-  async getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>> {
+  async getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
+    const clientSpan = this._createClientSpan("getPartitionIds", options.parentSpan);
     try {
-      const runtimeInfo = await this.getProperties(abortSignal);
+      const runtimeInfo = await this.getProperties({
+        ...options,
+        parentSpan: clientSpan
+      });
+      clientSpan.setStatus({ code: CanonicalCode.OK });
       return runtimeInfo.partitionIds;
     } catch (err) {
+      clientSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: err.message
+      });
       log.error("An error occurred while getting the partition ids: %O", err);
       throw err;
+    } finally {
+      clientSpan.end();
     }
   }
 
   /**
    * Provides information about the specified partition.
    * @param partitionId Partition ID for which partition information is required.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resoloves with PartitionProperties.
    * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
    * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
    */
   async getPartitionProperties(
     partitionId: string,
-    abortSignal?: AbortSignalLike
+    options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
     partitionId = String(partitionId);
+    const clientSpan = this._createClientSpan("getPartitionProperties", options.parentSpan);
     try {
-      return await this._context.managementSession!.getPartitionProperties(partitionId, {
+      const result = await this._context.managementSession!.getPartitionProperties(partitionId, {
         retryOptions: this._clientOptions.retryOptions,
-        abortSignal
+        abortSignal: options.abortSignal
       });
+      clientSpan.setStatus({ code: CanonicalCode.OK });
+      return result;
     } catch (err) {
+      clientSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: err.message
+      });
       log.error("An error occurred while getting the partition information: %O", err);
       throw err;
+    } finally {
+      clientSpan.end();
     }
   }
 

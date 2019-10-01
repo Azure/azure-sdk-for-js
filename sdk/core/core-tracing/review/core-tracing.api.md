@@ -46,6 +46,12 @@ export interface Event {
 }
 
 // @public
+export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
+
+// @public
+export function getTraceParentHeader(spanContext: SpanContext): string | undefined;
+
+// @public
 export function getTracer(): Tracer;
 
 // @public
