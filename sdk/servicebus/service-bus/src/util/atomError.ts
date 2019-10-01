@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants, HttpOperationResponse } from "@azure/core-http";
+import { Constants as CoreHttpConstants, HttpOperationResponse } from "@azure/core-http";
+import { Constants } from "./utils/constants";
 
 /**
  * Represents custom `Error` information returned by ATOM based services.
@@ -49,12 +50,12 @@ export function buildAtomError(errorBody: any, response: HttpOperationResponse):
     } else {
       Object.keys(errorProperties).forEach((property: any) => {
         {
-          if (property === Constants.XML_METADATA_MARKER) {
+          if (property === CoreHttpConstants.XML_METADATA_MARKER) {
             return;
           }
           let value = errorProperties[property];
-          if (value && value[Constants.XML_VALUE_MARKER]) {
-            value = value[Constants.XML_VALUE_MARKER];
+          if (value && value[CoreHttpConstants.XML_VALUE_MARKER]) {
+            value = value[CoreHttpConstants.XML_VALUE_MARKER];
           }
           normalizedError[property.toLowerCase()] = value;
         }

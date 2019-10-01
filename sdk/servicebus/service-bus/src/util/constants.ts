@@ -6,7 +6,6 @@ export const packageJsonInfo = {
   version: "1.0.4"
 };
 
-
 export const max32BitNumber = Math.pow(2, 31) - 1;
 
 /**
@@ -119,34 +118,11 @@ export const MESSAGE_COUNT = "MessageCount";
 export const SUBSCRIPTION_COUNT = "SubscriptionCount";
 
 /**
- * The topic / subscription's count details.
- *
- */
-export const COUNT_DETAILS = "CountDetails";
-
-/**
  * Max idle time before entity is deleted
  *
  */
 export const AUTO_DELETE_ON_IDLE = "AutoDeleteOnIdle";
 
-/**
- * The status information on response
- *
- */
-export const STATUS = "Status";
-
-/**
- * The entity to forward to
- *
- */
-export const FORWARD_TO = "ForwardTo";
-
-/**
- * The user meta data information
- *
- */
-export const USER_METADATA = "UserMetadata";
 
 /**
  * Entity to forward deadlettered messages to
@@ -170,3 +146,41 @@ export const CURRENT_API_VERSION = "2017-04";
  * XML namespace string to use for the Atom based requests
  */
 export const XML_NAMESPACE = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
+
+/**
+ * Constant representing the Odata Error 'message' property
+ *
+ * @const
+ * @type {string}
+ */
+export const ODATA_ERROR_MESSAGE = "message";
+/**
+ * Constant representing the 'value' property of Odata Error 'message' property
+ *
+ * @const
+ * @type {string}
+ */
+export const ODATA_ERROR_MESSAGE_VALUE = "value";
+
+/**
+ * Constant representing the property where the atom default elements are stored.
+ *
+ * @const
+ * @type {string}
+ */
+export const ATOM_METADATA_MARKER = "_";
+
+export const HttpResponseCodes = {
+  200: "Ok";
+  201: "Created";
+  202: "Accepted";
+  204: "NoContent";
+  206: "PartialContent";
+  400: "BadRequest";
+  401: "Unauthorized";
+  403: "Forbidden";
+  404: "NotFound";
+  409: "Conflict";
+  411: "LengthRequired";
+  412: "PreconditionFailed";
+};
