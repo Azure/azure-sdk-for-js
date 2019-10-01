@@ -12,7 +12,7 @@ import { EventData } from "../eventData";
 /**
  * @ignore
  */
-export const TRACEPARENT_PROPERTY = "Diagnostic_Id";
+export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
 
 /**
  * Populates the `EventData` with `SpanContext` info to support trace propagation.

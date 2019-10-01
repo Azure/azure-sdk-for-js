@@ -25,7 +25,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { EventHubProducer } from "./sender";
 import { EventHubConsumer } from "./receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "./util/error";
-import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from "@azure/core-tracing";
+import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
 
 type OperationNames = "getProperties" | "getPartitionIds" | "getPartitionProperties";
 
@@ -476,7 +476,7 @@ export class EventHubClient {
   }
 
   private _createClientSpan(operationName: OperationNames, parentSpan?: Span | SpanContext): Span {
-    const tracer = TracerProxy.getTracer();
+    const tracer = getTracer();
     const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
       kind: SpanKind.CLIENT,
       parent: parentSpan

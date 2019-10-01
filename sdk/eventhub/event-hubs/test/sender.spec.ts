@@ -10,7 +10,8 @@ const debug = debugModule("azure:event-hubs:sender-spec");
 import { EventHubClient, EventData, EventHubProducer, EventPosition } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-//import { SpanContext } from "@azure/core-tracing";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 const env = getEnvVars();
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
@@ -102,6 +103,48 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           "Partition key is not supported when using producers that were created using a partition id."
         );
       }
+    });
+
+    it("can be manually traced", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+
+      const producer = client.createProducer({ partitionId: "0" });
+
+      await producer.send(
+        { body: "single message - manual trace propagation" },
+        { parentSpan: rootSpan }
+      );
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.send",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      await producer.close();
     });
   });
 
@@ -226,41 +269,150 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       await consumer.close();
     });
 
-    /**
-     * This test can be uncommented once a test tracer exists.
-     * Currently
-     */
-    // it("should support instrumentation", async function(): Promise<void> {
-    //   const list = [{ name: "Albert" }, { name: "Marie" }];
-    //   const partitionInfo = await client.getPartitionProperties("0");
-    //   const producer = client.createProducer({ partitionId: "0" });
-    //   const consumer = client.createConsumer(
-    //     EventHubClient.defaultConsumerGroupName,
-    //     "0",
-    //     EventPosition.fromSequenceNumber(partitionInfo.lastEnqueuedSequenceNumber)
-    //   );
-    //   const eventDataBatch = await producer.createBatch();
-    //   for (let i = 0; i < 2; i++) {
-    //     eventDataBatch.tryAdd(
-    //       { body: `${list[i].name}` },
-    //       {
-    //         parentSpan: {
-    //           traceId: "11111111111111111111111111111111",
-    //           spanId: "2222222222222222"
-    //         } as SpanContext
-    //       }
-    //     );
-    //   }
-    //   await producer.send(eventDataBatch);
-    //   const data = await consumer.receiveBatch(3, 5);
-    //   data.length.should.equal(2);
-    //   list[0].name.should.equal(data[0].body);
-    //   data[0].properties!["Diagnostic-Id"].should.exist;
-    //   list[1].name.should.equal(data[1].body);
-    //   data[1].properties!["Diagnostic-Id"].should.exist;
-    //   await producer.close();
-    //   await consumer.close();
-    // });
+    it("can be manually traced", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+
+      const list = [{ name: "Albert" }, { name: "Marie" }];
+      const producer = client.createProducer({ partitionId: "0" });
+
+      const eventDataBatch = await producer.createBatch();
+      for (let i = 0; i < 2; i++) {
+        eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+      }
+      await producer.send(eventDataBatch);
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(2, "Should only have two root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      await producer.close();
+    });
+
+    it("will not instrument already instrumented events", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("test");
+
+      const list = [
+        { name: "Albert" },
+        {
+          name: "Marie",
+          properties: {
+            [TRACEPARENT_PROPERTY]: "foo"
+          }
+        }
+      ];
+
+      const producer = client.createProducer({ partitionId: "0" });
+
+      const eventDataBatch = await producer.createBatch();
+      for (let i = 0; i < 2; i++) {
+        eventDataBatch.tryAdd(
+          { body: `${list[i].name}`, properties: list[i].properties },
+          { parentSpan: rootSpan }
+        );
+      }
+      await producer.send(eventDataBatch);
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(2, "Should only have two root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      await producer.close();
+    });
+
+    it("will support tracing batch and send", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+
+      const list = [{ name: "Albert" }, { name: "Marie" }];
+
+      const producer = client.createProducer({ partitionId: "0" });
+
+      const eventDataBatch = await producer.createBatch();
+      for (let i = 0; i < 2; i++) {
+        eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
+      }
+      await producer.send(eventDataBatch, { parentSpan: rootSpan });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root span.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.send",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      await producer.close();
+    });
 
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const producer = client.createProducer();
@@ -459,6 +611,121 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       }
       await client.createProducer({ partitionId: "0" }).send([{ body: "Hello World EventHub!!" }]);
       debug("Sent the message successfully on the same link..");
+    });
+
+    it("can be manually traced", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+
+      const producer = client.createProducer({ partitionId: "0" });
+
+      const events = [];
+      for (let i = 0; i < 5; i++) {
+        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+      }
+      await producer.send(events, { parentSpan: rootSpan });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.send",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      await producer.close();
+    });
+
+    it("skips already instrumented events when manually traced", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+
+      const producer = client.createProducer({ partitionId: "0" });
+
+      const events: EventData[] = [];
+      for (let i = 0; i < 5; i++) {
+        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+      }
+      events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
+      await producer.send(events, { parentSpan: rootSpan });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.send",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      await producer.close();
     });
   });
 

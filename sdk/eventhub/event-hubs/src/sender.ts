@@ -8,8 +8,8 @@ import { ConnectionContext } from "./connectionContext";
 import * as log from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
-import { SpanContext, Span, TracerProxy, SpanKind, CanonicalCode } from "@azure/core-tracing";
-import { instrumentEventData } from "./diagnostics/instrumentEventData";
+import { SpanContext, Span, getTracer, SpanKind, CanonicalCode } from "@azure/core-tracing";
+import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 
 /**
@@ -172,13 +172,15 @@ export class EventHubProducer {
     let spanContextsToLink: SpanContext[] = [];
     if (Array.isArray(eventData)) {
       for (let i = 0; i < eventData.length; i++) {
-        const messageSpan = createMessageSpan(options.parentSpan);
-        // since these message spans are created from same context as the send span,
-        // these message spans don't need to be linked.
-        const event = instrumentEventData(eventData[i], messageSpan);
-        // replace the original event with the instrumented one
-        eventData[i] = event;
-        messageSpan.end();
+        const event = eventData[i];
+        if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
+          const messageSpan = createMessageSpan(options.parentSpan);
+          // since these message spans are created from same context as the send span,
+          // these message spans don't need to be linked.
+          // replace the original event with the instrumented one
+          eventData[i] = instrumentEventData(eventData[i], messageSpan);
+          messageSpan.end();
+        }
       }
     } else if (isEventDataBatch(eventData)) {
       spanContextsToLink = eventData._messageSpanContexts;
@@ -234,7 +236,7 @@ export class EventHubProducer {
   }
 
   private _createSendSpan(parentSpan?: Span | SpanContext): Span {
-    const tracer = TracerProxy.getTracer();
+    const tracer = getTracer();
     const span = tracer.startSpan("Azure.EventHubs.send", {
       kind: SpanKind.PRODUCER,
       parent: parentSpan
