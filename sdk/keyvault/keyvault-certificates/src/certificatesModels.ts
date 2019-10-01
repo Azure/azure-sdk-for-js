@@ -1,6 +1,6 @@
 import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { CertificatePolicy, KeyVaultClientCreateCertificateOptionalParams } from "./core/models";
+import { SecretProperties, X509CertificateProperties, CertificateAttributes, KeyVaultClientCreateCertificateOptionalParams, JsonWebKeyType, JsonWebKeyCurveName } from "./core/models";
 
 /**
  * Defines values for contentType.
@@ -14,7 +14,11 @@ export type CertificateContentType = "application/pem" | "application/x-pkcs12" 
  * @interface
  * An interface representing a certificate without the certificate's policy
  */
-export interface Certificate extends CertificateAttributes {
+export interface Certificate {
+  /**
+   * @member {CertificateProperties} [properties] The properties of the certificate
+   */
+  properties: CertificateProperties;
   /**
    * @member {string} [kid] The key id.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -52,9 +56,60 @@ export interface CertificateWithPolicy extends Certificate {
 
 /**
  * @interface
- * An interface representing the attributes of a certificate
+ * An interface representing a certificate's policy
  */
-export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
+export interface CertificatePolicy extends SecretProperties, X509CertificateProperties, CertificateAttributes {
+  /**
+   * The certificate id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Actions that will be performed by Key Vault over the lifetime of a certificate.
+   */
+  lifetimeActions?: LifetimeAction[];
+  /**
+   * Indicates if the private key can be exported.
+   */
+  exportable?: boolean;
+  /**
+   * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
+   * 'RSA', 'RSA-HSM', 'oct'
+   */
+  keyType?: JsonWebKeyType;
+  /**
+   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
+   */
+  keySize?: number;
+  /**
+   * Indicates if the same key pair will be used on certificate renewal.
+   */
+  reuseKey?: boolean;
+  /**
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
+   * 'P-256', 'P-384', 'P-521', 'P-256K'
+   */
+  curveType?: JsonWebKeyCurveName;
+  /**
+   * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+   */
+  issuerName?: string;
+  /**
+   * Type of certificate to be requested from the issuer provider.
+   */
+  certificateType?: string;
+  /**
+   * Indicates if the certificates generated under this policy should be published to certificate
+   * transparency logs.
+   */
+  certificateTransparency?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing the properties of a certificate
+ */
+export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The certificate id.
    */
@@ -177,9 +232,9 @@ export interface CertificateIssuer {
 
 /**
  * @interface
- * An interface representing the attributes of an issuer
+ * An interface representing the properties of an issuer
  */
-export interface IssuerAttributes {
+export interface IssuerProperties {
   /**
    * @member {string} [id] Certificate Identifier.
    */

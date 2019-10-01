@@ -18,8 +18,8 @@ describe("Certificates client - list certificates in various ways", () => {
   let recorder: any;
 
   const basicCertificatePolicy = {
-    issuerParameters: { name: "Self" },
-    x509CertificateProperties: { subject: "cn=MyCert" }
+    issuerName: "Self",
+    subject: "cn=MyCert",
   };
 
   beforeEach(async function() {
@@ -40,12 +40,12 @@ describe("Certificates client - list certificates in various ways", () => {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
     for await (const certificate of client.listCertificates({ includePending: true })) {
       try {
-        await testClient.flushCertificate(certificate.name);
+        await testClient.flushCertificate(certificate.properties.name);
       } catch(e) {}
     }
     for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
       try {
-        await testClient.purgeCertificate(certificate.name);
+        await testClient.purgeCertificate(certificate.properties.name);
       } catch(e) {}
     }
   });
@@ -62,7 +62,7 @@ describe("Certificates client - list certificates in various ways", () => {
     let found = 0;
     for await (const certificate of client.listCertificates({ includePending: true })) {
       // The vault might contain more certificates than the ones we inserted.
-      if (!certificateNames.includes(certificate.name)) continue;
+      if (!certificateNames.includes(certificate.properties.name)) continue;
       found += 1;
     }
 
@@ -98,7 +98,7 @@ describe("Certificates client - list certificates in various ways", () => {
       let found = 0;
       for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
         // The vault might contain more certificates than the ones we inserted.
-        if (!certificateNames.includes(certificate.name)) continue;
+        if (!certificateNames.includes(certificate.properties.name)) continue;
         found += 1;
       }
 
@@ -122,7 +122,7 @@ describe("Certificates client - list certificates in various ways", () => {
     for await (const page of client.listCertificates({ includePending: true }).byPage()) {
       for (const certificate of page) {
         // The vault might contain more certificates than the ones we inserted.
-        if (!certificateNames.includes(certificate.name)) continue;
+        if (!certificateNames.includes(certificate.properties.name)) continue;
         found += 1;
       }
     }
@@ -153,7 +153,7 @@ describe("Certificates client - list certificates in various ways", () => {
     for await (const page of client.listDeletedCertificates({ includePending: true }).byPage()) {
       for (const certificate of page) {
         // The vault might contain more certificates than the ones we inserted.
-        if (!certificateNames.includes(certificate.name)) continue;
+        if (!certificateNames.includes(certificate.properties.name)) continue;
         found += 1;
       }
     }
@@ -195,8 +195,8 @@ describe("Certificates client - list certificates in various ways", () => {
       const version = item.version!;
       const certificate = await client.getCertificate(certificateName, version);
       // Versions don't match. Something must be happening under the hood.
-      // results.push({ version: item.version!, tag: certificate.tags!.tag! });
-      results.push({ tag: certificate.tags!.tag! });
+      // results.push({ version: item.version!, tag: certificate.properties.tags!.tag! });
+      results.push({ tag: certificate.properties.tags!.tag! });
     }
 
     const comp = (a: VersionTagPair, b: VersionTagPair): number =>

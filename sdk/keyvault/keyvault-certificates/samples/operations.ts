@@ -20,8 +20,8 @@ async function main(): Promise<void> {
 
   // Certficates' operations will be pending for some time right after they're created.
   await client.createCertificate("MyCertificate", {
-    issuerParameters: { name: "Self" },
-    x509CertificateProperties: { subject: "cn=MyCert" }
+    issuerName: "Self",
+    subject: "cn=MyCert"
   });
 
   // The pending state of the certificate will be visible.

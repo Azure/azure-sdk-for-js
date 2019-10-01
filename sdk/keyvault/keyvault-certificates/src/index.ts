@@ -27,7 +27,8 @@ import {
   CertificateTags,
   DeletedCertificate,
   CertificateIssuer,
-  CertificateContentType
+  CertificateContentType,
+  CertificatePolicy,
 } from "./certificatesModels";
 import {
   NewPipelineOptions,
@@ -48,7 +49,7 @@ import {
   KeyVaultClientUpdateCertificateOptionalParams,
   CertificateAttributes as BaseCertificateAttributes,
   CertificateOperation,
-  CertificatePolicy,
+  CertificatePolicy as CoreCertificatePolicy,
   BackupCertificateResult,
   KeyVaultClientGetDeletedCertificatesOptionalParams,
   DeletedCertificateItem,
@@ -123,6 +124,52 @@ export {
 };
 
 export { ProxyOptions, RetryOptions, TelemetryOptions };
+
+function toCorePolicy(p: CertificatePolicy): CoreCertificatePolicy {
+  return {
+    id: p.id,
+    lifetimeActions: p.lifetimeActions,
+    keyProperties: {
+      exportable:  p.exportable,
+      keyType:  p.keyType,
+      keySize:  p.keySize,
+      reuseKey:  p.reuseKey,
+      curve:  p.curveType,
+    },
+    secretProperties: {
+      contentType: p.contentType,
+    },
+    x509CertificateProperties: {
+      subject: p.subject,
+      ekus: p.ekus,
+      subjectAlternativeNames: p.subjectAlternativeNames,
+      keyUsage: p.keyUsage,
+      validityInMonths: p.validityInMonths,
+    },
+    issuerParameters: {
+      name: p.issuerName,
+      certificateType: p.certificateType,
+      certificateTransparency: p.certificateTransparency,
+    },
+    attributes: {
+      recoveryLevel: p.recoveryLevel,
+    }
+  }
+}
+
+function toPublicPolicy(p: CoreCertificatePolicy): CertificatePolicy {
+  return {
+    id: p.id,
+    lifetimeActions: p.lifetimeActions,
+    curveType: p.keyProperties.curve,
+    issuerName: p.isseurParameters.name,
+    ...p.keyProperties,
+    ...p.secretProperties,
+    ...p.x509CertificateProperties,
+    ...p.issuerParameters,
+    ...p.attributes,
+  }
+}
 
 /**
  * The client to interact with the KeyVault certificates functionality
@@ -784,6 +831,7 @@ export class CertificatesClient {
 
     let result: CreateCertificateResponse;
 
+
     try {
       result = await this.client
         .createCertificate(this.vaultBaseUrl, name, {
@@ -792,7 +840,7 @@ export class CertificatesClient {
             enabled
           },
           tags,
-          certificatePolicy
+          toCorePolicy(certificatePolicy)
         });
     } finally {
       span.end();
@@ -949,7 +997,7 @@ export class CertificatesClient {
       span.end();
     }
 
-    return result._response.parsedBody;
+    return toPublicPolicy(result._response.parsedBody);
   }
 
   /**
@@ -970,11 +1018,11 @@ export class CertificatesClient {
     let result: UpdateCertificatePolicyResponse;
     try {
       result = await this.client
-        .updateCertificatePolicy(this.vaultBaseUrl, name, policy, this.setParentSpan(span, options));
+        .updateCertificatePolicy(this.vaultBaseUrl, name, toCorePolicy(policy), this.setParentSpan(span, options));
     } finally {
       span.end();
     }
-    return result._response.parsedBody;
+    return toPublicPolicy(result._response.parsedBody);
   }
 
   /**
