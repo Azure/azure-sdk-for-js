@@ -106,8 +106,8 @@ function getValueInConnString(
     | "EndpointSuffix"
     | "SharedAccessSignature"
 ) {
-  const matchCredentials = connectionString.split(";");
-  for (const element of matchCredentials) {
+  const elements = connectionString.split(";");
+  for (const element of elements) {
     if (element.trim().startsWith(argument)) {
       return element.trim().match(argument + "=(.*)")![1];
     }
