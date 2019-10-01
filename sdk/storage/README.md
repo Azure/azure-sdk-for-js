@@ -8,9 +8,9 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - [Source Code - File](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file)
 - [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
-- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.3)
-- @azure/storage-file [Package (npm)](https://www.npmjs.com/package/@azure/storage-file/v/12.0.0-preview.3)
-- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.3)
+- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.4)
+- @azure/storage-file [Package (npm)](https://www.npmjs.com/package/@azure/storage-file/v/12.0.0-preview.4)
+- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.4)
 - [API Reference documentation](https://azure.github.io/azure-sdk-for-js)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
@@ -96,7 +96,7 @@ The preferred way to install the Azure Storage client libraries for JavaScript i
 Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-blob@12.0.0-preview.3
+npm install @azure/storage-blob@12.0.0-preview.4
 ```
 
 In your TypeScript or JavaScript file, import via following:
