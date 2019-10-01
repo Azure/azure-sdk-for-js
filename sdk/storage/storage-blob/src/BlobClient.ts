@@ -1206,7 +1206,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<Models.BlobsSetTierResponse>}
    * @memberof BlobClient
    */
-  public async setTier(
+  public async setAccessTier(
     tier: BlockBlobTier | PremiumPageBlobTier | string,
     options: BlobSetTierOptions = {}
   ): Promise<Models.BlobSetTierResponse> {

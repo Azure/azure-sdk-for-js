@@ -300,7 +300,7 @@ export class BatchSetTierRequest extends BatchRequest {
         credential: credential
       },
       async () => {
-        await new BlobClient(url, this.batchRequest.createPipeline(credential)).setTier(
+        await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
           tier,
           options
         );

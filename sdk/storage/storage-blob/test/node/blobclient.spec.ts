@@ -268,18 +268,18 @@ describe("BlobClient Node.js only", () => {
     }
   });
 
-  it("setTier set default to cool", async () => {
-    await blockBlobClient.setTier("Cool");
+  it("setAccessTier set default to cool", async () => {
+    await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
     assert.equal(properties.accessTier!.toLowerCase(), "cool");
   });
 
-  it("setTier set archive to hot", async () => {
-    await blockBlobClient.setTier("Archive");
+  it("setAccessTier set archive to hot", async () => {
+    await blockBlobClient.setAccessTier("Archive");
     let properties = await blockBlobClient.getProperties();
     assert.equal(properties.accessTier!.toLowerCase(), "archive");
 
-    await blockBlobClient.setTier("Hot");
+    await blockBlobClient.setAccessTier("Hot");
     properties = await blockBlobClient.getProperties();
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
