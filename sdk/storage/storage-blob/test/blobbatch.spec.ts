@@ -72,7 +72,7 @@ describe("BlobBatch", () => {
     // Verify blobs deleted.
     const resp2 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage({ maxPageSize: 1 })
       .next()).value;
@@ -96,7 +96,7 @@ describe("BlobBatch", () => {
     // Ensure blobs ready.
     let respList1 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage({ maxPageSize: 5 })
       .next()).value;
@@ -111,7 +111,7 @@ describe("BlobBatch", () => {
     // Validate that blob and its snapshot all get deleted.
     respList1 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage({ maxPageSize: 5 })
       .next()).value;
@@ -132,7 +132,7 @@ describe("BlobBatch", () => {
     // Ensure blobs ready.
     let respList2 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage({ maxPageSize: 5 })
       .next()).value;
@@ -147,7 +147,7 @@ describe("BlobBatch", () => {
     // Validate that snapshot get deleted.
     respList2 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage({ maxPageSize: 5 })
       .next()).value;
@@ -168,7 +168,7 @@ describe("BlobBatch", () => {
     // Ensure blobs ready.
     let respList3 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage({ maxPageSize: 5 })
       .next()).value;
@@ -183,7 +183,7 @@ describe("BlobBatch", () => {
     // Validate that snapshot get deleted.
     respList3 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage({ maxPageSize: 5 })
       .next()).value;

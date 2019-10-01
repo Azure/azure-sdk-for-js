@@ -135,7 +135,7 @@ describe("BlobClient Node.js only", () => {
 
     const result2 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage()
       .next()).value;
@@ -153,7 +153,7 @@ describe("BlobClient Node.js only", () => {
 
     const result3 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots"]
+        includeSnapshots: true
       })
       .byPage()
       .next()).value;
@@ -192,7 +192,7 @@ describe("BlobClient Node.js only", () => {
 
     const result = (await containerClient
       .listBlobsFlat({
-        include: ["deleted"]
+        includeDeleted: true
       })
       .byPage()
       .next()).value;
@@ -203,7 +203,7 @@ describe("BlobClient Node.js only", () => {
 
     const result2 = (await containerClient
       .listBlobsFlat({
-        include: ["deleted"]
+        includeDeleted: true
       })
       .byPage()
       .next()).value;
