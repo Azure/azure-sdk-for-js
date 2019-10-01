@@ -32,16 +32,16 @@ export class ListManagementTerm {
    * @param term Term to be deleted
    * @param language Language of the terms.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ListManagementTermAddTermResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  addTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase): Promise<Models.ListManagementTermAddTermResponse>;
+  addTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param listId List Id of the image list.
    * @param term Term to be deleted
    * @param language Language of the terms.
    * @param callback The callback
    */
-  addTerm(listId: string, term: string, language: string, callback: msRest.ServiceCallback<any>): void;
+  addTerm(listId: string, term: string, language: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param listId List Id of the image list.
    * @param term Term to be deleted
@@ -49,8 +49,8 @@ export class ListManagementTerm {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addTerm(listId: string, term: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  addTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ListManagementTermAddTermResponse> {
+  addTerm(listId: string, term: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  addTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -59,7 +59,7 @@ export class ListManagementTerm {
         options
       },
       addTermOperationSpec,
-      callback) as Promise<Models.ListManagementTermAddTermResponse>;
+      callback);
   }
 
   /**
@@ -177,14 +177,7 @@ const addTermOperationSpec: msRest.OperationSpec = {
     Parameters.language0
   ],
   responses: {
-    201: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Object"
-        }
-      }
-    },
+    201: {},
     default: {
       bodyMapper: Mappers.APIError
     }

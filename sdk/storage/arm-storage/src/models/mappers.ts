@@ -806,6 +806,12 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1129,6 +1135,12 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1282,6 +1294,12 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NetworkRuleSet"
+        }
+      },
+      largeFileSharesState: {
+        serializedName: "properties.largeFileSharesState",
+        type: {
+          name: "String"
         }
       },
       kind: {
@@ -1601,7 +1619,8 @@ export const DateAfterModification: msRest.CompositeMapper = {
         required: true,
         serializedName: "daysAfterModificationGreaterThan",
         constraints: {
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
+          MultipleOf: 1
         },
         type: {
           name: "Number"
@@ -1652,7 +1671,8 @@ export const DateAfterCreation: msRest.CompositeMapper = {
         required: true,
         serializedName: "daysAfterCreationGreaterThan",
         constraints: {
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
+          MultipleOf: 1
         },
         type: {
           name: "Number"
@@ -2398,6 +2418,22 @@ export const DeleteRetentionPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const ChangeFeed: msRest.CompositeMapper = {
+  serializedName: "ChangeFeed",
+  type: {
+    name: "Composite",
+    className: "ChangeFeed",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const BlobServiceProperties: msRest.CompositeMapper = {
   serializedName: "BlobServiceProperties",
   type: {
@@ -2429,6 +2465,13 @@ export const BlobServiceProperties: msRest.CompositeMapper = {
         serializedName: "properties.automaticSnapshotPolicyEnabled",
         type: {
           name: "Boolean"
+        }
+      },
+      changeFeed: {
+        serializedName: "properties.changeFeed",
+        type: {
+          name: "Composite",
+          className: "ChangeFeed"
         }
       }
     }
@@ -2492,6 +2535,125 @@ export const LeaseContainerResponse: msRest.CompositeMapper = {
         serializedName: "leaseTimeSeconds",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileServiceProperties: msRest.CompositeMapper = {
+  serializedName: "FileServiceProperties",
+  type: {
+    name: "Composite",
+    className: "FileServiceProperties",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Composite",
+          className: "CorsRules"
+        }
+      }
+    }
+  }
+};
+
+export const FileServiceItems: msRest.CompositeMapper = {
+  serializedName: "FileServiceItems",
+  type: {
+    name: "Composite",
+    className: "FileServiceItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileServiceProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FileShare: msRest.CompositeMapper = {
+  serializedName: "FileShare",
+  type: {
+    name: "Composite",
+    className: "FileShare",
+    modelProperties: {
+      ...AzureEntityResource.type.modelProperties,
+      lastModifiedTime: {
+        readOnly: true,
+        serializedName: "properties.lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      shareQuota: {
+        serializedName: "properties.shareQuota",
+        constraints: {
+          InclusiveMaximum: 5120,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FileShareItem: msRest.CompositeMapper = {
+  serializedName: "FileShareItem",
+  type: {
+    name: "Composite",
+    className: "FileShareItem",
+    modelProperties: {
+      ...AzureEntityResource.type.modelProperties,
+      lastModifiedTime: {
+        readOnly: true,
+        serializedName: "properties.lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      shareQuota: {
+        serializedName: "properties.shareQuota",
+        constraints: {
+          InclusiveMaximum: 5120,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
         }
       }
     }
@@ -2641,6 +2803,13 @@ export const StorageAccountListResult: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2668,6 +2837,29 @@ export const UsageListResult: msRest.CompositeMapper = {
   }
 };
 
+export const BlobServiceItems: msRest.CompositeMapper = {
+  serializedName: "BlobServiceItems",
+  type: {
+    name: "Composite",
+    className: "BlobServiceItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BlobServiceProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ListContainerItems: msRest.CompositeMapper = {
   serializedName: "ListContainerItems",
   type: {
@@ -2683,6 +2875,36 @@ export const ListContainerItems: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ListContainerItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileShareItems: msRest.CompositeMapper = {
+  serializedName: "FileShareItems",
+  type: {
+    name: "Composite",
+    className: "FileShareItems",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileShareItem"
             }
           }
         }

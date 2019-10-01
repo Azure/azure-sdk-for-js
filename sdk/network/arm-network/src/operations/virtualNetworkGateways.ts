@@ -191,34 +191,9 @@ export class VirtualNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse>
    */
-  generatevpnclientpackage(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualNetworkGatewayName The name of the virtual network gateway.
-   * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
-   * operation.
-   * @param callback The callback
-   */
-  generatevpnclientpackage(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, callback: msRest.ServiceCallback<string>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualNetworkGatewayName The name of the virtual network gateway.
-   * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
-   * operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  generatevpnclientpackage(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  generatevpnclientpackage(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualNetworkGatewayName,
-        parameters,
-        options
-      },
-      generatevpnclientpackageOperationSpec,
-      callback) as Promise<Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse>;
+  generatevpnclientpackage(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse> {
+    return this.beginGeneratevpnclientpackage(resourceGroupName,virtualNetworkGatewayName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse>;
   }
 
   /**
@@ -231,34 +206,9 @@ export class VirtualNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkGatewaysGenerateVpnProfileResponse>
    */
-  generateVpnProfile(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewaysGenerateVpnProfileResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualNetworkGatewayName The name of the virtual network gateway.
-   * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
-   * operation.
-   * @param callback The callback
-   */
-  generateVpnProfile(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, callback: msRest.ServiceCallback<string>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param virtualNetworkGatewayName The name of the virtual network gateway.
-   * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
-   * operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  generateVpnProfile(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  generateVpnProfile(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.VirtualNetworkGatewaysGenerateVpnProfileResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualNetworkGatewayName,
-        parameters,
-        options
-      },
-      generateVpnProfileOperationSpec,
-      callback) as Promise<Models.VirtualNetworkGatewaysGenerateVpnProfileResponse>;
+  generateVpnProfile(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewaysGenerateVpnProfileResponse> {
+    return this.beginGenerateVpnProfile(resourceGroupName,virtualNetworkGatewayName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewaysGenerateVpnProfileResponse>;
   }
 
   /**
@@ -414,6 +364,32 @@ export class VirtualNetworkGateways {
   }
 
   /**
+   * Starts packet capture on virtual network gateway in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VirtualNetworkGatewaysStartPacketCaptureResponse>
+   */
+  startPacketCapture(resourceGroupName: string, virtualNetworkGatewayName: string, options?: Models.VirtualNetworkGatewaysStartPacketCaptureOptionalParams): Promise<Models.VirtualNetworkGatewaysStartPacketCaptureResponse> {
+    return this.beginStartPacketCapture(resourceGroupName,virtualNetworkGatewayName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewaysStartPacketCaptureResponse>;
+  }
+
+  /**
+   * Stops packet capture on virtual network gateway in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param parameters Virtual network gateway packet capture parameters supplied to stop packet
+   * capture on gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VirtualNetworkGatewaysStopPacketCaptureResponse>
+   */
+  stopPacketCapture(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnPacketCaptureStopParameters, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewaysStopPacketCaptureResponse> {
+    return this.beginStopPacketCapture(resourceGroupName,virtualNetworkGatewayName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewaysStopPacketCaptureResponse>;
+  }
+
+  /**
    * Get VPN client connection health detail per P2S client connection of the virtual network gateway
    * in the specified resource group.
    * @param resourceGroupName The name of the resource group.
@@ -517,6 +493,50 @@ export class VirtualNetworkGateways {
         options
       },
       beginResetVpnClientSharedKeyOperationSpec,
+      options);
+  }
+
+  /**
+   * Generates VPN client package for P2S client of the virtual network gateway in the specified
+   * resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGeneratevpnclientpackage(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        parameters,
+        options
+      },
+      beginGeneratevpnclientpackageOperationSpec,
+      options);
+  }
+
+  /**
+   * Generates VPN profile for P2S client of the virtual network gateway in the specified resource
+   * group. Used for IKEV2 and radius based authentication.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param parameters Parameters supplied to the generate virtual network gateway VPN client package
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGenerateVpnProfile(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnClientParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        parameters,
+        options
+      },
+      beginGenerateVpnProfileOperationSpec,
       options);
   }
 
@@ -636,6 +656,45 @@ export class VirtualNetworkGateways {
         options
       },
       beginGetVpnclientIpsecParametersOperationSpec,
+      options);
+  }
+
+  /**
+   * Starts packet capture on virtual network gateway in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginStartPacketCapture(resourceGroupName: string, virtualNetworkGatewayName: string, options?: Models.VirtualNetworkGatewaysBeginStartPacketCaptureOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        options
+      },
+      beginStartPacketCaptureOperationSpec,
+      options);
+  }
+
+  /**
+   * Stops packet capture on virtual network gateway in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param parameters Virtual network gateway packet capture parameters supplied to stop packet
+   * capture on gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginStopPacketCapture(resourceGroupName: string, virtualNetworkGatewayName: string, parameters: Models.VpnPacketCaptureStopParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        parameters,
+        options
+      },
+      beginStopPacketCaptureOperationSpec,
       options);
   }
 
@@ -784,82 +843,6 @@ const listConnectionsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.VirtualNetworkGatewayListConnectionsResult
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const generatevpnclientpackageOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualNetworkGatewayName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.VpnClientParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const generateVpnProfileOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.virtualNetworkGatewayName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.VpnClientParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1019,6 +1002,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.VirtualNetworkGateway
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1069,6 +1053,82 @@ const beginResetVpnClientSharedKeyOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginGeneratevpnclientpackageOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnclientpackage",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkGatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.VpnClientParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginGenerateVpnProfileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/generatevpnprofile",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkGatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.VpnClientParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
@@ -1241,6 +1301,82 @@ const beginGetVpnclientIpsecParametersOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginStartPacketCaptureOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/startPacketCapture",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkGatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "parameters"
+    ],
+    mapper: Mappers.VpnPacketCaptureStartParameters
+  },
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginStopPacketCaptureOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/stopPacketCapture",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkGatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.VpnPacketCaptureStopParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer

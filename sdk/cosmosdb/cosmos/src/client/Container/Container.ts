@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import {
   createDocumentCollectionUri,
@@ -131,7 +133,10 @@ export class Container {
   }
 
   /** Replace the container's definition */
-  public async replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
+  public async replace(
+    body: ContainerDefinition,
+    options?: RequestOptions
+  ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
@@ -190,9 +195,16 @@ export class Container {
     );
   }
 
-  public async getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>> {
+  public async getQueryPlan(
+    query: string | SqlQuerySpec
+  ): Promise<Response<PartitionedQueryExecutionInfo>> {
     const path = getPathFromLink(this.url);
-    return this.clientContext.getQueryPlan(path + "/docs", ResourceType.item, getIdFromLink(this.url), query);
+    return this.clientContext.getQueryPlan(
+      path + "/docs",
+      ResourceType.item,
+      getIdFromLink(this.url),
+      query
+    );
   }
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {

@@ -106,6 +106,21 @@ export class Subnets {
   }
 
   /**
+   * Unprepares a subnet by removing network intent policies.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param subnetName The name of the subnet.
+   * @param unprepareNetworkPoliciesRequestParameters Parameters supplied to unprepare subnet to
+   * remove network intent policies.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  unprepareNetworkPolicies(resourceGroupName: string, virtualNetworkName: string, subnetName: string, unprepareNetworkPoliciesRequestParameters: Models.UnprepareNetworkPoliciesRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginUnprepareNetworkPolicies(resourceGroupName,virtualNetworkName,subnetName,unprepareNetworkPoliciesRequestParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Gets all subnets in a virtual network.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
@@ -199,6 +214,29 @@ export class Subnets {
         options
       },
       beginPrepareNetworkPoliciesOperationSpec,
+      options);
+  }
+
+  /**
+   * Unprepares a subnet by removing network intent policies.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param subnetName The name of the subnet.
+   * @param unprepareNetworkPoliciesRequestParameters Parameters supplied to unprepare subnet to
+   * remove network intent policies.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUnprepareNetworkPolicies(resourceGroupName: string, virtualNetworkName: string, subnetName: string, unprepareNetworkPoliciesRequestParameters: Models.UnprepareNetworkPoliciesRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkName,
+        subnetName,
+        unprepareNetworkPoliciesRequestParameters,
+        options
+      },
+      beginUnprepareNetworkPoliciesOperationSpec,
       options);
   }
 
@@ -366,6 +404,38 @@ const beginPrepareNetworkPoliciesOperationSpec: msRest.OperationSpec = {
     parameterPath: "prepareNetworkPoliciesRequestParameters",
     mapper: {
       ...Mappers.PrepareNetworkPoliciesRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUnprepareNetworkPoliciesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/UnprepareNetworkPolicies",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkName,
+    Parameters.subnetName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "unprepareNetworkPoliciesRequestParameters",
+    mapper: {
+      ...Mappers.UnprepareNetworkPoliciesRequest,
       required: true
     }
   },

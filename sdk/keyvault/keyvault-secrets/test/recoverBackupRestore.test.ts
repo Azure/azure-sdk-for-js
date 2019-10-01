@@ -16,7 +16,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  before(async function () {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -24,13 +24,13 @@ describe("Secret client - restore secrets and recover backups", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  after(async function () {
     recorder.stop();
   });
 
   // The tests follow
 
-  it("can recover a deleted secret", async function() {
+  it("can recover a deleted secret", async function () {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -48,7 +48,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can recover a deleted secret (non existing)", async function() {
+  it("can recover a deleted secret (non existing)", async function () {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -62,7 +62,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  it("can backup a secret", async function() {
+  it("can backup a secret", async function () {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -75,12 +75,12 @@ describe("Secret client - restore secrets and recover backups", () => {
     }
     assert.ok(
       result!.length > 0,
-      `Unexpected length (${result.length}) of buffer from backupSecret()`
+      `Unexpected length (${result!.length}) of buffer from backupSecret()`
     );
     await testClient.flushSecret(secretName);
   });
 
-  it("can backup a secret (non existing)", async function() {
+  it("can backup a secret (non existing)", async function () {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -94,7 +94,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  it("can restore a secret", async function() {
+  it("can restore a secret", async function () {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -107,7 +107,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can restore a secret (Malformed Backup Bytes)", async function() {
+  it("can restore a secret (Malformed Backup Bytes)", async function () {
     const backup = new Uint8Array(4728);
     let error;
     try {

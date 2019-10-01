@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
@@ -47,7 +49,11 @@ export class Database {
    *
    * Note: the intention is to get this object from {@link CosmosClient} via `client.database(id)`, not to instantiate it yourself.
    */
-  constructor(public readonly client: CosmosClient, public readonly id: string, private clientContext: ClientContext) {
+  constructor(
+    public readonly client: CosmosClient,
+    public readonly id: string,
+    private clientContext: ClientContext
+  ) {
     this.containers = new Containers(this, this.clientContext);
     this.users = new Users(this, this.clientContext);
   }

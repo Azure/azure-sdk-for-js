@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Constants } from "../common";
 
 /** @hidden */
@@ -16,7 +18,12 @@ export class QueryRange {
    * @param {boolean} isMaxInclusive         - isMaxInclusive
    * @ignore
    */
-  constructor(rangeMin: string, rangeMax: string, isMinInclusive: boolean, isMaxInclusive: boolean) {
+  constructor(
+    rangeMin: string,
+    rangeMax: string,
+    isMinInclusive: boolean,
+    isMaxInclusive: boolean
+  ) {
     this.min = rangeMin;
     this.max = rangeMax;
     this.isMinInclusive = isMinInclusive;

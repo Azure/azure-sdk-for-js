@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ErrorResponse } from "../request";
 import { RetryContext } from "./RetryContext";
 

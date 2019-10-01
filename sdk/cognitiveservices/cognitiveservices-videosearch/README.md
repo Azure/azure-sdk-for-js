@@ -17,61 +17,58 @@ npm install @azure/cognitiveservices-videosearch
 
 #### nodejs - Authentication, client creation and search videos as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample performs a video search on 'Microsoft Azure' with conditions such as the length must be Short, pricing must be Free, etc. To know more, refer to the [Azure Documentation on Bing Video Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-video-search/)
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { VideoSearchClient, VideoSearchModels, VideoSearchMappers } from "@azure/cognitiveservices-videosearch";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {
+  VideoSearchClient,
+  VideoSearchModels
+} from "@azure/cognitiveservices-videosearch";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new VideoSearchClient(creds, subscriptionId);
-  const query = "testquery";
-  const acceptLanguage = "testacceptLanguage";
-  const userAgent = "testuserAgent";
-  const clientId = "testclientId";
-  const clientIp = "testclientIp";
-  const location = "westus";
-  const countryCode = "testcountryCode";
-  const count = 1;
-  const freshness = "Day";
-  const id = "testid";
-  const length = "All";
-  const market = "testmarket";
-  const offset = 1;
-  const pricing = "All";
-  const resolution = "All";
-  const safeSearch = "Off";
-  const setLang = "testsetLang";
-  const textDecorations = true;
-  const textFormat = "Raw";
-  client.videos.search(query, acceptLanguage, userAgent, clientId, clientIp, location, countryCode, count, freshness, id, length, market, offset, pricing, resolution, safeSearch, setLang, textDecorations, textFormat).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+async function main(): Promise<void> {
+  const videoSearchKey = process.env["videoSearchKey"] || "<videoSearchKey>";
+  const videoSearchEndPoint =
+    process.env["videoSearchEndPoint"] || "<videoSearchEndPoint>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    videoSearchKey
+  );
+  const client = new VideoSearchClient(cognitiveServiceCredentials, {
+    endpoint: videoSearchEndPoint
   });
-}).catch((err) => {
-  console.error(err);
-});
+  const query = "Microsoft Azure";
+  const options: VideoSearchModels.VideosSearchOptionalParams = {
+    acceptLanguage: "en-US",
+    location: "westus2",
+    length: "Short",
+    pricing: "Free",
+    resolution: "HD720p"
+  };
+  client.videos
+    .search(query, options)
+    .then(result => {
+      console.log("The result is: ");
+      console.log(result);
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
 ```
 
 #### browser - Authentication, client creation and search videos as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -80,47 +77,40 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-videosearch sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-videosearch/dist/cognitiveservices-videosearch.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const videoSearchKey = "<YOUR_VIDEO_SEARCH_KEY>";
+      const videoSearchEndPoint = "<YOUR_VIDEO_SEARCH_ENDPOINT>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": videoSearchKey
         }
-        const client = new Azure.CognitiveservicesVideosearch.VideoSearchClient(res.creds, subscriptionId);
-        const query = "testquery";
-        const acceptLanguage = "testacceptLanguage";
-        const userAgent = "testuserAgent";
-        const clientId = "testclientId";
-        const clientIp = "testclientIp";
-        const location = "westus";
-        const countryCode = "testcountryCode";
-        const count = 1;
-        const freshness = "Day";
-        const id = "testid";
-        const length = "All";
-        const market = "testmarket";
-        const offset = 1;
-        const pricing = "All";
-        const resolution = "All";
-        const safeSearch = "Off";
-        const setLang = "testsetLang";
-        const textDecorations = true;
-        const textFormat = "Raw";
-        client.videos.search(query, acceptLanguage, userAgent, clientId, clientIp, location, countryCode, count, freshness, id, length, market, offset, pricing, resolution, safeSearch, setLang, textDecorations, textFormat).then((result) => {
-          console.log("The result is:");
+      });
+      const client = new Azure.CognitiveservicesVideosearch.VideoSearchClient(
+        cognitiveServiceCredentials,
+        {
+          endpoint: videoSearchEndPoint
+        }
+      );
+
+      const query = "Microsoft Azure";
+      const options = {
+        acceptLanguage: "en-US",
+        location: "westus2",
+        length: "Short",
+        pricing: "Free",
+        resolution: "HD720p"
+      };
+      client.videos
+        .search(query, options)
+        .then(result => {
+          console.log("The result is: ");
           console.log(result);
-        }).catch((err) => {
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
@@ -130,6 +120,5 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-videosearch/README.png)

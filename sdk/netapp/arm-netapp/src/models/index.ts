@@ -394,9 +394,9 @@ export interface ExportPolicyRule {
    */
   nfsv3?: boolean;
   /**
-   * Allows NFSv4 protocol
+   * Allows NFSv4.1 protocol
    */
-  nfsv4?: boolean;
+  nfsv41?: boolean;
   /**
    * Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses
    * and host names
@@ -658,7 +658,7 @@ export interface Snapshot extends BaseResource {
    * name. The creation date of the snapshot
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly creationDate?: Date;
+  readonly created?: Date;
   /**
    * Azure lifecycle management
    * **NOTE: This property will not be serialized. It can only be populated by the server.**

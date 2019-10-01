@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { QueryRange } from "../../dist-esm/routing";
 import { createCompleteRoutingMap } from "../../dist-esm/routing/CollectionRoutingMapFactory";
@@ -23,12 +25,14 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       },
       { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }
     ];
-    const partitionRangeWithInfo = partitionKeyRanges.map(r => [r, true]);
+    const partitionRangeWithInfo = partitionKeyRanges.map((r) => [r, true]);
     const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
     it("queryCompleteRange", function() {
       const completeRange = new QueryRange("", "FF", true, false);
-      const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(completeRange);
+      const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(
+        completeRange
+      );
 
       assert.equal(overlappingPartitionKeyRanges.length, partitionKeyRanges.length);
       assert.deepEqual(overlappingPartitionKeyRanges, partitionKeyRanges);
@@ -136,7 +140,9 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
         return a["id"] - b["id"];
       };
 
-      const overlappingRanges = collectionRoutingMap.getOverlappingRanges([completeRange]).sort(compareId);
+      const overlappingRanges = collectionRoutingMap
+        .getOverlappingRanges([completeRange])
+        .sort(compareId);
       assert.equal(4, overlappingRanges.length);
 
       let onlyParitionRanges = partitionRangeWithInfo.map(function(item) {
@@ -159,7 +165,9 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
         new QueryRange("0000000045", "0000000046", true, true),
         new QueryRange("0000000046", "0000000050", true, true)
       ];
-      overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(ranges).sort(compareId);
+      overlappingPartitionKeyRanges = collectionRoutingMap
+        .getOverlappingRanges(ranges)
+        .sort(compareId);
 
       assert.equal(2, overlappingPartitionKeyRanges.length);
       assert.equal("1", overlappingPartitionKeyRanges[0].id);

@@ -8,6 +8,8 @@
  *
  * If none of those options are set, it will start reading changes from the first `ChangeFeedIterator.fetchNext()` call.
  */
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export interface ChangeFeedOptions {
   /**
    * Max amount of items to return per page

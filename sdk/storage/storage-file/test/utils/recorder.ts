@@ -114,6 +114,8 @@ const skip = [
   "node/highlevel_nodejs_only/recording_uploadfile_should_abort_for_large_data.js",
   // Abort. Nock doesn't record aborted request, should investigate
   "node/highlevel_nodejs_only/recording_uploadfile_should_abort_for_small_data.js",
+  // Nock issue: https://github.com/Azure/azure-sdk-for-js/issues/5229
+  "node/fileclient/recording_uploadrange_with_progress_event.js",
   // Abort. Nock doesn't record aborted request, should investigate
   "node/highlevel_nodejs_only/recording_uploadstream_should_abort.js",
   // Progress, Size (15MB), Tempfile

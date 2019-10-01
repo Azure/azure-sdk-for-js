@@ -1,4 +1,6 @@
-﻿import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { database as databaseId, container as containerId, endpoint, key } from "./Shared/config";
 
@@ -7,7 +9,7 @@ logSampleHeader("Container Management");
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-//ensuring a database exists for us to work with
+// ensuring a database exists for us to work with
 async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
 

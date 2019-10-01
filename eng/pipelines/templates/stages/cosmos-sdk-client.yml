@@ -25,3 +25,11 @@ stages:
           EnvVars:
             MOCHA_TIMEOUT: 100000
             NODE_TLS_REJECT_UNAUTHORIZED: 0
+
+  # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
+  - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:
+    - template: pipelines/stages/archetype-js-release.yml@azure-sdk-build-tools
+      parameters:
+        DependsOn: Build
+        Artifacts: ${{parameters.Artifacts}}
+        ArtifactName: packages

@@ -1,4 +1,8 @@
-import { StoredProcedure, StoredProcedures, Trigger, Triggers, UserDefinedFunction, UserDefinedFunctions } from "../..";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { StoredProcedures, StoredProcedure } from "../StoredProcedure";
+import { Trigger, Triggers } from "../Trigger";
+import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";
 import { ClientContext } from "../../ClientContext";
 import { Container } from "../Container/Container";
 
@@ -7,7 +11,10 @@ export class Scripts {
    * @param container The parent {@link Container}.
    * @hidden
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly container: Container,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Used to read, replace, or delete a specific, existing {@link StoredProcedure} by id.

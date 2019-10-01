@@ -57,6 +57,19 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
       }
     });
+
+    it("can be ran in parallel without retries", async function(): Promise<void> {
+      client = new EventHubClient(service.connectionString, service.path, {
+        retryOptions: {
+          maxRetries: 0
+        }
+      });
+      const results = await Promise.all([client.getPartitionIds(), client.getPartitionIds()]);
+
+      for (const result of results) {
+        result.should.have.members(arrayOfIncreasingNumbersFromZero(result.length));
+      }
+    });
   });
 
   describe("hub runtime information", function(): void {

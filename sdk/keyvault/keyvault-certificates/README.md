@@ -1,14 +1,15 @@
-# Azure KeyVault Certificates client library for JS
+# Azure Key Vault Certificates client library for JS
 
-Azure KeyVault is a service that allows you to encrypt authentication
+Azure Key Vault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
 passwords by using keys that are protected by hardware security
-modules (HSMs).
+modules (HSMs). If you would like to know more about Azure Key Vault, you may
+want to review [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview).
 
-Azure KeyVault Certificates allows you to securely manage, store and
+Azure Key Vault Certificates allows you to securely manage, store and
 tightly control your certificates.
- 
-Use the client library for Azure KeyVault Certificates in your Node.js application to:
+
+Use the client library for Azure Key Vault Certificates in your Node.js application to:
 
 - Get, set and delete a certificate.
 - Update a certificate, it's attributes, issuer, policy, operation and contacts.
@@ -18,7 +19,7 @@ Use the client library for Azure KeyVault Certificates in your Node.js applicati
 - Get all certificates.
 - Get all deleted certificates.
 
-**Please Note:** This is a preview version of the KeyVault Certificates library.
+**Please Note:** This is a preview version of the Key Vault Certificates library.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
 
@@ -26,14 +27,18 @@ Use the client library for Azure KeyVault Certificates in your Node.js applicati
 
 ### Install the package
 
-Install the Azure Event KeyVault Certificates client library using npm
+Install the Azure Key Vault Certificates client library using npm
 
 `npm install @azure/keyvault-certificates`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[KeyVault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
+[Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
 If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
+To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2Ftests-resources.json)
+ 
 ### Configure Typescript
 
 TypeScript users need to have Node type definitions installed:
@@ -73,7 +78,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - Grant the above mentioned application authorization to perform certificate operations on the keyvault:
 
   ```Bash
-  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --certificate-permissions backup delete get list create deleteissuers getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --certificate-permissions backup create delete deleteissuers get getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
   ```
 
   > --certificate-permissions:
@@ -84,7 +89,25 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
   az keyvault show --name <your-key-vault-name>
   ```
 
-### Authenticate the client
+## Key concepts
+
+- The **Certificates client** is the primary interface to interact with the API methods
+  related to certificates in the Azure Key Vault API from a JavaScript application.
+  Once initialized, it provides a basic set of methods that can be used to
+  create, read, update and delete certificates.
+- A **Certificate version** is a version of a certificate in the Key Vault.
+  Each time a user assigns a value to a unique certificate name, a new **version**
+  of that certificate is created. Retrieving a certificate by a name will always return
+  the latest value assigned, unless a specific version is provided to the
+  query.
+- **Soft delete** allows Key Vaults to support deletion and purging as two
+  separate steps, so deleted certificates are not immediately lost. This only happens if the Key Vault
+  has [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+  enabled.
+- A **Certificate backup** can be generated from any created certificate. These backups come as
+  binary data, and can only be used to regenerate a previously deleted certificate.
+
+## Authenticating the client
 
 To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and CertificatesClient, which will connect to the key vault.
 
@@ -110,56 +133,71 @@ const url = `https://${vaultName}.vault.azure.net`;
 const client = new CertificatesClient(url, credential);
 ```
 
-## Key concepts
-
-### Creating certificates and certificate versions
-
-Azure Key Vault allows you to create certificates that are stored in the key vault. When a certificate is first created, it is given a name and some additional properties, such as a policy or tags. This name acts as a way to reach the certificate later.
-
-Certificates in the key vault can have multiple versions, which are created with the same name an can be retrieved, updated or deleted independently.
-
-### Getting certificates from the key vault
-
-The simplest way to read certificates back from the vault is to get it using its name. This will retrieve the most recent version of the certificate. You can optionally get a different version of the certificate by passing the specific version as a second parameter.
-
-Key vaults also support listing all the certificates available in them, as well as listing the all the versions of a specific certificate.
-
-### Updating certificates
-
-Once a certificate is created, it is possible to update it. You can update the provider of the certificate, their credentials, the details of the organization behind the certificate, as well as wether its issuer is enabled or not.
-
-### Working with deleted certificates
-
-Key vaults allow deleting certificates so that they are no longer available.
-
-In key vaults with 'soft delete' enabled, certificates are not immediately removed but instead marked simply as 'deleted'. These deleted certificates can be listed, purged, and recovered.
-
 ## Examples
 
-The following sections provide code snippets that cover some of the common tasks using Azure KeyVault Certificates.
+The following sections provide code snippets that cover some of the common
+tasks using Azure Key Vault Certificates. The scenarios that are covered here consist of:
 
-Once you have authenticated and created an instance of an `CertificatesClient` class (see "Authenticate the client" above), you can create, read, update, and delete certificates:
+- [Creating and setting a certificate](#creating-and-setting-a-certificate).
+- [Getting a certificate](#getting-a-certificate).
+- [Certificate attributes](#certificate-attributes).
+- [Updating a certificate](#updating-a-certificate).
+- [Deleting a certificate](#deleting-a-certificate).
+- [Iterating lists of certificates](#iterating-lists-of-certificates).
 
-### Create a certificate
+### Creating and setting a certificate
 
-`setCertificate` creates a certificate to be stored in the Azure Key Vault. If a certificate with the same name already exists, then a new version of the certificate is created.
+`setCertificate` creates a certificate to be stored in the Azure Key Vault. If
+a certificate with the same name already exists, a new version of the
+certificate is created.
 
 ```javascript
 const certificateName = "MyCertificateName";
 const result = await client.createCertificate(certificateName, {
-  certificatePolicy: {
-    issuerParameters: { name: "Self" },
-  }
+  issuerParameters: { name: "Self" },
 });
 ```
 
-### Get a certificate
+Besides the name of the certificate, you can also pass the following attributes:
 
-`getCertificate` retrieves a certificate previously stored in the Key Vault.
+- `certificatePolicy`: The policy of the certificate.
+- `enabled`: A boolean value that determines whether the certificate can be used or not.
+- `tags`: Any set of key-values that can be used to search and filter certificates.
 
 ```javascript
-const getResult = await client.getCertificate(certificateName, "");
-console.log("getResult: ", getResult);
+const certificateName = "MyCertificateName";
+const certificatePolicy = {
+  issuerParameters: { name: "Self" }
+}
+const enabled = true;
+const tags = {
+  myCustomTag: "myCustomTagsValue"
+};
+const result = await client.createCertificate(
+  certificateName,
+  certificatePolicy,
+  enabled,
+  tags
+);
+```
+
+Calling to `createCertificate` with the same name will create a new version of
+the same certificate, which will have the latest provided attributes.
+
+### Get a certificate
+
+The simplest way to read certificates back from the vault is to get a
+certificate by name. `getCertificateWithPolicy` will retrieve the most recent
+version of the certificate, along with the certificate's policy. You can
+optionally get a different version of the certificate by calling
+`getCertificate` if you specify the version. `getCertificate` does not return
+the certificate's policy.
+
+```javascript
+const latestCertificate = await client.getCertificateWithPolicy(certificateName);
+console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
+const specificCertificate = await client.getCertificate(certificateName, latestCertificate.version!);
+console.log(`The certificate ${certificateName} at the version ${latestCertificate.version!}: `, specificCertificate);
 ```
 
 ### List all versions of a certificate
@@ -182,25 +220,110 @@ for await (let listedCertificate of client.listCertificates()) {
 }
 ```
 
-### Update a certificate
+### Updating a certificate
 
-`updateCertificate` updates the attributes of a certificate.
+The certificate attributes can be updated to an existing certificate version with
+`updateCertificate`, as follows:
 
 ```javascript
-const result = getCertificate(certificateName, "");
+const result = client.getCertificateWithPolicy(certificateName);
 await client.updateCertificate(certificateName, result.version, {
+  certificatePolicy: {
+    issuerParameters: { name: "Self" }
+  },
+  certificateAttributes: {
+    enabled: false
+  },
   tags: {
-    customTag: "value"
+    myCustomTag: "myCustomTagsValue"
   }
 });
 ```
 
-### Delete a certificate
+The certificate's policy can also be updated individually with `updateCertificatePolicy`, as follows:
 
-`deleteCertificate` deletes a certificate previously stored in the Key Vault. When [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) is not enabled for the Key Vault, this operation permanently deletes the deletes.
+```javascript
+const result = client.getCertificateWithPolicy(certificateName);
+await client.updateCertificatePolicy(certificateName, {
+  issuerParameters: { name: "Self" }
+});
+```
+
+### Deleting a certificate
+
+The `deleteCertificate` method sets a certificate up for deletion. This process will
+happen in the background as soon as the necessary resources are available.
 
 ```javascript
 await client.deleteCertificate(certificateName);
+```
+
+If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+is enabled for the Key Vault, this operation will only label the certificate as a
+_deleted_ certificate. A deleted certificate can't be updated. They can only be either
+read, recovered or purged.
+
+```javascript
+await client.deleteCertificate(certificateName);
+
+// If soft-delete is enabled, we can eventually do:
+await client.getDeletedCertificate(certificateName);
+// Deleted certificates can also be recovered or purged:
+await client.recoverDeletedCertificate(certificateName);
+// await client.purgeDeletedCertificate(certificateName);
+```
+
+Since the deletion of a certificate won't happen instantly, some time is needed
+after the `deleteCertificate` method is called before the deleted certificate is
+available to be read, recovered or purged.
+
+### Iterating lists of certificates
+
+Using the CertificatesClient, you can retrieve and iterate through all of the
+certificates in a Certificate Vault, as well as through all of the deleted certificates and the
+versions of a specific certificate. The following API methods are available:
+
+- `listCertificates` will list all of your non-deleted certificates by their names, only
+  at their latest versions.
+- `listDeletedCertificates` will list all of your deleted certificates by their names,
+  only at their latest versions.
+- `listCertificateVersions` will list all the versions of a certificate based on a certificate
+  name.
+
+Which can be used as follows:
+
+```javascript
+for await (let certificate of client.listCertificates()) {
+  console.log("Certificate: ", certificate);
+}
+for await (let deletedCertificate of client.listDeletedCertificates()) {
+  console.log("Deleted certificate: ", deletedCertificate);
+}
+for await (let version of client.listCertificateVersions(certificateName)) {
+  console.log("Version: ", version);
+}
+```
+
+All of these methods will return **all of the available results** at once. To
+retrieve them by pages, add `.byPage()` right after invoking the API method you
+want to use, as follows:
+
+```javascript
+for await (let page of client.listCertificates().byPage()) {
+  for (let certificate of page) {
+    console.log("Certificate: ", certificate);
+  }
+}
+for await (let page of client.listDeletedCertificates().byPage()) {
+  for (let deletedCertificate of page) {
+    console.log("Deleted certificate: ", deletedCertificate);
+  }
+}
+for await (let page of client.listCertificateVersions(certificateName).byPage()) {
+  for (let version of page) {
+    console.log("Version: ", version);
+  }
+}
 ```
 
 ## Troubleshooting
@@ -209,47 +332,11 @@ await client.deleteCertificate(certificateName);
 
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the KeyVault Certificates SDK
+- Getting debug logs from the Key Vault Certificates SDK
 
 ```bash
 export DEBUG=azure*
 ```
-
-- Getting debug logs from the KeyVault Certificates SDK and the protocol level library.
-
-```bash
-export DEBUG=azure*,rhea*
-```
-
-- If you are **not interested in viewing the event transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
-```
-
-- If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure:keyvault-certificates:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
-```
-
-### Logging to a file
-
-- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
-
-  - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
-    ```bash
-    node your-test-script.js > out.log 2>debug.log
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log` by redirecting stderr to stdout (&1), and then redirect stdout to a file:
-    ```bash
-    node your-test-script.js >out.log 2>&1
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log`.
-
-    ```bash
-      node your-test-script.js &> out.log
-    ```
 
 ## Next steps
 
@@ -257,20 +344,13 @@ Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
 directory for detailed examples on how to use this library.
 
-TODO:
-List the samples.
-
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit <https://cla.microsoft.com.>
+This project welcomes contributions and suggestions. Please read the
+[contributing guidelines](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
+for detailed information about how to contribute and what to expect while contributing.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
+### Testing
 
 To run our tests, first install the dependencies (with `npm install` or `rush install`),
 then run the unit tests with: `npm run unit-test`.
@@ -286,10 +366,10 @@ environment variables:
 - `AZURE_CLIENT_ID`: The Client ID of your Azure account.
 - `AZURE_CLIENT_SECRET`: The secret of your Azure account.
 - `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
-- `KEYVAULT_NAME`: The name of the KeyVault you want to run the tests against.
+- `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
 
 **WARNING:** 
-Integration tests will wipe all of the existing records in the targetted KeyVault.
+Integration tests will wipe all of the existing records in the targeted Key Vault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or

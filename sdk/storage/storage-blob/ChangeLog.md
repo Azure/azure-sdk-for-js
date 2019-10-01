@@ -2,6 +2,8 @@
 
 ## 2019.09 12.0.0-preview.4
 
+- Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
+- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on LeaseClient.
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like BlobServiceClient or BlobClient are instantiated.
 - Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
   - Development Connection String

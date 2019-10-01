@@ -25,6 +25,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample reads the scanned copy of a sample receipt. To know more, refer to the [Azure Documentation on Form Recognizer](https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview)
 
 ```typescript
 import { FormRecognizerClient } from "@azure/cognitiveservices-formrecognizer";
@@ -54,15 +55,7 @@ main();
 
 #### browser - Authentication, client creation and getExtractedKeys as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 

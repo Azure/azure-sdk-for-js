@@ -1,8 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { CosmosClient, PermissionMode } from "../../dist-esm";
 import { PermissionDefinition } from "../../dist-esm/client";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { createOrUpsertPermission, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import {
+  createOrUpsertPermission,
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases
+} from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -36,7 +43,9 @@ describe("NodeJS CRUD Tests", function() {
       const database = await getTestDatabase("Validate Authorization database");
       // create container1
 
-      const { resource: container1 } = await database.containers.create({ id: "Validate Authorization container" });
+      const { resource: container1 } = await database.containers.create({
+        id: "Validate Authorization container"
+      });
       // create document1
       const { resource: document1 } = await database
         .container(container1.id)
@@ -47,7 +56,9 @@ describe("NodeJS CRUD Tests", function() {
         .items.create({ id: "coll1doc2", foo: "bar2", key: "value2" });
 
       // create container 2
-      const { resource: container2 } = await database.containers.create({ id: "sample container2" });
+      const { resource: container2 } = await database.containers.create({
+        id: "sample container2"
+      });
 
       // create user1
       const { resource: user1 } = await database.users.create({ id: "user1" });
@@ -163,7 +174,11 @@ describe("NodeJS CRUD Tests", function() {
         .item(entities.doc1.id, undefined)
         .read();
       assert(successDoc !== undefined, "error reading document");
-      assert.equal(successDoc.id, entities.doc1.id, "Expected to read children using parent permissions");
+      assert.equal(
+        successDoc.id,
+        entities.doc1.id,
+        "Expected to read children using parent permissions"
+      );
 
       // TODO: Permission Feed uses RID right now
       /*
@@ -190,7 +205,11 @@ describe("NodeJS CRUD Tests", function() {
         id: "coll1",
         partitionKey: { paths: ["/" + partitionKey] }
       };
-      const container = await getTestContainer("authorization CRUD multiple partitons", undefined, containerDefinition);
+      const container = await getTestContainer(
+        "authorization CRUD multiple partitons",
+        undefined,
+        containerDefinition
+      );
       // create user
       const { resource: userDef } = await container.database.users.create({ id: "user1" });
       const user = container.database.user(userDef.id);

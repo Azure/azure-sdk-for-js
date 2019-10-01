@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { DocumentProducer } from "./documentProducer";
@@ -5,7 +7,8 @@ import { ExecutionContext } from "./ExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 
 /** @hidden */
-export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase implements ExecutionContext {
+export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase
+  implements ExecutionContext {
   /**
    * Provides the ParallelQueryExecutionContext.
    * This class is capable of handling parallelized queries and dervives from ParallelQueryExecutionContextBase.

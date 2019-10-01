@@ -62,7 +62,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * This operation generates a description of an image in human readable language with complete
    * sentences. The description is based on a collection of content tags, which are also returned by
    * the operation. More than one description can be generated for each image. Descriptions are
-   * ordered by their confidence score. All descriptions are in English.
+   * ordered by their confidence score. Descriptions may include results from celebrity and landmark
+   * domain models, if applicable.
    * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
    * A successful response will be returned in JSON. If the request failed, the response will contain
    * an error code and a message to help understand what went wrong.
@@ -238,8 +239,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * supplied image. The Computer Vision API can return tags based on objects, living beings, scenery
    * or actions found in images. Unlike categories, tags are not organized according to a
    * hierarchical classification system, but correspond to image content. Tags may contain hints to
-   * avoid ambiguity or provide context, for example the tag "cello" may be accompanied by the hint
-   * "musical instrument". All tags are in English.
+   * avoid ambiguity or provide context, for example the tag "ascomycete" may be accompanied by the
+   * hint "fungus".
    * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
    * A successful response will be returned in JSON. If the request failed, the response will contain
    * an error code and a message to help understand what went wrong.
@@ -549,7 +550,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * This operation generates a description of an image in human readable language with complete
    * sentences. The description is based on a collection of content tags, which are also returned by
    * the operation. More than one description can be generated for each image. Descriptions are
-   * ordered by their confidence score. All descriptions are in English.
+   * ordered by their confidence score. Descriptions may include results from celebrity and landmark
+   * domain models, if applicable.
    * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
    * A successful response will be returned in JSON. If the request failed, the response will contain
    * an error code and a message to help understand what went wrong.
@@ -747,8 +749,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * supplied image. The Computer Vision API can return tags based on objects, living beings, scenery
    * or actions found in images. Unlike categories, tags are not organized according to a
    * hierarchical classification system, but correspond to image content. Tags may contain hints to
-   * avoid ambiguity or provide context, for example the tag "cello" may be accompanied by the hint
-   * "musical instrument". All tags are in English.
+   * avoid ambiguity or provide context, for example the tag "ascomycete" may be accompanied by the
+   * hint "fungus".
    * Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.
    * A successful response will be returned in JSON. If the request failed, the response will contain
    * an error code and a message to help understand what went wrong.
@@ -856,7 +858,8 @@ const analyzeImageOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.visualFeatures,
     Parameters.details,
-    Parameters.language0
+    Parameters.language0,
+    Parameters.descriptionExclude
   ],
   requestBody: {
     parameterPath: {
@@ -886,7 +889,8 @@ const describeImageOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.maxCandidates,
-    Parameters.language0
+    Parameters.language0,
+    Parameters.descriptionExclude
   ],
   requestBody: {
     parameterPath: {
@@ -1200,7 +1204,8 @@ const analyzeImageInStreamOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.visualFeatures,
     Parameters.details,
-    Parameters.language0
+    Parameters.language0,
+    Parameters.descriptionExclude
   ],
   requestBody: {
     parameterPath: "image",
@@ -1260,7 +1265,8 @@ const describeImageInStreamOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.maxCandidates,
-    Parameters.language0
+    Parameters.language0,
+    Parameters.descriptionExclude
   ],
   requestBody: {
     parameterPath: "image",

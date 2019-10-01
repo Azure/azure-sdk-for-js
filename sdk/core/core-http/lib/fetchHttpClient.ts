@@ -5,7 +5,7 @@ import { AbortController } from "@azure/abort-controller";
 import FormData from "form-data";
 
 import { HttpClient } from "./httpClient";
-import { WebResource } from "./webResource";
+import { TransferProgressEvent, WebResource } from "./webResource";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
@@ -15,6 +15,20 @@ interface FetchError extends Error {
   code?: string;
   errno?: string;
   type?: string;
+}
+
+class ReportTransform extends Transform {
+  private loadedBytes: number = 0;
+  _transform(chunk: string | Buffer, _encoding: string, callback: Function) {
+    this.push(chunk);
+    this.loadedBytes += chunk.length;
+    this.progressCallback!({ loadedBytes: this.loadedBytes });
+    callback(undefined, chunk);
+  }
+
+  constructor(private progressCallback: ((progress: TransferProgressEvent) => void)) {
+    super();
+  }
 }
 
 export abstract class FetchHttpClient implements HttpClient {
@@ -84,15 +98,8 @@ export abstract class FetchHttpClient implements HttpClient {
             ? (typeof httpRequest.body === "function" ? httpRequest.body() : httpRequest.body)
             : undefined;
     if (httpRequest.onUploadProgress && httpRequest.body) {
-      let loadedBytes = 0;
-      const uploadReportStream = new Transform({
-        transform: (chunk: string | Buffer, _encoding, callback) => {
-          loadedBytes += chunk.length;
-          httpRequest.onUploadProgress!({ loadedBytes });
-          callback(undefined, chunk);
-        }
-      });
-
+      const onUploadProgress = httpRequest.onUploadProgress;
+      const uploadReportStream = new ReportTransform(onUploadProgress);
       if (isReadableStream(body)) {
         body.pipe(uploadReportStream);
       } else {
@@ -129,14 +136,7 @@ export abstract class FetchHttpClient implements HttpClient {
         const responseBody: ReadableStream<Uint8Array> | undefined = response.body || undefined;
 
         if (isReadableStream(responseBody)) {
-          let loadedBytes = 0;
-          const downloadReportStream = new Transform({
-            transform: (chunk: string | Buffer, _encoding, callback) => {
-              loadedBytes += chunk.length;
-              onDownloadProgress({ loadedBytes });
-              callback(undefined, chunk);
-            }
-          });
+          const downloadReportStream = new ReportTransform(onDownloadProgress);
           responseBody.pipe(downloadReportStream);
           operationResponse.readableStreamBody = downloadReportStream;
         } else {

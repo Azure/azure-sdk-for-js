@@ -78,4 +78,20 @@
   //    */
   //   "lockedMajor": 3
   // }
+  {
+    "definitionName": "individualVersion",
+    "policyName": "core"
+  },
+  {
+    "definitionName": "individualVersion",
+    "policyName": "client"
+  },
+  {
+    "definitionName": "individualVersion",
+    "policyName": "management"
+  },
+  {
+    "definitionName": "individualVersion",
+    "policyName": "utility"
+  }
 ]
