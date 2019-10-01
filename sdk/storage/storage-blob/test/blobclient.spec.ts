@@ -466,18 +466,18 @@ describe("BlobClient", () => {
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 
-  it.only("exists returns true on an existing blob", async () => {
+  it("exists returns true on an existing blob", async () => {
     const result = await blobClient.exists();
     assert.ok(result, "exists() should return true for an existing blob");
   });
 
-  it.only("exists returns false on non-existing blob", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("blob"));
+  it("exists returns false on non-existing blob", async () => {
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("newblob"));
     const result = await newBlobClient.exists();
     assert.ok(result === false, "exists() should return true for an existing blob");
   });
 
-  it.only("exists works with customer provided key", async () => {
+  it("exists works with customer provided key", async () => {
     blobName = recorder.getUniqueName("blobCPK");
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
@@ -497,7 +497,7 @@ describe("BlobClient", () => {
     assert.ok(result, "exists() should return true");
   });
 
-  it.only("exists re-throws error from getProperties", async () => {
+  it("exists re-throws error from getProperties", async () => {
     blobName = recorder.getUniqueName("blobCPK");
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
