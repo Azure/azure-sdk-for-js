@@ -6,11 +6,9 @@
 
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { TokenCredential } from '@azure/core-http';
 
 // @public
 export class AppConfigurationClient {
-    constructor(uri: string, tokenCredential: TokenCredential);
     constructor(connectionString: string);
     addConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
     clearReadOnly(configurationSetting: ConfigurationSettingParam, options?: ClearReadOnlyOptions): Promise<DeleteLockResponse>;
