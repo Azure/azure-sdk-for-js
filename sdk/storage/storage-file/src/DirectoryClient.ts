@@ -16,7 +16,7 @@ import {
 } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath } from "./utils/utils.common";
+import { appendToURLPath, getShareNameAndPathFromUrl } from "./utils/utils.common";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
@@ -284,6 +284,16 @@ export class DirectoryClient extends StorageClient {
    * @memberof DirectoryClient
    */
   private context: Directory;
+  private _shareName: string;
+  private _dirPath: string;
+
+  public get shareName(): string {
+    return this._shareName;
+  }
+
+  public get dirPath(): string {
+    return this._dirPath;
+  }
 
   /**
    * Creates an instance of DirectoryClient.
@@ -334,6 +344,10 @@ export class DirectoryClient extends StorageClient {
     }
 
     super(url, pipeline);
+    ({
+      shareName: this._shareName,
+      filePathOrdirectoryPath: this._dirPath
+    } = getShareNameAndPathFromUrl(this.url));
     this.context = new Directory(this.storageClientContext);
   }
 

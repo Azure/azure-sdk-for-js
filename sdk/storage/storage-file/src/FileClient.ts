@@ -35,6 +35,7 @@ import { streamToBuffer } from "./utils/utils.node";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
+import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 
 /**
  * Options to configure File - Create operation.
@@ -686,8 +687,8 @@ export class FileClient extends StorageClient {
     super(url, pipeline);
     ({
       shareName: this._shareName,
-      filePath: this._filePath
-    } = this.getShareNameAndFilePathFromUrl());
+      filePathOrdirectoryPath: this._filePath
+    } = getShareNameAndPathFromUrl(this.url));
     this.context = new File(this.storageClientContext);
   }
 
@@ -1612,25 +1613,5 @@ export class FileClient extends StorageClient {
     return this.context.forceCloseHandles(handleId, {
       abortSignal: options.abortSignal
     });
-  }
-
-  private getShareNameAndFilePathFromUrl(): { shareName: string; filePath: string } {
-    //  URL may look like the following
-    // "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString";
-    // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";
-
-    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
-
-    const shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)/(.*)");
-
-    const shareName = shareNameAndFilePath![3];
-    const filePath = shareNameAndFilePath![4];
-
-    if (!shareName || !filePath) {
-      throw new Error("Unable to extract shareName and filePath with provided information.");
-    }
-
-    return { shareName, filePath };
   }
 }
