@@ -8,8 +8,9 @@ import { TokenCredential, GetTokenOptions, AccessToken, CanonicalCode } from "@a
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 
 /**
- * Enables authentication to Azure Active Directory using the authorization
- * code flow, described in more detail at the following documentation page:
+ * Enables authentication to Azure Active Directory using an authorization code
+ * that was obtained through the authorization code flow, described in more detail
+ * in the Azure Active Directory documentation:
  *
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
  */
@@ -25,13 +26,23 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
   /**
    * Creates an instance of CodeFlowCredential with the details needed
-   * to initiate the codeflow authorization flow with Azure Active Directory.
+   * to request an access token using an authentication that was obtained
+   * from Azure Active Directory.
+   *
+   * It is currently necessary for the user of this credential to initiate
+   * the authorization code flow to obtain an authorization code to be used
+   * with this credential.  A full example of this flow is provided here:
+   *
+   * https://github.com/daviwil/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts
    *
    * @param tenantId The Azure Active Directory tenant (directory) ID or name.
    * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param clientSecret A client secret that was generated for the App Registration.
-   * @param authorizationCode An unused authorization code that was received from following
-                              the authorization code flow.
+   * @param clientSecret A client secret that was generated for the App Registration or
+                         'undefined' if using this credential in a desktop or mobile
+                         application.
+   * @param authorizationCode An authorization code that was received from following the
+                              authorization code flow.  This authorization code must not
+                              have already been used to obtain an access token.
    * @param redirectUri The redirect URI that was used to request the authorization code.
                         Must be the same URI that is configured for the App Registration.
    * @param options Options for configuring the client which makes the access token request.
