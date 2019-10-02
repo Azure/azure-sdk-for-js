@@ -5,46 +5,57 @@
 ```ts
 
 // @public (undocumented)
+export type CancelOnProgress = () => void;
+
+// @public (undocumented)
 export abstract class Poller<TProperties, TResult> {
-    constructor(operation: PollOperation<TProperties>, stopped?: boolean);
+    constructor(operation: PollOperation<TProperties, TResult>, stopped?: boolean);
+    // (undocumented)
+    cancel(): Promise<PollOperation<TProperties, TResult>>;
+    // (undocumented)
+    clearSubscribers(): void;
     // (undocumented)
     abstract delay(): Promise<void>;
     // (undocumented)
-    abstract getResult(): Promise<TResult>;
+    done(): Promise<TResult>;
+    // (undocumented)
+    abstract getResult(): Promise<TResult | undefined>;
     // (undocumented)
     isDone(): boolean;
     // (undocumented)
     isStopped(): boolean;
-    // Warning: (ae-forgotten-export) The symbol "CancelOnProgress" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
-    onProgress(callback: (op: PollOperation<TProperties>) => void): CancelOnProgress;
+    onProgress(conditional: (op?: PollOperation<TProperties, TResult>) => boolean, callback: (op?: PollOperation<TProperties, TResult>) => void): CancelOnProgress;
     // (undocumented)
-    protected operation: PollOperation<TProperties>;
+    operation: PollOperation<TProperties, TResult>;
     // (undocumented)
     poll(): Promise<void>;
     // (undocumented)
-    readonly promise: Promise<TResult>;
-    // (undocumented)
     stop(): void;
     // (undocumented)
-    toJSON(): PollOperation<TProperties>;
+    toJSON(): string;
 }
 
 // @public (undocumented)
-export interface PollOperation<TProperties> {
+export class PollerStoppedError extends Error {
+}
+
+// @public (undocumented)
+export interface PollOperation<TProperties, TResult> {
     // (undocumented)
-    cancel(): Promise<PollOperation<TProperties>>;
+    cancel(): Promise<PollOperation<TProperties, TResult>>;
     // (undocumented)
     properties: TProperties;
     // (undocumented)
-    state: PollOperationState;
+    state: PollOperationState<TResult>;
     // (undocumented)
-    update(): Promise<PollOperation<TProperties>>;
+    toString(): string;
+    // (undocumented)
+    update(): Promise<PollOperation<TProperties, TResult>>;
 }
 
 // @public (undocumented)
-export interface PollOperationState {
+export interface PollOperationState<TResult> {
     // (undocumented)
     cancelled?: boolean;
     // (undocumented)
@@ -52,7 +63,19 @@ export interface PollOperationState {
     // (undocumented)
     error?: Error;
     // (undocumented)
+    result?: TResult;
+    // (undocumented)
     started?: boolean;
+}
+
+// @public (undocumented)
+export interface PollProgressSubscriber<TProperties, TResult> {
+    // (undocumented)
+    callback: (op?: PollOperation<TProperties, TResult>) => void;
+    // (undocumented)
+    conditional: (op?: PollOperation<TProperties, TResult>) => boolean;
+    // (undocumented)
+    id: string;
 }
 
 

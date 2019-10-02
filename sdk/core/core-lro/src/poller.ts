@@ -1,31 +1,43 @@
 import { PollOperation } from "./pollOperation";
 
-type CancelOnProgress = () => void;
+export type CancelOnProgress = () => void;
+
+export class PollerStoppedError extends Error {}
+
+export interface PollProgressSubscriber<TProperties, TResult> {
+  id: string;
+  conditional: (op?: PollOperation<TProperties, TResult>) => boolean;
+  callback: (op?: PollOperation<TProperties, TResult>) => void;
+}
 
 export abstract class Poller<TProperties, TResult> {
   private stopped: boolean;
-  private resolve?: (value: TResult) => void;
-  private reject?: (error: Error) => void;
+  private resolve?: (value?: TResult) => void;
+  private reject?: (error: PollerStoppedError | Error) => void;
   private pollOncePromise?: Promise<void>;
+  private cancelPromise?: Promise<PollOperation<TProperties, TResult>>;
   private promise: Promise<TResult>;
-  private onProgressCallback?: (op: PollOperation<TProperties>) => void;
-  public operation: PollOperation<TProperties>;
+  private pollProgressSubscribers: PollProgressSubscriber<TProperties, TResult>[] = [];
+  public operation: PollOperation<TProperties, TResult>;
 
-  constructor(operation: PollOperation<TProperties>, stopped: boolean = false) {
+  constructor(operation: PollOperation<TProperties, TResult>, stopped: boolean = false) {
     this.operation = operation;
     this.stopped = stopped;
-    this.promise = new Promise((resolve, reject) => {
-      this.resolve = resolve;
-      this.reject = reject;
-    });
+    this.promise = new Promise(
+      (
+        resolve: (result?: TResult) => void,
+        reject: (error: PollerStoppedError | Error) => void
+      ) => {
+        this.resolve = resolve;
+        this.reject = reject;
+      }
+    );
     this.operation.state.started = true;
-    if (!this.stopped) {
-      this.startPolling();
-    }
+    this.startPolling();
   }
 
   abstract async delay(): Promise<void>;
-  abstract async getResult(): Promise<TResult>;
+  abstract async getResult(): Promise<TResult | undefined>;
 
   private async startPolling(): Promise<void> {
     while (!this.isStopped() && !this.isDone()) {
@@ -39,7 +51,9 @@ export abstract class Poller<TProperties, TResult> {
       if (!this.isDone()) {
         this.operation = await this.operation.update();
         if (this.isDone() && this.resolve) {
-          this.resolve(await this.getResult());
+          const result = await this.getResult();
+          this.operation.state.result = result;
+          this.resolve(result);
         }
       }
     } catch (e) {
@@ -54,8 +68,10 @@ export abstract class Poller<TProperties, TResult> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce();
       this.pollOncePromise.finally(() => {
-        if (this.onProgressCallback) {
-          this.onProgressCallback(this.operation);
+        for (const subscriber of this.pollProgressSubscribers) {
+          if (subscriber.conditional(this.operation)) {
+            subscriber.callback(this.operation);
+          }
         }
         this.pollOncePromise = undefined;
       });
@@ -63,15 +79,33 @@ export abstract class Poller<TProperties, TResult> {
     return this.pollOncePromise;
   }
 
-  public done(): Promise<TResult> {
+  public done(): Promise<TResult | undefined> {
     return this.promise;
   }
 
-  public onProgress(callback: (op: PollOperation<TProperties>) => void): CancelOnProgress {
-    this.onProgressCallback = callback;
+  public onProgress(
+    conditional: (op?: PollOperation<TProperties, TResult>) => boolean,
+    callback: (op?: PollOperation<TProperties, TResult>) => void
+  ): CancelOnProgress {
+    const id = Math.random().toString();
+    this.pollProgressSubscribers.push({
+      id,
+      conditional,
+      callback
+    });
     return (): void => {
-      this.onProgressCallback = undefined;
+      const subscribers: PollProgressSubscriber<TProperties, TResult>[] = [];
+      for (const subscriber of this.pollProgressSubscribers) {
+        if (subscriber.id !== id) {
+          subscribers.push(subscriber);
+        }
+      }
+      this.pollProgressSubscribers = subscribers;
     };
+  }
+
+  public clearSubscribers() {
+    this.pollProgressSubscribers = [];
   }
 
   public isDone(): boolean {
@@ -84,7 +118,7 @@ export abstract class Poller<TProperties, TResult> {
     if (!this.stopped) {
       this.stopped = true;
       if (this.reject) {
-        this.reject(new Error("Poller stopped"));
+        this.reject(new PollerStoppedError("Poller stopped"));
       }
     }
   }
@@ -93,9 +127,20 @@ export abstract class Poller<TProperties, TResult> {
     return this.stopped;
   }
 
-  public async cancel(): Promise<void> {
-    await this.operation.cancel();
-    this.operation.state.cancelled = true;
+  public cancel(): Promise<PollOperation<TProperties, TResult>> {
+    if (!this.cancelPromise) {
+      this.cancelPromise = this.operation.cancel();
+      // If we use "finally" it says that the rejection wasn't handled.
+      (async () => {
+        try {
+          if (this.cancelPromise) {
+            await this.cancelPromise;
+          }
+        } catch (e) {}
+        this.operation.state.cancelled = true;
+      })();
+    }
+    return this.cancelPromise;
   }
 
   public toJSON(): string {
