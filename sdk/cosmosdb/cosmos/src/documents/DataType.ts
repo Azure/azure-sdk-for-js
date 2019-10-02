@@ -1,6 +1,6 @@
-/** Defines a target data type of an index path specification in the Azure Cosmos DB service. */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/** Defines a target data type of an index path specification in the Azure Cosmos DB service. */
 export enum DataType {
   /** Represents a numeric data type. */
   Number = "Number",

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * Represents a SQL query in the Azure Cosmos DB service.
  *
@@ -13,8 +15,6 @@
  * };
  * ```
  */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 export interface SqlQuerySpec {
   /** The text of the SQL query */
   query: string;
