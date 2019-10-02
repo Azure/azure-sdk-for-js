@@ -100,6 +100,8 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   - In record mode, `new Date()` is returned, and is saved in the recordings by assigning the `label`.
 
   - In playback mode, the date in the recordings associated to the `label` is returned.
+    
+  - [IMPORTANT] Same label cannot be used more than once for a test. If re-used, the new value will overwrite the existing value and the playback would fail.
 
 - `getUniqueName: (prefix: string, label?: string) => string`
 
@@ -110,6 +112,8 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   - In playback mode, the string in the recordings associated to the `label` is returned.
 
   - If the `label`(optional param) is not provided, `prefix` is used as the label.
+  
+  - [IMPORTANT] Same label cannot be used more than once for a test. If re-used, the new value will overwrite the existing value and the playback would fail.
 
 - Any unique information of the test run that is important for playing back the http request must be saved along with the recordings in the record mode.
 
