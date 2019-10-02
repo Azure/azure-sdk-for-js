@@ -286,7 +286,9 @@ const client = new EventHubClient(
   "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
 );
 await client.getProperties();
-await client.getPartitionProperties("partitionId");
+// retrieve partitionIds from client.getProperties() or client.getPartitionIds()
+const partitionId = "0";
+await client.getPartitionProperties(partitionId);
 ```
 
 **Notes:** For scalable and efficient receiving, please take a look at [EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html). The EventProcessor, internally uses the batched receiver to receive events.
