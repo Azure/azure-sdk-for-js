@@ -14,7 +14,7 @@
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:test": "rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run build:es6 && npm run build:nodebrowser",
+    "build": "npm run build:es6 && npm run build:nodebrowser && npm run extract-api",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test types temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -34,7 +34,7 @@
     "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace --no-timeouts test/*.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "types": "./types/src/logger.d.ts",
+  "types": "./types/logger.d.ts",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -43,7 +43,7 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "types/src",
+    "types/logger.d.ts",
     "tsconfig.json"
   ],
   "repository": {
