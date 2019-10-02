@@ -22,7 +22,7 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
 const env = getEnvVars();
 
-describe("Create EventHubClient #RunnableInBrowser", function(): void {
+describe("Create EventHubClient using connection string #RunnableInBrowser", function(): void {
   it("throws when it cannot find the Event Hub name", function(): void {
     const connectionString = "Endpoint=sb://abc";
     const test = function(): EventHubClient {
@@ -86,7 +86,9 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     client.should.be.an.instanceof(EventHubClient);
     should.equal(client.eventHubName, "my-event-hub-name");
   });
+});
 
+describe("Create EventHubClient using Azure Identity", function (): void {
   it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<
     void
   > {
