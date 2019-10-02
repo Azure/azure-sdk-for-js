@@ -8,6 +8,7 @@ import {
   isTokenCredential,
   isNode
 } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Container } from "./generated/src/operations";
@@ -34,6 +35,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { LeaseClient } from "./LeaseClient";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Container - Create operation.
@@ -74,7 +76,7 @@ export interface ContainerCreateOptions extends CommonOptions {
  * @export
  * @interface ContainerGetPropertiesOptions
  */
-export interface ContainerGetPropertiesOptions {
+export interface ContainerGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -123,7 +125,7 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
  * @export
  * @interface ContainerSetMetadataOptions
  */
-export interface ContainerSetMetadataOptions {
+export interface ContainerSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -148,7 +150,7 @@ export interface ContainerSetMetadataOptions {
  * @export
  * @interface ContainerGetAccessPolicyOptions
  */
-export interface ContainerGetAccessPolicyOptions {
+export interface ContainerGetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -226,7 +228,7 @@ export declare type ContainerGetAccessPolicyResponse = {
  * @export
  * @interface ContainerSetAccessPolicyOptions
  */
-export interface ContainerSetAccessPolicyOptions {
+export interface ContainerSetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -250,7 +252,7 @@ export interface ContainerSetAccessPolicyOptions {
  * @export
  * @interface ContainerAcquireLeaseOptions
  */
-export interface ContainerAcquireLeaseOptions {
+export interface ContainerAcquireLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -274,7 +276,7 @@ export interface ContainerAcquireLeaseOptions {
  * @export
  * @interface ContainerReleaseLeaseOptions
  */
-export interface ContainerReleaseLeaseOptions {
+export interface ContainerReleaseLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -298,7 +300,7 @@ export interface ContainerReleaseLeaseOptions {
  * @export
  * @interface ContainerRenewLeaseOptions
  */
-export interface ContainerRenewLeaseOptions {
+export interface ContainerRenewLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -322,7 +324,7 @@ export interface ContainerRenewLeaseOptions {
  * @export
  * @interface ContainerBreakLeaseOptions
  */
-export interface ContainerBreakLeaseOptions {
+export interface ContainerBreakLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -346,7 +348,7 @@ export interface ContainerBreakLeaseOptions {
  * @export
  * @interface ContainerChangeLeaseOptions
  */
-export interface ContainerChangeLeaseOptions {
+export interface ContainerChangeLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -369,7 +371,7 @@ export interface ContainerChangeLeaseOptions {
  *
  * @interface ContainerListBlobsSegmentOptions
  */
-interface ContainerListBlobsSegmentOptions {
+interface ContainerListBlobsSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -406,7 +408,7 @@ interface ContainerListBlobsSegmentOptions {
  * @export
  * @interface ContainerListBlobsOptions
  */
-export interface ContainerListBlobsOptions {
+export interface ContainerListBlobsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -576,11 +578,23 @@ export class ContainerClient extends StorageClient {
   public async create(
     options: ContainerCreateOptions = {}
   ): Promise<Models.ContainerCreateResponse> {
-    // Spread operator in destructuring assignments,
-    // this will filter out unwanted properties from the response object into result object
-    return this.containerContext.create({
-      ...options
-    });
+    const { span, spanOptions } = createSpan("ContainerClient-create", options.spanOptions);
+    try {
+      // Spread operator in destructuring assignments,
+      // this will filter out unwanted properties from the response object into result object
+      return this.containerContext.create({
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -652,10 +666,22 @@ export class ContainerClient extends StorageClient {
       options.leaseAccessConditions = {};
     }
 
-    return this.containerContext.getProperties({
-      abortSignal: options.abortSignal,
-      ...options.leaseAccessConditions
-    });
+    const { span, spanOptions } = createSpan("ContainerClient-getProperties", options.spanOptions);
+    try {
+      return this.containerContext.getProperties({
+        abortSignal: options.abortSignal,
+        ...options.leaseAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -694,11 +720,24 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    return this.containerContext.deleteMethod({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions
-    });
+    const { span, spanOptions } = createSpan("ContainerClient-delete", options.spanOptions);
+
+    try {
+      return this.containerContext.deleteMethod({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -744,12 +783,25 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    return this.containerContext.setMetadata({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
-      metadata,
-      modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions
-    });
+    const { span, spanOptions } = createSpan("ContainerClient-setMetadata", options.spanOptions);
+
+    try {
+      return this.containerContext.setMetadata({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
+        metadata,
+        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -772,44 +824,60 @@ export class ContainerClient extends StorageClient {
       options.leaseAccessConditions = {};
     }
 
-    const response = await this.containerContext.getAccessPolicy({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.leaseAccessConditions
-    });
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-getAccessPolicy",
+      options.spanOptions
+    );
 
-    const res: ContainerGetAccessPolicyResponse = {
-      _response: response._response,
-      blobPublicAccess: response.blobPublicAccess,
-      date: response.date,
-      eTag: response.eTag,
-      errorCode: response.errorCode,
-      lastModified: response.lastModified,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      signedIdentifiers: [],
-      version: response.version
-    };
+    try {
+      const response = await this.containerContext.getAccessPolicy({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
+        spanOptions
+      });
 
-    for (const identifier of response) {
-      const accessPolicy: any = {
-        permission: identifier.accessPolicy.permission
+      const res: ContainerGetAccessPolicyResponse = {
+        _response: response._response,
+        blobPublicAccess: response.blobPublicAccess,
+        date: response.date,
+        eTag: response.eTag,
+        errorCode: response.errorCode,
+        lastModified: response.lastModified,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        signedIdentifiers: [],
+        version: response.version
       };
 
-      if (identifier.accessPolicy.expiry) {
-        accessPolicy.expiry = new Date(identifier.accessPolicy.expiry);
+      for (const identifier of response) {
+        const accessPolicy: any = {
+          permission: identifier.accessPolicy.permission
+        };
+
+        if (identifier.accessPolicy.expiry) {
+          accessPolicy.expiry = new Date(identifier.accessPolicy.expiry);
+        }
+
+        if (identifier.accessPolicy.start) {
+          accessPolicy.start = new Date(identifier.accessPolicy.start);
+        }
+
+        res.signedIdentifiers.push({
+          accessPolicy,
+          id: identifier.id
+        });
       }
 
-      if (identifier.accessPolicy.start) {
-        accessPolicy.start = new Date(identifier.accessPolicy.start);
-      }
-
-      res.signedIdentifiers.push({
-        accessPolicy,
-        id: identifier.id
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
       });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    return res;
   }
 
   /**
@@ -833,29 +901,44 @@ export class ContainerClient extends StorageClient {
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<Models.ContainerSetAccessPolicyResponse> {
     options.containerAccessConditions = options.containerAccessConditions || {};
-    const acl: Models.SignedIdentifier[] = [];
-    for (const identifier of containerAcl || []) {
-      acl.push({
-        accessPolicy: {
-          expiry: identifier.accessPolicy.expiry
-            ? truncatedISO8061Date(identifier.accessPolicy.expiry)
-            : "",
-          permission: identifier.accessPolicy.permission,
-          start: identifier.accessPolicy.start
-            ? truncatedISO8061Date(identifier.accessPolicy.start)
-            : ""
-        },
-        id: identifier.id
-      });
-    }
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-setAccessPolicy",
+      options.spanOptions
+    );
+    try {
+      const acl: Models.SignedIdentifier[] = [];
+      for (const identifier of containerAcl || []) {
+        acl.push({
+          accessPolicy: {
+            expiry: identifier.accessPolicy.expiry
+              ? truncatedISO8061Date(identifier.accessPolicy.expiry)
+              : "",
+            permission: identifier.accessPolicy.permission,
+            start: identifier.accessPolicy.start
+              ? truncatedISO8061Date(identifier.accessPolicy.start)
+              : ""
+          },
+          id: identifier.id
+        });
+      }
 
-    return this.containerContext.setAccessPolicy({
-      abortSignal: options.abortSignal,
-      access,
-      containerAcl: acl,
-      leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions
-    });
+      return this.containerContext.setAccessPolicy({
+        abortSignal: options.abortSignal,
+        access,
+        containerAcl: acl,
+        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -896,14 +979,31 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     body: HttpRequestBody,
     contentLength: number,
-    options?: BlockBlobUploadOptions
+    options: BlockBlobUploadOptions = {}
   ): Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }> {
-    const blockBlobClient = this.getBlockBlobClient(blobName);
-    const response = await blockBlobClient.upload(body, contentLength, options);
-    return {
-      blockBlobClient,
-      response
-    };
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-uploadBlockBlob",
+      options.spanOptions
+    );
+    try {
+      const blockBlobClient = this.getBlockBlobClient(blobName);
+      const response = await blockBlobClient.upload(body, contentLength, {
+        ...options,
+        spanOptions
+      });
+      return {
+        blockBlobClient,
+        response
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -920,10 +1020,21 @@ export class ContainerClient extends StorageClient {
    */
   public async deleteBlob(
     blobName: string,
-    options?: BlobDeleteOptions
+    options: BlobDeleteOptions = {}
   ): Promise<Models.BlobDeleteResponse> {
-    const blobClient = this.getBlobClient(blobName);
-    return await blobClient.delete(options);
+    const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.spanOptions);
+    try {
+      const blobClient = this.getBlobClient(blobName);
+      return await blobClient.delete({ ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -942,10 +1053,25 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobFlatSegmentResponse> {
-    return this.containerContext.listBlobFlatSegment({
-      marker,
-      ...options
-    });
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-listBlobFlatSegment",
+      options.spanOptions
+    );
+    try {
+      return this.containerContext.listBlobFlatSegment({
+        marker,
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -966,10 +1092,25 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
-    return this.containerContext.listBlobHierarchySegment(delimiter, {
-      marker,
-      ...options
-    });
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-listBlobHierarchySegment",
+      options.spanOptions
+    );
+    try {
+      return this.containerContext.listBlobHierarchySegment(delimiter, {
+        marker,
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
