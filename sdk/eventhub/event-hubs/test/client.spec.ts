@@ -22,7 +22,7 @@ import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
 const env = getEnvVars();
 
-describe("Create EventHubClient #RunnableInBrowser", function(): void {
+describe("Create EventHubClient using connection string #RunnableInBrowser", function(): void {
   it("throws when it cannot find the Event Hub name", function(): void {
     const connectionString = "Endpoint=sb://abc";
     const test = function(): EventHubClient {
@@ -86,7 +86,9 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     client.should.be.an.instanceof(EventHubClient);
     should.equal(client.eventHubName, "my-event-hub-name");
   });
+});
 
+describe("Create EventHubClient using Azure Identity", function (): void {
   it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<
     void
   > {
@@ -127,7 +129,7 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
   });
 });
 
-describe("ServiceCommunicationError for non existent namespace", function(): void {
+describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -195,7 +197,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
   });
 });
 
-describe("MessagingEntityNotFoundError for non existent eventhub", function(): void {
+describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrowser", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -320,7 +322,7 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
   });
 });
 
-describe("Errors after close()", function(): void {
+describe("Errors after close() #RunnableInBrowser", function(): void {
   let client: EventHubClient;
   let sender: EventHubProducer;
   let receiver: EventHubConsumer;
