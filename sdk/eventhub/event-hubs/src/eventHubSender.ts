@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import uuid from "uuid/v4";
-import * as log from "./log";
+import { log, logErrorStackTrace } from "./log";
 import {
   AwaitableSender,
   EventContext,
@@ -92,7 +92,7 @@ export class EventHubSender extends LinkEntity {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         const err = translate(senderError);
-        log.error(
+        log.verbose(
           "[%s] An error occurred for sender '%s': %O.",
           this._context.connectionId,
           this.name,
@@ -105,7 +105,7 @@ export class EventHubSender extends LinkEntity {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const err = translate(sessionError);
-        log.error(
+        log.verbose(
           "[%s] An error occurred on the session of sender '%s': %O.",
           this._context.connectionId,
           this.name,
@@ -118,7 +118,7 @@ export class EventHubSender extends LinkEntity {
       const sender = this._sender || context.sender!;
       const senderError = context.sender && context.sender.error;
       if (senderError) {
-        log.error(
+        log.verbose(
           "[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " +
             "The associated error is: %O",
           this._context.connectionId,
@@ -129,7 +129,7 @@ export class EventHubSender extends LinkEntity {
       }
       if (sender && !sender.isItselfClosed()) {
         if (!this.isConnecting) {
-          log.error(
+          log.verbose(
             "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
               "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
               "detached from the _onAmqpClose() handler.",
@@ -139,7 +139,7 @@ export class EventHubSender extends LinkEntity {
           );
           await this.onDetached(senderError);
         } else {
-          log.error(
+          log.verbose(
             "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
               "and the sdk did not initate this. Moreover the sender is already re-connecting. " +
               "Hence not calling detached from the _onAmqpClose() handler.",
@@ -149,7 +149,7 @@ export class EventHubSender extends LinkEntity {
           );
         }
       } else {
-        log.error(
+        log.verbose(
           "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
             "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
             "() handler.",
@@ -164,7 +164,7 @@ export class EventHubSender extends LinkEntity {
       const sender = this._sender || context.sender!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        log.error(
+        log.verbose(
           "[%s] 'session_close' event occurred for sender '%s' with address '%s'. " +
             "The associated error is: %O",
           this._context.connectionId,
@@ -175,7 +175,7 @@ export class EventHubSender extends LinkEntity {
       }
       if (sender && !sender.isSessionItselfClosed()) {
         if (!this.isConnecting) {
-          log.error(
+          log.verbose(
             "[%s] 'session_close' event occurred on the session of sender '%s' with " +
               "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
               "_onSessionClose() handler.",
@@ -185,7 +185,7 @@ export class EventHubSender extends LinkEntity {
           );
           await this.onDetached(sessionError);
         } else {
-          log.error(
+          log.verbose(
             "[%s] 'session_close' event occurred on the session of sender '%s' with " +
               "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
               "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
@@ -195,7 +195,7 @@ export class EventHubSender extends LinkEntity {
           );
         }
       } else {
-        log.error(
+        log.verbose(
           "[%s] 'session_close' event occurred on the session of sender '%s' with address " +
             "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
             "() handler.",
@@ -225,7 +225,7 @@ export class EventHubSender extends LinkEntity {
         const translatedError = translate(senderError);
         if (translatedError.retryable) {
           shouldReopen = true;
-          log.error(
+          log.verbose(
             "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
               "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
               "the sender link.",
@@ -234,7 +234,7 @@ export class EventHubSender extends LinkEntity {
             this.address
           );
         } else {
-          log.error(
+          log.warning(
             "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
               "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
               "the sender link.",
@@ -242,10 +242,11 @@ export class EventHubSender extends LinkEntity {
             this.name,
             this.address
           );
+          logErrorStackTrace(translatedError);
         }
       } else if (!wasCloseInitiated) {
         shouldReopen = true;
-        log.error(
+        log.verbose(
           "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
             "was no accompanying error as well. This is a candidate for re-establishing " +
             "the sender link.",
@@ -259,7 +260,7 @@ export class EventHubSender extends LinkEntity {
           senderError: senderError,
           _sender: this._sender
         };
-        log.error(
+        log.verbose(
           "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
           this._context.connectionId,
           this.name,
@@ -289,7 +290,7 @@ export class EventHubSender extends LinkEntity {
         });
       }
     } catch (err) {
-      log.error(
+      log.verbose(
         "[%s] An error occurred while processing onDetached() of Sender '%s' with address " +
           "'%s': %O",
         this._context.connectionId,
@@ -307,7 +308,7 @@ export class EventHubSender extends LinkEntity {
    */
   async close(): Promise<void> {
     if (this._sender) {
-      log.sender(
+      log.info(
         "[%s] Closing the Sender for the entity '%s'.",
         this._context.connectionId,
         this._context.config.entityPath
@@ -325,7 +326,7 @@ export class EventHubSender extends LinkEntity {
    */
   isOpen(): boolean {
     const result: boolean = this._sender! && this._sender!.isOpen();
-    log.error(
+    log.info(
       "[%s] Sender '%s' with address '%s' is open? -> %s",
       this._context.connectionId,
       this.name,
@@ -355,7 +356,7 @@ export class EventHubSender extends LinkEntity {
     return new Promise<number>(async (resolve, reject) => {
       const rejectOnAbort = () => {
         const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
-        log.error(desc);
+        log.info(desc);
         const error = new AbortError(`The create batch operation has been cancelled by the user.`);
         reject(error);
       };
@@ -376,7 +377,7 @@ export class EventHubSender extends LinkEntity {
         abortSignal.addEventListener("abort", onAbort);
       }
       try {
-        log.sender(
+        log.info(
           "Acquiring lock %s for initializing the session, sender and " +
             "possibly the connection.",
           this.senderLock
@@ -395,12 +396,13 @@ export class EventHubSender extends LinkEntity {
         });
         resolve(this._sender!.maxMessageSize);
       } catch (err) {
-        log.error(
+        log.warning(
           "[%s] An error occurred while creating the sender %s",
           this._context.connectionId,
           this.name,
           err
         );
+        logErrorStackTrace(err);
         reject(err);
       } finally {
         if (abortSignal) {
@@ -433,11 +435,12 @@ export class EventHubSender extends LinkEntity {
         const error = new Error(
           "Partition key is not supported when using producers that were created using a partition id."
         );
-        log.error(
+        log.warning(
           "[%s] Partition key is not supported when using producers that were created using a partition id. %O",
           this._context.connectionId,
           error
         );
+        log.verbose(error.stack);
         throw error;
       }
 
@@ -446,15 +449,16 @@ export class EventHubSender extends LinkEntity {
         const error = new Error(
           "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
         );
-        log.error(
+        log.warning(
           "[%s] Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead. %O",
           this._context.connectionId,
           error
         );
+        log.verbose(error.stack);
         throw error;
       }
 
-      log.sender(
+      log.info(
         "[%s] Sender '%s', trying to send EventData[].",
         this._context.connectionId,
         this.name
@@ -486,7 +490,7 @@ export class EventHubSender extends LinkEntity {
         // Finally encode the envelope (batch message).
         encodedBatchMessage = message.encode(batchMessage);
       }
-      log.sender(
+      log.info(
         "[%s] Sender '%s', sending encoded batch message.",
         this._context.connectionId,
         this.name,
@@ -494,7 +498,8 @@ export class EventHubSender extends LinkEntity {
       );
       return await this._trySendBatch(encodedBatchMessage, options);
     } catch (err) {
-      log.error("An error occurred while sending the batch message %O", err);
+      log.warning("An error occurred while sending the batch message %O", err);
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -502,7 +507,7 @@ export class EventHubSender extends LinkEntity {
   private _deleteFromCache(): void {
     this._sender = undefined;
     delete this._context.senders[this.name];
-    log.error(
+    log.info(
       "[%s] Deleted the sender '%s' with address '%s' from the client cache.",
       this._context.connectionId,
       this.name,
@@ -523,7 +528,7 @@ export class EventHubSender extends LinkEntity {
       onSessionClose: this._onSessionClose,
       sendTimeoutInSeconds: timeoutInMs / 1000
     };
-    log.sender("Creating sender with options: %O", srOptions);
+    log.info("Creating sender with options: %O", srOptions);
     return srOptions;
   }
 
@@ -549,7 +554,7 @@ export class EventHubSender extends LinkEntity {
           const desc: string =
             `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
-          log.error(desc);
+          log.info(desc);
           return reject(new AbortError("The send operation has been cancelled by the user."));
         };
 
@@ -580,7 +585,7 @@ export class EventHubSender extends LinkEntity {
             `[${this._context.connectionId}] Sender "${this.name}" with ` +
             `address "${this.address}", was not able to send the message right now, due ` +
             `to operation timeout.`;
-          log.error(desc);
+          log.warning(desc);
           const e: Error = {
             name: "OperationTimeoutError",
             message: desc
@@ -594,7 +599,7 @@ export class EventHubSender extends LinkEntity {
         );
 
         if (!this.isOpen()) {
-          log.sender(
+          log.info(
             "Acquiring lock %s for initializing the session, sender and " +
               "possibly the connection.",
             this.senderLock
@@ -610,17 +615,18 @@ export class EventHubSender extends LinkEntity {
           } catch (err) {
             removeListeners();
             err = translate(err);
-            log.error(
+            log.warning(
               "[%s] An error occurred while creating the sender %s",
               this._context.connectionId,
               this.name,
               err
             );
+            logErrorStackTrace(err);
             return reject(err);
           }
         }
 
-        log.sender(
+        log.info(
           "[%s] Sender '%s', credit: %d available: %d",
           this._context.connectionId,
           this.name,
@@ -628,7 +634,7 @@ export class EventHubSender extends LinkEntity {
           this._sender!.session.outgoing.available()
         );
         if (this._sender!.sendable()) {
-          log.sender(
+          log.info(
             "[%s] Sender '%s', sending message with id '%s'.",
             this._context.connectionId,
             this.name
@@ -636,7 +642,7 @@ export class EventHubSender extends LinkEntity {
 
           try {
             const delivery = await this._sender!.send(message, undefined, 0x80013700);
-            log.sender(
+            log.info(
               "[%s] Sender '%s', sent message with delivery id: %d",
               this._context.connectionId,
               this.name,
@@ -645,11 +651,12 @@ export class EventHubSender extends LinkEntity {
             return resolve();
           } catch (err) {
             err = translate(err.innerError || err);
-            log.error(
+            log.warning(
               "[%s] An error occurred while sending the message",
               this._context.connectionId,
               err
             );
+            logErrorStackTrace(err);
             return reject(err);
           } finally {
             removeListeners();
@@ -659,7 +666,7 @@ export class EventHubSender extends LinkEntity {
           const msg =
             `[${this._context.connectionId}] Sender "${this.name}", ` +
             `cannot send the message right now. Please try later.`;
-          log.error(msg);
+          log.verbose(msg);
           const amqpError: AmqpError = {
             condition: ErrorNameConditionMapper.SenderBusyError,
             description: msg
@@ -691,7 +698,7 @@ export class EventHubSender extends LinkEntity {
       // false    true           No
       // false    false          Yes
       if (!this.isOpen() && !this.isConnecting) {
-        log.error(
+        log.info(
           "[%s] The sender '%s' with address '%s' is not open and is not currently " +
             "establishing itself. Hence let's try to connect.",
           this._context.connectionId,
@@ -700,23 +707,23 @@ export class EventHubSender extends LinkEntity {
         );
         this.isConnecting = true;
         await this._negotiateClaim();
-        log.error("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);
+        log.verbose("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);
 
         this._sender = await this._context.connection.createAwaitableSender(options);
         this.isConnecting = false;
-        log.error(
+        log.info(
           "[%s] Sender '%s' with address '%s' has established itself.",
           this._context.connectionId,
           this.name,
           this.address
         );
         this._sender.setMaxListeners(1000);
-        log.error(
+        log.info(
           "[%s] Promise to create the sender resolved. Created sender with name: %s",
           this._context.connectionId,
           this.name
         );
-        log.error(
+        log.info(
           "[%s] Sender '%s' created with sender options: %O",
           this._context.connectionId,
           this.name,
@@ -727,7 +734,7 @@ export class EventHubSender extends LinkEntity {
         if (!this._context.senders[this.name]) this._context.senders[this.name] = this;
         await this._ensureTokenRenewal();
       } else {
-        log.error(
+        log.verbose(
           "[%s] The sender '%s' with address '%s' is open -> %s and is connecting " +
             "-> %s. Hence not reconnecting.",
           this._context.connectionId,
@@ -740,12 +747,13 @@ export class EventHubSender extends LinkEntity {
     } catch (err) {
       this.isConnecting = false;
       err = translate(err);
-      log.error(
+      log.warning(
         "[%s] An error occurred while creating the sender %s",
         this._context.connectionId,
         this.name,
         err
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }

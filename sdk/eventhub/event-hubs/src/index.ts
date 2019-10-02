@@ -35,6 +35,7 @@ export {
 export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
 export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
+export { log } from "./log";
 export {
   MessagingError,
   DataTransformer,
