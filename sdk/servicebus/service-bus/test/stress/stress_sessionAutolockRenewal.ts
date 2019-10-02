@@ -35,7 +35,7 @@ async function main(): Promise<void> {
 }
 
 async function sendMessage(sessionId: string): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
   const client = ns.createQueueClient(queueName);
   try {
     const sender = client.createSender();
@@ -55,7 +55,7 @@ async function sendMessage(sessionId: string): Promise<void> {
 }
 
 async function receiveMessage(sessionId: string): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
   const client = ns.createQueueClient(queueName);
 
   try {

@@ -35,7 +35,7 @@ async function main(): Promise<void> {
 }
 
 async function sendReceiveMessages(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
 
   try {
     while (!isJobDone) {

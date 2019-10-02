@@ -41,7 +41,7 @@ async function RunTest(
   maxConcurrentCalls: number,
   messages: number
 ): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
 
   const client = ns.createQueueClient(entityPath);
   const receiver = client.createReceiver(ReceiveMode.receiveAndDelete);

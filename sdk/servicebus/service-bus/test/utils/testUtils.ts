@@ -501,5 +501,5 @@ export function getNamespace(serviceBusConnectionString: string): string {
 
 export function getServiceBusClient(): ServiceBusClient {
   const env = getEnvVars();
-  return ServiceBusClient.createFromConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+  return new ServiceBusClient(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
 }

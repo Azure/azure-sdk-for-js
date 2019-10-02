@@ -46,7 +46,7 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
   });
 
   it("Creates an Namespace from a connection string", function(): void {
-    sbClient = ServiceBusClient.createFromConnectionString(
+    sbClient = new ServiceBusClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     sbClient.should.be.an.instanceof(ServiceBusClient);
@@ -54,7 +54,7 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
   });
 
   it("Creates clients after coercing name to string", function(): void {
-    sbClient = ServiceBusClient.createFromConnectionString(
+    sbClient = new ServiceBusClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     const queueClient = sbClient.createQueueClient(1 as any);
@@ -88,7 +88,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
-    sbClient = ServiceBusClient.createFromConnectionString(
+    sbClient = new ServiceBusClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     errorWasThrown = false;
