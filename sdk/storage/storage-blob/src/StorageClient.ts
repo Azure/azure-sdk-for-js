@@ -7,6 +7,15 @@ import { escapeURLPath, getURLScheme, iEqual } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { SpanOptions } from "@azure/core-tracing";
+
+/**
+ * An interface for options common to every remote operation.
+ */
+export interface CommonOptions {
+  spanOptions?: SpanOptions;
+}
+
 /**
  * A StorageClient represents a based URL class for BlobServiceClient, ContainerClient and etc.
  *

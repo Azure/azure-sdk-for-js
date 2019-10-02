@@ -26,7 +26,8 @@ import {
   PageBlobClient,
   StorageClient,
   BlockBlobUploadOptions,
-  BlobDeleteOptions
+  BlobDeleteOptions,
+  CommonOptions
 } from "./internal";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -40,7 +41,7 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
  * @export
  * @interface ContainerCreateOptions
  */
-export interface ContainerCreateOptions {
+export interface ContainerCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -98,7 +99,7 @@ export interface ContainerGetPropertiesOptions {
  * @export
  * @interface ContainerDeleteMethodOptions
  */
-export interface ContainerDeleteMethodOptions {
+export interface ContainerDeleteMethodOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
