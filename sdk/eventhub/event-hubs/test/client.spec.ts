@@ -129,7 +129,7 @@ describe("Create EventHubClient using Azure Identity", function (): void {
   });
 });
 
-describe("ServiceCommunicationError for non existent namespace", function(): void {
+describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -197,7 +197,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
   });
 });
 
-describe("MessagingEntityNotFoundError for non existent eventhub", function(): void {
+describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrowser", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -322,7 +322,7 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
   });
 });
 
-describe("Errors after close()", function(): void {
+describe("Errors after close() #RunnableInBrowser", function(): void {
   let client: EventHubClient;
   let sender: EventHubProducer;
   let receiver: EventHubConsumer;
