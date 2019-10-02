@@ -150,7 +150,7 @@ function buildNode(doc: Document, obj: any, elementName: string): Node[] {
   }
 }
 
-export function deserializeAtomXmlToJson(body: string): any {
+export function convertAtomXmlToJson(body: string): any {
   const dom = parser.parseFromString(body, "text/xml");
   throwIfError(dom);
   const result = domToObject(dom);
@@ -160,7 +160,7 @@ export function deserializeAtomXmlToJson(body: string): any {
 /**
  * @param {object} content The content payload as it is to be serialized. It should include any root node(s).
  */
-export function serializeJsonToAtomXml(content: any): string {
+export function convertJsonToAtomXml(content: any): string {
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
 
   const serializer = new XMLSerializer();

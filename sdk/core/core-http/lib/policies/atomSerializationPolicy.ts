@@ -10,10 +10,10 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { AtomXmlSerializer, XMLRequestInJSON } from "../atomXmlOperationSpec";
-import { deserializeAtomXmlToJson } from "../util/xml";
+import { convertAtomXmlToJson } from "../util/xml";
 import { RestError } from "../restError";
 import * as utils from "../util/utils";
-import { serializeJsonToAtomXml } from "../util/xml";
+import { convertJsonToAtomXml } from "../util/xml";
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialize/deserialize
@@ -51,14 +51,14 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
 
     if (request.body) {
       const content: XMLRequestInJSON = serializer.serialize(JSON.parse(request.body));
-      request.body = serializeJsonToAtomXml(content);
+      request.body = convertJsonToAtomXml(content);
     }
 
     const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
 
     try {
       if (response.bodyAsText) {
-        response.parsedBody = await deserializeAtomXmlToJson(response.bodyAsText);
+        response.parsedBody = await convertAtomXmlToJson(response.bodyAsText);
       }
     } catch (err) {
       const error = new RestError(

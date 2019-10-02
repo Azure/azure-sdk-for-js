@@ -36,7 +36,7 @@ export function parseXML(str: string): Promise<any> {
   return result;
 }
 
-export async function deserializeAtomXmlToJson(body: string): Promise<any> {
+export async function convertAtomXmlToJson(body: string): Promise<any> {
   const parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
   const result = await new Promise((resolve, reject) => {
     parser.parseString(removeBOM(body.toString()), function(err: any, parsedBody: any) {
@@ -54,7 +54,7 @@ export async function deserializeAtomXmlToJson(body: string): Promise<any> {
  * @ignore
  * @param {object} content The content payload as it is to be serialized. It should include any root node(s).
  */
-export function serializeJsonToAtomXml(content: any): string {
+export function convertJsonToAtomXml(content: any): string {
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
 
   let doc = xmlbuilder.create();
