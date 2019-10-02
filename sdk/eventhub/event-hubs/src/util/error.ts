@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { logger } from "../log";
+import { log, logErrorStackTrace } from "../log";
 import { ConnectionContext } from "../connectionContext";
 
 /**
@@ -14,8 +14,8 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
   if (context && context.wasConnectionCloseCalled) {
     const errorMessage = "The underlying AMQP connection is closed.";
     const error = new Error(errorMessage);
-    logger.warning(`[${context.connectionId}] %O`, error);
-    logger.verbose(error.stack);
+    log.warning(`[${context.connectionId}] %O`, error);
+    logErrorStackTrace(error);
     throw error;
   }
 }
@@ -35,8 +35,8 @@ export function throwTypeErrorIfParameterMissing(
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
     const error = new TypeError(`Missing parameter "${parameterName}"`);
-    logger.warning(`[${connectionId}] %O`, error);
-    logger.verbose(error.stack);
+    log.warning(`[${connectionId}] %O`, error);
+    logErrorStackTrace(error);
     throw error;
   }
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { logger } from "./log";
+import { log, logErrorStackTrace } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./eventHubClient";
 import { OnMessage, OnError, EventHubReceiver, LastEnqueuedEventInfo } from "./eventHubReceiver";
@@ -216,15 +216,15 @@ export class EventHubConsumer {
       }
 
       if (error.name === "AbortError") {
-        logger.verbose(error.message, error.stack);
+        log.verbose(error.message, error.stack);
         // close this receiver when user triggers a cancellation.
         this.close().catch(() => {}); // no-op close error handler
       } else {
-        logger.warning(
+        log.warning(
           "[%s] Since the error is not retryable, we let the user know about it by calling the user's error handler.",
           this._context.connectionId
         );
-        if (error.stack) logger.verbose(error.stack);
+        logErrorStackTrace(error);
       }
       onError(error);
     };
@@ -328,7 +328,7 @@ export class EventHubConsumer {
           const desc: string =
             `[${this._context.connectionId}] The request operation on the Receiver "${name}" with ` +
             `address "${address}" has been cancelled by the user.`;
-          logger.verbose(desc);
+          log.verbose(desc);
         };
 
         const rejectOnAbort = async (): Promise<void> => {
@@ -352,7 +352,7 @@ export class EventHubConsumer {
           return resolve(receivedEvents);
         }
 
-        logger.info(
+        log.info(
           "[%s] Receiver '%s', setting the prefetch count to %d.",
           this._context.connectionId,
           this._baseConsumer && this._baseConsumer.name,
@@ -384,7 +384,7 @@ export class EventHubConsumer {
             // resolve the operation's promise after the requested
             // number of events are received.
             if (receivedEvents.length === maxMessageCount) {
-              logger.info(
+              log.info(
                 "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
                 this._context.connectionId,
                 this._baseConsumer && this._baseConsumer.name,
@@ -411,7 +411,7 @@ export class EventHubConsumer {
 
         const addTimeout = (): void => {
           const msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
-          logger.info(
+          log.info(
             msg,
             this._context.connectionId,
             maxWaitTimeInSeconds,
@@ -421,7 +421,7 @@ export class EventHubConsumer {
           // resolve the operation's promise after the requested
           // max number of seconds have passed.
           timer = setTimeout(() => {
-            logger.info(
+            log.info(
               "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
               this._context.connectionId,
               this._baseConsumer && this._baseConsumer.name,
@@ -480,8 +480,8 @@ export class EventHubConsumer {
     if (this.isReceivingMessages) {
       const errorMessage = `The EventHubConsumer for "${this._context.config.entityPath}" is already receiving messages.`;
       const error = new Error(errorMessage);
-      logger.warning(`[${this._context.connectionId}] %O`, error);
-      logger.verbose(error.stack);
+      log.warning(`[${this._context.connectionId}] %O`, error);
+      log.verbose(error.stack);
       throw error;
     }
   }
@@ -493,8 +493,8 @@ export class EventHubConsumer {
         `The EventHubConsumer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
         `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
-      logger.warning(`[${this._context.connectionId}] %O`, error);
-      logger.verbose(error.stack);
+      log.warning(`[${this._context.connectionId}] %O`, error);
+      log.verbose(error.stack);
       throw error;
     }
   }

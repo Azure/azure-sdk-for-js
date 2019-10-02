@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { EventHubReceiver } from "./eventHubReceiver";
-import { logger } from "./log";
+import { log, logErrorStackTrace } from "./log";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers.
@@ -61,13 +61,13 @@ export class ReceiveHandler {
       try {
         await this._receiver.close();
       } catch (err) {
-        logger.warning(
+        log.warning(
           "An error occurred while stopping the receiver '%s' with address '%s': %O",
           this._receiver.name,
           this._receiver.address,
           err
         );
-        if (err.stack) logger.verbose(err.stack);
+        logErrorStackTrace(err);
       }
     }
   }

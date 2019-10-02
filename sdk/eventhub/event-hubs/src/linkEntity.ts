@@ -11,7 +11,7 @@ import {
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
-import { logger } from "./log";
+import { log, logErrorStackTrace } from "./log";
 
 /**
  * @ignore
@@ -129,7 +129,7 @@ export class LinkEntity {
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
-    logger.info(
+    log.info(
       "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
         "'%s' with address: '%s'.",
       this._context.connectionId,
@@ -159,7 +159,7 @@ export class LinkEntity {
     }
 
     // Acquire the lock to negotiate the CBS claim.
-    logger.info(
+    log.info(
       "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
       this._context.connectionId,
       this._context.negotiateClaimLock,
@@ -168,7 +168,7 @@ export class LinkEntity {
       this.address
     );
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      logger.info(
+      log.info(
         "[%s] %s: calling negotiateClaim for audience '%s'.",
         this._context.connectionId,
         this._type,
@@ -176,7 +176,7 @@ export class LinkEntity {
       );
       return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
-    logger.info(
+    log.info(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
       this._context.connectionId,
       this._type,
@@ -202,7 +202,7 @@ export class LinkEntity {
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        logger.warning(
+        log.warning(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
           this._context.connectionId,
           this._type,
@@ -210,10 +210,10 @@ export class LinkEntity {
           this.address,
           err
         );
-        if (err.stack) logger.verbose(err.stack);
+        logErrorStackTrace(err);
       }
     }, this._tokenTimeoutInMs);
-    logger.info(
+    log.info(
       "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
       this._context.connectionId,
       this._type,
@@ -238,7 +238,7 @@ export class LinkEntity {
         // Closing the link and its underlying session if the link is open. This should also
         // remove them from the internal map.
         await link.close();
-        logger.info(
+        log.info(
           "[%s] %s '%s' with address '%s' closed.",
           this._context.connectionId,
           this._type,
@@ -246,7 +246,7 @@ export class LinkEntity {
           this.address
         );
       } catch (err) {
-        logger.verbose(
+        log.verbose(
           "[%s] An error occurred while closing the %s '%s' with address '%s': %O",
           this._context.connectionId,
           this._type,

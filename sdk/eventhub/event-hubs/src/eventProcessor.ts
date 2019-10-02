@@ -6,7 +6,7 @@ import { EventHubClient } from "./eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PumpManager } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { logger } from "./log";
+import { log } from "./log";
 import { PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
@@ -274,20 +274,16 @@ export class EventProcessor {
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIdToClaim: string
   ): Promise<void> {
-    logger.info(`[${this._id}] Attempting to claim ownership of partition ${partitionIdToClaim}.`);
+    log.info(`[${this._id}] Attempting to claim ownership of partition ${partitionIdToClaim}.`);
     const ownershipRequest = this._createPartitionOwnershipRequest(
       partitionOwnershipMap,
       partitionIdToClaim
     );
     try {
       await this._partitionManager.claimOwnership([ownershipRequest]);
-      logger.info(
-        `[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`
-      );
+      log.info(`[${this._id}] Successfully claimed ownership of partition ${partitionIdToClaim}.`);
 
-      logger.info(
-        `[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessor.`
-      );
+      log.info(`[${this._id}] [${partitionIdToClaim}] Calling user-provided PartitionProcessor.`);
       const partitionProcessor = new this._partitionProcessorClass();
       partitionProcessor.fullyQualifiedNamespace = this._eventHubClient.fullyQualifiedNamespace;
       partitionProcessor.eventHubName = this._eventHubClient.eventHubName;
@@ -301,9 +297,9 @@ export class EventProcessor {
         : EventPosition.earliest();
 
       await this._pumpManager.createPump(this._eventHubClient, eventPosition, partitionProcessor);
-      logger.info(`[${this._id}] PartitionPump created successfully.`);
+      log.info(`[${this._id}] PartitionPump created successfully.`);
     } catch (err) {
-      logger.verbose(
+      log.verbose(
         `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`,
         err
       );
@@ -352,10 +348,10 @@ export class EventProcessor {
         }
 
         // sleep
-        logger.info(`[${this._id}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`);
+        log.info(`[${this._id}] Pausing the EventProcessor loop for ${waitIntervalInMs} ms.`);
         await delay(waitIntervalInMs, abortSignal);
       } catch (err) {
-        logger.verbose(`[${this._id}] An error occured within the EventProcessor loop:`, err);
+        log.verbose(`[${this._id}] An error occured within the EventProcessor loop:`, err);
       }
     }
   }
@@ -373,13 +369,13 @@ export class EventProcessor {
    */
   start(): void {
     if (this._isRunning) {
-      logger.verbose(`[${this._id}] Attempted to start an already running EventProcessor.`);
+      log.verbose(`[${this._id}] Attempted to start an already running EventProcessor.`);
       return;
     }
 
     this._isRunning = true;
     this._abortController = new AbortController();
-    logger.info(`[${this._id}] Starting an EventProcessor.`);
+    log.info(`[${this._id}] Starting an EventProcessor.`);
     this._loopTask = this._runLoop(this._abortController.signal);
   }
 
@@ -391,7 +387,7 @@ export class EventProcessor {
    *
    */
   async stop(): Promise<void> {
-    logger.info(`[${this._id}] Stopping an EventProcessor.`);
+    log.info(`[${this._id}] Stopping an EventProcessor.`);
     if (this._abortController) {
       // cancel the event processor loop
       this._abortController.abort();
@@ -406,9 +402,9 @@ export class EventProcessor {
       // will complete immediately if _loopTask is undefined
       await this._loopTask;
     } catch (err) {
-      logger.verbose(`[${this._id}] An error occured while stopping the EventProcessor:`, err);
+      log.verbose(`[${this._id}] An error occured while stopping the EventProcessor:`, err);
     } finally {
-      logger.info(`[${this._id}] EventProcessor stopped.`);
+      log.info(`[${this._id}] EventProcessor stopped.`);
     }
   }
 }

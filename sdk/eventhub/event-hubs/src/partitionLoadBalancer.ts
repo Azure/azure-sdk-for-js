@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { PartitionOwnership } from "./eventProcessor";
-import { logger } from "./log";
+import { log } from "./log";
 
 /**
  * This class is responsible for balancing the load of processing events from all partitions of an Event Hub by
@@ -45,7 +45,7 @@ export class PartitionLoadBalancer {
         ownerId = ownerId;
       }
     });
-    logger.info(
+    log.info(
       `[${this._ownerId}] Owner id ${ownerId} owns ${maxList.length} partitions, stealing a partition from it.`
     );
     return maxList[Math.floor(Math.random() * maxList.length)].partitionId;
@@ -140,7 +140,7 @@ export class PartitionLoadBalancer {
     const activePartitionOwnershipMap = this._removeInactivePartitionOwnerships(
       partitionOwnershipMap
     );
-    logger.info(
+    log.info(
       `[${this._ownerId}] Number of active ownership records: ${activePartitionOwnershipMap.size}.`
     );
     if (activePartitionOwnershipMap.size === 0) {
@@ -162,9 +162,7 @@ export class PartitionLoadBalancer {
     if (!ownerPartitionMap.has(this._ownerId)) {
       ownerPartitionMap.set(this._ownerId, []);
     }
-    logger.verbose(
-      `[${this._ownerId}] Number of active event processors: ${ownerPartitionMap.size}.`
-    );
+    log.verbose(`[${this._ownerId}] Number of active event processors: ${ownerPartitionMap.size}.`);
 
     // Find the minimum number of partitions every event processor should own when the load is
     // evenly distributed.
@@ -177,7 +175,7 @@ export class PartitionLoadBalancer {
     const numberOfEventProcessorsWithAdditionalPartition =
       partitionsToAdd.length % ownerPartitionMap.size;
 
-    logger.verbose(
+    log.verbose(
       `[${this._ownerId}] Expected minimum number of partitions per event processor: ${minPartitionsPerEventProcessor}, 
       expected number of event processors with additional partition: ${numberOfEventProcessorsWithAdditionalPartition}.`
     );
@@ -189,7 +187,7 @@ export class PartitionLoadBalancer {
         ownerPartitionMap
       )
     ) {
-      logger.info(`[${this._ownerId}] Load is balanced.`);
+      log.info(`[${this._ownerId}] Load is balanced.`);
       // If the partitions are evenly distributed among all active event processors, no change required.
       return "";
     }
@@ -201,7 +199,7 @@ export class PartitionLoadBalancer {
         ownerPartitionMap
       )
     ) {
-      logger.info(
+      log.info(
         `[${this._ownerId}] This event processor owns ${
           ownerPartitionMap.get(this._ownerId)!.length
         } partitions and shouldn't own more.`
@@ -209,7 +207,7 @@ export class PartitionLoadBalancer {
       // This event processor already has enough partitions and shouldn't own more yet
       return "";
     }
-    logger.info(
+    log.info(
       `[${this._ownerId}] Load is unbalanced and this event processor should own more partitions.`
     );
     // If we have reached this stage, this event processor has to claim/steal ownership of at least 1 more partition
@@ -231,7 +229,7 @@ export class PartitionLoadBalancer {
       }
     }
     if (unOwnedPartitionIds.length === 0) {
-      logger.info(
+      log.info(
         `[${this._ownerId}] No unclaimed partitions, stealing from another event processor.`
       );
       partitionToClaim = this._findPartitionToSteal(ownerPartitionMap);
