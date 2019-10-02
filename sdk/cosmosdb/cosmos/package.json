@@ -18,7 +18,8 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/index.js",
   "browser": {
-    "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js"
+    "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
+    "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js"
   },
   "files": [
     "changelog.md",
@@ -72,7 +73,6 @@
   "dependencies": {
     "@azure/cosmos-sign": "^1.0.2",
     "@types/debug": "^4.1.4",
-    "atob": "^2.1.2",
     "binary-search-bounds": "^2.0.3",
     "crypto-hash": "^1.1.0",
     "debug": "^4.1.1",
