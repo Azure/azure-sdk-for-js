@@ -431,7 +431,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it.only("download with default parameters and tracing", async () => {
+  it("download with default parameters and tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
 
