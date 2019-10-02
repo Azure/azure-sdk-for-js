@@ -326,6 +326,10 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   private context: Share;
+  private _shareName: string;
+  public get shareName(): string {
+    return this._shareName;
+  }
 
   /**
    * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
@@ -370,36 +374,43 @@ export class ShareClient extends StorageClient {
     options?: NewPipelineOptions
   ) {
     let pipeline: Pipeline;
+    let url: string;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrShareName;
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
+      // (url: string, credential?: Credential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrShareName, options);
     } else if (
       !credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName !== "string"
     ) {
+      // (url: string, credential?: Credential, options?: NewPipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
+      url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
     ) {
+      // (connectionString: string, shareName: string, options?: NewPipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const shareName = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const sharedKeyCredential = new SharedKeyCredential(
-            extractedCreds.accountName,
+            extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + shareName;
+          url = extractedCreds.url + "/" + shareName;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        urlOrConnectionString =
-          extractedCreds.url + "/" + shareName + "?" + extractedCreds.accountSas;
+        url = extractedCreds.url + "/" + shareName + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -409,7 +420,8 @@ export class ShareClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for shareName parameter");
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
+    this._shareName = this.getShareNameFromUrl();
     this.context = new Share(this.storageClientContext);
   }
 
@@ -794,5 +806,22 @@ export class ShareClient extends StorageClient {
     return this.context.getPermission(filePermissionKey, {
       aborterSignal: options.abortSignal
     });
+  }
+
+  private getShareNameFromUrl(): string {
+    //  URL may look like the following
+    // "https://myaccount.file.core.windows.net/myshare?sasString";
+    // "https://myaccount.file.core.windows.net/myshare";
+
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const shareName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)/(.*)")![3];
+
+    if (!shareName) {
+      throw new Error("Unable to extract shareName with provided information.");
+    }
+
+    return shareName;
   }
 }
