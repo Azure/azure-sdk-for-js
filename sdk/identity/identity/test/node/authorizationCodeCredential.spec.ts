@@ -66,7 +66,7 @@ describe("AuthorizationCodeCredential", function() {
     );
   });
 
-  it("traces the authorization code request when tracing is enabled", async function () {
+  it("traces the authorization code request when tracing is enabled", async function() {
     const tracer = new TestTracer();
     setTracer(tracer);
 
@@ -107,13 +107,17 @@ describe("AuthorizationCodeCredential", function() {
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
     const expectedGraph: SpanGraph = {
-      roots: [{
-        name: rootSpan.name,
-        children: [{
-          name: "Azure.Identity.AuthorizationCodeCredential-getToken",
-          children: []
-        }]
-      }]
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Identity.AuthorizationCodeCredential-getToken",
+              children: []
+            }
+          ]
+        }
+      ]
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);

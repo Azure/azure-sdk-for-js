@@ -6,7 +6,9 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
 
-const BrowserNotSupportedError = new Error("AuthorizationCodeCredential is not supported in the browser.  InteractiveBrowserCredential is more appropriate for this use case.");
+const BrowserNotSupportedError = new Error(
+  "AuthorizationCodeCredential is not supported in the browser.  InteractiveBrowserCredential is more appropriate for this use case."
+);
 
 export class AuthorizationCodeCredential implements TokenCredential {
   constructor(

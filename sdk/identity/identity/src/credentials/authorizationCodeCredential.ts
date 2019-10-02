@@ -66,7 +66,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
+    const { span, options: newOptions } = createSpan(
+      "AuthorizationCodeCredential-getToken",
+      options
+    );
     try {
       let tokenResponse: TokenResponse | null = null;
       let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
