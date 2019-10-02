@@ -6,7 +6,7 @@ import { EventPosition } from "./eventPosition";
 import { EventProcessorOptions, CloseReason } from "./eventProcessor";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
-import * as log from "./log";
+import { logger } from "./log";
 
 /**
  * The PumpManager handles the creation and removal of PartitionPumps.
@@ -58,18 +58,16 @@ export class PumpManager {
     const existingPump = this._partitionIdToPumps[partitionId];
     if (existingPump) {
       if (existingPump.isReceiving) {
-        log.pumpManager(
-          `[${this._eventProcessorName}] [${partitionId}] The existing pump is running.`
-        );
+        logger.info(`[${this._eventProcessorName}] [${partitionId}] The existing pump is running.`);
         return;
       }
-      log.pumpManager(
+      logger.info(
         `[${this._eventProcessorName}] [${partitionId}] The existing pump is not running.`
       );
       await this.removePump(partitionId, CloseReason.OwnershipLost);
     }
 
-    log.pumpManager(`[${this._eventProcessorName}] [${partitionId}] Creating a new pump.`);
+    logger.info(`[${this._eventProcessorName}] [${partitionId}] Creating a new pump.`);
 
     const pump = new PartitionPump(
       eventHubClient,
@@ -82,9 +80,10 @@ export class PumpManager {
       await pump.start();
       this._partitionIdToPumps[partitionId] = pump;
     } catch (err) {
-      log.error(
+      logger.warning(
         `[${this._eventProcessorName}] [${partitionId}] An error occured while adding/updating a pump: ${err}`
       );
+      if (err.stack) logger.verbose(err.stack);
     }
   }
 
@@ -99,17 +98,18 @@ export class PumpManager {
       const pump = this._partitionIdToPumps[partitionId];
       if (pump) {
         delete this._partitionIdToPumps[partitionId];
-        log.pumpManager(`[${this._eventProcessorName}] [${partitionId}] Stopping the pump.`);
+        logger.info(`[${this._eventProcessorName}] [${partitionId}] Stopping the pump.`);
         await pump.stop(reason);
       } else {
-        log.pumpManager(
+        logger.verbose(
           `[${this._eventProcessorName}] [${partitionId}] No pump was found to remove.`
         );
       }
     } catch (err) {
-      log.error(
+      logger.warning(
         `[${this._eventProcessorName}] [${partitionId}] An error occured while removing a pump: ${err}`
       );
+      if (err.stack) logger.verbose(err.stack);
     }
   }
 
@@ -121,7 +121,7 @@ export class PumpManager {
   public async removeAllPumps(reason: CloseReason): Promise<void> {
     const partitionIds = Object.keys(this._partitionIdToPumps);
 
-    log.pumpManager(`[${this._eventProcessorName}] Removing all pumps due to reason ${reason}.`);
+    logger.info(`[${this._eventProcessorName}] Removing all pumps due to reason ${reason}.`);
 
     const tasks: PromiseLike<void>[] = [];
     for (const partitionId of partitionIds) {
@@ -134,7 +134,10 @@ export class PumpManager {
     try {
       await Promise.all(tasks);
     } catch (err) {
-      log.error(`[${this._eventProcessorName}] An error occured while removing all pumps: ${err}`);
+      logger.warning(
+        `[${this._eventProcessorName}] An error occured while removing all pumps: ${err}`
+      );
+      if (err.stack) logger.verbose(err.stack);
     } finally {
       this._partitionIdToPumps = {};
     }

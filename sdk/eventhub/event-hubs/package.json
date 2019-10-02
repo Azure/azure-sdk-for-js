@@ -66,6 +66,7 @@
     "@azure/core-amqp": "1.0.0-preview.4",
     "@azure/core-asynciterator-polyfill": "1.0.0-preview.1",
     "@azure/core-tracing": "1.0.0-preview.3",
+    "@azure/logger": "1.0.0-preview.1",
     "async-lock": "^1.1.3",
     "buffer": "^5.2.1",
     "debug": "^4.1.1",
