@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-http";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay } from "./utils/recorder";
 import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
@@ -428,5 +429,38 @@ describe("BlobClient", () => {
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-cool");
     }
+  });
+
+  it.only("download with default parameters and tracing", async () => {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+
+    const rootSpan = tracer.startSpan("root");
+
+    const result = await blobClient.download();
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Storage.Blob.BlobClient-download",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });
