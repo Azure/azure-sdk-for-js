@@ -13,7 +13,7 @@ export class TestPoller extends Poller<TestOperationProperties, string> {
     requestOptions?: RequestOptionsBase,
     baseOperation?: TestOperation
   ) {
-    let state: PollOperationState = {};
+    let state: PollOperationState<string> = {};
     let properties: TestOperationProperties | undefined = undefined;
 
     if (baseOperation) {
@@ -36,7 +36,7 @@ export class TestPoller extends Poller<TestOperationProperties, string> {
     return delay(this.intervalInMs);
   }
 
-  async getResult(): Promise<string> {
+  async getResult(): Promise<string | undefined> {
     if (!this.isDone()) {
       return "Not done";
     }

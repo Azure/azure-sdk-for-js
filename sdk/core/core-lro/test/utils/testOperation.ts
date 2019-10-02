@@ -11,7 +11,7 @@ export interface TestOperationProperties {
   resultValue?: string;
 }
 
-export interface TestOperation extends PollOperation<TestOperationProperties> {}
+export interface TestOperation extends PollOperation<TestOperationProperties, string> {}
 
 async function update(this: TestOperation): Promise<TestOperation> {
   const { client, requestOptions, initialResponse, previousResponse } = this.properties;
@@ -99,7 +99,7 @@ async function unsupportedCancel(this: TestOperation): Promise<TestOperation> {
 }
 
 export function makeOperation(
-  state: PollOperationState,
+  state: PollOperationState<string>,
   properties: TestOperationProperties
 ): TestOperation {
   return {
@@ -112,7 +112,7 @@ export function makeOperation(
 }
 
 export function makeNonCancellableOperation(
-  state: PollOperationState,
+  state: PollOperationState<string>,
   properties: TestOperationProperties
 ): TestOperation {
   return {

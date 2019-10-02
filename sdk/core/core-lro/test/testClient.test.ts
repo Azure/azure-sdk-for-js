@@ -5,6 +5,7 @@ import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { TestOperation } from "./utils/testOperation";
+import { PollerStoppedError } from "../src";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
@@ -171,8 +172,10 @@ describe("Long Running Operations - custom client", function() {
     client.setResponses([initialResponse, ...Array(20).fill(basicResponseStructure)]);
 
     const poller = await client.startLRO();
-    poller.done().catch((e) => {
+    poller.done().catch((e: PollerStoppedError) => {
       assert.equal(e.message, "Poller stopped");
+      // TODO: This doesn't work
+      // assert.ok(e instanceof PollerStoppedError);
     });
 
     let operation = poller.operation;
@@ -201,15 +204,26 @@ describe("Long Running Operations - custom client", function() {
 
     let totalOperationUpdates = 0;
     let lastOperationUpdate: TestOperation = poller.operation;
-    poller.onProgress((operation) => {
-      totalOperationUpdates++;
-      lastOperationUpdate = operation;
+    poller.onProgress(
+      () => true,
+      (operation) => {
+        totalOperationUpdates++;
+        lastOperationUpdate = operation!;
+      }
+    );
+
+    let almostAllOperationUpdates = 0;
+    const conditional = () => !poller.isDone(); // Not updating the progress call if the poller is done.
+    poller.onProgress(conditional, () => {
+      almostAllOperationUpdates++;
     });
 
     const result = await poller.done();
     assert.equal(result, "Done");
+    assert.equal(poller.operation.state.result, "Done");
 
     assert.equal(totalOperationUpdates, 13);
+    assert.equal(almostAllOperationUpdates, 12);
 
     const { properties, state } = lastOperationUpdate;
     assert.ok(properties.initialResponse!.parsedBody.started);

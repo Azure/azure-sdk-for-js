@@ -17,7 +17,7 @@ export class TestNonCancellablePoller extends Poller<TestOperationProperties, st
     requestOptions?: RequestOptionsBase,
     baseOperation?: TestOperation
   ) {
-    let state: PollOperationState = {};
+    let state: PollOperationState<string> = {};
     let properties: TestOperationProperties | undefined = undefined;
 
     if (baseOperation) {
