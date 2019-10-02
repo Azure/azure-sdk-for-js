@@ -107,7 +107,6 @@ export { TopicCredentials } from "./credentials/topicCredentials";
 export { Authenticator } from "./credentials/credentials";
 
 export { atomSerializationPolicy } from "./policies/atomSerializationPolicy";
-export { AtomXmlSerializer } from "./atomXmlSerializer";
 export { deserializeAtomXmlToJson, serializeJsonToAtomXml } from "./util/xml";
-export { AtomXmlOperationSpec } from "./atomXmlOperationSpec";
+export { AtomXmlSerializer, AtomXmlOperationSpec } from "./atomXmlOperationSpec";
 export * from "@azure/core-tracing";

@@ -9,7 +9,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { AtomXmlSerializer } from "../atomXmlSerializer";
+import { AtomXmlSerializer } from "../atomXmlOperationSpec";
 import { deserializeAtomXmlToJson } from "../util/xml";
 import { RestError } from "../restError";
 import * as utils from "../util/utils";
@@ -58,8 +58,11 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       if (response.bodyAsText) {
         response.parsedBody = await deserializeAtomXmlToJson(response.bodyAsText);
       }
-    } catch (e) {
-      const error = new RestError("ResponseNotInAtomXMLFormat", RestError.PARSE_ERROR);
+    } catch (err) {
+      const error = new RestError(
+        `ResponseNotInAtomXMLFormat - ${err.message}`,
+        RestError.PARSE_ERROR
+      );
       error.statusCode = response.status;
       error.request = utils.stripRequest(response.request);
       error.response = utils.stripResponse(response);

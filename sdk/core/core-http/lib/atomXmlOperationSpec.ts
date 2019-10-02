@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AtomXmlSerializer } from "./atomXmlSerializer";
+import { HttpOperationResponse } from "./httpOperationResponse";
+
+export interface AtomXmlSerializer {
+  serialize(requestBodyInJson: any): string;
+
+  deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
+}
 
 export interface AtomXmlOperationSpec {
   /**
