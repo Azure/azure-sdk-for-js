@@ -6,7 +6,9 @@
 */
 import { EventHubClient } from "@azure/event-hubs";
 
-// Define IoT Hub connection string here
+// Define IoT Hub Event Hubs-compatible connection string here.
+// To find the correct connection string to use, visit:
+// https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
 const connectionString = "";
 
 async function main(): Promise<void> {
