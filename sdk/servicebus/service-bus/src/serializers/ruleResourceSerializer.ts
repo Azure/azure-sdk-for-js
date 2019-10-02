@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse, XMLRequestInJSON } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 import { getIntegerOrUndefined } from "../util/utils";
@@ -243,7 +243,7 @@ export interface CorrelationFilterOptions {
  * @ignore RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: InternalRuleOptions): string {
+  serialize(rule: InternalRuleOptions): XMLRequestInJSON {
     const resource: { Name: any; Filter: any[]; Action: any[] } = {
       Name: rule.name,
       Filter: [],

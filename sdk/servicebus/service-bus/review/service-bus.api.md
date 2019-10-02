@@ -172,7 +172,6 @@ export interface Queue extends QueueOptions {
     entityAvailabilityStatus?: string;
     isAnonymousAccessible?: boolean;
     maxDeliveryCount?: number;
-    maxSizeInMegabytes?: number;
     queueName?: string;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
@@ -202,6 +201,7 @@ export interface QueueOptions {
     duplicateDetectionHistoryTimeWindow?: string;
     forwardDeadLetteredMessagesTo?: string;
     lockDuration?: string;
+    maxSizeInMegabytes?: number;
     messageCount?: number;
     sizeInBytes?: number;
 }

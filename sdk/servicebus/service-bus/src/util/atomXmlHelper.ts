@@ -3,31 +3,13 @@
 
 import {
   Constants,
-  serializeJsonToAtomXml,
   HttpOperationResponse,
   RestError,
   stripRequest,
-  stripResponse
+  stripResponse,
+  XMLRequestInJSON,
+  XMLResponseInJSON
 } from "@azure/core-http";
-
-/**
- * @ignore
- * Type representing the JSON representation of XML request data
- */
-interface XMLRequestInJSON {
-  [key: string]: {
-    $: { xmlns: string };
-    [key: string]: any;
-  };
-}
-
-/**
- * @ignore
- * Type representing the JSON representation of XML response data
- */
-interface XMLResponseInJSON {
-  [key: string]: any;
-}
 
 /**
  * Serializes input information to construct the Atom XML request
@@ -41,7 +23,7 @@ export function serializeToAtomXmlRequest(
   resource: any,
   properties: string[],
   xmlNamespace: string
-): string {
+): XMLRequestInJSON {
   const content: XMLRequestInJSON = {};
   content[resourceName] = {
     $: {
@@ -58,7 +40,7 @@ export function serializeToAtomXmlRequest(
     });
   }
 
-  return serializeJsonToAtomXml(content);
+  return content;
 }
 
 /**

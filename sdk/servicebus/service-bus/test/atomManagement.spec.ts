@@ -406,14 +406,15 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT5M",
       messageCount: 5,
-      sizeInBytes: 250
+      sizeInBytes: 250,
+      maxSizeInMegabytes: 2048
     },
     output: {
       duplicateDetectionHistoryTimeWindow: ["PT10M", "PT5M"],
       lockDuration: "PT5M",
       messageCount: 5,
-
       sizeInBytes: 250,
+      maxSizeInMegabytes: 2048,
       defaultMessageTimeToLive: ["P10675199DT2H48M5.4775807S", "P10675300DT2H48M5.4775807S"],
       forwardDeadLetteredMessagesTo: undefined,
 
@@ -428,7 +429,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
       maxDeliveryCount: 10,
-      maxSizeInMegabytes: 1024,
       requiresDuplicateDetection: false,
       requiresSession: false,
       status: "Active",

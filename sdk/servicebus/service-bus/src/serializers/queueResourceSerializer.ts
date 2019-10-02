@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse, XMLRequestInJSON } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 import {
@@ -14,6 +14,7 @@ import {
 
 const requestProperties: Array<keyof InternalQueueOptions> = [
   Constants.LOCK_DURATION,
+  Constants.MAX_SIZE_IN_MEGABYTES,
   Constants.SIZE_IN_BYTES,
   Constants.MESSAGE_COUNT,
   Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
@@ -30,6 +31,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
   const internalQueueOptions: InternalQueueOptions = {
     LockDuration: queueOptions.lockDuration,
     SizeInBytes: getStringOrUndefined(queueOptions.sizeInBytes),
+    MaxSizeInMegabytes: getStringOrUndefined(queueOptions.maxSizeInMegabytes),
     MessageCount: getStringOrUndefined(queueOptions.messageCount),
     DefaultMessageTimeToLive: queueOptions.defaultMessageTimeToLive,
     DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
@@ -104,6 +106,11 @@ export interface QueueOptions {
   sizeInBytes?: number;
 
   /**
+   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
+   */
+  maxSizeInMegabytes?: number;
+
+  /**
    * The entity's message count.
    *
    */
@@ -143,6 +150,12 @@ export interface InternalQueueOptions {
   SizeInBytes?: string;
 
   /**
+   * The max size in MegaBytes
+   *
+   */
+  MaxSizeInMegabytes?: string;
+
+  /**
    * The entity's message count.
    *
    */
@@ -179,11 +192,6 @@ export interface Queue extends QueueOptions {
    *
    */
   autoDeleteOnIdle?: string;
-
-  /**
-   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
-   */
-  maxSizeInMegabytes?: number;
 
   /**
    * The maximum delivery count.
@@ -272,7 +280,7 @@ export interface Queue extends QueueOptions {
  * Atom XML Serializer for Queues.
  */
 export class QueueResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalQueueOptions): string {
+  serialize(resource: InternalQueueOptions): XMLRequestInJSON {
     return serializeToAtomXmlRequest(
       "QueueDescription",
       resource,
