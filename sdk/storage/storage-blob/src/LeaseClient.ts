@@ -2,12 +2,14 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, generateUuid } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "../src/generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient } from "./ContainerClient";
 import { Blob, Container } from "./generated/src/operations";
 import { StorageClientContext } from "./generated/src/storageClient";
-import { BlobClient } from "./internal";
+import { BlobClient, CommonOptions } from "./internal";
+import { createSpan } from "./utils/tracing";
 
 export interface Lease {
   /**
@@ -72,7 +74,7 @@ export type LeaseOperationResponse = Lease & {
  * @export
  * @interface LeaseOperationOptions
  */
-export interface LeaseOperationOptions {
+export interface LeaseOperationOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -163,12 +165,24 @@ export class LeaseClient {
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    return await this._containerOrBlobOperation.acquireLease({
-      abortSignal: options.abortSignal,
-      duration,
-      modifiedAccessConditions: options.modifiedAccessConditions,
-      proposedLeaseId: this._leaseId
-    });
+    const { span, spanOptions } = createSpan("LeaseClient-acquireLease", options.spanOptions);
+    try {
+      return await this._containerOrBlobOperation.acquireLease({
+        abortSignal: options.abortSignal,
+        duration,
+        modifiedAccessConditions: options.modifiedAccessConditions,
+        proposedLeaseId: this._leaseId,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -186,16 +200,28 @@ export class LeaseClient {
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const response = await this._containerOrBlobOperation.changeLease(
-      this._leaseId,
-      proposedLeaseId,
-      {
-        abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.modifiedAccessConditions
-      }
-    );
-    this._leaseId = proposedLeaseId;
-    return response;
+    const { span, spanOptions } = createSpan("LeaseClient-changeLease", options.spanOptions);
+    try {
+      const response = await this._containerOrBlobOperation.changeLease(
+        this._leaseId,
+        proposedLeaseId,
+        {
+          abortSignal: options.abortSignal,
+          modifiedAccessConditions: options.modifiedAccessConditions,
+          spanOptions
+        }
+      );
+      this._leaseId = proposedLeaseId;
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -210,10 +236,22 @@ export class LeaseClient {
    * @memberof LeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
-      abortSignal: options.abortSignal,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
+    const { span, spanOptions } = createSpan("LeaseClient-releaseLease", options.spanOptions);
+    try {
+      return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
+        abortSignal: options.abortSignal,
+        modifiedAccessConditions: options.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -227,10 +265,22 @@ export class LeaseClient {
    * @memberof LeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    return await this._containerOrBlobOperation.renewLease(this._leaseId, {
-      abortSignal: options.abortSignal,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
+    const { span, spanOptions } = createSpan("LeaseClient-renewLease", options.spanOptions);
+    try {
+      return await this._containerOrBlobOperation.renewLease(this._leaseId, {
+        abortSignal: options.abortSignal,
+        modifiedAccessConditions: options.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -251,11 +301,23 @@ export class LeaseClient {
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const operationOptions = {
-      abortSignal: options.abortSignal,
-      breakPeriod,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    };
-    return await this._containerOrBlobOperation.breakLease(operationOptions);
+    const { span, spanOptions } = createSpan("LeaseClient-breakLease", options.spanOptions);
+    try {
+      const operationOptions: Models.ContainerBreakLeaseOptionalParams = {
+        abortSignal: options.abortSignal,
+        breakPeriod,
+        modifiedAccessConditions: options.modifiedAccessConditions,
+        spanOptions
+      };
+      return await this._containerOrBlobOperation.breakLease(operationOptions);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
