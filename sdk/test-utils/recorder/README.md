@@ -13,9 +13,9 @@ questions:
 - How to write tests that support parallelism?
 - How to write isomorphic tests for NodeJS and the Browsers?
 
-Our test-utils-recorder attempts to provide an answer for those questions,
-as you'll be able to see throughout this README.
- 
+Our NPM package `@azure/test-utils-recorder` attempts to provide an answer for
+those questions, as you'll be able to see throughout this README.
+
 This library provides interfaces and helper methods to equip the SDKs in the
 azure-sdk-for-js repo with the recording and playback capabilities for the
 tests, it targets HTTP requests in both Node.js and the Browsers.
@@ -45,32 +45,39 @@ tests of an sdk.
 
 ## Key concepts
 
-- To **record** means to intercept any HTTP request, store it in a file, then
-  store the response received from the live resource that was originally
+- To **record** means to intercept any HTTP request (specifically, every
+  http.request call and browser's XMLHttpRequest calls), store it in a file,
+  then store the response received from the live resource that was originally
   targeted. We use a couple of mechanisms to do this for NodeJS and the
   browser. The output files are stored in `recordings/node/*` and in
   `recordings/browser/*`, which are relative to the root of the project you're
-  be working on.
+  working on.
 - To **playback** means to intercept any HTTP request and to respond it with the
   stored response of a previously recorded matching request.
+- **Sensitive information** means content that should not be shared publicly.
+  Content like passwords, unique identifiers or personal information should be
+  cleaned up from the recordings. Some functionality is provided to fix this
+  problem. You can read more at [Securing sensitive data](#securing-sensitive-data).
 
 ## Getting started
 
-We're about to go through how to set up your project to use the test-utils-recorder.
-We'll be using git and [rush](https://rushjs.io). We understand that both tools
-can be challenging to use, but we expect you to know how to use them by the
-time you decide to use this package. If you encounter any problem with these
-tools, please make sure to check at their documentation first, but we're also
-happy to answer any question! We appreciate that you're reading this 💙
+We're about to go through how to set up your project to use the
+`@azure/test-utils-recorder` package.  We'll be using git and
+[rush](https://rushjs.io). We understand that both tools can be challenging to
+use, but we expect you to know how to use them by the time you decide to use
+this package. If you encounter any problem with these tools, please let us know
+by filing an issue [here](https://github.com/Azure/azure-sdk-for-js/issues). If
+you have ideas about how we can make them better, we'd love to hear from you.
 
-Keep in mind that test-utils-recorder is not a published package. It is only intended to be used
-by our libraries (at least for now).
+Keep in mind that `@azure/test-utils-recorder` is not a published package. It
+is only intended to be used by the libraries in the azure-sdk-for-js repository
+(at least for now).
 
 ### Installing the package
 
-To install the test-utils-recorder package, you'll need to start by cloning our
-azure-sdk-for-js repository. One way of doing this is by using the git command
-line interface, as follows:
+To install the `@azure/test-utils-recorder` package, you'll need to start by
+cloning our azure-sdk-for-js repository. One way of doing this is by using the
+git command line interface, as follows:
 
     cd /path/to/my/github/repositories
     git clone https://github.com/Azure/azure-sdk-for-js/
@@ -85,14 +92,15 @@ Having cloned this repository, let's set it up by running the following rush com
 This will optimistically assume you're in a fresh clone.
 
 From this point forward, we'll assume that you're developing (perhaps
-contributing!) to one of our libraries. So, your next step is to change
-directory to the path relevant to your project. Let's say you want to add
-test-utils-recorder to the package `@azure/keyvault-keys` (it already uses test-utils-recorder,
-but bear with us), you'll be doing the following:
+contributing!) to one of the azure-sdk-for-js's libraries. So, your next step
+is to change directory to the path relevant to your project. Let's say you want
+to add the `@azure/test-utils-recorder` package to `@azure/keyvault-keys` (it
+already uses test-utils-recorder, but bear with us), you'll be doing the
+following:
 
     cd sdk/keyvault/keyvault-keys
 
-One there, you can add the test-utils-recorder package by running the following rush command:
+Once there, you can add the test-utils-recorder package by running the following rush command:
 
     rush add -p @azure/test-utils-recorder
 
@@ -102,17 +110,27 @@ And you're ready! Now you can use the common recorder in your code, as shown bel
 import * as commonRecorder from "@azure/test-utils-recorder";
 ```
 
+Or, if you know what functions you want to import, you can also do the following:
+
+```typescript
+import { record, env, delay } from "@azure/test-utils-recorder";
+```
+ 
 The common recorder provides the following public methods and properties:
 
 - `record`: Which deals with recording and playing back the network requests,
-  depending on the value assigned to the `TEST_MODE` environment variable.
-  If `TEST_MODE` equals to `record`, it will automatically store every network
-  request in a plain text file in the folder `recordings` at the root of your
+  depending on the value assigned to the `TEST_MODE` environment variable. If
+  `TEST_MODE` equals to `record`, it will automatically store network requests
+  in a plain text file in the folder `recordings` at the root of your
   repository (which for our example case is the root of the
-  `@azure/keyvault/keyvault-keys` repository). It must be used inside of Mocha's
-  tests, since it uses [nise](https://www.npmjs.com/package/nise) under the hood.
-  It also returns an object with a method `stop()`, which will allow you to control when
-  you want the recorder to stop re-routing your http requests.
+  `@azure/keyvault/keyvault-keys` repository).
+  This package assumes that the tests in the sdk are leveraging
+  [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/)
+  (and [karma](https://karma-runner.github.io/latest/index.html) test runner
+  for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template)
+  package in the repo. It also returns an object with a method `stop()`, which
+  will allow you to control when you want the recorder to stop re-routing your
+  http requests.
 - `env`, which exposes the environment variable's object from either NodeJS or
   the browser (useful on isomorphic tests).
 - `delay`, which is an asynchronous function that will resolve once the given milliseconds have elapsed,
@@ -132,7 +150,7 @@ The common recorder provides the following public methods and properties:
 
 ### Configuring your project
 
-Having the common recorder as a dependency means that you'll be able to start
+Having the common recorder as a devDependency means that you'll be able to start
 recording tests right away by using the exported method `record`. We'll get
 into the details further down this document. This function will do recordings,
 or will play back previous recordings, depending on an environment variable:
@@ -153,10 +171,19 @@ make it easier to switch from record mode to playback mode, on a meaningful cont
 
 Once your tests run, new files will be created in the `recordings/*` folder.
 These files will have names that are relative to the tests that you have.
-There might be cases in which the recordins get outdated with the test files, so you might also want to
+There might be cases in which the recordings get outdated with the test files, so you might also want to
 add a way to clear the recordings on your `package.json`, like the following one:
 
     "clear-recordings": "rm -fr recordings",
+
+#### Environment variables
+
+Since we make use of the `TEST_MODE` environment variables, we recommend you to
+take control of how you deal with environment variables for your tests. If you
+don't want to set environment variables, you can use a tool like
+[dotenv](https://www.npmjs.com/package/dotenv) to set them for you. Remember to
+do one or the other, not both, as dotenv will not overwrite your existing
+environment variables.
 
 #### Karma configuration
 
@@ -167,45 +194,69 @@ The recordings are separated between NodeJS recordings and browser recordings,
 so to use them on Karma, You'll at least need to add the recordings to your
 `files` array in your `karma.conf.js`, as follows:
 
-    files: [
-      // ... you might have other things here. Keep them.
-      "recordings/browsers/**/*.json"
-    ],
+```typescript
+config.set({
+  // ... more configuration properties here
+  files: [
+    // ... you might have other things here. Keep them.
+    "recordings/browsers/**/*.json"
+  ],
+  // ... more configuration properties here
+});
+```
 
 Same goes on the `preprocessors` array:
 
-    preprocessors: {
-      // ... you might have other things here. Keep them.
-      "recordings/browsers/**/*.json": ["json"]
-    },
+```typescript
+config.set({
+  // ... more configuration properties here
+  preprocessors: {
+    // ... you might have other things here. Keep them.
+    "recordings/browsers/**/*.json": ["json"]
+  },
+  // ... more configuration properties here
+});
+```
 
-You can also tell Karma to hide console.logs in during the playbacks in the browsers by adding
-the following configuration property:
+You will also need to set the following configuration so that Karma passes the
+correct environment variables to the browser runtime:
 
-    browserConsoleLogOptions: {
-      terminal: process.env.TEST_MODE !== "record"
-    },
+```typescript
+config.set({
+  // ... more configuration properties here
+  envPreprocessor: [
+    // ... you might have other things here. Keep them.
+    "TEST_MODE"
+  ],
+  // ... more configuration properties here
+});
+```
 
-#### Environment variables
+As an optional step, you can also tell Karma to hide console.logs in during the
+playbacks in the browsers by adding the following configuration property:
 
-Since we make use of the `TEST_MODE` environment variables, we recommend you to
-take control of how you deal with environment variables for your tests. One way
-of doing this is with the [dotenv](https://www.npmjs.com/package/dotenv)
-project, which is what we mostly use in our packages. dotenv comes with its own
-issues, since it might act unexpectedly in relation with already assigned
-environment variables. dotenv doesn't replace any environment variable that is
-set by another source, so keep that in mind.
+```typescript
+config.set({
+  // ... more configuration properties here
+  browserConsoleLogOptions: {
+    terminal: process.env.TEST_MODE !== "record"
+  },
+  // ... more configuration properties here
+});
+```
 
-For how to hide sensitive information related to environment variables, check
-out our example called [Securing sensitive data](#securing-sensitive-data).
+For a more detailed and opinionated approach, please check out the following
+section of our guidelines:
+[Setting up karma.conf.js file in the SDK](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/GUIDELINES.md#setting-up-karmaconfjs-file-in-the-sdk).
 
 ## Examples
 
 ### How to record
 
-To record your tests, make sure to call to the `record` function exported from
-the test-utils-recorder, then call it before the http request you want to make
-happens. In the following example, we'll be starting to record before
+To record your tests, make sure to set the environment variable `TEST_MODE` to
+`record`, then in your code, call to the `record` function exported from
+`@azure/test-utils-recorder`, then call it before the http request you want to
+make. In the following example, we'll invoke the `record()` method before
 authenticating our KeyVault client:
 
 ```typescript
@@ -217,13 +268,16 @@ describe("My test", () => {
   let client: KeysClient;
 
   beforeEach(async function() {
-    recorder = record(that);
+    recorder = record(this);
+
+    // This is an example of how the environment variables are used
     const credential = await new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
       env.AZURE_CLIENT_SECRET
     );
 
+    // This example also shows that HTTP requests must be made after the record() method is called.
     const keyVaultUrl = "https://myKeyVault.vault.azure.net";
     client = new KeysClient(keyVaultUrl, credential);
   });
@@ -234,12 +288,12 @@ describe("My test", () => {
 });
 ```
 
-If you run the previous test with Mocha, and you set the `TEST_MODE`
-environment variable to `record`, the common recorder will create a recording file located in
-`recordings/node/my_test/recording_before_each_hook.js` with the contents of the HTTP request
-as well as the contents of the HTTP response.
+After running this test with the `TEST_MODE` environment variable set to
+`record`, the common recorder will create a recording file located in
+`recordings/node/my_test/recording_before_each_hook.js` with the contents of
+the HTTP request as well as the contents of the HTTP response.
 
-You'll see in the code above that we're calling to `recorder.stop`. This is so
+You'll see in the code above that we're invoking `recorder.stop`. This is so
 that, after each test, we can stop recording and the test file can be
 generated. We recommend creating new recorders on `beforeEach` and stopping the
 recorder on `afterEach` to make sure that the generated files are smaller and
@@ -249,7 +303,8 @@ easier to understand than by having them all in one chunk.
 > We'll make sure this doesn't happen in the [Securing sensitive data](#securing-sensitive-data) example.
 
 To add recorded tests, feel free to extend this file with as many subsequent
-`it()` calls as you need, each one of them is going to end up in their appropriate file.
+`it()` calls as you need. Any HTTP request in these tests will be added to the
+recordings.
 
 ```typescript
   beforeEach(async function() {
@@ -294,9 +349,11 @@ request according to their matching copy stored in the recordings.
 Once you have your recorded files, to update them after changing one of the tests, simply
 re-run the tests with `TEST_MODE` set to `record`. This will overwrite previously existing files.
 
-> **Note:** If you rename the file of the test, or the name of the test, the path
-> of the recording will change. If you do these kind of changes, make sure to delete your recordings folder.
-> The common recorder will re-generate only the updated tests.
+> **Note:** If you rename the file of the test, or the name of the test, the
+> path of the recording will change. Make sure to delete the recordings
+> corresponding to the deleted tests. If at any point in time you lose your
+> recordings, don't worry. Running your tests with `TEST_MODE=recording` will
+> re-generate them.
 
 ### Skipping tests
 
@@ -311,16 +368,23 @@ update their recordings. This way, you can focus on fixing a specific set of
 test with `.only`, then remove all the `.only` calls and trust that the playback will
 keep confirming that the unaffected tests are fine and green.
 
+You can also skip specific tests with `recorder.skip(runtime?: "node" | "browser")`,
+which will skip the test in node or browser runtimes based on the `{runtime}`
+argument. If the `{runtime}` is undefined, the test will be skipped in both the
+node and browser runtimes. This method has no effect if the TEST_MODE
+environment variable is neither "record" nor "playback". You can read more
+about this feature [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/GUIDELINES.md#skipping-a-test).
+
 ### Securing sensitive data
 
 Live tests need to do sensitive operations, like authenticating with your Azure
-credentials.  To protect this information from the recordings, the
-test-utils-recorder provides the following functions:
+credentials. To protect this information from the recordings,
+`@azure/test-utils-recorder` provides the following functions:
 
 - `setReplaceableVariables`, which will allow you to hide sensitive content
   from the environment variables (more on that later).
 - `setReplacements`, which will allow you to hide sensitive content by doing
-  pattern matching in the output files.
+  pattern matching in the recordings of the tests' HTTP requests.
 - `skipQueryParams`, since query parameters may contain sensitive information,
   the array provided to method will signal what query parameters to remove from
   the recordings.
@@ -366,18 +430,21 @@ setReplacements([
 ]);
 ```
 
+This lets you have control over the generated recordings and filter any
+sensitive information even before checking them in a pull request.
+
 #### skipQueryParams
 
 Some HTTP requests migth have parameters with sensitive information. To get
-them out of your recordings, you can call to `skipQueryParams` with a key-value
-plain object where you specify the name of the query parameter you want to replace,
-and the value you want to end up storing, as follows:
+them out of your recordings, you can call to `skipQueryParams` with an array of strings
+where you specify the names of the query parameter you want to remove.
+
+For example, give nthat we find this query parameters in our recordings:
+`?sv=2018-11-09&sr=c&sig=<sig>&sktid=<sktid>&skv=2018-11-09&se=2019-08-07T07%3A00%3A00Z&sp=rwdl`,
+if we don't want the parameters "sr", "sig" and "sp" to appear in these files, we can do the following:
 
 ```typescript
-skipQueryParams({
-  myQueryParameter: "theValueIWantStoredInMyRecordings",
-  anotherQueryParameter: "theOtherValueIWantStoredInMyRecordings",
-});
+skipQueryParams(["sr", "sig", "sp"])
 ```
 
 ### Ever-changing tests
@@ -391,9 +458,10 @@ as part of your recordings.
 
 A common issue while running integration tests is that, sometimes two persons
 or machines might try to run the same set of tests against the same resource.
-This is not directly related to the test-utils-recorder package, but if you're
-getting into issues because of concurrent conflicting requests, we understand,
-and we might be able to help by providing you with the following suggestions:
+This is not directly related to the `@azure/test-utils-recorder` package, but
+if you're getting into issues because of concurrent conflicting requests, we
+understand, and we might be able to help by providing you with the following
+suggestions:
 
 1. Use randomly generated strings as prefixes or suffixes for the resources you
 create.  This will help you, but it will also only work so far, since new
@@ -409,9 +477,9 @@ as ideas. We understand that might not be an easy problem to fix.
 
 ### Isomorphic tests
 
-The test-utils-recorder does support running in the browser. If you use Karma,
-as long as your karma configuration is correct, your tests should work both on
-NodeJS and in the browsers!
+`@azure/test-utils-recorder` does support running in the browser. If you use
+Karma, as long as your karma configuration is correct, your tests should work
+both on NodeJS and in the browsers!
 
 ## Troubleshooting
 
@@ -423,8 +491,10 @@ make sure to handle it as soon as we find the time.
 
 ## Next steps
 
-The common recorder might not be used yet in each one of our libraries (we're working on it).
-In the mean time, an easy way to find where we're using this package is by going through the following search link:
+The common recorder might not be used yet in each one of the libraries in the
+azure-sdk-for-js repository (we're working on it).  In the mean time, an easy
+way to find where we're using this package is by going through the following
+search link:
 <https://github.com/Azure/azure-sdk-for-js/search?q=test-utils-recorder>
 
 ## Contributing
@@ -441,7 +511,10 @@ then run the unit tests with: `npm run unit-test`.
 
 ---
 
-Thank you for your time!
+We appreciate feedback on how well this tool works for you. Please write to us
+[here](https://github.com/Azure/azure-sdk-for-js/issues).
+
+---
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
