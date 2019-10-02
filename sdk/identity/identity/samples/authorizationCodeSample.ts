@@ -102,10 +102,10 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
   return new AuthorizationCodeCredential(
     tenantId!,
     clientId!,
-    clientSecret,
     // NOTE: Pass 'undefined' for clientSecret in desktop and mobile apps
     // because there is usually no sufficient way to protect your client secret
     // on a user's device.
+    clientSecret,
     authorizationCode,
     redirectUri,
     // NOTE: It is not necessary to explicitly pass the authorityHost when using
