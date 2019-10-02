@@ -1,22 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ETagOption, ListConfigurationSettingsOptions, AppConfigurationGetKeyValuesOptionalParams } from '..';
+import { ListConfigurationSettingsOptions, AppConfigurationGetKeyValuesOptionalParams } from '..';
 import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
 import { ListRevisionsOptions } from '../models';
 
 /**
- * Formats the etag so it can be used with a if-match header
+ * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
  * @ignore
  */
-export function formatETagForMatchHeaders(objectWithEtag: ETagOption): string | undefined {
-  if (objectWithEtag.etag) {
-    return `"${objectWithEtag.etag}"`;
+export function quoteETag(etag: string | undefined): string | undefined {
+  // https://tools.ietf.org/html/rfc7232#section-3.1
+  if (etag === undefined || etag === '*') {
+    return etag;
   }
 
-  return undefined;
+  if (etag.startsWith('"') && etag.endsWith('"')) {
+    return etag;
+  }
+
+  if (etag.startsWith("'") && etag.endsWith("'")) {
+    return etag;
+  }
+
+  return `"${etag}"`;
 }
 
 /**

@@ -12,11 +12,11 @@ export class AppConfigurationClient {
     constructor(connectionString: string);
     addConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
     clearReadOnly(configurationSetting: ConfigurationSettingParam, options?: ClearReadOnlyOptions): Promise<DeleteLockResponse>;
-    deleteConfigurationSetting(key: string, options: AppConfigurationDeleteKeyValueOptionalParams & ETagOption): Promise<DeleteKeyValueResponse>;
-    getConfigurationSetting(key: string, options?: AppConfigurationGetKeyValueOptionalParams): Promise<GetKeyValueResponse>;
+    deleteConfigurationSetting(key: string, options?: AppConfigurationDeleteKeyValueOptionalParams): Promise<DeleteKeyValueResponse>;
+    getConfigurationSetting(key: string, options?: AppConfigurationGetKeyValueOptionalParams): Promise<GetConfigurationSettingResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
-    setConfigurationSetting(configurationSetting: ConfigurationSettingParam & ETagOption, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
+    setConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
     setReadOnly(configurationSetting: ConfigurationSettingParam, options?: SetReadOnlyOptions): Promise<PutLockResponse>;
 }
 
@@ -159,9 +159,8 @@ export { DeleteLockResponse as ClearReadOnlyResponse }
 
 export { DeleteLockResponse }
 
-// @public (undocumented)
-export interface ETagOption {
-    etag?: string;
+// @public
+export interface GetConfigurationSettingResponse extends Pick<GetKeyValueResponse, Exclude<keyof GetKeyValueResponse, 'eTag'>> {
 }
 
 // @public
@@ -172,17 +171,13 @@ export interface GetKeyValueHeaders {
 }
 
 // @public
-type GetKeyValueResponse = ConfigurationSetting & GetKeyValueHeaders & {
+export type GetKeyValueResponse = ConfigurationSetting & GetKeyValueHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: GetKeyValueHeaders;
         bodyAsText: string;
         parsedBody: ConfigurationSetting;
     };
 };
-
-export { GetKeyValueResponse as GetConfigurationSettingResponse }
-
-export { GetKeyValueResponse }
 
 // @public
 export interface GetKeyValuesHeaders {

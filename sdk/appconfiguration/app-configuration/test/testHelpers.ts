@@ -9,7 +9,7 @@ import * as assert from "assert";
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
 import * as dotenv from "dotenv";
-import { RestError } from '@azure/core-http';
+import { RestError } from "@azure/core-http";
 dotenv.config();
 
 export function getConnectionStringFromEnvironment(): string {
@@ -73,19 +73,26 @@ export function assertEqualSettings(
   actual = actual.map((setting) => {
     return { key: setting.key, label: setting.label, value: setting.value };
   });
+
   assert.deepEqual(expected, actual);
 }
 
-export async function assertThrowsRestError(testFunction: () => Promise<any>, expectedStatusCode: number, message: string) : Promise<void> {
+export async function assertThrowsRestError(
+  testFunction: () => Promise<any>,
+  expectedStatusCode: number,
+  message: string = ""
+): Promise<Error> {
   try {
     await testFunction();
-    assert.fail("No error thrown");
+    assert.fail(`${message}: No error thrown`);
   } catch (err) {
     if (err instanceof RestError) {
-      assert.equal(expectedStatusCode, err.statusCode);
-      return;
+      assert.equal(expectedStatusCode, err.statusCode, message);
+      return err;
     }
 
-    assert.fail(`${message}: Caught error: ${err}`);
+    assert.fail(`${message}: Caught error but wasn't a RestError: ${err}`);
   }
+  
+  return new Error("We won't reach this - both cases above throw because of assert.fail()");
 }

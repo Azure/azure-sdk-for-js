@@ -5,7 +5,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AppConfigCredential } from "./appConfigCredential";
-import { TokenCredential } from "@azure/core-http";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import "@azure/core-asynciterator-polyfill";
@@ -18,7 +17,6 @@ import {
   ConfigurationSettingParam,
   DeleteConfigurationSettingOptions,
   DeleteConfigurationSettingResponse,
-  ETagOption,
   GetConfigurationSettingOptions,
   GetConfigurationSettingResponse,
   GetKeyValuesResponse,
@@ -29,9 +27,14 @@ import {
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
   SetReadOnlyResponse,
-  ClearReadOnlyResponse,
+  ClearReadOnlyResponse
 } from "./models";
-import { formatETagForMatchHeaders, formatWildcards, extractAfterTokenFromNextLink } from './internal/helpers';
+import {
+  quoteETag,
+  formatWildcards,
+  extractAfterTokenFromNextLink
+} from "./internal/helpers";
+import { ResponseBodyNotFoundError } from './responseBodyNotFoundError';
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -64,9 +67,7 @@ export class AppConfigurationClient {
         deserializationContentTypes
       });
     } else {
-      throw new Error(
-        "You must provide a connection string."
-      );
+      throw new Error("You must provide a connection string.");
     }
   }
 
@@ -105,14 +106,13 @@ export class AppConfigurationClient {
    */
   deleteConfigurationSetting(
     key: string,
-    options: DeleteConfigurationSettingOptions & ETagOption
+    options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    if (options.etag) {
-      options = { ...options };
-      options.ifMatch = formatETagForMatchHeaders(options);
-    }
-
-    return this.client.deleteKeyValue(key, options);
+    return this.client.deleteKeyValue(key, {
+      ...options,
+      ifMatch: quoteETag(options.ifMatch),
+      ifNoneMatch: quoteETag(options.ifNoneMatch)
+    });
   }
 
   /**
@@ -125,14 +125,24 @@ export class AppConfigurationClient {
    * @param key The name of the key.
    * @param options Optional parameters for the request.
    */
-  getConfigurationSetting(
+  async getConfigurationSetting(
     key: string,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    return this.client.getKeyValue(key, {
+    const response = await this.client.getKeyValue(key, {
       label: options.label,
-      ...options
-    });
+      ...options,
+      ifMatch: quoteETag(options.ifMatch),
+      ifNoneMatch: quoteETag(options.ifNoneMatch),
+    }) as GetConfigurationSettingResponse;
+
+    // 304 only comes back if the user has passed a conditional option in their
+    // request _and_ the remote object has the same etag as what the user passed.
+    if (response._response.status === 304) {
+      throw new ResponseBodyNotFoundError("Remote resource matches local resource, no body returned.", "Resource same as remote", response._response.status, response._response.request, response._response, null);
+    }
+    
+    return response;
   }
 
   /**
@@ -294,27 +304,30 @@ export class AppConfigurationClient {
    * ```
    */
   setConfigurationSetting(
-    configurationSetting: ConfigurationSettingParam & ETagOption,
+    configurationSetting: ConfigurationSettingParam,
     options: ConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
     return this.client.putKeyValue(configurationSetting.key, {
+      ...options,
       label: configurationSetting.label,
       entity: configurationSetting,
-      ifMatch: formatETagForMatchHeaders(configurationSetting),
-      ...options
+      ifMatch: quoteETag(options.ifMatch),
+      ifNoneMatch: quoteETag(options.ifNoneMatch)
     });
   }
 
-  
   /**
    * Sets a key's value to read only
    * @param key The name of the setting.
    * @param label The (optional) label of the setting.
    */
-  setReadOnly(configurationSetting: ConfigurationSettingParam, options: SetReadOnlyOptions = {}) : Promise<SetReadOnlyResponse> {
+  setReadOnly(
+    configurationSetting: ConfigurationSettingParam,
+    options: SetReadOnlyOptions = {}
+  ): Promise<SetReadOnlyResponse> {
     return this.client.putLock(configurationSetting.key, {
       ...options,
-      label: configurationSetting.label,
+      label: configurationSetting.label
     });
   }
 
@@ -323,7 +336,10 @@ export class AppConfigurationClient {
    * @param key The name of the setting.
    * @param label The (optional) label of the setting.
    */
-  clearReadOnly(configurationSetting: ConfigurationSettingParam, options: ClearReadOnlyOptions = {}) : Promise<ClearReadOnlyResponse> {
+  clearReadOnly(
+    configurationSetting: ConfigurationSettingParam,
+    options: ClearReadOnlyOptions = {}
+  ): Promise<ClearReadOnlyResponse> {
     return this.client.deleteLock(configurationSetting.key, {
       ...options,
       label: configurationSetting.label

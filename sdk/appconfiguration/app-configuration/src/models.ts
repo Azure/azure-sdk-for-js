@@ -5,6 +5,7 @@ import {
   AppConfigurationGetKeyValuesOptionalParams,
   AppConfigurationGetRevisionsOptionalParams,
   AppConfigurationPutKeyValueOptionalParams,
+  GetKeyValueResponse,
   GetKeyValuesResponse,
   GetRevisionsResponse,
   KeyValue as ConfigurationSetting,
@@ -28,8 +29,7 @@ export {
   DeleteLockHeaders,
   DeleteLockResponse as ClearReadOnlyResponse,
   DeleteLockResponse,
-  GetKeyValueHeaders,
-  GetKeyValueResponse as GetConfigurationSettingResponse,
+  GetKeyValueHeaders,  
   GetKeyValueResponse,
   GetKeyValuesHeaders,
   GetKeyValuesResponse,
@@ -74,7 +74,14 @@ export interface ConfigurationSettingOptions
   extends Pick<
     AppConfigurationPutKeyValueOptionalParams,
     Exclude<keyof AppConfigurationPutKeyValueOptionalParams, "label" | "entity">
-  > {}
+  > { }
+  
+
+  /**
+   * A configuration setting and associated HTTP information
+   */
+export interface GetConfigurationSettingResponse extends Pick<GetKeyValueResponse, Exclude<keyof GetKeyValueResponse, 'eTag'>> {
+}
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -159,10 +166,3 @@ export interface ClearReadOnlyOptions extends Pick<AppConfigurationDeleteLockOpt
  * Options for setReadOnly
  */
 export interface SetReadOnlyOptions extends Pick<AppConfigurationPutLockOptionalParams, Exclude<keyof AppConfigurationPutLockOptionalParams, 'label'>> { }
-
-export interface ETagOption {
-  /**
-   * Entity tag (etag) of the object
-   */
-  etag?: string;
-}

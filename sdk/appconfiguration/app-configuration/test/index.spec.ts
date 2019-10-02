@@ -6,10 +6,11 @@ import {
   getConnectionStringFromEnvironment,
   deleteKeyCompletely,
   toSortedArray,
-  assertEqualSettings
+  assertEqualSettings,
+  assertThrowsRestError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
-import { formatETagForMatchHeaders, formatWildcards, extractAfterTokenFromNextLink } from '../src/internal/helpers';
+import { quoteETag, formatWildcards, extractAfterTokenFromNextLink } from '../src/internal/helpers';
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
@@ -277,12 +278,7 @@ describe("AppConfigurationClient", () => {
       settings.push({ key, label });
 
       // delete configuration
-      try {
-        await client.deleteConfigurationSetting(key, { label, etag: "incorrect" });
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
+      await assertThrowsRestError(() => client.deleteConfigurationSetting(key, { label, ifMatch: "incorrect" }), 412);
     });
   });
 
@@ -613,7 +609,9 @@ describe("AppConfigurationClient", () => {
     });
 
     it("key wildcards", async () => {
-      const revisionsWithKeyIterator = await client.listRevisions({ keys: ['*' + key.substring(1)] });
+      const revisionsWithKeyIterator = await client.listRevisions({
+        keys: ["*" + key.substring(1)]
+      });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 
       assertEqualSettings(
@@ -775,9 +773,8 @@ describe("AppConfigurationClient", () => {
       const replacedResult = await client.setConfigurationSetting({
         key,
         label,
-        value: "foo2",
-        etag: result.etag
-      });
+        value: "foo2"
+      }, { ifMatch: result.etag });
 
       assert.equal(
         replacedResult.key,
@@ -908,7 +905,10 @@ describe("AppConfigurationClient", () => {
       );
 
       try {
-        await client.setConfigurationSetting({ key, label, value: "foo2", etag: "incorrect" });
+        await client.setConfigurationSetting(
+          { key, label, value: "foo2" },
+          { ifMatch: "incorrect" }
+        );
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -916,20 +916,26 @@ describe("AppConfigurationClient", () => {
     });
   });
 
-  describe("formatETagForMatchHeaders", () => {
+  describe("quoteETag", () => {
     it("undefined", () => {
       assert.equal(
         undefined,
-        formatETagForMatchHeaders({
-          etag: undefined
-        })
+        quoteETag(undefined)
       );
 
       assert.equal(
         '"etagishere"',
-        formatETagForMatchHeaders({
-          etag: "etagishere"
-        })
+        quoteETag("etagishere")
+      );
+
+      assert.equal(
+        "'etagishere'",
+        quoteETag("'etagishere'")
+      );
+
+      assert.equal(
+        "*",
+        quoteETag("*")
       );
     });
   });
