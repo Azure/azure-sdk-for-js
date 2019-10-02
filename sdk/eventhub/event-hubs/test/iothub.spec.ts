@@ -11,7 +11,7 @@ import { EventHubClient, EventPosition } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-describe("EventHub Client with iothub connection string ", function(): void {
+describe("EventHub Client with iothub connection string #RunnableInBrowser", function(): void {
   const service = {
     connectionString: (env[EnvVarKeys.IOTHUB_CONNECTION_STRING] as string) || ""
   };
