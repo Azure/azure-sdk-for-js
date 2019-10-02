@@ -54,7 +54,7 @@ async function main(): Promise<void> {
   for await (const item of client.listCertificateVersions("MyCertificate1", {
     includePending: true
   })) {
-    const version = item.version!;
+    const version = item.properties.version!;
     const certificate = await client.getCertificate("MyCertificate1", version);
     console.log(`Certificate from version ${version}: `, certificate);
   }

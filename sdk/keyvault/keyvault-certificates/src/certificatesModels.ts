@@ -7,7 +7,9 @@ import {
   KeyVaultClientCreateCertificateOptionalParams,
   JsonWebKeyType,
   JsonWebKeyCurveName,
-  LifetimeAction
+  LifetimeAction,
+  SubjectAlternativeNames,
+  KeyUsageType
 } from "./core/models";
 
 /**
@@ -66,10 +68,7 @@ export interface CertificateWithPolicy extends Certificate {
  * @interface
  * An interface representing a certificate's policy
  */
-export interface CertificatePolicy
-  extends SecretProperties,
-    X509CertificateProperties,
-    CertificateAttributes {
+export interface CertificatePolicy extends SecretProperties, CertificateAttributes {
   /**
    * The certificate id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -100,7 +99,7 @@ export interface CertificatePolicy
    * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  curveType?: JsonWebKeyCurveName;
+  keyCurveType?: JsonWebKeyCurveName;
   /**
    * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
    */
@@ -114,6 +113,26 @@ export interface CertificatePolicy
    * transparency logs.
    */
   certificateTransparency?: boolean;
+  /**
+   * The subject name. Should be a valid X509 distinguished Name.
+   */
+  x509Subject?: string;
+  /**
+   * The enhanced key usage.
+   */
+  x509Ekus?: string[];
+  /**
+   * The subject alternative names.
+   */
+  x509SubjectAlternativeNames?: SubjectAlternativeNames;
+  /**
+   * List of key usages.
+   */
+  x509KeyUsage?: KeyUsageType[];
+  /**
+   * The duration that the certificate is valid in months.
+   */
+  validityInMonths?: number;
 }
 
 /**

@@ -132,7 +132,7 @@ function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
       keyType: p.keyType,
       keySize: p.keySize,
       reuseKey: p.reuseKey,
-      curve: p.curveType
+      curve: p.keyCurveType
     },
     secretProperties: {
       contentType: p.contentType
@@ -156,11 +156,18 @@ function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
 }
 
 function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
+  const optionalProperties: CertificatePolicy = {};
+  if (p.keyProperties && p.keyProperties.curve) {
+    optionalProperties.keyCurveType = p.keyProperties.curve;
+  }
+  if (p.issuerParameters && p.issuerParameters.name) {
+    optionalProperties.issuerName = p.issuerParameters && p.issuerParameters.name;
+  }
+
   return {
     id: p.id,
     lifetimeActions: p.lifetimeActions,
-    curveType: p.keyProperties && p.keyProperties.curve,
-    issuerName: p.issuerParameters && p.issuerParameters.name,
+    ...optionalProperties,
     ...p.keyProperties,
     ...p.secretProperties,
     ...p.x509CertificateProperties,

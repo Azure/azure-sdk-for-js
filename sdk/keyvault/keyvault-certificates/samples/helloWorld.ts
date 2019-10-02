@@ -33,7 +33,7 @@ async function main(): Promise<void> {
   // To read a certificate from a specific version:
   const certificateFromVersion = await client.getCertificate(
     "MyCertificate",
-    certificateWithPolicy.version
+    certificateWithPolicy.properties.version
   );
   // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);
