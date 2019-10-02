@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816894873803810",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003463787604784",
    "query": {
     "restype": "container"
    },
@@ -10,19 +10,19 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:08 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:08 GMT",
+    "date": "Wed, 02 Oct 2019 16:43:57 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:43:57 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365FD329151F\"",
-    "x-ms-request-id": "96e5fc41-201e-0061-5148-682223000000",
+    "etag": "\"0x8D74757B848C7C6\"",
+    "x-ms-request-id": "215fe533-201e-0080-6f40-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "7aa4fa55-6d2a-49f0-99d9-1e5d0a70fd82",
+    "x-ms-client-request-id": "e795d7c3-87ea-4e3a-b937-d3545696198e",
     "content-length": "0"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816894873803810",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003463787604784",
    "query": {
     "restype": "container"
    },
@@ -30,17 +30,17 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:08 GMT",
+    "date": "Wed, 02 Oct 2019 16:43:57 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "96e5fcae-201e-0061-3248-682223000000",
+    "x-ms-request-id": "215fe565-201e-0080-1a40-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "0196a357-035c-4678-9625-88ed150c4eab",
+    "x-ms-client-request-id": "6d79133a-9f9b-4bbd-a919-90c2d4fbbcb8",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156816894873803810",
-  "blob": "blob156816894894608867"
+  "container": "container157003463787604784",
+  "blob": "blob157003463794507291"
  }
 }

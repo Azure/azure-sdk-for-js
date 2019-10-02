@@ -2,77 +2,77 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156816895829605209/%D8%B9%D8%B1%D8%A8%D9%8A%2F%D8%B9%D8%B1%D8%A8%D9%89156816896682403720",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/%D8%B9%D8%B1%D8%A8%D9%8A%2F%D8%B9%D8%B1%D8%A8%D9%89157003464837006294",
    "query": {},
    "requestBody": "A",
    "status": 201,
    "response": "",
    "responseHeaders": {
     "x-ms-content-crc64": "PiO3pTJ67n0=",
-    "date": "Wed, 11 Sep 2019 02:29:26 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:26 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:07 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:08 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
-    "etag": "\"0x8D7365FDDF0ECBA\"",
-    "x-ms-request-id": "96e617a5-201e-0061-2b48-682223000000",
+    "etag": "\"0x8D74757BE8A99D0\"",
+    "x-ms-request-id": "21600056-201e-0080-1840-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "95f14d70-a229-4199-aca4-734050e1d9ef",
+    "x-ms-client-request-id": "bb32abcb-b67d-4fac-a9c0-1afb7a91882f",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
    }
   },
   {
    "method": "HEAD",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156816895829605209/%D8%B9%D8%B1%D8%A8%D9%8A%2F%D8%B9%D8%B1%D8%A8%D9%89156816896682403720",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/%D8%B9%D8%B1%D8%A8%D9%8A%2F%D8%B9%D8%B1%D8%A8%D9%89157003464837006294",
    "query": {},
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "x-ms-blob-type": "BlockBlob",
-    "date": "Wed, 11 Sep 2019 02:29:26 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:07 GMT",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
     "x-ms-tag-count": "0",
     "x-ms-server-encrypted": "true",
     "x-ms-access-tier": "Cool",
-    "x-ms-client-request-id": "3fb6a22e-8e02-4186-a30b-9837c910641b",
+    "x-ms-client-request-id": "4228305f-07c9-489d-b81d-4831be9e7c1e",
     "content-length": "1",
     "x-ms-lease-state": "available",
     "x-ms-lease-status": "unlocked",
-    "x-ms-creation-time": "Wed, 11 Sep 2019 02:29:26 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:26 GMT",
+    "x-ms-creation-time": "Wed, 02 Oct 2019 16:44:08 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:08 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365FDDF0ECBA\"",
+    "etag": "\"0x8D74757BE8A99D0\"",
     "content-type": "application/octet-stream",
     "x-ms-access-tier-inferred": "true",
     "x-ms-version": "2019-02-02",
     "accept-ranges": "bytes",
-    "x-ms-request-id": "96e61803-201e-0061-0548-682223000000"
+    "x-ms-request-id": "2160009c-201e-0080-5740-7993dc000000"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156816895829605209",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968",
    "query": {
     "comp": "list",
-    "prefix": "عربي/عربى156816896682403720",
+    "prefix": "عربي/عربى157003464837006294",
     "restype": "container"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash156816895829605209\"><Prefix>عربي/عربى156816896682403720</Prefix><Blobs><Blob><Name>عربي/عربى156816896682403720</Name><Properties><Creation-Time>Wed, 11 Sep 2019 02:29:26 GMT</Creation-Time><Last-Modified>Wed, 11 Sep 2019 02:29:26 GMT</Last-Modified><Etag>0x8D7365FDDF0ECBA</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash157003464545607968\"><Prefix>عربي/عربى157003464837006294</Prefix><Blobs><Blob><Name>عربي/عربى157003464837006294</Name><Properties><Creation-Time>Wed, 02 Oct 2019 16:44:08 GMT</Creation-Time><Last-Modified>Wed, 02 Oct 2019 16:44:08 GMT</Last-Modified><Etag>0x8D74757BE8A99D0</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:26 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:08 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "96e61858-201e-0061-5548-682223000000",
+    "x-ms-request-id": "216000c8-201e-0080-0140-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "00c0e843-5660-4469-b25b-6c561a7809ff"
+    "x-ms-client-request-id": "c23a4e9e-3346-473d-99ea-91712e737bef"
    }
   }
  ],
  "uniqueTestInfo": {
-  "عربي/عربى": "عربي/عربى156816896682403720"
+  "عربي/عربى": "عربي/عربى157003464837006294"
  }
 }

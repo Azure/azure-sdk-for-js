@@ -30,7 +30,6 @@ describe("Aborter", () => {
       await containerClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
     } catch (err) {
-      console.log(err);
       assert.equal(err.message, "The request was aborted", "Unexpected error caught: " + err);
     }
   });

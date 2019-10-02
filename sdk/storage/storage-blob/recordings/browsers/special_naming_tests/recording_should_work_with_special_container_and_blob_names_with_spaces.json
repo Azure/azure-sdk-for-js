@@ -2,48 +2,48 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156816895829605209/blob%20empty156816895850301142",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/blob%20empty157003464553003454",
    "query": {},
    "requestBody": "A",
    "status": 201,
    "response": "",
    "responseHeaders": {
     "x-ms-content-crc64": "PiO3pTJ67n0=",
-    "date": "Wed, 11 Sep 2019 02:29:17 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:18 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:05 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:05 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
-    "etag": "\"0x8D7365FD8FB69FE\"",
-    "x-ms-request-id": "96e60a95-201e-0061-6d48-682223000000",
+    "etag": "\"0x8D74757BCE07C57\"",
+    "x-ms-request-id": "215ff8db-201e-0080-1b40-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "0bf76a59-df5c-4972-8a83-7c79f457e89e",
+    "x-ms-client-request-id": "6d6da917-3c48-4f35-a927-7e7dae1f2f19",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156816895829605209",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968",
    "query": {
     "comp": "list",
-    "prefix": "blob empty156816895850301142",
+    "prefix": "blob empty157003464553003454",
     "restype": "container"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash156816895829605209\"><Prefix>blob empty156816895850301142</Prefix><Blobs><Blob><Name>blob empty156816895850301142</Name><Properties><Creation-Time>Wed, 11 Sep 2019 02:29:18 GMT</Creation-Time><Last-Modified>Wed, 11 Sep 2019 02:29:18 GMT</Last-Modified><Etag>0x8D7365FD8FB69FE</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash157003464545607968\"><Prefix>blob empty157003464553003454</Prefix><Blobs><Blob><Name>blob empty157003464553003454</Name><Properties><Creation-Time>Wed, 02 Oct 2019 16:44:05 GMT</Creation-Time><Last-Modified>Wed, 02 Oct 2019 16:44:05 GMT</Last-Modified><Etag>0x8D74757BCE07C57</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:18 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:05 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "96e60ad4-201e-0061-2248-682223000000",
+    "x-ms-request-id": "215ff945-201e-0080-7740-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "e64d0671-12a4-4b5c-82ea-a838dda72144"
+    "x-ms-client-request-id": "39d4d849-894f-4f3b-a4a1-96e7efbe320a"
    }
   }
  ],
  "uniqueTestInfo": {
-  "blob empty": "blob empty156816895850301142"
+  "blob empty": "blob empty157003464553003454"
  }
 }
