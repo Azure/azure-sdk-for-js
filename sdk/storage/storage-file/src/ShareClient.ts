@@ -816,7 +816,7 @@ export class ShareClient extends StorageClient {
     let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
     urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-    const shareName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)/(.*)")![3];
+    const shareName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
 
     if (!shareName) {
       throw new Error("Unable to extract shareName with provided information.");
