@@ -10,8 +10,8 @@ async function main() {
   //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-windows
   //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-linux
   //   https://docs.microsoft.com/en-us/azure/storage/files/storage-how-to-use-files-mac
-  const account = "";
-  const accountKey = "";
+  const account = process.env.ACCOUNT_NAME || "";
+  const accountKey = process.env.ACCOUNT_KEY || "";
   const shareName = "";
   const dirName = "";
 
@@ -33,7 +33,9 @@ async function main() {
   let i = 1;
   let iter = dirClient.listHandles();
   for await (const handle of iter) {
-    console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+    console.log(
+      `Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`
+    );
   }
 
   console.log(`List handles directly without using iter`);
@@ -41,7 +43,9 @@ async function main() {
   // 2. Same as the previous example
   i = 1;
   for await (const handle of dirClient.listHandles()) {
-    console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+    console.log(
+      `Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`
+    );
   }
 
   console.log(`List handles using iter.next()`);
@@ -51,7 +55,11 @@ async function main() {
   iter = await dirClient.listHandles();
   let handleItem = await iter.next();
   while (!handleItem.done) {
-    console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
+    console.log(
+      `Handle ${i++}: ${handleItem.value.path}, opened time ${
+        handleItem.value.openTime
+      }, clientIp ${handleItem.value.clientIp}`
+    );
     handleItem = await iter.next();
   }
 
@@ -66,7 +74,11 @@ async function main() {
   for await (const response of dirClient.listHandles().byPage()) {
     if (response.handleList) {
       for (const handle of response.handleList) {
-        console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+        console.log(
+          `Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${
+            handle.clientIp
+          }`
+        );
       }
     }
   }
@@ -75,10 +87,16 @@ async function main() {
 
   // 5. Same as the previous example - passing maxPageSize in the page settings
   i = 1;
-  for await (const response of dirClient.listHandles({ recursive: true }).byPage({ maxPageSize: 20 })) {
+  for await (const response of dirClient
+    .listHandles({ recursive: true })
+    .byPage({ maxPageSize: 20 })) {
     if (response.handleList) {
       for (const handle of response.handleList) {
-        console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+        console.log(
+          `Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${
+            handle.clientIp
+          }`
+        );
       }
     }
   }
@@ -92,7 +110,11 @@ async function main() {
   while (!response.done) {
     if (response.value.handleList) {
       for (const handle of response.value.handleList) {
-        console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+        console.log(
+          `Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${
+            handle.clientIp
+          }`
+        );
       }
     }
     response = await iterator.next();
@@ -107,7 +129,9 @@ async function main() {
   // Prints 2 handles
   if (response.value.handleList) {
     for (const handle of response.value.handleList) {
-      console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+      console.log(
+        `Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`
+      );
     }
   }
   // Gets next marker
@@ -119,7 +143,9 @@ async function main() {
   // Prints 2 more handles assuming you have more than four handles
   if (!response.done && response.value.handleList) {
     for (const handle of response.value.handleList) {
-      console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+      console.log(
+        `Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`
+      );
     }
   }
 }

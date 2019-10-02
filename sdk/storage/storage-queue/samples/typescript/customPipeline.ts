@@ -35,8 +35,8 @@ class ConsoleHttpPipelineLogger {
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  const account = process.env.ACCOUNT_NAME || "";
+  const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use SharedKeyCredential with storage account and account key
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers

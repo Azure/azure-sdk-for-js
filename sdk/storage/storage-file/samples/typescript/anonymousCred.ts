@@ -6,8 +6,8 @@ import { FileServiceClient, AnonymousCredential } from "../../src"; // Change to
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountSas = "";
+  const account = process.env.ACCOUNT_NAME || "";
+  const accountSas = process.env.ACCOUNT_SAS || "";
 
   // Use AnonymousCredential when url already includes a SAS signature
   const anonymousCredential = new AnonymousCredential();
