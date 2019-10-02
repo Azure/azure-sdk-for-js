@@ -62,11 +62,9 @@ tests of an sdk.
 ## Getting started
 
 We're about to go through how to set up your project to use the
-`@azure/test-utils-recorder` package.  We'll be using git and
-[rush](https://rushjs.io) in this readme. Please read their documentation. If
-you have ideas about how we can make them better, we'd love to hear from you!
-Please let us know by filing an issue
-[here](https://github.com/Azure/azure-sdk-for-js/issues).
+`@azure/test-utils-recorder` package.
+
+This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io).
 
 Keep in mind that `@azure/test-utils-recorder` is not a published package. It
 is only intended to be used by the libraries in the azure-sdk-for-js repository
