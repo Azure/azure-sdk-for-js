@@ -8,7 +8,7 @@ async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-  const STORAGE_CONNECTION_STRING = "";
+  const STORAGE_CONNECTION_STRING = process.env.STORAGE_CONNECTION_STRING || "";
   // Note - Account connection string can only be used in node.
   const blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 

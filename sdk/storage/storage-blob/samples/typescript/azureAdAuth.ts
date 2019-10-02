@@ -23,7 +23,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
   // Enter your storage account name
-  const account = "";
+  const account = process.env.ACCOUNT_NAME || "";
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
