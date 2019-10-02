@@ -12,7 +12,8 @@ const connectionString = "";
 async function main(): Promise<void> {
   const client = new EventHubClient(connectionString);
   /*
-   Refer to other samples, and place your code here to receive events using the above client
+   Refer to other samples, and place your code here to receive events using the above client.
+   Please note that send operations are not supported when this client is used against an IotHub instance
   */
   await client.close();
 }
