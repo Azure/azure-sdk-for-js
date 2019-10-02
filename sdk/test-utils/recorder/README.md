@@ -63,11 +63,10 @@ tests of an sdk.
 
 We're about to go through how to set up your project to use the
 `@azure/test-utils-recorder` package.  We'll be using git and
-[rush](https://rushjs.io). We understand that both tools can be challenging to
-use, but we expect you to know how to use them by the time you decide to use
-this package. If you encounter any problem with these tools, please let us know
-by filing an issue [here](https://github.com/Azure/azure-sdk-for-js/issues). If
-you have ideas about how we can make them better, we'd love to hear from you.
+[rush](https://rushjs.io) in this readme. Please read their documentation. If
+you have ideas about how we can make them better, we'd love to hear from you!
+Please let us know by filing an issue
+[here](https://github.com/Azure/azure-sdk-for-js/issues).
 
 Keep in mind that `@azure/test-utils-recorder` is not a published package. It
 is only intended to be used by the libraries in the azure-sdk-for-js repository
@@ -79,15 +78,19 @@ To install the `@azure/test-utils-recorder` package, you'll need to start by
 cloning our azure-sdk-for-js repository. One way of doing this is by using the
 git command line interface, as follows:
 
-    cd /path/to/my/github/repositories
-    git clone https://github.com/Azure/azure-sdk-for-js/
+```bash
+cd /path/to/my/github/repositories
+git clone https://github.com/Azure/azure-sdk-for-js/
+```
 
 Having cloned this repository, let's set it up by running the following rush commands:
 
-    cd azure-sdk-for-js
-    rush update
-    rush install
-    rush build
+```bash
+cd azure-sdk-for-js
+rush update
+rush install
+rush build
+```
 
 This will optimistically assume you're in a fresh clone.
 
@@ -98,11 +101,15 @@ to add the `@azure/test-utils-recorder` package to `@azure/keyvault-keys` (it
 already uses test-utils-recorder, but bear with us), you'll be doing the
 following:
 
-    cd sdk/keyvault/keyvault-keys
+```bash
+cd sdk/keyvault/keyvault-keys
+```
 
 Once there, you can add the test-utils-recorder package by running the following rush command:
 
-    rush add -p @azure/test-utils-recorder
+```bash
+rush add -p @azure/test-utils-recorder
+```
 
 And you're ready! Now you can use the common recorder in your code, as shown below:
 
@@ -164,17 +171,28 @@ to set this environment variable to `record` to start recording, and then to
 You can write scripts in your `package.json` to
 make it easier to switch from record mode to playback mode, on a meaningful context, as follows:
 
-    "integration-test:node": "mocha myNodeTests.js",
-    "unit-test:node": "TEST_MODE=playback npm run integration-test:node",
-    "test:node:record": "TEST_MODE=record npm run integration-test:node"
-
+```json
+{
+  // ... your package.json properties
+  "integration-test:node": "mocha myNodeTests.js",
+  "unit-test:node": "TEST_MODE=playback npm run integration-test:node",
+  "test:node:record": "TEST_MODE=record npm run integration-test:node",
+  // ... more of your package.json properties
+}
+```
 
 Once your tests run, new files will be created in the `recordings/*` folder.
 These files will have names that are relative to the tests that you have.
 There might be cases in which the recordings get outdated with the test files, so you might also want to
 add a way to clear the recordings on your `package.json`, like the following one:
 
-    "clear-recordings": "rm -fr recordings",
+```json
+{
+  // ... your package.json properties
+  "clear-recordings": "rm -fr recordings",
+  // ... more of your package.json properties
+}
+```
 
 #### Environment variables
 
