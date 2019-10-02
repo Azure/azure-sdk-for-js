@@ -17,7 +17,7 @@ export abstract class Poller<TProperties, TResult> {
     // (undocumented)
     abstract delay(): Promise<void>;
     // (undocumented)
-    done(): Promise<TResult>;
+    done(): Promise<TResult | undefined>;
     // (undocumented)
     abstract getResult(): Promise<TResult | undefined>;
     // (undocumented)

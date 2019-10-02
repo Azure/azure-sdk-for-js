@@ -2,8 +2,6 @@ import { PollOperation } from "./pollOperation";
 
 export type CancelOnProgress = () => void;
 
-export class PollerStoppedError extends Error {}
-
 export interface PollProgressSubscriber<TProperties, TResult> {
   id: string;
   conditional: (op?: PollOperation<TProperties, TResult>) => boolean;
@@ -13,7 +11,7 @@ export interface PollProgressSubscriber<TProperties, TResult> {
 export abstract class Poller<TProperties, TResult> {
   private stopped: boolean;
   private resolve?: (value?: TResult) => void;
-  private reject?: (error: PollerStoppedError | Error) => void;
+  private reject?: (error: Error) => void;
   private pollOncePromise?: Promise<void>;
   private cancelPromise?: Promise<PollOperation<TProperties, TResult>>;
   private promise: Promise<TResult>;
@@ -26,7 +24,7 @@ export abstract class Poller<TProperties, TResult> {
     this.promise = new Promise(
       (
         resolve: (result?: TResult) => void,
-        reject: (error: PollerStoppedError | Error) => void
+        reject: (error: Error) => void
       ) => {
         this.resolve = resolve;
         this.reject = reject;
@@ -118,7 +116,7 @@ export abstract class Poller<TProperties, TResult> {
     if (!this.stopped) {
       this.stopped = true;
       if (this.reject) {
-        this.reject(new PollerStoppedError("Poller stopped"));
+        this.reject(new Error("Poller stopped"));
       }
     }
   }
@@ -130,7 +128,8 @@ export abstract class Poller<TProperties, TResult> {
   public cancel(): Promise<PollOperation<TProperties, TResult>> {
     if (!this.cancelPromise) {
       this.cancelPromise = this.operation.cancel();
-      // If we use "finally" it says that the rejection wasn't handled.
+      // this.cancelPromise.catch() doesn't let you bubble up the error,
+      // and prevents upper scopes from handling the error.
       (async () => {
         try {
           if (this.cancelPromise) {

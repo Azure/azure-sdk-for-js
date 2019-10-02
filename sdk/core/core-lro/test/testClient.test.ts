@@ -5,7 +5,6 @@ import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { TestOperation } from "./utils/testOperation";
-import { PollerStoppedError } from "../src";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
@@ -172,10 +171,8 @@ describe("Long Running Operations - custom client", function() {
     client.setResponses([initialResponse, ...Array(20).fill(basicResponseStructure)]);
 
     const poller = await client.startLRO();
-    poller.done().catch((e: PollerStoppedError) => {
+    poller.done().catch((e: Error) => {
       assert.equal(e.message, "Poller stopped");
-      // TODO: This doesn't work
-      // assert.ok(e instanceof PollerStoppedError);
     });
 
     let operation = poller.operation;
