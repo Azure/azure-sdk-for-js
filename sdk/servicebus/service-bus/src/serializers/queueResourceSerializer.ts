@@ -6,7 +6,7 @@ import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 import {
   getStringOrUndefined,
-  getNumberOrUndefined,
+  getIntegerOrUndefined,
   getBooleanOrUndefined,
   getCountDetailsOrUndefined,
   CountDetails
@@ -15,65 +15,47 @@ import {
 const requestProperties: Array<keyof InternalQueueOptions> = [
   Constants.LOCK_DURATION,
   Constants.SIZE_IN_BYTES,
-  Constants.MAX_SIZE_IN_MEGABYTES,
-
   Constants.MESSAGE_COUNT,
-
-  Constants.MAX_DELIVERY_COUNT,
-
-  Constants.ENABLE_PARTITIONING,
-  Constants.REQUIRES_SESSION,
-  Constants.ENABLE_BATCHED_OPERATIONS,
-
   Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
-  Constants.AUTO_DELETE_ON_IDLE,
-
-  Constants.REQUIRES_DUPLICATE_DETECTION,
   Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
-  Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION,
   Constants.FORWARD_DEADLETTERED_MESSAGES_TO
 ];
 
+/**
+ * @ignore
+ * Builds the queue options object
+ * @param queueOptions
+ */
 export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOptions {
   const internalQueueOptions: InternalQueueOptions = {
     LockDuration: queueOptions.lockDuration,
     SizeInBytes: getStringOrUndefined(queueOptions.sizeInBytes),
-    MaxSizeInMegabytes: getStringOrUndefined(queueOptions.maxSizeInMegabytes),
-
     MessageCount: getStringOrUndefined(queueOptions.messageCount),
-
-    MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
-
-    EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
-    RequiresSession: getStringOrUndefined(queueOptions.requiresSession),
-    EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
-
     DefaultMessageTimeToLive: queueOptions.defaultMessageTimeToLive,
-    AutoDeleteOnIdle: queueOptions.autoDeleteOnIdle,
-
-    RequiresDuplicateDetection: getStringOrUndefined(queueOptions.requiresDuplicateDetection),
     DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
-    DeadLetteringOnMessageExpiration: getStringOrUndefined(
-      queueOptions.deadLetteringOnMessageExpiration
-    ),
     ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo
   };
   return internalQueueOptions;
 }
 
-export function buildQueue(rawQueue: any): Queue | {} {
-  if (rawQueue == undefined || rawQueue == {}) {
-    return {};
+/**
+ * @ignore
+ * Builds the queue object
+ * @param rawQueue
+ */
+export function buildQueue(rawQueue: any): Queue | undefined {
+  if (rawQueue == undefined) {
+    return undefined;
   } else {
     const result: Queue = {
       queueName: rawQueue["QueueName"],
 
       lockDuration: rawQueue["LockDuration"],
-      sizeInBytes: getNumberOrUndefined(rawQueue["SizeInBytes"]),
-      maxSizeInMegabytes: getNumberOrUndefined(rawQueue["MaxSizeInMegabytes"]),
+      sizeInBytes: getIntegerOrUndefined(rawQueue["SizeInBytes"]),
+      maxSizeInMegabytes: getIntegerOrUndefined(rawQueue["MaxSizeInMegabytes"]),
 
-      messageCount: getNumberOrUndefined(rawQueue["MessageCount"]),
-      maxDeliveryCount: getNumberOrUndefined(rawQueue["MaxDeliveryCount"]),
+      messageCount: getIntegerOrUndefined(rawQueue["MessageCount"]),
+      maxDeliveryCount: getIntegerOrUndefined(rawQueue["MaxDeliveryCount"]),
 
       enablePartitioning: getBooleanOrUndefined(rawQueue["EnablePartitioning"]),
       requiresSession: getBooleanOrUndefined(rawQueue["RequiresSession"]),
@@ -122,36 +104,10 @@ export interface QueueOptions {
   sizeInBytes?: number;
 
   /**
-   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
-   */
-  maxSizeInMegabytes?: number;
-
-  /**
    * The entity's message count.
    *
    */
   messageCount?: number;
-
-  /**
-   * The maximum delivery count.
-   *
-   */
-  maxDeliveryCount?: number;
-
-  /**
-   * Specifies whether the queue should be partitioned.
-   */
-  enablePartitioning?: boolean;
-
-  /**
-   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
-   */
-  requiresSession?: boolean;
-
-  /**
-   * Specifies if batched operations should be allowed.
-   */
-  enableBatchedOperations?: boolean;
 
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
@@ -159,25 +115,9 @@ export interface QueueOptions {
   defaultMessageTimeToLive?: string;
 
   /**
-   * Max idle time before entity is deleted
-   *
-   */
-  autoDeleteOnIdle?: string;
-
-  /**
-   * Settable only at queue creation time.
-   */
-  requiresDuplicateDetection?: boolean;
-
-  /**
    * Specifies the time span during which the Service Bus detects message duplication.
    */
   duplicateDetectionHistoryTimeWindow?: string;
-
-  /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
-   */
-  deadLetteringOnMessageExpiration?: boolean;
 
   /**
    * Entity to forward deadlettered messages to
@@ -203,36 +143,10 @@ export interface InternalQueueOptions {
   SizeInBytes?: string;
 
   /**
-   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
-   */
-  MaxSizeInMegabytes?: string;
-
-  /**
    * The entity's message count.
    *
    */
   MessageCount?: string;
-
-  /**
-   * The maximum delivery count.
-   *
-   */
-  MaxDeliveryCount?: string;
-
-  /**
-   * Specifies whether the queue should be partitioned.
-   */
-  EnablePartitioning?: string;
-
-  /**
-   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
-   */
-  RequiresSession?: string;
-
-  /**
-   * Specifies if batched operations should be allowed.
-   */
-  EnableBatchedOperations?: string;
 
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically moved to the DeadLetterQueue or deleted if it has been stored in the queue for longer than the specified time. This value is overwritten by a TTL specified on the message if and only if the message TTL is smaller than the TTL set on the queue. This value is immutable after the Queue has been created.
@@ -240,25 +154,10 @@ export interface InternalQueueOptions {
   DefaultMessageTimeToLive?: string;
 
   /**
-   * Max idle time before entity is deleted
-   *
-   */
-  AutoDeleteOnIdle?: string;
-
-  /**
-   * Settable only at queue creation time.
-   */
-  RequiresDuplicateDetection?: string;
-
-  /**
    * Specifies the time span during which the Service Bus detects message duplication.
    */
   DuplicateDetectionHistoryTimeWindow?: string;
 
-  /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
-   */
-  DeadLetteringOnMessageExpiration?: string;
   /**
    * Entity to forward deadlettered messages to
    *
@@ -274,6 +173,48 @@ export interface Queue extends QueueOptions {
    * Name of the queue
    */
   queueName?: string;
+
+  /**
+   * Max idle time before entity is deleted
+   *
+   */
+  autoDeleteOnIdle?: string;
+
+  /**
+   * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that will cause the queue to exceed this value will fail.
+   */
+  maxSizeInMegabytes?: number;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  maxDeliveryCount?: number;
+
+  /**
+   * Specifies whether the queue should be partitioned.
+   */
+  enablePartitioning?: boolean;
+
+  /**
+   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   */
+  requiresSession?: boolean;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations?: boolean;
+
+  /**
+   * Settable only at queue creation time.
+   */
+  requiresDuplicateDetection?: boolean;
+
+  /**
+   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   */
+  deadLetteringOnMessageExpiration?: boolean;
 
   /**
    * Count details

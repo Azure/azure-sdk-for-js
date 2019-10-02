@@ -22,8 +22,8 @@ async function main(): Promise<void> {
   const createQueueResult: CreateQueueResponse = await serviceBusAtomManagementClient.createQueue(
     "testQueue",
     {
-      requiresSession: false,
-      enablePartitioning: false
+      lockDuration: "PT1M",
+      sizeInBytes: 250
     }
   );
   console.log("Created queue: ", createQueueResult.queueName);
@@ -34,10 +34,10 @@ async function main(): Promise<void> {
   console.log("Retrieved queue: ", getQueueResult);
 
   const createAnotherQueueResult: CreateQueueResponse = await serviceBusAtomManagementClient.createQueue(
-    "anotherTestQueue",
+    "anotheTestQueue",
     {
-      requiresSession: false,
-      enablePartitioning: true
+      lockDuration: "PT3M",
+      sizeInBytes: 500
     }
   );
   console.log("Created another queue: ", createAnotherQueueResult.queueName);

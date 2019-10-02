@@ -198,11 +198,11 @@ export function getStringOrUndefined(value: any): string | undefined {
 
 /**
  *  @ignore
- * Helper utility to retrieve `number` value from given string or undefined,
+ * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
  * @param value
  */
-export function getNumberOrUndefined(value: any): number | undefined {
+export function getIntegerOrUndefined(value: any): number | undefined {
   if (value) {
     try {
       return parseInt(value.toString());
@@ -216,7 +216,7 @@ export function getNumberOrUndefined(value: any): number | undefined {
 
 /**
  *  @ignore
- * Helper utility to retrieve `boolean` value from given string or undefined,
+ * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
  * @param value
  */
@@ -230,7 +230,7 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 
 /**
  *  @ignore
- * Helper utility to retrieve `JSON` value from given input or undefined,
+ * Helper utility to retrieve `JSON` value from given input,
  * or undefined if not passed in.
  * @param value
  */
@@ -250,7 +250,7 @@ export function getJSONOrUndefined(value: any): number | undefined {
 
 /**
  *  @ignore
- * Helper utility to retrieve `countDetails` value from given input or undefined,
+ * Helper utility to retrieve `countDetails` value from given input,
  * or undefined if not passed in.
  * @param value
  */

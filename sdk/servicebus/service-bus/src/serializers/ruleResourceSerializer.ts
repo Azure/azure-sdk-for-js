@@ -4,14 +4,26 @@
 import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
+import { getIntegerOrUndefined } from "../util/utils";
 
 const requestProperties = ["Name", "Filter", "Action"];
 
+/**
+ * @ignore
+ * Builds the rule options object
+ * @param name
+ * @param ruleOptions
+ */
 export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): InternalRuleOptions {
   const internalRuleOptions: InternalRuleOptions = Object.assign(ruleOptions, { name: name });
   return internalRuleOptions;
 }
 
+/**
+ * @ignore
+ * Builds the rule object
+ * @param rawRule
+ */
 export function buildRule(rawRule: any): Rule | {} {
   if (rawRule == undefined || rawRule == {}) {
     return {};
@@ -30,26 +42,33 @@ export function buildRule(rawRule: any): Rule | {} {
 
 /**
  *  @ignore
- * Helper utility to retrieve `filter` value from given input or undefined,
+ * Helper utility to retrieve `filter` value from given input,
  * or undefined if not passed in.
  * @param value
  */
 function getTopicFilterOrUndefined(value: any): Filter | undefined {
-  if (value == undefined || value == {}) {
+  if (value == undefined) {
     return undefined;
   } else {
-    const result: Filter = {
-      sqlExpression: value["SqlExpression"],
-      compatibilityLevel: value["CompatibilityLevel"],
-      correlationId: value["CorrelationId"],
-      label: value["Label"],
-      to: value["To"],
-      replyTo: value["ReplyTo"],
-      replyToSessionId: value["ReplyToSessionId"],
-      sessionId: value["SessionId"],
-      messageId: value["MessageId"],
-      contentType: value["ContentType"]
-    };
+    let result: Filter | undefined;
+
+    if (value["SqlExpression"] != undefined) {
+      result = {
+        sqlExpression: value["SqlExpression"],
+        compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"])
+      };
+    } else if (value["CorrelationId"] != undefined) {
+      result = {
+        correlationId: value["CorrelationId"],
+        label: value["Label"],
+        to: value["To"],
+        replyTo: value["ReplyTo"],
+        replyToSessionId: value["ReplyToSessionId"],
+        sessionId: value["SessionId"],
+        messageId: value["MessageId"],
+        contentType: value["ContentType"]
+      };
+    }
     return result;
   }
 }
@@ -167,7 +186,7 @@ export interface Filter extends CorrelationFilterOptions {
   /**
    * CompatibilityLevel field on the SQL rule
    */
-  compatibilityLevel: number;
+  compatibilityLevel?: number;
 }
 
 /**
@@ -225,14 +244,13 @@ export interface CorrelationFilterOptions {
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
   serialize(rule: InternalRuleOptions): string {
-    const resource: { Name: any; Filter: any; Action: any } = {
+    const resource: { Name: any; Filter: any[]; Action: any[] } = {
       Name: rule.name,
       Filter: [],
       Action: []
     };
 
     if (rule) {
-      const filters = [];
       if (rule.sqlExpressionFilter) {
         const sqlFilter = {
           $: {
@@ -242,7 +260,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           CompatibilityLevel: 20
         };
 
-        filters.push(sqlFilter);
+        resource.Filter.push(sqlFilter);
       } else if (rule.correlationFilter) {
         const correlationFilter = {
           $: {
@@ -259,7 +277,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           Properties: rule.correlationFilter.properties
         };
 
-        filters.push(correlationFilter);
+        resource.Filter.push(correlationFilter);
       } else if (rule.trueFilter) {
         const trueFilter = {
           $: {
@@ -269,7 +287,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           CompatibilityLevel: 20
         };
 
-        filters.push(trueFilter);
+        resource.Filter.push(trueFilter);
       } else if (rule.falseFilter) {
         const falseFilter = {
           $: {
@@ -279,14 +297,8 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           CompatibilityLevel: 20
         };
 
-        filters.push(falseFilter);
+        resource.Filter.push(falseFilter);
       }
-
-      if (filters.length > 0) {
-        resource.Filter = filters;
-      }
-
-      const actions = [];
 
       if (rule.sqlRuleAction) {
         const sqlAction = {
@@ -296,7 +308,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           SqlExpression: rule.sqlRuleAction
         };
 
-        actions.push(sqlAction);
+        resource.Action.push(sqlAction);
       } else {
         const emptyRuleAction = {
           $: {
@@ -304,11 +316,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           }
         };
 
-        actions.push(emptyRuleAction);
-      }
-
-      if (actions.length > 0) {
-        resource.Action = actions;
+        resource.Action.push(emptyRuleAction);
       }
     }
 

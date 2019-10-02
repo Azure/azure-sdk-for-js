@@ -1,13 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusAtomManagementClient } from "../src";
+import {
+  ServiceBusAtomManagementClient,
+  QueueOptions,
+  TopicOptions,
+  SubscriptionOptions,
+  RuleOptions
+} from "../src";
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-
+import chaiExclude from "chai-exclude";
 chai.use(chaiAsPromised);
+chai.use(chaiExclude);
 const should = chai.should();
+const assert = chai.assert;
 
 import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
@@ -22,6 +30,7 @@ enum EntityType {
   SUBSCRIPTION = "Subscription",
   RULE = "Rule"
 }
+
 const alwaysBeExistingQueue = "alwaysbeexistingqueue";
 const alwaysBeDeletedQueue = "alwaysbedeletedqueue";
 
@@ -42,20 +51,12 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
         switch (entityType) {
           case EntityType.QUEUE:
-            try {
-              await deleteEntity(entityType, alwaysBeExistingQueue);
-            } catch (err) {
-              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
-            }
+            await deleteEntity(entityType, alwaysBeExistingQueue);
             response = await createEntity(entityType, alwaysBeExistingQueue);
             should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
             break;
           case EntityType.TOPIC:
-            try {
-              await deleteEntity(entityType, alwaysBeExistingTopic);
-            } catch (err) {
-              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
-            }
+            await deleteEntity(entityType, alwaysBeExistingTopic);
             response = await createEntity(entityType, alwaysBeExistingTopic);
             should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
             break;
@@ -98,7 +99,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
           case EntityType.TOPIC:
             try {
-              await createEntity(entityType, alwaysBeExistingTopic);
+              response = await createEntity(entityType, alwaysBeExistingTopic);
             } catch (err) {
               response = err;
             }
@@ -107,7 +108,11 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
           case EntityType.SUBSCRIPTION:
             try {
-              await createEntity(entityType, alwaysBeExistingSubscription, alwaysBeExistingTopic);
+              response = await createEntity(
+                entityType,
+                alwaysBeExistingSubscription,
+                alwaysBeExistingTopic
+              );
             } catch (err) {
               response = err;
             }
@@ -116,7 +121,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
           case EntityType.RULE:
             try {
-              await createEntity(
+              response = await createEntity(
                 entityType,
                 alwaysBeExistingRule,
                 alwaysBeExistingTopic,
@@ -159,7 +164,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
           default:
             throw new Error("TestError: Unrecognized EntityType");
         }
-        console.log(JSON.stringify(response, undefined, 2));
         should.equal(Array.isArray(response), true, "Result must be any array for list requests");
       });
 
@@ -193,7 +197,8 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
-            should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
+            // Disabling tests on Rule updates
+            // should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
             break;
           default:
             throw new Error("TestError: Unrecognized EntityType");
@@ -280,29 +285,17 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         let response;
         switch (entityType) {
           case EntityType.QUEUE:
-            try {
-              await createEntity(entityType, alwaysBeDeletedQueue);
-            } catch (err) {
-              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
-            }
+            await createEntity(entityType, alwaysBeDeletedQueue);
             response = await deleteEntity(entityType, alwaysBeDeletedQueue);
             break;
 
           case EntityType.TOPIC:
-            try {
-              await createEntity(entityType, alwaysBeDeletedTopic);
-            } catch (err) {
-              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
-            }
+            await createEntity(entityType, alwaysBeDeletedTopic);
             response = await deleteEntity(entityType, alwaysBeDeletedTopic);
             break;
 
           case EntityType.SUBSCRIPTION:
-            try {
-              await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
-            } catch (err) {
-              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
-            }
+            await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
             response = await deleteEntity(
               entityType,
               alwaysBeDeletedSubscription,
@@ -311,16 +304,12 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
             break;
 
           case EntityType.RULE:
-            try {
-              await createEntity(
-                entityType,
-                alwaysBeDeletedRule,
-                alwaysBeExistingTopic,
-                alwaysBeExistingSubscription
-              );
-            } catch (err) {
-              console.log(`Ignoring error from cleanup step for test on ${entityType}`);
-            }
+            await createEntity(
+              entityType,
+              alwaysBeDeletedRule,
+              alwaysBeExistingTopic,
+              alwaysBeExistingSubscription
+            );
             response = await deleteEntity(
               entityType,
               alwaysBeDeletedRule,
@@ -378,33 +367,395 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
   }
 );
 
+// Queue tests
+[
+  {
+    testCaseTitle: "Undefined queue options",
+    input: undefined,
+    output: {
+      authorizationRules: "",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      countDetails: undefined,
+      deadLetteringOnMessageExpiration: false,
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      duplicateDetectionHistoryTimeWindow: "PT10M",
+      enableBatchedOperations: true,
+      enableExpress: false,
+      enablePartitioning: false,
+      entityAvailabilityStatus: "Available",
+      forwardDeadLetteredMessagesTo: undefined,
+      isAnonymousAccessible: false,
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      maxSizeInMegabytes: 1024,
+      messageCount: 0,
+      queueName: "alwaysbeexistingqueue",
+      requiresDuplicateDetection: false,
+      requiresSession: false,
+      sizeInBytes: 0,
+      status: "Active",
+      supportOrdering: true
+    }
+  },
+  {
+    testCaseTitle: "all properties",
+    input: {
+      defaultMessageTimeToLive: "P10675300DT2H48M5.4775807S",
+      duplicateDetectionHistoryTimeWindow: "PT5M",
+      // This should be a proper URL else the service returns an error
+      // forwardDeadLetteredMessagesTo: "",
+      lockDuration: "PT5M",
+      messageCount: 5,
+      sizeInBytes: 250
+    },
+    output: {
+      duplicateDetectionHistoryTimeWindow: ["PT10M", "PT5M"],
+      lockDuration: "PT5M",
+      messageCount: 5,
+
+      sizeInBytes: 250,
+      defaultMessageTimeToLive: ["P10675199DT2H48M5.4775807S", "P10675300DT2H48M5.4775807S"],
+      forwardDeadLetteredMessagesTo: undefined,
+
+      // Below properties are not updated by options
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      authorizationRules: "",
+      countDetails: undefined,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      enableExpress: false,
+      enablePartitioning: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      maxDeliveryCount: 10,
+      maxSizeInMegabytes: 1024,
+      requiresDuplicateDetection: false,
+      requiresSession: false,
+      status: "Active",
+      supportOrdering: true,
+      queueName: "alwaysbeexistingqueue"
+    }
+  }
+].forEach((testCase) => {
+  describe(`Queue creation with differing options`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
+      } catch (err) {
+        console.log("Ignoring clean up step");
+      }
+      const response = await createEntity(
+        EntityType.QUEUE,
+        alwaysBeExistingQueue,
+        undefined,
+        undefined,
+        true,
+        testCase.input
+      );
+      should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
+      assert.deepEqualExcluding(response, testCase.output, [
+        "_response",
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
+      ]);
+    });
+  });
+});
+
+// Topic tests
+[
+  {
+    testCaseTitle: "Undefined topic options",
+    input: undefined,
+    output: {
+      authorizationRules: "",
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      countDetails: undefined,
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      duplicateDetectionHistoryTimeWindow: "PT10M",
+      enableBatchedOperations: true,
+      enableExpress: false,
+      enablePartitioning: false,
+      enableSubscriptionPartitioning: false,
+      entityAvailabilityStatus: "Available",
+      filteringMessagesBeforePublishing: false,
+      isAnonymousAccessible: false,
+      isExpress: false,
+      maxDeliveryCount: undefined,
+      maxSizeInMegabytes: 1024,
+      messageCount: undefined,
+      requiresDuplicateDetection: false,
+      sizeInBytes: 0,
+      status: "Active",
+      subscriptionCount: undefined,
+      supportOrdering: true,
+      topicName: "alwaysbeexistingtopic"
+    }
+  },
+  {
+    testCaseTitle: "all properties",
+    input: {
+      sizeInBytes: 100,
+      messageCount: 7,
+      subscriptionCount: 6,
+      maxDeliveryCount: 20,
+      defaultMessageTimeToLive: "P10675200DT2H48M5.4775807S",
+      duplicateDetectionHistoryTimeWindow: "PT5M"
+    },
+    output: {
+      sizeInBytes: 100,
+      messageCount: 7,
+      subscriptionCount: 6,
+      maxDeliveryCount: 20,
+      defaultMessageTimeToLive: ["P10675199DT2H48M5.4775807S", "P10675200DT2H48M5.4775807S"],
+      duplicateDetectionHistoryTimeWindow: ["PT10M", "PT5M"],
+
+      // Below properties are not updated by options
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      maxSizeInMegabytes: 1024,
+      enableSubscriptionPartitioning: false,
+      filteringMessagesBeforePublishing: false,
+      isExpress: false,
+      authorizationRules: "",
+      countDetails: undefined,
+      enableBatchedOperations: true,
+      enableExpress: false,
+      enablePartitioning: false,
+      entityAvailabilityStatus: "Available",
+      isAnonymousAccessible: false,
+      requiresDuplicateDetection: false,
+      status: "Active",
+      supportOrdering: true,
+      topicName: "alwaysbeexistingtopic"
+    }
+  }
+].forEach((testCase) => {
+  describe(`Topic creation with differing options`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        await deleteEntity(EntityType.TOPIC, alwaysBeExistingTopic);
+      } catch (err) {
+        console.log("Ignoring clean up step");
+      }
+      const response = await createEntity(
+        EntityType.TOPIC,
+        alwaysBeExistingTopic,
+        undefined,
+        undefined,
+        true,
+        undefined,
+        testCase.input
+      );
+      should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
+      assert.deepEqualExcluding(response, testCase.output, [
+        "_response",
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
+      ]);
+    });
+  });
+});
+
+// Subscription tests
+[
+  {
+    testCaseTitle: "Undefined subscription options",
+    input: undefined,
+    output: {
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      countDetails: undefined,
+      deadLetteringOnMessageExpiration: false,
+      deadLetteringOnFilterEvaluationExceptions: true,
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      enableBatchedOperations: true,
+      enablePartitioning: undefined,
+      entityAvailabilityStatus: "Available",
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10,
+      maxSizeInMegabytes: undefined,
+      messageCount: 0,
+      requiresSession: false,
+      sizeInBytes: undefined,
+      status: "Active",
+
+      subscriptionName: "alwaysbeexistingsubscription",
+      topicName: "alwaysbeexistingtopic"
+    }
+  },
+  {
+    testCaseTitle: "all properties",
+    input: {
+      lockDuration: "PT5M",
+      maxDeliveryCount: 20
+    },
+    output: {
+      lockDuration: "PT5M",
+      maxDeliveryCount: 20,
+
+      // Below properties are not updated by options
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      messageCount: 0,
+      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      countDetails: undefined,
+      deadLetteringOnFilterEvaluationExceptions: true,
+      deadLetteringOnMessageExpiration: false,
+      enableBatchedOperations: true,
+      enablePartitioning: undefined,
+      entityAvailabilityStatus: "Available",
+      maxSizeInMegabytes: undefined,
+      sizeInBytes: undefined,
+      requiresSession: false,
+      status: "Active",
+
+      subscriptionName: "alwaysbeexistingsubscription",
+      topicName: "alwaysbeexistingtopic"
+    }
+  }
+].forEach((testCase) => {
+  describe(`Subscription creation with differing options`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        await deleteEntity(
+          EntityType.SUBSCRIPTION,
+          alwaysBeExistingSubscription,
+          alwaysBeExistingTopic
+        );
+      } catch (err) {
+        console.log("Ignoring clean up step");
+      }
+      const response = await createEntity(
+        EntityType.SUBSCRIPTION,
+        alwaysBeExistingSubscription,
+        alwaysBeExistingTopic,
+        undefined,
+        true,
+        undefined,
+        undefined,
+        testCase.input
+      );
+      should.equal(
+        response.subscriptionName,
+        alwaysBeExistingSubscription,
+        "Subscription name mismatch"
+      );
+      assert.deepEqualExcluding(response, testCase.output, [
+        "_response",
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
+      ]);
+    });
+  });
+});
+
+// Rule tests
+[
+  {
+    testCaseTitle: "Undefined rule options",
+    input: undefined,
+    output: {
+      filter: {
+        sqlExpression: "1=1",
+        compatibilityLevel: 20
+      },
+      action: "",
+
+      ruleName: "alwaysbeexistingrule",
+      subscriptionName: "alwaysbeexistingsubscription",
+      topicName: "alwaysbeexistingtopic"
+    }
+  }
+].forEach((testCase) => {
+  describe(`Rule creation with differing options`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        await deleteEntity(
+          EntityType.RULE,
+          alwaysBeExistingRule,
+          alwaysBeExistingTopic,
+          alwaysBeExistingSubscription
+        );
+      } catch (err) {
+        console.log("Ignoring clean up step");
+      }
+      const response = await createEntity(
+        EntityType.RULE,
+        alwaysBeExistingRule,
+        alwaysBeExistingTopic,
+        alwaysBeExistingSubscription,
+        true,
+        undefined,
+        undefined,
+        undefined,
+        testCase.input
+      );
+      should.equal(
+        response.subscriptionName,
+        alwaysBeExistingSubscription,
+        "Subscription name mismatch"
+      );
+      assert.deepEqualExcluding(response, testCase.output, [
+        "_response",
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
+      ]);
+    });
+  });
+});
+
 async function createEntity(
   testEntityType: EntityType,
   entityPath: string,
   topicPath?: string,
-  subscriptionPath?: string
+  subscriptionPath?: string,
+  overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
+  queueOptions?: QueueOptions,
+  topicOptions?: TopicOptions,
+  subscriptionOptions?: SubscriptionOptions,
+  ruleOptions?: RuleOptions
 ): Promise<any> {
+  if (!overrideOptions) {
+    if (queueOptions == undefined) {
+      queueOptions = {
+        lockDuration: "PT1M"
+      };
+    }
+
+    if (topicOptions == undefined) {
+      topicOptions = {
+        maxDeliveryCount: 10
+      };
+    }
+
+    if (subscriptionOptions == undefined) {
+      subscriptionOptions = {
+        lockDuration: "PT1M",
+        maxDeliveryCount: 10
+      };
+    }
+
+    if (ruleOptions == undefined) {
+      ruleOptions = {
+        trueFilter: "1=1"
+      };
+    }
+  }
+
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.createQueue(entityPath, {
-        lockDuration: "PT1M",
-        maxSizeInMegabytes: 1024,
-        requiresDuplicateDetection: false,
-        requiresSession: false,
-        deadLetteringOnMessageExpiration: false,
-        maxDeliveryCount: 10,
-        enableBatchedOperations: true,
-        enablePartitioning: false
-      });
+      const queueResponse = await serviceBusAtomManagementClient.createQueue(
+        entityPath,
+        queueOptions
+      );
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.createTopic(entityPath, {
-        maxSizeInMegabytes: 1024,
-        requiresDuplicateDetection: false,
-        maxDeliveryCount: 10,
-        enableBatchedOperations: true,
-        enablePartitioning: false
-      });
+      const topicResponse = await serviceBusAtomManagementClient.createTopic(
+        entityPath,
+        topicOptions
+      );
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -415,15 +766,7 @@ async function createEntity(
       const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription(
         topicPath,
         entityPath,
-        {
-          lockDuration: "PT1M",
-          maxSizeInMegabytes: 1024,
-          requiresSession: false,
-          deadLetteringOnMessageExpiration: false,
-          maxDeliveryCount: 10,
-          enableBatchedOperations: true,
-          enablePartitioning: false
-        }
+        subscriptionOptions
       );
       return subscriptionResponse;
     case EntityType.RULE:
@@ -435,10 +778,9 @@ async function createEntity(
       const ruleResponse = await serviceBusAtomManagementClient.createRule(
         topicPath,
         subscriptionPath,
-        entityPath,
-        {
-          trueFilter: "1=1"
-        }
+        entityPath
+        // ruleOptions
+        // Disabling use of ruleOptions
       );
       return ruleResponse;
   }
@@ -489,29 +831,49 @@ async function updateEntity(
   testEntityType: EntityType,
   entityPath: string,
   topicPath?: string,
-  subscriptionPath?: string
+  subscriptionPath?: string,
+  queueOptions?: QueueOptions,
+  topicOptions?: TopicOptions,
+  subscriptionOptions?: SubscriptionOptions,
+  ruleOptions?: RuleOptions
 ): Promise<any> {
+  if (queueOptions == undefined) {
+    queueOptions = {
+      lockDuration: "PT1M"
+    };
+  }
+
+  if (topicOptions == undefined) {
+    topicOptions = {
+      maxDeliveryCount: 10
+    };
+  }
+
+  if (subscriptionOptions == undefined) {
+    subscriptionOptions = {
+      lockDuration: "PT1M",
+      maxDeliveryCount: 10
+    };
+  }
+
+  if (ruleOptions == undefined) {
+    ruleOptions = {
+      trueFilter: "1=1"
+    };
+  }
+
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.updateQueue(entityPath, {
-        lockDuration: "PT1M",
-        maxSizeInMegabytes: 1024,
-        requiresDuplicateDetection: false,
-        requiresSession: false,
-        deadLetteringOnMessageExpiration: false,
-        maxDeliveryCount: 10,
-        enableBatchedOperations: true,
-        enablePartitioning: false
-      });
+      const queueResponse = await serviceBusAtomManagementClient.updateQueue(
+        entityPath,
+        queueOptions
+      );
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.updateTopic(entityPath, {
-        maxSizeInMegabytes: 1024,
-        requiresDuplicateDetection: false,
-        maxDeliveryCount: 10,
-        enableBatchedOperations: true,
-        enablePartitioning: false
-      });
+      const topicResponse = await serviceBusAtomManagementClient.updateTopic(
+        entityPath,
+        topicOptions
+      );
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -522,15 +884,7 @@ async function updateEntity(
       const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription(
         topicPath,
         entityPath,
-        {
-          lockDuration: "PT1M",
-          maxSizeInMegabytes: 1024,
-          requiresSession: false,
-          deadLetteringOnMessageExpiration: false,
-          maxDeliveryCount: 10,
-          enableBatchedOperations: true,
-          enablePartitioning: false
-        }
+        subscriptionOptions
       );
       return subscriptionResponse;
     case EntityType.RULE:
@@ -539,15 +893,16 @@ async function updateEntity(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient.updateRule(
-        topicPath,
-        subscriptionPath,
-        entityPath,
-        {
-          trueFilter: "1=1"
-        }
-      );
-      return ruleResponse;
+      // const ruleResponse = await serviceBusAtomManagementClient.updateRule(
+      //   topicPath,
+      //   subscriptionPath,
+      //   entityPath,
+      //   ruleOptions
+      // );
+      // return ruleResponse;
+
+      // Disabling tests on Rule updates
+      return;
   }
   throw new Error("TestError: Unrecognized EntityType");
 }

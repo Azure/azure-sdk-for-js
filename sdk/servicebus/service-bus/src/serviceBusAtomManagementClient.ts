@@ -240,9 +240,9 @@ export interface ListRulesResponse extends Array<Rule> {
 }
 
 /**
- * All internal operations return a `Promise<HttpOperationResponse>` object of which the `parsedBody`
- * is populated with the parsed result in JSON format which is returned as part of `QueueResult`,
- * `TopicResult`, `SubscriptionResult` or `RuleResult`.
+ * All operations return a `_response` of type `HttpOperationResponse`, of which the `parsedBody` field
+ * is populated with the parsed result in JSON format.
+ * This is in turn the primary object returned as result of the individual operations.
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
   private endpoint: string;
@@ -299,15 +299,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * For example, you can configure a queue to support partitions or sessions
    */
   async createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse> {
+    log.httpAtomXml(
+      `Performing management operation - createQueue() for "${queueName}" with options: ${queueOptions}`
+    );
     const response: HttpOperationResponse = await this._putResource(
       queueName,
       buildQueueOptions(queueOptions || {}),
       this.queueResourceSerializer,
       false
     );
-    log.httpAtomXml(
-      `Performing management operation - createQueue() for "${queueName}" with options: ${queueOptions}`
-    );
+
     return this.buildQueueResponse(response);
   }
 
@@ -316,11 +317,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param queueName
    */
   async getQueue(queueName: string): Promise<GetQueueResponse> {
+    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this._getResource(
       queueName,
       this.queueResourceSerializer
     );
-    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+
     return this.buildQueueResponse(response);
   }
 
@@ -329,14 +331,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param listRequestOptions
    */
   async listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listQueues() with options: ${listRequestOptions}`
+    );
     const response: HttpOperationResponse = await this._listResources(
       "$Resources/Queues",
       listRequestOptions,
       this.queueResourceSerializer
     );
-    log.httpAtomXml(
-      `Performing management operation - listQueues() with options: ${listRequestOptions}`
-    );
+
     return this.buildListQueuesResponse(response);
   }
 
@@ -347,15 +350,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * For example, you can configure a queue to support partitions or sessions
    */
   async updateQueue(queueName: string, queueOptions: QueueOptions): Promise<UpdateQueueResponse> {
+    log.httpAtomXml(
+      `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
+    );
     const response: HttpOperationResponse = await this._putResource(
       queueName,
       buildQueueOptions(queueOptions),
       this.queueResourceSerializer,
       true
     );
-    log.httpAtomXml(
-      `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
-    );
+
     return this.buildQueueResponse(response);
   }
 
@@ -364,11 +368,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param queueName
    */
   async deleteQueue(queueName: string): Promise<DeleteQueueResponse> {
+    log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this._deleteResource(
       queueName,
       this.queueResourceSerializer
     );
-    log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
+
     return this.buildQueueResponse(response);
   }
 
@@ -379,15 +384,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * For example, you can configure a topic to support partitions or sessions
    */
   async createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse> {
+    log.httpAtomXml(
+      `Performing management operation - createTopic() for "${topicName}" with options: ${topicOptions}`
+    );
     const response: HttpOperationResponse = await this._putResource(
       topicName,
       buildTopicOptions(topicOptions || {}),
       this.topicResourceSerializer,
       false
     );
-    log.httpAtomXml(
-      `Performing management operation - createTopic() for "${topicName}" with options: ${topicOptions}`
-    );
+
     return this.buildTopicResponse(response);
   }
 
@@ -396,11 +402,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    */
   async getTopic(topicName: string): Promise<GetTopicResponse> {
+    log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this._getResource(
       topicName,
       this.topicResourceSerializer
     );
-    log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
+
     return this.buildTopicResponse(response);
   }
 
@@ -409,14 +416,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param listRequestOptions
    */
   async listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listTopics() with options: ${listRequestOptions}`
+    );
     const response: HttpOperationResponse = await this._listResources(
       "$Resources/Topics",
       listRequestOptions,
       this.topicResourceSerializer
     );
-    log.httpAtomXml(
-      `Performing management operation - listTopics() with options: ${listRequestOptions}`
-    );
+
     return this.buildListTopicsResponse(response);
   }
 
@@ -427,15 +435,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * For example, you can configure a topic to support partitions or sessions
    */
   async updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse> {
+    log.httpAtomXml(
+      `Performing management operation - updateTopic() for "${topicName}" with options: ${topicOptions}`
+    );
     const response: HttpOperationResponse = await this._putResource(
       topicName,
       buildTopicOptions(topicOptions),
       this.topicResourceSerializer,
       true
     );
-    log.httpAtomXml(
-      `Performing management operation - updateTopic() for "${topicName}" with options: ${topicOptions}`
-    );
+
     return this.buildTopicResponse(response);
   }
 
@@ -444,11 +453,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    */
   async deleteTopic(topicName: string): Promise<DeleteTopicResponse> {
+    log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this._deleteResource(
       topicName,
       this.topicResourceSerializer
     );
-    log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
+
     return this.buildTopicResponse(response);
   }
 
@@ -464,6 +474,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     subscriptionName: string,
     subscriptionOptions?: SubscriptionOptions
   ): Promise<CreateSubscriptionResponse> {
+    log.httpAtomXml(
+      `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
+    );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
@@ -471,9 +484,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer,
       false
     );
-    log.httpAtomXml(
-      `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
-    );
+
     return this.buildSubscriptionResponse(response);
   }
 
@@ -486,14 +497,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string
   ): Promise<GetSubscriptionResponse> {
+    log.httpAtomXml(
+      `Performing management operation - getSubscription() for "${subscriptionName}"`
+    );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._getResource(
       fullPath,
       this.subscriptionResourceSerializer
     );
-    log.httpAtomXml(
-      `Performing management operation - getSubscription() for "${subscriptionName}"`
-    );
+
     return this.buildSubscriptionResponse(response);
   }
 
@@ -506,14 +518,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     topicName: string,
     listRequestOptions?: ListRequestOptions
   ): Promise<ListSubscriptionsResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
+    );
     const response: HttpOperationResponse = await this._listResources(
       topicName + "/Subscriptions/",
       listRequestOptions,
       this.subscriptionResourceSerializer
     );
-    log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
-    );
+
     return this.buildListSubscriptionsResponse(response);
   }
 
@@ -529,6 +542,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     subscriptionName: string,
     subscriptionOptions: SubscriptionOptions
   ): Promise<UpdateSubscriptionResponse> {
+    log.httpAtomXml(
+      `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
+    );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
@@ -536,9 +552,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer,
       true
     );
-    log.httpAtomXml(
-      `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
-    );
+
     return this.buildSubscriptionResponse(response);
   }
 
@@ -551,40 +565,38 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string
   ): Promise<DeleteSubscriptionResponse> {
+    log.httpAtomXml(
+      `Performing management operation - deleteSubscription() for "${subscriptionName}"`
+    );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
     const response: HttpOperationResponse = await this._deleteResource(
       fullPath,
       this.subscriptionResourceSerializer
     );
-    log.httpAtomXml(
-      `Performing management operation - deleteSubscription() for "${subscriptionName}"`
-    );
+
     return this.buildSubscriptionResponse(response);
   }
 
   /**
-   * Creates a rule with given name, configured using the given options
+   * Creates a "TrueFilter" rule with given name.
+   * TODO: Fix implementation to accept ruleOptions and construct accordingly
    * @param topicName
    * @param subscriptionName
    * @param ruleName
-   * @param ruleOptions Options to configure the Rule being created.
-   * For example, you can configure the filter to apply on associated Topic/Subscription
    */
   async createRule(
     topicName: string,
     subscriptionName: string,
-    ruleName: string,
-    ruleOptions?: RuleOptions
+    ruleName: string
   ): Promise<CreateRuleResponse> {
+    log.httpAtomXml(`Performing management operation - createRule() for "${ruleName}"`);
+    let ruleOptions: RuleOptions | undefined;
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
       buildRuleOptions(ruleName, ruleOptions),
       this.ruleResourceSerializer,
       false
-    );
-    log.httpAtomXml(
-      `Performing management operation - createRule() for "${ruleName}" with options: ${ruleOptions}`
     );
     return this.buildRuleResponse(response);
   }
@@ -600,12 +612,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     subscriptioName: string,
     ruleName: string
   ): Promise<GetRuleResponse> {
+    log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
     const fullPath = this.getRulePath(topicName, subscriptioName, ruleName);
     const response: HttpOperationResponse = await this._getResource(
       fullPath,
       this.ruleResourceSerializer
     );
-    log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
+
     return this.buildRuleResponse(response);
   }
 
@@ -620,44 +633,46 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     subscriptionName: string,
     listRequestOptions?: ListRequestOptions
   ): Promise<ListRulesResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listRules() with options: ${listRequestOptions}`
+    );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
     const response: HttpOperationResponse = await this._listResources(
       fullPath,
       listRequestOptions,
       this.ruleResourceSerializer
     );
-    log.httpAtomXml(
-      `Performing management operation - listRules() with options: ${listRequestOptions}`
-    );
+
     return this.buildListRulesResponse(response);
   }
 
-  /**
-   * Updates properties on the Rule by the given name based on the given options
-   * @param topicName
-   * @param subscriptionName
-   * @param ruleName
-   * @param ruleOptions Options to configure the Rule being updated.
-   * For example, you can configure the filter to apply on associated Topic/Subscription
-   */
-  async updateRule(
-    topicName: string,
-    subscriptionName: string,
-    ruleName: string,
-    ruleOptions: RuleOptions
-  ): Promise<UpdateRuleResponse> {
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-    const response: HttpOperationResponse = await this._putResource(
-      fullPath,
-      buildRuleOptions(ruleName, ruleOptions),
-      this.ruleResourceSerializer,
-      true
-    );
-    log.httpAtomXml(
-      `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
-    );
-    return this.buildRuleResponse(response);
-  }
+  // /**
+  //  * Updates properties on the Rule by the given name based on the given options
+  //  * @param topicName
+  //  * @param subscriptionName
+  //  * @param ruleName
+  //  * @param ruleOptions Options to configure the Rule being updated.
+  //  * For example, you can configure the filter to apply on associated Topic/Subscription
+  //  */
+  // async updateRule(
+  //   topicName: string,
+  //   subscriptionName: string,
+  //   ruleName: string,
+  //   ruleOptions: RuleOptions
+  // ): Promise<UpdateRuleResponse> {
+  //   log.httpAtomXml(
+  //     `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
+  //   );
+  //   const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+  //   const response: HttpOperationResponse = await this._putResource(
+  //     fullPath,
+  //     buildRuleOptions(ruleName, ruleOptions),
+  //     this.ruleResourceSerializer,
+  //     true
+  //   );
+
+  //   return this.buildRuleResponse(response);
+  // }
 
   /**
    * Deletes a rule.
@@ -670,14 +685,13 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     subscriptionName: string,
     ruleName: string
   ): Promise<DeleteRuleResponse> {
+    log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this._deleteResource(
       fullPath,
       this.ruleResourceSerializer
     );
-    log.httpAtomXml(
-      `Performing management operation - deleteRule() for "${ruleName}"`
-    );
+
     return this.buildRuleResponse(response);
   }
 
@@ -915,7 +929,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   private buildRuleResponse(response: HttpOperationResponse): RuleResponse {
     const rule = buildRule(response.parsedBody);
-    const ruleResponse: RuleResponse = Object.assign(rule, { _response: response });
+    const ruleResponse: RuleResponse = Object.assign(rule || {}, { _response: response });
     return ruleResponse;
   }
 }

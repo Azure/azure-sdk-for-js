@@ -95,7 +95,7 @@ export { Delivery }
 
 // @public
 export interface Filter extends CorrelationFilterOptions {
-    compatibilityLevel: number;
+    compatibilityLevel?: number;
     sqlExpression?: string;
 }
 
@@ -162,12 +162,20 @@ export interface OnMessage {
 export interface Queue extends QueueOptions {
     accessedAt?: string;
     authorizationRules?: string;
+    autoDeleteOnIdle?: string;
     countDetails?: CountDetails;
     createdAt?: string;
+    deadLetteringOnMessageExpiration?: boolean;
+    enableBatchedOperations?: boolean;
     enableExpress?: boolean;
+    enablePartitioning?: boolean;
     entityAvailabilityStatus?: string;
     isAnonymousAccessible?: boolean;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
     queueName?: string;
+    requiresDuplicateDetection?: boolean;
+    requiresSession?: boolean;
     status?: string;
     supportOrdering?: boolean;
     updatedAt?: string;
@@ -190,19 +198,11 @@ export class QueueClient implements Client {
 
 // @public
 export interface QueueOptions {
-    autoDeleteOnIdle?: string;
-    deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
-    enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     lockDuration?: string;
-    maxDeliveryCount?: number;
-    maxSizeInMegabytes?: number;
     messageCount?: number;
-    requiresDuplicateDetection?: boolean;
-    requiresSession?: boolean;
     sizeInBytes?: number;
 }
 
@@ -311,11 +311,11 @@ export class Sender {
 export class ServiceBusAtomManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions);
     createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse>;
-    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions): Promise<CreateRuleResponse>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string): Promise<CreateRuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, subscriptionOptions?: SubscriptionOptions): Promise<CreateSubscriptionResponse>;
     createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse>;
     deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
-    deleteRule(topicName: string, subscriptionName: string, rule: string): Promise<DeleteRuleResponse>;
+    deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
     // (undocumented)
@@ -329,7 +329,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
     listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse>;
     updateQueue(queueName: string, queueOptions: QueueOptions): Promise<UpdateQueueResponse>;
-    updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
     updateSubscription(topicName: string, subscriptionName: string, subscriptionOptions: SubscriptionOptions): Promise<UpdateSubscriptionResponse>;
     updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse>;
 }
@@ -435,9 +434,19 @@ export interface SessionReceiverOptions {
 // @public
 export interface Subscription extends SubscriptionOptions {
     accessedAt?: string;
+    autoDeleteOnIdle?: string;
     countDetails?: CountDetails;
     createdAt?: string;
+    deadLetteringOnFilterEvaluationExceptions?: boolean;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTimeToLive?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
     entityAvailabilityStatus?: string;
+    maxSizeInMegabytes?: number;
+    messageCount?: number;
+    requiresSession?: boolean;
+    sizeInBytes?: number;
     status?: string;
     subscriptionName?: string;
     topicName?: string;
@@ -463,19 +472,8 @@ export class SubscriptionClient implements Client {
 
 // @public
 export interface SubscriptionOptions {
-    autoDeleteOnIdle?: string;
-    deadLetteringOnFilterEvaluationExceptions?: boolean;
-    deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTimeToLive?: string;
-    enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
-    forwardDeadLetteredMessagesTo?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
-    maxSizeInMegabytes?: number;
-    messageCount?: number;
-    requiresSession?: boolean;
-    sizeInBytes?: number;
 }
 
 // @public
@@ -493,15 +491,21 @@ export { TokenType }
 export interface Topic extends TopicOptions {
     accessedAt?: string;
     authorizationRules?: any;
+    autoDeleteOnIdle?: string;
     countDetails?: CountDetails;
     createdAt?: string;
+    enableBatchedOperations?: boolean;
     enableExpress?: boolean;
+    enablePartitioning?: boolean;
     enableSubscriptionPartitioning?: boolean;
     entityAvailabilityStatus?: string;
     filteringMessagesBeforePublishing?: boolean;
     isAnonymousAccessible?: boolean;
     isExpress?: boolean;
+    maxSizeInMegabytes?: number;
+    requiresDuplicateDetection?: boolean;
     status?: string;
+    supportOrdering?: boolean;
     topicName?: string;
     updatedAt?: string;
 }
@@ -517,18 +521,12 @@ export class TopicClient implements Client {
 
 // @public
 export interface TopicOptions {
-    autoDeleteOnIdle?: string;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
-    enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
     maxDeliveryCount?: number;
-    maxSizeInMegabytes?: number;
     messageCount?: number;
-    requiresDuplicateDetection?: boolean;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    supportOrdering?: boolean;
 }
 
 // @public
