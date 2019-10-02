@@ -93,7 +93,7 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
-            return { result: encrypted };
+            return { result: encrypted, algorithm };
           }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
@@ -107,7 +107,7 @@ export class CryptographyClient {
             let keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
-            return { result: encrypted };
+            return { result: encrypted, algorithm };
           }
         }
       }
@@ -122,7 +122,7 @@ export class CryptographyClient {
       plaintext,
       options
     );
-    return { result: result.result! };
+    return { result: result.result!, algorithm };
   }
 
   /**
@@ -189,7 +189,7 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
-            return { result: encrypted };
+            return { result: encrypted, algorithm };
           }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
@@ -203,7 +203,7 @@ export class CryptographyClient {
             let keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
-            return { result: encrypted };
+            return { result: encrypted, algorithm };
           }
         }
       }
@@ -218,7 +218,7 @@ export class CryptographyClient {
       key,
       options
     );
-    return { result: result.result! };
+    return { result: result.result!, algorithm };
   }
 
   /**
@@ -274,7 +274,7 @@ export class CryptographyClient {
       digest,
       options
     );
-    return { result: result.result! };
+    return { result: result.result!, algorithm };
   }
 
   /**
@@ -362,7 +362,7 @@ export class CryptographyClient {
       digest,
       options
     );
-    return { result: result.result! };
+    return { result: result.result!, algorithm };
   }
 
   /**
@@ -855,6 +855,10 @@ export interface EncryptResult {
    * Result of the operation
    */
   result: Uint8Array;
+  /**
+   * Algorithm used
+   */
+  algorithm: JsonWebKeyEncryptionAlgorithm;
 }
 
 /**
@@ -865,6 +869,10 @@ export interface SignResult {
    * Result of the operation
    */
   result: Uint8Array;
+  /**
+   * Algorithm used
+   */
+  algorithm: KeySignatureAlgorithm;
 }
 
 /**
@@ -885,6 +893,10 @@ export interface WrapResult {
    * Result of the operation
    */
   result: Uint8Array;
+  /**
+   * Algorithm used
+   */
+  algorithm: KeyWrapAlgorithm;
 }
 
 /**
