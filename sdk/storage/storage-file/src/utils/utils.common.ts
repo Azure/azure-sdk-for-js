@@ -74,7 +74,7 @@ export function escapeURLPath(url: string): string {
 export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";
   url: string;
-  accountName?: string;
+  accountName: string;
   accountKey?: any;
   accountSas?: string;
 }
@@ -161,14 +161,17 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
+    let accountName = getAccountNameFromUrl(fileEndpoint);
     let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
     if (!fileEndpoint) {
       throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    } else if (!accountName) {
+      throw new Error("Invalid AccountName in the provided SAS Connection String");
     }
 
-    return { kind: "SASConnString", url: fileEndpoint, accountSas };
+    return { kind: "SASConnString", url: fileEndpoint, accountName, accountSas };
   }
 }
 
