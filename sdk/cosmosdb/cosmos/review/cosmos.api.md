@@ -180,7 +180,7 @@ export const Constants: {
         XDate: string;
         CollectionPartitionInfo: string;
         CollectionServiceInfo: string;
-        RetryAfterInMilliseconds: string;
+        RetryAfterInMs: string;
         IsFeedUnfiltered: string;
         ResourceTokenExpiry: string;
         EnableScanInQuery: string;
@@ -222,9 +222,9 @@ export const Constants: {
     Name: string;
     DatabaseAccountEndpoint: string;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
-    DefaultUnavailableLocationExpirationTimeMS: number;
+    DefaultUnavailableLocationExpirationTimeInMS: number;
     ThrottleRetryCount: string;
-    ThrottleRetryWaitTimeInMs: string;
+    ThrottleRetryTimeoutInMs: string;
     CurrentVersion: string;
     SDKName: string;
     SDKVersion: string;
@@ -456,7 +456,7 @@ export interface ErrorResponse extends Error {
     // (undocumented)
     headers?: CosmosHeaders;
     // (undocumented)
-    retryAfterInMilliseconds?: number;
+    retryAfterInMs?: number;
     // (undocumented)
     substatus?: number;
 }
@@ -578,12 +578,12 @@ export class Items {
     query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
+    readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
     readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
-    readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
 }
@@ -1002,9 +1002,9 @@ export interface Response<T> {
 
 // @public
 export interface RetryOptions {
-    fixedRetryIntervalInMilliseconds: number;
     maxRetryAttemptCount: number;
-    maxWaitTimeInSeconds: number;
+    retryIntervalInMs: number;
+    timeoutInSeconds: number;
 }
 
 // @public (undocumented)

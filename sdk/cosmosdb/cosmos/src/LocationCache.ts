@@ -399,7 +399,7 @@ export class LocationCache {
   }
 
   private canUpdateCache(timestamp: Date): boolean {
-    return new Date(Date.now() - Constants.DefaultUnavailableLocationExpirationTimeMS) > timestamp;
+    return new Date(Date.now() - Constants.DefaultUnavailableLocationExpirationTimeInMS) > timestamp;
   }
 
   private static normalizeLocationName(location: string): string {

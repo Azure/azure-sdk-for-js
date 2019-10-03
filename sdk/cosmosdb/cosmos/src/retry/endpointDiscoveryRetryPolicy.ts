@@ -15,12 +15,12 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
   /** Current retry attempt count. */
   public currentRetryAttemptCount: number;
   /** Retry interval in milliseconds. */
-  public retryAfterInMilliseconds: number;
+  public retryAfterInMs: number;
 
   /** Max number of retry attempts to perform. */
-  private maxRetryAttemptCount: number;
-  private static readonly maxRetryAttemptCount = 120; // TODO: Constant?
-  private static readonly retryAfterInMilliseconds = 1000;
+  private maxTries: number;
+  private static readonly maxTries = 120; // TODO: Constant?
+  private static readonly retryAfterInMs = 1000;
 
   /**
    * @constructor EndpointDiscoveryRetryPolicy
@@ -30,9 +30,9 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     private globalEndpointManager: GlobalEndpointManager,
     private operationType: OperationType
   ) {
-    this.maxRetryAttemptCount = EndpointDiscoveryRetryPolicy.maxRetryAttemptCount;
+    this.maxTries = EndpointDiscoveryRetryPolicy.maxTries;
     this.currentRetryAttemptCount = 0;
-    this.retryAfterInMilliseconds = EndpointDiscoveryRetryPolicy.retryAfterInMilliseconds;
+    this.retryAfterInMs = EndpointDiscoveryRetryPolicy.retryAfterInMs;
   }
 
   /**
@@ -56,7 +56,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    if (this.currentRetryAttemptCount >= this.maxRetryAttemptCount) {
+    if (this.currentRetryAttemptCount >= this.maxTries) {
       return false;
     }
 

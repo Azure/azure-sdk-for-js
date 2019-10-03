@@ -52,8 +52,8 @@ export async function execute({
       ),
       resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
         requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
-        requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
-        requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
+        requestContext.connectionPolicy.retryOptions.retryIntervalInMs,
+        requestContext.connectionPolicy.retryOptions.timeoutInSeconds
       ),
       sessionReadRetryPolicy: new SessionRetryPolicy(
         requestContext.globalEndpointManager,
@@ -86,8 +86,8 @@ export async function execute({
     const response = await executeRequest(requestContext);
     response.headers[Constants.ThrottleRetryCount] =
       retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
-    response.headers[Constants.ThrottleRetryWaitTimeInMs] =
-      retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
+    response.headers[Constants.ThrottleRetryTimeoutInMs] =
+      retryPolicies.resourceThrottleRetryPolicy.cummulativeTimeoutInMs;
     return response;
   } catch (err) {
     // TODO: any error
@@ -109,8 +109,8 @@ export async function execute({
     if (!results) {
       headers[Constants.ThrottleRetryCount] =
         retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
-      headers[Constants.ThrottleRetryWaitTimeInMs] =
-        retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
+      headers[Constants.ThrottleRetryTimeoutInMs] =
+        retryPolicies.resourceThrottleRetryPolicy.cummulativeTimeoutInMs;
       err.headers = { ...err.headers, ...headers };
       throw err;
     } else {
@@ -119,7 +119,7 @@ export async function execute({
       if (newUrl !== undefined) {
         requestContext.endpoint = newUrl;
       }
-      await sleep(retryPolicy.retryAfterInMilliseconds);
+      await sleep(retryPolicy.retryAfterInMs);
       return execute({
         requestContext,
         retryContext,
