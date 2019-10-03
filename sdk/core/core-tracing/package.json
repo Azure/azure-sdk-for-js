@@ -3,12 +3,12 @@
   "version": "1.0.0-preview.3",
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
   "sdk-type": "client",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/index.js",
+  "main": "dist/index.js",
+  "module": "dist-esm/index.js",
   "browser": {
     "./dist/index.js": "./browser/index.js"
   },
-  "types": "./types/core-tracing.d.ts",
+  "types": "types/core-tracing.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
