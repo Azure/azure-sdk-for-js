@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { Constants } from "../common";
 import { logger } from "../common/logger";
-import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
+import { QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
 import { getInitialHeader } from "./headerUtils";
 import { ExecutionContext } from "./index";
@@ -198,7 +198,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           queryMetrics.vmExecutionTime,
           queryMetrics.runtimeExecutionTimes,
           queryMetrics.documentWriteTime,
-          new ClientSideMetrics(responseHeaders[Constants.HttpHeaders.RequestCharge])
+          Number(responseHeaders[Constants.HttpHeaders.RequestCharge]) || 0
         );
       }
 

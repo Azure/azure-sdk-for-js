@@ -4,18 +4,6 @@
 
 ```ts
 
-// @public (undocumented)
-export class ClientSideMetrics {
-    constructor(requestCharge: number);
-    add(...clientSideMetricsArray: ClientSideMetrics[]): ClientSideMetrics;
-    // (undocumented)
-    static createFromArray(...clientSideMetricsArray: ClientSideMetrics[]): ClientSideMetrics;
-    // (undocumented)
-    readonly requestCharge: number;
-    // (undocumented)
-    static readonly zero: ClientSideMetrics;
-}
-
 // @public
 export class Conflict {
     // Warning: (ae-forgotten-export) The symbol "ClientContext" needs to be exported by the entry point index.d.ts
@@ -775,12 +763,10 @@ export class QueryIterator<T> {
 
 // @public (undocumented)
 export class QueryMetrics {
-    constructor(retrievedDocumentCount: number, retrievedDocumentSize: number, outputDocumentCount: number, outputDocumentSize: number, indexHitDocumentCount: number, totalQueryExecutionTime: TimeSpan, queryPreparationTimes: QueryPreparationTimes, indexLookupTime: TimeSpan, documentLoadTime: TimeSpan, vmExecutionTime: TimeSpan, runtimeExecutionTimes: RuntimeExecutionTimes, documentWriteTime: TimeSpan, clientSideMetrics: ClientSideMetrics);
+    constructor(retrievedDocumentCount: number, retrievedDocumentSize: number, outputDocumentCount: number, outputDocumentSize: number, indexHitDocumentCount: number, totalQueryExecutionTime: TimeSpan, queryPreparationTimes: QueryPreparationTimes, indexLookupTime: TimeSpan, documentLoadTime: TimeSpan, vmExecutionTime: TimeSpan, runtimeExecutionTimes: RuntimeExecutionTimes, documentWriteTime: TimeSpan, requestCharge: number);
     add(queryMetricsArray: QueryMetrics[]): QueryMetrics;
-    // (undocumented)
-    readonly clientSideMetrics: ClientSideMetrics;
     static createFromArray(queryMetricsArray: QueryMetrics[]): QueryMetrics;
-    static createFromDelimitedString(delimitedString: string, clientSideMetrics?: ClientSideMetrics): QueryMetrics;
+    static createFromDelimitedString(delimitedString: string, requestCharge?: number): QueryMetrics;
     // (undocumented)
     readonly documentLoadTime: TimeSpan;
     // (undocumented)
@@ -796,6 +782,8 @@ export class QueryMetrics {
     readonly outputDocumentSize: number;
     // (undocumented)
     readonly queryPreparationTimes: QueryPreparationTimes;
+    // (undocumented)
+    readonly requestCharge: number;
     // (undocumented)
     readonly retrievedDocumentCount: number;
     // (undocumented)

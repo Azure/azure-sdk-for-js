@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../dist-esm/common";
 import {
-  ClientSideMetrics,
   QueryMetrics,
   QueryPreparationTimes,
   RuntimeExecutionTimes,
@@ -62,7 +60,7 @@ describe("QueryMetrics", function() {
       userDefinedFunctionExecutionTime
     ),
     documentWriteTime,
-    new ClientSideMetrics(requestCharge)
+    requestCharge
   );
 
   const assertQueryMetricsEquality = function(
@@ -111,10 +109,7 @@ describe("QueryMetrics", function() {
       queryMetrics2.runtimeExecutionTimes.userDefinedFunctionExecutionTime
     );
 
-    assert.deepEqual(
-      queryMetrics1.clientSideMetrics.requestCharge,
-      queryMetrics2.clientSideMetrics.requestCharge
-    );
+    assert.deepEqual(queryMetrics1.requestCharge, queryMetrics2.requestCharge);
   };
 
   it("Can Be Cloned", function() {
@@ -131,7 +126,7 @@ describe("QueryMetrics", function() {
       queryMetrics.vmExecutionTime,
       queryMetrics.runtimeExecutionTimes,
       queryMetrics.documentWriteTime,
-      queryMetrics.clientSideMetrics
+      queryMetrics.requestCharge
     );
 
     assertQueryMetricsEquality(queryMetrics, queryMetrics2);
@@ -205,7 +200,7 @@ describe("QueryMetrics", function() {
         doubleUserDefinedFunctionExecutionTime
       ),
       doubleDocumentWriteTime,
-      new ClientSideMetrics(doubleRequestCharge)
+      doubleRequestCharge
     );
 
     assertQueryMetricsEquality(doubleQueryMetrics, expectedQueryMetrics);
@@ -218,7 +213,7 @@ describe("QueryMetrics", function() {
   it("Can Be Create From Delimited String", function() {
     const queryMetricsFromDelimitedString = QueryMetrics.createFromDelimitedString(
       delimitedString,
-      new ClientSideMetrics(requestCharge)
+      requestCharge
     );
 
     assertQueryMetricsEquality(queryMetricsFromDelimitedString, queryMetrics);
@@ -228,7 +223,7 @@ describe("QueryMetrics", function() {
     const delimitedStringFromMetrics = queryMetrics.toDelimitedString();
     const queryMetricsFromDelimitedString = QueryMetrics.createFromDelimitedString(
       delimitedStringFromMetrics,
-      new ClientSideMetrics(requestCharge)
+      requestCharge
     );
 
     assertQueryMetricsEquality(queryMetrics, queryMetricsFromDelimitedString);
