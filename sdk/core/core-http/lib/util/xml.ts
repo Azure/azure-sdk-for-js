@@ -35,6 +35,10 @@ export function parseXML(str: string): Promise<any> {
   return result;
 }
 
+/**
+ * The XML body to convert to JSON
+ * @param body
+ */
 export async function convertAtomXmlToJson(body: string): Promise<any> {
   const parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
   const result = await new Promise((resolve, reject) => {
@@ -50,8 +54,7 @@ export async function convertAtomXmlToJson(body: string): Promise<any> {
 }
 
 /**
- * @ignore
- * @param {object} content The content payload as it is to be serialized. It should include any root node(s).
+ * @param content The content as it is to be serialized. It should include any root node(s).
  */
 export function convertJsonToAtomXml(content: any): string {
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };

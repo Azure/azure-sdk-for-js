@@ -113,4 +113,5 @@ export {
   XMLRequestInJSON,
   XMLResponseInJSON
 } from "./atomXmlOperationSpec";
+export { convertAtomXmlToJson, convertJsonToAtomXml } from "./util/xml";
 export * from "@azure/core-tracing";
