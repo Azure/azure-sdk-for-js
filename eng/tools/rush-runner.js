@@ -61,13 +61,9 @@ const spawnNode = (cwd, ...args) => {
   console.log(`\n\nNode process exited with code ${proc.status}`);
 
   if (proc.status !== 0) {
-    if (proc.status === null) {
-      // proc.status will be null if the subprocess terminated due to a signal, which I don't think
-      // should ever happen, but if it does it's safer to fail.
-      process.exitCode = 1;
-    } else {
-      process.exitCode = proc.status;
-    }
+    // proc.status will be null if the subprocess terminated due to a signal, which I don't think
+    // should ever happen, but if it does it's safer to fail.
+    process.exitCode = proc.status || 1;
   }
 };
 
