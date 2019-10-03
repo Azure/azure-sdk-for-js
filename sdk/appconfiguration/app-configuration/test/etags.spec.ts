@@ -5,7 +5,7 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
-import { ResponseBodyNotFoundError } from '../src/responseBodyNotFoundError';
+import { ResponseBodyNotFoundError } from "@azure/core-http";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
