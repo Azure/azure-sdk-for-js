@@ -75,6 +75,9 @@ export class CryptographyClient {
     plaintext: Uint8Array,
     options?: EncryptOptions
   ): Promise<EncryptResult> {
+    let iv = options ? options.iv : undefined;
+    let authenticationData = options? options.authenticationData : undefined;
+
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -93,7 +96,7 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
-            return { result: encrypted, algorithm };
+            return { result: encrypted, algorithm, keyID: this.key.kid, iv, authenticationData };
           }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
@@ -107,7 +110,7 @@ export class CryptographyClient {
             let keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
-            return { result: encrypted, algorithm };
+            return { result: encrypted, algorithm, keyID: this.key.kid, iv, authenticationData  };
           }
         }
       }
@@ -122,7 +125,8 @@ export class CryptographyClient {
       plaintext,
       options
     );
-    return { result: result.result!, algorithm };
+
+    return { result: result.result!, algorithm, keyID: this.getKeyID(), iv, authenticationData };
   }
 
   /**
@@ -151,7 +155,8 @@ export class CryptographyClient {
       ciphertext,
       options
     );
-    return { result: result.result! };
+
+    return { result: result.result!, keyID: this.getKeyID(), algorithm };
   }
 
   /**
@@ -189,7 +194,7 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
-            return { result: encrypted, algorithm };
+            return { result: encrypted, algorithm, keyID: this.getKeyID() };
           }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
@@ -203,7 +208,7 @@ export class CryptographyClient {
             let keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
-            return { result: encrypted, algorithm };
+            return { result: encrypted, algorithm, keyID: this.getKeyID() };
           }
         }
       }
@@ -218,7 +223,7 @@ export class CryptographyClient {
       key,
       options
     );
-    return { result: result.result!, algorithm };
+    return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
   /**
@@ -246,7 +251,7 @@ export class CryptographyClient {
       encryptedKey,
       options
     );
-    return { result: result.result! };
+    return { result: result.result!, keyID: this.getKeyID() };
   }
 
   /**
@@ -274,7 +279,7 @@ export class CryptographyClient {
       digest,
       options
     );
-    return { result: result.result!, algorithm };
+    return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
   /**
@@ -305,7 +310,7 @@ export class CryptographyClient {
       signature,
       options
     );
-    return { result: response.value ? response.value : false };
+    return { result: response.value ? response.value : false, keyID: this.getKeyID() };
   }
 
   /**
@@ -362,7 +367,7 @@ export class CryptographyClient {
       digest,
       options
     );
-    return { result: result.result!, algorithm };
+    return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
   /**
@@ -404,7 +409,7 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return { result: verifier.verify(keyPEM, Buffer.from(signature)) };
+            return { result: verifier.verify(keyPEM, Buffer.from(signature)), keyID: this.getKeyID() };
           }
           case "RS384": {
             if (this.key.kty != "RSA") {
@@ -421,7 +426,7 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return { result: verifier.verify(keyPEM, Buffer.from(signature)) };
+            return { result: verifier.verify(keyPEM, Buffer.from(signature)), keyID: this.getKeyID() };
           }
           case "RS512": {
             if (this.key.kty != "RSA") {
@@ -438,7 +443,7 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return { result: verifier.verify(keyPEM, Buffer.from(signature)) };
+            return { result: verifier.verify(keyPEM, Buffer.from(signature)), keyID: this.getKeyID() };
           }
         }
       }
@@ -482,7 +487,7 @@ export class CryptographyClient {
       signature,
       options
     );
-    return { result: result.value! };
+    return { result: result.value!, keyID: this.getKeyID() };
   }
 
   /**
@@ -564,6 +569,17 @@ export class CryptographyClient {
       } catch {}
       this.hasTriedToGetKey = true;
     }
+  }
+
+  private getKeyID(): string | undefined {
+    let kid;
+    if (typeof this.key !== "string") {
+      kid = this.key.kid;
+    } else {
+      kid = this.key;
+    }
+
+    return kid;
   }
 
   /**
@@ -845,6 +861,14 @@ export interface DecryptResult {
    * Result of the operation
    */
   result: Uint8Array;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
+  /**
+   * Algorithm used
+   */
+  algorithm: JsonWebKeyEncryptionAlgorithm;
 }
 
 /**
@@ -859,6 +883,22 @@ export interface EncryptResult {
    * Algorithm used
    */
   algorithm: JsonWebKeyEncryptionAlgorithm;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
+  /**
+   * Initialization vector
+   */
+  iv?: Uint8Array;
+  /**
+   * Authentication data
+   */
+  authenticationData?: Uint8Array;
+  /**
+   * Authentication tag
+   */
+  authenticationTag?: string;
 }
 
 /**
@@ -869,6 +909,10 @@ export interface SignResult {
    * Result of the operation
    */
   result: Uint8Array;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
   /**
    * Algorithm used
    */
@@ -883,6 +927,10 @@ export interface VerifyResult {
    * Result of the operation
    */
   result: boolean;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
 }
 
 /**
@@ -893,6 +941,10 @@ export interface WrapResult {
    * Result of the operation
    */
   result: Uint8Array;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
   /**
    * Algorithm used
    */
@@ -907,4 +959,8 @@ export interface UnwrapResult {
    * Result of the operation
    */
   result: Uint8Array;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
 }
