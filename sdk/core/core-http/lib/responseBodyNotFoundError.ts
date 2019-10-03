@@ -1,10 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError, WebResource, HttpOperationResponse } from '@azure/core-http';
+import { RestError } from "./restError";
+import { HttpOperationResponse } from "./httpOperationResponse";
+import { WebResource } from "./webResource";
 
 export class ResponseBodyNotFoundError extends RestError {
-  constructor(message: string, code?: string, statusCode?: number, request?: WebResource, response?: HttpOperationResponse, body?: any) {
+  constructor(
+    message: string,
+    code?: string,
+    statusCode?: number,
+    request?: WebResource,
+    response?: HttpOperationResponse,
+    body?: any
+  ) {
     super(message);
     this.name = "ResponseBodyNotFoundError";
     this.code = code;
