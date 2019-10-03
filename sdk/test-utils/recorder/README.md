@@ -13,8 +13,8 @@ questions:
 - How to write tests that support parallelism?
 - How to write isomorphic tests for NodeJS and the Browsers?
 
-Our NPM package `@azure/test-utils-recorder` attempts to provide an answer for
-those questions, as you'll be able to see throughout this README.
+Our non-published package `@azure/test-utils-recorder` attempts to provide an
+answer for those questions, as you'll be able to see throughout this README.
 
 This library provides interfaces and helper methods to equip the SDKs in the
 azure-sdk-for-js repo with the recording and playback capabilities for the
@@ -65,6 +65,10 @@ We're about to go through how to set up your project to use the
 `@azure/test-utils-recorder` package.
 
 This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io).
+You can read more about how we use rush in the following links:
+
+- Rush used for [Project Orchestration](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#project-orchestration).
+- [Rush for NPM users](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
 
 Keep in mind that `@azure/test-utils-recorder` is not a published package. It
 is only intended to be used by the libraries in the azure-sdk-for-js repository
@@ -136,6 +140,14 @@ The common recorder provides the following public methods and properties:
   package in the repo. It also returns an object with a method `stop()`, which
   will allow you to control when you want the recorder to stop re-routing your
   http requests.
+- `Recorder`: The return of `record` is going to be an instance of the
+  `Recorder`, which has some useful functions: `stop`, `skip`, `getUniqueName`,
+  and `newDate`. `stop` will stop the recorder from storing a copy of the HTTP
+  requests and responses. `skip` will pause the recorder only during the test
+  from which skip was called. `getUniqueName` allows you to get unique strings,
+  which you can use to create unique resources, so that you can run the same
+  set of live tests in parallel without colliding. And `newDate` will allow you
+  to generate dates that don't change during playback.
 - `env`, which exposes the environment variable's object from either NodeJS or
   the browser (useful on isomorphic tests).
 - `delay`, which is an asynchronous function that will resolve once the given milliseconds have elapsed,
@@ -194,7 +206,7 @@ add a way to clear the recordings on your `package.json`, like the following one
 
 #### Environment variables
 
-Since we make use of the `TEST_MODE` environment variables, we recommend you to
+Since we make use of the `TEST_MODE` environment variable, we recommend you to
 take control of how you deal with environment variables for your tests. If you
 don't want to set environment variables, you can use a tool like
 [dotenv](https://www.npmjs.com/package/dotenv) to set them for you. Remember to
@@ -451,7 +463,7 @@ sensitive information even before checking them in a pull request.
 
 #### skipQueryParams
 
-Some HTTP requests migth have parameters with sensitive information. To get
+Some HTTP requests might have parameters with sensitive information. To get
 them out of your recordings, you can call to `skipQueryParams` with an array of strings
 where you specify the names of the query parameter you want to remove.
 
@@ -493,9 +505,9 @@ as ideas. We understand that might not be an easy problem to fix.
 
 ### Isomorphic tests
 
-`@azure/test-utils-recorder` does support running in the browser. If you use
-Karma, as long as your karma configuration is correct, your tests should work
-both on NodeJS and in the browsers!
+`@azure/test-utils-recorder` does support running tests in the browser. If you
+use Karma, as long as your karma configuration is correct, your tests should
+work both on NodeJS and in the browsers!
 
 ## Troubleshooting
 
