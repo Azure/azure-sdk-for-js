@@ -13,7 +13,8 @@ import {
   appendToURLPath,
   setURLParameter,
   truncatedISO8061Date,
-  extractConnectionStringParts
+  extractConnectionStringParts,
+  getShareNameAndPathFromUrl
 } from "./utils/utils.common";
 import { DirectoryClient, DirectoryCreateOptions, DirectoryDeleteOptions } from "./DirectoryClient";
 import { FileCreateOptions, FileDeleteOptions, FileClient } from "./FileClient";
@@ -421,7 +422,7 @@ export class ShareClient extends StorageClient {
       throw new Error("Expecting non-empty strings for shareName parameter");
     }
     super(url, pipeline);
-    this._shareName = this.getShareNameFromUrl();
+    this._shareName = getShareNameAndPathFromUrl(this.url).shareName;
     this.context = new Share(this.storageClientContext);
   }
 
@@ -806,22 +807,5 @@ export class ShareClient extends StorageClient {
     return this.context.getPermission(filePermissionKey, {
       aborterSignal: options.abortSignal
     });
-  }
-
-  private getShareNameFromUrl(): string {
-    //  URL may look like the following
-    // "https://myaccount.file.core.windows.net/myshare?sasString";
-    // "https://myaccount.file.core.windows.net/myshare";
-
-    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
-
-    const shareName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
-
-    if (!shareName) {
-      throw new Error("Unable to extract shareName with provided information.");
-    }
-
-    return shareName;
   }
 }
