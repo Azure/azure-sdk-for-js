@@ -185,6 +185,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
       // Add the request charge to the query metrics so that we can have per partition request charge.
       if (Constants.HttpHeaders.RequestCharge in responseHeaders) {
+        const requestCharge = Number(responseHeaders[Constants.HttpHeaders.RequestCharge]) || 0;
         queryMetrics = new QueryMetrics(
           queryMetrics.retrievedDocumentCount,
           queryMetrics.retrievedDocumentSize,
@@ -198,7 +199,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           queryMetrics.vmExecutionTime,
           queryMetrics.runtimeExecutionTimes,
           queryMetrics.documentWriteTime,
-          new ClientSideMetrics(responseHeaders[Constants.HttpHeaders.RequestCharge])
+          new ClientSideMetrics(requestCharge)
         );
       }
 
