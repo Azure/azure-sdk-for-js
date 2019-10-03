@@ -138,7 +138,7 @@ export class AppConfigurationClient {
     // request _and_ the remote object has the same etag as what the user passed.
     if (response._response.status === 304) {
       throw new ResponseBodyNotFoundError(
-        "Remote resource matches local resource, no body returned.",
+        "The requested setting's value has not changed since the last request.",
         "Resource same as remote",
         response._response.status,
         response._response.request,

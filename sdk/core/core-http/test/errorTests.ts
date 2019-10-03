@@ -10,6 +10,7 @@ describe("instanceof for RestError and derived classes works", () => {
 
   it("ResponseBodyNotFoundError", () => {
     const err = new ResponseBodyNotFoundError("message");
+    assert.ok("ResponseBodyNotFoundError", err.name);
     assert.ok(err instanceof Error);
     assert.ok(err instanceof RestError);
   });
