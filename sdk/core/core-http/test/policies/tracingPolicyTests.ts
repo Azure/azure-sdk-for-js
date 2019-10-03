@@ -2,13 +2,30 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, setTracer, RequestPolicyOptions, TraceFlags, NoOpTracer, SpanOptions, SpanContext, NoOpSpan } from "../../lib/coreHttp";
+import {
+  RequestPolicy,
+  WebResource,
+  HttpOperationResponse,
+  HttpHeaders,
+  setTracer,
+  RequestPolicyOptions,
+  TraceFlags,
+  NoOpTracer,
+  SpanOptions,
+  SpanContext,
+  NoOpSpan
+} from "../../lib/coreHttp";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
 class MockSpan extends NoOpSpan {
   private _endCalled = false;
 
-  constructor(private traceId: string, private spanId: string, private flags: TraceFlags, private state: string) {
+  constructor(
+    private traceId: string,
+    private spanId: string,
+    private flags: TraceFlags,
+    private state: string
+  ) {
     super();
   }
 
@@ -27,10 +44,8 @@ class MockSpan extends NoOpSpan {
       spanId: this.spanId,
       traceFlags: this.flags,
       traceState: {
-        set(_key: string, _value: string) {
-        },
-        unset(_key: string) {
-        },
+        set(_key: string, _value: string) {},
+        unset(_key: string) {},
         get(_key: string): string | undefined {
           return;
         },
@@ -38,16 +53,20 @@ class MockSpan extends NoOpSpan {
           return state;
         }
       }
-    }
+    };
   }
 }
 
 class MockTracer extends NoOpTracer {
-
   private spans: MockSpan[] = [];
   private _startSpanCalled = false;
 
-  constructor(private traceId = "", private spanId = "", private flags = TraceFlags.UNSAMPLED, private state = "") {
+  constructor(
+    private traceId = "",
+    private spanId = "",
+    private flags = TraceFlags.UNSAMPLED,
+    private state = ""
+  ) {
     super();
   }
 
@@ -69,7 +88,8 @@ class MockTracer extends NoOpTracer {
 
 const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
 
-describe("tracingPolicy", function () {
+describe("tracingPolicy", function() {
+  const TRACE_VERSION = "00";
 
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -108,7 +128,12 @@ describe("tracingPolicy", function () {
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
+    const expectedFlag = "01";
+
+    assert.equal(
+      request.headers.get("traceparent"),
+      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+    );
     assert.notExists(request.headers.get("tracestate"));
   });
 
@@ -130,7 +155,12 @@ describe("tracingPolicy", function () {
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.UNSAMPLED}`);
+    const expectedFlag = "00";
+
+    assert.equal(
+      request.headers.get("traceparent"),
+      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+    );
     assert.notExists(request.headers.get("tracestate"));
   });
 
@@ -152,7 +182,12 @@ describe("tracingPolicy", function () {
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
 
-    assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
+    const expectedFlag = "01";
+
+    assert.equal(
+      request.headers.get("traceparent"),
+      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+    );
     assert.equal(request.headers.get("tracestate"), mockTraceState);
   });
 
@@ -166,15 +201,18 @@ describe("tracingPolicy", function () {
     request.spanOptions = {
       parent: ROOT_SPAN
     };
-    const policy = tracingPolicy().create({
-      sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-        return Promise.reject({
-          request: request,
-          status: 404,
-          headers: new HttpHeaders()
-        });
-      }
-    }, new RequestPolicyOptions());
+    const policy = tracingPolicy().create(
+      {
+        sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+          return Promise.reject({
+            request: request,
+            status: 404,
+            headers: new HttpHeaders()
+          });
+        }
+      },
+      new RequestPolicyOptions()
+    );
     try {
       await policy.sendRequest(request);
       throw new Error("Test Failure");
@@ -185,7 +223,12 @@ describe("tracingPolicy", function () {
       const span = mockTracer.getStartedSpans()[0];
       assert.isTrue(span.didEnd());
 
-      assert.equal(request.headers.get("traceparent"), `${mockTraceId}-${mockSpanId}-${TraceFlags.SAMPLED}`);
+      const expectedFlag = "01";
+
+      assert.equal(
+        request.headers.get("traceparent"),
+        `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+      );
       assert.equal(request.headers.get("tracestate"), mockTraceState);
     }
   });
@@ -202,6 +245,4 @@ describe("tracingPolicy", function () {
     assert.notExists(request.headers.get("traceparent"));
     assert.notExists(request.headers.get("tracestate"));
   });
-
-
 });
