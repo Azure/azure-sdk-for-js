@@ -1,22 +1,60 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ETagOption, ListConfigurationSettingsOptions, AppConfigurationGetKeyValuesOptionalParams } from '..';
+import { ListConfigurationSettingsOptions, AppConfigurationGetKeyValuesOptionalParams } from '..';
 import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
 import { ListRevisionsOptions } from '../models';
 
 /**
- * Formats the etag so it can be used with a if-match header
+ * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
  * @ignore
  */
-export function formatETagForMatchHeaders(objectWithEtag: ETagOption): string | undefined {
-  if (objectWithEtag.etag) {
-    return `"${objectWithEtag.etag}"`;
+export function quoteETag(etag: string | undefined): string | undefined {
+  // https://tools.ietf.org/html/rfc7232#section-3.1
+  if (etag === undefined || etag === '*') {
+    return etag;
   }
 
-  return undefined;
+  if (etag.startsWith('"') && etag.endsWith('"')) {
+    return etag;
+  }
+
+  if (etag.startsWith("'") && etag.endsWith("'")) {
+    return etag;
+  }
+
+  return `"${etag}"`;
+}
+
+/**
+ * Checks the ifMatch/ifNoneMatch properties to make sure we haven't specified both
+ * and throws an Error. Otherwise, returns the properties properly quoted.
+ * @param options An options object with ifMatch/ifNoneMatch fields 
+ * @internal
+ * @ignore
+ */
+export function checkAndFormatIfAndIfNoneMatch(options: { ifMatch?: string, ifNoneMatch?: string }): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
+  if (options.ifMatch && options.ifNoneMatch) {
+    throw new Error("ifMatch and ifNoneMatch are mutually-exclusive");
+  }
+
+  let ifMatch;
+  let ifNoneMatch;
+
+  if (options.ifMatch) {
+    ifMatch = quoteETag(options.ifMatch);
+  }
+
+  if (options.ifNoneMatch) {
+    ifNoneMatch = quoteETag(options.ifNoneMatch);
+  }
+
+  return {
+    ifMatch: ifMatch,
+    ifNoneMatch: ifNoneMatch
+  };
 }
 
 /**
