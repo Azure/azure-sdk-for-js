@@ -5,7 +5,7 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
-import { ResponseBodyNotFoundError } from '../src/responseBodyNotFoundError';
+import { ResponseBodyNotFoundError } from "@azure/core-http";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
@@ -82,7 +82,7 @@ describe("etags", () => {
       });
     } catch (err) {
       assert.ok(err instanceof ResponseBodyNotFoundError);
-      assert.equal("Remote resource matches local resource, no body returned.", err.message);
+      assert.equal("The requested setting's value has not changed since the last request.", err.message);
       assert.equal("Resource same as remote", err.code);
       assert.equal(304, err.statusCode);
     }

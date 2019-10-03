@@ -34,7 +34,7 @@ import {
   extractAfterTokenFromNextLink,
   checkAndFormatIfAndIfNoneMatch
 } from "./internal/helpers";
-import { ResponseBodyNotFoundError } from './responseBodyNotFoundError';
+import { ResponseBodyNotFoundError } from "@azure/core-http";
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -128,18 +128,25 @@ export class AppConfigurationClient {
     key: string,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    const response = await this.client.getKeyValue(key, {
+    const response = (await this.client.getKeyValue(key, {
       label: options.label,
       ...options,
       ...checkAndFormatIfAndIfNoneMatch(options)
-    }) as GetConfigurationSettingResponse;
+    })) as GetConfigurationSettingResponse;
 
     // 304 only comes back if the user has passed a conditional option in their
     // request _and_ the remote object has the same etag as what the user passed.
     if (response._response.status === 304) {
-      throw new ResponseBodyNotFoundError("Remote resource matches local resource, no body returned.", "Resource same as remote", response._response.status, response._response.request, response._response, null);
+      throw new ResponseBodyNotFoundError(
+        "The requested setting's value has not changed since the last request.",
+        "Resource same as remote",
+        response._response.status,
+        response._response.request,
+        response._response,
+        null
+      );
     }
-    
+
     return response;
   }
 
