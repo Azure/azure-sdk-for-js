@@ -67,6 +67,7 @@ known_content_issues:
   - ["sdk/eventgrid/eventgrid/README.md", "#1583"]
   - ["sdk/core/abort-controller/README.md", "#1583"]
   - ["sdk/core/core-auth/README.md", "#1583"]
+  - ["sdk/core/logger/README.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/README.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/test/readme.md", "#1583"]
   - ["sdk/cosmosdb/cosmos/samples/readme.md", "#1583"]
