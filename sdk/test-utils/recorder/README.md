@@ -107,10 +107,25 @@ following:
 cd sdk/keyvault/keyvault-keys
 ```
 
-Once there, you can add the test-utils-recorder package by running the following rush command:
+Once there, you can add the test-utils-recorder package by changing your package.json
+to include the following line in the devDependencies:
 
 ```bash
-rush add -p @azure/test-utils-recorder
+{
+  // ... your package.json properties
+  "devDependencies": {
+    // ... your devDependencies
+    "@azure/test-utils-recorder": "1.0.0",
+    // ... more of your devDependencies
+  },
+  // ... more of your package.json properties
+}
+```
+
+After that, we recommend you to update rush and install the dependencies again, as follows:
+
+```bash
+rush update && rush install
 ```
 
 And you're ready! Now you can use the common recorder in your code, as shown below:
