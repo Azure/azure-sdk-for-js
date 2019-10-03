@@ -117,7 +117,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
 export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";
   url: string;
-  accountName?: string;
+  accountName: string;
   accountKey?: any;
   accountSas?: string;
   proxyUri?: string; // Development Connection String may contain proxyUri
@@ -139,24 +139,34 @@ function getProxyUriFromDevConnString(connectionString: string): string {
   return proxyUri;
 }
 
+function getValueInConnString(
+  connectionString: string,
+  argument:
+    | "QueueEndpoint"
+    | "AccountName"
+    | "AccountKey"
+    | "DefaultEndpointsProtocol"
+    | "EndpointSuffix"
+    | "SharedAccessSignature"
+) {
+  const elements = connectionString.split(";");
+  for (const element of elements) {
+    if (element.trim().startsWith(argument)) {
+      return element.trim().match(argument + "=(.*)")![1];
+    }
+  }
+  return "";
+}
+
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
  * @export
  * @param {string} connectionString Connection string.
- * @returns {{ kind: "AccountConnString" | "SASConnString", url: string, [key: string]: any }} String key value pairs of the storage account's url and credentials.
+ * @returns {ConnectionString} String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnectionString {
   let proxyUri = "";
-  function getValueInConnString(argument: string) {
-    const matchCredentials = connectionString.split(";");
-    for (const element of matchCredentials) {
-      if (element.trim().startsWith(argument)) {
-        return element.trim().match(argument + "=(.*)")![1];
-      }
-    }
-    return "";
-  }
 
   if (connectionString.startsWith("UseDevelopmentStorage=true")) {
     // Development connection string
@@ -165,7 +175,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   }
 
   // Matching QueueEndpoint in the Account connection string
-  let queueEndpoint = getValueInConnString("QueueEndpoint");
+  let queueEndpoint = getValueInConnString(connectionString, "QueueEndpoint");
   // Slicing off '/' at the end if exists
   // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
   queueEndpoint = queueEndpoint.endsWith("/") ? queueEndpoint.slice(0, -1) : queueEndpoint;
@@ -182,14 +192,14 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     let endpointSuffix = "";
 
     // Get account name and key
-    accountName = getValueInConnString("AccountName");
-    accountKey = Buffer.from(getValueInConnString("AccountKey"), "base64");
+    accountName = getValueInConnString(connectionString, "AccountName");
+    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!queueEndpoint) {
       // QueueEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString("DefaultEndpointsProtocol");
+      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -197,7 +207,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
         );
       }
 
-      endpointSuffix = getValueInConnString("EndpointSuffix");
+      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }
@@ -220,14 +230,15 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString("SharedAccessSignature");
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountName = getAccountNameFromUrl(queueEndpoint);
     if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
     }
 
-    return { kind: "SASConnString", url: queueEndpoint, accountSas };
+    return { kind: "SASConnString", url: queueEndpoint, accountName, accountSas };
   }
 }
 
@@ -334,4 +345,22 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   }
 
   return headers;
+}
+
+export function getAccountNameFromUrl(url: string): string {
+  if (url.startsWith("http://127.0.0.1:10000")) {
+    // Dev Conn String
+    return getValueInConnString(DevelopmentConnectionString, "AccountName");
+  } else {
+    // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
+    // Slicing off '/' at the end if exists
+    url = url.endsWith("/") ? url.slice(0, -1) : url;
+
+    const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".queue."));
+    if (!accountName) {
+      throw new Error("Unable to extract accountName with provided information.");
+    }
+
+    return accountName;
+  }
 }

@@ -195,6 +195,10 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   private queueContext: Queue;
+  private _queueName: string;
+  public get queueName(): string {
+    return this._queueName;
+  }
 
   /**
    * Creates an instance of QueueClient.
@@ -252,33 +256,41 @@ export class QueueClient extends StorageClient {
   ) {
     options = options || {};
     let pipeline: Pipeline;
+    let url: string;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
       (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
       // The second paramter is undefined. Use anonymous credential.
+      url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
+      // (connectionString: string, containerName: string, queueName: string, options?: NewPipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const queueName = credentialOrPipelineOrQueueName;
           const sharedKeyCredential = new SharedKeyCredential(
-            extractedCreds.accountName!,
+            extractedCreds.accountName,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + queueName;
+          url = extractedCreds.url + "/" + queueName;
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
@@ -286,8 +298,7 @@ export class QueueClient extends StorageClient {
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
-        urlOrConnectionString =
-          extractedCreds.url + "/" + queueName + "?" + extractedCreds.accountSas;
+        url = extractedCreds.url + "/" + queueName + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -297,7 +308,8 @@ export class QueueClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
+    this._queueName = this.getQueueNameFromUrl();
     this.queueContext = new Queue(this.storageClientContext);
   }
 
@@ -450,5 +462,22 @@ export class QueueClient extends StorageClient {
       abortSignal: options.abortSignal,
       queueAcl: acl
     });
+  }
+
+  private getQueueNameFromUrl(): string {
+    //  URL may look like the following
+    // "https://myaccount.queue.core.windows.net/myqueue?sasString".
+    // "https://myaccount.queue.core.windows.net/myqueue".
+
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+
+    if (!queueName) {
+      throw new Error("Unable to extract queueName with provided information.");
+    }
+
+    return queueName;
   }
 }
