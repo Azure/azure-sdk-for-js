@@ -2,18 +2,20 @@
 // Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ListQueuesIncludeType } from "./generated/src/models";
 import { Service } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import { QueueClient } from "./QueueClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Queue Service - Get Properties operation
@@ -21,7 +23,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @export
  * @interface ServiceGetPropertiesOptions
  */
-export interface ServiceGetPropertiesOptions {
+export interface ServiceGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -38,7 +40,7 @@ export interface ServiceGetPropertiesOptions {
  * @export
  * @interface ServiceSetPropertiesOptions
  */
-export interface ServiceSetPropertiesOptions {
+export interface ServiceSetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -55,7 +57,7 @@ export interface ServiceSetPropertiesOptions {
  * @export
  * @interface ServiceGetStatisticsOptions
  */
-export interface ServiceGetStatisticsOptions {
+export interface ServiceGetStatisticsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -71,7 +73,7 @@ export interface ServiceGetStatisticsOptions {
  *
  * @interface ServiceListQueuesSegmentOptions
  */
-interface ServiceListQueuesSegmentOptions {
+interface ServiceListQueuesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -109,7 +111,7 @@ interface ServiceListQueuesSegmentOptions {
  * @export
  * @interface ServiceListQueuesOptions
  */
-export interface ServiceListQueuesOptions {
+export interface ServiceListQueuesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -259,9 +261,24 @@ export class QueueServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    return this.serviceContext.getProperties({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-getProperties",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.getProperties({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -278,9 +295,24 @@ export class QueueServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    return this.serviceContext.setProperties(properties, {
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-setProperties",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.setProperties(properties, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -296,9 +328,24 @@ export class QueueServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<Models.ServiceGetStatisticsResponse> {
-    return this.serviceContext.getStatistics({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-getStatistics",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.getStatistics({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -320,13 +367,28 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<Models.ServiceListQueuesSegmentResponse> {
-    return this.serviceContext.listQueuesSegment({
-      abortSignal: options.abortSignal,
-      marker: marker,
-      maxresults: options.maxresults,
-      prefix: options.prefix,
-      include: options.include === undefined ? undefined : [options.include]
-    } as Models.ServiceListQueuesSegmentOptionalParams);
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-listQueuesSegment",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.listQueuesSegment({
+        abortSignal: options.abortSignal,
+        marker: marker,
+        maxresults: options.maxresults,
+        prefix: options.prefix,
+        include: options.include === undefined ? undefined : [options.include],
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
