@@ -22,7 +22,6 @@ import {
 
 import {
   Certificate,
-  CertificateWithPolicy,
   CertificateTags,
   DeletedCertificate,
   CertificateIssuer,
@@ -925,7 +924,7 @@ export class CertificatesClient {
   public async getCertificateWithPolicy(
     name: string,
     options?: RequestOptionsBase
-  ): Promise<CertificateWithPolicy> {
+  ): Promise<Certificate> {
     const span = this.createSpan("getCertificateWithPolicy", options);
 
     let result: GetCertificateResponse;
@@ -1581,7 +1580,7 @@ export class CertificatesClient {
 
   private getCertificateFromCertificateBundle(
     certificateBundle: CertificateBundle
-  ): Certificate | CertificateWithPolicy {
+  ): Certificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
     const policy = toPublicPolicy(certificateBundle.policy || {});

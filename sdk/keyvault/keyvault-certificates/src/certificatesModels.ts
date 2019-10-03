@@ -47,13 +47,6 @@ export interface Certificate {
    * @member {CertificateContentType} [contentType] The content type of the secret.
    */
   contentType?: CertificateContentType;
-}
-
-/**
- * @interface
- * An interface representing a full certificate
- */
-export interface CertificateWithPolicy extends Certificate {
   /**
    * @member {CertificatePolicy} [policy] The management policy.
    * **NOTE: This property will not be serialized. It can only be populated by

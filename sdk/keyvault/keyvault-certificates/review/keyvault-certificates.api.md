@@ -96,7 +96,7 @@ export class CertificatesClient {
     listCertificates(options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
     listCertificateVersions(name: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
     listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
-    mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
+    mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<CertificateWithPolicy>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null>;
     recoverDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<Certificate>;

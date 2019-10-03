@@ -252,6 +252,24 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
+  it("can update a certificate's policy", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+
+    await client.createCertificate(certificateName, basicCertificatePolicy);
+    const result = await client.getCertificateWithPolicy(certificateName);
+    assert.equal(result.policy!.issuerName, "Self");
+    assert.equal(result.policy!.subjectName, "cn=MyCert");
+
+    await client.updateCertificatePolicy(certificateName, {
+      issuerName: "Self",
+      subjectName: "cn=MyOtherCert",
+    });
+    const updated = await client.getCertificateWithPolicy(certificateName);
+    assert.equal(updated.policy!.subjectName, "cn=MyOtherCert");
+
+    await testClient.flushCertificate(certificateName);
+  });
+
   it("can read, cancel and delete a certificate's operation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.createCertificate(certificateName, basicCertificatePolicy);

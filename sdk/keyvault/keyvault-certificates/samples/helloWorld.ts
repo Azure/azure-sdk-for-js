@@ -38,12 +38,20 @@ async function main(): Promise<void> {
   // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);
 
-  const updatedCertificate = await client.updateCertificate("MyCertificate", "", {
+  let updatedCertificate = await client.updateCertificate("MyCertificate", "", {
     tags: {
       customTag: "value"
     }
   });
   console.log("Updated certificate:", updatedCertificate);
+
+  // Updating the certificate's policy:
+  await client.updateCertificatePolicy(certificateName, {
+    issuerName: "Self",
+    subjectName: "cn=MyOtherCert",
+  });
+  updatedCertificate = await client.getCertificateWithPolicy(certificateName);
+  console.log("updatedCertificate certificate's policy:", updated.policy);
 
   const result = await client.deleteCertificate("MyCertificate");
   console.log("Recovery Id: ", result.recoveryId);
