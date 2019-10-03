@@ -132,7 +132,7 @@ function writeElementValue(parentElement: any, name: any, value: any): any {
   if (
     typeof value !== "string" &&
     typeof value === "object" &&
-    Object.prototype.toString.call(value) == "[object Date]"
+    Object.prototype.toString.call(value) !== "[object Date]"
   ) {
     if (Array.isArray(value) && value.length > 0) {
       // Example:
