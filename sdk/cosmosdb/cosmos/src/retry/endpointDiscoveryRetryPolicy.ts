@@ -17,9 +17,9 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
   /** Retry interval in milliseconds. */
   public retryAfterInMs: number;
 
-  /** Max number of retry attempts to perform. */
+  /** Max number of attempts to perform. */
   private maxTries: number;
-  private static readonly maxTries = 120; // TODO: Constant?
+  private static readonly maxTries = 121; // TODO: Constant?
   private static readonly retryAfterInMs = 1000;
 
   /**
@@ -56,7 +56,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
       return false;
     }
 
-    if (this.currentRetryAttemptCount >= this.maxTries) {
+    if (this.currentRetryAttemptCount > this.maxTries) {
       return false;
     }
 
