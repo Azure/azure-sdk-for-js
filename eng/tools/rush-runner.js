@@ -59,7 +59,11 @@ const spawnNode = (cwd, ...args) => {
   console.log(`Executing: "node ${args.join(' ')}" in ${cwd}\n\n`);
   const proc = spawnSync('node', args, { cwd, stdio: 'inherit' });
   console.log(`\n\nNode process exited with code ${proc.status}`);
-}
+
+  if (proc.status !== 0) {
+    process.exit(proc.status);
+  }
+};
 
 const flatMap = (arr, f) => {
   const result = arr.map(f);
