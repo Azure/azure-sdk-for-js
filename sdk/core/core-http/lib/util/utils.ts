@@ -241,21 +241,3 @@ export function replaceAll(
 export function isPrimitiveType(value: any): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
 }
-
-/**
- * Determines whether the given `value` is a `Date` object or not.
- * @param {any} value Any entity
- * @return {boolean} - true if yes, false otherwise.
- */
-export function isDate(value: any): value is Date {
-  return Object.prototype.toString.call(value) == "[object Date]";
-}
-
-/**
- * Determines whether the given `value` is a `Object` or not.
- * @param {any} value Any entity
- * @return {boolean} - true if yes, false otherwise.
- */
-export function isObject(value: any): value is Object {
-  return value === Object(value);
-}

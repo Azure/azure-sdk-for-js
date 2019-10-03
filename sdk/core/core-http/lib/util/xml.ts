@@ -3,7 +3,6 @@
 
 import * as xml2js from "xml2js";
 import { Constants } from "./constants";
-import { isDate, isObject } from "./utils";
 const xmlbuilder: any = require("xmlbuilder");
 
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
@@ -74,7 +73,7 @@ export function convertJsonToAtomXml(content: any): string {
  * Gets the default xml2js settings applicable for Atom based XML operations.
  */
 function _getDefaultSettingsForAtomXmlOperations(): any {
-  const xml2jsSettings = xml2js.defaults["0.2"];
+  const xml2jsSettings = Object.assign({}, xml2js.defaults["0.2"]);
   xml2jsSettings.normalize = false;
   xml2jsSettings.trim = false;
   xml2jsSettings.attrkey = "$";
@@ -90,7 +89,7 @@ function _getDefaultSettingsForAtomXmlOperations(): any {
  * Gets the default settings applicable for general XML operations.
  */
 function _getDefaultSettings(): any {
-  const xml2jsSettings = xml2js.defaults["0.2"];
+  const xml2jsSettings = Object.assign({}, xml2js.defaults["0.2"]);
   xml2jsSettings.explicitArray = false;
   xml2jsSettings.ignoreAttrs = false;
   xml2jsSettings.explicitCharkey = false;
@@ -127,7 +126,11 @@ function writeElementValue(parentElement: any, name: any, value: any): any {
   let ignored = false;
   const propertyTagName = name;
 
-  if (value && isObject(value) && !isDate(value)) {
+  if (
+    typeof value !== "string" &&
+    typeof value === "object" &&
+    Object.prototype.toString.call(value) == "[object Date]"
+  ) {
     if (Array.isArray(value) && value.length > 0) {
       // Example:
       // JSON: element: [ { property1: 'hi there' }, { property2: 'hello there' } ]
@@ -168,8 +171,8 @@ function writeElementValue(parentElement: any, name: any, value: any): any {
       });
     }
   } else {
-    parentElement = parentElement.ele(propertyTagName);
-    if (value) {
+    if (value != undefined) {
+      parentElement = parentElement.ele(propertyTagName);
       if (
         value
           .toString()
@@ -180,10 +183,12 @@ function writeElementValue(parentElement: any, name: any, value: any): any {
       } else {
         parentElement = parentElement.txt(value.toString());
       }
+    } else {
+      parentElement = parentElement.ele(propertyTagName, {}, undefined);
     }
   }
 
-  if (value && value[Constants.XML_METADATA_MARKER]) {
+  if (value != undefined && value[Constants.XML_METADATA_MARKER]) {
     // include the metadata
     const attributeList = value[Constants.XML_METADATA_MARKER];
     Object.keys(attributeList).forEach(function(attribute) {
