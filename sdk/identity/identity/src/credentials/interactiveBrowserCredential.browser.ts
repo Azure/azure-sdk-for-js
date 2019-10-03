@@ -116,7 +116,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-
     const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
     try {
       if (!this.msalObject.getAccount()) {
@@ -138,7 +137,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     } catch (err) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: err.message,
+        message: err.message
       });
       throw err;
     } finally {

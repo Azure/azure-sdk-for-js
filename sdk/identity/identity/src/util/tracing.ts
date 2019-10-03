@@ -8,11 +8,14 @@ import { getTracer, Span, GetTokenOptions, SpanOptions, SpanKind } from "@azure/
  * @param name The name of the operation being performed.
  * @param options The options for the underlying http request.
  */
-export function createSpan(operationName: string, options: GetTokenOptions = {}): { span: Span, options: GetTokenOptions } {
+export function createSpan(
+  operationName: string,
+  options: GetTokenOptions = {}
+): { span: Span; options: GetTokenOptions } {
   const tracer = getTracer();
   const spanOptions: SpanOptions = {
     ...options.spanOptions,
-    kind: SpanKind.CLIENT,
+    kind: SpanKind.CLIENT
   };
 
   const span = tracer.startSpan(`Azure.Identity.${operationName}`, spanOptions);
@@ -24,7 +27,7 @@ export function createSpan(operationName: string, options: GetTokenOptions = {})
       ...options,
       spanOptions: {
         ...options.spanOptions,
-        parent: span,
+        parent: span
       }
     };
   }
@@ -32,5 +35,5 @@ export function createSpan(operationName: string, options: GetTokenOptions = {})
   return {
     span,
     options: newOptions
-  }
+  };
 }
