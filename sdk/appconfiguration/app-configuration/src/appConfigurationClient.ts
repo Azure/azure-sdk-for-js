@@ -30,9 +30,9 @@ import {
   ClearReadOnlyResponse
 } from "./models";
 import {
-  quoteETag,
   formatWildcards,
-  extractAfterTokenFromNextLink
+  extractAfterTokenFromNextLink,
+  checkAndFormatIfAndIfNoneMatch
 } from "./internal/helpers";
 import { ResponseBodyNotFoundError } from './responseBodyNotFoundError';
 
@@ -110,8 +110,7 @@ export class AppConfigurationClient {
   ): Promise<DeleteConfigurationSettingResponse> {
     return this.client.deleteKeyValue(key, {
       ...options,
-      ifMatch: quoteETag(options.ifMatch),
-      ifNoneMatch: quoteETag(options.ifNoneMatch)
+      ...checkAndFormatIfAndIfNoneMatch(options)
     });
   }
 
@@ -132,8 +131,7 @@ export class AppConfigurationClient {
     const response = await this.client.getKeyValue(key, {
       label: options.label,
       ...options,
-      ifMatch: quoteETag(options.ifMatch),
-      ifNoneMatch: quoteETag(options.ifNoneMatch),
+      ...checkAndFormatIfAndIfNoneMatch(options)
     }) as GetConfigurationSettingResponse;
 
     // 304 only comes back if the user has passed a conditional option in their
@@ -311,8 +309,7 @@ export class AppConfigurationClient {
       ...options,
       label: configurationSetting.label,
       entity: configurationSetting,
-      ifMatch: quoteETag(options.ifMatch),
-      ifNoneMatch: quoteETag(options.ifNoneMatch)
+      ...checkAndFormatIfAndIfNoneMatch(options)
     });
   }
 

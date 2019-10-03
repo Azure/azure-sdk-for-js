@@ -29,6 +29,35 @@ export function quoteETag(etag: string | undefined): string | undefined {
 }
 
 /**
+ * Checks the ifMatch/ifNoneMatch properties to make sure we haven't specified both
+ * and throws an Error. Otherwise, returns the properties properly quoted.
+ * @param options An options object with ifMatch/ifNoneMatch fields 
+ * @internal
+ * @ignore
+ */
+export function checkAndFormatIfAndIfNoneMatch(options: { ifMatch?: string, ifNoneMatch?: string }): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
+  if (options.ifMatch && options.ifNoneMatch) {
+    throw new Error("ifMatch and ifNoneMatch are mutually-exclusive");
+  }
+
+  let ifMatch;
+  let ifNoneMatch;
+
+  if (options.ifMatch) {
+    ifMatch = quoteETag(options.ifMatch);
+  }
+
+  if (options.ifNoneMatch) {
+    ifNoneMatch = quoteETag(options.ifNoneMatch);
+  }
+
+  return {
+    ifMatch: ifMatch,
+    ifNoneMatch: ifNoneMatch
+  };
+}
+
+/**
  * Transforms the keys/labels parameters in the listConfigurationSettings and listRevisions
  * into the format the REST call will need.
  * 
