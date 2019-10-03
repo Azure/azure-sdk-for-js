@@ -394,43 +394,58 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       requiresSession: false,
       sizeInBytes: 0,
       status: "Active",
-      supportOrdering: true
+      supportOrdering: true,
+      forwardTo: undefined,
+      path: undefined,
+      userMetadata: undefined
     }
   },
   {
     testCaseTitle: "all properties",
     input: {
-      defaultMessageTimeToLive: "P10675300DT2H48M5.4775807S",
-      duplicateDetectionHistoryTimeWindow: "PT5M",
       // This should be a proper URL else the service returns an error
       // forwardDeadLetteredMessagesTo: "",
-      lockDuration: "PT5M",
+      lockDuration: "PT45S",
+      maxSizeInMegabytes: 2048,
       messageCount: 5,
       sizeInBytes: 250,
-      maxSizeInMegabytes: 2048
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      defaultMessageTimeToLive: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      maxDeliveryCount: 8,
+      enableBatchedOperations: false,
+      autoDeleteOnIdle: "PT1H",
+
+      enablePartitioning: true
     },
     output: {
-      duplicateDetectionHistoryTimeWindow: ["PT10M", "PT5M"],
-      lockDuration: "PT5M",
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      lockDuration: "PT45S",
       messageCount: 5,
       sizeInBytes: 250,
       maxSizeInMegabytes: 2048,
-      defaultMessageTimeToLive: ["P10675199DT2H48M5.4775807S", "P10675300DT2H48M5.4775807S"],
-      forwardDeadLetteredMessagesTo: undefined,
+      defaultMessageTimeToLive: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+      maxDeliveryCount: 8,
+      requiresDuplicateDetection: true,
+      requiresSession: true,
+      autoDeleteOnIdle: "PT1H",
 
-      // Below properties are not updated by options
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      authorizationRules: "",
-      countDetails: undefined,
-      deadLetteringOnMessageExpiration: false,
-      enableBatchedOperations: true,
-      enableExpress: false,
+      // enablePartitioning: true,
       enablePartitioning: false,
+      authorizationRules: "",
+      forwardDeadLetteredMessagesTo: undefined,
+      forwardTo: undefined,
+      path: undefined,
+      userMetadata: undefined,
+
+      countDetails: undefined,
+      enableExpress: false,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
-      maxDeliveryCount: 10,
-      requiresDuplicateDetection: false,
-      requiresSession: false,
       status: "Active",
       supportOrdering: true,
       queueName: "alwaysbeexistingqueue"
@@ -478,6 +493,9 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       enableExpress: false,
       enablePartitioning: false,
       enableSubscriptionPartitioning: false,
+      maxSubscriptionsPerTopic: undefined,
+      maxSqlFiltersPerTopic: undefined,
+      maxCorrelationFiltersPerTopic: undefined,
       entityAvailabilityStatus: "Available",
       filteringMessagesBeforePublishing: false,
       isAnonymousAccessible: false,
@@ -500,33 +518,62 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       messageCount: 7,
       subscriptionCount: 6,
       maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P10675200DT2H48M5.4775807S",
-      duplicateDetectionHistoryTimeWindow: "PT5M"
+      // enableExpress: true,
+
+      // maxSubscriptionsPerTopic: 3,
+      // maxSqlFiltersPerTopic: 4,
+      // maxCorrelationFiltersPerTopic: 5,
+      // isExpress: true,
+      // enableSubscriptionPartitioning: true,
+      // filteringMessagesBeforePublishing: true,
+
+      maxSizeInMegabytes: 2048,
+      requiresDuplicateDetection: true,
+      defaultMessageTimeToLive: "P2D",
+      deadLetteringOnMessageExpiration: true,
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      enableBatchedOperations: false,
+      autoDeleteOnIdle: "PT1H",
+      enablePartitioning: true,
+      supportOrdering: false
     },
     output: {
       sizeInBytes: 100,
       messageCount: 7,
       subscriptionCount: 6,
       maxDeliveryCount: 20,
-      defaultMessageTimeToLive: ["P10675199DT2H48M5.4775807S", "P10675200DT2H48M5.4775807S"],
-      duplicateDetectionHistoryTimeWindow: ["PT10M", "PT5M"],
+      defaultMessageTimeToLive: "P2D",
+      duplicateDetectionHistoryTimeWindow: "PT1M",
+      autoDeleteOnIdle: "PT1H",
+      maxSizeInMegabytes: 2048,
+      enableBatchedOperations: false,
+      supportOrdering: false,
+      requiresDuplicateDetection: true,
 
-      // Below properties are not updated by options
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      maxSizeInMegabytes: 1024,
+      maxSubscriptionsPerTopic: undefined,
+      maxSqlFiltersPerTopic: undefined,
+      maxCorrelationFiltersPerTopic: undefined,
+      // maxSubscriptionsPerTopic: 3,
+      // maxSqlFiltersPerTopic: 4,
+      // maxCorrelationFiltersPerTopic: 5,
+
+      // enableExpress: true,
+      enableExpress: false,
+      authorizationRules: "",
+
+      enablePartitioning: false,
+      isExpress: false,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
-      isExpress: false,
-      authorizationRules: "",
+      // enablePartitioning: true,
+      // isExpress: true,
+      // enableSubscriptionPartitioning: true,
+      // filteringMessagesBeforePublishing: true,
+
       countDetails: undefined,
-      enableBatchedOperations: true,
-      enableExpress: false,
-      enablePartitioning: false,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
-      requiresDuplicateDetection: false,
       status: "Active",
-      supportOrdering: true,
       topicName: "alwaysbeexistingtopic"
     }
   }
@@ -569,7 +616,11 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
       defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      forwardDeadLetteredMessagesTo: undefined,
       enableBatchedOperations: true,
+      forwardTo: undefined,
+      userMetadata: undefined,
+      defaultRuleDescription: undefined,
       enablePartitioning: undefined,
       entityAvailabilityStatus: "Available",
       lockDuration: "PT1M",
@@ -588,25 +639,48 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     testCaseTitle: "all properties",
     input: {
       lockDuration: "PT5M",
-      maxDeliveryCount: 20
+      maxDeliveryCount: 20,
+      // This should be a proper URL else the service returns an error
+      // forwardDeadLetteredMessagesTo: "",
+      defaultMessageTimeToLive: "P2D",
+      autoDeleteOnIdle: "PT1H",
+      deadLetteringOnFilterEvaluationExceptions: false,
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+      requiresSession: true,
+
+      defaultRuleDescription: {
+        Name: "test1",
+        Filter: { SqlExpression: "1=1", CompatibilityLevel: "20" }
+      },
+
+      messageCount: 5,
+      enablePartitioning: true,
+      maxSizeInMegabytes: 2048,
+      sizeInBytes: 500
     },
     output: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
+      defaultMessageTimeToLive: "P2D",
+      autoDeleteOnIdle: "PT1H",
+      deadLetteringOnFilterEvaluationExceptions: false,
+      deadLetteringOnMessageExpiration: true,
+      enableBatchedOperations: false,
+      requiresSession: true,
 
-      // Below properties are not updated by options
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+      forwardDeadLetteredMessagesTo: undefined,
+      defaultRuleDescription: undefined,
+
       messageCount: 0,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      countDetails: undefined,
-      deadLetteringOnFilterEvaluationExceptions: true,
-      deadLetteringOnMessageExpiration: false,
-      enableBatchedOperations: true,
       enablePartitioning: undefined,
-      entityAvailabilityStatus: "Available",
       maxSizeInMegabytes: undefined,
       sizeInBytes: undefined,
-      requiresSession: false,
+
+      forwardTo: undefined,
+      userMetadata: undefined,
+      countDetails: undefined,
+      entityAvailabilityStatus: "Available",
       status: "Active",
 
       subscriptionName: "alwaysbeexistingsubscription",
@@ -839,20 +913,20 @@ async function updateEntity(
 ): Promise<any> {
   if (queueOptions == undefined) {
     queueOptions = {
-      lockDuration: "PT1M"
+      lockDuration: "PT5M"
     };
   }
 
   if (topicOptions == undefined) {
     topicOptions = {
-      maxDeliveryCount: 10
+      maxDeliveryCount: 11
     };
   }
 
   if (subscriptionOptions == undefined) {
     subscriptionOptions = {
       lockDuration: "PT1M",
-      maxDeliveryCount: 10
+      maxDeliveryCount: 11
     };
   }
 

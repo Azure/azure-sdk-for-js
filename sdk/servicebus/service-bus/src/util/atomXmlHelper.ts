@@ -39,7 +39,6 @@ export function serializeToAtomXmlRequest(
       }
     });
   }
-
   return content;
 }
 

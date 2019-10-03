@@ -161,20 +161,13 @@ export interface OnMessage {
 // @public
 export interface Queue extends QueueOptions {
     accessedAt?: string;
-    authorizationRules?: string;
-    autoDeleteOnIdle?: string;
     countDetails?: CountDetails;
     createdAt?: string;
-    deadLetteringOnMessageExpiration?: boolean;
-    enableBatchedOperations?: boolean;
     enableExpress?: boolean;
-    enablePartitioning?: boolean;
     entityAvailabilityStatus?: string;
     isAnonymousAccessible?: boolean;
-    maxDeliveryCount?: number;
+    path?: string;
     queueName?: string;
-    requiresDuplicateDetection?: boolean;
-    requiresSession?: boolean;
     status?: string;
     supportOrdering?: boolean;
     updatedAt?: string;
@@ -197,13 +190,23 @@ export class QueueClient implements Client {
 
 // @public
 export interface QueueOptions {
+    authorizationRules?: string;
+    autoDeleteOnIdle?: string;
+    deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
     forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
     lockDuration?: string;
+    maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
     messageCount?: number;
+    requiresDuplicateDetection?: boolean;
+    requiresSession?: boolean;
     sizeInBytes?: number;
+    userMetadata?: string;
 }
 
 // @public
@@ -434,19 +437,9 @@ export interface SessionReceiverOptions {
 // @public
 export interface Subscription extends SubscriptionOptions {
     accessedAt?: string;
-    autoDeleteOnIdle?: string;
     countDetails?: CountDetails;
     createdAt?: string;
-    deadLetteringOnFilterEvaluationExceptions?: boolean;
-    deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTimeToLive?: string;
-    enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
     entityAvailabilityStatus?: string;
-    maxSizeInMegabytes?: number;
-    messageCount?: number;
-    requiresSession?: boolean;
-    sizeInBytes?: number;
     status?: string;
     subscriptionName?: string;
     topicName?: string;
@@ -472,8 +465,22 @@ export class SubscriptionClient implements Client {
 
 // @public
 export interface SubscriptionOptions {
+    autoDeleteOnIdle?: string;
+    deadLetteringOnFilterEvaluationExceptions?: boolean;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTimeToLive?: string;
+    defaultRuleDescription?: any;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    messageCount?: number;
+    requiresSession?: boolean;
+    sizeInBytes?: number;
+    userMetadata?: string;
 }
 
 // @public
@@ -490,22 +497,11 @@ export { TokenType }
 // @public
 export interface Topic extends TopicOptions {
     accessedAt?: string;
-    authorizationRules?: any;
-    autoDeleteOnIdle?: string;
     countDetails?: CountDetails;
     createdAt?: string;
-    enableBatchedOperations?: boolean;
-    enableExpress?: boolean;
-    enablePartitioning?: boolean;
-    enableSubscriptionPartitioning?: boolean;
     entityAvailabilityStatus?: string;
-    filteringMessagesBeforePublishing?: boolean;
     isAnonymousAccessible?: boolean;
-    isExpress?: boolean;
-    maxSizeInMegabytes?: number;
-    requiresDuplicateDetection?: boolean;
     status?: string;
-    supportOrdering?: boolean;
     topicName?: string;
     updatedAt?: string;
 }
@@ -521,12 +517,27 @@ export class TopicClient implements Client {
 
 // @public
 export interface TopicOptions {
+    authorizationRules?: any;
+    autoDeleteOnIdle?: string;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enableExpress?: boolean;
+    enablePartitioning?: boolean;
+    enableSubscriptionPartitioning?: boolean;
+    filteringMessagesBeforePublishing?: boolean;
+    isExpress?: boolean;
+    maxCorrelationFiltersPerTopic?: number;
     maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    maxSqlFiltersPerTopic?: number;
+    maxSubscriptionsPerTopic?: number;
     messageCount?: number;
+    requiresDuplicateDetection?: boolean;
     sizeInBytes?: number;
     subscriptionCount?: number;
+    supportOrdering?: boolean;
+    userMetadata?: string;
 }
 
 // @public

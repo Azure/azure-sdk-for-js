@@ -15,11 +15,20 @@ import {
 const requestProperties: Array<keyof InternalQueueOptions> = [
   Constants.LOCK_DURATION,
   Constants.MAX_SIZE_IN_MEGABYTES,
+  Constants.REQUIRES_DUPLICATE_DETECTION,
+  Constants.REQUIRES_SESSION,
+  Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
+  Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION,
+  Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
+  Constants.MAX_DELIVERY_COUNT,
+  Constants.ENABLE_BATCHED_OPERATIONS,
   Constants.SIZE_IN_BYTES,
   Constants.MESSAGE_COUNT,
-  Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
-  Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
-  Constants.FORWARD_DEADLETTERED_MESSAGES_TO
+  Constants.AUTHORIZATION_RULES,
+  Constants.AUTO_DELETE_ON_IDLE,
+  Constants.ENABLE_PARTITIONING,
+  Constants.FORWARD_DEADLETTERED_MESSAGES_TO,
+  Constants.USER_METADATA
 ];
 
 /**
@@ -35,7 +44,18 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     MessageCount: getStringOrUndefined(queueOptions.messageCount),
     DefaultMessageTimeToLive: queueOptions.defaultMessageTimeToLive,
     DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
-    ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo
+    ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
+    AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
+    MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
+    EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
+    RequiresSession: getStringOrUndefined(queueOptions.requiresSession),
+    EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
+    RequiresDuplicateDetection: getStringOrUndefined(queueOptions.requiresDuplicateDetection),
+    DeadLetteringOnMessageExpiration: getStringOrUndefined(
+      queueOptions.deadLetteringOnMessageExpiration
+    ),
+    UserMetadata: getStringOrUndefined(queueOptions.userMetadata),
+    AuthorizationRules: getStringOrUndefined(queueOptions.authorizationRules)
   };
   return internalQueueOptions;
 }
@@ -50,41 +70,48 @@ export function buildQueue(rawQueue: any): Queue | undefined {
     return undefined;
   } else {
     const result: Queue = {
-      queueName: rawQueue["QueueName"],
+      queueName: rawQueue[Constants.QUEUE_NAME],
 
-      lockDuration: rawQueue["LockDuration"],
-      sizeInBytes: getIntegerOrUndefined(rawQueue["SizeInBytes"]),
-      maxSizeInMegabytes: getIntegerOrUndefined(rawQueue["MaxSizeInMegabytes"]),
+      forwardTo: rawQueue[Constants.FORWARD_TO],
+      path: rawQueue[Constants.PATH],
+      userMetadata: rawQueue[Constants.USER_METADATA],
 
-      messageCount: getIntegerOrUndefined(rawQueue["MessageCount"]),
-      maxDeliveryCount: getIntegerOrUndefined(rawQueue["MaxDeliveryCount"]),
+      lockDuration: rawQueue[Constants.LOCK_DURATION],
+      sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
+      maxSizeInMegabytes: getIntegerOrUndefined(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES]),
 
-      enablePartitioning: getBooleanOrUndefined(rawQueue["EnablePartitioning"]),
-      requiresSession: getBooleanOrUndefined(rawQueue["RequiresSession"]),
-      enableBatchedOperations: getBooleanOrUndefined(rawQueue["EnableBatchedOperations"]),
+      messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
+      maxDeliveryCount: getIntegerOrUndefined(rawQueue[Constants.MAX_DELIVERY_COUNT]),
 
-      defaultMessageTimeToLive: rawQueue["DefaultMessageTimeToLive"],
-      autoDeleteOnIdle: rawQueue["AutoDeleteOnIdle"],
+      enablePartitioning: getBooleanOrUndefined(rawQueue[Constants.ENABLE_PARTITIONING]),
+      requiresSession: getBooleanOrUndefined(rawQueue[Constants.REQUIRES_SESSION]),
+      enableBatchedOperations: getBooleanOrUndefined(rawQueue[Constants.ENABLE_BATCHED_OPERATIONS]),
 
-      requiresDuplicateDetection: getBooleanOrUndefined(rawQueue["RequiresDuplicateDetection"]),
-      duplicateDetectionHistoryTimeWindow: rawQueue["DuplicateDetectionHistoryTimeWindow"],
-      deadLetteringOnMessageExpiration: getBooleanOrUndefined(
-        rawQueue["DeadLetteringOnMessageExpiration"]
+      defaultMessageTimeToLive: rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+      autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
+
+      requiresDuplicateDetection: getBooleanOrUndefined(
+        rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION]
       ),
-      forwardDeadLetteredMessagesTo: rawQueue["ForwardDeadLetteredMessagesTo"],
+      duplicateDetectionHistoryTimeWindow:
+        rawQueue[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
+      deadLetteringOnMessageExpiration: getBooleanOrUndefined(
+        rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
+      ),
+      forwardDeadLetteredMessagesTo: rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
 
-      countDetails: getCountDetailsOrUndefined(rawQueue["CountDetails"]),
-      supportOrdering: getBooleanOrUndefined(rawQueue["SupportOrdering"]),
-      enableExpress: getBooleanOrUndefined(rawQueue["EnableExpress"]),
+      countDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
+      supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
+      enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
 
-      authorizationRules: rawQueue["AuthorizationRules"],
-      isAnonymousAccessible: getBooleanOrUndefined(rawQueue["IsAnonymousAccessible"]),
+      authorizationRules: rawQueue[Constants.AUTHORIZATION_RULES],
+      isAnonymousAccessible: getBooleanOrUndefined(rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE]),
 
-      entityAvailabilityStatus: rawQueue["EntityAvailabilityStatus"],
-      status: rawQueue["Status"],
-      createdAt: rawQueue["CreatedAt"],
-      updatedAt: rawQueue["UpdatedAt"],
-      accessedAt: rawQueue["AccessedAt"]
+      entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
+      status: rawQueue[Constants.STATUS],
+      createdAt: rawQueue[Constants.CREATED_AT],
+      updatedAt: rawQueue[Constants.UPDATED_AT],
+      accessedAt: rawQueue[Constants.ACCESSED_AT]
     };
     return result;
   }
@@ -131,6 +158,58 @@ export interface QueueOptions {
    *
    */
   forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Max idle time before entity is deleted
+   *
+   */
+  autoDeleteOnIdle?: string;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  maxDeliveryCount?: number;
+
+  /**
+   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   */
+  requiresSession?: boolean;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations?: boolean;
+
+  /**
+   * Settable only at queue creation time.
+   */
+  requiresDuplicateDetection?: boolean;
+
+  /**
+   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   */
+  deadLetteringOnMessageExpiration?: boolean;
+
+  /**
+   * ForwardTo header
+   */
+  forwardTo?: string;
+
+  /**
+   * The user metadata information
+   */
+  userMetadata?: string;
+
+  /**
+   * Specifies whether the queue should be partitioned.
+   */
+  enablePartitioning?: boolean;
+
+  /**
+   * Authorization rules on the queue
+   */
+  authorizationRules?: string;
 }
 
 /**
@@ -176,6 +255,68 @@ export interface InternalQueueOptions {
    *
    */
   ForwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Max idle time before entity is deleted
+   *
+   */
+  AutoDeleteOnIdle?: string;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  MaxDeliveryCount?: string;
+
+  /**
+   * Specifies whether the queue should be partitioned.
+   */
+  EnablePartitioning?: string;
+
+  /**
+   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
+   */
+  RequiresSession?: string;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  EnableBatchedOperations?: string;
+
+  /**
+   * Settable only at queue creation time.
+   */
+  RequiresDuplicateDetection?: string;
+
+  /**
+   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
+   */
+  DeadLetteringOnMessageExpiration?: string;
+
+  /**
+   * The user metadata information
+   */
+  UserMetadata?: string;
+
+  /**
+   * Authorization rules on the queue
+   */
+  AuthorizationRules?: any;
+
+  /**
+   * ForwardTo header
+   */
+  ForwardTo?: string;
+
+  /**
+   * Entity path
+   */
+  Path?: string;
+
+  /**
+   * Entity status
+   */
+  Status?: string;
 }
 
 /**
@@ -188,41 +329,9 @@ export interface Queue extends QueueOptions {
   queueName?: string;
 
   /**
-   * Max idle time before entity is deleted
-   *
+   * Entity path
    */
-  autoDeleteOnIdle?: string;
-
-  /**
-   * The maximum delivery count.
-   *
-   */
-  maxDeliveryCount?: number;
-
-  /**
-   * Specifies whether the queue should be partitioned.
-   */
-  enablePartitioning?: boolean;
-
-  /**
-   * Settable only at queue creation time. If set to true, the queue will be session-aware and only SessionReceiver will be supported. Session-aware queues are not supported through REST.
-   */
-  requiresSession?: boolean;
-
-  /**
-   * Specifies if batched operations should be allowed.
-   */
-  enableBatchedOperations?: boolean;
-
-  /**
-   * Settable only at queue creation time.
-   */
-  requiresDuplicateDetection?: boolean;
-
-  /**
-   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the queue’s dead-letter sub-queue. If disabled, message will be permanently deleted from the queue. Settable only at queue creation time.
-   */
-  deadLetteringOnMessageExpiration?: boolean;
+  path?: string;
 
   /**
    * Count details
@@ -243,11 +352,6 @@ export interface Queue extends QueueOptions {
    * Is anonymous accessible queue option
    */
   isAnonymousAccessible?: boolean;
-
-  /**
-   * Authorization rules on the queue
-   */
-  authorizationRules?: string;
 
   /**
    * Entity availability status

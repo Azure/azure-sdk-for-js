@@ -7,7 +7,6 @@ import {
   ServiceClientOptions,
   HttpOperationResponse,
   signingPolicy,
-  userAgentPolicy,
   logPolicy,
   proxyPolicy,
   atomSerializationPolicy,
@@ -272,7 +271,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     );
 
     const requestPolicyFactories: RequestPolicyFactory[] = [];
-    requestPolicyFactories.push(userAgentPolicy());
     requestPolicyFactories.push(logPolicy(log.httpAtomXml));
     requestPolicyFactories.push(atomSerializationPolicy());
     requestPolicyFactories.push(signingPolicy(credentials));
@@ -353,9 +351,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
     );
+
+    const finalQueueOptions: QueueOptions = {};
+    const getQueueResult = await this.getQueue(queueName);
+    Object.assign(finalQueueOptions, getQueueResult, queueOptions);
+
     const response: HttpOperationResponse = await this._putResource(
       queueName,
-      buildQueueOptions(queueOptions),
+      buildQueueOptions(finalQueueOptions),
       this.queueResourceSerializer,
       true
     );
@@ -438,9 +441,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - updateTopic() for "${topicName}" with options: ${topicOptions}`
     );
+
+    const finalTopicOptions: TopicOptions = {};
+    const getTopicResult = await this.getTopic(topicName);
+    Object.assign(finalTopicOptions, getTopicResult, topicOptions);
+
     const response: HttpOperationResponse = await this._putResource(
       topicName,
-      buildTopicOptions(topicOptions),
+      buildTopicOptions(finalTopicOptions),
       this.topicResourceSerializer,
       true
     );
@@ -546,9 +554,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
     );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+
+    const finalSubscriptionOptions: SubscriptionOptions = {};
+    const getSubscriptionResult = await this.getSubscription(topicName, subscriptionName);
+    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscriptionOptions);
+
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
-      buildSubscriptionOptions(subscriptionOptions),
+      buildSubscriptionOptions(finalSubscriptionOptions),
       this.subscriptionResourceSerializer,
       true
     );
@@ -866,7 +879,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
     const queue = buildQueue(response.parsedBody);
-    const queueResponse: QueueResponse = Object.assign(queue, { _response: response });
+    const queueResponse: QueueResponse = Object.assign(queue || {}, { _response: response });
     return queueResponse;
   }
 
@@ -885,7 +898,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
     const topic = buildTopic(response.parsedBody);
-    const topicResponse: TopicResponse = Object.assign(topic, { _response: response });
+    const topicResponse: TopicResponse = Object.assign(topic || {}, { _response: response });
     return topicResponse;
   }
 
@@ -908,7 +921,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   private buildSubscriptionResponse(response: HttpOperationResponse): SubscriptionResponse {
     const subscription = buildSubscription(response.parsedBody);
-    const subscriptionResponse: SubscriptionResponse = Object.assign(subscription, {
+    const subscriptionResponse: SubscriptionResponse = Object.assign(subscription || {}, {
       _response: response
     });
     return subscriptionResponse;

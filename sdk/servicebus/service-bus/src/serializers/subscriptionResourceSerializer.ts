@@ -14,7 +14,17 @@ import {
 
 const requestProperties: Array<keyof InternalSubscriptionOptions> = [
   Constants.LOCK_DURATION,
-  Constants.MAX_DELIVERY_COUNT
+  Constants.REQUIRES_SESSION,
+  Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
+  Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION,
+  Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS,
+  Constants.DEFAULT_RULE_DESCRIPTION,
+  Constants.MAX_DELIVERY_COUNT,
+  Constants.ENABLE_BATCHED_OPERATIONS,
+  Constants.FORWARD_TO,
+  Constants.USER_METADATA,
+  Constants.FORWARD_DEADLETTERED_MESSAGES_TO,
+  Constants.AUTO_DELETE_ON_IDLE
 ];
 
 /**
@@ -27,7 +37,25 @@ export function buildSubscriptionOptions(
 ): InternalSubscriptionOptions {
   const internalSubscriptionOptions: InternalSubscriptionOptions = {
     LockDuration: subscriptionOptions.lockDuration,
-    MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount)
+    MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
+    SizeInBytes: getStringOrUndefined(subscriptionOptions.sizeInBytes),
+    MaxSizeInMegabytes: getStringOrUndefined(subscriptionOptions.maxSizeInMegabytes),
+    MessageCount: getStringOrUndefined(subscriptionOptions.messageCount),
+    EnablePartitioning: getStringOrUndefined(subscriptionOptions.enablePartitioning),
+    RequiresSession: getStringOrUndefined(subscriptionOptions.requiresSession),
+    EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
+    DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTimeToLive),
+    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle),
+    DeadLetteringOnMessageExpiration: getStringOrUndefined(
+      subscriptionOptions.deadLetteringOnMessageExpiration
+    ),
+    DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
+      subscriptionOptions.deadLetteringOnFilterEvaluationExceptions
+    ),
+    ForwardDeadLetteredMessagesTo: getStringOrUndefined(
+      subscriptionOptions.forwardDeadLetteredMessagesTo
+    ),
+    DefaultRuleDescription: subscriptionOptions.defaultRuleDescription
   };
   return internalSubscriptionOptions;
 }
@@ -65,8 +93,13 @@ export function buildSubscription(rawSubscription: any): Subscription | undefine
       deadLetteringOnFilterEvaluationExceptions: getBooleanOrUndefined(
         rawSubscription["DeadLetteringOnFilterEvaluationExceptions"]
       ),
+      forwardDeadLetteredMessagesTo: rawSubscription["ForwardDeadLetteredMessagesTo"],
+      defaultRuleDescription: rawSubscription["DefaultRuleDescription"],
 
       countDetails: getCountDetailsOrUndefined(rawSubscription["CountDetails"]),
+
+      forwardTo: rawSubscription["ForwardTo"],
+      userMetadata: rawSubscription["UserMetadata"],
 
       entityAvailabilityStatus: rawSubscription["EntityAvailabilityStatus"],
       status: rawSubscription["Status"],
@@ -86,44 +119,6 @@ export interface SubscriptionOptions {
    * The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
    */
   lockDuration?: string;
-
-  /**
-   * The maximum delivery count.
-   *
-   */
-  maxDeliveryCount?: number;
-}
-
-/**
- * @ignore
- * Internal representation of settable options on a subscription
- */
-export interface InternalSubscriptionOptions {
-  /**
-   * The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
-   */
-  LockDuration?: string;
-
-  /**
-   * The maximum delivery count.
-   *
-   */
-  MaxDeliveryCount?: string;
-}
-
-/**
- * Represents all attributes of a subscription entity
- */
-export interface Subscription extends SubscriptionOptions {
-  /**
-   * Name of the subscription
-   */
-  subscriptionName?: string;
-
-  /**
-   * Name of the topic
-   */
-  topicName?: string;
 
   /**
    * The entity's size in bytes.
@@ -163,6 +158,12 @@ export interface Subscription extends SubscriptionOptions {
   defaultMessageTimeToLive?: string;
 
   /**
+   * Indicates the default rule description.
+   *
+   */
+  defaultRuleDescription?: any;
+
+  /**
    * Max idle time before entity is deleted
    *
    */
@@ -177,6 +178,135 @@ export interface Subscription extends SubscriptionOptions {
    * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions?: boolean;
+
+  /**
+   * Entity to forward deadlettered messages to
+   *
+   */
+  forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  maxDeliveryCount?: number;
+
+  /**
+   * ForwardTo header
+   */
+  forwardTo?: string;
+
+  /**
+   * The user metadata information
+   */
+  userMetadata?: string;
+}
+
+/**
+ * @ignore
+ * Internal representation of settable options on a subscription
+ */
+export interface InternalSubscriptionOptions {
+  /**
+   * The default lock duration is applied to subscriptions that do not define a lock duration. Settable only at subscription creation time.
+   */
+  LockDuration?: string;
+
+  /**
+   * The entity's size in bytes.
+   *
+   */
+  SizeInBytes?: string;
+
+  /**
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message that will cause the topic to exceed this value will fail. All messages that are stored in the topic or any of its subscriptions count towards this value. Multiple copies of a message that reside in one or multiple subscriptions count as a single messages. For example, if message m exists once in subscription s1 and twice in subscription s2, m is counted as a single message.
+   */
+  MaxSizeInMegabytes?: string;
+
+  /**
+   * The entity's message count.
+   *
+   */
+  MessageCount?: string;
+
+  /**
+   * Specifies whether the topic should be partitioned
+   */
+  EnablePartitioning?: string;
+
+  /**
+   * Settable only at subscription creation time. If set to true, the subscription will be session-aware and only SessionReceiver will be supported. Session-aware subscription are not supported through REST.
+   */
+  RequiresSession?: string;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  EnableBatchedOperations?: string;
+
+  /**
+   * Determines how long a message lives in the subscription. Based on whether dead-lettering is enabled, a message whose TTL has expired will either be moved to the subscription’s associated DeadLtterQueue or permanently deleted.
+   */
+  DefaultMessageTimeToLive?: string;
+
+  /**
+   * Indicates the default rule description.
+   *
+   */
+  DefaultRuleDescription?: any;
+
+  /**
+   * Max idle time before entity is deleted
+   *
+   */
+  AutoDeleteOnIdle?: string;
+
+  /**
+   * This field controls how the Service Bus handles a message whose TTL has expired. If it is enabled and a message expires, the Service Bus moves the message from the queue into the subscription’s dead-letter sub-queue. If disabled, message will be permanently deleted from the subscription’s main queue. Settable only at subscription creation time.
+   */
+  DeadLetteringOnMessageExpiration?: string;
+
+  /**
+   * Determines how the Service Bus handles a message that causes an exception during a subscription’s filter evaluation. If the value is set to true, the message that caused the exception will be moved to the subscription’s dead-letter queue. Otherwise, it will be discarded. By default this parameter is set to true, allowing the user a chance to investigate the cause of the exception. It can occur from a malformed message or some incorrect assumptions being made in the filter about the form of the message. Settable only at topic creation time.
+   */
+  DeadLetteringOnFilterEvaluationExceptions?: string;
+
+  /**
+   * Entity to forward deadlettered messages to
+   *
+   */
+  ForwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * The maximum delivery count.
+   *
+   */
+  MaxDeliveryCount?: string;
+
+  /**
+   * ForwardTo header
+   */
+  ForwardTo?: string;
+
+  /**
+   * The user metadata information
+   */
+  UserMetadata?: string;
+}
+
+/**
+ * Represents all attributes of a subscription entity
+ */
+export interface Subscription extends SubscriptionOptions {
+  /**
+   * Name of the subscription
+   */
+  subscriptionName?: string;
+
+  /**
+   * Name of the topic
+   */
+  topicName?: string;
 
   /**
    * Count details

@@ -189,7 +189,7 @@ export function getAssociatedReceiverName(
  * @param value
  */
 export function getStringOrUndefined(value: any): string | undefined {
-  if (value) {
+  if (value != undefined) {
     return value.toString();
   } else {
     return undefined;
@@ -203,7 +203,7 @@ export function getStringOrUndefined(value: any): string | undefined {
  * @param value
  */
 export function getIntegerOrUndefined(value: any): number | undefined {
-  if (value) {
+  if (value != undefined) {
     try {
       return parseInt(value.toString());
     } catch (err) {
@@ -221,7 +221,7 @@ export function getIntegerOrUndefined(value: any): number | undefined {
  * @param value
  */
 export function getBooleanOrUndefined(value: any): boolean | undefined {
-  if (value) {
+  if (value != undefined) {
     return value.toString() === "true";
   } else {
     return undefined;
@@ -235,7 +235,7 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
  * @param value
  */
 export function getJSONOrUndefined(value: any): number | undefined {
-  if (value) {
+  if (value != undefined) {
     try {
       return JSON.parse(JSON.stringify(value));
     } catch (err) {
@@ -256,7 +256,7 @@ export function getJSONOrUndefined(value: any): number | undefined {
  */
 export function getCountDetailsOrUndefined(value: any): CountDetails | undefined {
   const jsonValue: any = getJSONOrUndefined(value);
-  if (jsonValue) {
+  if (jsonValue != undefined) {
     try {
       const result: CountDetails = {
         activeMessageCount: parseInt(jsonValue["d2p1:ActiveMessageCount"]),
