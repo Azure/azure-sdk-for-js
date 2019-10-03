@@ -19,7 +19,7 @@ describe("Certificates client - list certificates in various ways", () => {
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subject: "cn=MyCert",
+    subjectName: "cn=MyCert",
   };
 
   beforeEach(async function() {

@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   await client.createCertificate("MyCertificate", {
     issuerName: "Unknown",
     certificateTransparency: false,
-    subject: "cn=MyCert"
+    subjectName: "cn=MyCert"
   });
 
   // Retrieving the certificate's signing request

@@ -34,9 +34,10 @@ export interface CertificateOperation {
 // Warning: (ae-forgotten-export) The symbol "CertificateAttributes" needs to be exported by the entry point index.d.ts
 // 
 // @public
-export interface CertificatePolicy extends SecretProperties, X509CertificateProperties, CertificateAttributes {
+export interface CertificatePolicy extends SecretProperties, CertificateAttributes {
     certificateTransparency?: boolean;
     certificateType?: string;
+    ekus?: string[];
     exportable?: boolean;
     readonly id?: string;
     issuerName?: string;
@@ -45,8 +46,14 @@ export interface CertificatePolicy extends SecretProperties, X509CertificateProp
     keySize?: number;
     // Warning: (ae-forgotten-export) The symbol "JsonWebKeyType" needs to be exported by the entry point index.d.ts
     keyType?: JsonWebKeyType;
+    // Warning: (ae-forgotten-export) The symbol "KeyUsageType" needs to be exported by the entry point index.d.ts
+    keyUsage?: KeyUsageType[];
     lifetimeActions?: LifetimeAction[];
     reuseKey?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "SubjectAlternativeNames" needs to be exported by the entry point index.d.ts
+    subjectAlternativeNames?: SubjectAlternativeNames;
+    subjectName?: string;
+    validityInMonths?: number;
 }
 
 // @public
@@ -266,11 +273,10 @@ export interface TelemetryOptions {
 // @public
 export interface X509CertificateProperties {
     ekus?: string[];
-    // Warning: (ae-forgotten-export) The symbol "KeyUsageType" needs to be exported by the entry point index.d.ts
     keyUsage?: KeyUsageType[];
     subject?: string;
     // Warning: (ae-forgotten-export) The symbol "SubjectAlternativeNames" needs to be exported by the entry point index.d.ts
-    subjectAlternativeNames?: SubjectAlternativeNames;
+    subjectAlternativeNames?: SubjectAlternativeNames_2;
     validityInMonths?: number;
 }
 

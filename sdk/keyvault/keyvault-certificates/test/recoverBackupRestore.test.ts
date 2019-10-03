@@ -17,7 +17,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subject: "cn=MyCert",
+    subjectName: "cn=MyCert",
   };
 
   beforeEach(async function() {

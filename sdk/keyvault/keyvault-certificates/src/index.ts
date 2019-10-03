@@ -28,7 +28,8 @@ import {
   CertificateIssuer,
   CertificateContentType,
   CertificatePolicy,
-  CertificateProperties
+  CertificateProperties,
+  SubjectAlternativeNames,
 } from "./certificatesModels";
 import {
   NewPipelineOptions,
@@ -84,7 +85,8 @@ import {
   BackupCertificateResponse,
   RestoreCertificateResponse,
   GetDeletedCertificateResponse,
-  RecoverDeletedCertificateResponse
+  RecoverDeletedCertificateResponse,
+  SubjectAlternativeNames as CoreSubjectAlternativeNames,
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
@@ -124,6 +126,14 @@ export {
 export { ProxyOptions, RetryOptions, TelemetryOptions };
 
 function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
+  let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
+  if (p.subjectAlternativeNames) {
+    const propertyName = p.subjectAlternativeNames.subjectType;
+    subjectAlternativeNames = {
+      [propertyName]: p.subjectAlternativeNames.subjectValues
+    };
+  }
+
   return {
     id: p.id,
     lifetimeActions: p.lifetimeActions,
@@ -138,9 +148,9 @@ function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
       contentType: p.contentType
     },
     x509CertificateProperties: {
-      subject: p.subject,
+      subject: p.subjectName,
       ekus: p.ekus,
-      subjectAlternativeNames: p.subjectAlternativeNames,
+      subjectAlternativeNames,
       keyUsage: p.keyUsage,
       validityInMonths: p.validityInMonths
     },
@@ -156,12 +166,31 @@ function toCorePolicy(p: CertificatePolicy = {}): CoreCertificatePolicy {
 }
 
 function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
-  const optionalProperties: CertificatePolicy = {};
+  let optionalProperties: CertificatePolicy = {};
   if (p.keyProperties && p.keyProperties.curve) {
     optionalProperties.keyCurveType = p.keyProperties.curve;
   }
   if (p.issuerParameters && p.issuerParameters.name) {
     optionalProperties.issuerName = p.issuerParameters && p.issuerParameters.name;
+  }
+  if (p.x509CertificateProperties) {
+    const x509Properties: X509CertificateProperties = p.x509CertificateProperties || {};
+    let subjectAlternativeNames: SubjectAlternativeNames | undefined;
+    if (x509Properties.subjectAlternativeNames) {
+      const names = x509Properties.subjectAlternativeNames;
+      subjectAlternativeNames = {
+        subjectType: names.emails ? 'emails' : names.dnsNames ? 'dnsNames' : 'upns',
+        subjectValues: names.emails || names.dnsNames || names.upns || [],
+      };
+    }
+    optionalProperties = {
+      ...optionalProperties,
+      subjectName: x509Properties.subject,
+      ekus: x509Properties.ekus,
+      subjectAlternativeNames,
+      keyUsage: x509Properties.keyUsage,
+      validityInMonths: x509Properties.validityInMonths,
+    }
   }
 
   return {
@@ -170,7 +199,6 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
     ...optionalProperties,
     ...p.keyProperties,
     ...p.secretProperties,
-    ...p.x509CertificateProperties,
     ...p.issuerParameters,
     ...p.attributes
   };

@@ -2,13 +2,11 @@ import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   SecretProperties,
-  X509CertificateProperties,
   CertificateAttributes,
   KeyVaultClientCreateCertificateOptionalParams,
   JsonWebKeyType,
   JsonWebKeyCurveName,
   LifetimeAction,
-  SubjectAlternativeNames,
   KeyUsageType
 } from "./core/models";
 
@@ -116,23 +114,34 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
   /**
    * The subject name. Should be a valid X509 distinguished Name.
    */
-  x509Subject?: string;
+  subjectName?: string;
   /**
    * The enhanced key usage.
    */
-  x509Ekus?: string[];
+  ekus?: string[];
   /**
    * The subject alternative names.
    */
-  x509SubjectAlternativeNames?: SubjectAlternativeNames;
+  subjectAlternativeNames?: SubjectAlternativeNames;
   /**
    * List of key usages.
    */
-  x509KeyUsage?: KeyUsageType[];
+  keyUsage?: KeyUsageType[];
   /**
    * The duration that the certificate is valid in months.
    */
   validityInMonths?: number;
+}
+
+export interface SubjectAlternativeNames {
+  /**
+   * The subject type, either emails, DNS names or UPNs
+   */
+  subjectType: 'emails' | 'dnsNames' | 'upns';
+  /**
+   * The subject values
+   */
+  subjectValues: string[];
 }
 
 /**

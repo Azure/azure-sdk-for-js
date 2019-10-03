@@ -20,11 +20,11 @@ async function main(): Promise<void> {
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.createCertificate("MyCertificate1", {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subjectName: "cn=MyCert"
   });
   await client.createCertificate("MyCertificate2", {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subjectName: "cn=MyCert"
   });
 
   // Listing all the available certificates in a single call.

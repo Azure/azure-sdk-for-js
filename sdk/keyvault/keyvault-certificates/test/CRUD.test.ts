@@ -17,7 +17,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subject: "cn=MyCert",
+    subjectName: "cn=MyCert",
   };
 
   beforeEach(async function() {
@@ -211,7 +211,7 @@ describe("Certificates client - create, read, update and delete", () => {
     // Creating a certificate with that issuer
     await client.createCertificate(certificateName, {
       issuerName,
-      subject: "cn=MyCert",
+      subjectName: "cn=MyCert",
     });
 
     // Reading the issuer from the certificate
