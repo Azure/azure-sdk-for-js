@@ -9,7 +9,9 @@ import {
   WebResource,
   RequestPrepareOptions,
   GetTokenOptions,
-  CanonicalCode
+  CanonicalCode,
+  tracingPolicy,
+  RequestPolicyFactory
 } from "@azure/core-http";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
@@ -147,7 +149,10 @@ export class IdentityClient extends ServiceClient {
 
   static getDefaultOptions(): IdentityClientOptions {
     return {
-      authorityHost: DefaultAuthorityHost
+      authorityHost: DefaultAuthorityHost,
+      requestPolicyFactories: (factories: RequestPolicyFactory[]) => {
+        return [tracingPolicy(), ...factories];
+      }
     };
   }
 }
