@@ -90,6 +90,7 @@ export interface EncryptOptions extends RequestOptions {
 
 // @public
 export interface EncryptResult {
+    algorithm: JsonWebKeyEncryptionAlgorithm;
     result: Uint8Array;
 }
 
@@ -240,6 +241,7 @@ export interface RetryOptions {
 
 // @public
 export interface SignResult {
+    algorithm: KeySignatureAlgorithm;
     result: Uint8Array;
 }
 
@@ -273,6 +275,7 @@ export interface VerifyResult {
 
 // @public
 export interface WrapResult {
+    algorithm: KeyWrapAlgorithm;
     result: Uint8Array;
 }
 
