@@ -5,6 +5,48 @@ import * as xml2js from "xml2js";
 import { Constants } from "./constants";
 const xmlbuilder: any = require("xmlbuilder");
 
+const xml2jsDefaults = {
+  explicitCharkey: false,
+  trim: false,
+  normalize: false,
+  normalizeTags: false,
+  attrkey: "$",
+  charkey: "_",
+  explicitArray: true,
+  ignoreAttrs: false,
+  mergeAttrs: false,
+  explicitRoot: true,
+  validator: null,
+  xmlns: false,
+  explicitChildren: false,
+  preserveChildrenOrder: false,
+  childkey: "$$",
+  charsAsChildren: false,
+  includeWhiteChars: false,
+  async: false,
+  strict: true,
+  attrNameProcessors: null,
+  attrValueProcessors: null,
+  tagNameProcessors: null,
+  valueProcessors: null,
+  rootName: "root",
+  xmldec: {
+    version: "1.0",
+    encoding: "UTF-8",
+    standalone: true
+  },
+  doctype: null,
+  renderOpts: {
+    pretty: true,
+    indent: "  ",
+    newline: "\n"
+  },
+  headless: false,
+  chunkSize: 10000,
+  emptyTag: "",
+  cdata: false
+};
+
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   const builder = new xml2js.Builder({
     explicitArray: false,
@@ -76,7 +118,7 @@ export function convertJsonToAtomXml(content: any): string {
  * Gets the default xml2js settings applicable for Atom based XML operations.
  */
 function _getDefaultSettingsForAtomXmlOperations(): any {
-  const xml2jsSettings = Object.assign({}, xml2js.defaults["0.2"]);
+  const xml2jsSettings = Object.assign({}, xml2jsDefaults);
   xml2jsSettings.normalize = false;
   xml2jsSettings.trim = false;
   xml2jsSettings.attrkey = "$";
@@ -92,7 +134,7 @@ function _getDefaultSettingsForAtomXmlOperations(): any {
  * Gets the default settings applicable for general XML operations.
  */
 function _getDefaultSettings(): any {
-  const xml2jsSettings = Object.assign({}, xml2js.defaults["0.2"]);
+  const xml2jsSettings = Object.assign({}, xml2jsDefaults);
   xml2jsSettings.explicitArray = false;
   xml2jsSettings.ignoreAttrs = false;
   xml2jsSettings.explicitCharkey = false;
