@@ -4,6 +4,8 @@
 export const SDK_VERSION: string = "12.0.0-preview.4";
 export const SERVICE_VERSION: string = "2019-02-02";
 
+export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
+
 export const URLConstants = {
   Parameters: {
     FORCE_BROWSER_NO_CACHE: "_",

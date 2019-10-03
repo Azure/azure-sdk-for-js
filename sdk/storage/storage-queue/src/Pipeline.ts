@@ -31,11 +31,13 @@ import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFacto
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageOAuthScopes } from "./utils/constants";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
 export {
   BaseRequestPolicy,
+  StorageOAuthScopes,
   deserializationPolicy,
   IHttpClient,
   IHttpPipelineLogger,
@@ -213,7 +215,7 @@ export function newPipeline(
   }
   factories.push(
     isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, "https://storage.azure.com/.default")
+      ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
       : credential
   );
 

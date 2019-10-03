@@ -9,7 +9,7 @@ export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 100 * 1024 * 1024; // 10
 export const BLOCK_BLOB_MAX_BLOCKS: number = 50000;
 export const DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES: number = 4 * 1024 * 1024; // 4MB
 export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
-export const DefaultStorageScope: string = "https://storage.azure.com/.default";
+export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
 
 export const URLConstants = {
   Parameters: {

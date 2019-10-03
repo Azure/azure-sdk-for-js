@@ -25,7 +25,7 @@ import {
   BATCH_MAX_REQUEST,
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
-  DefaultStorageScope
+  StorageOAuthScopes
 } from "./utils/constants";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 
@@ -360,7 +360,7 @@ class InnerBatchRequest {
     factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers
     if (!isAnonymousCreds) {
       factories[2] = isTokenCredential(credential)
-        ? bearerTokenAuthenticationPolicy(credential, DefaultStorageScope)
+        ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
         : credential;
     }
     factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
