@@ -49,7 +49,7 @@ describe("Event Processor", function(): void {
     await client.close();
   });
 
-  it("should expose an id", async function(): Promise<void> {
+  it("should expose an id #RunnableInBrowser", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
@@ -61,7 +61,7 @@ describe("Event Processor", function(): void {
     id.length.should.be.gt(1);
   });
 
-  it("should match the fullyQualifiedNamespace, eventHubName and cosumerGroupName of partition processor with respective EventHubClient's properties", async function(): Promise<
+  it("should match the fullyQualifiedNamespace, eventHubName and cosumerGroupName of partition processor with respective EventHubClient's properties #RunnableInBrowser", async function(): Promise<
     void
   > {
     const producer = client.createProducer({ partitionId: `0` });
@@ -101,7 +101,7 @@ describe("Event Processor", function(): void {
     partitionProcessorInfo[2].should.equals(EventHubClient.defaultConsumerGroupName);
   });
 
-  it("should treat consecutive start invocations as idempotent", async function(): Promise<void> {
+  it("should treat consecutive start invocations as idempotent #RunnableInBrowser", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds();
 
     // ensure we have at least 2 partitions
@@ -184,7 +184,7 @@ describe("Event Processor", function(): void {
     }
   });
 
-  it("should not throw if stop is called without start", async function(): Promise<void> {
+  it("should not throw if stop is called without start #RunnableInBrowser", async function(): Promise<void> {
     let didPartitionProcessorStart = false;
 
     class FooPartitionProcessor extends PartitionProcessor {
@@ -215,7 +215,7 @@ describe("Event Processor", function(): void {
     didPartitionProcessorStart.should.be.false;
   });
 
-  it("should support start after stopping", async function(): Promise<void> {
+  it("should support start after stopping #RunnableInBrowser", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds();
     let partitionOwnerShip = new Set();
 
@@ -339,7 +339,7 @@ describe("Event Processor", function(): void {
     }
   });
 
-  describe("Partition processor", function(): void {
+  describe("Partition processor #RunnableInBrowser", function(): void {
     it("should support processing events across multiple partitions", async function(): Promise<
       void
     > {
@@ -550,7 +550,7 @@ describe("Event Processor", function(): void {
     });
   });
 
-  describe("InMemory Partition Manager", function(): void {
+  describe("InMemory Partition Manager #RunnableInBrowser", function(): void {
     it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<
       void
     > {
@@ -916,7 +916,7 @@ describe("Event Processor", function(): void {
     });
   });
 
-  describe("with trackLastEnqueuedEventInfo", function(): void {
+  describe("with trackLastEnqueuedEventInfo #RunnableInBrowser", function(): void {
     it("should have lastEnqueuedEventInfo populated when trackLastEnqueuedEventInfo is set to true", async function(): Promise<
       void
     > {

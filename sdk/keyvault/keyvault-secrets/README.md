@@ -197,7 +197,7 @@ Attributes can also be updated to an existing secret version with
 
 ```javascript
 const result = client.getSecret(secretName);
-await client.updateSecretAttributes(secretName, result.version, { enabled: false });
+await client.updateSecretAttributes(secretName, result.parameters.version, { enabled: false });
 ```
 
 ### Deleting a secret

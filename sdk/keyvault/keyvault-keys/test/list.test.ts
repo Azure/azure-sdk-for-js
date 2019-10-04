@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeysClient } from "../src";
 import { retry } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder"; 
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
@@ -34,12 +34,12 @@ describe("Keys client - list keys in various ways", () => {
     for await (const key of client.listKeys()) {
       try {
         await testClient.flushKey(key.name);
-      } catch(e) {}
+      } catch (e) {}
     }
     for await (const key of client.listDeletedKeys()) {
       try {
         await testClient.purgeKey(key.name);
-      } catch(e) {}
+      } catch (e) {}
     }
   });
 

@@ -37,3 +37,4 @@ export { CosmosClient } from "./CosmosClient";
 export { CosmosClientOptions } from "./CosmosClientOptions";
 export * from "./client";
 export { Next, Plugin, PluginConfig, PluginOn } from "./plugins/Plugin";
+export { TokenProvider, RequestInfo } from "./auth";

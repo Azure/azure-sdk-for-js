@@ -1,8 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * Enum for permission mode values.
  */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 export enum PermissionMode {
   /** Permission not valid. */
   None = "none",

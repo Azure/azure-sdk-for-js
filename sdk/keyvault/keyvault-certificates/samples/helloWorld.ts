@@ -16,36 +16,46 @@ async function main(): Promise<void> {
 
   const client = new CertificatesClient(url, credential);
 
+  const certificateName = "MyCertificate";
+
   // Creating a self-signed certificate
-  const certificate = await client.createCertificate("MyCertificate", {
-    issuerParameters: { name: "Self" },
-    x509CertificateProperties: { subject: "cn=MyCert" }
+  const certificate = await client.createCertificate(certificateName, {
+    issuerName: "Self",
+    subjectName: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
 
   // To read a certificate with their policy:
-  const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
+  const certificateWithPolicy = await client.getCertificateWithPolicy(certificateName);
   // Note: It will always read the latest version of the certificate.
 
   console.log("Certificate with policy:", certificateWithPolicy);
 
   // To read a certificate from a specific version:
   const certificateFromVersion = await client.getCertificate(
-    "MyCertificate",
-    certificateWithPolicy.version
+    certificateName,
+    certificateWithPolicy.properties.version
   );
   // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);
 
-  const updatedCertificate = await client.updateCertificate("MyCertificate", "", {
+  let updatedCertificate = await client.updateCertificate(certificateName, "", {
     tags: {
       customTag: "value"
     }
   });
   console.log("Updated certificate:", updatedCertificate);
 
-  const result = await client.deleteCertificate("MyCertificate");
+  // Updating the certificate's policy:
+  await client.updateCertificatePolicy(certificateName, {
+    issuerName: "Self",
+    subjectName: "cn=MyOtherCert"
+  });
+  updatedCertificate = await client.getCertificateWithPolicy(certificateName);
+  console.log("updatedCertificate certificate's policy:", updatedCertificate.policy);
+
+  const result = await client.deleteCertificate(certificateName);
   console.log("Recovery Id: ", result.recoveryId);
   console.log("Deleted Date: ", result.deletedDate);
   console.log("Scheduled Purge Date: ", result.scheduledPurgeDate);

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * Models vector clock bases session token. Session token has the following format:
  * {Version}#{GlobalLSN}#{RegionId1}={LocalLsn1}#{RegionId2}={LocalLsn2}....#{RegionIdN}={LocalLsnN}
@@ -10,8 +12,6 @@
  * @private
  *
  */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 export class VectorSessionToken {
   private static readonly SEGMENT_SEPARATOR = "#";
   private static readonly REGION_PROGRESS_SEPARATOR = "=";

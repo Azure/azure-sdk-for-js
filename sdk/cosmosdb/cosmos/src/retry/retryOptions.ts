@@ -1,8 +1,8 @@
-﻿/**
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/**
  * Represents the Retry policy assocated with throttled requests in the Azure Cosmos DB database service.
  */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 export interface RetryOptions {
   /** Max number of retries to be performed for a request. Default value 9. */
   maxRetryAttemptCount: number;

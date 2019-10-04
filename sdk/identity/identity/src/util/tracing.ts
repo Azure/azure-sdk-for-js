@@ -1,18 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTracer, Span, GetTokenOptions, SpanOptions, SpanKind } from "@azure/core-http";
+import { GetTokenOptions } from "@azure/core-http";
+import { getTracer, Span, SpanOptions, SpanKind } from "@azure/core-tracing";
 
 /**
  * Creates a span using the global tracer.
  * @param name The name of the operation being performed.
  * @param options The options for the underlying http request.
  */
-export function createSpan(operationName: string, options: GetTokenOptions = {}): { span: Span, options: GetTokenOptions } {
+export function createSpan(
+  operationName: string,
+  options: GetTokenOptions = {}
+): { span: Span; options: GetTokenOptions } {
   const tracer = getTracer();
   const spanOptions: SpanOptions = {
     ...options.spanOptions,
-    kind: SpanKind.CLIENT,
+    kind: SpanKind.CLIENT
   };
 
   const span = tracer.startSpan(`Azure.Identity.${operationName}`, spanOptions);
@@ -24,7 +28,7 @@ export function createSpan(operationName: string, options: GetTokenOptions = {})
       ...options,
       spanOptions: {
         ...options.spanOptions,
-        parent: span,
+        parent: span
       }
     };
   }
@@ -32,5 +36,5 @@ export function createSpan(operationName: string, options: GetTokenOptions = {})
   return {
     span,
     options: newOptions
-  }
+  };
 }

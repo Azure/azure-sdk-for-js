@@ -59,7 +59,13 @@ const spawnNode = (cwd, ...args) => {
   console.log(`Executing: "node ${args.join(' ')}" in ${cwd}\n\n`);
   const proc = spawnSync('node', args, { cwd, stdio: 'inherit' });
   console.log(`\n\nNode process exited with code ${proc.status}`);
-}
+
+  if (proc.status !== 0) {
+    // proc.status will be null if the subprocess terminated due to a signal, which I don't think
+    // should ever happen, but if it does it's safer to fail.
+    process.exitCode = proc.status || 1;
+  }
+};
 
 const flatMap = (arr, f) => {
   const result = arr.map(f);

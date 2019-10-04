@@ -16,8 +16,8 @@ describe("Certificates client - restore certificates and recover backups", () =>
   let recorder: any;
 
   const basicCertificatePolicy = {
-    issuerParameters: { name: "Self" },
-    x509CertificateProperties: { subject: "cn=MyCert" }
+    issuerName: "Self",
+    subjectName: "cn=MyCert",
   };
 
   beforeEach(async function() {
@@ -42,13 +42,13 @@ describe("Certificates client - restore certificates and recover backups", () =>
     await client.deleteCertificate(certificateName);
     const getDeletedResult = await retry(async () => client.getDeletedCertificate(certificateName));
     assert.equal(
-      getDeletedResult.name,
+      getDeletedResult.properties.name,
       certificateName,
       "Unexpected certificate name in result from getCertificateWithPolicy()."
     );
     await client.recoverDeletedCertificate(certificateName);
     const getResult = await retry(async () => client.getCertificateWithPolicy(certificateName));
-    assert.equal(getResult.name, certificateName, "Unexpected certificate name in result from getCertificateWithPolicy().");
+    assert.equal(getResult.properties.name, certificateName, "Unexpected certificate name in result from getCertificateWithPolicy().");
     await testClient.flushCertificate(certificateName);
   });
 
@@ -76,7 +76,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     await testClient.flushCertificate(certificateName);
     await retry(async () => client.restoreCertificate(backup.value!));
     const getResult = await client.getCertificateWithPolicy(certificateName);
-    assert.equal(getResult.name, certificateName, "Unexpected certificate name in result from getCertificateWithPolicy().");
+    assert.equal(getResult.properties.name, certificateName, "Unexpected certificate name in result from getCertificateWithPolicy().");
     await testClient.flushCertificate(certificateName);
   });
 

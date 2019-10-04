@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.3.1",
+  "version": "3.3.3",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -18,7 +18,8 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/index.js",
   "browser": {
-    "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js"
+    "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
+    "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js"
   },
   "files": [
     "changelog.md",
@@ -70,14 +71,13 @@
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
+    "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/cosmos-sign": "^1.0.2",
     "@types/debug": "^4.1.4",
-    "atob": "^2.1.2",
     "binary-search-bounds": "^2.0.3",
     "crypto-hash": "^1.1.0",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.0.0",
-    "node-abort-controller": "^1.0.3",
     "node-fetch": "^2.6.0",
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
@@ -101,7 +101,6 @@
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/eslint-plugin-tslint": "~2.3.0",
     "@typescript-eslint/parser": "^2.0.0",
-    "abort-controller": "^3.0.0",
     "cross-env": "^5.2.0",
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",

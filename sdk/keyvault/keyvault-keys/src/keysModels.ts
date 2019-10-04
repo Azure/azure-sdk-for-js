@@ -10,7 +10,11 @@ import { DeletionRecoveryLevel } from "./core/models";
  * @interface
  * An interface representing the complete key with value
  */
-export interface Key extends KeyAttributes {
+export interface Key {
+  /**
+   * @member {KeyProperties} [properties] The properties of the key.
+   */
+  properties: KeyProperties;
   /**
    * @member {string} [value] The key value.
    */
@@ -19,9 +23,9 @@ export interface Key extends KeyAttributes {
 
 /**
  * @interface
- * An interface representing the attributes of a key
+ * An interface representing the Properties of a key
  */
-export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
+export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The key id.
    */

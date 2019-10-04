@@ -413,6 +413,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/logger",
+      "projectFolder": "sdk/core/logger",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
       "versionPolicyName": "client"
