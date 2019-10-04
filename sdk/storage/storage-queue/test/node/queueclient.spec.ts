@@ -4,7 +4,6 @@ import { record } from "../utils/recorder";
 import { newPipeline, QueueClient, SharedKeyCredential } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
 
 describe("QueueClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -123,7 +122,7 @@ describe("QueueClient Node.js only", () => {
         })
     };
     const newClient = new QueueClient(
-      extractConnectionStringParts(getConnectionStringFromEnvironment()).url + "/" + queueName,
+      `https://myaccount.queue.core.windows.net/` + queueName,
       tokenCredential
     );
     assertClientUsesTokenCredential(newClient);

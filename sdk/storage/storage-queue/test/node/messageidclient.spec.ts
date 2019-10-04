@@ -7,7 +7,6 @@ import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
 
 describe("MessageIdClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -196,11 +195,7 @@ describe("MessageIdClient Node.js only", () => {
         })
     };
     const newClient = new MessageIdClient(
-      extractConnectionStringParts(getConnectionStringFromEnvironment()).url +
-        "/" +
-        queueName +
-        "/messages/" +
-        "fake-message-id",
+      `https://myaccount.queue.core.windows.net/` + queueName + "/messages/fake-message-id",
       tokenCredential
     );
     assertClientUsesTokenCredential(newClient);
