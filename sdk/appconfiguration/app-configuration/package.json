@@ -5,7 +5,7 @@
   "version": "1.0.0-preview.4",
   "sdk-type": "client",
   "dependencies": {
-    "@azure/core-arm": "1.0.0-preview.3",
+    "@azure/core-arm": "1.0.0-preview.4",
     "@azure/core-asynciterator-polyfill": "1.0.0-preview.1",
     "@azure/core-http": "1.0.0-preview.4",
     "@azure/core-paging": "1.0.0-preview.2",
