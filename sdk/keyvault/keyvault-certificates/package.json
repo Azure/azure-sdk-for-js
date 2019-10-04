@@ -68,9 +68,9 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-arm": "1.0.0-preview.4",
+    "@azure/core-arm": "1.0.0-preview.3",
     "@azure/core-http": "1.0.0-preview.4",
-    "@azure/core-paging": "1.0.0-preview.3",
+    "@azure/core-paging": "1.0.0-preview.2",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

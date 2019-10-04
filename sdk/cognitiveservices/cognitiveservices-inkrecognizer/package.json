@@ -59,10 +59,10 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0-preview.1",
-    "@azure/core-arm": "^1.0.0-preview.2",
-    "@azure/core-auth": "^1.0.0-preview.1",
-    "@azure/core-http": "^1.0.0-preview.2",
+    "@azure/abort-controller": "1.0.0-preview.2",
+    "@azure/core-arm": "1.0.0-preview.3",
+    "@azure/core-auth": "1.0.0-preview.3",
+    "@azure/core-http": "1.0.0-preview.4",
     "events": "^3.0.0",
     "karma": "^4.3.0",
     "tslib": "^1.9.3"
