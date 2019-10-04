@@ -228,8 +228,6 @@ function writeElementValue(parentElement: any, name: any, value: any): any {
       } else {
         parentElement = parentElement.txt(value.toString());
       }
-    } else {
-      parentElement = parentElement.ele(propertyTagName, {}, undefined);
     }
   }
 
