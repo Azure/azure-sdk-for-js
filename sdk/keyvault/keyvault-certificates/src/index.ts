@@ -15,10 +15,13 @@ import {
   isNode,
   userAgentPolicy,
   RequestOptionsBase,
-  tracingPolicy,
+  tracingPolicy
+} from "@azure/core-http";
+
+import {
   getTracer,
   Span
-} from "@azure/core-http";
+} from "@azure/core-tracing";
 
 import {
   Certificate,
