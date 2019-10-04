@@ -2,19 +2,8 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import {
-  RequestPolicy,
-  WebResource,
-  HttpOperationResponse,
-  HttpHeaders,
-  setTracer,
-  RequestPolicyOptions,
-  TraceFlags,
-  NoOpTracer,
-  SpanOptions,
-  SpanContext,
-  NoOpSpan
-} from "../../lib/coreHttp";
+import { RequestPolicy, WebResource, HttpOperationResponse, HttpHeaders, RequestPolicyOptions } from "../../lib/coreHttp";
+import { setTracer, TraceFlags, NoOpTracer, SpanOptions, SpanContext, NoOpSpan } from "@azure/core-tracing";
 import { tracingPolicy } from "../../lib/policies/tracingPolicy";
 
 class MockSpan extends NoOpSpan {

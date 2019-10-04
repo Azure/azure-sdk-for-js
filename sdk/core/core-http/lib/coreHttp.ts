@@ -106,4 +106,3 @@ export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKey
 export { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 export { TopicCredentials } from "./credentials/topicCredentials";
 export { Authenticator } from "./credentials/credentials";
-export * from "@azure/core-tracing";
