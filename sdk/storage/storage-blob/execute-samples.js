@@ -2,29 +2,19 @@ const execa = require("execa");
 const fs = require("fs");
 require("dotenv").config({ path: "../.env" });
 
-async function getCommand(cwd, fn) {
-  let cmd = "";
+const skipSet = ["proxyAuth"];
+const delimiter = `!!!!!!!!!!!---------------------!!!!!!!!!!!!!`;
 
-  fs.readdir(cwd, async function(err, items) {
-    for (var i = 0; i < items.length; i++) {
-      console.log(items[i]);
-      const thisSample = "ts-node " + items[i] + " && ";
-      cmd = cmd + thisSample;
-    }
-    cmd = cmd + "echo done";
-    console.log(".0 - ", cmd);
-    fn(cmd);
-  });
-}
+const { g, y } = [["g", 2], ["y", 3]].reduce(
+  (cols, col) => ({
+    ...cols,
+    [col[0]]: (f) => `\x1b[3${col[1]}m${f}\x1b[0m`
+  }),
+  {}
+);
 
-async function exec(cwd) {
-  let cmd = "";
-  await getCommand(cwd, function(location) {
-    console.log(".3 - " + location); // this is where you get the return value
-    cmd = location;
-  });
-  console.log(".2 - ", cmd);
-  let command = execa("ts-node basic.ts", {
+async function exec(cmd, cwd) {
+  let command = execa(cmd + " echo done", {
     cwd,
     shell: true
   });
@@ -35,8 +25,24 @@ async function exec(cwd) {
 
 (async () => {
   try {
+    var files = fs.readdirSync("./samples/typescript");
+    console.log(files);
+    let cmd = "";
+    for (var i = 0; i < files.length; i++) {
+      console.log(files[i]);
+      if (skipSet.includes(files[i].split(".")[0])) {
+        continue;
+      } else {
+        const thisSample =
+          `echo ${delimiter} && echo ${g("Running")} ${y(files[i])} ${g("...")} && ts-node ` +
+          files[i] +
+          ` && echo ${g(files[i] + " is done..!")} && echo ${delimiter} &&`;
+        cmd = cmd + thisSample;
+      }
+    }
+    console.log("#1 - ", cmd);
     console.log("Running typescript samples...");
-    await exec("./samples/typescript");
+    await exec(cmd, "./samples/typescript");
     process.exit(0);
   } catch (error) {
     console.log("Typescript samples failed!");
