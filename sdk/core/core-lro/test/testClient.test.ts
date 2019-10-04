@@ -4,7 +4,6 @@
 import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
-import { TestOperation } from "./utils/testOperation";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
@@ -198,35 +197,19 @@ describe("Long Running Operations - custom client", function() {
       finalResponse
     ]);
 
-    const poller = await client.startLRO();
-
     let totalOperationUpdates = 0;
-    let lastOperationUpdate: TestOperation = poller.operation;
-    poller.onProgress(
-      () => true,
-      (operation) => {
+    const poller = await client.startLRO({
+      onProgress: (_) => {
         totalOperationUpdates++;
-        lastOperationUpdate = operation!;
       }
-    );
-
-    let almostAllOperationUpdates = 0;
-    const conditional = () => !poller.isDone(); // Not updating the progress call if the poller is done.
-    poller.onProgress(conditional, () => {
-      almostAllOperationUpdates++;
     });
 
     const result = await poller.done();
     assert.equal(result, "Done");
     assert.equal(poller.operation.state.result, "Done");
 
-    assert.equal(totalOperationUpdates, 13);
-    assert.equal(almostAllOperationUpdates, 12);
-
-    const { properties, state } = lastOperationUpdate;
-    assert.ok(properties.initialResponse!.parsedBody.started);
-    assert.ok(properties.previousResponse!.parsedBody.finished);
-    assert.ok(state.completed);
+    // Progress only after the poller has started and before the poller is done
+    assert.equal(totalOperationUpdates, 11);
   });
 
   it("can reuse one poller state to instantiate another poller", async function() {

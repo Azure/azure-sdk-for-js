@@ -11,7 +11,8 @@ export class TestPoller extends Poller<TestOperationProperties, string> {
     manual: boolean = false,
     intervalInMs: number = 10,
     requestOptions?: RequestOptionsBase,
-    baseOperation?: TestOperation
+    baseOperation?: TestOperation,
+    onProgress?: (properties: TestOperationProperties) => void,
   ) {
     let state: PollOperationState<string> = {};
     let properties: TestOperationProperties | undefined = undefined;
@@ -29,6 +30,9 @@ export class TestPoller extends Poller<TestOperationProperties, string> {
 
     super(operation, manual);
 
+    if (onProgress) {
+      this.onProgress(onProgress);
+    }
     this.intervalInMs = intervalInMs;
   }
 

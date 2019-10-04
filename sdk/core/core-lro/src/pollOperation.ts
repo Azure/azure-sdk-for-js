@@ -9,7 +9,7 @@ export interface PollOperationState<TResult> {
 export interface PollOperation<TProperties, TResult> {
   state: PollOperationState<TResult>;
   properties: TProperties;
-  update(): Promise<PollOperation<TProperties, TResult>>;
+  update(fireProgress: (properties: TProperties) => void): Promise<PollOperation<TProperties, TResult>>;
   cancel(): Promise<PollOperation<TProperties, TResult>>;
   toString(): string;
 }
