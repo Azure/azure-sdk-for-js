@@ -1,4 +1,4 @@
-# 1.0.0-preview.4 (2019-10-04)
+# 1.0.0-preview.4 (2019-10-08)
 
 ### Breaking changes from 1.0.0-preview.3:
 
