@@ -2,12 +2,15 @@ const execa = require("execa");
 const fs = require("fs");
 require("dotenv").config({ path: "../.env" });
 
-// Samples can be skipped by mentioning them in the skipSet
-const skipSet = ["proxyAuth"];
+// Samples can be skipped by mentioning them in the skipSamples Array.
+// Suppose skipSamples = ["some-entry", "sample-2"],
+//    some-entry.ts, sample-2.ts, some-entry.js and sample-2.js will be skipped.
+const skipSamples = ["proxyAuth"];
 
 const bDel = `!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`;
 const del = `${bDel}------------------------------${bDel}`;
 
+// Colours - green, yellow, red and blue - for console logs.
 const { g, y, r, b } = [["r", 1], ["g", 2], ["b", 4], ["y", 3]].reduce(
   (cols, col) => ({
     ...cols,
@@ -16,6 +19,7 @@ const { g, y, r, b } = [["r", 1], ["g", 2], ["b", 4], ["y", 3]].reduce(
   {}
 );
 
+// Executes `cmd` in `cwd`(directory).
 async function exec(cmd, cwd) {
   let command = execa(cmd, {
     cwd,
@@ -28,6 +32,7 @@ async function exec(cmd, cwd) {
 
 async function runSamples(language) {
   let cmd;
+  // Tries to execute all the samples in the `directory`.
   const directory = `./samples/${language}`;
 
   if (language === "typescript") {
@@ -42,15 +47,14 @@ async function runSamples(language) {
   const files = fs.readdirSync(directory);
 
   for (var i = 0; i < files.length; i++) {
-    if (skipSet.includes(files[i].split(".")[0])) {
-      continue;
-    } else {
+    if (!skipSamples.includes(files[i].split(".")[0])) {
       try {
         console.log(`\n\n${b(del)}\n${del}`);
         console.log(`${bDel}\t${files[i]} \t `);
         console.log(`${del}\n${b(del)} \n`);
 
         console.log(`${g("Running")} ${y(files[i])} ${g("...")}`);
+        // Executing a sample - Example: (`ts-node samplefilename.ts`, `./samples/typescript`).
         await exec(`${cmd} ${files[i]}`, directory);
         console.log(`${g(files[i] + " is done..!")}`);
       } catch (error) {
