@@ -116,7 +116,11 @@ describe("ContainerClient", () => {
 
     const result = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeSnapshots: true,
+        includeUncommitedBlobs: true,
         prefix
       })
       .byPage({ maxPageSize: 1 })
@@ -133,7 +137,11 @@ describe("ContainerClient", () => {
 
     const result2 = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeSnapshots: true,
+        includeUncommitedBlobs: true,
         prefix
       })
       .byPage({ continuationToken: result.nextMarker, maxPageSize: 2 })
@@ -172,7 +180,11 @@ describe("ContainerClient", () => {
 
     const result = (await containerClient
       .listBlobsFlat({
-        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeSnapshots: true,
+        includeUncommitedBlobs: true,
         prefix
       })
       .byPage({ maxPageSize: 1 })
@@ -203,7 +215,11 @@ describe("ContainerClient", () => {
 
     let i = 0;
     for await (const blob of containerClient.listBlobsFlat({
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+      includeCopy: true,
+      includeDeleted: true,
+      includeMetadata: true,
+      includeSnapshots: true,
+      includeUncommitedBlobs: true,
       prefix
     })) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
@@ -233,7 +249,11 @@ describe("ContainerClient", () => {
     }
 
     const iterator = await containerClient.listBlobsFlat({
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+      includeCopy: true,
+      includeDeleted: true,
+      includeMetadata: true,
+      includeSnapshots: true,
+      includeUncommitedBlobs: true,
       prefix
     });
 
@@ -269,7 +289,11 @@ describe("ContainerClient", () => {
     let i = 0;
     for await (const response of containerClient
       .listBlobsFlat({
-        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeSnapshots: true,
+        includeUncommitedBlobs: true,
         prefix
       })
       .byPage({ maxPageSize: 2 })) {
@@ -304,7 +328,11 @@ describe("ContainerClient", () => {
     let i = 0;
     let iter = containerClient
       .listBlobsFlat({
-        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeSnapshots: true,
+        includeUncommitedBlobs: true,
         prefix
       })
       .byPage({ maxPageSize: 2 });
@@ -319,7 +347,11 @@ describe("ContainerClient", () => {
     // Passing next marker as continuationToken
     iter = containerClient
       .listBlobsFlat({
-        include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeSnapshots: true,
+        includeUncommitedBlobs: true,
         prefix
       })
       .byPage({ continuationToken: marker, maxPageSize: 2 });
@@ -390,7 +422,10 @@ describe("ContainerClient", () => {
 
     const result = (await containerClient
       .listBlobsByHierarchy(delimiter, {
-        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeUncommitedBlobs: true,
         prefix
       })
       .byPage({ maxPageSize: 1 })
@@ -404,7 +439,10 @@ describe("ContainerClient", () => {
 
     const result2 = (await containerClient
       .listBlobsByHierarchy(delimiter, {
-        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeUncommitedBlobs: true,
         prefix
       })
       .byPage({ continuationToken: result.nextMarker, maxPageSize: 2 })
@@ -418,7 +456,10 @@ describe("ContainerClient", () => {
 
     const result3 = (await containerClient
       .listBlobsByHierarchy(delimiter, {
-        include: ["metadata", "uncommittedblobs", "copy", "deleted"],
+        includeCopy: true,
+        includeDeleted: true,
+        includeMetadata: true,
+        includeUncommitedBlobs: true,
         prefix: `${prefix}0${delimiter}`
       })
       .byPage({ maxPageSize: 2 })
@@ -458,7 +499,7 @@ describe("ContainerClient", () => {
 
     let i = 0;
     for await (const item of containerClient.listBlobsByHierarchy("/", {
-      include: ["metadata"]
+      includeMetadata: true
     })) {
       if (item.kind === "prefix") {
         assert.equal(item.name, prefix + "/");

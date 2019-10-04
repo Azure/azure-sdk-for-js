@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816883307909987",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003456578100880",
    "query": {
     "restype": "container"
    },
@@ -10,19 +10,19 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:27:12 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:27:13 GMT",
+    "date": "Wed, 02 Oct 2019 16:42:45 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:42:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365F8E396FF0\"",
-    "x-ms-request-id": "96e541e7-201e-0061-2e48-682223000000",
+    "etag": "\"0x8D747578D51FE68\"",
+    "x-ms-request-id": "215f3cdd-201e-0080-1840-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "adef07ab-cfdb-450b-8417-cad3750a9a61",
+    "x-ms-client-request-id": "2ceec8f3-6df6-4919-bc9b-95c50d66e6ac",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816883307909987",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003456578100880",
    "query": {
     "restype": "container"
    },
@@ -30,27 +30,27 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:27:12 GMT",
+    "date": "Wed, 02 Oct 2019 16:42:45 GMT",
     "x-ms-has-legal-hold": "false",
-    "etag": "\"0x8D7365F8E396FF0\"",
+    "etag": "\"0x8D747578D51FE68\"",
     "x-ms-blob-public-access": "container",
-    "x-ms-client-request-id": "0ff202f5-7f10-4013-8cf1-eba993352f19",
+    "x-ms-client-request-id": "74f280b8-5d90-4701-a517-1b0a163e8154",
     "x-ms-has-immutability-policy": "false",
     "content-length": "0",
     "x-ms-lease-state": "available",
     "x-ms-lease-status": "unlocked",
     "x-ms-meta-key": "value",
-    "last-modified": "Wed, 11 Sep 2019 02:27:13 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:42:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-deny-encryption-scope-override": "false",
     "x-ms-default-encryption-scope": "$account-encryption-key",
-    "x-ms-request-id": "96e5423a-201e-0061-7648-682223000000",
+    "x-ms-request-id": "215f3d38-201e-0080-6f40-7993dc000000",
     "x-ms-version": "2019-02-02"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816883307909987",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003456578100880",
    "query": {
     "restype": "container"
    },
@@ -58,36 +58,36 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:27:13 GMT",
+    "date": "Wed, 02 Oct 2019 16:42:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "96e542a1-201e-0061-4f48-682223000000",
+    "x-ms-request-id": "215f3d67-201e-0080-1740-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "5468bcc3-4e49-4dee-96e2-3d75c4859ffb",
+    "x-ms-client-request-id": "e9ea6007-4bea-4937-b2c4-fecdff9aabe2",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816883307909987",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003456578100880",
    "query": {
     "restype": "container"
    },
    "requestBody": null,
    "status": 404,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>ContainerNotFound</Code><Message>The specified container does not exist.\nRequestId:96e542dc-201e-0061-0a48-682223000000\nTime:2019-09-11T02:27:13.8440882Z</Message></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>ContainerNotFound</Code><Message>The specified container does not exist.\nRequestId:215f3da2-201e-0080-4940-7993dc000000\nTime:2019-10-02T16:42:45.7434813Z</Message></Error>",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:27:13 GMT",
+    "date": "Wed, 02 Oct 2019 16:42:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "ContainerNotFound",
     "content-type": "application/xml",
-    "x-ms-request-id": "96e542dc-201e-0061-0a48-682223000000",
+    "x-ms-request-id": "215f3da2-201e-0080-4940-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "e56645db-f83f-45ff-8c5e-51082a5437ac",
+    "x-ms-client-request-id": "befc7eec-83d5-4d5e-9c2f-a7010727a1cc",
     "content-length": "225"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156816883307909987"
+  "container": "container157003456578100880"
  }
 }

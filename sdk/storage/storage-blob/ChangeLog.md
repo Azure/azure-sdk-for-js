@@ -2,6 +2,37 @@
 
 ## 2019.09 12.0.0-preview.4
 
+- [Breaking] Replace string array with boolean flags to specify dataset to include when list containers or blobs.
+  - For listing containers
+    Before this change the option is specified as
+    ```js
+    blobServiceClient.listContainers({
+      include: "metadata"
+    });
+    ```
+    After this change:
+    ```js
+    blobServiceClient.listContainers({
+      includeMetadata : true
+    });
+    ```
+  - For listing blobs
+    Before this change the option is specified as
+    ```js
+    containerClient.listBlobsFlat({
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"]
+    });
+    ```
+    After this change:
+    ```js
+    containerClient.listBlobsFlat({
+      includeCopy: true,
+      includeDeleted: true,
+      includeMetadata: true,
+      includeSnapshots: true,
+      includeUncommitedBlobs: true
+    });
+    ```
 - Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
 - [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on LeaseClient.
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like BlobServiceClient or BlobClient are instantiated.

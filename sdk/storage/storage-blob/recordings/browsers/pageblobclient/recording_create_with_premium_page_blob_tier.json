@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816893806209290",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003463332004679",
    "query": {
     "restype": "container"
    },
@@ -10,37 +10,37 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:28:57 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:28:58 GMT",
+    "date": "Wed, 02 Oct 2019 16:43:52 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:43:53 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365FCCCC2020\"",
-    "x-ms-request-id": "96e5ec02-201e-0061-3848-682223000000",
+    "etag": "\"0x8D74757B591D816\"",
+    "x-ms-request-id": "215fd9a4-201e-0080-1e40-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "08176d90-df89-41d4-9c6d-46de993589f4",
+    "x-ms-client-request-id": "99a9ff3a-8090-4f32-8fa7-e39fc4bd8292",
     "content-length": "0"
    }
   },
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816893806209290/blob156816893827000013",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003463332004679/blob157003463339008865",
    "query": {},
    "requestBody": null,
    "status": 400,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AccessTierNotSupportedForBlobType</Code><Message>The access tier is not supported for this blob type.\nRequestId:96e5ec69-201e-0061-1648-682223000000\nTime:2019-09-11T02:28:58.4028665Z</Message></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>AccessTierNotSupportedForBlobType</Code><Message>The access tier is not supported for this blob type.\nRequestId:215fd9e5-201e-0080-5840-7993dc000000\nTime:2019-10-02T16:43:53.0846150Z</Message></Error>",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:28:57 GMT",
+    "date": "Wed, 02 Oct 2019 16:43:52 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "AccessTierNotSupportedForBlobType",
     "content-type": "application/xml",
-    "x-ms-request-id": "96e5ec69-201e-0061-1648-682223000000",
+    "x-ms-request-id": "215fd9e5-201e-0080-5840-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "f8ef637e-938e-461f-9c60-206d7878f603",
+    "x-ms-client-request-id": "750d523c-a9e3-4599-ba3e-7f5fd1f80413",
     "content-length": "254"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container156816893806209290",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157003463332004679",
    "query": {
     "restype": "container"
    },
@@ -48,17 +48,17 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:28:57 GMT",
+    "date": "Wed, 02 Oct 2019 16:43:52 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "96e5ecaa-201e-0061-5448-682223000000",
+    "x-ms-request-id": "215fda0b-201e-0080-7a40-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "e67e00a0-3b7c-40bc-a5b5-b19841079023",
+    "x-ms-client-request-id": "0adfa8f6-3992-4030-978b-6fb31511292a",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container156816893806209290",
-  "blob": "blob156816893827000013"
+  "container": "container157003463332004679",
+  "blob": "blob157003463339008865"
  }
 }

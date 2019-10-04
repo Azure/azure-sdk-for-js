@@ -439,11 +439,27 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * whose name begins with the specified prefix.
    */
   prefix?: string;
+
   /**
-   * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
-   * specify one or more datasets to include in the response.
+   * @member {boolean} [includeCopy] Specifies whether metadata related to any current or previous Copy Blob operation should be included in the response.
    */
-  include?: Models.ListBlobsIncludeItem[];
+  includeCopy?: boolean;
+  /**
+   * @member {boolean} [includeDeleted] Specifies whether soft deleted blobs should be included in the response.
+   */
+  includeDeleted?: boolean;
+  /**
+   * @member {boolean} [includeMetadata] Specifies whether blob metadata be returned in the response.
+   */
+  includeMetadata?: boolean;
+  /**
+   * @member {boolean} [includeSnapshots] Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
+   */
+  includeSnapshots?: boolean;
+  /**
+   * @member {boolean} [includeUncommitedBlobs] Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
+   */
+  includeUncommitedBlobs?: boolean;
 }
 
 /**
@@ -1288,8 +1304,30 @@ export class ContainerClient extends StorageClient {
   public listBlobsFlat(
     options: ContainerListBlobsOptions = {}
   ): PagedAsyncIterableIterator<Models.BlobItem, Models.ContainerListBlobFlatSegmentResponse> {
+    const include: Models.ListBlobsIncludeItem[] = [];
+    if (options.includeCopy) {
+      include.push("copy");
+    }
+    if (options.includeDeleted) {
+      include.push("deleted");
+    }
+    if (options.includeMetadata) {
+      include.push("metadata");
+    }
+    if (options.includeSnapshots) {
+      include.push("snapshots");
+    }
+    if (options.includeUncommitedBlobs) {
+      include.push("uncommittedblobs");
+    }
+
+    const updatedOptions: ContainerListBlobsSegmentOptions = {
+      ...options,
+      ...(include.length > 0 ? { include: include } : {})
+    };
+
     // AsyncIterableIterator to iterate over blobs
-    const iter = this.listItems(options);
+    const iter = this.listItems(updatedOptions);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -1309,7 +1347,7 @@ export class ContainerClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxresults: settings.maxPageSize,
-          ...options
+          ...updatedOptions
         });
       }
     };
@@ -1464,8 +1502,29 @@ export class ContainerClient extends StorageClient {
     { kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem,
     Models.ContainerListBlobHierarchySegmentResponse
   > {
+    const include: Models.ListBlobsIncludeItem[] = [];
+    if (options.includeCopy) {
+      include.push("copy");
+    }
+    if (options.includeDeleted) {
+      include.push("deleted");
+    }
+    if (options.includeMetadata) {
+      include.push("metadata");
+    }
+    if (options.includeSnapshots) {
+      include.push("snapshots");
+    }
+    if (options.includeUncommitedBlobs) {
+      include.push("uncommittedblobs");
+    }
+
+    const updatedOptions: ContainerListBlobsSegmentOptions = {
+      ...options,
+      ...(include.length > 0 ? { include: include } : {})
+    };
     // AsyncIterableIterator to iterate over blob prefixes and blobs
-    const iter = this.listItemsByHierarchy(delimiter, options);
+    const iter = this.listItemsByHierarchy(delimiter, updatedOptions);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -1485,7 +1544,7 @@ export class ContainerClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {
           maxresults: settings.maxPageSize,
-          ...options
+          ...updatedOptions
         });
       }
     };

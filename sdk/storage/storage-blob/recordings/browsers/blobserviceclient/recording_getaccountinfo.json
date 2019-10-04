@@ -11,13 +11,13 @@
    "status": 200,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:27:12 GMT",
+    "date": "Wed, 02 Oct 2019 16:42:45 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-account-kind": "StorageV2",
-    "x-ms-request-id": "96e5417d-201e-0061-4d48-682223000000",
+    "x-ms-request-id": "215f3c9e-201e-0080-6140-7993dc000000",
     "x-ms-sku-name": "Standard_RAGRS",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "3eb524e2-614f-4538-a858-42cb35e631c5",
+    "x-ms-client-request-id": "1f0dd046-80c1-41a8-8bf9-5080f96e766f",
     "content-length": "0"
    }
   }

@@ -86,7 +86,8 @@ describe("PageBlobClient Node.js only", () => {
 
     let listBlobResponse = (await containerClient
       .listBlobsFlat({
-        include: ["copy", "snapshots"]
+        includeCopy: true,
+        includeSnapshots: true
       })
       .byPage()
       .next()).value;
@@ -103,7 +104,8 @@ describe("PageBlobClient Node.js only", () => {
 
     listBlobResponse = (await containerClient
       .listBlobsFlat({
-        include: ["copy", "snapshots"]
+        includeCopy: true,
+        includeSnapshots: true
       })
       .byPage()
       .next()).value;

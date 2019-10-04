@@ -187,11 +187,11 @@ export interface ServiceListContainersOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {ListContainersIncludeType} [include] Include this parameter to
-   * specify that the container's metadata be returned as part of the response
-   * body. Possible values include: 'metadata'
+   * @member {ListContainersIncludeType} [includeMetadata] Specifies whether the container's metadata
+   *                                     should be returned as part of the response.
+   * body.
    */
-  include?: ListContainersIncludeType;
+  includeMetadata?: boolean;
 }
 
 export interface UserDelegationKey {
@@ -763,7 +763,12 @@ export class BlobServiceClient extends StorageClient {
     options: ServiceListContainersOptions = {}
   ): PagedAsyncIterableIterator<Models.ContainerItem, Models.ServiceListContainersSegmentResponse> {
     // AsyncIterableIterator to iterate over containers
-    const iter = this.listItems(options);
+    const listSegmentOptions: ServiceListContainersSegmentOptions = {
+      ...options,
+      ...(options.includeMetadata ? { include: "metadata" } : {})
+    };
+
+    const iter = this.listItems(listSegmentOptions);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -783,7 +788,7 @@ export class BlobServiceClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxresults: settings.maxPageSize,
-          ...options
+          ...listSegmentOptions
         });
       }
     };

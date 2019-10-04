@@ -2,77 +2,77 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156816895829605209/%2F%2F%2F%2Fblob%2Fempty%20%2Fanother156816895933901491",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/%2F%2F%2F%2Fblob%2Fempty%20%2Fanother157003464588702313",
    "query": {},
    "requestBody": "A",
    "status": 201,
    "response": "",
    "responseHeaders": {
     "x-ms-content-crc64": "PiO3pTJ67n0=",
-    "date": "Wed, 11 Sep 2019 02:29:18 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:19 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:05 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:05 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
-    "etag": "\"0x8D7365FD97B1144\"",
-    "x-ms-request-id": "96e60bab-201e-0061-6a48-682223000000",
+    "etag": "\"0x8D74757BD0F388D\"",
+    "x-ms-request-id": "215ff9e1-201e-0080-0240-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "4103c76e-b8bb-47fc-81aa-7ad06da45c25",
+    "x-ms-client-request-id": "a9cf4685-154e-4ef0-a152-d0df0b2af3ca",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
    }
   },
   {
    "method": "HEAD",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156816895829605209/%2F%2F%2F%2Fblob%2Fempty%20%2Fanother156816895933901491",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/%2F%2F%2F%2Fblob%2Fempty%20%2Fanother157003464588702313",
    "query": {},
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "x-ms-blob-type": "BlockBlob",
-    "date": "Wed, 11 Sep 2019 02:29:18 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:05 GMT",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
     "x-ms-tag-count": "0",
     "x-ms-server-encrypted": "true",
     "x-ms-access-tier": "Cool",
-    "x-ms-client-request-id": "25ed61dc-24ec-437d-a185-89368f3ace98",
+    "x-ms-client-request-id": "48a1e97a-c018-4e4c-9e54-3e7c2eeffb91",
     "content-length": "1",
     "x-ms-lease-state": "available",
     "x-ms-lease-status": "unlocked",
-    "x-ms-creation-time": "Wed, 11 Sep 2019 02:29:19 GMT",
-    "last-modified": "Wed, 11 Sep 2019 02:29:19 GMT",
+    "x-ms-creation-time": "Wed, 02 Oct 2019 16:44:05 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:05 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D7365FD97B1144\"",
+    "etag": "\"0x8D74757BD0F388D\"",
     "content-type": "application/octet-stream",
     "x-ms-access-tier-inferred": "true",
     "x-ms-version": "2019-02-02",
     "accept-ranges": "bytes",
-    "x-ms-request-id": "96e60c01-201e-0061-3948-682223000000"
+    "x-ms-request-id": "215ffa07-201e-0080-2540-7993dc000000"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156816895829605209",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968",
    "query": {
     "comp": "list",
-    "prefix": "////blob/empty /another156816895933901491",
+    "prefix": "////blob/empty /another157003464588702313",
     "restype": "container"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash156816895829605209\"><Prefix>////blob/empty /another156816895933901491</Prefix><Blobs><Blob><Name>////blob/empty /another156816895933901491</Name><Properties><Creation-Time>Wed, 11 Sep 2019 02:29:19 GMT</Creation-Time><Last-Modified>Wed, 11 Sep 2019 02:29:19 GMT</Last-Modified><Etag>0x8D7365FD97B1144</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash157003464545607968\"><Prefix>////blob/empty /another157003464588702313</Prefix><Blobs><Blob><Name>////blob/empty /another157003464588702313</Name><Properties><Creation-Time>Wed, 02 Oct 2019 16:44:05 GMT</Creation-Time><Last-Modified>Wed, 02 Oct 2019 16:44:05 GMT</Last-Modified><Etag>0x8D74757BD0F388D</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Wed, 11 Sep 2019 02:29:19 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:05 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "96e60c4b-201e-0061-0148-682223000000",
+    "x-ms-request-id": "215ffa2e-201e-0080-4340-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "a6c86cfc-a7df-4265-be85-a88d872767c5"
+    "x-ms-client-request-id": "c77246cc-ce40-46dd-9313-c3ee1026f4b7"
    }
   }
  ],
  "uniqueTestInfo": {
-  "////blob/empty /another": "////blob/empty /another156816895933901491"
+  "////blob/empty /another": "////blob/empty /another157003464588702313"
  }
 }

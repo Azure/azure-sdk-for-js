@@ -59,7 +59,7 @@ describe("BlobServiceClient", () => {
 
     const result1 = (await blobServiceClient
       .listContainers({
-        include: "metadata",
+        includeMetadata: true,
         prefix: containerNamePrefix
       })
       .byPage({ maxPageSize: 1 })
@@ -78,7 +78,7 @@ describe("BlobServiceClient", () => {
 
     const result2 = (await blobServiceClient
       .listContainers({
-        include: "metadata",
+        includeMetadata: true,
         prefix: containerNamePrefix
       })
       .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
@@ -113,7 +113,7 @@ describe("BlobServiceClient", () => {
     }
 
     for await (const container of blobServiceClient.listContainers({
-      include: "metadata",
+      includeMetadata: true,
       prefix: containerNamePrefix
     })) {
       assert.ok(container.name.startsWith(containerNamePrefix));
@@ -143,7 +143,7 @@ describe("BlobServiceClient", () => {
     await containerClient2.create({ metadata: { key: "val" } });
 
     const iterator = await blobServiceClient.listContainers({
-      include: "metadata",
+      includeMetadata: true,
       prefix: containerNamePrefix
     });
 
@@ -186,7 +186,7 @@ describe("BlobServiceClient", () => {
 
     for await (const response of blobServiceClient
       .listContainers({
-        include: "metadata",
+        includeMetadata: true,
         prefix: containerNamePrefix
       })
       .byPage({ maxPageSize: 2 })) {
@@ -222,7 +222,7 @@ describe("BlobServiceClient", () => {
 
     let iter = blobServiceClient
       .listContainers({
-        include: "metadata",
+        includeMetadata: true,
         prefix: containerNamePrefix
       })
       .byPage({ maxPageSize: 2 });
@@ -242,7 +242,7 @@ describe("BlobServiceClient", () => {
     // Passing next marker as continuationToken
     iter = blobServiceClient
       .listContainers({
-        include: "metadata",
+        includeMetadata: true,
         prefix: containerNamePrefix
       })
       .byPage({ continuationToken: marker, maxPageSize: 2 });
