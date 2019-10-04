@@ -1,17 +1,14 @@
 # Azure App Configuration client library for JS
 
-Azure App Configuration is a managed service that helps developers centralize their application configurations simply and securely.
+Azure App Configuration is a managed service that helps developers
+centralize their application configurations simply and securely.
 
-Modern programs, especially programs running in a cloud, generally have many components that are distributed in nature. Spreading configuration settings across these components can lead to hard-to-troubleshoot errors during an application deployment. Use App Configuration to securely store all the settings for your application in one place.
+This client library lets you create, retrieve, update and delete 
+settings on an Azure App Configuration server
 
-Use the client library for App Configuration to:
-
-* Create centrally stored application configuration settings
-* Retrieve settings
-* Update settings
-* Delete settings
-
-[NPM](https://www.npmjs.com/package/@azure/app-configuration) | [Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)
+* [NPM](https://www.npmjs.com/package/@azure/app-configuration)
+* [Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)
+* [Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/)
 
 ## Getting started
 
@@ -25,53 +22,45 @@ Use the client library for App Configuration to:
 npm install @azure/app-configuration
 ```
 
-## Key concepts
-
-### Configuration Setting
-
-A Configuration Setting is the fundamental resource within a Configuration Store.
-In its simplest form, it is a key and a value. However, there are additional properties such as 
-the modifiable content type and tags fields that allows the value to be interpreted or associated 
-in different ways.
-
-The `label` property of a Configuration Setting provides a way to separate configuration settings 
-into different dimensions. These dimensions are user defined and can take any form. Some common 
-examples of dimensions to use for a label include regions, semantic versions, or environments. 
-Many applications have a required set of configuration keys that have varying values as the 
-application exists across different dimensions.
-
-For example, MaxRequests may be 100 in "NorthAmerica", and 200 in "WestEurope". By creating a 
-Configuration Setting named MaxRequests with a label of "NorthAmerica" and another, only with 
-a different value, in the "WestEurope" label, an application can seamlessly retrieve 
-Configuration Settings as it runs in these two dimensions.
-
 ## Examples
 
-#### nodejs - Authentication, client creation and listConfigurationSettings as an example written in TypeScript.
+#### nodejs - Creating and getting a setting in Javascript
 
 ##### Sample code
 
-```typescript
-import { AppConfigurationClient } from "@azure/app-configuration";
+```javascript
+const appConfig = require("@azure/app-configuration");
 
-const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
-const client = new AppConfigurationClient(connectionString);
+const client = new appConfig.AppConfigurationClient("<App Configuration connection string goes here>");
 
-let configurationSetting = await client.getConfigurationSetting("testkey");
+async function run() {
+  const newSetting = await client.setConfigurationSetting({
+    key: "testkey", 
+    value: "testvalue",
+    label: "optional-label"
+  });
 
-console.log("The result is:");
-console.log(configurationSetting.value);
+  let retrievedSetting = await client.getConfigurationSetting("testkey", { label: "optional-label" });
+
+  console.log("Retrieved value:", retrievedSetting.value);
+}
+
+run().catch(err => console.log("ERROR:", err));
 ```
 
-More examples can be found in the samples folder on [github](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
+More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples) folder on github.
 
 ## Next steps
 
-Explore the samples to understand how to work with Azure App Configuration.
+Use these samples for a more in-depth demonstration of Azure App Configuration.
 
 * [`helloworld.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworld.ts) - getting, setting and deleting configuration values 
-* [`helloworldWithLabels.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworldWithLabels.ts) - using labels to add additional dimensions to your settings
-* [`helloworldWithETag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworldWithETag.ts) - setting values using etags to prevent accidental overwrites
+* [`helloworldWithLabels.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworldWithLabels.ts) - using labels to add additional dimensions to your settings for scenarios like beta vs production
+* [`optimisticConcurrencyViaEtag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/optimisticConcurrencyViaEtag.ts) - setting values using etags to prevent accidental overwrites
+* [`setReadOnlySample.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/setReadOnlySample.ts) - marking settings as read-only to prevent modification
+* [`getSettingOnlyIfChanged.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/getSettingOnlyIfChanged.ts) - get a setting only if it changed from the last time you got it
+
+View more samples on [github](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
 ## Contributing
 
@@ -85,13 +74,16 @@ provided by the bot. You will only need to do this once across all repos using o
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-This module's tests are live tests, which require you to have an Azure App Configuration instance. To execute the tests 
-you'll need to run:
+This module's tests are a mixture of live and unit tests, which require you to have an Azure App Configuration instance. To execute the tests you'll need to run:
 1. `rush update`
-2. `rush build`
-3. `npm run test`.
+2. `rush build -t @azure/app-configuration`
+3. Create a .env file with these contents in the `sdk\appconfiguration\app-configuration` folder:  
+   `AZ_CONFIG_CONNECTION=connection string for your App Configuration instance`
+4. `cd sdk\appconfiguration\app-configuration`
+5. `npm run test`.
 
-View our tests ([index.spec.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/test/index.spec.ts)) for more details.
+View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/test)
+folder for more details.
 
 ## Related projects
 

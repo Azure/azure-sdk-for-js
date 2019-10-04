@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// This sample builds on helloworld.ts and shows you how to use labels.
+// Labels allow you to add an extra dimension for your setting and gives
+// you a simple way to create conventions like production vs beta settings,
+// development vs testing, etc...
+
 // NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
 // in a standalone project
 import { AppConfigurationClient } from "../src"
