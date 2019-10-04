@@ -1,8 +1,11 @@
-### (Date) 5.0.0-preview.4
+### 2019-10-07 5.0.0-preview.4
 
 - Current implementation of the Partition Manager takes the event hub name, consumer group name and partition id to ensure uniqueness for the checkpoint and ownership.
   Since the same event hub name and consumer group name can exist in another namespace, we added `fullyQualifiedNamespace` as well to ensure uniqueness.
   ([PR #5153](https://github.com/Azure/azure-sdk-for-js/pull/5153))
+- Adds preview capabilities for `@azure/core-tracing`.
+  ([PR #5207](https://github.com/Azure/azure-sdk-for-js/pull/5207)
+
 
 #### Breaking changes
 
