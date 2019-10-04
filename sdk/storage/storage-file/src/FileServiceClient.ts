@@ -166,7 +166,7 @@ export class FileServiceClient extends StorageClient {
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
         const sharedKeyCredential = new SharedKeyCredential(
-          extractedCreds.accountName,
+          extractedCreds.accountName!,
           extractedCreds.accountKey
         );
         const pipeline = newPipeline(sharedKeyCredential, options);
