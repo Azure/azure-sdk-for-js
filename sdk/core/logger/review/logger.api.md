@@ -8,10 +8,10 @@ import debug from 'debug';
 
 // Warning: (ae-forgotten-export) The symbol "AzureDebugger" needs to be exported by the entry point logger.d.ts
 // 
-// @public (undocumented)
+// @public
 export const AzureLogger: AzureDebugger;
 
-// @public (undocumented)
+// @public
 export interface AzureLogger {
     // (undocumented)
     error: debug.Debugger;
@@ -23,16 +23,16 @@ export interface AzureLogger {
     warning: debug.Debugger;
 }
 
-// @public (undocumented)
+// @public
 export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
 
-// @public (undocumented)
+// @public
 export function createClientLogger(namespace: string): AzureLogger;
 
-// @public (undocumented)
+// @public
 export function getLogLevel(): "verbose" | "info" | "warning" | "error" | undefined;
 
-// @public (undocumented)
+// @public
 export function setLogLevel(level?: AzureLogLevel): void;
 
 

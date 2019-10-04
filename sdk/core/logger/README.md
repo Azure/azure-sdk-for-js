@@ -63,7 +63,7 @@ const { AzureLogger, setLogLevel } = require('@azure/logger');
 
 setLogLevel("verbose");
 
-// override logging to output to console.log
+// override logging to output to console.log (default location is stderr)
 AzureLogger.log = (...args) => {
   console.log(...args);
 };
