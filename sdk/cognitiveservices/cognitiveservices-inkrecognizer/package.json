@@ -60,7 +60,7 @@
   "private": true,
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
-    "@azure/core-arm": "1.0.0-preview.3",
+    "@azure/core-arm": "1.0.0-preview.4",
     "@azure/core-auth": "1.0.0-preview.3",
     "@azure/core-http": "1.0.0-preview.4",
     "events": "^3.0.0",
