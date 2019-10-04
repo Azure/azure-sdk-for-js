@@ -75,7 +75,8 @@ export class CertificatesClient {
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
     cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    createCertificate(name: string, certificatePolicy: CertificatePolicy, enabled?: boolean, tags?: CertificateTags, options?: RequestOptionsBase): Promise<Certificate>;
+    // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
+    createCertificate(name: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
     protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
@@ -86,8 +87,7 @@ export class CertificatesClient {
     getCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
     getCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     getCertificatePolicy(name: string, options?: RequestOptionsBase): Promise<CertificatePolicy>;
-    // Warning: (ae-forgotten-export) The symbol "CertificateWithPolicy" needs to be exported by the entry point index.d.ts
-    getCertificateWithPolicy(name: string, options?: RequestOptionsBase): Promise<CertificateWithPolicy>;
+    getCertificateWithPolicy(name: string, options?: RequestOptionsBase): Promise<Certificate>;
     static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
@@ -96,7 +96,7 @@ export class CertificatesClient {
     listCertificates(options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
     listCertificateVersions(name: string, options?: RequestOptionsBase): PagedAsyncIterableIterator<Certificate, Certificate[]>;
     listDeletedCertificates(options?: KeyVaultClientGetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>;
-    mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<CertificateWithPolicy>;
+    mergeCertificate(name: string, x509Certificates: Uint8Array[], options?: RequestOptionsBase): Promise<Certificate>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<null>;
     recoverDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<Certificate>;
