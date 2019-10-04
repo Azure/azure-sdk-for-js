@@ -60,6 +60,14 @@ export class MessageIdClient extends StorageClient {
    * @memberof MessageIdClient
    */
   private messageIdContext: MessageId;
+  private _queueName: string;
+  private _messageId: string;
+  public get queueName(): string {
+    return this._queueName;
+  }
+  public get messageId(): string {
+    return this._messageId;
+  }
 
   /**
    * Creates an instance of MessageIdClient.
@@ -123,19 +131,26 @@ export class MessageIdClient extends StorageClient {
     options: NewPipelineOptions = {}
   ) {
     let pipeline: Pipeline;
+    let url: string;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
       (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       options = messageIdOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       options = messageIdOrOptions as NewPipelineOptions;
       // The second paramter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -145,6 +160,7 @@ export class MessageIdClient extends StorageClient {
       messageIdOrOptions &&
       typeof messageIdOrOptions === "string"
     ) {
+      // (connectionString: string, queueName: string, messageId: string, options?: NewPipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
@@ -155,7 +171,7 @@ export class MessageIdClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages/" + messageId;
+          url = extractedCreds.url + "/" + queueName + "/messages/" + messageId;
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
@@ -164,7 +180,7 @@ export class MessageIdClient extends StorageClient {
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
         const messageId = messageIdOrOptions;
-        urlOrConnectionString =
+        url =
           extractedCreds.url +
           "/" +
           queueName +
@@ -181,7 +197,11 @@ export class MessageIdClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for queueName and messageId parameters");
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
+    ({
+      queueName: this._queueName,
+      messageId: this._messageId
+    } = this.getQueueNameAndMessageIdFromUrl());
     this.messageIdContext = new MessageId(this.storageClientContext);
   }
 
@@ -236,5 +256,24 @@ export class MessageIdClient extends StorageClient {
         abortSignal: options.abortSignal
       }
     );
+  }
+
+  private getQueueNameAndMessageIdFromUrl(): { queueName: string; messageId: string } {
+    //  URL may look like the following
+    // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
+    // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid".
+
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const queueNameAndMessageId = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)/messages/([^/]*)");
+    const queueName = queueNameAndMessageId![3];
+    const messageId = queueNameAndMessageId![4];
+
+    if (!queueName && !messageId) {
+      throw new Error("Unable to extract queueName and messageId with provided information.");
+    }
+
+    return { queueName, messageId };
   }
 }
