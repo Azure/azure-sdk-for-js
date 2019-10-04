@@ -217,7 +217,7 @@ Attributes can also be updated to an existing key version with
 
 ```javascript
 const result = await client.createKey(keyName, "RSA");
-await client.updateKey(keyName, result.version, {
+await client.updateKey(keyName, result.properties.version, {
   enabled: false
 });
 ```

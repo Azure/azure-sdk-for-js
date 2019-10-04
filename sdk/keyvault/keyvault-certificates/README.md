@@ -154,7 +154,7 @@ certificate is created.
 ```javascript
 const certificateName = "MyCertificateName";
 const result = await client.createCertificate(certificateName, {
-  issuerParameters: { name: "Self" },
+  issuerName: "Self",
 });
 ```
 
@@ -167,7 +167,7 @@ Besides the name of the certificate, you can also pass the following attributes:
 ```javascript
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
-  issuerParameters: { name: "Self" }
+  issuerName: "Self"
 }
 const enabled = true;
 const tags = {
@@ -196,8 +196,8 @@ the certificate's policy.
 ```javascript
 const latestCertificate = await client.getCertificateWithPolicy(certificateName);
 console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
-const specificCertificate = await client.getCertificate(certificateName, latestCertificate.version!);
-console.log(`The certificate ${certificateName} at the version ${latestCertificate.version!}: `, specificCertificate);
+const specificCertificate = await client.getCertificate(certificateName, latestCertificate.properties.version!);
+console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version!}: `, specificCertificate);
 ```
 
 ### List all versions of a certificate
@@ -206,7 +206,7 @@ console.log(`The certificate ${certificateName} at the version ${latestCertifica
 
 ```javascript
 for await (let certificate of client.listCertificateVersions(certificateName)) {
-  console.log("version: ", certificate.version);
+  console.log("version: ", certificate.properties.version);
 }
 ```
 
@@ -227,9 +227,9 @@ The certificate attributes can be updated to an existing certificate version wit
 
 ```javascript
 const result = client.getCertificateWithPolicy(certificateName);
-await client.updateCertificate(certificateName, result.version, {
+await client.updateCertificate(certificateName, result.properties.version, {
   certificatePolicy: {
-    issuerParameters: { name: "Self" }
+    issuerName: "Self"
   },
   certificateAttributes: {
     enabled: false
@@ -245,7 +245,7 @@ The certificate's policy can also be updated individually with `updateCertificat
 ```javascript
 const result = client.getCertificateWithPolicy(certificateName);
 await client.updateCertificatePolicy(certificateName, {
-  issuerParameters: { name: "Self" }
+  issuerName: "Self"
 });
 ```
 

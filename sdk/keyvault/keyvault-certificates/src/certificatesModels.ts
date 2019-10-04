@@ -1,6 +1,14 @@
 import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { CertificatePolicy, KeyVaultClientCreateCertificateOptionalParams } from "./core/models";
+import {
+  SecretProperties,
+  CertificateAttributes,
+  KeyVaultClientCreateCertificateOptionalParams,
+  JsonWebKeyType,
+  JsonWebKeyCurveName,
+  LifetimeAction,
+  KeyUsageType
+} from "./core/models";
 
 /**
  * Defines values for contentType.
@@ -14,7 +22,11 @@ export type CertificateContentType = "application/pem" | "application/x-pkcs12" 
  * @interface
  * An interface representing a certificate without the certificate's policy
  */
-export interface Certificate extends CertificateAttributes {
+export interface Certificate {
+  /**
+   * @member {CertificateProperties} [properties] The properties of the certificate
+   */
+  properties: CertificateProperties;
   /**
    * @member {string} [kid] The key id.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -35,13 +47,6 @@ export interface Certificate extends CertificateAttributes {
    * @member {CertificateContentType} [contentType] The content type of the secret.
    */
   contentType?: CertificateContentType;
-}
-
-/**
- * @interface
- * An interface representing a full certificate
- */
-export interface CertificateWithPolicy extends Certificate {
   /**
    * @member {CertificatePolicy} [policy] The management policy.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -52,9 +57,91 @@ export interface CertificateWithPolicy extends Certificate {
 
 /**
  * @interface
- * An interface representing the attributes of a certificate
+ * An interface representing a certificate's policy
  */
-export interface CertificateAttributes extends ParsedKeyVaultEntityIdentifier {
+export interface CertificatePolicy extends SecretProperties, CertificateAttributes {
+  /**
+   * The certificate id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Actions that will be performed by Key Vault over the lifetime of a certificate.
+   */
+  lifetimeActions?: LifetimeAction[];
+  /**
+   * Indicates if the private key can be exported.
+   */
+  exportable?: boolean;
+  /**
+   * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
+   * 'RSA', 'RSA-HSM', 'oct'
+   */
+  keyType?: JsonWebKeyType;
+  /**
+   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
+   */
+  keySize?: number;
+  /**
+   * Indicates if the same key pair will be used on certificate renewal.
+   */
+  reuseKey?: boolean;
+  /**
+   * Elliptic curve name. For valid values, see JsonWebKeyCurveName. Possible values include:
+   * 'P-256', 'P-384', 'P-521', 'P-256K'
+   */
+  keyCurveType?: JsonWebKeyCurveName;
+  /**
+   * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
+   */
+  issuerName?: string;
+  /**
+   * Type of certificate to be requested from the issuer provider.
+   */
+  certificateType?: string;
+  /**
+   * Indicates if the certificates generated under this policy should be published to certificate
+   * transparency logs.
+   */
+  certificateTransparency?: boolean;
+  /**
+   * The subject name. Should be a valid X509 distinguished Name.
+   */
+  subjectName?: string;
+  /**
+   * The enhanced key usage.
+   */
+  ekus?: string[];
+  /**
+   * The subject alternative names.
+   */
+  subjectAlternativeNames?: SubjectAlternativeNames;
+  /**
+   * List of key usages.
+   */
+  keyUsage?: KeyUsageType[];
+  /**
+   * The duration that the certificate is valid in months.
+   */
+  validityInMonths?: number;
+}
+
+export interface SubjectAlternativeNames {
+  /**
+   * The subject type, either emails, DNS names or UPNs
+   */
+  subjectType: 'emails' | 'dnsNames' | 'upns';
+  /**
+   * The subject values
+   */
+  subjectValues: string[];
+}
+
+/**
+ * @interface
+ * An interface representing the properties of a certificate
+ */
+export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The certificate id.
    */
@@ -120,7 +207,16 @@ export interface DeletedCertificate extends Certificate {
  * An interface representing options for creating a certificate.
  * Optional Parameters.
  */
-export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {}
+export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {
+  /**
+   * @member {boolean} [enabled] Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: coreHttp.RequestOptionsBase;
+}
 
 export type CertificateTags = { [propertyName: string]: string };
 
@@ -177,9 +273,9 @@ export interface CertificateIssuer {
 
 /**
  * @interface
- * An interface representing the attributes of an issuer
+ * An interface representing the properties of an issuer
  */
-export interface IssuerAttributes {
+export interface IssuerProperties {
   /**
    * @member {string} [id] Certificate Identifier.
    */

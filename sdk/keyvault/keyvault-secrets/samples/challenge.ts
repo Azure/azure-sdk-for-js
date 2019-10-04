@@ -76,7 +76,7 @@ async function main(): Promise<void> {
   console.log("secret: ", secret);
 
   // Update the secret with different attributes
-  const updatedSecret = await client.updateSecretAttributes(secretName, result.version, {
+  const updatedSecret = await client.updateSecretAttributes(secretName, result.properties.version, {
     enabled: false
   });
   console.log("updated secret: ", updatedSecret);

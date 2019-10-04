@@ -69,6 +69,8 @@ export interface DecryptOptions extends RequestOptions {
 
 // @public
 export interface DecryptResult {
+    algorithm: JsonWebKeyEncryptionAlgorithm;
+    keyID?: string;
     result: Uint8Array;
 }
 
@@ -90,6 +92,11 @@ export interface EncryptOptions extends RequestOptions {
 
 // @public
 export interface EncryptResult {
+    algorithm: JsonWebKeyEncryptionAlgorithm;
+    authenticationData?: Uint8Array;
+    authenticationTag?: string;
+    iv?: Uint8Array;
+    keyID?: string;
     result: Uint8Array;
 }
 
@@ -150,12 +157,13 @@ export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "w
 export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
-export interface Key extends KeyAttributes {
+export interface Key {
     keyMaterial?: JsonWebKey;
+    properties: KeyProperties;
 }
 
 // @public
-export interface KeyAttributes extends ParsedKeyVaultEntityIdentifier {
+export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
     readonly created?: Date;
     enabled?: boolean;
     expires?: Date;
@@ -181,9 +189,9 @@ export class KeysClient {
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
     importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
-    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
-    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
-    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>;
+    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
+    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
+    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
     recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
@@ -239,6 +247,8 @@ export interface RetryOptions {
 
 // @public
 export interface SignResult {
+    algorithm: KeySignatureAlgorithm;
+    keyID?: string;
     result: Uint8Array;
 }
 
@@ -250,6 +260,7 @@ export interface TelemetryOptions {
 
 // @public
 export interface UnwrapResult {
+    keyID?: string;
     result: Uint8Array;
 }
 
@@ -267,11 +278,14 @@ export interface UpdateKeyOptions {
 
 // @public
 export interface VerifyResult {
+    keyID?: string;
     result: boolean;
 }
 
 // @public
 export interface WrapResult {
+    algorithm: KeyWrapAlgorithm;
+    keyID?: string;
     result: Uint8Array;
 }
 
