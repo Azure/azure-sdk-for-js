@@ -2,8 +2,11 @@ const execa = require("execa");
 const fs = require("fs");
 require("dotenv").config({ path: "../.env" });
 
+// Samples can be skipped by mentioning them in the skipSet
 const skipSet = ["proxyAuth"];
-const delimiter = `!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`;
+
+const bDel = `!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`;
+const del = `${bDel}------------------------------${bDel}`;
 
 const { g, y, r, b } = [["r", 1], ["g", 2], ["b", 4], ["y", 3]].reduce(
   (cols, col) => ({
@@ -23,32 +26,52 @@ async function exec(cmd, cwd) {
   return command;
 }
 
-(async () => {
-  try {
-    var files = fs.readdirSync("./samples/typescript");
-    for (var i = 0; i < files.length; i++) {
-      if (skipSet.includes(files[i].split(".")[0])) {
-        continue;
-      } else {
-        try {
-          console.log(`\n\n${b(delimiter)}\n${delimiter}`);
-          console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\t${files[i]} \t `);
-          console.log(`${delimiter}\n${b(delimiter)} \n`);
-          console.log(`${g("Running")} ${y(files[i])} ${g("...")}`);
-          await exec(`ts-node ${files[i]}`, "./samples/typescript");
-          console.log(`${g(files[i] + " is done..!")}`);
-        } catch (error) {
-          console.log(error.message);
-          console.log(`${r(delimiter)}\n${delimiter}`);
-          console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\t${files[i]} Sample - FAILED\t `);
-          console.log(`${delimiter}\n${r(delimiter)}`);
-        }
+async function runSamples(language) {
+  const directory = `./samples/${language}`;
+  let cmd;
+
+  if (language === "typescript") {
+    cmd = "ts-node";
+  } else {
+    cmd = "node";
+    await exec(`npm run build:js-samples`, directory);
+  }
+
+  console.log(`Running ${language} samples...`);
+
+  const files = fs.readdirSync(directory);
+  for (var i = 0; i < files.length; i++) {
+    if (skipSet.includes(files[i].split(".")[0])) {
+      continue;
+    } else {
+      try {
+        console.log(`\n\n${b(del)}\n${del}`);
+        console.log(`${bDel}\t${files[i]} \t `);
+        console.log(`${del}\n${b(del)} \n`);
+
+        console.log(`${g("Running")} ${y(files[i])} ${g("...")}`);
+
+        await exec(`${cmd} ${files[i]}`, directory);
+
+        console.log(`${g(files[i] + " is done..!")}`);
+      } catch (error) {
+        console.log(error.message);
+
+        console.log(`${r(del)}\n${del}`);
+        console.log(`${bDel}\t${files[i]} Sample - FAILED\t `);
+        console.log(`${del}\n${r(del)}`);
       }
     }
-    console.log("Running typescript samples...");
-    process.exit(0);
+  }
+  process.exit(0);
+}
+
+(async () => {
+  try {
+    await runSamples("typescript");
+    await runSamples("javascript");
   } catch (error) {
-    console.log("Typescript samples failed!");
+    console.log("Samples failed!");
     console.log(error);
     process.exit(1);
   }
