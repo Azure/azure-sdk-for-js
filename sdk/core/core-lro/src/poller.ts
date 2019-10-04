@@ -3,7 +3,6 @@ import { PollOperation } from "./pollOperation";
 export type CancelOnProgress = () => void;
 
 export interface PollProgressSubscriber<TProperties, TResult> {
-  id: string;
   conditional: (op?: PollOperation<TProperties, TResult>) => boolean;
   callback: (op?: PollOperation<TProperties, TResult>) => void;
 }
@@ -87,20 +86,13 @@ export abstract class Poller<TProperties, TResult> {
     conditional: (op?: PollOperation<TProperties, TResult>) => boolean,
     callback: (op?: PollOperation<TProperties, TResult>) => void
   ): CancelOnProgress {
-    const id = Math.random().toString();
-    this.pollProgressSubscribers.push({
-      id,
+    const subscriber: PollProgressSubscriber<TProperties, TResult> = {
       conditional,
       callback
-    });
+    }
+    this.pollProgressSubscribers.push(subscriber);
     return (): void => {
-      const subscribers: PollProgressSubscriber<TProperties, TResult>[] = [];
-      for (const subscriber of this.pollProgressSubscribers) {
-        if (subscriber.id !== id) {
-          subscribers.push(subscriber);
-        }
-      }
-      this.pollProgressSubscribers = subscribers;
+      this.pollProgressSubscribers = this.pollProgressSubscribers.filter(s => s !== subscriber);
     };
   }
 
