@@ -427,14 +427,17 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
 export function getAccountNameFromUrl(url: string): string {
   // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
   // Slicing off '/' at the end if exists
-  url = url.endsWith("/") ? url.slice(0, -1) : url;
+  try {
+    url = url.endsWith("/") ? url.slice(0, -1) : url;
 
-  const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".file."));
-  if (!accountName) {
+    const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".file."));
+    if (!accountName) {
+      throw new Error("Provided accountName is invalid.");
+    }
+    return accountName;
+  } catch (error) {
     throw new Error("Unable to extract accountName with provided information.");
   }
-
-  return accountName;
 }
 
 export function getShareNameAndPathFromUrl(
@@ -449,19 +452,23 @@ export function getShareNameAndPathFromUrl(
   // "https://myaccount.file.core.windows.net/myshare";
   // mydirectory can consist of multiple directories - dir1/dir2/dir3
 
-  let urlWithoutSAS = url.split("?")[0]; // removing the sas part of url if present
-  urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+  try {
+    let urlWithoutSAS = url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-  const shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
+    const shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
 
-  const shareName = shareNameAndFilePath![3];
-  const filePathOrdirectoryPath = shareNameAndFilePath![5];
+    const shareName = shareNameAndFilePath![3];
+    const filePathOrdirectoryPath = shareNameAndFilePath![5];
 
-  if (!shareName) {
+    if (!shareName) {
+      throw new Error("Provided shareName is invalid.");
+    } else {
+      return { shareName, filePathOrdirectoryPath };
+    }
+  } catch (error) {
     throw new Error(
       "Unable to extract shareName and filePath/directoryPath with provided information."
     );
   }
-
-  return { shareName, filePathOrdirectoryPath };
 }
