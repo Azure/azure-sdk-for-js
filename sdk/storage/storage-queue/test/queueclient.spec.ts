@@ -3,6 +3,7 @@ import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
@@ -151,5 +152,34 @@ describe("QueueClient", () => {
         "Error message is different than expected."
       );
     }
+  });
+
+  it.only("getProperties with tracing", async () => {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const rootSpan = tracer.startSpan("root");
+    await queueClient.getProperties({ spanOptions: { parent: rootSpan } });
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Storage.Queue.QueueClient-getProperties",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });
