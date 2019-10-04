@@ -43,7 +43,7 @@ export function skipQueryParams(params: string[]): void {
   queryParameters = params;
 }
 
-export function setEnviromentOnLoad() {
+export function setEnvironmentOnLoad() {
   if (!isBrowser() && (isRecordMode || isPlaybackMode)) {
     nock = require("nock");
   }
