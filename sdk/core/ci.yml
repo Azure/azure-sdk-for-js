@@ -54,3 +54,5 @@ stages:
           safeName: azurecorepaging
         - name: azure-core-tracing
           safeName: azurecoretracing
+        - name: azure-logger
+          safeName: azurelogger
