@@ -30,7 +30,6 @@ export abstract class Poller<TProperties, TResult> {
         this.reject = reject;
       }
     );
-    this.operation.state.started = true;
     this.startPolling();
   }
 
@@ -40,6 +39,9 @@ export abstract class Poller<TProperties, TResult> {
   private async startPolling(): Promise<void> {
     while (!this.isStopped() && !this.isDone()) {
       await this.poll();
+      if (!this.operation.state.started) {
+        this.operation.state.started = true;
+      }
       await this.delay();
     }
   }
