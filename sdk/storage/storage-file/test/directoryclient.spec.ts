@@ -8,6 +8,7 @@ import {
   DirectoryCreateResponse
 } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
@@ -570,6 +571,94 @@ describe("DirectoryClient", () => {
       assert.ok((error.statusCode as number) === 404);
     }
     await subDirClient.delete();
+  });
+
+  it("createFile and deleteFile with tracing", async () => {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const rootSpan = tracer.startSpan("root");
+    const spanOptions = { parent: rootSpan };
+    const directoryName = recorder.getUniqueName("directory");
+    const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
+      spanOptions
+    });
+    const fileName = recorder.getUniqueName("file");
+    const metadata = { key: "value" };
+    const { fileClient } = await subDirClient.createFile(fileName, 256, {
+      metadata,
+      spanOptions
+    });
+    const result = await fileClient.getProperties({ spanOptions });
+    assert.deepEqual(result.metadata, metadata);
+
+    await subDirClient.deleteFile(fileName, { spanOptions });
+    try {
+      await fileClient.getProperties({ spanOptions });
+      assert.fail(
+        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+      );
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
+    await subDirClient.delete({ spanOptions });
+
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Storage.File.DirectoryClient-createSubdirectory",
+              children: [
+                {
+                  name: "Azure.Storage.File.DirectoryClient-create",
+                  children: []
+                }
+              ]
+            },
+            {
+              name: "Azure.Storage.File.DirectoryClient-createFile",
+              children: [
+                {
+                  name: "Azure.Storage.File.FileClient-create",
+                  children: []
+                }
+              ]
+            },
+            {
+              name: "Azure.Storage.File.FileClient-getProperties",
+              children: []
+            },
+            {
+              name: "Azure.Storage.File.DirectoryClient-deleteFile",
+              children: [
+                {
+                  name: "Azure.Storage.File.FileClient-delete",
+                  children: []
+                }
+              ]
+            },
+            {
+              name: "Azure.Storage.File.FileClient-getProperties",
+              children: []
+            },
+            {
+              name: "Azure.Storage.File.DirectoryClient-delete",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 
   it("listHandles should work", async () => {

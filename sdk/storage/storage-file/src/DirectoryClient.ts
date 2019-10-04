@@ -15,7 +15,7 @@ import {
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
 } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import { appendToURLPath } from "./utils/utils.common";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -23,6 +23,8 @@ import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { FileSystemAttributes } from "./FileSystemAttributes";
+import { createSpan } from "./utils/tracing";
+import { CanonicalCode } from "@azure/core-tracing";
 
 /**
  * Options to configure Directory - Create operation.
@@ -30,7 +32,7 @@ import { FileSystemAttributes } from "./FileSystemAttributes";
  * @export
  * @interface DirectoryCreateOptions
  */
-export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions {
+export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -48,7 +50,9 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
   metadata?: Metadata;
 }
 
-export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommonOptions {
+export interface DirectoryProperties
+  extends FileAndDirectorySetPropertiesCommonOptions,
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -64,7 +68,7 @@ export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommon
  *
  * @interface DirectoryListFilesAndDirectoriesSegmentOptions
  */
-interface DirectoryListFilesAndDirectoriesSegmentOptions {
+interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -99,7 +103,7 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions {
  * @export
  * @interface DirectoryListFilesAndDirectoriesOptions
  */
-export interface DirectoryListFilesAndDirectoriesOptions {
+export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -124,7 +128,7 @@ export interface DirectoryListFilesAndDirectoriesOptions {
  * @export
  * @interface DirectoryDeleteOptions
  */
-export interface DirectoryDeleteOptions {
+export interface DirectoryDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -141,7 +145,7 @@ export interface DirectoryDeleteOptions {
  * @export
  * @interface DirectoryGetPropertiesOptions
  */
-export interface DirectoryGetPropertiesOptions {
+export interface DirectoryGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -158,7 +162,7 @@ export interface DirectoryGetPropertiesOptions {
  * @export
  * @interface DirectorySetMetadataOptions
  */
-export interface DirectorySetMetadataOptions {
+export interface DirectorySetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -175,7 +179,7 @@ export interface DirectorySetMetadataOptions {
  * @export
  * @interface DirectoryListHandlesSegmentOptions
  */
-export interface DirectoryListHandlesSegmentOptions {
+export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -208,7 +212,7 @@ export interface DirectoryListHandlesSegmentOptions {
  * @export
  * @interface DirectoryListHandlesOptions
  */
-export interface DirectoryListHandlesOptions {
+export interface DirectoryListHandlesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -233,7 +237,7 @@ export interface DirectoryListHandlesOptions {
  * @export
  * @interface DirectoryForceCloseHandlesSegmentOptions
  */
-export interface DirectoryForceCloseHandlesSegmentOptions {
+export interface DirectoryForceCloseHandlesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -258,7 +262,7 @@ export interface DirectoryForceCloseHandlesSegmentOptions {
  * @export
  * @interface DirectoryForceCloseHandlesOptions
  */
-export interface DirectoryForceCloseHandlesOptions {
+export interface DirectoryForceCloseHandlesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -348,25 +352,37 @@ export class DirectoryClient extends StorageClient {
   public async create(
     options: DirectoryCreateOptions = {}
   ): Promise<Models.DirectoryCreateResponse> {
-    if (!options.fileAttributes) {
-      options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
-      // By default set it as a directory.
-      const attributes: FileSystemAttributes = new FileSystemAttributes();
-      attributes.directory = true;
-      options.fileAttributes = attributes;
-    }
-
-    return this.context.create(
-      fileAttributesToString(options.fileAttributes!),
-      fileCreationTimeToString(options.creationTime!),
-      fileLastWriteTimeToString(options.lastWriteTime!),
-      {
-        abortSignal: options.abortSignal,
-        metadata: options.metadata,
-        filePermission: options.filePermission,
-        filePermissionKey: options.filePermissionKey
+    const { span, spanOptions } = createSpan("DirectoryClient-create", options.spanOptions);
+    try {
+      if (!options.fileAttributes) {
+        options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
+        // By default set it as a directory.
+        const attributes: FileSystemAttributes = new FileSystemAttributes();
+        attributes.directory = true;
+        options.fileAttributes = attributes;
       }
-    );
+
+      return this.context.create(
+        fileAttributesToString(options.fileAttributes!),
+        fileCreationTimeToString(options.creationTime!),
+        fileLastWriteTimeToString(options.lastWriteTime!),
+        {
+          abortSignal: options.abortSignal,
+          metadata: options.metadata,
+          filePermission: options.filePermission,
+          filePermissionKey: options.filePermissionKey,
+          spanOptions
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -381,18 +397,33 @@ export class DirectoryClient extends StorageClient {
   public async setProperties(
     properties: DirectoryProperties = {}
   ): Promise<Models.DirectorySetPropertiesResponse> {
-    properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
-
-    return this.context.setProperties(
-      fileAttributesToString(properties.fileAttributes!),
-      fileCreationTimeToString(properties.creationTime!),
-      fileLastWriteTimeToString(properties.lastWriteTime!),
-      {
-        abortSignal: properties.abortSignal,
-        filePermission: properties.filePermission,
-        filePermissionKey: properties.filePermissionKey
-      }
+    const { span, spanOptions } = createSpan(
+      "DirectoryClient-setProperties",
+      properties.spanOptions
     );
+    try {
+      properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
+
+      return this.context.setProperties(
+        fileAttributesToString(properties.fileAttributes!),
+        fileCreationTimeToString(properties.creationTime!),
+        fileLastWriteTimeToString(properties.lastWriteTime!),
+        {
+          abortSignal: properties.abortSignal,
+          filePermission: properties.filePermission,
+          filePermissionKey: properties.filePermissionKey,
+          spanOptions
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -420,17 +451,31 @@ export class DirectoryClient extends StorageClient {
    */
   public async createSubdirectory(
     directoryName: string,
-    options?: DirectoryCreateOptions
+    options: DirectoryCreateOptions = {}
   ): Promise<{
     directoryClient: DirectoryClient;
     directoryCreateResponse: Models.DirectoryCreateResponse;
   }> {
-    const directoryClient = this.getDirectoryClient(directoryName);
-    const directoryCreateResponse = await directoryClient.create(options);
-    return {
-      directoryClient,
-      directoryCreateResponse
-    };
+    const { span, spanOptions } = createSpan(
+      "DirectoryClient-createSubdirectory",
+      options.spanOptions
+    );
+    try {
+      const directoryClient = this.getDirectoryClient(directoryName);
+      const directoryCreateResponse = await directoryClient.create({ ...options, spanOptions });
+      return {
+        directoryClient,
+        directoryCreateResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -445,10 +490,24 @@ export class DirectoryClient extends StorageClient {
    */
   public async deleteSubdirectory(
     directoryName: string,
-    options?: DirectoryDeleteOptions
+    options: DirectoryDeleteOptions = {}
   ): Promise<Models.DirectoryDeleteResponse> {
-    const directoryClient = this.getDirectoryClient(directoryName);
-    return await directoryClient.delete(options);
+    const { span, spanOptions } = createSpan(
+      "DirectoryClient-deleteSubdirectory",
+      options.spanOptions
+    );
+    try {
+      const directoryClient = this.getDirectoryClient(directoryName);
+      return await directoryClient.delete({ ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -464,14 +523,25 @@ export class DirectoryClient extends StorageClient {
   public async createFile(
     fileName: string,
     size: number,
-    options?: FileCreateOptions
+    options: FileCreateOptions = {}
   ): Promise<{ fileClient: FileClient; fileCreateResponse: Models.FileCreateResponse }> {
-    const fileClient = this.getFileClient(fileName);
-    const fileCreateResponse = await fileClient.create(size, options);
-    return {
-      fileClient,
-      fileCreateResponse
-    };
+    const { span, spanOptions } = createSpan("DirectoryClient-createFile", options.spanOptions);
+    try {
+      const fileClient = this.getFileClient(fileName);
+      const fileCreateResponse = await fileClient.create(size, { ...options, spanOptions });
+      return {
+        fileClient,
+        fileCreateResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -495,10 +565,21 @@ export class DirectoryClient extends StorageClient {
    */
   public async deleteFile(
     fileName: string,
-    options?: FileDeleteOptions
+    options: FileDeleteOptions = {}
   ): Promise<Models.FileDeleteResponse> {
-    const fileClient = this.getFileClient(fileName);
-    return await fileClient.delete(options);
+    const { span, spanOptions } = createSpan("DirectoryClient-deleteFile", options.spanOptions);
+    try {
+      const fileClient = this.getFileClient(fileName);
+      return await fileClient.delete({ ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -525,9 +606,21 @@ export class DirectoryClient extends StorageClient {
   public async getProperties(
     options: DirectoryGetPropertiesOptions = {}
   ): Promise<Models.DirectoryGetPropertiesResponse> {
-    return this.context.getProperties({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("DirectoryClient-getProperties", options.spanOptions);
+    try {
+      return this.context.getProperties({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -542,9 +635,21 @@ export class DirectoryClient extends StorageClient {
   public async delete(
     options: DirectoryDeleteOptions = {}
   ): Promise<Models.DirectoryDeleteResponse> {
-    return this.context.deleteMethod({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("DirectoryClient-delete", options.spanOptions);
+    try {
+      return this.context.deleteMethod({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -560,10 +665,22 @@ export class DirectoryClient extends StorageClient {
     metadata?: Metadata,
     options: DirectorySetMetadataOptions = {}
   ): Promise<Models.DirectorySetMetadataResponse> {
-    return this.context.setMetadata({
-      abortSignal: options.abortSignal,
-      metadata
-    });
+    const { span, spanOptions } = createSpan("DirectoryClient-setMetadata", options.spanOptions);
+    try {
+      return this.context.setMetadata({
+        abortSignal: options.abortSignal,
+        metadata,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -752,10 +869,25 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): Promise<Models.DirectoryListFilesAndDirectoriesSegmentResponse> {
-    return this.context.listFilesAndDirectoriesSegment({
-      marker,
-      ...options
-    });
+    const { span, spanOptions } = createSpan(
+      "DirectoryClient-listFilesAndDirectoriesSegment",
+      options.spanOptions
+    );
+    try {
+      return this.context.listFilesAndDirectoriesSegment({
+        marker,
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -925,18 +1057,33 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryListHandlesResponse> {
-    marker = marker === "" ? undefined : marker;
-    const response = await this.context.listHandles({
-      marker,
-      ...options
-    });
+    const { span, spanOptions } = createSpan(
+      "DirectoryClient-listHandlesSegment",
+      options.spanOptions
+    );
+    try {
+      marker = marker === "" ? undefined : marker;
+      const response = await this.context.listHandles({
+        marker,
+        ...options,
+        spanOptions
+      });
 
-    // TODO: Protocol layer issue that when handle list is in returned XML
-    // response.handleList is an empty string
-    if ((response.handleList as any) === "") {
-      response.handleList = undefined;
+      // TODO: Protocol layer issue that when handle list is in returned XML
+      // response.handleList is an empty string
+      if ((response.handleList as any) === "") {
+        response.handleList = undefined;
+      }
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return response;
   }
   /**
    * Force close all handles for a directory.
@@ -957,11 +1104,26 @@ export class DirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryForceCloseHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryForceCloseHandlesResponse> {
-    marker = marker === "" ? undefined : marker;
-    return this.context.forceCloseHandles("*", {
-      marker,
-      ...options
-    });
+    const { span, spanOptions } = createSpan(
+      "DirectoryClient-forceCloseHandlesSegment",
+      options.spanOptions
+    );
+    try {
+      marker = marker === "" ? undefined : marker;
+      return this.context.forceCloseHandles("*", {
+        marker,
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -980,14 +1142,29 @@ export class DirectoryClient extends StorageClient {
     handleId: string,
     options: DirectoryForceCloseHandlesOptions = {}
   ): Promise<Models.DirectoryForceCloseHandlesResponse> {
-    if (handleId === "*") {
-      throw new RangeError(
-        `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
-      );
-    }
+    const { span, spanOptions } = createSpan(
+      "DirectoryClient-forceCloseHandle",
+      options.spanOptions
+    );
+    try {
+      if (handleId === "*") {
+        throw new RangeError(
+          `Parameter handleID should be a specified handle ID. Use forceCloseHandlesSegment() to close all handles.`
+        );
+      }
 
-    return this.context.forceCloseHandles(handleId, {
-      abortSignal: options.abortSignal
-    });
+      return this.context.forceCloseHandles(handleId, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
