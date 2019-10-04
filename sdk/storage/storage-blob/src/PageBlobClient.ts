@@ -8,9 +8,9 @@ import {
   isTokenCredential,
   isNode
 } from "@azure/core-http";
-
+import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { BlobClient } from "./internal";
+import { BlobClient, CommonOptions } from "./internal";
 import * as Models from "./generated/src/models";
 import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
@@ -27,6 +27,7 @@ import { URLConstants } from "./utils/constants";
 import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Page Blob - Create operation.
@@ -34,7 +35,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @export
  * @interface PageBlobCreateOptions
  */
-export interface PageBlobCreateOptions {
+export interface PageBlobCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -95,7 +96,7 @@ export interface PageBlobCreateOptions {
  * @export
  * @interface PageBlobUploadPagesOptions
  */
-export interface PageBlobUploadPagesOptions {
+export interface PageBlobUploadPagesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -152,7 +153,7 @@ export interface PageBlobUploadPagesOptions {
  * @export
  * @interface PageBlobClearPagesOptions
  */
-export interface PageBlobClearPagesOptions {
+export interface PageBlobClearPagesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -183,7 +184,7 @@ export interface PageBlobClearPagesOptions {
  * @export
  * @interface PageBlobGetPageRangesOptions
  */
-export interface PageBlobGetPageRangesOptions {
+export interface PageBlobGetPageRangesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -207,7 +208,7 @@ export interface PageBlobGetPageRangesOptions {
  * @export
  * @interface PageBlobGetPageRangesDiffOptions
  */
-export interface PageBlobGetPageRangesDiffOptions {
+export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -238,7 +239,7 @@ export interface PageBlobGetPageRangesDiffOptions {
  * @export
  * @interface PageBlobResizeOptions
  */
-export interface PageBlobResizeOptions {
+export interface PageBlobResizeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -262,7 +263,7 @@ export interface PageBlobResizeOptions {
  * @export
  * @interface PageBlobUpdateSequenceNumberOptions
  */
-export interface PageBlobUpdateSequenceNumberOptions {
+export interface PageBlobUpdateSequenceNumberOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -286,7 +287,7 @@ export interface PageBlobUpdateSequenceNumberOptions {
  * @export
  * @interface PageBlobStartCopyIncrementalOptions
  */
-export interface PageBlobStartCopyIncrementalOptions {
+export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -304,7 +305,7 @@ export interface PageBlobStartCopyIncrementalOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export interface PageBlobUploadPagesFromURLOptions {
+export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -540,17 +541,29 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobCreateOptions = {}
   ): Promise<Models.PageBlobCreateResponse> {
     options.accessConditions = options.accessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.pageBlobContext.create(0, size, {
-      abortSignal: options.abortSignal,
-      blobHTTPHeaders: options.blobHTTPHeaders,
-      blobSequenceNumber: options.blobSequenceNumber,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      metadata: options.metadata,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      cpkInfo: options.customerProvidedKey,
-      tier: toAccessTier(options.tier)
-    });
+    const { span, spanOptions } = createSpan("PageBlobClient-create", options.spanOptions);
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.pageBlobContext.create(0, size, {
+        abortSignal: options.abortSignal,
+        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobSequenceNumber: options.blobSequenceNumber,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        metadata: options.metadata,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        tier: toAccessTier(options.tier),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -571,18 +584,30 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobUploadPagesOptions = {}
   ): Promise<Models.PageBlobUploadPagesResponse> {
     options.accessConditions = options.accessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.pageBlobContext.uploadPages(body, count, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      onUploadProgress: options.progress,
-      range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-      transactionalContentMD5: options.transactionalContentMD5,
-      transactionalContentCrc64: options.transactionalContentCrc64,
-      cpkInfo: options.customerProvidedKey
-    });
+    const { span, spanOptions } = createSpan("PageBlobClient-uploadPages", options.spanOptions);
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.pageBlobContext.uploadPages(body, count, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        onUploadProgress: options.progress,
+        range: rangeToString({ offset, count }),
+        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        transactionalContentMD5: options.transactionalContentMD5,
+        transactionalContentCrc64: options.transactionalContentCrc64,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -607,28 +632,43 @@ export class PageBlobClient extends BlobClient {
   ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.pageBlobContext.uploadPagesFromURL(
-      sourceURL,
-      rangeToString({ offset: sourceOffset, count }),
-      0,
-      rangeToString({ offset: destOffset, count }),
-      {
-        abortSignal: options.abortSignal,
-        sourceContentMD5: options.sourceContentMD5,
-        sourceContentCrc64: options.sourceContentCrc64,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-        },
-        cpkInfo: options.customerProvidedKey
-      }
+    const { span, spanOptions } = createSpan(
+      "PageBlobClient-uploadPagesFromURL",
+      options.spanOptions
     );
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.pageBlobContext.uploadPagesFromURL(
+        sourceURL,
+        rangeToString({ offset: sourceOffset, count }),
+        0,
+        rangeToString({ offset: destOffset, count }),
+        {
+          abortSignal: options.abortSignal,
+          sourceContentMD5: options.sourceContentMD5,
+          sourceContentCrc64: options.sourceContentCrc64,
+          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+          sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          sourceModifiedAccessConditions: {
+            sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+            sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+          },
+          cpkInfo: options.customerProvidedKey,
+          spanOptions
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -647,14 +687,26 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobClearPagesOptions = {}
   ): Promise<Models.PageBlobClearPagesResponse> {
     options.accessConditions = options.accessConditions || {};
-    return this.pageBlobContext.clearPages(0, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      range: rangeToString({ offset, count }),
-      sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-      cpkInfo: options.customerProvidedKey
-    });
+    const { span, spanOptions } = createSpan("PageBlobClient-clearPages", options.spanOptions);
+    try {
+      return this.pageBlobContext.clearPages(0, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        range: rangeToString({ offset, count }),
+        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -673,12 +725,24 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<Models.PageBlobGetPageRangesResponse> {
     options.accessConditions = options.accessConditions || {};
-    return this.pageBlobContext.getPageRanges({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      range: rangeToString({ offset, count })
-    });
+    const { span, spanOptions } = createSpan("PageBlobClient-getPageRanges", options.spanOptions);
+    try {
+      return this.pageBlobContext.getPageRanges({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        range: rangeToString({ offset, count }),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -699,13 +763,28 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
     options.accessConditions = options.accessConditions || {};
-    return this.pageBlobContext.getPageRangesDiff({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      prevsnapshot: prevSnapshot,
-      range: rangeToString({ offset, count })
-    });
+    const { span, spanOptions } = createSpan(
+      "PageBlobClient-getPageRangesDiff",
+      options.spanOptions
+    );
+    try {
+      return this.pageBlobContext.getPageRangesDiff({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        prevsnapshot: prevSnapshot,
+        range: rangeToString({ offset, count }),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -722,11 +801,23 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobResizeOptions = {}
   ): Promise<Models.PageBlobResizeResponse> {
     options.accessConditions = options.accessConditions || {};
-    return this.pageBlobContext.resize(size, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
-    });
+    const { span, spanOptions } = createSpan("PageBlobClient-resize", options.spanOptions);
+    try {
+      return this.pageBlobContext.resize(size, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -745,12 +836,27 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobUpdateSequenceNumberOptions = {}
   ): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
     options.accessConditions = options.accessConditions || {};
-    return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
-      abortSignal: options.abortSignal,
-      blobSequenceNumber: sequenceNumber,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions
-    });
+    const { span, spanOptions } = createSpan(
+      "PageBlobClient-updateSequenceNumber",
+      options.spanOptions
+    );
+    try {
+      return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
+        abortSignal: options.abortSignal,
+        blobSequenceNumber: sequenceNumber,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -771,9 +877,24 @@ export class PageBlobClient extends BlobClient {
     copySource: string,
     options: PageBlobStartCopyIncrementalOptions = {}
   ): Promise<Models.PageBlobCopyIncrementalResponse> {
-    return this.pageBlobContext.copyIncremental(copySource, {
-      abortSignal: options.abortSignal,
-      modifiedAccessConditions: options.modifiedAccessConditions
-    });
+    const { span, spanOptions } = createSpan(
+      "PageBlobClient-startCopyIncremental",
+      options.spanOptions
+    );
+    try {
+      return this.pageBlobContext.copyIncremental(copySource, {
+        abortSignal: options.abortSignal,
+        modifiedAccessConditions: options.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
