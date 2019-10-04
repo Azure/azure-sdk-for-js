@@ -34,7 +34,8 @@ import {
   extractAfterTokenFromNextLink,
   checkAndFormatIfAndIfNoneMatch
 } from "./internal/helpers";
-import { ResponseBodyNotFoundError } from "@azure/core-http";
+import { ResponseBodyNotFoundError, tracingPolicy } from "@azure/core-http";
+import { Spanner } from "./internal/tracingHelpers";
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -53,6 +54,7 @@ const deserializationContentTypes = {
  */
 export class AppConfigurationClient {
   private client: AppConfiguration;
+  private spanner: Spanner<AppConfigurationClient>;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -64,11 +66,14 @@ export class AppConfigurationClient {
       const appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
       this.client = new AppConfiguration(appConfigCredential, apiVersion, {
         baseUri: regexMatch[1],
-        deserializationContentTypes
+        deserializationContentTypes,
+        requestPolicyFactories: (defaults) => [ ...defaults, tracingPolicy() ]
       });
     } else {
       throw new Error("You must provide a connection string.");
     }
+
+    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration", "appconfig");
   }
 
   /**
@@ -86,11 +91,13 @@ export class AppConfigurationClient {
     configurationSetting: ConfigurationSettingParam,
     options: ConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    return this.client.putKeyValue(configurationSetting.key, {
-      ifNoneMatch: "*",
-      label: configurationSetting.label,
-      entity: configurationSetting,
-      ...options
+    return this.spanner.trace("addConfigurationSetting", options, (_, newOptions) => {
+      return this.client.putKeyValue(configurationSetting.key, {
+        ifNoneMatch: "*",
+        label: configurationSetting.label,
+        entity: configurationSetting,
+        ...newOptions
+      });
     });
   }
 
@@ -104,13 +111,16 @@ export class AppConfigurationClient {
    * @param key The name of the key.
    * @param options Optional parameters for the request (ex: etag, label)
    */
-  deleteConfigurationSetting(
+  async deleteConfigurationSetting(
     key: string,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    return this.client.deleteKeyValue(key, {
-      ...options,
-      ...checkAndFormatIfAndIfNoneMatch(options)
+
+    return this.spanner.trace("deleteConfigurationSetting", options, (newOptions) => {
+      return this.client.deleteKeyValue(key, {
+        ...newOptions,
+        ...checkAndFormatIfAndIfNoneMatch(newOptions)
+      })
     });
   }
 
@@ -128,26 +138,28 @@ export class AppConfigurationClient {
     key: string,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    const response = (await this.client.getKeyValue(key, {
-      label: options.label,
-      ...options,
-      ...checkAndFormatIfAndIfNoneMatch(options)
-    })) as GetConfigurationSettingResponse;
+    return await this.spanner.trace("getConfigurationSetting", options, async (newOptions) => {
+      const response = (await this.client.getKeyValue(key, {
+        label: newOptions.label,
+        ...newOptions,
+        ...checkAndFormatIfAndIfNoneMatch(newOptions)
+      })) as GetConfigurationSettingResponse;
 
-    // 304 only comes back if the user has passed a conditional option in their
-    // request _and_ the remote object has the same etag as what the user passed.
-    if (response._response.status === 304) {
-      throw new ResponseBodyNotFoundError(
-        "The requested setting's value has not changed since the last request.",
-        "Resource same as remote",
-        response._response.status,
-        response._response.request,
-        response._response,
-        null
-      );
-    }
+      // 304 only comes back if the user has passed a conditional option in their
+      // request _and_ the remote object has the same etag as what the user passed.
+      if (response._response.status === 304) {
+        throw new ResponseBodyNotFoundError(
+          "The requested setting's value has not changed since the last request.",
+          "Resource same as remote",
+          response._response.status,
+          response._response.request,
+          response._response,
+          null
+        );
+      }
 
-    return response;
+      return response;
+    });
   }
 
   /**
@@ -193,20 +205,25 @@ export class AppConfigurationClient {
   private async *listConfigurationSettingsByPage(
     options: ListConfigurationSettingsOptions = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
-    let currentResponse = await this.client.getKeyValues({
-      ...options,
-      ...formatWildcards(options),
-      select: options.fields
-    });
+
+    let currentResponse = await this.spanner.trace("listConfigurationSettings", options, (newOptions) => {
+       return this.client.getKeyValues({
+        ...newOptions,
+        ...formatWildcards(newOptions),
+        select: newOptions.fields
+      });
+    });    
 
     yield* this.createListConfigurationPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.client.getKeyValues({
-        ...options,
-        ...formatWildcards(options),
-        select: options.fields,
-        after: extractAfterTokenFromNextLink(currentResponse.nextLink)
+      currentResponse = await this.spanner.trace("listConfigurationSettings", options, (newOptions) => {
+        return this.client.getKeyValues({
+          ...newOptions,
+          ...formatWildcards(newOptions),
+          select: newOptions.fields,
+          after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
+        });
       });
 
       if (!currentResponse.items) {
@@ -267,10 +284,12 @@ export class AppConfigurationClient {
   private async *listRevisionsByPage(
     options: ListRevisionsOptions = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
-    let currentResponse = await this.client.getRevisions({
-      ...options,
-      ...formatWildcards(options),
-      select: options.fields
+    let currentResponse = await this.spanner.trace("listRevisions", options, (newOptions) => {
+      return this.client.getRevisions({
+        ...newOptions,
+        ...formatWildcards(newOptions),
+        select: newOptions.fields
+      });
     });
 
     yield {
@@ -279,11 +298,13 @@ export class AppConfigurationClient {
     };
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.client.getRevisions({
-        ...options,
-        ...formatWildcards(options),
-        select: options.fields,
-        after: extractAfterTokenFromNextLink(currentResponse.nextLink)
+      currentResponse = await this.spanner.trace("listRevisions", options, (newOptions) => {
+        return this.client.getRevisions({
+          ...newOptions,
+          ...formatWildcards(newOptions),
+          select: newOptions.fields,
+          after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
+        });
       });
 
       if (!currentResponse.items) {
@@ -312,11 +333,13 @@ export class AppConfigurationClient {
     configurationSetting: ConfigurationSettingParam,
     options: ConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    return this.client.putKeyValue(configurationSetting.key, {
-      ...options,
-      label: configurationSetting.label,
-      entity: configurationSetting,
-      ...checkAndFormatIfAndIfNoneMatch(options)
+    return this.spanner.trace("setConfigurationSetting", options, (newOptions) => {
+      return this.client.putKeyValue(configurationSetting.key, {
+        ...newOptions,
+        label: configurationSetting.label,
+        entity: configurationSetting,
+        ...checkAndFormatIfAndIfNoneMatch(newOptions)
+      });
     });
   }
 
@@ -329,9 +352,11 @@ export class AppConfigurationClient {
     configurationSetting: ConfigurationSettingParam,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    return this.client.putLock(configurationSetting.key, {
-      ...options,
-      label: configurationSetting.label
+    return this.spanner.trace("setReadOnly", options, (newOptions) => {
+      return this.client.putLock(configurationSetting.key, {
+        ...newOptions,
+        label: configurationSetting.label
+      });
     });
   }
 
@@ -344,9 +369,11 @@ export class AppConfigurationClient {
     configurationSetting: ConfigurationSettingParam,
     options: ClearReadOnlyOptions = {}
   ): Promise<ClearReadOnlyResponse> {
-    return this.client.deleteLock(configurationSetting.key, {
-      ...options,
-      label: configurationSetting.label
+    return this.spanner.trace("clearReadOnly", options, (newOptions) => {
+      return this.client.deleteLock(configurationSetting.key, {
+        ...newOptions,
+        label: configurationSetting.label
+      });
     });
   }
 }
