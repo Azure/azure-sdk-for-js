@@ -189,7 +189,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ShareSASPermissions.parse("rcwdl").toString(),
         protocol: SASProtocol.HTTPSandHTTP,
-        shareName,
+        shareName: shareClient.shareName,
         startTime: now,
         version: "2018-03-28"
       },
@@ -243,11 +243,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiryTime: tmr,
-        filePath: `${dirName}/${fileName}`,
+        filePath: fileClient.filePath,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSASPermissions.parse("rcwd").toString(),
         protocol: SASProtocol.HTTPSandHTTP,
-        shareName,
+        shareName: fileClient.shareName,
         startTime: now,
         version: "2016-05-31"
       },

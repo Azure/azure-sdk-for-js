@@ -36,6 +36,7 @@ import { streamToBuffer } from "./utils/utils.node";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
+import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 
 /**
@@ -632,6 +633,16 @@ export class FileClient extends StorageClient {
    * @memberof FileClient
    */
   private context: File;
+  private _shareName: string;
+  private _filePath: string;
+
+  public get shareName(): string {
+    return this._shareName;
+  }
+
+  public get filePath(): string {
+    return this._filePath;
+  }
 
   /**
    * Creates an instance of FileClient.
@@ -682,6 +693,10 @@ export class FileClient extends StorageClient {
     }
 
     super(url, pipeline);
+    ({
+      shareName: this._shareName,
+      filePathOrdirectoryPath: this._filePath
+    } = getShareNameAndPathFromUrl(this.url));
     this.context = new File(this.storageClientContext);
   }
 

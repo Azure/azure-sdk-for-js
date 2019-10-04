@@ -74,9 +74,28 @@ export function escapeURLPath(url: string): string {
 export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";
   url: string;
-  accountName?: string;
+  accountName: string;
   accountKey?: any;
   accountSas?: string;
+}
+
+function getValueInConnString(
+  connectionString: string,
+  argument:
+    | "FileEndpoint"
+    | "AccountName"
+    | "AccountKey"
+    | "DefaultEndpointsProtocol"
+    | "EndpointSuffix"
+    | "SharedAccessSignature"
+) {
+  const elements = connectionString.split(";");
+  for (const element of elements) {
+    if (element.trim().startsWith(argument)) {
+      return element.trim().match(argument + "=(.*)")![1];
+    }
+  }
+  return "";
 }
 
 /**
@@ -87,18 +106,8 @@ export interface ConnectionString {
  * @returns {ConnectionString} String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnectionString {
-  function getValueInConnString(argument: string) {
-    const matchCredentials = connectionString.split(";");
-    for (const element of matchCredentials) {
-      if (element.trim().startsWith(argument)) {
-        return element.trim().match(argument + "=(.*)")![1];
-      }
-    }
-    return "";
-  }
-
   // Matching FileEndpoint in the Account connection string
-  let fileEndpoint = getValueInConnString("FileEndpoint");
+  let fileEndpoint = getValueInConnString(connectionString, "FileEndpoint");
   // Slicing off '/' at the end if exists
   // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
   fileEndpoint = fileEndpoint.endsWith("/") ? fileEndpoint.slice(0, -1) : fileEndpoint;
@@ -115,14 +124,14 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     let endpointSuffix = "";
 
     // Get account name and key
-    accountName = getValueInConnString("AccountName");
-    accountKey = Buffer.from(getValueInConnString("AccountKey"), "base64");
+    accountName = getValueInConnString(connectionString, "AccountName");
+    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
 
     if (!fileEndpoint) {
       // FileEndpoint is not present in the Account connection string
       // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`
 
-      defaultEndpointsProtocol = getValueInConnString("DefaultEndpointsProtocol");
+      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
@@ -130,7 +139,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
         );
       }
 
-      endpointSuffix = getValueInConnString("EndpointSuffix");
+      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
       if (!endpointSuffix) {
         throw new Error("Invalid EndpointSuffix in the provided Connection String");
       }
@@ -152,14 +161,17 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString("SharedAccessSignature");
+    let accountName = getAccountNameFromUrl(fileEndpoint);
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
     if (!fileEndpoint) {
       throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    } else if (!accountName) {
+      throw new Error("Invalid AccountName in the provided SAS Connection String");
     }
 
-    return { kind: "SASConnString", url: fileEndpoint, accountSas };
+    return { kind: "SASConnString", url: fileEndpoint, accountName, accountSas };
   }
 }
 
@@ -410,4 +422,53 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   }
 
   return headers;
+}
+
+export function getAccountNameFromUrl(url: string): string {
+  // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+  // Slicing off '/' at the end if exists
+  try {
+    url = url.endsWith("/") ? url.slice(0, -1) : url;
+
+    const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".file."));
+    if (!accountName) {
+      throw new Error("Provided accountName is invalid.");
+    }
+    return accountName;
+  } catch (error) {
+    throw new Error("Unable to extract accountName with provided information.");
+  }
+}
+
+export function getShareNameAndPathFromUrl(
+  url: string
+): { shareName: string; filePathOrdirectoryPath: string } {
+  //  URL may look like the following
+  // "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString";
+  // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";
+  // "https://myaccount.file.core.windows.net/myshare/mydirectory?sasString";
+  // "https://myaccount.file.core.windows.net/myshare/mydirectory";
+  // "https://myaccount.file.core.windows.net/myshare?sasString";
+  // "https://myaccount.file.core.windows.net/myshare";
+  // mydirectory can consist of multiple directories - dir1/dir2/dir3
+
+  try {
+    let urlWithoutSAS = url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
+
+    const shareName = shareNameAndFilePath![3];
+    const filePathOrdirectoryPath = shareNameAndFilePath![5];
+
+    if (!shareName) {
+      throw new Error("Provided shareName is invalid.");
+    } else {
+      return { shareName, filePathOrdirectoryPath };
+    }
+  } catch (error) {
+    throw new Error(
+      "Unable to extract shareName and filePath/directoryPath with provided information."
+    );
+  }
 }
