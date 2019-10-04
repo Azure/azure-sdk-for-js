@@ -3,6 +3,16 @@
 
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
+import { getAccountNameFromUrl } from "./utils/utils.common";
+import { SpanOptions } from "@azure/core-tracing";
+
+/**
+ * An interface for options common to every remote operation.
+ */
+export interface CommonOptions {
+  spanOptions?: SpanOptions;
+}
+
 /**
  * A StorageClient represents a based client class for QueueServiceClient, QueueClient and etc.
  *
@@ -17,6 +27,7 @@ export abstract class StorageClient {
    * @memberof StorageClient
    */
   public readonly url: string;
+  public readonly accountName: string;
 
   /**
    * Request policy pipeline.
@@ -46,6 +57,7 @@ export abstract class StorageClient {
    */
   protected constructor(url: string, pipeline: Pipeline) {
     this.url = url;
+    this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
 

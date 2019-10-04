@@ -70,13 +70,13 @@ npm install @azure/storage-queue@12.0.0-preview.4
 
 In your TypeScript or JavaScript file, import via following:
 
-```JavaScript
+```javascript
 import * as Azure from "@azure/storage-queue";
 ```
 
 Or
 
-```JavaScript
+```javascript
 const Azure = require("@azure/storage-queue");
 ```
 
@@ -110,6 +110,16 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Examples
 
+### Import types
+
+You can use the `const Azure = require("@azure/storage-queue");` shown above then use types and functions from `Azure`.
+Or you can selectively import certain types,
+
+```javascript
+const { QueueServiceClient, SharedKeyCredential } = require("@azure/storage-queue");
+);
+```
+
 ### Create the queue service client
 
 Use the constructor to create an instance of `QueueServiceClient`, passing in the credential, and options to configure the HTTP pipeline (optional).
@@ -139,27 +149,27 @@ Use `QueueServiceClient.listContainers()` function to iterate the containers,
 with the new `for-await-of` syntax:
 
 ```javascript
-  let iter1 = queueServiceClient.listQueues();
-  let i = 1;
-  for await (const item of iter1) {
-    console.log(`Queue${i}: ${item.name}`);
-    i++;
-  }
+let iter1 = queueServiceClient.listQueues();
+let i = 1;
+for await (const item of iter1) {
+  console.log(`Queue${i}: ${item.name}`);
+  i++;
+}
 ```
 
 Alternatively without `for-await-of`:
 
 ```javascript
 let iter2 = await queueServiceClient.listQueues();
-i = 1;
+let i = 1;
 let item = await iter2.next();
 while (!item.done) {
-  console.log(`Queue${i++}: ${item.value.name}`);
+  console.log(`Queue ${i++}: ${item.value.name}`);
   item = await iter2.next();
 }
 ```
 
-For a complete sample on iterating queues please see [samples/iterators.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/iterators.ts).
+For a complete sample on iterating queues please see [samples/typescript/iterators.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/iterators.ts).
 
 ### Create a new queue
 
@@ -259,7 +269,7 @@ class ConsoleHttpPipelineLogger {
 }
 ```
 
-When creating the `QueueServiceClient` instance, pass the logger in the options
+Then when creating the `QueueServiceClient` instance, pass the logger in the options
 
 ```javascript
 const queueServiceClient = new QueueServiceClient(

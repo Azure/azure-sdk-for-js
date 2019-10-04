@@ -108,7 +108,7 @@ export function browserConfig(test = false, production = false) {
       }),
       cjs({
         namedExports: {
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual"]
+          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"]
         }
       })
     ]

@@ -8,10 +8,10 @@ import {
   isTokenCredential,
   isNode
 } from "@azure/core-http";
-
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { BlobClient } from "./internal";
+import { BlobClient, CommonOptions } from "./internal";
 import { AppendBlob } from "./generated/src/operations";
 import {
   AppendBlobAccessConditions,
@@ -25,6 +25,7 @@ import { setURLParameter, extractConnectionStringParts } from "./utils/utils.com
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { rangeToString } from "./Range";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Append Blob - Create operation.
@@ -32,7 +33,7 @@ import { rangeToString } from "./Range";
  * @export
  * @interface AppendBlobCreateOptions
  */
-export interface AppendBlobCreateOptions {
+export interface AppendBlobCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -78,7 +79,7 @@ export interface AppendBlobCreateOptions {
  * @export
  * @interface AppendBlobAppendBlockOptions
  */
-export interface AppendBlobAppendBlockOptions {
+export interface AppendBlobAppendBlockOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -129,7 +130,7 @@ export interface AppendBlobAppendBlockOptions {
   customerProvidedKey?: Models.CpkInfo;
 }
 
-export interface AppendBlobAppendBlockFromURLOptions {
+export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -370,17 +371,29 @@ export class AppendBlobClient extends BlobClient {
   public async create(
     options: AppendBlobCreateOptions = {}
   ): Promise<Models.AppendBlobCreateResponse> {
+    const { span, spanOptions } = createSpan("AppendBlobClient-create", options.spanOptions);
     options.accessConditions = options.accessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-    return this.appendBlobContext.create(0, {
-      abortSignal: options.abortSignal,
-      blobHTTPHeaders: options.blobHTTPHeaders,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      metadata: options.metadata,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      cpkInfo: options.customerProvidedKey
-    });
+      return this.appendBlobContext.create(0, {
+        abortSignal: options.abortSignal,
+        blobHTTPHeaders: options.blobHTTPHeaders,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        metadata: options.metadata,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -398,19 +411,31 @@ export class AppendBlobClient extends BlobClient {
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
   ): Promise<Models.AppendBlobAppendBlockResponse> {
+    const { span, spanOptions } = createSpan("AppendBlobClient-appendBlock", options.spanOptions);
     options.accessConditions = options.accessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-    return this.appendBlobContext.appendBlock(body, contentLength, {
-      abortSignal: options.abortSignal,
-      appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      onUploadProgress: options.progress,
-      transactionalContentMD5: options.transactionalContentMD5,
-      transactionalContentCrc64: options.transactionalContentCrc64,
-      cpkInfo: options.customerProvidedKey
-    });
+      return this.appendBlobContext.appendBlock(body, contentLength, {
+        abortSignal: options.abortSignal,
+        appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        onUploadProgress: options.progress,
+        transactionalContentMD5: options.transactionalContentMD5,
+        transactionalContentCrc64: options.transactionalContentCrc64,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -435,25 +460,40 @@ export class AppendBlobClient extends BlobClient {
     count: number,
     options: AppendBlobAppendBlockFromURLOptions = {}
   ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+    const { span, spanOptions } = createSpan(
+      "AppendBlobClient-appendBlockFromURL",
+      options.spanOptions
+    );
     options.accessConditions = options.accessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-    return this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
-      abortSignal: options.abortSignal,
-      sourceRange: rangeToString({ offset: sourceOffset, count }),
-      sourceContentMD5: options.sourceContentMD5,
-      sourceContentCrc64: options.sourceContentCrc64,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      sourceModifiedAccessConditions: {
-        sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-        sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-        sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-        sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-      },
-      cpkInfo: options.customerProvidedKey
-    });
+      return this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
+        abortSignal: options.abortSignal,
+        sourceRange: rangeToString({ offset: sourceOffset, count }),
+        sourceContentMD5: options.sourceContentMD5,
+        sourceContentCrc64: options.sourceContentCrc64,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+        },
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

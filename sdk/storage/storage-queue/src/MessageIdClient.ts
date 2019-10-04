@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { MessageId } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import { extractConnectionStringParts } from "./utils/utils.common";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -17,7 +19,7 @@ import { extractConnectionStringParts } from "./utils/utils.common";
  * @export
  * @interface MessageIdDeleteOptions
  */
-export interface MessageIdDeleteOptions {
+export interface MessageIdDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -34,7 +36,7 @@ export interface MessageIdDeleteOptions {
  * @export
  * @interface MessageIdUpdateOptions
  */
-export interface MessageIdUpdateOptions {
+export interface MessageIdUpdateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -60,6 +62,14 @@ export class MessageIdClient extends StorageClient {
    * @memberof MessageIdClient
    */
   private messageIdContext: MessageId;
+  private _queueName: string;
+  private _messageId: string;
+  public get queueName(): string {
+    return this._queueName;
+  }
+  public get messageId(): string {
+    return this._messageId;
+  }
 
   /**
    * Creates an instance of MessageIdClient.
@@ -123,19 +133,26 @@ export class MessageIdClient extends StorageClient {
     options: NewPipelineOptions = {}
   ) {
     let pipeline: Pipeline;
+    let url: string;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
       (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       options = messageIdOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       options = messageIdOrOptions as NewPipelineOptions;
       // The second paramter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -145,6 +162,7 @@ export class MessageIdClient extends StorageClient {
       messageIdOrOptions &&
       typeof messageIdOrOptions === "string"
     ) {
+      // (connectionString: string, queueName: string, messageId: string, options?: NewPipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
@@ -155,7 +173,7 @@ export class MessageIdClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages/" + messageId;
+          url = extractedCreds.url + "/" + queueName + "/messages/" + messageId;
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
@@ -164,7 +182,7 @@ export class MessageIdClient extends StorageClient {
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
         const messageId = messageIdOrOptions;
-        urlOrConnectionString =
+        url =
           extractedCreds.url +
           "/" +
           queueName +
@@ -181,7 +199,11 @@ export class MessageIdClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for queueName and messageId parameters");
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
+    ({
+      queueName: this._queueName,
+      messageId: this._messageId
+    } = this.getQueueNameAndMessageIdFromUrl());
     this.messageIdContext = new MessageId(this.storageClientContext);
   }
 
@@ -198,9 +220,21 @@ export class MessageIdClient extends StorageClient {
     popReceipt: string,
     options: MessageIdDeleteOptions = {}
   ): Promise<Models.MessageIdDeleteResponse> {
-    return this.messageIdContext.deleteMethod(popReceipt, {
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("MessageIdClient-delete", options.spanOptions);
+    try {
+      return this.messageIdContext.deleteMethod(popReceipt, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -226,15 +260,46 @@ export class MessageIdClient extends StorageClient {
     visibilityTimeout?: number,
     options: MessageIdUpdateOptions = {}
   ): Promise<Models.MessageIdUpdateResponse> {
-    return this.messageIdContext.update(
-      {
-        messageText: message
-      },
-      popReceipt,
-      visibilityTimeout || 0,
-      {
-        abortSignal: options.abortSignal
-      }
-    );
+    const { span, spanOptions } = createSpan("MessageIdClient-update", options.spanOptions);
+    try {
+      return this.messageIdContext.update(
+        {
+          messageText: message
+        },
+        popReceipt,
+        visibilityTimeout || 0,
+        {
+          abortSignal: options.abortSignal,
+          spanOptions
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private getQueueNameAndMessageIdFromUrl(): { queueName: string; messageId: string } {
+    //  URL may look like the following
+    // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
+    // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid".
+
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const queueNameAndMessageId = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)/messages/([^/]*)");
+    const queueName = queueNameAndMessageId![3];
+    const messageId = queueNameAndMessageId![4];
+
+    if (!queueName && !messageId) {
+      throw new Error("Unable to extract queueName and messageId with provided information.");
+    }
+
+    return { queueName, messageId };
   }
 }

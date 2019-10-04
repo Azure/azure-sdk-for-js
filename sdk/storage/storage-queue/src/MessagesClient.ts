@@ -2,15 +2,17 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { MessageIdClient } from "./MessageIdClient";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Messages - Clear operation
@@ -18,7 +20,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @export
  * @interface MessagesClearOptions
  */
-export interface MessagesClearOptions {
+export interface MessagesClearOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -36,7 +38,9 @@ export interface MessagesClearOptions {
  * @interface MessagesEnqueueOptions
  * @extends {Models.MessagesEnqueueOptionalParams}
  */
-export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {}
+export interface MessagesEnqueueOptions
+  extends Models.MessagesEnqueueOptionalParams,
+    CommonOptions {}
 
 /**
  * Options to configure Messages - Dequeue operation
@@ -45,7 +49,9 @@ export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalPa
  * @interface MessagesDequeueOptions
  * @extends {Models.MessagesDequeueOptionalParams}
  */
-export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {}
+export interface MessagesDequeueOptions
+  extends Models.MessagesDequeueOptionalParams,
+    CommonOptions {}
 
 /**
  * Options to configure Messages - Peek operation
@@ -54,7 +60,7 @@ export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalPa
  * @interface MessagesPeekOptions
  * @extends {Models.MessagesPeekOptionalParams}
  */
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {}
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams, CommonOptions {}
 
 export declare type MessagesEnqueueResponse = {
   /**
@@ -161,6 +167,10 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   private messagesContext: Messages;
+  private _queueName: string;
+  public get queueName(): string {
+    return this._queueName;
+  }
 
   /**
    * Creates an instance of MessagesClient.
@@ -218,24 +228,32 @@ export class MessagesClient extends StorageClient {
   ) {
     options = options || {};
     let pipeline: Pipeline;
+    let url: string;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
       (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       // The second paramter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
+      // (connectionString: string, queueName: string, options?: NewPipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
@@ -244,7 +262,7 @@ export class MessagesClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + queueName + "/messages";
+          url = extractedCreds.url + "/" + queueName + "/messages";
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
@@ -252,8 +270,7 @@ export class MessagesClient extends StorageClient {
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
-        urlOrConnectionString =
-          extractedCreds.url + "/" + queueName + "/messages" + "?" + extractedCreds.accountSas;
+        url = extractedCreds.url + "/" + queueName + "/messages" + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -263,7 +280,8 @@ export class MessagesClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
+    this._queueName = this.getQueueNameFromUrl();
     this.messagesContext = new Messages(this.storageClientContext);
   }
 
@@ -276,9 +294,21 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
-    return this.messagesContext.clear({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("MessagesClient-clear", options.spanOptions);
+    try {
+      return this.messagesContext.clear({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -306,29 +336,41 @@ export class MessagesClient extends StorageClient {
     messageText: string,
     options: MessagesEnqueueOptions = {}
   ): Promise<MessagesEnqueueResponse> {
-    const response = await this.messagesContext.enqueue(
-      {
-        messageText: messageText
-      },
-      {
-        abortSignal: options.abortSignal,
-        ...options
-      }
-    );
-    const item = response[0];
-    return {
-      _response: response._response,
-      date: response.date,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      version: response.version,
-      errorCode: response.errorCode,
-      messageId: item.messageId,
-      popReceipt: item.popReceipt,
-      timeNextVisible: item.timeNextVisible,
-      insertionTime: item.insertionTime,
-      expirationTime: item.expirationTime
-    };
+    const { span, spanOptions } = createSpan("MessagesClient-enqueue", options.spanOptions);
+    try {
+      const response = await this.messagesContext.enqueue(
+        {
+          messageText: messageText
+        },
+        {
+          abortSignal: options.abortSignal,
+          ...options,
+          spanOptions
+        }
+      );
+      const item = response[0];
+      return {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        version: response.version,
+        errorCode: response.errorCode,
+        messageId: item.messageId,
+        popReceipt: item.popReceipt,
+        timeNextVisible: item.timeNextVisible,
+        insertionTime: item.insertionTime,
+        expirationTime: item.expirationTime
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -340,26 +382,38 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
-    const response = await this.messagesContext.dequeue({
-      abortSignal: options.abortSignal,
-      ...options
-    });
+    const { span, spanOptions } = createSpan("MessagesClient-dequeue", options.spanOptions);
+    try {
+      const response = await this.messagesContext.dequeue({
+        abortSignal: options.abortSignal,
+        ...options,
+        spanOptions
+      });
 
-    const res: MessagesDequeueResponse = {
-      _response: response._response,
-      date: response.date,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      dequeuedMessageItems: [],
-      version: response.version,
-      errorCode: response.errorCode
-    };
+      const res: MessagesDequeueResponse = {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        dequeuedMessageItems: [],
+        version: response.version,
+        errorCode: response.errorCode
+      };
 
-    for (const item of response) {
-      res.dequeuedMessageItems.push(item);
+      for (const item of response) {
+        res.dequeuedMessageItems.push(item);
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    return res;
   }
 
   /**
@@ -371,25 +425,54 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
-    const response = await this.messagesContext.peek({
-      abortSignal: options.abortSignal,
-      ...options
-    });
+    const { span, spanOptions } = createSpan("MessagesClient-peek", options.spanOptions);
+    try {
+      const response = await this.messagesContext.peek({
+        abortSignal: options.abortSignal,
+        ...options,
+        spanOptions
+      });
 
-    const res: MessagesPeekResponse = {
-      _response: response._response,
-      date: response.date,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      peekedMessageItems: [],
-      version: response.version,
-      errorCode: response.errorCode
-    };
+      const res: MessagesPeekResponse = {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        peekedMessageItems: [],
+        version: response.version,
+        errorCode: response.errorCode
+      };
 
-    for (const item of response) {
-      res.peekedMessageItems.push(item);
+      for (const item of response) {
+        res.peekedMessageItems.push(item);
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private getQueueNameFromUrl(): string {
+    //  URL may look like the following
+    // "https://myaccount.queue.core.windows.net/myqueue/messages?sasString".
+    // "https://myaccount.queue.core.windows.net/myqueue/messages".
+
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)/messages")![3];
+
+    if (!queueName) {
+      throw new Error("Unable to extract queueName with provided information.");
     }
 
-    return res;
+    return queueName;
   }
 }

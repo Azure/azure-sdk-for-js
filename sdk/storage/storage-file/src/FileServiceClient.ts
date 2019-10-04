@@ -5,7 +5,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Service } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
@@ -14,13 +14,15 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure List Shares Segment operation.
  *
  * @interface ServiceListSharesSegmentOptions
  */
-interface ServiceListSharesSegmentOptions {
+interface ServiceListSharesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -64,7 +66,7 @@ interface ServiceListSharesSegmentOptions {
  * @export
  * @interface ServiceListSharesOptions
  */
-export interface ServiceListSharesOptions {
+export interface ServiceListSharesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -97,7 +99,7 @@ export interface ServiceListSharesOptions {
  * @export
  * @interface ServiceGetPropertiesOptions
  */
-export interface ServiceGetPropertiesOptions {
+export interface ServiceGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -114,7 +116,7 @@ export interface ServiceGetPropertiesOptions {
  * @export
  * @interface ServiceSetPropertiesOptions
  */
-export interface ServiceSetPropertiesOptions {
+export interface ServiceSetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -164,7 +166,7 @@ export class FileServiceClient extends StorageClient {
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
         const sharedKeyCredential = new SharedKeyCredential(
-          extractedCreds.accountName,
+          extractedCreds.accountName!,
           extractedCreds.accountKey
         );
         const pipeline = newPipeline(sharedKeyCredential, options);
@@ -245,14 +247,25 @@ export class FileServiceClient extends StorageClient {
    */
   public async createShare(
     shareName: string,
-    options?: ShareCreateOptions
+    options: ShareCreateOptions = {}
   ): Promise<{ shareCreateResponse: Models.ShareCreateResponse; shareClient: ShareClient }> {
-    const shareClient = this.getShareClient(shareName);
-    const shareCreateResponse = await shareClient.create(options);
-    return {
-      shareCreateResponse,
-      shareClient
-    };
+    const { span, spanOptions } = createSpan("FileServiceClient-createShare", options.spanOptions);
+    try {
+      const shareClient = this.getShareClient(shareName);
+      const shareCreateResponse = await shareClient.create({ ...options, spanOptions });
+      return {
+        shareCreateResponse,
+        shareClient
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -265,10 +278,21 @@ export class FileServiceClient extends StorageClient {
    */
   public async deleteShare(
     shareName: string,
-    options?: ShareDeleteMethodOptions
+    options: ShareDeleteMethodOptions = {}
   ): Promise<Models.ShareDeleteResponse> {
-    const shareClient = this.getShareClient(shareName);
-    return await shareClient.delete(options);
+    const { span, spanOptions } = createSpan("FileServiceClient-deleteShare", options.spanOptions);
+    try {
+      const shareClient = this.getShareClient(shareName);
+      return await shareClient.delete({ ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -283,9 +307,24 @@ export class FileServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    return this.serviceContext.getProperties({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "FileServiceClient-getProperties",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.getProperties({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -302,9 +341,24 @@ export class FileServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    return this.serviceContext.setProperties(properties, {
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "FileServiceClient-setProperties",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.setProperties(properties, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -469,9 +523,24 @@ export class FileServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): Promise<Models.ServiceListSharesSegmentResponse> {
-    return this.serviceContext.listSharesSegment({
-      marker,
-      ...options
-    });
+    const { span, spanOptions } = createSpan(
+      "FileServiceClient-listSharesSegment",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.listSharesSegment({
+        marker,
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

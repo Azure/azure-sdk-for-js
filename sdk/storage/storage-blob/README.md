@@ -82,13 +82,13 @@ npm install @azure/storage-blob@12.0.0-preview.4
 
 In your TypeScript or JavaScript file, import via following:
 
-```JavaScript
+```javascript
 import * as Azure from "@azure/storage-blob";
 ```
 
 Or
 
-```JavaScript
+```javascript
 const Azure = require("@azure/storage-blob");
 ```
 
@@ -128,6 +128,16 @@ and
 [Typescript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript)
 
 Below are the snippets to get started with the Azure Storage blob client library.
+
+### Import types
+
+You can use the `const Azure = require("@azure/storage-blob");` shown above then use types and functions from `Azure`.
+Or you can selectively import certain types,
+
+```javascript
+const { BlobServiceClient, SharedKeyCredential } = require("@azure/storage-blob");
+);
+```
 
 ### Create the blob service client
 
@@ -176,7 +186,7 @@ Alternatively without using `for-await-of`:
 
 ```javascript
 let i = 1;
-iter = blobServiceClient.listContainers();
+let iter = blobServiceClient.listContainers();
 let containerItem = await iter.next();
 while (!containerItem.done) {
   console.log(`Container ${i++}: ${containerItem.value.name}`);
@@ -229,10 +239,11 @@ For a complete sample on iterating blobs please see [samples/iterators-blobs.ts]
 ```javascript
 // Get blob content from position 0 to the end
 // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
-const downloadBlockBlobResponse = await blobClient.download(0);
+const downloadBlockBlobResponse = await blobClient.download();
+const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
 console.log(
-  "Downloaded blob content",
-  await streamToString(downloadBlockBlobResponse.readableStreamBody)
+  "Downloaded blob content:",
+  downloaded
 );
 
 // [Node.js only] A helper method used to read a Node.js readable stream into string
@@ -255,10 +266,11 @@ async function streamToString(readableStream) {
 ```javascript
   // Get blob content from position 0 to the end
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobClient.download(0);
+  const downloadBlockBlobResponse = await blobClient.download();
+  const downloaded = await blobToString(downloadBlockBlobResponse.blobBody);
   console.log(
     "Downloaded blob content",
-    await blobToString(downloadBlockBlobResponse.blobBody)
+    downloaded
   );
 
 // [Browsers only] A helper method used to convert a browser Blob into string.
@@ -302,7 +314,7 @@ class ConsoleHttpPipelineLogger {
 }
 ```
 
-When creating the `BlobServiceClient` instance, pass the logger in the options
+Then when creating the `BlobServiceClient` instance, pass the logger in the options
 
 ```javascript
 const blobServiceClient = new BlobServiceClient(

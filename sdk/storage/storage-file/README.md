@@ -81,13 +81,13 @@ npm install @azure/storage-file@12.0.0-preview.4
 
 In your TypeScript or JavaScript file, import via following:
 
-```JavaScript
+```javascript
 import * as Azure from "@azure/storage-file";
 ```
 
 Or
 
-```JavaScript
+```javascript
 const Azure = require("@azure/storage-file");
 ```
 
@@ -121,6 +121,16 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ## Examples
 
+### Import types
+
+You can use the `const Azure = require("@azure/storage-file");` shown above then use types and functions from `Azure`.
+Or you can selectively import certain types,
+
+```javascript
+const { FileServiceClient, SharedKeyCredential } = require("@azure/storage-file");
+);
+```
+
 ### Create the file service client
 
 Use the constructor to create a instance of `FileServiceClient`, passing in the credential.
@@ -146,22 +156,22 @@ Use `ShareServiceClient.listShares()` to iterator shares in this account,
 with the new `for-await-of` syntax:
 
 ```javascript
-  let shareIter1 = serviceClient.listShares();
-  let i = 1;
-  for await (const share of shareIter1) {
-    console.log(`Share${i}: ${share.name}`);
-    i++;
-  }
+let shareIter1 = serviceClient.listShares();
+let i = 1;
+for await (const share of shareIter1) {
+  console.log(`Share${i}: ${share.name}`);
+  i++;
+}
 ```
 
 Alternatively without `for-await-of`:
 
 ```javascript
 let shareIter2 = await serviceClient.listShares();
-i = 1;
+let i = 1;
 let shareItem = await shareIter2.next();
 while (!shareItem.done) {
-  console.log(`Share${i++}: ${shareItem.value.name}`);
+  console.log(`Share ${i++}: ${shareItem.value.name}`);
   shareItem = await shareIter2.next();
 }
 ```
@@ -201,23 +211,23 @@ with the new `for-await-of` syntax. The `kind` property can be used to identify 
 a iterm is a directory or a file.
 
 ```javascript
-  let dirIter1 = directoryClient.listFilesAndDirectories();
-  i = 1;
-  for await (const item of dirIter1) {
-    if (item.kind === "directory") {
-      console.log(`${i} - directory\t: ${item.name}`);
-    } else {
-      console.log(`${i} - file\t: ${item.name}`);
-    }
-    i++;
+let dirIter1 = directoryClient.listFilesAndDirectories();
+let i = 1;
+for await (const item of dirIter1) {
+  if (item.kind === "directory") {
+    console.log(`${i} - directory\t: ${item.name}`);
+  } else {
+    console.log(`${i} - file\t: ${item.name}`);
   }
+  i++;
+}
 ```
 
 Alternatively without using `for-await-of`:
 
 ```javascript
 let dirIter2 = await directoryClient.listFilesAndDirectories();
-i = 1;
+let i = 1;
 let item = await dirIter2.next();
 while (!item.done) {
   if (item.value.kind === "directory") {
@@ -229,16 +239,16 @@ while (!item.done) {
 }
 ```
 
-For a complete sample on iterating blobs please see [samples/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-file/samples/typescript/iterators-files-and-directories.ts).
+For a complete sample on iterating please see [samples/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-file/samples/typescript/iterators-files-and-directories.ts).
 
 ### Download a file and convert it to a string (Node.js)
 
 ```javascript
 // Get file content from position 0 to the end
 // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
-const downloadFileResponse = await fileClient.download(0);
+const downloadFileResponse = await fileClient.download();
 console.log(
-  `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody)}`
+  `Downloaded file content: ${await streamToString(downloadFileResponse.readableStreamBody)}`
 );
 
 // [Node.js only] A helper method used to read a Node.js readable stream into string
@@ -263,7 +273,7 @@ async function streamToString(readableStream) {
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
   const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(
+    `Downloaded file content: ${await streamToString(
       downloadFileResponse.blobBody
     )}`
   );
@@ -309,7 +319,7 @@ class ConsoleHttpPipelineLogger {
 }
 ```
 
-When creating the `FileServiceClient` instance, pass the logger in the options
+Then when creating the `FileServiceClient` instance, pass the logger in the options
 
 ```javascript
 const fileServiceClient = new FileServiceClient(

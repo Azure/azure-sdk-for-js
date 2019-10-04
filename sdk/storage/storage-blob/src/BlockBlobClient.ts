@@ -12,10 +12,10 @@ import {
   isTokenCredential,
   isNode
 } from "@azure/core-http";
-
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { BlobClient } from "./internal";
+import { BlobClient, CommonOptions } from "./internal";
 import { BlockBlob } from "./generated/src/operations";
 import { BlobHTTPHeaders } from "./generated/src/models";
 import { Range, rangeToString } from "./Range";
@@ -45,6 +45,7 @@ import {
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { Batch } from "./utils/Batch";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Block Blob - Upload operation.
@@ -52,7 +53,7 @@ import { Batch } from "./utils/Batch";
  * @export
  * @interface BlockBlobUploadOptions
  */
-export interface BlockBlobUploadOptions {
+export interface BlockBlobUploadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -111,7 +112,7 @@ export interface BlockBlobUploadOptions {
  * @export
  * @interface BlockBlobStageBlockOptions
  */
-export interface BlockBlobStageBlockOptions {
+export interface BlockBlobStageBlockOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -170,7 +171,7 @@ export interface BlockBlobStageBlockOptions {
  * @export
  * @interface BlockBlobStageBlockFromURLOptions
  */
-export interface BlockBlobStageBlockFromURLOptions {
+export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -231,7 +232,7 @@ export interface BlockBlobStageBlockFromURLOptions {
  * @export
  * @interface BlockBlobCommitBlockListOptions
  */
-export interface BlockBlobCommitBlockListOptions {
+export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -290,7 +291,7 @@ export interface BlockBlobCommitBlockListOptions {
  * @export
  * @interface BlockBlobGetBlockListOptions
  */
-export interface BlockBlobGetBlockListOptions {
+export interface BlockBlobGetBlockListOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -315,7 +316,7 @@ export interface BlockBlobGetBlockListOptions {
  * @export
  * @interface UploadStreamToBlockBlobOptions
  */
-export interface UploadStreamToBlockBlobOptions {
+export interface UploadStreamToBlockBlobOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -362,7 +363,7 @@ export interface UploadStreamToBlockBlobOptions {
  * @export
  * @interface UploadToBlockBlobOptions
  */
-export interface UploadToBlockBlobOptions {
+export interface UploadToBlockBlobOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -647,17 +648,29 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
     options.accessConditions = options.accessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.blockBlobContext.upload(body, contentLength, {
-      abortSignal: options.abortSignal,
-      blobHTTPHeaders: options.blobHTTPHeaders,
-      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-      metadata: options.metadata,
-      modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-      onUploadProgress: options.progress,
-      cpkInfo: options.customerProvidedKey,
-      tier: toAccessTier(options.tier)
-    });
+    const { span, spanOptions } = createSpan("BlockBlobClient-upload", options.spanOptions);
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.blockBlobContext.upload(body, contentLength, {
+        abortSignal: options.abortSignal,
+        blobHTTPHeaders: options.blobHTTPHeaders,
+        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        metadata: options.metadata,
+        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        onUploadProgress: options.progress,
+        cpkInfo: options.customerProvidedKey,
+        tier: toAccessTier(options.tier),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -678,15 +691,27 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
   ): Promise<Models.BlockBlobStageBlockResponse> {
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.leaseAccessConditions,
-      onUploadProgress: options.progress,
-      transactionalContentMD5: options.transactionalContentMD5,
-      transactionalContentCrc64: options.transactionalContentCrc64,
-      cpkInfo: options.customerProvidedKey
-    });
+    const { span, spanOptions } = createSpan("BlockBlobClient-stageBlock", options.spanOptions);
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
+        onUploadProgress: options.progress,
+        transactionalContentMD5: options.transactionalContentMD5,
+        transactionalContentCrc64: options.transactionalContentCrc64,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -718,15 +743,30 @@ export class BlockBlobClient extends BlobClient {
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.leaseAccessConditions,
-      sourceContentMD5: options.sourceContentMD5,
-      sourceContentCrc64: options.sourceContentCrc64,
-      sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-      cpkInfo: options.customerProvidedKey
-    });
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-stageBlockFromURL",
+      options.spanOptions
+    );
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
+        sourceContentMD5: options.sourceContentMD5,
+        sourceContentCrc64: options.sourceContentCrc64,
+        sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -747,19 +787,34 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
     options.accessConditions = options.accessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.blockBlobContext.commitBlockList(
-      { latest: blocks },
-      {
-        abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        cpkInfo: options.customerProvidedKey,
-        tier: toAccessTier(options.tier)
-      }
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-commitBlockList",
+      options.spanOptions
     );
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.blockBlobContext.commitBlockList(
+        { latest: blocks },
+        {
+          abortSignal: options.abortSignal,
+          blobHTTPHeaders: options.blobHTTPHeaders,
+          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+          metadata: options.metadata,
+          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          cpkInfo: options.customerProvidedKey,
+          tier: toAccessTier(options.tier),
+          spanOptions
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -777,20 +832,32 @@ export class BlockBlobClient extends BlobClient {
     listType: Models.BlockListType,
     options: BlockBlobGetBlockListOptions = {}
   ): Promise<Models.BlockBlobGetBlockListResponse> {
-    const res = await this.blockBlobContext.getBlockList(listType, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.leaseAccessConditions
-    });
+    const { span, spanOptions } = createSpan("BlockBlobClient-getBlockList", options.spanOptions);
+    try {
+      const res = await this.blockBlobContext.getBlockList(listType, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
+        spanOptions
+      });
 
-    if (!res.committedBlocks) {
-      res.committedBlocks = [];
+      if (!res.committedBlocks) {
+        res.committedBlocks = [];
+      }
+
+      if (!res.uncommittedBlocks) {
+        res.uncommittedBlocks = [];
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    if (!res.uncommittedBlocks) {
-      res.uncommittedBlocks = [];
-    }
-
-    return res;
   }
 
   // High level functions
@@ -811,16 +878,30 @@ export class BlockBlobClient extends BlobClient {
    */
   public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
-    options?: UploadToBlockBlobOptions
+    options: UploadToBlockBlobOptions = {}
   ): Promise<BlobUploadCommonResponse> {
-    const browserBlob = new Blob([browserData]);
-    return this.UploadSeekableBlob(
-      (offset: number, size: number): Blob => {
-        return browserBlob.slice(offset, offset + size);
-      },
-      browserBlob.size,
-      options
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-uploadBrowserData",
+      options.spanOptions
     );
+    try {
+      const browserBlob = new Blob([browserData]);
+      return this.UploadSeekableBlob(
+        (offset: number, size: number): Blob => {
+          return browserBlob.slice(offset, offset + size);
+        },
+        browserBlob.size,
+        { ...options, spanOptions }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -882,49 +963,65 @@ export class BlockBlobClient extends BlobClient {
       options.blobAccessConditions = {};
     }
 
-    if (size <= options.maxSingleShotSize) {
-      return this.upload(blobFactory(0, size), size, options);
-    }
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-UploadSeekableBlob",
+      options.spanOptions
+    );
 
-    const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
-    if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
-      throw new RangeError(
-        `The buffer's size is too big or the BlockSize is too small;` +
-          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
-      );
-    }
+    try {
+      if (size <= options.maxSingleShotSize) {
+        return this.upload(blobFactory(0, size), size, { ...options, spanOptions });
+      }
 
-    const blockList: string[] = [];
-    const blockIDPrefix = generateUuid();
-    let transferProgress: number = 0;
+      const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
+      if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
+        throw new RangeError(
+          `The buffer's size is too big or the BlockSize is too small;` +
+            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+        );
+      }
 
-    const batch = new Batch(options.parallelism);
-    for (let i = 0; i < numBlocks; i++) {
-      batch.addOperation(
-        async (): Promise<any> => {
-          const blockID = generateBlockID(blockIDPrefix, i);
-          const start = options.blockSize! * i;
-          const end = i === numBlocks - 1 ? size : start + options.blockSize!;
-          const contentLength = end - start;
-          blockList.push(blockID);
-          await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
-            abortSignal: options.abortSignal,
-            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
-          });
-          // Update progress after block is successfully uploaded to server, in case of block trying
-          // TODO: Hook with convenience layer progress event in finer level
-          transferProgress += contentLength;
-          if (options.progress) {
-            options.progress!({
-              loadedBytes: transferProgress
+      const blockList: string[] = [];
+      const blockIDPrefix = generateUuid();
+      let transferProgress: number = 0;
+
+      const batch = new Batch(options.parallelism);
+      for (let i = 0; i < numBlocks; i++) {
+        batch.addOperation(
+          async (): Promise<any> => {
+            const blockID = generateBlockID(blockIDPrefix, i);
+            const start = options.blockSize! * i;
+            const end = i === numBlocks - 1 ? size : start + options.blockSize!;
+            const contentLength = end - start;
+            blockList.push(blockID);
+            await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
+              abortSignal: options.abortSignal,
+              leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
+              spanOptions
             });
+            // Update progress after block is successfully uploaded to server, in case of block trying
+            // TODO: Hook with convenience layer progress event in finer level
+            transferProgress += contentLength;
+            if (options.progress) {
+              options.progress!({
+                loadedBytes: transferProgress
+              });
+            }
           }
-        }
-      );
-    }
-    await batch.do();
+        );
+      }
+      await batch.do();
 
-    return this.commitBlockList(blockList, options);
+      return this.commitBlockList(blockList, { ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -942,19 +1039,30 @@ export class BlockBlobClient extends BlobClient {
    */
   public async uploadFile(
     filePath: string,
-    options?: UploadToBlockBlobOptions
+    options: UploadToBlockBlobOptions = {}
   ): Promise<BlobUploadCommonResponse> {
-    const size = (await fsStat(filePath)).size;
-    return this.uploadResetableStream(
-      (offset, count) =>
-        fs.createReadStream(filePath, {
-          autoClose: true,
-          end: count ? offset + count - 1 : Infinity,
-          start: offset
-        }),
-      size,
-      options
-    );
+    const { span, spanOptions } = createSpan("BlockBlobClient-uploadFile", options.spanOptions);
+    try {
+      const size = (await fsStat(filePath)).size;
+      return this.uploadResetableStream(
+        (offset, count) =>
+          fs.createReadStream(filePath, {
+            autoClose: true,
+            end: count ? offset + count - 1 : Infinity,
+            start: offset
+          }),
+        size,
+        { ...options, spanOptions }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -987,39 +1095,52 @@ export class BlockBlobClient extends BlobClient {
       options.accessConditions = {};
     }
 
-    let blockNum = 0;
-    const blockIDPrefix = generateUuid();
-    let transferProgress: number = 0;
-    const blockList: string[] = [];
+    const { span, spanOptions } = createSpan("BlockBlobClient-uploadStream", options.spanOptions);
 
-    const scheduler = new BufferScheduler(
-      stream,
-      bufferSize,
-      maxBuffers,
-      async (buffer: Buffer) => {
-        const blockID = generateBlockID(blockIDPrefix, blockNum);
-        blockList.push(blockID);
-        blockNum++;
+    try {
+      let blockNum = 0;
+      const blockIDPrefix = generateUuid();
+      let transferProgress: number = 0;
+      const blockList: string[] = [];
 
-        await this.stageBlock(blockID, buffer, buffer.length, {
-          leaseAccessConditions: options.accessConditions!.leaseAccessConditions
-        });
+      const scheduler = new BufferScheduler(
+        stream,
+        bufferSize,
+        maxBuffers,
+        async (buffer: Buffer) => {
+          const blockID = generateBlockID(blockIDPrefix, blockNum);
+          blockList.push(blockID);
+          blockNum++;
 
-        // Update progress after block is successfully uploaded to server, in case of block trying
-        transferProgress += buffer.length;
-        if (options.progress) {
-          options.progress({ loadedBytes: transferProgress });
-        }
-      },
-      // Parallelism should set a smaller value than maxBuffers, which is helpful to
-      // reduce the possibility when a outgoing handler waits for stream data, in
-      // this situation, outgoing handlers are blocked.
-      // Outgoing queue shouldn't be empty.
-      Math.ceil((maxBuffers / 4) * 3)
-    );
-    await scheduler.do();
+          await this.stageBlock(blockID, buffer, buffer.length, {
+            leaseAccessConditions: options.accessConditions!.leaseAccessConditions,
+            spanOptions
+          });
 
-    return this.commitBlockList(blockList, options);
+          // Update progress after block is successfully uploaded to server, in case of block trying
+          transferProgress += buffer.length;
+          if (options.progress) {
+            options.progress({ loadedBytes: transferProgress });
+          }
+        },
+        // Parallelism should set a smaller value than maxBuffers, which is helpful to
+        // reduce the possibility when a outgoing handler waits for stream data, in
+        // this situation, outgoing handlers are blocked.
+        // Outgoing queue shouldn't be empty.
+        Math.ceil((maxBuffers / 4) * 3)
+      );
+      await scheduler.do();
+
+      return this.commitBlockList(blockList, { ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1084,45 +1205,66 @@ export class BlockBlobClient extends BlobClient {
       options.blobAccessConditions = {};
     }
 
-    if (size <= options.maxSingleShotSize) {
-      return this.upload(() => streamFactory(0), size, options);
-    }
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-uploadResetableStream",
+      options.spanOptions
+    );
 
-    const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
-    if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
-      throw new RangeError(
-        `The buffer's size is too big or the BlockSize is too small;` +
-          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
-      );
-    }
+    try {
+      if (size <= options.maxSingleShotSize) {
+        return this.upload(() => streamFactory(0), size, { ...options, spanOptions });
+      }
 
-    const blockList: string[] = [];
-    const blockIDPrefix = generateUuid();
-    let transferProgress: number = 0;
+      const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
+      if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
+        throw new RangeError(
+          `The buffer's size is too big or the BlockSize is too small;` +
+            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+        );
+      }
 
-    const batch = new Batch(options.parallelism);
-    for (let i = 0; i < numBlocks; i++) {
-      batch.addOperation(
-        async (): Promise<any> => {
-          const blockID = generateBlockID(blockIDPrefix, i);
-          const start = options.blockSize! * i;
-          const end = i === numBlocks - 1 ? size : start + options.blockSize!;
-          const contentLength = end - start;
-          blockList.push(blockID);
-          await this.stageBlock(blockID, () => streamFactory(start, contentLength), contentLength, {
-            abortSignal: options.abortSignal,
-            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions
-          });
-          // Update progress after block is successfully uploaded to server, in case of block trying
-          transferProgress += contentLength;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+      const blockList: string[] = [];
+      const blockIDPrefix = generateUuid();
+      let transferProgress: number = 0;
+
+      const batch = new Batch(options.parallelism);
+      for (let i = 0; i < numBlocks; i++) {
+        batch.addOperation(
+          async (): Promise<any> => {
+            const blockID = generateBlockID(blockIDPrefix, i);
+            const start = options.blockSize! * i;
+            const end = i === numBlocks - 1 ? size : start + options.blockSize!;
+            const contentLength = end - start;
+            blockList.push(blockID);
+            await this.stageBlock(
+              blockID,
+              () => streamFactory(start, contentLength),
+              contentLength,
+              {
+                abortSignal: options.abortSignal,
+                leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
+                spanOptions
+              }
+            );
+            // Update progress after block is successfully uploaded to server, in case of block trying
+            transferProgress += contentLength;
+            if (options.progress) {
+              options.progress({ loadedBytes: transferProgress });
+            }
           }
-        }
-      );
-    }
-    await batch.do();
+        );
+      }
+      await batch.do();
 
-    return this.commitBlockList(blockList, options);
+      return this.commitBlockList(blockList, { ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

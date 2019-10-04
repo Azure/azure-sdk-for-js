@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Queue } from "./generated/src/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   appendToURLPath,
   truncatedISO8061Date,
@@ -16,6 +17,7 @@ import {
 import { MessagesClient } from "./MessagesClient";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Queue - Create operation
@@ -23,7 +25,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @export
  * @interface QueueCreateOptions
  */
-export interface QueueCreateOptions {
+export interface QueueCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -48,7 +50,7 @@ export interface QueueCreateOptions {
  * @export
  * @interface QueueGetPropertiesOptions
  */
-export interface QueueGetPropertiesOptions {
+export interface QueueGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -65,7 +67,7 @@ export interface QueueGetPropertiesOptions {
  * @export
  * @interface QueueDeleteOptions
  */
-export interface QueueDeleteOptions {
+export interface QueueDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -82,7 +84,7 @@ export interface QueueDeleteOptions {
  * @export
  * @interface QueueGetAccessPolicyOptions
  */
-export interface QueueGetAccessPolicyOptions {
+export interface QueueGetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -99,7 +101,7 @@ export interface QueueGetAccessPolicyOptions {
  * @export
  * @interface QueueSetAccessPolicyOptions
  */
-export interface QueueSetAccessPolicyOptions {
+export interface QueueSetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -116,7 +118,7 @@ export interface QueueSetAccessPolicyOptions {
  * @export
  * @interface QueueSetMetadataOptions
  */
-export interface QueueSetMetadataOptions {
+export interface QueueSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -195,6 +197,10 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   private queueContext: Queue;
+  private _queueName: string;
+  public get queueName(): string {
+    return this._queueName;
+  }
 
   /**
    * Creates an instance of QueueClient.
@@ -252,33 +258,41 @@ export class QueueClient extends StorageClient {
   ) {
     options = options || {};
     let pipeline: Pipeline;
+    let url: string;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
       (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
       // The second paramter is undefined. Use anonymous credential.
+      url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
+      // (connectionString: string, containerName: string, queueName: string, options?: NewPipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const queueName = credentialOrPipelineOrQueueName;
           const sharedKeyCredential = new SharedKeyCredential(
-            extractedCreds.accountName!,
+            extractedCreds.accountName,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + queueName;
+          url = extractedCreds.url + "/" + queueName;
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
@@ -286,8 +300,7 @@ export class QueueClient extends StorageClient {
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
-        urlOrConnectionString =
-          extractedCreds.url + "/" + queueName + "?" + extractedCreds.accountSas;
+        url = extractedCreds.url + "/" + queueName + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
@@ -297,7 +310,8 @@ export class QueueClient extends StorageClient {
     } else {
       throw new Error("Expecting non-empty strings for queueName parameter");
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
+    this._queueName = this.getQueueNameFromUrl();
     this.queueContext = new Queue(this.storageClientContext);
   }
 
@@ -310,10 +324,22 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async create(options: QueueCreateOptions = {}): Promise<Models.QueueCreateResponse> {
-    return this.queueContext.create({
-      ...options,
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("QueueClient-create", options.spanOptions);
+    try {
+      return this.queueContext.create({
+        ...options,
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -336,9 +362,21 @@ export class QueueClient extends StorageClient {
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
   ): Promise<Models.QueueGetPropertiesResponse> {
-    return this.queueContext.getProperties({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("QueueClient-getProperties", options.spanOptions);
+    try {
+      return this.queueContext.getProperties({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -350,9 +388,21 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
-    return this.queueContext.deleteMethod({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("QueueClient-delete", options.spanOptions);
+    try {
+      return this.queueContext.deleteMethod({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -371,10 +421,22 @@ export class QueueClient extends StorageClient {
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
   ): Promise<Models.QueueSetMetadataResponse> {
-    return this.queueContext.setMetadata({
-      abortSignal: options.abortSignal,
-      metadata
-    });
+    const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.spanOptions);
+    try {
+      return this.queueContext.setMetadata({
+        abortSignal: options.abortSignal,
+        metadata,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -392,32 +454,44 @@ export class QueueClient extends StorageClient {
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
   ): Promise<QueueGetAccessPolicyResponse> {
-    const response = await this.queueContext.getAccessPolicy({
-      abortSignal: options.abortSignal
-    });
-
-    const res: QueueGetAccessPolicyResponse = {
-      _response: response._response,
-      date: response.date,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      signedIdentifiers: [],
-      version: response.version,
-      errorCode: response.errorCode
-    };
-
-    for (const identifier of response) {
-      res.signedIdentifiers.push({
-        accessPolicy: {
-          expiry: new Date(identifier.accessPolicy.expiry),
-          permission: identifier.accessPolicy.permission,
-          start: new Date(identifier.accessPolicy.start)
-        },
-        id: identifier.id
+    const { span, spanOptions } = createSpan("QueueClient-getAccessPolicy", options.spanOptions);
+    try {
+      const response = await this.queueContext.getAccessPolicy({
+        abortSignal: options.abortSignal,
+        spanOptions
       });
-    }
 
-    return res;
+      const res: QueueGetAccessPolicyResponse = {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        signedIdentifiers: [],
+        version: response.version,
+        errorCode: response.errorCode
+      };
+
+      for (const identifier of response) {
+        res.signedIdentifiers.push({
+          accessPolicy: {
+            expiry: new Date(identifier.accessPolicy.expiry),
+            permission: identifier.accessPolicy.permission,
+            start: new Date(identifier.accessPolicy.start)
+          },
+          id: identifier.id
+        });
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -434,21 +508,50 @@ export class QueueClient extends StorageClient {
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
   ): Promise<Models.QueueSetAccessPolicyResponse> {
-    const acl: Models.SignedIdentifier[] = [];
-    for (const identifier of queueAcl || []) {
-      acl.push({
-        accessPolicy: {
-          expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
-          permission: identifier.accessPolicy.permission,
-          start: truncatedISO8061Date(identifier.accessPolicy.start)
-        },
-        id: identifier.id
+    const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.spanOptions);
+    try {
+      const acl: Models.SignedIdentifier[] = [];
+      for (const identifier of queueAcl || []) {
+        acl.push({
+          accessPolicy: {
+            expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
+            permission: identifier.accessPolicy.permission,
+            start: truncatedISO8061Date(identifier.accessPolicy.start)
+          },
+          id: identifier.id
+        });
+      }
+
+      return this.queueContext.setAccessPolicy({
+        abortSignal: options.abortSignal,
+        queueAcl: acl,
+        spanOptions
       });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private getQueueNameFromUrl(): string {
+    //  URL may look like the following
+    // "https://myaccount.queue.core.windows.net/myqueue?sasString".
+    // "https://myaccount.queue.core.windows.net/myqueue".
+
+    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    const queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+
+    if (!queueName) {
+      throw new Error("Unable to extract queueName with provided information.");
     }
 
-    return this.queueContext.setAccessPolicy({
-      abortSignal: options.abortSignal,
-      queueAcl: acl
-    });
+    return queueName;
   }
 }

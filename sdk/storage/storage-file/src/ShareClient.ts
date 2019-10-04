@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Share } from "./generated/src/operations";
 import { Metadata } from "./models";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import {
   appendToURLPath,
@@ -21,6 +22,7 @@ import { FileCreateOptions, FileDeleteOptions, FileClient } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Share - Create operation.
@@ -28,7 +30,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @export
  * @interface ShareCreateOptions
  */
-export interface ShareCreateOptions {
+export interface ShareCreateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -61,7 +63,7 @@ export interface ShareCreateOptions {
  * @export
  * @interface ShareDeleteMethodOptions
  */
-export interface ShareDeleteMethodOptions {
+export interface ShareDeleteMethodOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -87,7 +89,7 @@ export interface ShareDeleteMethodOptions {
  * @export
  * @interface ShareSetMetadataOptions
  */
-export interface ShareSetMetadataOptions {
+export interface ShareSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -104,7 +106,7 @@ export interface ShareSetMetadataOptions {
  * @export
  * @interface ShareSetAccessPolicyOptions
  */
-export interface ShareSetAccessPolicyOptions {
+export interface ShareSetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -121,7 +123,7 @@ export interface ShareSetAccessPolicyOptions {
  * @export
  * @interface ShareGetAccessPolicyOptions
  */
-export interface ShareGetAccessPolicyOptions {
+export interface ShareGetAccessPolicyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -138,7 +140,7 @@ export interface ShareGetAccessPolicyOptions {
  * @export
  * @interface ShareGetPropertiesOptions
  */
-export interface ShareGetPropertiesOptions {
+export interface ShareGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -155,7 +157,7 @@ export interface ShareGetPropertiesOptions {
  * @export
  * @interface ShareSetQuotaOptions
  */
-export interface ShareSetQuotaOptions {
+export interface ShareSetQuotaOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -172,7 +174,7 @@ export interface ShareSetQuotaOptions {
  * @export
  * @interface ShareGetStatisticsOptions
  */
-export interface ShareGetStatisticsOptions {
+export interface ShareGetStatisticsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -242,7 +244,7 @@ export declare type ShareGetAccessPolicyResponse = {
  * @export
  * @interface ShareCreateSnapshotOptions
  */
-export interface ShareCreateSnapshotOptions {
+export interface ShareCreateSnapshotOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -266,7 +268,7 @@ export interface ShareCreateSnapshotOptions {
  * @export
  * @interface ShareCreatePermissionOptions
  */
-export interface ShareCreatePermissionOptions {
+export interface ShareCreatePermissionOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -282,7 +284,7 @@ export interface ShareCreatePermissionOptions {
  * @export
  * @interface ShareGetPermissionOptions
  */
-export interface ShareGetPermissionOptions {
+export interface ShareGetPermissionOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -455,9 +457,21 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async create(options: ShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
-    return this.context.create({
-      ...options
-    });
+    const { span, spanOptions } = createSpan("ShareClient-create", options.spanOptions);
+    try {
+      return this.context.create({
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -497,17 +511,28 @@ export class ShareClient extends StorageClient {
    */
   public async createDirectory(
     directoryName: string,
-    options?: DirectoryCreateOptions
+    options: DirectoryCreateOptions = {}
   ): Promise<{
     directoryClient: DirectoryClient;
     directoryCreateResponse: Models.DirectoryCreateResponse;
   }> {
-    const directoryClient = this.getDirectoryClient(directoryName);
-    const directoryCreateResponse = await directoryClient.create(options);
-    return {
-      directoryClient,
-      directoryCreateResponse
-    };
+    const { span, spanOptions } = createSpan("ShareClient-createDirectory", options.spanOptions);
+    try {
+      const directoryClient = this.getDirectoryClient(directoryName);
+      const directoryCreateResponse = await directoryClient.create({ ...options, spanOptions });
+      return {
+        directoryClient,
+        directoryCreateResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -522,10 +547,21 @@ export class ShareClient extends StorageClient {
    */
   public async deleteDirectory(
     directoryName: string,
-    options?: DirectoryDeleteOptions
+    options: DirectoryDeleteOptions = {}
   ): Promise<Models.DirectoryDeleteResponse> {
-    const directoryClient = this.getDirectoryClient(directoryName);
-    return await directoryClient.delete(options);
+    const { span, spanOptions } = createSpan("ShareClient-deleteDirectory", options.spanOptions);
+    try {
+      const directoryClient = this.getDirectoryClient(directoryName);
+      return await directoryClient.delete({ ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -542,15 +578,26 @@ export class ShareClient extends StorageClient {
   public async createFile(
     fileName: string,
     size: number,
-    options?: FileCreateOptions
+    options: FileCreateOptions = {}
   ): Promise<{ fileClient: FileClient; fileCreateResponse: Models.FileCreateResponse }> {
-    const directoryClient = this.rootDirectoryClient;
-    const fileClient = directoryClient.getFileClient(fileName);
-    const fileCreateResponse = await fileClient.create(size, options);
-    return {
-      fileClient,
-      fileCreateResponse
-    };
+    const { span, spanOptions } = createSpan("ShareClient-createFile", options.spanOptions);
+    try {
+      const directoryClient = this.rootDirectoryClient;
+      const fileClient = directoryClient.getFileClient(fileName);
+      const fileCreateResponse = await fileClient.create(size, { ...options, spanOptions });
+      return {
+        fileClient,
+        fileCreateResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -575,11 +622,22 @@ export class ShareClient extends StorageClient {
    */
   public async deleteFile(
     fileName: string,
-    options?: FileDeleteOptions
+    options: FileDeleteOptions = {}
   ): Promise<Models.FileDeleteResponse> {
-    const directoryClient = this.rootDirectoryClient;
-    const fileClient = directoryClient.getFileClient(fileName);
-    return await fileClient.delete(options);
+    const { span, spanOptions } = createSpan("ShareClient-deleteFile", options.spanOptions);
+    try {
+      const directoryClient = this.rootDirectoryClient;
+      const fileClient = directoryClient.getFileClient(fileName);
+      return await fileClient.delete({ ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -593,9 +651,21 @@ export class ShareClient extends StorageClient {
   public async getProperties(
     options: ShareGetPropertiesOptions = {}
   ): Promise<Models.ShareGetPropertiesResponse> {
-    return this.context.getProperties({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("ShareClient-getProperties", options.spanOptions);
+    try {
+      return this.context.getProperties({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -608,9 +678,21 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<Models.ShareDeleteResponse> {
-    return this.context.deleteMethod({
-      ...options
-    });
+    const { span, spanOptions } = createSpan("ShareClient-delete", options.spanOptions);
+    try {
+      return this.context.deleteMethod({
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -629,10 +711,22 @@ export class ShareClient extends StorageClient {
     metadata?: Metadata,
     options: ShareSetMetadataOptions = {}
   ): Promise<Models.ShareSetMetadataResponse> {
-    return this.context.setMetadata({
-      abortSignal: options.abortSignal,
-      metadata
-    });
+    const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.spanOptions);
+    try {
+      return this.context.setMetadata({
+        abortSignal: options.abortSignal,
+        metadata,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -651,32 +745,44 @@ export class ShareClient extends StorageClient {
   public async getAccessPolicy(
     options: ShareGetAccessPolicyOptions = {}
   ): Promise<ShareGetAccessPolicyResponse> {
-    const response = await this.context.getAccessPolicy({
-      abortSignal: options.abortSignal
-    });
-
-    const res: ShareGetAccessPolicyResponse = {
-      _response: response._response,
-      date: response.date,
-      eTag: response.eTag,
-      lastModified: response.lastModified,
-      requestId: response.requestId,
-      signedIdentifiers: [],
-      version: response.version
-    };
-
-    for (const identifier of response) {
-      res.signedIdentifiers.push({
-        accessPolicy: {
-          expiry: new Date(identifier.accessPolicy!.expiry!),
-          permission: identifier.accessPolicy!.permission!,
-          start: new Date(identifier.accessPolicy!.start!)
-        },
-        id: identifier.id
+    const { span, spanOptions } = createSpan("ShareClient-getAccessPolicy", options.spanOptions);
+    try {
+      const response = await this.context.getAccessPolicy({
+        abortSignal: options.abortSignal,
+        spanOptions
       });
-    }
 
-    return res;
+      const res: ShareGetAccessPolicyResponse = {
+        _response: response._response,
+        date: response.date,
+        eTag: response.eTag,
+        lastModified: response.lastModified,
+        requestId: response.requestId,
+        signedIdentifiers: [],
+        version: response.version
+      };
+
+      for (const identifier of response) {
+        res.signedIdentifiers.push({
+          accessPolicy: {
+            expiry: new Date(identifier.accessPolicy!.expiry!),
+            permission: identifier.accessPolicy!.permission!,
+            start: new Date(identifier.accessPolicy!.start!)
+          },
+          id: identifier.id
+        });
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -697,22 +803,34 @@ export class ShareClient extends StorageClient {
     shareAcl?: SignedIdentifier[],
     options: ShareSetAccessPolicyOptions = {}
   ): Promise<Models.ShareSetAccessPolicyResponse> {
-    const acl: Models.SignedIdentifier[] = [];
-    for (const identifier of shareAcl || []) {
-      acl.push({
-        accessPolicy: {
-          expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
-          permission: identifier.accessPolicy.permission,
-          start: truncatedISO8061Date(identifier.accessPolicy.start)
-        },
-        id: identifier.id
-      });
-    }
+    const { span, spanOptions } = createSpan("ShareClient-setAccessPolicy", options.spanOptions);
+    try {
+      const acl: Models.SignedIdentifier[] = [];
+      for (const identifier of shareAcl || []) {
+        acl.push({
+          accessPolicy: {
+            expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
+            permission: identifier.accessPolicy.permission,
+            start: truncatedISO8061Date(identifier.accessPolicy.start)
+          },
+          id: identifier.id
+        });
+      }
 
-    return this.context.setAccessPolicy({
-      abortSignal: options.abortSignal,
-      shareAcl: acl
-    });
+      return this.context.setAccessPolicy({
+        abortSignal: options.abortSignal,
+        shareAcl: acl,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -725,10 +843,22 @@ export class ShareClient extends StorageClient {
   public async createSnapshot(
     options: ShareCreateSnapshotOptions = {}
   ): Promise<Models.ShareCreateSnapshotResponse> {
-    return this.context.createSnapshot({
-      abortSignal: options.abortSignal,
-      ...options
-    });
+    const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.spanOptions);
+    try {
+      return this.context.createSnapshot({
+        abortSignal: options.abortSignal,
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -743,15 +873,27 @@ export class ShareClient extends StorageClient {
     quotaInGB: number,
     options: ShareSetQuotaOptions = {}
   ): Promise<Models.ShareSetQuotaResponse> {
-    if (quotaInGB <= 0 || quotaInGB > 5120) {
-      throw new RangeError(
-        `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
-      );
+    const { span, spanOptions } = createSpan("ShareClient-setQuota", options.spanOptions);
+    try {
+      if (quotaInGB <= 0 || quotaInGB > 5120) {
+        throw new RangeError(
+          `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
+        );
+      }
+      return this.context.setQuota({
+        abortSignal: options.abortSignal,
+        quota: quotaInGB,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return this.context.setQuota({
-      abortSignal: options.abortSignal,
-      quota: quotaInGB
-    });
   }
 
   /**
@@ -764,10 +906,24 @@ export class ShareClient extends StorageClient {
   public async getStatistics(
     options: ShareGetStatisticsOptions = {}
   ): Promise<ShareGetStatisticsResponse> {
-    const response = await this.context.getStatistics({ abortSignal: options.abortSignal });
+    const { span, spanOptions } = createSpan("ShareClient-getStatistics", options.spanOptions);
+    try {
+      const response = await this.context.getStatistics({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
 
-    const GBBytes = 1024 * 1024 * 1024;
-    return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
+      const GBBytes = 1024 * 1024 * 1024;
+      return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -782,14 +938,26 @@ export class ShareClient extends StorageClient {
     filePermission: string,
     options: ShareCreatePermissionOptions = {}
   ): Promise<Models.ShareCreatePermissionResponse> {
-    return this.context.createPermission(
-      {
-        permission: filePermission
-      },
-      {
-        abortSignal: options.abortSignal
-      }
-    );
+    const { span, spanOptions } = createSpan("ShareClient-createPermission", options.spanOptions);
+    try {
+      return this.context.createPermission(
+        {
+          permission: filePermission
+        },
+        {
+          abortSignal: options.abortSignal,
+          spanOptions
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -804,8 +972,20 @@ export class ShareClient extends StorageClient {
     filePermissionKey: string,
     options: ShareGetPermissionOptions = {}
   ): Promise<Models.ShareGetPermissionResponse> {
-    return this.context.getPermission(filePermissionKey, {
-      aborterSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("ShareClient-getPermission", options.spanOptions);
+    try {
+      return this.context.getPermission(filePermissionKey, {
+        aborterSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

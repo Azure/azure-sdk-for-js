@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import { HttpResponse } from "@azure/core-http";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BatchRequest } from "./BatchRequest";
 import { BatchResponseParser } from "./BatchResponseParser";
@@ -19,10 +20,11 @@ import {
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageClient } from "./internal";
+import { StorageClient, CommonOptions } from "./internal";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date } from "./utils/utils.common";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -30,7 +32,7 @@ import { truncatedISO8061Date } from "./utils/utils.common";
  * @export
  * @interface ServiceGetPropertiesOptions
  */
-export interface ServiceGetPropertiesOptions {
+export interface ServiceGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -47,7 +49,7 @@ export interface ServiceGetPropertiesOptions {
  * @export
  * @interface ServiceSetPropertiesOptions
  */
-export interface ServiceSetPropertiesOptions {
+export interface ServiceSetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -64,7 +66,7 @@ export interface ServiceSetPropertiesOptions {
  * @export
  * @interface ServiceGetAccountInfoOptions
  */
-export interface ServiceGetAccountInfoOptions {
+export interface ServiceGetAccountInfoOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -81,7 +83,7 @@ export interface ServiceGetAccountInfoOptions {
  * @export
  * @interface ServiceGetStatisticsOptions
  */
-export interface ServiceGetStatisticsOptions {
+export interface ServiceGetStatisticsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -98,7 +100,7 @@ export interface ServiceGetStatisticsOptions {
  * @export
  * @interface ServiceGetUserDelegationKeyOptions
  */
-export interface ServiceGetUserDelegationKeyOptions {
+export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -114,7 +116,9 @@ export interface ServiceGetUserDelegationKeyOptions {
  * @export
  * @interface ServiceSubmitBatchOptionalParams
  */
-export interface ServiceSubmitBatchOptionalParams extends Models.ServiceSubmitBatchOptionalParams {
+export interface ServiceSubmitBatchOptionalParams
+  extends Models.ServiceSubmitBatchOptionalParams,
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -130,7 +134,7 @@ export interface ServiceSubmitBatchOptionalParams extends Models.ServiceSubmitBa
  *
  * @interface ServiceListContainersSegmentOptions
  */
-interface ServiceListContainersSegmentOptions {
+interface ServiceListContainersSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -168,7 +172,7 @@ interface ServiceListContainersSegmentOptions {
  * @export
  * @interface ServiceListContainersOptions
  */
-export interface ServiceListContainersOptions {
+export interface ServiceListContainersOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -407,17 +411,31 @@ export class BlobServiceClient extends StorageClient {
    */
   public async createContainer(
     containerName: string,
-    options?: ContainerCreateOptions
+    options: ContainerCreateOptions = {}
   ): Promise<{
     containerClient: ContainerClient;
     containerCreateResponse: Models.ContainerCreateResponse;
   }> {
-    const containerClient = this.getContainerClient(containerName);
-    const containerCreateResponse = await containerClient.create(options);
-    return {
-      containerClient,
-      containerCreateResponse
-    };
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-createContainer",
+      options.spanOptions
+    );
+    try {
+      const containerClient = this.getContainerClient(containerName);
+      const containerCreateResponse = await containerClient.create({ ...options, spanOptions });
+      return {
+        containerClient,
+        containerCreateResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -430,10 +448,24 @@ export class BlobServiceClient extends StorageClient {
    */
   public async deleteContainer(
     containerName: string,
-    options?: ContainerDeleteMethodOptions
+    options: ContainerDeleteMethodOptions = {}
   ): Promise<Models.ContainerDeleteResponse> {
-    const containerClient = this.getContainerClient(containerName);
-    return await containerClient.delete(options);
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-deleteContainer",
+      options.spanOptions
+    );
+    try {
+      const containerClient = this.getContainerClient(containerName);
+      return await containerClient.delete({ ...options, spanOptions });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -448,9 +480,24 @@ export class BlobServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceGetPropertiesResponse> {
-    return this.serviceContext.getProperties({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-getProperties",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.getProperties({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -467,9 +514,24 @@ export class BlobServiceClient extends StorageClient {
     properties: Models.StorageServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
-    return this.serviceContext.setProperties(properties, {
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-setProperties",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.setProperties(properties, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -485,9 +547,24 @@ export class BlobServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<Models.ServiceGetStatisticsResponse> {
-    return this.serviceContext.getStatistics({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-getStatistics",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.getStatistics({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -504,9 +581,24 @@ export class BlobServiceClient extends StorageClient {
   public async getAccountInfo(
     options: ServiceGetAccountInfoOptions = {}
   ): Promise<Models.ServiceGetAccountInfoResponse> {
-    return this.serviceContext.getAccountInfo({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-getAccountInfo",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.getAccountInfo({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -528,11 +620,26 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
   ): Promise<Models.ServiceListContainersSegmentResponse> {
-    return this.serviceContext.listContainersSegment({
-      abortSignal: options.abortSignal,
-      marker,
-      ...options
-    });
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-listContainersSegment",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.listContainersSegment({
+        abortSignal: options.abortSignal,
+        marker,
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -700,37 +807,52 @@ export class BlobServiceClient extends StorageClient {
     expiry: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    const response = await this.serviceContext.getUserDelegationKey(
-      {
-        start: truncatedISO8061Date(start, false),
-        expiry: truncatedISO8061Date(expiry, false)
-      },
-      {
-        abortSignal: options.abortSignal
-      }
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-getUserDelegationKey",
+      options.spanOptions
     );
+    try {
+      const response = await this.serviceContext.getUserDelegationKey(
+        {
+          start: truncatedISO8061Date(start, false),
+          expiry: truncatedISO8061Date(expiry, false)
+        },
+        {
+          abortSignal: options.abortSignal,
+          spanOptions
+        }
+      );
 
-    const userDelegationKey = {
-      signedOid: response.signedOid,
-      signedTid: response.signedTid,
-      signedStart: new Date(response.signedStart),
-      signedExpiry: new Date(response.signedExpiry),
-      signedService: response.signedService,
-      signedVersion: response.signedVersion,
-      value: response.value
-    };
+      const userDelegationKey = {
+        signedOid: response.signedOid,
+        signedTid: response.signedTid,
+        signedStart: new Date(response.signedStart),
+        signedExpiry: new Date(response.signedExpiry),
+        signedService: response.signedService,
+        signedVersion: response.signedVersion,
+        value: response.value
+      };
 
-    const res: ServiceGetUserDelegationKeyResponse = {
-      _response: response._response,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      version: response.version,
-      date: response.date,
-      errorCode: response.errorCode,
-      ...userDelegationKey
-    };
+      const res: ServiceGetUserDelegationKeyResponse = {
+        _response: response._response,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        version: response.version,
+        date: response.date,
+        errorCode: response.errorCode,
+        ...userDelegationKey
+      };
 
-    return res;
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -773,36 +895,48 @@ export class BlobServiceClient extends StorageClient {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 
-    const batchRequestBody = batchRequest.getHttpRequestBody();
+    const { span, spanOptions } = createSpan("BlobServiceClient-submitBatch", options.spanOptions);
+    try {
+      const batchRequestBody = batchRequest.getHttpRequestBody();
 
-    const rawBatchResponse: Models.ServiceSubmitBatchResponse = await this.serviceContext.submitBatch(
-      batchRequestBody,
-      utf8ByteLength(batchRequestBody),
-      batchRequest.getMultiPartContentType(),
-      {
-        ...options
-      }
-    );
+      const rawBatchResponse: Models.ServiceSubmitBatchResponse = await this.serviceContext.submitBatch(
+        batchRequestBody,
+        utf8ByteLength(batchRequestBody),
+        batchRequest.getMultiPartContentType(),
+        {
+          ...options,
+          spanOptions
+        }
+      );
 
-    // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
-    const batchResponseParser = new BatchResponseParser(
-      rawBatchResponse,
-      batchRequest.getSubRequests()
-    );
-    const responseSummary = await batchResponseParser.parseBatchResponse();
+      // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
+      const batchResponseParser = new BatchResponseParser(
+        rawBatchResponse,
+        batchRequest.getSubRequests()
+      );
+      const responseSummary = await batchResponseParser.parseBatchResponse();
 
-    const res: ServiceSubmitBatchResponse = {
-      _response: rawBatchResponse._response,
-      contentType: rawBatchResponse.contentType,
-      errorCode: rawBatchResponse.errorCode,
-      requestId: rawBatchResponse.requestId,
-      clientRequestId: rawBatchResponse.clientRequestId,
-      version: rawBatchResponse.version,
-      subResponses: responseSummary.subResponses,
-      subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
-      subResponsesFailedCount: responseSummary.subResponsesFailedCount
-    };
+      const res: ServiceSubmitBatchResponse = {
+        _response: rawBatchResponse._response,
+        contentType: rawBatchResponse.contentType,
+        errorCode: rawBatchResponse.errorCode,
+        requestId: rawBatchResponse.requestId,
+        clientRequestId: rawBatchResponse.clientRequestId,
+        version: rawBatchResponse.version,
+        subResponses: responseSummary.subResponses,
+        subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
+        subResponsesFailedCount: responseSummary.subResponsesFailedCount
+      };
 
-    return res;
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
