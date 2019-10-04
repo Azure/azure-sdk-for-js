@@ -154,7 +154,7 @@ describe("QueueClient", () => {
     }
   });
 
-  it.only("getProperties with tracing", async () => {
+  it("getProperties with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
