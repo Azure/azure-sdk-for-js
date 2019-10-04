@@ -27,8 +27,8 @@ async function exec(cmd, cwd) {
 }
 
 async function runSamples(language) {
-  const directory = `./samples/${language}`;
   let cmd;
+  const directory = `./samples/${language}`;
 
   if (language === "typescript") {
     cmd = "ts-node";
@@ -40,6 +40,7 @@ async function runSamples(language) {
   console.log(`Running ${language} samples...`);
 
   const files = fs.readdirSync(directory);
+
   for (var i = 0; i < files.length; i++) {
     if (skipSet.includes(files[i].split(".")[0])) {
       continue;
@@ -50,13 +51,10 @@ async function runSamples(language) {
         console.log(`${del}\n${b(del)} \n`);
 
         console.log(`${g("Running")} ${y(files[i])} ${g("...")}`);
-
         await exec(`${cmd} ${files[i]}`, directory);
-
         console.log(`${g(files[i] + " is done..!")}`);
       } catch (error) {
         console.log(error.message);
-
         console.log(`${r(del)}\n${del}`);
         console.log(`${bDel}\t${files[i]} Sample - FAILED\t `);
         console.log(`${del}\n${r(del)}`);
