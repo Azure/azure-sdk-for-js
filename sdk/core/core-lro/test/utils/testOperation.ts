@@ -13,7 +13,10 @@ export interface TestOperationProperties {
 
 export interface TestOperation extends PollOperation<TestOperationProperties, string> {}
 
-async function update(this: TestOperation, fireProgress: (properties: TestOperationProperties) => void): Promise<TestOperation> {
+async function update(
+  this: TestOperation,
+  fireProgress: (properties: TestOperationProperties) => void
+): Promise<TestOperation> {
   const { client, requestOptions, initialResponse, previousResponse } = this.properties;
 
   let response: HttpOperationResponse;
@@ -47,17 +50,14 @@ async function update(this: TestOperation, fireProgress: (properties: TestOperat
   const properties: TestOperationProperties = {
     ...this.properties,
     previousResponse: response
-  }
+  };
 
   // Progress only after the poller has started and before the poller is done
   if (!(!initialResponse || doFinalResponse)) {
     fireProgress(properties);
   }
 
-  return maker(
-    { ...this.state },
-    properties,
-  );
+  return maker({ ...this.state }, properties);
 }
 
 async function cancel(this: TestOperation): Promise<TestOperation> {

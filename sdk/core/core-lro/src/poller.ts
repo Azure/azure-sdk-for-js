@@ -90,7 +90,7 @@ export abstract class Poller<TProperties, TResult> {
   public onProgress(callback: (properties: TProperties) => void): CancelOnProgress {
     this.pollProgressCallbacks.push(callback);
     return (): void => {
-      this.pollProgressCallbacks = this.pollProgressCallbacks.filter(c => c !== callback);
+      this.pollProgressCallbacks = this.pollProgressCallbacks.filter((c) => c !== callback);
     };
   }
 
