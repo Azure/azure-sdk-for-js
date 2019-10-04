@@ -7,7 +7,7 @@ import {
   TokenCredential,
   isTokenCredential
 } from "@azure/core-http";
-
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -29,7 +29,7 @@ import {
 } from "./utils/constants";
 import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
 import { readStreamToLocalFile } from "./utils/utils.node";
-import { AppendBlobClient, StorageClient } from "./internal";
+import { AppendBlobClient, StorageClient, CommonOptions } from "./internal";
 import { BlockBlobClient } from "./internal";
 import { PageBlobClient } from "./internal";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -37,6 +37,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 import { LeaseClient } from "./LeaseClient";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Blob - Download operation.
@@ -44,7 +45,7 @@ import { LeaseClient } from "./LeaseClient";
  * @export
  * @interface BlobDownloadOptions
  */
-export interface BlobDownloadOptions {
+export interface BlobDownloadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -125,7 +126,7 @@ export interface BlobDownloadOptions {
  * @export
  * @interface BlobGetPropertiesOptions
  */
-export interface BlobGetPropertiesOptions {
+export interface BlobGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -156,7 +157,7 @@ export interface BlobGetPropertiesOptions {
  * @export
  * @interface BlobDeleteOptions
  */
-export interface BlobDeleteOptions {
+export interface BlobDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -196,7 +197,7 @@ export interface BlobDeleteOptions {
  * @export
  * @interface BlobUndeleteOptions
  */
-export interface BlobUndeleteOptions {
+export interface BlobUndeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -220,7 +221,7 @@ export interface BlobUndeleteOptions {
  * @export
  * @interface BlobSetHTTPHeadersOptions
  */
-export interface BlobSetHTTPHeadersOptions {
+export interface BlobSetHTTPHeadersOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -251,7 +252,7 @@ export interface BlobSetHTTPHeadersOptions {
  * @export
  * @interface BlobSetMetadataOptions
  */
-export interface BlobSetMetadataOptions {
+export interface BlobSetMetadataOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -282,7 +283,7 @@ export interface BlobSetMetadataOptions {
  * @export
  * @interface BlobAcquireLeaseOptions
  */
-export interface BlobAcquireLeaseOptions {
+export interface BlobAcquireLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -306,7 +307,7 @@ export interface BlobAcquireLeaseOptions {
  * @export
  * @interface BlobReleaseLeaseOptions
  */
-export interface BlobReleaseLeaseOptions {
+export interface BlobReleaseLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -330,7 +331,7 @@ export interface BlobReleaseLeaseOptions {
  * @export
  * @interface BlobRenewLeaseOptions
  */
-export interface BlobRenewLeaseOptions {
+export interface BlobRenewLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -354,7 +355,7 @@ export interface BlobRenewLeaseOptions {
  * @export
  * @interface BlobChangeLeaseOptions
  */
-export interface BlobChangeLeaseOptions {
+export interface BlobChangeLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -378,7 +379,7 @@ export interface BlobChangeLeaseOptions {
  * @export
  * @interface BlobBreakLeaseOptions
  */
-export interface BlobBreakLeaseOptions {
+export interface BlobBreakLeaseOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -402,7 +403,7 @@ export interface BlobBreakLeaseOptions {
  * @export
  * @interface BlobCreateSnapshotOptions
  */
-export interface BlobCreateSnapshotOptions {
+export interface BlobCreateSnapshotOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -440,7 +441,7 @@ export interface BlobCreateSnapshotOptions {
  * @export
  * @interface BlobStartCopyFromURLOptions
  */
-export interface BlobStartCopyFromURLOptions {
+export interface BlobStartCopyFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -494,7 +495,7 @@ export interface BlobStartCopyFromURLOptions {
  * @export
  * @interface BlobAbortCopyFromURLOptions
  */
-export interface BlobAbortCopyFromURLOptions {
+export interface BlobAbortCopyFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -519,7 +520,7 @@ export interface BlobAbortCopyFromURLOptions {
  * @export
  * @interface BlobSyncCopyFromURLOptions
  */
-export interface BlobSyncCopyFromURLOptions {
+export interface BlobSyncCopyFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -557,7 +558,7 @@ export interface BlobSyncCopyFromURLOptions {
  * @export
  * @interface BlobSetTierOptions
  */
-export interface BlobSetTierOptions {
+export interface BlobSetTierOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -590,7 +591,7 @@ export interface BlobSetTierOptions {
  * @export
  * @interface DownloadFromBlobOptions
  */
-export interface DownloadFromBlobOptions {
+export interface DownloadFromBlobOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -898,84 +899,97 @@ export class BlobClient extends StorageClient {
       options.blobAccessConditions.modifiedAccessConditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-    const res = await this.blobContext.download({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-      onDownloadProgress: isNode ? undefined : options.progress,
-      range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-      rangeGetContentMD5: options.rangeGetContentMD5,
-      rangeGetContentCRC64: options.rangeGetContentCrc64,
-      snapshot: options.snapshot,
-      cpkInfo: options.customerProvidedKey
-    });
+    const { span, spanOptions } = createSpan("BlobClient-download", options.spanOptions);
 
-    // Return browser response immediately
-    if (!isNode) {
-      return res;
-    }
-
-    // We support retrying when download stream unexpected ends in Node.js runtime
-    // Following code shouldn't be bundled into browser build, however some
-    // bundlers may try to bundle following code and "FileReadResponse.ts".
-    // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
-    // The config is in package.json "browser" field
-    if (options.maxRetryRequests === undefined || options.maxRetryRequests < 0) {
-      // TODO: Default value or make it a required parameter?
-      options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
-    }
-
-    if (res.contentLength === undefined) {
-      throw new RangeError(`File download response doesn't contain valid content length header`);
-    }
-
-    if (!res.eTag) {
-      throw new RangeError(`File download response doesn't contain valid etag header`);
-    }
-
-    return new BlobDownloadResponse(
-      res,
-      async (start: number): Promise<NodeJS.ReadableStream> => {
-        const updatedOptions: Models.BlobDownloadOptionalParams = {
-          leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
-          modifiedAccessConditions: {
-            ifMatch: options.blobAccessConditions!.modifiedAccessConditions!.ifMatch || res.eTag,
-            ifModifiedSince: options.blobAccessConditions!.modifiedAccessConditions!
-              .ifModifiedSince,
-            ifNoneMatch: options.blobAccessConditions!.modifiedAccessConditions!.ifNoneMatch,
-            ifUnmodifiedSince: options.blobAccessConditions!.modifiedAccessConditions!
-              .ifUnmodifiedSince
-          },
-          range: rangeToString({
-            count: offset + res.contentLength! - start,
-            offset: start
-          }),
-          rangeGetContentMD5: options.rangeGetContentMD5,
-          rangeGetContentCRC64: options.rangeGetContentCrc64,
-          snapshot: options.snapshot,
-          cpkInfo: options.customerProvidedKey
-        };
-
-        // Debug purpose only
-        // console.log(
-        //   `Read from internal stream, range: ${
-        //     updatedOptions.range
-        //   }, options: ${JSON.stringify(updatedOptions)}`
-        // );
-
-        return (await this.blobContext.download({
-          abortSignal: options.abortSignal,
-          ...updatedOptions
-        })).readableStreamBody!;
-      },
-      offset,
-      res.contentLength!,
-      {
+    try {
+      const res = await this.blobContext.download({
         abortSignal: options.abortSignal,
-        maxRetryRequests: options.maxRetryRequests,
-        progress: options.progress
+        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        onDownloadProgress: isNode ? undefined : options.progress,
+        range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+        rangeGetContentMD5: options.rangeGetContentMD5,
+        rangeGetContentCRC64: options.rangeGetContentCrc64,
+        snapshot: options.snapshot,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+
+      // Return browser response immediately
+      if (!isNode) {
+        return res;
       }
-    );
+
+      // We support retrying when download stream unexpected ends in Node.js runtime
+      // Following code shouldn't be bundled into browser build, however some
+      // bundlers may try to bundle following code and "FileReadResponse.ts".
+      // In this case, "FileDownloadResponse.browser.ts" will be used as a shim of "FileDownloadResponse.ts"
+      // The config is in package.json "browser" field
+      if (options.maxRetryRequests === undefined || options.maxRetryRequests < 0) {
+        // TODO: Default value or make it a required parameter?
+        options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
+      }
+
+      if (res.contentLength === undefined) {
+        throw new RangeError(`File download response doesn't contain valid content length header`);
+      }
+
+      if (!res.eTag) {
+        throw new RangeError(`File download response doesn't contain valid etag header`);
+      }
+
+      return new BlobDownloadResponse(
+        res,
+        async (start: number): Promise<NodeJS.ReadableStream> => {
+          const updatedOptions: Models.BlobDownloadOptionalParams = {
+            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
+            modifiedAccessConditions: {
+              ifMatch: options.blobAccessConditions!.modifiedAccessConditions!.ifMatch || res.eTag,
+              ifModifiedSince: options.blobAccessConditions!.modifiedAccessConditions!
+                .ifModifiedSince,
+              ifNoneMatch: options.blobAccessConditions!.modifiedAccessConditions!.ifNoneMatch,
+              ifUnmodifiedSince: options.blobAccessConditions!.modifiedAccessConditions!
+                .ifUnmodifiedSince
+            },
+            range: rangeToString({
+              count: offset + res.contentLength! - start,
+              offset: start
+            }),
+            rangeGetContentMD5: options.rangeGetContentMD5,
+            rangeGetContentCRC64: options.rangeGetContentCrc64,
+            snapshot: options.snapshot,
+            cpkInfo: options.customerProvidedKey
+          };
+
+          // Debug purpose only
+          // console.log(
+          //   `Read from internal stream, range: ${
+          //     updatedOptions.range
+          //   }, options: ${JSON.stringify(updatedOptions)}`
+          // );
+
+          return (await this.blobContext.download({
+            abortSignal: options.abortSignal,
+            ...updatedOptions
+          })).readableStreamBody!;
+        },
+        offset,
+        res.contentLength!,
+        {
+          abortSignal: options.abortSignal,
+          maxRetryRequests: options.maxRetryRequests,
+          progress: options.progress
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -990,14 +1004,26 @@ export class BlobClient extends StorageClient {
   public async getProperties(
     options: BlobGetPropertiesOptions = {}
   ): Promise<Models.BlobGetPropertiesResponse> {
-    options.blobAccessConditions = options.blobAccessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.blobContext.getProperties({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-      cpkInfo: options.customerProvidedKey
-    });
+    const { span, spanOptions } = createSpan("BlobClient-getProperties", options.spanOptions);
+    try {
+      options.blobAccessConditions = options.blobAccessConditions || {};
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.blobContext.getProperties({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1012,13 +1038,25 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-delete", options.spanOptions);
     options.blobAccessConditions = options.blobAccessConditions || {};
-    return this.blobContext.deleteMethod({
-      abortSignal: options.abortSignal,
-      deleteSnapshots: options.deleteSnapshots,
-      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions
-    });
+    try {
+      return this.blobContext.deleteMethod({
+        abortSignal: options.abortSignal,
+        deleteSnapshots: options.deleteSnapshots,
+        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1032,9 +1070,21 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
-    return this.blobContext.undelete({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("BlobClient-undelete", options.spanOptions);
+    try {
+      return this.blobContext.undelete({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1055,15 +1105,27 @@ export class BlobClient extends StorageClient {
     blobHTTPHeaders?: Models.BlobHTTPHeaders,
     options: BlobSetHTTPHeadersOptions = {}
   ): Promise<Models.BlobSetHTTPHeadersResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-setHTTPHeaders", options.spanOptions);
     options.blobAccessConditions = options.blobAccessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.blobContext.setHTTPHeaders({
-      abortSignal: options.abortSignal,
-      blobHTTPHeaders,
-      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-      cpkInfo: options.customerProvidedKey
-    });
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.blobContext.setHTTPHeaders({
+        abortSignal: options.abortSignal,
+        blobHTTPHeaders,
+        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1083,15 +1145,27 @@ export class BlobClient extends StorageClient {
     metadata?: Metadata,
     options: BlobSetMetadataOptions = {}
   ): Promise<Models.BlobSetMetadataResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-setMetadata", options.spanOptions);
     options.blobAccessConditions = options.blobAccessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.blobContext.setMetadata({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      metadata,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-      cpkInfo: options.customerProvidedKey
-    });
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.blobContext.setMetadata({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        metadata,
+        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1116,15 +1190,27 @@ export class BlobClient extends StorageClient {
   public async createSnapshot(
     options: BlobCreateSnapshotOptions = {}
   ): Promise<Models.BlobCreateSnapshotResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-createSnapshot", options.spanOptions);
     options.blobAccessConditions = options.blobAccessConditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    return this.blobContext.createSnapshot({
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      metadata: options.metadata,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-      cpkInfo: options.customerProvidedKey
-    });
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return this.blobContext.createSnapshot({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        metadata: options.metadata,
+        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        cpkInfo: options.customerProvidedKey,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1146,23 +1232,35 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobStartCopyFromURLOptions = {}
   ): Promise<Models.BlobStartCopyFromURLResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-startCopyFromURL", options.spanOptions);
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
-    return this.blobContext.startCopyFromURL(copySource, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      metadata: options.metadata,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-      sourceModifiedAccessConditions: {
-        sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-        sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-        sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-        sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-      },
-      rehydratePriority: options.rehydratePriority,
-      tier: toAccessTier(options.tier)
-    });
+    try {
+      return this.blobContext.startCopyFromURL(copySource, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        metadata: options.metadata,
+        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+        },
+        rehydratePriority: options.rehydratePriority,
+        tier: toAccessTier(options.tier),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1179,10 +1277,22 @@ export class BlobClient extends StorageClient {
     copyId: string,
     options: BlobAbortCopyFromURLOptions = {}
   ): Promise<Models.BlobAbortCopyFromURLResponse> {
-    return this.blobContext.abortCopyFromURL(copyId, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.leaseAccessConditions
-    });
+    const { span, spanOptions } = createSpan("BlobClient-abortCopyFromURL", options.spanOptions);
+    try {
+      return this.blobContext.abortCopyFromURL(copyId, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1199,21 +1309,33 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobSyncCopyFromURLOptions = {}
   ): Promise<Models.BlobCopyFromURLResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-syncCopyFromURL", options.spanOptions);
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
 
-    return this.blobContext.copyFromURL(copySource, {
-      abortSignal: options.abortSignal,
-      metadata: options.metadata,
-      leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-      modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-      sourceModifiedAccessConditions: {
-        sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-        sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-        sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-        sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
-      }
-    });
+    try {
+      return this.blobContext.copyFromURL(copySource, {
+        abortSignal: options.abortSignal,
+        metadata: options.metadata,
+        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+        },
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1233,11 +1355,23 @@ export class BlobClient extends StorageClient {
     tier: BlockBlobTier | PremiumPageBlobTier | string,
     options: BlobSetTierOptions = {}
   ): Promise<Models.BlobSetTierResponse> {
-    return await this.blobContext.setTier(toAccessTier(tier)!, {
-      abortSignal: options.abortSignal,
-      leaseAccessConditions: options.leaseAccessConditions,
-      rehydratePriority: options.rehydratePriority
-    });
+    const { span, spanOptions } = createSpan("BlobClient-setAccessTier", options.spanOptions);
+    try {
+      return await this.blobContext.setTier(toAccessTier(tier)!, {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
+        rehydratePriority: options.rehydratePriority,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   // High level function
@@ -1261,71 +1395,87 @@ export class BlobClient extends StorageClient {
     count?: number,
     options: DownloadFromBlobOptions = {}
   ): Promise<void> {
-    if (!options.blockSize) {
-      options.blockSize = 0;
-    }
-    if (options.blockSize < 0) {
-      throw new RangeError("blockSize option must be >= 0");
-    }
-    if (options.blockSize === 0) {
-      options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
-    }
+    const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
-    if (offset < 0) {
-      throw new RangeError("offset option must be >= 0");
-    }
+    try {
+      if (!options.blockSize) {
+        options.blockSize = 0;
+      }
+      if (options.blockSize < 0) {
+        throw new RangeError("blockSize option must be >= 0");
+      }
+      if (options.blockSize === 0) {
+        options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
+      }
 
-    if (count && count <= 0) {
-      throw new RangeError("count option must be > 0");
-    }
+      if (offset < 0) {
+        throw new RangeError("offset option must be >= 0");
+      }
 
-    if (!options.blobAccessConditions) {
-      options.blobAccessConditions = {};
-    }
+      if (count && count <= 0) {
+        throw new RangeError("count option must be > 0");
+      }
 
-    // Customer doesn't specify length, get it
-    if (!count) {
-      const response = await this.getProperties(options);
-      count = response.contentLength! - offset;
-      if (count < 0) {
+      if (!options.blobAccessConditions) {
+        options.blobAccessConditions = {};
+      }
+
+      // Customer doesn't specify length, get it
+      if (!count) {
+        const response = await this.getProperties({
+          ...options,
+          spanOptions
+        });
+        count = response.contentLength! - offset;
+        if (count < 0) {
+          throw new RangeError(
+            `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`
+          );
+        }
+      }
+
+      if (buffer.length < count) {
         throw new RangeError(
-          `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`
+          `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
         );
       }
-    }
 
-    if (buffer.length < count) {
-      throw new RangeError(
-        `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
-      );
-    }
-
-    let transferProgress: number = 0;
-    const batch = new Batch(options.parallelism);
-    for (let off = offset; off < offset + count; off = off + options.blockSize) {
-      batch.addOperation(async () => {
-        // Exclusive chunk end position
-        let chunkEnd = offset + count!;
-        if (off + options.blockSize! < chunkEnd) {
-          chunkEnd = off + options.blockSize!;
-        }
-        const response = await this.download(off, chunkEnd - off, {
-          abortSignal: options.abortSignal,
-          blobAccessConditions: options.blobAccessConditions,
-          maxRetryRequests: options.maxRetryRequestsPerBlock
+      let transferProgress: number = 0;
+      const batch = new Batch(options.parallelism);
+      for (let off = offset; off < offset + count; off = off + options.blockSize) {
+        batch.addOperation(async () => {
+          // Exclusive chunk end position
+          let chunkEnd = offset + count!;
+          if (off + options.blockSize! < chunkEnd) {
+            chunkEnd = off + options.blockSize!;
+          }
+          const response = await this.download(off, chunkEnd - off, {
+            abortSignal: options.abortSignal,
+            blobAccessConditions: options.blobAccessConditions,
+            maxRetryRequests: options.maxRetryRequestsPerBlock,
+            spanOptions
+          });
+          const stream = response.readableStreamBody!;
+          await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
+          // Update progress after block is downloaded, in case of block trying
+          // Could provide finer grained progress updating inside HTTP requests,
+          // only if convenience layer download try is enabled
+          transferProgress += chunkEnd - off;
+          if (options.progress) {
+            options.progress({ loadedBytes: transferProgress });
+          }
         });
-        const stream = response.readableStreamBody!;
-        await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
-        // Update progress after block is downloaded, in case of block trying
-        // Could provide finer grained progress updating inside HTTP requests,
-        // only if convenience layer download try is enabled
-        transferProgress += chunkEnd - off;
-        if (options.progress) {
-          options.progress({ loadedBytes: transferProgress });
-        }
+      }
+      await batch.do();
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
       });
+      throw e;
+    } finally {
+      span.end();
     }
-    await batch.do();
   }
 
   /**
@@ -1349,16 +1499,30 @@ export class BlobClient extends StorageClient {
     filePath: string,
     offset: number = 0,
     count?: number,
-    options?: BlobDownloadOptions
+    options: BlobDownloadOptions = {}
   ): Promise<Models.BlobDownloadResponse> {
-    const response = await this.download(offset, count, options);
-    if (response.readableStreamBody) {
-      await readStreamToLocalFile(response.readableStreamBody, filePath);
-    }
+    const { span, spanOptions } = createSpan("BlobClient-downloadToFile", options.spanOptions);
+    try {
+      const response = await this.download(offset, count, {
+        ...options,
+        spanOptions
+      });
+      if (response.readableStreamBody) {
+        await readStreamToLocalFile(response.readableStreamBody, filePath);
+      }
 
-    // The stream is no longer accessible so setting it to undefined.
-    (response as any).blobDownloadStream = undefined;
-    return response;
+      // The stream is no longer accessible so setting it to undefined.
+      (response as any).blobDownloadStream = undefined;
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   private getBlobAndContainerNamesFromUrl(): { blobName: string; containerName: string } {

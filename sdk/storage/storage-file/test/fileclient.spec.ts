@@ -1,5 +1,6 @@
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
@@ -497,5 +498,36 @@ describe("FileClient", () => {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
     }
+  });
+
+  it("create with tracing", async () => {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const rootSpan = tracer.startSpan("root");
+    await fileClient.create(content.length, {
+      spanOptions: { parent: rootSpan }
+    });
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Storage.File.FileClient-create",
+              children: []
+            }
+          ]
+        }
+      ]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });

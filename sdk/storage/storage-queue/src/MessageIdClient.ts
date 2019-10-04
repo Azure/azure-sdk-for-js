@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { MessageId } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import { extractConnectionStringParts } from "./utils/utils.common";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -17,7 +19,7 @@ import { extractConnectionStringParts } from "./utils/utils.common";
  * @export
  * @interface MessageIdDeleteOptions
  */
-export interface MessageIdDeleteOptions {
+export interface MessageIdDeleteOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -34,7 +36,7 @@ export interface MessageIdDeleteOptions {
  * @export
  * @interface MessageIdUpdateOptions
  */
-export interface MessageIdUpdateOptions {
+export interface MessageIdUpdateOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -218,9 +220,21 @@ export class MessageIdClient extends StorageClient {
     popReceipt: string,
     options: MessageIdDeleteOptions = {}
   ): Promise<Models.MessageIdDeleteResponse> {
-    return this.messageIdContext.deleteMethod(popReceipt, {
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("MessageIdClient-delete", options.spanOptions);
+    try {
+      return this.messageIdContext.deleteMethod(popReceipt, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -246,16 +260,28 @@ export class MessageIdClient extends StorageClient {
     visibilityTimeout?: number,
     options: MessageIdUpdateOptions = {}
   ): Promise<Models.MessageIdUpdateResponse> {
-    return this.messageIdContext.update(
-      {
-        messageText: message
-      },
-      popReceipt,
-      visibilityTimeout || 0,
-      {
-        abortSignal: options.abortSignal
-      }
-    );
+    const { span, spanOptions } = createSpan("MessageIdClient-update", options.spanOptions);
+    try {
+      return this.messageIdContext.update(
+        {
+          messageText: message
+        },
+        popReceipt,
+        visibilityTimeout || 0,
+        {
+          abortSignal: options.abortSignal,
+          spanOptions
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   private getQueueNameAndMessageIdFromUrl(): { queueName: string; messageId: string } {

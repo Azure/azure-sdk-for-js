@@ -13,7 +13,7 @@ import {
   bearerTokenAuthenticationPolicy,
   isNode
 } from "@azure/core-http";
-
+import { CanonicalCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./BlobClient";
 import * as Models from "./generated/src/models";
@@ -28,6 +28,7 @@ import {
   StorageOAuthScopes
 } from "./utils/constants";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { createSpan } from "./utils/tracing";
 
 export interface BatchSubRequest {
   /**
@@ -182,15 +183,33 @@ export class BatchDeleteRequest extends BatchRequest {
       options = {};
     }
 
-    await super.addSubRequestInternal(
-      {
-        url: url,
-        credential: credential
-      },
-      async () => {
-        await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(options);
-      }
+    const { span, spanOptions } = createSpan(
+      "BatchDeleteRequest-addSubRequest",
+      options.spanOptions
     );
+
+    try {
+      await super.addSubRequestInternal(
+        {
+          url: url,
+          credential: credential
+        },
+        async () => {
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete({
+            ...options,
+            spanOptions
+          });
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
 
@@ -294,18 +313,33 @@ export class BatchSetTierRequest extends BatchRequest {
       options = {};
     }
 
-    await super.addSubRequestInternal(
-      {
-        url: url,
-        credential: credential
-      },
-      async () => {
-        await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
-          tier,
-          options
-        );
-      }
+    const { span, spanOptions } = createSpan(
+      "BatchSetTierRequest-addSubRequest",
+      options.spanOptions
     );
+
+    try {
+      await super.addSubRequestInternal(
+        {
+          url: url,
+          credential: credential
+        },
+        async () => {
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
+            tier,
+            { ...options, spanOptions }
+          );
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
 

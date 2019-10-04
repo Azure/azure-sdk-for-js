@@ -23,7 +23,15 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["@azure/core-http", "crypto", "fs", "events", "os", "stream", "util"];
+  const externalNodeBuiltins = [
+    "@azure/core-http",
+    "crypto",
+    "fs",
+    "events",
+    "os",
+    "stream",
+    "util"
+  ];
   const baseConfig = {
     input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
@@ -126,7 +134,8 @@ export function browserConfig(test = false, production = false) {
             "deepStrictEqual",
             "notDeepStrictEqual",
             "notDeepEqual",
-            "notEqual"
+            "notEqual",
+            "strictEqual"
           ]
         }
       })
