@@ -73,7 +73,7 @@ export async function run() {
       ifMatch: alphaSetting.etag
     })
   } catch (err) {    
-    if (err.statusCode == 412) {    // precondition failed
+    if (err.statusCode === 412) {    // precondition failed
       console.log(`Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`);
 
       console.log("Alpha gets the newly updated value and is merging in their changes.");

@@ -7,8 +7,7 @@
 
 // NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
 // in a standalone project
-import { AppConfigurationClient, ConfigurationSetting } from "../src";
-import { ResponseBodyNotFoundError } from '../src/responseBodyNotFoundError';
+import { AppConfigurationClient } from "../src";
 
 export async function run() {
   console.log("Running get setting only if changed sample");

@@ -1,14 +1,15 @@
 # Azure App Configuration client library for JS
 
 Azure App Configuration is a managed service that helps developers
-centralize their application configurations simply and securely.
+centralize their application configurations, simply and securely.
 
-This client library lets you create, retrieve, update and delete 
-settings on an Azure App Configuration server
+This client library lets you create, retrieve, update, and delete 
+settings within Azure App Configuration.
 
+* [Azure App Configuration documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)
 * [NPM](https://www.npmjs.com/package/@azure/app-configuration)
-* [Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)
 * [Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/)
+* [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
 ## Getting started
 
@@ -24,7 +25,7 @@ npm install @azure/app-configuration
 
 ## Examples
 
-#### nodejs - Creating and getting a setting in Javascript
+#### nodejs - Create and get a setting in JavaScript
 
 ##### Sample code
 
@@ -37,6 +38,9 @@ async function run() {
   const newSetting = await client.setConfigurationSetting({
     key: "testkey", 
     value: "testvalue",
+    // Labels allow you to create variants of a key tailored
+    // for specific use-cases like supporting multiple environments.
+    // https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-key-value#label-keys
     label: "optional-label"
   });
 
@@ -48,19 +52,19 @@ async function run() {
 run().catch(err => console.log("ERROR:", err));
 ```
 
-More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples) folder on github.
+More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples) folder on GitHub.
 
 ## Next steps
 
 Use these samples for a more in-depth demonstration of Azure App Configuration.
 
-* [`helloworld.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworld.ts) - getting, setting and deleting configuration values 
+* [`helloworld.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworld.ts) - Get, set, and delete configuration values 
 * [`helloworldWithLabels.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/helloworldWithLabels.ts) - using labels to add additional dimensions to your settings for scenarios like beta vs production
 * [`optimisticConcurrencyViaEtag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/optimisticConcurrencyViaEtag.ts) - setting values using etags to prevent accidental overwrites
 * [`setReadOnlySample.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/setReadOnlySample.ts) - marking settings as read-only to prevent modification
 * [`getSettingOnlyIfChanged.ts`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/getSettingOnlyIfChanged.ts) - get a setting only if it changed from the last time you got it
 
-View more samples on [github](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
+View more samples on [GitHub](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
 ## Contributing
 
@@ -87,6 +91,6 @@ folder for more details.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/appconfiguration/app-config/README.png)
