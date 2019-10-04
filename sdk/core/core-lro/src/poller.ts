@@ -2,10 +2,7 @@ import { PollOperation } from "./pollOperation";
 
 export type CancelOnProgress = () => void;
 
-export interface PollProgressSubscriber<TProperties, TResult> {
-  conditional: (op?: PollOperation<TProperties, TResult>) => boolean;
-  callback: (op?: PollOperation<TProperties, TResult>) => void;
-}
+export type PollProgressCallback<TProperties> = (properties: TProperties) => void;
 
 export abstract class Poller<TProperties, TResult> {
   private stopped: boolean;
@@ -14,7 +11,7 @@ export abstract class Poller<TProperties, TResult> {
   private pollOncePromise?: Promise<void>;
   private cancelPromise?: Promise<PollOperation<TProperties, TResult>>;
   private promise: Promise<TResult>;
-  private pollProgressSubscribers: PollProgressSubscriber<TProperties, TResult>[] = [];
+  private pollProgressCallbacks: PollProgressCallback<TProperties>[] = [];
   public operation: PollOperation<TProperties, TResult>;
 
   constructor(operation: PollOperation<TProperties, TResult>, stopped: boolean = false) {
@@ -48,7 +45,7 @@ export abstract class Poller<TProperties, TResult> {
   private async pollOnce(): Promise<void> {
     try {
       if (!this.isDone()) {
-        this.operation = await this.operation.update();
+        this.operation = await this.operation.update(this.fireProgress.bind(this));
         if (this.isDone() && this.resolve) {
           const result = await this.getResult();
           this.operation.state.result = result;
@@ -63,15 +60,16 @@ export abstract class Poller<TProperties, TResult> {
     }
   }
 
+  private fireProgress(properties: TProperties): void {
+    for (const callback of this.pollProgressCallbacks) {
+      callback(properties);
+    }
+  }
+
   public poll(): Promise<void> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce();
       this.pollOncePromise.finally(() => {
-        for (const subscriber of this.pollProgressSubscribers) {
-          if (subscriber.conditional(this.operation)) {
-            subscriber.callback(this.operation);
-          }
-        }
         this.pollOncePromise = undefined;
       });
     }
@@ -82,22 +80,11 @@ export abstract class Poller<TProperties, TResult> {
     return this.promise;
   }
 
-  public onProgress(
-    conditional: (op?: PollOperation<TProperties, TResult>) => boolean,
-    callback: (op?: PollOperation<TProperties, TResult>) => void
-  ): CancelOnProgress {
-    const subscriber: PollProgressSubscriber<TProperties, TResult> = {
-      conditional,
-      callback
-    }
-    this.pollProgressSubscribers.push(subscriber);
+  public onProgress(callback: (properties: TProperties) => void): CancelOnProgress {
+    this.pollProgressCallbacks.push(callback);
     return (): void => {
-      this.pollProgressSubscribers = this.pollProgressSubscribers.filter(s => s !== subscriber);
+      this.pollProgressCallbacks = this.pollProgressCallbacks.filter(c => c !== callback);
     };
-  }
-
-  public clearSubscribers() {
-    this.pollProgressSubscribers = [];
   }
 
   public isDone(): boolean {

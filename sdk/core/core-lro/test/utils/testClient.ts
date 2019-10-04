@@ -7,13 +7,14 @@ import {
 import { TestServiceClient } from "./testServiceClient";
 import { TestPoller } from "./testPoller";
 import { TestNonCancellablePoller } from "./testNonCancellablePoller";
-import { TestOperation } from "./testOperation";
+import { TestOperation, TestOperationProperties } from "./testOperation";
 
 interface StartLROOptions {
   manual?: boolean;
   intervalInMs?: number;
   requestOptions?: RequestOptionsBase;
   operation?: TestOperation;
+  onProgress?: (properties: TestOperationProperties) => void;
 }
 
 export class TestClient extends TestServiceClient {
@@ -30,7 +31,8 @@ export class TestClient extends TestServiceClient {
       options.manual,
       options.intervalInMs,
       options.requestOptions,
-      options.operation
+      options.operation,
+      options.onProgress,
     );
   }
 
@@ -42,7 +44,8 @@ export class TestClient extends TestServiceClient {
       options.manual,
       options.intervalInMs,
       options.requestOptions,
-      options.operation
+      options.operation,
+      options.onProgress,
     );
   }
 }

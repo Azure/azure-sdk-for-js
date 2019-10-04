@@ -13,9 +13,11 @@ export interface TestOperationProperties {
 
 export interface TestOperation extends PollOperation<TestOperationProperties, string> {}
 
-async function update(this: TestOperation): Promise<TestOperation> {
+async function update(this: TestOperation, fireProgress: (properties: TestOperationProperties) => void): Promise<TestOperation> {
   const { client, requestOptions, initialResponse, previousResponse } = this.properties;
+
   let response: HttpOperationResponse;
+  const doFinalResponse = previousResponse && previousResponse.parsedBody.doFinalResponse;
 
   if (!initialResponse) {
     response = await client.sendInitialRequest(
@@ -24,7 +26,7 @@ async function update(this: TestOperation): Promise<TestOperation> {
       )
     );
     this.properties.initialResponse = response;
-  } else if (previousResponse && previousResponse.parsedBody.doFinalResponse) {
+  } else if (doFinalResponse) {
     response = await client.sendFinalRequest(
       new TestWebResource(
         requestOptions && requestOptions.abortSignal // abortSignal?: AbortSignalLike,
@@ -42,14 +44,19 @@ async function update(this: TestOperation): Promise<TestOperation> {
   const maker =
     this.cancel.name === "unsupportedCancel" ? makeOperation : makeNonCancellableOperation;
 
+  const properties: TestOperationProperties = {
+    ...this.properties,
+    previousResponse: response
+  }
+
+  // Progress only after the poller has started and before the poller is done
+  if (!(!initialResponse || doFinalResponse)) {
+    fireProgress(properties);
+  }
+
   return maker(
-    {
-      ...this.state
-    },
-    {
-      ...this.properties,
-      previousResponse: response
-    }
+    { ...this.state },
+    properties,
   );
 }
 
@@ -58,7 +65,7 @@ async function cancel(this: TestOperation): Promise<TestOperation> {
 
   if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
     // Simulating a try catch of an HTTP request that's given an aborted abortSignal.
-    return await this.update(); // This will throw
+    return await this.update((_) => null); // This will throw
   }
 
   // Simulating the response of an HTTP Request
@@ -92,7 +99,7 @@ async function unsupportedCancel(this: TestOperation): Promise<TestOperation> {
 
   if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
     // Simulating a try catch of an HTTP request that's given an aborted abortSignal.
-    return await this.update(); // This will throw
+    return await this.update((_) => null); // This will throw
   }
 
   throw new Error("Cancellation not supported");
