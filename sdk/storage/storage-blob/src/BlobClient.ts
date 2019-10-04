@@ -121,6 +121,30 @@ export interface BlobDownloadOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure Blob - Exists operation.
+ *
+ * @export
+ * @interface BlobExistsOptions
+ */
+export interface BlobExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobGetPropertiesOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {Models.CpkInfo}
+   * @memberof BlobSetHTTPHeadersOptions
+   */
+  customerProvidedKey?: Models.CpkInfo;
+}
+
+/**
  * Options to configure Blob - Get Properties operation.
  *
  * @export
@@ -982,6 +1006,45 @@ export class BlobClient extends StorageClient {
         }
       );
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the Azrue blob resource represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing blob might be deleted by other clients or
+   * applications. Vice versa new blobs might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {BlobExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof BlobClient
+   */
+  public async exists(options: BlobExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("BlobClient-exists", options.spanOptions);
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        customerProvidedKey: options.customerProvidedKey,
+        spanOptions
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking blob existence"
+        });
+        return false;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message

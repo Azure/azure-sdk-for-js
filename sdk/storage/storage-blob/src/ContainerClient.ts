@@ -120,6 +120,23 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure Container - Exists operation.
+ *
+ * @export
+ * @interface ContainerExistsOptions
+ */
+export interface ContainerExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ContainerDeleteMethodOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Options to configure Container - Set Metadata operation.
  *
  * @export
@@ -599,6 +616,40 @@ export class ContainerClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the Azrue container resource represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing container might be deleted by other clients or
+   * applications. Vice versa new containers with the same name might be added by other clients or
+   * applications after this function completes.
+   *
+   * @param {ContainerExistsOptions} [options={}]
+   * @returns {Promise<boolean>}
+   * @memberof ContainerClient
+   */
+  public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ContainerClient-exists", options.spanOptions);
+    try {
+      await this.getProperties({ abortSignal: options.abortSignal, spanOptions });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking container existence"
+        });
+        return false;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
