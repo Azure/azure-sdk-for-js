@@ -4,6 +4,15 @@
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { getAccountNameFromUrl } from "./utils/utils.common";
+import { SpanOptions } from "@azure/core-tracing";
+
+/**
+ * An interface for options common to every remote operation.
+ */
+export interface CommonOptions {
+  spanOptions?: SpanOptions;
+}
+
 /**
  * A StorageClient represents a based client class for QueueServiceClient, QueueClient and etc.
  *

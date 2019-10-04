@@ -2,15 +2,17 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
+import { StorageClient, CommonOptions } from "./StorageClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { MessageIdClient } from "./MessageIdClient";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure Messages - Clear operation
@@ -18,7 +20,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @export
  * @interface MessagesClearOptions
  */
-export interface MessagesClearOptions {
+export interface MessagesClearOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -36,7 +38,9 @@ export interface MessagesClearOptions {
  * @interface MessagesEnqueueOptions
  * @extends {Models.MessagesEnqueueOptionalParams}
  */
-export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalParams {}
+export interface MessagesEnqueueOptions
+  extends Models.MessagesEnqueueOptionalParams,
+    CommonOptions {}
 
 /**
  * Options to configure Messages - Dequeue operation
@@ -45,7 +49,9 @@ export interface MessagesEnqueueOptions extends Models.MessagesEnqueueOptionalPa
  * @interface MessagesDequeueOptions
  * @extends {Models.MessagesDequeueOptionalParams}
  */
-export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalParams {}
+export interface MessagesDequeueOptions
+  extends Models.MessagesDequeueOptionalParams,
+    CommonOptions {}
 
 /**
  * Options to configure Messages - Peek operation
@@ -54,7 +60,7 @@ export interface MessagesDequeueOptions extends Models.MessagesDequeueOptionalPa
  * @interface MessagesPeekOptions
  * @extends {Models.MessagesPeekOptionalParams}
  */
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams {}
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams, CommonOptions {}
 
 export declare type MessagesEnqueueResponse = {
   /**
@@ -288,9 +294,21 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async clear(options: MessagesClearOptions = {}): Promise<Models.MessagesClearResponse> {
-    return this.messagesContext.clear({
-      abortSignal: options.abortSignal
-    });
+    const { span, spanOptions } = createSpan("MessagesClient-clear", options.spanOptions);
+    try {
+      return this.messagesContext.clear({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -318,29 +336,41 @@ export class MessagesClient extends StorageClient {
     messageText: string,
     options: MessagesEnqueueOptions = {}
   ): Promise<MessagesEnqueueResponse> {
-    const response = await this.messagesContext.enqueue(
-      {
-        messageText: messageText
-      },
-      {
-        abortSignal: options.abortSignal,
-        ...options
-      }
-    );
-    const item = response[0];
-    return {
-      _response: response._response,
-      date: response.date,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      version: response.version,
-      errorCode: response.errorCode,
-      messageId: item.messageId,
-      popReceipt: item.popReceipt,
-      timeNextVisible: item.timeNextVisible,
-      insertionTime: item.insertionTime,
-      expirationTime: item.expirationTime
-    };
+    const { span, spanOptions } = createSpan("MessagesClient-enqueue", options.spanOptions);
+    try {
+      const response = await this.messagesContext.enqueue(
+        {
+          messageText: messageText
+        },
+        {
+          abortSignal: options.abortSignal,
+          ...options,
+          spanOptions
+        }
+      );
+      const item = response[0];
+      return {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        version: response.version,
+        errorCode: response.errorCode,
+        messageId: item.messageId,
+        popReceipt: item.popReceipt,
+        timeNextVisible: item.timeNextVisible,
+        insertionTime: item.insertionTime,
+        expirationTime: item.expirationTime
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -352,26 +382,38 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async dequeue(options: MessagesDequeueOptions = {}): Promise<MessagesDequeueResponse> {
-    const response = await this.messagesContext.dequeue({
-      abortSignal: options.abortSignal,
-      ...options
-    });
+    const { span, spanOptions } = createSpan("MessagesClient-dequeue", options.spanOptions);
+    try {
+      const response = await this.messagesContext.dequeue({
+        abortSignal: options.abortSignal,
+        ...options,
+        spanOptions
+      });
 
-    const res: MessagesDequeueResponse = {
-      _response: response._response,
-      date: response.date,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      dequeuedMessageItems: [],
-      version: response.version,
-      errorCode: response.errorCode
-    };
+      const res: MessagesDequeueResponse = {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        dequeuedMessageItems: [],
+        version: response.version,
+        errorCode: response.errorCode
+      };
 
-    for (const item of response) {
-      res.dequeuedMessageItems.push(item);
+      for (const item of response) {
+        res.dequeuedMessageItems.push(item);
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    return res;
   }
 
   /**
@@ -383,26 +425,38 @@ export class MessagesClient extends StorageClient {
    * @memberof MessagesClient
    */
   public async peek(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
-    const response = await this.messagesContext.peek({
-      abortSignal: options.abortSignal,
-      ...options
-    });
+    const { span, spanOptions } = createSpan("MessagesClient-peek", options.spanOptions);
+    try {
+      const response = await this.messagesContext.peek({
+        abortSignal: options.abortSignal,
+        ...options,
+        spanOptions
+      });
 
-    const res: MessagesPeekResponse = {
-      _response: response._response,
-      date: response.date,
-      requestId: response.requestId,
-      clientRequestId: response.clientRequestId,
-      peekedMessageItems: [],
-      version: response.version,
-      errorCode: response.errorCode
-    };
+      const res: MessagesPeekResponse = {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        peekedMessageItems: [],
+        version: response.version,
+        errorCode: response.errorCode
+      };
 
-    for (const item of response) {
-      res.peekedMessageItems.push(item);
+      for (const item of response) {
+        res.peekedMessageItems.push(item);
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    return res;
   }
 
   private getQueueNameFromUrl(): string {
