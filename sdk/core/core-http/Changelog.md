@@ -6,7 +6,7 @@
   ([PR #5389](https://github.com/Azure/azure-sdk-for-js/pull/5389))
 - Report upload/download progress only after the first data chunk is received
   ([PR #5298](https://github.com/Azure/azure-sdk-for-js/pull/5298))
-- A new error type `ResponseBodyNotFoundError` is exported for cases when response body is empty.
+- Added new error type `ResponseBodyNotFoundError` for cases when the response body is unexpectedly empty.
   ([PR #5369](https://github.com/Azure/azure-sdk-for-js/pull/5369))
 - Temporary fix for a memory leak issue resulting from creating new agents every time WebResource is cloned.
   ([PR #5396](https://github.com/Azure/azure-sdk-for-js/pull/5369))
