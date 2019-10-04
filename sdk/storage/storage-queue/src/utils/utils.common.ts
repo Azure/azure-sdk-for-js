@@ -352,15 +352,18 @@ export function getAccountNameFromUrl(url: string): string {
     // Dev Conn String
     return getValueInConnString(DevelopmentConnectionString, "AccountName");
   } else {
-    // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
-    // Slicing off '/' at the end if exists
-    url = url.endsWith("/") ? url.slice(0, -1) : url;
+    try {
+      // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
+      // Slicing off '/' at the end if exists
+      url = url.endsWith("/") ? url.slice(0, -1) : url;
 
-    const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".queue."));
-    if (!accountName) {
+      const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".queue."));
+      if (!accountName) {
+        throw new Error("Provided accountName is invalid.");
+      }
+      return accountName;
+    } catch (error) {
       throw new Error("Unable to extract accountName with provided information.");
     }
-
-    return accountName;
   }
 }
