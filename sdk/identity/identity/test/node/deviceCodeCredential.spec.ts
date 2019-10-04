@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { delay, TestTracer, setTracer, SpanGraph } from "@azure/core-http";
+import { delay } from "@azure/core-http";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { MockAuthHttpClient, assertRejects } from "../authTestUtils";
 import { AuthenticationError, ErrorResponse } from "../../src/client/errors";

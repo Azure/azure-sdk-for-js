@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTracer, Span, GetTokenOptions, SpanOptions, SpanKind } from "@azure/core-http";
+import { GetTokenOptions } from "@azure/core-http";
+import { getTracer, Span, SpanOptions, SpanKind } from "@azure/core-tracing";
 
 /**
  * Creates a span using the global tracer.
