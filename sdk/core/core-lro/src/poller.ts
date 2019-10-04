@@ -73,6 +73,17 @@ export abstract class Poller<TProperties, TResult> {
     }
   }
 
+  private async cancelOnce(): Promise<PollOperation<TProperties, TResult>> {
+    try {
+      const result = this.operation.cancel();
+      this.operation.state.cancelled = true;
+      return result;
+    } catch (e) {
+      this.operation.state.cancelled = true;
+      throw e;
+    }
+  }
+
   public poll(): Promise<void> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce();
@@ -115,17 +126,7 @@ export abstract class Poller<TProperties, TResult> {
 
   public cancel(): Promise<PollOperation<TProperties, TResult>> {
     if (!this.cancelPromise) {
-      this.cancelPromise = this.operation.cancel();
-      // this.cancelPromise.catch() doesn't let you bubble up the error,
-      // and prevents upper scopes from handling the error.
-      (async () => {
-        try {
-          if (this.cancelPromise) {
-            await this.cancelPromise;
-          }
-        } catch (e) {}
-        this.operation.state.cancelled = true;
-      })();
+      this.cancelPromise = this.cancelOnce();
     }
     return this.cancelPromise;
   }
