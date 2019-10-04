@@ -7,9 +7,9 @@ import path from "path";
 import assert from "assert";
 import { ClientCertificateCredential } from "../../src";
 import { MockAuthHttpClient } from "../authTestUtils";
-import { setTracer, TestTracer, SpanGraph } from "@azure/core-http";
+import { setTracer, TestTracer, SpanGraph } from "@azure/core-tracing";
 
-describe("ClientCertificateCredential", function () {
+describe("ClientCertificateCredential", function() {
   it("loads a PEM-formatted certificate from a file", () => {
     const credential = new ClientCertificateCredential(
       "tenant",
@@ -96,7 +96,7 @@ describe("ClientCertificateCredential", function () {
 
     await credential.getToken("scope", {
       spanOptions: {
-        parent: rootSpan,
+        parent: rootSpan
       }
     });
 
@@ -107,13 +107,17 @@ describe("ClientCertificateCredential", function () {
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
     const expectedGraph: SpanGraph = {
-      roots: [{
-        name: rootSpan.name,
-        children: [{
-          name: "Azure.Identity.ClientCertificateCredential-getToken",
-          children: []
-        }]
-      }]
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Identity.ClientCertificateCredential-getToken",
+              children: []
+            }
+          ]
+        }
+      ]
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);

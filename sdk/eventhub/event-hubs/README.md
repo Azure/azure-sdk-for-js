@@ -4,7 +4,7 @@ Azure Event Hubs is a highly scalable publish-subscribe service that can ingest 
 
 The Azure Event Hubs client library allows you to send and receive events in your Node.js application.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) | [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/event-hubs/index.html) | [Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) | [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/next) | [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/event-hubs/index.html) | [Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
 **NOTE**: If you are using version 2.1.0 or lower, then please use the below links instead
 
@@ -218,7 +218,7 @@ operations including checkpointing and load balancing.
 A checkpoint is meant to represent the last successfully processed event by the user from a particular
 partition of a consumer group in an Event Hub instance. The `EventProcessor` uses an instance of `PartitionManager`
 to update checkpoints and to store the relevant information required by the load balancing algorithm.
-While for the purposes of getting started you can use the [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html) that is shipped out of the box from this library, 
+While for the purposes of getting started you can use the [InMemoryPartitionManager](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/inmemorypartitionmanager.html) that is shipped out of the box from this library,
 it is recommended to use a peristent store when running in production.
 Search npm with the prefix `@azure/eventhubs-checkpointstore-` to find packages that support this and use the `PartitionManager` implementation from one such package.
 
@@ -274,17 +274,24 @@ To control the number of events passed to processEvents, use the options argumen
 ### Use EventHubClient to work with IotHub
 
 You can use `EventHubClient` to work with IotHub as well. This is useful for receiving telemetry data of IotHub from the linked EventHub.
-Most likely the associated connection string will not have send claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving events would be the possible operations.
+The associated connection string will not have send claims,
+hence sending events is not possible.
 
-- Please notice that we are awaiting on the [createFromIotHubConnectionString](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#createfromiothubconnectionstring) method to get an instance of the EventHubClient. This is different from other static methods on the client. The method talks to the IotHub endpoint to get a redirect error which contains the EventHub endpoint to talk to. It then constructs the right EventHub connection string based on the information in the redirect error and returns an instance of the EventHubClient that you can play with.
+- Please notice that the connection string needs to be for an
+  [Event Hub-compatible endpoint](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
+  e.g. "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
 
 ```javascript
-const client = await EventHubClient.createFromIotHubConnectionString("connectionString");
+const client = new EventHubClient(
+  "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
+);
 await client.getProperties();
-await client.getPartitionProperties("partitionId");
+// retrieve partitionIds from client.getProperties() or client.getPartitionIds()
+const partitionId = "0";
+await client.getPartitionProperties(partitionId);
 ```
 
-**Notes:** For scalable and efficient receiving, please take a look at [azure-event-processor-host](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host). The Event Processor host, internally uses the streaming receiver to receive events.
+**Notes:** For scalable and efficient receiving, please take a look at [EventProcessor](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventprocessor.html). The EventProcessor, internally uses the batched receiver to receive events.
 
 ## Troubleshooting
 

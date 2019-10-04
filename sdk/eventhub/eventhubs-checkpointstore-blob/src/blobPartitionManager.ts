@@ -35,7 +35,7 @@ export class BlobPartitionManager implements PartitionManager {
     const partitionOwnershipArray: PartitionOwnership[] = [];
     try {
       for await (const blob of this._containerClient.listBlobsFlat({
-        include: ["metadata"],
+        includeMetadata: true,
         prefix: `${fullyQualifiedNamespace}/${eventHubName}/${consumerGroupName}/`
       })) {
         const blobPath = blob.name.split("/");

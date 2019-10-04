@@ -9,7 +9,11 @@ import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
  * @interface
  * An interface representing the complete secret.
  */
-export interface Secret extends SecretAttributes {
+export interface Secret {
+  /**
+   * @member {SecretProperties} [properties] The properties of the secret
+   */
+  properties: SecretProperties;
   /**
    * @member {string} [value] The secret value.
    */
@@ -20,7 +24,7 @@ export interface Secret extends SecretAttributes {
  * @interface
  * An interface representing the a secret's attributes.
  */
-export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
+export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {string} [id] The secret id.
    */

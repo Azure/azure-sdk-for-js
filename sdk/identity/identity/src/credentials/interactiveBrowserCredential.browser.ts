@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 import * as msal from "msal";
-import { AccessToken, TokenCredential, GetTokenOptions, CanonicalCode } from "@azure/core-http";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { IdentityClient } from "../client/identityClient";
 import {
   BrowserLoginStyle,
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
+import { CanonicalCode } from "@azure/core-tracing";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -116,7 +117,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-
     const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
     try {
       if (!this.msalObject.getAccount()) {
@@ -138,7 +138,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     } catch (err) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: err.message,
+        message: err.message
       });
       throw err;
     } finally {

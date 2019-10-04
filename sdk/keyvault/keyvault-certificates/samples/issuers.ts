@@ -36,8 +36,8 @@ async function main(): Promise<void> {
 
   // We can create a certificate with that issuer's name.
   await client.createCertificate("MyCertificate", {
-    issuerParameters: { name: issuerName },
-    x509CertificateProperties: { subject: "cn=MyCert" }
+    issuerName,
+    subjectName: "cn=MyCert"
   });
 
   // Reading the certificate will give us back the issuer name, but no other information.

@@ -39,8 +39,9 @@ Credentials differ mostly in configuration:
 | [`ClientSecretCredential`][4]      | service principal                     | constructor parameters                                                                           |
 | [`ClientCertificateCredential`][5] | service principal                     | constructor parameters                                                                           |
 | [`DeviceCodeCredential`][6]        | app registration details              | constructor parameters                                                                           |
-| [`InteractiveBrowserCredential`][7]| app registration details              | constructor parameters                                                                           |
-| [`UsernamePasswordCredential`][8]  | user principal                        | constructor parameters                                                                           |
+| [`AuthorizationCodeCredential`][7] | app registration details              | constructor parameters                                                                           |
+| [`InteractiveBrowserCredential`][8]| app registration details              | constructor parameters                                                                           |
+| [`UsernamePasswordCredential`][9]  | user principal                        | constructor parameters                                                                           |
 
 Credentials can be chained and tried in turn until one succeeds; see [chaining credentials](#chaining-credentials) for details.
 
@@ -76,7 +77,7 @@ const client = new KeysClient(vaultUrl, credential);
 const getResult = await client.getKey("MyKeyName");
 ```
 
-### Authenticating as a service principal:
+### Authenticating as a service principal
 
 ```javascript
 // Using a client secret
@@ -96,7 +97,11 @@ const { EnvironmentCredential } = require("@azure/identity");
 const credential = new EnvironmentCredential();
 ```
 
-### Chaining credentials:
+### Using the `AuthorizationCodeCredential`
+
+The `AuthorizationCodeCredential` takes more up-front work to use than the other credential types at this time.  A full sample demonstrating how to use this credential can be found in [`samples/authorizationCodeSample.ts`](samples/authorizationCodeSample.ts).
+
+### Chaining credentials
 
 ```javascript
 const { ClientSecretCredential, ChainedTokenCredential } = require("@azure/identity");
@@ -150,5 +155,6 @@ or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any addi
 [4]: https://azure.github.io/azure-sdk-for-js/identity/classes/clientsecretcredential.html
 [5]: https://azure.github.io/azure-sdk-for-js/identity/classes/clientcertificatecredential.html
 [6]: https://azure.github.io/azure-sdk-for-js/identity/classes/devicecodecredential.html
-[7]: https://azure.github.io/azure-sdk-for-js/identity/classes/interactivebrowsercredential.html
-[8]: https://azure.github.io/azure-sdk-for-js/identity/classes/usernamepasswordcredential.html
+[7]: https://azure.github.io/azure-sdk-for-js/identity/classes/authorizationcodecredential.html
+[8]: https://azure.github.io/azure-sdk-for-js/identity/classes/interactivebrowsercredential.html
+[9]: https://azure.github.io/azure-sdk-for-js/identity/classes/usernamepasswordcredential.html

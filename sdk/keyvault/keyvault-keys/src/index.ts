@@ -19,10 +19,10 @@ import {
   isNode,
   userAgentPolicy,
   RequestOptionsBase,
-  tracingPolicy,
-  getTracer,
-  Span
+  tracingPolicy
 } from "@azure/core-http";
+
+import { getTracer, Span } from "@azure/core-tracing";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -68,7 +68,7 @@ import {
   UpdateKeyOptions,
   GetKeyOptions,
   ListKeysOptions,
-  KeyAttributes,
+  KeyProperties,
   RequestOptions
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
@@ -106,7 +106,7 @@ export {
   JsonWebKeyOperation,
   JsonWebKeyType,
   Key,
-  KeyAttributes,
+  KeyProperties,
   KeyWrapAlgorithm,
   NewPipelineOptions,
   PageSettings,
@@ -262,7 +262,7 @@ export class KeysClient {
    * // Create an elliptic-curve key:
    * let result = await client.createKey("MyKey", "EC");
    * ```
-   * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
+   * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
    * @param name The name of the key.
    * @param keyType The type of the key.
    * @param [options] The optional parameters
@@ -274,7 +274,7 @@ export class KeysClient {
     options?: CreateKeyOptions
   ): Promise<Key> {
     if (options) {
-      const unflattenedAttributes = {
+      const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
@@ -282,7 +282,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyAttributes: unflattenedAttributes
+        keyAttributes: unflattenedProperties
       };
 
       delete unflattenedOptions.enabled;
@@ -295,8 +295,12 @@ export class KeysClient {
       let response: CreateKeyResponse;
 
       try {
-        response = await this.client
-          .createKey(this.vaultBaseUrl, name, keyType, this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.createKey(
+          this.vaultBaseUrl,
+          name,
+          keyType,
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -317,7 +321,7 @@ export class KeysClient {
    * let client = new KeysClient(url, credentials);
    * let result = await client.createEcKey("MyKey", { curve: "P-256" });
    * ```
-   * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
+   * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
    * @param name The name of the key.
    * @param keyType The type of the key.
    * @param [options] The optional parameters
@@ -325,7 +329,7 @@ export class KeysClient {
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key> {
     if (options) {
-      const unflattenedAttributes = {
+      const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
@@ -333,7 +337,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyAttributes: unflattenedAttributes
+        keyAttributes: unflattenedProperties
       };
 
       delete unflattenedOptions.enabled;
@@ -345,8 +349,12 @@ export class KeysClient {
 
       let response: CreateKeyResponse;
       try {
-        response = await this.client
-          .createKey(this.vaultBaseUrl, name, options.hsm ? "EC-HSM" : "EC", this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.createKey(
+          this.vaultBaseUrl,
+          name,
+          options.hsm ? "EC-HSM" : "EC",
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -368,7 +376,7 @@ export class KeysClient {
    * let client = new KeysClient(url, credentials);
    * let result = await client.createRsaKey("MyKey", { keySize: 2048 });
    * ```
-   * @summary Creates a new key, stores it, then returns key parameters and attributes to the client.
+   * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
    * @param name The name of the key.
    * @param keyType The type of the key.
    * @param [options] The optional parameters
@@ -376,7 +384,7 @@ export class KeysClient {
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key> {
     if (options) {
-      const unflattenedAttributes = {
+      const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
@@ -384,7 +392,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyAttributes: unflattenedAttributes
+        keyAttributes: unflattenedProperties
       };
 
       delete unflattenedOptions.enabled;
@@ -396,8 +404,12 @@ export class KeysClient {
 
       let response: CreateKeyResponse;
       try {
-        response = await this.client
-          .createKey(this.vaultBaseUrl, name, options.hsm ? "RSA-HSM" : "RSA", this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.createKey(
+          this.vaultBaseUrl,
+          name,
+          options.hsm ? "RSA-HSM" : "RSA",
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -420,7 +432,7 @@ export class KeysClient {
    * // Key contents in myKeyContents
    * let result = await client.importKey("MyKey", myKeyContents);
    * ```
-   * @summary Imports an externally created key, stores it, and returns key parameters and attributes
+   * @summary Imports an externally created key, stores it, and returns key parameters and properties
    * to the client.
    * @param name Name for the imported key.
    * @param key The Json web key
@@ -428,7 +440,7 @@ export class KeysClient {
    */
   public async importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key> {
     if (options) {
-      const unflattenedAttributes = {
+      const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
@@ -436,7 +448,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyAttributes: unflattenedAttributes
+        keyAttributes: unflattenedProperties
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
@@ -447,8 +459,12 @@ export class KeysClient {
 
       let response: ImportKeyResponse;
       try {
-        response = await this.client
-          .importKey(this.vaultBaseUrl, name, key, this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.importKey(
+          this.vaultBaseUrl,
+          name,
+          key,
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -481,8 +497,11 @@ export class KeysClient {
 
     let response: DeleteKeyResponse;
     try {
-      response = await this.client
-        .deleteKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      response = await this.client.deleteKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -491,7 +510,7 @@ export class KeysClient {
   }
 
   /**
-   * The UPDATE operation changes specified attributes of an existing stored key. Attributes that
+   * The UPDATE operation changes specified properties of an existing stored key. Properties that
    * are not specified in the request are left unchanged. The value of a key itself cannot be
    * changed. This operation requires the keys/set permission.
    *
@@ -502,7 +521,7 @@ export class KeysClient {
    * let key = await client.getKey(keyName);
    * let result = await client.updateKey(keyName, key.version, { enabled: false });
    * ```
-   * @summary Updates the attributes associated with a specified key in a given key vault.
+   * @summary Updates the properties associated with a specified key in a given key vault.
    * @param name The name of the key.
    * @param keyVersion The version of the key.
    * @param [options] The optional parameters
@@ -514,7 +533,7 @@ export class KeysClient {
     options?: UpdateKeyOptions
   ): Promise<Key> {
     if (options) {
-      const unflattenedAttributes = {
+      const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expires
@@ -522,7 +541,7 @@ export class KeysClient {
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
-        keyAttributes: unflattenedAttributes
+        keyAttributes: unflattenedProperties
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
@@ -534,8 +553,12 @@ export class KeysClient {
       let response: UpdateKeyResponse;
 
       try {
-        response = await this.client
-          .updateKey(this.vaultBaseUrl, name, keyVersion, this.setParentSpan(span, unflattenedOptions));
+        response = await this.client.updateKey(
+          this.vaultBaseUrl,
+          name,
+          keyVersion,
+          this.setParentSpan(span, unflattenedOptions)
+        );
       } finally {
         span.end();
       }
@@ -567,13 +590,12 @@ export class KeysClient {
 
     let response: GetKeyResponse;
     try {
-      response = await this.client
-        .getKey(
-          this.vaultBaseUrl,
-          name,
-          options && options.version ? options.version : "",
-          this.setParentSpan(span, requestOptions)
-        );
+      response = await this.client.getKey(
+        this.vaultBaseUrl,
+        name,
+        options && options.version ? options.version : "",
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -582,7 +604,7 @@ export class KeysClient {
   }
 
   /**
-   * The Get Deleted Key operation returns the specified deleted key along with its attributes.
+   * The Get Deleted Key operation returns the specified deleted key along with its properties.
    * This operation requires the keys/get permission.
    *
    * Example usage:
@@ -601,8 +623,11 @@ export class KeysClient {
 
     let response: GetDeletedKeyResponse;
     try {
-      response = await this.client
-        .getDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      response = await this.client.getDeletedKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -632,11 +657,14 @@ export class KeysClient {
     const span = this.createSpan("purgeDeletedKey", requestOptions);
 
     try {
-      await this.client.purgeDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      await this.client.purgeDeletedKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
-
   }
 
   /**
@@ -661,8 +689,11 @@ export class KeysClient {
 
     let response: RecoverDeletedKeyResponse;
     try {
-      response = await this.client
-        .recoverDeletedKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      response = await this.client.recoverDeletedKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -690,8 +721,11 @@ export class KeysClient {
 
     let response: BackupKeyResponse;
     try {
-      response = await this.client
-        .backupKey(this.vaultBaseUrl, name, this.setParentSpan(span, requestOptions));
+      response = await this.client.backupKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -721,8 +755,11 @@ export class KeysClient {
 
     let response: RestoreKeyResponse;
     try {
-      response = await this.client
-        .restoreKey(this.vaultBaseUrl, backup, this.setParentSpan(span, requestOptions));
+      response = await this.client.restoreKey(
+        this.vaultBaseUrl,
+        backup,
+        this.setParentSpan(span, requestOptions)
+      );
     } finally {
       span.end();
     }
@@ -734,7 +771,7 @@ export class KeysClient {
     name: string,
     continuationState: PageSettings,
     options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes[]> {
+  ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -746,7 +783,7 @@ export class KeysClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getKeyVersionsNext(
@@ -754,14 +791,14 @@ export class KeysClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
     }
   }
 
   private async *listKeyVersionsAll(
     name: string,
     options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes> {
+  ): AsyncIterableIterator<KeyProperties> {
     const f = {};
 
     for await (const page of this.listKeyVersionsPage(name, f, options)) {
@@ -772,7 +809,7 @@ export class KeysClient {
   }
 
   /**
-   * Iterates all versions of the given key in the vault. The full key identifier, attributes, and tags are provided
+   * Iterates all versions of the given key in the vault. The full key identifier, properties, and tags are provided
    * in the response. This operation requires the keys/list permission.
    *
    * Example usage:
@@ -785,12 +822,12 @@ export class KeysClient {
    * ```
    * @param name Name of the key to fetch versions for
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
+   * @returns PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>
    */
   public listKeyVersions(
     name: string,
     options: ListKeysOptions = {}
-  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+  ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
     const span = this.createSpan("listKeyVersions", options.requestOptions);
     const updatedOptions: ListKeysOptions = {
       ...options,
@@ -807,14 +844,15 @@ export class KeysClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listKeyVersionsPage(name, settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listKeyVersionsPage(name, settings, updatedOptions)
     };
   }
 
   private async *listKeysPage(
     continuationState: PageSettings,
     options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes[]> {
+  ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -822,7 +860,7 @@ export class KeysClient {
       };
       const currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getKeysNext(
@@ -830,11 +868,11 @@ export class KeysClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
     }
   }
 
-  private async *listKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyAttributes> {
+  private async *listKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyProperties> {
     const f = {};
 
     for await (const page of this.listKeysPage(f, options)) {
@@ -845,7 +883,7 @@ export class KeysClient {
   }
 
   /**
-   * Iterates the latest version of all keys in the vault.  The full key identifier and attributes are provided
+   * Iterates the latest version of all keys in the vault.  The full key identifier and properties are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
    *
    * Example usage:
@@ -858,11 +896,11 @@ export class KeysClient {
    * ```
    * @summary List all keys in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
+   * @returns PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>
    */
   public listKeys(
     options: ListKeysOptions = {}
-  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+  ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
     const span = this.createSpan("listKeys", options.requestOptions);
     const updatedOptions: ListKeysOptions = {
       ...options,
@@ -886,7 +924,7 @@ export class KeysClient {
   private async *listDeletedKeysPage(
     continuationState: PageSettings,
     options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes[]> {
+  ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -897,7 +935,7 @@ export class KeysClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getDeletedKeysNext(
@@ -905,13 +943,13 @@ export class KeysClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyAttributesFromKeyItem);
+      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
     }
   }
 
   private async *listDeletedKeysAll(
     options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyAttributes> {
+  ): AsyncIterableIterator<KeyProperties> {
     const f = {};
 
     for await (const page of this.listDeletedKeysPage(f, options)) {
@@ -922,7 +960,7 @@ export class KeysClient {
   }
 
   /**
-   * Iterates the deleted keys in the vault.  The full key identifier and attributes are provided
+   * Iterates the deleted keys in the vault.  The full key identifier and properties are provided
    * in the response. No values are returned for the keys. This operations requires the keys/list permission.
    *
    * Example usage:
@@ -935,11 +973,11 @@ export class KeysClient {
    * ```
    * @summary List all keys in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]>
+   * @returns PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>
    */
   public listDeletedKeys(
     options: ListKeysOptions = {}
-  ): PagedAsyncIterableIterator<KeyAttributes, KeyAttributes[]> {
+  ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
     const span = this.createSpan("listDeletedKeys", options.requestOptions);
 
     const updatedOptions: ListKeysOptions = {
@@ -971,23 +1009,27 @@ export class KeysClient {
     if (keyBundle.attributes) {
       resultObject = {
         keyMaterial: keyBundle.key,
-        ...keyBundle,
-        ...parsedId,
-        ...keyBundle.attributes
+        properties: {
+          ...keyBundle,
+          ...parsedId,
+          ...keyBundle.attributes
+        }
       };
-      delete resultObject.attributes;
+      delete resultObject.properties.attributes;
     } else {
       resultObject = {
         keyMaterial: keyBundle.key,
-        ...keyBundle,
-        ...parsedId
+        properties: {
+          ...keyBundle,
+          ...parsedId
+        }
       };
     }
 
     return resultObject;
   }
 
-  private getKeyAttributesFromKeyItem(keyItem: KeyItem): KeyAttributes {
+  private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
 
     let resultObject;
@@ -1030,9 +1072,9 @@ export class KeysClient {
         ...options,
         spanOptions: {
           ...options.spanOptions,
-          parent: span,
+          parent: span
         }
-      }
+      };
     } else {
       return options;
     }

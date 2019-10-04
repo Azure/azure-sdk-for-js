@@ -1,32 +1,31 @@
 {
-    "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-    "mainEntryPointFilePath": "types/index.d.ts",
-    "docModel": {
-      "enabled": false
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "types/lib/index.d.ts",
+  "docModel": {
+    "enabled": false
+  },
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "./review"
+  },
+  "dtsRollup": {
+    "enabled": true,
+    "untrimmedFilePath": "",
+    "publicTrimmedFilePath": "./types/core-tracing.d.ts"
+  },
+  "messages": {
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "none"
+      }
     },
-    "apiReport": {
-      "enabled": true,
-      "reportFolder": "./review"
-    },
-    "dtsRollup": {
-      "enabled": true,
-      "untrimmedFilePath": "",
-      "publicTrimmedFilePath": "./types/core-tracing.d.ts"
-    },
-    "messages": {
-      "tsdocMessageReporting": {
-        "default": {
-          "logLevel": "none"
-        }
+    "extractorMessageReporting": {
+      "ae-missing-release-tag": {
+        "logLevel": "none"
       },
-      "extractorMessageReporting": {
-        "ae-missing-release-tag": {
-          "logLevel": "none"
-        },
-        "ae-unresolved-link": {
-          "logLevel": "none"
-        }
+      "ae-unresolved-link": {
+        "logLevel": "none"
       }
     }
   }
-  
+}
