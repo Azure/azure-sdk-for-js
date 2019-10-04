@@ -134,7 +134,6 @@ Below are the snippets to get started with the Azure Storage blob client library
 Use the constructor to create a instance of `BlobServiceClient`.
 
 - **Recommended way to instantiate a `BlobServiceClient` - with `DefaultAzureCredential` from `@azure/identity` package**
-  [Note - ONLY AVAILABLE IN NODE.JS RUNTIME]
 
   Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app
 
@@ -162,7 +161,7 @@ Use the constructor to create a instance of `BlobServiceClient`.
     defaultAzureCredential
   );
   ```
-
+  [Note - Above steps are only for Node.js]
 - Alternatively, you instantiate a `BlobServiceClient` with a `SharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
