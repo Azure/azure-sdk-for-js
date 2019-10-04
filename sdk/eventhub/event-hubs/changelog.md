@@ -24,6 +24,8 @@
   ```javascript
   const client = new EventHubClient(iotEventHubsCompatibleConnectionString);
   ```
+- The `PartitionContext` properties have been merged into the `PartitionProcessor` class.
+  The `PartitionProcessor` now exposes an `updateCheckpoint` method that can be called to checkpoint events.
 
 ### 2019-09-09 5.0.0-preview.3
 
