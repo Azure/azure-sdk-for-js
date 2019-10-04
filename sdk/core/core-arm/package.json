@@ -91,7 +91,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "1.0.0-preview.3",
+    "@azure/core-http": "1.0.0-preview.4",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
