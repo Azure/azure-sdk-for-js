@@ -4,10 +4,17 @@ export type CancelOnProgress = () => void;
 
 export type PollProgressCallback<TProperties> = (properties: TProperties) => void;
 
+export class PollerStoppedError extends Error {
+  constructor(message: string) {
+    super(message);
+    Object.setPrototypeOf(this, PollerStoppedError.prototype);
+  }
+}
+
 export abstract class Poller<TProperties, TResult> {
   private stopped: boolean;
   private resolve?: (value?: TResult) => void;
-  private reject?: (error: Error) => void;
+  private reject?: (error: PollerStoppedError | Error) => void;
   private pollOncePromise?: Promise<void>;
   private cancelPromise?: Promise<PollOperation<TProperties, TResult>>;
   private promise: Promise<TResult>;
@@ -20,7 +27,7 @@ export abstract class Poller<TProperties, TResult> {
     this.promise = new Promise(
       (
         resolve: (result?: TResult) => void,
-        reject: (error: Error) => void
+        reject: (error: PollerStoppedError | Error) => void
       ) => {
         this.resolve = resolve;
         this.reject = reject;
@@ -97,7 +104,7 @@ export abstract class Poller<TProperties, TResult> {
     if (!this.stopped) {
       this.stopped = true;
       if (this.reject) {
-        this.reject(new Error("Poller stopped"));
+        this.reject(new PollerStoppedError("Poller stopped"));
       }
     }
   }
