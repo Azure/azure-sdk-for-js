@@ -1,6 +1,7 @@
 # 1.0.0-preview.3 7th October 2019
 
-- Updated to use the latest types from OpenTelemetry along with clean up and refactorings.
+- Updated to use the latest types from OpenTelemetry (PR [#5182](https://github.com/Azure/azure-sdk-for-js/pull/5182))
+- Clean up and refactored code for easier usage and testability. (PR [#5233](https://github.com/Azure/azure-sdk-for-js/pull/5233) and PR [#5283](https://github.com/Azure/azure-sdk-for-js/pull/5283))
 
 # 1.0.0-preview.2 9th September 2019
 
