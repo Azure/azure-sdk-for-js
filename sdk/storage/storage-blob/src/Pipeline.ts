@@ -21,8 +21,7 @@ import {
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  ProxySettings,
-  tracingPolicy
+  ProxySettings
 } from "@azure/core-http";
 
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
@@ -192,7 +191,6 @@ export function newPipeline(
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
   const factories: RequestPolicyFactory[] = [
-    tracingPolicy(),
     new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.telemetry),
     new UniqueRequestIDPolicyFactory(),
