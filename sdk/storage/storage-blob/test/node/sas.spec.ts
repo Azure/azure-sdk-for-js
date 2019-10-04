@@ -188,7 +188,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerSAS = generateBlobSASQueryParameters(
       {
-        containerName,
+        containerName: containerClient.containerName,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ContainerSASPermissions.parse("racwdl").toString(),
@@ -236,9 +236,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -291,9 +291,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -347,9 +347,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -405,9 +405,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobSAS = generateBlobSASQueryParameters(
       {
         // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-        blobName: blobName.replace(/\\/g, "/"),
+        blobName: blobClient.blobName.replace(/\\/g, "/"),
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -512,7 +512,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerSAS = generateBlobSASQueryParameters(
       {
-        containerName,
+        containerName: containerClient.containerName,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ContainerSASPermissions.parse("racwdl").toString(),
@@ -568,7 +568,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerSAS = generateBlobSASQueryParameters(
       {
-        containerName,
+        containerName: containerClient.containerName,
         expiryTime: tmr,
         permissions: ContainerSASPermissions.parse("racwdl").toString()
       },
@@ -628,9 +628,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -699,9 +699,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",

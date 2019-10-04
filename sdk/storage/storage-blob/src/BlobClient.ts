@@ -1593,24 +1593,30 @@ export class BlobClient extends StorageClient {
     // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
     // "https://myaccount.blob.core.windows.net/mycontainer/blob";
 
-    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+    try {
+      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-    const blobName = urlWithoutSAS.substring(
-      urlWithoutSAS.lastIndexOf("/") + 1,
-      urlWithoutSAS.length
-    );
-    const urlWithoutBlobName = urlWithoutSAS.substring(0, urlWithoutSAS.lastIndexOf("/"));
+      const blobName = urlWithoutSAS.substring(
+        urlWithoutSAS.lastIndexOf("/") + 1,
+        urlWithoutSAS.length
+      );
+      const urlWithoutBlobName = urlWithoutSAS.substring(0, urlWithoutSAS.lastIndexOf("/"));
 
-    const containerName = urlWithoutBlobName.substring(
-      urlWithoutBlobName.lastIndexOf("/") + 1,
-      urlWithoutBlobName.length
-    );
+      const containerName = urlWithoutBlobName.substring(
+        urlWithoutBlobName.lastIndexOf("/") + 1,
+        urlWithoutBlobName.length
+      );
 
-    if (!blobName || !containerName) {
+      if (!blobName) {
+        throw new Error("Provided blobName is invalid.");
+      } else if (!containerName) {
+        throw new Error("Provided containerName is invalid.");
+      } else {
+        return { blobName, containerName };
+      }
+    } catch (error) {
       throw new Error("Unable to extract blobName and containerName with provided information.");
     }
-
-    return { blobName, containerName };
   }
 }
