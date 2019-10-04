@@ -542,16 +542,18 @@ export class QueueClient extends StorageClient {
     //  URL may look like the following
     // "https://myaccount.queue.core.windows.net/myqueue?sasString".
     // "https://myaccount.queue.core.windows.net/myqueue".
+    try {
+      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
-
-    const queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
-
-    if (!queueName) {
+      const queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+      if (!queueName) {
+        throw new Error("Provided queueName is invalid.");
+      } else {
+        return queueName;
+      }
+    } catch (error) {
       throw new Error("Unable to extract queueName with provided information.");
     }
-
-    return queueName;
   }
 }

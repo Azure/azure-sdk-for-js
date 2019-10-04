@@ -4,6 +4,7 @@ import { QueueClient } from "../src/QueueClient";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { MessagesClient } from "../src";
+import { extractConnectionStringParts } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("MessagesClient", () => {
@@ -381,5 +382,15 @@ describe("MessagesClient", () => {
         "Error message is different than expected."
       );
     }
+  });
+
+  it("verify queueName passed to the client", async () => {
+    const newClient = new MessagesClient(
+      extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url +
+        "/" +
+        queueName +
+        "/messages/"
+    );
+    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
   });
 });

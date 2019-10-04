@@ -4,6 +4,7 @@ import { QueueClient } from "../src/QueueClient";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { MessageIdClient } from "../src";
+import { extractConnectionStringParts } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("MessageIdClient", () => {
@@ -197,5 +198,18 @@ describe("MessageIdClient", () => {
       error = err;
     }
     assert.ok(error);
+  });
+
+  it("verify messageID and queueName passed to the client", async () => {
+    const messageID = "fake-message-id";
+    const newClient = new MessageIdClient(
+      extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url +
+        "/" +
+        queueName +
+        "/messages/" +
+        messageID
+    );
+    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.messageId, messageID, "Message Id is not the same as the one provided.");
   });
 });

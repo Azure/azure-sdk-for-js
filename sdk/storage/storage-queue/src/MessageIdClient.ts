@@ -288,18 +288,24 @@ export class MessageIdClient extends StorageClient {
     //  URL may look like the following
     // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
     // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid".
+    try {
+      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
-
-    const queueNameAndMessageId = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)/messages/([^/]*)");
-    const queueName = queueNameAndMessageId![3];
-    const messageId = queueNameAndMessageId![4];
-
-    if (!queueName && !messageId) {
+      const queueNameAndMessageId = urlWithoutSAS.match(
+        "([^/]*)://([^/]*)/([^/]*)/messages/([^/]*)"
+      );
+      const queueName = queueNameAndMessageId![3];
+      const messageId = queueNameAndMessageId![4];
+      if (!queueName) {
+        throw new Error("Provided queueName is invalid.");
+      } else if (!messageId) {
+        throw new Error("Provided messageId is invalid.");
+      } else {
+        return { queueName, messageId };
+      }
+    } catch (error) {
       throw new Error("Unable to extract queueName and messageId with provided information.");
     }
-
-    return { queueName, messageId };
   }
 }

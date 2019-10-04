@@ -188,7 +188,10 @@ describe("MessagesClient Node.js only", () => {
           expiresOnTimestamp: 12345
         })
     };
-    const newClient = new MessagesClient("https://queue", tokenCredential);
+    const newClient = new MessagesClient(
+      `https://myaccount.queue.core.windows.net/` + queueName + "/messages",
+      tokenCredential
+    );
     assertClientUsesTokenCredential(newClient);
   });
 });

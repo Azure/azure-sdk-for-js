@@ -121,7 +121,10 @@ describe("QueueClient Node.js only", () => {
           expiresOnTimestamp: 12345
         })
     };
-    const newClient = new QueueClient("https://queue", tokenCredential);
+    const newClient = new QueueClient(
+      `https://myaccount.queue.core.windows.net/` + queueName,
+      tokenCredential
+    );
     assertClientUsesTokenCredential(newClient);
   });
 });

@@ -194,7 +194,10 @@ describe("MessageIdClient Node.js only", () => {
           expiresOnTimestamp: 12345
         })
     };
-    const newClient = new MessageIdClient("https://queue", tokenCredential);
+    const newClient = new MessageIdClient(
+      `https://myaccount.queue.core.windows.net/` + queueName + "/messages/fake-message-id",
+      tokenCredential
+    );
     assertClientUsesTokenCredential(newClient);
   });
 });
