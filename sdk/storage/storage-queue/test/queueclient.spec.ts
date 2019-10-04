@@ -77,19 +77,19 @@ describe("QueueClient", () => {
 
   // create with invalid queue name
   it("create negative", async () => {
-    const qClient = queueServiceClient.getQueueClient("");
     let error;
     try {
+      const qClient = queueServiceClient.getQueueClient("");
       await qClient.create();
     } catch (err) {
       error = err;
     }
     assert.ok(error);
-    assert.ok(error.statusCode);
-    assert.deepEqual(error.statusCode, 400);
-    assert.ok(error.response);
-    assert.ok(error.response.body);
-    assert.ok(error.response.body.includes("InvalidResourceName"));
+    assert.equal(
+      error.message,
+      "Unable to extract queueName with provided information.",
+      "Unexpected error caught: " + error
+    );
   });
 
   it("delete", (done) => {

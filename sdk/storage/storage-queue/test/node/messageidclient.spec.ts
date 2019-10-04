@@ -7,6 +7,7 @@ import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
 
 describe("MessageIdClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -194,7 +195,14 @@ describe("MessageIdClient Node.js only", () => {
           expiresOnTimestamp: 12345
         })
     };
-    const newClient = new MessageIdClient("https://queue", tokenCredential);
+    const newClient = new MessageIdClient(
+      extractConnectionStringParts(getConnectionStringFromEnvironment()).url +
+        "/" +
+        queueName +
+        "/messages/" +
+        "fake-message-id",
+      tokenCredential
+    );
     assertClientUsesTokenCredential(newClient);
   });
 });

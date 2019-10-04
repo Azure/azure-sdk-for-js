@@ -4,6 +4,7 @@ import { record } from "../utils/recorder";
 import { newPipeline, QueueClient, SharedKeyCredential } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
 
 describe("QueueClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -121,7 +122,10 @@ describe("QueueClient Node.js only", () => {
           expiresOnTimestamp: 12345
         })
     };
-    const newClient = new QueueClient("https://queue", tokenCredential);
+    const newClient = new QueueClient(
+      extractConnectionStringParts(getConnectionStringFromEnvironment()).url + "/" + queueName,
+      tokenCredential
+    );
     assertClientUsesTokenCredential(newClient);
   });
 });
