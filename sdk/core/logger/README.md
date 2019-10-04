@@ -53,8 +53,25 @@ const client = new EventHubClient(/* params */);
 client.getPartitionIds()
   .then(ids => { /* do work */ })
   .catch(e => { /* do work */ });
-})
+});
 ```
+
+### Example 2 - redirect log ouput
+
+```js
+const { AzureLogger, setLogLevel } = require('@azure/logger');
+
+setLogLevel("verbose");
+
+// override logging to output to console.log
+AzureLogger.log = (...args) => {
+  console.log(...args);
+};
+```
+
+Using `AzureLogger`, it is possible to redirect the logging output from the Azure SDKs by
+overriding the `AzureLogger.log` method. This may be useful if you want to redirect logs to
+a location other than stderr.
 
 ## Contributing
 
