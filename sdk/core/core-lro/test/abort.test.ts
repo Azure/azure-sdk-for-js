@@ -53,6 +53,7 @@ describe("Long Running Operations - custom client", function() {
       pollError = e;
     });
 
+    await poller.poll();
     assert.ok(poller.operation.state.started);
     await delay(100);
     assert.equal(client.totalSentRequests, 10);
@@ -117,6 +118,7 @@ describe("Long Running Operations - custom client", function() {
       assert.equal(e.message, "Poller stopped");
     });
 
+    await poller.poll();
     assert.ok(poller.operation.state.started);
     assert.equal(client.totalSentRequests, 1);
     await delay(100);

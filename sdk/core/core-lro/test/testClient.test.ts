@@ -41,6 +41,7 @@ describe("Long Running Operations - custom client", function() {
     const poller = await client.startLRO();
 
     // synchronously checking the operation state
+    await poller.poll();
     assert.ok(poller.operation.state.started);
 
     // Checking the serialized version of the operation
@@ -62,7 +63,6 @@ describe("Long Running Operations - custom client", function() {
     client.setResponses([initialResponse, doFinalResponse, finalResponse]);
 
     const poller = await client.startLRO();
-    assert.ok(poller.operation.state.started);
 
     // To update the operation state, the following asyncrhonous method is provided:
     await poller.poll();
@@ -97,10 +97,11 @@ describe("Long Running Operations - custom client", function() {
     assert.ok(poller.isStopped());
 
     let operation = poller.operation;
-    assert.ok(operation.state.started);
+    assert.ok(!operation.state.started);
 
     await poller.poll();
     operation = poller.operation;
+    assert.ok(!operation.state.started);
     assert.ok(operation.properties.initialResponse!.parsedBody.started);
     assert.ok(operation.properties.previousResponse!.parsedBody.started);
 
@@ -128,6 +129,7 @@ describe("Long Running Operations - custom client", function() {
 
     const poller = await client.startLRO();
 
+    await poller.poll();
     let operation = poller.operation;
     assert.ok(operation.state.started);
     assert.equal(client.totalSentRequests, 1);
@@ -149,8 +151,6 @@ describe("Long Running Operations - custom client", function() {
       assert.equal(e.message, "Poller stopped");
     });
 
-    let operation = poller.operation;
-    assert.ok(operation.state.started);
     assert.equal(client.totalSentRequests, 1);
 
     await delay(100); // The poller loops every 10 milliseconds
@@ -175,6 +175,7 @@ describe("Long Running Operations - custom client", function() {
       assert.equal(e.message, "Poller stopped");
     });
 
+    await poller.poll();
     let operation = poller.operation;
     assert.ok(operation.state.started);
     assert.equal(client.totalSentRequests, 1);
