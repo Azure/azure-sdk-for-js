@@ -3,6 +3,7 @@ import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
+import { extractConnectionStringParts } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
@@ -151,5 +152,12 @@ describe("QueueClient", () => {
         "Error message is different than expected."
       );
     }
+  });
+
+  it("verify queueName passed to the client", async () => {
+    const newClient = new QueueClient(
+      extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url + "/" + queueName
+    );
+    assert.equal(newClient.queueName, queueName, "Queue Name not the same as the one provided.");
   });
 });
