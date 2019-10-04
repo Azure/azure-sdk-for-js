@@ -58,6 +58,7 @@ const nodeConfig = {
  */
 const browserConfig = {
   input: "./es/lib/coreHttp.js",
+  external: [],
   output: {
     file: "./dist/coreHttp.browser.js",
     format: "umd",
@@ -67,8 +68,7 @@ const browserConfig = {
   },
   plugins: [
     nodeResolve({
-      mainFields: ["module", "main", "browser"],
-      preferBuiltins: false
+      mainFields: ["module", "main", "browser"]
     }),
     commonjs(),
     sourcemaps(),
