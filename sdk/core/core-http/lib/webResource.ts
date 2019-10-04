@@ -360,8 +360,7 @@ export class WebResource {
       this.timeout,
       this.onUploadProgress,
       this.onDownloadProgress,
-      this.proxySettings,
-      this.keepAlive
+      this.proxySettings
     );
 
     if (this.formData) {

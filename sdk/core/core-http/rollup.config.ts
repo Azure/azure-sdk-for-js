@@ -32,6 +32,7 @@ const nodeConfig = {
     "tunnel",
     "uuid/v4",
     "xml2js",
+    "@azure/core-tracing"
   ],
   output: {
     file: "./dist/coreHttp.node.js",

@@ -9,10 +9,10 @@ import {
   WebResource,
   RequestPrepareOptions,
   GetTokenOptions,
-  CanonicalCode,
   tracingPolicy,
   RequestPolicyFactory
 } from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 

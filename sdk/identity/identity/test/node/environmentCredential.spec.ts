@@ -4,7 +4,7 @@
 import assert from "assert";
 import { EnvironmentCredential } from "../../src";
 import { MockAuthHttpClient, assertClientCredentials } from "../authTestUtils";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-http";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 
 describe("EnvironmentCredential", function() {
   it("finds and uses client credential environment variables", async () => {

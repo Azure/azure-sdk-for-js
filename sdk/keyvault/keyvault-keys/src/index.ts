@@ -19,10 +19,10 @@ import {
   isNode,
   userAgentPolicy,
   RequestOptionsBase,
-  tracingPolicy,
-  getTracer,
-  Span
+  tracingPolicy
 } from "@azure/core-http";
+
+import { getTracer, Span } from "@azure/core-tracing";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
