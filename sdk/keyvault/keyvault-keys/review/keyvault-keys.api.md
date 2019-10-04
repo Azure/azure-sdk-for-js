@@ -69,6 +69,8 @@ export interface DecryptOptions extends RequestOptions {
 
 // @public
 export interface DecryptResult {
+    algorithm: JsonWebKeyEncryptionAlgorithm;
+    keyID?: string;
     result: Uint8Array;
 }
 
@@ -91,6 +93,10 @@ export interface EncryptOptions extends RequestOptions {
 // @public
 export interface EncryptResult {
     algorithm: JsonWebKeyEncryptionAlgorithm;
+    authenticationData?: Uint8Array;
+    authenticationTag?: string;
+    iv?: Uint8Array;
+    keyID?: string;
     result: Uint8Array;
 }
 
@@ -242,6 +248,7 @@ export interface RetryOptions {
 // @public
 export interface SignResult {
     algorithm: KeySignatureAlgorithm;
+    keyID?: string;
     result: Uint8Array;
 }
 
@@ -253,6 +260,7 @@ export interface TelemetryOptions {
 
 // @public
 export interface UnwrapResult {
+    keyID?: string;
     result: Uint8Array;
 }
 
@@ -270,12 +278,14 @@ export interface UpdateKeyOptions {
 
 // @public
 export interface VerifyResult {
+    keyID?: string;
     result: boolean;
 }
 
 // @public
 export interface WrapResult {
     algorithm: KeyWrapAlgorithm;
+    keyID?: string;
     result: Uint8Array;
 }
 

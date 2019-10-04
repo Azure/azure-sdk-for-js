@@ -22,12 +22,12 @@ import {
 
 import {
   Certificate,
-  CertificateTags,
   DeletedCertificate,
   CertificateIssuer,
   CertificateContentType,
   CertificatePolicy,
   CertificateProperties,
+  CreateCertificateOptions,
   SubjectAlternativeNames,
 } from "./certificatesModels";
 import {
@@ -871,17 +871,13 @@ export class CertificatesClient {
    * @summary Creates a certificate
    * @param name The name of the certificate
    * @param certificatePolicy The certificate's policy
-   * @param enabled Whether this certificate is enabled or not
-   * @param tags Tags for this certificate
-   * @param [options] Optional request parameters
+   * @param [options] Optional parameters
    * @returns Promise<Certificate>
    */
   public async createCertificate(
     name: string,
     certificatePolicy: CertificatePolicy,
-    enabled?: boolean,
-    tags?: CertificateTags,
-    options?: RequestOptionsBase
+    options: CreateCertificateOptions = {},
   ): Promise<Certificate> {
     const span = this.createSpan("createCertificate", options);
 
@@ -889,11 +885,12 @@ export class CertificatesClient {
 
     try {
       result = await this.client.createCertificate(this.vaultBaseUrl, name, {
-        ...this.setParentSpan(span, options),
+        ...this.setParentSpan(span, options.requestOptions || {}),
         certificateAttributes: {
-          enabled
+          ...options.certificateAttributes,
+          enabled: options.enabled,
         },
-        tags,
+        tags: options.tags,
         certificatePolicy: toCorePolicy(certificatePolicy)
       });
     } finally {

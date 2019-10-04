@@ -5,8 +5,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-canrecoveradeletedkey-/create')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -21,13 +20,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'c0a5e61e-eec4-4fc5-9d48-17b9065887dd',
+  '229e3e7c-66d8-4461-865a-4b63a2258df1',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -37,16 +36,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:19:57 GMT',
+  'Thu, 03 Oct 2019 21:13:10 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -59,31 +56,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'c18c12e8-2ea7-41c8-8226-c1ec70644900',
+  '08419b7c-2b9d-4044-8a24-4ba70fc32300',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTAQAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:19:58 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHAQAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:11 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:19:57 GMT',
+  'Thu, 03 Oct 2019 21:13:10 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-canrecoveradeletedkey-/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/7474b94524a649d28755bd92e6282ee5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uMtOu5JKSf5_rfh_uTHbgIVjx9Y50nM80bkZSItc0Mbe7sBbuiffMqQC6Pgp9aM3aAWsaPDs4hLVZz61DXYsZ_uoTZC-3YybS0atjr_vI9fQb9fWlExG8GQ5rQWvjk4fMC5o12Di2DpSzk3qviTihSMHL4-_ie8LqogPBg1pdVUC6SSespdaXpFplhn_bkku2Iw-NH_BEYed9sBKOnZRrXToD6thntkGvyxhK5Sy7JP2fWjmOsZOLkw3AEp1FnDPztjnviJktk895tN1tsy9TG6KZPtOnqFMW_vcSAvsiywy9Pus8K4Y92Tds1tivdjkMVwmEoArbYt5xD_ef8jXrQ","e":"AQAB"},"attributes":{"enabled":true,"created":1568672399,"updated":1568672399,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/d4434761e06e45899dd1ab1682f32e30","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"ugYH1bsuSkhUdus-0fd303Kv5ogHFqKTon1fKVscYsbTZk2F3RocI7D-L1OlcUCeaF6pzch_TcZPm8d4gWc0j_WXCBBbDGgcQ3aWa6lygfGeLM8zY8hmsTCpdS0SiDfwkjIb__C2VZl-9E5kHZODKl_dq0valcsHSbYxy2Bi38QSfSe7gN0Sh5xoCvpiqUp3TOHfKR3se2uCbPHN_NJLLp3TQCmc12ODys_7jVdFYWpwtupaHxvsgQ9h00bhdGRMKtx6_MRASrtkhIykESOfLfMYZYyGnzpMSCrM2roUSUwjZ4r7FY5b71aiNY2DDWJ4VK4E76AKvzoP3bA3D9KEwQ","e":"AQAB"},"attributes":{"enabled":true,"created":1570137191,"updated":1570137191,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -94,13 +89,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '7f97fbf4-e5c9-4580-8f53-c07dfd83fbdc',
+  'd3c95928-3845-4169-b2e6-abadbbea4f49',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -110,19 +105,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:19:59 GMT',
+  'Thu, 03 Oct 2019 21:13:11 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '706'
-]);
+  '699' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -137,13 +130,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '1d4d2ddd-e3ef-402c-9b30-20227a8201af',
+  '6c1bead6-8bd4-479f-8bad-920232497c7d',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -153,16 +146,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:19:59 GMT',
+  'Thu, 03 Oct 2019 21:13:11 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -175,31 +166,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '09f9f762-7e96-45cb-b965-37b7f3b74700',
+  '91c3d964-f435-4d61-9ca4-cc3b89e62200',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTAgAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:20:00 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHAgAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:12 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:20:00 GMT',
+  'Thu, 03 Oct 2019 21:13:11 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrecoveradeletedkey-","deletedDate":1568672401,"scheduledPurgeDate":1576448401,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/7474b94524a649d28755bd92e6282ee5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uMtOu5JKSf5_rfh_uTHbgIVjx9Y50nM80bkZSItc0Mbe7sBbuiffMqQC6Pgp9aM3aAWsaPDs4hLVZz61DXYsZ_uoTZC-3YybS0atjr_vI9fQb9fWlExG8GQ5rQWvjk4fMC5o12Di2DpSzk3qviTihSMHL4-_ie8LqogPBg1pdVUC6SSespdaXpFplhn_bkku2Iw-NH_BEYed9sBKOnZRrXToD6thntkGvyxhK5Sy7JP2fWjmOsZOLkw3AEp1FnDPztjnviJktk895tN1tsy9TG6KZPtOnqFMW_vcSAvsiywy9Pus8K4Y92Tds1tivdjkMVwmEoArbYt5xD_ef8jXrQ","e":"AQAB"},"attributes":{"enabled":true,"created":1568672399,"updated":1568672399,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrecoveradeletedkey-","deletedDate":1570137192,"scheduledPurgeDate":1577913192,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/d4434761e06e45899dd1ab1682f32e30","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"ugYH1bsuSkhUdus-0fd303Kv5ogHFqKTon1fKVscYsbTZk2F3RocI7D-L1OlcUCeaF6pzch_TcZPm8d4gWc0j_WXCBBbDGgcQ3aWa6lygfGeLM8zY8hmsTCpdS0SiDfwkjIb__C2VZl-9E5kHZODKl_dq0valcsHSbYxy2Bi38QSfSe7gN0Sh5xoCvpiqUp3TOHfKR3se2uCbPHN_NJLLp3TQCmc12ODys_7jVdFYWpwtupaHxvsgQ9h00bhdGRMKtx6_MRASrtkhIykESOfLfMYZYyGnzpMSCrM2roUSUwjZ4r7FY5b71aiNY2DDWJ4VK4E76AKvzoP3bA3D9KEwQ","e":"AQAB"},"attributes":{"enabled":true,"created":1570137191,"updated":1570137191,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -210,13 +199,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '448ea940-e1de-4e8d-beb1-c26794f22a8d',
+  '6deabc5e-fbe7-40bb-9c04-24fcf4e28d41',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -226,19 +215,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:02 GMT',
+  'Thu, 03 Oct 2019 21:13:11 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '887'
-]);
+  '873' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -253,13 +240,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '72434812-47d8-4c48-9c82-f45b685b81e8',
+  '37695d59-b09b-4f93-8ace-ba60631a9bb3',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -269,16 +256,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:02 GMT',
+  'Thu, 03 Oct 2019 21:13:11 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -291,31 +276,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'c1804488-dc1d-4fdb-9c73-762147314600',
+  '9c5124db-f202-4bae-a447-39eba28e2100',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTAwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:20:03 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHAwAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:12 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:20:03 GMT',
+  'Thu, 03 Oct 2019 21:13:12 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: recoverKeyName-canrecoveradeletedkey-"}}, [
-  'Cache-Control',
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: recoverKeyName-canrecoveradeletedkey-"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -328,13 +311,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '88fc06d1-1b4b-4909-ad31-4f98abe36288',
+  '9b1f9a33-1ba7-4158-a359-c7b4f17b4432',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -344,17 +327,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:04 GMT',
+  'Thu, 03 Oct 2019 21:13:12 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -369,13 +350,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'b9f891eb-145b-401d-b948-2b682d162522',
+  'a1811c80-1160-4f38-bd4d-dd1a2ee3b25c',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -385,16 +366,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:15 GMT',
+  'Thu, 03 Oct 2019 21:13:22 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -407,31 +386,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '17ecb9f4-a911-4dd9-b142-11752f324a00',
+  'eead6768-b510-458b-a17c-e84366b52400',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTBAAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:20:16 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHBAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:23 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:20:15 GMT',
+  'Thu, 03 Oct 2019 21:13:23 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: recoverKeyName-canrecoveradeletedkey-"}}, [
-  'Cache-Control',
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: recoverKeyName-canrecoveradeletedkey-"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -444,13 +421,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '126b1fdd-7e94-441b-8724-11dd877381a7',
+  '21d83b01-6d3f-45b3-acc6-baedef2768d1',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -460,17 +437,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:17 GMT',
+  'Thu, 03 Oct 2019 21:13:24 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -485,13 +460,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '7fc63c99-a0f3-4107-ac4a-3bba94600d4e',
+  '3af3a9c0-ed5d-4c51-9603-f050ba168e2b',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -501,16 +476,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:28 GMT',
+  'Thu, 03 Oct 2019 21:13:34 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -523,31 +496,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '4f3dd40b-06d1-4d66-af95-ad43417b4600',
+  'b376ed14-ca21-411f-aefd-4042e9cf2500',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - EUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTBQAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:20:29 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHBQAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:34 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:20:29 GMT',
+  'Thu, 03 Oct 2019 21:13:34 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrecoveradeletedkey-","deletedDate":1568672401,"scheduledPurgeDate":1576448401,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/7474b94524a649d28755bd92e6282ee5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uMtOu5JKSf5_rfh_uTHbgIVjx9Y50nM80bkZSItc0Mbe7sBbuiffMqQC6Pgp9aM3aAWsaPDs4hLVZz61DXYsZ_uoTZC-3YybS0atjr_vI9fQb9fWlExG8GQ5rQWvjk4fMC5o12Di2DpSzk3qviTihSMHL4-_ie8LqogPBg1pdVUC6SSespdaXpFplhn_bkku2Iw-NH_BEYed9sBKOnZRrXToD6thntkGvyxhK5Sy7JP2fWjmOsZOLkw3AEp1FnDPztjnviJktk895tN1tsy9TG6KZPtOnqFMW_vcSAvsiywy9Pus8K4Y92Tds1tivdjkMVwmEoArbYt5xD_ef8jXrQ","e":"AQAB"},"attributes":{"enabled":true,"created":1568672399,"updated":1568672399,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrecoveradeletedkey-","deletedDate":1570137192,"scheduledPurgeDate":1577913192,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/d4434761e06e45899dd1ab1682f32e30","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"ugYH1bsuSkhUdus-0fd303Kv5ogHFqKTon1fKVscYsbTZk2F3RocI7D-L1OlcUCeaF6pzch_TcZPm8d4gWc0j_WXCBBbDGgcQ3aWa6lygfGeLM8zY8hmsTCpdS0SiDfwkjIb__C2VZl-9E5kHZODKl_dq0valcsHSbYxy2Bi38QSfSe7gN0Sh5xoCvpiqUp3TOHfKR3se2uCbPHN_NJLLp3TQCmc12ODys_7jVdFYWpwtupaHxvsgQ9h00bhdGRMKtx6_MRASrtkhIykESOfLfMYZYyGnzpMSCrM2roUSUwjZ4r7FY5b71aiNY2DDWJ4VK4E76AKvzoP3bA3D9KEwQ","e":"AQAB"},"attributes":{"enabled":true,"created":1570137191,"updated":1570137191,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -558,13 +529,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'bdd72547-297e-4bfa-b62b-aaf6b65cbfc3',
+  '61e6d759-5a1a-4cd4-b186-37200f0e830c',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -574,19 +545,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:30 GMT',
+  'Thu, 03 Oct 2019 21:13:34 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '887'
-]);
+  '873' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/deletedkeys/recoverKeyName-canrecoveradeletedkey-/recover')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -601,13 +570,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '568a4857-7e43-48dd-8bdb-455c36f2b2b0',
+  'd59507cd-3b9d-4233-8915-9b918e76f2c4',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -617,16 +586,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:31 GMT',
+  'Thu, 03 Oct 2019 21:13:34 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -639,31 +606,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '9a9aa77b-71d6-4219-9617-fe873f914700',
+  'ff25655d-e80a-46ae-b8d5-57b568462100',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTBgAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:20:33 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHBgAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:20:32 GMT',
+  'Thu, 03 Oct 2019 21:13:35 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/deletedkeys/recoverKeyName-canrecoveradeletedkey-/recover')
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/7474b94524a649d28755bd92e6282ee5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uMtOu5JKSf5_rfh_uTHbgIVjx9Y50nM80bkZSItc0Mbe7sBbuiffMqQC6Pgp9aM3aAWsaPDs4hLVZz61DXYsZ_uoTZC-3YybS0atjr_vI9fQb9fWlExG8GQ5rQWvjk4fMC5o12Di2DpSzk3qviTihSMHL4-_ie8LqogPBg1pdVUC6SSespdaXpFplhn_bkku2Iw-NH_BEYed9sBKOnZRrXToD6thntkGvyxhK5Sy7JP2fWjmOsZOLkw3AEp1FnDPztjnviJktk895tN1tsy9TG6KZPtOnqFMW_vcSAvsiywy9Pus8K4Y92Tds1tivdjkMVwmEoArbYt5xD_ef8jXrQ","e":"AQAB"},"attributes":{"enabled":true,"created":1568672399,"updated":1568672399,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/d4434761e06e45899dd1ab1682f32e30","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"ugYH1bsuSkhUdus-0fd303Kv5ogHFqKTon1fKVscYsbTZk2F3RocI7D-L1OlcUCeaF6pzch_TcZPm8d4gWc0j_WXCBBbDGgcQ3aWa6lygfGeLM8zY8hmsTCpdS0SiDfwkjIb__C2VZl-9E5kHZODKl_dq0valcsHSbYxy2Bi38QSfSe7gN0Sh5xoCvpiqUp3TOHfKR3se2uCbPHN_NJLLp3TQCmc12ODys_7jVdFYWpwtupaHxvsgQ9h00bhdGRMKtx6_MRASrtkhIykESOfLfMYZYyGnzpMSCrM2roUSUwjZ4r7FY5b71aiNY2DDWJ4VK4E76AKvzoP3bA3D9KEwQ","e":"AQAB"},"attributes":{"enabled":true,"created":1570137191,"updated":1570137191,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -674,13 +639,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'a2980d1f-efd4-4c42-8701-6ce1df454792',
+  '1d2dcbff-9970-42e1-811b-fe58fd74ffd9',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -690,19 +655,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:33 GMT',
+  'Thu, 03 Oct 2019 21:13:35 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '706'
-]);
+  '699' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/keys/recoverKeyName-canrecoveradeletedkey-/')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -717,13 +680,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'f79b102d-cb23-43fa-9136-ac7286182f06',
+  'fe4b7989-979d-467d-9b88-231d084d8e88',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -733,16 +696,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:34 GMT',
+  'Thu, 03 Oct 2019 21:13:35 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -755,31 +716,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '17ecb9f4-a911-4dd9-b142-11756f334a00',
+  'c304206f-2c7d-4022-9fd6-c6c1077e2500',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - NCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTBwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:20:35 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHBwAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:20:35 GMT',
+  'Thu, 03 Oct 2019 21:13:35 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/keys/recoverKeyName-canrecoveradeletedkey-/')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName-canrecoveradeletedkey-"}}, [
-  'Cache-Control',
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName-canrecoveradeletedkey-"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -792,13 +751,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'ad551860-28c1-4609-8ca7-684bf6f636ec',
+  '692ae114-7150-4559-bcd7-e1a323c4bf6f',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -808,17 +767,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:36 GMT',
+  'Thu, 03 Oct 2019 21:13:36 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/keys/recoverKeyName-canrecoveradeletedkey-/')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -833,13 +790,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'd3594039-b1b9-40cc-8f60-7c7716633768',
+  '3d8678da-3e49-477f-9b56-00df012100ce',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -849,16 +806,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:48 GMT',
+  'Thu, 03 Oct 2019 21:13:46 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -871,31 +826,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '28a489c3-90d7-46c3-88f8-215237424f00',
+  'ff25655d-e80a-46ae-b8d5-57b560472100',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTCAAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:20:49 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHCAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:47 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:20:48 GMT',
+  'Thu, 03 Oct 2019 21:13:46 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/keys/recoverKeyName-canrecoveradeletedkey-/')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName-canrecoveradeletedkey-"}}, [
-  'Cache-Control',
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName-canrecoveradeletedkey-"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -908,13 +861,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'acb10e50-d7cc-40e1-91e6-0a067410f8f1',
+  'd1b02dde-b103-4a8f-90ab-55f4c76663f7',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -924,17 +877,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:20:50 GMT',
+  'Thu, 03 Oct 2019 21:13:47 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/keys/recoverKeyName-canrecoveradeletedkey-/')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -949,13 +900,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'de8ed6a7-6e18-4af6-a259-f143838e8327',
+  'cd9e07b7-1495-4bf7-9ee7-82184e3a7d0c',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -965,16 +916,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:00 GMT',
+  'Thu, 03 Oct 2019 21:13:56 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -987,31 +936,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '8e881d8f-c64e-46a8-a2bf-2c735ef74700',
+  '5723c49b-b588-461b-b972-273cb0362200',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - NCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTCQAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:02 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHCQAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:57 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:02 GMT',
+  'Thu, 03 Oct 2019 21:13:57 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/keys/recoverKeyName-canrecoveradeletedkey-/')
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/7474b94524a649d28755bd92e6282ee5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uMtOu5JKSf5_rfh_uTHbgIVjx9Y50nM80bkZSItc0Mbe7sBbuiffMqQC6Pgp9aM3aAWsaPDs4hLVZz61DXYsZ_uoTZC-3YybS0atjr_vI9fQb9fWlExG8GQ5rQWvjk4fMC5o12Di2DpSzk3qviTihSMHL4-_ie8LqogPBg1pdVUC6SSespdaXpFplhn_bkku2Iw-NH_BEYed9sBKOnZRrXToD6thntkGvyxhK5Sy7JP2fWjmOsZOLkw3AEp1FnDPztjnviJktk895tN1tsy9TG6KZPtOnqFMW_vcSAvsiywy9Pus8K4Y92Tds1tivdjkMVwmEoArbYt5xD_ef8jXrQ","e":"AQAB"},"attributes":{"enabled":true,"created":1568672399,"updated":1568672399,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/d4434761e06e45899dd1ab1682f32e30","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"ugYH1bsuSkhUdus-0fd303Kv5ogHFqKTon1fKVscYsbTZk2F3RocI7D-L1OlcUCeaF6pzch_TcZPm8d4gWc0j_WXCBBbDGgcQ3aWa6lygfGeLM8zY8hmsTCpdS0SiDfwkjIb__C2VZl-9E5kHZODKl_dq0valcsHSbYxy2Bi38QSfSe7gN0Sh5xoCvpiqUp3TOHfKR3se2uCbPHN_NJLLp3TQCmc12ODys_7jVdFYWpwtupaHxvsgQ9h00bhdGRMKtx6_MRASrtkhIykESOfLfMYZYyGnzpMSCrM2roUSUwjZ4r7FY5b71aiNY2DDWJ4VK4E76AKvzoP3bA3D9KEwQ","e":"AQAB"},"attributes":{"enabled":true,"created":1570137191,"updated":1570137191,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1022,13 +969,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '35ba12f0-d4a0-4f0a-94cf-1a041a39ff5f',
+  '8bbe2bc4-08ea-4064-ac77-cb25617080d3',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1038,19 +985,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:03 GMT',
+  'Thu, 03 Oct 2019 21:13:58 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '706'
-]);
+  '699' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1065,13 +1010,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'a79c725b-8135-4e88-94ec-ef43b1f9c355',
+  '904ff2a3-8fa8-4010-841a-58c55d691b8a',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1081,16 +1026,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:04 GMT',
+  'Thu, 03 Oct 2019 21:13:58 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -1103,31 +1046,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'c6d33b71-f109-4844-90ab-244730a24600',
+  'e43e5104-d5ca-4594-973b-7c81bfda1f00',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTCgAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:05 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHCgAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:58 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:05 GMT',
+  'Thu, 03 Oct 2019 21:13:57 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrecoveradeletedkey-","deletedDate":1568672466,"scheduledPurgeDate":1576448466,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/7474b94524a649d28755bd92e6282ee5","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uMtOu5JKSf5_rfh_uTHbgIVjx9Y50nM80bkZSItc0Mbe7sBbuiffMqQC6Pgp9aM3aAWsaPDs4hLVZz61DXYsZ_uoTZC-3YybS0atjr_vI9fQb9fWlExG8GQ5rQWvjk4fMC5o12Di2DpSzk3qviTihSMHL4-_ie8LqogPBg1pdVUC6SSespdaXpFplhn_bkku2Iw-NH_BEYed9sBKOnZRrXToD6thntkGvyxhK5Sy7JP2fWjmOsZOLkw3AEp1FnDPztjnviJktk895tN1tsy9TG6KZPtOnqFMW_vcSAvsiywy9Pus8K4Y92Tds1tivdjkMVwmEoArbYt5xD_ef8jXrQ","e":"AQAB"},"attributes":{"enabled":true,"created":1568672399,"updated":1568672399,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrecoveradeletedkey-","deletedDate":1570137238,"scheduledPurgeDate":1577913238,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrecoveradeletedkey-/d4434761e06e45899dd1ab1682f32e30","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"ugYH1bsuSkhUdus-0fd303Kv5ogHFqKTon1fKVscYsbTZk2F3RocI7D-L1OlcUCeaF6pzch_TcZPm8d4gWc0j_WXCBBbDGgcQ3aWa6lygfGeLM8zY8hmsTCpdS0SiDfwkjIb__C2VZl-9E5kHZODKl_dq0valcsHSbYxy2Bi38QSfSe7gN0Sh5xoCvpiqUp3TOHfKR3se2uCbPHN_NJLLp3TQCmc12ODys_7jVdFYWpwtupaHxvsgQ9h00bhdGRMKtx6_MRASrtkhIykESOfLfMYZYyGnzpMSCrM2roUSUwjZ4r7FY5b71aiNY2DDWJ4VK4E76AKvzoP3bA3D9KEwQ","e":"AQAB"},"attributes":{"enabled":true,"created":1570137191,"updated":1570137191,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1138,13 +1079,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '24dd2a23-405a-4004-b8eb-88c1d7a219c7',
+  'fc977820-2c18-40c7-bcd8-b8229e391f2a',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1154,19 +1095,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:06 GMT',
+  'Thu, 03 Oct 2019 21:13:58 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '887'
-]);
+  '873' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1181,13 +1120,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'a7618353-7b87-460d-b80b-ba8e3ec272bc',
+  'f70c5941-2f3a-4aff-8bb9-607fa63d4fbc',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1197,16 +1136,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:07 GMT',
+  'Thu, 03 Oct 2019 21:13:58 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -1219,31 +1156,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '77761cfc-4ea7-4493-9443-8e2420124700',
+  'e66b8b04-1bd1-438d-aa6d-6bae17922500',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - EUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTCwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:08 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHCwAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:13:59 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:08 GMT',
+  'Thu, 03 Oct 2019 21:13:59 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [
-  'Cache-Control',
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1256,13 +1191,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '0b6234b7-30d3-45ec-a6ff-92f89e2653a5',
+  '841e2858-57bf-405b-820e-8af8ae6f9eaf',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1272,17 +1207,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:09 GMT',
+  'Thu, 03 Oct 2019 21:13:59 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1297,13 +1230,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '6140a052-0933-497a-8f4a-5e7007fb766b',
+  '3ffcfd39-e6f2-44a2-843b-8842bbb63535',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1313,16 +1246,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:20 GMT',
+  'Thu, 03 Oct 2019 21:14:09 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -1335,46 +1266,48 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '504263a8-db81-4b8e-ab05-952a80fb4400',
+  '673637ef-0d79-472f-8058-a058b4ad2300',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTDAAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:21 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHDAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:10 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:21 GMT',
+  'Thu, 03 Oct 2019 21:14:10 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(204, "", [
-  'Cache-Control',
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '118',
+  'Content-Type',
+  'application/json; charset=utf-8',
   'Expires',
   '-1',
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '35a2487a-3274-47fc-8dc1-73a660e5f586',
+  '2d589dcc-12d1-4f0d-97e0-19541a684414',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1384,17 +1317,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:21 GMT',
+  'Thu, 03 Oct 2019 21:14:09 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/deletedkeys/recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-/recover')
+  .delete('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1409,13 +1340,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'f3751c94-9c68-40cc-9881-9c747cb632e5',
+  'b05ed4d0-0b27-45cf-a59f-b3db97e5cdec',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1425,16 +1356,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:22 GMT',
+  'Thu, 03 Oct 2019 21:14:20 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -1447,31 +1376,135 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '17f22f89-8d7a-4269-939b-b8049afe4400',
+  'e9f383ab-11fc-463c-9599-47f08bdb2300',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - NCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTDQAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:24 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHDQAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:21 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:23 GMT',
+  'Thu, 03 Oct 2019 21:14:20 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrecoveradeletedkey-')
+  .query(true)
+  .reply(204, "", [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'bb624adf-edf2-43a4-a71f-1e19233baf41',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:14:20 GMT',
+  'Connection',
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/deletedkeys/recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-/recover')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-"}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '01e2e2ef-0e19-4c3d-a846-181261d92f92',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:14:21 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  '2a21abf8-bddf-4813-85ae-b374144e2300',
+  'x-ms-ests-server',
+  '2.1.9485.10 - WUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHDgAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:22 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:14:21 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/deletedkeys/recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-/recover')
+  .query(true)
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1484,13 +1517,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '0372bc73-4cac-48f5-8778-12fd671b3f6b',
+  '251556dc-482e-4b51-a829-f41b30a37f0c',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1500,17 +1533,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:24 GMT',
+  'Thu, 03 Oct 2019 21:14:21 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-cangenerateabackupofakey-/create')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1525,13 +1556,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '84c2172b-5e1a-41f5-9a7f-dc306af80299',
+  'e49b5983-3f8c-4fcd-ba19-71c654415d66',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1541,16 +1572,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:26 GMT',
+  'Thu, 03 Oct 2019 21:14:22 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -1563,31 +1592,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '50cff4e3-d66c-4b46-a821-eff261f84500',
+  '7856c514-3aa5-4f8f-a13e-ae6638792100',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - NCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTDgAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:27 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHDwAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:26 GMT',
+  'Thu, 03 Oct 2019 21:14:22 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-cangenerateabackupofakey-/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-cangenerateabackupofakey-/dda180ec532344278b764d78a462231c","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"y6IND2N_NUAGDnUdUql0b6lPEcMetdKh9xaMovLwg8AnOgRgnTpEGOcJEGXWxEL63L3hNdcBGYccG-KmAv6O8J6ZJ3VOqR93YD3YAxWPDyGn2CY6Rwawo9ErAyMwQZqjQ4mERCMAKEn25B5lazehE-kCkORSdNWYDdbMBvhasaKTwFEQm2g-XEaxs47LtJmdEL4IyIAjQ_F-YXsDVuwJk_MuTj43NqXIahjMTcJy3OcIr3IkM-SQ9rExT86VZf3bgKl3hBRjARM_ZR-yofrSA7-WIhf5Yld03pw2X5rmtV1JM9H0spRfyUZvB8QhGM6Rnm2YZd4IXBdQUEIKAL4KfQ","e":"AQAB"},"attributes":{"enabled":true,"created":1568672488,"updated":1568672488,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-cangenerateabackupofakey-/48b31ef70d79463a8c9b2e6d37537eea","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uX8ZP4U_KzAkMyBZUMRAx46FrnZuxBWUzh5WdhsAeSm5SkoqMtCpw6azEPUvXd0XP6Hx94oT5OV8aRgd4G9Wgb634TauKVLuKit2Tb-TvMfO3E07KTTK4GDDyzDdprX-wEX0Cg6b626x-HyL3eEz0FRJBbA83pmRkZ2v84wJVgwzxupCWLgLS98J5rh-IgpS1ZT_OlTfTMKX8sx_J8Ttmc5KWYz8824iduH0rCRFxFJJz5eQnULES2C4v0j7dZdpf5Q-nlIzg8wckXbDFj0knZT3MZiMpoy9oGxoNAUFSAbjOAtKlcRdwuQQo6I02wLL1jmPHZZZlzNIR3oH_bldcQ","e":"AQAB"},"attributes":{"enabled":true,"created":1570137263,"updated":1570137263,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1598,13 +1625,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '769c0ddc-7f77-4028-ad1f-628cf0a0b915',
+  'cc166e69-6254-4dc5-b15b-998db8e24812',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1614,19 +1641,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:28 GMT',
+  'Thu, 03 Oct 2019 21:14:22 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '709'
-]);
+  '702' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-cangenerateabackupofakey-/backup')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1641,13 +1666,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'ec5ff520-b9f6-4468-99b6-44ba20c7bfc5',
+  'a5688aea-1709-4834-9278-5ba965fdad3b',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1657,16 +1682,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:30 GMT',
+  'Thu, 03 Oct 2019 21:14:23 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -1679,31 +1702,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'c18c12e8-2ea7-41c8-8226-c1ec106b4900',
+  'de9a8e0f-e446-4125-bf53-59fefa242300',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - EUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTDwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:30 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHEAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:23 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:30 GMT',
+  'Thu, 03 Oct 2019 21:14:23 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-cangenerateabackupofakey-/backup')
   .query(true)
-  .reply(200, {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUl5WVdabU5tRmhNUzAzTm1Ka0xUUTBZVGN0WVRjek5DMDJaalZoWkRCaU5XRTRPVGdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLlg3WnZ0dmNKV0NNbmk0VzBJQ29WYlA1RUNtaVhsVTJwdzZHNmhuNWJkeWZtVzAxMTVQSWhPekI4WGx1SHpTMzRMWWNzNngweGNMVkNweXNCMmFvZ254RUJTTGM2Qmt0U3MxWEhDQmpIY2Y3TFlhSUJVSExsa0toSWFmdENuSzU3bHI3ZDA2Z1dpSU9Tdll0RXV6MFpLVkhiQTUyMTg1OWk4UGRaMktGOUp4Y0puMWhhV1VlYW5nVTdiMDFVNDNhb0p4Yk1oUUxpakNJX1BxUmxmUlI0d1NldFhidTRXNEZnSDhNSjRHVWhTUWNNUFVnQjhYNDZHZnZwMWhnOXJTcXVPYjdvRTZpb19sNmV0NkVKQTNLQ0xSZEkweG5XLWV1M0xyVUYwRFgySlJUWHVOdS10czZVNkhGNmphNVNXRjRBVzlLQU1jbXZHek5zTG5kNm1QYnh1dy5vZGM4b01mV0tHZzVnbnBDeVRkdjRRLmlzZXJWekNWaVAzeC04S0ZzYVdIcEkybUJIY0R0WU1RVkZJM3F3RUxWVTk5bUdGQV9fLWMzZXctXzJ4ZmJEV0xXd0hiTlljaFNwT1N5em9ibWoxSjI3RjVBWTBqRGJ0WTBicWF3UWhoVDJGQlJnZGs1MkFleGFJd0JSNXItenc0OVJZM1d4aldta085bFlselpRUDBTXy1sT1ZBa09CbERYcnZyUXhkWUt5X3I2TVdzWERLV1dfT24yZjh2M0R0bkc3V25NalF2QWVrTmlxN3Y2RFNKSDJVd243bUEzd3FOQjJ4UnFrZmVHZ1RCYzZBQXJsT25SYzcxeWliUG9ETHl1aW5saE5zdEJTY0hnU2hWazlhLVZkdzlyRUF5cWs5UURUUDJHd0haSnBhd3FpazluaTJRSU05NnhhODNHMmhIRV83ZTdCV0dOelhfUzhid2trVjBzMjIyc1Q1NFJlWFVKR2RXY3JqMjNqZmZDN2JQcFloV1VHNk52dXhVeER0THFEczAyYlowSm1yMnZDMFZLMVJoTmtZUWY0NVFYTEExWmd3UExtdWVGN21IWnFNb0hJN0I3b2dHVllzN3pmbDd5VVd3cXZHLS1EN280X01pTDNBczFmRWl2RzZieGl1RmZLZUlGWFZNSUFMeUVTc2pIcjk0TklZVjdyRHc1S05Rdi1rOTBqRFdWSzNrUlJhQ1VWc3ViMDZYZF9aeWVXeGxBLWhqSWZlZUI5S1dXbG41M3VpUnV2cGQyVENyQ1NaMkFFRE13V29ibm80WFJESW1oTUdJMjVFeEVpbkJHNU9vUTZGLWp1NmU2bUlfelRpaDhGdFRGS0NRcnNwVldoQ1dXNGI3b1RTZy01cTFsajRPSkliRDlzWXhBUlFxNVE1VlNIWkxOS2JhRmp2bGJZbjkyMU45ZUl5WjJxdklRc0RleHJlYl9YTEljOUdybnRiaHNUNlQtUklUSTVLcGhYVFA1M2IxSWJIM2pkWUFVR09LdTVoUFo2UGNERF93TjVOSllMVzFaQV93WjNxajFmSTg3SFhNWWJETkt3aTFDQ3JybnpSbWV3OGhpQ3ZlWjFoTWdDM291WFl6SXVTazJVSXlRcUt0dDhobVVRUy1udHRacVJjcnVabG9BdzlSRUNyX2dmSEkxZEFHcHZsbzdKTzhFUk1DWk1QTzh4TDQySUtyQlo0OTdOVWN3RkpDaXRhUFBodjk4eWg4SjAzcmRjZnJLVWVsNkJKSXZ6aW1GTFdvWVl6VWljODRsUGhVOWJaWmdMUExQdXpMTFZJWXdMOVJXWi15S0hDc2ZuT3ZRX0VGUjQtUEo2R3JUclNjaGRxQUVhRDd1ek4xUTlJVHdiaVV2Z0dWckVuUnVIai04WEpmSHcxXzd3Tld1dmkySjh2OXQ4ZFZsWGU0dHl4TlpFdll2cVE4ekg3WWNIREhqSmZ4ZTRBeWRSZ3IzbUFtd1Z0SXNhNTdyS055SEVLZXFxNFBtdVBLOTh3NG1WMm9fdWpHQXQ1NEFXb0wxeFZZT2Q3RlRaQ3FBOGJlVmhqeklXSi1ScFd6amw3SHZQYm1pZmVPWG44UWdZb3YwMGNELUZ6eUp0ZDJxZ3RVWk5LZVVSbnVoZ1JlZ1VtaDRjdTQzYktvd0ExX192UUJvc3AwTU84YUhHVFBFaEdtR2d3SkNDa2NKcjZpTUlFdXZmYXlJUFdlVzd3UE1GS0JyS051MWZMSHFrWmptOGVhcGQ0MkZSU0tpdDUxOU9aeE5pMEZ4cm9lR1Q0N012Mm9ISWlSY0J1ckJiZWd0WnYyZkE1Tjh3Wl9adXZodGU3QTRuUTh4cnRicFk3bWZONi01Q05PVzY0TGxRbGdCNFdPNkwtWUhreG5qU1hwdGYzYVo4YXVCcFdOUGQ1UEJOSHdUOFp2cWRqMHF5UUpmaWx5Mm1BRzZGSnBvZVJRVF90U0RMTVI0d3l5RV9zMUVXZDlTN0VMeHZmQmRodzBPZzhsYnRLZkM3cThNZlhYbFZDRlE0LVVUV21yN21kZF9OQWZBUGtYb3pid0FfdWNPOEI3OWJ2aWVNUUZFcW04QWFwd0lwN0ZNbjZRbGR5TnB1WVVVamNCMk14ajVueXBfbzBra2YtTGd6cFNFaDFoMFliM3F3eG9TU2hGdlU4RVBUekVvVVlkaHk2eHdFY21NTld0VUxhU2VCUlhFeDNMMXQzeUd5dWh0OWNHQlpSRHp3UkZLZ0RNeHVBN0szbDhYTVRpalJMRWVfRVBrNTlQOHlQc0pFeDZXT1NfZVJYUGNibThXX0NMSDFnWDJ3eUluMlF3SERlM2EyMWlqdW43SjdPbDB6NlhCM2tIMnNqZFlaS0ZTTTZLYkFUSzBPSTd1NFNaTkh6VW1Qb2ctenpmRENjMk5aUUJlWWZxbGgwWFI4bHRQNXphSUIyUGRjalNoN0N1b3ZOdmRmeGRrQ1FrLWVMVmwta1NYak8yalRhSDMybWc4Yi1Femhmb1g1MXdGVG5WOU5MWkRlWTFyV0JySEVMdXpJcGFOS0pwZDY3NzlDX1lkNU5IOFF6U1RhcUFDdjNid3VDeW14WXlINVVmZ25EN0hFT2lMUmVQMWt5eHFnbUMwRENHR3UydTdWY2NaSTcwNlFwaEFFRXo1eGlpdHpuanNSR01LeHFXNTZLRjlvV2YtSnJDQmhOQmpETHlFel8yMDl4OTV0OFVfWkZEaV9jT1pSaWZHQmE5dE5EV2pqQUJwSmlwQnlWelY2d0Izckt1enNCOW1oT3FJNUNqeDljSkNTRzNhbGIzSThGVmpqY1lNQnU0RUNmZGpoZUhpU2YzOTY1QlNVWDJmTDF5RTljVlFZeS1Tb3YzY1U4bXI4M1gwQjRscGw1Um1NcHo5NGIxVUo1SjhBamVGeDJIWkM2TVZXREpTZzRDV0EzTjJXUG4wUGowSXZyV1RHNDRQNkxHdGtkbk1LdlFIM0lIMUQxS3EtMUpGZl9yNUlBUmF2RS1VVVdrVUVKaXN1TVUtelFYTHZmS1k3WlZmN0xVWV9iMnB2cVZoRlNZS2xaSGw2NTcxY28zbFdQRC1ldUxRdURzSmRHRG5KT3JkcXE0QWJnbnhHODRkNWlDNGZjVW83ZTgxMzVsZDl2eElnNncwdUVuamN3QlphYzZoVUJ4QzZna2FkTzFIelNoRnZlTVRvSjVXUmI0SUVldGhzcm5XSXphdXNNOE1RS3lGSC0xcXJSRE8yVTdsUk5lR0V5Ymo4OFJkZVFPMlg3aWhEbGtMM1dDNU85cFJQVEJvaU5TUUJ1QVE2Z3NqTEVvZ0hydHZQeVRxZDhUQlA5SFJLbWx2ckdwZ09CM2hlN0tLV2twazliS3hsUmRNOEwxanZjbWFCYXU4VVM0YnZhaDczZkw0aGRFS19hZmNHTEQxeVVFUENrSmtNa05JOGJ4RGRENGl6V19hUmVuQ1ljclc4c3JMNDYxVjJhcXljTHV1RGduUGIxNjQzVTZnNlZMVUZVUTRjTkxYZ2pWZG04cUdHcmJfZWRTclZjRWxlQ1Z2Qi1SdEVkV25YT010YXprWHFGYmtOR1JFRm9laDhFV3p4MmgtTVlCSjAxQVlDakk1eE5rVk1jSHBiNnhicjFvNWJxNDB0XzBjR2YxdUxiSVZlLTBuc2V0dVRDZjBjYy1WSGF6QUJVTlBUZEhkUnlwRzZoVUxLU09nTXBtMEdwQ08xOFlGNkJGOVpKYjBaR0lUVmd0ZEtDaGVERnNyNG9FNXI3eHJmS0RrMlhNbEpXVXZkYk53WXAxd1lYbUdPOWwzZ1otY19XTDVTVzNiTERidEFMX3FoMU11cGlnM3ROOXRobkM3YUxweWRKTzR3dHlBNjhONW9ZOG1SQkR5T19lUWUtTlQtTUtvTDFvb0wxazVwNnZpV010dUNRaTVKVmMzcnBQVVR0dkN4MUhqcWU3NHB0OHJMeFROblBWdlE1Zy1sd2FoOTM2NG5LTUFGdFMwbk5Hd2NqazhYYkVCQTctQlFNTGRBNDBCNVdoV19MQnNNcHJGclp5eU5WalF4WHFNemNfd0luNk5xV2d6T2E1LUlvcWRNWWFFYWZkSHBwRVU1dUtyeWZYRWtpamRSQVo1dUxtUkdaaUNEZUxpb0QzMzBwamNMWVpnVEVNbW81Mm1hWC1Ub2FBclRhUVJlcnBkV3BtYnFnWjlyS3lUT3FuNVNRWFloVl9OOWU0czI0ZTBqTl9SU2pQQjZ5Q29fR09sR1VJanh4c1hXdmdzTDRQajFQZWNkMmNseFFkdnVBaGRLYWw3YU9EeDg1WmZod0M5WDlaY18xX2REb3FBRDBuWUhEaVlfaFhrX1FUMElBd01HOWhoRlJSenpaQ084QW01SGZUemc4MkEzVTRpLTVMazhOaVRsam9sdjZ1eU4wYmp2ODRBVW83ZnlNRDJOYjE0aTExQUEzMEFvT19pUEd3ZzVYVE9CdFpoZzdLT1FSY05CaGtNaHdmMnJlSjNOWW1SU09IRjN1czNMakw4azY0RFJnTHhyc09ZRzQ2WmlUZVFJQ1NUQmZpaElBdWNzUllXZ3JvYWlqMGNyclNvS0tyZnJETVZZcHQxaU1RbHdlWm5rVjh4aEo5RGs4LW9zd0pqcE55NGdVVW92Q25vZk9aZWd5emdYVkJwWlNoOHZsd3FuZU1oZ2d3djJNWTBzeHpGOXMzaW53dlBnbndzNzRBalZzNk9XaGRmS2xFREp0WnZCMktsNG5tbW0wa3kzNWRkaWR0Vml1WVJsWTJjVXllSjlZSHpPU09QM3lsNkh5VnJYNjVlbmhoQVNOR2NnRFF2aVBITFNxbXI3RmZYOTdYa2JjSHlPZC0xeVNLX2NiN0tLRFRnbHVmenNlTVVOWVYxRkVVc002VXhzQ3dZa0hBZ0laRFYyQTh3bl8tNUp6TGZCbl9wbHR0VkdDd0lpVjNLdmhyUTFyelQ2dmRoWXZDTlBDbHdlYldQLVo2M2hGLW56ZjJPUXZYRFRjd0MtaVhJakJtbXNfRkx4QWlFNHlmYzBpSzFuZFpkblM2TklSXzFsVUpnaFpHa1U0Zk5RR21kbm5ob2twV3MwT2Q5ZkduWVcxMUYyRUZ6REtVaWVaNUVJYVhRX2ZfdTk5RlJlcENfSzAzbl81dF93NjFYRDMzZHRzSllHVEM3MDRIM1l5WXE0X0tCNnl3RjNpZ0NqeWwxbmFVTy10OU9uZlctSmFzLUpYZXJoY3NNblpUQndyVTViYUJFV24yM0J2Ym5ZLVQ1LTVTWDNheWdwWDhONURmY3ktS3ZvZEZrVWxXdzRfOEVkekp2S3RDdmVZU1A5X3plNmN3aHFnX3BNWmJJaExJOUpXYWEtbnhIWF9KcEVJcTd2RjltVXlIVk9rMGpBS0JnN2N4ZDhPdjVhZF93bTRZeFUyTTRjMjE0Y1J3X3JZRjY1dnRpOTh2Q0dFd2l5SzNWamR0R05wNGlwaTcxSUkyY3BoZ1dCX0xrRVdJNi1sdk10SGRnSDI1Z2Q0Um5INTNGQ0dBLVNoSHZzS04ySXl4N0trVDBpRXpKV0Y4c1NNcmZGZlMwTlNSeTlHXzBBZHIyU1NrMUJxV0FyTGI3Zlp0Um9QSnBVZHU0SnpWNHVnVm1yd0xtYXZiYktWc0xjRElZNUlaZmlqM2ZRWXZlVTQwcHp4bmx3Yzk4VHVZVzdNZ2pybW42dUwyeXFQa1NITjkyLXk3bVF4Mm9vQUlOUkstcXpqS0hfd1hUVkZKNEpHMExxb2hhU2Y5cTN4YkU3N0Uyd0RzT0xwQXN5b0R1eE4xOXdlRElPWWdCNFh1UUZvT3hGUW5VMGptY2JZdWprb1VXeWNGbE9wdVVzS2hDSm5weDJSVEN1b3ZxNEx2R19IcXMxY3hjSHl1dmU3dlI3azU0WHJCaldOdnZ5V1dMUFdGUWw4V0NaMHlRbXIyZ2dsMlJ3NW9aTVdQdkdqdmM3aXk2dWdwcmkzY1BETVZZdXg1V3NidnkyMGZ4LTlHb3BJUmNLQkM5Y2VIZmlpQ2hoa3pYT1ZUT2xHaGJMUURDbHZyRzFaV3NwQlhsYXlLbzAzTjVxVG1wd0hfZGF0S1UtN0p1YTJjbktLSFAwVlo4U2RES1hDb1h1bnlnZW1vcFpTS0ZRMHBBNzViNWRoSkx4c3JiMHdCd1hSX19iZ3lMdXN1eHkwWVdocHlSaGpSSVFhVm91bjYyT19lTUNsdkVYYmlmWF9xTEY0ZHF0d3pIbUxBb3JYNkJ4SEVXc193cHIzYzFPUGgwT0N1Z0VkR3JKRXFqUVg2azhmVEpGa0RleGJhdENuWU9wWjl6NmFDUFY1LWFzYW90NEcybjJSbmQ3ZDRGM2hTM3VpMWdvV1k1dnYtUUxlX2tuOUlZNVZwN09XRURoR2NLMUJUd2hWTEVrSi03cVJtWjhLZlNOMWhrY3hFYmwzUlFDMVJIOVBYN1VGbXBsNUY1RnIzNWV5djJESHVMWktBMlYyckVYd3NmR212NjVMckdQZWpLUTF2Q0JLRFNJS2QwTHg4a3dBUUNsNkFNYmRZc3VFN2ZjR000UkQtdmxQQ0ZDWEpwMldublV1ZzZyWUdKOWpEMVdvdVI0ZDJ5aVpjMXY2anA2VlRsekJkZ1V5SnNFSHZubXVXRS1rODRHNVVHaFB4T3pfLU4zQkt6V2xJX1ppMXhEMkNjQnBfNWlxYmk5VkYzODgxT2tmUXB2VFFsQ2JIbGhhbE1HMTZDdzVvOXZqUFNuWWdjeUNCRnZkMVJhYk9wQmNieFVTTHNEWTJCeFUzMGJuOUFFV0dVdlZlb1pLOHMzMUw4NGdhY3V4V2lBNGJRT3kxcGV5ekdVOFFudzRxWjNjdkN5OGYxLTZlRVRLWE15UXhCWmU3SjZrRmRGTExfS2syaEV4N0Q4QXJ6NDJCejg2SnlNYmVRVTA2ZDB0ckVKSmtVck11S3NCOXc1R0d5bDI0WnR0eVZna0U1WkZQMThweHYzc1Ziblp3U3hya3B3MXdSNW1kN3JsYW1FZnNXbGZfNXFyWnZRYThQV2o3WDh6MWJOc0M5aFVRbm5WZ0d6dDMwbnd5cFhHcVZDTHJIdUE4N2VfQW53cDlUSThNaEdmRFdjWndPQjU3d0ZQWFRPNXFrdUpKa0tGN3JmXzhScG0wQUNXWml0MW90ZEVveXE5VU5PQ2FiZzFfTGF1LTBlZFprTzktT19EVHliUjJINFFzNG5oekdGbGRRREV5WkRFZkMxcXp6RkhPZEt2WnViWXlHek14SFByTmd3U0ZpQzg1YXRYN3hsNDVCUHUteDdrUHdRNmN5QTltRmZVSV9NODRGUVJFR2w3YXRVeXVsLWlBeDhPUy1wOHZjUGpfZWxhUTlhbEZvWkR5LVpoOEZJbmxWWVU5dWpwaDFRZTlkaVZOMVgxV2tkblg1SlJaZnZzYWwxaWJzQTlqcF9UdWFiSGlSaVpRQzg0SjZyRlB4UmlmcEFrOGZxdzBtU2piTVduS0hFR3FtTDdBR0JaRk9VMWZwdC1IRkM3OFY5bjVfYVZTb0tJa3VnU2pQOTB2VThodUxxNW9IcmF5Mjg3NUJoZ01Ob0VSdG1KVnR2Z3BWT2lJU0dtdmpnb1AtRzhaWGVPMDJ0TmNyME8tQVBEVVRMeVpyZWZGRkNIUXoyLUNSSjhDSXRqUl80NmVhN3FyUHpUcE1XcmJtTDR5TjN5THZleEhxcGVjNzM5c0NfWXFWZlBsSW96MGU2aHN6ZzNtZWRiSEhOMmhsY2ZoWGR5OU5ZMkJkZ193SlZndDZRek13bVA3T24wWnp3bF9sWTJ3MUJKdGlocGdaZ2JqOTdGMGwtci1MYUw1YmJMQ2NScHJjUkoyNGtFdEN1N3ZpS0tvaU56X3ZIbTJYMWJaRVMtOHBUSl96MGgxTkY2WG5WM1V3QVJwQi1pT3RUYVEzb25tUXpJcXhfTEd6M1Vrb3pfOHVGWW0wN1VUZEc3cHI2QS02NGNNMVY4Q2ZJTVNnMG9Ma2JzNDZ4TTc4Smh5U0JIcDZoT1hleUdrb05EQmt5Tl9McFM2UzJlSXhVSTl0VjZCNmZ5RUJQbjg1S1hWXzJtelRvSXRIU2d6NUNPQVVTWGpCb09UVHJEa1RzaG1mb2pXRnJLNmZaU2lyV2w1Z0s1ZWExV3Zlazdpc3JrbFRCaHVpU3lOZjVUM3YzX0VzV3htSnIxeGJhRnFKLUIxaHNtUk50X2ZLN2E3WHNWV0g4RDVoN3ctUTdBMmdDY2RKNERxWWx1TjUydnVZZzlON1l5bFlrSlhYdGFhZm5oUFZ6c2FVTWpzTm9tS1RhNUJYRnVVS1VYdnFYMkZ5Z0xLQkxCejk3ZkMwakxTRjNLLW5ha290V094aEdZTzcwajdUaUtaQmI4MnJYNjFDLVFHM0llMFZmSkpMTjVlTEdHZnp2ZlA4bmx4b05udGYxaFJkamFoOW9takRUVm9XVHh3VExSLTNzeDUtWHdjV21MQjBGZk5MNFBBRGRJQ05TTjd0ZkRhcGpROGgzOHdtamMyZjlzQVduSDF3NEU2cS1oSGdrOGxPM1B5SjM3SEF1NDM4OTNyeHlPRDUtNUlvUW9JV3VKZFRtODhCbGRxQ2F1RmdRU19aTFBGeFl6SVRadWpIUFJ4ZmpWVzdna2xzWU1HVThjZ2hqNHRBZ3lsZ2J5cEsxOE9SNEJOQlczSmc2VHQxQW1wN2FjdDFUNDh1UXNyVndoSVlHSndQS2dVd1RVeGVRZ1lNdmpyRzJrZTJDdjRXa3NkVEkwVWNob1JsOHNVOG5odmU3VnhTWExwb05ETUJLaE5xX2liNjZvZ2dYXy1YaktFZFdQY0FRVy1DaEdVMTlLYUNBbEI0YlhDWW0yQXA0UWswbzl2VTRiOGliNjNQZkFZT3lmdU1DOEI0VmI2LW9uazQyYjNydXBQSVV2cE5STkNZTzJ4Y1dnblRiWEhXc2VwT3ZzWUZOZ0hKdEw4b3RkeGtsUzRqR1VaVTFrcUFKOHdBbFQzcWgyeEh4aHFHT1JrS2xuMXBvR0pPOFdMVi1CVk1rOHRLTUJGUHgwQWV0M0VTaXVYX25SN2VwaVBsV1lsVXBjTHJkWGpzekVmTDJlT0Z0V19BZWxLTkZ4TlFXb2d3ZGNOM3BNZzlSc1FsUV9PNWlkT1dqUU9XYU5kbWFyRV9tdkNJRWxYR0V4ZjY1RDFISHhxYTVBNEtTOHhKMnNYOThNcTg5b2E5S0llUUtzNUZrOXRVb3BvYlpLdmVSNmNHMHcxaTdRQ2wzcHh3MW1QTHFFRDJud1VvVDBINUhjU3IxYjZBUS1xNTNzQkVPTGZQT2lKVjg3V01nQnJzR3VieDJYemNFSkRNQXdEcHNKc3A5VGRmS1lBOHpNN0U2VmFyY3dMeDJLLVdTbzlqcm11aU50Z2RkYW5KaW1JMGFIbTREQmF6RkJnYzFNYkhTaDBuenZjd3d6WG9ScmJrSDduYjd2bG55eE5WY2d2TDN3M01LU1VSQkFUdUpMa2xKX1FuZmpWajdOSHVuZ2RZRnhqaFBaWjk3Z0M1Q1pDeTdCemM3SEZzT3lxZ25rMVppRmRRUUdhRzVQV3lvczdyeTQyQ1FJYmFqQlh1MDA1b2JqaF95VjF4VGc1MTFPcXBsanNvYmxzTUMtTWhtYXNYX081VWhCaHNteGs3YTVwYXlLR3czQ0lOSEVQVC0xLVZjNWxfM2tQTVFNcjBBQmkzbWRjclpkeGxVYWVteVVZOVdkaFJTdmh3bjlnbGZLZnk5bk9rOW85ZmhWb0ItTmpRbWV2VklEOFRNdFI1LVI0WWhfbGt5MzdIMVVmd2dvQS1RZC1wMnlSbldLREVkcURQei1WaGxpY1d6elhQUms1Qkw5QlpnYV81UTBnMVMybDl4Y2ZNMFlCbG8yNjRKM2lVMjM3a3lXUnVmcEExLU9NM3lWNndTbHhTRHJoT0hQZlN0VEZQTF9pWEVienY1bVR6azFwRXppWW16ejg4NmtPbFlWVk1makpmTF9QVHpuZmdoYTRWMXkyVUZTTVpBRTNkUVVFSElST2FOalExZTJ6MnI4N2ZWazF3Y3FCMVNJb0VULUU2YzJXUXM4VExkaUZjOUFtN3VuR1lDaFpaVEFxbV9Qalk5N1F2SnRCNEZYTUJwTVhpOV9zMW1mRmtnT0dFNnl3RGdNdkRndHJrTkE1QVJJMzY5RnVySV9ObGZkakNkYnZHRkplR2pXUHVkZ2VFRDlsVWJha0ZDWlhmRUdCSGVkY2ZwbWh2Y0YwVVJOZ3RlS0FkaXFSRjhZNnYwVkVGVXlGam5ETmVGZ1hCYWpyTFRaakxJWEtjT0wtOXdtQUpka01VZzFTOFppZ2JhRERvSEQwblNsdmhpNmE3M2k0cTNnb181Wm1XRElKWktmSkdCVms2UGwtNlhVYzFXOTkyNTlwUm4tOGc4VVdPY2JIbkFZUGkzX0VWaEZJNUhUTmNkS19yUy1EWmQ1WTc3TkgxTjVDNnVUY2RqZTVldXd2cjNfTHVSRzFjcTZVT09ZNnBJSXI5R2Z6UlFha3Jtb3plWTlROW11UE9kODRjUWtWSFhJdTkxaFQtdFYyZm5OcWRKSGVOakNxSE1YSGRZYlROVnhWZjF4V0lVNHFLc0dsRTVyQmtUbVd3aFRpQ0dBR0tNVFk5ZkRVY0VaVHJvN1FKWjNrTUYwWFBVRVFYNERWdVZJSUg0a1Z6Rl95OTA1UGRIZlR4OGZ5VEMxdzIyWm5RZzVTeHNvTjBoUlItaFNJRWRFWXE2UEQ2cVVrN3lPYVFmalR2RWU3V2cwWnZSbVFQdkdnNGN3bG42cmxLdXJtNWEySGEyTG1sVFBTbXFHZjUtcUU0WDBhRHdBQ2xQODVuUGJ4UEgzVzhIb0F4NXRFWG1hb1d0amtKWldZZ0JEaXlDU1VkNXBjd2lGVWdBSjFtTFlNYl9ZNUk4R21PNnJXcTc3WE5nMXRwLW1HbnFuRGsxTk01TEdhUUtNaEtQWlljeDhCVkxpbm00MDN4TTAza01ieXpPNzNlRXozemF1MkxkYlY1Um1MZjV1cUVuNi1HalhiT0pUajE0d01RRkN0MVZHNEhCOE1sSlVfeE5fVnh3X0FtRmlfU09TWDFZQUE2dGIyRlNsZ1JlSjA1MHFXbjh4LWVoTFRTUXpzeW0yMUdmUzBEQVRGWFlNdThmZTVtRHlXTWw3Z09KYTJhSUh0RFFoZFJ3QVRqSEZLOVQ5UGZQUUlkUkdtb0tBYVJDWkpTRC1WZlpOajlNNzY4NzdUQ2ZvY2UwajN0ZmN5VDczSzlSaU04YWIzUUMxTXdISWZDQTcxYnhmUS1IVHptdGpQdFZHNm10U01iOUQ0Sk5lZXZNTl96QXdYRWZMdUZGSExXZ1JLazJzUWFMV2YxVmdMNW9lZlFoNlRIWG5pUDhaUXRhM1RQUG13Wmp4eXh2WFZXODluNENkUU9zUDhqc2V3M3NnekNzbndjQjBYNzNfV2xFdWZ2MC1rMHZlWU95cFJkNEgxd2pFZ1BILTJfS0JEQ1BIUzcxbWJoQlpTejlkT250VW9OeS0xbjVhdGJGLXNXM1RYSE0wdUVReTIzYWVWRHZEdGZlOFphRmVoQU1DVlJucGhRQTNpMElTRXF6enlIcFRPMUJTeG0zeGktMVpJRHRrSk9LSGYwVTdDVjlGS01CYVgzakg0MXBBZkFMYUM5aGowN3NNaVFjZHpqVjBabUdNcU9BekJZUU0tNGMtMm84aERtSC1GZmxYMVlkQ1h6ei13d243aE5RWGs4aVB2ZDJvREYxVWs4ZmdiVnRaUmYxb1FfTXRvVEVaek8wOXFIWWMxejlLSXl5aWRjVEk3VTZZOFF4Rmg2NlYzZUs3eExkZGNXaDMxOTB3NnUwODE0a3NOQjRXd3VYbXhSMFlHeUpqWWFNSG85VUNxQ01sLUFjV280SDk5dHdlalplUjI5clV4Y0ZwenRPMEZsWUtPcEFCYlJRZy1tXzVjTFVWNmVxQm9yV0dOQmpBZVJNeGRnMHZtMGZ1eG4yLVRQRVc5enlyTGVkbWdOa2lWMXpRbWNobHc4YU1UdWoweGlPaE5idGpGcTR4eVJQWWJZZjI0eFlveksyZE9tMndxOTFMX0pMSUdrSGYteWJNd1lrdVpSa1NWT0hTQmQ5RmZmWjdLMHZyMVlQSjBtNDAzdTh6eF9KYzJ0UzctWm9NQWJveFdpa21SSEFHTzlwclIybEJOWGZ2VEZlamFnbnFJUHJTcDl1cXZhRlNFZ2lya2t4VzE1RkxTX3pwR01xUHZQQzctLWJ6MHhjRFVySklzOVJxV3R6OGpUYjhnUl8xeDZUZlJlVWN2WHU1YXp3UmpHWmxaQVRsYnU3enNucEd5YWQwOXEwSVdkZjZ6Nm1TVWtKY0UyZ0Z2NXh0aV8tZU84OG50Tlh1VkZMaHoxdFRDZnM2eTROT2VNa1ZfcDFkSGQ3Y0V4bXU1Mi15VGx6MDlWNXhmVUdqZS1aeDlYQlEwRmNZTG9kTlZtenY1MWQ0SVQzTmpFbmpVS210RmJxNjZGMnMyYXZqaWtzTGFid3pIczFEQXJ6UE5xU1dQNFZ1dHlLbmU4czRvalZUMzYyempRUE5hS19VaC04NHJsVXBLZ1FxTWtKZHJkcVBtWlVpZ1JkWnVMVEdUTVdqV1dyZVM1QTNWZHZsWW52aXJKSzhLSEFWRW50Vkh5S19DLUNBNlVocVowVm96ZjNsWnlFcU9rU29lVGp3UnFKdy50cUkzRjkzZGozOExvOHh6enZDN1Bn"}, [
-  'Cache-Control',
+  .reply(200, {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLkRDNWRUblBiazg3OVZmbnpBYmFPX28zVUNmY0lKYUdfd3RjQzhfMEVaRV91VmdOdGxnaF9iRjB3c2VIRHc0Skx4U2ZvLXdkZlBGcFR1M2dxQ1M4WFE3eWo3V0VjUXZIY3ZLOUJVZ0hDbjFFMlBKbE9la1R4SGFIX3ZDaUNNT3lBZVZFM3R4ZDJLLTB0bUhUemtFeW5zek5kZ3VQeEhKRzVlOWphTnJSanFfNFdBczlfUWxXXzVWRC1CSlp2VXVKdzcyVVJaZ1lCZk94cXZ5VlVCQ0tKYTdobGwwVHctUHhpYlJ2TnZUaC1hZ0dGbTl5REphRjZSeFp3Xzg1Y1FSOXlKcHYwa2wwbXQ0Rm81c1hPRVdwdXNPYy1PSXNIX2dVNGwyVVhYbjBKOTBuRkJsczJ3WXJ5Y19CWl8zN1VzVk11WXdmUW5WWmZDLXliaEQ5ai1CWWpnUS5mNnRaZ3B2U1NvcG5QN3dvSVIwX05nLnZXUXlmVy1PTWEyNVU3MFYyX0c4ZzBsM0JWdlp1cGQ1SEdaX3JxZmZoclRicVJxV0lSamx5Vk12WlMyN2hUek05OFJHdi1nU2tXd3BqTUZZeVFUaGdlTllTNFYxcXItMnVFQ0ZET2tJdTI4cy1jam8ycmlMZS1lOGJwWE5nc1NJLTdfbUdVUjhmS1IzWWhDaThmcmpuMTFha2RJamFQUnlYZ0s1NjRrS1dPbFZ5SHRCZUNBQl91ZmpWTm5tSDVBRXo0V3RTYUJjX0pISE1YajExZEJyVF90ZEFic2xVVWJGMFR4RUtMa2FGTlR1OW56X0JyQXJfNkNpenduTmp1V0J0ZzB6WEZ0bTR1bFozME03REVRZlQ0dTVNZnNQQ1Z1c2puT3FHdExjckdTcnJHRjUwSENkLVhlX3NrSzhrM0w0T2Q0dThpRzhFdG1OQXM5bk9vbEtrSlpQeUlpUk9TLXFmTTI3WFVIaENJUFotNklwcWhjUE9TclFzVjg0QVVDWmNfdjRJVDNVUkdtNkliRF9ZalZpdVlTamZhb0tDY0NmVHlreXgteVViV3k0T0dVdS1LXzFFOURvLVlrZFAySDRXa295SHg2WUcwMHoxUVktWVNxYzVBZTlPbUxMaGhwRmRVR1ZJVmRIM2Y3YWFHZ1E5MFJpLTlWcl9pUDVjSlNNYXppYlhMa2VMa1BhVnZFYWNhUVc4VjlDQXVpVGRnMW44Qm5LaWU3QWxacnJ6RUdDZlVWUG9ISGk3U1h6d3RWNkh1a3NlYzlKSmM3dTRna0JuMjh0ai1xSEdVamJwTUJJR3BKemdwWkp3SnQ4N3FZa3FJVFJMNzBDZmZJMlRmZDZfZ3pRNURaYUl1SDBZN21xemJIaThPTjAtR2JFZk5tMl9iWVBnQlFsVDNDNWNQbGg1VHBwa0tnWlpCSXJIbHpObDhmWWlKS211d2VvcVJGa1YwSGRlaHQ4bkg2ZXZuMEZhVzhOeExRX094WnNhaGxETGQtTmlsZExHNy10NWE0S0ZReUFCcmNMN3NuN0U4Q2RZMGYyQzB6d1g1ZkFhRGVCMUFnelVXWXJVeUJQVW9XYXhxSGpsX1F3Nno1YmF6UTBwbTdGS215RVFfVmJLRmc1ckE3ZFBCZlU0b1ZvTXJmVGh3Vm1uOHRHZGdMUW9ERzlfSFhNcC1TdmxrTGpDb2lkY2xPeWp3cGh2S3JCTG9fVUVRc2lJMEl2RmI4dE5RNFVSbndBVll0WVJXY1ZJTUM5VjNZa2JoRDNIVm5zY0R6V3lkY3NydTBsQXFpWEVNLWJja1BTRC1BeHNFWkhwX0dPc21rSW1aNERjZWdjV2NpcG01ejh1SDJuUVRwcS1jVjR3MnlCb0o3aHpfSXpKVjg0ZldFdmo2SHV5SURmQW95b19WS2dZcHVLZXlzNVVNbTRvZW9felRYR0swX3BFQUxGMndOQUJVUzFKNjFkOHF5U2w3SjNSOUFCX0NwVUpmUUpDazNFZTFtZHR4NkFQZmhBcm9VQ3JCS0hweHQ4TjdJTkx5dXh2MnJrdUVoTlBsS1ZOTXNZRk9vTGljWDRjUkhvR09GMnBCRXVzLW5pWUtSUzFkd3lfaENkaHZyQ3dhR1UwRFVGRzFZZGlfOWpremtXVkdvUTBvOHZoUDExOHkyRFhVdXFXTEVDWi1zSi0yckJfWVNqeF9XbDJCbV95NkZRbm5UTnlrMGFXeEN5cHNKb1pvVnUxRTFkSUJLcHU5WnQxb21vdmFubkhUdDB0aFRUVS1CN2RRbUJid1VKSGZCMVpXTUhWWlFoU25Xci1Cc3cyYlZBRkNfNFRDZE5QLW5FY0xxRjlQSVBFVmw1SHNmMnpOMnYxMVZ5OFRreGhKWHc4T3lmdnFqV3o1QkVyR3ZGM2lMa2N6VVdteWdGSGlBdm9HVXVWc3VHRVY4YlI4YU5sVkVfak9HU3liVDRYc1hoMXJGZGFZTDROT3BmY21VTU9VX01oX25lN2JlUm56b3FTckNHM1lHRDhScjhRQzdmZlZ1Q0s0UVM4Q0hVaTVWTlRyV2JCZlpkWHhWeGhrZlZOaXhqbUZ4LWs5Uk9TcWNROEZQZWwxSWs4SHVmOXdwSTY0M0x1M2J1akxwLWdua1ZqbHJRSnRFUWFMUjQyTElZOFhra3E5U0lQWndUZ3duUndLM0xUNG5kRVlkNF93UUV4WkRZdF9xZmFxWGxDMmNPS3BVWVVOampoQk5CcVYxNVdMbTEyWURGSGdzTzB0b2lFS3FCRFFKRm9Keks5MVIzZHVNcTlaOWRpdGYySkFnYzVVUTdITGJQLUJFRVgzYlVHUk5zRERRYURnME9nSnJFb21GSXhiakxJLVF6R05NQTREUWRfdkxzeDkzZ3RUdXZoVHhUQmdCTElRTW9lYjFoQS1qdU5YdklLdmcyN2dVek9FX0E4MjdvYUpmMnZEVXF4ZWhOblRNRlkzRjNFZ2h5NFZWWW8xRVFTYVNpWnY5M3d2TUdxaTl6VWxBOHlNckdheEtOZGZ5eFFrMVU1UTNpRFpuc2JQZUlEMTNmYUFZYmNwdXZUMW1CMkotbm5fNGJoRHhSRUJ1NEEtMTU0UmhTZjEtWXc3R1pVM0FxTGItaF9QSVZjaVB1UTBqU2hFNzFJTmFCUnZKM2s5NlMtd1hNNTEteUU1aUUxRUJOdGp5c2lYdWp5dFdIenM5NUZpcmt3MXJXZXdVc0U0azBGZVd2YnBJTjR1ZV9RVDRVM3JEU0R6R3BKeGRjRHhmOFVCNGxCb3d3NFFHa29zcWFYNTRoQWVDeWpXWjdSZFpYOXdUQUpYZVZWY0RsRmI0TTlMby1JX1dpYWQ1Q2RrQVNqM3hXUE5oTDhDRG85dUFNRl9KUThzMHo0dTZiaFIwQUxKdVM1OXB5N2xERGFOR1FHUHlINHZHV19RS2tzQXlRQjVjQjFUVnJlek84UVdoWDJNY2kzV2tCR01HTUs4bnc3TTVMZWV2dWQwSWpfdFU3aTl4MWktcVg0aFpnVENRSUhiZHZLVTdVeDZNa1ktNXZodHptaXRKY1JQMVl0YWo0UEtRS0J4M2pRb0tfT3ZmLWFiWlE5aHhBODdLSUMyS2xyamFYYWpDejdTLWs0Z014RzZIRTJWc2I3XzBSR3RMWTIwMGFQNVhaa2FnV1pRbXIxXzR1WkxMd3JKM1lyVlVVRWllV2FXNVpGR1BrejlfcEJBVENxdVBkN010TWFyXzJkb25SX0NrN2JmS3UtYkd4OS1MRXJJYVNIenJ6bXBUTVd5ekw5RlFkQUgwQjBGOEFoOWl3S0VWYnRQVGNKS29uZHdIYi14MDRVLVRvWFplam9XTEE0Ym9EamJ0dHJoRHJBZjZMUDV0SjE1THpLZHhfb0QxUHZpdkxqQmZUNFNIWWFFMVFXOXFzckppMDdSYW1aWkc1WkRBNXVUbVdnY2wtXzRrMllrcjhidTFsMDNLYWpOc1RfN1FjU0tpZkU2N0xZZWU5TDJWcmluMUNfLTFXVjY3Z25oQzd5R0tIaWdrelhKQ0xrZmIxc0swdktCRFczR3lDY3VkQVhpeU0wR3BBRGEtZ0twMEdzNWk1UXhrejNrX3dNWGZ0MXhKTXZBNG16VjlHOTR1cjRfdjRrd2tuMGgzQWhXd2UwS2RmTmM0Qm5ZYXdsaHBGcEdsZHFRV0pHTWRLeVpHSXEzZjVyeEJ2VUtBTXVRSmpJdlBXdTB6SG80M1UxZFBvS29uS0lzODBzdTBDWlFZS0Jtdy1YcmxIZzNRSXoxSll1dlRxWnZFVEotTDdZN1VIT1IyeVExQlZnak1FYTdrR21uTjktWVVoQklUMTNMVW1QNkI0cDJlVk41WS1Hd1RqbkxyazRWRDVPckVINDI0ZUZWaUFla3NabHo0dVc1NVUwM2FEMldsNnlzUF9reDUtSjZXczN0Y1VfRXNDN0plOU1GZ2pLV1FLZ2lnWU9TUGlHdVVvQ09oRGo2dlBOSmpfTGx0NDlfNUtpeGRaNk1oeGg5NEl1QmdOMWpaOVlQSjllb3oycjhBeXdySjR2Rm5vSG1ZWmw1QU82LS14VG8yQ2x5MEhDWGE0b25MaEZJcE1jMk9tY0dmZVBNSWNsUzN5eEd0ZkFuZG83bmFkeTM1UzgxaVMzMHVqU00xY0xKcG12b3l0NmtGZThjb0c0S3RidFdoUlRxWlVQMFI3RzdBTG9xV29qYTVrbWdod3V5UXBQS04wRi1OeFpzSHZyQXhyRzQ2N1locU1mR25UU3ZIX2xQZXBVaWcySUJmeHlvNXhIeU05UU1IQURaaWhXdmdSTEhMUU1VMVExTUxIUGJGak9CbTZMRGNIazc0VHl2NXllS2Z1VmxPQ0dld2lFSlZONTJHVEI2ajFXaUgxN1MtTXFFRFQ5aS1NUnVzU0NDdDFrcHFSN1cwYTBoTEs5UUtvOUJqVmxNZjdwR0ZLR0NabDczekRZTTdMVVdKVmUwWjFvMjBtd1JUa0ZGcHlSaTRGT3owNVJsdjZuWGRVWGtrQmFzTFJDdFpEaTRxM2Q0dXhQaFVsd1k2YmxscHF5aHkwMkhBTjZxWXF1WGVOLVFTZGVhZXRpcFNaRFo1VWRzY2tMVll0aFAzb2h3UnFMaGp2WFBqM1FqeGxfUEZvYmxfLXRBUXktTUM5SS0yMnpNRHYwZGR4VGhfNElpdktfSXFqWWV3cjZFc3Y0Zno0UjNCeGNiQ1lnNExveENXTDQzT1JpQW1XenpMVXl0RlUwMjBIY3dzNjZkb2VZWk0zeTNaMjNfOFpZNVphQll1UHUtd1Z4WkFfR2NGUUM4Wjd5OVZSek9XYUpCUXFsZUFGbDVHZFh6bms1cnlUaVNod3cyRUhwSHIyaWNtNDFpeVNMY2xYVXNaMTRyNnljbGRtUHdoUWpLOEZvM3Nqc1UxOUVkdUo3SjhSQmdJNlp6UzZrbkI0ZkRTc0JubXlBVnpyQllDdTJaNVRtZ0p3Tk9leHBROHBHRGFqX1NEcnh1N3ZZaXRSVXRGTE1YUW1VdVRHRkl1LWh0X1JQT0hScjZuTTR6VTVEWEU5dGJadUVTUkpMSkl1UEcxYXY3NmFBWHBBSkh1Tl9sc2Niek9CbGR1RXZZMDdfdF8zUllFcmlZcS1wbmVKZ3hLLUFjZUlTRjRwT2VGMzJtR1RGMWxWME9yM3phX2RXUGhnMk95OUtLSVd2a3J0d0xqZUdielAtSmFFdDFLVWZETGM5dW1abVkwQnF6TDlDU04xLUdyQmlWTEFhN1ZIZEs1dUdUVmpKN19wVjVhOGlCYzNhMF82MUhoYnBvWmpDTnlMUlV6TnBRU1hTOVhYWFdxa3V1RHcyQTBHWk9SODBBb1FYVDBaQW1MT3lmWEVIc25uZkV0S0ZLWl8zajl2WF94dF96Y0dHYnAxbzRvcDhFV1AwRmU1VTNmTUtKTVNZTzZpaGUzRk55cURTUnFFVHhpZEtYaFdSWmdKYmtseC0xYWEwbEtwb1pGUFZHVkxnQW9aVGNpN3ZUNEN0cU9Xa1hjQVA1V1BCZUwtaXJ6c1VlZGxBLW04LVlSQ1M1ZjJSM1JFQUpQSkQ5VkdMZkpWbnBfQi0zQ2F6SHdWOTZ0ZVU3YjU2OVZRRm9WQVpyM3VpR3d3UzZlWXFIa3ZZNExjS20ySkJibFNLSWFJY21OSmw1V2hQZWhfSG9VS0dPZ1E3TXZHdkZvNk5iR2M3ZzlGRFFUUnlCSWZvampjMjY4VEtwaGJCcGE5TjBBZFRtU3NTbTR5YlhPMWJWTXhIaFVIa005WExYbFRsUHdyaG02WXZ1c3M4NWJ2Vm1Ba0JZNG1wNHc0ZlRscERXeUE4Yk1CaG9Ic1V1ZjZqZmRTUy1NMm9VNnVwS2RkR1ppRmR2ZG85ckkyclhvcFgwZVMxbmNOaklSLVNQUTNzMGgyN1pUMFAxUUh5UkJIU2k4V2pFdGZHRTY3T0VNZVFDRl9DVm5EX3N1ZDB6T1ozRjN0NTBuWW51bHgwcHpjbjlpaTAteGNvd0RabjhvZWRDcmNlZXh1OXRuN0VtdGtpeEpZSjdVT0h2UTBZYTJlYmtNUEUxcmkxQWstZ0luRFp3WjNyb3B2V3lKRkQ5NGZIaFl0VEVmNTEwWDFMdWhURlk1bFVibGxHV2lKSFZzOVlCVFprbEhjUzlFNWxCd25ndWJFc2ZBdTdmaFdFOUI4dlZpYmdrdzVzeXBlcjZDajVtLUZRTFVkWlpkY3pqM3BKbDdDSU9BZ25Sa3k5anVOcHVOZHAwWEN6WldjOEhHbGtFQ21tb1NadjJPcDRPRTc0by1xXzNWb040Q0ZvVHdveFhUUW81b0NGZjduSU9pQm1zMVdodDRVUmdxTVhkVEpOeTV6LWo3NkJfODBvb3p0d1hZOS1vOFJEb1Zsd0IwbnhFSzZnV2xlSERtdXBWdzA0d1BQaWZEa0lRbmk3M0NPTWxfdE53elFidTJ6X0lHY3QxbW9CZWFMZHdpbWFaTVdoY3o2ZUhDcXkzTmRyT2dKVjRHeWpZVmFZNFVTbEJIM1pUYVItMlY5dlU5OF9ORklBMGg3dnNrM0VTQjZqYWN2SWRiSk5POVk2VWJ4MzNOV05OZ2Nybkp3N3lMOXFreFd6MUdrYkZVU0RGLTNYQjFGV0tYazFWQjgxcDdDOHBVQ1g2V0VZVFhOTWhGYUFScENQOHJCQVN5ajhwbzhac2J4QjZvc0FkcWNHbE9hRUVfYnhBbUJrUWhRYjFOT2dBMlRIajMwZnVVTE1DVGpSeWlHeGplaTZ0NGtvVlNPWkF0aEZTanBuYkZBUFNwZ0FMZW1lRkZZQXMwQl90MHVxQnlUNnY4THROMWNrTlBSQ3dRZ3JaTXZSbWtOelJlZDFxMWZLV2tDVXZ2T2Z0ZjJPVHpGYXRHSVZtR1Bsc09VZHhQTDVrN0xHVHg2UWw1OGpab1BMMk5TdGVSWTJZd3dPTWxCWmEtRFpPLUFpVU5Hei1iZElUS2l0X0gxMS05b2xvWVZhakh4VnlyYTJRb01XQWZpOTlRUlFmcnp4LTFKNnlUOGZzell2bWdQNlFtSEt3UDhJLUh1ckdtbXNGXzNZdXpjMTBYRzRORUd6c2hRbjV0a0ZUV0c3czhKeE9ycmQtSmFXY01FaFM5R2NSblpfakNzcThMdURrVksxWnFGZ0NiUEFDMWc3S2NIc3NTaExONDVPSkN1TWI5YUVmRWNkTnVIUzJjWnF5VmM5NEJvTWVmb2tFWF9LQUFlZmViUDlvLVZwWjhQLUFadVZtdUZRdk16TkVNc3pDWHpwYzBLYzg0OHZhU0xjNmp0aDN5QVRmNUNYelM4TmZvYzFLQzh3WFpVbGl6QUtfXzVCU0NacDEzMkJpMDU0eUYtZ3ZvandSVmVvQkdxVGR5QlFjR3IzbXVWekVJVUxzOWJHUEM1b2N6YkFZYllNX2ZCcVVacDZrLUtiS2Q2SWFDWXU0aDJfa3FJQ0dBWVlpVmpzUkx0WTdjMVo3RW9YeWx6cmZSclIzZzZaT1pGcHpfTENxVVZGVkFZZjR3Znl6TENuMkpJRmFIWjFKMWFxV24wemNMU08yQnJIaDU3VXAySzg5LXdEeDZTRFJpQ2ZKeFVXM0NENmdwVVVGMVM2Z28tWUY1TEV0X05IQmxzYWhCMWhVQW1VMlQ2YWdlNk0xZ0N1M1d3WVhXMjQwaXg2Wmc0T0txNzhaSTVjLXUzTGFEOS1QOF9aN2Y1TUdXUlVLNjBmSmJ3YXRnLS1tS3dXYWlCTVR0eHJNWmdodEltQThLTklqMWphcmNsclA3dDJVakROYV9aWllxV2xBUXR1UHg5SzMyZWJnNnhuR3V3Vm44UlF2WTFqZE5fRkU3U1U3NkhCOEJRdXhkYVMzcEY0eEQ1X3BWdHVpWjFnVm5RX1JRTFJxRTd6enB5dGUxUFFwMVFBNWhGMk0ybGR2VmdYdkhTcXYtRVJtMjh5VVlJUThleUhZRFJ5MnVjT0JUbDNKVmhkenBNNDI1RkdWYTNrcTA5NmlRWTZ4STZ5d05BTUwwVkg0Z0MtUmVBdkNmWEhrS3EzMzhXVW1JYjd4dWRGc3ZuU3o0ajFNWGppZUxaZTNtRWwyM2hoOG1mTnRObDBvdHROVllVeXBkT21JTFhPbW0tQVVIWFEtcEFzRkhSb3h1clJ1VlpLTVVyNEZUZzFaME5pV2N0OWFDdWc5RUNyaHRwNWQyX1hHUkpHdUZiMmNhbk10VFRtOEF3QmFTZnBrWUdnWkZ1UzR2SkxSMlRxTkU1R1RReEtfUGN0RlFmbG5VTHdSRURDMmtXZFN4MEI4bXBPdFBaa040SEtUY3B0MkdrdncxdVc3S09QS3d2eEZCQ19zZjJZRTl6TjBjZElpWm9iaFFfZkEyTGZNcU1xMVZoVDN5X3JMUnZLZ2JURmJLcWZ1Y2s3R2puSXlLNzdLOGpIRnhEc25MQWlQVXQzR0o3amptazU3SXNoZDJXblZYWlBsVVBSeDExMl9WTDR1dW5LSUEwV3RYVlpxUlhjWENtT1R5LXROazFwa3dfS2R6N2tpU1hJVnp1Tl9wYkMxNlpmREY1R1dQX0lMSHh4SUw4QVBrT29zWG1LOHItV29BQXlhZ3JvRFVCQlUzcmF2ald5Xzl6N2YtSm5zOUpOYktCYTFSZUR2MGhsQjl5STMycHZqQlFqRWVhME9SLVpjd2oyOHZxT3hhMDY5Y05zOEtRUXRXQzVqT3hBZHlrSUpja01rNWtuNFY4V2hteW5MSEJKWXEzSHJGRnZRUnNuYzR0TUNlRUFHT0kyNXYxYk5vYmM2aWNNcnZ4c0JPbHEtRFZwR3JWX3gxQzA4Zmk4Wjdlc0xod0t5QXk5d3lPMHFfTUxfUkNiQnhvcmlZcXBUcEVsUDJtU0Q5TU4zd0hRUng3bTZvQnhLWWRLdHNuV0R0S0V1ZlQ3VG5GRXd3a3h2UXg3OVFpdmpLazUwN3kwbGZJbWw1RlJXbUJZVFBfUGJTS3lXd3M1ZWNCaTI0SnlINFRZVlFBUmZaTll2ZmJrcGp0ZEVKRHp2RGh6OHFnNUJkNFI2b0lELWlhTkZfWHNXR2J0MzgwMVE5aG5yRml3NnplR00ySVdDOFlBTlY5bmw3NUY5OFZlRWZuNXIzWUlKcld5SlpsN0xoTnQ3dm1HWm0tRjV4bFdEZDVqX09rUVhvUFdkc19KMGZqcU9hSWoxRkk4VEoyVkhpNFhhOS1SUDlQTmd4SnRQMkFhV19kZ0hyaHZzdHhxSTJPTS1KT1VkS29aM19FRXpVU01Qd0lqVHBGMktYd2JDb1h0cGR2cV8weElOd2k5anVPNE03NG5mSTl2b1lKMHlsd21ublZtYVk2VjEwaDRmUUl3V3R0NUkyQmV3SGpOTGFCbGJPTUJqclMwZmxOb3cxVXk5UmRqZFg5bzVtNHFlb0dLdFdJM3lmbUE1WnJ4VVMtcXpYSnQwMFJlNjNvaWZBLXAzZ01nR202TW8xTFpTMmZOYU5rLVF2X1ZsNnBjQ2h6ZEhhM2NOSTZFMk5oei1KdWNiQ2pXTTJrb3FXX2ZKMHFXX09sNGtXSVlOOG83cE92dXlSd0g1SlFreW94RTZsSmRNZ0Zsdms5RUN2MjBGTFlSZmx4UDMyWDFDN3RpYmxzbXVlaTZSZXpLMXVjbjVQaTc1dHNYNFZienF4b1ZXa3pVWlZENERvQmE2N1M0TlZibWxQQXNiMUVmX1pKVV8xREpjU3BuRXF3VG9qLUt4eVhtYlpGc2NyNFBRNGdaNzhScUtISVJuV25EbEIxOHZKV3lQUEZza184WnEtLWNXWUJQRFVPaVJ0LWpkMy1UVnlEYnpJWWIySGswNVQ0clFob3RNUEhWRC1kZWxfVTVXeHNnWnlhV2gwaHA4YWRCdW9yU01xMUR0TjV3VWJHaVprcmtaOEg1ejZiVW8zWE1hZmJIdEdqdHc5UXhWSFBvelpOb0I0b0F2V0pRRHY3MWYwYnJncEpyZ2xWRU8ySUtiMjdlaGZOZWs2Ny1tRzhpZGNHLXdVVkhRYnhSV2R5M2JvaXVSVG4xbkRRb2ZnOU02b2N2RWRRdEhTa0VpXzB1a3Q2N2pyV21qM1dzZmVCVUN0bURuWlBvdm1STUFRTjd3S2ZMRThwRUUwY2JxcnU5a1lqcE5wTmFOR0hlNW54N3l3S2pJSElJdVllYmNfaXlqWTBTaDVXZExPTjRkVVlMWXlRVkJ4WEoycjFxTlBHTUhxdTFBc0NVWnM2d0hXcWNMa2NqeUZtbENEODMtNXhpMzI0dEFmOTJuS1RROVZNQkQ0WDB5MkRkT0daQjRucjNldUF6cVlQVG9INzFfems0dWpFSEpqTkMxSFFuSXVqM3FSSkFOcjBqUlpQbnAwaEJIekJsam9MOWdmOFZZeTRBSWlNUDVTbTg0TG82VkdKdE9HQVd1c0NDMURlSE45R2dVS0NtMTBnZDFtOURWTG9rUnRvZjJWS0hBM3hXZUxVbkY4R2VCVEluNlJwcktMeUpzTGxiUUtxM2ZIR0pBNjU2NkxCVUlIYldESE54QW9tU0g3OUNCcjVOT2ZxUldtSW1lTXpUY2l2UThLV1JnS083c0NtUjlRN1hIYUhGc0EtTXVGcUpKT0wzZEpoaFFrWUJ1R1MtRWc4ZFdGQnBINHBUbnZzR2E4cHBsMHIzblpDOE9INk1VOXFrODhIVkN5THVyRWtmMmFMUHdJUTJoaW1hN09sUi03SnFhS1ZhMWZoV0tZUnRYMWhxQmdpR0FSV1ZpQk54aklTUTQ0ci1UT1lmblpQX1cwMFctSldMbnhOQjIxaXVhdVV3S2hSc3pNYnRzV090SmxZdlVBRjdud29hMWZnX0hSUXpOWWo2WTRTOXc5YTRtVDVmWHAxcmVON19rc211OThPVkF1MkZVLUY2bjN2cEdCM2hFcXdyVnhiNXZ4T2puYmdWU3JqTWJrNXB5Vi1MU0tZc3VWMkRfVzM0aTJ1SERpdTBycTZUclo0WTVUSFV2ci1rTS16QTl2VWJwYVlKTGpDbFhITm5JR0RkRjRCSE43VlpUQU5FeHpQMVFJWE9KXzBlNE16RHFzSVFrSzFPQjRTWUZ5ZFE2WXozcW40bktGWU50ZUJTcG55alpEeDV5dDNGd0xMYlJaOWNram1qak5ZUS1GMUM3ZXdpWFFvclF1b1pnRGt0TmdRaXRMV2djVWlCQUJhTGgxNDh1VHdLbXg3N1pKN1RIeTl0azFQd0wtUUstTDJHVERfT3haZmtIT2o4dnhUdmVEY09JMWJzOUo3TVR3X0EtRXp3YmNKSDNCSW96UHBVMGN0eUFxMjlzY1JEWnVSSlp4Q2xSOEl6b2IwdXM2T055SVJrTi1HdUpOYzhXWEdrWm5ISWRMNkdBRXNZQUUxTXoyclNUR0hRSjhDek1nOFRLMnhmRjc0Qnh3WW4wNGh3VXNrWno0VkFadE11RTVSeWtSamFOVGNzbHdKRFVKdjRnNnh0cHNRblBlN2pDcjVVSUVPdXA1bFdzaENuVFk4YXNESThSVlVmY3d4Ni1MaEItRVJiNHBaaUZZWDdGVnhMRWFnLWVWMmhIR3k0anRYcnlIVVY5OG1RN2VLYklUTXdqSzFmN0ZzY0dON1lpYS1QLVIxTTZmRkdaLVplTW96X0dkZlRwcEJyOVFfbFdGU2h6TDJHb3pITm41ZUVwNnNHVlp0OUZoWTdMWjRrT1dHUm9FYkJaa2dhVjdBWEQ4aEx6cTFYbElVQUVyOENUa1RPTU1OMjllTy1aMklXVjVueXJObHpKaVNEWllFN2h4RXZSaVprTzBCdkhZNW5UQ2IyZWZWaWFnbV81ZVpsMk5GZ3ctcFBkM3g2NkFqRXZUZzV2cmtFcXZtLTJSZHFZcExadF9rV0J1eDBTYTV1TFZTRTJWZWFaWkdpMHFYYWMyOC1MZXc0MHhpbV9zbHJrSVhZdFphS1ZNWFBseUgxNmNnTDhkLVpZSjFMend4N1U0UHlMaE5CMVVPUmNmcnFpRzhOTEZzZDJNd3VBUFAwN3V3bnl0c1V0dXVWT3pwNVRQaUFzZnl5aFRGRF9XLVVzUTFab0t3N1hjbExvb0lKZFpra0RtS0wzMmM2cVRSbF9nYTQwZDBSN2Z0M3NIU1BZcmZKN2dmZmRLajFzMWdmblB3Ykk4bWlISHNUNDlYZGExeHYtTFZJVmxvWVBsYzZtRGw5ZDRjT3Uza3NNdGdCTzd5WXdfaHVmTFAtTDFTTlV5azNwQWhFSFNRMkVKeHE0WjhwME9ua29Ud1V0bFRSQzF1MHZqRzhPMzd5cUNaWnNzX1F5LU9qdjgueXpPdFlTZm5XZFctakxQbVZpOXZ2UQ"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1714,13 +1735,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '175c6ef5-720b-4286-8844-855c60a5d59a',
+  '9e65feb5-548f-40d7-a782-ffab000eb846',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1730,19 +1751,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:31 GMT',
+  'Thu, 03 Oct 2019 21:14:23 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '13508'
-]);
+  '13082' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName-cangenerateabackupofakey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1757,13 +1776,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '35e66067-4824-4fe0-89e4-3b38764b770c',
+  'f6775144-9650-4b80-946a-8bd7188003e1',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1773,16 +1792,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:32 GMT',
+  'Thu, 03 Oct 2019 21:14:23 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -1795,31 +1812,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'cff8a2ae-a680-4ce9-bc3b-6e22641e1a00',
+  'f553380f-12d8-4357-aea1-502850272700',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - EUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTEAAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:33 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHEQAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:33 GMT',
+  'Thu, 03 Oct 2019 21:14:23 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName-cangenerateabackupofakey-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-cangenerateabackupofakey-","deletedDate":1568672494,"scheduledPurgeDate":1576448494,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-cangenerateabackupofakey-/dda180ec532344278b764d78a462231c","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"y6IND2N_NUAGDnUdUql0b6lPEcMetdKh9xaMovLwg8AnOgRgnTpEGOcJEGXWxEL63L3hNdcBGYccG-KmAv6O8J6ZJ3VOqR93YD3YAxWPDyGn2CY6Rwawo9ErAyMwQZqjQ4mERCMAKEn25B5lazehE-kCkORSdNWYDdbMBvhasaKTwFEQm2g-XEaxs47LtJmdEL4IyIAjQ_F-YXsDVuwJk_MuTj43NqXIahjMTcJy3OcIr3IkM-SQ9rExT86VZf3bgKl3hBRjARM_ZR-yofrSA7-WIhf5Yld03pw2X5rmtV1JM9H0spRfyUZvB8QhGM6Rnm2YZd4IXBdQUEIKAL4KfQ","e":"AQAB"},"attributes":{"enabled":true,"created":1568672488,"updated":1568672488,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-cangenerateabackupofakey-","deletedDate":1570137264,"scheduledPurgeDate":1577913264,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-cangenerateabackupofakey-/48b31ef70d79463a8c9b2e6d37537eea","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"uX8ZP4U_KzAkMyBZUMRAx46FrnZuxBWUzh5WdhsAeSm5SkoqMtCpw6azEPUvXd0XP6Hx94oT5OV8aRgd4G9Wgb634TauKVLuKit2Tb-TvMfO3E07KTTK4GDDyzDdprX-wEX0Cg6b626x-HyL3eEz0FRJBbA83pmRkZ2v84wJVgwzxupCWLgLS98J5rh-IgpS1ZT_OlTfTMKX8sx_J8Ttmc5KWYz8824iduH0rCRFxFJJz5eQnULES2C4v0j7dZdpf5Q-nlIzg8wckXbDFj0knZT3MZiMpoy9oGxoNAUFSAbjOAtKlcRdwuQQo6I02wLL1jmPHZZZlzNIR3oH_bldcQ","e":"AQAB"},"attributes":{"enabled":true,"created":1570137263,"updated":1570137263,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1830,13 +1845,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '1bc3fbf4-a44b-4442-b348-82e2e91c7660',
+  'e7afa1eb-b86e-4fb1-b193-bb0beab7a692',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1846,19 +1861,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:34 GMT',
+  'Thu, 03 Oct 2019 21:14:24 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '893'
-]);
+  '879' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-cangenerateabackupofakey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1873,13 +1886,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '0ed04c6d-720b-4ee2-a6ad-954ce9bfe933',
+  '636ef33f-42db-4ca5-a446-771fcda38a62',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1889,16 +1902,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:35 GMT',
+  'Thu, 03 Oct 2019 21:14:24 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -1911,31 +1922,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'c6d33b71-f109-4844-90ab-244768a44600',
+  '5a352abf-7fb4-4046-9fda-0de6d4252400',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTEQAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:36 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHEgAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:25 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:36 GMT',
+  'Thu, 03 Oct 2019 21:14:25 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-cangenerateabackupofakey-')
   .query(true)
-  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [
-  'Cache-Control',
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1948,13 +1957,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '78254f73-cf1a-4b6c-9c10-07576712b24c',
+  'b12c1e79-f3b8-4cd6-83e3-904d6e76f560',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1964,17 +1973,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:37 GMT',
+  'Thu, 03 Oct 2019 21:14:25 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-cangenerateabackupofakey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -1989,13 +1996,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '48a11edc-673f-4f08-94a4-9ab608080377',
+  '1226f578-3aa7-4fa9-af80-f450310862c6',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2005,16 +2012,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:48 GMT',
+  'Thu, 03 Oct 2019 21:14:35 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -2027,31 +2032,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '4f3dd40b-06d1-4d66-af95-ad43f5804600',
+  '011e4678-935a-41f0-84b4-1bebac672500',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - EUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTEgAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:21:49 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHEwAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:21:49 GMT',
+  'Thu, 03 Oct 2019 21:14:35 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-cangenerateabackupofakey-')
   .query(true)
-  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [
-  'Cache-Control',
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2064,13 +2067,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'af29d666-cc3a-4dac-8f79-9d2c32db963c',
+  '5338b029-dc7d-400c-b2ab-024e1cca1c1c',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2080,17 +2083,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:21:50 GMT',
+  'Thu, 03 Oct 2019 21:14:36 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-cangenerateabackupofakey-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2105,13 +2106,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '9f5a1240-9da0-4ae9-8543-3acfa5869ee7',
+  'a8f844cd-7510-4bbf-90bb-7da0daaabd54',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2121,16 +2122,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:01 GMT',
+  'Thu, 03 Oct 2019 21:14:46 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -2143,31 +2142,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '7ef9134d-b8a1-4214-9e33-683b7b5b4600',
+  '934df06d-f358-4a63-b16a-0b3c7ef92200',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTEwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:02 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:47 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:22:01 GMT',
+  'Thu, 03 Oct 2019 21:14:46 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-cangenerateabackupofakey-')
   .query(true)
-  .reply(204, "", [
-  'Cache-Control',
+  .reply(204, "", [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2176,13 +2173,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'ecc28bfd-1621-4de2-97bb-91cedfac5722',
+  'c2c4c7ca-9f29-4b35-8678-cb6068e36db4',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2192,17 +2189,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:03 GMT',
+  'Thu, 03 Oct 2019 21:14:47 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-failstogenerateabackupofanon-existingkey-/backup')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2217,13 +2212,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '04c7b646-96d6-4e32-a53f-693ae71e5679',
+  '7e34c457-b715-4c77-89f5-20dad958a772',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2233,16 +2228,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:04 GMT',
+  'Thu, 03 Oct 2019 21:14:47 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -2255,31 +2248,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '8e881d8f-c64e-46a8-a2bf-2c73d3fb4700',
+  '3c348758-b48d-41d4-9a78-b90e17dc2200',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFAAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:05 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:22:04 GMT',
+  'Thu, 03 Oct 2019 21:14:48 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-failstogenerateabackupofanon-existingkey-/backup')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName-failstogenerateabackupofanon-existingkey-"}}, [
-  'Cache-Control',
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Key not found: recoverKeyName-failstogenerateabackupofanon-existingkey-"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2292,13 +2283,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '51cfa50b-8774-4d24-b8b7-778a719eb539',
+  '8041caf1-1f6a-4baa-8f7b-3a7699087b7d',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2308,17 +2299,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:05 GMT',
+  'Thu, 03 Oct 2019 21:14:47 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-canrestoreakeywithagivenbackup-/create')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2333,13 +2322,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '3aed2345-c3e1-43f1-9ee7-da86a1c0c6ab',
+  '3f0763b6-3f34-42cb-86b8-ccfcfc71ebd2',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2349,16 +2338,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:06 GMT',
+  'Thu, 03 Oct 2019 21:14:47 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -2371,31 +2358,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '09f9f762-7e96-45cb-b965-37b79bbf4700',
+  '87fa440e-d0c2-4508-a702-e5b29f082500',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFQAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:08 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:22:07 GMT',
+  'Thu, 03 Oct 2019 21:14:48 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-canrestoreakeywithagivenbackup-/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/51c3744aa3c746d1b71070b909d29d6c","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"0B4rxsqzT_PSoJq8ldR8FHYXWHzKFj6M2r0ylvJgkBUAVQCraqTtH5RW6BQ6Km3Gu-jwXh2WW2eFmCz6qafO2pqp2Dy-QDE2gIZT6aaZGaWz_JNiiIakb_1jIYSGMqYaJlrcvgaraX5sAfHUm0cxm4EbVnvXRFWtFs7_qBKu3P_oamOyS_gSjsbOsyiDjcHRAtBD2TnLYjSYKeUbazRTmvZOcuFTYK4_-8b6Q9j7bqQwKpsbT6bB4B4DlI_CkxstM-d4LPtF2F5G0ejnMJcPAfEaLP_7cgT2gdKecCT1by4DVyTkekF6Ce16QqxOrsR4CIdqgC7TBgTBwWvyUa6baw","e":"AQAB"},"attributes":{"enabled":true,"created":1568672529,"updated":1568672529,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/7d5d72c1d8f44f6fb688e5b2c4b83111","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"2ckio4_tY1RIilckzYAQF5B2kvIMIO9g5xxKkOCfF4i9e1z8lkeDsWCVhV2EYn2M_scB-QP0a8qUrruxN8R8fM440kr92xoeRpZmtjXmxU7d6wnAll1c24VPshQbGkR9dIasiLUmSUIAJuKc50CAHw3Eka85L41zKKSbPCM3YynnDeorgeugBG7usrnXWyOKEADuYvL08cvCS1N6y49t22bg1XkW6Cdk87UEYFNfJ2e4utcPMlPzH7PUsaFF42XDaDdzIPeioDh78LMuFj7KkcdorAo8YiwAraLPwS8D-Wh5qD7wTTo9AbkSFG057C9LTb-Go1wuWz8aLmXBlL3i7Q","e":"AQAB"},"attributes":{"enabled":true,"created":1570137289,"updated":1570137289,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2406,13 +2391,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '253573e1-8c3f-4d84-a19e-f7dd1dbff7a2',
+  '07587544-908e-4cf9-9d9b-1a1045cfaeba',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2422,19 +2407,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:09 GMT',
+  'Thu, 03 Oct 2019 21:14:48 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '715'
-]);
+  '708' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-canrestoreakeywithagivenbackup-/backup')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2449,13 +2432,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'b8a5b4cf-ecc4-41c3-880a-b7b8823391a9',
+  '9f51ef97-d387-4c9c-9520-e68378e0ed5d',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2465,16 +2448,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:10 GMT',
+  'Thu, 03 Oct 2019 21:14:48 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -2487,31 +2468,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '77761cfc-4ea7-4493-9443-8e2471164700',
+  '527a0ce7-d30c-4942-b9f7-6f8971822200',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFgAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:11 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:49 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:22:10 GMT',
+  'Thu, 03 Oct 2019 21:14:49 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/recoverKeyName-canrestoreakeywithagivenbackup-/backup')
   .query(true)
-  .reply(200, {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUl5WVdabU5tRmhNUzAzTm1Ka0xUUTBZVGN0WVRjek5DMDJaalZoWkRCaU5XRTRPVGdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLklxbDlMVHZvaEJpcHptc3JmYVYzTUlManhSVk0yekVkRDd5V05sUUUtdXRMOVlPaWJpbmxlSzhnQWpsT1d0WXpKYmJFQU1hVmJaaTBoN0dUUzNYN1NJekx5bWI4MDhXYVlCaVc2M0lsUWdxUm50YWV3RGxRQVNEaTctTWp3N0lCR0lyUTE5TW16WmF0ejZ5WHFqMEl1S0pTX0Rrd1NXOW5sRzdySU9kQ2dCTUJmVl82dWxZbXc0N1JtLUZNMVljMHoxNXp5WmEtSGc5aFBNTEh3cWd2dUx1YzdPZXh1dm9tTVJ0T3JaUmlOdzNraWhtVnJCNGE2SUt2bEEwc1pHMktURjJQWGcxRng5TVlaTFliWkh5Ym1pZlEySUhVdnBrMEVCZ2dwOENHLVltNlk2SWVvSnEwZlJFVWFZdVQyRnZIN0NtOVZzLWZneEIxZlBwQUt5RHppUS5lSVVBaXNoTmV5X1h0Tm11cU9pOVpBLm9aMFNvRUFab0dwSEpRcEdqNHhnNGo0S3lOdi1mcmt3eXh2QlB4U24xRkFIT2ttMlRRdjJ1TFBCaHRiUUZ5ODViUXJuY29lXzFDZThDdXlPcUxIYndoakJSVmZ3R0lxV3ZBWW82UW83NTF2WUxncW5taTFoUFctYUFfeWF0Q3g2VkpQMXRuNS1rdmlaT0hlU1E0WnF0R0d5VV9jWkdMY1ZBaWtMUnRxQ1FTeWhYLUtsNmJlWFh3TFJUa3IwTmhwZ0xvQmJ5d05mck04WHRBbEZjUS0zVnh1NGo4S3RHRHBFenh4elhhRHpubVVELU5rMDEteVNRSGd3ZUFOWVh3ZFJNdzFfRFY1QzhUOW81ZUxLaXVZWHA5TGs3RkdrZUJOTWNKaVRjSEh0REU2VTlxVVNMYVdzNFUwcjliMGJQT3lWT0xfVWs4YzRaanBxSm16Z2VGVzdVZzBjZ3RDVFdsY2pETDNKWjFoMk5GdGJwLTNxU2k3c0VrRUZVaUUwSVAwUWFUWV9hWFZRU0JrOUZpUFBwTnJQUTZwbGlWYkEyVzdJekRrM09TRGdLaU5DUjgtb284ZzdEeGtOay1RVURkdHVaM3JabV9VeTY4clZYYl9ET0xlNkxFTTEzU1B2MzR5OGxzWW9DRnVRUFA2c3cwRVRwZ0FScWJBRnRVR19PcWJKVmlrdHphODc3THZ2NlQyblRrOFBmY29sbjJNNmZmNnhUd0k3S2pkZVFoV3g4MldhZDVVVlJGcVlqd3UzQ3ZPZUxMSWtHb0wwS1h2UlY1ZllaRlFjOGtvLVZIYmlDVHk2Y3ZUU09uZER2Nmd3Nmsxb21aODRNQ2RfZFNnSHlCSkRzTFdXWmt5Nm83RlU1bTJGclRESzdCSkxTejBldGg5VjNEdEVTRGpjYkY3elBQZ01lLWdJWDNSRVRUbm0wLUZWX1cyQWgzUThmY29SUDBJMW9TMG9mdkR0dVlkSEpMQkd3VE92YjhkTUxUVGN6OU05QTd3clZqblNNbHZfekQ1YTZKQWtEdXdOS0VTVW8tNHItUVFsVGpMVTI2dWlBdWpuVkNxNVJNYjkyUzg3UzAxTWxwblBuM3JlN01sWDlWVXhzVmNVNjExT2JvN05qUzlIOHQwZC1iRFlKY19KNUE5S3pMZjlMQkVKWjl0X1JhSThXcDl6MVE0UXB2UlFaVWw1cnZfRHZ1UHRVbnU5eTI4S1dMTUJHN2VSb0xSMEFjWkxQWWNydEdsQkxaRVV6NFpMR2JVVXhwS3ZTazQtQjllS1RuZEpfenZUTUVUTDMyLXk4bVlONWYzVkEySHpvTnp3Szl0SXByMThkN0w0bHBQS3FSRWVJMU5wd1JwUTZHcXpLeVliRmZTRHFSbVZYUmhtYnFDdGxxelBDLS1PZFRQU2ZWSWZJWmNuZW9MTzhUWVMxbVZHZmV6ZXI5dHZTMU12WFhCUl8zZUFpU1JSbjZzVFdudG4tQ0F6TUp1VTNZUDVkcjdoUW54b05LM0hGVTRCQWtKUUpmcDdlejg4eEU4YldVQ0F3MzVSNDF6YVM1ZjlJSE0yOTIzVEdEZHgtY0QzT1NxY1JyRW5KR0R0UVl2OWZvWVJQUGsyRnhlUVpUekpXaXRTZmpkZXdhVndTQWdseHFDSVNtZnQteWs5V3ZjOE1jb2RuMGs5N1VpUzVqaXNjVG1paDRIYVhVUkxrUUN6Sm5aRFpzMWY3VDdHNFBlbnJCZ2Q4Q28zdkhGQzktRXctaVdOeElseHBCTFhva0lzMDMwR1ppa0pEaGJhRXVoQ3FCZmU4V1NORUttbmhlYWFmc283WVoyc3otTDJTUHRsY3RYc0tJUXF3bEVicEh4Sm1WdzIyWW5IbHR2Rm9BY19tOEJZUzdYS1gtbmtDNlNtdTdZenhNc0FsZ2drY3QtdXFGNTZNMVZSWkRfU2dCRkJXTW1wLUU5R0pVbXRuZGNlc09SN3RyTXhGd2w3Tm9zUjBHc3hyRXRRQTQtVGtFdzVWWktiQVFLNXloZldVM1BIdUNSQXFKaGdPankzOXVSSmcxak55eTcwd1diXzFTTmpBeXdIVG5ZcFhXd25ueW1pUnVRYUtBQkVWMG9UQ2dueVRseG80UmZjMXRBXzUxbGstMExtRkRWV3VlTGRBNjQ0U3VtTE9ia2U1SGRTR3FmbHFpUjJ6MTJaekVBeG9KdmliRUNkTmFXUXNGUWpQRmJtSFN4UGlsQTE4WXIzODctT1g1dEc4ZFlSVFpjVHBGRnJPWGpDVVNPVm5YU3F5cmxvWVJIbnQzRVgzSGFkbElnQUtLVFd5TmV6WmUtZE1LMnJ1MTd2eTdMbGpsTDF0OGpoRTh6d3ZILWRjUkZsX0R5eXFGY005LXMzempfM2lnZGdzUklLRV8zdWJyekJvdGJ5R3hBUm9mTXJKWU9TSmdTelZWSzdySVZuaXo1TEpQTE0xanNIUVBDTFViRmhZUXBDRXZaQzFqR3FKbHBFQmtFQ2hhWll0cDNDVUJ1QU5DTUtUN3hrbkdmcW02bG5SZ1FDWV8zSUFvcWVqbWZVTGROZ0ZROEptTldNZ0Y3MFdOYXo0aV8yNVNLclZ5VWpGSUxRQkNHTUJ6M2xGanRFUXM3anZ1UktqUEREc3VVWUVUSGtDeTNQMnVKcFpnaGdnZ2tVVVhyNDNUMU81N1JydktVZXkwQ09Yc3FDeUh1cEY1ZlpuUkQ0YlhmZldrZldCQVpYUkdrMXFfRUFTVFpxQnRQS2Z6Wmo4T0lrT0FvWkVPSV9saS10N1JnMDBJVGRFSENJT3RsYjJYY1JBSzRuTVU3RVlOMFE2anJVT0dReWlaVEowNnVhQ1Q4MlFEZm9KOENXWmNIaGZoUGZlODBmTHZXLU1LTEZLY0p4bVZ4eDhTWWhwa0xUYUgtdERoQVJJdmFzWHlvRGdob05EYjlZOXFQRUZjTTUzbkJKRmdTZEVpUFZLWHQ5enQxMVM3cFVCamN3NkI0SFEtRGFPUk5XVUphLXlsbTFBbnhQWXo3SHRURFVWMXVEeXQtM29rSTNXTzVyWnNhMjdyVzZ2RXBPVzM3VkptU1VNQVdWWFNpSkpLRTdXNU1XeXdkdmdlbFQ1SXhFeW1BT1pkaGFvQmI3cFNoMXViSDNjOUNKX2lsOV9tSnZVVTNLNTBoVkJOTFQ3MjZ5bFNLaVNxM2I5RlM4Si1ZSV9TVllsNUpSX3NHbS0xZlRrSWRyQmtWY1BJR0lJQ1F4c0t6SjFCNHpOSnlBeFRKSmFaV3h2djU4eTFSMWdiU3VzNV9mQXVrZ2hrMTl5b1l0SnlQalpWYjRZYkg2UHlKakhOVWQxcXktLTdtajN6X3NIMk5sSkdIWG1ROXUzdHhTNmFfWERQWGhpQXJVTDU3S21wdU90MWgyNjBjbDVVRm5QLW5CRnpsVHpyWlV0M2pfeEt4V1gtcU1nMWM2ekhEOTRVbVQtT2FJUzNabVJIU0ZyM004WDcyaGZnVktBaGlqendtOUZZRTVOaXk4cmJkeHExekMwU3RlTi1YNm5BakNwNVUzME12VXhMSlVlbjRVSktGZ3hraXNQYTdCeUlrT1p6emtTWTJveldUcjlCTkpLWTJIRWI1LVBsWFlfaDBjZHNueXg3SExFMzB0aVFvUG1RNzB6dTZNVXhObGpMX3BGaWplbWpLbnlSd2xySmhybTN6cWxUdGgxQnliYlR5ekw3WHVVd1UyUkRuWV9HNmJ0MXFPNnIzVENyNjIxS0VYY2FSdEhaUURKVmRrWndFWjNXdGV5OWNHcDB3ajlOMFhLTV9fZTJRS3JtQkpwWnF6WFV2emgyUjY2QmczMVBTTzRoWDdkeGFlMmlIZTZBTmxvMnpUT3lOeVVmM0k1Y2d2MG5rZ2J1QkVxSzdNbzZKRmlxMEJxS2dRc19NSTg5bEtFOG1nZ2wtcERMVzJLU3QyRk9YeUxKcV8tc3JfaExwQkktaUhJbWxlV0FwLTdhTENBRDRkWWRHdXdoTEJvRmUzVlhTcTRnS045SWwzWF80TWFnMVpLVGs1cmVacy1PY0lSWDZYa0RRVmgzcGtEWkhjU25IdTJldExJMTZSSnNFQzVZVjJzUjdFWTgtNWNZY3huNEZDYW9wNVZ5UmItekRuX0tLaHZaOUsxRTV0VEFUeDJSUVB5MVNiMW5paUNuRkU0Q05MdGtXMlZRU2RZNFYyMjZYcHFsWmJ0NTZSTHBnaXNQQjJPRzhBd2NpY1phS2dwc3hLcmt5cTAxVjlpYkJsZ1dGb205a0tSU0hZRlFCX2RrMVpmblB2LXVXakR6NjRDWjlPUjJpYXI5VU1odkJNeklSdlk0UkRVMFRHZFdoa3F0eXlGS21CZEdWd3pleTFFekx3WFZXTEc4UjJySjlNRWY4LUZOVXdRcDZKVmJ4clpmSGZXOTlpb0w1SEVqQ2hwRU1lUkRfdmNRYUgxWFRqbmZ1RE5wVk1OTjBFWEs1MnlyV2oyZWN5VDhiWU94cU00QS1hbkdidW94aXc3NGxtMjh2eUJoMzd4UzM4RHhxX1JlWkJQdi03QUR3TkhnQy1tQlRyM3E4R1dBaURuMjZleEtBZDdHQUhPOXZFbHJUR3lkRktsSmVTZDJydllUd05NYXJ1Q2JfSXRwNlAzc3VNUF93V2R3T25RUEFMTVNsbFRYSHgxS2luelB5ZjYyRWltNlB3TGVJNVZEWnctYjZFakpzOWFReXgzNEFxNFlWN3l2QUVKTndWQnBSWGJaUkMwNERLN2poQUZhblZ4dDE3VmZJU1pnZlJjdDdnM2pKOTVISkRtU3k2UGpadVlXV2FzT0R3c2k1QnJFNFhITlFJbkFPd2FTVGh0YlcyQ3hXaGJ6dDA5RVdsRDRNbW5TRFpVdTNFbllCcXozYnE2bWNaOVVQVFpBc3VaRnBNX2NQWFhRcGJCeXJjd0tnMzBoWENZU0J4Q3l5VkMwd3lKTWRzVDYwRVFaa0Jna2pKOEYtMFRMTXU0bnVtZllWTGluRkw1RndnbHhCUGptd0htLVBaLWQxUXRzd3d2c2FpS2JEaVJBZ2tqMmJyMHZXNnFLWXJkNUNpOHJjcHVEMmFtTXprRTgxRFh0aW83cXR4U2xBbVhsaWFLVWNRTXlDQTdkM3RxLS1qV2QyU3pSVlBLbGlRWjFHdWxXeGdkS0V2ZENrNlZ4ZGJiTXNFM1d6R08tOUVWZ3RUbm91dG9ieWxzd0pzRHA3SWdfc0h6MTdyelhzUUMwVG5VT0k5SUlicGpGYXNhVnA2NlI1LWFJZXF5UUpGR1RCODA1ZDRPUG44akwwRDBxU1JWamNwM05qSERmR2p5ay1VeHVUUTY4dlVub2ItS003c0pLREdzazQtMDZYX1d5dTduM0dfSkc4RzdsX2lwbWxUc1F1Tk4yUmVZRWVucXBsZ3ppLWFhRkNYTjd6N3NpRHNTbVNxRWlSckZFc0pqems0WVltdEVZc29lLTQwNkZzTXllVEVZLWtqTXNzSlZfSVloalpET2dTQzNJdV95cUZoZlVaRmd1UkNGOFNqaUVDN2VVTXRMZGphN0hCajgxQ25kbnBTR2lfMU5IV3ZONkhyZDFnaXNVM1RETzEyVjdkRWRNOWxhbmRYRzdQTy1pQXp3T3hLSUpEakxQaE1SeFoxT1RkTm5pSFlwaVdpQzViWmZmUkRraG1icnFudl90RFg0QXpSejJTblhXSWRSSGlnMkllSFZqTlYxaGVpejR2aHROaXRNcWJJYmhvVFRUNFlxenF5UV9ncXUwZU5aQ2I1SUtHc2NMRS1WMmJTdDR5bF83VDQ0U0xJem1VMzdVaDltN1pMU3BEOEh1MFFYbnQ4ZFNWbDRFa1dQc3ZUSEpJcUZtQ1pjM1YxS0loeVdzV3FuV0NsQWNUUzBoUGhwUlNXRlVVYjhoa3ZOam95SmFvVlVVY0lCRVBfVXB3N0VtMzgyYTJfZ2lROXdkdmdzcXgtNVlxSWQ4RHliYmZER28tcGNWdDFlczFqNm1FVTJlTVZBMnVPMFpKNUJMalFzT05TQWJmSG1CN2JHT05MNHUwaFJoZk51YThLYzBaMkN4bVBjSzYybU5EZ1Y4RkpmVENVOUxiZmpEWmVPS3o1ZExRTWtpREJLLVNoN2xIUVpmaWl6aFRMZG9pMDlyZGF5bXUzZnlRbEdpQXRGLUhBdUNyN1RUOHd5Q2w2YzlrcGJnVlhLb2JiYVowRXlySUdVeTdKQXRuNEltRllxUUpNdHNOTVl6SjliQ1JRTHB5WWwxVmRQM1FVRHJFQVF3UkhWVzVuN0gxVjVhSjlQelRYTGdPcWxRN0hLNEUwVjBYZmtFVlZTc1N1ZkF3VWZkQjN0VFY3TS1WVm5fYjcwZU0wdXRMaC1wRFY0bUVrdVBCb3pCWXJ6cUtSbVRDczlIYU5WazZtZ28ySjBpYy13UDVjX3Vvemc0elBuQmJjSld3QUJST3BmYlRBMDJISGZ1SGE0ZVVySjFPM3F1bC11SEJramY3NjJtNlgtOHlCV3YwOVlPN2gzQ1AtMzU2cFl0UkdVQnRnbEZlLVBSSVAyczRrMkVMVTBUNEZTVVRnN18tYklsVXRBcDhlblBiMk9vZWU4RVB0d1hYNG9qNWxtUDFOaE5YT3d4OG50SndwNlZieDdJdzBja0ZFSHhiOFZmLVVXRHA3cldfY0FNdG5RZndpSzV2N2VGYU96NjNZS083R0RnT19XdGtaX0pJbzRkT1JhYmlEemlyaFNueEljb0RTRkV3MzViN2lYNnVNOEtEaE5oc3JpRHFpQWtaMTRaNzI0V2NlS3pIWW1PMndwcEZhZFJiMmtUWmhjc2NCWTFtMlFJbG9qMThDcjZ6MUplOWlYT011S0tMd0k3R0c4ek1Ta3IwZXpDTGloa3lhQXFYV09rQWV1anNjc0RJLXkyQmRROTdjSGFEWFFxcGloME9odEVWcnhURnRGSVd2aUJRVHk0bHlhLThidjB5RjJFSlBJMmlkcm1JellOSElkU0ZqS2lPUFVKZ0lIQk1idkZaSWdLbUdkRm5jdFNRd05BT3VhNDJSNVhZZ1ZjT0ZJVHFlWG5PbWQyc1prd0wyYXg0Z0tZelNGbUVDbklaeGFWWEpMZXR1cjFfclRMZEZpdEp4V0djT0Zkb1R0TWdpUnVVaHlZc0taSUVPR1pJaGJoNEROVGQwX3NsZmphWUl3X2lkaDdWU2xhRHhIQnRONm1pb2czTDQ0VHk0NGFkNmVtcDRKVk9OLVc2SVFZLTh2T3RTbWVZUVF5N0k0MEQ4ZWdxRzVlSTFQZFRrNlZDOURWUUNjN2s3YWpqcG1rUGdXVFNjcnZ3ZFdXWGJBNVdWMHRFVU5QdlZ2YlJjUVdFbGNPYjYyV1pfNEQ3V3JxV2ZWeDItSS04VEptc1Zudm92SnBSM0ZMR1liQVhEQkFTekQ2QlVIS1dlUkhBMVhrWkFvZG91S1RfYURiWTZDTlhVbDdZQng5alRjWnBxeWNsSGIwTC1oLVdiRUgxOGRjR0M2SEZRVVhoQjB5YzAzcWJraWFTSWdTR1hSWmN6ajlrOHNIYlVpV2NiY2pfc1Fic3BGOEZNaFRpN0pZeEViTjBxNmpja0taVTAyaDFUSnNPYV80MV9uZ2tyd2dsd1h3MlpkNzZqN3FzVENiUnFWQ01JNWFUVmp6bmFZRE9xZzkwYVdYTHRXbno5akpUdUlxN3daamdKX3F0b29JRDIzazJwaERKOEY1T3VoaWhYQXNTR01JelRZRjlUa2FQRUhKY0Y0MEl6WFJXX0RWRkxyX19PT3BLWm16OXAxTVhpMnRldUpUR08xajFnYWlRTkdEeG50UTdjczBWNVhQamkyM1JRbWlKdFE5WFdEaktuTUFfd25xR3E0YzNqMHRuVjF0amJHNjdEZHprdUlWVTlMYWg0RUhpSVQ1MVRpRVdNM3pTanBDMjR0OHBYcFo4NmJRMHJ3WmZnWk1yREgyaVhJVnNvUVAzVjB0bFp3UFVJR3Q2YUxIcWhCZ1NrRjFkT21YUlVYQzZlbWJCRmVFTzFJZDlpcHVId1NienAyRmZfamdEZ2xZS2FRcm12elhvR3NhbVNYdFhiY2VKejVUSmVWQmJsT3BZUE9tR19uX214Nm9WNWd6ZDBjRzFsb3dUN0EzZDlZNnZZaFF6WDMzM3hBT2Z3ZWJIWWN3QVotb3gyaWtoWnRPUWJZeFZoSUtXdVNXSklzaHBQaDFaY1BEMzBWQ3RnSGJTVk5pbi1vdGtuclBsRzdRQmFlbzJkcnVKRFpBYkI4WGQyYVppOHpwLS1kTjhleXNza1JON2pZUDhvb1I1aGNfNWpWdG51X0FDMUkwVHJVbnZYaFpXMDBIS1lIcUVIQ3NkRk5QY2Nxa3c5VDREMFlUYVNUay1XdHhwb0J4R0h4YjdfbGxlWmRkR1FNa3B4bTk2cnBXajVVY1VpZHZTamxCblh3Q1hEc3FUV2RWT1lYVWdxY3Axbm5NQU4tbkpWbF9LeHdaRzdPM3Ywb0ZIdGswVzZqNFhhYkphRWU3M3JwRmM2Y1NVODFPem1hNmhDeTZDQWxrM1BESUl4YzBxNGpNRWRmbThqZDNzeE5RNC00TGhrUlFEMWFzWGZ4SEwyNURLNEhsckZxUTQ0MGF4N19wVGVpbEJrYzBocEFBQUkyeFRMdk9rX1NQT2VpdjI5eXZsZFo4eGxLTHdqU0E3UEFqRjdKUUlMNmVrZnZDMnExUjM1OGh6RGNLalotcHVrckZmRGpmbk43dk54QlY4bHJKcXZlLVR4TkptYUFmUm9Nd2lRVjhseXd1S1ZoVnRkNnZMaEFvSjF1X1AzeUFnWk9Kb25lR3FfdUFOdnAxZFotcW5DU3JOckl4WWVSM3hmQzAxSFBtRmZxX2RXckh2VnJJZ3ZfTW52aXRDSDVJLTlnSS1QMzZpNlJwM2Q1V0V1QW1Qd21kWTJwTlYtSVlPNFFkLUk0OU10ODk2UkptT1RiWjdjZkFCQTl3TVg1WThWN2p6S1hqcW5tN2dBbGx1NUh1SmhROHhaZFB1TUc3cDBuTnhySjhTOWtsSTVqamVhNUs3LTlPRXlydVFXcVhmSGNYTER6Vm9CWUlIal9VUHNubm84SEhOanhrZHRNZ2hmRFoxV21PaFV2SC12YzVfVTVCWjY0Z3A3bHpqSDRyLUNlQTg3Q1JEc1R6THdIVWxrODl0Qm10OUExcGRIS0lJMlJfTkxiMHlLSVRROGo3ak5kMTEyNlZWa0x2amprSnVZVlI4SVpRV2V0T3dLQXktZTRiUTB5eHoycG0tWGd0SThZdTFBMHFNVXdwcUVJTjY4OThEdVFzT0xWajd5elFaY2h3ZVhyY25UTFF6TjhhcG1wWDdFb0pWbHNCMU1jMmhpX0czSGZDbFh6RDUxMEttQlZ3VExOZVVrOWVVdkpxOGZuaDlleTRLakhEWTdkdnBIR2ZHMTNRRE9zR1MyUUhmZHRZdUZ1cjZsZ2xpb0hkaldsWElLQlBFTUxsWnRIdGRFQVQ0ODhxN2FnY2FBaHUxY3puRnZiSmVSbjBzUXRtUHpTTzJkRFNiYWJ6Q3hvODdFSC1BdTNVUTNHTXJNUldIdW8tTXdXVEVDekJOSUZVU1RPQ1B1VkI0OWY0d0hPdFR6Mkt0YWNBQUpoUFBDcUdVNmNIVFAxQk5KdXl5OTVldWRKQnJ2b2dCZ1NjajZVcmZLNGJSQzliRk92QWhUNU1fcUctaTNPb0Exc2tNbHM2bHRCNVpCOUF1M3pIVFZEOFJZUXB0ZkxhT1I4LWNpUlY4Qm1wTzI4NXlJMXh5NHdjd0xmbUF1eHZvTTJrNGZCZkM5eE4weDFubjIyNEF3eDRteW0tcTR3ejRsUGpLQmdwbzhzWWV1dG1IaUNUWUUxNkJLVVdtcVJFNXZqMGdDM1M1azROSkdTdXVIRkdmN19aRHhFVVNIRXdhY2dYS1BTZTdJTlhBN0Rmcm9mSk1vVmctajRvWlh1VlNaYmVxRVgwUlQ3X3NSU01FbWtRYWhxTlZ4OUwwaUUzelpSSnotdURQeDhRZnJnYkdHZWZXU1Jya2NOUV9FX25wV3djMExyaWp6dlBjbFZfY1lqWEljT2s1cEtIZFdCTU13c0wtTjR2c2gwUENva2oxcWM3LTZzZDFPY20zNFk4UkRjSi1yU1hLVXhPTk5UUk9CS0dRbm5RUndlWnloTjZnNFU0M2hzZ1BhYXJXbUhaX1ZKcjFrbUQ2Rm1CUy1WX1VuVFhGRVlEVElPalkxemdadmVObnZvUWJMM0kxd0xkVDZ6X0gzMVNkTlVlY1NOSjRXSE5tZ2ZsNDFoX1h5RjJtMzFOcnNrUUtWQ0pWN0xjXzc4QTQ0N01JOWtBUmlVTUUwd1hKRUtKLXdDZWNwbzRPdFNWMWxvMXhxWG5fR1ZMbURBU1VIMVJTdmRTUEJXbERCM05KNnItS0pKWGRXWXdzb2ozTVRwdkEyNlpiRHNBNkV2WkdMdlNOSkxKeEUzNzZjYXc0ZnFXRl9MREU5Z2hJNjVOeUV4cW9zdmI0ZkRIcldPWG1pVXlEbG9iakVLaGVacVFZSVJZRXpuRklmQTduTVVUMWlabkdWX1Vjc0N1ODZFeTBic2hBQWFBWGN1XzVnelo4RjM5eHloN3pFZTJzZGM4SE1NR3JlTm5hUS0zeEltRl9aTW4yWk4xNzYyc0RSdUlXb1czNVdRS2tzSWUxcU05NHAwM242Q1RON0ZWRU45Slh3bXh5a2p4OWs4QWlCYU5iVHFfaDFqV0Vta1dONXd1OTZlUVl2ZWxPNGtuUnRtSnFERXZva0ZpZDBJdzJPTnl0VS1LS2ZyQVZGU0dKU0YxWTFFamR6enFiODd1dktkT2IzamhlRF9DRDBVbWRNREExaExBeGtvUURHX0hZMnMzMWZUNUFQdkVXQU01bkVVbzllN08tVnBUMW44ZE0yZ1k1M3NxM0lsUi1wN3VuSDZFQ3dhajYycnp1clgzcXNzZkF2YkNVYllRbU1KZF85TDVHcmlhV0Z3VFRiT2dwbW5WbV8tT2lBVWdLQnlvMFVvcjlnbnJ1eVdPMEVrRHZWRkFUSjNiYTdTV25WSldTNHY5QXJkLTJTdG9paDlqTnJUdGF6YkxmTDFqQ0huTlVZUWF6VEVHVm8yTjA4YW1GNy1zNUtIWll0aEFTUl8yX01pb1c1WTBPSFA3RDRMRXRhVVVMQV9McW1LYTlNN0dPTnZYN0dYRDBlWDJXa2p3Uzduai1COXlUeVd3Ui0xRHNMdkg0WXE3dHU5WDNxSGpQakJwX3h3ZVBWSWRiTnB2dXItQW01S2FCTzZDSUdzMS0zY3VTQzRMWXliZDZneXlTNDVHRk1HVnpxMHBRb3RGQlp0dXlvQ2g2MjYycU5SaUU4WDNlU29KTE0tc1A5cjJDbkQza2dSTHB1cDY2azNKLTF4ZmVodXBuR19RRGQ3MmJNdlVFNkhHc2d2eEN0VnpLc3gxaThHVF82ZmRKUU1XalBkZlk4Y1c3SmRsRDNGYVFKZ2RIR3VlS3VMUFZWYl8yeVpZOUpHTjU0LW1feDNRZFJVVERLd09VOUdnSlRpX01IZ0ZHYXJFZ1ozMjI4X0xmR3Vtd0V0MXJuTENIa2xwZzBMc3NONXNUOUhFTHFwUE9MXzBwYXFJN01lZ0RIdDAxSVY3endDTDl0ZEhkT3VVZDhPSm9GQWxnRG1RUExONzBiRHliN2R0bWJ0cnYxay1JOC1ScUpFeG5ONXFVdnBTR0N5QTF1T2g5d3lLMWhzcmlmLUx2em1SZUcwd01PSGFmM3NMNkp0emNlQzNJMjZ2bkVmOURINlZMRHQzMHJfM0pOeWM5RzIyeDBVNjIyTzRRY0MxYmdzcmZIQVV0c0htbEhxd1otQlpNeTV4cklwanZLWFN2TXRMenIzYnhTdW1ic0dzQzVYS2owVU96ZS1nLUV1MmFlcVo0SnNObzJfMUQ5ZkM5c0FrSklDa1IwWmY4UDdtaWVGNVRJNlN6eVJCVGdHTEk4cENDOHNPTDVwbXRhMlpiRUdOd1dmamY2NnZ3dFg1cHNaVkZQdFI3NXN6elVsSmMwUW5SSE1jZ3N2cWVWQ3lFMnNEMkMtWHFLTkpnMlVtWWhxMDFIbVZpQkt0WTF1SkNSamNqYW5PUjhVQWRsc2NCT2ZWMklMWDVHVjdTVllyX1BTQkduQTdNV3BVV2JQck0zQVhydVd1SFFlVGxITWpXYUVhMnZsYkJFT1JiMTV4Qk42dnlVU1ZhQm5UUkVzUkdqVzRSTVh5OXhrNXVvczlBTXFKUzZNbDdsd2k4c0cyMmVHbmo1Nnl2b3d3RGJ2ckRSV2w2azhkX1lPT3FTUGdpNnRrOWJqREEtbl9Xb1pGbVVGUlBLa0pucFhzNkZKNk9ab3E3TmNERUJXQ1J4SGtMSHhadUVlRzFfTzNZV0pwVzVaU05ETVRqS3UtZ25OWlk5eVRYNEtBUUJtTTZSNGFKcFJCZDRfdDExX0JzTFZOZGNsNWFjdnU5SUxfOTNuLU1LVEhDZ2lTdlM0bUkxSXdHc0YtS3dMZWk2TUQ5eXQzekw3eWNVbDhqSWhCajJkb2NKZ2ZvREFRSHRZSExST3VtOHdFWU1iWUVlamc2bkJKeVpYWDhEWTI2R3hiTEU5c25rcnhTVWdxS3JYNDV0NUR4MTZMT3lpUEViMXhSQ1h5YkNKbU9seGZ1SEtPanZHMG5BdHVBU0VaQmlQVEk5SHcyTzFsRFFWQVB3VGJWdW9hMUFleTFlV3ZzeC5vbWtNRDUwU1NqSm96WU5weDhCejZn"}, [
-  'Cache-Control',
+  .reply(200, {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLm1YMzE5UjQxMjZRT3FJVFlCdEtWc2UyekFzWjdqbHcyelM5dzlFZDdVWVBKTnU0eUtDSktyNU5MYVZneWpXYndrd0xzT0ZoVU42cmp0RUVtWFNmdEJabzdDVEtoSUFnMmVwc08xMGtLazdYZ0ZDT04ySl95SjBCTkVTLTZyamMtbnJhbU5lRl9CMG9KMlBqb1d4aEVEVFp5T0x2NlZacDFBOVFvRkxzZFByU3JRQk8weV9KSGtIdjQ1VnZ3WjFlOWY3emNFenA1a1V0Y2NEQkZDYVZYeHQwQ25RaEFGMHBndG9RYnA2cm13eUFYV3lFUWpkN3dmMzRUM3hTUThPdXpUQV8zWlJqZjNlMWJkR0NXeTFobVhrTm43RUdkUFR2aWpGOUlZUGtzemNLVWF5SjlRbVBWdEtsZGdFVzB2Q0ZCQUFxU3podm93Q1B1aHRoaFdNRzdfdy40bnE1b2JSQklEUzZOVHBPcC1IWkhnLm1fbjVhVWhfOXlvZXlYV0F3bmpNeENnX25UeUxzRFJYbVJGX2NNNm1maVZnZk9kS3d6YlpwLTJvR3MtcTgzbllhb05wb0JsSHRSOGFicTN0NDB0Q0gxY0NsUU95NzFsOXktWVNqX3VHOTIzRUxMZm9vMW43LTlHRjNlUlo4OXFodUlUczdraWctRjRYWHgwekJyNlRRMlpFbmV5YWpidVZkazltYV82S0g1LUtkRi1VZUFrbUVIM3M1XzlNaU1iYjA4TjlFbGl5ai14dnFuX01IMjBvX3ZuN1hBRHYtNWJvekEzeVhJenlYeWV6NWFGejhVMlVRSTZ2LVZsdmtLamNaZWpiTHRtQnlFMFRWczRrYWVYOGpRS243a0N2UWxubWFtY3l5Ty1DN01Da2gxbmk2TDhGU0xGOXpBb1pNNUl5bWYzc2ZWelZiSVJOeXUybEtiYVhYcklYTEg0ZzY3ZmlIcTV3WV9IQ3BsMEd0UC1yNDBXUlJKX3F6eEdnV0t6cE42VkpwY1V4VHZyeTBRczB4WGROZzRhWkRrbUtTV0pjZE9tOXVlU0U4TElVaVZiclhVOTZkT2ROYmc3SWh6WUMwNmlRZzZubVB4Y2NBNGphRnU0LWJBQjNGQmpuT0d5NFo5eUFXdjBZZWcydnJwMnNzUHNaQ0hqMHFMTE82SG03QW9sWlJJcnRNdHBGWUthY0lCSlhNWjJ4eF9weDdVWi1hZm5yODFUZW5fQV9sQmVwdkl6VXRRU2J3ZTVMNHNHSTU5bzZMY0JkTzF5dDF1cHdKaHQxdS1OV29yYzJpQW5PTVhQMWdMVllQak00VFU5QzJBU1NTNnU2aGFmam4zcVVKa1Z5dTBjMVQ1VEdpbndLaEJSU3JfSjVJbTgyTHlWZEIxeEhRdFhYMHAzT2JOTkVnLVFfRkhhNXFBX1NydWxPVE84b3pGYWFVRVFKdEhsY0NkVUpRNkliWDE0aXNaRm94Qk5BM21GVUwzOWpmdi1GamtMbVhib3ZURWVfNG1Vd0F3ZXViSE9GNlltTHg3YW16MlBfUlBxNU95d0tQMjhzZlRJR2J6bzhsOHF2OTJuaEhTNmtHTmF1cWMtZzI4cmRUQ3dOOFJ3My1lWEhaMVhCRU9PT1oyS3I0WmlZYlZHVnhXRHlfdXRhUWhRWmhpZ3BYekhTakNvUGgxbXV1eHVEc2lMSVZ2NTJLR0FIeHRhU3lraHRUemFPek0taWM5bUdPZVlDZmw0MVlJUzRiQUZDZmp5VWRUVnRfS29lRkhaWUpqUlJTY2ZYVGZ6UkxkMkpjaWlrdllPc0FzVDA4WnJGVHBCbVpxMHhBVmNEd2hTajNVTEZzblRzdFhDTFlOTk9WdElsZlZxbFdUZUpuLVgtakJDZE5oZGtpVVlobVN6TWN1OXdyQWM0WFZya25SSmFBYzBlUFphdTlmQTBJTDFqeEhldjB3dmFUNmlvdUFxeEZvQTZVY19HWWdTLWxMMUg1UXVrY3N6Y2VDVEhkblQwcGRxbFNBQjdfcWtjalJiaElWSVM3ODNFc0hDZWtqYWZTdWZ3ZG9fNmZsRDI0SkxxNW9LU2NKbUJObE11Q3U4S0hrS1JKTi1XRkE2Sk05WkIxRk5MaDNRMV9IbkttaDhDSEFRRXZabl9OY1luOVBpcDhkTVNPVW4yaFdDU21HM0pORXRBR1RTaURPSG1SOVlGMGxYYld2ZTNjN0xNaVJPVjF1cXlBWHZwTEdMazdUU2FtVkFPQTZmU3V1QWdWT0JEWWdOd0pkMTA3eTZ0Y0sxU0JoRGVleHZqcDBiQ3BXWGYtWGd5SU14REh2Zjl2WC1VUjNLdEk2eXhMcm5pMFN5dmhHV0JtRU9pb0dTOU5qVnc5M0JmQ3dzcmdrYnpWa2VIS2NSb3BjTHVvUHpSZkNESXg2OFUxSFRYLTc0NjZ1a0tIaFQ5dG05LVJfRU44bm1TeWtzT3o2V0dGd0UwZm1iWlFWREtySkd4YmtoVk9hb1VEOXNHV1NqLVpiUE5TOFVZNUtzaEc5VGJGQ0FxZG0xWDNfS2o2U2xaRVF3cnZPSVJJaFh0Q2JTMnJEWGw3YzF4RmZlWjJCN3JER1RGN1FYSHlnenBsc3FzeUgxOFRQeHRTb3BDT1BKSHN1dWxVT0Uza3IyNGtuX3hnZDU2T3NHNlhQREh6c2l3djBTR3Q2OG1uNWhSVFRjOE9yNGppM3ZDZlJleUVlcUo5cEVudnQtYUVQbUZ4ck1pYkhfSEpMcnQ2TTAzOS0zRFV2azJvcEVwSEgtcGZWYWlWdGdkT1NhekRRdVFEcDJwWGRJWXktQWRlMzJGa19ySkxaZjlMVnFhZ1VlWGoxdzVDQVJZRUhhclU5Rk9pcjNTTzhGT3ZKNnR0TWVTY0hsbVp2VWFhRVdNQVJDeXl1WjQzTGdTd1UtMXRRYTRlaHpzSS1fQm5PSGU0ZjY1WV9CNnNscnlnNlJKRTRNY0ZhYmV2Q3ZHVVpjZTRSRzgtQnlLOHVlX3ZKUUxTcGsxMlY0cHNCX25KUW9HbEx2WDBGa0luakFBcDA2VWxxNUN2RlNWN2ZFZ0RKVGI1WGxPVnBtVlp6WGlrQTd0QkFieTR1NUpoR3hRaDB3dVl6LW9zYkNlVWlFM2VKZXdvakk1TVBwLUhZVWI2bkNxUzYtV3lnbWFiLU42VGh3ajBhUW9PUjZVUm5uSVg1YTI4N1U2S2wyRmVtSFFsU0RXa2I3aFB2bklkX2tLNnFKUG1zNzRJMVBua2p0bWJOTTdKWXByaS1jaGIydFhoSldSOXlvTGVEakRGazhydGtBZVl6Um1oZ1h2YVFTXzdJMG5ZaWVmTHpDaHR1d0YyZS1QYUJwNFI1SUJ0RGltcXBrazFLMVFLQVFSYmFUQXhRZ1pWTDZ1NXFTb19oUV9VZTg1NFctb1lXU2sycWEzRmRnSmlTMDI4dXVORWdCbVNfbjdtT202bmNGaUdRMXVtVUVXUUxuNnNxejZPdnEyWW9Fa3V4ZFRxYXlEZklPNl9hQ29uNEVpbzllNExNam5iZlpUSWUtcVFwZ212QkhaSjBsMWtwUnAwOEdRaDFpX1NZRERFbXNGZzF1TDRsajIwNnhFYnhGU0JDQlFaQ3htS2UtTk9zNlVQQ3JaRzBZZWxWeU5oQzlNcmtpa25nV2tGdG9qTTlQN2RkVGhHRmV4c3RVREFRSHZBYzV4TU5MMURaMGFndXR5cHczSllkb1lzc2xFcWZDbVRhQndOTTFlemtSRDdyRkxqVVpyaEE1MV9zUk5mR0h2b2k1eVZZeFZ1SjVOdHNvd0hDcGx6X2diMXo2dUhVSGpjdXJIaHk4bXZuY0NDNjRVaVBOSVgxS19BY2FVQjROcXV5OFQtTHFBTEZ6dGRjV3NLSlR4RWZHbGhiRmd6TEFOSUM0R1prTnQwRVF2YWN2WjNGdnl1LWxnYWtKbjhjYm84UVRaejgwQlZmeUhDSXY2LWlqellWdjkxd1pSWndlWWtGWWc4RURwNkdzcUpEMTVWNW43T0dWeXNXNlFzaG84T3lac2VhX3lIMXhld1psMFNhSTlqYVktaUI1amxYd1RSaHFRM0F6SWZua256XzdBUnNIY1NHeUZwNXFMMkpkMmU0ZlVDM2FCcjkwWjZHWnRuQUdNYVdlQTVEbTUtVGJzdnJPWFN4Q284dndwcF9QbEktZnVmN1lvT2hXc1NzcWpjc25lN2NXTEdlV2hQUXlyZURjWm5CeFZjQjN4QTlwRl9lU0hOZy1yN2dZZ3ZKSm90TXdZZmZ0ZVlNVUJQUWpHZTd0M1BQNTB2UWxJYV9Kd0oyOUc2N1BhdFV5UkFRblZvR3RYNXE3V2MyVW82UWZac2VJckZ5aWVGb0k5bmlxd25DVzFPbTFNa0llSWxyUXJCWFdodFNrdE5xa3JMeHk5LUZTVjBFVGtnbVhmdWhIUm9ud1Z6WjlSRXN0ajZnU3liTEtRcF9kNDlObVEtS0dQaUdUdjM1SHRUOWFSbU90N19VQm5ZTkpNMEtQdXd4bkgtd2NGNk9DXzhFXzd5bDhCc21DNkZYNlVWVWg5THpualBoMWh2NldUQXNjYmdfcE9xS3ZURDJmUE4taUNnTHdqazNnbTJSVkRRNzVOa21vSUMwWUZCWXVDY09TekRvNERWc1M1czQ0VUdDNXVlanRIX3ZKTmN6YjNkUG1iR3Zkdkx5NklEeElRbWJJeC1OUk9QclZTNWNSZzhwTTdpM2hTVU1HX08wdFZ5WERveVpHaVVOd3VNSFpsT3ZPaVV4azI3S3MzaGhnYUt3bXI1dEl4QWRtNzU1YkhSQlI3Q0J1RWtaNkR3SnVPMHhtaVVjRXFUQk5yYUg5SGhkQ1FnLS1GZmxYZlVBZUJubENNQ20xZ1Q3eXFER2k4MVFkZnlnZ1ByNnBjT1JSblZLLUFyWHc4MkFVMnhWMTh2LTZUdXZhOVF4cnNhWVVZT0J3LXdZTlg4UVJITGx0cXFkRm9rOXZUSTBQTVk4N0tZR215OW1QNlVyMjQ0SFRsT1ZDNDRzUUNXMkRJWlB1R25vcFh6ZGE3bHg3ME02cWFaWXp4b3NvZnpyR242WFJGQUVOQU9iX1RWTDBNZF8zelNxTzVSRWxENDFqSzdUTUloWnFRQ2xxNDh4NUszaEFiYlVRVG5PUjlhRUdfY2I3QzY5N2k4d0s5TFh2RF8xVUpBczNxdkpkM1VGY1hsX255VGJpeFlIYWt5YWZuQ0JWdlRCTXlsMkZqZDJWU2k2c3FxMm5PSWJYVE00NWR5ODUtTFhqWGtRbGlGTVJIcEVfVi1URkNKamZ0UXpSaWg5R2xudjl3OFY5eTRDTFB2TUxwUk14dFA0RG1WNnNmSm96ZTIzV0RwUjBicGdkZHY5WkR1VFZFeFNEcXVHbFk5MWtVSEEyc1pPaWdTakt3dmtUUHdfQWxSam9fZW5ESTZueVY5M2NMTmJZbEI3Vml4ZFJUcWtScElnMTY3NU5MM0NYNDBMby11WThUQmlfQ0Z3YkY2OGp6V01kYU5iUV9CS3lRUkJFcXpFaW8xdkV6Ti1KNXN3eGFWbGx5b1d2TWRybGtMY3dTMFA1YVRISFJGcDROdHZ6TFJWQjI1d1I2d3J5MmpIQlNrdUtWeUdLWDJsenVNZ2F6WG95RXNpMWZDc3FWemZGd2tqYWhOLURkUnRnb2M3Q1VDbGdDOGl3algyLVp0YWNVUnFsRkJxcjFiTmVnT2FOcmZ6VXJBSXlxTnU1aFlwd1Vrc0pqMHo0RTVfMU5DbnB6dzh4QTBBTzNwdURRSnhaRzBjUEJDdEo4ZnFhTTdrUVN1ZWhMQzR1VVV0OHA3WFZPSmJhcnl6MFRhTjJxYmtsbDQyNzJMaXR6d09mcUpIMEJoZFR2ckp4QVd2V1Z0azg1TzNQZ043d1lfZFFEcmRkSVNWckJweUhFcWVRay0wUUUya1ltSkx0QTRoSjJZN2hfSzNlNlRzbUNOQlJDd1l0Qk5oQkw3MlpYbDM3Y1Z3NXNjWGVRU3NjMFRpQnp5T1NBN0RJZWVabEFEQnBqdXE4cmNaczU5Ni1sSS1TbFlyVHczcVR3YjIyY0doc0ZJUy1LdDZFdkRpbGZkQzdfNXMzMDhfb2o1amZzbjNQN20xMkNCSlQtMldPNkRtZWUzb2N5TkJRc1d1MGthV1hKRkpGeV94TGs4SWRUa00xeVhwTzA4YnBkWkwwR1lEdmgwUVp5UUgtMEpWcUkyal9QN0NpdkVaX19fSGtRU1BhT0ttQ3U2NU83QXpYRFpJVlV1SVdUTXZTb2pzLVVrQVpUWHo1MjJRdmgtR1FHSTgwcENoMTJzRmg0VFBHQ2g2MS0tREdhc0hSWURSd0dKVnpwd3pveDJVeDNDTUJJNlNFLTJTd1BlSlNSZDdNRmR6cVVDYmZNWXJ1U1g4OEpzWVo5WktZLXpRb0p1LW5VOUptbGRRTjdnQk5HNl91TGtldGRpamJZOGIzZVR1VGM3Ym9lTDFzLTA5NkhxUERpanJWX2pGaFBKQWVvb1dwSnlzXzNsaE1TeUFrQ2Jma0dTTFFmZmE0ZWdWRGdsTjBQcHI5bHA0UWNSMmZKY1JEeGVKSTd6a0Zsd0dvTUxHU1o2enZ6eWhHTkpfZjU3OHNBS2lObmQ5OHl2MHNmVlZuamJ5VE5WQ1RVbzYxR2tCTWdEczZOZFJrQkRQYVdhYjMtNlU4Zkh6R1BMZ0UyX0FyS045WHdhVFo2ZHFtWUU4bEdJaWpxMlg1aWREUEI2MFdHWkpENEtkeENYZFd4ZG1VSnlLTm1uUExvQ0VubHYwTVkyMnBub1FMT1RZeXdWMmRjY2wxcFV6cUVlVm14el9tQ1BQcjNrWENTbkduUjZuSFVpbHJKb1RMdEU2NUlOeUZoYy1HUHVHNmVTMGdNX0ViY0Y5ZGlaREtwclJHQ0Z2WmZOR3ZQYmxHTGw3NnlOM2luWUd1S3ZTa3EtNjhmbk82aVJfeEthckFGRVZndkp0SE9VSDU5eThPVVRldEgybnZ1ODI2N0RCeWNGRWZNZlRMRXhqR29lcVQ5elNLNXMyQjlLOVJmaWRpak9EYTF1U2tvblBWWGIyVnFZNUUyZU9nWU1QamhLSm5ORzdxT3lHUFcyaTNGZ25fbFFhWHppTkxuREpOZmR2a0RxZkhvN2licUpqcVk3R0JyaTNvMHNMTmZSNjdseFl2ODVNU0RLTVlrQ0xndVlFNS1nUjVBQlhLOXY0cVNQOUJ5Z0lVcW9wcEU5M1ozdTRhT1lEdEcyV05nTm85cFR4VHQxU2tCTzQzTVZydGc1b3I4OHJhM20yWDdJdHRPTXViX3ZVRzdyWVk3MFc2V2NTckY2WFhJNG9qZHVaWlhDbnFyd3hqVS1IV2hpdG95V2xlWjF5SXJLSlBLWmxOeC1qSWdSWUZFTmMxeU9KVEx3VEl2cG5ZSFB4SXM3bmhsdHR0NFFjQVo4dHB2N3h4SVVUTFlfWXk3alJyN1RSOW4tdGRURVFPUzk2MThDajRDeENfTElVMEtkWXNVTUtQZVNiaWQxM0h6QkdEbVJpamxVTkFvLW5ULWgwdkc0bDVPbVhfUXA5OWFSRTFCYl96aVZVS3JYT183Z2RqLVR3UklrRkhJSkExUFktTWJ4S2VqQjBPMnp6X3VrSVFfQk16MHk5UjkydDRkcnJoSGdOSkdLdUpMLW1rLUlEU3VFSXE2bW0xS1djQ21OSjVISWFFaUlNLUU1NHBGZmt3QWdJcERna01tMVRfTVFqY1VSeHBNRlNjblNoTVhfTGxlRC1ia0dWekd4elFPQ2I5Ml9DZC14MEVkeEo4N01nNE9ORmRhRURLaUt6aXl2NUx6R2R6Q0J5ZkREN0d2QTY5c09LZUYwVV8ta3cyTlBmdV9Uc3VZVUxzWkxuckp0ZVd0Tml5em9YTXVRUE5Ub191QTdSdWt1RlRyZF8wUTk4OG9xSWw0NnNUakZFa2ZPdk9sczdxVFRpN183dEp6bHJENWVKVmdaczFybkR1TmJnV0MzZWU1alQ3UHo0N2xiQXYzMGJVOWgxWGI5QlZkbWZyd1RweWtDUk9IdVNOZFZ3b1Z4ZXdqSXY4NllnUzNUZWd2cEF1MXJUTmJDNmdWdXNIck5mbUt3bHBiMTdEeEV3dl9BbjlVbkZIOC13ZFNoQlRNc0tkQzBTc1RHYjZvYWtFZkMtUXpkVG0zQkNwWlFlQVIzbjdPemZ6TzRudXp1S09DeldZLXNDLWVRd2thMGt6Yl9aSkhzdlRieWdJWGszaWFlWWc1d2pQYUVRMVJFU2ZNNWZzaEdIX0F3U0FhTjNPMDI3anRkSHl6dzZ3ekxaTUNaWUFKVjBuTFN2bkRyMy1tZzl2R0VBU2NJS2ptUzNYS0JyR2RNUFFKZnFjdkRLMUtzdThSeDF1UHdPY2t5SXdyQUUyZ1Y0S01VYlB5T050MmM3NXpXU3JkWlFDY3dLeXBkTWxTQmpkU05BRHhRWHAwQldCejU4MF8telFwSUR1Yk1WeWM0UzhBZDBHakxMdVE5Nzg0azRmeWNSWWREZFp0eHFPNHlKX2VDRHZ5U0h0VEM3VW1zNHEzSTNuV2FzM3FSaVA0eHJ3UDI3bVpwN2gwdkRuVmswMXhXeUNXUEtVaDRwb3VaQjBJNDJlS3FaN1F3NlJPcHJ4a2xlVHdFTkg5Q1hTSjZWWGZrMmZ0UXJiTFdJRVB1QWdhV0VrTlRYdmtvaGtBbktVZTdXT2ZSZnptM25UVnZSM2ZOWDBMWF9LUk03T2ZYamFISHVoandKTmlUeXpkVXVGSXBRN0x4WjRhdGRmSzFtM2lZM3hfVkM5S2ZNWU5iLTU3NDhwc0oxUjV2dG9VbGlhU3pqUGVSN2dhbWVfUzljSmh1VzY2Q0NITHZSTHU5ZHBXajNwQ1BacTE0alZBZDFuaGJYNHdZU29pVTdYN1pISXJsdmVZU2VyUlRzUGhhTUJ2OFRaazhoYWVPd0UzUG8wM2FwSE8zMV9oU3FXRm9NQ2FkbE9Yd0g3LU04R25yYnA0MHg5NlFUbXhUNUZKQU5sYzBscnFzamczWGtsR0VpNmt1S2tORld3ak1mNjBLVUQzdXd3MjR2U0lheTRCQ2c4WWdvX3RnV3pXYkl1MlVvdGhRVkZPbF9BaVpTdzFfenFWM3pHSDFnRVUtSHFUcHNJVjVvRzZ2SE8tYWtMN2dGamh3bVg1Vy04WmJidnk0SnBBdi1JQzIzbUZtZl9tdVVxZVA5UXAzQXpIa2R2UWJ2OVl4SU1GTXZ1UlVTa2NRazctRUt0UldfR3VsZUY0eE5pODByRnIyaWFrcG9sck5TNTREcWtGVG9TWXN0YkRkRUFuUk1FNXl2VnJXTUFkekxZVXZjTmtsSjFhcEdfSUNDV2ZaQnRLMW51LUtucHl0Ull0ajZieGJNTE9FQmNMdDFWdmlLR2NiM2kyaGJNaTNCRW5VYkROMkd0Wmxsc01qZ2NpbjBvc2hZVkE5WWRTUmVVbGdLWnkySk5PdWtNMFU4Q0drdGpGN282VnFLX281eFdkQkUyeGFyMzJrWEt4N3dSZmo0NVU0QnR2R1VQWnY3NmlqTUJsTWhuQXdrYkdjVlRDYldnNVAtOUlzUy1JS3ZQQW9QMnJEbTRBUG9OUUxBVFJLWUtPX3JYOGlxQTB3ck9IUDRHb0d6UW5RTXBnRW1wLUxHbnUtUEpTZ2dhYS1WZmhwT1pURjVaWVh6aWJlQWppaUgyYTBIb2VXRGN6NENCSW5HdEg4cUNSbzMzeFk2b0FPaTJtOVFHWXBHWWhsS29KbXdQRy1zTjNaNm0wdFAyQjVGa3JPU1I0T1kxVDNBd0NpbHluUkM1aDBIdlA5OWlfbHExamlWLTR1QnlRcTVOamEtaHQwM3RlSU1LcV90bDh2RHNJSEpxTkpWN0VJUVRWckpSWjRid0NHUWN2aGc4VHBkVXUtLUwwRmdNNWs0T0ROVVhJMTlNc1BaS3FrTWZ0YXlUWFpUNXN5LUV0dXFyYlFEcUdybDdvR3R2ejdfUGVtOG5jNFhIZ0xVQTRvVF9PQ0JGeGxPTUoyOUprMm1JVHVZYUJUanpRcElSdjNnOU4tdmFCX3hackd5M0NZbV9xSTR0ODRNUWRpSzBFNEl4aE1uQWdNQVNveHBxNWEyZ1plNm9POUI1YVBJZklkcW4wcThXWHBkRUVGSnh0SlVoay1zM3k4QzdUeERhaGNuSE03Z29CZ3lucXJDQ3hXQjAzLWhzYVZyMkRGeUVQejM1YlhLZjhDVjkwV0Z4OHFFXzh1eklDY3YtRHZNX0cxc003MVBVaG01X0lGS1BacU56NlhxTERSakVpSXpLOUZ5YTNkLTlIMVNKelFMSWdjek14ZTN4RlRHZUFBQzY4VnJzUlBDYVhLaEtPSG95WXNCUjRhSDlVZ18zM1pGVm9SRzZLN1VkYU1tX2hoQXNCSTZORjM0RkV0c2FMY0Jja0dBaG8wOUI1clVWZjRyaTV1SV9rVG02amhod1UzaHJwbWN1MkhkU0ZSUkZoM2RzeVZTOXpJVHctQmtMR094b2lsVnNKdEtISjB1YTdxY3JUaHBoMkVUUXpXM2tza25DU3JIbWJnTzhReVphZmg0Nnc1TmpUTm1leDNmQVpGTzRVMkU4UjBEZzdqUmhvcmFSdFlCVEladmdSSXREbUVsa3IxUXN6QlZoMWNyUzM2c3JQaFQxWVZtXy1la1dqb2ZIbmppNVhSdGpQa05PaUNFcmpUVl9jeDJ0VHEyOGI5WFptZkZmZG9hQ0Z1ZDdpcG5fMVJneWRUb2tSS2dreW1md0dkeG42V1E0TE9EZnpsYXlsTkVkNjdSSUNOZWtWclZuOElwYmpBaXB4X04zakYzWU1hLU9mVjQwSkpnVUFLeWFwcXBNWVZUdDNhSlhITzZvY0d6NUREclJWcTZXR25BTVZTbEtSVjRCdkRqR2s4Snh5bVlOOWl1RjNmclM4b0VtTzM4eXNORnNnU0FpYVgzZE11blZHUkpRTmlGR2RPdGZIV2lING5IMjRHR2kwX2pqc0FkZkhwa3A0QzhOYmh4YlNYeExrTGYwbFFMUlUxYk1Ta1dFZmRrWlRjRjd4RTNwU3RvaEdKLUdMQ3hSVXhRWDhhdk1BU05iUmVlWkVpV01ZdnZpdVpDZXRONm1MLXVLOUl4ZEVnNUxvMm9ELXR2ZW16OElUNFJtUi1KMTFEeTdRelZ0SGtUdlJiUW9nUVdHckdlM1hxNFZQNjZicjMyVjNXUGR2YkIwUVBRZzhQdzZVQmxpVkRmbXdqLWNtX3FWZmw2Z005a0ktWFhaWDdTVWlBV0ZkOTlEY1Zxc3g3dkdIQldqc05nUjlfVFNUM1ViQlVZb3RUWVgzanhTd2RGdGROOG9mNG82X05WOGw4MWpIV3k4LUpJR05yem1fU20ya3VHUmRGMGZ1Ym15MjNlT1VZQ1VSODZwa29zZGtuUkc0ZWh5Q3V5MHE1NGZUd2JvaGpmZ3pvQnVQem5nbkNvN25xbDA2QUV2SGlmV3R0YW4zWUxPb3VpN1B6RFlFMmdaRFhzblZLdnZmUlVKRFZ6Y3o4T001dGIyeTd1ZzNGX2hfTGZaU28yQkozMm1ZVlA1NnZLYWw3a1ZaYkFOdWJoNUVhdHNMaXJzQlVuamFpUFdKLUtSZE5uX011Zlk2c2E5OUZkUFRYSkpmeklQY3dHS2FxcHJ0cHhuS1Z0SElhYXVDU0F0b2g3ODdBZ3dvRjVQSzhodEhaTWRzNjZsNGVDbkU5V0ZhaFdueUpNUGV6NmdHczBGaFZBVEJKM1Q5YUlEa1NZUzBQYktyTnFZTnFjRHZ6YjRhTVFZcTRyNFZzX2lTbEl5WFRGU19kcTF0UXZ5eGxES3lpanRPd1VvSG1ueEwyRHl6QU5oOXlrYWhmX3pubXR5aVpOSW5PZnlQUDJSYm81QXV2QlBUWEg3elpBNlhRQ0dzSXN3elU0ZUdQc3ZHMHRfSmRSUTNXcE5rV29sZ2pKUzhqSUYySHlGajF3djI3M2U2ejhuRGlkLU15azl1SElNSTh4SElBWlpUQXlvUmRCZUU5WlFuVWwyWGthVlluRUt6RDA0Q0J3NmREa3A1c1cwNVZiOTBKSVc3YTBiY1pESmdwc2h3aFNCb1FmY2N0V1RWUVNLM0o3ZFVOQWJrZnlEWTNwRnIyb3FtMktSZXRrd3NFWnpzUFkzWlVfM3czanJ1ak0wZVg4Q1BfT0FUVTNFaFhBLVdHTlJFV3YtR01mQUZ2UWZ6Uk1ZN1ZuZmN5bGVVSHpaTENBRVprbmtNcURzVjJPb1hSOGE5eWgzQTZUMW4zVG1CbVRwbC0zT1Rydl9rbGY1TGFrb2o1Z0ItVVpXVFJMWW40MWxJcW5HbkVqN0ZSeHdBMFdtU2lvZmRzQWRiZlZ3VUNDRzl4SGJ3UnJheFBfaElzQXJjVFBDa21hR3V0SDFlRkJXZ1RZaGtHOHhZWU0xT0kzRTZtRnY2UmZ1NmJ5RktYN25nVC1wQ3RhRkp4ejBSY0R0RHkzYjVLVjFZRGxsNTFHLUF1cERBVmdRcHk0bjZoT2QwcXdUSHc0bF9CTGxQNk9rX0pDQkxTaUcwN1FPOGl3RG5QNHNra3UwNUE3Y0N2cnU1cVliWFZkeTFJcjJBUzFjRXRUNUNiVjRaY2dmQ3ZoYUVkSktNTFUtNFhicllpeE1OaGxHOU1kWUF3SVpTMENWaDNsdjNZd0NJaGlzU2xZSnNraHBwLVV2b1dUVEZ1VmpMRU1uOGdWdkhUWVZ5Y2dBaVk2WGtfX1NDMVA3VXpZeFNDWFEuUFJ3M2JtSDEybEh3NTA5MUpiT3UyZw"}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2522,13 +2501,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '4fea3147-9c66-4bc3-835d-46c3e27ef46d',
+  '5d4aef67-4a77-41ce-a6fc-818ea70c8b23',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2538,19 +2517,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:11 GMT',
+  'Thu, 03 Oct 2019 21:14:50 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '13536'
-]);
+  '13082' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName-canrestoreakeywithagivenbackup-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2565,13 +2542,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '33cf2cd2-3d30-4285-98db-75fcddc0adf9',
+  '84ef5943-995c-4ed5-a4f5-d0cf1fbb97b0',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2581,16 +2558,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:12 GMT',
+  'Thu, 03 Oct 2019 21:14:50 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -2603,31 +2578,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'e2c69676-eeab-4de2-8554-64ef20674400',
+  '32b72216-b4f2-40ef-9273-2f1366992400',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - EUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:13 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:50 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:22:13 GMT',
+  'Thu, 03 Oct 2019 21:14:50 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/recoverKeyName-canrestoreakeywithagivenbackup-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-","deletedDate":1568672534,"scheduledPurgeDate":1576448534,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/51c3744aa3c746d1b71070b909d29d6c","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"0B4rxsqzT_PSoJq8ldR8FHYXWHzKFj6M2r0ylvJgkBUAVQCraqTtH5RW6BQ6Km3Gu-jwXh2WW2eFmCz6qafO2pqp2Dy-QDE2gIZT6aaZGaWz_JNiiIakb_1jIYSGMqYaJlrcvgaraX5sAfHUm0cxm4EbVnvXRFWtFs7_qBKu3P_oamOyS_gSjsbOsyiDjcHRAtBD2TnLYjSYKeUbazRTmvZOcuFTYK4_-8b6Q9j7bqQwKpsbT6bB4B4DlI_CkxstM-d4LPtF2F5G0ejnMJcPAfEaLP_7cgT2gdKecCT1by4DVyTkekF6Ce16QqxOrsR4CIdqgC7TBgTBwWvyUa6baw","e":"AQAB"},"attributes":{"enabled":true,"created":1568672529,"updated":1568672529,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-","deletedDate":1570137290,"scheduledPurgeDate":1577913290,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/7d5d72c1d8f44f6fb688e5b2c4b83111","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"2ckio4_tY1RIilckzYAQF5B2kvIMIO9g5xxKkOCfF4i9e1z8lkeDsWCVhV2EYn2M_scB-QP0a8qUrruxN8R8fM440kr92xoeRpZmtjXmxU7d6wnAll1c24VPshQbGkR9dIasiLUmSUIAJuKc50CAHw3Eka85L41zKKSbPCM3YynnDeorgeugBG7usrnXWyOKEADuYvL08cvCS1N6y49t22bg1XkW6Cdk87UEYFNfJ2e4utcPMlPzH7PUsaFF42XDaDdzIPeioDh78LMuFj7KkcdorAo8YiwAraLPwS8D-Wh5qD7wTTo9AbkSFG057C9LTb-Go1wuWz8aLmXBlL3i7Q","e":"AQAB"},"attributes":{"enabled":true,"created":1570137289,"updated":1570137289,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2638,13 +2611,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '98a77380-f533-4fc2-b44d-6ffe72a76ba3',
+  '2883f011-d583-4618-91f6-967ad0eb8785',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2654,19 +2627,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:14 GMT',
+  'Thu, 03 Oct 2019 21:14:50 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '905'
-]);
+  '891' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2681,13 +2652,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'ec2130a2-6b1a-486e-85ed-dd34fcb08280',
+  'f3d95203-7394-48f2-83e3-30d14e228e4d',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2697,16 +2668,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:14 GMT',
+  'Thu, 03 Oct 2019 21:14:50 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -2719,31 +2688,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '3bcff336-72fe-48e8-93ae-27c040c64600',
+  '40d67fbd-cb4d-41e2-99aa-407fcf9e2000',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:16 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:14:51 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:22:16 GMT',
+  'Thu, 03 Oct 2019 21:14:50 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
   .query(true)
-  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [
-  'Cache-Control',
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2756,13 +2723,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '0c7e1655-1588-4e97-bd16-b98542a8ab59',
+  '734860a2-9dc3-4d64-9743-ae70c2ba85e9',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2772,17 +2739,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:16 GMT',
+  'Thu, 03 Oct 2019 21:14:51 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -2797,13 +2762,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '7a1019ba-9040-4dfe-8f9f-d1c489430e98',
+  '13d23d46-7d04-436d-83c8-64b6dd8bbed0',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2813,16 +2778,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:28 GMT',
+  'Thu, 03 Oct 2019 21:15:01 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -2835,607 +2798,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '63a15c3f-4fe3-4290-8dd4-098ab37d4900',
+  '34667698-b3aa-4958-b328-19e8b9d32400',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:29 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:22:29 GMT',
+  'Thu, 03 Oct 2019 21:15:02 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
   .query(true)
-  .reply(204, "", [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  'fb8f2db0-027d-4011-8894-6387b0babbf7',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:30 GMT',
-  'Connection',
-  'close'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/restore')
-  .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '87',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'WWW-Authenticate',
-  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  'b2035313-f6d9-4024-a81c-5594c7431a73',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:31 GMT',
-  'Connection',
-  'close'
-]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '504263a8-db81-4b8e-ab05-952ae6ff4400',
-  'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:32 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:32 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/restore', {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUl5WVdabU5tRmhNUzAzTm1Ka0xUUTBZVGN0WVRjek5DMDJaalZoWkRCaU5XRTRPVGdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLklxbDlMVHZvaEJpcHptc3JmYVYzTUlManhSVk0yekVkRDd5V05sUUUtdXRMOVlPaWJpbmxlSzhnQWpsT1d0WXpKYmJFQU1hVmJaaTBoN0dUUzNYN1NJekx5bWI4MDhXYVlCaVc2M0lsUWdxUm50YWV3RGxRQVNEaTctTWp3N0lCR0lyUTE5TW16WmF0ejZ5WHFqMEl1S0pTX0Rrd1NXOW5sRzdySU9kQ2dCTUJmVl82dWxZbXc0N1JtLUZNMVljMHoxNXp5WmEtSGc5aFBNTEh3cWd2dUx1YzdPZXh1dm9tTVJ0T3JaUmlOdzNraWhtVnJCNGE2SUt2bEEwc1pHMktURjJQWGcxRng5TVlaTFliWkh5Ym1pZlEySUhVdnBrMEVCZ2dwOENHLVltNlk2SWVvSnEwZlJFVWFZdVQyRnZIN0NtOVZzLWZneEIxZlBwQUt5RHppUS5lSVVBaXNoTmV5X1h0Tm11cU9pOVpBLm9aMFNvRUFab0dwSEpRcEdqNHhnNGo0S3lOdi1mcmt3eXh2QlB4U24xRkFIT2ttMlRRdjJ1TFBCaHRiUUZ5ODViUXJuY29lXzFDZThDdXlPcUxIYndoakJSVmZ3R0lxV3ZBWW82UW83NTF2WUxncW5taTFoUFctYUFfeWF0Q3g2VkpQMXRuNS1rdmlaT0hlU1E0WnF0R0d5VV9jWkdMY1ZBaWtMUnRxQ1FTeWhYLUtsNmJlWFh3TFJUa3IwTmhwZ0xvQmJ5d05mck04WHRBbEZjUS0zVnh1NGo4S3RHRHBFenh4elhhRHpubVVELU5rMDEteVNRSGd3ZUFOWVh3ZFJNdzFfRFY1QzhUOW81ZUxLaXVZWHA5TGs3RkdrZUJOTWNKaVRjSEh0REU2VTlxVVNMYVdzNFUwcjliMGJQT3lWT0xfVWs4YzRaanBxSm16Z2VGVzdVZzBjZ3RDVFdsY2pETDNKWjFoMk5GdGJwLTNxU2k3c0VrRUZVaUUwSVAwUWFUWV9hWFZRU0JrOUZpUFBwTnJQUTZwbGlWYkEyVzdJekRrM09TRGdLaU5DUjgtb284ZzdEeGtOay1RVURkdHVaM3JabV9VeTY4clZYYl9ET0xlNkxFTTEzU1B2MzR5OGxzWW9DRnVRUFA2c3cwRVRwZ0FScWJBRnRVR19PcWJKVmlrdHphODc3THZ2NlQyblRrOFBmY29sbjJNNmZmNnhUd0k3S2pkZVFoV3g4MldhZDVVVlJGcVlqd3UzQ3ZPZUxMSWtHb0wwS1h2UlY1ZllaRlFjOGtvLVZIYmlDVHk2Y3ZUU09uZER2Nmd3Nmsxb21aODRNQ2RfZFNnSHlCSkRzTFdXWmt5Nm83RlU1bTJGclRESzdCSkxTejBldGg5VjNEdEVTRGpjYkY3elBQZ01lLWdJWDNSRVRUbm0wLUZWX1cyQWgzUThmY29SUDBJMW9TMG9mdkR0dVlkSEpMQkd3VE92YjhkTUxUVGN6OU05QTd3clZqblNNbHZfekQ1YTZKQWtEdXdOS0VTVW8tNHItUVFsVGpMVTI2dWlBdWpuVkNxNVJNYjkyUzg3UzAxTWxwblBuM3JlN01sWDlWVXhzVmNVNjExT2JvN05qUzlIOHQwZC1iRFlKY19KNUE5S3pMZjlMQkVKWjl0X1JhSThXcDl6MVE0UXB2UlFaVWw1cnZfRHZ1UHRVbnU5eTI4S1dMTUJHN2VSb0xSMEFjWkxQWWNydEdsQkxaRVV6NFpMR2JVVXhwS3ZTazQtQjllS1RuZEpfenZUTUVUTDMyLXk4bVlONWYzVkEySHpvTnp3Szl0SXByMThkN0w0bHBQS3FSRWVJMU5wd1JwUTZHcXpLeVliRmZTRHFSbVZYUmhtYnFDdGxxelBDLS1PZFRQU2ZWSWZJWmNuZW9MTzhUWVMxbVZHZmV6ZXI5dHZTMU12WFhCUl8zZUFpU1JSbjZzVFdudG4tQ0F6TUp1VTNZUDVkcjdoUW54b05LM0hGVTRCQWtKUUpmcDdlejg4eEU4YldVQ0F3MzVSNDF6YVM1ZjlJSE0yOTIzVEdEZHgtY0QzT1NxY1JyRW5KR0R0UVl2OWZvWVJQUGsyRnhlUVpUekpXaXRTZmpkZXdhVndTQWdseHFDSVNtZnQteWs5V3ZjOE1jb2RuMGs5N1VpUzVqaXNjVG1paDRIYVhVUkxrUUN6Sm5aRFpzMWY3VDdHNFBlbnJCZ2Q4Q28zdkhGQzktRXctaVdOeElseHBCTFhva0lzMDMwR1ppa0pEaGJhRXVoQ3FCZmU4V1NORUttbmhlYWFmc283WVoyc3otTDJTUHRsY3RYc0tJUXF3bEVicEh4Sm1WdzIyWW5IbHR2Rm9BY19tOEJZUzdYS1gtbmtDNlNtdTdZenhNc0FsZ2drY3QtdXFGNTZNMVZSWkRfU2dCRkJXTW1wLUU5R0pVbXRuZGNlc09SN3RyTXhGd2w3Tm9zUjBHc3hyRXRRQTQtVGtFdzVWWktiQVFLNXloZldVM1BIdUNSQXFKaGdPankzOXVSSmcxak55eTcwd1diXzFTTmpBeXdIVG5ZcFhXd25ueW1pUnVRYUtBQkVWMG9UQ2dueVRseG80UmZjMXRBXzUxbGstMExtRkRWV3VlTGRBNjQ0U3VtTE9ia2U1SGRTR3FmbHFpUjJ6MTJaekVBeG9KdmliRUNkTmFXUXNGUWpQRmJtSFN4UGlsQTE4WXIzODctT1g1dEc4ZFlSVFpjVHBGRnJPWGpDVVNPVm5YU3F5cmxvWVJIbnQzRVgzSGFkbElnQUtLVFd5TmV6WmUtZE1LMnJ1MTd2eTdMbGpsTDF0OGpoRTh6d3ZILWRjUkZsX0R5eXFGY005LXMzempfM2lnZGdzUklLRV8zdWJyekJvdGJ5R3hBUm9mTXJKWU9TSmdTelZWSzdySVZuaXo1TEpQTE0xanNIUVBDTFViRmhZUXBDRXZaQzFqR3FKbHBFQmtFQ2hhWll0cDNDVUJ1QU5DTUtUN3hrbkdmcW02bG5SZ1FDWV8zSUFvcWVqbWZVTGROZ0ZROEptTldNZ0Y3MFdOYXo0aV8yNVNLclZ5VWpGSUxRQkNHTUJ6M2xGanRFUXM3anZ1UktqUEREc3VVWUVUSGtDeTNQMnVKcFpnaGdnZ2tVVVhyNDNUMU81N1JydktVZXkwQ09Yc3FDeUh1cEY1ZlpuUkQ0YlhmZldrZldCQVpYUkdrMXFfRUFTVFpxQnRQS2Z6Wmo4T0lrT0FvWkVPSV9saS10N1JnMDBJVGRFSENJT3RsYjJYY1JBSzRuTVU3RVlOMFE2anJVT0dReWlaVEowNnVhQ1Q4MlFEZm9KOENXWmNIaGZoUGZlODBmTHZXLU1LTEZLY0p4bVZ4eDhTWWhwa0xUYUgtdERoQVJJdmFzWHlvRGdob05EYjlZOXFQRUZjTTUzbkJKRmdTZEVpUFZLWHQ5enQxMVM3cFVCamN3NkI0SFEtRGFPUk5XVUphLXlsbTFBbnhQWXo3SHRURFVWMXVEeXQtM29rSTNXTzVyWnNhMjdyVzZ2RXBPVzM3VkptU1VNQVdWWFNpSkpLRTdXNU1XeXdkdmdlbFQ1SXhFeW1BT1pkaGFvQmI3cFNoMXViSDNjOUNKX2lsOV9tSnZVVTNLNTBoVkJOTFQ3MjZ5bFNLaVNxM2I5RlM4Si1ZSV9TVllsNUpSX3NHbS0xZlRrSWRyQmtWY1BJR0lJQ1F4c0t6SjFCNHpOSnlBeFRKSmFaV3h2djU4eTFSMWdiU3VzNV9mQXVrZ2hrMTl5b1l0SnlQalpWYjRZYkg2UHlKakhOVWQxcXktLTdtajN6X3NIMk5sSkdIWG1ROXUzdHhTNmFfWERQWGhpQXJVTDU3S21wdU90MWgyNjBjbDVVRm5QLW5CRnpsVHpyWlV0M2pfeEt4V1gtcU1nMWM2ekhEOTRVbVQtT2FJUzNabVJIU0ZyM004WDcyaGZnVktBaGlqendtOUZZRTVOaXk4cmJkeHExekMwU3RlTi1YNm5BakNwNVUzME12VXhMSlVlbjRVSktGZ3hraXNQYTdCeUlrT1p6emtTWTJveldUcjlCTkpLWTJIRWI1LVBsWFlfaDBjZHNueXg3SExFMzB0aVFvUG1RNzB6dTZNVXhObGpMX3BGaWplbWpLbnlSd2xySmhybTN6cWxUdGgxQnliYlR5ekw3WHVVd1UyUkRuWV9HNmJ0MXFPNnIzVENyNjIxS0VYY2FSdEhaUURKVmRrWndFWjNXdGV5OWNHcDB3ajlOMFhLTV9fZTJRS3JtQkpwWnF6WFV2emgyUjY2QmczMVBTTzRoWDdkeGFlMmlIZTZBTmxvMnpUT3lOeVVmM0k1Y2d2MG5rZ2J1QkVxSzdNbzZKRmlxMEJxS2dRc19NSTg5bEtFOG1nZ2wtcERMVzJLU3QyRk9YeUxKcV8tc3JfaExwQkktaUhJbWxlV0FwLTdhTENBRDRkWWRHdXdoTEJvRmUzVlhTcTRnS045SWwzWF80TWFnMVpLVGs1cmVacy1PY0lSWDZYa0RRVmgzcGtEWkhjU25IdTJldExJMTZSSnNFQzVZVjJzUjdFWTgtNWNZY3huNEZDYW9wNVZ5UmItekRuX0tLaHZaOUsxRTV0VEFUeDJSUVB5MVNiMW5paUNuRkU0Q05MdGtXMlZRU2RZNFYyMjZYcHFsWmJ0NTZSTHBnaXNQQjJPRzhBd2NpY1phS2dwc3hLcmt5cTAxVjlpYkJsZ1dGb205a0tSU0hZRlFCX2RrMVpmblB2LXVXakR6NjRDWjlPUjJpYXI5VU1odkJNeklSdlk0UkRVMFRHZFdoa3F0eXlGS21CZEdWd3pleTFFekx3WFZXTEc4UjJySjlNRWY4LUZOVXdRcDZKVmJ4clpmSGZXOTlpb0w1SEVqQ2hwRU1lUkRfdmNRYUgxWFRqbmZ1RE5wVk1OTjBFWEs1MnlyV2oyZWN5VDhiWU94cU00QS1hbkdidW94aXc3NGxtMjh2eUJoMzd4UzM4RHhxX1JlWkJQdi03QUR3TkhnQy1tQlRyM3E4R1dBaURuMjZleEtBZDdHQUhPOXZFbHJUR3lkRktsSmVTZDJydllUd05NYXJ1Q2JfSXRwNlAzc3VNUF93V2R3T25RUEFMTVNsbFRYSHgxS2luelB5ZjYyRWltNlB3TGVJNVZEWnctYjZFakpzOWFReXgzNEFxNFlWN3l2QUVKTndWQnBSWGJaUkMwNERLN2poQUZhblZ4dDE3VmZJU1pnZlJjdDdnM2pKOTVISkRtU3k2UGpadVlXV2FzT0R3c2k1QnJFNFhITlFJbkFPd2FTVGh0YlcyQ3hXaGJ6dDA5RVdsRDRNbW5TRFpVdTNFbllCcXozYnE2bWNaOVVQVFpBc3VaRnBNX2NQWFhRcGJCeXJjd0tnMzBoWENZU0J4Q3l5VkMwd3lKTWRzVDYwRVFaa0Jna2pKOEYtMFRMTXU0bnVtZllWTGluRkw1RndnbHhCUGptd0htLVBaLWQxUXRzd3d2c2FpS2JEaVJBZ2tqMmJyMHZXNnFLWXJkNUNpOHJjcHVEMmFtTXprRTgxRFh0aW83cXR4U2xBbVhsaWFLVWNRTXlDQTdkM3RxLS1qV2QyU3pSVlBLbGlRWjFHdWxXeGdkS0V2ZENrNlZ4ZGJiTXNFM1d6R08tOUVWZ3RUbm91dG9ieWxzd0pzRHA3SWdfc0h6MTdyelhzUUMwVG5VT0k5SUlicGpGYXNhVnA2NlI1LWFJZXF5UUpGR1RCODA1ZDRPUG44akwwRDBxU1JWamNwM05qSERmR2p5ay1VeHVUUTY4dlVub2ItS003c0pLREdzazQtMDZYX1d5dTduM0dfSkc4RzdsX2lwbWxUc1F1Tk4yUmVZRWVucXBsZ3ppLWFhRkNYTjd6N3NpRHNTbVNxRWlSckZFc0pqems0WVltdEVZc29lLTQwNkZzTXllVEVZLWtqTXNzSlZfSVloalpET2dTQzNJdV95cUZoZlVaRmd1UkNGOFNqaUVDN2VVTXRMZGphN0hCajgxQ25kbnBTR2lfMU5IV3ZONkhyZDFnaXNVM1RETzEyVjdkRWRNOWxhbmRYRzdQTy1pQXp3T3hLSUpEakxQaE1SeFoxT1RkTm5pSFlwaVdpQzViWmZmUkRraG1icnFudl90RFg0QXpSejJTblhXSWRSSGlnMkllSFZqTlYxaGVpejR2aHROaXRNcWJJYmhvVFRUNFlxenF5UV9ncXUwZU5aQ2I1SUtHc2NMRS1WMmJTdDR5bF83VDQ0U0xJem1VMzdVaDltN1pMU3BEOEh1MFFYbnQ4ZFNWbDRFa1dQc3ZUSEpJcUZtQ1pjM1YxS0loeVdzV3FuV0NsQWNUUzBoUGhwUlNXRlVVYjhoa3ZOam95SmFvVlVVY0lCRVBfVXB3N0VtMzgyYTJfZ2lROXdkdmdzcXgtNVlxSWQ4RHliYmZER28tcGNWdDFlczFqNm1FVTJlTVZBMnVPMFpKNUJMalFzT05TQWJmSG1CN2JHT05MNHUwaFJoZk51YThLYzBaMkN4bVBjSzYybU5EZ1Y4RkpmVENVOUxiZmpEWmVPS3o1ZExRTWtpREJLLVNoN2xIUVpmaWl6aFRMZG9pMDlyZGF5bXUzZnlRbEdpQXRGLUhBdUNyN1RUOHd5Q2w2YzlrcGJnVlhLb2JiYVowRXlySUdVeTdKQXRuNEltRllxUUpNdHNOTVl6SjliQ1JRTHB5WWwxVmRQM1FVRHJFQVF3UkhWVzVuN0gxVjVhSjlQelRYTGdPcWxRN0hLNEUwVjBYZmtFVlZTc1N1ZkF3VWZkQjN0VFY3TS1WVm5fYjcwZU0wdXRMaC1wRFY0bUVrdVBCb3pCWXJ6cUtSbVRDczlIYU5WazZtZ28ySjBpYy13UDVjX3Vvemc0elBuQmJjSld3QUJST3BmYlRBMDJISGZ1SGE0ZVVySjFPM3F1bC11SEJramY3NjJtNlgtOHlCV3YwOVlPN2gzQ1AtMzU2cFl0UkdVQnRnbEZlLVBSSVAyczRrMkVMVTBUNEZTVVRnN18tYklsVXRBcDhlblBiMk9vZWU4RVB0d1hYNG9qNWxtUDFOaE5YT3d4OG50SndwNlZieDdJdzBja0ZFSHhiOFZmLVVXRHA3cldfY0FNdG5RZndpSzV2N2VGYU96NjNZS083R0RnT19XdGtaX0pJbzRkT1JhYmlEemlyaFNueEljb0RTRkV3MzViN2lYNnVNOEtEaE5oc3JpRHFpQWtaMTRaNzI0V2NlS3pIWW1PMndwcEZhZFJiMmtUWmhjc2NCWTFtMlFJbG9qMThDcjZ6MUplOWlYT011S0tMd0k3R0c4ek1Ta3IwZXpDTGloa3lhQXFYV09rQWV1anNjc0RJLXkyQmRROTdjSGFEWFFxcGloME9odEVWcnhURnRGSVd2aUJRVHk0bHlhLThidjB5RjJFSlBJMmlkcm1JellOSElkU0ZqS2lPUFVKZ0lIQk1idkZaSWdLbUdkRm5jdFNRd05BT3VhNDJSNVhZZ1ZjT0ZJVHFlWG5PbWQyc1prd0wyYXg0Z0tZelNGbUVDbklaeGFWWEpMZXR1cjFfclRMZEZpdEp4V0djT0Zkb1R0TWdpUnVVaHlZc0taSUVPR1pJaGJoNEROVGQwX3NsZmphWUl3X2lkaDdWU2xhRHhIQnRONm1pb2czTDQ0VHk0NGFkNmVtcDRKVk9OLVc2SVFZLTh2T3RTbWVZUVF5N0k0MEQ4ZWdxRzVlSTFQZFRrNlZDOURWUUNjN2s3YWpqcG1rUGdXVFNjcnZ3ZFdXWGJBNVdWMHRFVU5QdlZ2YlJjUVdFbGNPYjYyV1pfNEQ3V3JxV2ZWeDItSS04VEptc1Zudm92SnBSM0ZMR1liQVhEQkFTekQ2QlVIS1dlUkhBMVhrWkFvZG91S1RfYURiWTZDTlhVbDdZQng5alRjWnBxeWNsSGIwTC1oLVdiRUgxOGRjR0M2SEZRVVhoQjB5YzAzcWJraWFTSWdTR1hSWmN6ajlrOHNIYlVpV2NiY2pfc1Fic3BGOEZNaFRpN0pZeEViTjBxNmpja0taVTAyaDFUSnNPYV80MV9uZ2tyd2dsd1h3MlpkNzZqN3FzVENiUnFWQ01JNWFUVmp6bmFZRE9xZzkwYVdYTHRXbno5akpUdUlxN3daamdKX3F0b29JRDIzazJwaERKOEY1T3VoaWhYQXNTR01JelRZRjlUa2FQRUhKY0Y0MEl6WFJXX0RWRkxyX19PT3BLWm16OXAxTVhpMnRldUpUR08xajFnYWlRTkdEeG50UTdjczBWNVhQamkyM1JRbWlKdFE5WFdEaktuTUFfd25xR3E0YzNqMHRuVjF0amJHNjdEZHprdUlWVTlMYWg0RUhpSVQ1MVRpRVdNM3pTanBDMjR0OHBYcFo4NmJRMHJ3WmZnWk1yREgyaVhJVnNvUVAzVjB0bFp3UFVJR3Q2YUxIcWhCZ1NrRjFkT21YUlVYQzZlbWJCRmVFTzFJZDlpcHVId1NienAyRmZfamdEZ2xZS2FRcm12elhvR3NhbVNYdFhiY2VKejVUSmVWQmJsT3BZUE9tR19uX214Nm9WNWd6ZDBjRzFsb3dUN0EzZDlZNnZZaFF6WDMzM3hBT2Z3ZWJIWWN3QVotb3gyaWtoWnRPUWJZeFZoSUtXdVNXSklzaHBQaDFaY1BEMzBWQ3RnSGJTVk5pbi1vdGtuclBsRzdRQmFlbzJkcnVKRFpBYkI4WGQyYVppOHpwLS1kTjhleXNza1JON2pZUDhvb1I1aGNfNWpWdG51X0FDMUkwVHJVbnZYaFpXMDBIS1lIcUVIQ3NkRk5QY2Nxa3c5VDREMFlUYVNUay1XdHhwb0J4R0h4YjdfbGxlWmRkR1FNa3B4bTk2cnBXajVVY1VpZHZTamxCblh3Q1hEc3FUV2RWT1lYVWdxY3Axbm5NQU4tbkpWbF9LeHdaRzdPM3Ywb0ZIdGswVzZqNFhhYkphRWU3M3JwRmM2Y1NVODFPem1hNmhDeTZDQWxrM1BESUl4YzBxNGpNRWRmbThqZDNzeE5RNC00TGhrUlFEMWFzWGZ4SEwyNURLNEhsckZxUTQ0MGF4N19wVGVpbEJrYzBocEFBQUkyeFRMdk9rX1NQT2VpdjI5eXZsZFo4eGxLTHdqU0E3UEFqRjdKUUlMNmVrZnZDMnExUjM1OGh6RGNLalotcHVrckZmRGpmbk43dk54QlY4bHJKcXZlLVR4TkptYUFmUm9Nd2lRVjhseXd1S1ZoVnRkNnZMaEFvSjF1X1AzeUFnWk9Kb25lR3FfdUFOdnAxZFotcW5DU3JOckl4WWVSM3hmQzAxSFBtRmZxX2RXckh2VnJJZ3ZfTW52aXRDSDVJLTlnSS1QMzZpNlJwM2Q1V0V1QW1Qd21kWTJwTlYtSVlPNFFkLUk0OU10ODk2UkptT1RiWjdjZkFCQTl3TVg1WThWN2p6S1hqcW5tN2dBbGx1NUh1SmhROHhaZFB1TUc3cDBuTnhySjhTOWtsSTVqamVhNUs3LTlPRXlydVFXcVhmSGNYTER6Vm9CWUlIal9VUHNubm84SEhOanhrZHRNZ2hmRFoxV21PaFV2SC12YzVfVTVCWjY0Z3A3bHpqSDRyLUNlQTg3Q1JEc1R6THdIVWxrODl0Qm10OUExcGRIS0lJMlJfTkxiMHlLSVRROGo3ak5kMTEyNlZWa0x2amprSnVZVlI4SVpRV2V0T3dLQXktZTRiUTB5eHoycG0tWGd0SThZdTFBMHFNVXdwcUVJTjY4OThEdVFzT0xWajd5elFaY2h3ZVhyY25UTFF6TjhhcG1wWDdFb0pWbHNCMU1jMmhpX0czSGZDbFh6RDUxMEttQlZ3VExOZVVrOWVVdkpxOGZuaDlleTRLakhEWTdkdnBIR2ZHMTNRRE9zR1MyUUhmZHRZdUZ1cjZsZ2xpb0hkaldsWElLQlBFTUxsWnRIdGRFQVQ0ODhxN2FnY2FBaHUxY3puRnZiSmVSbjBzUXRtUHpTTzJkRFNiYWJ6Q3hvODdFSC1BdTNVUTNHTXJNUldIdW8tTXdXVEVDekJOSUZVU1RPQ1B1VkI0OWY0d0hPdFR6Mkt0YWNBQUpoUFBDcUdVNmNIVFAxQk5KdXl5OTVldWRKQnJ2b2dCZ1NjajZVcmZLNGJSQzliRk92QWhUNU1fcUctaTNPb0Exc2tNbHM2bHRCNVpCOUF1M3pIVFZEOFJZUXB0ZkxhT1I4LWNpUlY4Qm1wTzI4NXlJMXh5NHdjd0xmbUF1eHZvTTJrNGZCZkM5eE4weDFubjIyNEF3eDRteW0tcTR3ejRsUGpLQmdwbzhzWWV1dG1IaUNUWUUxNkJLVVdtcVJFNXZqMGdDM1M1azROSkdTdXVIRkdmN19aRHhFVVNIRXdhY2dYS1BTZTdJTlhBN0Rmcm9mSk1vVmctajRvWlh1VlNaYmVxRVgwUlQ3X3NSU01FbWtRYWhxTlZ4OUwwaUUzelpSSnotdURQeDhRZnJnYkdHZWZXU1Jya2NOUV9FX25wV3djMExyaWp6dlBjbFZfY1lqWEljT2s1cEtIZFdCTU13c0wtTjR2c2gwUENva2oxcWM3LTZzZDFPY20zNFk4UkRjSi1yU1hLVXhPTk5UUk9CS0dRbm5RUndlWnloTjZnNFU0M2hzZ1BhYXJXbUhaX1ZKcjFrbUQ2Rm1CUy1WX1VuVFhGRVlEVElPalkxemdadmVObnZvUWJMM0kxd0xkVDZ6X0gzMVNkTlVlY1NOSjRXSE5tZ2ZsNDFoX1h5RjJtMzFOcnNrUUtWQ0pWN0xjXzc4QTQ0N01JOWtBUmlVTUUwd1hKRUtKLXdDZWNwbzRPdFNWMWxvMXhxWG5fR1ZMbURBU1VIMVJTdmRTUEJXbERCM05KNnItS0pKWGRXWXdzb2ozTVRwdkEyNlpiRHNBNkV2WkdMdlNOSkxKeEUzNzZjYXc0ZnFXRl9MREU5Z2hJNjVOeUV4cW9zdmI0ZkRIcldPWG1pVXlEbG9iakVLaGVacVFZSVJZRXpuRklmQTduTVVUMWlabkdWX1Vjc0N1ODZFeTBic2hBQWFBWGN1XzVnelo4RjM5eHloN3pFZTJzZGM4SE1NR3JlTm5hUS0zeEltRl9aTW4yWk4xNzYyc0RSdUlXb1czNVdRS2tzSWUxcU05NHAwM242Q1RON0ZWRU45Slh3bXh5a2p4OWs4QWlCYU5iVHFfaDFqV0Vta1dONXd1OTZlUVl2ZWxPNGtuUnRtSnFERXZva0ZpZDBJdzJPTnl0VS1LS2ZyQVZGU0dKU0YxWTFFamR6enFiODd1dktkT2IzamhlRF9DRDBVbWRNREExaExBeGtvUURHX0hZMnMzMWZUNUFQdkVXQU01bkVVbzllN08tVnBUMW44ZE0yZ1k1M3NxM0lsUi1wN3VuSDZFQ3dhajYycnp1clgzcXNzZkF2YkNVYllRbU1KZF85TDVHcmlhV0Z3VFRiT2dwbW5WbV8tT2lBVWdLQnlvMFVvcjlnbnJ1eVdPMEVrRHZWRkFUSjNiYTdTV25WSldTNHY5QXJkLTJTdG9paDlqTnJUdGF6YkxmTDFqQ0huTlVZUWF6VEVHVm8yTjA4YW1GNy1zNUtIWll0aEFTUl8yX01pb1c1WTBPSFA3RDRMRXRhVVVMQV9McW1LYTlNN0dPTnZYN0dYRDBlWDJXa2p3Uzduai1COXlUeVd3Ui0xRHNMdkg0WXE3dHU5WDNxSGpQakJwX3h3ZVBWSWRiTnB2dXItQW01S2FCTzZDSUdzMS0zY3VTQzRMWXliZDZneXlTNDVHRk1HVnpxMHBRb3RGQlp0dXlvQ2g2MjYycU5SaUU4WDNlU29KTE0tc1A5cjJDbkQza2dSTHB1cDY2azNKLTF4ZmVodXBuR19RRGQ3MmJNdlVFNkhHc2d2eEN0VnpLc3gxaThHVF82ZmRKUU1XalBkZlk4Y1c3SmRsRDNGYVFKZ2RIR3VlS3VMUFZWYl8yeVpZOUpHTjU0LW1feDNRZFJVVERLd09VOUdnSlRpX01IZ0ZHYXJFZ1ozMjI4X0xmR3Vtd0V0MXJuTENIa2xwZzBMc3NONXNUOUhFTHFwUE9MXzBwYXFJN01lZ0RIdDAxSVY3endDTDl0ZEhkT3VVZDhPSm9GQWxnRG1RUExONzBiRHliN2R0bWJ0cnYxay1JOC1ScUpFeG5ONXFVdnBTR0N5QTF1T2g5d3lLMWhzcmlmLUx2em1SZUcwd01PSGFmM3NMNkp0emNlQzNJMjZ2bkVmOURINlZMRHQzMHJfM0pOeWM5RzIyeDBVNjIyTzRRY0MxYmdzcmZIQVV0c0htbEhxd1otQlpNeTV4cklwanZLWFN2TXRMenIzYnhTdW1ic0dzQzVYS2owVU96ZS1nLUV1MmFlcVo0SnNObzJfMUQ5ZkM5c0FrSklDa1IwWmY4UDdtaWVGNVRJNlN6eVJCVGdHTEk4cENDOHNPTDVwbXRhMlpiRUdOd1dmamY2NnZ3dFg1cHNaVkZQdFI3NXN6elVsSmMwUW5SSE1jZ3N2cWVWQ3lFMnNEMkMtWHFLTkpnMlVtWWhxMDFIbVZpQkt0WTF1SkNSamNqYW5PUjhVQWRsc2NCT2ZWMklMWDVHVjdTVllyX1BTQkduQTdNV3BVV2JQck0zQVhydVd1SFFlVGxITWpXYUVhMnZsYkJFT1JiMTV4Qk42dnlVU1ZhQm5UUkVzUkdqVzRSTVh5OXhrNXVvczlBTXFKUzZNbDdsd2k4c0cyMmVHbmo1Nnl2b3d3RGJ2ckRSV2w2azhkX1lPT3FTUGdpNnRrOWJqREEtbl9Xb1pGbVVGUlBLa0pucFhzNkZKNk9ab3E3TmNERUJXQ1J4SGtMSHhadUVlRzFfTzNZV0pwVzVaU05ETVRqS3UtZ25OWlk5eVRYNEtBUUJtTTZSNGFKcFJCZDRfdDExX0JzTFZOZGNsNWFjdnU5SUxfOTNuLU1LVEhDZ2lTdlM0bUkxSXdHc0YtS3dMZWk2TUQ5eXQzekw3eWNVbDhqSWhCajJkb2NKZ2ZvREFRSHRZSExST3VtOHdFWU1iWUVlamc2bkJKeVpYWDhEWTI2R3hiTEU5c25rcnhTVWdxS3JYNDV0NUR4MTZMT3lpUEViMXhSQ1h5YkNKbU9seGZ1SEtPanZHMG5BdHVBU0VaQmlQVEk5SHcyTzFsRFFWQVB3VGJWdW9hMUFleTFlV3ZzeC5vbWtNRDUwU1NqSm96WU5weDhCejZn"})
-  .query(true)
-  .reply(409, {"error":{"code":"Conflict","message":"Conflict while restoring key https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/51c3744aa3c746d1b71070b909d29d6c - key already exists or concurrent access"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '256',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  'e664fc49-6ae6-4c2e-97cc-f47a4ac6f221',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:32 GMT',
-  'Connection',
-  'close'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/restore')
-  .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '87',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'WWW-Authenticate',
-  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  '997d5991-61bc-4da8-a7d5-27a34c3444ff',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:44 GMT',
-  'Connection',
-  'close'
-]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '2431b191-465e-4618-85ad-f51b06d14700',
-  'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:46 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:45 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/restore', {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUl5WVdabU5tRmhNUzAzTm1Ka0xUUTBZVGN0WVRjek5DMDJaalZoWkRCaU5XRTRPVGdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLklxbDlMVHZvaEJpcHptc3JmYVYzTUlManhSVk0yekVkRDd5V05sUUUtdXRMOVlPaWJpbmxlSzhnQWpsT1d0WXpKYmJFQU1hVmJaaTBoN0dUUzNYN1NJekx5bWI4MDhXYVlCaVc2M0lsUWdxUm50YWV3RGxRQVNEaTctTWp3N0lCR0lyUTE5TW16WmF0ejZ5WHFqMEl1S0pTX0Rrd1NXOW5sRzdySU9kQ2dCTUJmVl82dWxZbXc0N1JtLUZNMVljMHoxNXp5WmEtSGc5aFBNTEh3cWd2dUx1YzdPZXh1dm9tTVJ0T3JaUmlOdzNraWhtVnJCNGE2SUt2bEEwc1pHMktURjJQWGcxRng5TVlaTFliWkh5Ym1pZlEySUhVdnBrMEVCZ2dwOENHLVltNlk2SWVvSnEwZlJFVWFZdVQyRnZIN0NtOVZzLWZneEIxZlBwQUt5RHppUS5lSVVBaXNoTmV5X1h0Tm11cU9pOVpBLm9aMFNvRUFab0dwSEpRcEdqNHhnNGo0S3lOdi1mcmt3eXh2QlB4U24xRkFIT2ttMlRRdjJ1TFBCaHRiUUZ5ODViUXJuY29lXzFDZThDdXlPcUxIYndoakJSVmZ3R0lxV3ZBWW82UW83NTF2WUxncW5taTFoUFctYUFfeWF0Q3g2VkpQMXRuNS1rdmlaT0hlU1E0WnF0R0d5VV9jWkdMY1ZBaWtMUnRxQ1FTeWhYLUtsNmJlWFh3TFJUa3IwTmhwZ0xvQmJ5d05mck04WHRBbEZjUS0zVnh1NGo4S3RHRHBFenh4elhhRHpubVVELU5rMDEteVNRSGd3ZUFOWVh3ZFJNdzFfRFY1QzhUOW81ZUxLaXVZWHA5TGs3RkdrZUJOTWNKaVRjSEh0REU2VTlxVVNMYVdzNFUwcjliMGJQT3lWT0xfVWs4YzRaanBxSm16Z2VGVzdVZzBjZ3RDVFdsY2pETDNKWjFoMk5GdGJwLTNxU2k3c0VrRUZVaUUwSVAwUWFUWV9hWFZRU0JrOUZpUFBwTnJQUTZwbGlWYkEyVzdJekRrM09TRGdLaU5DUjgtb284ZzdEeGtOay1RVURkdHVaM3JabV9VeTY4clZYYl9ET0xlNkxFTTEzU1B2MzR5OGxzWW9DRnVRUFA2c3cwRVRwZ0FScWJBRnRVR19PcWJKVmlrdHphODc3THZ2NlQyblRrOFBmY29sbjJNNmZmNnhUd0k3S2pkZVFoV3g4MldhZDVVVlJGcVlqd3UzQ3ZPZUxMSWtHb0wwS1h2UlY1ZllaRlFjOGtvLVZIYmlDVHk2Y3ZUU09uZER2Nmd3Nmsxb21aODRNQ2RfZFNnSHlCSkRzTFdXWmt5Nm83RlU1bTJGclRESzdCSkxTejBldGg5VjNEdEVTRGpjYkY3elBQZ01lLWdJWDNSRVRUbm0wLUZWX1cyQWgzUThmY29SUDBJMW9TMG9mdkR0dVlkSEpMQkd3VE92YjhkTUxUVGN6OU05QTd3clZqblNNbHZfekQ1YTZKQWtEdXdOS0VTVW8tNHItUVFsVGpMVTI2dWlBdWpuVkNxNVJNYjkyUzg3UzAxTWxwblBuM3JlN01sWDlWVXhzVmNVNjExT2JvN05qUzlIOHQwZC1iRFlKY19KNUE5S3pMZjlMQkVKWjl0X1JhSThXcDl6MVE0UXB2UlFaVWw1cnZfRHZ1UHRVbnU5eTI4S1dMTUJHN2VSb0xSMEFjWkxQWWNydEdsQkxaRVV6NFpMR2JVVXhwS3ZTazQtQjllS1RuZEpfenZUTUVUTDMyLXk4bVlONWYzVkEySHpvTnp3Szl0SXByMThkN0w0bHBQS3FSRWVJMU5wd1JwUTZHcXpLeVliRmZTRHFSbVZYUmhtYnFDdGxxelBDLS1PZFRQU2ZWSWZJWmNuZW9MTzhUWVMxbVZHZmV6ZXI5dHZTMU12WFhCUl8zZUFpU1JSbjZzVFdudG4tQ0F6TUp1VTNZUDVkcjdoUW54b05LM0hGVTRCQWtKUUpmcDdlejg4eEU4YldVQ0F3MzVSNDF6YVM1ZjlJSE0yOTIzVEdEZHgtY0QzT1NxY1JyRW5KR0R0UVl2OWZvWVJQUGsyRnhlUVpUekpXaXRTZmpkZXdhVndTQWdseHFDSVNtZnQteWs5V3ZjOE1jb2RuMGs5N1VpUzVqaXNjVG1paDRIYVhVUkxrUUN6Sm5aRFpzMWY3VDdHNFBlbnJCZ2Q4Q28zdkhGQzktRXctaVdOeElseHBCTFhva0lzMDMwR1ppa0pEaGJhRXVoQ3FCZmU4V1NORUttbmhlYWFmc283WVoyc3otTDJTUHRsY3RYc0tJUXF3bEVicEh4Sm1WdzIyWW5IbHR2Rm9BY19tOEJZUzdYS1gtbmtDNlNtdTdZenhNc0FsZ2drY3QtdXFGNTZNMVZSWkRfU2dCRkJXTW1wLUU5R0pVbXRuZGNlc09SN3RyTXhGd2w3Tm9zUjBHc3hyRXRRQTQtVGtFdzVWWktiQVFLNXloZldVM1BIdUNSQXFKaGdPankzOXVSSmcxak55eTcwd1diXzFTTmpBeXdIVG5ZcFhXd25ueW1pUnVRYUtBQkVWMG9UQ2dueVRseG80UmZjMXRBXzUxbGstMExtRkRWV3VlTGRBNjQ0U3VtTE9ia2U1SGRTR3FmbHFpUjJ6MTJaekVBeG9KdmliRUNkTmFXUXNGUWpQRmJtSFN4UGlsQTE4WXIzODctT1g1dEc4ZFlSVFpjVHBGRnJPWGpDVVNPVm5YU3F5cmxvWVJIbnQzRVgzSGFkbElnQUtLVFd5TmV6WmUtZE1LMnJ1MTd2eTdMbGpsTDF0OGpoRTh6d3ZILWRjUkZsX0R5eXFGY005LXMzempfM2lnZGdzUklLRV8zdWJyekJvdGJ5R3hBUm9mTXJKWU9TSmdTelZWSzdySVZuaXo1TEpQTE0xanNIUVBDTFViRmhZUXBDRXZaQzFqR3FKbHBFQmtFQ2hhWll0cDNDVUJ1QU5DTUtUN3hrbkdmcW02bG5SZ1FDWV8zSUFvcWVqbWZVTGROZ0ZROEptTldNZ0Y3MFdOYXo0aV8yNVNLclZ5VWpGSUxRQkNHTUJ6M2xGanRFUXM3anZ1UktqUEREc3VVWUVUSGtDeTNQMnVKcFpnaGdnZ2tVVVhyNDNUMU81N1JydktVZXkwQ09Yc3FDeUh1cEY1ZlpuUkQ0YlhmZldrZldCQVpYUkdrMXFfRUFTVFpxQnRQS2Z6Wmo4T0lrT0FvWkVPSV9saS10N1JnMDBJVGRFSENJT3RsYjJYY1JBSzRuTVU3RVlOMFE2anJVT0dReWlaVEowNnVhQ1Q4MlFEZm9KOENXWmNIaGZoUGZlODBmTHZXLU1LTEZLY0p4bVZ4eDhTWWhwa0xUYUgtdERoQVJJdmFzWHlvRGdob05EYjlZOXFQRUZjTTUzbkJKRmdTZEVpUFZLWHQ5enQxMVM3cFVCamN3NkI0SFEtRGFPUk5XVUphLXlsbTFBbnhQWXo3SHRURFVWMXVEeXQtM29rSTNXTzVyWnNhMjdyVzZ2RXBPVzM3VkptU1VNQVdWWFNpSkpLRTdXNU1XeXdkdmdlbFQ1SXhFeW1BT1pkaGFvQmI3cFNoMXViSDNjOUNKX2lsOV9tSnZVVTNLNTBoVkJOTFQ3MjZ5bFNLaVNxM2I5RlM4Si1ZSV9TVllsNUpSX3NHbS0xZlRrSWRyQmtWY1BJR0lJQ1F4c0t6SjFCNHpOSnlBeFRKSmFaV3h2djU4eTFSMWdiU3VzNV9mQXVrZ2hrMTl5b1l0SnlQalpWYjRZYkg2UHlKakhOVWQxcXktLTdtajN6X3NIMk5sSkdIWG1ROXUzdHhTNmFfWERQWGhpQXJVTDU3S21wdU90MWgyNjBjbDVVRm5QLW5CRnpsVHpyWlV0M2pfeEt4V1gtcU1nMWM2ekhEOTRVbVQtT2FJUzNabVJIU0ZyM004WDcyaGZnVktBaGlqendtOUZZRTVOaXk4cmJkeHExekMwU3RlTi1YNm5BakNwNVUzME12VXhMSlVlbjRVSktGZ3hraXNQYTdCeUlrT1p6emtTWTJveldUcjlCTkpLWTJIRWI1LVBsWFlfaDBjZHNueXg3SExFMzB0aVFvUG1RNzB6dTZNVXhObGpMX3BGaWplbWpLbnlSd2xySmhybTN6cWxUdGgxQnliYlR5ekw3WHVVd1UyUkRuWV9HNmJ0MXFPNnIzVENyNjIxS0VYY2FSdEhaUURKVmRrWndFWjNXdGV5OWNHcDB3ajlOMFhLTV9fZTJRS3JtQkpwWnF6WFV2emgyUjY2QmczMVBTTzRoWDdkeGFlMmlIZTZBTmxvMnpUT3lOeVVmM0k1Y2d2MG5rZ2J1QkVxSzdNbzZKRmlxMEJxS2dRc19NSTg5bEtFOG1nZ2wtcERMVzJLU3QyRk9YeUxKcV8tc3JfaExwQkktaUhJbWxlV0FwLTdhTENBRDRkWWRHdXdoTEJvRmUzVlhTcTRnS045SWwzWF80TWFnMVpLVGs1cmVacy1PY0lSWDZYa0RRVmgzcGtEWkhjU25IdTJldExJMTZSSnNFQzVZVjJzUjdFWTgtNWNZY3huNEZDYW9wNVZ5UmItekRuX0tLaHZaOUsxRTV0VEFUeDJSUVB5MVNiMW5paUNuRkU0Q05MdGtXMlZRU2RZNFYyMjZYcHFsWmJ0NTZSTHBnaXNQQjJPRzhBd2NpY1phS2dwc3hLcmt5cTAxVjlpYkJsZ1dGb205a0tSU0hZRlFCX2RrMVpmblB2LXVXakR6NjRDWjlPUjJpYXI5VU1odkJNeklSdlk0UkRVMFRHZFdoa3F0eXlGS21CZEdWd3pleTFFekx3WFZXTEc4UjJySjlNRWY4LUZOVXdRcDZKVmJ4clpmSGZXOTlpb0w1SEVqQ2hwRU1lUkRfdmNRYUgxWFRqbmZ1RE5wVk1OTjBFWEs1MnlyV2oyZWN5VDhiWU94cU00QS1hbkdidW94aXc3NGxtMjh2eUJoMzd4UzM4RHhxX1JlWkJQdi03QUR3TkhnQy1tQlRyM3E4R1dBaURuMjZleEtBZDdHQUhPOXZFbHJUR3lkRktsSmVTZDJydllUd05NYXJ1Q2JfSXRwNlAzc3VNUF93V2R3T25RUEFMTVNsbFRYSHgxS2luelB5ZjYyRWltNlB3TGVJNVZEWnctYjZFakpzOWFReXgzNEFxNFlWN3l2QUVKTndWQnBSWGJaUkMwNERLN2poQUZhblZ4dDE3VmZJU1pnZlJjdDdnM2pKOTVISkRtU3k2UGpadVlXV2FzT0R3c2k1QnJFNFhITlFJbkFPd2FTVGh0YlcyQ3hXaGJ6dDA5RVdsRDRNbW5TRFpVdTNFbllCcXozYnE2bWNaOVVQVFpBc3VaRnBNX2NQWFhRcGJCeXJjd0tnMzBoWENZU0J4Q3l5VkMwd3lKTWRzVDYwRVFaa0Jna2pKOEYtMFRMTXU0bnVtZllWTGluRkw1RndnbHhCUGptd0htLVBaLWQxUXRzd3d2c2FpS2JEaVJBZ2tqMmJyMHZXNnFLWXJkNUNpOHJjcHVEMmFtTXprRTgxRFh0aW83cXR4U2xBbVhsaWFLVWNRTXlDQTdkM3RxLS1qV2QyU3pSVlBLbGlRWjFHdWxXeGdkS0V2ZENrNlZ4ZGJiTXNFM1d6R08tOUVWZ3RUbm91dG9ieWxzd0pzRHA3SWdfc0h6MTdyelhzUUMwVG5VT0k5SUlicGpGYXNhVnA2NlI1LWFJZXF5UUpGR1RCODA1ZDRPUG44akwwRDBxU1JWamNwM05qSERmR2p5ay1VeHVUUTY4dlVub2ItS003c0pLREdzazQtMDZYX1d5dTduM0dfSkc4RzdsX2lwbWxUc1F1Tk4yUmVZRWVucXBsZ3ppLWFhRkNYTjd6N3NpRHNTbVNxRWlSckZFc0pqems0WVltdEVZc29lLTQwNkZzTXllVEVZLWtqTXNzSlZfSVloalpET2dTQzNJdV95cUZoZlVaRmd1UkNGOFNqaUVDN2VVTXRMZGphN0hCajgxQ25kbnBTR2lfMU5IV3ZONkhyZDFnaXNVM1RETzEyVjdkRWRNOWxhbmRYRzdQTy1pQXp3T3hLSUpEakxQaE1SeFoxT1RkTm5pSFlwaVdpQzViWmZmUkRraG1icnFudl90RFg0QXpSejJTblhXSWRSSGlnMkllSFZqTlYxaGVpejR2aHROaXRNcWJJYmhvVFRUNFlxenF5UV9ncXUwZU5aQ2I1SUtHc2NMRS1WMmJTdDR5bF83VDQ0U0xJem1VMzdVaDltN1pMU3BEOEh1MFFYbnQ4ZFNWbDRFa1dQc3ZUSEpJcUZtQ1pjM1YxS0loeVdzV3FuV0NsQWNUUzBoUGhwUlNXRlVVYjhoa3ZOam95SmFvVlVVY0lCRVBfVXB3N0VtMzgyYTJfZ2lROXdkdmdzcXgtNVlxSWQ4RHliYmZER28tcGNWdDFlczFqNm1FVTJlTVZBMnVPMFpKNUJMalFzT05TQWJmSG1CN2JHT05MNHUwaFJoZk51YThLYzBaMkN4bVBjSzYybU5EZ1Y4RkpmVENVOUxiZmpEWmVPS3o1ZExRTWtpREJLLVNoN2xIUVpmaWl6aFRMZG9pMDlyZGF5bXUzZnlRbEdpQXRGLUhBdUNyN1RUOHd5Q2w2YzlrcGJnVlhLb2JiYVowRXlySUdVeTdKQXRuNEltRllxUUpNdHNOTVl6SjliQ1JRTHB5WWwxVmRQM1FVRHJFQVF3UkhWVzVuN0gxVjVhSjlQelRYTGdPcWxRN0hLNEUwVjBYZmtFVlZTc1N1ZkF3VWZkQjN0VFY3TS1WVm5fYjcwZU0wdXRMaC1wRFY0bUVrdVBCb3pCWXJ6cUtSbVRDczlIYU5WazZtZ28ySjBpYy13UDVjX3Vvemc0elBuQmJjSld3QUJST3BmYlRBMDJISGZ1SGE0ZVVySjFPM3F1bC11SEJramY3NjJtNlgtOHlCV3YwOVlPN2gzQ1AtMzU2cFl0UkdVQnRnbEZlLVBSSVAyczRrMkVMVTBUNEZTVVRnN18tYklsVXRBcDhlblBiMk9vZWU4RVB0d1hYNG9qNWxtUDFOaE5YT3d4OG50SndwNlZieDdJdzBja0ZFSHhiOFZmLVVXRHA3cldfY0FNdG5RZndpSzV2N2VGYU96NjNZS083R0RnT19XdGtaX0pJbzRkT1JhYmlEemlyaFNueEljb0RTRkV3MzViN2lYNnVNOEtEaE5oc3JpRHFpQWtaMTRaNzI0V2NlS3pIWW1PMndwcEZhZFJiMmtUWmhjc2NCWTFtMlFJbG9qMThDcjZ6MUplOWlYT011S0tMd0k3R0c4ek1Ta3IwZXpDTGloa3lhQXFYV09rQWV1anNjc0RJLXkyQmRROTdjSGFEWFFxcGloME9odEVWcnhURnRGSVd2aUJRVHk0bHlhLThidjB5RjJFSlBJMmlkcm1JellOSElkU0ZqS2lPUFVKZ0lIQk1idkZaSWdLbUdkRm5jdFNRd05BT3VhNDJSNVhZZ1ZjT0ZJVHFlWG5PbWQyc1prd0wyYXg0Z0tZelNGbUVDbklaeGFWWEpMZXR1cjFfclRMZEZpdEp4V0djT0Zkb1R0TWdpUnVVaHlZc0taSUVPR1pJaGJoNEROVGQwX3NsZmphWUl3X2lkaDdWU2xhRHhIQnRONm1pb2czTDQ0VHk0NGFkNmVtcDRKVk9OLVc2SVFZLTh2T3RTbWVZUVF5N0k0MEQ4ZWdxRzVlSTFQZFRrNlZDOURWUUNjN2s3YWpqcG1rUGdXVFNjcnZ3ZFdXWGJBNVdWMHRFVU5QdlZ2YlJjUVdFbGNPYjYyV1pfNEQ3V3JxV2ZWeDItSS04VEptc1Zudm92SnBSM0ZMR1liQVhEQkFTekQ2QlVIS1dlUkhBMVhrWkFvZG91S1RfYURiWTZDTlhVbDdZQng5alRjWnBxeWNsSGIwTC1oLVdiRUgxOGRjR0M2SEZRVVhoQjB5YzAzcWJraWFTSWdTR1hSWmN6ajlrOHNIYlVpV2NiY2pfc1Fic3BGOEZNaFRpN0pZeEViTjBxNmpja0taVTAyaDFUSnNPYV80MV9uZ2tyd2dsd1h3MlpkNzZqN3FzVENiUnFWQ01JNWFUVmp6bmFZRE9xZzkwYVdYTHRXbno5akpUdUlxN3daamdKX3F0b29JRDIzazJwaERKOEY1T3VoaWhYQXNTR01JelRZRjlUa2FQRUhKY0Y0MEl6WFJXX0RWRkxyX19PT3BLWm16OXAxTVhpMnRldUpUR08xajFnYWlRTkdEeG50UTdjczBWNVhQamkyM1JRbWlKdFE5WFdEaktuTUFfd25xR3E0YzNqMHRuVjF0amJHNjdEZHprdUlWVTlMYWg0RUhpSVQ1MVRpRVdNM3pTanBDMjR0OHBYcFo4NmJRMHJ3WmZnWk1yREgyaVhJVnNvUVAzVjB0bFp3UFVJR3Q2YUxIcWhCZ1NrRjFkT21YUlVYQzZlbWJCRmVFTzFJZDlpcHVId1NienAyRmZfamdEZ2xZS2FRcm12elhvR3NhbVNYdFhiY2VKejVUSmVWQmJsT3BZUE9tR19uX214Nm9WNWd6ZDBjRzFsb3dUN0EzZDlZNnZZaFF6WDMzM3hBT2Z3ZWJIWWN3QVotb3gyaWtoWnRPUWJZeFZoSUtXdVNXSklzaHBQaDFaY1BEMzBWQ3RnSGJTVk5pbi1vdGtuclBsRzdRQmFlbzJkcnVKRFpBYkI4WGQyYVppOHpwLS1kTjhleXNza1JON2pZUDhvb1I1aGNfNWpWdG51X0FDMUkwVHJVbnZYaFpXMDBIS1lIcUVIQ3NkRk5QY2Nxa3c5VDREMFlUYVNUay1XdHhwb0J4R0h4YjdfbGxlWmRkR1FNa3B4bTk2cnBXajVVY1VpZHZTamxCblh3Q1hEc3FUV2RWT1lYVWdxY3Axbm5NQU4tbkpWbF9LeHdaRzdPM3Ywb0ZIdGswVzZqNFhhYkphRWU3M3JwRmM2Y1NVODFPem1hNmhDeTZDQWxrM1BESUl4YzBxNGpNRWRmbThqZDNzeE5RNC00TGhrUlFEMWFzWGZ4SEwyNURLNEhsckZxUTQ0MGF4N19wVGVpbEJrYzBocEFBQUkyeFRMdk9rX1NQT2VpdjI5eXZsZFo4eGxLTHdqU0E3UEFqRjdKUUlMNmVrZnZDMnExUjM1OGh6RGNLalotcHVrckZmRGpmbk43dk54QlY4bHJKcXZlLVR4TkptYUFmUm9Nd2lRVjhseXd1S1ZoVnRkNnZMaEFvSjF1X1AzeUFnWk9Kb25lR3FfdUFOdnAxZFotcW5DU3JOckl4WWVSM3hmQzAxSFBtRmZxX2RXckh2VnJJZ3ZfTW52aXRDSDVJLTlnSS1QMzZpNlJwM2Q1V0V1QW1Qd21kWTJwTlYtSVlPNFFkLUk0OU10ODk2UkptT1RiWjdjZkFCQTl3TVg1WThWN2p6S1hqcW5tN2dBbGx1NUh1SmhROHhaZFB1TUc3cDBuTnhySjhTOWtsSTVqamVhNUs3LTlPRXlydVFXcVhmSGNYTER6Vm9CWUlIal9VUHNubm84SEhOanhrZHRNZ2hmRFoxV21PaFV2SC12YzVfVTVCWjY0Z3A3bHpqSDRyLUNlQTg3Q1JEc1R6THdIVWxrODl0Qm10OUExcGRIS0lJMlJfTkxiMHlLSVRROGo3ak5kMTEyNlZWa0x2amprSnVZVlI4SVpRV2V0T3dLQXktZTRiUTB5eHoycG0tWGd0SThZdTFBMHFNVXdwcUVJTjY4OThEdVFzT0xWajd5elFaY2h3ZVhyY25UTFF6TjhhcG1wWDdFb0pWbHNCMU1jMmhpX0czSGZDbFh6RDUxMEttQlZ3VExOZVVrOWVVdkpxOGZuaDlleTRLakhEWTdkdnBIR2ZHMTNRRE9zR1MyUUhmZHRZdUZ1cjZsZ2xpb0hkaldsWElLQlBFTUxsWnRIdGRFQVQ0ODhxN2FnY2FBaHUxY3puRnZiSmVSbjBzUXRtUHpTTzJkRFNiYWJ6Q3hvODdFSC1BdTNVUTNHTXJNUldIdW8tTXdXVEVDekJOSUZVU1RPQ1B1VkI0OWY0d0hPdFR6Mkt0YWNBQUpoUFBDcUdVNmNIVFAxQk5KdXl5OTVldWRKQnJ2b2dCZ1NjajZVcmZLNGJSQzliRk92QWhUNU1fcUctaTNPb0Exc2tNbHM2bHRCNVpCOUF1M3pIVFZEOFJZUXB0ZkxhT1I4LWNpUlY4Qm1wTzI4NXlJMXh5NHdjd0xmbUF1eHZvTTJrNGZCZkM5eE4weDFubjIyNEF3eDRteW0tcTR3ejRsUGpLQmdwbzhzWWV1dG1IaUNUWUUxNkJLVVdtcVJFNXZqMGdDM1M1azROSkdTdXVIRkdmN19aRHhFVVNIRXdhY2dYS1BTZTdJTlhBN0Rmcm9mSk1vVmctajRvWlh1VlNaYmVxRVgwUlQ3X3NSU01FbWtRYWhxTlZ4OUwwaUUzelpSSnotdURQeDhRZnJnYkdHZWZXU1Jya2NOUV9FX25wV3djMExyaWp6dlBjbFZfY1lqWEljT2s1cEtIZFdCTU13c0wtTjR2c2gwUENva2oxcWM3LTZzZDFPY20zNFk4UkRjSi1yU1hLVXhPTk5UUk9CS0dRbm5RUndlWnloTjZnNFU0M2hzZ1BhYXJXbUhaX1ZKcjFrbUQ2Rm1CUy1WX1VuVFhGRVlEVElPalkxemdadmVObnZvUWJMM0kxd0xkVDZ6X0gzMVNkTlVlY1NOSjRXSE5tZ2ZsNDFoX1h5RjJtMzFOcnNrUUtWQ0pWN0xjXzc4QTQ0N01JOWtBUmlVTUUwd1hKRUtKLXdDZWNwbzRPdFNWMWxvMXhxWG5fR1ZMbURBU1VIMVJTdmRTUEJXbERCM05KNnItS0pKWGRXWXdzb2ozTVRwdkEyNlpiRHNBNkV2WkdMdlNOSkxKeEUzNzZjYXc0ZnFXRl9MREU5Z2hJNjVOeUV4cW9zdmI0ZkRIcldPWG1pVXlEbG9iakVLaGVacVFZSVJZRXpuRklmQTduTVVUMWlabkdWX1Vjc0N1ODZFeTBic2hBQWFBWGN1XzVnelo4RjM5eHloN3pFZTJzZGM4SE1NR3JlTm5hUS0zeEltRl9aTW4yWk4xNzYyc0RSdUlXb1czNVdRS2tzSWUxcU05NHAwM242Q1RON0ZWRU45Slh3bXh5a2p4OWs4QWlCYU5iVHFfaDFqV0Vta1dONXd1OTZlUVl2ZWxPNGtuUnRtSnFERXZva0ZpZDBJdzJPTnl0VS1LS2ZyQVZGU0dKU0YxWTFFamR6enFiODd1dktkT2IzamhlRF9DRDBVbWRNREExaExBeGtvUURHX0hZMnMzMWZUNUFQdkVXQU01bkVVbzllN08tVnBUMW44ZE0yZ1k1M3NxM0lsUi1wN3VuSDZFQ3dhajYycnp1clgzcXNzZkF2YkNVYllRbU1KZF85TDVHcmlhV0Z3VFRiT2dwbW5WbV8tT2lBVWdLQnlvMFVvcjlnbnJ1eVdPMEVrRHZWRkFUSjNiYTdTV25WSldTNHY5QXJkLTJTdG9paDlqTnJUdGF6YkxmTDFqQ0huTlVZUWF6VEVHVm8yTjA4YW1GNy1zNUtIWll0aEFTUl8yX01pb1c1WTBPSFA3RDRMRXRhVVVMQV9McW1LYTlNN0dPTnZYN0dYRDBlWDJXa2p3Uzduai1COXlUeVd3Ui0xRHNMdkg0WXE3dHU5WDNxSGpQakJwX3h3ZVBWSWRiTnB2dXItQW01S2FCTzZDSUdzMS0zY3VTQzRMWXliZDZneXlTNDVHRk1HVnpxMHBRb3RGQlp0dXlvQ2g2MjYycU5SaUU4WDNlU29KTE0tc1A5cjJDbkQza2dSTHB1cDY2azNKLTF4ZmVodXBuR19RRGQ3MmJNdlVFNkhHc2d2eEN0VnpLc3gxaThHVF82ZmRKUU1XalBkZlk4Y1c3SmRsRDNGYVFKZ2RIR3VlS3VMUFZWYl8yeVpZOUpHTjU0LW1feDNRZFJVVERLd09VOUdnSlRpX01IZ0ZHYXJFZ1ozMjI4X0xmR3Vtd0V0MXJuTENIa2xwZzBMc3NONXNUOUhFTHFwUE9MXzBwYXFJN01lZ0RIdDAxSVY3endDTDl0ZEhkT3VVZDhPSm9GQWxnRG1RUExONzBiRHliN2R0bWJ0cnYxay1JOC1ScUpFeG5ONXFVdnBTR0N5QTF1T2g5d3lLMWhzcmlmLUx2em1SZUcwd01PSGFmM3NMNkp0emNlQzNJMjZ2bkVmOURINlZMRHQzMHJfM0pOeWM5RzIyeDBVNjIyTzRRY0MxYmdzcmZIQVV0c0htbEhxd1otQlpNeTV4cklwanZLWFN2TXRMenIzYnhTdW1ic0dzQzVYS2owVU96ZS1nLUV1MmFlcVo0SnNObzJfMUQ5ZkM5c0FrSklDa1IwWmY4UDdtaWVGNVRJNlN6eVJCVGdHTEk4cENDOHNPTDVwbXRhMlpiRUdOd1dmamY2NnZ3dFg1cHNaVkZQdFI3NXN6elVsSmMwUW5SSE1jZ3N2cWVWQ3lFMnNEMkMtWHFLTkpnMlVtWWhxMDFIbVZpQkt0WTF1SkNSamNqYW5PUjhVQWRsc2NCT2ZWMklMWDVHVjdTVllyX1BTQkduQTdNV3BVV2JQck0zQVhydVd1SFFlVGxITWpXYUVhMnZsYkJFT1JiMTV4Qk42dnlVU1ZhQm5UUkVzUkdqVzRSTVh5OXhrNXVvczlBTXFKUzZNbDdsd2k4c0cyMmVHbmo1Nnl2b3d3RGJ2ckRSV2w2azhkX1lPT3FTUGdpNnRrOWJqREEtbl9Xb1pGbVVGUlBLa0pucFhzNkZKNk9ab3E3TmNERUJXQ1J4SGtMSHhadUVlRzFfTzNZV0pwVzVaU05ETVRqS3UtZ25OWlk5eVRYNEtBUUJtTTZSNGFKcFJCZDRfdDExX0JzTFZOZGNsNWFjdnU5SUxfOTNuLU1LVEhDZ2lTdlM0bUkxSXdHc0YtS3dMZWk2TUQ5eXQzekw3eWNVbDhqSWhCajJkb2NKZ2ZvREFRSHRZSExST3VtOHdFWU1iWUVlamc2bkJKeVpYWDhEWTI2R3hiTEU5c25rcnhTVWdxS3JYNDV0NUR4MTZMT3lpUEViMXhSQ1h5YkNKbU9seGZ1SEtPanZHMG5BdHVBU0VaQmlQVEk5SHcyTzFsRFFWQVB3VGJWdW9hMUFleTFlV3ZzeC5vbWtNRDUwU1NqSm96WU5weDhCejZn"})
-  .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/51c3744aa3c746d1b71070b909d29d6c","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"0B4rxsqzT_PSoJq8ldR8FHYXWHzKFj6M2r0ylvJgkBUAVQCraqTtH5RW6BQ6Km3Gu-jwXh2WW2eFmCz6qafO2pqp2Dy-QDE2gIZT6aaZGaWz_JNiiIakb_1jIYSGMqYaJlrcvgaraX5sAfHUm0cxm4EbVnvXRFWtFs7_qBKu3P_oamOyS_gSjsbOsyiDjcHRAtBD2TnLYjSYKeUbazRTmvZOcuFTYK4_-8b6Q9j7bqQwKpsbT6bB4B4DlI_CkxstM-d4LPtF2F5G0ejnMJcPAfEaLP_7cgT2gdKecCT1by4DVyTkekF6Ce16QqxOrsR4CIdqgC7TBgTBwWvyUa6baw","e":"AQAB"},"attributes":{"enabled":true,"created":1568672529,"updated":1568672529,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  '4f1395bf-d18e-4299-a908-929ce86c9b02',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:46 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '715'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/recoverKeyName-canrestoreakeywithagivenbackup-/')
-  .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '87',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'WWW-Authenticate',
-  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  'd3b2af0e-e1f0-4d37-93ad-b2fd23923867',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:48 GMT',
-  'Connection',
-  'close'
-]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '17ecb9f4-a911-4dd9-b142-1175173d4a00',
-  'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:49 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:48 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/recoverKeyName-canrestoreakeywithagivenbackup-/')
-  .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/51c3744aa3c746d1b71070b909d29d6c","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"0B4rxsqzT_PSoJq8ldR8FHYXWHzKFj6M2r0ylvJgkBUAVQCraqTtH5RW6BQ6Km3Gu-jwXh2WW2eFmCz6qafO2pqp2Dy-QDE2gIZT6aaZGaWz_JNiiIakb_1jIYSGMqYaJlrcvgaraX5sAfHUm0cxm4EbVnvXRFWtFs7_qBKu3P_oamOyS_gSjsbOsyiDjcHRAtBD2TnLYjSYKeUbazRTmvZOcuFTYK4_-8b6Q9j7bqQwKpsbT6bB4B4DlI_CkxstM-d4LPtF2F5G0ejnMJcPAfEaLP_7cgT2gdKecCT1by4DVyTkekF6Ce16QqxOrsR4CIdqgC7TBgTBwWvyUa6baw","e":"AQAB"},"attributes":{"enabled":true,"created":1568672529,"updated":1568672529,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  '11618e69-0b32-4104-a5eb-a8872eaf1977',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:50 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '715'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/keys/recoverKeyName-canrestoreakeywithagivenbackup-')
-  .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '87',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'WWW-Authenticate',
-  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  'd774a73c-1e4e-4b12-91f2-d0eee15d7fa9',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:50 GMT',
-  'Connection',
-  'close'
-]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  'd4fa53a1-52cf-4778-99f4-5c8fbd124a00',
-  'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:52 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:52 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/keys/recoverKeyName-canrestoreakeywithagivenbackup-')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-","deletedDate":1568672573,"scheduledPurgeDate":1576448573,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/51c3744aa3c746d1b71070b909d29d6c","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"0B4rxsqzT_PSoJq8ldR8FHYXWHzKFj6M2r0ylvJgkBUAVQCraqTtH5RW6BQ6Km3Gu-jwXh2WW2eFmCz6qafO2pqp2Dy-QDE2gIZT6aaZGaWz_JNiiIakb_1jIYSGMqYaJlrcvgaraX5sAfHUm0cxm4EbVnvXRFWtFs7_qBKu3P_oamOyS_gSjsbOsyiDjcHRAtBD2TnLYjSYKeUbazRTmvZOcuFTYK4_-8b6Q9j7bqQwKpsbT6bB4B4DlI_CkxstM-d4LPtF2F5G0ejnMJcPAfEaLP_7cgT2gdKecCT1by4DVyTkekF6Ce16QqxOrsR4CIdqgC7TBgTBwWvyUa6baw","e":"AQAB"},"attributes":{"enabled":true,"created":1568672529,"updated":1568672529,"recoveryLevel":"Recoverable+Purgeable"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  '316d7cd5-2816-42fd-8f4f-5233ec8bf5a2',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:52 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '905'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
-  .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '87',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'WWW-Authenticate',
-  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
-  'x-ms-keyvault-region',
-  'westus2',
-  'x-ms-request-id',
-  '781f7b64-d9c5-4375-a93d-a7fc1b15611f',
-  'x-ms-keyvault-service-version',
-  '1.1.0.878',
-  'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:53 GMT',
-  'Connection',
-  'close'
-]);
-
-
-nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
-  'no-cache, no-store',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'x-ms-request-id',
-  '32dd0d4d-db43-4655-ad2d-4492b0364700',
-  'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
-  'P3P',
-  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
-  'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:22:55 GMT; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
-  'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
-  'Date',
-  'Mon, 16 Sep 2019 22:22:54 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '1231'
-]);
-
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
-  .query(true)
-  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [
-  'Cache-Control',
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3448,13 +2833,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '40e30b62-0ff2-4ae9-8d29-f397ca61ad4d',
+  'cf0a6e26-68f2-412d-85b4-9a8bf12e57c3',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3464,17 +2849,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:22:56 GMT',
+  'Thu, 03 Oct 2019 21:15:01 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3489,13 +2872,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '66aab5f5-b14d-4eda-9507-815a204fd3fb',
+  'd8d3f26c-72f1-44f1-b982-c01fb954f6d6',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3505,16 +2888,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:23:06 GMT',
+  'Thu, 03 Oct 2019 21:15:12 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -3527,46 +2908,48 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '17f22f89-8d7a-4269-939b-b80462044500',
+  '19134fe5-0d2f-43e8-9025-3e89bc392400',
   'x-ms-ests-server',
-  '2.1.9368.8 - SEAS ProdSlices',
+  '2.1.9485.10 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:23:08 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:13 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:23:07 GMT',
+  'Thu, 03 Oct 2019 21:15:13 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
   .query(true)
-  .reply(204, "", [
-  'Cache-Control',
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '118',
+  'Content-Type',
+  'application/json; charset=utf-8',
   'Expires',
   '-1',
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '9606999f-606a-4b80-83ce-3a313f8c3abd',
+  '6e5703ae-96c1-4c39-9125-c295abebfbe7',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3576,17 +2959,121 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:23:09 GMT',
+  'Thu, 03 Oct 2019 21:15:13 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '2f367bcb-0b38-4107-be46-45c7df3c29bf',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:23 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  'c304206f-2c7d-4022-9fd6-c6c1b68a2500',
+  'x-ms-ests-server',
+  '2.1.9485.10 - NCUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:24 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(204, "", [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '022a2743-4c45-43b1-9d8d-2bfa6c43e3e9',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:24 GMT',
+  'Connection',
+  'close' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/restore')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
-  'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3601,13 +3088,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  'c7ab6c56-80f0-4cca-914f-f62b63c37307',
+  '3cf7dde6-9042-4f2d-88f9-62780e837f54',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3617,16 +3104,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:23:09 GMT',
+  'Thu, 03 Oct 2019 21:15:24 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [
-  'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -3639,31 +3124,905 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '2431b191-465e-4618-85ad-f51badd24700',
+  '3239d5bf-ef9a-4f1c-971c-7f2eec472000',
   'x-ms-ests-server',
-  '2.1.9368.8 - EAS ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqHHtZRTqO1ErjxTgT0D1Qmp4MoTFwAAAI0BEtUOAAAA; expires=Wed, 16-Oct-2019 22:23:11 GMT; path=/; secure; HttpOnly',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:25 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Mon, 16 Sep 2019 22:23:10 GMT',
+  'Thu, 03 Oct 2019 21:15:24 GMT',
   'Connection',
   'close',
   'Content-Length',
-  '1231'
-]);
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/keys/restore', {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLm1YMzE5UjQxMjZRT3FJVFlCdEtWc2UyekFzWjdqbHcyelM5dzlFZDdVWVBKTnU0eUtDSktyNU5MYVZneWpXYndrd0xzT0ZoVU42cmp0RUVtWFNmdEJabzdDVEtoSUFnMmVwc08xMGtLazdYZ0ZDT04ySl95SjBCTkVTLTZyamMtbnJhbU5lRl9CMG9KMlBqb1d4aEVEVFp5T0x2NlZacDFBOVFvRkxzZFByU3JRQk8weV9KSGtIdjQ1VnZ3WjFlOWY3emNFenA1a1V0Y2NEQkZDYVZYeHQwQ25RaEFGMHBndG9RYnA2cm13eUFYV3lFUWpkN3dmMzRUM3hTUThPdXpUQV8zWlJqZjNlMWJkR0NXeTFobVhrTm43RUdkUFR2aWpGOUlZUGtzemNLVWF5SjlRbVBWdEtsZGdFVzB2Q0ZCQUFxU3podm93Q1B1aHRoaFdNRzdfdy40bnE1b2JSQklEUzZOVHBPcC1IWkhnLm1fbjVhVWhfOXlvZXlYV0F3bmpNeENnX25UeUxzRFJYbVJGX2NNNm1maVZnZk9kS3d6YlpwLTJvR3MtcTgzbllhb05wb0JsSHRSOGFicTN0NDB0Q0gxY0NsUU95NzFsOXktWVNqX3VHOTIzRUxMZm9vMW43LTlHRjNlUlo4OXFodUlUczdraWctRjRYWHgwekJyNlRRMlpFbmV5YWpidVZkazltYV82S0g1LUtkRi1VZUFrbUVIM3M1XzlNaU1iYjA4TjlFbGl5ai14dnFuX01IMjBvX3ZuN1hBRHYtNWJvekEzeVhJenlYeWV6NWFGejhVMlVRSTZ2LVZsdmtLamNaZWpiTHRtQnlFMFRWczRrYWVYOGpRS243a0N2UWxubWFtY3l5Ty1DN01Da2gxbmk2TDhGU0xGOXpBb1pNNUl5bWYzc2ZWelZiSVJOeXUybEtiYVhYcklYTEg0ZzY3ZmlIcTV3WV9IQ3BsMEd0UC1yNDBXUlJKX3F6eEdnV0t6cE42VkpwY1V4VHZyeTBRczB4WGROZzRhWkRrbUtTV0pjZE9tOXVlU0U4TElVaVZiclhVOTZkT2ROYmc3SWh6WUMwNmlRZzZubVB4Y2NBNGphRnU0LWJBQjNGQmpuT0d5NFo5eUFXdjBZZWcydnJwMnNzUHNaQ0hqMHFMTE82SG03QW9sWlJJcnRNdHBGWUthY0lCSlhNWjJ4eF9weDdVWi1hZm5yODFUZW5fQV9sQmVwdkl6VXRRU2J3ZTVMNHNHSTU5bzZMY0JkTzF5dDF1cHdKaHQxdS1OV29yYzJpQW5PTVhQMWdMVllQak00VFU5QzJBU1NTNnU2aGFmam4zcVVKa1Z5dTBjMVQ1VEdpbndLaEJSU3JfSjVJbTgyTHlWZEIxeEhRdFhYMHAzT2JOTkVnLVFfRkhhNXFBX1NydWxPVE84b3pGYWFVRVFKdEhsY0NkVUpRNkliWDE0aXNaRm94Qk5BM21GVUwzOWpmdi1GamtMbVhib3ZURWVfNG1Vd0F3ZXViSE9GNlltTHg3YW16MlBfUlBxNU95d0tQMjhzZlRJR2J6bzhsOHF2OTJuaEhTNmtHTmF1cWMtZzI4cmRUQ3dOOFJ3My1lWEhaMVhCRU9PT1oyS3I0WmlZYlZHVnhXRHlfdXRhUWhRWmhpZ3BYekhTakNvUGgxbXV1eHVEc2lMSVZ2NTJLR0FIeHRhU3lraHRUemFPek0taWM5bUdPZVlDZmw0MVlJUzRiQUZDZmp5VWRUVnRfS29lRkhaWUpqUlJTY2ZYVGZ6UkxkMkpjaWlrdllPc0FzVDA4WnJGVHBCbVpxMHhBVmNEd2hTajNVTEZzblRzdFhDTFlOTk9WdElsZlZxbFdUZUpuLVgtakJDZE5oZGtpVVlobVN6TWN1OXdyQWM0WFZya25SSmFBYzBlUFphdTlmQTBJTDFqeEhldjB3dmFUNmlvdUFxeEZvQTZVY19HWWdTLWxMMUg1UXVrY3N6Y2VDVEhkblQwcGRxbFNBQjdfcWtjalJiaElWSVM3ODNFc0hDZWtqYWZTdWZ3ZG9fNmZsRDI0SkxxNW9LU2NKbUJObE11Q3U4S0hrS1JKTi1XRkE2Sk05WkIxRk5MaDNRMV9IbkttaDhDSEFRRXZabl9OY1luOVBpcDhkTVNPVW4yaFdDU21HM0pORXRBR1RTaURPSG1SOVlGMGxYYld2ZTNjN0xNaVJPVjF1cXlBWHZwTEdMazdUU2FtVkFPQTZmU3V1QWdWT0JEWWdOd0pkMTA3eTZ0Y0sxU0JoRGVleHZqcDBiQ3BXWGYtWGd5SU14REh2Zjl2WC1VUjNLdEk2eXhMcm5pMFN5dmhHV0JtRU9pb0dTOU5qVnc5M0JmQ3dzcmdrYnpWa2VIS2NSb3BjTHVvUHpSZkNESXg2OFUxSFRYLTc0NjZ1a0tIaFQ5dG05LVJfRU44bm1TeWtzT3o2V0dGd0UwZm1iWlFWREtySkd4YmtoVk9hb1VEOXNHV1NqLVpiUE5TOFVZNUtzaEc5VGJGQ0FxZG0xWDNfS2o2U2xaRVF3cnZPSVJJaFh0Q2JTMnJEWGw3YzF4RmZlWjJCN3JER1RGN1FYSHlnenBsc3FzeUgxOFRQeHRTb3BDT1BKSHN1dWxVT0Uza3IyNGtuX3hnZDU2T3NHNlhQREh6c2l3djBTR3Q2OG1uNWhSVFRjOE9yNGppM3ZDZlJleUVlcUo5cEVudnQtYUVQbUZ4ck1pYkhfSEpMcnQ2TTAzOS0zRFV2azJvcEVwSEgtcGZWYWlWdGdkT1NhekRRdVFEcDJwWGRJWXktQWRlMzJGa19ySkxaZjlMVnFhZ1VlWGoxdzVDQVJZRUhhclU5Rk9pcjNTTzhGT3ZKNnR0TWVTY0hsbVp2VWFhRVdNQVJDeXl1WjQzTGdTd1UtMXRRYTRlaHpzSS1fQm5PSGU0ZjY1WV9CNnNscnlnNlJKRTRNY0ZhYmV2Q3ZHVVpjZTRSRzgtQnlLOHVlX3ZKUUxTcGsxMlY0cHNCX25KUW9HbEx2WDBGa0luakFBcDA2VWxxNUN2RlNWN2ZFZ0RKVGI1WGxPVnBtVlp6WGlrQTd0QkFieTR1NUpoR3hRaDB3dVl6LW9zYkNlVWlFM2VKZXdvakk1TVBwLUhZVWI2bkNxUzYtV3lnbWFiLU42VGh3ajBhUW9PUjZVUm5uSVg1YTI4N1U2S2wyRmVtSFFsU0RXa2I3aFB2bklkX2tLNnFKUG1zNzRJMVBua2p0bWJOTTdKWXByaS1jaGIydFhoSldSOXlvTGVEakRGazhydGtBZVl6Um1oZ1h2YVFTXzdJMG5ZaWVmTHpDaHR1d0YyZS1QYUJwNFI1SUJ0RGltcXBrazFLMVFLQVFSYmFUQXhRZ1pWTDZ1NXFTb19oUV9VZTg1NFctb1lXU2sycWEzRmRnSmlTMDI4dXVORWdCbVNfbjdtT202bmNGaUdRMXVtVUVXUUxuNnNxejZPdnEyWW9Fa3V4ZFRxYXlEZklPNl9hQ29uNEVpbzllNExNam5iZlpUSWUtcVFwZ212QkhaSjBsMWtwUnAwOEdRaDFpX1NZRERFbXNGZzF1TDRsajIwNnhFYnhGU0JDQlFaQ3htS2UtTk9zNlVQQ3JaRzBZZWxWeU5oQzlNcmtpa25nV2tGdG9qTTlQN2RkVGhHRmV4c3RVREFRSHZBYzV4TU5MMURaMGFndXR5cHczSllkb1lzc2xFcWZDbVRhQndOTTFlemtSRDdyRkxqVVpyaEE1MV9zUk5mR0h2b2k1eVZZeFZ1SjVOdHNvd0hDcGx6X2diMXo2dUhVSGpjdXJIaHk4bXZuY0NDNjRVaVBOSVgxS19BY2FVQjROcXV5OFQtTHFBTEZ6dGRjV3NLSlR4RWZHbGhiRmd6TEFOSUM0R1prTnQwRVF2YWN2WjNGdnl1LWxnYWtKbjhjYm84UVRaejgwQlZmeUhDSXY2LWlqellWdjkxd1pSWndlWWtGWWc4RURwNkdzcUpEMTVWNW43T0dWeXNXNlFzaG84T3lac2VhX3lIMXhld1psMFNhSTlqYVktaUI1amxYd1RSaHFRM0F6SWZua256XzdBUnNIY1NHeUZwNXFMMkpkMmU0ZlVDM2FCcjkwWjZHWnRuQUdNYVdlQTVEbTUtVGJzdnJPWFN4Q284dndwcF9QbEktZnVmN1lvT2hXc1NzcWpjc25lN2NXTEdlV2hQUXlyZURjWm5CeFZjQjN4QTlwRl9lU0hOZy1yN2dZZ3ZKSm90TXdZZmZ0ZVlNVUJQUWpHZTd0M1BQNTB2UWxJYV9Kd0oyOUc2N1BhdFV5UkFRblZvR3RYNXE3V2MyVW82UWZac2VJckZ5aWVGb0k5bmlxd25DVzFPbTFNa0llSWxyUXJCWFdodFNrdE5xa3JMeHk5LUZTVjBFVGtnbVhmdWhIUm9ud1Z6WjlSRXN0ajZnU3liTEtRcF9kNDlObVEtS0dQaUdUdjM1SHRUOWFSbU90N19VQm5ZTkpNMEtQdXd4bkgtd2NGNk9DXzhFXzd5bDhCc21DNkZYNlVWVWg5THpualBoMWh2NldUQXNjYmdfcE9xS3ZURDJmUE4taUNnTHdqazNnbTJSVkRRNzVOa21vSUMwWUZCWXVDY09TekRvNERWc1M1czQ0VUdDNXVlanRIX3ZKTmN6YjNkUG1iR3Zkdkx5NklEeElRbWJJeC1OUk9QclZTNWNSZzhwTTdpM2hTVU1HX08wdFZ5WERveVpHaVVOd3VNSFpsT3ZPaVV4azI3S3MzaGhnYUt3bXI1dEl4QWRtNzU1YkhSQlI3Q0J1RWtaNkR3SnVPMHhtaVVjRXFUQk5yYUg5SGhkQ1FnLS1GZmxYZlVBZUJubENNQ20xZ1Q3eXFER2k4MVFkZnlnZ1ByNnBjT1JSblZLLUFyWHc4MkFVMnhWMTh2LTZUdXZhOVF4cnNhWVVZT0J3LXdZTlg4UVJITGx0cXFkRm9rOXZUSTBQTVk4N0tZR215OW1QNlVyMjQ0SFRsT1ZDNDRzUUNXMkRJWlB1R25vcFh6ZGE3bHg3ME02cWFaWXp4b3NvZnpyR242WFJGQUVOQU9iX1RWTDBNZF8zelNxTzVSRWxENDFqSzdUTUloWnFRQ2xxNDh4NUszaEFiYlVRVG5PUjlhRUdfY2I3QzY5N2k4d0s5TFh2RF8xVUpBczNxdkpkM1VGY1hsX255VGJpeFlIYWt5YWZuQ0JWdlRCTXlsMkZqZDJWU2k2c3FxMm5PSWJYVE00NWR5ODUtTFhqWGtRbGlGTVJIcEVfVi1URkNKamZ0UXpSaWg5R2xudjl3OFY5eTRDTFB2TUxwUk14dFA0RG1WNnNmSm96ZTIzV0RwUjBicGdkZHY5WkR1VFZFeFNEcXVHbFk5MWtVSEEyc1pPaWdTakt3dmtUUHdfQWxSam9fZW5ESTZueVY5M2NMTmJZbEI3Vml4ZFJUcWtScElnMTY3NU5MM0NYNDBMby11WThUQmlfQ0Z3YkY2OGp6V01kYU5iUV9CS3lRUkJFcXpFaW8xdkV6Ti1KNXN3eGFWbGx5b1d2TWRybGtMY3dTMFA1YVRISFJGcDROdHZ6TFJWQjI1d1I2d3J5MmpIQlNrdUtWeUdLWDJsenVNZ2F6WG95RXNpMWZDc3FWemZGd2tqYWhOLURkUnRnb2M3Q1VDbGdDOGl3algyLVp0YWNVUnFsRkJxcjFiTmVnT2FOcmZ6VXJBSXlxTnU1aFlwd1Vrc0pqMHo0RTVfMU5DbnB6dzh4QTBBTzNwdURRSnhaRzBjUEJDdEo4ZnFhTTdrUVN1ZWhMQzR1VVV0OHA3WFZPSmJhcnl6MFRhTjJxYmtsbDQyNzJMaXR6d09mcUpIMEJoZFR2ckp4QVd2V1Z0azg1TzNQZ043d1lfZFFEcmRkSVNWckJweUhFcWVRay0wUUUya1ltSkx0QTRoSjJZN2hfSzNlNlRzbUNOQlJDd1l0Qk5oQkw3MlpYbDM3Y1Z3NXNjWGVRU3NjMFRpQnp5T1NBN0RJZWVabEFEQnBqdXE4cmNaczU5Ni1sSS1TbFlyVHczcVR3YjIyY0doc0ZJUy1LdDZFdkRpbGZkQzdfNXMzMDhfb2o1amZzbjNQN20xMkNCSlQtMldPNkRtZWUzb2N5TkJRc1d1MGthV1hKRkpGeV94TGs4SWRUa00xeVhwTzA4YnBkWkwwR1lEdmgwUVp5UUgtMEpWcUkyal9QN0NpdkVaX19fSGtRU1BhT0ttQ3U2NU83QXpYRFpJVlV1SVdUTXZTb2pzLVVrQVpUWHo1MjJRdmgtR1FHSTgwcENoMTJzRmg0VFBHQ2g2MS0tREdhc0hSWURSd0dKVnpwd3pveDJVeDNDTUJJNlNFLTJTd1BlSlNSZDdNRmR6cVVDYmZNWXJ1U1g4OEpzWVo5WktZLXpRb0p1LW5VOUptbGRRTjdnQk5HNl91TGtldGRpamJZOGIzZVR1VGM3Ym9lTDFzLTA5NkhxUERpanJWX2pGaFBKQWVvb1dwSnlzXzNsaE1TeUFrQ2Jma0dTTFFmZmE0ZWdWRGdsTjBQcHI5bHA0UWNSMmZKY1JEeGVKSTd6a0Zsd0dvTUxHU1o2enZ6eWhHTkpfZjU3OHNBS2lObmQ5OHl2MHNmVlZuamJ5VE5WQ1RVbzYxR2tCTWdEczZOZFJrQkRQYVdhYjMtNlU4Zkh6R1BMZ0UyX0FyS045WHdhVFo2ZHFtWUU4bEdJaWpxMlg1aWREUEI2MFdHWkpENEtkeENYZFd4ZG1VSnlLTm1uUExvQ0VubHYwTVkyMnBub1FMT1RZeXdWMmRjY2wxcFV6cUVlVm14el9tQ1BQcjNrWENTbkduUjZuSFVpbHJKb1RMdEU2NUlOeUZoYy1HUHVHNmVTMGdNX0ViY0Y5ZGlaREtwclJHQ0Z2WmZOR3ZQYmxHTGw3NnlOM2luWUd1S3ZTa3EtNjhmbk82aVJfeEthckFGRVZndkp0SE9VSDU5eThPVVRldEgybnZ1ODI2N0RCeWNGRWZNZlRMRXhqR29lcVQ5elNLNXMyQjlLOVJmaWRpak9EYTF1U2tvblBWWGIyVnFZNUUyZU9nWU1QamhLSm5ORzdxT3lHUFcyaTNGZ25fbFFhWHppTkxuREpOZmR2a0RxZkhvN2licUpqcVk3R0JyaTNvMHNMTmZSNjdseFl2ODVNU0RLTVlrQ0xndVlFNS1nUjVBQlhLOXY0cVNQOUJ5Z0lVcW9wcEU5M1ozdTRhT1lEdEcyV05nTm85cFR4VHQxU2tCTzQzTVZydGc1b3I4OHJhM20yWDdJdHRPTXViX3ZVRzdyWVk3MFc2V2NTckY2WFhJNG9qZHVaWlhDbnFyd3hqVS1IV2hpdG95V2xlWjF5SXJLSlBLWmxOeC1qSWdSWUZFTmMxeU9KVEx3VEl2cG5ZSFB4SXM3bmhsdHR0NFFjQVo4dHB2N3h4SVVUTFlfWXk3alJyN1RSOW4tdGRURVFPUzk2MThDajRDeENfTElVMEtkWXNVTUtQZVNiaWQxM0h6QkdEbVJpamxVTkFvLW5ULWgwdkc0bDVPbVhfUXA5OWFSRTFCYl96aVZVS3JYT183Z2RqLVR3UklrRkhJSkExUFktTWJ4S2VqQjBPMnp6X3VrSVFfQk16MHk5UjkydDRkcnJoSGdOSkdLdUpMLW1rLUlEU3VFSXE2bW0xS1djQ21OSjVISWFFaUlNLUU1NHBGZmt3QWdJcERna01tMVRfTVFqY1VSeHBNRlNjblNoTVhfTGxlRC1ia0dWekd4elFPQ2I5Ml9DZC14MEVkeEo4N01nNE9ORmRhRURLaUt6aXl2NUx6R2R6Q0J5ZkREN0d2QTY5c09LZUYwVV8ta3cyTlBmdV9Uc3VZVUxzWkxuckp0ZVd0Tml5em9YTXVRUE5Ub191QTdSdWt1RlRyZF8wUTk4OG9xSWw0NnNUakZFa2ZPdk9sczdxVFRpN183dEp6bHJENWVKVmdaczFybkR1TmJnV0MzZWU1alQ3UHo0N2xiQXYzMGJVOWgxWGI5QlZkbWZyd1RweWtDUk9IdVNOZFZ3b1Z4ZXdqSXY4NllnUzNUZWd2cEF1MXJUTmJDNmdWdXNIck5mbUt3bHBiMTdEeEV3dl9BbjlVbkZIOC13ZFNoQlRNc0tkQzBTc1RHYjZvYWtFZkMtUXpkVG0zQkNwWlFlQVIzbjdPemZ6TzRudXp1S09DeldZLXNDLWVRd2thMGt6Yl9aSkhzdlRieWdJWGszaWFlWWc1d2pQYUVRMVJFU2ZNNWZzaEdIX0F3U0FhTjNPMDI3anRkSHl6dzZ3ekxaTUNaWUFKVjBuTFN2bkRyMy1tZzl2R0VBU2NJS2ptUzNYS0JyR2RNUFFKZnFjdkRLMUtzdThSeDF1UHdPY2t5SXdyQUUyZ1Y0S01VYlB5T050MmM3NXpXU3JkWlFDY3dLeXBkTWxTQmpkU05BRHhRWHAwQldCejU4MF8telFwSUR1Yk1WeWM0UzhBZDBHakxMdVE5Nzg0azRmeWNSWWREZFp0eHFPNHlKX2VDRHZ5U0h0VEM3VW1zNHEzSTNuV2FzM3FSaVA0eHJ3UDI3bVpwN2gwdkRuVmswMXhXeUNXUEtVaDRwb3VaQjBJNDJlS3FaN1F3NlJPcHJ4a2xlVHdFTkg5Q1hTSjZWWGZrMmZ0UXJiTFdJRVB1QWdhV0VrTlRYdmtvaGtBbktVZTdXT2ZSZnptM25UVnZSM2ZOWDBMWF9LUk03T2ZYamFISHVoandKTmlUeXpkVXVGSXBRN0x4WjRhdGRmSzFtM2lZM3hfVkM5S2ZNWU5iLTU3NDhwc0oxUjV2dG9VbGlhU3pqUGVSN2dhbWVfUzljSmh1VzY2Q0NITHZSTHU5ZHBXajNwQ1BacTE0alZBZDFuaGJYNHdZU29pVTdYN1pISXJsdmVZU2VyUlRzUGhhTUJ2OFRaazhoYWVPd0UzUG8wM2FwSE8zMV9oU3FXRm9NQ2FkbE9Yd0g3LU04R25yYnA0MHg5NlFUbXhUNUZKQU5sYzBscnFzamczWGtsR0VpNmt1S2tORld3ak1mNjBLVUQzdXd3MjR2U0lheTRCQ2c4WWdvX3RnV3pXYkl1MlVvdGhRVkZPbF9BaVpTdzFfenFWM3pHSDFnRVUtSHFUcHNJVjVvRzZ2SE8tYWtMN2dGamh3bVg1Vy04WmJidnk0SnBBdi1JQzIzbUZtZl9tdVVxZVA5UXAzQXpIa2R2UWJ2OVl4SU1GTXZ1UlVTa2NRazctRUt0UldfR3VsZUY0eE5pODByRnIyaWFrcG9sck5TNTREcWtGVG9TWXN0YkRkRUFuUk1FNXl2VnJXTUFkekxZVXZjTmtsSjFhcEdfSUNDV2ZaQnRLMW51LUtucHl0Ull0ajZieGJNTE9FQmNMdDFWdmlLR2NiM2kyaGJNaTNCRW5VYkROMkd0Wmxsc01qZ2NpbjBvc2hZVkE5WWRTUmVVbGdLWnkySk5PdWtNMFU4Q0drdGpGN282VnFLX281eFdkQkUyeGFyMzJrWEt4N3dSZmo0NVU0QnR2R1VQWnY3NmlqTUJsTWhuQXdrYkdjVlRDYldnNVAtOUlzUy1JS3ZQQW9QMnJEbTRBUG9OUUxBVFJLWUtPX3JYOGlxQTB3ck9IUDRHb0d6UW5RTXBnRW1wLUxHbnUtUEpTZ2dhYS1WZmhwT1pURjVaWVh6aWJlQWppaUgyYTBIb2VXRGN6NENCSW5HdEg4cUNSbzMzeFk2b0FPaTJtOVFHWXBHWWhsS29KbXdQRy1zTjNaNm0wdFAyQjVGa3JPU1I0T1kxVDNBd0NpbHluUkM1aDBIdlA5OWlfbHExamlWLTR1QnlRcTVOamEtaHQwM3RlSU1LcV90bDh2RHNJSEpxTkpWN0VJUVRWckpSWjRid0NHUWN2aGc4VHBkVXUtLUwwRmdNNWs0T0ROVVhJMTlNc1BaS3FrTWZ0YXlUWFpUNXN5LUV0dXFyYlFEcUdybDdvR3R2ejdfUGVtOG5jNFhIZ0xVQTRvVF9PQ0JGeGxPTUoyOUprMm1JVHVZYUJUanpRcElSdjNnOU4tdmFCX3hackd5M0NZbV9xSTR0ODRNUWRpSzBFNEl4aE1uQWdNQVNveHBxNWEyZ1plNm9POUI1YVBJZklkcW4wcThXWHBkRUVGSnh0SlVoay1zM3k4QzdUeERhaGNuSE03Z29CZ3lucXJDQ3hXQjAzLWhzYVZyMkRGeUVQejM1YlhLZjhDVjkwV0Z4OHFFXzh1eklDY3YtRHZNX0cxc003MVBVaG01X0lGS1BacU56NlhxTERSakVpSXpLOUZ5YTNkLTlIMVNKelFMSWdjek14ZTN4RlRHZUFBQzY4VnJzUlBDYVhLaEtPSG95WXNCUjRhSDlVZ18zM1pGVm9SRzZLN1VkYU1tX2hoQXNCSTZORjM0RkV0c2FMY0Jja0dBaG8wOUI1clVWZjRyaTV1SV9rVG02amhod1UzaHJwbWN1MkhkU0ZSUkZoM2RzeVZTOXpJVHctQmtMR094b2lsVnNKdEtISjB1YTdxY3JUaHBoMkVUUXpXM2tza25DU3JIbWJnTzhReVphZmg0Nnc1TmpUTm1leDNmQVpGTzRVMkU4UjBEZzdqUmhvcmFSdFlCVEladmdSSXREbUVsa3IxUXN6QlZoMWNyUzM2c3JQaFQxWVZtXy1la1dqb2ZIbmppNVhSdGpQa05PaUNFcmpUVl9jeDJ0VHEyOGI5WFptZkZmZG9hQ0Z1ZDdpcG5fMVJneWRUb2tSS2dreW1md0dkeG42V1E0TE9EZnpsYXlsTkVkNjdSSUNOZWtWclZuOElwYmpBaXB4X04zakYzWU1hLU9mVjQwSkpnVUFLeWFwcXBNWVZUdDNhSlhITzZvY0d6NUREclJWcTZXR25BTVZTbEtSVjRCdkRqR2s4Snh5bVlOOWl1RjNmclM4b0VtTzM4eXNORnNnU0FpYVgzZE11blZHUkpRTmlGR2RPdGZIV2lING5IMjRHR2kwX2pqc0FkZkhwa3A0QzhOYmh4YlNYeExrTGYwbFFMUlUxYk1Ta1dFZmRrWlRjRjd4RTNwU3RvaEdKLUdMQ3hSVXhRWDhhdk1BU05iUmVlWkVpV01ZdnZpdVpDZXRONm1MLXVLOUl4ZEVnNUxvMm9ELXR2ZW16OElUNFJtUi1KMTFEeTdRelZ0SGtUdlJiUW9nUVdHckdlM1hxNFZQNjZicjMyVjNXUGR2YkIwUVBRZzhQdzZVQmxpVkRmbXdqLWNtX3FWZmw2Z005a0ktWFhaWDdTVWlBV0ZkOTlEY1Zxc3g3dkdIQldqc05nUjlfVFNUM1ViQlVZb3RUWVgzanhTd2RGdGROOG9mNG82X05WOGw4MWpIV3k4LUpJR05yem1fU20ya3VHUmRGMGZ1Ym15MjNlT1VZQ1VSODZwa29zZGtuUkc0ZWh5Q3V5MHE1NGZUd2JvaGpmZ3pvQnVQem5nbkNvN25xbDA2QUV2SGlmV3R0YW4zWUxPb3VpN1B6RFlFMmdaRFhzblZLdnZmUlVKRFZ6Y3o4T001dGIyeTd1ZzNGX2hfTGZaU28yQkozMm1ZVlA1NnZLYWw3a1ZaYkFOdWJoNUVhdHNMaXJzQlVuamFpUFdKLUtSZE5uX011Zlk2c2E5OUZkUFRYSkpmeklQY3dHS2FxcHJ0cHhuS1Z0SElhYXVDU0F0b2g3ODdBZ3dvRjVQSzhodEhaTWRzNjZsNGVDbkU5V0ZhaFdueUpNUGV6NmdHczBGaFZBVEJKM1Q5YUlEa1NZUzBQYktyTnFZTnFjRHZ6YjRhTVFZcTRyNFZzX2lTbEl5WFRGU19kcTF0UXZ5eGxES3lpanRPd1VvSG1ueEwyRHl6QU5oOXlrYWhmX3pubXR5aVpOSW5PZnlQUDJSYm81QXV2QlBUWEg3elpBNlhRQ0dzSXN3elU0ZUdQc3ZHMHRfSmRSUTNXcE5rV29sZ2pKUzhqSUYySHlGajF3djI3M2U2ejhuRGlkLU15azl1SElNSTh4SElBWlpUQXlvUmRCZUU5WlFuVWwyWGthVlluRUt6RDA0Q0J3NmREa3A1c1cwNVZiOTBKSVc3YTBiY1pESmdwc2h3aFNCb1FmY2N0V1RWUVNLM0o3ZFVOQWJrZnlEWTNwRnIyb3FtMktSZXRrd3NFWnpzUFkzWlVfM3czanJ1ak0wZVg4Q1BfT0FUVTNFaFhBLVdHTlJFV3YtR01mQUZ2UWZ6Uk1ZN1ZuZmN5bGVVSHpaTENBRVprbmtNcURzVjJPb1hSOGE5eWgzQTZUMW4zVG1CbVRwbC0zT1Rydl9rbGY1TGFrb2o1Z0ItVVpXVFJMWW40MWxJcW5HbkVqN0ZSeHdBMFdtU2lvZmRzQWRiZlZ3VUNDRzl4SGJ3UnJheFBfaElzQXJjVFBDa21hR3V0SDFlRkJXZ1RZaGtHOHhZWU0xT0kzRTZtRnY2UmZ1NmJ5RktYN25nVC1wQ3RhRkp4ejBSY0R0RHkzYjVLVjFZRGxsNTFHLUF1cERBVmdRcHk0bjZoT2QwcXdUSHc0bF9CTGxQNk9rX0pDQkxTaUcwN1FPOGl3RG5QNHNra3UwNUE3Y0N2cnU1cVliWFZkeTFJcjJBUzFjRXRUNUNiVjRaY2dmQ3ZoYUVkSktNTFUtNFhicllpeE1OaGxHOU1kWUF3SVpTMENWaDNsdjNZd0NJaGlzU2xZSnNraHBwLVV2b1dUVEZ1VmpMRU1uOGdWdkhUWVZ5Y2dBaVk2WGtfX1NDMVA3VXpZeFNDWFEuUFJ3M2JtSDEybEh3NTA5MUpiT3UyZw"})
+  .query(true)
+  .reply(409, {"error":{"code":"Conflict","message":"Conflict while restoring key https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/7d5d72c1d8f44f6fb688e5b2c4b83111 - key already exists or concurrent access"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '249',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '6d2f5d7d-eedd-4a0e-bf5b-9529ff82e5bc',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:25 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/keys/restore')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '89128fdd-c5e4-4e0d-bb27-2e55b4d90918',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:35 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  'a4701d77-2f58-4084-bf86-be5712a02100',
+  'x-ms-ests-server',
+  '2.1.9485.10 - NCUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:36 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:36 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/keys/restore', {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLm1YMzE5UjQxMjZRT3FJVFlCdEtWc2UyekFzWjdqbHcyelM5dzlFZDdVWVBKTnU0eUtDSktyNU5MYVZneWpXYndrd0xzT0ZoVU42cmp0RUVtWFNmdEJabzdDVEtoSUFnMmVwc08xMGtLazdYZ0ZDT04ySl95SjBCTkVTLTZyamMtbnJhbU5lRl9CMG9KMlBqb1d4aEVEVFp5T0x2NlZacDFBOVFvRkxzZFByU3JRQk8weV9KSGtIdjQ1VnZ3WjFlOWY3emNFenA1a1V0Y2NEQkZDYVZYeHQwQ25RaEFGMHBndG9RYnA2cm13eUFYV3lFUWpkN3dmMzRUM3hTUThPdXpUQV8zWlJqZjNlMWJkR0NXeTFobVhrTm43RUdkUFR2aWpGOUlZUGtzemNLVWF5SjlRbVBWdEtsZGdFVzB2Q0ZCQUFxU3podm93Q1B1aHRoaFdNRzdfdy40bnE1b2JSQklEUzZOVHBPcC1IWkhnLm1fbjVhVWhfOXlvZXlYV0F3bmpNeENnX25UeUxzRFJYbVJGX2NNNm1maVZnZk9kS3d6YlpwLTJvR3MtcTgzbllhb05wb0JsSHRSOGFicTN0NDB0Q0gxY0NsUU95NzFsOXktWVNqX3VHOTIzRUxMZm9vMW43LTlHRjNlUlo4OXFodUlUczdraWctRjRYWHgwekJyNlRRMlpFbmV5YWpidVZkazltYV82S0g1LUtkRi1VZUFrbUVIM3M1XzlNaU1iYjA4TjlFbGl5ai14dnFuX01IMjBvX3ZuN1hBRHYtNWJvekEzeVhJenlYeWV6NWFGejhVMlVRSTZ2LVZsdmtLamNaZWpiTHRtQnlFMFRWczRrYWVYOGpRS243a0N2UWxubWFtY3l5Ty1DN01Da2gxbmk2TDhGU0xGOXpBb1pNNUl5bWYzc2ZWelZiSVJOeXUybEtiYVhYcklYTEg0ZzY3ZmlIcTV3WV9IQ3BsMEd0UC1yNDBXUlJKX3F6eEdnV0t6cE42VkpwY1V4VHZyeTBRczB4WGROZzRhWkRrbUtTV0pjZE9tOXVlU0U4TElVaVZiclhVOTZkT2ROYmc3SWh6WUMwNmlRZzZubVB4Y2NBNGphRnU0LWJBQjNGQmpuT0d5NFo5eUFXdjBZZWcydnJwMnNzUHNaQ0hqMHFMTE82SG03QW9sWlJJcnRNdHBGWUthY0lCSlhNWjJ4eF9weDdVWi1hZm5yODFUZW5fQV9sQmVwdkl6VXRRU2J3ZTVMNHNHSTU5bzZMY0JkTzF5dDF1cHdKaHQxdS1OV29yYzJpQW5PTVhQMWdMVllQak00VFU5QzJBU1NTNnU2aGFmam4zcVVKa1Z5dTBjMVQ1VEdpbndLaEJSU3JfSjVJbTgyTHlWZEIxeEhRdFhYMHAzT2JOTkVnLVFfRkhhNXFBX1NydWxPVE84b3pGYWFVRVFKdEhsY0NkVUpRNkliWDE0aXNaRm94Qk5BM21GVUwzOWpmdi1GamtMbVhib3ZURWVfNG1Vd0F3ZXViSE9GNlltTHg3YW16MlBfUlBxNU95d0tQMjhzZlRJR2J6bzhsOHF2OTJuaEhTNmtHTmF1cWMtZzI4cmRUQ3dOOFJ3My1lWEhaMVhCRU9PT1oyS3I0WmlZYlZHVnhXRHlfdXRhUWhRWmhpZ3BYekhTakNvUGgxbXV1eHVEc2lMSVZ2NTJLR0FIeHRhU3lraHRUemFPek0taWM5bUdPZVlDZmw0MVlJUzRiQUZDZmp5VWRUVnRfS29lRkhaWUpqUlJTY2ZYVGZ6UkxkMkpjaWlrdllPc0FzVDA4WnJGVHBCbVpxMHhBVmNEd2hTajNVTEZzblRzdFhDTFlOTk9WdElsZlZxbFdUZUpuLVgtakJDZE5oZGtpVVlobVN6TWN1OXdyQWM0WFZya25SSmFBYzBlUFphdTlmQTBJTDFqeEhldjB3dmFUNmlvdUFxeEZvQTZVY19HWWdTLWxMMUg1UXVrY3N6Y2VDVEhkblQwcGRxbFNBQjdfcWtjalJiaElWSVM3ODNFc0hDZWtqYWZTdWZ3ZG9fNmZsRDI0SkxxNW9LU2NKbUJObE11Q3U4S0hrS1JKTi1XRkE2Sk05WkIxRk5MaDNRMV9IbkttaDhDSEFRRXZabl9OY1luOVBpcDhkTVNPVW4yaFdDU21HM0pORXRBR1RTaURPSG1SOVlGMGxYYld2ZTNjN0xNaVJPVjF1cXlBWHZwTEdMazdUU2FtVkFPQTZmU3V1QWdWT0JEWWdOd0pkMTA3eTZ0Y0sxU0JoRGVleHZqcDBiQ3BXWGYtWGd5SU14REh2Zjl2WC1VUjNLdEk2eXhMcm5pMFN5dmhHV0JtRU9pb0dTOU5qVnc5M0JmQ3dzcmdrYnpWa2VIS2NSb3BjTHVvUHpSZkNESXg2OFUxSFRYLTc0NjZ1a0tIaFQ5dG05LVJfRU44bm1TeWtzT3o2V0dGd0UwZm1iWlFWREtySkd4YmtoVk9hb1VEOXNHV1NqLVpiUE5TOFVZNUtzaEc5VGJGQ0FxZG0xWDNfS2o2U2xaRVF3cnZPSVJJaFh0Q2JTMnJEWGw3YzF4RmZlWjJCN3JER1RGN1FYSHlnenBsc3FzeUgxOFRQeHRTb3BDT1BKSHN1dWxVT0Uza3IyNGtuX3hnZDU2T3NHNlhQREh6c2l3djBTR3Q2OG1uNWhSVFRjOE9yNGppM3ZDZlJleUVlcUo5cEVudnQtYUVQbUZ4ck1pYkhfSEpMcnQ2TTAzOS0zRFV2azJvcEVwSEgtcGZWYWlWdGdkT1NhekRRdVFEcDJwWGRJWXktQWRlMzJGa19ySkxaZjlMVnFhZ1VlWGoxdzVDQVJZRUhhclU5Rk9pcjNTTzhGT3ZKNnR0TWVTY0hsbVp2VWFhRVdNQVJDeXl1WjQzTGdTd1UtMXRRYTRlaHpzSS1fQm5PSGU0ZjY1WV9CNnNscnlnNlJKRTRNY0ZhYmV2Q3ZHVVpjZTRSRzgtQnlLOHVlX3ZKUUxTcGsxMlY0cHNCX25KUW9HbEx2WDBGa0luakFBcDA2VWxxNUN2RlNWN2ZFZ0RKVGI1WGxPVnBtVlp6WGlrQTd0QkFieTR1NUpoR3hRaDB3dVl6LW9zYkNlVWlFM2VKZXdvakk1TVBwLUhZVWI2bkNxUzYtV3lnbWFiLU42VGh3ajBhUW9PUjZVUm5uSVg1YTI4N1U2S2wyRmVtSFFsU0RXa2I3aFB2bklkX2tLNnFKUG1zNzRJMVBua2p0bWJOTTdKWXByaS1jaGIydFhoSldSOXlvTGVEakRGazhydGtBZVl6Um1oZ1h2YVFTXzdJMG5ZaWVmTHpDaHR1d0YyZS1QYUJwNFI1SUJ0RGltcXBrazFLMVFLQVFSYmFUQXhRZ1pWTDZ1NXFTb19oUV9VZTg1NFctb1lXU2sycWEzRmRnSmlTMDI4dXVORWdCbVNfbjdtT202bmNGaUdRMXVtVUVXUUxuNnNxejZPdnEyWW9Fa3V4ZFRxYXlEZklPNl9hQ29uNEVpbzllNExNam5iZlpUSWUtcVFwZ212QkhaSjBsMWtwUnAwOEdRaDFpX1NZRERFbXNGZzF1TDRsajIwNnhFYnhGU0JDQlFaQ3htS2UtTk9zNlVQQ3JaRzBZZWxWeU5oQzlNcmtpa25nV2tGdG9qTTlQN2RkVGhHRmV4c3RVREFRSHZBYzV4TU5MMURaMGFndXR5cHczSllkb1lzc2xFcWZDbVRhQndOTTFlemtSRDdyRkxqVVpyaEE1MV9zUk5mR0h2b2k1eVZZeFZ1SjVOdHNvd0hDcGx6X2diMXo2dUhVSGpjdXJIaHk4bXZuY0NDNjRVaVBOSVgxS19BY2FVQjROcXV5OFQtTHFBTEZ6dGRjV3NLSlR4RWZHbGhiRmd6TEFOSUM0R1prTnQwRVF2YWN2WjNGdnl1LWxnYWtKbjhjYm84UVRaejgwQlZmeUhDSXY2LWlqellWdjkxd1pSWndlWWtGWWc4RURwNkdzcUpEMTVWNW43T0dWeXNXNlFzaG84T3lac2VhX3lIMXhld1psMFNhSTlqYVktaUI1amxYd1RSaHFRM0F6SWZua256XzdBUnNIY1NHeUZwNXFMMkpkMmU0ZlVDM2FCcjkwWjZHWnRuQUdNYVdlQTVEbTUtVGJzdnJPWFN4Q284dndwcF9QbEktZnVmN1lvT2hXc1NzcWpjc25lN2NXTEdlV2hQUXlyZURjWm5CeFZjQjN4QTlwRl9lU0hOZy1yN2dZZ3ZKSm90TXdZZmZ0ZVlNVUJQUWpHZTd0M1BQNTB2UWxJYV9Kd0oyOUc2N1BhdFV5UkFRblZvR3RYNXE3V2MyVW82UWZac2VJckZ5aWVGb0k5bmlxd25DVzFPbTFNa0llSWxyUXJCWFdodFNrdE5xa3JMeHk5LUZTVjBFVGtnbVhmdWhIUm9ud1Z6WjlSRXN0ajZnU3liTEtRcF9kNDlObVEtS0dQaUdUdjM1SHRUOWFSbU90N19VQm5ZTkpNMEtQdXd4bkgtd2NGNk9DXzhFXzd5bDhCc21DNkZYNlVWVWg5THpualBoMWh2NldUQXNjYmdfcE9xS3ZURDJmUE4taUNnTHdqazNnbTJSVkRRNzVOa21vSUMwWUZCWXVDY09TekRvNERWc1M1czQ0VUdDNXVlanRIX3ZKTmN6YjNkUG1iR3Zkdkx5NklEeElRbWJJeC1OUk9QclZTNWNSZzhwTTdpM2hTVU1HX08wdFZ5WERveVpHaVVOd3VNSFpsT3ZPaVV4azI3S3MzaGhnYUt3bXI1dEl4QWRtNzU1YkhSQlI3Q0J1RWtaNkR3SnVPMHhtaVVjRXFUQk5yYUg5SGhkQ1FnLS1GZmxYZlVBZUJubENNQ20xZ1Q3eXFER2k4MVFkZnlnZ1ByNnBjT1JSblZLLUFyWHc4MkFVMnhWMTh2LTZUdXZhOVF4cnNhWVVZT0J3LXdZTlg4UVJITGx0cXFkRm9rOXZUSTBQTVk4N0tZR215OW1QNlVyMjQ0SFRsT1ZDNDRzUUNXMkRJWlB1R25vcFh6ZGE3bHg3ME02cWFaWXp4b3NvZnpyR242WFJGQUVOQU9iX1RWTDBNZF8zelNxTzVSRWxENDFqSzdUTUloWnFRQ2xxNDh4NUszaEFiYlVRVG5PUjlhRUdfY2I3QzY5N2k4d0s5TFh2RF8xVUpBczNxdkpkM1VGY1hsX255VGJpeFlIYWt5YWZuQ0JWdlRCTXlsMkZqZDJWU2k2c3FxMm5PSWJYVE00NWR5ODUtTFhqWGtRbGlGTVJIcEVfVi1URkNKamZ0UXpSaWg5R2xudjl3OFY5eTRDTFB2TUxwUk14dFA0RG1WNnNmSm96ZTIzV0RwUjBicGdkZHY5WkR1VFZFeFNEcXVHbFk5MWtVSEEyc1pPaWdTakt3dmtUUHdfQWxSam9fZW5ESTZueVY5M2NMTmJZbEI3Vml4ZFJUcWtScElnMTY3NU5MM0NYNDBMby11WThUQmlfQ0Z3YkY2OGp6V01kYU5iUV9CS3lRUkJFcXpFaW8xdkV6Ti1KNXN3eGFWbGx5b1d2TWRybGtMY3dTMFA1YVRISFJGcDROdHZ6TFJWQjI1d1I2d3J5MmpIQlNrdUtWeUdLWDJsenVNZ2F6WG95RXNpMWZDc3FWemZGd2tqYWhOLURkUnRnb2M3Q1VDbGdDOGl3algyLVp0YWNVUnFsRkJxcjFiTmVnT2FOcmZ6VXJBSXlxTnU1aFlwd1Vrc0pqMHo0RTVfMU5DbnB6dzh4QTBBTzNwdURRSnhaRzBjUEJDdEo4ZnFhTTdrUVN1ZWhMQzR1VVV0OHA3WFZPSmJhcnl6MFRhTjJxYmtsbDQyNzJMaXR6d09mcUpIMEJoZFR2ckp4QVd2V1Z0azg1TzNQZ043d1lfZFFEcmRkSVNWckJweUhFcWVRay0wUUUya1ltSkx0QTRoSjJZN2hfSzNlNlRzbUNOQlJDd1l0Qk5oQkw3MlpYbDM3Y1Z3NXNjWGVRU3NjMFRpQnp5T1NBN0RJZWVabEFEQnBqdXE4cmNaczU5Ni1sSS1TbFlyVHczcVR3YjIyY0doc0ZJUy1LdDZFdkRpbGZkQzdfNXMzMDhfb2o1amZzbjNQN20xMkNCSlQtMldPNkRtZWUzb2N5TkJRc1d1MGthV1hKRkpGeV94TGs4SWRUa00xeVhwTzA4YnBkWkwwR1lEdmgwUVp5UUgtMEpWcUkyal9QN0NpdkVaX19fSGtRU1BhT0ttQ3U2NU83QXpYRFpJVlV1SVdUTXZTb2pzLVVrQVpUWHo1MjJRdmgtR1FHSTgwcENoMTJzRmg0VFBHQ2g2MS0tREdhc0hSWURSd0dKVnpwd3pveDJVeDNDTUJJNlNFLTJTd1BlSlNSZDdNRmR6cVVDYmZNWXJ1U1g4OEpzWVo5WktZLXpRb0p1LW5VOUptbGRRTjdnQk5HNl91TGtldGRpamJZOGIzZVR1VGM3Ym9lTDFzLTA5NkhxUERpanJWX2pGaFBKQWVvb1dwSnlzXzNsaE1TeUFrQ2Jma0dTTFFmZmE0ZWdWRGdsTjBQcHI5bHA0UWNSMmZKY1JEeGVKSTd6a0Zsd0dvTUxHU1o2enZ6eWhHTkpfZjU3OHNBS2lObmQ5OHl2MHNmVlZuamJ5VE5WQ1RVbzYxR2tCTWdEczZOZFJrQkRQYVdhYjMtNlU4Zkh6R1BMZ0UyX0FyS045WHdhVFo2ZHFtWUU4bEdJaWpxMlg1aWREUEI2MFdHWkpENEtkeENYZFd4ZG1VSnlLTm1uUExvQ0VubHYwTVkyMnBub1FMT1RZeXdWMmRjY2wxcFV6cUVlVm14el9tQ1BQcjNrWENTbkduUjZuSFVpbHJKb1RMdEU2NUlOeUZoYy1HUHVHNmVTMGdNX0ViY0Y5ZGlaREtwclJHQ0Z2WmZOR3ZQYmxHTGw3NnlOM2luWUd1S3ZTa3EtNjhmbk82aVJfeEthckFGRVZndkp0SE9VSDU5eThPVVRldEgybnZ1ODI2N0RCeWNGRWZNZlRMRXhqR29lcVQ5elNLNXMyQjlLOVJmaWRpak9EYTF1U2tvblBWWGIyVnFZNUUyZU9nWU1QamhLSm5ORzdxT3lHUFcyaTNGZ25fbFFhWHppTkxuREpOZmR2a0RxZkhvN2licUpqcVk3R0JyaTNvMHNMTmZSNjdseFl2ODVNU0RLTVlrQ0xndVlFNS1nUjVBQlhLOXY0cVNQOUJ5Z0lVcW9wcEU5M1ozdTRhT1lEdEcyV05nTm85cFR4VHQxU2tCTzQzTVZydGc1b3I4OHJhM20yWDdJdHRPTXViX3ZVRzdyWVk3MFc2V2NTckY2WFhJNG9qZHVaWlhDbnFyd3hqVS1IV2hpdG95V2xlWjF5SXJLSlBLWmxOeC1qSWdSWUZFTmMxeU9KVEx3VEl2cG5ZSFB4SXM3bmhsdHR0NFFjQVo4dHB2N3h4SVVUTFlfWXk3alJyN1RSOW4tdGRURVFPUzk2MThDajRDeENfTElVMEtkWXNVTUtQZVNiaWQxM0h6QkdEbVJpamxVTkFvLW5ULWgwdkc0bDVPbVhfUXA5OWFSRTFCYl96aVZVS3JYT183Z2RqLVR3UklrRkhJSkExUFktTWJ4S2VqQjBPMnp6X3VrSVFfQk16MHk5UjkydDRkcnJoSGdOSkdLdUpMLW1rLUlEU3VFSXE2bW0xS1djQ21OSjVISWFFaUlNLUU1NHBGZmt3QWdJcERna01tMVRfTVFqY1VSeHBNRlNjblNoTVhfTGxlRC1ia0dWekd4elFPQ2I5Ml9DZC14MEVkeEo4N01nNE9ORmRhRURLaUt6aXl2NUx6R2R6Q0J5ZkREN0d2QTY5c09LZUYwVV8ta3cyTlBmdV9Uc3VZVUxzWkxuckp0ZVd0Tml5em9YTXVRUE5Ub191QTdSdWt1RlRyZF8wUTk4OG9xSWw0NnNUakZFa2ZPdk9sczdxVFRpN183dEp6bHJENWVKVmdaczFybkR1TmJnV0MzZWU1alQ3UHo0N2xiQXYzMGJVOWgxWGI5QlZkbWZyd1RweWtDUk9IdVNOZFZ3b1Z4ZXdqSXY4NllnUzNUZWd2cEF1MXJUTmJDNmdWdXNIck5mbUt3bHBiMTdEeEV3dl9BbjlVbkZIOC13ZFNoQlRNc0tkQzBTc1RHYjZvYWtFZkMtUXpkVG0zQkNwWlFlQVIzbjdPemZ6TzRudXp1S09DeldZLXNDLWVRd2thMGt6Yl9aSkhzdlRieWdJWGszaWFlWWc1d2pQYUVRMVJFU2ZNNWZzaEdIX0F3U0FhTjNPMDI3anRkSHl6dzZ3ekxaTUNaWUFKVjBuTFN2bkRyMy1tZzl2R0VBU2NJS2ptUzNYS0JyR2RNUFFKZnFjdkRLMUtzdThSeDF1UHdPY2t5SXdyQUUyZ1Y0S01VYlB5T050MmM3NXpXU3JkWlFDY3dLeXBkTWxTQmpkU05BRHhRWHAwQldCejU4MF8telFwSUR1Yk1WeWM0UzhBZDBHakxMdVE5Nzg0azRmeWNSWWREZFp0eHFPNHlKX2VDRHZ5U0h0VEM3VW1zNHEzSTNuV2FzM3FSaVA0eHJ3UDI3bVpwN2gwdkRuVmswMXhXeUNXUEtVaDRwb3VaQjBJNDJlS3FaN1F3NlJPcHJ4a2xlVHdFTkg5Q1hTSjZWWGZrMmZ0UXJiTFdJRVB1QWdhV0VrTlRYdmtvaGtBbktVZTdXT2ZSZnptM25UVnZSM2ZOWDBMWF9LUk03T2ZYamFISHVoandKTmlUeXpkVXVGSXBRN0x4WjRhdGRmSzFtM2lZM3hfVkM5S2ZNWU5iLTU3NDhwc0oxUjV2dG9VbGlhU3pqUGVSN2dhbWVfUzljSmh1VzY2Q0NITHZSTHU5ZHBXajNwQ1BacTE0alZBZDFuaGJYNHdZU29pVTdYN1pISXJsdmVZU2VyUlRzUGhhTUJ2OFRaazhoYWVPd0UzUG8wM2FwSE8zMV9oU3FXRm9NQ2FkbE9Yd0g3LU04R25yYnA0MHg5NlFUbXhUNUZKQU5sYzBscnFzamczWGtsR0VpNmt1S2tORld3ak1mNjBLVUQzdXd3MjR2U0lheTRCQ2c4WWdvX3RnV3pXYkl1MlVvdGhRVkZPbF9BaVpTdzFfenFWM3pHSDFnRVUtSHFUcHNJVjVvRzZ2SE8tYWtMN2dGamh3bVg1Vy04WmJidnk0SnBBdi1JQzIzbUZtZl9tdVVxZVA5UXAzQXpIa2R2UWJ2OVl4SU1GTXZ1UlVTa2NRazctRUt0UldfR3VsZUY0eE5pODByRnIyaWFrcG9sck5TNTREcWtGVG9TWXN0YkRkRUFuUk1FNXl2VnJXTUFkekxZVXZjTmtsSjFhcEdfSUNDV2ZaQnRLMW51LUtucHl0Ull0ajZieGJNTE9FQmNMdDFWdmlLR2NiM2kyaGJNaTNCRW5VYkROMkd0Wmxsc01qZ2NpbjBvc2hZVkE5WWRTUmVVbGdLWnkySk5PdWtNMFU4Q0drdGpGN282VnFLX281eFdkQkUyeGFyMzJrWEt4N3dSZmo0NVU0QnR2R1VQWnY3NmlqTUJsTWhuQXdrYkdjVlRDYldnNVAtOUlzUy1JS3ZQQW9QMnJEbTRBUG9OUUxBVFJLWUtPX3JYOGlxQTB3ck9IUDRHb0d6UW5RTXBnRW1wLUxHbnUtUEpTZ2dhYS1WZmhwT1pURjVaWVh6aWJlQWppaUgyYTBIb2VXRGN6NENCSW5HdEg4cUNSbzMzeFk2b0FPaTJtOVFHWXBHWWhsS29KbXdQRy1zTjNaNm0wdFAyQjVGa3JPU1I0T1kxVDNBd0NpbHluUkM1aDBIdlA5OWlfbHExamlWLTR1QnlRcTVOamEtaHQwM3RlSU1LcV90bDh2RHNJSEpxTkpWN0VJUVRWckpSWjRid0NHUWN2aGc4VHBkVXUtLUwwRmdNNWs0T0ROVVhJMTlNc1BaS3FrTWZ0YXlUWFpUNXN5LUV0dXFyYlFEcUdybDdvR3R2ejdfUGVtOG5jNFhIZ0xVQTRvVF9PQ0JGeGxPTUoyOUprMm1JVHVZYUJUanpRcElSdjNnOU4tdmFCX3hackd5M0NZbV9xSTR0ODRNUWRpSzBFNEl4aE1uQWdNQVNveHBxNWEyZ1plNm9POUI1YVBJZklkcW4wcThXWHBkRUVGSnh0SlVoay1zM3k4QzdUeERhaGNuSE03Z29CZ3lucXJDQ3hXQjAzLWhzYVZyMkRGeUVQejM1YlhLZjhDVjkwV0Z4OHFFXzh1eklDY3YtRHZNX0cxc003MVBVaG01X0lGS1BacU56NlhxTERSakVpSXpLOUZ5YTNkLTlIMVNKelFMSWdjek14ZTN4RlRHZUFBQzY4VnJzUlBDYVhLaEtPSG95WXNCUjRhSDlVZ18zM1pGVm9SRzZLN1VkYU1tX2hoQXNCSTZORjM0RkV0c2FMY0Jja0dBaG8wOUI1clVWZjRyaTV1SV9rVG02amhod1UzaHJwbWN1MkhkU0ZSUkZoM2RzeVZTOXpJVHctQmtMR094b2lsVnNKdEtISjB1YTdxY3JUaHBoMkVUUXpXM2tza25DU3JIbWJnTzhReVphZmg0Nnc1TmpUTm1leDNmQVpGTzRVMkU4UjBEZzdqUmhvcmFSdFlCVEladmdSSXREbUVsa3IxUXN6QlZoMWNyUzM2c3JQaFQxWVZtXy1la1dqb2ZIbmppNVhSdGpQa05PaUNFcmpUVl9jeDJ0VHEyOGI5WFptZkZmZG9hQ0Z1ZDdpcG5fMVJneWRUb2tSS2dreW1md0dkeG42V1E0TE9EZnpsYXlsTkVkNjdSSUNOZWtWclZuOElwYmpBaXB4X04zakYzWU1hLU9mVjQwSkpnVUFLeWFwcXBNWVZUdDNhSlhITzZvY0d6NUREclJWcTZXR25BTVZTbEtSVjRCdkRqR2s4Snh5bVlOOWl1RjNmclM4b0VtTzM4eXNORnNnU0FpYVgzZE11blZHUkpRTmlGR2RPdGZIV2lING5IMjRHR2kwX2pqc0FkZkhwa3A0QzhOYmh4YlNYeExrTGYwbFFMUlUxYk1Ta1dFZmRrWlRjRjd4RTNwU3RvaEdKLUdMQ3hSVXhRWDhhdk1BU05iUmVlWkVpV01ZdnZpdVpDZXRONm1MLXVLOUl4ZEVnNUxvMm9ELXR2ZW16OElUNFJtUi1KMTFEeTdRelZ0SGtUdlJiUW9nUVdHckdlM1hxNFZQNjZicjMyVjNXUGR2YkIwUVBRZzhQdzZVQmxpVkRmbXdqLWNtX3FWZmw2Z005a0ktWFhaWDdTVWlBV0ZkOTlEY1Zxc3g3dkdIQldqc05nUjlfVFNUM1ViQlVZb3RUWVgzanhTd2RGdGROOG9mNG82X05WOGw4MWpIV3k4LUpJR05yem1fU20ya3VHUmRGMGZ1Ym15MjNlT1VZQ1VSODZwa29zZGtuUkc0ZWh5Q3V5MHE1NGZUd2JvaGpmZ3pvQnVQem5nbkNvN25xbDA2QUV2SGlmV3R0YW4zWUxPb3VpN1B6RFlFMmdaRFhzblZLdnZmUlVKRFZ6Y3o4T001dGIyeTd1ZzNGX2hfTGZaU28yQkozMm1ZVlA1NnZLYWw3a1ZaYkFOdWJoNUVhdHNMaXJzQlVuamFpUFdKLUtSZE5uX011Zlk2c2E5OUZkUFRYSkpmeklQY3dHS2FxcHJ0cHhuS1Z0SElhYXVDU0F0b2g3ODdBZ3dvRjVQSzhodEhaTWRzNjZsNGVDbkU5V0ZhaFdueUpNUGV6NmdHczBGaFZBVEJKM1Q5YUlEa1NZUzBQYktyTnFZTnFjRHZ6YjRhTVFZcTRyNFZzX2lTbEl5WFRGU19kcTF0UXZ5eGxES3lpanRPd1VvSG1ueEwyRHl6QU5oOXlrYWhmX3pubXR5aVpOSW5PZnlQUDJSYm81QXV2QlBUWEg3elpBNlhRQ0dzSXN3elU0ZUdQc3ZHMHRfSmRSUTNXcE5rV29sZ2pKUzhqSUYySHlGajF3djI3M2U2ejhuRGlkLU15azl1SElNSTh4SElBWlpUQXlvUmRCZUU5WlFuVWwyWGthVlluRUt6RDA0Q0J3NmREa3A1c1cwNVZiOTBKSVc3YTBiY1pESmdwc2h3aFNCb1FmY2N0V1RWUVNLM0o3ZFVOQWJrZnlEWTNwRnIyb3FtMktSZXRrd3NFWnpzUFkzWlVfM3czanJ1ak0wZVg4Q1BfT0FUVTNFaFhBLVdHTlJFV3YtR01mQUZ2UWZ6Uk1ZN1ZuZmN5bGVVSHpaTENBRVprbmtNcURzVjJPb1hSOGE5eWgzQTZUMW4zVG1CbVRwbC0zT1Rydl9rbGY1TGFrb2o1Z0ItVVpXVFJMWW40MWxJcW5HbkVqN0ZSeHdBMFdtU2lvZmRzQWRiZlZ3VUNDRzl4SGJ3UnJheFBfaElzQXJjVFBDa21hR3V0SDFlRkJXZ1RZaGtHOHhZWU0xT0kzRTZtRnY2UmZ1NmJ5RktYN25nVC1wQ3RhRkp4ejBSY0R0RHkzYjVLVjFZRGxsNTFHLUF1cERBVmdRcHk0bjZoT2QwcXdUSHc0bF9CTGxQNk9rX0pDQkxTaUcwN1FPOGl3RG5QNHNra3UwNUE3Y0N2cnU1cVliWFZkeTFJcjJBUzFjRXRUNUNiVjRaY2dmQ3ZoYUVkSktNTFUtNFhicllpeE1OaGxHOU1kWUF3SVpTMENWaDNsdjNZd0NJaGlzU2xZSnNraHBwLVV2b1dUVEZ1VmpMRU1uOGdWdkhUWVZ5Y2dBaVk2WGtfX1NDMVA3VXpZeFNDWFEuUFJ3M2JtSDEybEh3NTA5MUpiT3UyZw"})
+  .query(true)
+  .reply(409, {"error":{"code":"Conflict","message":"Conflict while restoring key https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/7d5d72c1d8f44f6fb688e5b2c4b83111 - key already exists or concurrent access"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '249',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'bf0581cf-b9ca-40bd-ab04-4cc0173a1f48',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:36 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/keys/restore')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '733f4ee9-f3f8-4efa-8d5d-363805fad05e',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:46 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  'ca98f86d-7950-4af9-a18a-2b7b95302400',
+  'x-ms-ests-server',
+  '2.1.9485.10 - SCUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:47 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:46 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/keys/restore', {"value":"JkF6dXJlS2V5VmF1bHRLZXlCYWNrdXBWMS5taWNyb3NvZnQuY29tZXlKcmFXUWlPaUkwTXpnMVlqQTNZaTFrTlRRM0xUUXlaVFV0WVdVNVpTMDJNVEJrWXpNNVpHWmhaamdpTENKaGJHY2lPaUpTVTBFdFQwRkZVQ0lzSW1WdVl5STZJa0V4TWpoRFFrTXRTRk15TlRZaWZRLm1YMzE5UjQxMjZRT3FJVFlCdEtWc2UyekFzWjdqbHcyelM5dzlFZDdVWVBKTnU0eUtDSktyNU5MYVZneWpXYndrd0xzT0ZoVU42cmp0RUVtWFNmdEJabzdDVEtoSUFnMmVwc08xMGtLazdYZ0ZDT04ySl95SjBCTkVTLTZyamMtbnJhbU5lRl9CMG9KMlBqb1d4aEVEVFp5T0x2NlZacDFBOVFvRkxzZFByU3JRQk8weV9KSGtIdjQ1VnZ3WjFlOWY3emNFenA1a1V0Y2NEQkZDYVZYeHQwQ25RaEFGMHBndG9RYnA2cm13eUFYV3lFUWpkN3dmMzRUM3hTUThPdXpUQV8zWlJqZjNlMWJkR0NXeTFobVhrTm43RUdkUFR2aWpGOUlZUGtzemNLVWF5SjlRbVBWdEtsZGdFVzB2Q0ZCQUFxU3podm93Q1B1aHRoaFdNRzdfdy40bnE1b2JSQklEUzZOVHBPcC1IWkhnLm1fbjVhVWhfOXlvZXlYV0F3bmpNeENnX25UeUxzRFJYbVJGX2NNNm1maVZnZk9kS3d6YlpwLTJvR3MtcTgzbllhb05wb0JsSHRSOGFicTN0NDB0Q0gxY0NsUU95NzFsOXktWVNqX3VHOTIzRUxMZm9vMW43LTlHRjNlUlo4OXFodUlUczdraWctRjRYWHgwekJyNlRRMlpFbmV5YWpidVZkazltYV82S0g1LUtkRi1VZUFrbUVIM3M1XzlNaU1iYjA4TjlFbGl5ai14dnFuX01IMjBvX3ZuN1hBRHYtNWJvekEzeVhJenlYeWV6NWFGejhVMlVRSTZ2LVZsdmtLamNaZWpiTHRtQnlFMFRWczRrYWVYOGpRS243a0N2UWxubWFtY3l5Ty1DN01Da2gxbmk2TDhGU0xGOXpBb1pNNUl5bWYzc2ZWelZiSVJOeXUybEtiYVhYcklYTEg0ZzY3ZmlIcTV3WV9IQ3BsMEd0UC1yNDBXUlJKX3F6eEdnV0t6cE42VkpwY1V4VHZyeTBRczB4WGROZzRhWkRrbUtTV0pjZE9tOXVlU0U4TElVaVZiclhVOTZkT2ROYmc3SWh6WUMwNmlRZzZubVB4Y2NBNGphRnU0LWJBQjNGQmpuT0d5NFo5eUFXdjBZZWcydnJwMnNzUHNaQ0hqMHFMTE82SG03QW9sWlJJcnRNdHBGWUthY0lCSlhNWjJ4eF9weDdVWi1hZm5yODFUZW5fQV9sQmVwdkl6VXRRU2J3ZTVMNHNHSTU5bzZMY0JkTzF5dDF1cHdKaHQxdS1OV29yYzJpQW5PTVhQMWdMVllQak00VFU5QzJBU1NTNnU2aGFmam4zcVVKa1Z5dTBjMVQ1VEdpbndLaEJSU3JfSjVJbTgyTHlWZEIxeEhRdFhYMHAzT2JOTkVnLVFfRkhhNXFBX1NydWxPVE84b3pGYWFVRVFKdEhsY0NkVUpRNkliWDE0aXNaRm94Qk5BM21GVUwzOWpmdi1GamtMbVhib3ZURWVfNG1Vd0F3ZXViSE9GNlltTHg3YW16MlBfUlBxNU95d0tQMjhzZlRJR2J6bzhsOHF2OTJuaEhTNmtHTmF1cWMtZzI4cmRUQ3dOOFJ3My1lWEhaMVhCRU9PT1oyS3I0WmlZYlZHVnhXRHlfdXRhUWhRWmhpZ3BYekhTakNvUGgxbXV1eHVEc2lMSVZ2NTJLR0FIeHRhU3lraHRUemFPek0taWM5bUdPZVlDZmw0MVlJUzRiQUZDZmp5VWRUVnRfS29lRkhaWUpqUlJTY2ZYVGZ6UkxkMkpjaWlrdllPc0FzVDA4WnJGVHBCbVpxMHhBVmNEd2hTajNVTEZzblRzdFhDTFlOTk9WdElsZlZxbFdUZUpuLVgtakJDZE5oZGtpVVlobVN6TWN1OXdyQWM0WFZya25SSmFBYzBlUFphdTlmQTBJTDFqeEhldjB3dmFUNmlvdUFxeEZvQTZVY19HWWdTLWxMMUg1UXVrY3N6Y2VDVEhkblQwcGRxbFNBQjdfcWtjalJiaElWSVM3ODNFc0hDZWtqYWZTdWZ3ZG9fNmZsRDI0SkxxNW9LU2NKbUJObE11Q3U4S0hrS1JKTi1XRkE2Sk05WkIxRk5MaDNRMV9IbkttaDhDSEFRRXZabl9OY1luOVBpcDhkTVNPVW4yaFdDU21HM0pORXRBR1RTaURPSG1SOVlGMGxYYld2ZTNjN0xNaVJPVjF1cXlBWHZwTEdMazdUU2FtVkFPQTZmU3V1QWdWT0JEWWdOd0pkMTA3eTZ0Y0sxU0JoRGVleHZqcDBiQ3BXWGYtWGd5SU14REh2Zjl2WC1VUjNLdEk2eXhMcm5pMFN5dmhHV0JtRU9pb0dTOU5qVnc5M0JmQ3dzcmdrYnpWa2VIS2NSb3BjTHVvUHpSZkNESXg2OFUxSFRYLTc0NjZ1a0tIaFQ5dG05LVJfRU44bm1TeWtzT3o2V0dGd0UwZm1iWlFWREtySkd4YmtoVk9hb1VEOXNHV1NqLVpiUE5TOFVZNUtzaEc5VGJGQ0FxZG0xWDNfS2o2U2xaRVF3cnZPSVJJaFh0Q2JTMnJEWGw3YzF4RmZlWjJCN3JER1RGN1FYSHlnenBsc3FzeUgxOFRQeHRTb3BDT1BKSHN1dWxVT0Uza3IyNGtuX3hnZDU2T3NHNlhQREh6c2l3djBTR3Q2OG1uNWhSVFRjOE9yNGppM3ZDZlJleUVlcUo5cEVudnQtYUVQbUZ4ck1pYkhfSEpMcnQ2TTAzOS0zRFV2azJvcEVwSEgtcGZWYWlWdGdkT1NhekRRdVFEcDJwWGRJWXktQWRlMzJGa19ySkxaZjlMVnFhZ1VlWGoxdzVDQVJZRUhhclU5Rk9pcjNTTzhGT3ZKNnR0TWVTY0hsbVp2VWFhRVdNQVJDeXl1WjQzTGdTd1UtMXRRYTRlaHpzSS1fQm5PSGU0ZjY1WV9CNnNscnlnNlJKRTRNY0ZhYmV2Q3ZHVVpjZTRSRzgtQnlLOHVlX3ZKUUxTcGsxMlY0cHNCX25KUW9HbEx2WDBGa0luakFBcDA2VWxxNUN2RlNWN2ZFZ0RKVGI1WGxPVnBtVlp6WGlrQTd0QkFieTR1NUpoR3hRaDB3dVl6LW9zYkNlVWlFM2VKZXdvakk1TVBwLUhZVWI2bkNxUzYtV3lnbWFiLU42VGh3ajBhUW9PUjZVUm5uSVg1YTI4N1U2S2wyRmVtSFFsU0RXa2I3aFB2bklkX2tLNnFKUG1zNzRJMVBua2p0bWJOTTdKWXByaS1jaGIydFhoSldSOXlvTGVEakRGazhydGtBZVl6Um1oZ1h2YVFTXzdJMG5ZaWVmTHpDaHR1d0YyZS1QYUJwNFI1SUJ0RGltcXBrazFLMVFLQVFSYmFUQXhRZ1pWTDZ1NXFTb19oUV9VZTg1NFctb1lXU2sycWEzRmRnSmlTMDI4dXVORWdCbVNfbjdtT202bmNGaUdRMXVtVUVXUUxuNnNxejZPdnEyWW9Fa3V4ZFRxYXlEZklPNl9hQ29uNEVpbzllNExNam5iZlpUSWUtcVFwZ212QkhaSjBsMWtwUnAwOEdRaDFpX1NZRERFbXNGZzF1TDRsajIwNnhFYnhGU0JDQlFaQ3htS2UtTk9zNlVQQ3JaRzBZZWxWeU5oQzlNcmtpa25nV2tGdG9qTTlQN2RkVGhHRmV4c3RVREFRSHZBYzV4TU5MMURaMGFndXR5cHczSllkb1lzc2xFcWZDbVRhQndOTTFlemtSRDdyRkxqVVpyaEE1MV9zUk5mR0h2b2k1eVZZeFZ1SjVOdHNvd0hDcGx6X2diMXo2dUhVSGpjdXJIaHk4bXZuY0NDNjRVaVBOSVgxS19BY2FVQjROcXV5OFQtTHFBTEZ6dGRjV3NLSlR4RWZHbGhiRmd6TEFOSUM0R1prTnQwRVF2YWN2WjNGdnl1LWxnYWtKbjhjYm84UVRaejgwQlZmeUhDSXY2LWlqellWdjkxd1pSWndlWWtGWWc4RURwNkdzcUpEMTVWNW43T0dWeXNXNlFzaG84T3lac2VhX3lIMXhld1psMFNhSTlqYVktaUI1amxYd1RSaHFRM0F6SWZua256XzdBUnNIY1NHeUZwNXFMMkpkMmU0ZlVDM2FCcjkwWjZHWnRuQUdNYVdlQTVEbTUtVGJzdnJPWFN4Q284dndwcF9QbEktZnVmN1lvT2hXc1NzcWpjc25lN2NXTEdlV2hQUXlyZURjWm5CeFZjQjN4QTlwRl9lU0hOZy1yN2dZZ3ZKSm90TXdZZmZ0ZVlNVUJQUWpHZTd0M1BQNTB2UWxJYV9Kd0oyOUc2N1BhdFV5UkFRblZvR3RYNXE3V2MyVW82UWZac2VJckZ5aWVGb0k5bmlxd25DVzFPbTFNa0llSWxyUXJCWFdodFNrdE5xa3JMeHk5LUZTVjBFVGtnbVhmdWhIUm9ud1Z6WjlSRXN0ajZnU3liTEtRcF9kNDlObVEtS0dQaUdUdjM1SHRUOWFSbU90N19VQm5ZTkpNMEtQdXd4bkgtd2NGNk9DXzhFXzd5bDhCc21DNkZYNlVWVWg5THpualBoMWh2NldUQXNjYmdfcE9xS3ZURDJmUE4taUNnTHdqazNnbTJSVkRRNzVOa21vSUMwWUZCWXVDY09TekRvNERWc1M1czQ0VUdDNXVlanRIX3ZKTmN6YjNkUG1iR3Zkdkx5NklEeElRbWJJeC1OUk9QclZTNWNSZzhwTTdpM2hTVU1HX08wdFZ5WERveVpHaVVOd3VNSFpsT3ZPaVV4azI3S3MzaGhnYUt3bXI1dEl4QWRtNzU1YkhSQlI3Q0J1RWtaNkR3SnVPMHhtaVVjRXFUQk5yYUg5SGhkQ1FnLS1GZmxYZlVBZUJubENNQ20xZ1Q3eXFER2k4MVFkZnlnZ1ByNnBjT1JSblZLLUFyWHc4MkFVMnhWMTh2LTZUdXZhOVF4cnNhWVVZT0J3LXdZTlg4UVJITGx0cXFkRm9rOXZUSTBQTVk4N0tZR215OW1QNlVyMjQ0SFRsT1ZDNDRzUUNXMkRJWlB1R25vcFh6ZGE3bHg3ME02cWFaWXp4b3NvZnpyR242WFJGQUVOQU9iX1RWTDBNZF8zelNxTzVSRWxENDFqSzdUTUloWnFRQ2xxNDh4NUszaEFiYlVRVG5PUjlhRUdfY2I3QzY5N2k4d0s5TFh2RF8xVUpBczNxdkpkM1VGY1hsX255VGJpeFlIYWt5YWZuQ0JWdlRCTXlsMkZqZDJWU2k2c3FxMm5PSWJYVE00NWR5ODUtTFhqWGtRbGlGTVJIcEVfVi1URkNKamZ0UXpSaWg5R2xudjl3OFY5eTRDTFB2TUxwUk14dFA0RG1WNnNmSm96ZTIzV0RwUjBicGdkZHY5WkR1VFZFeFNEcXVHbFk5MWtVSEEyc1pPaWdTakt3dmtUUHdfQWxSam9fZW5ESTZueVY5M2NMTmJZbEI3Vml4ZFJUcWtScElnMTY3NU5MM0NYNDBMby11WThUQmlfQ0Z3YkY2OGp6V01kYU5iUV9CS3lRUkJFcXpFaW8xdkV6Ti1KNXN3eGFWbGx5b1d2TWRybGtMY3dTMFA1YVRISFJGcDROdHZ6TFJWQjI1d1I2d3J5MmpIQlNrdUtWeUdLWDJsenVNZ2F6WG95RXNpMWZDc3FWemZGd2tqYWhOLURkUnRnb2M3Q1VDbGdDOGl3algyLVp0YWNVUnFsRkJxcjFiTmVnT2FOcmZ6VXJBSXlxTnU1aFlwd1Vrc0pqMHo0RTVfMU5DbnB6dzh4QTBBTzNwdURRSnhaRzBjUEJDdEo4ZnFhTTdrUVN1ZWhMQzR1VVV0OHA3WFZPSmJhcnl6MFRhTjJxYmtsbDQyNzJMaXR6d09mcUpIMEJoZFR2ckp4QVd2V1Z0azg1TzNQZ043d1lfZFFEcmRkSVNWckJweUhFcWVRay0wUUUya1ltSkx0QTRoSjJZN2hfSzNlNlRzbUNOQlJDd1l0Qk5oQkw3MlpYbDM3Y1Z3NXNjWGVRU3NjMFRpQnp5T1NBN0RJZWVabEFEQnBqdXE4cmNaczU5Ni1sSS1TbFlyVHczcVR3YjIyY0doc0ZJUy1LdDZFdkRpbGZkQzdfNXMzMDhfb2o1amZzbjNQN20xMkNCSlQtMldPNkRtZWUzb2N5TkJRc1d1MGthV1hKRkpGeV94TGs4SWRUa00xeVhwTzA4YnBkWkwwR1lEdmgwUVp5UUgtMEpWcUkyal9QN0NpdkVaX19fSGtRU1BhT0ttQ3U2NU83QXpYRFpJVlV1SVdUTXZTb2pzLVVrQVpUWHo1MjJRdmgtR1FHSTgwcENoMTJzRmg0VFBHQ2g2MS0tREdhc0hSWURSd0dKVnpwd3pveDJVeDNDTUJJNlNFLTJTd1BlSlNSZDdNRmR6cVVDYmZNWXJ1U1g4OEpzWVo5WktZLXpRb0p1LW5VOUptbGRRTjdnQk5HNl91TGtldGRpamJZOGIzZVR1VGM3Ym9lTDFzLTA5NkhxUERpanJWX2pGaFBKQWVvb1dwSnlzXzNsaE1TeUFrQ2Jma0dTTFFmZmE0ZWdWRGdsTjBQcHI5bHA0UWNSMmZKY1JEeGVKSTd6a0Zsd0dvTUxHU1o2enZ6eWhHTkpfZjU3OHNBS2lObmQ5OHl2MHNmVlZuamJ5VE5WQ1RVbzYxR2tCTWdEczZOZFJrQkRQYVdhYjMtNlU4Zkh6R1BMZ0UyX0FyS045WHdhVFo2ZHFtWUU4bEdJaWpxMlg1aWREUEI2MFdHWkpENEtkeENYZFd4ZG1VSnlLTm1uUExvQ0VubHYwTVkyMnBub1FMT1RZeXdWMmRjY2wxcFV6cUVlVm14el9tQ1BQcjNrWENTbkduUjZuSFVpbHJKb1RMdEU2NUlOeUZoYy1HUHVHNmVTMGdNX0ViY0Y5ZGlaREtwclJHQ0Z2WmZOR3ZQYmxHTGw3NnlOM2luWUd1S3ZTa3EtNjhmbk82aVJfeEthckFGRVZndkp0SE9VSDU5eThPVVRldEgybnZ1ODI2N0RCeWNGRWZNZlRMRXhqR29lcVQ5elNLNXMyQjlLOVJmaWRpak9EYTF1U2tvblBWWGIyVnFZNUUyZU9nWU1QamhLSm5ORzdxT3lHUFcyaTNGZ25fbFFhWHppTkxuREpOZmR2a0RxZkhvN2licUpqcVk3R0JyaTNvMHNMTmZSNjdseFl2ODVNU0RLTVlrQ0xndVlFNS1nUjVBQlhLOXY0cVNQOUJ5Z0lVcW9wcEU5M1ozdTRhT1lEdEcyV05nTm85cFR4VHQxU2tCTzQzTVZydGc1b3I4OHJhM20yWDdJdHRPTXViX3ZVRzdyWVk3MFc2V2NTckY2WFhJNG9qZHVaWlhDbnFyd3hqVS1IV2hpdG95V2xlWjF5SXJLSlBLWmxOeC1qSWdSWUZFTmMxeU9KVEx3VEl2cG5ZSFB4SXM3bmhsdHR0NFFjQVo4dHB2N3h4SVVUTFlfWXk3alJyN1RSOW4tdGRURVFPUzk2MThDajRDeENfTElVMEtkWXNVTUtQZVNiaWQxM0h6QkdEbVJpamxVTkFvLW5ULWgwdkc0bDVPbVhfUXA5OWFSRTFCYl96aVZVS3JYT183Z2RqLVR3UklrRkhJSkExUFktTWJ4S2VqQjBPMnp6X3VrSVFfQk16MHk5UjkydDRkcnJoSGdOSkdLdUpMLW1rLUlEU3VFSXE2bW0xS1djQ21OSjVISWFFaUlNLUU1NHBGZmt3QWdJcERna01tMVRfTVFqY1VSeHBNRlNjblNoTVhfTGxlRC1ia0dWekd4elFPQ2I5Ml9DZC14MEVkeEo4N01nNE9ORmRhRURLaUt6aXl2NUx6R2R6Q0J5ZkREN0d2QTY5c09LZUYwVV8ta3cyTlBmdV9Uc3VZVUxzWkxuckp0ZVd0Tml5em9YTXVRUE5Ub191QTdSdWt1RlRyZF8wUTk4OG9xSWw0NnNUakZFa2ZPdk9sczdxVFRpN183dEp6bHJENWVKVmdaczFybkR1TmJnV0MzZWU1alQ3UHo0N2xiQXYzMGJVOWgxWGI5QlZkbWZyd1RweWtDUk9IdVNOZFZ3b1Z4ZXdqSXY4NllnUzNUZWd2cEF1MXJUTmJDNmdWdXNIck5mbUt3bHBiMTdEeEV3dl9BbjlVbkZIOC13ZFNoQlRNc0tkQzBTc1RHYjZvYWtFZkMtUXpkVG0zQkNwWlFlQVIzbjdPemZ6TzRudXp1S09DeldZLXNDLWVRd2thMGt6Yl9aSkhzdlRieWdJWGszaWFlWWc1d2pQYUVRMVJFU2ZNNWZzaEdIX0F3U0FhTjNPMDI3anRkSHl6dzZ3ekxaTUNaWUFKVjBuTFN2bkRyMy1tZzl2R0VBU2NJS2ptUzNYS0JyR2RNUFFKZnFjdkRLMUtzdThSeDF1UHdPY2t5SXdyQUUyZ1Y0S01VYlB5T050MmM3NXpXU3JkWlFDY3dLeXBkTWxTQmpkU05BRHhRWHAwQldCejU4MF8telFwSUR1Yk1WeWM0UzhBZDBHakxMdVE5Nzg0azRmeWNSWWREZFp0eHFPNHlKX2VDRHZ5U0h0VEM3VW1zNHEzSTNuV2FzM3FSaVA0eHJ3UDI3bVpwN2gwdkRuVmswMXhXeUNXUEtVaDRwb3VaQjBJNDJlS3FaN1F3NlJPcHJ4a2xlVHdFTkg5Q1hTSjZWWGZrMmZ0UXJiTFdJRVB1QWdhV0VrTlRYdmtvaGtBbktVZTdXT2ZSZnptM25UVnZSM2ZOWDBMWF9LUk03T2ZYamFISHVoandKTmlUeXpkVXVGSXBRN0x4WjRhdGRmSzFtM2lZM3hfVkM5S2ZNWU5iLTU3NDhwc0oxUjV2dG9VbGlhU3pqUGVSN2dhbWVfUzljSmh1VzY2Q0NITHZSTHU5ZHBXajNwQ1BacTE0alZBZDFuaGJYNHdZU29pVTdYN1pISXJsdmVZU2VyUlRzUGhhTUJ2OFRaazhoYWVPd0UzUG8wM2FwSE8zMV9oU3FXRm9NQ2FkbE9Yd0g3LU04R25yYnA0MHg5NlFUbXhUNUZKQU5sYzBscnFzamczWGtsR0VpNmt1S2tORld3ak1mNjBLVUQzdXd3MjR2U0lheTRCQ2c4WWdvX3RnV3pXYkl1MlVvdGhRVkZPbF9BaVpTdzFfenFWM3pHSDFnRVUtSHFUcHNJVjVvRzZ2SE8tYWtMN2dGamh3bVg1Vy04WmJidnk0SnBBdi1JQzIzbUZtZl9tdVVxZVA5UXAzQXpIa2R2UWJ2OVl4SU1GTXZ1UlVTa2NRazctRUt0UldfR3VsZUY0eE5pODByRnIyaWFrcG9sck5TNTREcWtGVG9TWXN0YkRkRUFuUk1FNXl2VnJXTUFkekxZVXZjTmtsSjFhcEdfSUNDV2ZaQnRLMW51LUtucHl0Ull0ajZieGJNTE9FQmNMdDFWdmlLR2NiM2kyaGJNaTNCRW5VYkROMkd0Wmxsc01qZ2NpbjBvc2hZVkE5WWRTUmVVbGdLWnkySk5PdWtNMFU4Q0drdGpGN282VnFLX281eFdkQkUyeGFyMzJrWEt4N3dSZmo0NVU0QnR2R1VQWnY3NmlqTUJsTWhuQXdrYkdjVlRDYldnNVAtOUlzUy1JS3ZQQW9QMnJEbTRBUG9OUUxBVFJLWUtPX3JYOGlxQTB3ck9IUDRHb0d6UW5RTXBnRW1wLUxHbnUtUEpTZ2dhYS1WZmhwT1pURjVaWVh6aWJlQWppaUgyYTBIb2VXRGN6NENCSW5HdEg4cUNSbzMzeFk2b0FPaTJtOVFHWXBHWWhsS29KbXdQRy1zTjNaNm0wdFAyQjVGa3JPU1I0T1kxVDNBd0NpbHluUkM1aDBIdlA5OWlfbHExamlWLTR1QnlRcTVOamEtaHQwM3RlSU1LcV90bDh2RHNJSEpxTkpWN0VJUVRWckpSWjRid0NHUWN2aGc4VHBkVXUtLUwwRmdNNWs0T0ROVVhJMTlNc1BaS3FrTWZ0YXlUWFpUNXN5LUV0dXFyYlFEcUdybDdvR3R2ejdfUGVtOG5jNFhIZ0xVQTRvVF9PQ0JGeGxPTUoyOUprMm1JVHVZYUJUanpRcElSdjNnOU4tdmFCX3hackd5M0NZbV9xSTR0ODRNUWRpSzBFNEl4aE1uQWdNQVNveHBxNWEyZ1plNm9POUI1YVBJZklkcW4wcThXWHBkRUVGSnh0SlVoay1zM3k4QzdUeERhaGNuSE03Z29CZ3lucXJDQ3hXQjAzLWhzYVZyMkRGeUVQejM1YlhLZjhDVjkwV0Z4OHFFXzh1eklDY3YtRHZNX0cxc003MVBVaG01X0lGS1BacU56NlhxTERSakVpSXpLOUZ5YTNkLTlIMVNKelFMSWdjek14ZTN4RlRHZUFBQzY4VnJzUlBDYVhLaEtPSG95WXNCUjRhSDlVZ18zM1pGVm9SRzZLN1VkYU1tX2hoQXNCSTZORjM0RkV0c2FMY0Jja0dBaG8wOUI1clVWZjRyaTV1SV9rVG02amhod1UzaHJwbWN1MkhkU0ZSUkZoM2RzeVZTOXpJVHctQmtMR094b2lsVnNKdEtISjB1YTdxY3JUaHBoMkVUUXpXM2tza25DU3JIbWJnTzhReVphZmg0Nnc1TmpUTm1leDNmQVpGTzRVMkU4UjBEZzdqUmhvcmFSdFlCVEladmdSSXREbUVsa3IxUXN6QlZoMWNyUzM2c3JQaFQxWVZtXy1la1dqb2ZIbmppNVhSdGpQa05PaUNFcmpUVl9jeDJ0VHEyOGI5WFptZkZmZG9hQ0Z1ZDdpcG5fMVJneWRUb2tSS2dreW1md0dkeG42V1E0TE9EZnpsYXlsTkVkNjdSSUNOZWtWclZuOElwYmpBaXB4X04zakYzWU1hLU9mVjQwSkpnVUFLeWFwcXBNWVZUdDNhSlhITzZvY0d6NUREclJWcTZXR25BTVZTbEtSVjRCdkRqR2s4Snh5bVlOOWl1RjNmclM4b0VtTzM4eXNORnNnU0FpYVgzZE11blZHUkpRTmlGR2RPdGZIV2lING5IMjRHR2kwX2pqc0FkZkhwa3A0QzhOYmh4YlNYeExrTGYwbFFMUlUxYk1Ta1dFZmRrWlRjRjd4RTNwU3RvaEdKLUdMQ3hSVXhRWDhhdk1BU05iUmVlWkVpV01ZdnZpdVpDZXRONm1MLXVLOUl4ZEVnNUxvMm9ELXR2ZW16OElUNFJtUi1KMTFEeTdRelZ0SGtUdlJiUW9nUVdHckdlM1hxNFZQNjZicjMyVjNXUGR2YkIwUVBRZzhQdzZVQmxpVkRmbXdqLWNtX3FWZmw2Z005a0ktWFhaWDdTVWlBV0ZkOTlEY1Zxc3g3dkdIQldqc05nUjlfVFNUM1ViQlVZb3RUWVgzanhTd2RGdGROOG9mNG82X05WOGw4MWpIV3k4LUpJR05yem1fU20ya3VHUmRGMGZ1Ym15MjNlT1VZQ1VSODZwa29zZGtuUkc0ZWh5Q3V5MHE1NGZUd2JvaGpmZ3pvQnVQem5nbkNvN25xbDA2QUV2SGlmV3R0YW4zWUxPb3VpN1B6RFlFMmdaRFhzblZLdnZmUlVKRFZ6Y3o4T001dGIyeTd1ZzNGX2hfTGZaU28yQkozMm1ZVlA1NnZLYWw3a1ZaYkFOdWJoNUVhdHNMaXJzQlVuamFpUFdKLUtSZE5uX011Zlk2c2E5OUZkUFRYSkpmeklQY3dHS2FxcHJ0cHhuS1Z0SElhYXVDU0F0b2g3ODdBZ3dvRjVQSzhodEhaTWRzNjZsNGVDbkU5V0ZhaFdueUpNUGV6NmdHczBGaFZBVEJKM1Q5YUlEa1NZUzBQYktyTnFZTnFjRHZ6YjRhTVFZcTRyNFZzX2lTbEl5WFRGU19kcTF0UXZ5eGxES3lpanRPd1VvSG1ueEwyRHl6QU5oOXlrYWhmX3pubXR5aVpOSW5PZnlQUDJSYm81QXV2QlBUWEg3elpBNlhRQ0dzSXN3elU0ZUdQc3ZHMHRfSmRSUTNXcE5rV29sZ2pKUzhqSUYySHlGajF3djI3M2U2ejhuRGlkLU15azl1SElNSTh4SElBWlpUQXlvUmRCZUU5WlFuVWwyWGthVlluRUt6RDA0Q0J3NmREa3A1c1cwNVZiOTBKSVc3YTBiY1pESmdwc2h3aFNCb1FmY2N0V1RWUVNLM0o3ZFVOQWJrZnlEWTNwRnIyb3FtMktSZXRrd3NFWnpzUFkzWlVfM3czanJ1ak0wZVg4Q1BfT0FUVTNFaFhBLVdHTlJFV3YtR01mQUZ2UWZ6Uk1ZN1ZuZmN5bGVVSHpaTENBRVprbmtNcURzVjJPb1hSOGE5eWgzQTZUMW4zVG1CbVRwbC0zT1Rydl9rbGY1TGFrb2o1Z0ItVVpXVFJMWW40MWxJcW5HbkVqN0ZSeHdBMFdtU2lvZmRzQWRiZlZ3VUNDRzl4SGJ3UnJheFBfaElzQXJjVFBDa21hR3V0SDFlRkJXZ1RZaGtHOHhZWU0xT0kzRTZtRnY2UmZ1NmJ5RktYN25nVC1wQ3RhRkp4ejBSY0R0RHkzYjVLVjFZRGxsNTFHLUF1cERBVmdRcHk0bjZoT2QwcXdUSHc0bF9CTGxQNk9rX0pDQkxTaUcwN1FPOGl3RG5QNHNra3UwNUE3Y0N2cnU1cVliWFZkeTFJcjJBUzFjRXRUNUNiVjRaY2dmQ3ZoYUVkSktNTFUtNFhicllpeE1OaGxHOU1kWUF3SVpTMENWaDNsdjNZd0NJaGlzU2xZSnNraHBwLVV2b1dUVEZ1VmpMRU1uOGdWdkhUWVZ5Y2dBaVk2WGtfX1NDMVA3VXpZeFNDWFEuUFJ3M2JtSDEybEh3NTA5MUpiT3UyZw"})
+  .query(true)
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/7d5d72c1d8f44f6fb688e5b2c4b83111","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"2ckio4_tY1RIilckzYAQF5B2kvIMIO9g5xxKkOCfF4i9e1z8lkeDsWCVhV2EYn2M_scB-QP0a8qUrruxN8R8fM440kr92xoeRpZmtjXmxU7d6wnAll1c24VPshQbGkR9dIasiLUmSUIAJuKc50CAHw3Eka85L41zKKSbPCM3YynnDeorgeugBG7usrnXWyOKEADuYvL08cvCS1N6y49t22bg1XkW6Cdk87UEYFNfJ2e4utcPMlPzH7PUsaFF42XDaDdzIPeioDh78LMuFj7KkcdorAo8YiwAraLPwS8D-Wh5qD7wTTo9AbkSFG057C9LTb-Go1wuWz8aLmXBlL3i7Q","e":"AQAB"},"attributes":{"enabled":true,"created":1570137289,"updated":1570137289,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '67db7bd9-ec5b-4faa-a430-e6c4ecc084b7',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:47 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '708' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/keys/recoverKeyName-canrestoreakeywithagivenbackup-/')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'db968a67-52e4-4ffc-be57-112b4b493d6e',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:47 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  'd3a1c307-8a90-4955-ab35-338604b52200',
+  'x-ms-ests-server',
+  '2.1.9485.10 - SCUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:48 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:47 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/keys/recoverKeyName-canrestoreakeywithagivenbackup-/')
+  .query(true)
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/7d5d72c1d8f44f6fb688e5b2c4b83111","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"2ckio4_tY1RIilckzYAQF5B2kvIMIO9g5xxKkOCfF4i9e1z8lkeDsWCVhV2EYn2M_scB-QP0a8qUrruxN8R8fM440kr92xoeRpZmtjXmxU7d6wnAll1c24VPshQbGkR9dIasiLUmSUIAJuKc50CAHw3Eka85L41zKKSbPCM3YynnDeorgeugBG7usrnXWyOKEADuYvL08cvCS1N6y49t22bg1XkW6Cdk87UEYFNfJ2e4utcPMlPzH7PUsaFF42XDaDdzIPeioDh78LMuFj7KkcdorAo8YiwAraLPwS8D-Wh5qD7wTTo9AbkSFG057C9LTb-Go1wuWz8aLmXBlL3i7Q","e":"AQAB"},"attributes":{"enabled":true,"created":1570137289,"updated":1570137289,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'fab4b9cc-236c-4e50-938f-6a32ed4edfb8',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:48 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '708' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/keys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'e4a3a1c6-3e1a-4233-9427-a4e4264a6387',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:48 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  '5520eb66-27cc-48d5-ad59-e741b2db2400',
+  'x-ms-ests-server',
+  '2.1.9485.10 - NCUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:48 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:48 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/keys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-","deletedDate":1570137349,"scheduledPurgeDate":1577913349,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/recoverKeyName-canrestoreakeywithagivenbackup-/7d5d72c1d8f44f6fb688e5b2c4b83111","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"2ckio4_tY1RIilckzYAQF5B2kvIMIO9g5xxKkOCfF4i9e1z8lkeDsWCVhV2EYn2M_scB-QP0a8qUrruxN8R8fM440kr92xoeRpZmtjXmxU7d6wnAll1c24VPshQbGkR9dIasiLUmSUIAJuKc50CAHw3Eka85L41zKKSbPCM3YynnDeorgeugBG7usrnXWyOKEADuYvL08cvCS1N6y49t22bg1XkW6Cdk87UEYFNfJ2e4utcPMlPzH7PUsaFF42XDaDdzIPeioDh78LMuFj7KkcdorAo8YiwAraLPwS8D-Wh5qD7wTTo9AbkSFG057C9LTb-Go1wuWz8aLmXBlL3i7Q","e":"AQAB"},"attributes":{"enabled":true,"created":1570137289,"updated":1570137289,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '337b0d29-1feb-4551-8d3e-6137f5461a03',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:48 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '891' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'bdfa5c65-9bbe-4540-b469-5f323d1b234d',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:49 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  'dad32754-0400-4cea-abf2-6087e7a72000',
+  'x-ms-ests-server',
+  '2.1.9485.10 - SCUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:15:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:49 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '118',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '0a12a0ad-af07-4b2e-aba8-b2b517036601',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:15:49 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '25ee0681-8d00-41b2-927f-33457a01abd0',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:16:00 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  '18cff216-b4ac-446f-a656-cb115d7f2100',
+  'x-ms-ests-server',
+  '2.1.9485.10 - WUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:16:00 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:16:00 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(409, {"error":{"code":"Conflict","message":"Key is currently being deleted.","innererror":{"code":"ObjectIsBeingDeleted"}}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '118',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '40184d81-6191-454c-927d-4b739135fe53',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:16:00 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '2f556e7c-6a7f-4932-831d-9d0d29f42cd7',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:16:10 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  '730619f0-2ce3-4028-8784-e2f9cccc2400',
+  'x-ms-ests-server',
+  '2.1.9485.10 - NCUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:16:11 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:16:10 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedkeys/recoverKeyName-canrestoreakeywithagivenbackup-')
+  .query(true)
+  .reply(204, "", [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'fb3460fb-453c-4ee4-9fab-77b6263af2fd',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:16:11 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .post('/keys/restore')
+  .query(true)
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '87',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Server',
+  'Microsoft-IIS/10.0',
+  'WWW-Authenticate',
+  'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '4a6c4567-9fbc-472b-8e1f-211233766d9a',
+  'x-ms-keyvault-service-version',
+  '1.1.0.878',
+  'x-ms-keyvault-network-info',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 03 Oct 2019 21:16:11 GMT',
+  'Connection',
+  'close' ]);
+
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
+  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  'no-cache, no-store',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-request-id',
+  'cf83cd92-f8fc-4a98-ad96-f367a8fb2000',
+  'x-ms-ests-server',
+  '2.1.9485.10 - WUS ProdSlices',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'Set-Cookie',
+  'fpc=Ai2wS79HREpLh2aj2cvF3k8_aSJHFAAAAGZbKNUOAAAA; expires=Sat, 02-Nov-2019 21:16:12 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'Date',
+  'Thu, 03 Oct 2019 21:16:12 GMT',
+  'Connection',
+  'close',
+  'Content-Length',
+  '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/restore', {"value":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"})
   .query(true)
-  .reply(400, {"error":{"code":"Malformed backup blob","message":"Backup blob contains invalid or corrupt version."}}, [
-  'Cache-Control',
+  .reply(400, {"error":{"code":"Malformed backup blob","message":"Backup blob contains invalid or corrupt version."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -3676,13 +4035,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Server',
   'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
-  'westus2',
+  'westus',
   'x-ms-request-id',
-  '15a6727a-c0cd-47f4-9ffb-408eaf6b04d5',
+  '90a7e769-1c23-4b09-8a1f-00eb7100dc4a',
   'x-ms-keyvault-service-version',
   '1.1.0.878',
   'x-ms-keyvault-network-info',
-  'addr=122.58.248.136;act_addr_fam=InterNetwork;',
+  'addr=52.226.135.73;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3692,8 +4051,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 16 Sep 2019 22:23:11 GMT',
+  'Thu, 03 Oct 2019 21:16:11 GMT',
   'Connection',
-  'close'
-]);
+  'close' ]);
 

@@ -207,7 +207,16 @@ export interface DeletedCertificate extends Certificate {
  * An interface representing options for creating a certificate.
  * Optional Parameters.
  */
-export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {}
+export interface CreateCertificateOptions extends KeyVaultClientCreateCertificateOptionalParams {
+  /**
+   * @member {boolean} [enabled] Determines whether the object is enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: coreHttp.RequestOptionsBase;
+}
 
 export type CertificateTags = { [propertyName: string]: string };
 

@@ -179,7 +179,7 @@ describe("Certificates client - list certificates in various ways", () => {
     for (const tag of certificateTags) {
       // One can't re-create a certificate while it's pending,
       // so we're retrying until Azure allows us to do this.
-      await retry(async () => client.createCertificate(certificateName, basicCertificatePolicy, true, { tag }));
+      await retry(async () => client.createCertificate(certificateName, basicCertificatePolicy, { tags: { tag }, enabled: true }));
       let response: any;
       await retry(async () => {
         response = await client.getCertificateWithPolicy(certificateName);
