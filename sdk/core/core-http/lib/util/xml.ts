@@ -60,7 +60,7 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
 }
 
 export function parseXML(str: string): Promise<any> {
-  const xmlParser = new xml2js.Parser(_getDefaultSettings());
+  const xmlParser = new xml2js.Parser(getDefaultSettings());
   const result = new Promise((resolve, reject) => {
     if (!str) {
       reject(new Error("Document is empty"));
@@ -82,7 +82,7 @@ export function parseXML(str: string): Promise<any> {
  * @param body
  */
 export async function convertAtomXmlToJson(body: string): Promise<any> {
-  const parser = new xml2js.Parser(_getDefaultSettingsForAtomXmlOperations());
+  const parser = new xml2js.Parser(getDefaultSettingsForAtomXmlOperations());
   const result = await new Promise((resolve, reject) => {
     parser.parseString(removeBOM(body.toString()), function(err: any, parsedBody: any) {
       if (err) {
@@ -117,7 +117,7 @@ export function convertJsonToAtomXml(content: any): string {
  * @ignore
  * Gets the default xml2js settings applicable for Atom based XML operations.
  */
-function _getDefaultSettingsForAtomXmlOperations(): any {
+function getDefaultSettingsForAtomXmlOperations(): any {
   const xml2jsSettings = Object.assign({}, xml2jsDefaults);
   xml2jsSettings.normalize = false;
   xml2jsSettings.trim = false;
@@ -133,13 +133,11 @@ function _getDefaultSettingsForAtomXmlOperations(): any {
  * @ignore
  * Gets the default settings applicable for general XML operations.
  */
-function _getDefaultSettings(): any {
+function getDefaultSettings(): any {
   const xml2jsSettings = Object.assign({}, xml2jsDefaults);
   xml2jsSettings.explicitArray = false;
-  xml2jsSettings.ignoreAttrs = false;
   xml2jsSettings.explicitCharkey = false;
   xml2jsSettings.explicitRoot = false;
-  xml2jsSettings.normalize = true;
   return xml2jsSettings;
 }
 
