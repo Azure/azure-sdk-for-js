@@ -2,7 +2,7 @@
 
 ## 1.0.0-preview.4 - 2019-10-07
 
-- Stop exporting `@azure/core-tracing` from the library, instead have each library and eventually the customer import the tracing package explicitly.
+- No longer re-exports `@azure/core-tracing`. To enable tracing, call `setTracer` from `@azure/core-tracing` directly.
   ([PR #5389](https://github.com/Azure/azure-sdk-for-js/pull/5389))
 - Report upload/download progress only after the first data chunk is received
   ([PR #5298](https://github.com/Azure/azure-sdk-for-js/pull/5298))
