@@ -197,4 +197,15 @@ describe("ShareClient", () => {
     assert.ok(createPermResp.requestId!);
     assert.ok(createPermResp.version!);
   });
+
+  it("verify accountName and shareName passed to the client", async () => {
+    const accountName = "myaccount";
+    const newClient = new ShareClient(`https://${accountName}.file.core.windows.net/` + shareName);
+    assert.equal(newClient.shareName, shareName, "Queue name is not the same as the one provided.");
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+  });
 });

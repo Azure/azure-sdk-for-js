@@ -619,4 +619,18 @@ describe("DirectoryClient", () => {
       await dirClient.forceCloseHandle(handle.handleId);
     }
   });
+
+  it("verify shareName and dirPath passed to the client", async () => {
+    const accountName = "myaccount";
+    const newClient = new DirectoryClient(
+      `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName
+    );
+    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
+    assert.equal(newClient.dirPath, dirName, "DirPath is not the same as the one provided.");
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+  });
 });
