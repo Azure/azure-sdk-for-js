@@ -32,7 +32,7 @@ export class TestClient extends TestServiceClient {
       options.intervalInMs,
       options.requestOptions,
       options.operation,
-      options.onProgress,
+      options.onProgress
     );
   }
 
@@ -45,7 +45,7 @@ export class TestClient extends TestServiceClient {
       options.intervalInMs,
       options.requestOptions,
       options.operation,
-      options.onProgress,
+      options.onProgress
     );
   }
 }

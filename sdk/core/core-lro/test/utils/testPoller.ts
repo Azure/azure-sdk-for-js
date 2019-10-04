@@ -12,7 +12,7 @@ export class TestPoller extends Poller<TestOperationProperties, string> {
     intervalInMs: number = 10,
     requestOptions?: RequestOptionsBase,
     baseOperation?: TestOperation,
-    onProgress?: (properties: TestOperationProperties) => void,
+    onProgress?: (properties: TestOperationProperties) => void
   ) {
     let state: PollOperationState<string> = {};
     let properties: TestOperationProperties | undefined = undefined;
