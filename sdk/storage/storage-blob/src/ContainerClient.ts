@@ -125,7 +125,7 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
  * @export
  * @interface ContainerExistsOptions
  */
-export interface ContainerExistsOptions {
+export interface ContainerExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -638,14 +638,25 @@ export class ContainerClient extends StorageClient {
    * @memberof ContainerClient
    */
   public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ContainerClient-exists", options.spanOptions);
     try {
-      await this.getProperties({ abortSignal: options.abortSignal });
+      await this.getProperties({ abortSignal: options.abortSignal, spanOptions });
       return true;
-    } catch (err) {
-      if (err.statusCode === 404) {
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking container existence"
+        });
         return false;
       }
-      throw err;
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
   }
 

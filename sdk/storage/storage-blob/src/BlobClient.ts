@@ -126,7 +126,7 @@ export interface BlobDownloadOptions extends CommonOptions {
  * @export
  * @interface BlobExistsOptions
  */
-export interface BlobExistsOptions {
+export interface BlobExistsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -1028,18 +1028,30 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public async exists(options: BlobExistsOptions = {}): Promise<boolean> {
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    const { span, spanOptions } = createSpan("BlobClient-exists", options.spanOptions);
     try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       await this.getProperties({
         abortSignal: options.abortSignal,
-        customerProvidedKey: options.customerProvidedKey
+        customerProvidedKey: options.customerProvidedKey,
+        spanOptions
       });
       return true;
-    } catch (err) {
-      if (err.statusCode === 404) {
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking blob existence"
+        });
         return false;
       }
-      throw err;
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
   }
 
