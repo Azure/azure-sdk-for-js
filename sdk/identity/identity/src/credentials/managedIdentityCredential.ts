@@ -7,12 +7,12 @@ import {
   GetTokenOptions,
   RequestPrepareOptions,
   RestError,
-  TokenCredential,
-  CanonicalCode
+  TokenCredential
 } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
+import { CanonicalCode } from "@azure/core-tracing";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";

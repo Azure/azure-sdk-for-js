@@ -19,10 +19,10 @@ import {
   getDefaultProxySettings,
   isNode,
   userAgentPolicy,
-  tracingPolicy,
-  getTracer,
-  Span
+  tracingPolicy
 } from "@azure/core-http";
+
+import { getTracer, Span } from "@azure/core-tracing";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -77,11 +77,7 @@ export {
   UpdateSecretOptions
 };
 
-export {
-  ProxyOptions,
-  RetryOptions,
-  TelemetryOptions
-};
+export { ProxyOptions, RetryOptions, TelemetryOptions };
 
 /**
  * The client to interact with the KeyVault secrets functionality

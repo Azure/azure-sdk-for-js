@@ -72,6 +72,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-http": "1.0.0-preview.4",
+    "@azure/core-tracing": "1.0.0-preview.3",
     "events": "^3.0.0",
     "jws": "^3.2.2",
     "msal": "^1.0.2",

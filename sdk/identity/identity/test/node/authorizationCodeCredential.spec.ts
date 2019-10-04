@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import { AuthorizationCodeCredential } from "../../src";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-http";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { MockAuthHttpClient, assertClientCredentials } from "../authTestUtils";
 
 describe("AuthorizationCodeCredential", function() {
