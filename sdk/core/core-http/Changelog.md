@@ -8,7 +8,7 @@
   ([PR #5298](https://github.com/Azure/azure-sdk-for-js/pull/5298))
 - A new error type `ResponseBodyNotFoundError` is exported for cases when response body is empty.
   ([PR #5369](https://github.com/Azure/azure-sdk-for-js/pull/5369))
-- Temporary fix for a memoray leak issue resulting from creating new agents everytime Webresource is cloned.
+- Temporary fix for a memory leak issue resulting from creating new agents every time WebResource is cloned.
   ([PR #5396](https://github.com/Azure/azure-sdk-for-js/pull/5369))
 
 ## 1.0.0-preview.3 - 2019-09-09
