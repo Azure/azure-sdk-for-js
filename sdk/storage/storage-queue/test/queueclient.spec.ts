@@ -3,7 +3,6 @@ import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { QueueClient } from "../src";
-import { extractConnectionStringParts } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
@@ -154,10 +153,14 @@ describe("QueueClient", () => {
     }
   });
 
-  it("verify queueName passed to the client", async () => {
-    const newClient = new QueueClient(
-      extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url + "/" + queueName
+  it("verify accountName and queueName passed to the client", async () => {
+    const accountName = "myaccount";
+    const newClient = new QueueClient(`https://${accountName}.queue.core.windows.net/` + queueName);
+    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
     );
-    assert.equal(newClient.queueName, queueName, "Queue Name not the same as the one provided.");
   });
 });

@@ -209,7 +209,7 @@ describe("MessageIdClient", () => {
         "/messages/" +
         messageID
     );
-    assert.equal(newClient.queueName, queueName, "Queue Name not the same as the one provided.");
+    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
     assert.equal(newClient.messageId, messageID, "Message Id is not the same as the one provided.");
   });
 });
