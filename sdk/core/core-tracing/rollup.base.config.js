@@ -80,7 +80,11 @@ export function browserConfig(test = false, production = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
-      cjs(),
+      cjs({
+        namedExports: {
+          assert: ["ok", "fail", "equal", "deepEqual", "deepStrictEqual", "strictEqual"]
+        }
+      }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]
   };

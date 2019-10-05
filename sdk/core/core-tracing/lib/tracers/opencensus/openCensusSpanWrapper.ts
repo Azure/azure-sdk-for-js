@@ -13,6 +13,12 @@ function isWrappedSpan(span?: Span | SpanContext): span is OpenCensusSpanWrapper
   return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;
 }
 
+function isTracer(
+  tracerOrSpan: OpenCensusTracerWrapper | OpenCensusSpan
+): tracerOrSpan is OpenCensusTracerWrapper {
+  return (tracerOrSpan as OpenCensusTracerWrapper).getWrappedTracer !== undefined;
+}
+
 /**
  * An implementation of OpenTelemetry Span that wraps an OpenCensus Span.
  */
@@ -27,19 +33,32 @@ export class OpenCensusSpanWrapper implements Span {
   }
 
   /**
-   * Create a new OpenCensus span and wrap it.
+   * Wraps an existing OpenCensus Span
+   * @param span A Span or RootSpan from OpenCensus
+   */
+  constructor(span: OpenCensusSpan);
+  /**
+   * Create a new OpenCensus Span and wrap it.
    * @param tracer The OpenCensus tracer that has been wrapped in OpenCensusTracerWrapper
    * @param name The name of the Span
    * @param options Options for the Span
    */
-  constructor(tracer: OpenCensusTracerWrapper, name: string, options: SpanOptions = {}) {
-    const parent = isWrappedSpan(options.parent) ? options.parent.getWrappedSpan() : undefined;
-
-    this._span = tracer.getWrappedTracer().startChildSpan({
-      name,
-      childOf: parent
-    });
-    this._span.start();
+  constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
+  constructor(
+    tracerOrSpan: OpenCensusTracerWrapper | OpenCensusSpan,
+    name: string = "",
+    options: SpanOptions = {}
+  ) {
+    if (isTracer(tracerOrSpan)) {
+      const parent = isWrappedSpan(options.parent) ? options.parent.getWrappedSpan() : undefined;
+      this._span = tracerOrSpan.getWrappedTracer().startChildSpan({
+        name,
+        childOf: parent
+      });
+      this._span.start();
+    } else {
+      this._span = tracerOrSpan;
+    }
   }
 
   /**

@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  AppConfigurationGetKeyValuesOptionalParams,
-  AppConfigurationGetRevisionsOptionalParams,
   AppConfigurationPutKeyValueOptionalParams,
   GetKeyValueResponse,
   GetKeyValuesResponse,
@@ -12,6 +10,7 @@ import {
   AppConfigurationDeleteLockOptionalParams,
   AppConfigurationPutLockOptionalParams,
 } from "./generated/src/models/index";
+import { RequestOptionsBase } from '@azure/core-http';
 
 export {
   AppConfigurationDeleteKeyValueOptionalParams as DeleteConfigurationSettingOptions,
@@ -88,11 +87,12 @@ export interface GetConfigurationSettingResponse extends Pick<GetKeyValueRespons
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListConfigurationSettingsOptions
-  extends Pick<
-    AppConfigurationGetKeyValuesOptionalParams,
-    Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "after">
-  > {
+export interface ListConfigurationSettingsOptions extends RequestOptionsBase {
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDatetime ?: string;
+  
   /**
    * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
    */
@@ -114,11 +114,12 @@ export interface ListConfigurationSettingsOptions
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListRevisionsOptions
-  extends Pick<
-    AppConfigurationGetRevisionsOptionalParams,
-    Exclude<keyof AppConfigurationGetRevisionsOptionalParams, "key" | "label" | "select" | "after">
-  > {
+export interface ListRevisionsOptions extends RequestOptionsBase {
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDatetime?: string;
+
   /**
    * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
    */

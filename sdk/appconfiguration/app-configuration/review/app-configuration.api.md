@@ -6,6 +6,7 @@
 
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RequestOptionsBase } from '@azure/core-http';
 
 // @public
 export class AppConfigurationClient {
@@ -18,7 +19,7 @@ export class AppConfigurationClient {
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
     setConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
     setReadOnly(configurationSetting: ConfigurationSettingParam, options?: SetReadOnlyOptions): Promise<PutLockResponse>;
-}
+    }
 
 // @public
 interface AppConfigurationDeleteKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
@@ -219,14 +220,16 @@ export interface ListConfigurationSettingPage extends Pick<GetKeyValuesResponse,
 }
 
 // @public
-export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationGetKeyValuesOptionalParams, Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "after">> {
+export interface ListConfigurationSettingsOptions extends RequestOptionsBase {
+    acceptDatetime?: string;
     fields?: (keyof ConfigurationSetting)[];
     keys?: string[];
     labels?: string[];
 }
 
 // @public
-export interface ListRevisionsOptions extends Pick<AppConfigurationGetRevisionsOptionalParams, Exclude<keyof AppConfigurationGetRevisionsOptionalParams, "key" | "label" | "select" | "after">> {
+export interface ListRevisionsOptions extends RequestOptionsBase {
+    acceptDatetime?: string;
     fields?: (keyof ConfigurationSetting)[];
     keys?: string[];
     labels?: string[];

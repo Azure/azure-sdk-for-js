@@ -100,7 +100,9 @@ export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
 export class AggregateAuthenticationError extends Error {
   public errors: any[];
   constructor(errors: any[]) {
-    super("Authentication failed to complete due to errors");
+    super(
+      `Authentication failed to complete due to the following errors:\n\n${errors.join("\n\n")}`
+    );
     this.errors = errors;
 
     // Ensure that this type reports the correct name

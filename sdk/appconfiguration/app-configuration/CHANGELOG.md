@@ -1,4 +1,4 @@
-# 1.0.0-preview.4 (TBD)
+# 1.0.0-preview.4 (2019-10-08)
 
 ### Breaking changes from 1.0.0-preview.3:
 
@@ -28,6 +28,8 @@ await client.setConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "M
 - `listConfigurationSettings` and `listRevisions` have been changed to return `PagedAsyncIterableIterator`'s,
   allowing their results to be iterated by page (also returning HTTP response information) or as an
   iterator of ConfigurationSetting.
+- `setReadOnly` and `clearReadOnly` let you mark a setting as read-only (or make it writeable) again, 
+  protecting against accidental changes.
 
 # 1.0.0-preview.3 (2019-09-23)
 

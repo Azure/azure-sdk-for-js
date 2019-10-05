@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// This sample demonstrates the basics - creating settings, updating settings
+// deleting settings and getting them.
+
 // NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
 // in a standalone project
 import { AppConfigurationClient } from "../src"
 
 export async function run() {
-    console.log("Running helloworld sample");
+    console.log(`Running helloworld sample`);
 
     // You will need to set this environment variable
     const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
