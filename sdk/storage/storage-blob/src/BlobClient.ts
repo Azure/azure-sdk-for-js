@@ -1592,6 +1592,8 @@ export class BlobClient extends StorageClient {
     //  URL may look like the following
     // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
     // "https://myaccount.blob.core.windows.net/mycontainer/blob";
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt?sasString";
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt";
 
     try {
       let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
