@@ -1597,16 +1597,10 @@ export class BlobClient extends StorageClient {
       let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
       urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-      const blobName = urlWithoutSAS.substring(
-        urlWithoutSAS.lastIndexOf("/") + 1,
-        urlWithoutSAS.length
-      );
-      const urlWithoutBlobName = urlWithoutSAS.substring(0, urlWithoutSAS.lastIndexOf("/"));
+      const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
 
-      const containerName = urlWithoutBlobName.substring(
-        urlWithoutBlobName.lastIndexOf("/") + 1,
-        urlWithoutBlobName.length
-      );
+      const containerName = partsOfUrl![3];
+      const blobName = partsOfUrl![5];
 
       if (!blobName) {
         throw new Error("Provided blobName is invalid.");
