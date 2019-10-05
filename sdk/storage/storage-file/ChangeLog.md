@@ -2,7 +2,12 @@
 
 ## 2019.09 12.0.0-preview.4
 
-- Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like FileServiceClient or FileClient are instantiated.
+- Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `FileServiceClient` or `FileClient` are instantiated.
+- Added name properties on all the clients for convenience.
+  - accountName is added for DirectoryClient, FileClient, FileServiceClient and ShareClient.
+  - shareName is added to DirectoryClient, FileClient and ShareClient.
+  - filePath is added to FileClient.
+  - dirPath is added to DirectoryClient.
 
 ## 2019.08 12.0.0-preview.3
 
