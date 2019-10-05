@@ -176,8 +176,10 @@ const tags = {
 const result = await client.createCertificate(
   certificateName,
   certificatePolicy,
-  enabled,
-  tags
+  {
+    enabled,
+    tags
+  }
 );
 ```
 
