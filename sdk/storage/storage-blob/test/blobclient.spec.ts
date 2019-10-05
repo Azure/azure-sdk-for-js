@@ -520,7 +520,7 @@ describe("BlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it.only("verify blobName and containerName passed to the client", async () => {
+  it("verify blobName and containerName passed to the client", async () => {
     const accountName = "myaccount";
     const blobName = "blob/part/1.txt";
     const newClient = new BlobClient(
