@@ -149,6 +149,7 @@ describe("Long Running Operations - custom client", function() {
     const poller = await client.startNonCancellableLRO();
     poller.done().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
+      assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "Poller stopped");
     });
 
@@ -172,8 +173,9 @@ describe("Long Running Operations - custom client", function() {
     client.setResponses([initialResponse, ...Array(20).fill(basicResponseStructure)]);
 
     const poller = await client.startLRO();
-    poller.done().catch((e: Error) => {
+    poller.done().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
+      assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "Poller stopped");
     });
 

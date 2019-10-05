@@ -2,6 +2,7 @@ import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
+import { PollerStoppedError } from "../src";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
@@ -49,7 +50,7 @@ describe("Long Running Operations - custom client", function() {
 
     // Testing subscriptions to the poll errors
     let pollError: Error | undefined;
-    poller.done().catch((e: Error) => {
+    poller.done().catch((e) => {
       pollError = e;
     });
 
@@ -84,7 +85,7 @@ describe("Long Running Operations - custom client", function() {
 
     // Testing subscriptions to the poll errors
     let pollError: Error | undefined;
-    poller.done().catch((e: Error) => {
+    poller.done().catch((e) => {
       pollError = e;
     });
 
@@ -115,6 +116,8 @@ describe("Long Running Operations - custom client", function() {
     });
 
     poller.done().catch((e) => {
+      assert.ok(e instanceof PollerStoppedError);
+      assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "Poller stopped");
     });
 
@@ -148,7 +151,9 @@ describe("Long Running Operations - custom client", function() {
     const poller = await client.startLRO();
 
     // Testing subscriptions to the poll errors
-    poller.done().catch((e: Error) => {
+    poller.done().catch((e) => {
+      assert.ok(e instanceof PollerStoppedError);
+      assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "Poller stopped");
     });
 

@@ -7,6 +7,7 @@ export type PollProgressCallback<TProperties> = (properties: TProperties) => voi
 export class PollerStoppedError extends Error {
   constructor(message: string) {
     super(message);
+    this.name = "PollerStoppedError";
     Object.setPrototypeOf(this, PollerStoppedError.prototype);
   }
 }
