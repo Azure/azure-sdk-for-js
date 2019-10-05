@@ -67,7 +67,7 @@ export class AppConfigurationClient {
       this.client = new AppConfiguration(appConfigCredential, apiVersion, {
         baseUri: regexMatch[1],
         deserializationContentTypes,
-        requestPolicyFactories: (defaults) => [ ...defaults, tracingPolicy() ]
+        requestPolicyFactories: (defaults) => [ tracingPolicy(), ...defaults ]
       });
     } else {
       throw new Error("You must provide a connection string.");
