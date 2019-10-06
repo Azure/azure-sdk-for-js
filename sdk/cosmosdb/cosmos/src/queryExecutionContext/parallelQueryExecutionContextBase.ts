@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import * as bs from "binary-search-bounds";
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
 import { ClientContext } from "../ClientContext";
@@ -9,7 +8,7 @@ import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { FeedOptions, Response } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
-import { PARITIONKEYRANGE, SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
+import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
@@ -120,27 +119,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
         if (this.requestContinuation) {
-          // Need to create the first documentProducer with the suppliedCompositeContinuationToken
-          try {
-            const suppliedCompositeContinuationToken = JSON.parse(this.requestContinuation);
-            filteredPartitionKeyRanges = this.getPartitionKeyRangesForContinuation(
-              suppliedCompositeContinuationToken,
-              targetPartitionRanges
-            );
-            if (filteredPartitionKeyRanges.length > 0) {
-              targetPartitionQueryExecutionContextList.push(
-                this._createTargetPartitionQueryExecutionContext(
-                  filteredPartitionKeyRanges[0],
-                  suppliedCompositeContinuationToken.token
-                )
-              );
-              // Slicing the first element off, since we already made a documentProducer for it
-              filteredPartitionKeyRanges = filteredPartitionKeyRanges.slice(1);
-            }
-          } catch (e) {
-            this.err = e;
-            this.sem.leave();
-          }
+          throw new Error("Continuation tokens are not yet supported for cross partition queries");
         } else {
           filteredPartitionKeyRanges = targetPartitionRanges;
         }
@@ -195,37 +174,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     dp1: DocumentProducer,
     dp2: DocumentProducer
   ): number;
-  //                                          TODO: any                                TODO: any
-  public getPartitionKeyRangesForContinuation(
-    suppliedCompositeContinuationToken: any,
-    partitionKeyRanges: any
-  ) {
-    const startRange: any = {}; // TODO: any
-    startRange[PARITIONKEYRANGE.MinInclusive] = suppliedCompositeContinuationToken.range.min;
-    startRange[PARITIONKEYRANGE.MaxExclusive] = suppliedCompositeContinuationToken.range.max;
-
-    const vbCompareFunction = (x: any, y: any) => {
-      // TODO: any
-      if (x[PARITIONKEYRANGE.MinInclusive] > y[PARITIONKEYRANGE.MinInclusive]) {
-        return 1;
-      }
-      if (x[PARITIONKEYRANGE.MinInclusive] < y[PARITIONKEYRANGE.MinInclusive]) {
-        return -1;
-      }
-
-      return 0;
-    };
-
-    const minIndex = bs.le(partitionKeyRanges, startRange, vbCompareFunction);
-    // that's an error
-
-    if (minIndex > 0) {
-      throw new Error("BadRequestException: InvalidContinuationToken");
-    }
-
-    // return slice of the partition key ranges
-    return partitionKeyRanges.slice(minIndex, partitionKeyRanges.length - minIndex);
-  }
 
   private _decrementInitiationLock() {
     // decrements waitingForInternalExecutionContexts
@@ -252,7 +200,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private async _onTargetPartitionRanges() {
     // invokes the callback when the target partition ranges are ready
     const parsedRanges = this.partitionedQueryExecutionInfo.queryRanges;
-    const queryRanges = parsedRanges.map((item: any) => QueryRange.parseFromDict(item)); // TODO: any
+    const queryRanges = parsedRanges.map((item) => QueryRange.parseFromDict(item));
     return this.routingProvider.getOverlappingRanges(this.collectionLink, queryRanges);
   }
 
