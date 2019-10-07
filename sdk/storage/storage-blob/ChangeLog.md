@@ -42,8 +42,6 @@
   - Shorthand notation is also supported
     - `UseDevelopmentStorage=true` (or `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri`)
 - Added name properties on all the clients for convenience.
-  - accountName is added to AppendBlobClient, BlobClient, BlobServiceClient, BlockBlobClient, ContainerClient and PageBlobClient.
-  - containerName is added to AppendBlobClient, BlobClient, BlockBlobClient, ContainerClient and PageBlobClient.
   - `accountName` is added to `AppendBlobClient`, `BlobClient`, `BlobServiceClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
   - `containerName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
   - `blobName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient` and `PageBlobClient`.

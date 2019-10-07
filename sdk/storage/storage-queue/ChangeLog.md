@@ -9,8 +9,6 @@
   - Shorthand notation is also supported
     - `UseDevelopmentStorage=true` (or `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri`)
 - Added name properties on all the clients for convenience.
-  - accountName is added to MessageIdClient, MessagesClient, QueueClient and QueueServiceClient.
-  - queueName is added to MessageIdClient, MessagesClient and QueueClient.
   - `accountName` is added to `MessageIdClient`, `MessagesClient`, `QueueClient` and `QueueServiceClient`.
   - `queueName` is added to `MessageIdClient`, `MessagesClient` and `QueueClient`.
   - `messageId` is added to `MessageIdClient`.
