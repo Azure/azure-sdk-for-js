@@ -449,7 +449,7 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * for await (const item of client.listCertificateVersions("MyCertificate")) {
-   *   console.log(item.version!);
+   *   console.log(item.properties.version!);
    * }
    * ```
    * @summary List the versions of a certificate.
@@ -488,8 +488,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * await client.deleteCertificate("MyCertificate");
    * ```
@@ -852,8 +852,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * ```
    * @summary Creates a certificate
@@ -894,8 +894,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const certificate = await client.getCertificateWithPolicy("MyCertificate");
    * console.log(certificate);
@@ -933,11 +933,11 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
-   * const certificate = await client.getCertificate("MyCertificate", certificateWithPolicy.version!);
+   * const certificate = await client.getCertificate("MyCertificate", certificateWithPolicy.properties.version!);
    * console.log(certificate);
    * ```
    * @summary Retrieves a certificate from the certificate's name and a specified version
@@ -1018,8 +1018,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const policy = await client.getCertificatePolicy("MyCertificate");
    * console.log(policy);
@@ -1085,8 +1085,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * await client.updateCertificate("MyCertificate", "", {
    *   tags: {
@@ -1129,8 +1129,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * await client.cancelCertificateOperation("MyCertificate");
    * ```
@@ -1167,8 +1167,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const operation = await client.getCertificateOperation("MyCertificate");
    * console.log(operation);
@@ -1206,8 +1206,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * await client.deleteCertificateOperation("MyCertificate");
    * await client.getCertificateOperation("MyCertificate"); // Throws error: Pending certificate not found: "MyCertificate"
@@ -1244,11 +1244,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: {
-   *     name: "Unknown",
-   *     certificateTransparency: false
-   *   },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Unknown",
+   *   subjectName: "cn=MyCert"
    * });
    * const { csr } = await client.getCertificateOperation(certificateName);
    * const base64Csr = Buffer.from(csr!).toString("base64");
@@ -1298,8 +1295,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const backup = await client.backupCertificate("MyCertificate");
    * ```
@@ -1334,8 +1331,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const backup = await client.backupCertificate("MyCertificate");
    * await client.deleteCertificate("MyCertificate");
