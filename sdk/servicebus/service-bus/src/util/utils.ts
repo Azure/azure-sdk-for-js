@@ -231,11 +231,13 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 /**
  *  @ignore
  * Helper utility to retrieve `JSON` value from given input,
- * or undefined if not passed in.
+ * or undefined if not passed in. Treats empty string as invalid JSON
  * @param value
  */
 export function getJSONOrUndefined(value: any): number | undefined {
-  if (value != undefined) {
+  if (value == undefined || (typeof value === "string" && !value.toString())) {
+    return undefined;
+  } else {
     try {
       return JSON.parse(JSON.stringify(value));
     } catch (err) {
@@ -243,8 +245,6 @@ export function getJSONOrUndefined(value: any): number | undefined {
         `${JSON.stringify(value, undefined, 2)} expected to be in proper JSON format, or undefined`
       );
     }
-  } else {
-    return undefined;
   }
 }
 
@@ -286,3 +286,122 @@ export type CountDetails = {
   transferMessageCount: number;
   transferDeadLetterMessageCount: number;
 };
+
+/**
+ * Represents type of `AuthorizationRule` in ATOM based management operations
+ */
+export type AuthorizationRule = {
+  claimType: string;
+  claimValue: string;
+  rights: { accessRights?: string[] };
+  keyName: string;
+  primaryKey?: string;
+  secondaryKey?: string;
+};
+
+/**
+ * Internal representation of AuthorizationRule
+ */
+type RawAuthorizationRule = {
+  $: any;
+  ClaimType: string;
+  ClaimValue: string;
+  Rights: { AccessRights?: string[] };
+  KeyName: string;
+  PrimaryKey?: string;
+  SecondaryKey?: string;
+};
+
+/**
+ *  @ignore
+ * Helper utility to retrieve array of `AuthorizationRule` from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
+  const authorizationRules: AuthorizationRule[] = [];
+  const jsonValue: any = getJSONOrUndefined(value);
+  if (jsonValue == undefined) {
+    return undefined;
+  } else {
+    try {
+      const rawAuthorizationRules = value["AuthorizationRule"];
+      if (rawAuthorizationRules.length !== undefined) {
+        for (let i = 0; i < rawAuthorizationRules.length; i++) {
+          authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules[i]));
+        }
+      } else {
+        authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules));
+      }
+      return authorizationRules;
+    } catch (err) {
+      throw new TypeError(
+        `${jsonValue} expected to be in expected to be an array of AuthorizationRule instances, or undefined :: ${err.message}`
+      );
+    }
+  }
+}
+
+/**
+ * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input,
+ * @param value
+ */
+function buildAuthorizationRule(value: RawAuthorizationRule): AuthorizationRule {
+  const authorizationRule: AuthorizationRule = {
+    claimType: value["ClaimType"],
+    claimValue: value["ClaimValue"],
+    rights: {
+      accessRights: value["Rights"]["AccessRights"]
+    },
+    keyName: value["KeyName"],
+    primaryKey: value["PrimaryKey"],
+    secondaryKey: value["SecondaryKey"]
+  };
+  return authorizationRule;
+}
+
+/**
+ *  @ignore
+ * Helper utility to retrieve `authorizationRules` value from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
+  if (
+    authorizationRules == undefined ||
+    (authorizationRules && authorizationRules.length && authorizationRules.length == 0)
+  ) {
+    return undefined;
+  }
+  const rawAuthorizationRules: RawAuthorizationRule[] = [];
+  if (authorizationRules.length == 1) {
+    rawAuthorizationRules.push(buildRawAuthorizationRule(authorizationRules[0]));
+  } else {
+    for (let i = 0; i < authorizationRules.length; i++) {
+      rawAuthorizationRules.push(buildRawAuthorizationRule(authorizationRules[i]));
+    }
+  }
+  return { AuthorizationRule: rawAuthorizationRules };
+}
+
+/**
+ * Helper utility to build an instance of raw authorization rule as `RawAuthorizationRule` from given `AuthorizationRule` input,
+ * @param authorizationRule parsed Authorization Rule instance
+ */
+function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): RawAuthorizationRule {
+  const rawAuthorizationRule: RawAuthorizationRule = {
+    $: {
+      "p5:type": "SharedAccessAuthorizationRule",
+      "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance"
+    },
+    ClaimType: authorizationRule.claimType,
+    ClaimValue: authorizationRule.claimValue,
+    Rights: {
+      AccessRights: authorizationRule.rights.accessRights
+    },
+    KeyName: authorizationRule.keyName,
+    PrimaryKey: authorizationRule.primaryKey,
+    SecondaryKey: authorizationRule.secondaryKey
+  };
+  return rawAuthorizationRule;
+}

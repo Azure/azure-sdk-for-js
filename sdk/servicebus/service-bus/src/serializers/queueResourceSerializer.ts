@@ -9,7 +9,10 @@ import {
   getIntegerOrUndefined,
   getBooleanOrUndefined,
   getCountDetailsOrUndefined,
-  CountDetails
+  getRawAuthorizationRules,
+  getAuthorizationRulesOrUndefined,
+  CountDetails,
+  AuthorizationRule
 } from "../util/utils";
 
 const requestProperties: Array<keyof InternalQueueOptions> = [
@@ -55,7 +58,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
       queueOptions.deadLetteringOnMessageExpiration
     ),
     UserMetadata: getStringOrUndefined(queueOptions.userMetadata),
-    AuthorizationRules: getStringOrUndefined(queueOptions.authorizationRules)
+    AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules)
   };
   return internalQueueOptions;
 }
@@ -104,7 +107,7 @@ export function buildQueue(rawQueue: any): Queue | undefined {
       supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
       enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
 
-      authorizationRules: rawQueue[Constants.AUTHORIZATION_RULES],
+      authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
       isAnonymousAccessible: getBooleanOrUndefined(rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE]),
 
       entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
@@ -209,7 +212,7 @@ export interface QueueOptions {
   /**
    * Authorization rules on the queue
    */
-  authorizationRules?: string;
+  authorizationRules?: AuthorizationRule[];
 }
 
 /**

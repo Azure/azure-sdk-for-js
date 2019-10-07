@@ -9,7 +9,10 @@ import {
   getIntegerOrUndefined,
   getBooleanOrUndefined,
   getCountDetailsOrUndefined,
-  CountDetails
+  CountDetails,
+  getRawAuthorizationRules,
+  getAuthorizationRulesOrUndefined,
+  AuthorizationRule
 } from "../util/utils";
 
 const requestProperties: Array<keyof InternalTopicOptions> = [
@@ -60,7 +63,7 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
     FilteringMessagesBeforePublishing: getStringOrUndefined(
       topicOptions.filteringMessagesBeforePublishing
     ),
-    AuthorizationRules: getStringOrUndefined(topicOptions.authorizationRules),
+    AuthorizationRules: getRawAuthorizationRules(topicOptions.authorizationRules),
     EnablePartitioning: getStringOrUndefined(topicOptions.enablePartitioning),
     SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
     EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
@@ -122,7 +125,7 @@ export function buildTopic(rawTopic: any): Topic | undefined {
         rawTopic["MaxCorrelationFiltersPerTopic"]
       ),
 
-      authorizationRules: rawTopic["AuthorizationRules"],
+      authorizationRules: getAuthorizationRulesOrUndefined(rawTopic["AuthorizationRules"]),
       isAnonymousAccessible: getBooleanOrUndefined(rawTopic["IsAnonymousAccessible"]),
 
       entityAvailabilityStatus: rawTopic["EntityAvailabilityStatus"],
@@ -167,7 +170,7 @@ export interface TopicOptions {
   /**
    * Authorization rules on the topic
    */
-  authorizationRules?: any;
+  authorizationRules?: AuthorizationRule[];
 
   /**
    * Specifies whether the topic should be partitioned

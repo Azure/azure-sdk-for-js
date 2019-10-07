@@ -51,12 +51,20 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
         switch (entityType) {
           case EntityType.QUEUE:
-            await deleteEntity(entityType, alwaysBeExistingQueue);
+            try {
+              await deleteEntity(entityType, alwaysBeExistingQueue);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await createEntity(entityType, alwaysBeExistingQueue);
             should.equal(response.queueName, alwaysBeExistingQueue, "Queue name mismatch");
             break;
           case EntityType.TOPIC:
-            await deleteEntity(entityType, alwaysBeExistingTopic);
+            try {
+              await deleteEntity(entityType, alwaysBeExistingTopic);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await createEntity(entityType, alwaysBeExistingTopic);
             should.equal(response.topicName, alwaysBeExistingTopic, "Topic name mismatch");
             break;
@@ -73,6 +81,16 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
             );
             break;
           case EntityType.RULE:
+            try {
+              response = await deleteEntity(
+                entityType,
+                alwaysBeExistingRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await createEntity(
               entityType,
               alwaysBeExistingRule,
@@ -373,7 +391,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     testCaseTitle: "Undefined queue options",
     input: undefined,
     output: {
-      authorizationRules: "",
+      authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       countDetails: undefined,
       deadLetteringOnMessageExpiration: false,
@@ -406,7 +424,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       // This should be a proper URL else the service returns an error
       // forwardDeadLetteredMessagesTo: "",
       lockDuration: "PT45S",
-      maxSizeInMegabytes: 2048,
       messageCount: 5,
       sizeInBytes: 250,
       requiresDuplicateDetection: true,
@@ -417,15 +434,36 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       maxDeliveryCount: 8,
       enableBatchedOperations: false,
       autoDeleteOnIdle: "PT1H",
-
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
       enablePartitioning: true
+      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
       messageCount: 5,
       sizeInBytes: 250,
-      maxSizeInMegabytes: 2048,
       defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -433,10 +471,33 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       requiresDuplicateDetection: true,
       requiresSession: true,
       autoDeleteOnIdle: "PT1H",
+      authorizationRules: [
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v2",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        },
+        {
+          claimType: "SharedAccessKey",
+          claimValue: "None",
+          rights: {
+            accessRights: ["Manage", "Send", "Listen"]
+          },
+          keyName: "allClaims_v3",
+          primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
+      ],
 
-      // enablePartitioning: true,
-      enablePartitioning: false,
-      authorizationRules: "",
+      enablePartitioning: true,
+      maxSizeInMegabytes: 16384,
+      supportOrdering: false,
+
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       path: undefined,
@@ -447,7 +508,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
       status: "Active",
-      supportOrdering: true,
       queueName: "alwaysbeexistingqueue"
     }
   }
@@ -484,7 +544,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     testCaseTitle: "Undefined topic options",
     input: undefined,
     output: {
-      authorizationRules: "",
+      authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       countDetails: undefined,
       defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
@@ -527,7 +587,8 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       // enableSubscriptionPartitioning: true,
       // filteringMessagesBeforePublishing: true,
 
-      maxSizeInMegabytes: 2048,
+      // maxSizeInMegabytes: 2048, // For partitioned entities, this is 16384
+
       requiresDuplicateDetection: true,
       defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
@@ -545,10 +606,12 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       defaultMessageTimeToLive: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
       autoDeleteOnIdle: "PT1H",
-      maxSizeInMegabytes: 2048,
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
+
+      enablePartitioning: true,
+      maxSizeInMegabytes: 16384,
 
       maxSubscriptionsPerTopic: undefined,
       maxSqlFiltersPerTopic: undefined,
@@ -559,13 +622,11 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
       // enableExpress: true,
       enableExpress: false,
-      authorizationRules: "",
+      authorizationRules: undefined,
 
-      enablePartitioning: false,
       isExpress: false,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
-      // enablePartitioning: true,
       // isExpress: true,
       // enableSubscriptionPartitioning: true,
       // filteringMessagesBeforePublishing: true,
@@ -690,15 +751,6 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 ].forEach((testCase) => {
   describe(`Subscription creation with differing options`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
-      try {
-        await deleteEntity(
-          EntityType.SUBSCRIPTION,
-          alwaysBeExistingSubscription,
-          alwaysBeExistingTopic
-        );
-      } catch (err) {
-        console.log("Ignoring clean up step");
-      }
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
         alwaysBeExistingSubscription,
@@ -720,6 +772,16 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         "updatedAt",
         "accessedAt"
       ]);
+
+      try {
+        await deleteEntity(
+          EntityType.SUBSCRIPTION,
+          alwaysBeExistingSubscription,
+          alwaysBeExistingTopic
+        );
+      } catch (err) {
+        console.log("Ignoring clean up step");
+      }
     });
   });
 });
@@ -745,15 +807,15 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
   describe(`Rule creation with differing options`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
-        await deleteEntity(
-          EntityType.RULE,
-          alwaysBeExistingRule,
-          alwaysBeExistingTopic,
-          alwaysBeExistingSubscription
+        await createEntity(
+          EntityType.SUBSCRIPTION,
+          alwaysBeExistingSubscription,
+          alwaysBeExistingTopic
         );
       } catch (err) {
         console.log("Ignoring clean up step");
       }
+
       const response = await createEntity(
         EntityType.RULE,
         alwaysBeExistingRule,
@@ -794,7 +856,19 @@ async function createEntity(
   if (!overrideOptions) {
     if (queueOptions == undefined) {
       queueOptions = {
-        lockDuration: "PT1M"
+        lockDuration: "PT1M",
+        authorizationRules: [
+          {
+            claimType: "SharedAccessKey",
+            claimValue: "None",
+            rights: {
+              accessRights: ["Manage", "Send", "Listen"]
+            },
+            keyName: "allClaims_v1",
+            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
+            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          }
+        ]
       };
     }
 
@@ -913,20 +987,20 @@ async function updateEntity(
 ): Promise<any> {
   if (queueOptions == undefined) {
     queueOptions = {
-      lockDuration: "PT5M"
+      lockDuration: "PT1M"
     };
   }
 
   if (topicOptions == undefined) {
     topicOptions = {
-      maxDeliveryCount: 11
+      maxDeliveryCount: 10
     };
   }
 
   if (subscriptionOptions == undefined) {
     subscriptionOptions = {
       lockDuration: "PT1M",
-      maxDeliveryCount: 11
+      maxDeliveryCount: 10
     };
   }
 
