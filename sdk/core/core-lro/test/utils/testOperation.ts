@@ -36,6 +36,7 @@ async function update(
       )
     );
     this.state.completed = true;
+    this.state.result = "Done";
   } else {
     response = await client.sendRequest(
       new TestWebResource(

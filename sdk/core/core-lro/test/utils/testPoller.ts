@@ -39,11 +39,4 @@ export class TestPoller extends Poller<TestOperationProperties, string> {
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
-
-  async getResult(): Promise<string | undefined> {
-    if (!this.isDone()) {
-      return "Not done";
-    }
-    return "Done";
-  }
 }

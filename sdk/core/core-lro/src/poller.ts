@@ -1,4 +1,4 @@
-import { PollOperation } from "./pollOperation";
+import { PollOperation, PollOperationState } from "./pollOperation";
 
 export type CancelOnProgress = () => void;
 
@@ -12,15 +12,23 @@ export class PollerStoppedError extends Error {
   }
 }
 
+export class PollerCancelledError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PollerCancelledError";
+    Object.setPrototypeOf(this, PollerCancelledError.prototype);
+  }
+}
+
 export abstract class Poller<TProperties, TResult> {
   private stopped: boolean;
   private resolve?: (value?: TResult) => void;
-  private reject?: (error: PollerStoppedError | Error) => void;
+  private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
   private pollOncePromise?: Promise<void>;
-  private cancelPromise?: Promise<PollOperation<TProperties, TResult>>;
+  private cancelPromise?: Promise<void>;
+  private operation: PollOperation<TProperties, TResult>;
   private promise: Promise<TResult>;
   private pollProgressCallbacks: PollProgressCallback<TProperties>[] = [];
-  public operation: PollOperation<TProperties, TResult>;
 
   constructor(operation: PollOperation<TProperties, TResult>, stopped: boolean = false) {
     this.operation = operation;
@@ -28,7 +36,7 @@ export abstract class Poller<TProperties, TResult> {
     this.promise = new Promise(
       (
         resolve: (result?: TResult) => void,
-        reject: (error: PollerStoppedError | Error) => void
+        reject: (error: PollerStoppedError | PollerCancelledError | Error) => void
       ) => {
         this.resolve = resolve;
         this.reject = reject;
@@ -37,8 +45,7 @@ export abstract class Poller<TProperties, TResult> {
     this.startPolling();
   }
 
-  abstract async delay(): Promise<void>;
-  abstract async getResult(): Promise<TResult | undefined>;
+  protected abstract async delay(): Promise<void>;
 
   private async startPolling(): Promise<void> {
     while (!this.isStopped() && !this.isDone()) {
@@ -55,9 +62,7 @@ export abstract class Poller<TProperties, TResult> {
       if (!this.isDone()) {
         this.operation = await this.operation.update(this.fireProgress.bind(this));
         if (this.isDone() && this.resolve) {
-          const result = await this.getResult();
-          this.operation.state.result = result;
-          this.resolve(result);
+          this.resolve(this.operation.state.result);
         }
       }
     } catch (e) {
@@ -75,25 +80,19 @@ export abstract class Poller<TProperties, TResult> {
   }
 
   private async cancelOnce(): Promise<void> {
-    try {
-      const result = this.operation.cancel();
-      this.operation.state.cancelled = true;
-      return result;
-    } catch (e) {
-      this.operation.state.cancelled = true;
-      throw e;
+    this.operation = await this.operation.cancel();
+    if (this.reject) {
+      this.reject(new PollerCancelledError("Poller cancelled"));
     }
   }
 
   public poll(): Promise<void> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce();
-      const after = () => {
+      const after = (): void => {
         this.pollOncePromise = undefined;
       };
       this.pollOncePromise.then(after, after);
-        this.pollOncePromise = undefined;
-      });
     }
     return this.pollOncePromise;
   }
@@ -128,11 +127,19 @@ export abstract class Poller<TProperties, TResult> {
     return this.stopped;
   }
 
-  public cancel(): Promise<PollOperation<TProperties, TResult>> {
+  public cancel(): Promise<void> {
     if (!this.cancelPromise) {
       this.cancelPromise = this.cancelOnce();
     }
     return this.cancelPromise;
+  }
+
+  public getState(): PollOperationState<TResult> {
+    return this.operation.state;
+  }
+
+  public getProperties(): TProperties {
+    return this.operation.properties;
   }
 
   public toJSON(): string {

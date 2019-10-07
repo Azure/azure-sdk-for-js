@@ -4,7 +4,7 @@
 import assert from "assert";
 import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
-import { PollerStoppedError } from "../src";
+import { PollerStoppedError, PollerCancelledError } from "../src";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
@@ -42,7 +42,7 @@ describe("Long Running Operations - custom client", function() {
 
     // synchronously checking the operation state
     await poller.poll();
-    assert.ok(poller.operation.state.started);
+    assert.ok(poller.getState().started);
 
     // Checking the serialized version of the operation
     let serializedOperation = JSON.parse(poller.toJSON());
@@ -50,7 +50,8 @@ describe("Long Running Operations - custom client", function() {
 
     // Waiting until the operation completes
     const result = await poller.done();
-    const { properties, state } = poller.operation;
+    const state = poller.getState();
+    const properties = poller.getProperties();
 
     assert.ok(properties.initialResponse!.parsedBody.started);
     assert.ok(properties.previousResponse!.parsedBody.finished);
@@ -67,23 +68,20 @@ describe("Long Running Operations - custom client", function() {
     // To update the operation state, the following asyncrhonous method is provided:
     await poller.poll();
 
-    let operation = poller.operation;
-    assert.ok(operation.properties.initialResponse!.parsedBody.started);
-    assert.ok(operation.properties.previousResponse!.parsedBody.started);
+    assert.ok(poller.getProperties().initialResponse!.parsedBody.started);
+    assert.ok(poller.getProperties().previousResponse!.parsedBody.started);
 
     await poller.poll();
-    operation = poller.operation;
-    assert.ok(operation.properties.previousResponse!.parsedBody.doFinalResponse);
+    assert.ok(poller.getProperties().previousResponse!.parsedBody.doFinalResponse);
 
-    let result = await poller.getResult();
-    assert.equal(result, "Not done");
+    let result = await poller.getState().result;
+    assert.equal(result, undefined);
 
     await poller.poll();
-    operation = poller.operation;
-    assert.ok(operation.properties.previousResponse!.parsedBody.finished);
-    assert.ok(operation.state.completed);
+    assert.ok(poller.getProperties().previousResponse!.parsedBody.finished);
+    assert.ok(poller.getState().completed);
 
-    result = await poller.getResult();
+    result = await poller.getState().result;
     assert.equal(result, "Done");
 
     poller.stop();
@@ -96,28 +94,24 @@ describe("Long Running Operations - custom client", function() {
     const poller = await client.startLRO({ manual: true });
     assert.ok(poller.isStopped());
 
-    let operation = poller.operation;
-    assert.ok(!operation.state.started);
+    assert.ok(!poller.getState().started);
 
     await poller.poll();
-    operation = poller.operation;
-    assert.ok(!operation.state.started);
-    assert.ok(operation.properties.initialResponse!.parsedBody.started);
-    assert.ok(operation.properties.previousResponse!.parsedBody.started);
+    assert.ok(!poller.getState().started);
+    assert.ok(poller.getProperties().initialResponse!.parsedBody.started);
+    assert.ok(poller.getProperties().previousResponse!.parsedBody.started);
 
     await poller.poll();
-    operation = poller.operation;
-    assert.ok(operation.properties.previousResponse!.parsedBody.doFinalResponse);
+    assert.ok(poller.getProperties().previousResponse!.parsedBody.doFinalResponse);
 
-    let result = await poller.getResult();
-    assert.equal(result, "Not done");
+    let result = await poller.getState().result;
+    assert.equal(result, undefined);
 
     await poller.poll();
-    operation = poller.operation;
-    assert.ok(operation.properties.previousResponse!.parsedBody.finished);
-    assert.ok(operation.state.completed);
+    assert.ok(poller.getProperties().previousResponse!.parsedBody.finished);
+    assert.ok(poller.getState().completed);
 
-    result = await poller.getResult();
+    result = await poller.getState().result;
     assert.equal(result, "Done");
 
     poller.stop();
@@ -128,18 +122,21 @@ describe("Long Running Operations - custom client", function() {
     client.setResponses([initialResponse, ...Array(20).fill(basicResponseStructure)]);
 
     const poller = await client.startLRO();
+    poller.done().catch((e) => {
+      assert.ok(e instanceof PollerCancelledError);
+      assert.equal(e.name, "PollerCancelledError");
+      assert.equal(e.message, "Poller cancelled");
+    });
 
     await poller.poll();
-    let operation = poller.operation;
-    assert.ok(operation.state.started);
+    assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
 
     await delay(100); // The poller loops every 10 milliseconds
     assert.equal(client.totalSentRequests, 10);
 
     await poller.cancel();
-    operation = poller.operation;
-    assert.ok(operation.state.cancelled);
+    assert.ok(poller.getState().cancelled);
   });
 
   it("fails to cancel the operation (when cancellation is not supported)", async function() {
@@ -180,8 +177,7 @@ describe("Long Running Operations - custom client", function() {
     });
 
     await poller.poll();
-    let operation = poller.operation;
-    assert.ok(operation.state.started);
+    assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
 
     await delay(100); // The poller loops every 10 milliseconds
@@ -211,7 +207,7 @@ describe("Long Running Operations - custom client", function() {
 
     const result = await poller.done();
     assert.equal(result, "Done");
-    assert.equal(poller.operation.state.result, "Done");
+    assert.equal(poller.getState().result, "Done");
 
     // Progress only after the poller has started and before the poller is done
     assert.equal(totalOperationUpdates, 11);
