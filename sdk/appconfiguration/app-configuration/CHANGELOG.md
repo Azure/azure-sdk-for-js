@@ -5,8 +5,8 @@
 This release brings our interface a bit closer to what is offered in the
 Azure SDKs for C# and Java for AppConfig. 
 
-This affects the `getConfigurationSetting`, `setConfigurationSetting`, 
-`getConfigurationSetting` and `deleteConfigurationSetting` methods which 
+This affects the `getConfigurationSetting`, `addConfigurationSetting`, 
+`setConfigurationSetting` and `deleteConfigurationSetting` methods which 
 no longer take a `key` parameter and instead take an object.
 
 In previous previews:
