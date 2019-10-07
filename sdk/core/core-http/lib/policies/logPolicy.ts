@@ -11,7 +11,17 @@ import {
 } from "./requestPolicy";
 import { logger as coreLogger } from "../log";
 export interface LogPolicyOptions {
+  /**
+   * Header names whose values will be logged when logging is enabled. Defaults to
+   * Date, traceparent, x-ms-client-request-id, and x-ms-request id. Other values
+   * will show as "REDACTED".
+   */
   allowedHeaderNames?: string[],
+
+  /**
+   * Query string names whose values will be logged when logging is enabled. By default no
+   * query string values are logged.
+   */
   allowedQueryParameters?: string[]
 }
 
