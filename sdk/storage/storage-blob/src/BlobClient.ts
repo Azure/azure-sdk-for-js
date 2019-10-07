@@ -1597,13 +1597,13 @@ export class BlobClient extends StorageClient {
 
     try {
       let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-      urlWithoutSAS = decodeURIComponent(urlWithoutSAS); // decode the encoded url - to get all the special characters that might be present in a blobName
       urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
       const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
 
-      const containerName = partsOfUrl![3];
-      let blobName = partsOfUrl![5];
+      // decode the encoded blobName, containerName - to get all the special characters that might be present in them
+      const containerName = decodeURIComponent(partsOfUrl![3]);
+      let blobName = decodeURIComponent(partsOfUrl![5]);
 
       // Azure Storage Server will replace "\" with "/" in the blob names
       //   doing the same in the SDK side so that the user doesn't have to replace "\" instances in the blobName
