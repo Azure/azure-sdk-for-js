@@ -587,7 +587,12 @@ describe("ContainerClient", () => {
               children: [
                 {
                   name: "Azure.Storage.Blob.BlockBlobClient-upload",
-                  children: []
+                  children: [
+                    {
+                      name: "core-http",
+                      children: []
+                    }
+                  ]
                 }
               ]
             }

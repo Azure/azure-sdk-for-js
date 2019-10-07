@@ -618,7 +618,12 @@ describe("DirectoryClient", () => {
               children: [
                 {
                   name: "Azure.Storage.File.DirectoryClient-create",
-                  children: []
+                  children: [
+                    {
+                      name: "core-http",
+                      children: []
+                    }
+                  ]
                 }
               ]
             },
@@ -627,30 +632,55 @@ describe("DirectoryClient", () => {
               children: [
                 {
                   name: "Azure.Storage.File.FileClient-create",
-                  children: []
+                  children: [
+                    {
+                      name: "core-http",
+                      children: []
+                    }
+                  ]
                 }
               ]
             },
             {
               name: "Azure.Storage.File.FileClient-getProperties",
-              children: []
+              children: [
+                {
+                  name: "core-http",
+                  children: []
+                }
+              ]
             },
             {
               name: "Azure.Storage.File.DirectoryClient-deleteFile",
               children: [
                 {
                   name: "Azure.Storage.File.FileClient-delete",
-                  children: []
+                  children: [
+                    {
+                      name: "core-http",
+                      children: []
+                    }
+                  ]
                 }
               ]
             },
             {
               name: "Azure.Storage.File.FileClient-getProperties",
-              children: []
+              children: [
+                {
+                  name: "core-http",
+                  children: []
+                }
+              ]
             },
             {
               name: "Azure.Storage.File.DirectoryClient-delete",
-              children: []
+              children: [
+                {
+                  name: "core-http",
+                  children: []
+                }
+              ]
             }
           ]
         }
