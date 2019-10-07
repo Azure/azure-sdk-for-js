@@ -173,10 +173,14 @@ const enabled = true;
 const tags = {
   myCustomTag: "myCustomTagsValue"
 };
-const result = await client.createCertificate(certificateName, certificatePolicy, {
-  enabled,
-  tags
-});
+const result = await client.createCertificate(
+  certificateName,
+  certificatePolicy,
+  {
+    enabled,
+    tags
+  }
+);
 ```
 
 Calling to `createCertificate` with the same name will create a new version of
