@@ -1,9 +1,6 @@
 # Release History
 
 ## 4.0.0-preview.7 (2019-10-07)
-- Added @azure/eslint-plugin-azure-sdk.
-- Added a "Deploy to Azure" button to the README.
-- Updated README examples to latest API changes.
 - API Change: Nested classes are now flattened into a "properties" property.
 
 ## 4.0.0-preview.5 (2019-09-11)
