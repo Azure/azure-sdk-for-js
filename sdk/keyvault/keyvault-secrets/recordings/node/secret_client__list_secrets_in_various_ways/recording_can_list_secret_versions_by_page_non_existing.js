@@ -3,7 +3,7 @@ let nock = require('nock');
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/CRUDSecretName-canlistsecretversionsnonexistingbypages-/versions')
+  .get('/secrets/CRUDSecretName-canlistsecretversionsbypagenonexisting-/versions')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
@@ -22,11 +22,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'b2caaafe-73c2-4ca6-8018-2fb112422f8d',
+  'caecf0f2-fa95-4c4b-b914-2aec3a4a1341',
   'x-ms-keyvault-service-version',
-  '1.1.0.876',
+  '1.1.0.879',
   'x-ms-keyvault-network-info',
-  'addr=52.168.64.178;act_addr_fam=InterNetwork;',
+  'addr=40.71.194.238;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -36,7 +36,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 16 Aug 2019 22:54:07 GMT',
+  'Fri, 04 Oct 2019 23:20:35 GMT',
   'Connection',
   'close' ]);
 
@@ -56,19 +56,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '707bf800-1981-4df0-853e-145da6953200',
+  'fcc0cb53-eb58-470c-adf7-0386dc8b1e00',
   'x-ms-ests-server',
-  '2.1.9261.9 - EST ProdSlices',
+  '2.1.9485.10 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AoAav6sekDdAimBt6QRvLes_aSJHAQAAAA8r6dQOAAAA; expires=Sun, 15-Sep-2019 22:54:07 GMT; path=/; secure; HttpOnly',
+  'fpc=Aj7shVPTDcZDpL9JDjBkDI0_aSJHAQAAAMPKKdUOAAAA; expires=Sun, 03-Nov-2019 23:20:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; HttpOnly',
+  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; HttpOnly',
+  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Fri, 16 Aug 2019 22:54:07 GMT',
+  'Fri, 04 Oct 2019 23:20:35 GMT',
   'Connection',
   'close',
   'Content-Length',
@@ -76,7 +76,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/CRUDSecretName-canlistsecretversionsnonexistingbypages-/versions')
+  .get('/secrets/CRUDSecretName-canlistsecretversionsbypagenonexisting-/versions')
   .query(true)
   .reply(200, {"value":[],"nextLink":null}, [ 'Cache-Control',
   'no-cache',
@@ -91,11 +91,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '14e92351-f316-4f46-ad59-36f7bea9f3ab',
+  '540baaa9-d7cb-49a3-8be4-7d40eac709d1',
   'x-ms-keyvault-service-version',
-  '1.1.0.876',
+  '1.1.0.879',
   'x-ms-keyvault-network-info',
-  'addr=52.168.64.178;act_addr_fam=InterNetwork;',
+  'addr=40.71.194.238;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -105,7 +105,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 16 Aug 2019 22:54:07 GMT',
+  'Fri, 04 Oct 2019 23:20:35 GMT',
   'Connection',
   'close',
   'Content-Length',

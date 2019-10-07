@@ -4,14 +4,14 @@ Azure Key Vault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
 passwords by using keys that are protected by hardware security
 modules (HSMs). If you would like to know more about Azure Key Vault, you may
-want to review [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview).
+want to review "[What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)".
 
 Azure Key Vault Key management allows you to create and control
 encryption keys that encrypt your data.
 
 Use the client library for Azure Key Vault Keys in your Node.js application to
 
-- Create keys (EC, EC-HSM, RSA, RSA-HSM).
+- Create keys (using eliptic curve or RSA encryption, optionally backed by an HSM).
 - Import keys.
 - Delete keys.
 - Update keys.
@@ -51,7 +51,7 @@ To quickly create the needed Key Vault resources in Azure and to receive a conne
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftests-resources.json)
 
-### Configure Typescript
+### Configure TypeScript
 
 TypeScript users need to have Node type definitions installed:
 
@@ -119,10 +119,12 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - A **Key backup** can be generated from any created key. These backups come as
   binary data, and can only be used to regenerate a previously deleted key.
 - The **Cryptography client** is a separate interface that interacts with the
-  keys API methods in the Key Vault API, ## Authenticating the client. This
-  client focuses only in the cryptography operations that can be executed using
-  a key that has been already created in the Key Vault. More about this client
-  in the [Cryptography](#cryptography) section.
+  keys API methods in the Key Vault API. This client focuses only in the
+  cryptography operations that can be executed using a key that has been
+  already created in the Key Vault. More about this client in the
+  [Cryptography](#cryptography) section.
+
+## Authenticating the client
 
 To use the key vault from TypeScript/JavaScript, you need to first authenticate with the key vault service. To authenticate, first we import the identity and KeysClient, which will connect to the key vault.
 
@@ -298,7 +300,7 @@ for await (let page of client.listKeyVersions(keyName).byPage()) {
   }
 }
 ```
- 
+
 ## Cryptography
 
 This library also offers a set of cryptographic utilities available through
@@ -338,6 +340,7 @@ const cryptographyClient = new CryptographyClient(url, myKey.keyMaterial!.kid!, 
 ```
 
 ### Encrypt
+
 `encrypt` will encrypt a message. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
@@ -346,6 +349,7 @@ console.log("encrypt result: ", encryptResult.result);
 ```
 
 ### Decrypt
+
 `decrypt` will decrypt an encrypted message. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
@@ -354,6 +358,7 @@ console.log("decrypt result: ", decryptResult.result.toString());
 ```
 
 ### Sign
+
 `sign` will cryptographically sign the digest (hash) of a message with a signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
@@ -368,6 +373,7 @@ console.log("sign result: ", signResult.result);
 ```
 
 ### Sign Data
+
 `signData` will cryptographically sign a message with a signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
@@ -376,6 +382,7 @@ console.log("sign result: ", signResult.result);
 ```
 
 ### Verify
+
 `verify` will cryptographically verify that the signed digest was signed with the given signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
@@ -384,6 +391,7 @@ console.log("verify result: ", verifyResult.result);
 ```
 
 ### Verify Data
+
 `verifyData` will cryptographically verify that the signed message was signed with the given signature. The following algorithms are currently supported: "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "ES256","ES256K", "ES384", and "ES512".
 
 ```javascript
@@ -393,6 +401,7 @@ console.log("verify result: ", verifyResult.result);
 ```
 
 ### Wrap Key
+
 `wrapKey` will wrap a key with an encryption layer. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
@@ -401,13 +410,13 @@ console.log("wrap result:", wrapResult.result);
 ```
 
 ### Unwrap Key
+
 `unwrapKey` will unwrap a wrapped key. The following algorithms are currently supported: "RSA-OAEP", "RSA-OAEP-256", and "RSA1_5".
 
 ```javascript
 const unwrapResult = await cryptographyClient.unwrapKey("RSA-OAEP", wrapResult.result);
 console.log("unwrap result: ", unwrapResult.result);
 ```
-
 
 ## Troubleshooting
 
@@ -451,7 +460,7 @@ environment variables:
 - `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
 - `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
 
-**WARNING:** 
+**WARNING:**
 Integration tests will wipe all of the existing records in the targeted Key Vault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).

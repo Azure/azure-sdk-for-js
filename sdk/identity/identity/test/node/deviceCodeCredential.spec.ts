@@ -217,6 +217,31 @@ describe("DeviceCodeCredential", function() {
     });
   });
 
+  it("rethrows an unexpected AuthenticationError", async function() {
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        { status: 200, parsedBody: deviceCodeResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 401, parsedBody: { error: "invalid_client", error_description: "The request body must contain..."} }
+      ]
+    });
+
+    const credential = new DeviceCodeCredential(
+      "tenant",
+      "client",
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
+      mockHttpClient.identityClientOptions
+    );
+
+    await assertRejects(credential.getToken("scope"), (error) => {
+      const authError = error as AuthenticationError;
+      assert.strictEqual(error.name, "AuthenticationError");
+      assert.strictEqual(authError.errorResponse.error, "invalid_client");
+      return true;
+    });
+  });
+
   it("cancels polling when abort signal is raised", async function() {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [

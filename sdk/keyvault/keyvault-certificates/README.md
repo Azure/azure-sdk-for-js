@@ -4,7 +4,7 @@ Azure Key Vault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
 passwords by using keys that are protected by hardware security
 modules (HSMs). If you would like to know more about Azure Key Vault, you may
-want to review [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview).
+want to review "[What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)".
 
 Azure Key Vault Certificates allows you to securely manage, store and
 tightly control your certificates.
@@ -38,8 +38,8 @@ If you are using this package in a Node.js application, then use Node.js 6.x or 
 To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2Ftests-resources.json)
- 
-### Configure Typescript
+
+### Configure TypeScript
 
 TypeScript users need to have Node type definitions installed:
 
@@ -147,14 +147,14 @@ tasks using Azure Key Vault Certificates. The scenarios that are covered here co
 
 ### Creating and setting a certificate
 
-`setCertificate` creates a certificate to be stored in the Azure Key Vault. If
+`createCertificate` creates a certificate to be stored in the Azure Key Vault. If
 a certificate with the same name already exists, a new version of the
 certificate is created.
 
 ```javascript
 const certificateName = "MyCertificateName";
 const result = await client.createCertificate(certificateName, {
-  issuerName: "Self",
+  issuerName: "Self"
 });
 ```
 
@@ -168,7 +168,7 @@ Besides the name of the certificate, you can also pass the following attributes:
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
   issuerName: "Self"
-}
+};
 const enabled = true;
 const tags = {
   myCustomTag: "myCustomTagsValue"
@@ -370,7 +370,7 @@ environment variables:
 - `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
 - `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
 
-**WARNING:** 
+**WARNING:**
 Integration tests will wipe all of the existing records in the targeted Key Vault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).

@@ -88,7 +88,6 @@ export class SecretsClient {
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @returns {Pipeline} A new Pipeline object.
    * @memberof SecretsClient
    */
   public static getDefaultPipeline(
@@ -206,9 +205,9 @@ export class SecretsClient {
   // TODO: do we want Aborter as well?
 
   /**
-   * The SET operation adds a secret to the Azure Key Vault. If the named secret already exists,
-   * Azure Key Vault creates a new version of that secret. This operation requires the secrets/set
-   * permission.
+   * The setSecret method adds a secret or secret version to the Azure Key Vault. If the named secret
+   * already exists, Azure Key Vault creates a new version of that secret.
+   * This operation requires the secrets/set permission.
    *
    * Example usage:
    * ```ts
@@ -219,7 +218,6 @@ export class SecretsClient {
    * @param secretName The name of the secret.
    * @param value The value of the secret.
    * @param [options] The optional parameters
-   * @returns Promise<Secret>
    */
   public async setSecret(
     secretName: string,
@@ -264,8 +262,9 @@ export class SecretsClient {
   }
 
   /**
-   * The DELETE operation applies to any secret stored in Azure Key Vault. DELETE cannot be applied
-   * to an individual version of a secret. This operation requires the secrets/delete permission.
+   * The deleteSecret method applies to any secret stored in Azure Key Vault. Individual versions
+   * of a secret cannot be deleted, only all versions of the given secret at once.
+   * This operation requires the secrets/delete permission.
    *
    * Example usage:
    * ```ts
@@ -276,7 +275,6 @@ export class SecretsClient {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
-   * @returns Promise<DeletedSecret>
    */
   public async deleteSecret(
     secretName: string,
@@ -299,7 +297,7 @@ export class SecretsClient {
   }
 
   /**
-   * The UPDATE operation changes specified attributes of an existing stored secret. Properties that
+   * The updateSecret method changes specified attributes of an existing stored secret. Properties that
    * are not specified in the request are left unchanged. The value of a secret itself cannot be
    * changed. This operation requires the secrets/set permission.
    *
@@ -314,7 +312,6 @@ export class SecretsClient {
    * @param secretName The name of the secret.
    * @param secretVersion The version of the secret.
    * @param [options] The optional parameters
-   * @returns Promise<Secret>
    */
   public async updateSecretProperties(
     secretName: string,
@@ -365,7 +362,7 @@ export class SecretsClient {
   }
 
   /**
-   * The GET operation is applicable to any secret stored in Azure Key Vault. This operation requires
+   * The getSecret method is applicable to any secret stored in Azure Key Vault. This operation requires
    * the secrets/get permission.
    *
    * Example usage:
@@ -376,7 +373,6 @@ export class SecretsClient {
    * @summary Get a specified secret from a given key vault.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
-   * @returns Promise<Secret>
    */
   public async getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret> {
     const span = this.createSpan("getSecret", options && options.requestOptions);
@@ -398,7 +394,7 @@ export class SecretsClient {
   }
 
   /**
-   * The Get Deleted Secret operation returns the specified deleted secret along with its attributes.
+   * The getDeletedSecret method returns the specified deleted secret along with its attributes.
    * This operation requires the secrets/get permission.
    *
    * Example usage:
@@ -409,7 +405,6 @@ export class SecretsClient {
    * @summary Gets the specified deleted secret.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
-   * @returns Promise<DeletedSecret>
    */
   public async getDeletedSecret(
     secretName: string,
@@ -446,7 +441,6 @@ export class SecretsClient {
    * @summary Permanently deletes the specified secret.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
-   * @returns Promise<void>
    */
   public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
     const span = this.createSpan("purgeDeletedSecret", options);
@@ -475,7 +469,6 @@ export class SecretsClient {
    * @summary Recovers the deleted secret to the latest version.
    * @param secretName The name of the deleted secret.
    * @param [options] The optional parameters
-   * @returns Promise<Secret>
    */
   public async recoverDeletedSecret(
     secretName: string,
@@ -510,7 +503,6 @@ export class SecretsClient {
    * @summary Backs up the specified secret.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
-   * @returns Promise<Uint8Array | undefined>
    */
   public async backupSecret(
     secretName: string,
@@ -546,7 +538,6 @@ export class SecretsClient {
    * @summary Restores a backed up secret to a vault.
    * @param secretBundleBackup The backup blob associated with a secret bundle.
    * @param [options] The optional parameters
-   * @returns Promise<Secret>
    */
   public async restoreSecret(
     secretBundleBackup: Uint8Array,
@@ -624,7 +615,6 @@ export class SecretsClient {
    * ```
    * @param secretName Name of the secret to fetch versions for
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>
    */
   public listSecretVersions(
     secretName: string,
@@ -700,7 +690,6 @@ export class SecretsClient {
    * ```
    * @summary List all secrets in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>
    */
   public listSecrets(
     options?: ListSecretsOptions
@@ -777,7 +766,6 @@ export class SecretsClient {
    * ```
    * @summary List all secrets in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>
    */
   public listDeletedSecrets(
     options?: ListSecretsOptions
