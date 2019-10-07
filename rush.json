@@ -438,6 +438,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/cognitiveservices-inkrecognizer",
+      "projectFolder": "sdk/cognitiveservices/cognitiveservices-inkrecognizer",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
       "versionPolicyName": "utility"
