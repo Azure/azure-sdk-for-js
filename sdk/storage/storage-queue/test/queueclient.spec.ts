@@ -183,7 +183,12 @@ describe("QueueClient", () => {
           children: [
             {
               name: "Azure.Storage.Queue.QueueClient-getProperties",
-              children: []
+              children: [
+                {
+                  name: "core-http",
+                  children: []
+                }
+              ]
             }
           ]
         }
