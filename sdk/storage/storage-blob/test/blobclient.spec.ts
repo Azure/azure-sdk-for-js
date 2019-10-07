@@ -455,7 +455,12 @@ describe("BlobClient", () => {
           children: [
             {
               name: "Azure.Storage.Blob.BlobClient-download",
-              children: []
+              children: [
+                {
+                  name: "core-http",
+                  children: []
+                }
+              ]
             }
           ]
         }
