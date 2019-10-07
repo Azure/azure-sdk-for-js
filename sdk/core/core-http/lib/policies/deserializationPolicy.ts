@@ -193,11 +193,8 @@ export function deserializeResponseBody(
                         ? parsedErrorResponse[defaultResponseBodyMapper.xmlElementName!]
                         : [];
                   }
-                  error.body = operationSpec.serializer.deserialize(
-                    defaultResponseBodyMapper,
-                    valueToDeserialize,
-                    "error.body"
-                  );
+                  error.body = operationSpec.serializer.deserialize(defaultResponseBodyMapper, valueToDeserialize, "error.body");
+                  error.parsedBody = error.body;
                 }
               }
 
