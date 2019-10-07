@@ -538,7 +538,12 @@ describe("FileClient", () => {
           children: [
             {
               name: "Azure.Storage.File.FileClient-create",
-              children: []
+              children: [
+                {
+                  name: "core-http",
+                  children: []
+                }
+              ]
             }
           ]
         }
