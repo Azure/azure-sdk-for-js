@@ -167,6 +167,8 @@ export class DeviceCodeCredential implements TokenCredential {
                 throw err;
               case "bad_verification_code":
                 throw err;
+              default: // Any other error should be rethrown
+                throw err;
             }
           } else {
             throw err;
