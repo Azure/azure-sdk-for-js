@@ -24,7 +24,7 @@ describe("AppConfigurationClient", () => {
 
   after("cleanup", async () => {
     for (const setting of settings) {
-      await client.deleteConfigurationSetting(setting.key, { label: setting.label });
+      await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     }
   });
 
@@ -52,10 +52,10 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "added",
-        label: null
+        label: undefined
       });
 
-      await client.deleteConfigurationSetting(key, {});
+      await client.deleteConfigurationSetting({ key });
 
       // will recreate the setting
       await client.setConfigurationSetting({ key, value: "set" });
@@ -63,7 +63,7 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "set",
-        label: null
+        label: undefined
       });
 
       // and now acts as a wholesale update
@@ -72,14 +72,14 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "set a second time",
-        label: null
+        label: undefined
       });
 
-      await client.deleteConfigurationSetting(key, {});
+      await client.deleteConfigurationSetting({ key });
     });
 
-    async function compare(expected: { key: string; value: string; label: string | null }) {
-      const actualSettings = await client.getConfigurationSetting(expected.key);
+    async function compare(expected: { key: string; value: string; label?: string }) {
+      const actualSettings = await client.getConfigurationSetting(expected);
 
       assert.equal(expected.key, actualSettings.key);
       assert.equal(expected.value, actualSettings.value);
@@ -171,7 +171,7 @@ describe("AppConfigurationClient", () => {
       );
 
       // delete configuration
-      const deletedSetting = await client.deleteConfigurationSetting(key, { label });
+      const deletedSetting = await client.deleteConfigurationSetting(result);
       assert.equal(
         deletedSetting.key,
         key,
@@ -190,7 +190,7 @@ describe("AppConfigurationClient", () => {
 
       // confirm setting no longer exists
       try {
-        await client.getConfigurationSetting(key, { label });
+        await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -218,10 +218,10 @@ describe("AppConfigurationClient", () => {
       );
 
       // delete configuration
-      const deletedSetting = await client.deleteConfigurationSetting(key, {
-        label,
-        etag: result.etag
-      });
+      const deletedSetting = await client.deleteConfigurationSetting({
+        key,
+        label
+      }, { ifMatch: result.etag });
       assert.equal(
         deletedSetting.key,
         key,
@@ -240,7 +240,7 @@ describe("AppConfigurationClient", () => {
 
       // confirm setting no longer exists
       try {
-        await client.getConfigurationSetting(key, { label });
+        await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -252,7 +252,7 @@ describe("AppConfigurationClient", () => {
       const label = "test";
 
       // delete configuration
-      await client.deleteConfigurationSetting(key, { label });
+      await client.deleteConfigurationSetting({ key, label });
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {
@@ -278,7 +278,7 @@ describe("AppConfigurationClient", () => {
       settings.push({ key, label });
 
       // delete configuration
-      await assertThrowsRestError(() => client.deleteConfigurationSetting(key, { label, ifMatch: "incorrect" }), 412);
+      await assertThrowsRestError(() => client.deleteConfigurationSetting({ key, label }, { ifMatch: "incorrect" }), 412);
     });
   });
 
@@ -331,7 +331,7 @@ describe("AppConfigurationClient", () => {
       );
 
       // retrieve the value from the service
-      const remoteResult = await client.getConfigurationSetting(key, { label });
+      const remoteResult = await client.getConfigurationSetting({ key, label });
       assert.equal(
         remoteResult.key,
         key,
@@ -375,7 +375,7 @@ describe("AppConfigurationClient", () => {
 
       // retrieve the value from the service
       try {
-        await client.getConfigurationSetting(key, { label });
+        await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");

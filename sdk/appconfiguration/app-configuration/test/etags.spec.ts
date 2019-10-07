@@ -29,7 +29,7 @@ describe("etags", () => {
   // etag usage is 'opt-in' via the ifMatch/ifNoneMatch options for certain calls
   // by default no etags are used.
   it("Get and set by default doesn't use etags", async () => {
-    const addedSetting = await client.getConfigurationSetting(key);
+    const addedSetting = await client.getConfigurationSetting({ key });
 
     // by default - ignores the etag in 'addedSetting.etag' so last one in
     // wins
@@ -38,7 +38,7 @@ describe("etags", () => {
   });
 
   it("Get and set, enabling etag checking using ifMatch", async () => {
-    const addedSetting = await client.getConfigurationSetting(key);
+    const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";
 
@@ -46,7 +46,7 @@ describe("etags", () => {
   });
 
   it("set with an old etag will throw RestError", async () => {
-    const addedSetting = await client.getConfigurationSetting(key);
+    const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";
 
@@ -77,7 +77,7 @@ describe("etags", () => {
 
     // only get the setting if it changed (it hasn't)
     try {
-      await client.getConfigurationSetting(key, {
+      await client.getConfigurationSetting({ key }, {
         ifNoneMatch: originalSetting.etag
       });
     } catch (err) {
@@ -90,7 +90,7 @@ describe("etags", () => {
     // let's update it and then try again
     await client.setConfigurationSetting({ key: key, value: "new world" });
 
-    const updatedSetting = await client.getConfigurationSetting(key);
+    const updatedSetting = await client.getConfigurationSetting({ key });
     assert.notEqual(
       originalSetting.etag,
       updatedSetting.etag,
@@ -98,7 +98,7 @@ describe("etags", () => {
     );
 
     // only get the setting if it changed (it has!)
-    const configurationSetting = await client.getConfigurationSetting(key, {
+    const configurationSetting = await client.getConfigurationSetting({ key }, {
       ifNoneMatch: originalSetting.etag
     });
 

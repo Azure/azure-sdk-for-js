@@ -2,119 +2,169 @@
 // Licensed under the MIT license.
 
 import {
-  AppConfigurationPutKeyValueOptionalParams,
-  GetKeyValueResponse,
-  GetKeyValuesResponse,
-  GetRevisionsResponse,
-  KeyValue as ConfigurationSetting,
-  AppConfigurationDeleteLockOptionalParams,
-  AppConfigurationPutLockOptionalParams,
+  DeleteKeyValueHeaders,
+  DeleteLockHeaders,
+  GetKeyValueHeaders,
+  PutKeyValueHeaders,
+  PutLockHeaders,
+  GetKeyValuesHeaders,
+  GetRevisionsHeaders
 } from "./generated/src/models/index";
-import { RequestOptionsBase } from '@azure/core-http';
+import { RequestOptionsBase, HttpResponse } from "@azure/core-http";
 
 export {
-  AppConfigurationDeleteKeyValueOptionalParams as DeleteConfigurationSettingOptions,
-  AppConfigurationDeleteKeyValueOptionalParams,
-  AppConfigurationDeleteLockOptionalParams,
-  AppConfigurationGetKeyValueOptionalParams as GetConfigurationSettingOptions,
-  AppConfigurationGetKeyValueOptionalParams,
-  AppConfigurationGetKeyValuesOptionalParams,
-  AppConfigurationGetRevisionsOptionalParams,
-  AppConfigurationPutKeyValueOptionalParams,
-  AppConfigurationPutLockOptionalParams,
   DeleteKeyValueHeaders,
-  DeleteKeyValueResponse as DeleteConfigurationSettingResponse,
-  DeleteKeyValueResponse,
   DeleteLockHeaders,
-  DeleteLockResponse as ClearReadOnlyResponse,
-  DeleteLockResponse,
-  GetKeyValueHeaders,  
-  GetKeyValueResponse,
+  GetKeyValueHeaders,
   GetKeyValuesHeaders,
-  GetKeyValuesResponse,
   GetRevisionsHeaders,
-  GetRevisionsResponse,
-  KeyValueListResult,
   PutKeyValueHeaders,
-  PutKeyValueResponse as AddConfigurationSettingResponse,
-  PutKeyValueResponse as SetConfigurationSettingResponse,
-  PutKeyValueResponse,
   PutLockHeaders,
-  PutLockResponse as SetReadOnlyResponse,
-  PutLockResponse,
 } from "./generated/src/models/index";
 
-export { ConfigurationSetting };
-
 /**
- * Fields that represent a ConfigurationSetting
- * 
- * Any place that takes a ConfigurationSettingsParam will also take a ConfigurationSetting.
+ * Fields that uniquely identify a configuration setting
  */
-export interface ConfigurationSettingId extends Pick<ConfigurationSetting, 'key' | 'label'> {
-}
-  
-/**
- * A ConfigurationSetting minus any fields that are not settable in
- * addConfigurationSetting/setConfigurationSetting (ex: locked)
- *
- * Any place that takes a ConfigurationSettingsParam will also take a ConfigurationSetting.
- */
-export interface ConfigurationSettingParam
-  extends Pick<
-    ConfigurationSetting,
-    Exclude<keyof ConfigurationSetting, "locked" | "etag" | "lastModified">
-  > {}
-
-/**
- * Options used when adding or saving a ConfigurationSetting.
- */
-export interface ConfigurationSettingOptions
-  extends Pick<
-    AppConfigurationPutKeyValueOptionalParams,
-    Exclude<keyof AppConfigurationPutKeyValueOptionalParams, "label" | "entity">
-  > { }
-  
+export interface ConfigurationSettingId {
+  /**
+   * The key for this setting
+   */
+  key: string;
 
   /**
-   * A configuration setting and associated HTTP information
+   * The label for this setting. Leaving this undefined means this
+   * setting does not have a label.
    */
-export interface GetConfigurationSettingResponse extends Pick<GetKeyValueResponse, Exclude<keyof GetKeyValueResponse, 'eTag'>> {
+  label?: string;
 }
 
 /**
- * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
- * Also provides `fields` which allows you to selectively choose which fields are populated in the
- * result.
+ * Necessary fields for updating or creating a new configuration setting
  */
-export interface ListConfigurationSettingsOptions extends RequestOptionsBase {
+export interface ConfigurationSettingParam extends ConfigurationSettingId {
+  /**
+   * The content type of the setting's value
+   */
+  contentType?: string;
+
+  /**
+   * The setting's value
+   */
+  value?: string;
+
+  /**
+   * Tags for this key
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Configuration setting with extra metadata from the server, indicating
+ * its etag, whether it is currently readonly and when it was last modified.
+ */
+export interface ConfigurationSetting extends ConfigurationSettingParam {
+  /**
+   * The date when this setting was last modified
+   */
+  lastModified?: Date;
+
+  /**
+   * Whether or not the setting is read-only
+   */
+  locked?: boolean;
+
+  /**
+   * The etag for this setting
+   */
+  etag?: string;
+}
+
+export interface AddConfigurationSettingParam extends ConfigurationSettingParam {}
+export interface SetConfigurationSettingParam extends ConfigurationSettingParam {}
+
+export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting &
+  HttpResponseField<HeadersT> &
+  Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
+
+export interface HttpResponseField<HeadersT> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: HeadersT;
+
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+  };
+}
+
+/**
+ * Options used to provide if-match or if-none-match headers for an HTTP request
+ */
+export interface HttpConditionalFields {
+  /**
+   * Used to perform an operation only if the targeted resource's etag matches the value provided.
+   */
+  ifMatch?: string;
+  /**
+   * Used to perform an operation only if the targeted resource's etag does not match the value
+   * provided.
+   */
+  ifNoneMatch?: string;
+}
+
+export interface GetConfigurationSettingResponse
+  extends ConfigurationSettingResponse<GetKeyValueHeaders> {}
+
+/**
+ * Options used when adding a ConfigurationSetting.
+ */
+export interface AddConfigurationSettingOptions extends RequestOptionsBase {}
+
+/**
+ * Response from adding a configuration setting.
+ */
+export interface AddConfigurationSettingResponse
+  extends ConfigurationSettingResponse<PutKeyValueHeaders> {}
+
+/**
+ * Response from deleting a configuration setting.
+ */
+export interface DeleteConfigurationSettingResponse
+  extends ConfigurationSettingResponse<DeleteKeyValueHeaders> {}
+
+export interface DeleteConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase { }
+
+/**
+ * Options used when saving a ConfigurationSetting.
+ */
+export interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase { }
+
+export interface SetConfigurationSettingResponse
+  extends ConfigurationSettingResponse<PutKeyValueHeaders> {}
+
+/**
+ * A configuration setting and associated HTTP information
+ */
+export interface GetConfigurationSettingResponse extends ConfigurationSettingResponse<GetKeyValueHeaders> { }
+
+export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields { 
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime ?: string;
-  
+  acceptDatetime?: string;
   /**
-   * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
+   * Used to select what fields are present in the returned resource(s).
    */
-  keys?: string[];
+  select?: string[];
+} 
 
-  /**
-   * Filters for wildcard matching (using *) against labels. These conditions are logically OR'd against each other.
-   */
-  labels?: string[];
-
-  /**
-   * Which fields to return for each ConfigurationSetting
-   */
-  fields?: (keyof ConfigurationSetting)[];
-}
-
-/**
- * Options for listRevisions that allow for filtering based on keys, labels and other fields.
- * Also provides `fields` which allows you to selectively choose which fields are populated in the
- * result.
- */
-export interface ListRevisionsOptions extends RequestOptionsBase {
+export interface ListSettingsOptions {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
@@ -137,21 +187,32 @@ export interface ListRevisionsOptions extends RequestOptionsBase {
 }
 
 /**
- * A page of configuration settings and the corresponding HTTP response
+ * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
  */
-export interface ListConfigurationSettingPage
-  extends Pick<GetKeyValuesResponse, Exclude<keyof GetKeyValuesResponse, "items">> {
-  /**
-   * ConfigurationSettings for this page of results
-   */
-  items: ConfigurationSetting[];
+export interface ListConfigurationSettingsOptions extends RequestOptionsBase, ListSettingsOptions {
 }
 
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListRevisionsPage
-  extends Pick<GetRevisionsResponse, Exclude<keyof GetRevisionsResponse, "items">> {
+export interface ListConfigurationSettingPage extends HttpResponseField<GetKeyValuesHeaders> {
+  items: ConfigurationSetting[];
+}
+  
+/**
+ * Options for listRevisions that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOptions {  
+}
+
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders> {
   /**
    * ConfigurationSettings for this page of results
    */
@@ -161,9 +222,11 @@ export interface ListRevisionsPage
 /**
  * Options for clearReadOnly
  */
-export interface ClearReadOnlyOptions extends Pick<AppConfigurationDeleteLockOptionalParams, Exclude<keyof AppConfigurationDeleteLockOptionalParams, 'label'>> { }
+export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {}
+export interface ClearReadOnlyResponse extends ConfigurationSettingResponse<DeleteLockHeaders> { }
 
 /**
  * Options for setReadOnly
  */
-export interface SetReadOnlyOptions extends Pick<AppConfigurationPutLockOptionalParams, Exclude<keyof AppConfigurationPutLockOptionalParams, 'label'>> { }
+export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {}
+export interface SetReadOnlyResponse extends ConfigurationSettingResponse<PutLockHeaders> {}

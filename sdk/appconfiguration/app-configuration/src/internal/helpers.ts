@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ListConfigurationSettingsOptions, AppConfigurationGetKeyValuesOptionalParams } from '..';
+import { ListConfigurationSettingsOptions } from '..';
 import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
 import { ListRevisionsOptions } from '../models';
+import { AppConfigurationGetKeyValuesOptionalParams } from '../generated/src/models';
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header

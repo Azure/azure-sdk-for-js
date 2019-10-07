@@ -26,7 +26,7 @@ export async function run() {
   // with
   console.log("Checking to see if the value has changed using the etag and ifNoneMatch");
   try {
-    await client.getConfigurationSetting(key, {
+    await client.getConfigurationSetting({ key: key }, {
       // ifNoneMatch allows us to say "get me the value so long as it doesn't match the etag I have"
       ifNoneMatch: addedSetting.etag
     });
@@ -52,7 +52,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
 
   for await (const setting of existingSettings) {
     await client.clearReadOnly(setting);
-    await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    await client.deleteConfigurationSetting({ key: setting.key!, label: setting.label });
   }
 }
 

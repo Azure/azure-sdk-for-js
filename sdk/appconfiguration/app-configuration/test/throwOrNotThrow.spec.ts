@@ -36,19 +36,19 @@ describe("Various error cases", () => {
     });
 
     it("get: Non-existent key throws 404", async () => {
-      await assertThrowsRestError(() => client.getConfigurationSetting(nonExistentKey), 404);
+      await assertThrowsRestError(() => client.getConfigurationSetting({ key: nonExistentKey }), 404);
     });
 
     it("get: Non-existent key (ifMatch: non-matching etag) throws 404", async () => {
       await assertThrowsRestError(
-        () => client.getConfigurationSetting(nonExistentKey, { ifMatch: nonMatchingETag }),
+        () => client.getConfigurationSetting({ key: nonExistentKey }, { ifMatch: nonMatchingETag }),
         412
       );
     });
 
     it("get: Non-existent key (ifMatch: *) throws 412", async () => {
       await assertThrowsRestError(
-        () => client.getConfigurationSetting(nonExistentKey, { ifMatch: "*" }),
+        () => client.getConfigurationSetting({ key: nonExistentKey }, { ifMatch: "*" }),
         412
       );
     });
@@ -56,7 +56,7 @@ describe("Various error cases", () => {
     it("get: value is unchanged from etag (304) using ifNoneMatch, throws ReponseBodyNotFoundError (derived from RestError)", async () => {
       const errThrown = await assertThrowsRestError(
         () =>
-          client.getConfigurationSetting(addedSetting.key, {
+          client.getConfigurationSetting({ key: addedSetting.key }, {
             ifNoneMatch: addedSetting.etag
           }),
         304
@@ -92,7 +92,7 @@ describe("Various error cases", () => {
     // only if it matches any key)
     it("delete: Non-existent key (ifMatch: *) throws 412", async () => {
       await assertThrowsRestError(
-        () => client.deleteConfigurationSetting(nonExistentKey, { ifMatch: "*" }),
+        () => client.deleteConfigurationSetting({ key: nonExistentKey }, { ifMatch: "*" }),
         412
       );
     });
@@ -100,7 +100,7 @@ describe("Various error cases", () => {
     // again, a weird one - delete a non-existent key but only if the etag doesn't match
     it("delete: Non-existent key (ifMatch: non-matching etag) throws 412", async () => {
       await assertThrowsRestError(
-        () => client.deleteConfigurationSetting(nonExistentKey, { ifMatch: nonMatchingETag }),
+        () => client.deleteConfigurationSetting({ key: nonExistentKey }, { ifMatch: nonMatchingETag }),
         412
       );
     });
@@ -128,7 +128,7 @@ describe("Various error cases", () => {
     });
 
     it("delete: non-existent key (no etag)", async () => {
-      await client.deleteConfigurationSetting(nonExistentKey);
+      await client.deleteConfigurationSetting({ key: nonExistentKey });
     });
   });
 });
