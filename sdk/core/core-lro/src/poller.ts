@@ -74,7 +74,7 @@ export abstract class Poller<TProperties, TResult> {
     }
   }
 
-  private async cancelOnce(): Promise<PollOperation<TProperties, TResult>> {
+  private async cancelOnce(): Promise<void> {
     try {
       const result = this.operation.cancel();
       this.operation.state.cancelled = true;
