@@ -7,10 +7,11 @@ const registeredLoggers = new Set<AzureDebugger>();
 const logLevelFromEnv =
   (typeof process !== "undefined" &&
     process.env &&
-    (process.env.AZURE_LOG_LEVEL as AzureLogLevel)) ||
+    process.env.AZURE_LOG_LEVEL) ||
   undefined;
 
-let azureLogLevel: AzureLogLevel | undefined = logLevelFromEnv;
+
+let azureLogLevel: AzureLogLevel | undefined;
 
 /**
  * The AzureLogger provides a mechanism for overriding where logs are output to.
@@ -18,6 +19,7 @@ let azureLogLevel: AzureLogLevel | undefined = logLevelFromEnv;
  * Override the `log` method to redirect logs to another location.
  */
 export const AzureLogger = debug("azure") as AzureDebugger;
+
 AzureLogger.log = (...args) => {
   debug.log(...args);
 };
@@ -30,12 +32,20 @@ AzureLogger.log = (...args) => {
  * - warning
  * - error
  */
-export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
+const AZURE_LOG_LEVELS = ['verbose', 'info', 'warning', 'error'] as const;
+export type AzureLogLevel = 'verbose' | 'info' | 'warning' | 'error';
 
 type AzureDebugger = debug.Debugger & { level: number };
 
 if (logLevelFromEnv) {
-  setLogLevel(logLevelFromEnv);
+  // avoid calling setLogLevel because we don't want a mis-set environment variable to crash
+  if (isAzureLogLevel(logLevelFromEnv)) {
+    setLogLevel(logLevelFromEnv);
+  } else {
+    console.error(`AZURE_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${
+      AZURE_LOG_LEVELS.join(', ')
+    }.`)
+  }
 }
 
 /**
@@ -48,6 +58,9 @@ if (logLevelFromEnv) {
  * - error
  */
 export function setLogLevel(level?: AzureLogLevel) {
+  if (level && !isAzureLogLevel(level)) {
+    throw new Error(`Unknown log level '${level}'. Acceptable values: ${AZURE_LOG_LEVELS.join(',')}`);
+  }
   azureLogLevel = level;
 
   const enabledNamespaces = [];
@@ -128,4 +141,8 @@ function shouldEnable(logger: AzureDebugger) {
   } else {
     return false;
   }
+}
+
+function isAzureLogLevel(logLevel: string): logLevel is AzureLogLevel {
+  return AZURE_LOG_LEVELS.includes(logLevel as any);
 }

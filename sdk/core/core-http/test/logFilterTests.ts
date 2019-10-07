@@ -17,7 +17,7 @@ const emptyRequestPolicy: RequestPolicy = {
 
 describe("Log filter", () => {
   it("should log messages when a logger object is provided", (done) => {
-    const expected = `>> Request: {
+    const expected = `Request: {
   "url": "https://foo.com",
   "method": "PUT",
   "headers": {
@@ -29,8 +29,11 @@ describe("Log filter", () => {
   "withCredentials": false,
   "timeout": 0
 }
->> Response status code: 200
->> Body: null
+Response status code: 200
+Headers: {
+  "_headersMap": {}
+}
+Body: null
 `;
     let output = "";
     const logger = (message: string): void => {
