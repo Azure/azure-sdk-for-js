@@ -122,7 +122,7 @@ export interface HttpConditionalFields {
     ifNoneMatch?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface HttpResponseField<HeadersT> {
     _response: HttpResponse & {
         parsedHeaders: HeadersT;
