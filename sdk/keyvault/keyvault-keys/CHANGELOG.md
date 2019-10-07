@@ -2,10 +2,10 @@
 
 ## 4.0.0-preview.7 (2019-10-07)
 - Switched from keyTo to our built-in jwk-to-pem tool (#5150).
-- Added @azure/eslint-plugin-azure-sdk (#4772).
-- Added a "Deploy to Azure" button to the README (#5237).
-- Improved the README (#5225).
-- Updated the API based on feedback from the architects team (#5340).
+- Added @azure/eslint-plugin-azure-sdk.
+- Added a "Deploy to Azure" button to the README.
+- Updated README examples to latest API changes.
+- API Change: Nested classes are now flattened into a "properties" property.
  
 ## 4.0.0-preview.5 (2019-09-11)
 - Improved the tests, the README and upgraded dependencies.
