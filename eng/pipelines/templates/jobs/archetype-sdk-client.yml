@@ -87,7 +87,7 @@ jobs:
 
       - pwsh: |
          Write-Host "${{parameters.DocArgs}}"
-         node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "${{parameters.DocArgs}}" --clientOnly
+         node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "${{parameters.DocArgs}}"
         displayName: "Run Typedoc Docs"
 
       - pwsh: $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.ArtifactStagingDirectory)/Documentation"
