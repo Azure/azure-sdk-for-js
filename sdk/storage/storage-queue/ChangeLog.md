@@ -11,7 +11,9 @@
 - Added name properties on all the clients for convenience.
   - accountName is added to MessageIdClient, MessagesClient, QueueClient and QueueServiceClient.
   - queueName is added to MessageIdClient, MessagesClient and QueueClient.
-  - messageId is added to MessageIdClient.
+  - `accountName` is added to `MessageIdClient`, `MessagesClient`, `QueueClient` and `QueueServiceClient`.
+  - `queueName` is added to `MessageIdClient`, `MessagesClient` and `QueueClient`.
+  - `messageId` is added to `MessageIdClient`.
 
 ## 2019.08 12.0.0-preview.3
 
