@@ -332,13 +332,13 @@ export class FileServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties}
    *
-   * @param {Models.StorageServiceProperties} properties
+   * @param {Models.FileServiceProperties} properties
    * @param {ServiceSetPropertiesOptions} [options={}] Options to Set Properties operation.
    * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof FileServiceClient
    */
   public async setProperties(
-    properties: Models.StorageServiceProperties,
+    properties: Models.FileServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(

@@ -276,9 +276,20 @@ export interface SignedIdentifier {
 }
 
 /**
+ * Permission(a security descriptor) described in the Security Descriptor Definition
+ * Language(SDDL).
+ */
+export interface Permission {
+  /**
+   * Permission(a security descriptor) described in the SDDL.
+   */
+  permission: string;
+}
+
+/**
  * Storage service properties.
  */
-export interface StorageServiceProperties {
+export interface FileServiceProperties {
   /**
    * A summary of request statistics grouped by API in hourly aggregates for files.
    */
@@ -291,17 +302,6 @@ export interface StorageServiceProperties {
    * The set of CORS rules.
    */
   cors?: CorsRule[];
-}
-
-/**
- * Permission(a security descriptor) described in the Security Descriptor Definition
- * Language(SDDL).
- */
-export interface Permission {
-  /**
-   * Permission(a security descriptor) described in the SDDL.
-   */
-  permission: string;
 }
 
 /**
@@ -2532,7 +2532,7 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGetPropertiesHeaders & {
+export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -2550,7 +2550,7 @@ export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGet
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: StorageServiceProperties;
+      parsedBody: FileServiceProperties;
     };
 };
 

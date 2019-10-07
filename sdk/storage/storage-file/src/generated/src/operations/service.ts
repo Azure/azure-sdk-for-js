@@ -29,26 +29,26 @@ export class Service {
   /**
    * Sets properties for a storage account's File service endpoint, including properties for Storage
    * Analytics metrics and CORS (Cross-Origin Resource Sharing) rules.
-   * @param storageServiceProperties The StorageService properties.
+   * @param properties The StorageService properties.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceSetPropertiesResponse>
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
+  setProperties(properties: Models.FileServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
   /**
-   * @param storageServiceProperties The StorageService properties.
+   * @param properties The StorageService properties.
    * @param callback The callback
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(properties: Models.FileServiceProperties, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param storageServiceProperties The StorageService properties.
+   * @param properties The StorageService properties.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
+  setProperties(properties: Models.FileServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(properties: Models.FileServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
-        storageServiceProperties,
+        properties,
         options
       },
       setPropertiesOperationSpec,
@@ -65,13 +65,13 @@ export class Service {
   /**
    * @param callback The callback
    */
-  getProperties(callback: coreHttp.ServiceCallback<Models.StorageServiceProperties>): void;
+  getProperties(callback: coreHttp.ServiceCallback<Models.FileServiceProperties>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<Models.StorageServiceProperties>): void;
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | coreHttp.ServiceCallback<Models.StorageServiceProperties>, callback?: coreHttp.ServiceCallback<Models.StorageServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
+  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<Models.FileServiceProperties>): void;
+  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | coreHttp.ServiceCallback<Models.FileServiceProperties>, callback?: coreHttp.ServiceCallback<Models.FileServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -122,9 +122,9 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.version
   ],
   requestBody: {
-    parameterPath: "storageServiceProperties",
+    parameterPath: "properties",
     mapper: {
-      ...Mappers.StorageServiceProperties,
+      ...Mappers.FileServiceProperties,
       required: true
     }
   },
@@ -156,7 +156,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.StorageServiceProperties,
+      bodyMapper: Mappers.FileServiceProperties,
       headersMapper: Mappers.ServiceGetPropertiesHeaders
     },
     default: {

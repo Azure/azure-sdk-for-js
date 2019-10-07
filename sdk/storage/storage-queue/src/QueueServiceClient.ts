@@ -286,13 +286,13 @@ export class QueueServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
-   * @param {Models.StorageServiceProperties} properties
+   * @param {Models.QueueServiceProperties} properties
    * @param {ServiceGetPropertiesOptions} [options] Options to set properties operation.
    * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof QueueServiceClient
    */
   public async setProperties(
-    properties: Models.StorageServiceProperties,
+    properties: Models.QueueServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(

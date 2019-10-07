@@ -29,26 +29,26 @@ export class Service {
   /**
    * Sets properties for a storage account's Queue service endpoint, including properties for Storage
    * Analytics and CORS (Cross-Origin Resource Sharing) rules
-   * @param storageServiceProperties The StorageService properties.
+   * @param properties The StorageService properties.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceSetPropertiesResponse>
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
+  setProperties(properties: Models.QueueServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
   /**
-   * @param storageServiceProperties The StorageService properties.
+   * @param properties The StorageService properties.
    * @param callback The callback
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(properties: Models.QueueServiceProperties, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param storageServiceProperties The StorageService properties.
+   * @param properties The StorageService properties.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
+  setProperties(properties: Models.QueueServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(properties: Models.QueueServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
-        storageServiceProperties,
+        properties,
         options
       },
       setPropertiesOperationSpec,
@@ -65,13 +65,13 @@ export class Service {
   /**
    * @param callback The callback
    */
-  getProperties(callback: coreHttp.ServiceCallback<Models.StorageServiceProperties>): void;
+  getProperties(callback: coreHttp.ServiceCallback<Models.QueueServiceProperties>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<Models.StorageServiceProperties>): void;
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | coreHttp.ServiceCallback<Models.StorageServiceProperties>, callback?: coreHttp.ServiceCallback<Models.StorageServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
+  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<Models.QueueServiceProperties>): void;
+  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | coreHttp.ServiceCallback<Models.QueueServiceProperties>, callback?: coreHttp.ServiceCallback<Models.QueueServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -91,13 +91,13 @@ export class Service {
   /**
    * @param callback The callback
    */
-  getStatistics(callback: coreHttp.ServiceCallback<Models.StorageServiceStats>): void;
+  getStatistics(callback: coreHttp.ServiceCallback<Models.QueueServiceStatistics>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatistics(options: Models.ServiceGetStatisticsOptionalParams, callback: coreHttp.ServiceCallback<Models.StorageServiceStats>): void;
-  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams | coreHttp.ServiceCallback<Models.StorageServiceStats>, callback?: coreHttp.ServiceCallback<Models.StorageServiceStats>): Promise<Models.ServiceGetStatisticsResponse> {
+  getStatistics(options: Models.ServiceGetStatisticsOptionalParams, callback: coreHttp.ServiceCallback<Models.QueueServiceStatistics>): void;
+  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams | coreHttp.ServiceCallback<Models.QueueServiceStatistics>, callback?: coreHttp.ServiceCallback<Models.QueueServiceStatistics>): Promise<Models.ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -148,9 +148,9 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId
   ],
   requestBody: {
-    parameterPath: "storageServiceProperties",
+    parameterPath: "properties",
     mapper: {
-      ...Mappers.StorageServiceProperties,
+      ...Mappers.QueueServiceProperties,
       required: true
     }
   },
@@ -183,7 +183,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.StorageServiceProperties,
+      bodyMapper: Mappers.QueueServiceProperties,
       headersMapper: Mappers.ServiceGetPropertiesHeaders
     },
     default: {
@@ -210,7 +210,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.StorageServiceStats,
+      bodyMapper: Mappers.QueueServiceStatistics,
       headersMapper: Mappers.ServiceGetStatisticsHeaders
     },
     default: {

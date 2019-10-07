@@ -1411,11 +1411,12 @@ export const StaticWebsite: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageServiceProperties: coreHttp.CompositeMapper = {
-  serializedName: "StorageServiceProperties",
+export const BlobServiceProperties: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceProperties",
+  serializedName: "BlobServiceProperties",
   type: {
     name: "Composite",
-    className: "StorageServiceProperties",
+    className: "BlobServiceProperties",
     modelProperties: {
       logging: {
         xmlName: "Logging",
@@ -1483,11 +1484,12 @@ export const StorageServiceProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageServiceStats: coreHttp.CompositeMapper = {
-  serializedName: "StorageServiceStats",
+export const BlobServiceStatistics: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceStats",
+  serializedName: "BlobServiceStatistics",
   type: {
     name: "Composite",
-    className: "StorageServiceStats",
+    className: "BlobServiceStatistics",
     modelProperties: {
       geoReplication: {
         xmlName: "GeoReplication",

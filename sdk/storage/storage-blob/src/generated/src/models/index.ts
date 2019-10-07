@@ -491,7 +491,7 @@ export interface StaticWebsite {
 /**
  * Storage Service Properties.
  */
-export interface StorageServiceProperties {
+export interface BlobServiceProperties {
   logging?: Logging;
   hourMetrics?: Metrics;
   minuteMetrics?: Metrics;
@@ -511,7 +511,7 @@ export interface StorageServiceProperties {
 /**
  * Stats for the storage service.
  */
-export interface StorageServiceStats {
+export interface BlobServiceStatistics {
   geoReplication?: GeoReplication;
 }
 
@@ -5903,7 +5903,7 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGetPropertiesHeaders & {
+export type ServiceGetPropertiesResponse = BlobServiceProperties & ServiceGetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -5921,14 +5921,14 @@ export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGet
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: StorageServiceProperties;
+      parsedBody: BlobServiceProperties;
     };
 };
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export type ServiceGetStatisticsResponse = StorageServiceStats & ServiceGetStatisticsHeaders & {
+export type ServiceGetStatisticsResponse = BlobServiceStatistics & ServiceGetStatisticsHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -5946,7 +5946,7 @@ export type ServiceGetStatisticsResponse = StorageServiceStats & ServiceGetStati
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: StorageServiceStats;
+      parsedBody: BlobServiceStatistics;
     };
 };
 

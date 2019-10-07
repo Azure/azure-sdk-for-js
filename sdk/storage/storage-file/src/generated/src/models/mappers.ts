@@ -693,11 +693,30 @@ export const SignedIdentifier: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageServiceProperties: coreHttp.CompositeMapper = {
-  serializedName: "StorageServiceProperties",
+export const Permission: coreHttp.CompositeMapper = {
+  serializedName: "Permission",
   type: {
     name: "Composite",
-    className: "StorageServiceProperties",
+    className: "Permission",
+    modelProperties: {
+      permission: {
+        xmlName: "Permission",
+        required: true,
+        serializedName: "Permission",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileServiceProperties: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceProperties",
+  serializedName: "FileServiceProperties",
+  type: {
+    name: "Composite",
+    className: "FileServiceProperties",
     modelProperties: {
       hourMetrics: {
         xmlName: "HourMetrics",
@@ -728,24 +747,6 @@ export const StorageServiceProperties: coreHttp.CompositeMapper = {
               className: "CorsRule"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const Permission: coreHttp.CompositeMapper = {
-  serializedName: "Permission",
-  type: {
-    name: "Composite",
-    className: "Permission",
-    modelProperties: {
-      permission: {
-        xmlName: "Permission",
-        required: true,
-        serializedName: "Permission",
-        type: {
-          name: "String"
         }
       }
     }
