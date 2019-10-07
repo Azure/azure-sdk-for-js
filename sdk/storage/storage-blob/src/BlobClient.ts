@@ -27,7 +27,11 @@ import {
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
 } from "./utils/constants";
-import { setURLParameter, extractConnectionStringParts } from "./utils/utils.common";
+import {
+  setURLParameter,
+  extractConnectionStringParts,
+  appendToURLPath
+} from "./utils/utils.common";
 import { readStreamToLocalFile } from "./utils/utils.node";
 import { AppendBlobClient, StorageClient, CommonOptions } from "./internal";
 import { BlockBlobClient } from "./internal";
@@ -816,7 +820,10 @@ export class BlobClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          url = extractedCreds.url + "/" + containerName + "/" + blobName;
+          url = appendToURLPath(
+            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
+            encodeURIComponent(blobName)
+          );
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
@@ -824,11 +831,10 @@ export class BlobClient extends StorageClient {
         }
       } else if (extractedCreds.kind === "SASConnString") {
         url =
-          extractedCreds.url +
-          "/" +
-          containerName +
-          "/" +
-          blobName +
+          appendToURLPath(
+            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
+            encodeURIComponent(blobName)
+          ) +
           "?" +
           extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
