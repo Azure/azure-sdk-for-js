@@ -30,7 +30,8 @@ import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import {
   setURLParameter,
   extractConnectionStringParts,
-  generateBlockID
+  generateBlockID,
+  appendToURLPath
 } from "./utils/utils.common";
 import { fsStat } from "./utils/utils.node";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -541,21 +542,28 @@ export class BlockBlobClient extends BlobClient {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
     let pipeline: Pipeline;
+    let url: string;
     options = options || {};
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
+      // (url: string, pipeline: Pipeline)
+      url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
       (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      url = urlOrConnectionString;
       options = blobNameOrOptions as NewPipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
+      url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
@@ -563,6 +571,7 @@ export class BlockBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
+      // (connectionString: string, containerName: string, blobName: string, options?: NewPipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
@@ -573,19 +582,21 @@ export class BlockBlobClient extends BlobClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          urlOrConnectionString = extractedCreds.url + "/" + containerName + "/" + blobName;
+          url = appendToURLPath(
+            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
+            encodeURIComponent(blobName)
+          );
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        urlOrConnectionString =
-          extractedCreds.url +
-          "/" +
-          containerName +
-          "/" +
-          blobName +
+        url =
+          appendToURLPath(
+            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
+            encodeURIComponent(blobName)
+          ) +
           "?" +
           extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
@@ -597,7 +608,7 @@ export class BlockBlobClient extends BlobClient {
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
-    super(urlOrConnectionString, pipeline);
+    super(url, pipeline);
     this.blockBlobContext = new BlockBlob(this.storageClientContext);
   }
 
