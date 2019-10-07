@@ -39,7 +39,10 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential);
     await bearerTokenAuthPolicy.sendRequest(request);
 
-    assert(fakeGetToken.calledWith(tokenScopes, { abortSignal: undefined }));
+    assert(
+      fakeGetToken.calledWith(tokenScopes, { abortSignal: undefined, spanOptions: undefined }),
+      "fakeGetToken called incorrectly."
+    );
     assert.strictEqual(
       request.headers.get(Constants.HeaderConstants.AUTHORIZATION),
       `Bearer ${mockToken}`
