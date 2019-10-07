@@ -12,7 +12,7 @@ import { RequestOptionsBase } from '@azure/core-http';
 export interface AddConfigurationSettingOptions extends RequestOptionsBase {
 }
 
-// @public (undocumented)
+// @public
 export interface AddConfigurationSettingParam extends ConfigurationSettingParam {
 }
 
@@ -37,7 +37,7 @@ export class AppConfigurationClient {
 export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
 }
 
-// @public (undocumented)
+// @public
 export interface ClearReadOnlyResponse extends ConfigurationSettingResponse<DeleteLockHeaders> {
 }
 
@@ -63,10 +63,10 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
-// @public (undocumented)
+// @public
 export interface DeleteConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
 }
 
@@ -86,13 +86,12 @@ export interface DeleteLockHeaders {
     syncToken?: string;
 }
 
-// @public (undocumented)
-export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields {
+// @public
+export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields, OptionalFields {
     acceptDatetime?: string;
-    select?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface GetConfigurationSettingResponse extends ConfigurationSettingResponse<GetKeyValueHeaders> {
 }
 
@@ -133,7 +132,6 @@ export interface HttpResponseField<HeadersT> {
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<GetKeyValuesHeaders> {
-    // (undocumented)
     items: ConfigurationSetting[];
 }
 
@@ -150,12 +148,16 @@ export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders
     items: ConfigurationSetting[];
 }
 
-// @public (undocumented)
-export interface ListSettingsOptions {
+// @public
+export interface ListSettingsOptions extends OptionalFields {
     acceptDatetime?: string;
-    fields?: (keyof ConfigurationSetting)[];
     keys?: string[];
     labels?: string[];
+}
+
+// @public
+export interface OptionalFields {
+    fields?: (keyof ConfigurationSetting)[];
 }
 
 // @public
@@ -174,11 +176,11 @@ export interface PutLockHeaders {
 export interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
 }
 
-// @public (undocumented)
+// @public
 export interface SetConfigurationSettingParam extends ConfigurationSettingParam {
 }
 
-// @public (undocumented)
+// @public
 export interface SetConfigurationSettingResponse extends ConfigurationSettingResponse<PutKeyValueHeaders> {
 }
 
@@ -186,7 +188,7 @@ export interface SetConfigurationSettingResponse extends ConfigurationSettingRes
 export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
 }
 
-// @public (undocumented)
+// @public
 export interface SetReadOnlyResponse extends ConfigurationSettingResponse<PutLockHeaders> {
 }
 

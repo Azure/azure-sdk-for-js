@@ -79,13 +79,26 @@ export interface ConfigurationSetting extends ConfigurationSettingParam {
   etag?: string;
 }
 
-export interface AddConfigurationSettingParam extends ConfigurationSettingParam {}
+/**
+ * Parameters for adding a new configuration setting
+ */
+export interface AddConfigurationSettingParam extends ConfigurationSettingParam { }
+
+/**
+ * Parameters for creating or updating a new configuration setting
+ */
 export interface SetConfigurationSettingParam extends ConfigurationSettingParam {}
 
+/**
+ * Standard base response for getting, deleting or updating a configuration setting
+ */
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting &
   HttpResponseField<HeadersT> &
   Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
+/**
+ * HTTP response related information - headers and raw body.
+ */
 export interface HttpResponseField<HeadersT> {
   /**
    * The underlying HTTP response.
@@ -118,6 +131,19 @@ export interface HttpConditionalFields {
   ifNoneMatch?: string;
 }
 
+/**
+ * Used when the API supports selectively returning fields.
+ */
+export interface OptionalFields {
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: (keyof ConfigurationSetting)[];
+}
+
+/**
+ * Response from retrieving a ConfigurationSetting.
+ */
 export interface GetConfigurationSettingResponse
   extends ConfigurationSettingResponse<GetKeyValueHeaders> {}
 
@@ -127,17 +153,20 @@ export interface GetConfigurationSettingResponse
 export interface AddConfigurationSettingOptions extends RequestOptionsBase {}
 
 /**
- * Response from adding a configuration setting.
+ * Response from adding a ConfigurationSetting.
  */
 export interface AddConfigurationSettingResponse
   extends ConfigurationSettingResponse<PutKeyValueHeaders> {}
 
 /**
- * Response from deleting a configuration setting.
+ * Response from deleting a ConfigurationSetting.
  */
 export interface DeleteConfigurationSettingResponse
   extends ConfigurationSettingResponse<DeleteKeyValueHeaders> {}
 
+/**
+ * Options for deleting a ConfigurationSetting.
+ */
 export interface DeleteConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase { }
 
 /**
@@ -145,6 +174,9 @@ export interface DeleteConfigurationSettingOptions extends HttpConditionalFields
  */
 export interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase { }
 
+/**
+ * Response from setting a ConfigurationSetting.
+ */
 export interface SetConfigurationSettingResponse
   extends ConfigurationSettingResponse<PutKeyValueHeaders> {}
 
@@ -153,18 +185,21 @@ export interface SetConfigurationSettingResponse
  */
 export interface GetConfigurationSettingResponse extends ConfigurationSettingResponse<GetKeyValueHeaders> { }
 
-export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields { 
+/**
+ * Options for getting a ConfigurationSetting.
+ */
+export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields, OptionalFields { 
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
   acceptDatetime?: string;
-  /**
-   * Used to select what fields are present in the returned resource(s).
-   */
-  select?: string[];
-} 
+}
 
-export interface ListSettingsOptions {
+/**
+ * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
+ * the accept date time header.
+ */
+export interface ListSettingsOptions extends OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
@@ -179,11 +214,6 @@ export interface ListSettingsOptions {
    * Filters for wildcard matching (using *) against labels. These conditions are logically OR'd against each other.
    */
   labels?: string[];
-
-  /**
-   * Which fields to return for each ConfigurationSetting
-   */
-  fields?: (keyof ConfigurationSetting)[];
 }
 
 /**
@@ -198,6 +228,9 @@ export interface ListConfigurationSettingsOptions extends RequestOptionsBase, Li
  * A page of configuration settings and the corresponding HTTP response
  */
 export interface ListConfigurationSettingPage extends HttpResponseField<GetKeyValuesHeaders> {
+  /**
+   * The configuration settings for this page of results.
+   */
   items: ConfigurationSetting[];
 }
   
@@ -214,7 +247,7 @@ export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOp
  */
 export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders> {
   /**
-   * ConfigurationSettings for this page of results
+   * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
 }
@@ -222,11 +255,19 @@ export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders
 /**
  * Options for clearReadOnly
  */
-export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {}
+export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase { }
+
+/**
+ * Response when clearing the read-only status from a value
+ */
 export interface ClearReadOnlyResponse extends ConfigurationSettingResponse<DeleteLockHeaders> { }
 
 /**
  * Options for setReadOnly
  */
-export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {}
+export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase { }
+
+/**
+ * Response when setting a value to read-only.
+ */
 export interface SetReadOnlyResponse extends ConfigurationSettingResponse<PutLockHeaders> {}

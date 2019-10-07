@@ -144,6 +144,7 @@ export class AppConfigurationClient {
     return await this.spanner.trace("getConfigurationSetting", options, async (newOptions) => {
       const response = (await this.client.getKeyValue(id.key, {
         label: id.label,
+        select: newOptions.fields,
         ...newOptions,
         ...checkAndFormatIfAndIfNoneMatch(newOptions)
       })) as GetConfigurationSettingResponse;
