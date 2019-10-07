@@ -1,12 +1,9 @@
 # Release History
 
 ## 4.0.0-preview.7 (2019-10-07)
-- Switched from keyTo to our built-in jwk-to-pem tool (#5150).
-- Added @azure/eslint-plugin-azure-sdk.
-- Added a "Deploy to Azure" button to the README.
-- Updated README examples to latest API changes.
-- API Change: Nested classes are now flattened into a "properties" property.
-- API Change: The algorithm used and the original keyID are now available as part of the returned values from the CryptographyClient's encrypt, decrypt, wrapKey, sign, signData, verify and verifyData methods.
+- API Changes:
+    - Nested classes are now flattened into a "properties" property.
+    - The algorithm used and the original keyID are now available as part of the returned values from the CryptographyClient's encrypt, decrypt, wrapKey, sign, signData, verify and verifyData methods.
 
 ## 4.0.0-preview.5 (2019-09-11)
 - Improved the tests, the README and upgraded dependencies.
