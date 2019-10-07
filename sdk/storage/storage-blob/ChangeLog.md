@@ -13,7 +13,7 @@
     After this change:
     ```js
     blobServiceClient.listContainers({
-      includeMetadata : true
+      includeMetadata: true
     });
     ```
   - For listing blobs
@@ -35,12 +35,16 @@
     ```
 - Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
 - [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on LeaseClient.
-- Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like BlobServiceClient or BlobClient are instantiated.
+- Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `BlobServiceClient` or `BlobClient` are instantiated.
 - Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
   - Development Connection String
     - `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;`
   - Shorthand notation is also supported
     - `UseDevelopmentStorage=true` (or `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri`)
+- Added name properties on all the clients for convenience.
+  - `accountName` is added to `AppendBlobClient`, `BlobClient`, `BlobServiceClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
+  - `containerName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
+  - `blobName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient` and `PageBlobClient`.
 
 ## 2019.09 12.0.0-preview.3
 
