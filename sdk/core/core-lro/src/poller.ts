@@ -88,7 +88,10 @@ export abstract class Poller<TProperties, TResult> {
   public poll(): Promise<void> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce();
-      this.pollOncePromise.finally(() => {
+      const after = () => {
+        this.pollOncePromise = undefined;
+      };
+      this.pollOncePromise.then(after, after);
         this.pollOncePromise = undefined;
       });
     }
