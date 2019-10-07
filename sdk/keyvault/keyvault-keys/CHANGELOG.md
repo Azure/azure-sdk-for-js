@@ -6,6 +6,7 @@
 - Added a "Deploy to Azure" button to the README.
 - Updated README examples to latest API changes.
 - API Change: Nested classes are now flattened into a "properties" property.
+- API Change: The CryptographyClient methods now return the algorithm used, as well as other important properties, besides the encrypted or signed result.
  
 ## 4.0.0-preview.5 (2019-09-11)
 - Improved the tests, the README and upgraded dependencies.
