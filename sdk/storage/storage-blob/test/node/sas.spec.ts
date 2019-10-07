@@ -392,6 +392,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
+    // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
     const blobName = recorder.getUniqueName(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
@@ -401,11 +402,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         blobContentType: "content-type-original"
       }
     });
-
     const blobSAS = generateBlobSASQueryParameters(
       {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-        blobName: blobClient.blobName.replace(/\\/g, "/"),
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
         containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
