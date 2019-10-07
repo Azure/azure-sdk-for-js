@@ -53,7 +53,7 @@
     "integration-test:node": "mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix",
-    "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o core-amqp-lintReport.html || exit 0",
+    "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o cosmos-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
