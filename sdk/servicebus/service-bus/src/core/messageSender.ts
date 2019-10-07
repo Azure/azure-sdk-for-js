@@ -552,7 +552,10 @@ export class MessageSender extends LinkEntity {
             operation: () => this._init(options),
             connectionId: this._context.namespace.connectionId!,
             operationType: RetryOperationType.senderLink,
-            retryOptions: { maxRetries: Constants.defaultMaxRetries, retryDelayInMs: 15000 },
+            retryOptions: {
+              maxRetries: Constants.defaultMaxRetriesForConnection,
+              retryDelayInMs: 15000
+            },
             connectionHost: this._context.namespace.config.host
           };
           return retry<void>(config);
