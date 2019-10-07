@@ -1592,25 +1592,32 @@ export class BlobClient extends StorageClient {
     //  URL may look like the following
     // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
     // "https://myaccount.blob.core.windows.net/mycontainer/blob";
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt?sasString";
+    // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt";
 
-    let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+    try {
+      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
+      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-    const blobName = urlWithoutSAS.substring(
-      urlWithoutSAS.lastIndexOf("/") + 1,
-      urlWithoutSAS.length
-    );
-    const urlWithoutBlobName = urlWithoutSAS.substring(0, urlWithoutSAS.lastIndexOf("/"));
+      const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
 
-    const containerName = urlWithoutBlobName.substring(
-      urlWithoutBlobName.lastIndexOf("/") + 1,
-      urlWithoutBlobName.length
-    );
+      // decode the encoded blobName, containerName - to get all the special characters that might be present in them
+      const containerName = decodeURIComponent(partsOfUrl![3]);
+      let blobName = decodeURIComponent(partsOfUrl![5]);
 
-    if (!blobName || !containerName) {
+      // Azure Storage Server will replace "\" with "/" in the blob names
+      //   doing the same in the SDK side so that the user doesn't have to replace "\" instances in the blobName
+      blobName = blobName.replace(/\\/g, "/");
+
+      if (!blobName) {
+        throw new Error("Provided blobName is invalid.");
+      } else if (!containerName) {
+        throw new Error("Provided containerName is invalid.");
+      } else {
+        return { blobName, containerName };
+      }
+    } catch (error) {
       throw new Error("Unable to extract blobName and containerName with provided information.");
     }
-
-    return { blobName, containerName };
   }
 }

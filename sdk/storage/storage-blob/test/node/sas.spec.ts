@@ -188,7 +188,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerSAS = generateBlobSASQueryParameters(
       {
-        containerName,
+        containerName: containerClient.containerName,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ContainerSASPermissions.parse("racwdl").toString(),
@@ -236,9 +236,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -291,9 +291,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -347,9 +347,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -392,6 +392,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
+    // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
     const blobName = recorder.getUniqueName(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
@@ -401,13 +402,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         blobContentType: "content-type-original"
       }
     });
-
     const blobSAS = generateBlobSASQueryParameters(
       {
-        // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-        blobName: blobName.replace(/\\/g, "/"),
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -512,7 +511,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerSAS = generateBlobSASQueryParameters(
       {
-        containerName,
+        containerName: containerClient.containerName,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ContainerSASPermissions.parse("racwdl").toString(),
@@ -568,7 +567,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerSAS = generateBlobSASQueryParameters(
       {
-        containerName,
+        containerName: containerClient.containerName,
         expiryTime: tmr,
         permissions: ContainerSASPermissions.parse("racwdl").toString()
       },
@@ -628,9 +627,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
@@ -699,9 +698,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName,
+        blobName: blobClient.blobName,
         cacheControl: "cache-control-override",
-        containerName,
+        containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
