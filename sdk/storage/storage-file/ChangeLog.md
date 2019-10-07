@@ -7,7 +7,10 @@
   - accountName is added for DirectoryClient, FileClient, FileServiceClient and ShareClient.
   - shareName is added to DirectoryClient, FileClient and ShareClient.
   - filePath is added to FileClient.
-  - dirPath is added to DirectoryClient.
+  - `accountName` is added for `DirectoryClient`, `FileClient`, `FileServiceClient` and `ShareClient`.
+  - `shareName` is added to `DirectoryClient`, `FileClient` and `ShareClient`.
+  - `filePath` is added to `FileClient`.
+  - `dirPath` is added to `DirectoryClient`.
 
 ## 2019.08 12.0.0-preview.3
 
