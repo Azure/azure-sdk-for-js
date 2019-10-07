@@ -4,10 +4,10 @@
 import { assert } from "chai";
 import { HttpClient } from "../lib/httpClient";
 import { QueryCollectionFormat } from "../lib/queryCollectionFormat";
-import { DictionaryMapper, MapperType, Serializer, Mapper } from "../lib/serializer";
+import { DictionaryMapper, MapperType, Serializer, Mapper, CompositeMapper } from "../lib/serializer";
 import { serializeRequestBody, ServiceClient, getOperationArgumentValueFromParameterPath } from "../lib/serviceClient";
 import { WebResource } from "../lib/webResource";
-import { OperationArguments, HttpHeaders, deserializationPolicy, RestResponse, isNode } from "../lib/coreHttp";
+import { OperationArguments, HttpHeaders, deserializationPolicy, RestResponse, isNode, OperationSpec } from "../lib/coreHttp";
 import { ParameterPath } from "../lib/operationParameter";
 
 describe("ServiceClient", function () {
@@ -229,6 +229,77 @@ describe("ServiceClient", function () {
 
     assert.strictEqual(res._response.status, 200);
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
+  });
+
+  it("should deserialize error response headers", async function(){
+    const BodyMapper: CompositeMapper = {
+      serializedName: "getproperties-body",
+      type: {
+        name: "Composite",
+        className: "PropertiesBody",
+        modelProperties: {
+          message: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+
+    const HeadersMapper: CompositeMapper = {
+      serializedName: "getproperties-headers",
+      type: {
+        name: "Composite",
+        className: "PropertiesHeaders",
+        modelProperties: {
+          errorCode: {
+            serializedName: "x-ms-error-code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+
+    const serializer = new Serializer(HeadersMapper, true);
+    
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {
+          headersMapper: HeadersMapper,
+          bodyMapper: BodyMapper
+        }
+      },
+      baseUrl: "httpbin.org",
+      serializer
+    };
+
+    let request = new WebResource();
+    request.operationSpec = operationSpec;
+
+    const httpClient: HttpClient = {
+      sendRequest: req => {
+        request = req;
+        return Promise.resolve({ request, status: 500, headers: new HttpHeaders({
+          "x-ms-error-code": "InvalidResourceNameHeader"
+        }), bodyAsText: '{"message": "InvalidResourceNameBody"}' });
+      }
+    };
+
+    const client = new ServiceClient(undefined, {
+      httpClient,
+      requestPolicyFactories: [deserializationPolicy()]
+    });
+
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.strictEqual(true, false);
+    } catch (ex) {
+      assert.strictEqual(ex.errorCode, "InvalidResourceNameHeader");
+    }    
   });
 
   it("should use userAgent header name value from options", async function () {

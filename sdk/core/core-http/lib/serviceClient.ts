@@ -354,7 +354,17 @@ export class ServiceClient {
       }
 
       result = this.sendRequest(httpRequest)
-        .then(res => flattenResponse(res, operationSpec.responses[res.status]));
+        .then(res => flattenResponse(res, operationSpec.responses[res.status]))
+        .catch(ex =>
+          Promise.reject(
+            flattenResponse(
+              ex, 
+              operationSpec.responses[ex.statusCode]? 
+                operationSpec.responses[ex.statusCode] : 
+                operationSpec.responses["default"]
+            )
+          )
+        );
     } catch (error) {
       result = Promise.reject(error);
     }

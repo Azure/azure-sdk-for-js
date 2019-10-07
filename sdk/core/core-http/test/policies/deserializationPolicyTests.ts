@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpClient, OperationSpec, Serializer } from "../../lib/coreHttp";
+import { HttpClient, OperationSpec, Serializer, CompositeMapper } from "../../lib/coreHttp";
 import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, defaultJsonContentTypes, defaultXmlContentTypes } from "../../lib/policies/deserializationPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
@@ -95,6 +95,70 @@ describe("deserializationPolicy", function () {
   });
 
   describe(`parse(HttpOperationResponse)`, () => {
+    it(`with default response headers`, async function () {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            errorCode: {
+              serializedName: "x-ms-error-code",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      const serializer = new Serializer(HeadersMapper, true);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          default: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper
+          }
+        },
+        serializer
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest(operationSpec),
+        status: 500,
+        headers: new HttpHeaders({
+          "x-ms-error-code": "InvalidResourceNameHeader"
+        }),
+        bodyAsText: '{"message": "InvalidResourceNameBody"}'
+      };
+
+      try {
+        await deserializeResponse(response);
+        assert.strictEqual(true, false);
+      } catch (e) {
+        assert(e);
+        assert.strictEqual(e.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.message, "InvalidResourceNameBody");
+      }
+    });
+    
     it(`with no response headers or body`, async function () {
       const response: HttpOperationResponse = {
         request: createRequest(),
