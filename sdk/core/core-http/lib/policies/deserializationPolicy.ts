@@ -153,6 +153,7 @@ export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTy
                       : [];
                   }
                   error.body = operationSpec.serializer.deserialize(defaultResponseBodyMapper, valueToDeserialize, "error.body");
+                  error.parsedBody = error.body;
                 }
               }
 

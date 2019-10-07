@@ -299,6 +299,7 @@ describe("ServiceClient", function () {
       assert.strictEqual(true, false);
     } catch (ex) {
       assert.strictEqual(ex.errorCode, "InvalidResourceNameHeader");
+      assert.strictEqual(ex.message, "InvalidResourceNameBody");
     }    
   });
 
