@@ -1,9 +1,11 @@
 # Release History
 
 ## 4.0.0-preview.7 (2019-10-07)
-- Improved the general API based on feedback.
-- Improved the available documentation.
- 
+- Added the plugin @azure/eslint-plugin-azure-sdk (#4772).
+- Added a "Deploy to azure" button to the README (#5237).
+- Made other improvements to the README (#5225).
+- Updated the API based on feedback from the architects team (#5340).
+
 ## 4.0.0-preview.5 (2019-09-11)
 - Improved the tests, the README and upgraded dependencies.
 - Added the browser folder to the released bundle.
