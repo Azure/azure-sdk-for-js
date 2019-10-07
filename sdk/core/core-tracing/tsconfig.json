@@ -1,7 +1,8 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "declarationDir": "./types",              /* Output directory for generated declaration files.*/
-    "outDir": "./dist-esm"                    /* Redirect output structure to the directory. */
+    "target": "es5",
+    "declarationDir": "./types",
+    "outDir": "./dist-esm"
   }
 }
