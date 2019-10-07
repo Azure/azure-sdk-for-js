@@ -44,7 +44,9 @@
 - Added name properties on all the clients for convenience.
   - accountName is added to AppendBlobClient, BlobClient, BlobServiceClient, BlockBlobClient, ContainerClient and PageBlobClient.
   - containerName is added to AppendBlobClient, BlobClient, BlockBlobClient, ContainerClient and PageBlobClient.
-  - blobName is added to AppendBlobClient, BlobClient, BlockBlobClient and PageBlobClient.
+  - `accountName` is added to `AppendBlobClient`, `BlobClient`, `BlobServiceClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
+  - `containerName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
+  - `blobName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient` and `PageBlobClient`.
 
 ## 2019.09 12.0.0-preview.3
 
