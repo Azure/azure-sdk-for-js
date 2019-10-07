@@ -55,7 +55,7 @@ describe("Long Running Operations - custom client", function() {
     });
 
     await poller.poll();
-    assert.ok(poller.operation.state.started);
+    assert.ok(poller.getState().started);
     await delay(100);
     assert.equal(client.totalSentRequests, 10);
     abortController.abort();
@@ -122,7 +122,7 @@ describe("Long Running Operations - custom client", function() {
     });
 
     await poller.poll();
-    assert.ok(poller.operation.state.started);
+    assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
     await delay(100);
     assert.equal(client.totalSentRequests, 10);
@@ -165,7 +165,7 @@ describe("Long Running Operations - custom client", function() {
     abortController.abort();
 
     // This also can be done at any point to abort any poll() request.
-    poller.operation.properties.requestOptions = {
+    poller.getProperties().requestOptions = {
       abortSignal: abortController.signal
     };
 
