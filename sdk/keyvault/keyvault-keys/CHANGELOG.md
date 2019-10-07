@@ -4,8 +4,8 @@
 - Switched from keyTo to our built-in jwk-to-pem tool (#5150).
 - Added @azure/eslint-plugin-azure-sdk (#4772).
 - Added a "Deploy to Azure" button to the README (#5237).
-- Improved the README.
-- API changes (#5340).
+- Improved the README (#5225).
+- Updated the API based on feedback from the architects team (#5340).
  
 ## 4.0.0-preview.5 (2019-09-11)
 - Improved the tests, the README and upgraded dependencies.
