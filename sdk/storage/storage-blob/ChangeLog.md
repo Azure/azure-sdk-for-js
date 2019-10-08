@@ -1,6 +1,6 @@
 # Changelog
 
-## 2019.09 12.0.0-preview.4
+## 2019.10 12.0.0-preview.4
 
 - [Breaking] Replace string array with boolean flags to specify dataset to include when list containers or blobs.
   - For listing containers
@@ -33,8 +33,8 @@
       includeUncommitedBlobs: true
     });
     ```
-- Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
-- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on LeaseClient.
+- [Breaking] Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
+- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on `LeaseClient`.
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `BlobServiceClient` or `BlobClient` are instantiated.
 - Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
   - Development Connection String
@@ -45,6 +45,8 @@
   - `accountName` is added to `AppendBlobClient`, `BlobClient`, `BlobServiceClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
   - `containerName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient`, `ContainerClient` and `PageBlobClient`.
   - `blobName` is added to `AppendBlobClient`, `BlobClient`, `BlockBlobClient` and `PageBlobClient`.
+- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.BlobServiceProperties`
+- [Breaking] `Models.StorageServiceStats` is renamed into `Models.BlobServiceStatistics`
 
 ## 2019.09 12.0.0-preview.3
 
