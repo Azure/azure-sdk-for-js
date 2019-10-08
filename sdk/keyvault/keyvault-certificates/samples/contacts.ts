@@ -38,16 +38,6 @@ async function main(): Promise<void> {
   console.log("Contact List:", getResponse.contactList);
 
   await client.deleteCertificateContacts();
-
-  let error;
-  try {
-    await client.getCertificateContacts();
-    throw Error("Expecting an error but not catching one.");
-  } catch (e) {
-    error = e;
-  }
-
-  console.log(error.message); // Contacts not found
 }
 
 main().catch((err) => {

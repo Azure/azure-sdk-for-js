@@ -30,12 +30,11 @@ async function main(): Promise<void> {
 
   const backup = await client.backupCertificate("MyCertificate");
 
-  await client.deleteCertificate("MyCertificate");
-
   // It might take less time, or more, depending on your location, internet speed and other factors.
-  await delay(10000);
+  await delay(30000);
 
-  await client.purgeDeletedCertificate("MyCertificate");
+  await client.purgeDeletedCertificate("MyCertificate23310");
+  await delay(30000);
 
   await client.restoreCertificate(backup.value!);
 

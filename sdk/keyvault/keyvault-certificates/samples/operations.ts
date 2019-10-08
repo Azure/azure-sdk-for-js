@@ -25,7 +25,7 @@ async function main(): Promise<void> {
   });
 
   // The pending state of the certificate will be visible.
-  const pendingCertificate = await client.getCertificate(certificateName, "");
+  const pendingCertificate = await client.getCertificateWithPolicy(certificateName);
   console.log({ pendingCertificate });
 
   // Reading the certificate's operation (it will be pending)

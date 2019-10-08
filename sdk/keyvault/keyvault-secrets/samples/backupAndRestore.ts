@@ -1,5 +1,5 @@
 import { SecretsClient } from "../src";
-import fs = require("fs");
+import * as fs from "fs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 function writeFile(filename: string, text: Uint8Array): Promise<void> {
@@ -44,7 +44,7 @@ async function main(): Promise<void> {
   const backupResult = await client.backupSecret(secretName);
 
   // Write the backup to a file
-  await writeFile("secret_backup.dat", backupResult);
+  await writeFile("secret_backup.dat", backupResult!);
 
   // Delete the secret
   console.log("about to delete");
