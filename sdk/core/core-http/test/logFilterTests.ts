@@ -7,6 +7,7 @@ import { HttpOperationResponse } from "../lib/httpOperationResponse";
 import { LogPolicy } from "../lib/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
 import { WebResource } from "../lib/webResource";
+import { getLogLevel, setLogLevel } from "@azure/logger";
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -16,7 +17,11 @@ const emptyRequestPolicy: RequestPolicy = {
 };
 
 describe("Log filter", () => {
-  it("should log messages when a logger object is provided", (done) => {
+  it.only("should log messages when a logger object is provided", (done) => {
+    // possible breaking change - log level must now be set to info in order to
+    // log appropriately.
+    const currentLogLevel = getLogLevel();
+    setLogLevel('info');
     const expected = `Request: {
   "url": "https://foo.com",
   "method": "PUT",
@@ -51,6 +56,8 @@ Body: null
       })
       .catch((err: Error) => {
         done(err);
-      });
+    }).finally(() => {
+      setLogLevel(currentLogLevel);
+    })
   });
 });
