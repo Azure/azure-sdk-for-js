@@ -23,12 +23,8 @@ export interface AzureLogger {
     warning: debug.Debugger;
 }
 
-// Warning: (ae-forgotten-export) The symbol "AZURE_LOG_LEVELS" needs to be exported by the entry point logger.d.ts
-// 
 // @public (undocumented)
-export type AzureLogLevel = {
-    [k in keyof typeof AZURE_LOG_LEVELS]: typeof AZURE_LOG_LEVELS[k];
-}[number];
+export type AzureLogLevel = 'verbose' | 'info' | 'warning' | 'error';
 
 // @public
 export function createClientLogger(namespace: string): AzureLogger;
