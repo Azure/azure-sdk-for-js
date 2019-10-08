@@ -456,10 +456,11 @@ export function getShareNameAndPathFromUrl(
     let urlWithoutSAS = url.split("?")[0]; // removing the sas part of url if present
     urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-    const shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
+    let shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
 
-    const shareName = shareNameAndFilePath![3];
-    const filePathOrdirectoryPath = shareNameAndFilePath![5];
+    // decode the encoded shareName and filePath - to get all the special characters that might be present in it
+    const shareName = decodeURIComponent(shareNameAndFilePath![3]);
+    const filePathOrdirectoryPath = decodeURIComponent(shareNameAndFilePath![5]);
 
     if (!shareName) {
       throw new Error("Provided shareName is invalid.");
