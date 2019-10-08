@@ -442,7 +442,7 @@ export function getAccountNameFromUrl(url: string): string {
 
 export function getShareNameAndPathFromUrl(
   url: string
-): { shareName: string; filePathOrdirectoryPath: string } {
+): { shareName: string; filePathOrDirectoryPath: string } {
   //  URL may look like the following
   // "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString";
   // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";
@@ -460,12 +460,12 @@ export function getShareNameAndPathFromUrl(
 
     // decode the encoded shareName and filePath - to get all the special characters that might be present in it
     const shareName = decodeURIComponent(shareNameAndFilePath![3]);
-    const filePathOrdirectoryPath = decodeURIComponent(shareNameAndFilePath![5]);
+    const filePathOrDirectoryPath = decodeURIComponent(shareNameAndFilePath![5]);
 
     if (!shareName) {
       throw new Error("Provided shareName is invalid.");
     } else {
-      return { shareName, filePathOrdirectoryPath };
+      return { shareName, filePathOrDirectoryPath };
     }
   } catch (error) {
     throw new Error(
