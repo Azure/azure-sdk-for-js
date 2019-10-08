@@ -2,13 +2,26 @@
 
 ### 2019.10 12.0.0-preview.4
 
-- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.FileServiceProperties`
-
+- `Models.StorageServiceProperties` is renamed into `Models.FileServiceProperties`
+- Replace string array with boolean flags to specify dataset to include when listing shares.
+  Before this change the option is specified as
+  ```js
+  fileServiceClient.listShares({
+    include: ["metadata", "snapshots"]
+  });
+  ```
+  After this change:
+  ```js
+  fileServiceClient.listShares({
+    includeMetadata: true,
+    includeSnapshots: true
+  });
+  ```
 ### 2019.08 Version 12.0.0-preview.2
 
-- [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+- Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
-- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.FileServiceProperties`
+- `Models.StorageServiceProperties` is renamed into `Models.FileServiceProperties`
 
 ### 2019.07 Version 12.0.0-preview.1
 

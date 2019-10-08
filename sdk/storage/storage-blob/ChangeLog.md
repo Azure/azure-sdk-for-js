@@ -2,7 +2,7 @@
 
 ## 2019.10 12.0.0-preview.4
 
-- [Breaking] Replace string array with boolean flags to specify dataset to include when list containers or blobs.
+- [Breaking] Replace string array with boolean flags to specify dataset to include when listing containers or blobs.
   - For listing containers
     Before this change the option is specified as
     ```js

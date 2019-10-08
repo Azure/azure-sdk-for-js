@@ -8,7 +8,21 @@
   - `shareName` is added to `DirectoryClient`, `FileClient` and `ShareClient`.
   - `filePath` is added to `FileClient`.
   - `dirPath` is added to `DirectoryClient`.
-- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.FileServiceProperties`
+- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.FileServiceProperties`.
+- [Breaking] Replace string array with boolean flags to specify dataset to include when listing shares.
+  Before this change the option is specified as
+  ```js
+  fileServiceClient.listShares({
+    include: ["metadata", "snapshots"]
+  });
+  ```
+  After this change:
+  ```js
+  fileServiceClient.listShares({
+    includeMetadata: true,
+    includeSnapshots: true
+  });
+  ```
 
 ## 2019.08 12.0.0-preview.3
 
