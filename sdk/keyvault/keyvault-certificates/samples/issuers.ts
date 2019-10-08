@@ -42,6 +42,7 @@ async function main(): Promise<void> {
 
   // Reading the certificate will give us back the issuer name, but no other information.
   const certificate = await client.getCertificate("MyCertificate", "");
+  console.log("Certificate: ", certificate);
 
   // We can retrieve the issuer this way:
   const getResponse = await client.getCertificateIssuer(issuerName);
@@ -49,15 +50,6 @@ async function main(): Promise<void> {
 
   // We can also delete the issuer.
   await client.deleteCertificateIssuer(issuerName);
-  let error;
-  try {
-    await client.getCertificateIssuer(issuerName);
-    throw Error("Expecting an error but not catching one.");
-  } catch (e) {
-    error = e;
-  }
-
-  console.log(error.message); // Issuer not found
 }
 
 main().catch((err) => {
