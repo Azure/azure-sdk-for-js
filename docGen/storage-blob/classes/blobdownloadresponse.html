@@ -1,0 +1,1696 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>BlobDownloadResponse | @azure/storage-blob</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/storage-blob</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="blobdownloadresponse.html">BlobDownloadResponse</a>
+				</li>
+			</ul>
+			<h1>Class BlobDownloadResponse</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Contains response data for the download operation.
+						ONLY AVAILABLE IN NODE.JS RUNTIME.</p>
+					</div>
+					<p>BlobDownloadResponse implements Models.BlobDownloadResponse interface, and in Node.js runtime it will
+						automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
+					trigger retries defined in pipeline retry policy.)</p>
+					<p>The readableStreamBody stream will retry underlayer, you can just use it as a normal Node.js
+					Readable stream.</p>
+					<dl class="tsd-comment-tags">
+						<dt>export</dt>
+						<dd></dd>
+						<dt>class</dt>
+						<dd><p>BlobDownloadResponse</p>
+						</dd>
+						<dt>implements</dt>
+						<dd><p>{Models.BlobDownloadResponse}</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">BlobDownloadResponse</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../globals.html#blobdownloadheaders" class="tsd-signature-type">BlobDownloadHeaders</a>
+						<span class="tsd-signature-symbol"> &amp; </span>
+						<span class="tsd-signature-type">object</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="blobdownloadresponse.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#_response" class="tsd-kind-icon">_response</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#acceptranges" class="tsd-kind-icon">accept<wbr>Ranges</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#blobbody" class="tsd-kind-icon">blob<wbr>Body</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#blobcommittedblockcount" class="tsd-kind-icon">blob<wbr>Committed<wbr>Block<wbr>Count</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#blobcontentmd5" class="tsd-kind-icon">blob<wbr>ContentMD5</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#blobsequencenumber" class="tsd-kind-icon">blob<wbr>Sequence<wbr>Number</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#blobtype" class="tsd-kind-icon">blob<wbr>Type</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#cachecontrol" class="tsd-kind-icon">cache<wbr>Control</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#clientrequestid" class="tsd-kind-icon">client<wbr>Request<wbr>Id</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#contentcrc64" class="tsd-kind-icon">content<wbr>Crc64</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#contentdisposition" class="tsd-kind-icon">content<wbr>Disposition</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#contentencoding" class="tsd-kind-icon">content<wbr>Encoding</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#contentlanguage" class="tsd-kind-icon">content<wbr>Language</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#contentlength" class="tsd-kind-icon">content<wbr>Length</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#contentmd5" class="tsd-kind-icon">contentMD5</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#contentrange" class="tsd-kind-icon">content<wbr>Range</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#copycompletiontime" class="tsd-kind-icon">copy<wbr>Completion<wbr>Time</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#copyid" class="tsd-kind-icon">copy<wbr>Id</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#copyprogress" class="tsd-kind-icon">copy<wbr>Progress</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#copysource" class="tsd-kind-icon">copy<wbr>Source</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#copystatus" class="tsd-kind-icon">copy<wbr>Status</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#copystatusdescription" class="tsd-kind-icon">copy<wbr>Status<wbr>Description</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#date" class="tsd-kind-icon">date</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#etag" class="tsd-kind-icon">e<wbr>Tag</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#encryptionkeysha256" class="tsd-kind-icon">encryption<wbr>Key<wbr>Sha256</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#errorcode" class="tsd-kind-icon">error<wbr>Code</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#isserverencrypted" class="tsd-kind-icon">is<wbr>Server<wbr>Encrypted</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#lastmodified" class="tsd-kind-icon">last<wbr>Modified</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#leaseduration" class="tsd-kind-icon">lease<wbr>Duration</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#leasestate" class="tsd-kind-icon">lease<wbr>State</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#leasestatus" class="tsd-kind-icon">lease<wbr>Status</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#metadata" class="tsd-kind-icon">metadata</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#readablestreambody" class="tsd-kind-icon">readable<wbr>Stream<wbr>Body</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#requestid" class="tsd-kind-icon">request<wbr>Id</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobdownloadresponse.html#version" class="tsd-kind-icon">version</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Blob<wbr>Download<wbr>Response<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, originalResponse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.BlobDownloadResponse</span>, getter<span class="tsd-signature-symbol">: </span><a href="../globals.html#readablestreamgetter" class="tsd-signature-type">ReadableStreamGetter</a>, offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/iretriablereadablestreamoptions.html" class="tsd-signature-type">IRetriableReadableStreamOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="blobdownloadresponse.html" class="tsd-signature-type">BlobDownloadResponse</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L465">BlobDownloadResponse.ts:465</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an instance of BlobDownloadResponse.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+								</li>
+								<li>
+									<h5>originalResponse: <span class="tsd-signature-type">Models.BlobDownloadResponse</span></h5>
+								</li>
+								<li>
+									<h5>getter: <a href="../globals.html#readablestreamgetter" class="tsd-signature-type">ReadableStreamGetter</a></h5>
+								</li>
+								<li>
+									<h5>offset: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>count: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/iretriablereadablestreamoptions.html" class="tsd-signature-type">IRetriableReadableStreamOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="blobdownloadresponse.html" class="tsd-signature-type">BlobDownloadResponse</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="_response" class="tsd-anchor"></a>
+					<h3>_response</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> _response<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpResponse</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L458">BlobDownloadResponse.ts:458</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HttpResponse</span>
+								<span class="tsd-signature-symbol"> &amp; </span>
+								<span class="tsd-signature-type">object</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="acceptranges" class="tsd-anchor"></a>
+					<h3>accept<wbr>Ranges</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> acceptRanges<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L32">BlobDownloadResponse.ts:32</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Indicates that the service supports
+									requests for partial file content.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="blobbody" class="tsd-anchor"></a>
+					<h3>blob<wbr>Body</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> blobBody<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L440">BlobDownloadResponse.ts:440</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The response body as a browser Blob.
+									Always undefined in node.js.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Promise<Blob> | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol">&gt;</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="blobcommittedblockcount" class="tsd-anchor"></a>
+					<h3>blob<wbr>Committed<wbr>Block<wbr>Count</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> blobCommittedBlockCount<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L299">BlobDownloadResponse.ts:299</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The number of committed blocks
+									present in the blob. This header is returned only for append blobs.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(number | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="blobcontentmd5" class="tsd-anchor"></a>
+					<h3>blob<wbr>ContentMD5</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> blobContentMD5<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L345">BlobDownloadResponse.ts:345</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>If the blob has a MD5 hash, and if
+										request contains range header (Range or x-ms-range), this response header
+										is returned with the value of the whole blob&#39;s MD5 value. This value may
+										or may not be equal to the value returned in Content-MD5 header, with the
+									latter calculated from the requested range.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Uint8Array | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="blobsequencenumber" class="tsd-anchor"></a>
+					<h3>blob<wbr>Sequence<wbr>Number</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> blobSequenceNumber<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L93">BlobDownloadResponse.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current sequence number for a
+									page blob. This header is not returned for block blobs or append blobs.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(number | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="blobtype" class="tsd-anchor"></a>
+					<h3>blob<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> blobType<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.BlobType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L105">BlobDownloadResponse.ts:105</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The blob&#39;s type. Possible values include:
+									&#39;BlockBlob&#39;, &#39;PageBlob&#39;, &#39;AppendBlob&#39;.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Models.BlobType | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Models.BlobType</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="cachecontrol" class="tsd-anchor"></a>
+					<h3>cache<wbr>Control</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> cacheControl<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L44">BlobDownloadResponse.ts:44</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns if it was previously specified
+									for the file.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="clientrequestid" class="tsd-anchor"></a>
+					<h3>client<wbr>Request<wbr>Id</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> clientRequestId<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L394">BlobDownloadResponse.ts:394</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>If a client request id header is sent in the request, this header will be present in the
+									response with the same value.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="contentcrc64" class="tsd-anchor"></a>
+					<h3>content<wbr>Crc64</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentCrc64<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L428">BlobDownloadResponse.ts:428</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to
+										true, then the request returns a crc64 for the range, as long as the range size is less than
+										or equal to 4 MB. If both x-ms-range-get-content-crc64 &amp; x-ms-range-get-content-md5 is
+									specified in the same request, it will fail with 400(Bad Request)</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="contentdisposition" class="tsd-anchor"></a>
+					<h3>content<wbr>Disposition</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentDisposition<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L57">BlobDownloadResponse.ts:57</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the value that was specified
+										for the &#39;x-ms-content-disposition&#39; header and specifies how to process the
+									response.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="contentencoding" class="tsd-anchor"></a>
+					<h3>content<wbr>Encoding</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentEncoding<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L69">BlobDownloadResponse.ts:69</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the value that was specified
+									for the Content-Encoding request header.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="contentlanguage" class="tsd-anchor"></a>
+					<h3>content<wbr>Language</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentLanguage<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L81">BlobDownloadResponse.ts:81</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the value that was specified
+									for the Content-Language request header.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="contentlength" class="tsd-anchor"></a>
+					<h3>content<wbr>Length</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentLength<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L117">BlobDownloadResponse.ts:117</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The number of bytes present in the
+									response body.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(number | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="contentmd5" class="tsd-anchor"></a>
+					<h3>contentMD5</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentMD5<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L135">BlobDownloadResponse.ts:135</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>If the file has an MD5 hash and the
+										request is to read the full file, this response header is returned so that
+										the client can check for message content integrity. If the request is to
+										read a specified range and the &#39;x-ms-range-get-content-md5&#39; is set to
+										true, then the request returns an MD5 hash for the range, as long as the
+										range size is less than or equal to 4 MB. If neither of these sets of
+										conditions is true, then no value is returned for the &#39;Content-MD5&#39;
+									header.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Uint8Array | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="contentrange" class="tsd-anchor"></a>
+					<h3>content<wbr>Range</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L148">BlobDownloadResponse.ts:148</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Indicates the range of bytes returned if
+										the client requested a subset of the file by setting the Range request
+									header.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="contenttype" class="tsd-anchor"></a>
+					<h3>content<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> contentType<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L160">BlobDownloadResponse.ts:160</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The content type specified for the file.
+									The default content type is &#39;application/octet-stream&#39;</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="copycompletiontime" class="tsd-anchor"></a>
+					<h3>copy<wbr>Completion<wbr>Time</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> copyCompletionTime<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L173">BlobDownloadResponse.ts:173</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Conclusion time of the last attempted
+										Copy File operation where this file was the destination file. This value
+									can specify the time of a completed, aborted, or failed copy attempt.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Date | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="copyid" class="tsd-anchor"></a>
+					<h3>copy<wbr>Id</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> copyId<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L185">BlobDownloadResponse.ts:185</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>String identifier for the last attempted Copy
+									File operation where this file was the destination file.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="copyprogress" class="tsd-anchor"></a>
+					<h3>copy<wbr>Progress</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> copyProgress<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L199">BlobDownloadResponse.ts:199</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Contains the number of bytes copied and
+										the total bytes in the source in the last attempted Copy File operation
+										where this file was the destination file. Can show between 0 and
+									Content-Length bytes copied.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="copysource" class="tsd-anchor"></a>
+					<h3>copy<wbr>Source</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> copySource<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L212">BlobDownloadResponse.ts:212</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>URL up to 2KB in length that specifies the
+										source file used in the last attempted Copy File operation where this file
+									was the destination file.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="copystatus" class="tsd-anchor"></a>
+					<h3>copy<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> copyStatus<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.CopyStatusType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L225">BlobDownloadResponse.ts:225</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>State of the copy operation
+										identified by &#39;x-ms-copy-id&#39;. Possible values include: &#39;pending&#39;,
+									&#39;success&#39;, &#39;aborted&#39;, &#39;failed&#39;</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Models.CopyStatusType | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Models.CopyStatusType</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="copystatusdescription" class="tsd-anchor"></a>
+					<h3>copy<wbr>Status<wbr>Description</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> copyStatusDescription<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L238">BlobDownloadResponse.ts:238</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Only appears when
+										x-ms-copy-status is failed or pending. Describes cause of fatal or
+									non-fatal copy operation failure.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="date" class="tsd-anchor"></a>
+					<h3>date</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> date<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L287">BlobDownloadResponse.ts:287</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A UTC date/time value generated by the service that
+									indicates the time at which the response was initiated.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Date | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="etag" class="tsd-anchor"></a>
+					<h3>e<wbr>Tag</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> eTag<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L311">BlobDownloadResponse.ts:311</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The ETag contains a value that you can use to
+									perform operations conditionally, in quotes.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="encryptionkeysha256" class="tsd-anchor"></a>
+					<h3>encryption<wbr>Key<wbr>Sha256</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> encryptionKeySha256<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L418">BlobDownloadResponse.ts:418</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The SHA-256 hash of the encryption key used to encrypt the blob. This value is only returned
+									when the blob was encrypted with a customer-provided key.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="errorcode" class="tsd-anchor"></a>
+					<h3>error<wbr>Code</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> errorCode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L315">BlobDownloadResponse.ts:315</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="isserverencrypted" class="tsd-anchor"></a>
+					<h3>is<wbr>Server<wbr>Encrypted</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isServerEncrypted<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L330">BlobDownloadResponse.ts:330</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The value of this header is set to
+										true if the file data and application metadata are completely encrypted
+										using the specified algorithm. Otherwise, the value is set to false (when
+										the file is unencrypted, or if only parts of the file/application metadata
+									are encrypted).</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(boolean | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="lastmodified" class="tsd-anchor"></a>
+					<h3>last<wbr>Modified</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> lastModified<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L358">BlobDownloadResponse.ts:358</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the date and time the file was last
+										modified. Any operation that modifies the file or its properties updates
+									the last modified time.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Date | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="leaseduration" class="tsd-anchor"></a>
+					<h3>lease<wbr>Duration</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> leaseDuration<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.LeaseDurationType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L251">BlobDownloadResponse.ts:251</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>When a blob is leased,
+										specifies whether the lease is of infinite or fixed duration. Possible
+									values include: &#39;infinite&#39;, &#39;fixed&#39;.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Models.LeaseDurationType | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Models.LeaseDurationType</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="leasestate" class="tsd-anchor"></a>
+					<h3>lease<wbr>State</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> leaseState<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.LeaseStateType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L263">BlobDownloadResponse.ts:263</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lease state of the blob. Possible
+									values include: &#39;available&#39;, &#39;leased&#39;, &#39;expired&#39;, &#39;breaking&#39;, &#39;broken&#39;.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Models.LeaseStateType | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Models.LeaseStateType</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="leasestatus" class="tsd-anchor"></a>
+					<h3>lease<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> leaseStatus<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.LeaseStatusType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L275">BlobDownloadResponse.ts:275</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current lease status of the
+									blob. Possible values include: &#39;locked&#39;, &#39;unlocked&#39;.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(Models.LeaseStatusType | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Models.LeaseStatusType</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="metadata" class="tsd-anchor"></a>
+					<h3>metadata</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> metadata<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/imetadata.html" class="tsd-signature-type">IMetadata</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L370">BlobDownloadResponse.ts:370</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A name-value pair
+									to associate with a file storage object.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(IMetadata | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/imetadata.html" class="tsd-signature-type">IMetadata</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="readablestreambody" class="tsd-anchor"></a>
+					<h3>readable<wbr>Stream<wbr>Body</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> readableStreamBody<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReadableStream</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L454">BlobDownloadResponse.ts:454</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The response body as a node.js Readable stream.
+									Always undefined in the browser.</p>
+								</div>
+								<p>It will automatically retry when internal read stream unexpected ends.</p>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(NodeJS.ReadableStream | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReadableStream</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="requestid" class="tsd-anchor"></a>
+					<h3>request<wbr>Id</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> requestId<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L382">BlobDownloadResponse.ts:382</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This header uniquely identifies the request
+									that was made and can be used for troubleshooting the request.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="version" class="tsd-anchor"></a>
+					<h3>version</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> version<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/BlobDownloadResponse.ts#L406">BlobDownloadResponse.ts:406</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Indicates the version of the File service used
+									to execute the request.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>readonly</dt>
+									<dd></dd>
+									<dt>type</dt>
+									<dd><p>{(string | undefined)}</p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobDownloadResponse</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="blobdownloadresponse.html" class="tsd-kind-icon">Blob<wbr>Download<wbr>Response</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#_response" class="tsd-kind-icon">_response</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#acceptranges" class="tsd-kind-icon">accept<wbr>Ranges</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#blobbody" class="tsd-kind-icon">blob<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#blobcommittedblockcount" class="tsd-kind-icon">blob<wbr>Committed<wbr>Block<wbr>Count</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#blobcontentmd5" class="tsd-kind-icon">blob<wbr>ContentMD5</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#blobsequencenumber" class="tsd-kind-icon">blob<wbr>Sequence<wbr>Number</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#blobtype" class="tsd-kind-icon">blob<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#cachecontrol" class="tsd-kind-icon">cache<wbr>Control</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#clientrequestid" class="tsd-kind-icon">client<wbr>Request<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#contentcrc64" class="tsd-kind-icon">content<wbr>Crc64</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#contentdisposition" class="tsd-kind-icon">content<wbr>Disposition</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#contentencoding" class="tsd-kind-icon">content<wbr>Encoding</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#contentlanguage" class="tsd-kind-icon">content<wbr>Language</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#contentlength" class="tsd-kind-icon">content<wbr>Length</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#contentmd5" class="tsd-kind-icon">contentMD5</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#contentrange" class="tsd-kind-icon">content<wbr>Range</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#copycompletiontime" class="tsd-kind-icon">copy<wbr>Completion<wbr>Time</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#copyid" class="tsd-kind-icon">copy<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#copyprogress" class="tsd-kind-icon">copy<wbr>Progress</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#copysource" class="tsd-kind-icon">copy<wbr>Source</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#copystatus" class="tsd-kind-icon">copy<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#copystatusdescription" class="tsd-kind-icon">copy<wbr>Status<wbr>Description</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#date" class="tsd-kind-icon">date</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#etag" class="tsd-kind-icon">e<wbr>Tag</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#encryptionkeysha256" class="tsd-kind-icon">encryption<wbr>Key<wbr>Sha256</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#errorcode" class="tsd-kind-icon">error<wbr>Code</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#isserverencrypted" class="tsd-kind-icon">is<wbr>Server<wbr>Encrypted</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#lastmodified" class="tsd-kind-icon">last<wbr>Modified</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#leaseduration" class="tsd-kind-icon">lease<wbr>Duration</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#leasestate" class="tsd-kind-icon">lease<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#leasestatus" class="tsd-kind-icon">lease<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#metadata" class="tsd-kind-icon">metadata</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#readablestreambody" class="tsd-kind-icon">readable<wbr>Stream<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#requestid" class="tsd-kind-icon">request<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobdownloadresponse.html#version" class="tsd-kind-icon">version</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

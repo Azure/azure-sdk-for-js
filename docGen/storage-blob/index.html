@@ -1,0 +1,2024 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/storage-blob</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/storage-blob</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/storage-blob</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="azure-storage-sdk-v10-for-javascript-blob">Azure Storage SDK V10 for JavaScript - Blob</h1>
+				<ul>
+					<li><a href="https://badge.fury.io/js/%40azure%2Fstorage-blob"><img src="https://badge.fury.io/js/%40azure%2Fstorage-blob.svg" alt="npm version"></a></li>
+					<li><a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview">API Reference documentation</a></li>
+					<li><a href="https://github.com/Azure/azure-storage-js/wiki">Advanced Examples in Wiki</a></li>
+				</ul>
+				<h2 id="introduction">Introduction</h2>
+				<p>This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.</p>
+				<p>Please note that this version of the SDK is a complete overhaul of the current <a href="https://github.com/azure/azure-storage-node">Azure Storage SDK for Node.js and JavaScript in Browsers</a>, and is based on the new Storage SDK architecture.</p>
+				<h3 id="features">Features</h3>
+				<ul>
+					<li>Blob Storage<ul>
+							<li>Get/Set Blob Service Properties</li>
+							<li>Create/List/Delete Containers</li>
+							<li>Create/Read/List/Update/Delete Block Blobs</li>
+							<li>Create/Read/List/Update/Delete Page Blobs</li>
+							<li>Create/Read/List/Update/Delete Append Blobs</li>
+						</ul>
+					</li>
+					<li>Features new<ul>
+							<li>Asynchronous I/O for all operations using the async methods</li>
+							<li>HttpPipeline which enables a high degree of per-request configurability</li>
+							<li>1-to-1 correlation with the Storage REST API for clarity and simplicity</li>
+						</ul>
+					</li>
+				</ul>
+				<h3 id="compatibility">Compatibility</h3>
+				<p>This SDK is compatible with Node.js and browsers, and validated against LTS Node.js versions (&gt;=6.5) and latest versions of Chrome, Firefox and Edge.</p>
+				<h4 id="compatible-with-ie11">Compatible with IE11</h4>
+				<p>You need polyfills to make this library work with IE11. The easiest way is to use <a href="https://babeljs.io/docs/en/babel-polyfill">@babel/polyfill</a>, or <a href="https://polyfill.io/v2/docs/">polyfill service</a>.
+					Or you can load separate polyfills for missed ES feature(s).
+				This library depends on following ES features which need external polyfills loaded.</p>
+				<ul>
+					<li><code>Promise</code></li>
+					<li><code>String.prototype.startsWith</code></li>
+					<li><code>String.prototype.endsWith</code></li>
+					<li><code>String.prototype.repeat</code></li>
+					<li><code>String.prototype.includes</code></li>
+					<li><code>Array.prototype.includes</code></li>
+					<li><code>Object.keys</code> (Override IE11&#39;s <code>Object.keys</code> with ES6 polyfill forcely to enable <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes">ES6 behavior</a>)</li>
+				</ul>
+				<h4 id="differences-between-node-js-and-browsers">Differences between Node.js and browsers</h4>
+				<p>There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with <em>&quot;ONLY AVAILABLE IN NODE.JS RUNTIME&quot;</em> or <em>&quot;ONLY AVAILABLE IN BROWSERS&quot;</em>.</p>
+				<h5 id="following-features-interfaces-classes-or-functions-are-only-available-in-node-js">Following features, interfaces, classes or functions are only available in Node.js</h5>
+				<ul>
+					<li>Shared Key Authorization based on account name and account key<ul>
+							<li><code>SharedKeyCredential</code></li>
+						</ul>
+					</li>
+					<li>Shared Access Signature(SAS) generation<ul>
+							<li><code>generateAccountSASQueryParameters()</code></li>
+							<li><code>generateBlobSASQueryParameters()</code></li>
+						</ul>
+					</li>
+					<li>Parallel uploading and downloading<ul>
+							<li><code>uploadFileToBlockBlob()</code></li>
+							<li><code>uploadStreamToBlockBlob()</code></li>
+							<li><code>downloadBlobToBuffer()</code></li>
+						</ul>
+					</li>
+				</ul>
+				<h5 id="following-features-interfaces-classes-or-functions-are-only-available-in-browsers">Following features, interfaces, classes or functions are only available in browsers</h5>
+				<ul>
+					<li>Parallel uploading and downloading<ul>
+							<li><code>uploadBrowserDataToBlockBlob()</code></li>
+						</ul>
+					</li>
+				</ul>
+				<h2 id="getting-started">Getting Started</h2>
+				<h3 id="npm">NPM</h3>
+				<p>The preferred way to install the Azure Storage SDK for JavaScript is to use the npm package manager. Simply type the following into a terminal window:</p>
+				<pre><code class="language-bash">npm install @azure/storage-blob</code></pre>
+				<p>In your TypeScript or JavaScript file, import via following:</p>
+				<pre><code class="language-JavaScript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Azure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/storage-blob"</span>;</code></pre>
+				<p>Or</p>
+				<pre><code class="language-JavaScript"><span class="hljs-keyword">const</span> Azure = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/storage-blob"</span>);</code></pre>
+				<h3 id="javascript-bundle">JavaScript Bundle</h3>
+				<p>To use the SDK with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):</p>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://mydomain/azure-storage-blob.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+				<p>The JS bundled file is compatible with <a href="https://github.com/umdjs/umd">UMD</a> standard, if no module system found, following global variable(s) will be exported:</p>
+				<ul>
+					<li><code>azblob</code></li>
+				</ul>
+				<h4 id="download">Download</h4>
+				<p>Download latest released JS bundles from links in the <a href="https://github.com/Azure/azure-sdk-for-js/releases">GitHub release page</a>. Or from following links directly:</p>
+				<ul>
+					<li>Blob <a href="https://aka.ms/downloadazurestoragejsblob">https://aka.ms/downloadazurestoragejsblob</a></li>
+				</ul>
+				<h3 id="cors">CORS</h3>
+				<p>You need to set up <a href="https://docs.microsoft.com/zh-cn/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services">Cross-Origin Resource Sharing (CORS)</a> rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).</p>
+				<p>For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.</p>
+				<ul>
+					<li>Allowed origins: *</li>
+					<li>Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT</li>
+					<li>Allowed headers: *</li>
+					<li>Exposed headers: *</li>
+					<li>Maximum age (seconds): 86400</li>
+				</ul>
+				<h2 id="sdk-architecture">SDK Architecture</h2>
+				<p>The Azure Storage SDK for JavaScript provides low-level and high-level APIs.</p>
+				<ul>
+					<li><p>ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api">Azure Storage Blob REST APIs</a>.</p>
+					</li>
+					<li><p>The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).</p>
+					</li>
+				</ul>
+				<h2 id="code-samples">Code Samples</h2>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> {
+  Aborter,
+  BlobURL,
+  BlockBlobURL,
+  ContainerURL,
+  ServiceURL,
+  StorageURL,
+  SharedKeyCredential,
+  AnonymousCredential,
+  TokenCredential
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/storage-blob"</span>);
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// Enter your storage account name and shared key</span>
+  <span class="hljs-keyword">const</span> account = <span class="hljs-string">"account"</span>;
+  <span class="hljs-keyword">const</span> accountKey = <span class="hljs-string">"accountkey"</span>;
+
+  <span class="hljs-comment">// Use SharedKeyCredential with storage account and account key</span>
+  <span class="hljs-keyword">const</span> sharedKeyCredential = <span class="hljs-keyword">new</span> SharedKeyCredential(account, accountKey);
+
+  <span class="hljs-comment">// Use TokenCredential with OAuth token</span>
+  <span class="hljs-keyword">const</span> tokenCredential = <span class="hljs-keyword">new</span> TokenCredential(<span class="hljs-string">"token"</span>);
+  tokenCredential.token = <span class="hljs-string">"renewedToken"</span>; <span class="hljs-comment">// Renew the token by updating token field of token credential</span>
+
+  <span class="hljs-comment">// Use AnonymousCredential when url already includes a SAS signature</span>
+  <span class="hljs-keyword">const</span> anonymousCredential = <span class="hljs-keyword">new</span> AnonymousCredential();
+
+  <span class="hljs-comment">// Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline</span>
+  <span class="hljs-keyword">const</span> pipeline = StorageURL.newPipeline(sharedKeyCredential);
+
+  <span class="hljs-comment">// List containers</span>
+  <span class="hljs-keyword">const</span> serviceURL = <span class="hljs-keyword">new</span> ServiceURL(
+    <span class="hljs-comment">// When using AnonymousCredential, following url should include a valid SAS or support public access</span>
+    <span class="hljs-string">`https://<span class="hljs-subst">${account}</span>.blob.core.windows.net`</span>,
+    pipeline
+  );
+
+  <span class="hljs-keyword">let</span> marker;
+  <span class="hljs-keyword">do</span> {
+    <span class="hljs-keyword">const</span> listContainersResponse = <span class="hljs-keyword">await</span> serviceURL.listContainersSegment(Aborter.none, marker);
+
+    marker = listContainersResponse.nextMarker;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> container <span class="hljs-keyword">of</span> listContainersResponse.containerItems) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Container: <span class="hljs-subst">${container.name}</span>`</span>);
+    }
+  } <span class="hljs-keyword">while</span> (marker);
+
+  <span class="hljs-comment">// Create a container</span>
+  <span class="hljs-keyword">const</span> containerName = <span class="hljs-string">`newcontainer<span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()}</span>`</span>;
+  <span class="hljs-keyword">const</span> containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+
+  <span class="hljs-keyword">const</span> createContainerResponse = <span class="hljs-keyword">await</span> containerURL.create(Aborter.none);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Create container <span class="hljs-subst">${containerName}</span> successfully`</span>, createContainerResponse.requestId);
+
+  <span class="hljs-comment">// Create a blob</span>
+  <span class="hljs-keyword">const</span> content = <span class="hljs-string">"hello"</span>;
+  <span class="hljs-keyword">const</span> blobName = <span class="hljs-string">"newblob"</span> + <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime();
+  <span class="hljs-keyword">const</span> blobURL = BlobURL.fromContainerURL(containerURL, blobName);
+  <span class="hljs-keyword">const</span> blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  <span class="hljs-keyword">const</span> uploadBlobResponse = <span class="hljs-keyword">await</span> blockBlobURL.upload(Aborter.none, content, content.length);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Upload block blob <span class="hljs-subst">${blobName}</span> successfully`</span>, uploadBlobResponse.requestId);
+
+  <span class="hljs-comment">// List blobs</span>
+  marker = <span class="hljs-literal">undefined</span>;
+  <span class="hljs-keyword">do</span> {
+    <span class="hljs-keyword">const</span> listBlobsResponse = <span class="hljs-keyword">await</span> containerURL.listBlobFlatSegment(Aborter.none, marker);
+
+    marker = listBlobsResponse.nextMarker;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> blob <span class="hljs-keyword">of</span> listBlobsResponse.segment.blobItems) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Blob: <span class="hljs-subst">${blob.name}</span>`</span>);
+    }
+  } <span class="hljs-keyword">while</span> (marker);
+
+  <span class="hljs-comment">// Get blob content from position 0 to the end</span>
+  <span class="hljs-comment">// In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody</span>
+  <span class="hljs-comment">// In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody</span>
+  <span class="hljs-keyword">const</span> downloadBlockBlobResponse = <span class="hljs-keyword">await</span> blobURL.download(Aborter.none, <span class="hljs-number">0</span>);
+  <span class="hljs-built_in">console</span>.log(
+    <span class="hljs-string">"Downloaded blob content"</span>,
+    <span class="hljs-keyword">await</span> streamToString(downloadBlockBlobResponse.readableStreamBody)
+  );
+
+  <span class="hljs-comment">// Delete container</span>
+  <span class="hljs-keyword">await</span> containerURL.delete(Aborter.none);
+
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"deleted container"</span>);
+}
+
+<span class="hljs-comment">// A helper method used to read a Node.js readable stream into string</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">streamToString</span>(<span class="hljs-params">readableStream</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> chunks = [];
+    readableStream.on(<span class="hljs-string">"data"</span>, (data) =&gt; {
+      chunks.push(data.toString());
+    });
+    readableStream.on(<span class="hljs-string">"end"</span>, () =&gt; {
+      resolve(chunks.join(<span class="hljs-string">""</span>));
+    });
+    readableStream.on(<span class="hljs-string">"error"</span>, reject);
+  });
+}
+
+<span class="hljs-comment">// An async method returns a Promise object, which is compatible with then().catch() coding style.</span>
+main()
+  .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Successfully executed sample."</span>);
+  })
+  .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(err.message);
+  });</code></pre>
+				<h2 id="more-code-samples">More Code Samples</h2>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-storage-js/wiki">Advanced Examples in Wiki</a></li>
+					<li><a href="https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples">Blob Storage Examples</a></li>
+					<li><a href="https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/">Blob Storage Examples - Test Cases</a></li>
+				</ul>
+				<h2 id="license">License</h2>
+				<p>This project is licensed under MIT.</p>
+				<h2 id="contributing">Contributing</h2>
+				<p>This project welcomes contributions and suggestions. Most contributions require you to agree to a
+					Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+				the rights to use your contribution. For details, visit <a href="https://cla.microsoft.com.">https://cla.microsoft.com.</a></p>
+				<p>When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+					a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+				provided by the bot. You will only need to do this once across all repos using our CLA.</p>
+				<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+					For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+				contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/blockblobtier.html" class="tsd-kind-icon">Block<wbr>Blob<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/premiumpageblobtier.html" class="tsd-kind-icon">Premium<wbr>Page<wbr>Blob<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/retrypolicytype.html" class="tsd-kind-icon">Retry<wbr>Policy<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/sasprotocol.html" class="tsd-kind-icon">SASProtocol</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/aborter.html" class="tsd-kind-icon">Aborter</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsaspermissions.html" class="tsd-kind-icon">AccountSASPermissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsasresourcetypes.html" class="tsd-kind-icon">AccountSASResource<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsasservices.html" class="tsd-kind-icon">AccountSASServices</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/anonymouscredential.html" class="tsd-kind-icon">Anonymous<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/anonymouscredentialpolicy.html" class="tsd-kind-icon">Anonymous<wbr>Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/appendblob.html" class="tsd-kind-icon">Append<wbr>Blob</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/appendbloburl.html" class="tsd-kind-icon">Append<wbr>BlobURL</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batch.html" class="tsd-kind-icon">Batch</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchdeleterequest.html" class="tsd-kind-icon">Batch<wbr>Delete<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchrequest.html" class="tsd-kind-icon">Batch<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchresponseparser.html" class="tsd-kind-icon">Batch<wbr>Response<wbr>Parser</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchsettierrequest.html" class="tsd-kind-icon">Batch<wbr>Set<wbr>Tier<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/blob.html" class="tsd-kind-icon">Blob</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/blobdownloadresponse.html" class="tsd-kind-icon">Blob<wbr>Download<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/blobsaspermissions.html" class="tsd-kind-icon">BlobSASPermissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/bloburl.html" class="tsd-kind-icon">BlobURL</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/blockblob.html" class="tsd-kind-icon">Block<wbr>Blob</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/blockbloburl.html" class="tsd-kind-icon">Block<wbr>BlobURL</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/browserpolicy.html" class="tsd-kind-icon">Browser<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/browserpolicyfactory.html" class="tsd-kind-icon">Browser<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/bufferscheduler.html" class="tsd-kind-icon">Buffer<wbr>Scheduler</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/container.html" class="tsd-kind-icon">Container</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/containersaspermissions.html" class="tsd-kind-icon">ContainerSASPermissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/containerurl.html" class="tsd-kind-icon">ContainerURL</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/credential.html" class="tsd-kind-icon">Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/credentialpolicy.html" class="tsd-kind-icon">Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/directory.html" class="tsd-kind-icon">Directory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keepalivepolicy.html" class="tsd-kind-icon">Keep<wbr>Alive<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keepalivepolicyfactory.html" class="tsd-kind-icon">Keep<wbr>Alive<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loggingpolicy.html" class="tsd-kind-icon">Logging<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loggingpolicyfactory.html" class="tsd-kind-icon">Logging<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/mutex.html" class="tsd-kind-icon">Mutex</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pageblob.html" class="tsd-kind-icon">Page<wbr>Blob</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pagebloburl.html" class="tsd-kind-icon">Page<wbr>BlobURL</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pipeline.html" class="tsd-kind-icon">Pipeline</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/retriablereadablestream.html" class="tsd-kind-icon">Retriable<wbr>Readable<wbr>Stream</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/retrypolicy.html" class="tsd-kind-icon">Retry<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/retrypolicyfactory.html" class="tsd-kind-icon">Retry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sasqueryparameters.html" class="tsd-kind-icon">SASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/service.html" class="tsd-kind-icon">Service</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/serviceurl.html" class="tsd-kind-icon">ServiceURL</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sharedkeycredential.html" class="tsd-kind-icon">Shared<wbr>Key<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sharedkeycredentialpolicy.html" class="tsd-kind-icon">Shared<wbr>Key<wbr>Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/storageclientcontext.html" class="tsd-kind-icon">Storage<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/storageurl.html" class="tsd-kind-icon">StorageURL</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/telemetrypolicy.html" class="tsd-kind-icon">Telemetry<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/telemetrypolicyfactory.html" class="tsd-kind-icon">Telemetry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/tokencredential.html" class="tsd-kind-icon">Token<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/tokencredentialpolicy.html" class="tsd-kind-icon">Token<wbr>Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/uniquerequestidpolicy.html" class="tsd-kind-icon">Unique<wbr>RequestIDPolicy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/uniquerequestidpolicyfactory.html" class="tsd-kind-icon">Unique<wbr>RequestIDPolicy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/userdelegationkeycredential.html" class="tsd-kind-icon">User<wbr>Delegation<wbr>Key<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appendblobappendblockfromurloptionalparams.html" class="tsd-kind-icon">Append<wbr>Blob<wbr>Append<wbr>Block<wbr>From<wbr>Url<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appendblobappendblockoptionalparams.html" class="tsd-kind-icon">Append<wbr>Blob<wbr>Append<wbr>Block<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appendblobcreateoptionalparams.html" class="tsd-kind-icon">Append<wbr>Blob<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchsubrequest.html" class="tsd-kind-icon">Batch<wbr>Sub<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchsubresponse.html" class="tsd-kind-icon">Batch<wbr>Sub<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobabortcopyfromurloptionalparams.html" class="tsd-kind-icon">Blob<wbr>Abort<wbr>Copy<wbr>FromURLOptional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobacquireleaseoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Acquire<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobbreakleaseoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Break<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobchangeleaseoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Change<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobcopyfromurloptionalparams.html" class="tsd-kind-icon">Blob<wbr>Copy<wbr>FromURLOptional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobcreatesnapshotoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Create<wbr>Snapshot<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobdeletemethodoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Delete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobdownloadoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Download<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobgetaccesscontroloptionalparams.html" class="tsd-kind-icon">Blob<wbr>Get<wbr>Access<wbr>Control<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobgetpropertiesoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobreleaseleaseoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Release<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobrenameoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Rename<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobrenewleaseoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Renew<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobsetaccesscontroloptionalparams.html" class="tsd-kind-icon">Blob<wbr>Set<wbr>Access<wbr>Control<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobsethttpheadersoptionalparams.html" class="tsd-kind-icon">Blob<wbr>SetHTTPHeaders<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobsetmetadataoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Set<wbr>Metadata<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobsettieroptionalparams.html" class="tsd-kind-icon">Blob<wbr>Set<wbr>Tier<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobstartcopyfromurloptionalparams.html" class="tsd-kind-icon">Blob<wbr>Start<wbr>Copy<wbr>FromURLOptional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobundeleteoptionalparams.html" class="tsd-kind-icon">Blob<wbr>Undelete<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blockblobcommitblocklistoptionalparams.html" class="tsd-kind-icon">Block<wbr>Blob<wbr>Commit<wbr>Block<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blockblobgetblocklistoptionalparams.html" class="tsd-kind-icon">Block<wbr>Blob<wbr>Get<wbr>Block<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blockblobstageblockfromurloptionalparams.html" class="tsd-kind-icon">Block<wbr>Blob<wbr>Stage<wbr>Block<wbr>FromURLOptional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blockblobstageblockoptionalparams.html" class="tsd-kind-icon">Block<wbr>Blob<wbr>Stage<wbr>Block<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blockblobuploadoptionalparams.html" class="tsd-kind-icon">Block<wbr>Blob<wbr>Upload<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containeracquireleaseoptionalparams.html" class="tsd-kind-icon">Container<wbr>Acquire<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerbreakleaseoptionalparams.html" class="tsd-kind-icon">Container<wbr>Break<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerchangeleaseoptionalparams.html" class="tsd-kind-icon">Container<wbr>Change<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containercreateoptionalparams.html" class="tsd-kind-icon">Container<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerdeletemethodoptionalparams.html" class="tsd-kind-icon">Container<wbr>Delete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containergetaccesspolicyoptionalparams.html" class="tsd-kind-icon">Container<wbr>Get<wbr>Access<wbr>Policy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containergetpropertiesoptionalparams.html" class="tsd-kind-icon">Container<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerlistblobflatsegmentoptionalparams.html" class="tsd-kind-icon">Container<wbr>List<wbr>Blob<wbr>Flat<wbr>Segment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerlistblobhierarchysegmentoptionalparams.html" class="tsd-kind-icon">Container<wbr>List<wbr>Blob<wbr>Hierarchy<wbr>Segment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerreleaseleaseoptionalparams.html" class="tsd-kind-icon">Container<wbr>Release<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerrenewleaseoptionalparams.html" class="tsd-kind-icon">Container<wbr>Renew<wbr>Lease<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containersetaccesspolicyoptionalparams.html" class="tsd-kind-icon">Container<wbr>Set<wbr>Access<wbr>Policy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containersetmetadataoptionalparams.html" class="tsd-kind-icon">Container<wbr>Set<wbr>Metadata<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorycreateoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorydeletemethodoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Delete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorygetaccesscontroloptionalparams.html" class="tsd-kind-icon">Directory<wbr>Get<wbr>Access<wbr>Control<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directoryrenameoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Rename<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorysetaccesscontroloptionalparams.html" class="tsd-kind-icon">Directory<wbr>Set<wbr>Access<wbr>Control<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iaccountsassignaturevalues.html" class="tsd-kind-icon">IAccountSASSignature<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iappendblobaccessconditions.html" class="tsd-kind-icon">IAppend<wbr>Blob<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iappendblobappendblockfromurloptions.html" class="tsd-kind-icon">IAppend<wbr>Blob<wbr>Append<wbr>Block<wbr>FromURLOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iappendblobappendblockoptions.html" class="tsd-kind-icon">IAppend<wbr>Blob<wbr>Append<wbr>Block<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iappendblobcreateoptions.html" class="tsd-kind-icon">IAppend<wbr>Blob<wbr>Create<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobabortcopyfromurloptions.html" class="tsd-kind-icon">IBlob<wbr>Abort<wbr>Copy<wbr>FromURLOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobaccessconditions.html" class="tsd-kind-icon">IBlob<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobacquireleaseoptions.html" class="tsd-kind-icon">IBlob<wbr>Acquire<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobbreakleaseoptions.html" class="tsd-kind-icon">IBlob<wbr>Break<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobchangeleaseoptions.html" class="tsd-kind-icon">IBlob<wbr>Change<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobcreatesnapshotoptions.html" class="tsd-kind-icon">IBlob<wbr>Create<wbr>Snapshot<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobdeleteoptions.html" class="tsd-kind-icon">IBlob<wbr>Delete<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobdownloadoptions.html" class="tsd-kind-icon">IBlob<wbr>Download<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobgetpropertiesoptions.html" class="tsd-kind-icon">IBlob<wbr>Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobreleaseleaseoptions.html" class="tsd-kind-icon">IBlob<wbr>Release<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobrenewleaseoptions.html" class="tsd-kind-icon">IBlob<wbr>Renew<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobsassignaturevalues.html" class="tsd-kind-icon">IBlobSASSignature<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobsethttpheadersoptions.html" class="tsd-kind-icon">IBlob<wbr>SetHTTPHeaders<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobsetmetadataoptions.html" class="tsd-kind-icon">IBlob<wbr>Set<wbr>Metadata<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobsettieroptions.html" class="tsd-kind-icon">IBlob<wbr>Set<wbr>Tier<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobstartcopyfromurloptions.html" class="tsd-kind-icon">IBlob<wbr>Start<wbr>Copy<wbr>FromURLOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblobsynccopyfromurloptions.html" class="tsd-kind-icon">IBlob<wbr>Sync<wbr>Copy<wbr>FromURLOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblockblobcommitblocklistoptions.html" class="tsd-kind-icon">IBlock<wbr>Blob<wbr>Commit<wbr>Block<wbr>List<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblockblobgetblocklistoptions.html" class="tsd-kind-icon">IBlock<wbr>Blob<wbr>Get<wbr>Block<wbr>List<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblockblobstageblockfromurloptions.html" class="tsd-kind-icon">IBlock<wbr>Blob<wbr>Stage<wbr>Block<wbr>FromURLOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblockblobstageblockoptions.html" class="tsd-kind-icon">IBlock<wbr>Blob<wbr>Stage<wbr>Block<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iblockblobuploadoptions.html" class="tsd-kind-icon">IBlock<wbr>Blob<wbr>Upload<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontaineraccessconditions.html" class="tsd-kind-icon">IContainer<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontaineracquireleaseoptions.html" class="tsd-kind-icon">IContainer<wbr>Acquire<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainerbreakleaseoptions.html" class="tsd-kind-icon">IContainer<wbr>Break<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainerchangeleaseoptions.html" class="tsd-kind-icon">IContainer<wbr>Change<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainercreateoptions.html" class="tsd-kind-icon">IContainer<wbr>Create<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainerdeletemethodoptions.html" class="tsd-kind-icon">IContainer<wbr>Delete<wbr>Method<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainergetaccesspolicyoptions.html" class="tsd-kind-icon">IContainer<wbr>Get<wbr>Access<wbr>Policy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainergetpropertiesoptions.html" class="tsd-kind-icon">IContainer<wbr>Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainerlistblobssegmentoptions.html" class="tsd-kind-icon">IContainer<wbr>List<wbr>Blobs<wbr>Segment<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainerreleaseleaseoptions.html" class="tsd-kind-icon">IContainer<wbr>Release<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainerrenewleaseoptions.html" class="tsd-kind-icon">IContainer<wbr>Renew<wbr>Lease<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainersetaccesspolicyoptions.html" class="tsd-kind-icon">IContainer<wbr>Set<wbr>Access<wbr>Policy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icontainersetmetadataoptions.html" class="tsd-kind-icon">IContainer<wbr>Set<wbr>Metadata<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/idownloadfrombloboptions.html" class="tsd-kind-icon">IDownload<wbr>From<wbr>Blob<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iiprange.html" class="tsd-kind-icon">IIPRange</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ikeepaliveoptions.html" class="tsd-kind-icon">IKeep<wbr>Alive<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imetadata.html" class="tsd-kind-icon">IMetadata</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inewpipelineoptions.html" class="tsd-kind-icon">INew<wbr>Pipeline<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobaccessconditions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobclearpagesoptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Clear<wbr>Pages<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobcreateoptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Create<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobgetpagerangesdiffoptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Get<wbr>Page<wbr>Ranges<wbr>Diff<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobgetpagerangesoptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Get<wbr>Page<wbr>Ranges<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobresizeoptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Resize<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobstartcopyincrementaloptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Start<wbr>Copy<wbr>Incremental<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobupdatesequencenumberoptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Update<wbr>Sequence<wbr>Number<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobuploadpagesfromurloptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Upload<wbr>Pages<wbr>FromURLOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipageblobuploadpagesoptions.html" class="tsd-kind-icon">IPage<wbr>Blob<wbr>Upload<wbr>Pages<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipipelineoptions.html" class="tsd-kind-icon">IPipeline<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/irange.html" class="tsd-kind-icon">IRange</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/irequestlogoptions.html" class="tsd-kind-icon">IRequest<wbr>Log<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iretriablereadablestreamoptions.html" class="tsd-kind-icon">IRetriable<wbr>Readable<wbr>Stream<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iretryoptions.html" class="tsd-kind-icon">IRetry<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iservicelistcontainerssegmentoptions.html" class="tsd-kind-icon">IService<wbr>List<wbr>Containers<wbr>Segment<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/isignedidentifier.html" class="tsd-kind-icon">ISigned<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/itelemetryoptions.html" class="tsd-kind-icon">ITelemetry<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iuploadstreamtoblockbloboptions.html" class="tsd-kind-icon">IUpload<wbr>Stream<wbr>ToBlock<wbr>Blob<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iuploadtoblockbloboptions.html" class="tsd-kind-icon">IUpload<wbr>ToBlock<wbr>Blob<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobclearpagesoptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Clear<wbr>Pages<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobcopyincrementaloptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Copy<wbr>Incremental<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobcreateoptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobgetpagerangesdiffoptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Get<wbr>Page<wbr>Ranges<wbr>Diff<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobgetpagerangesoptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Get<wbr>Page<wbr>Ranges<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobresizeoptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Resize<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobupdatesequencenumberoptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Update<wbr>Sequence<wbr>Number<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobuploadpagesfromurloptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Upload<wbr>Pages<wbr>FromURLOptional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pageblobuploadpagesoptionalparams.html" class="tsd-kind-icon">Page<wbr>Blob<wbr>Upload<wbr>Pages<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/parsedbatchresponse.html" class="tsd-kind-icon">Parsed<wbr>Batch<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetpropertiesoptionalparams.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetstatisticsoptionalparams.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Statistics<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetuserdelegationkeyoptionalparams.html" class="tsd-kind-icon">Service<wbr>Get<wbr>User<wbr>Delegation<wbr>Key<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicelistcontainerssegmentoptionalparams.html" class="tsd-kind-icon">Service<wbr>List<wbr>Containers<wbr>Segment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicesetpropertiesoptionalparams.html" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicesubmitbatchoptionalparams.html" class="tsd-kind-icon">Service<wbr>Submit<wbr>Batch<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageclientoptions.html" class="tsd-kind-icon">Storage<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accesstier" class="tsd-kind-icon">Access<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accountkind" class="tsd-kind-icon">Account<wbr>Kind</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appendblobappendblockfromurlresponse" class="tsd-kind-icon">Append<wbr>Blob<wbr>Append<wbr>Block<wbr>From<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appendblobappendblockresponse" class="tsd-kind-icon">Append<wbr>Blob<wbr>Append<wbr>Block<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appendblobcreateresponse" class="tsd-kind-icon">Append<wbr>Blob<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#archivestatus" class="tsd-kind-icon">Archive<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobabortcopyfromurlresponse" class="tsd-kind-icon">Blob<wbr>Abort<wbr>Copy<wbr>FromURLResponse</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobacquireleaseresponse" class="tsd-kind-icon">Blob<wbr>Acquire<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobbreakleaseresponse" class="tsd-kind-icon">Blob<wbr>Break<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobchangeleaseresponse" class="tsd-kind-icon">Blob<wbr>Change<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobcopyfromurlresponse" class="tsd-kind-icon">Blob<wbr>Copy<wbr>FromURLResponse</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobcreatesnapshotresponse" class="tsd-kind-icon">Blob<wbr>Create<wbr>Snapshot<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobdeleteresponse" class="tsd-kind-icon">Blob<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobgetaccesscontrolresponse" class="tsd-kind-icon">Blob<wbr>Get<wbr>Access<wbr>Control<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobgetaccountinforesponse" class="tsd-kind-icon">Blob<wbr>Get<wbr>Account<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobgetpropertiesresponse" class="tsd-kind-icon">Blob<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobreleaseleaseresponse" class="tsd-kind-icon">Blob<wbr>Release<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobrenameresponse" class="tsd-kind-icon">Blob<wbr>Rename<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobrenewleaseresponse" class="tsd-kind-icon">Blob<wbr>Renew<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobsetaccesscontrolresponse" class="tsd-kind-icon">Blob<wbr>Set<wbr>Access<wbr>Control<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobsethttpheadersresponse" class="tsd-kind-icon">Blob<wbr>SetHTTPHeaders<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobsetmetadataresponse" class="tsd-kind-icon">Blob<wbr>Set<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobsettierresponse" class="tsd-kind-icon">Blob<wbr>Set<wbr>Tier<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobstartcopyfromurlresponse" class="tsd-kind-icon">Blob<wbr>Start<wbr>Copy<wbr>FromURLResponse</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobtype" class="tsd-kind-icon">Blob<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobundeleteresponse" class="tsd-kind-icon">Blob<wbr>Undelete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobuploadcommonresponse" class="tsd-kind-icon">Blob<wbr>Upload<wbr>Common<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blockblobcommitblocklistresponse" class="tsd-kind-icon">Block<wbr>Blob<wbr>Commit<wbr>Block<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blockblobgetblocklistresponse" class="tsd-kind-icon">Block<wbr>Blob<wbr>Get<wbr>Block<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blockblobstageblockfromurlresponse" class="tsd-kind-icon">Block<wbr>Blob<wbr>Stage<wbr>Block<wbr>FromURLResponse</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blockblobstageblockresponse" class="tsd-kind-icon">Block<wbr>Blob<wbr>Stage<wbr>Block<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blockblobuploadresponse" class="tsd-kind-icon">Block<wbr>Blob<wbr>Upload<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blocklisttype" class="tsd-kind-icon">Block<wbr>List<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containeracquireleaseresponse" class="tsd-kind-icon">Container<wbr>Acquire<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerbreakleaseresponse" class="tsd-kind-icon">Container<wbr>Break<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerchangeleaseresponse" class="tsd-kind-icon">Container<wbr>Change<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containercreateresponse" class="tsd-kind-icon">Container<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerdeleteresponse" class="tsd-kind-icon">Container<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containergetaccesspolicyresponse" class="tsd-kind-icon">Container<wbr>Get<wbr>Access<wbr>Policy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containergetaccountinforesponse" class="tsd-kind-icon">Container<wbr>Get<wbr>Account<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containergetpropertiesresponse" class="tsd-kind-icon">Container<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerlistblobflatsegmentresponse" class="tsd-kind-icon">Container<wbr>List<wbr>Blob<wbr>Flat<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerlistblobhierarchysegmentresponse" class="tsd-kind-icon">Container<wbr>List<wbr>Blob<wbr>Hierarchy<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerreleaseleaseresponse" class="tsd-kind-icon">Container<wbr>Release<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerrenewleaseresponse" class="tsd-kind-icon">Container<wbr>Renew<wbr>Lease<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containersetaccesspolicyresponse" class="tsd-kind-icon">Container<wbr>Set<wbr>Access<wbr>Policy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containersetmetadataresponse" class="tsd-kind-icon">Container<wbr>Set<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#copystatustype" class="tsd-kind-icon">Copy<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#credentialpolicycreator" class="tsd-kind-icon">Credential<wbr>Policy<wbr>Creator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#deletesnapshotsoptiontype" class="tsd-kind-icon">Delete<wbr>Snapshots<wbr>Option<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorycreateresponse" class="tsd-kind-icon">Directory<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorydeleteresponse" class="tsd-kind-icon">Directory<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorygetaccesscontrolresponse" class="tsd-kind-icon">Directory<wbr>Get<wbr>Access<wbr>Control<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directoryrenameresponse" class="tsd-kind-icon">Directory<wbr>Rename<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorysetaccesscontrolresponse" class="tsd-kind-icon">Directory<wbr>Set<wbr>Access<wbr>Control<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#encryptionalgorithmtype" class="tsd-kind-icon">Encryption<wbr>Algorithm<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#georeplicationstatustype" class="tsd-kind-icon">Geo<wbr>Replication<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#leasedurationtype" class="tsd-kind-icon">Lease<wbr>Duration<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#leasestatetype" class="tsd-kind-icon">Lease<wbr>State<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#leasestatustype" class="tsd-kind-icon">Lease<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listblobsincludeitem" class="tsd-kind-icon">List<wbr>Blobs<wbr>Include<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listcontainersincludetype" class="tsd-kind-icon">List<wbr>Containers<wbr>Include<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outgoinghandler" class="tsd-kind-icon">Outgoing<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobclearpagesresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Clear<wbr>Pages<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobcopyincrementalresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Copy<wbr>Incremental<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobcreateresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobgetpagerangesdiffresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Get<wbr>Page<wbr>Ranges<wbr>Diff<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobgetpagerangesresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Get<wbr>Page<wbr>Ranges<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobresizeresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Resize<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobupdatesequencenumberresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Update<wbr>Sequence<wbr>Number<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobuploadpagesfromurlresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Upload<wbr>Pages<wbr>FromURLResponse</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pageblobuploadpagesresponse" class="tsd-kind-icon">Page<wbr>Blob<wbr>Upload<wbr>Pages<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pathrenamemode" class="tsd-kind-icon">Path<wbr>Rename<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicaccesstype" class="tsd-kind-icon">Public<wbr>Access<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readablestreamgetter" class="tsd-kind-icon">Readable<wbr>Stream<wbr>Getter</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#rehydratepriority" class="tsd-kind-icon">Rehydrate<wbr>Priority</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sequencenumberactiontype" class="tsd-kind-icon">Sequence<wbr>Number<wbr>Action<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicegetaccountinforesponse" class="tsd-kind-icon">Service<wbr>Get<wbr>Account<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicegetpropertiesresponse" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicegetstatisticsresponse" class="tsd-kind-icon">Service<wbr>Get<wbr>Statistics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicegetuserdelegationkeyresponse" class="tsd-kind-icon">Service<wbr>Get<wbr>User<wbr>Delegation<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicelistcontainerssegmentresponse" class="tsd-kind-icon">Service<wbr>List<wbr>Containers<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicesetpropertiesresponse" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicesubmitbatchresponse" class="tsd-kind-icon">Service<wbr>Submit<wbr>Batch<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#skuname" class="tsd-kind-icon">Sku<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storageerrorcode" class="tsd-kind-icon">Storage<wbr>Error<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#synccopystatustype" class="tsd-kind-icon">Sync<wbr>Copy<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#batch_max_payload_in_bytes" class="tsd-kind-icon">BATCH_<wbr>MAX_<wbr>PAYLOAD_<wbr>IN_<wbr>BYTES</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#batch_max_request" class="tsd-kind-icon">BATCH_<wbr>MAX_<wbr>REQUEST</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#block_blob_max_blocks" class="tsd-kind-icon">BLOCK_<wbr>BLOB_<wbr>MAX_<wbr>BLOCKS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#block_blob_max_stage_block_bytes" class="tsd-kind-icon">BLOCK_<wbr>BLOB_<wbr>MAX_<wbr>STAGE_<wbr>BLOCK_<wbr>BYTES</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#block_blob_max_upload_blob_bytes" class="tsd-kind-icon">BLOCK_<wbr>BLOB_<wbr>MAX_<wbr>UPLOAD_<wbr>BLOB_<wbr>BYTES</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_blob_download_block_bytes" class="tsd-kind-icon">DEFAULT_<wbr>BLOB_<wbr>DOWNLOAD_<wbr>BLOCK_<wbr>BYTES</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_max_download_retry_requests" class="tsd-kind-icon">DEFAULT_<wbr>MAX_<wbr>DOWNLOAD_<wbr>RETRY_<wbr>REQUESTS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#etagany" class="tsd-kind-icon">ETag<wbr>Any</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#etagnone" class="tsd-kind-icon">ETag<wbr>None</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#encryptionalgorithmaes25" class="tsd-kind-icon">Encryption<wbr>AlgorithmAES25</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#http_line_ending" class="tsd-kind-icon">HTTP_<wbr>LINE_<wbr>ENDING</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#http_version_1_1" class="tsd-kind-icon">HTTP_<wbr>VERSION_<wbr>1_1</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sdk_version" class="tsd-kind-icon">SDK_<wbr>VERSION</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#service_version" class="tsd-kind-icon">SERVICE_<wbr>VERSION</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#size_1_mb" class="tsd-kind-icon">SIZE_<wbr>1_MB</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#newretrypolicyfactory" class="tsd-kind-icon">New<wbr>Retry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#appendtourlpath" class="tsd-kind-icon">append<wbr>ToURLPath</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#base64decode" class="tsd-kind-icon">base64decode</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#base64encode" class="tsd-kind-icon">base64encode</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#blobtoarraybuffer" class="tsd-kind-icon">blob<wbr>ToArray<wbr>Buffer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#blobtostring" class="tsd-kind-icon">blob<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#delay" class="tsd-kind-icon">delay</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#downloadblobtobuffer" class="tsd-kind-icon">download<wbr>Blob<wbr>ToBuffer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#ensurecpkifspecified" class="tsd-kind-icon">ensure<wbr>Cpk<wbr>IfSpecified</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#escapeurlpath" class="tsd-kind-icon">escapeURLPath</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#generateaccountsasqueryparameters" class="tsd-kind-icon">generate<wbr>AccountSASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#generateblobsasqueryparameters" class="tsd-kind-icon">generate<wbr>BlobSASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#generateblockid" class="tsd-kind-icon">generate<wbr>BlockID</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getbodyastext" class="tsd-kind-icon">get<wbr>Body<wbr>AsText</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlparameter" class="tsd-kind-icon">getURLParameter</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlpath" class="tsd-kind-icon">getURLPath</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlpathandquery" class="tsd-kind-icon">getURLPath<wbr>And<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlqueries" class="tsd-kind-icon">getURLQueries</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlscheme" class="tsd-kind-icon">getURLScheme</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iequal" class="tsd-kind-icon">i<wbr>Equal</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iprangetostring" class="tsd-kind-icon">ip<wbr>Range<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#padstart" class="tsd-kind-icon">pad<wbr>Start</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#rangetostring" class="tsd-kind-icon">range<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#seturlhost" class="tsd-kind-icon">setURLHost</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#seturlparameter" class="tsd-kind-icon">setURLParameter</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#streamtobuffer" class="tsd-kind-icon">stream<wbr>ToBuffer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#streamtobuffer2" class="tsd-kind-icon">stream<wbr>ToBuffer2</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#toaccesstier" class="tsd-kind-icon">to<wbr>Access<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#truncatediso8061date" class="tsd-kind-icon">truncatedISO8061<wbr>Date</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#uploadbrowserdatatoblockblob" class="tsd-kind-icon">upload<wbr>Browser<wbr>Data<wbr>ToBlock<wbr>Blob</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#uploadfiletoblockblob" class="tsd-kind-icon">upload<wbr>File<wbr>ToBlock<wbr>Blob</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#uploadstreamtoblockblob" class="tsd-kind-icon">upload<wbr>Stream<wbr>ToBlock<wbr>Blob</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#utf8bytelength" class="tsd-kind-icon">utf8<wbr>Byte<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accesspolicy" class="tsd-kind-icon">Access<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appendblobappendblockfromurlheaders" class="tsd-kind-icon">Append<wbr>Blob<wbr>Append<wbr>Block<wbr>From<wbr>Url<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appendblobappendblockheaders" class="tsd-kind-icon">Append<wbr>Blob<wbr>Append<wbr>Block<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appendblobcreateheaders" class="tsd-kind-icon">Append<wbr>Blob<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appendpositionaccessconditions" class="tsd-kind-icon">Append<wbr>Position<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobabortcopyfromurlheaders" class="tsd-kind-icon">Blob<wbr>Abort<wbr>Copy<wbr>FromURLHeaders</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobacquireleaseheaders" class="tsd-kind-icon">Blob<wbr>Acquire<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobbreakleaseheaders" class="tsd-kind-icon">Blob<wbr>Break<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobchangeleaseheaders" class="tsd-kind-icon">Blob<wbr>Change<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcopyfromurlheaders" class="tsd-kind-icon">Blob<wbr>Copy<wbr>FromURLHeaders</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcreatesnapshotheaders" class="tsd-kind-icon">Blob<wbr>Create<wbr>Snapshot<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobdeleteheaders" class="tsd-kind-icon">Blob<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobdownloadheaders" class="tsd-kind-icon">Blob<wbr>Download<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobflatlistsegment" class="tsd-kind-icon">Blob<wbr>Flat<wbr>List<wbr>Segment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobgetaccesscontrolheaders" class="tsd-kind-icon">Blob<wbr>Get<wbr>Access<wbr>Control<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobgetaccountinfoheaders" class="tsd-kind-icon">Blob<wbr>Get<wbr>Account<wbr>Info<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobgetpropertiesheaders" class="tsd-kind-icon">Blob<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobhttpheaders" class="tsd-kind-icon">BlobHTTPHeaders</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobhierarchylistsegment" class="tsd-kind-icon">Blob<wbr>Hierarchy<wbr>List<wbr>Segment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobitem" class="tsd-kind-icon">Blob<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobmetadata" class="tsd-kind-icon">Blob<wbr>Metadata</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobprefix" class="tsd-kind-icon">Blob<wbr>Prefix</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobproperties" class="tsd-kind-icon">Blob<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobreleaseleaseheaders" class="tsd-kind-icon">Blob<wbr>Release<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobrenameheaders" class="tsd-kind-icon">Blob<wbr>Rename<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobrenewleaseheaders" class="tsd-kind-icon">Blob<wbr>Renew<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobsetaccesscontrolheaders" class="tsd-kind-icon">Blob<wbr>Set<wbr>Access<wbr>Control<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobsethttpheadersheaders" class="tsd-kind-icon">Blob<wbr>SetHTTPHeaders<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobsetmetadataheaders" class="tsd-kind-icon">Blob<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobsettierheaders" class="tsd-kind-icon">Blob<wbr>Set<wbr>Tier<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobstartcopyfromurlheaders" class="tsd-kind-icon">Blob<wbr>Start<wbr>Copy<wbr>FromURLHeaders</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobundeleteheaders" class="tsd-kind-icon">Blob<wbr>Undelete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#block" class="tsd-kind-icon">Block</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blockblobcommitblocklistheaders" class="tsd-kind-icon">Block<wbr>Blob<wbr>Commit<wbr>Block<wbr>List<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blockblobgetblocklistheaders" class="tsd-kind-icon">Block<wbr>Blob<wbr>Get<wbr>Block<wbr>List<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blockblobstageblockfromurlheaders" class="tsd-kind-icon">Block<wbr>Blob<wbr>Stage<wbr>Block<wbr>FromURLHeaders</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blockblobstageblockheaders" class="tsd-kind-icon">Block<wbr>Blob<wbr>Stage<wbr>Block<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blockblobuploadheaders" class="tsd-kind-icon">Block<wbr>Blob<wbr>Upload<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blocklist" class="tsd-kind-icon">Block<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blocklookuplist" class="tsd-kind-icon">Block<wbr>Lookup<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clearrange" class="tsd-kind-icon">Clear<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containeracquireleaseheaders" class="tsd-kind-icon">Container<wbr>Acquire<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerbreakleaseheaders" class="tsd-kind-icon">Container<wbr>Break<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerchangeleaseheaders" class="tsd-kind-icon">Container<wbr>Change<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containercreateheaders" class="tsd-kind-icon">Container<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerdeleteheaders" class="tsd-kind-icon">Container<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containergetaccesspolicyheaders" class="tsd-kind-icon">Container<wbr>Get<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containergetaccountinfoheaders" class="tsd-kind-icon">Container<wbr>Get<wbr>Account<wbr>Info<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containergetpropertiesheaders" class="tsd-kind-icon">Container<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containeritem" class="tsd-kind-icon">Container<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerlistblobflatsegmentheaders" class="tsd-kind-icon">Container<wbr>List<wbr>Blob<wbr>Flat<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerlistblobhierarchysegmentheaders" class="tsd-kind-icon">Container<wbr>List<wbr>Blob<wbr>Hierarchy<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerproperties" class="tsd-kind-icon">Container<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerreleaseleaseheaders" class="tsd-kind-icon">Container<wbr>Release<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerrenewleaseheaders" class="tsd-kind-icon">Container<wbr>Renew<wbr>Lease<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containersetaccesspolicyheaders" class="tsd-kind-icon">Container<wbr>Set<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containersetmetadataheaders" class="tsd-kind-icon">Container<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#corsrule" class="tsd-kind-icon">Cors<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cpkinfo" class="tsd-kind-icon">Cpk<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datalakestorageerror" class="tsd-kind-icon">Data<wbr>Lake<wbr>Storage<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datalakestorageerrorerror" class="tsd-kind-icon">Data<wbr>Lake<wbr>Storage<wbr>Error<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorycreateheaders" class="tsd-kind-icon">Directory<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorydeleteheaders" class="tsd-kind-icon">Directory<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorygetaccesscontrolheaders" class="tsd-kind-icon">Directory<wbr>Get<wbr>Access<wbr>Control<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directoryhttpheaders" class="tsd-kind-icon">Directory<wbr>Http<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directoryrenameheaders" class="tsd-kind-icon">Directory<wbr>Rename<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorysetaccesscontrolheaders" class="tsd-kind-icon">Directory<wbr>Set<wbr>Access<wbr>Control<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#georeplication" class="tsd-kind-icon">Geo<wbr>Replication</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#httpurlconnection" class="tsd-kind-icon">HTTPURLConnection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#headerconstants" class="tsd-kind-icon">Header<wbr>Constants</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyinfo" class="tsd-kind-icon">Key<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#leaseaccessconditions" class="tsd-kind-icon">Lease<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listblobsflatsegmentresponse" class="tsd-kind-icon">List<wbr>Blobs<wbr>Flat<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listblobshierarchysegmentresponse" class="tsd-kind-icon">List<wbr>Blobs<wbr>Hierarchy<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listcontainerssegmentresponse" class="tsd-kind-icon">List<wbr>Containers<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#logging" class="tsd-kind-icon">Logging</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metrics" class="tsd-kind-icon">Metrics</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modifiedaccessconditions" class="tsd-kind-icon">Modified<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobclearpagesheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Clear<wbr>Pages<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobcopyincrementalheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Copy<wbr>Incremental<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobcreateheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobgetpagerangesdiffheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Get<wbr>Page<wbr>Ranges<wbr>Diff<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobgetpagerangesheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Get<wbr>Page<wbr>Ranges<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobresizeheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Resize<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobupdatesequencenumberheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Update<wbr>Sequence<wbr>Number<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobuploadpagesfromurlheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Upload<wbr>Pages<wbr>FromURLHeaders</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pageblobuploadpagesheaders" class="tsd-kind-icon">Page<wbr>Blob<wbr>Upload<wbr>Pages<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pagelist" class="tsd-kind-icon">Page<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pagerange" class="tsd-kind-icon">Page<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retentionpolicy" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sequencenumberaccessconditions" class="tsd-kind-icon">Sequence<wbr>Number<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicegetaccountinfoheaders" class="tsd-kind-icon">Service<wbr>Get<wbr>Account<wbr>Info<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicegetpropertiesheaders" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicegetstatisticsheaders" class="tsd-kind-icon">Service<wbr>Get<wbr>Statistics<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicegetuserdelegationkeyheaders" class="tsd-kind-icon">Service<wbr>Get<wbr>User<wbr>Delegation<wbr>Key<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicelistcontainerssegmentheaders" class="tsd-kind-icon">Service<wbr>List<wbr>Containers<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicesetpropertiesheaders" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicesubmitbatchheaders" class="tsd-kind-icon">Service<wbr>Submit<wbr>Batch<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#signedidentifier" class="tsd-kind-icon">Signed<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcemodifiedaccessconditions" class="tsd-kind-icon">Source<wbr>Modified<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#staticwebsite" class="tsd-kind-icon">Static<wbr>Website</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageerror" class="tsd-kind-icon">Storage<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageserviceproperties" class="tsd-kind-icon">Storage<wbr>Service<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageservicestats" class="tsd-kind-icon">Storage<wbr>Service<wbr>Stats</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#urlconstants" class="tsd-kind-icon">URLConstants</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#userdelegationkey" class="tsd-kind-icon">User<wbr>Delegation<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#access" class="tsd-kind-icon">access</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#action0" class="tsd-kind-icon">action0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#action1" class="tsd-kind-icon">action1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#action2" class="tsd-kind-icon">action2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#action3" class="tsd-kind-icon">action3</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#action4" class="tsd-kind-icon">action4</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#action5" class="tsd-kind-icon">action5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#action6" class="tsd-kind-icon">action6</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appendposition" class="tsd-kind-icon">append<wbr>Position</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcachecontrol" class="tsd-kind-icon">blob<wbr>Cache<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcontentdisposition" class="tsd-kind-icon">blob<wbr>Content<wbr>Disposition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcontentencoding" class="tsd-kind-icon">blob<wbr>Content<wbr>Encoding</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcontentlanguage" class="tsd-kind-icon">blob<wbr>Content<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcontentlength" class="tsd-kind-icon">blob<wbr>Content<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcontentmd5" class="tsd-kind-icon">blob<wbr>ContentMD5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobcontenttype" class="tsd-kind-icon">blob<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobsequencenumber" class="tsd-kind-icon">blob<wbr>Sequence<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobtype0" class="tsd-kind-icon">blob<wbr>Type0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobtype1" class="tsd-kind-icon">blob<wbr>Type1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobtype2" class="tsd-kind-icon">blob<wbr>Type2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blockid" class="tsd-kind-icon">block<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#breakperiod" class="tsd-kind-icon">break<wbr>Period</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cachecontrol" class="tsd-kind-icon">cache<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp0" class="tsd-kind-icon">comp0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp1" class="tsd-kind-icon">comp1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp10" class="tsd-kind-icon">comp10</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp11" class="tsd-kind-icon">comp11</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp12" class="tsd-kind-icon">comp12</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp13" class="tsd-kind-icon">comp13</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp14" class="tsd-kind-icon">comp14</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp15" class="tsd-kind-icon">comp15</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp16" class="tsd-kind-icon">comp16</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp17" class="tsd-kind-icon">comp17</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp2" class="tsd-kind-icon">comp2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp3" class="tsd-kind-icon">comp3</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp4" class="tsd-kind-icon">comp4</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp5" class="tsd-kind-icon">comp5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp6" class="tsd-kind-icon">comp6</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp7" class="tsd-kind-icon">comp7</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp8" class="tsd-kind-icon">comp8</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp9" class="tsd-kind-icon">comp9</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentdisposition" class="tsd-kind-icon">content<wbr>Disposition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentencoding" class="tsd-kind-icon">content<wbr>Encoding</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentlanguage" class="tsd-kind-icon">content<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentlength" class="tsd-kind-icon">content<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copyactionabortconstant" class="tsd-kind-icon">copy<wbr>Action<wbr>Abort<wbr>Constant</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copyid" class="tsd-kind-icon">copy<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copysource" class="tsd-kind-icon">copy<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#deletesnapshots" class="tsd-kind-icon">delete<wbr>Snapshots</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#delimiter" class="tsd-kind-icon">delimiter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directoryproperties" class="tsd-kind-icon">directory<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#duration" class="tsd-kind-icon">duration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encryptionalgorithm" class="tsd-kind-icon">encryption<wbr>Algorithm</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encryptionkey" class="tsd-kind-icon">encryption<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encryptionkeysha256" class="tsd-kind-icon">encryption<wbr>Key<wbr>Sha256</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#group" class="tsd-kind-icon">group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifmatch" class="tsd-kind-icon">if<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifmodifiedsince" class="tsd-kind-icon">if<wbr>Modified<wbr>Since</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifnonematch" class="tsd-kind-icon">if<wbr>None<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifsequencenumberequalto" class="tsd-kind-icon">if<wbr>Sequence<wbr>Number<wbr>Equal<wbr>To</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifsequencenumberlessthan" class="tsd-kind-icon">if<wbr>Sequence<wbr>Number<wbr>Less<wbr>Than</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifsequencenumberlessthanorequalto" class="tsd-kind-icon">if<wbr>Sequence<wbr>Number<wbr>Less<wbr>Than<wbr>OrEqual<wbr>To</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifunmodifiedsince" class="tsd-kind-icon">if<wbr>Unmodified<wbr>Since</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#include0" class="tsd-kind-icon">include0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#include1" class="tsd-kind-icon">include1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#leaseid0" class="tsd-kind-icon">lease<wbr>Id0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#leaseid1" class="tsd-kind-icon">lease<wbr>Id1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listtype" class="tsd-kind-icon">list<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#marker0" class="tsd-kind-icon">marker0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#marker1" class="tsd-kind-icon">marker1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#maxsize" class="tsd-kind-icon">max<wbr>Size</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#maxresults" class="tsd-kind-icon">maxresults</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metadata" class="tsd-kind-icon">metadata</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#multipartcontenttype" class="tsd-kind-icon">multipart<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#owner" class="tsd-kind-icon">owner</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pagewrite0" class="tsd-kind-icon">page<wbr>Write0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pagewrite1" class="tsd-kind-icon">page<wbr>Write1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pathrenamemode" class="tsd-kind-icon">path<wbr>Rename<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#posixacl" class="tsd-kind-icon">posix<wbr>Acl</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#posixpermissions" class="tsd-kind-icon">posix<wbr>Permissions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#posixumask" class="tsd-kind-icon">posix<wbr>Umask</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prefix" class="tsd-kind-icon">prefix</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prevsnapshot" class="tsd-kind-icon">prevsnapshot</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#proposedleaseid0" class="tsd-kind-icon">proposed<wbr>Lease<wbr>Id0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#proposedleaseid1" class="tsd-kind-icon">proposed<wbr>Lease<wbr>Id1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#range0" class="tsd-kind-icon">range0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#range1" class="tsd-kind-icon">range1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rangegetcontentcrc64" class="tsd-kind-icon">range<wbr>Get<wbr>ContentCRC64</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rangegetcontentmd5" class="tsd-kind-icon">range<wbr>Get<wbr>ContentMD5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recursivedirectorydelete" class="tsd-kind-icon">recursive<wbr>Directory<wbr>Delete</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rehydratepriority" class="tsd-kind-icon">rehydrate<wbr>Priority</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#renamesource" class="tsd-kind-icon">rename<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#requestid" class="tsd-kind-icon">request<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restype0" class="tsd-kind-icon">restype0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restype1" class="tsd-kind-icon">restype1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restype2" class="tsd-kind-icon">restype2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sequencenumberaction" class="tsd-kind-icon">sequence<wbr>Number<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshot" class="tsd-kind-icon">snapshot</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcecontentcrc64" class="tsd-kind-icon">source<wbr>Content<wbr>Crc64</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcecontentmd5" class="tsd-kind-icon">source<wbr>ContentMD5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceifmatch" class="tsd-kind-icon">source<wbr>IfMatch</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceifmodifiedsince" class="tsd-kind-icon">source<wbr>IfModified<wbr>Since</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceifnonematch" class="tsd-kind-icon">source<wbr>IfNone<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceifunmodifiedsince" class="tsd-kind-icon">source<wbr>IfUnmodified<wbr>Since</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceleaseid" class="tsd-kind-icon">source<wbr>Lease<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcerange0" class="tsd-kind-icon">source<wbr>Range0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcerange1" class="tsd-kind-icon">source<wbr>Range1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceurl" class="tsd-kind-icon">source<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tier0" class="tsd-kind-icon">tier0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tier1" class="tsd-kind-icon">tier1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#timeout" class="tsd-kind-icon">timeout</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transactionalcontentcrc64" class="tsd-kind-icon">transactional<wbr>Content<wbr>Crc64</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transactionalcontentmd5" class="tsd-kind-icon">transactional<wbr>ContentMD5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#upn" class="tsd-kind-icon">upn</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#url" class="tsd-kind-icon">url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#version" class="tsd-kind-icon">version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#xmsrequiressync" class="tsd-kind-icon">x<wbr>MsRequires<wbr>Sync</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

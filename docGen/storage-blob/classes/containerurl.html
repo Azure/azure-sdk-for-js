@@ -1,0 +1,1221 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ContainerURL | @azure/storage-blob</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/storage-blob</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="containerurl.html">ContainerURL</a>
+				</li>
+			</ul>
+			<h1>Class ContainerURL</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A ContainerURL represents a URL to the Azure Storage container allowing you to manipulate its blobs.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>export</dt>
+						<dd></dd>
+						<dt>class</dt>
+						<dd><p>ContainerURL</p>
+						</dd>
+						<dt>extends</dt>
+						<dd><p>{StorageURL}</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="storageurl.html" class="tsd-signature-type">StorageURL</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ContainerURL</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="containerurl.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="containerurl.html#credential" class="tsd-kind-icon">credential</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="containerurl.html#ishttps" class="tsd-kind-icon">is<wbr>Https</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="containerurl.html#pipeline" class="tsd-kind-icon">pipeline</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="containerurl.html#storageclientcontext" class="tsd-kind-icon">storage<wbr>Client<wbr>Context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="containerurl.html#url" class="tsd-kind-icon">url</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#acquirelease" class="tsd-kind-icon">acquire<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#breaklease" class="tsd-kind-icon">break<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#changelease" class="tsd-kind-icon">change<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#delete" class="tsd-kind-icon">delete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#getaccesspolicy" class="tsd-kind-icon">get<wbr>Access<wbr>Policy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#getproperties" class="tsd-kind-icon">get<wbr>Properties</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#listblobflatsegment" class="tsd-kind-icon">list<wbr>Blob<wbr>Flat<wbr>Segment</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#listblobhierarchysegment" class="tsd-kind-icon">list<wbr>Blob<wbr>Hierarchy<wbr>Segment</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#releaselease" class="tsd-kind-icon">release<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#renewlease" class="tsd-kind-icon">renew<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#setaccesspolicy" class="tsd-kind-icon">set<wbr>Access<wbr>Policy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#setmetadata" class="tsd-kind-icon">set<wbr>Metadata</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="containerurl.html#withpipeline" class="tsd-kind-icon">with<wbr>Pipeline</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="containerurl.html#fromserviceurl" class="tsd-kind-icon">from<wbr>ServiceURL</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="containerurl.html#newpipeline" class="tsd-kind-icon">new<wbr>Pipeline</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>ContainerURL<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, pipeline<span class="tsd-signature-symbol">: </span><a href="pipeline.html" class="tsd-signature-type">Pipeline</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="containerurl.html" class="tsd-signature-type">ContainerURL</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="storageurl.html">StorageURL</a>.<a href="storageurl.html#constructor">constructor</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L156">ContainerURL.ts:156</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an instance of ContainerURL.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>A URL string pointing to Azure Storage blob container, such as
+												&quot;<a href="https://myaccount.blob.core.windows.net/mycontainer&quot;">https://myaccount.blob.core.windows.net/mycontainer&quot;</a>. You can
+												append a SAS if using AnonymousCredential, such as
+											&quot;<a href="https://myaccount.blob.core.windows.net/mycontainer?sasString&quot;">https://myaccount.blob.core.windows.net/mycontainer?sasString&quot;</a>.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>pipeline: <a href="pipeline.html" class="tsd-signature-type">Pipeline</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Call StorageURL.newPipeline() to create a default
+											pipeline, or provide a customized pipeline.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="containerurl.html" class="tsd-signature-type">ContainerURL</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="credential" class="tsd-anchor"></a>
+					<h3>credential</h3>
+					<div class="tsd-signature tsd-kind-icon">credential<span class="tsd-signature-symbol">:</span> <a href="credential.html" class="tsd-signature-type">Credential</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageurl.html">StorageURL</a>.<a href="storageurl.html#credential">credential</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/StorageURL.ts#L115">StorageURL.ts:115</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Credential used for authentication and authorization.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>type</dt>
+							<dd><p>{string}</p>
+							</dd>
+							<dt>memberof</dt>
+							<dd><p>StorageURL</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="ishttps" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> is<wbr>Https</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Https<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageurl.html">StorageURL</a>.<a href="storageurl.html#ishttps">isHttps</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/StorageURL.ts#L132">StorageURL.ts:132</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If the storage url is using https.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd></dd>
+							<dt>param</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="pipeline" class="tsd-anchor"></a>
+					<h3>pipeline</h3>
+					<div class="tsd-signature tsd-kind-icon">pipeline<span class="tsd-signature-symbol">:</span> <a href="pipeline.html" class="tsd-signature-type">Pipeline</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageurl.html">StorageURL</a>.<a href="storageurl.html#pipeline">pipeline</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/StorageURL.ts#L99">StorageURL.ts:99</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Request policy pipeline.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>internal</dt>
+							<dd></dd>
+							<dt>type</dt>
+							<dd><p>{Pipeline}</p>
+							</dd>
+							<dt>memberof</dt>
+							<dd><p>StorageURL</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="storageclientcontext" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> storage<wbr>Client<wbr>Context</h3>
+					<div class="tsd-signature tsd-kind-icon">storage<wbr>Client<wbr>Context<span class="tsd-signature-symbol">:</span> <a href="storageclientcontext.html" class="tsd-signature-type">StorageClientContext</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageurl.html">StorageURL</a>.<a href="storageurl.html#storageclientcontext">storageClientContext</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/StorageURL.ts#L125">StorageURL.ts:125</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>StorageClient is a reference to protocol layer operations entry, which is
+							generated by AutoRest generator.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>type</dt>
+							<dd><p>{StorageClient}</p>
+							</dd>
+							<dt>memberof</dt>
+							<dd><p>StorageURL</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="url" class="tsd-anchor"></a>
+					<h3>url</h3>
+					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageurl.html">StorageURL</a>.<a href="storageurl.html#url">url</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/StorageURL.ts#L107">StorageURL.ts:107</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Encoded URL string value.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>type</dt>
+							<dd><p>{string}</p>
+							</dd>
+							<dt>memberof</dt>
+							<dd><p>StorageURL</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="acquirelease" class="tsd-anchor"></a>
+					<h3>acquire<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">acquire<wbr>Lease<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, proposedLeaseId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, duration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontaineracquireleaseoptions.html" class="tsd-signature-type">IContainerAcquireLeaseOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerAcquireLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L454">ContainerURL.ts:454</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Establishes and manages a lock on a container for delete operations.
+									The lock duration can be 15 to 60 seconds, or can be infinite.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container">https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5>proposedLeaseId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Can be specified in any valid GUID string format</p>
+									</div>
+								</li>
+								<li>
+									<h5>duration: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Must be between 15 to 60 seconds, or infinite (-1)</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontaineracquireleaseoptions.html" class="tsd-signature-type">IContainerAcquireLeaseOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerAcquireLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="breaklease" class="tsd-anchor"></a>
+					<h3>break<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">break<wbr>Lease<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, period<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainerbreakleaseoptions.html" class="tsd-signature-type">IContainerBreakLeaseOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerBreakLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L525">ContainerURL.ts:525</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>To end the lease but ensure that another client cannot acquire a new lease
+									until the current lease period has expired.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container">https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5>period: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>break period</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainerbreakleaseoptions.html" class="tsd-signature-type">IContainerBreakLeaseOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerBreakLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="changelease" class="tsd-anchor"></a>
+					<h3>change<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Lease<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, leaseId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, proposedLeaseId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainerchangeleaseoptions.html" class="tsd-signature-type">IContainerChangeLeaseOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerChangeLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L549">ContainerURL.ts:549</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>To change the ID of an existing lease.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container">https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5>leaseId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>proposedLeaseId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainerchangeleaseoptions.html" class="tsd-signature-type">IContainerChangeLeaseOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerChangeLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="create" class="tsd-anchor"></a>
+					<h3>create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainercreateoptions.html" class="tsd-signature-type">IContainerCreateOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerCreateResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L196">ContainerURL.ts:196</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new container under the specified account. If the container with
+									the same name already exists, the operation fails.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/create-container">https://docs.microsoft.com/en-us/rest/api/storageservices/create-container</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainercreateoptions.html" class="tsd-signature-type">IContainerCreateOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerCreateResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="delete" class="tsd-anchor"></a>
+					<h3>delete</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainerdeletemethodoptions.html" class="tsd-signature-type">IContainerDeleteMethodOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerDeleteResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L244">ContainerURL.ts:244</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Marks the specified container for deletion. The container and any blobs
+									contained within it are later deleted during garbage collection.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container">https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainerdeletemethodoptions.html" class="tsd-signature-type">IContainerDeleteMethodOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerDeleteResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getaccesspolicy" class="tsd-anchor"></a>
+					<h3>get<wbr>Access<wbr>Policy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Access<wbr>Policy<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainergetaccesspolicyoptions.html" class="tsd-signature-type">IContainerGetAccessPolicyOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#containergetaccesspolicyresponse" class="tsd-signature-type">ContainerGetAccessPolicyResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L348">ContainerURL.ts:348</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the permissions for the specified container. The permissions indicate
+									whether container data may be accessed publicly.</p>
+								</div>
+								<p>WARNING: JavaScript Date will potential lost precision when parsing start and expiry string.
+								For example, new Date(&quot;2018-12-31T03:44:23.8827891Z&quot;).toISOString() will get &quot;2018-12-31T03:44:23.882Z&quot;.</p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl">https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainergetaccesspolicyoptions.html" class="tsd-signature-type">IContainerGetAccessPolicyOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#containergetaccesspolicyresponse" class="tsd-signature-type">ContainerGetAccessPolicyResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getproperties" class="tsd-anchor"></a>
+					<h3>get<wbr>Properties</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Properties<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainergetpropertiesoptions.html" class="tsd-signature-type">IContainerGetPropertiesOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerGetPropertiesResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L219">ContainerURL.ts:219</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns all user-defined metadata and system properties for the specified
+									container. The data returned does not include the container&#39;s list of blobs.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties">https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainergetpropertiesoptions.html" class="tsd-signature-type">IContainerGetPropertiesOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerGetPropertiesResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listblobflatsegment" class="tsd-anchor"></a>
+					<h3>list<wbr>Blob<wbr>Flat<wbr>Segment</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Blob<wbr>Flat<wbr>Segment<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, marker<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainerlistblobssegmentoptions.html" class="tsd-signature-type">IContainerListBlobsSegmentOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerListBlobFlatSegmentResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L575">ContainerURL.ts:575</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>listBlobFlatSegment returns a single segment of blobs starting from the
+										specified Marker. Use an empty Marker to start enumeration from the beginning.
+										After getting a segment, process it, and then call ListBlobsFlatSegment again
+									(passing the the previously-returned Marker) to get the next segment.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/rest/api/storageservices/list-blobs">https://docs.microsoft.com/rest/api/storageservices/list-blobs</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> marker: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainerlistblobssegmentoptions.html" class="tsd-signature-type">IContainerListBlobsSegmentOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerListBlobFlatSegmentResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listblobhierarchysegment" class="tsd-anchor"></a>
+					<h3>list<wbr>Blob<wbr>Hierarchy<wbr>Segment</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Blob<wbr>Hierarchy<wbr>Segment<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, delimiter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, marker<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainerlistblobssegmentoptions.html" class="tsd-signature-type">IContainerListBlobsSegmentOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerListBlobHierarchySegmentResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L601">ContainerURL.ts:601</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>listBlobHierarchySegment returns a single segment of blobs starting from
+										the specified Marker. Use an empty Marker to start enumeration from the
+										beginning. After getting a segment, process it, and then call ListBlobsHierarchicalSegment
+									again (passing the the previously-returned Marker) to get the next segment.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/rest/api/storageservices/list-blobs">https://docs.microsoft.com/rest/api/storageservices/list-blobs</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5>delimiter: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> marker: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainerlistblobssegmentoptions.html" class="tsd-signature-type">IContainerListBlobsSegmentOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerListBlobHierarchySegmentResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="releaselease" class="tsd-anchor"></a>
+					<h3>release<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">release<wbr>Lease<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, leaseId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainerreleaseleaseoptions.html" class="tsd-signature-type">IContainerReleaseLeaseOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerReleaseLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L480">ContainerURL.ts:480</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>To free the lease if it is no longer needed so that another client may
+									immediately acquire a lease against the container.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container">https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5>leaseId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainerreleaseleaseoptions.html" class="tsd-signature-type">IContainerReleaseLeaseOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerReleaseLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="renewlease" class="tsd-anchor"></a>
+					<h3>renew<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">renew<wbr>Lease<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, leaseId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainerrenewleaseoptions.html" class="tsd-signature-type">IContainerRenewLeaseOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerRenewLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L502">ContainerURL.ts:502</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>To renew an existing lease.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container">https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5>leaseId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainerrenewleaseoptions.html" class="tsd-signature-type">IContainerRenewLeaseOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerRenewLeaseResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setaccesspolicy" class="tsd-anchor"></a>
+					<h3>set<wbr>Access<wbr>Policy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Access<wbr>Policy<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, access<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.PublicAccessType</span>, containerAcl<span class="tsd-signature-symbol">?: </span><a href="../interfaces/isignedidentifier.html" class="tsd-signature-type">ISignedIdentifier</a><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainersetaccesspolicyoptions.html" class="tsd-signature-type">IContainerSetAccessPolicyOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerSetAccessPolicyResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L413">ContainerURL.ts:413</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the permissions for the specified container. The permissions indicate
+									whether blobs in a container may be accessed publicly.</p>
+								</div>
+								<p>When you set permissions for a container, the existing permissions are replaced.
+									If no access or containerAcl provided, the existing container ACL will be
+								removed.</p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl">https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> access: <span class="tsd-signature-type">Models.PublicAccessType</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> containerAcl: <a href="../interfaces/isignedidentifier.html" class="tsd-signature-type">ISignedIdentifier</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainersetaccesspolicyoptions.html" class="tsd-signature-type">IContainerSetAccessPolicyOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerSetAccessPolicyResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setmetadata" class="tsd-anchor"></a>
+					<h3>set<wbr>Metadata</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Metadata<span class="tsd-signature-symbol">(</span>aborter<span class="tsd-signature-symbol">: </span><a href="aborter.html" class="tsd-signature-type">Aborter</a>, metadata<span class="tsd-signature-symbol">?: </span><a href="../interfaces/imetadata.html" class="tsd-signature-type">IMetadata</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/icontainersetmetadataoptions.html" class="tsd-signature-type">IContainerSetMetadataOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerSetMetadataResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L295">ContainerURL.ts:295</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets one or more user-defined name-value pairs for the specified container.</p>
+								</div>
+								<p>If no option provided, or no metadata defined in the parameter, the container
+								metadata will be removed.</p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata">https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aborter: <a href="aborter.html" class="tsd-signature-type">Aborter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Create a new Aborter instance with Aborter.none or Aborter.timeout(),
+										goto documents of Aborter for more examples about request cancellation</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> metadata: <a href="../interfaces/imetadata.html" class="tsd-signature-type">IMetadata</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/icontainersetmetadataoptions.html" class="tsd-signature-type">IContainerSetMetadataOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.ContainerSetMetadataResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withpipeline" class="tsd-anchor"></a>
+					<h3>with<wbr>Pipeline</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Pipeline<span class="tsd-signature-symbol">(</span>pipeline<span class="tsd-signature-symbol">: </span><a href="pipeline.html" class="tsd-signature-type">Pipeline</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="containerurl.html" class="tsd-signature-type">ContainerURL</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L181">ContainerURL.ts:181</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new ContainerURL object identical to the source but with the
+									specified request policy pipeline.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>ContainerURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pipeline: <a href="pipeline.html" class="tsd-signature-type">Pipeline</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="containerurl.html" class="tsd-signature-type">ContainerURL</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromserviceurl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>ServiceURL</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>ServiceURL<span class="tsd-signature-symbol">(</span>serviceURL<span class="tsd-signature-symbol">: </span><a href="serviceurl.html" class="tsd-signature-type">ServiceURL</a>, containerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="containerurl.html" class="tsd-signature-type">ContainerURL</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/ContainerURL.ts#L142">ContainerURL.ts:142</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a ContainerURL object from ServiceURL</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>serviceURL: <a href="serviceurl.html" class="tsd-signature-type">ServiceURL</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A ServiceURL object</p>
+									</div>
+								</li>
+								<li>
+									<h5>containerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A container name</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="containerurl.html" class="tsd-signature-type">ContainerURL</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="newpipeline" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> new<wbr>Pipeline</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">new<wbr>Pipeline<span class="tsd-signature-symbol">(</span>credential<span class="tsd-signature-symbol">: </span><a href="credential.html" class="tsd-signature-type">Credential</a>, pipelineOptions<span class="tsd-signature-symbol">?: </span><a href="../interfaces/inewpipelineoptions.html" class="tsd-signature-type">INewPipelineOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pipeline.html" class="tsd-signature-type">Pipeline</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="storageurl.html">StorageURL</a>.<a href="storageurl.html#newpipeline">newPipeline</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/storage-blob/src/StorageURL.ts#L68">StorageURL.ts:68</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A static method used to create a new Pipeline object with Credential provided.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>static</dt>
+									<dd></dd>
+									<dt>memberof</dt>
+									<dd><p>Pipeline</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>credential: <a href="credential.html" class="tsd-signature-type">Credential</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Such as AnonymousCredential, SharedKeyCredential or TokenCredential.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> pipelineOptions: <a href="../interfaces/inewpipelineoptions.html" class="tsd-signature-type">INewPipelineOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="pipeline.html" class="tsd-signature-type">Pipeline</a></h4>
+							<p>A new Pipeline object.</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="containerurl.html" class="tsd-kind-icon">ContainerURL</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+								<a href="containerurl.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="containerurl.html#credential" class="tsd-kind-icon">credential</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="containerurl.html#ishttps" class="tsd-kind-icon">is<wbr>Https</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="containerurl.html#pipeline" class="tsd-kind-icon">pipeline</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="containerurl.html#storageclientcontext" class="tsd-kind-icon">storage<wbr>Client<wbr>Context</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="containerurl.html#url" class="tsd-kind-icon">url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#acquirelease" class="tsd-kind-icon">acquire<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#breaklease" class="tsd-kind-icon">break<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#changelease" class="tsd-kind-icon">change<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#create" class="tsd-kind-icon">create</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#delete" class="tsd-kind-icon">delete</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#getaccesspolicy" class="tsd-kind-icon">get<wbr>Access<wbr>Policy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#getproperties" class="tsd-kind-icon">get<wbr>Properties</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#listblobflatsegment" class="tsd-kind-icon">list<wbr>Blob<wbr>Flat<wbr>Segment</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#listblobhierarchysegment" class="tsd-kind-icon">list<wbr>Blob<wbr>Hierarchy<wbr>Segment</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#releaselease" class="tsd-kind-icon">release<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#renewlease" class="tsd-kind-icon">renew<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#setaccesspolicy" class="tsd-kind-icon">set<wbr>Access<wbr>Policy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#setmetadata" class="tsd-kind-icon">set<wbr>Metadata</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="containerurl.html#withpipeline" class="tsd-kind-icon">with<wbr>Pipeline</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="containerurl.html#fromserviceurl" class="tsd-kind-icon">from<wbr>ServiceURL</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="containerurl.html#newpipeline" class="tsd-kind-icon">new<wbr>Pipeline</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

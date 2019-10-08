@@ -1,0 +1,1577 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>StorageAccounts | @azure/arm-storage-profile-2019-03-01-hybrid</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/arm-storage-profile-2019-03-01-hybrid</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="storageaccounts.html">StorageAccounts</a>
+				</li>
+			</ul>
+			<h1>Class StorageAccounts</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class representing a StorageAccounts.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">StorageAccounts</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="storageaccounts.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#begincreate" class="tsd-kind-icon">begin<wbr>Create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#checknameavailability" class="tsd-kind-icon">check<wbr>Name<wbr>Availability</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#deletemethod" class="tsd-kind-icon">delete<wbr>Method</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#getproperties" class="tsd-kind-icon">get<wbr>Properties</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#list" class="tsd-kind-icon">list</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#listaccountsas" class="tsd-kind-icon">list<wbr>AccountSAS</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#listbyresourcegroup" class="tsd-kind-icon">list<wbr>ByResource<wbr>Group</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#listkeys" class="tsd-kind-icon">list<wbr>Keys</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#listservicesas" class="tsd-kind-icon">list<wbr>ServiceSAS</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#regeneratekey" class="tsd-kind-icon">regenerate<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="storageaccounts.html#update" class="tsd-kind-icon">update</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Storage<wbr>Accounts<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="storagemanagementclientcontext.html" class="tsd-signature-type">StorageManagementClientContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="storageaccounts.html" class="tsd-signature-type">StorageAccounts</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L20">operations/storageAccounts.ts:20</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a StorageAccounts.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>client: <a href="storagemanagementclientcontext.html" class="tsd-signature-type">StorageManagementClientContext</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Reference to the service client.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="storageaccounts.html" class="tsd-signature-type">StorageAccounts</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begincreate" class="tsd-anchor"></a>
+					<h3>begin<wbr>Create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Create<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#storageaccountcreateparameters" class="tsd-signature-type">StorageAccountCreateParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L463">operations/storageAccounts.ts:463</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Asynchronously creates a new storage account with the specified parameters. If an account is
+										already created and a subsequent create request is issued with different properties, the account
+										properties will be updated. If an account is already created and a subsequent create or update
+									request is issued with the exact same set of properties, the request will succeed.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#storageaccountcreateparameters" class="tsd-signature-type">StorageAccountCreateParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide for the created account.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="checknameavailability" class="tsd-anchor"></a>
+					<h3>check<wbr>Name<wbr>Availability</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Name<wbr>Availability<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsCheckNameAvailabilityResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Name<wbr>Availability<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#checknameavailabilityresult" class="tsd-signature-type">CheckNameAvailabilityResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Name<wbr>Availability<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#checknameavailabilityresult" class="tsd-signature-type">CheckNameAvailabilityResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L36">operations/storageAccounts.ts:36</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks that the storage account name is valid and is not already in use.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The storage account name.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsCheckNameAvailabilityResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsCheckNameAvailabilityResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L41">operations/storageAccounts.ts:41</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The storage account name.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#checknameavailabilityresult" class="tsd-signature-type">CheckNameAvailabilityResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L47">operations/storageAccounts.ts:47</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The storage account name.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#checknameavailabilityresult" class="tsd-signature-type">CheckNameAvailabilityResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="create" class="tsd-anchor"></a>
+					<h3>create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#storageaccountcreateparameters" class="tsd-signature-type">StorageAccountCreateParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsCreateResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L72">operations/storageAccounts.ts:72</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Asynchronously creates a new storage account with the specified parameters. If an account is
+										already created and a subsequent create request is issued with different properties, the account
+										properties will be updated. If an account is already created and a subsequent create or update
+									request is issued with the exact same set of properties, the request will succeed.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#storageaccountcreateparameters" class="tsd-signature-type">StorageAccountCreateParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide for the created account.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsCreateResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsCreateResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deletemethod" class="tsd-anchor"></a>
+					<h3>delete<wbr>Method</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Method<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RestResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Method<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Method<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L87">operations/storageAccounts.ts:87</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deletes a storage account in Microsoft Azure.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RestResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRest.RestResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L96">operations/storageAccounts.ts:96</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L106">operations/storageAccounts.ts:106</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getproperties" class="tsd-anchor"></a>
+					<h3>get<wbr>Properties</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Properties<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsGetPropertiesResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Properties<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccount" class="tsd-signature-type">StorageAccount</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Properties<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccount" class="tsd-signature-type">StorageAccount</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L130">operations/storageAccounts.ts:130</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the properties for the specified storage account including but not limited to name, SKU
+										name, location, and account status. The ListKeys operation should be used to retrieve storage
+									keys.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsGetPropertiesResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsGetPropertiesResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L139">operations/storageAccounts.ts:139</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccount" class="tsd-signature-type">StorageAccount</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L149">operations/storageAccounts.ts:149</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccount" class="tsd-signature-type">StorageAccount</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="list" class="tsd-anchor"></a>
+					<h3>list</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistresult" class="tsd-signature-type">StorageAccountListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistresult" class="tsd-signature-type">StorageAccountListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L219">operations/storageAccounts.ts:219</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists all the storage accounts available under the subscription. Note that storage keys are not
+									returned; use the ListKeys operation for this.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsListResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L223">operations/storageAccounts.ts:223</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistresult" class="tsd-signature-type">StorageAccountListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L228">operations/storageAccounts.ts:228</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistresult" class="tsd-signature-type">StorageAccountListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listaccountsas" class="tsd-anchor"></a>
+					<h3>list<wbr>AccountSAS</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>AccountSAS<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#accountsasparameters" class="tsd-signature-type">AccountSasParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListAccountSASResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>AccountSAS<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#accountsasparameters" class="tsd-signature-type">AccountSasParameters</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#listaccountsasresponse" class="tsd-signature-type">ListAccountSasResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>AccountSAS<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#accountsasparameters" class="tsd-signature-type">AccountSasParameters</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#listaccountsasresponse" class="tsd-signature-type">ListAccountSasResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L370">operations/storageAccounts.ts:370</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>List SAS credentials of a storage account.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#accountsasparameters" class="tsd-signature-type">AccountSasParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide to list SAS credentials for the storage account.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListAccountSASResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsListAccountSASResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L380">operations/storageAccounts.ts:380</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#accountsasparameters" class="tsd-signature-type">AccountSasParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide to list SAS credentials for the storage account.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#listaccountsasresponse" class="tsd-signature-type">ListAccountSasResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L391">operations/storageAccounts.ts:391</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#accountsasparameters" class="tsd-signature-type">AccountSasParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide to list SAS credentials for the storage account.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#listaccountsasresponse" class="tsd-signature-type">ListAccountSasResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listbyresourcegroup" class="tsd-anchor"></a>
+					<h3>list<wbr>ByResource<wbr>Group</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByResource<wbr>Group<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListByResourceGroupResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByResource<wbr>Group<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistresult" class="tsd-signature-type">StorageAccountListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByResource<wbr>Group<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistresult" class="tsd-signature-type">StorageAccountListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L246">operations/storageAccounts.ts:246</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists all the storage accounts available under the given resource group. Note that storage keys
+									are not returned; use the ListKeys operation for this.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListByResourceGroupResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsListByResourceGroupResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L252">operations/storageAccounts.ts:252</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistresult" class="tsd-signature-type">StorageAccountListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L259">operations/storageAccounts.ts:259</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistresult" class="tsd-signature-type">StorageAccountListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listkeys" class="tsd-anchor"></a>
+					<h3>list<wbr>Keys</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Keys<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListKeysResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Keys<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistkeysresult" class="tsd-signature-type">StorageAccountListKeysResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Keys<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistkeysresult" class="tsd-signature-type">StorageAccountListKeysResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L280">operations/storageAccounts.ts:280</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists the access keys for the specified storage account.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListKeysResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsListKeysResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L289">operations/storageAccounts.ts:289</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistkeysresult" class="tsd-signature-type">StorageAccountListKeysResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L299">operations/storageAccounts.ts:299</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistkeysresult" class="tsd-signature-type">StorageAccountListKeysResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listservicesas" class="tsd-anchor"></a>
+					<h3>list<wbr>ServiceSAS</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ServiceSAS<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#servicesasparameters" class="tsd-signature-type">ServiceSasParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListServiceSASResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ServiceSAS<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#servicesasparameters" class="tsd-signature-type">ServiceSasParameters</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#listservicesasresponse" class="tsd-signature-type">ListServiceSasResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ServiceSAS<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#servicesasparameters" class="tsd-signature-type">ServiceSasParameters</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#listservicesasresponse" class="tsd-signature-type">ListServiceSasResponse</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L415">operations/storageAccounts.ts:415</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>List service SAS credentials of a specific resource.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#servicesasparameters" class="tsd-signature-type">ServiceSasParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide to list service SAS credentials.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsListServiceSASResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsListServiceSASResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L425">operations/storageAccounts.ts:425</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#servicesasparameters" class="tsd-signature-type">ServiceSasParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide to list service SAS credentials.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#listservicesasresponse" class="tsd-signature-type">ListServiceSasResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L436">operations/storageAccounts.ts:436</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#servicesasparameters" class="tsd-signature-type">ServiceSasParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide to list service SAS credentials.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#listservicesasresponse" class="tsd-signature-type">ListServiceSasResponse</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="regeneratekey" class="tsd-anchor"></a>
+					<h3>regenerate<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">regenerate<wbr>Key<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, keyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsRegenerateKeyResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">regenerate<wbr>Key<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, keyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistkeysresult" class="tsd-signature-type">StorageAccountListKeysResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">regenerate<wbr>Key<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, keyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistkeysresult" class="tsd-signature-type">StorageAccountListKeysResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L323">operations/storageAccounts.ts:323</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Regenerates one of the access keys for the specified storage account.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>keyName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of storage keys that want to be regenerated, possible values are key1,
+										key2.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsRegenerateKeyResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsRegenerateKeyResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L334">operations/storageAccounts.ts:334</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>keyName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of storage keys that want to be regenerated, possible values are key1,
+										key2.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistkeysresult" class="tsd-signature-type">StorageAccountListKeysResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L346">operations/storageAccounts.ts:346</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>keyName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of storage keys that want to be regenerated, possible values are key1,
+										key2.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccountlistkeysresult" class="tsd-signature-type">StorageAccountListKeysResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#storageaccountupdateparameters" class="tsd-signature-type">StorageAccountUpdateParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsUpdateResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#storageaccountupdateparameters" class="tsd-signature-type">StorageAccountUpdateParameters</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccount" class="tsd-signature-type">StorageAccount</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../globals.html#storageaccountupdateparameters" class="tsd-signature-type">StorageAccountUpdateParameters</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccount" class="tsd-signature-type">StorageAccount</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L179">operations/storageAccounts.ts:179</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The update operation can be used to update the SKU, encryption, access tier, or tags for a
+										storage account. It can also be used to map the account to a custom domain. Only one custom
+										domain is supported per storage account; the replacement/change of custom domain is not
+										supported. In order to replace an old custom domain, the old value must be cleared/unregistered
+										before a new value can be set. The update of multiple properties is supported. This call does
+										not change the storage keys for the account. If you want to change the storage account keys, use
+										the regenerate keys operation. The location and name of the storage account cannot be changed
+									after creation.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#storageaccountupdateparameters" class="tsd-signature-type">StorageAccountUpdateParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide for the updated account.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.StorageAccountsUpdateResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.StorageAccountsUpdateResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L189">operations/storageAccounts.ts:189</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#storageaccountupdateparameters" class="tsd-signature-type">StorageAccountUpdateParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide for the updated account.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccount" class="tsd-signature-type">StorageAccount</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/KarishmaGhiya/azure-sdk-for-js/blob/f97825af1/sdk/storage/arm-storage-profile-2019-03-01-hybrid/src/operations/storageAccounts.ts#L200">operations/storageAccounts.ts:200</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group within the user&#39;s subscription. The name
+										is case insensitive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>accountName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the storage account within the specified resource group. Storage
+											account names must be between 3 and 24 characters in length and use numbers and lower-case
+										letters only.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../globals.html#storageaccountupdateparameters" class="tsd-signature-type">StorageAccountUpdateParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters to provide for the updated account.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#storageaccount" class="tsd-signature-type">StorageAccount</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="storageaccounts.html" class="tsd-kind-icon">Storage<wbr>Accounts</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="storageaccounts.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#begincreate" class="tsd-kind-icon">begin<wbr>Create</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#checknameavailability" class="tsd-kind-icon">check<wbr>Name<wbr>Availability</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#create" class="tsd-kind-icon">create</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#deletemethod" class="tsd-kind-icon">delete<wbr>Method</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#getproperties" class="tsd-kind-icon">get<wbr>Properties</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#list" class="tsd-kind-icon">list</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#listaccountsas" class="tsd-kind-icon">list<wbr>AccountSAS</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#listbyresourcegroup" class="tsd-kind-icon">list<wbr>ByResource<wbr>Group</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#listkeys" class="tsd-kind-icon">list<wbr>Keys</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#listservicesas" class="tsd-kind-icon">list<wbr>ServiceSAS</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#regeneratekey" class="tsd-kind-icon">regenerate<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="storageaccounts.html#update" class="tsd-kind-icon">update</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
