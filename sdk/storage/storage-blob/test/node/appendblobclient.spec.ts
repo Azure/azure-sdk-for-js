@@ -92,6 +92,22 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
+  it("can be created with a connection string and an option bag", async () => {
+    const newClient = new AppendBlobClient(
+      getConnectionStringFromEnvironment(),
+      containerName,
+      blobName,
+      {
+        retryOptions: {
+          maxTries: 5
+        }
+      }
+    );
+
+    await newClient.create();
+    await newClient.download();
+  });
+
   it("appendBlockFromURL", async () => {
     await appendBlobClient.create();
 

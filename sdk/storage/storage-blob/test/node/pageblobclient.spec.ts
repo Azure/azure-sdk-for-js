@@ -212,6 +212,23 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
+  it("can be created with a connection string and an option bag", async () => {
+    const newClient = new PageBlobClient(
+      getConnectionStringFromEnvironment(),
+      containerName,
+      blobName,
+      {
+        retryOptions: {
+          maxTries: 5
+        }
+      }
+    );
+
+    await newClient.create(512);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
+  });
+
   it("create, uploadPages, uploadPagesFromURL, download, clearPages and resize with CPK", async () => {
     const cResp = await pageBlobClient.create(1024, {
       customerProvidedKey: Test_CPK_INFO

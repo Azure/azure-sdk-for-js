@@ -104,7 +104,11 @@ describe("QueueClient Node.js only", () => {
   });
 
   it("can be created with a connection string and a queue name and an option bag", async () => {
-    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
 
     const result = await newClient.getProperties();
 

@@ -126,4 +126,22 @@ describe("BlockBlobClient Node.js only", () => {
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
+
+  it("can be created with a connection string and an option bag", async () => {
+    const newClient = new BlockBlobClient(
+      getConnectionStringFromEnvironment(),
+      containerName,
+      blobName,
+      {
+        retryOptions: {
+          maxTries: 5
+        }
+      }
+    );
+
+    const body: string = recorder.getUniqueName("randomstring");
+    await newClient.upload(body, body.length);
+    const result = await newClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
 });
