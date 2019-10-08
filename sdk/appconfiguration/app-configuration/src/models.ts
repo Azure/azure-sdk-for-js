@@ -142,10 +142,15 @@ export interface OptionalFields {
 }
 
 /**
- * Response from retrieving a ConfigurationSetting.
+ * Sync token header field
  */
-export interface GetConfigurationSettingResponse
-  extends ConfigurationSettingResponse<GetKeyValueHeaders> {}
+export interface SyncTokenHeaderField {
+  /**
+   * Enables real-time consistency between requests by providing the returned value in the next
+   * request made to the server.
+   */
+  syncToken?: string;
+}
 
 /**
  * Options used when adding a ConfigurationSetting.
@@ -155,14 +160,12 @@ export interface AddConfigurationSettingOptions extends RequestOptionsBase {}
 /**
  * Response from adding a ConfigurationSetting.
  */
-export interface AddConfigurationSettingResponse
-  extends ConfigurationSettingResponse<PutKeyValueHeaders> {}
+export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Response from deleting a ConfigurationSetting.
  */
-export interface DeleteConfigurationSettingResponse
-  extends ConfigurationSettingResponse<DeleteKeyValueHeaders> {}
+export interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Options for deleting a ConfigurationSetting.
@@ -177,13 +180,23 @@ export interface SetConfigurationSettingOptions extends HttpConditionalFields, R
 /**
  * Response from setting a ConfigurationSetting.
  */
-export interface SetConfigurationSettingResponse
-  extends ConfigurationSettingResponse<PutKeyValueHeaders> {}
+export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
- * A configuration setting and associated HTTP information
+ * Headers from getting a ConfigurationSetting.
  */
-export interface GetConfigurationSettingResponse extends ConfigurationSettingResponse<GetKeyValueHeaders> { }
+export interface GetConfigurationHeaders extends SyncTokenHeaderField {
+  /**
+   * A UTC datetime that specifies the last time the resource was modified.
+   */
+  lastModifiedHeader?: string;
+}
+
+/**
+ * Response from retrieving a ConfigurationSetting.
+ */
+export interface GetConfigurationSettingResponse
+  extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseField<GetConfigurationHeaders> {}
 
 /**
  * Options for getting a ConfigurationSetting.
@@ -260,7 +273,7 @@ export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOpti
 /**
  * Response when clearing the read-only status from a value
  */
-export interface ClearReadOnlyResponse extends ConfigurationSettingResponse<DeleteLockHeaders> { }
+export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Options for setReadOnly
@@ -270,4 +283,4 @@ export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOption
 /**
  * Response when setting a value to read-only.
  */
-export interface SetReadOnlyResponse extends ConfigurationSettingResponse<PutLockHeaders> {}
+export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }

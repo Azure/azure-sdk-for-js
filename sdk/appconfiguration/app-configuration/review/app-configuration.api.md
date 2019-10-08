@@ -17,7 +17,7 @@ export interface AddConfigurationSettingParam extends ConfigurationSettingParam 
 }
 
 // @public
-export interface AddConfigurationSettingResponse extends ConfigurationSettingResponse<PutKeyValueHeaders> {
+export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -38,7 +38,7 @@ export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOpti
 }
 
 // @public
-export interface ClearReadOnlyResponse extends ConfigurationSettingResponse<DeleteLockHeaders> {
+export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -71,7 +71,7 @@ export interface DeleteConfigurationSettingOptions extends HttpConditionalFields
 }
 
 // @public
-export interface DeleteConfigurationSettingResponse extends ConfigurationSettingResponse<DeleteKeyValueHeaders> {
+export interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -87,16 +87,17 @@ export interface DeleteLockHeaders {
 }
 
 // @public
+export interface GetConfigurationHeaders extends SyncTokenHeaderField {
+    lastModifiedHeader?: string;
+}
+
+// @public
 export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields, OptionalFields {
     acceptDatetime?: string;
 }
 
 // @public
-export interface GetConfigurationSettingResponse extends ConfigurationSettingResponse<GetKeyValueHeaders> {
-}
-
-// @public
-export interface GetConfigurationSettingResponse extends ConfigurationSettingResponse<GetKeyValueHeaders> {
+export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseField<GetConfigurationHeaders> {
 }
 
 // @public
@@ -181,7 +182,7 @@ export interface SetConfigurationSettingParam extends ConfigurationSettingParam 
 }
 
 // @public
-export interface SetConfigurationSettingResponse extends ConfigurationSettingResponse<PutKeyValueHeaders> {
+export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -189,7 +190,12 @@ export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOption
 }
 
 // @public
-export interface SetReadOnlyResponse extends ConfigurationSettingResponse<PutLockHeaders> {
+export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface SyncTokenHeaderField {
+    syncToken?: string;
 }
 
 
