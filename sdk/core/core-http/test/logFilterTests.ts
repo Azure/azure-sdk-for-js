@@ -17,7 +17,7 @@ const emptyRequestPolicy: RequestPolicy = {
 };
 
 describe("Log filter", () => {
-  it.only("should log messages when a logger object is provided", (done) => {
+  it("should log messages when a logger object is provided", (done) => {
     // possible breaking change - log level must now be set to info in order to
     // log appropriately.
     const currentLogLevel = getLogLevel();
