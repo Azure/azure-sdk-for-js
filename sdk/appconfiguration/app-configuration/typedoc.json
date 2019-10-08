@@ -7,5 +7,7 @@
   ],
   "ignoreCompilerErrors": true,
   "mode": "file",
-  "out": "./docs"
+  "out": "./docs",
+  "readme": "./README.md",
+  "name": "@azure/app-configuration"
 }
