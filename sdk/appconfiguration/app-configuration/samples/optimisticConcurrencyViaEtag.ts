@@ -33,10 +33,10 @@ export async function run() {
   console.log("Starting Alpha and Beta updates");
 
   // Alpha is preparing to do an update - to do this properly they retrieve the setting from the server
-  let alphaSetting = await client.getConfigurationSetting(key);
+  let alphaSetting = await client.getConfigurationSetting({ key: key });
   
   // Beta would also like to do an update and will do the same thing as Alpha
-  let betaSetting = await client.getConfigurationSetting(key);
+  let betaSetting = await client.getConfigurationSetting({ key: key });
   
   console.log(`Alpha retrieves the setting and has etag ${alphaSetting.etag}`);
   console.log(`Beta retrieves the setting and has etag ${betaSetting.etag}`);
@@ -77,7 +77,7 @@ export async function run() {
       console.log(`Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`);
 
       console.log("Alpha gets the newly updated value and is merging in their changes.");
-      const actualSetting = await client.getConfigurationSetting(key);      
+      const actualSetting = await client.getConfigurationSetting({ key: key });      
       
       // the setting has changed - Alpha chooses to merge their changes
       // rather than overwriting it.
@@ -91,7 +91,7 @@ export async function run() {
   }
 
   // and now that the dust has settled the value has been updated
-  const finalSetting = await client.getConfigurationSetting(key);
+  const finalSetting = await client.getConfigurationSetting({ key: key });
   console.log(`Final value with Alpha and Beta's updates: ${finalSetting.value}`);
   
   await cleanupSampleValues([key], client);
@@ -104,7 +104,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
 
   for await (const setting of existingSettings) {
     await client.clearReadOnly(setting);
-    await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
 

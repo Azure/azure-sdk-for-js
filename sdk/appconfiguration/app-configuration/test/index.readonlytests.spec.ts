@@ -26,14 +26,16 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
 
-    let storedSetting = await client.getConfigurationSetting(testConfigSetting.key, {
+    let storedSetting = await client.getConfigurationSetting({
+      key: testConfigSetting.key,
       label: testConfigSetting.label
     });
     assert.ok(!storedSetting.locked);
 
     await client.setReadOnly(testConfigSetting);
 
-    storedSetting = await client.getConfigurationSetting(testConfigSetting.key, {
+    storedSetting = await client.getConfigurationSetting({
+      key: testConfigSetting.key,
       label: testConfigSetting.label
     });
     assert.ok(storedSetting.locked);
@@ -46,8 +48,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     );
     await assertThrowsRestError(
       () =>
-        client.deleteConfigurationSetting(testConfigSetting.key, {
-          label: testConfigSetting.label
+        client.deleteConfigurationSetting({ key: testConfigSetting.key, label: testConfigSetting.label
         }),
       409,
       "Delete should fail because the setting is read-only"
