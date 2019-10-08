@@ -54,15 +54,15 @@ describe("Long Running Operations - custom client", function() {
       pollError = e;
     });
 
-    await poller.poll();
+    await delay(10);
     assert.ok(poller.getState().started);
     await delay(100);
-    assert.equal(client.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 11);
     abortController.abort();
     await delay(50);
 
     assert.equal(pollError!.message, "The request was aborted");
-    assert.equal(client.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 11);
     poller.stop();
   });
 
@@ -153,11 +153,11 @@ describe("Long Running Operations - custom client", function() {
       assert.equal(e.message, "Poller stopped");
     });
 
-    await poller.poll();
+    await delay(10);
     assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
     await delay(100);
-    assert.equal(client.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 11);
 
     abortController.abort();
     let cancelError: Error | undefined;
@@ -167,6 +167,7 @@ describe("Long Running Operations - custom client", function() {
       cancelError = e;
     }
 
+    assert.ok(poller.isStopped());
     assert.equal(cancelError!.message, "The request was aborted");
     poller.stop();
   });
@@ -208,6 +209,7 @@ describe("Long Running Operations - custom client", function() {
       cancelError = e;
     }
 
+    assert.ok(poller.isStopped());
     assert.equal(cancelError!.message, "The request was aborted");
     poller.stop();
   });

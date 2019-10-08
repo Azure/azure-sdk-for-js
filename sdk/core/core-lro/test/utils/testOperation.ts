@@ -10,6 +10,7 @@ export interface TestOperationProperties {
   initialResponse?: HttpOperationResponse;
   previousResponse?: HttpOperationResponse;
   resultValue?: string;
+  unsupportedCancel?: boolean;
 }
 
 export interface TestOperation extends PollOperation<TestOperationProperties, string> {}
@@ -38,9 +39,6 @@ async function update(
     response = await client.sendRequest(new TestWebResource(abortSignal));
   }
 
-  const maker =
-    this.cancel.name === "unsupportedCancel" ? makeOperation : makeNonCancellableOperation;
-
   const properties: TestOperationProperties = {
     ...this.properties,
     previousResponse: response
@@ -51,7 +49,7 @@ async function update(
     options.fireProgress(properties);
   }
 
-  return maker({ ...this.state }, properties);
+  return makeOperation({ ...this.state }, properties);
 }
 
 async function cancel(
@@ -66,6 +64,10 @@ async function cancel(
     return await this.update({
       abortSignal
     }); // This will throw
+  }
+
+  if (this.properties.unsupportedCancel) {
+    throw new Error("Cancellation not supported");
   }
 
   // Simulating the response of an HTTP Request
@@ -94,23 +96,6 @@ function toString(this: TestOperation): string {
   });
 }
 
-async function unsupportedCancel(
-  this: TestOperation,
-  options: { abortSignal?: AbortSignal } = {}
-): Promise<TestOperation> {
-  const requestOptions = this.properties.requestOptions;
-  const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
-
-  if (abortSignal && abortSignal.aborted) {
-    // Simulating a try catch of an HTTP request that's given an aborted abortSignal.
-    return await this.update({
-      abortSignal
-    }); // This will throw
-  }
-
-  throw new Error("Cancellation not supported");
-}
-
 export function makeOperation(
   state: PollOperationState<string>,
   properties: TestOperationProperties
@@ -120,19 +105,6 @@ export function makeOperation(
     properties,
     update,
     cancel,
-    toString
-  };
-}
-
-export function makeNonCancellableOperation(
-  state: PollOperationState<string>,
-  properties: TestOperationProperties
-): TestOperation {
-  return {
-    state,
-    properties,
-    update,
-    cancel: unsupportedCancel,
     toString
   };
 }
