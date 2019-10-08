@@ -10,7 +10,7 @@ import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient, CommonOptions } from "./StorageClient";
-import { extractConnectionStringParts } from "./utils/utils.common";
+import { extractConnectionStringParts, appendToURLPath } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 
 /**
@@ -173,7 +173,10 @@ export class MessageIdClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          url = extractedCreds.url + "/" + queueName + "/messages/" + messageId;
+          url = appendToURLPath(
+            appendToURLPath(appendToURLPath(extractedCreds.url, queueName), "messages"),
+            messageId
+          );
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
@@ -183,11 +186,10 @@ export class MessageIdClient extends StorageClient {
         const queueName = credentialOrPipelineOrQueueName;
         const messageId = messageIdOrOptions;
         url =
-          extractedCreds.url +
-          "/" +
-          queueName +
-          "/messages/" +
-          messageId +
+          appendToURLPath(
+            appendToURLPath(appendToURLPath(extractedCreds.url, queueName), "messages"),
+            messageId
+          ) +
           "?" +
           extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
