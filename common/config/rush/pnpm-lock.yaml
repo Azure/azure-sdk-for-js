@@ -4,6 +4,7 @@ dependencies:
   '@azure/arm-servicebus': 3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/core-auth': 1.0.0-preview.3
+  '@azure/core-paging': 1.0.0-preview.2
   '@azure/cosmos-sign': 1.0.2
   '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
   '@azure/event-hubs': 2.1.1
@@ -187,6 +188,7 @@ dependencies:
   ts-node: 8.3.0_typescript@3.5.3
   tslib: 1.10.0
   tslint: 5.20.0_typescript@3.5.3
+  tslint-config-prettier: 1.18.0
   tunnel: 0.0.6
   typedoc: 0.15.0
   typescript: 3.5.3
@@ -10228,6 +10230,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+  /tslint-config-prettier/1.18.0:
+    dev: false
+    engines:
+      node: '>=4.0.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-xPw9PgNPLG3iKRxmK7DWr+Ea/SzrvfHtjFt5LBl61gk2UBG/DB9kCXRjv+xyIU1rUtnayLeMUVJBcMX8Z17nDg==
   /tslint/5.20.0_typescript@3.5.3:
     dependencies:
       '@babel/code-frame': 7.5.5
@@ -11287,7 +11296,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-o6OPTknJe0jBnL3yGml71gYvEKL7qQCk9EnNqVaLZ8jeRU5QbSTPCrqL+BAhG1gjBeDlsbUe1YYHSPTVtE0J0w==
+      integrity: sha512-CD7pBVJehbUJQCUZ3JVoOHGL7UdTWE2Six4zj039ihtux5/5RH08IZbo3S7wuK/DwLv1Nz0FygBXtrcPPSfmUQ==
       tarball: 'file:projects/app-configuration.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -11667,6 +11676,7 @@ packages:
       ts-node: 8.3.0_typescript@3.5.3
       tslib: 1.10.0
       tslint: 5.20.0_typescript@3.5.3
+      tslint-config-prettier: 1.18.0
       typedoc: 0.15.0
       typescript: 3.5.3
       universal-user-agent: 4.0.0
@@ -11677,7 +11687,7 @@ packages:
     peerDependencies:
       webpack: '*'
     resolution:
-      integrity: sha512-EvTbRNrpNM4iig1/6JQPvKxy56gtaS0xAWVWtrSPtVWkKxdt7OhCe/FHNgF27bacUABDH1Us7fAHL2vgRyCSrA==
+      integrity: sha512-OKyvDmU531crASZ8fyRExNDCDuBz58BoHpCSbOs8JiJgEuKpFUgeEWhRysTS0RafRZ3wh4/AoKvIcUy6KSEn3Q==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -11934,7 +11944,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-6xj2c46goJpeuSEHFWdL8W50LdLs+mkUIwUPIB9nUKT+CX4cQUOewyXtR5jF7+uoG1VlgiU1fXysbwQVjNxXog==
+      integrity: sha512-SVVL7YKBJXyztG3/7eppUHglS4rmtc5u0ewqCi5TOYa1PpQWiMNIXqKPC6+x46HEcn78dBCBBItvpAUS3pBfhg==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -12008,7 +12018,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-j0TCkMlN7SVFdq9JiuuF9H4HFvYITFJH3OMFGCELjBTOuMwZQXXOES0lQT52LwMgdgclM78xIoXliKd/wJPPZA==
+      integrity: sha512-e37nRbQDxOkdtPMJTWAoHLTolHifWRtK3m9BvC4qpCHpPCAdfSP1ImoLxggz+/CXoE+zHkdzU0wBR+UocosTxA==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -12081,7 +12091,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-Hg5DqX7fp8ZBylGscUnk7MMHu2r5h9KS0C5/wsjT8lbRv+JKezKiHKE8d9xy41LYX1qi36zZ2zgSwoSz+CgRDA==
+      integrity: sha512-fKsA6oHR8ICc1/fjKdRxfp5n7ZJP/e/2kJ/dRqCvnXgIIXmKRrkOEBS27sFU3pFbbxXzBEV5XqpwpC9M7I0hTw==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -12153,7 +12163,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-xuLxgWcd9eko7WjYzar/TdPsGTVB4EvIb4wnFMwSzmAutH9H27sfvTqIR2PSkbDuPTjoH2BsqIP1Y61tvb/CLw==
+      integrity: sha512-Vml1jd5GVFNpjingRrGKoOuztpb0aSwYmOn7D3snqpc2d29t/tTz22TZ6VUUWL7gkzd9hVl1lIiuUqCBgWy8dQ==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/logger.tgz':
@@ -12600,6 +12610,7 @@ specifiers:
   '@azure/arm-servicebus': ^3.2.0
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/core-auth': 1.0.0-preview.3
+  '@azure/core-paging': 1.0.0-preview.2
   '@azure/cosmos-sign': ^1.0.2
   '@azure/eslint-plugin-azure-sdk': ^2.0.1
   '@azure/event-hubs': ^2.1.1
@@ -12783,6 +12794,7 @@ specifiers:
   ts-node: ^8.3.0
   tslib: ^1.9.3
   tslint: ^5.0.0
+  tslint-config-prettier: ^1.14.0
   tunnel: ^0.0.6
   typedoc: ^0.15.0
   typescript: ^3.2.2
