@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import {
-  Constants,
+  Constants as CoreHttpConstants,
   HttpOperationResponse,
   RestError,
   stripRequest,
@@ -11,6 +11,7 @@ import {
   XMLResponseInJSON
 } from "@azure/core-http";
 
+import * as ServiceBusConstants from "./constants";
 /**
  * Serializes input information to construct the Atom XML request
  * @param resourceName
@@ -59,7 +60,7 @@ export async function deserializeAtomXmlResponse(
   if (response.status < 200 || response.status >= 300) {
     errorBody = response.parsedBody;
     if (errorBody == undefined) {
-      const HttpResponseCodes = Constants.HttpResponseCodes;
+      const HttpResponseCodes: any = ServiceBusConstants.HttpResponseCodes;
       const statusCode = response.status;
       if (isKnownResponseCode(statusCode)) {
         throw buildError(
@@ -140,26 +141,29 @@ function parseEntryResult(entry: any): XMLResponseInJSON | undefined {
   }
 
   const contentElementNames = Object.keys(entry.content).filter(function(key) {
-    return key !== Constants.XML_METADATA_MARKER;
+    return key !== CoreHttpConstants.XML_METADATA_MARKER;
   });
 
   if (contentElementNames && contentElementNames[0]) {
     const contentRootElementName = contentElementNames[0];
-    delete entry.content[contentRootElementName][Constants.XML_METADATA_MARKER];
+    delete entry.content[contentRootElementName][CoreHttpConstants.XML_METADATA_MARKER];
     result = entry.content[contentRootElementName];
 
     if (result) {
-      if (entry[Constants.XML_METADATA_MARKER]) {
-        result[Constants.ATOM_METADATA_MARKER] = entry[Constants.XML_METADATA_MARKER];
+      if (entry[CoreHttpConstants.XML_METADATA_MARKER]) {
+        result[ServiceBusConstants.ATOM_METADATA_MARKER] =
+          entry[CoreHttpConstants.XML_METADATA_MARKER];
       } else {
-        result[Constants.ATOM_METADATA_MARKER] = {};
+        result[ServiceBusConstants.ATOM_METADATA_MARKER] = {};
       }
 
-      result[Constants.ATOM_METADATA_MARKER]["ContentRootElement"] = contentRootElementName;
+      result[ServiceBusConstants.ATOM_METADATA_MARKER][
+        "ContentRootElement"
+      ] = contentRootElementName;
 
       Object.keys(entry).forEach((property: string) => {
-        if (property !== "content" && property !== Constants.XML_METADATA_MARKER) {
-          result[Constants.ATOM_METADATA_MARKER][property] = entry[property];
+        if (property !== "content" && property !== CoreHttpConstants.XML_METADATA_MARKER) {
+          result[ServiceBusConstants.ATOM_METADATA_MARKER][property] = entry[property];
         }
       });
 
@@ -197,8 +201,8 @@ function parseFeedResult(feed: any): XMLResponseInJSON[] {
 
 function isKnownResponseCode(
   statusCode: number
-): statusCode is keyof typeof Constants.HttpResponseCodes {
-  return !!(Constants.HttpResponseCodes as { [statusCode: number]: string })[statusCode];
+): statusCode is keyof typeof ServiceBusConstants.HttpResponseCodes {
+  return !!(ServiceBusConstants.HttpResponseCodes as { [statusCode: number]: string })[statusCode];
 }
 
 /**
@@ -213,8 +217,8 @@ function isKnownResponseCode(
  * @param nameProperties
  */
 function setName(entry: XMLResponseInJSON, nameProperties: any): any {
-  if (entry[Constants.ATOM_METADATA_MARKER]) {
-    const parsedUrl = new URL(entry[Constants.ATOM_METADATA_MARKER].id);
+  if (entry[ServiceBusConstants.ATOM_METADATA_MARKER]) {
+    const parsedUrl = new URL(entry[ServiceBusConstants.ATOM_METADATA_MARKER].id);
 
     const parts = parsedUrl.pathname!.split("/");
 
@@ -246,12 +250,18 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
       Object.keys(errorProperties).forEach((property: string) => {
         let value = null;
         if (
-          property === Constants.ODATA_ERROR_MESSAGE &&
-          typeof errorProperties[Constants.ODATA_ERROR_MESSAGE] !== "string"
+          property === ServiceBusConstants.ODATA_ERROR_MESSAGE &&
+          typeof errorProperties[ServiceBusConstants.ODATA_ERROR_MESSAGE] !== "string"
         ) {
-          if (errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]) {
+          if (
+            errorProperties[ServiceBusConstants.ODATA_ERROR_MESSAGE][
+              ServiceBusConstants.ODATA_ERROR_MESSAGE_VALUE
+            ]
+          ) {
             value =
-              errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE];
+              errorProperties[ServiceBusConstants.ODATA_ERROR_MESSAGE][
+                ServiceBusConstants.ODATA_ERROR_MESSAGE_VALUE
+              ];
           } else {
             value = "missing value in the message property of the odata error format";
           }
@@ -264,12 +274,12 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
       Object.keys(errorProperties).forEach((property: any) => {
         {
           let value = null;
-          if (property !== Constants.XML_METADATA_MARKER) {
+          if (property !== CoreHttpConstants.XML_METADATA_MARKER) {
             if (
               errorProperties[property] &&
-              errorProperties[property][Constants.XML_VALUE_MARKER]
+              errorProperties[property][CoreHttpConstants.XML_VALUE_MARKER]
             ) {
-              value = errorProperties[property][Constants.XML_VALUE_MARKER];
+              value = errorProperties[property][CoreHttpConstants.XML_VALUE_MARKER];
             } else {
               value = errorProperties[property];
             }
