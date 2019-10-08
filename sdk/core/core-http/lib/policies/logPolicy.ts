@@ -9,7 +9,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { logger as coreLogger } from "../log";
+import { logger as coreLogger, logger } from "../log";
 export interface LogPolicyOptions {
   /**
    * Header names whose values will be logged when logging is enabled. Defaults to
@@ -56,6 +56,8 @@ export class LogPolicy extends BaseRequestPolicy {
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    if (!logger.info.enabled) return this._nextPolicy.sendRequest(request);
+
     this.logRequest(request);
     return this._nextPolicy.sendRequest(request).then(response => this.logResponse(response));
   }
@@ -71,6 +73,10 @@ export class LogPolicy extends BaseRequestPolicy {
       return this.sanitizeQuery(value as {});
     } else if (key === 'response') {
       // don't log response again
+      return undefined;
+    } else if (key === 'operationSpec') {
+      // When using sendOperationRequest, the request carries a massive
+      // field with the autorest spec. No need to log it.
       return undefined;
     }
 

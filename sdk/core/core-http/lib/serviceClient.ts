@@ -580,16 +580,14 @@ function createDefaultRequestPolicyFactories(
     factories.push(throttlingRetryPolicy());
   }
 
-  if (logger.info.enabled) {
-    factories.push(logPolicy(logger.info, {}));
-  }
-
   factories.push(deserializationPolicy(options.deserializationContentTypes));
 
   const proxySettings = options.proxySettings || getDefaultProxySettings();
   if (proxySettings) {
     factories.push(proxyPolicy(proxySettings));
   }
+
+  factories.push(logPolicy(logger.info, {}));
 
   return factories;
 }
