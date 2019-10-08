@@ -65,13 +65,13 @@ async function runSamples(language) {
       }
     }
   }
-  process.exit(0);
 }
 
 (async () => {
   try {
     await runSamples("typescript");
     await runSamples("javascript");
+    process.exit(0);
   } catch (error) {
     console.log("Samples failed!");
     console.log(error);
