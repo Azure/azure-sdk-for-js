@@ -10,8 +10,6 @@ export default [
       "debug",
       "@azure/abort-controller",
       "node-fetch",
-      "atob",
-      "binary-search-bounds",
       "priorityqueuejs",
       "semaphore",
       "crypto-hash",
@@ -25,7 +23,6 @@ export default [
       globals: {
         "universal-user-agent": "universalUserAgent",
         "@azure/cosmos-sign": "cosmosSign",
-        "binary-search-bounds": "bs",
         "crypto-hash": "cryptoHash",
         "fast-json-stable-stringify": "stableStringify",
         "uuid/v4": "uuid",
@@ -34,8 +31,7 @@ export default [
         tslib: "tslib_1",
         debug: "debugLib",
         priorityqueuejs: "PriorityQueue",
-        semaphore: "semaphore",
-        atob: "atob"
+        semaphore: "semaphore"
       }
     },
     plugins: [resolve()]

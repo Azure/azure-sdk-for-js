@@ -35,12 +35,12 @@ export class PartitionKeyRangeCache {
   /**
    * Given the query ranges and a collection, invokes the callback on the list of overlapping partition key ranges
    * @param collectionLink
-   * @param queryRanges
+   * @param queryRange
    * @ignore
    */
-  public async getOverlappingRanges(collectionLink: string, queryRanges: QueryRange) {
+  public async getOverlappingRanges(collectionLink: string, queryRange: QueryRange) {
     const crm = await this.onCollectionRoutingMap(collectionLink);
-    return crm.getOverlappingRanges(queryRanges);
+    return crm.getOverlappingRanges(queryRange);
   }
 
   private async requestCollectionRoutingMap(collectionLink: string) {

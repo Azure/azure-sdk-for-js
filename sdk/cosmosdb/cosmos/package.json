@@ -74,7 +74,6 @@
     "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/cosmos-sign": "^1.0.2",
     "@types/debug": "^4.1.4",
-    "binary-search-bounds": "^2.0.3",
     "crypto-hash": "^1.1.0",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.0.0",
