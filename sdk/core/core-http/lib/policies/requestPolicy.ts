@@ -10,7 +10,7 @@ import { WebResource } from "../webResource";
  * Creates a new RequestPolicy per-request that uses the provided nextPolicy.
  */
 export type RequestPolicyFactory = {
-  create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy
+  create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy;
 };
 
 export interface RequestPolicy {
@@ -18,8 +18,10 @@ export interface RequestPolicy {
 }
 
 export abstract class BaseRequestPolicy implements RequestPolicy {
-  protected constructor(readonly _nextPolicy: RequestPolicy, readonly _options: RequestPolicyOptions) {
-  }
+  protected constructor(
+    readonly _nextPolicy: RequestPolicy,
+    readonly _options: RequestPolicyOptions
+  ) {}
 
   public abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
 
@@ -47,8 +49,7 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
  * Optional properties that can be used when creating a RequestPolicy.
  */
 export class RequestPolicyOptions {
-  constructor(private _logger?: HttpPipelineLogger) {
-  }
+  constructor(private _logger?: HttpPipelineLogger) {}
 
   /**
    * Get whether or not a log with the provided log level should be logged.
@@ -56,9 +57,11 @@ export class RequestPolicyOptions {
    * @returns Whether or not a log with the provided log level should be logged.
    */
   public shouldLog(logLevel: HttpPipelineLogLevel): boolean {
-    return !!this._logger &&
+    return (
+      !!this._logger &&
       logLevel !== HttpPipelineLogLevel.OFF &&
-      logLevel <= this._logger.minimumLogLevel;
+      logLevel <= this._logger.minimumLogLevel
+    );
   }
 
   /**

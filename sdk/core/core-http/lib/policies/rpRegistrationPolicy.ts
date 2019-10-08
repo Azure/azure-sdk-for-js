@@ -3,7 +3,12 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
 
 export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyFactory {
   return {
@@ -14,36 +19,46 @@ export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyFactory {
 }
 
 export class RPRegistrationPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, readonly _retryTimeout = 30) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    readonly _retryTimeout = 30
+  ) {
     super(nextPolicy, options);
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request.clone())
-      .then(response => registerIfNeeded(this, request, response));
+    return this._nextPolicy
+      .sendRequest(request.clone())
+      .then((response) => registerIfNeeded(this, request, response));
   }
 }
 
-
-function registerIfNeeded(policy: RPRegistrationPolicy, request: WebResource, response: HttpOperationResponse): Promise<HttpOperationResponse> {
+function registerIfNeeded(
+  policy: RPRegistrationPolicy,
+  request: WebResource,
+  response: HttpOperationResponse
+): Promise<HttpOperationResponse> {
   if (response.status === 409) {
     const rpName = checkRPNotRegisteredError(response.bodyAsText as string);
     if (rpName) {
       const urlPrefix = extractSubscriptionUrl(request.url);
-      return registerRP(policy, urlPrefix, rpName, request)
-        // Autoregistration of ${provider} failed for some reason. We will not return this error
-        // instead will return the initial response with 409 status code back to the user.
-        // do nothing here as we are returning the original response at the end of this method.
-        .catch(() => false)
-        .then(registrationStatus => {
-          if (registrationStatus) {
-            // Retry the original request. We have to change the x-ms-client-request-id
-            // otherwise Azure endpoint will return the initial 409 (cached) response.
-            request.headers.set("x-ms-client-request-id", utils.generateUuid());
-            return policy._nextPolicy.sendRequest(request.clone());
-          }
-          return response;
-        });
+      return (
+        registerRP(policy, urlPrefix, rpName, request)
+          // Autoregistration of ${provider} failed for some reason. We will not return this error
+          // instead will return the initial response with 409 status code back to the user.
+          // do nothing here as we are returning the original response at the end of this method.
+          .catch(() => false)
+          .then((registrationStatus) => {
+            if (registrationStatus) {
+              // Retry the original request. We have to change the x-ms-client-request-id
+              // otherwise Azure endpoint will return the initial 409 (cached) response.
+              request.headers.set("x-ms-client-request-id", utils.generateUuid());
+              return policy._nextPolicy.sendRequest(request.clone());
+            }
+            return response;
+          })
+      );
     }
   }
 
@@ -86,8 +101,13 @@ function checkRPNotRegisteredError(body: string): string {
     } catch (err) {
       // do nothing;
     }
-    if (responseBody && responseBody.error && responseBody.error.message &&
-      responseBody.error.code && responseBody.error.code === "MissingSubscriptionRegistration") {
+    if (
+      responseBody &&
+      responseBody.error &&
+      responseBody.error.message &&
+      responseBody.error.code &&
+      responseBody.error.code === "MissingSubscriptionRegistration"
+    ) {
       const matchRes = responseBody.error.message.match(/.*'(.*)'/i);
       if (matchRes) {
         result = matchRes.pop();
@@ -105,7 +125,7 @@ function checkRPNotRegisteredError(body: string): string {
  */
 function extractSubscriptionUrl(url: string): string {
   let result;
-  const matchRes = url.match(/.*\/subscriptions\/[a-f0-9-]+\//ig);
+  const matchRes = url.match(/.*\/subscriptions\/[a-f0-9-]+\//gi);
   if (matchRes && matchRes[0]) {
     result = matchRes[0];
   } else {
@@ -123,20 +143,24 @@ function extractSubscriptionUrl(url: string): string {
  * with a message that the provider is not registered.
  * @param {registrationCallback} callback The callback that handles the RP registration
  */
-function registerRP(policy: RPRegistrationPolicy, urlPrefix: string, provider: string, originalRequest: WebResource): Promise<boolean> {
+function registerRP(
+  policy: RPRegistrationPolicy,
+  urlPrefix: string,
+  provider: string,
+  originalRequest: WebResource
+): Promise<boolean> {
   const postUrl = `${urlPrefix}providers/${provider}/register?api-version=2016-02-01`;
   const getUrl = `${urlPrefix}providers/${provider}?api-version=2016-02-01`;
   const reqOptions = getRequestEssentials(originalRequest);
   reqOptions.method = "POST";
   reqOptions.url = postUrl;
 
-  return policy._nextPolicy.sendRequest(reqOptions)
-    .then(response => {
-      if (response.status !== 200) {
-        throw new Error(`Autoregistration of ${provider} failed. Please try registering manually.`);
-      }
-      return getRegistrationStatus(policy, getUrl, originalRequest);
-    });
+  return policy._nextPolicy.sendRequest(reqOptions).then((response) => {
+    if (response.status !== 200) {
+      throw new Error(`Autoregistration of ${provider} failed. Please try registering manually.`);
+    }
+    return getRegistrationStatus(policy, getUrl, originalRequest);
+  });
 }
 
 /**
@@ -148,17 +172,23 @@ function registerRP(policy: RPRegistrationPolicy, urlPrefix: string, provider: s
  * with a message that the provider is not registered.
  * @returns {Promise<boolean>} True if RP Registration is successful.
  */
-function getRegistrationStatus(policy: RPRegistrationPolicy, url: string, originalRequest: WebResource): Promise<boolean> {
+function getRegistrationStatus(
+  policy: RPRegistrationPolicy,
+  url: string,
+  originalRequest: WebResource
+): Promise<boolean> {
   const reqOptions: any = getRequestEssentials(originalRequest);
   reqOptions.url = url;
   reqOptions.method = "GET";
 
-  return policy._nextPolicy.sendRequest(reqOptions).then(res => {
-    const obj = (res.parsedBody as any);
+  return policy._nextPolicy.sendRequest(reqOptions).then((res) => {
+    const obj = res.parsedBody as any;
     if (res.parsedBody && obj.registrationState && obj.registrationState === "Registered") {
       return true;
     } else {
-      return utils.delay(policy._retryTimeout * 1000).then(() => getRegistrationStatus(policy, url, originalRequest));
+      return utils
+        .delay(policy._retryTimeout * 1000)
+        .then(() => getRegistrationStatus(policy, url, originalRequest));
     }
   });
 }
