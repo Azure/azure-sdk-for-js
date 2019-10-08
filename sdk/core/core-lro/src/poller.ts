@@ -1,4 +1,5 @@
 import { PollOperation, PollOperationState } from "./pollOperation";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 export type CancelOnProgress = () => void;
 
@@ -57,10 +58,13 @@ export abstract class Poller<TProperties, TResult> {
     }
   }
 
-  private async pollOnce(): Promise<void> {
+  private async pollOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     try {
       if (!this.isDone()) {
-        this.operation = await this.operation.update(this.fireProgress.bind(this));
+        this.operation = await this.operation.update({
+          abortSignal: options.abortSignal,
+          fireProgress: this.fireProgress.bind(this)
+        });
         if (this.isDone() && this.resolve) {
           this.resolve(this.operation.state.result);
         }
@@ -79,20 +83,22 @@ export abstract class Poller<TProperties, TResult> {
     }
   }
 
-  private async cancelOnce(): Promise<void> {
-    this.operation = await this.operation.cancel();
+  private async cancelOnce(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
+    this.operation = await this.operation.cancel(options);
     if (this.reject) {
       this.reject(new PollerCancelledError("Poller cancelled"));
     }
   }
 
-  public poll(): Promise<void> {
+  public poll(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.pollOncePromise) {
-      this.pollOncePromise = this.pollOnce();
+      this.pollOncePromise = this.pollOnce(options);
       const after = (): void => {
         this.pollOncePromise = undefined;
       };
       this.pollOncePromise.then(after, after);
+    } else if (options.abortSignal) {
+      throw new Error("A poll request is currently pending");
     }
     return this.pollOncePromise;
   }
@@ -127,9 +133,11 @@ export abstract class Poller<TProperties, TResult> {
     return this.stopped;
   }
 
-  public cancel(): Promise<void> {
+  public cancel(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.cancelPromise) {
-      this.cancelPromise = this.cancelOnce();
+      this.cancelPromise = this.cancelOnce(options);
+    } else if (options.abortSignal) {
+      throw new Error("A cancel request is currently pending");
     }
     return this.cancelPromise;
   }
