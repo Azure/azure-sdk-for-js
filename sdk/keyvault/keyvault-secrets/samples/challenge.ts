@@ -2,14 +2,8 @@ import { SecretsClient } from "../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import {
-  ServiceClientCredentials,
-  TokenCredential,
-  isTokenCredential,
   RequestPolicyFactory,
   deserializationPolicy,
-  signingPolicy,
-  bearerTokenAuthenticationPolicy,
-  RequestOptionsBase,
   exponentialRetryPolicy,
   redirectPolicy,
   systemErrorRetryPolicy,
@@ -20,13 +14,11 @@ import {
   userAgentPolicy
 } from "@azure/core-http";
 
-import { RetryConstants, SDK_VERSION } from "../src/core/utils/constants";
+import { RetryConstants } from "../src/core/utils/constants";
 import {
-  ChallengeBasedAuthenticationPolicy,
   challengeBasedAuthenticationPolicy
 } from "../src/core/challengeBasedAuthenticationPolicy";
 
-import { TokenCredentials } from "@azure/core-http";
 import { Pipeline } from "../src/core/keyVaultBase";
 
 async function main(): Promise<void> {
@@ -76,7 +68,7 @@ async function main(): Promise<void> {
   console.log("secret: ", secret);
 
   // Update the secret with different attributes
-  const updatedSecret = await client.updateSecretAttributes(secretName, result.properties.version, {
+  const updatedSecret = await client.updateSecretProperties(secretName, result.properties.version!, {
     enabled: false
   });
   console.log("updated secret: ", updatedSecret);
