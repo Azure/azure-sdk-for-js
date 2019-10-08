@@ -135,7 +135,7 @@ describe("Long Running Operations - custom client", function() {
     await delay(100); // The poller loops every 10 milliseconds
     assert.equal(client.totalSentRequests, 10);
 
-    await poller.cancel();
+    await poller.cancelOperation();
     assert.ok(poller.getState().cancelled);
   });
 
@@ -157,7 +157,7 @@ describe("Long Running Operations - custom client", function() {
 
     let error: any;
     try {
-      await poller.cancel();
+      await poller.cancelOperation();
     } catch (e) {
       error = e;
     }

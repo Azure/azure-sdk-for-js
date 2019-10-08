@@ -99,7 +99,7 @@ describe("Long Running Operations - custom client", function() {
     assert.equal(pollError!.message, "The request was aborted");
   });
 
-  it("should support an abort signal sent through the parameters of poll()", async function() {
+  it("should support an abort signal sent through the parameters of poll() on a manual poller", async function() {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
@@ -162,7 +162,7 @@ describe("Long Running Operations - custom client", function() {
     abortController.abort();
     let cancelError: Error | undefined;
     try {
-      await poller.cancel();
+      await poller.cancelOperation();
     } catch (e) {
       cancelError = e;
     }
@@ -203,7 +203,7 @@ describe("Long Running Operations - custom client", function() {
 
     let cancelError: Error | undefined;
     try {
-      await poller.cancel();
+      await poller.cancelOperation();
     } catch (e) {
       cancelError = e;
     }
@@ -212,7 +212,7 @@ describe("Long Running Operations - custom client", function() {
     poller.stop();
   });
 
-  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent as a parameter to cancel()", async function() {
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent as a parameter to cancelOperation()", async function() {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
@@ -239,7 +239,7 @@ describe("Long Running Operations - custom client", function() {
 
     let cancelError: Error | undefined;
     try {
-      await poller.cancel({
+      await poller.cancelOperation({
         abortSignal: abortController.signal
       });
     } catch (e) {
