@@ -131,7 +131,11 @@ describe("QueueClient", () => {
   });
 
   it("can be created with a sas connection string and a queue name and an option bag", async () => {
-    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName);
+    const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
 
     const result = await newClient.getProperties();
 

@@ -360,7 +360,11 @@ describe("MessagesClient", () => {
   });
 
   it("can be created with a sas connection string and a queue name and an option bag", async () => {
-    const newClient = new MessagesClient(getSASConnectionStringFromEnvironment(), queueName);
+    const newClient = new MessagesClient(getSASConnectionStringFromEnvironment(), queueName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
 
     const eResult = await newClient.enqueue(messageContent);
     assert.ok(eResult.date);

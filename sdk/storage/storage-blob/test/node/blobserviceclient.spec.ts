@@ -72,4 +72,17 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
   });
+
+  it("can be created from a connection string and an option bag", async () => {
+    const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
+
+    const result = await newClient.getProperties();
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+  });
 });

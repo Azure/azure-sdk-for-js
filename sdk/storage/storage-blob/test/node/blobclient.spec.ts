@@ -355,4 +355,24 @@ describe("BlobClient Node.js only", () => {
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
   });
+
+  it("can be created with a connection string and an option bag", async () => {
+    const newClient = new BlobClient(
+      getConnectionStringFromEnvironment(),
+      containerName,
+      blobName,
+      {
+        retryOptions: {
+          maxTries: 5
+        }
+      }
+    );
+    const metadata = {
+      a: "a",
+      b: "b"
+    };
+    await newClient.setMetadata(metadata);
+    const result = await newClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
 });

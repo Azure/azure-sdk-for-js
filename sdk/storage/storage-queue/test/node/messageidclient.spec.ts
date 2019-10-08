@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { MessageIdClient } from "../../src";
+import { MessageIdClient, newPipeline } from "../../src";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
@@ -99,77 +99,108 @@ describe("MessageIdClient Node.js only", () => {
     const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new MessagesClient(messagesClient.url, credential);
 
-    const eResult = await newClient.enqueue(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    const eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
-    assert.ok(eResult.version);
+
+    const newClient = new MessageIdClient(messagesClient.url + "/" + eResult.messageId, credential);
+    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
+    const response = await messagesClient.peek();
+    assert.equal(
+      response.peekedMessageItems![0].messageText,
+      messageContent + " " + messageContent
+    );
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
     const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new MessagesClient(messagesClient.url, credential, {
-      retryOptions: {
-        maxTries: 5
-      }
-    });
 
-    const eResult = await newClient.enqueue(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    const eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
-    assert.ok(eResult.version);
+
+    const newClient = new MessageIdClient(
+      messagesClient.url + "/" + eResult.messageId,
+      credential,
+      {
+        retryOptions: {
+          maxTries: 5
+        }
+      }
+    );
+    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
+    const response = await messagesClient.peek();
+    assert.equal(
+      response.peekedMessageItems![0].messageText,
+      messageContent + " " + messageContent
+    );
   });
 
   it("can be created with a url and a pipeline", async () => {
     const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new MessagesClient(messagesClient.url, credential);
 
-    const eResult = await newClient.enqueue(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    const eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
-    assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
-    assert.ok(eResult.version);
+
+    const pipeline = newPipeline(credential);
+    const newClient = new MessageIdClient(messagesClient.url + "/" + eResult.messageId, pipeline);
+    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
+    const response = await messagesClient.peek();
+    assert.equal(
+      response.peekedMessageItems![0].messageText,
+      messageContent + " " + messageContent
+    );
   });
 
-  it("can be created with a connection string and a queue name", async () => {
-    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+  it("can be created with a connection string and a queue name and a message id", async () => {
+    const messagesClient = queueClient.getMessagesClient();
 
-    const eResult = await newClient.enqueue(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    const eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
+
+    const newClient = new MessageIdClient(
+      getConnectionStringFromEnvironment(),
+      messagesClient.queueName,
+      eResult.messageId
+    );
+    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
+    const response = await messagesClient.peek();
+    assert.equal(
+      response.peekedMessageItems![0].messageText,
+      messageContent + " " + messageContent
+    );
   });
 
-  it("can be created with a connection string and a queue name and an option bag", async () => {
-    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+  it("can be created with a connection string and a queue name and a message id and an option bag", async () => {
+    const messagesClient = queueClient.getMessagesClient();
 
-    const eResult = await newClient.enqueue(messageContent);
-    assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    const eResult = await messagesClient.enqueue(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
+
+    const newClient = new MessageIdClient(
+      getConnectionStringFromEnvironment(),
+      messagesClient.queueName,
+      eResult.messageId,
+      {
+        retryOptions: {
+          maxTries: 5
+        }
+      }
+    );
+    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
+    const response = await messagesClient.peek();
+    assert.equal(
+      response.peekedMessageItems![0].messageText,
+      messageContent + " " + messageContent
+    );
   });
 
   it("throws error if constructor queueName parameter is empty", async () => {

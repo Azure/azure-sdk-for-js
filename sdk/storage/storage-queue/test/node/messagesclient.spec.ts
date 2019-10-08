@@ -6,6 +6,7 @@ import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { newPipeline } from "../../src";
 
 describe("MessagesClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -145,7 +146,8 @@ describe("MessagesClient Node.js only", () => {
     const messagesClient = queueClient.getMessagesClient();
     const factories = (messagesClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new MessagesClient(messagesClient.url, credential);
+    const pipeline = newPipeline(credential);
+    const newClient = new MessagesClient(messagesClient.url, pipeline);
 
     const eResult = await newClient.enqueue(messageContent);
     assert.ok(eResult.date);
@@ -170,7 +172,11 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a connection string and a queue name and an option bag", async () => {
-    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName, {
+      retryOptions: {
+        maxTries: 5
+      }
+    });
 
     const eResult = await newClient.enqueue(messageContent);
     assert.ok(eResult.date);
