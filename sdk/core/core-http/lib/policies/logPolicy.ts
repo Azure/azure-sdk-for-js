@@ -106,11 +106,11 @@ export class LogPolicy extends BaseRequestPolicy {
   }
 
 
-  private logResponse(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  private logResponse(response: HttpOperationResponse): HttpOperationResponse {
     this.logger(`Response status code: ${response.status}`);
     this.logger(`Headers: ${JSON.stringify(response.headers, this.sanitize.bind(this), 2)}`)
     const responseBody = response.bodyAsText;
     this.logger(`Body: ${responseBody}`);
-    return Promise.resolve(response);
+    return response;
   }
 }
