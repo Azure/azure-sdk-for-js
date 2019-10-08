@@ -294,8 +294,11 @@ for (const eachService of serviceFolders) {
       /* Adding service entry for the template index generation */
       serviceList.push({ name: eachService, packageList: indexPackageList });
     }
-  } else {
   }
+  else{
+    console.log("...SKIPPING Since service doesn't satisfy one of the 3 condition checks...");
+    }
+
 } // end-for ServiceFolders
 console.log("generateIndexWithTemplate=" + generateIndexWithTemplate);
 if (generateIndexWithTemplate) {
