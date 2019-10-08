@@ -16,7 +16,7 @@ export const comp0: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: "properties",
+    defaultValue: 'properties',
     type: {
       name: "String"
     }
@@ -28,7 +28,7 @@ export const comp1: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: "stats",
+    defaultValue: 'stats',
     type: {
       name: "String"
     }
@@ -40,7 +40,7 @@ export const comp2: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: "list",
+    defaultValue: 'list',
     type: {
       name: "String"
     }
@@ -52,7 +52,7 @@ export const comp3: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: "metadata",
+    defaultValue: 'metadata',
     type: {
       name: "String"
     }
@@ -64,14 +64,17 @@ export const comp4: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: "acl",
+    defaultValue: 'acl',
     type: {
       name: "String"
     }
   }
 };
 export const include: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "include"],
+  parameterPath: [
+    "options",
+    "include"
+  ],
   mapper: {
     serializedName: "include",
     type: {
@@ -79,7 +82,9 @@ export const include: coreHttp.OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: ["metadata"]
+          allowedValues: [
+            "metadata"
+          ]
         }
       }
     }
@@ -87,7 +92,10 @@ export const include: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const marker: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "marker"],
+  parameterPath: [
+    "options",
+    "marker"
+  ],
   mapper: {
     serializedName: "marker",
     type: {
@@ -96,7 +104,10 @@ export const marker: coreHttp.OperationQueryParameter = {
   }
 };
 export const maxresults: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "maxresults"],
+  parameterPath: [
+    "options",
+    "maxresults"
+  ],
   mapper: {
     serializedName: "maxresults",
     constraints: {
@@ -108,7 +119,10 @@ export const maxresults: coreHttp.OperationQueryParameter = {
   }
 };
 export const messageTimeToLive: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "messageTimeToLive"],
+  parameterPath: [
+    "options",
+    "messageTimeToLive"
+  ],
   mapper: {
     serializedName: "messagettl",
     constraints: {
@@ -120,7 +134,10 @@ export const messageTimeToLive: coreHttp.OperationQueryParameter = {
   }
 };
 export const metadata: coreHttp.OperationParameter = {
-  parameterPath: ["options", "metadata"],
+  parameterPath: [
+    "options",
+    "metadata"
+  ],
   mapper: {
     serializedName: "x-ms-meta",
     type: {
@@ -135,7 +152,10 @@ export const metadata: coreHttp.OperationParameter = {
   }
 };
 export const numberOfMessages: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "numberOfMessages"],
+  parameterPath: [
+    "options",
+    "numberOfMessages"
+  ],
   mapper: {
     serializedName: "numofmessages",
     constraints: {
@@ -152,7 +172,7 @@ export const peekonly: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "peekonly",
-    defaultValue: "true",
+    defaultValue: 'true',
     type: {
       name: "String"
     }
@@ -169,7 +189,10 @@ export const popReceipt: coreHttp.OperationQueryParameter = {
   }
 };
 export const prefix: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "prefix"],
+  parameterPath: [
+    "options",
+    "prefix"
+  ],
   mapper: {
     serializedName: "prefix",
     type: {
@@ -178,7 +201,10 @@ export const prefix: coreHttp.OperationQueryParameter = {
   }
 };
 export const requestId: coreHttp.OperationParameter = {
-  parameterPath: ["options", "requestId"],
+  parameterPath: [
+    "options",
+    "requestId"
+  ],
   mapper: {
     serializedName: "x-ms-client-request-id",
     type: {
@@ -192,14 +218,17 @@ export const restype: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "restype",
-    defaultValue: "service",
+    defaultValue: 'service',
     type: {
       name: "String"
     }
   }
 };
 export const timeout: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "timeout"],
+  parameterPath: [
+    "options",
+    "timeout"
+  ],
   mapper: {
     serializedName: "timeout",
     constraints: {
@@ -215,7 +244,7 @@ export const url: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "url",
-    defaultValue: "",
+    defaultValue: '',
     type: {
       name: "String"
     }
@@ -228,14 +257,17 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: "2019-02-02",
+    defaultValue: '2019-02-02',
     type: {
       name: "String"
     }
   }
 };
 export const visibilitytimeout0: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "visibilitytimeout"],
+  parameterPath: [
+    "options",
+    "visibilitytimeout"
+  ],
   mapper: {
     serializedName: "visibilitytimeout",
     constraints: {

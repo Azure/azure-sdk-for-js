@@ -1,6 +1,6 @@
 # Changelog
 
-## 2019.09 12.0.0-preview.4
+## 2019.10 12.0.0-preview.4
 
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `FileServiceClient` or `FileClient` are instantiated.
 - Added name properties on all the clients for convenience.
@@ -8,6 +8,7 @@
   - `shareName` is added to `DirectoryClient`, `FileClient` and `ShareClient`.
   - `filePath` is added to `FileClient`.
   - `dirPath` is added to `DirectoryClient`.
+- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.FileServiceProperties`
 
 ## 2019.08 12.0.0-preview.3
 

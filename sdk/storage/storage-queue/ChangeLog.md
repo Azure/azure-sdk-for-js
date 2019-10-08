@@ -1,6 +1,6 @@
 # Changelog
 
-## 2019.09 12.0.0-preview.4
+## 2019.10 12.0.0-preview.4
 
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `QueueServiceClient` or `QueueClient` are instantiated.
 - Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
@@ -12,6 +12,8 @@
   - `accountName` is added to `MessageIdClient`, `MessagesClient`, `QueueClient` and `QueueServiceClient`.
   - `queueName` is added to `MessageIdClient`, `MessagesClient` and `QueueClient`.
   - `messageId` is added to `MessageIdClient`.
+- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.QueueServiceProperties`
+- [Breaking] `Models.StorageServiceStats` is renamed into `Models.QueueServiceStatistics`
 
 ## 2019.08 12.0.0-preview.3
 

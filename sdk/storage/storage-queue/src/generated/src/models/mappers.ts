@@ -569,11 +569,12 @@ export const SignedIdentifier: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageServiceProperties: coreHttp.CompositeMapper = {
-  serializedName: "StorageServiceProperties",
+export const QueueServiceProperties: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceProperties",
+  serializedName: "QueueServiceProperties",
   type: {
     name: "Composite",
-    className: "StorageServiceProperties",
+    className: "QueueServiceProperties",
     modelProperties: {
       logging: {
         xmlName: "Logging",
@@ -618,11 +619,12 @@ export const StorageServiceProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const StorageServiceStats: coreHttp.CompositeMapper = {
-  serializedName: "StorageServiceStats",
+export const QueueServiceStatistics: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceStats",
+  serializedName: "QueueServiceStatistics",
   type: {
     name: "Composite",
-    className: "StorageServiceStats",
+    className: "QueueServiceStatistics",
     modelProperties: {
       geoReplication: {
         xmlName: "GeoReplication",

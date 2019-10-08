@@ -505,13 +505,13 @@ export class BlobServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
-   * @param {Models.StorageServiceProperties} properties
+   * @param {Models.BlobServiceProperties} properties
    * @param {ServiceSetPropertiesOptions} [options] Options to the Service Set Properties operation.
    * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Service Set Properties operation.
    * @memberof BlobServiceClient
    */
   public async setProperties(
-    properties: Models.StorageServiceProperties,
+    properties: Models.BlobServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<Models.ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(

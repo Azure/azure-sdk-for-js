@@ -1,6 +1,6 @@
 # Breaking Changes
 
-### 2019.09 Version 12.0.0-preview.4
+### 2019.10 Version 12.0.0-preview.4
 
 - [Breaking] Replace string array with boolean flags to specify dataset to include when list containers or blobs.
   - For listing containers
@@ -33,7 +33,9 @@
       includeUncommitedBlobs: true
     });
     ```
-- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on LeaseClient.
+- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on `LeaseClient`.
+- [Breaking] Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
+- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.BlobServiceProperties`
 
 ### 2019.09 Version 12.0.0-preview.3
 
