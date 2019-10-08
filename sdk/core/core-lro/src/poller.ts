@@ -133,7 +133,10 @@ export abstract class Poller<TProperties, TResult> {
     return this.stopped;
   }
 
-  public cancel(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
+  public cancelOperation(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
+    if (!this.stopped) {
+      this.stopped = true;
+    }
     if (!this.cancelPromise) {
       this.cancelPromise = this.cancelOnce(options);
     } else if (options.abortSignal) {
