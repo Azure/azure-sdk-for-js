@@ -201,14 +201,14 @@ export interface UserDelegationKey {
    * @type {string}
    * @memberof UserDelegationKey
    */
-  signedOid: string;
+  signedObjectId: string;
   /**
    * The Azure Active Directory tenant ID in GUID format.
    *
    * @type {string}
    * @memberof UserDelegationKey
    */
-  signedTid: string;
+  signedTenantId: string;
   /**
    * The date-time the key is active.
    *
@@ -829,8 +829,8 @@ export class BlobServiceClient extends StorageClient {
       );
 
       const userDelegationKey = {
-        signedOid: response.signedOid,
-        signedTid: response.signedTid,
+        signedObjectId: response.signedObjectId,
+        signedTenantId: response.signedTenantId,
         signedStart: new Date(response.signedStart),
         signedExpiry: new Date(response.signedExpiry),
         signedService: response.signedService,

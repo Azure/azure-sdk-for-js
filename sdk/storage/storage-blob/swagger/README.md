@@ -77,3 +77,13 @@ directive:
         $.get.responses["200"].schema = { "$ref": path };
     }
 ```
+
+### UserDelegationKey properties
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions.UserDelegationKey
+  transform: >
+    $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
+    $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
+```
