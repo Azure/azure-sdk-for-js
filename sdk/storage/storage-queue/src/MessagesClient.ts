@@ -262,7 +262,7 @@ export class MessagesClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          url = extractedCreds.url + "/" + queueName + "/messages";
+          url = appendToURLPath(appendToURLPath(extractedCreds.url, queueName), "messages");
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
@@ -270,7 +270,10 @@ export class MessagesClient extends StorageClient {
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
-        url = extractedCreds.url + "/" + queueName + "/messages" + "?" + extractedCreds.accountSas;
+        url =
+          appendToURLPath(appendToURLPath(extractedCreds.url, queueName), "messages") +
+          "?" +
+          extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(

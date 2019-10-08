@@ -407,13 +407,13 @@ export class ShareClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          url = extractedCreds.url + "/" + shareName;
+          url = appendToURLPath(extractedCreds.url, shareName);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        url = extractedCreds.url + "/" + shareName + "?" + extractedCreds.accountSas;
+        url = appendToURLPath(extractedCreds.url, shareName) + "?" + extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(

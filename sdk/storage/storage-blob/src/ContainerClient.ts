@@ -589,14 +589,17 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          url = extractedCreds.url + "/" + containerName + "/";
+          url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
           options.proxy = extractedCreds.proxyUri;
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        url = extractedCreds.url + "/" + containerName + "?" + extractedCreds.accountSas;
+        url =
+          appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
+          "?" +
+          extractedCreds.accountSas;
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
