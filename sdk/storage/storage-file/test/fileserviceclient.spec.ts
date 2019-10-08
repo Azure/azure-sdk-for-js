@@ -54,7 +54,8 @@ describe("FileServiceClient", () => {
 
     const result1 = (await serviceClient
       .listShares({
-        include: ["metadata", "snapshots"],
+        includeMetadata: true,
+        includeSnapshots: true,
         prefix: shareNamePrefix
       })
       .byPage({ maxPageSize: 1 })
@@ -69,7 +70,8 @@ describe("FileServiceClient", () => {
 
     const result2 = (await serviceClient
       .listShares({
-        include: ["metadata", "snapshots"],
+        includeMetadata: true,
+        includeSnapshots: true,
         prefix: shareNamePrefix
       })
       .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
@@ -97,7 +99,8 @@ describe("FileServiceClient", () => {
     await shareClient2.create({ metadata: { key: "val" } });
 
     for await (const item of serviceClient.listShares({
-      include: ["metadata", "snapshots"],
+      includeMetadata: true,
+      includeSnapshots: true,
       prefix: shareNamePrefix
     })) {
       assert.ok(item.name.startsWith(shareNamePrefix));
@@ -122,7 +125,8 @@ describe("FileServiceClient", () => {
     await shareClient2.create({ metadata: { key: "val" } });
 
     const iter = await serviceClient.listShares({
-      include: ["metadata", "snapshots"],
+      includeMetadata: true,
+      includeSnapshots: true,
       prefix: shareNamePrefix
     });
     let shareItem = await iter.next();
@@ -154,7 +158,8 @@ describe("FileServiceClient", () => {
 
     for await (const response of serviceClient
       .listShares({
-        include: ["metadata", "snapshots"],
+        includeMetadata: true,
+        includeSnapshots: true,
         prefix: shareNamePrefix
       })
       .byPage({ maxPageSize: 2 })) {
@@ -184,7 +189,8 @@ describe("FileServiceClient", () => {
 
     let iter = serviceClient
       .listShares({
-        include: ["metadata", "snapshots"],
+        includeMetadata: true,
+        includeSnapshots: true,
         prefix: shareNamePrefix
       })
       .byPage({ maxPageSize: 2 });
@@ -200,7 +206,8 @@ describe("FileServiceClient", () => {
     const marker = response.nextMarker;
     iter = serviceClient
       .listShares({
-        include: ["metadata", "snapshots"],
+        includeMetadata: true,
+        includeSnapshots: true,
         prefix: shareNamePrefix
       })
       .byPage({ continuationToken: marker, maxPageSize: 2 });

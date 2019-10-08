@@ -126,11 +126,10 @@ export interface ServiceListQueuesOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {ListQueuesIncludeType} [include] Include this parameter to
-   * specify that the queue's metadata be returned as part of the response
-   * body. Possible values include: 'metadata'
+   * @member {ListQueuesIncludeType} [include] Specifies whether the queue's metadata be returned as part of the response
+   * body.
    */
-  include?: ListQueuesIncludeType;
+  includeMetadata?: boolean;
 }
 
 /**
@@ -510,8 +509,13 @@ export class QueueServiceClient extends StorageClient {
   public listQueues(
     options: ServiceListQueuesOptions = {}
   ): PagedAsyncIterableIterator<Models.QueueItem, Models.ServiceListQueuesSegmentResponse> {
+    const updatedOptions: ServiceListQueuesSegmentOptions = {
+      ...options,
+      ...(options.includeMetadata ? { include: "metadata" } : {})
+    };
+
     // AsyncIterableIterator to iterate over queues
-    const iter = this.listItems(options);
+    const iter = this.listItems(updatedOptions);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -531,7 +535,7 @@ export class QueueServiceClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxresults: settings.maxPageSize,
-          ...options
+          ...updatedOptions
         });
       }
     };

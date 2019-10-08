@@ -39,7 +39,6 @@ interface ServiceListSharesSegmentOptions extends CommonOptions {
    * @memberof ServiceListSharesSegmentOptions
    */
   prefix?: string;
-
   /**
    * Specifies the maximum number of entries to
    * return. If the request does not specify maxresults, or specifies a value
@@ -83,14 +82,22 @@ export interface ServiceListSharesOptions extends CommonOptions {
    * @memberof ServiceListSharesOptions
    */
   prefix?: string;
+
   /**
-   * Include this parameter to
-   * specify one or more datasets to include in the response.
+   * Specifies that share snapshots should be included in the enumeration. Share Snapshots are listed from oldest to newest in the response.
    *
-   * @type {Models.ListSharesIncludeType[]}
-   * @memberof ServiceListSharesSegmentOptions
+   * @type {boolean}
+   * @memberof ServiceListSharesOptions
    */
-  include?: Models.ListSharesIncludeType[];
+  includeMetadata?: boolean;
+
+  /**
+   * Specifies that share metadata should be returned in the response.
+   *
+   * @type {boolean}
+   * @memberof ServiceListSharesOptions
+   */
+  includeSnapshots?: boolean;
 }
 
 /**
@@ -478,8 +485,21 @@ export class FileServiceClient extends StorageClient {
   public listShares(
     options: ServiceListSharesOptions = {}
   ): PagedAsyncIterableIterator<Models.ShareItem, Models.ServiceListSharesSegmentResponse> {
+    const include: Models.ListSharesIncludeType[] = [];
+    if (options.includeMetadata) {
+      include.push("metadata");
+    }
+    if (options.includeSnapshots) {
+      include.push("snapshots");
+    }
+
+    const updatedOptions: ServiceListSharesSegmentOptions = {
+      ...options,
+      ...(include.length > 0 ? { include: include } : {})
+    };
+
     // AsyncIterableIterator to iterate over queues
-    const iter = this.listItems(options);
+    const iter = this.listItems(updatedOptions);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -499,7 +519,7 @@ export class FileServiceClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxresults: settings.maxPageSize,
-          ...options
+          ...updatedOptions
         });
       }
     };
