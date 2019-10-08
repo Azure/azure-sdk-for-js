@@ -4,7 +4,8 @@
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
 - [Breaking] `Models.StorageServiceProperties` is renamed into `Models.QueueServiceProperties`.
-- [Breaking] `Models.StorageServiceStats` is renamed into `Models.QueueServiceStatistics`
+- [Breaking] `Models.StorageServiceStats` is renamed into `Models.QueueServiceStatistics`.
+- [Breaking] `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
 
 ### 2019.08 Version 12.0.0-preview.2
 

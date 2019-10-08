@@ -434,10 +434,10 @@ describe("BlobServiceClient", () => {
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
     assert.notDeepStrictEqual(response.value, undefined);
     assert.notDeepStrictEqual(response.signedVersion, undefined);
-    assert.notDeepStrictEqual(response.signedTid, undefined);
+    assert.notDeepStrictEqual(response.signedTenantId, undefined);
     assert.notDeepStrictEqual(response.signedStart, undefined);
     assert.notDeepStrictEqual(response.signedService, undefined);
-    assert.notDeepStrictEqual(response.signedOid, undefined);
+    assert.notDeepStrictEqual(response.signedObjectId, undefined);
     assert.notDeepStrictEqual(response.signedExpiry, undefined);
   });
 });

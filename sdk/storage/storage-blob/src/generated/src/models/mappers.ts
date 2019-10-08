@@ -41,7 +41,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "UserDelegationKey",
     modelProperties: {
-      signedOid: {
+      signedObjectId: {
         xmlName: "SignedOid",
         required: true,
         serializedName: "SignedOid",
@@ -49,7 +49,7 @@ export const UserDelegationKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      signedTid: {
+      signedTenantId: {
         xmlName: "SignedTid",
         required: true,
         serializedName: "SignedTid",

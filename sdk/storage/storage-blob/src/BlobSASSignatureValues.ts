@@ -579,8 +579,8 @@ function generateBlobSASQueryParametersUDK20181109(
       blobSASSignatureValues.containerName,
       blobSASSignatureValues.blobName
     ),
-    userDelegationKeyCredential.userDelegationKey.signedOid,
-    userDelegationKeyCredential.userDelegationKey.signedTid,
+    userDelegationKeyCredential.userDelegationKey.signedObjectId,
+    userDelegationKeyCredential.userDelegationKey.signedTenantId,
     userDelegationKeyCredential.userDelegationKey.signedStart
       ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStart, false)
       : "",

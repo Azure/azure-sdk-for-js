@@ -30,11 +30,11 @@ export interface UserDelegationKey {
   /**
    * The Azure Active Directory object ID in GUID format.
    */
-  signedOid: string;
+  signedObjectId: string;
   /**
    * The Azure Active Directory tenant ID in GUID format
    */
-  signedTid: string;
+  signedTenantId: string;
   /**
    * The date-time the key is active
    * **NOTE: This entity will be treated as a string instead of a Date because the API can

@@ -12,8 +12,9 @@
   - `accountName` is added to `MessageIdClient`, `MessagesClient`, `QueueClient` and `QueueServiceClient`.
   - `queueName` is added to `MessageIdClient`, `MessagesClient` and `QueueClient`.
   - `messageId` is added to `MessageIdClient`.
-- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.QueueServiceProperties`
-- [Breaking] `Models.StorageServiceStats` is renamed into `Models.QueueServiceStatistics`
+- [Breaking] `Models.StorageServiceProperties` is renamed to `Models.QueueServiceProperties`.
+- [Breaking] `Models.StorageServiceStats` is renamed to `Models.QueueServiceStatistics`.
+- [Breaking] `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
 
 ## 2019.08 12.0.0-preview.3
 
