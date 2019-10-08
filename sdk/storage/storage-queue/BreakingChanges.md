@@ -2,14 +2,26 @@
 
 ### 2019.10 Version 12.0.0-preview.3
 
-- [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
-- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.QueueServiceProperties`.
-- [Breaking] `Models.StorageServiceStats` is renamed into `Models.QueueServiceStatistics`.
-- [Breaking] `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
-
+- `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
+- `Models.StorageServiceProperties` is renamed into `Models.QueueServiceProperties`.
+- `Models.StorageServiceStats` is renamed into `Models.QueueServiceStatistics`.
+- `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
+- Replace string with boolean flag to specify dataset to include when listing queues.
+  Before this change the option is specified as
+  ```js
+  queueServiceClient.listShares({
+    include: "metadata"
+  });
+  ```
+  After this change:
+  ```js
+  queueServiceClient.listShares({
+    includeMetadata: true
+  });
+  ```
 ### 2019.08 Version 12.0.0-preview.2
 
-- [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+- Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
 
 ### 2019.07 Version 12.0.0-preview.1

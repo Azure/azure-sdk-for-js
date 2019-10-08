@@ -2,7 +2,7 @@
 
 ### 2019.10 Version 12.0.0-preview.4
 
-- [Breaking] Replace string array with boolean flags to specify dataset to include when list containers or blobs.
+- Replace string array with boolean flags to specify dataset to include when list containers or blobs.
   - For listing containers
     Before this change the option is specified as
     ```js
@@ -33,9 +33,9 @@
       includeUncommitedBlobs: true
     });
     ```
-- [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on `LeaseClient`.
-- [Breaking] Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
-- [Breaking] `Models.StorageServiceProperties` is renamed into `Models.BlobServiceProperties`
+- Fixed typo - `chanageLease` -> `changeLease`, a method on `LeaseClient`.
+- Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
+- `Models.StorageServiceProperties` is renamed into `Models.BlobServiceProperties`
 
 ### 2019.09 Version 12.0.0-preview.3
 
@@ -43,7 +43,7 @@
 
 ### 2019.08 Version 12.0.0-preview.2
 
-- [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
+- Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
 
 ### 2019.07 Version 12.0.0-preview.1
