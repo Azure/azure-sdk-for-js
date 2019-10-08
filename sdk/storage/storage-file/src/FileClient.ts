@@ -695,7 +695,7 @@ export class FileClient extends StorageClient {
     super(url, pipeline);
     ({
       shareName: this._shareName,
-      filePathOrdirectoryPath: this._filePath
+      filePathOrDirectoryPath: this._filePath
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new File(this.storageClientContext);
   }
