@@ -1,4 +1,5 @@
 import { HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
@@ -15,34 +16,26 @@ export interface TestOperation extends PollOperation<TestOperationProperties, st
 
 async function update(
   this: TestOperation,
-  fireProgress: (properties: TestOperationProperties) => void
+  options: {
+    abortSignal?: AbortSignalLike;
+    fireProgress?: (properties: TestOperationProperties) => void;
+  } = {}
 ): Promise<TestOperation> {
   const { client, requestOptions, initialResponse, previousResponse } = this.properties;
+  const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
 
   let response: HttpOperationResponse;
   const doFinalResponse = previousResponse && previousResponse.parsedBody.doFinalResponse;
 
   if (!initialResponse) {
-    response = await client.sendInitialRequest(
-      new TestWebResource(
-        requestOptions && requestOptions.abortSignal // abortSignal?: AbortSignalLike,
-      )
-    );
+    response = await client.sendInitialRequest(new TestWebResource(abortSignal));
     this.properties.initialResponse = response;
   } else if (doFinalResponse) {
-    response = await client.sendFinalRequest(
-      new TestWebResource(
-        requestOptions && requestOptions.abortSignal // abortSignal?: AbortSignalLike,
-      )
-    );
+    response = await client.sendFinalRequest(new TestWebResource(abortSignal));
     this.state.completed = true;
     this.state.result = "Done";
   } else {
-    response = await client.sendRequest(
-      new TestWebResource(
-        requestOptions && requestOptions.abortSignal // abortSignal?: AbortSignalLike,
-      )
-    );
+    response = await client.sendRequest(new TestWebResource(abortSignal));
   }
 
   const maker =
@@ -54,19 +47,25 @@ async function update(
   };
 
   // Progress only after the poller has started and before the poller is done
-  if (!(!initialResponse || doFinalResponse)) {
-    fireProgress(properties);
+  if (!(!initialResponse || doFinalResponse) && options.fireProgress) {
+    options.fireProgress(properties);
   }
 
   return maker({ ...this.state }, properties);
 }
 
-async function cancel(this: TestOperation): Promise<TestOperation> {
+async function cancel(
+  this: TestOperation,
+  options: { abortSignal?: AbortSignal } = {}
+): Promise<TestOperation> {
   const requestOptions = this.properties.requestOptions;
+  const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
 
-  if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
+  if (abortSignal && abortSignal.aborted) {
     // Simulating a try catch of an HTTP request that's given an aborted abortSignal.
-    return await this.update((_) => null); // This will throw
+    return await this.update({
+      abortSignal
+    }); // This will throw
   }
 
   // Simulating the response of an HTTP Request
@@ -95,12 +94,18 @@ function toString(this: TestOperation): string {
   });
 }
 
-async function unsupportedCancel(this: TestOperation): Promise<TestOperation> {
+async function unsupportedCancel(
+  this: TestOperation,
+  options: { abortSignal?: AbortSignal } = {}
+): Promise<TestOperation> {
   const requestOptions = this.properties.requestOptions;
+  const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
 
-  if (requestOptions && requestOptions.abortSignal && requestOptions.abortSignal.aborted) {
+  if (abortSignal && abortSignal.aborted) {
     // Simulating a try catch of an HTTP request that's given an aborted abortSignal.
-    return await this.update((_) => null); // This will throw
+    return await this.update({
+      abortSignal
+    }); // This will throw
   }
 
   throw new Error("Cancellation not supported");
