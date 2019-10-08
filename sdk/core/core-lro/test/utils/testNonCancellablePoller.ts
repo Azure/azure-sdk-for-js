@@ -1,11 +1,7 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller, PollOperationState } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
-import {
-  makeNonCancellableOperation,
-  TestOperation,
-  TestOperationProperties
-} from "./testOperation";
+import { makeOperation, TestOperation, TestOperationProperties } from "./testOperation";
 
 export class TestNonCancellablePoller extends Poller<TestOperationProperties, string> {
   public intervalInMs: number;
@@ -26,10 +22,11 @@ export class TestNonCancellablePoller extends Poller<TestOperationProperties, st
       properties = baseOperation.properties;
     }
 
-    const operation = makeNonCancellableOperation(state, {
+    const operation = makeOperation(state, {
       ...properties,
       client,
-      requestOptions
+      requestOptions,
+      unsupportedCancel: true
     });
 
     super(operation, manual);

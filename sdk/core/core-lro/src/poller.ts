@@ -97,8 +97,10 @@ export abstract class Poller<TProperties, TResult> {
         this.pollOncePromise = undefined;
       };
       this.pollOncePromise.then(after, after);
-    } else if (options.abortSignal) {
-      throw new Error("A poll request is currently pending");
+    } else {
+      throw new Error(
+        "This poller is in automatic mode. You can get its current status with the .getState() method. To poll manually, pass { manual: true } when creating the poller."
+      );
     }
     return this.pollOncePromise;
   }

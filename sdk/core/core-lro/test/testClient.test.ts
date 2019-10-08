@@ -41,7 +41,7 @@ describe("Long Running Operations - custom client", function() {
     const poller = await client.startLRO();
 
     // synchronously checking the operation state
-    await poller.poll();
+    await delay(10);
     assert.ok(poller.getState().started);
 
     // Checking the serialized version of the operation
@@ -65,19 +65,18 @@ describe("Long Running Operations - custom client", function() {
 
     const poller = await client.startLRO();
 
-    // To update the operation state, the following asyncrhonous method is provided:
-    await poller.poll();
+    await delay(10);
 
     assert.ok(poller.getProperties().initialResponse!.parsedBody.started);
     assert.ok(poller.getProperties().previousResponse!.parsedBody.started);
 
-    await poller.poll();
+    await delay(10);
     assert.ok(poller.getProperties().previousResponse!.parsedBody.doFinalResponse);
 
     let result = await poller.getState().result;
     assert.equal(result, undefined);
 
-    await poller.poll();
+    await poller.done();
     assert.ok(poller.getProperties().previousResponse!.parsedBody.finished);
     assert.ok(poller.getState().completed);
 
@@ -128,15 +127,16 @@ describe("Long Running Operations - custom client", function() {
       assert.equal(e.message, "Poller cancelled");
     });
 
-    await poller.poll();
+    await delay(10);
     assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
 
     await delay(100); // The poller loops every 10 milliseconds
-    assert.equal(client.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 11);
 
     await poller.cancelOperation();
     assert.ok(poller.getState().cancelled);
+    assert.ok(poller.isStopped());
   });
 
   it("fails to cancel the operation (when cancellation is not supported)", async function() {
@@ -176,17 +176,17 @@ describe("Long Running Operations - custom client", function() {
       assert.equal(e.message, "Poller stopped");
     });
 
-    await poller.poll();
+    await delay(10);
     assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
 
     await delay(100); // The poller loops every 10 milliseconds
-    assert.equal(client.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 11);
 
     poller.stop();
 
     await delay(100);
-    assert.equal(client.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 11);
   });
 
   it("can document progress", async function() {
@@ -232,7 +232,6 @@ describe("Long Running Operations - custom client", function() {
 
     await delay(100); // The poller loops every 10 milliseconds
 
-    // The first client does the first request, then goes through 9 more (10).
     assert.equal(client.totalSentRequests, 10);
 
     poller.stop();
