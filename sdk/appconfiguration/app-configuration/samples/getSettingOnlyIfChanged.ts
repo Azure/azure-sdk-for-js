@@ -22,8 +22,6 @@ export async function run() {
   const addedSetting = await client.addConfigurationSetting({ key, value: "Initial value" });
 
   // now our application only wants to download the setting if it's changed
-  // when it's not changed we throw an error that you can inspect and deal
-  // with
   console.log("Checking to see if the value has changed using the etag and ifNoneMatch");
 
   const unchangedResponse = await client.getConfigurationSetting(
@@ -35,10 +33,13 @@ export async function run() {
   );
 
   // we return the response so you can still inspect the returned headers. The body, however, is blank
-  console.log(`Received a response code of ${unchangedResponse._response.status}`);
+  console.log(`Received a response code of ${unchangedResponse.statusCode}`);   // will be HTTP status 304
 
   try {
-    // however, to prevent any accidents or issues we do throw for the fields - this model really isn't usable
+    // To prevent any accidental usages of this model we throw on access to the properties - this model wasn't deserialized
+    // from an actual HTTP response body so it's invalid
+    //
+    // The _request and .statusCode properties, however, are valid and available
     unchangedResponse.key;
     throw new Error(
       "We won't get here - accessing .key (or any members) will throw a ResponseBodyNotFoundError"

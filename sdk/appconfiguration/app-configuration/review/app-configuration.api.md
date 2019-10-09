@@ -98,6 +98,7 @@ export interface GetConfigurationSettingOptions extends RequestOptionsBase, Http
 
 // @public
 export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseField<GetConfigurationHeaders> {
+    statusCode: number;
 }
 
 // @public

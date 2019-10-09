@@ -80,6 +80,7 @@ describe("etags", () => {
     });
 
     assert.equal(response._response.status, 304);
+    assert.equal(response.statusCode, 304);
 
     assert.throws(() => response.contentType, /The requested value was not retrieved since it has not changed since the last request./, "");
     assert.throws(() => response.etag, /The requested value was not retrieved since it has not changed since the last request./, "");
@@ -94,11 +95,14 @@ describe("etags", () => {
     await client.setConfigurationSetting({ key: key, value: "new world" });
 
     const updatedSetting = await client.getConfigurationSetting({ key });
+    
     assert.notEqual(
       originalSetting.etag,
       updatedSetting.etag,
       "New content, new update, etags shouldn't match"
     );
+
+    assert.equal(200, updatedSetting.statusCode);
 
     // only get the setting if it changed (it has!)
     const configurationSetting = await client.getConfigurationSetting({ key }, {

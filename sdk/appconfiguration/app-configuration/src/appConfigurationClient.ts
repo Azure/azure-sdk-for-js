@@ -142,26 +142,32 @@ export class AppConfigurationClient {
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
     return await this.spanner.trace("getConfigurationSetting", options, async (newOptions) => {
-      const response = (await this.client.getKeyValue(id.key, {
+      const originalResponse = await this.client.getKeyValue(id.key, {
         label: id.label,
         select: newOptions.fields,
         ...newOptions,
-        ...checkAndFormatIfAndIfNoneMatch(newOptions)
-      })) as GetConfigurationSettingResponse;
+        ...checkAndFormatIfAndIfNoneMatch(newOptions),
+      });
+
+      const response: GetConfigurationSettingResponse = {
+        ...originalResponse,
+        _response: originalResponse._response,
+        statusCode: originalResponse._response.status
+      };
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
-      if (response._response.status === 304) {
-        return this.craftSpecial304Response(response);
+      if (response.statusCode === 304) {
+        return AppConfigurationClient.craftSpecial304Response(response);
       }
 
       return response;
     });
   }
 
-  craftSpecial304Response(originalResponse: GetConfigurationSettingResponse): GetConfigurationSettingResponse {
-    const newResponse : GetConfigurationSettingResponse = {
-      ...originalResponse,
+  private static craftSpecial304Response(originalResponse: GetConfigurationSettingResponse): GetConfigurationSettingResponse {
+    const newResponse: GetConfigurationSettingResponse = {
+        ...originalResponse,
       _response: originalResponse._response
     };
 
@@ -181,18 +187,19 @@ export class AppConfigurationClient {
       "value"
     ];
 
-    const err =  new ResponseBodyNotFoundError(
-      "The requested value was not retrieved since it has not changed since the last request.",
-      "Resource same as remote",
-      originalResponse._response.status,
-      originalResponse._response.request,
-      originalResponse._response,
-      null
-    );
+    const errThrower = () => {
+      throw new ResponseBodyNotFoundError(
+        "The requested value was not retrieved since it has not changed since the last request.",
+        "Resource same as remote",
+        originalResponse.statusCode,
+        originalResponse._response.request,
+        originalResponse._response,
+        null)
+    };
 
     for (const name of names) {
       Object.defineProperty(newResponse, name, {
-        get: () => { throw err }
+        get: errThrower
       });
     }
 
