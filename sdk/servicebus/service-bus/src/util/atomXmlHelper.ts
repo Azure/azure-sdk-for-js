@@ -6,9 +6,7 @@ import {
   HttpOperationResponse,
   RestError,
   stripRequest,
-  stripResponse,
-  XMLRequestInJSON,
-  XMLResponseInJSON
+  stripResponse
 } from "@azure/core-http";
 
 import * as ServiceBusConstants from "./constants";
@@ -24,8 +22,8 @@ export function serializeToAtomXmlRequest(
   resource: any,
   properties: string[],
   xmlNamespace: string
-): XMLRequestInJSON {
-  const content: XMLRequestInJSON = {};
+): object {
+  const content: any = {};
   content[resourceName] = {
     $: {
       xmlns: xmlNamespace
@@ -97,7 +95,7 @@ export async function deserializeAtomXmlResponse(
 function parseAtomResult(
   atomResponseInJson: any,
   nameProperties: string[]
-): XMLResponseInJSON[] | XMLResponseInJSON | undefined {
+): object[] | object | undefined {
   let result: any;
   if (!atomResponseInJson) {
     return;
@@ -111,7 +109,7 @@ function parseAtomResult(
 
   if (result) {
     if (Array.isArray(result)) {
-      result.forEach((entry: XMLResponseInJSON) => {
+      result.forEach((entry: object) => {
         setName(entry, nameProperties);
       });
     } else {
@@ -128,8 +126,8 @@ function parseAtomResult(
  * Utility to help parse given `entry` result
  * @param entry
  */
-function parseEntryResult(entry: any): XMLResponseInJSON | undefined {
-  let result: XMLResponseInJSON;
+function parseEntryResult(entry: any): object | undefined {
+  let result: any;
 
   if (
     typeof entry !== "object" ||
@@ -179,7 +177,7 @@ function parseEntryResult(entry: any): XMLResponseInJSON | undefined {
  * Utility to help parse given `feed` result
  * @param feed
  */
-function parseFeedResult(feed: any): XMLResponseInJSON[] {
+function parseFeedResult(feed: any): object[] {
   const result = [];
   if (typeof feed === "object" && feed != null && feed.entry) {
     if (Array.isArray(feed.entry)) {
@@ -216,7 +214,7 @@ function isKnownResponseCode(
  * @param entry
  * @param nameProperties
  */
-function setName(entry: XMLResponseInJSON, nameProperties: any): any {
+function setName(entry: any, nameProperties: any): any {
   if (entry[ServiceBusConstants.ATOM_METADATA_MARKER]) {
     const parsedUrl = new URL(entry[ServiceBusConstants.ATOM_METADATA_MARKER].id);
 
@@ -294,10 +292,12 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
     }
   }
 
-  const error: RestError = new RestError(`ATOM Service Error: ${errorMessage}`);
-  error.code = normalizedError.code;
-  error.statusCode = response.status;
-  error.request = stripRequest(response.request);
-  error.response = stripResponse(response);
+  const error: RestError = new RestError(
+    `ATOM Service Error: ${errorMessage}`,
+    normalizedError.code,
+    response.status,
+    stripRequest(response.request),
+    stripResponse(response)
+  );
   return error;
 }
