@@ -28,7 +28,7 @@
   ],
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./types/core-lro.d.ts",
+  "types": "./types/src/index.d.ts",
   "files": [
     "types/core-lro.d.ts",
     "dist/",
