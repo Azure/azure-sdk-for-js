@@ -1,26 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  DeleteKeyValueHeaders,
-  DeleteLockHeaders,
-  GetKeyValueHeaders,
-  PutKeyValueHeaders,
-  PutLockHeaders,
-  GetKeyValuesHeaders,
-  GetRevisionsHeaders
-} from "./generated/src/models/index";
 import { RequestOptionsBase, HttpResponse } from "@azure/core-http";
-
-export {
-  DeleteKeyValueHeaders,
-  DeleteLockHeaders,
-  GetKeyValueHeaders,
-  GetKeyValuesHeaders,
-  GetRevisionsHeaders,
-  PutKeyValueHeaders,
-  PutLockHeaders
-} from "./generated/src/models/index";
 
 /**
  * Fields that uniquely identify a configuration setting
@@ -270,7 +251,7 @@ export interface ListConfigurationSettingsOptions extends RequestOptionsBase, Li
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListConfigurationSettingPage extends HttpResponseField<GetKeyValuesHeaders> {
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
   /**
    * The configuration settings for this page of results.
    */
@@ -287,7 +268,7 @@ export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOp
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders> {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
   /**
    * The configuration settings for this page of results.
    */

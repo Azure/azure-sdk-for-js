@@ -75,18 +75,6 @@ export interface DeleteConfigurationSettingResponse extends ConfigurationSetting
 }
 
 // @public
-export interface DeleteKeyValueHeaders {
-    eTag?: string;
-    syncToken?: string;
-}
-
-// @public
-export interface DeleteLockHeaders {
-    eTag?: string;
-    syncToken?: string;
-}
-
-// @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
     lastModifiedHeader?: string;
 }
@@ -99,23 +87,6 @@ export interface GetConfigurationSettingOptions extends RequestOptionsBase, Http
 // @public
 export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseField<GetConfigurationHeaders> {
     statusCode: number;
-}
-
-// @public
-export interface GetKeyValueHeaders {
-    eTag?: string;
-    lastModifiedHeader?: string;
-    syncToken?: string;
-}
-
-// @public
-export interface GetKeyValuesHeaders {
-    syncToken?: string;
-}
-
-// @public
-export interface GetRevisionsHeaders {
-    syncToken?: string;
 }
 
 // @public
@@ -133,7 +104,7 @@ export interface HttpResponseField<HeadersT> {
 }
 
 // @public
-export interface ListConfigurationSettingPage extends HttpResponseField<GetKeyValuesHeaders> {
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
     items: ConfigurationSetting[];
 }
 
@@ -146,7 +117,7 @@ export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOp
 }
 
 // @public
-export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders> {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
     items: ConfigurationSetting[];
 }
 
@@ -160,18 +131,6 @@ export interface ListSettingsOptions extends OptionalFields {
 // @public
 export interface OptionalFields {
     fields?: (keyof ConfigurationSetting)[];
-}
-
-// @public
-export interface PutKeyValueHeaders {
-    eTag?: string;
-    syncToken?: string;
-}
-
-// @public
-export interface PutLockHeaders {
-    eTag?: string;
-    syncToken?: string;
 }
 
 // @public
