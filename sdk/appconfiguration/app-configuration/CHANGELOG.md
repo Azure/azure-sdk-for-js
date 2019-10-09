@@ -1,4 +1,4 @@
-# 1.0.0-preview.4 (2019-10-09)
+# 1.0.0-preview.5 (2019-10-09)
 
 - Updated to use the latest version of `@azure/core-tracing`, `@azure/core-http` and `@azure/core-arm` packages
 
