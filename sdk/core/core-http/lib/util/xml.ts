@@ -5,6 +5,10 @@ import * as xml2js from "xml2js";
 import { Constants } from "./constants";
 const xmlbuilder: any = require("xmlbuilder");
 
+// Note: The reason we re-define all of the xml2js default settings (version 2.0) here is because the default settings object exposed
+// by the xm2js library is mutable. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/536
+// By creating a new copy of the settings each time we instantiate the parser,
+// we are safeguarding against the possibility of the default settings being mutated elsewhere unintentionally.
 const xml2jsDefaults = {
   explicitCharkey: false,
   trim: false,
@@ -125,7 +129,6 @@ function getDefaultSettingsForAtomXmlOperations(): any {
   xml2jsSettings.charkey = "_";
   xml2jsSettings.explicitCharkey = false;
   xml2jsSettings.explicitArray = false;
-  xml2jsSettings.ignoreAttrs = true;
   return xml2jsSettings;
 }
 
@@ -195,11 +198,7 @@ function writeElementValue(parentElement: any, name: any, value: any): any {
 
       parentElement = parentElement.ele(propertyTagName);
       if (value[Constants.XML_VALUE_MARKER]) {
-        if (value[Constants.XML_VALUE_MARKER].toString().startsWith("<![CDATA[")) {
-          parentElement = parentElement.raw(value[Constants.XML_VALUE_MARKER]);
-        } else {
-          parentElement = parentElement.txt(value[Constants.XML_VALUE_MARKER]);
-        }
+        parentElement = parentElement.raw(value[Constants.XML_VALUE_MARKER]);
       }
     } else {
       // Example:
@@ -216,16 +215,9 @@ function writeElementValue(parentElement: any, name: any, value: any): any {
   } else {
     if (value != undefined) {
       parentElement = parentElement.ele(propertyTagName);
-      if (
-        value
-          .toString()
-          .trim()
-          .startsWith("<![CDATA[")
-      ) {
-        parentElement = parentElement.raw(value.toString());
-      } else {
-        parentElement = parentElement.txt(value.toString());
-      }
+      parentElement = parentElement.raw(value.toString());
+    } else {
+      parentElement = parentElement.ele(propertyTagName, {}, undefined);
     }
   }
 

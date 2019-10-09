@@ -129,11 +129,21 @@ class TestSerializer implements AtomXmlSerializer {
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     const expectedParsedBody = {
       entry: {
+        $: {
+          xmlns: "http://www.w3.org/2005/Atom"
+        },
         author: { name: "dummy" },
         id: "https://dummy.servicebus.windows.net/dummy?api-version=2017-04",
-        title: "dummy",
+        title: { $: { type: "text" }, _: "dummy" },
         content: {
+          $: {
+            type: "application/xml"
+          },
           QueueDescription: {
+            $: {
+              xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
+              "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
+            },
             LockDuration: "PT2M",
             MaxSizeInMegabytes: "1024"
           }
