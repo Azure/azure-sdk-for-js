@@ -1,10 +1,17 @@
 import { delay } from "@azure/core-http";
 import { Poller, PollOperationState } from "@azure/core-lro";
-import { CertificatePollOperation, CertificatePollOperationProperties, makePollOperation } from "./operation";
+import {
+  CertificatePollOperation,
+  CertificatePollOperationProperties,
+  makePollOperation
+} from "./operation";
 import { CertificateOperation } from "../core/models";
 import { CertificatePolicy, CertificatesClientInterface } from "../certificatesModels";
- 
-export class CertificatePoller extends Poller<CertificatePollOperationProperties, CertificateOperation> {
+
+export class CertificatePoller extends Poller<
+  CertificatePollOperationProperties,
+  CertificateOperation
+> {
   public intervalInMs: number;
 
   constructor(
@@ -23,14 +30,14 @@ export class CertificatePoller extends Poller<CertificatePollOperationProperties
       state = baseOperation.state;
       properties = baseOperation.properties;
     }
- 
+
     const operation: CertificatePollOperation = makePollOperation(state, {
       ...properties,
       name,
       certificatePolicy,
-      client,
+      client
     });
- 
+
     super(operation, manual);
 
     if (onProgress) {
@@ -43,4 +50,3 @@ export class CertificatePoller extends Poller<CertificatePollOperationProperties
     return delay(this.intervalInMs);
   }
 }
- 

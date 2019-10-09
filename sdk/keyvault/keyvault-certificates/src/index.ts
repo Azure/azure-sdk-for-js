@@ -931,7 +931,7 @@ export class CertificatesClient implements CertificatesClientInterface {
    * const serialized = poller.toJSON();
    * // A new poller can be created with:
    * // await client.startCertificateOperation("MyCertificate", policy, serialized);
-   * 
+   *
    * // Waiting until it's done
    * await poller.done();
    * ```
@@ -945,13 +945,21 @@ export class CertificatesClient implements CertificatesClientInterface {
     name: string,
     certificatePolicy: CertificatePolicy,
     options: {
-      manual?: boolean,
-      intervalInMs?: number,
-      operation?: CertificatePollOperation,
-      onProgress?: (properties: CertificatePollOperationProperties) => void
+      manual?: boolean;
+      intervalInMs?: number;
+      operation?: CertificatePollOperation;
+      onProgress?: (properties: CertificatePollOperationProperties) => void;
     } = {}
   ): Promise<CertificatePoller> {
-    return new CertificatePoller(this, name, certificatePolicy, options.manual, options.intervalInMs, options.operation, options.onProgress);
+    return new CertificatePoller(
+      this,
+      name,
+      certificatePolicy,
+      options.manual,
+      options.intervalInMs,
+      options.operation,
+      options.onProgress
+    );
   }
 
   /**

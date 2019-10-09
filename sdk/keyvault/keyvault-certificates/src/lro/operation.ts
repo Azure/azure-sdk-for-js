@@ -13,7 +13,8 @@ export interface CertificatePollOperationProperties {
   previousResponse?: CertificateOperation;
 }
 
-export interface CertificatePollOperation extends PollOperation<CertificatePollOperationProperties, CertificateOperation> {}
+export interface CertificatePollOperation
+  extends PollOperation<CertificatePollOperationProperties, CertificateOperation> {}
 
 async function update(
   this: CertificatePollOperation,
@@ -68,13 +69,16 @@ async function cancel(
   await client.cancelCertificateOperation(this.properties.name, requestOptions);
   const response = await client.getCertificateOperation(name, requestOptions);
 
-  return makePollOperation({
-    ...this.state,
-    cancelled: true
-  }, {
-    ...this.properties,
-    previousResponse: response
-  });
+  return makePollOperation(
+    {
+      ...this.state,
+      cancelled: true
+    },
+    {
+      ...this.properties,
+      previousResponse: response
+    }
+  );
 }
 
 function toString(this: CertificatePollOperation): string {

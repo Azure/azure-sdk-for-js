@@ -15,7 +15,7 @@ export interface CertificatesClientInterface {
   createCertificate(
     name: string,
     certificatePolicy: CertificatePolicy,
-    options?: CreateCertificateOptions,
+    options?: CreateCertificateOptions
   ): Promise<Certificate>;
   getCertificateOperation(
     name: string,
@@ -147,7 +147,7 @@ export interface SubjectAlternativeNames {
   /**
    * The subject type, either emails, DNS names or UPNs
    */
-  subjectType: 'emails' | 'dnsNames' | 'upns';
+  subjectType: "emails" | "dnsNames" | "upns";
   /**
    * The subject values
    */
