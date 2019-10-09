@@ -22,7 +22,11 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
    * @param {string} password Password.
    * @param {string} [authorizationScheme] The authorization scheme.
    */
-  constructor(userName: string, password: string, authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME) {
+  constructor(
+    userName: string,
+    password: string,
+    authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME
+  ) {
     if (userName === null || userName === undefined || typeof userName.valueOf() !== "string") {
       throw new Error("userName cannot be null or undefined and must be of type string.");
     }

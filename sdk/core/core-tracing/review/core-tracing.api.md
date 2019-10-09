@@ -6,6 +6,7 @@
 
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
+import { TracerBase } from '@opencensus/web-types';
 
 // @public
 export interface Attributes {
@@ -97,6 +98,7 @@ export { OpenCensusSpan }
 
 // @public
 export class OpenCensusSpanWrapper implements Span {
+    constructor(span: OpenCensusSpan);
     constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
     addEvent(name: string, attributes?: Attributes): this;
     addLink(spanContext: SpanContext, attributes?: Attributes): this;
@@ -114,12 +116,12 @@ export { OpenCensusTracer }
 
 // @public
 export class OpenCensusTracerWrapper implements Tracer {
-    constructor(tracer: OpenCensusTracer);
+    constructor(tracer: TracerBase);
     bind<T>(target: T, span?: Span): T;
     getBinaryFormat(): BinaryFormat;
     getCurrentSpan(): Span | null;
     getHttpTextFormat(): HttpTextFormat;
-    getWrappedTracer(): OpenCensusTracer;
+    getWrappedTracer(): TracerBase;
     recordSpanData(span: Span): void;
     startSpan(name: string, options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;

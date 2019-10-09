@@ -18,10 +18,7 @@ import {
   tracingPolicy
 } from "@azure/core-http";
 
-import {
-  getTracer,
-  Span
-} from "@azure/core-tracing";
+import { getTracer, Span } from "@azure/core-tracing";
 
 import {
   Certificate,
@@ -31,7 +28,7 @@ import {
   CertificatePolicy,
   CertificateProperties,
   CreateCertificateOptions,
-  SubjectAlternativeNames,
+  SubjectAlternativeNames
 } from "./certificatesModels";
 import {
   NewPipelineOptions,
@@ -88,7 +85,7 @@ import {
   RestoreCertificateResponse,
   GetDeletedCertificateResponse,
   RecoverDeletedCertificateResponse,
-  SubjectAlternativeNames as CoreSubjectAlternativeNames,
+  SubjectAlternativeNames as CoreSubjectAlternativeNames
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
@@ -181,8 +178,8 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
     if (x509Properties.subjectAlternativeNames) {
       const names = x509Properties.subjectAlternativeNames;
       subjectAlternativeNames = {
-        subjectType: names.emails ? 'emails' : names.dnsNames ? 'dnsNames' : 'upns',
-        subjectValues: names.emails || names.dnsNames || names.upns || [],
+        subjectType: names.emails ? "emails" : names.dnsNames ? "dnsNames" : "upns",
+        subjectValues: names.emails || names.dnsNames || names.upns || []
       };
     }
     optionalProperties = {
@@ -191,8 +188,8 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
       ekus: x509Properties.ekus,
       subjectAlternativeNames,
       keyUsage: x509Properties.keyUsage,
-      validityInMonths: x509Properties.validityInMonths,
-    }
+      validityInMonths: x509Properties.validityInMonths
+    };
   }
 
   return {
@@ -217,7 +214,6 @@ export class CertificatesClient {
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @returns {Pipeline} A new Pipeline object.
    * @memberof CertificatesClient
    */
   public static getDefaultPipeline(
@@ -381,7 +377,6 @@ export class CertificatesClient {
    * ```
    * @summary List all versions of the specified certificate.
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]>
    */
   public listCertificates(
     options?: RequestOptionsBase
@@ -454,13 +449,12 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * for await (const item of client.listCertificateVersions("MyCertificate")) {
-   *   console.log(item.version!);
+   *   console.log(item.properties.version!);
    * }
    * ```
    * @summary List the versions of a certificate.
    * @param name The name of the certificate.
    * @param [options] The optional parameters
-   * @returns Promise<Models.GetCertificateVersionsResponse>
    */
   public listCertificateVersions(
     name: string,
@@ -494,15 +488,14 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * await client.deleteCertificate("MyCertificate");
    * ```
    * @summary Deletes a certificate from a specified key vault.
    * @param certificateName The name of the certificate.
    * @param [options] The optional parameters
-   * @returns Promise<DeletedCertificate>
    */
   public async deleteCertificate(
     certificateName: string,
@@ -539,7 +532,6 @@ export class CertificatesClient {
    * ```
    * @summary Deletes all of the certificate contacts
    * @param options The optional parameters
-   * @returns Promise<Contacts>
    */
   public async deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts> {
     const span = this.createSpan("deleteCertificateContacts", options);
@@ -573,7 +565,6 @@ export class CertificatesClient {
    * @summary Sets the certificate contacts.
    * @param contacts The contacts to use
    * @param options The optional parameters
-   * @returns Promise<Contacts>
    */
   public async setCertificateContacts(
     contacts: Contact[],
@@ -611,7 +602,6 @@ export class CertificatesClient {
    * ```
    * @summary Sets the certificate contacts.
    * @param options The optional parameters
-   * @returns Promise<Contacts>
    */
   public async getCertificateContacts(options?: RequestOptionsBase): Promise<Contacts> {
     const span = this.createSpan("getCertificateContacts", options);
@@ -687,7 +677,6 @@ export class CertificatesClient {
    * ```
    * @summary List the certificate issuers.
    * @param options The optional parameters
-   * @returns PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>
    */
   public listCertificateIssuers(
     options?: KeyVaultClientGetCertificateIssuersOptionalParams
@@ -725,7 +714,6 @@ export class CertificatesClient {
    * @param issuerName The name of the issuer.
    * @param provider The issuer provider.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SetCertificateIssuerResponse>
    */
   public async setCertificateIssuer(
     issuerName: string,
@@ -764,7 +752,6 @@ export class CertificatesClient {
    * @summary Updates the specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param [options] The optional parameters
-   * @returns Promise<Models.UpdateCertificateIssuerResponse>
    */
   public async updateCertificateIssuer(
     issuerName: string,
@@ -802,7 +789,6 @@ export class CertificatesClient {
    * @summary Gets he specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param [options] The optional parameters
-   * @returns Promise<Models.GetCertificateIssuerResponse>
    */
   public async getCertificateIssuer(
     issuerName: string,
@@ -837,7 +823,6 @@ export class CertificatesClient {
    * @summary Deletes the specified certificate issuer.
    * @param issuerName The name of the issuer.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DeleteCertificateIssuerResponse>
    */
   public async deleteCertificateIssuer(
     issuerName: string,
@@ -867,20 +852,19 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * ```
    * @summary Creates a certificate
    * @param name The name of the certificate
    * @param certificatePolicy The certificate's policy
    * @param [options] Optional parameters
-   * @returns Promise<Certificate>
    */
   public async createCertificate(
     name: string,
     certificatePolicy: CertificatePolicy,
-    options: CreateCertificateOptions = {},
+    options: CreateCertificateOptions = {}
   ): Promise<Certificate> {
     const span = this.createSpan("createCertificate", options);
 
@@ -891,7 +875,7 @@ export class CertificatesClient {
         ...this.setParentSpan(span, options.requestOptions || {}),
         certificateAttributes: {
           ...options.certificateAttributes,
-          enabled: options.enabled,
+          enabled: options.enabled
         },
         tags: options.tags,
         certificatePolicy: toCorePolicy(certificatePolicy)
@@ -910,8 +894,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const certificate = await client.getCertificateWithPolicy("MyCertificate");
    * console.log(certificate);
@@ -919,7 +903,6 @@ export class CertificatesClient {
    * @summary Retrieves a certificate from the certificate's name (includes the certificate policy)
    * @param name The name of the certificate
    * @param options The optional parameters
-   * @returns Promise<Certificate>
    */
   public async getCertificateWithPolicy(
     name: string,
@@ -950,18 +933,17 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
-   * const certificate = await client.getCertificate("MyCertificate", certificateWithPolicy.version!);
+   * const certificate = await client.getCertificate("MyCertificate", certificateWithPolicy.properties.version!);
    * console.log(certificate);
    * ```
    * @summary Retrieves a certificate from the certificate's name and a specified version
    * @param name The name of the certificate
    * @param version The specific version of the certificate
    * @param requestOptions The optional parameters
-   * @returns Promise<Certificate>
    */
   public async getCertificate(
     name: string,
@@ -1005,7 +987,6 @@ export class CertificatesClient {
    * @param name The name of the certificate
    * @param base64EncodedCertificate The base64 encoded certificate to import
    * @param options The optional parameters
-   * @returns Promise<Certificate>
    */
   public async importCertificate(
     name: string,
@@ -1037,8 +1018,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const policy = await client.getCertificatePolicy("MyCertificate");
    * console.log(policy);
@@ -1046,7 +1027,6 @@ export class CertificatesClient {
    * @summary Gets a certificate's policy
    * @param name The name of the certificate
    * @param options The optional parameters
-   * @returns Promise<CertificatePolicy>
    */
   public async getCertificatePolicy(
     name: string,
@@ -1075,7 +1055,6 @@ export class CertificatesClient {
    * @param name The name of the certificate
    * @param policy The certificate policy
    * @param options The optional parameters
-   * @returns Promise<CertificatePolicy>
    */
   public async updateCertificatePolicy(
     name: string,
@@ -1106,8 +1085,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * await client.updateCertificate("MyCertificate", "", {
    *   tags: {
@@ -1119,7 +1098,6 @@ export class CertificatesClient {
    * @param name The name of the ceritificate
    * @param version The version of the certificate to update
    * @param options The options, including what to update
-   * @returns Promise<Certificate>
    */
   public async updateCertificate(
     name: string,
@@ -1151,8 +1129,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * await client.cancelCertificateOperation("MyCertificate");
    * ```
@@ -1160,7 +1138,6 @@ export class CertificatesClient {
    * @param name The name of the certificate
    * @param cancel Whether to cancel the operation or not
    * @param options The optional parameters
-   * @returns Promise<CertificateOperation>
    */
   public async cancelCertificateOperation(
     name: string,
@@ -1190,8 +1167,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const operation = await client.getCertificateOperation("MyCertificate");
    * console.log(operation);
@@ -1199,7 +1176,6 @@ export class CertificatesClient {
    * @summary Gets a certificate's operation
    * @param name The name of the certificate
    * @param options The optional parameters
-   * @returns Promise<CertificateOperation>
    */
   public async getCertificateOperation(
     name: string,
@@ -1230,8 +1206,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * await client.deleteCertificateOperation("MyCertificate");
    * await client.getCertificateOperation("MyCertificate"); // Throws error: Pending certificate not found: "MyCertificate"
@@ -1239,7 +1215,6 @@ export class CertificatesClient {
    * @summary Delete a certificate's operation
    * @param name The name of the certificate
    * @param options The optional parameters
-   * @returns Promise<CertificateOperation>
    */
   public async deleteCertificateOperation(
     name: string,
@@ -1269,11 +1244,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: {
-   *     name: "Unknown",
-   *     certificateTransparency: false
-   *   },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Unknown",
+   *   subjectName: "cn=MyCert"
    * });
    * const { csr } = await client.getCertificateOperation(certificateName);
    * const base64Csr = Buffer.from(csr!).toString("base64");
@@ -1293,7 +1265,6 @@ export class CertificatesClient {
    * @param name The name of the certificate
    * @param x509Certificates The certificate(s) to merge
    * @param options The optional parameters
-   * @returns Promise<Certificate>
    */
   public async mergeCertificate(
     name: string,
@@ -1324,15 +1295,14 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const backup = await client.backupCertificate("MyCertificate");
    * ```
    * @summary Generates a backup of a certificate
    * @param name The name of the certificate
    * @param options The optional parameters
-   * @returns Promise<BackupCertificateResult>
    */
   public async backupCertificate(
     name: string,
@@ -1361,8 +1331,8 @@ export class CertificatesClient {
    * ```ts
    * const client = new CertificatesClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
-   *   issuerParameters: { name: "Self" },
-   *   x509CertificateProperties: { subject: "cn=MyCert" }
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
    * });
    * const backup = await client.backupCertificate("MyCertificate");
    * await client.deleteCertificate("MyCertificate");
@@ -1372,7 +1342,6 @@ export class CertificatesClient {
    * @summary Restores a certificate from a backup
    * @param certificateBackup The back-up certificate to restore from
    * @param options The optional parameters
-   * @returns Promise<Certificate>
    */
   public async restoreCertificate(
     certificateBackup: Uint8Array,
@@ -1434,7 +1403,7 @@ export class CertificatesClient {
   }
 
   /**
-   * Rretrieves the certificates in the current vault which are in a deleted state and ready for recovery or purging. This operation includes deletion-specific
+   * Retrieves the certificates in the current vault which are in a deleted state and ready for recovery or purging. This operation includes deletion-specific
    * information. This operation requires the certificates/get/list permission. This operation can only be enabled on soft-delete enabled vaults.
    *
    * Example usage:
@@ -1451,7 +1420,6 @@ export class CertificatesClient {
    * ```
    * @summary Lists deleted certificates
    * @param options The optional parameters
-   * @returns PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]>
    */
   public listDeletedCertificates(
     options?: KeyVaultClientGetDeletedCertificatesOptionalParams
@@ -1488,7 +1456,6 @@ export class CertificatesClient {
    * @summary Gets a deleted certificate
    * @param name The name of the certificate
    * @param options The optional parameters
-   * @returns Promise<DeletedCertificate>
    */
   public async getDeletedCertificate(
     name: string,
@@ -1555,7 +1522,6 @@ export class CertificatesClient {
    * @summary Recovers a deleted cerificate
    * @param name The name of the deleted certificate
    * @param options The optional parameters
-   * @returns Promise<Certificate>
    */
   public async recoverDeletedCertificate(
     name: string,
@@ -1578,9 +1544,7 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  private getCertificateFromCertificateBundle(
-    certificateBundle: CertificateBundle
-  ): Certificate {
+  private getCertificateFromCertificateBundle(certificateBundle: CertificateBundle): Certificate {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
 
     const policy = toPublicPolicy(certificateBundle.policy || {});

@@ -11,7 +11,7 @@ import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../lib/pol
 import { Constants } from "../../lib/coreHttp";
 import { nodeDescribe, browserDescribe } from "../msAssert";
 
-describe("ProxyPolicy", function () {
+describe("ProxyPolicy", function() {
   const proxySettings: ProxySettings = {
     host: "https://example.com",
     port: 3030,
@@ -20,17 +20,18 @@ describe("ProxyPolicy", function () {
   };
 
   const emptyRequestPolicy = {
-    sendRequest: (_: WebResource) => Promise.resolve({
-      request: new WebResource(),
-      status: 404,
-      headers: new HttpHeaders(undefined)
-    })
+    sendRequest: (_: WebResource) =>
+      Promise.resolve({
+        request: new WebResource(),
+        status: 404,
+        headers: new HttpHeaders(undefined)
+      })
   };
 
   const emptyPolicyOptions = new RequestPolicyOptions();
 
-  nodeDescribe("for Node.js", function () {
-    it("factory passes correct proxy settings", function (done) {
+  nodeDescribe("for Node.js", function() {
+    it("factory passes correct proxy settings", function(done) {
       const factory = proxyPolicy(proxySettings);
       const policy = factory.create(emptyRequestPolicy, emptyPolicyOptions) as ProxyPolicy;
 
@@ -38,8 +39,7 @@ describe("ProxyPolicy", function () {
       done();
     });
 
-
-    it("sets correct proxy settings through constructor", function (done) {
+    it("sets correct proxy settings through constructor", function(done) {
       const policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       policy.proxySettings.should.be.deep.equal(proxySettings);
       done();
@@ -68,7 +68,8 @@ describe("ProxyPolicy", function () {
 
   browserDescribe("for browser", () => {
     it("should throw an Error while constructing object", () => {
-      const construct = () => new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
+      const construct = () =>
+        new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       construct.should.throw();
     });
   });
@@ -78,7 +79,7 @@ describe("getDefaultProxySettings", () => {
   const proxyUrl = "https://proxy.microsoft.com";
   const defaultPort = 80;
 
-  nodeDescribe("for Node.js", function () {
+  nodeDescribe("for Node.js", function() {
     it("should return settings with passed address", () => {
       const proxySettings: ProxySettings = getDefaultProxySettings(proxyUrl)!;
       proxySettings.host.should.equal(proxyUrl);
@@ -124,7 +125,7 @@ describe("getDefaultProxySettings", () => {
         [
           { name: "lower case", func: (envVar: string) => envVar.toLowerCase() },
           { name: "upper case", func: (envVar: string) => envVar.toUpperCase() }
-        ].forEach(testCase => {
+        ].forEach((testCase) => {
           it(`with ${testCase.name}`, () => {
             const httpProxy = "http://proxy.microsoft.com";
             const httpsProxy = "https://proxy.azure.com";
@@ -149,7 +150,7 @@ describe("getDefaultProxySettings", () => {
         });
       });
 
-      ["HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy"].forEach(envVariableName => {
+      ["HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy"].forEach((envVariableName) => {
         it(`should should load setting from "${envVariableName}" environmental variable`, () => {
           process.env[envVariableName] = proxyUrl;
           const proxySettings: ProxySettings = getDefaultProxySettings()!;
@@ -162,11 +163,13 @@ describe("getDefaultProxySettings", () => {
   });
 
   browserDescribe("for browser", () => {
-    [undefined, "http://proxy.microsoft.com", "https://proxy.azure.com:8080"].forEach(proxyUrl => {
-      it(`should return undefined for ${proxyUrl}`, () => {
-        const proxySettings = getDefaultProxySettings(proxyUrl);
-        should().not.exist(proxySettings);
-      });
-    });
+    [undefined, "http://proxy.microsoft.com", "https://proxy.azure.com:8080"].forEach(
+      (proxyUrl) => {
+        it(`should return undefined for ${proxyUrl}`, () => {
+          const proxySettings = getDefaultProxySettings(proxyUrl);
+          should().not.exist(proxySettings);
+        });
+      }
+    );
   });
 });

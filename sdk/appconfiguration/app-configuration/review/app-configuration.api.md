@@ -4,121 +4,74 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
+import { HttpResponse } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RequestOptionsBase } from '@azure/core-http';
+
+// @public
+export interface AddConfigurationSettingOptions extends RequestOptionsBase {
+}
+
+// @public
+export interface AddConfigurationSettingParam extends ConfigurationSettingParam {
+}
+
+// @public
+export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
 
 // @public
 export class AppConfigurationClient {
     constructor(connectionString: string);
-    addConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
-    clearReadOnly(configurationSetting: ConfigurationSettingParam, options?: ClearReadOnlyOptions): Promise<DeleteLockResponse>;
-    deleteConfigurationSetting(key: string, options?: AppConfigurationDeleteKeyValueOptionalParams): Promise<DeleteKeyValueResponse>;
-    getConfigurationSetting(key: string, options?: AppConfigurationGetKeyValueOptionalParams): Promise<GetConfigurationSettingResponse>;
+    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
+    clearReadOnly(id: ConfigurationSettingId, options?: ClearReadOnlyOptions): Promise<ClearReadOnlyResponse>;
+    deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
+    getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
-    setConfigurationSetting(configurationSetting: ConfigurationSettingParam, options?: ConfigurationSettingOptions): Promise<PutKeyValueResponse>;
-    setReadOnly(configurationSetting: ConfigurationSettingParam, options?: SetReadOnlyOptions): Promise<PutLockResponse>;
+    setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
+    setReadOnly(id: ConfigurationSettingId, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
+    }
+
+// @public
+export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
 }
 
 // @public
-interface AppConfigurationDeleteKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
-    ifMatch?: string;
-    label?: string;
-}
-
-export { AppConfigurationDeleteKeyValueOptionalParams }
-
-export { AppConfigurationDeleteKeyValueOptionalParams as DeleteConfigurationSettingOptions }
-
-// @public
-export interface AppConfigurationDeleteLockOptionalParams extends coreHttp.RequestOptionsBase {
-    ifMatch?: string;
-    ifNoneMatch?: string;
-    label?: string;
+export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
-interface AppConfigurationGetKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDatetime?: string;
-    ifMatch?: string;
-    ifNoneMatch?: string;
-    label?: string;
-    select?: string[];
-}
-
-export { AppConfigurationGetKeyValueOptionalParams }
-
-export { AppConfigurationGetKeyValueOptionalParams as GetConfigurationSettingOptions }
-
-// @public
-export interface AppConfigurationGetKeyValuesOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDatetime?: string;
-    after?: string;
-    key?: string;
-    label?: string;
-    select?: string[];
-}
-
-// @public
-export interface AppConfigurationGetRevisionsOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDatetime?: string;
-    after?: string;
-    key?: string;
-    label?: string;
-    select?: string[];
-}
-
-// @public
-export interface AppConfigurationPutKeyValueOptionalParams extends coreHttp.RequestOptionsBase {
-    entity?: ConfigurationSetting;
-    ifMatch?: string;
-    ifNoneMatch?: string;
-    label?: string;
-}
-
-// @public
-export interface AppConfigurationPutLockOptionalParams extends coreHttp.RequestOptionsBase {
-    ifMatch?: string;
-    ifNoneMatch?: string;
-    label?: string;
-}
-
-// @public
-export interface ClearReadOnlyOptions extends Pick<AppConfigurationDeleteLockOptionalParams, Exclude<keyof AppConfigurationDeleteLockOptionalParams, 'label'>> {
-}
-
-// @public
-export interface ConfigurationSetting {
-    // (undocumented)
-    contentType?: string;
-    // (undocumented)
+export interface ConfigurationSetting extends ConfigurationSettingParam {
     etag?: string;
-    // (undocumented)
-    key: string;
-    // (undocumented)
-    label?: string;
-    // (undocumented)
     lastModified?: Date;
-    // (undocumented)
     locked?: boolean;
-    // (undocumented)
+}
+
+// @public
+export interface ConfigurationSettingId {
+    key: string;
+    label?: string;
+}
+
+// @public
+export interface ConfigurationSettingParam extends ConfigurationSettingId {
+    contentType?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    // (undocumented)
     value?: string;
 }
 
 // @public
-export interface ConfigurationSettingId extends Pick<ConfigurationSetting, 'key' | 'label'> {
+export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
+
+// @public
+export interface DeleteConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
 }
 
 // @public
-export interface ConfigurationSettingOptions extends Pick<AppConfigurationPutKeyValueOptionalParams, Exclude<keyof AppConfigurationPutKeyValueOptionalParams, "label" | "entity">> {
-}
-
-// @public
-export interface ConfigurationSettingParam extends Pick<ConfigurationSetting, Exclude<keyof ConfigurationSetting, "locked" | "etag" | "lastModified">> {
+export interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -128,39 +81,23 @@ export interface DeleteKeyValueHeaders {
 }
 
 // @public
-type DeleteKeyValueResponse = ConfigurationSetting & DeleteKeyValueHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DeleteKeyValueHeaders;
-        bodyAsText: string;
-        parsedBody: ConfigurationSetting;
-    };
-};
-
-export { DeleteKeyValueResponse as DeleteConfigurationSettingResponse }
-
-export { DeleteKeyValueResponse }
-
-// @public
 export interface DeleteLockHeaders {
     eTag?: string;
     syncToken?: string;
 }
 
 // @public
-type DeleteLockResponse = ConfigurationSetting & DeleteLockHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DeleteLockHeaders;
-        bodyAsText: string;
-        parsedBody: ConfigurationSetting;
-    };
-};
-
-export { DeleteLockResponse as ClearReadOnlyResponse }
-
-export { DeleteLockResponse }
+export interface GetConfigurationHeaders extends SyncTokenHeaderField {
+    lastModifiedHeader?: string;
+}
 
 // @public
-export interface GetConfigurationSettingResponse extends Pick<GetKeyValueResponse, Exclude<keyof GetKeyValueResponse, 'eTag'>> {
+export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields, OptionalFields {
+    acceptDatetime?: string;
+}
+
+// @public
+export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseField<GetConfigurationHeaders> {
 }
 
 // @public
@@ -171,27 +108,9 @@ export interface GetKeyValueHeaders {
 }
 
 // @public
-export type GetKeyValueResponse = ConfigurationSetting & GetKeyValueHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: GetKeyValueHeaders;
-        bodyAsText: string;
-        parsedBody: ConfigurationSetting;
-    };
-};
-
-// @public
 export interface GetKeyValuesHeaders {
     syncToken?: string;
 }
-
-// @public
-export type GetKeyValuesResponse = KeyValueListResult & GetKeyValuesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: GetKeyValuesHeaders;
-        bodyAsText: string;
-        parsedBody: KeyValueListResult;
-    };
-};
 
 // @public
 export interface GetRevisionsHeaders {
@@ -199,42 +118,47 @@ export interface GetRevisionsHeaders {
 }
 
 // @public
-export type GetRevisionsResponse = KeyValueListResult & GetRevisionsHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: GetRevisionsHeaders;
+export interface HttpConditionalFields {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
+export interface HttpResponseField<HeadersT> {
+    _response: HttpResponse & {
+        parsedHeaders: HeadersT;
         bodyAsText: string;
-        parsedBody: KeyValueListResult;
     };
-};
-
-// @public
-export interface KeyValueListResult {
-    items?: ConfigurationSetting[];
-    nextLink?: string;
 }
 
 // @public
-export interface ListConfigurationSettingPage extends Pick<GetKeyValuesResponse, Exclude<keyof GetKeyValuesResponse, "items">> {
+export interface ListConfigurationSettingPage extends HttpResponseField<GetKeyValuesHeaders> {
     items: ConfigurationSetting[];
 }
 
 // @public
-export interface ListConfigurationSettingsOptions extends Pick<AppConfigurationGetKeyValuesOptionalParams, Exclude<keyof AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "after">> {
-    fields?: (keyof ConfigurationSetting)[];
+export interface ListConfigurationSettingsOptions extends RequestOptionsBase, ListSettingsOptions {
+}
+
+// @public
+export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOptions {
+}
+
+// @public
+export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders> {
+    items: ConfigurationSetting[];
+}
+
+// @public
+export interface ListSettingsOptions extends OptionalFields {
+    acceptDatetime?: string;
     keys?: string[];
     labels?: string[];
 }
 
 // @public
-export interface ListRevisionsOptions extends Pick<AppConfigurationGetRevisionsOptionalParams, Exclude<keyof AppConfigurationGetRevisionsOptionalParams, "key" | "label" | "select" | "after">> {
+export interface OptionalFields {
     fields?: (keyof ConfigurationSetting)[];
-    keys?: string[];
-    labels?: string[];
-}
-
-// @public
-export interface ListRevisionsPage extends Pick<GetRevisionsResponse, Exclude<keyof GetRevisionsResponse, "items">> {
-    items: ConfigurationSetting[];
 }
 
 // @public
@@ -244,41 +168,34 @@ export interface PutKeyValueHeaders {
 }
 
 // @public
-type PutKeyValueResponse = ConfigurationSetting & PutKeyValueHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: PutKeyValueHeaders;
-        bodyAsText: string;
-        parsedBody: ConfigurationSetting;
-    };
-};
-
-export { PutKeyValueResponse as AddConfigurationSettingResponse }
-
-export { PutKeyValueResponse }
-
-export { PutKeyValueResponse as SetConfigurationSettingResponse }
-
-// @public
 export interface PutLockHeaders {
     eTag?: string;
     syncToken?: string;
 }
 
 // @public
-type PutLockResponse = ConfigurationSetting & PutLockHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: PutLockHeaders;
-        bodyAsText: string;
-        parsedBody: ConfigurationSetting;
-    };
-};
-
-export { PutLockResponse }
-
-export { PutLockResponse as SetReadOnlyResponse }
+export interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
+}
 
 // @public
-export interface SetReadOnlyOptions extends Pick<AppConfigurationPutLockOptionalParams, Exclude<keyof AppConfigurationPutLockOptionalParams, 'label'>> {
+export interface SetConfigurationSettingParam extends ConfigurationSettingParam {
+}
+
+// @public
+export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
+}
+
+// @public
+export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface SyncTokenHeaderField {
+    syncToken?: string;
 }
 
 

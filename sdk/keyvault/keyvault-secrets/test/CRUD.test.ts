@@ -3,7 +3,8 @@
 
 import * as assert from "assert";
 import { SecretsClient } from "../src";
-import { retry } from "./utils/recorderUtils";
+import { isNode } from "@azure/core-http";
+import { retry, isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -17,7 +18,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -25,7 +26,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
@@ -46,6 +47,9 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   it("can abort adding a secret", async function() {
+    if (!isNode && isPlayingBack) {
+      recorder.skip();
+    }
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );

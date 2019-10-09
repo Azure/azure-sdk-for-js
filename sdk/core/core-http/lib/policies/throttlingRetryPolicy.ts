@@ -1,13 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyOptions,
+  RequestPolicyFactory
+} from "./requestPolicy";
 import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { delay } from "../util/utils";
 
-type ResponseHandler = (httpRequest: WebResource, response: HttpOperationResponse) => Promise<HttpOperationResponse>;
+type ResponseHandler = (
+  httpRequest: WebResource,
+  response: HttpOperationResponse
+) => Promise<HttpOperationResponse>;
 const StatusCodes = Constants.HttpConstants.StatusCodes;
 
 export function throttlingRetryPolicy(): RequestPolicyFactory {
@@ -27,13 +35,17 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
 export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   private _handleResponse: ResponseHandler;
 
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, _handleResponse?: ResponseHandler) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    _handleResponse?: ResponseHandler
+  ) {
     super(nextPolicy, options);
     this._handleResponse = _handleResponse || this._defaultResponseHandler;
   }
 
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(httpRequest.clone()).then(response => {
+    return this._nextPolicy.sendRequest(httpRequest.clone()).then((response) => {
       if (response.status !== StatusCodes.TooManyRequests) {
         return response;
       } else {
@@ -42,11 +54,18 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     });
   }
 
-  private async _defaultResponseHandler(httpRequest: WebResource, httpResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
-    const retryAfterHeader: string | undefined = httpResponse.headers.get(Constants.HeaderConstants.RETRY_AFTER);
+  private async _defaultResponseHandler(
+    httpRequest: WebResource,
+    httpResponse: HttpOperationResponse
+  ): Promise<HttpOperationResponse> {
+    const retryAfterHeader: string | undefined = httpResponse.headers.get(
+      Constants.HeaderConstants.RETRY_AFTER
+    );
 
     if (retryAfterHeader) {
-      const delayInMs: number | undefined = ThrottlingRetryPolicy.parseRetryAfterHeader(retryAfterHeader);
+      const delayInMs: number | undefined = ThrottlingRetryPolicy.parseRetryAfterHeader(
+        retryAfterHeader
+      );
       if (delayInMs) {
         return delay(delayInMs).then((_: any) => this._nextPolicy.sendRequest(httpRequest));
       }

@@ -34,7 +34,7 @@ export async function deleteKeyCompletely(keys: string[], client: AppConfigurati
       await client.clearReadOnly(setting);
     }
 
-    await client.deleteConfigurationSetting(setting.key, { label: setting.label });
+    await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
 

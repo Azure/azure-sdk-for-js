@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.0.0-preview.6",
+  "version": "4.0.0-preview.8",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
@@ -42,7 +42,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
-    "build:samples": "tsc samples/helloWorld.ts",
+    "build:samples": "tsc -p tsconfig.samples.json",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
@@ -69,11 +69,11 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-arm": "1.0.0-preview.4",
-    "@azure/core-http": "1.0.0-preview.4",
+    "@azure/core-arm": "1.0.0-preview.5",
+    "@azure/core-http": "1.0.0-preview.5",
     "@azure/core-paging": "1.0.0-preview.2",
-    "@azure/identity": "1.0.0-preview.4",
-    "@azure/core-tracing": "1.0.0-preview.3",
+    "@azure/identity": "1.0.0-preview.5",
+    "@azure/core-tracing": "1.0.0-preview.4",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

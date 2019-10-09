@@ -86,8 +86,9 @@ describe("Cross Partition", function() {
           documentDefinitions.length,
         "actual results length doesn't match with expected results length."
       );
-      if (expectedOrderIds)
-        {assert.deepStrictEqual(actualResults.map((doc) => doc.id || doc), expectedOrderIds);}
+      if (expectedOrderIds) {
+        assert.deepStrictEqual(actualResults.map((doc) => doc.id || doc), expectedOrderIds);
+      }
     };
 
     const validateFetchAll = async function(

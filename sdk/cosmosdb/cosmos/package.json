@@ -40,7 +40,7 @@
     "build:samples": "tsc -b samples",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc -b src test --verbose",
-    "build": "npm run clean && npm run extract-api && node writeSDKVersion.js && npm run bundle",
+    "build": "npm run clean && tslint --project ./src/tsconfig.json && npm run extract-api && node writeSDKVersion.js && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -53,7 +53,7 @@
     "integration-test:node": "mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix",
-    "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o core-amqp-lintReport.html || exit 0",
+    "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o cosmos-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -74,7 +74,6 @@
     "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/cosmos-sign": "^1.0.2",
     "@types/debug": "^4.1.4",
-    "binary-search-bounds": "^2.0.3",
     "crypto-hash": "^1.1.0",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.0.0",
@@ -134,6 +133,7 @@
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
     "tslint": "^5.0.0",
+    "tslint-config-prettier": "^1.14.0",
     "typedoc": "^0.15.0",
     "typescript": "^3.2.2"
   }

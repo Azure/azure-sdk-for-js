@@ -105,6 +105,109 @@ export class SensitivityLabels {
   }
 
   /**
+   * Enables sensitivity recommendations on a given column (recommendations are enabled by default on
+   * all columns)
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  enableRecommendation(resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param callback The callback
+   */
+  enableRecommendation(resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  enableRecommendation(resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  enableRecommendation(resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        schemaName,
+        tableName,
+        columnName,
+        options
+      },
+      enableRecommendationOperationSpec,
+      callback);
+  }
+
+  /**
+   * Disables sensitivity recommendations on a given column
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  disableRecommendation(resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param callback The callback
+   */
+  disableRecommendation(resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param schemaName The name of the schema.
+   * @param tableName The name of the table.
+   * @param columnName The name of the column.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  disableRecommendation(resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  disableRecommendation(resourceGroupName: string, serverName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        schemaName,
+        tableName,
+        columnName,
+        options
+      },
+      disableRecommendationOperationSpec,
+      callback);
+  }
+
+  /**
    * Gets the sensitivity label of a given column
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -338,7 +441,7 @@ const listCurrentByDatabaseOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.filter1,
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -364,9 +467,10 @@ const listRecommendedByDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.includeDisabledRecommendations,
     Parameters.skipToken,
     Parameters.filter1,
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -375,6 +479,62 @@ const listRecommendedByDatabaseOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const enableRecommendationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.schemaName,
+    Parameters.tableName,
+    Parameters.columnName,
+    Parameters.sensitivityLabelSource0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion4
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const disableRecommendationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.schemaName,
+    Parameters.tableName,
+    Parameters.columnName,
+    Parameters.sensitivityLabelSource0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion4
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -392,11 +552,11 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
-    Parameters.sensitivityLabelSource0,
+    Parameters.sensitivityLabelSource1,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -422,11 +582,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
-    Parameters.sensitivityLabelSource1,
+    Parameters.sensitivityLabelSource2,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -462,11 +622,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
-    Parameters.sensitivityLabelSource1,
+    Parameters.sensitivityLabelSource2,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage

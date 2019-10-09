@@ -5,13 +5,18 @@ import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
 
 export class Serializer {
-  constructor(public readonly modelMappers: { [key: string]: any } = {}, public readonly isXML?: boolean) { }
+  constructor(
+    public readonly modelMappers: { [key: string]: any } = {},
+    public readonly isXML?: boolean
+  ) {}
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     const failValidation = (constraintName: keyof MapperConstraints, constraintValue: any) => {
-      throw new Error(`"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`);
+      throw new Error(
+        `"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`
+      );
     };
-    if (mapper.constraints && (value != undefined)) {
+    if (mapper.constraints && value != undefined) {
       const {
         ExclusiveMaximum,
         ExclusiveMinimum,
@@ -54,11 +59,14 @@ export class Serializer {
       }
       if (Pattern) {
         const pattern: RegExp = typeof Pattern === "string" ? new RegExp(Pattern) : Pattern;
-        if ((typeof value !== "string") || (value.match(pattern) === null)) {
+        if (typeof value !== "string" || value.match(pattern) === null) {
           failValidation("Pattern", Pattern);
         }
       }
-      if (UniqueItems && value.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)) {
+      if (
+        UniqueItems &&
+        value.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)
+      ) {
         failValidation("UniqueItems", UniqueItems);
       }
     }
@@ -81,7 +89,7 @@ export class Serializer {
     if (!objectName) {
       objectName = mapper.serializedName!;
     }
-    if (mapperType.match(/^Sequence$/ig) !== null) {
+    if (mapperType.match(/^Sequence$/gi) !== null) {
       payload = [];
     }
 
@@ -116,24 +124,26 @@ export class Serializer {
     } else {
       // Validate Constraints if any
       this.validateConstraints(mapper, object, objectName);
-      if (mapperType.match(/^any$/ig) !== null) {
+      if (mapperType.match(/^any$/gi) !== null) {
         payload = object;
-      } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/ig) !== null) {
+      } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/gi) !== null) {
         payload = serializeBasicTypes(mapperType, objectName, object);
-      } else if (mapperType.match(/^Enum$/ig) !== null) {
+      } else if (mapperType.match(/^Enum$/gi) !== null) {
         const enumMapper: EnumMapper = mapper as EnumMapper;
         payload = serializeEnumType(objectName, enumMapper.type.allowedValues, object);
-      } else if (mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/ig) !== null) {
+      } else if (
+        mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/gi) !== null
+      ) {
         payload = serializeDateTypes(mapperType, object, objectName);
-      } else if (mapperType.match(/^ByteArray$/ig) !== null) {
+      } else if (mapperType.match(/^ByteArray$/gi) !== null) {
         payload = serializeByteArrayType(objectName, object);
-      } else if (mapperType.match(/^Base64Url$/ig) !== null) {
+      } else if (mapperType.match(/^Base64Url$/gi) !== null) {
         payload = serializeBase64UrlType(objectName, object);
-      } else if (mapperType.match(/^Sequence$/ig) !== null) {
+      } else if (mapperType.match(/^Sequence$/gi) !== null) {
         payload = serializeSequenceType(this, mapper as SequenceMapper, object, objectName);
-      } else if (mapperType.match(/^Dictionary$/ig) !== null) {
+      } else if (mapperType.match(/^Dictionary$/gi) !== null) {
         payload = serializeDictionaryType(this, mapper as DictionaryMapper, object, objectName);
-      } else if (mapperType.match(/^Composite$/ig) !== null) {
+      } else if (mapperType.match(/^Composite$/gi) !== null) {
         payload = serializeCompositeType(this, mapper as CompositeMapper, object, objectName);
       }
     }
@@ -172,7 +182,7 @@ export class Serializer {
       objectName = mapper.serializedName!;
     }
 
-    if (mapperType.match(/^Composite$/ig) !== null) {
+    if (mapperType.match(/^Composite$/gi) !== null) {
       payload = deserializeCompositeType(this, mapper as CompositeMapper, responseBody, objectName);
     } else {
       if (this.isXML) {
@@ -186,12 +196,12 @@ export class Serializer {
         }
       }
 
-      if (mapperType.match(/^Number$/ig) !== null) {
+      if (mapperType.match(/^Number$/gi) !== null) {
         payload = parseFloat(responseBody);
         if (isNaN(payload)) {
           payload = responseBody;
         }
-      } else if (mapperType.match(/^Boolean$/ig) !== null) {
+      } else if (mapperType.match(/^Boolean$/gi) !== null) {
         if (responseBody === "true") {
           payload = true;
         } else if (responseBody === "false") {
@@ -199,20 +209,25 @@ export class Serializer {
         } else {
           payload = responseBody;
         }
-      } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/ig) !== null) {
+      } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/gi) !== null) {
         payload = responseBody;
-      } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/ig) !== null) {
+      } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/gi) !== null) {
         payload = new Date(responseBody);
-      } else if (mapperType.match(/^UnixTime$/ig) !== null) {
+      } else if (mapperType.match(/^UnixTime$/gi) !== null) {
         payload = unixTimeToDate(responseBody);
-      } else if (mapperType.match(/^ByteArray$/ig) !== null) {
+      } else if (mapperType.match(/^ByteArray$/gi) !== null) {
         payload = base64.decodeString(responseBody);
-      } else if (mapperType.match(/^Base64Url$/ig) !== null) {
+      } else if (mapperType.match(/^Base64Url$/gi) !== null) {
         payload = base64UrlToByteArray(responseBody);
-      } else if (mapperType.match(/^Sequence$/ig) !== null) {
+      } else if (mapperType.match(/^Sequence$/gi) !== null) {
         payload = deserializeSequenceType(this, mapper as SequenceMapper, responseBody, objectName);
-      } else if (mapperType.match(/^Dictionary$/ig) !== null) {
-        payload = deserializeDictionaryType(this, mapper as DictionaryMapper, responseBody, objectName);
+      } else if (mapperType.match(/^Dictionary$/gi) !== null) {
+        payload = deserializeDictionaryType(
+          this,
+          mapper as DictionaryMapper,
+          responseBody,
+          objectName
+        );
       }
     }
 
@@ -226,7 +241,7 @@ export class Serializer {
 
 function trimEnd(str: string, ch: string) {
   let len = str.length;
-  while ((len - 1) >= 0 && str[len - 1] === ch) {
+  while (len - 1 >= 0 && str[len - 1] === ch) {
     --len;
   }
   return str.substr(0, len);
@@ -242,7 +257,9 @@ function bufferToBase64Url(buffer: any): string | undefined {
   // Uint8Array to Base64.
   const str = base64.encodeByteArray(buffer);
   // Base64 to Base64Url.
-  return trimEnd(str, "=").replace(/\+/g, "-").replace(/\//g, "_");
+  return trimEnd(str, "=")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
 }
 
 function base64UrlToByteArray(str: string): Uint8Array | undefined {
@@ -298,30 +315,36 @@ function unixTimeToDate(n: number): Date | undefined {
 
 function serializeBasicTypes(typeName: string, objectName: string, value: any): any {
   if (value !== null && value !== undefined) {
-    if (typeName.match(/^Number$/ig) !== null) {
+    if (typeName.match(/^Number$/gi) !== null) {
       if (typeof value !== "number") {
         throw new Error(`${objectName} with value ${value} must be of type number.`);
       }
-    } else if (typeName.match(/^String$/ig) !== null) {
+    } else if (typeName.match(/^String$/gi) !== null) {
       if (typeof value.valueOf() !== "string") {
         throw new Error(`${objectName} with value "${value}" must be of type string.`);
       }
-    } else if (typeName.match(/^Uuid$/ig) !== null) {
+    } else if (typeName.match(/^Uuid$/gi) !== null) {
       if (!(typeof value.valueOf() === "string" && utils.isValidUuid(value))) {
-        throw new Error(`${objectName} with value "${value}" must be of type string and a valid uuid.`);
+        throw new Error(
+          `${objectName} with value "${value}" must be of type string and a valid uuid.`
+        );
       }
-    } else if (typeName.match(/^Boolean$/ig) !== null) {
+    } else if (typeName.match(/^Boolean$/gi) !== null) {
       if (typeof value !== "boolean") {
         throw new Error(`${objectName} with value ${value} must be of type boolean.`);
       }
-    } else if (typeName.match(/^Stream$/ig) !== null) {
+    } else if (typeName.match(/^Stream$/gi) !== null) {
       const objectType = typeof value;
-      if (objectType !== "string" &&
+      if (
+        objectType !== "string" &&
         objectType !== "function" &&
         !(value instanceof ArrayBuffer) &&
         !ArrayBuffer.isView(value) &&
-        !(typeof Blob === "function" && value instanceof Blob)) {
-        throw new Error(`${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`);
+        !(typeof Blob === "function" && value instanceof Blob)
+      ) {
+        throw new Error(
+          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`
+        );
       }
     }
   }
@@ -330,7 +353,9 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
 
 function serializeEnumType(objectName: string, allowedValues: Array<any>, value: any): any {
   if (!allowedValues) {
-    throw new Error(`Please provide a set of allowedValues to validate ${objectName} as an Enum Type.`);
+    throw new Error(
+      `Please provide a set of allowedValues to validate ${objectName} as an Enum Type.`
+    );
   }
   const isPresent = allowedValues.some((item) => {
     if (typeof item.valueOf() === "string") {
@@ -339,7 +364,11 @@ function serializeEnumType(objectName: string, allowedValues: Array<any>, value:
     return item === value;
   });
   if (!isPresent) {
-    throw new Error(`${value} is not a valid value for ${objectName}. The valid values are: ${JSON.stringify(allowedValues)}.`);
+    throw new Error(
+      `${value} is not a valid value for ${objectName}. The valid values are: ${JSON.stringify(
+        allowedValues
+      )}.`
+    );
   }
   return value;
 }
@@ -366,34 +395,57 @@ function serializeBase64UrlType(objectName: string, value: any): any {
 
 function serializeDateTypes(typeName: string, value: any, objectName: string) {
   if (value != undefined) {
-    if (typeName.match(/^Date$/ig) !== null) {
-      if (!(value instanceof Date ||
-        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value))))) {
+    if (typeName.match(/^Date$/gi) !== null) {
+      if (
+        !(
+          value instanceof Date ||
+          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+        )
+      ) {
         throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
       }
-      value = (value instanceof Date) ? value.toISOString().substring(0, 10) : new Date(value).toISOString().substring(0, 10);
-    } else if (typeName.match(/^DateTime$/ig) !== null) {
-      if (!(value instanceof Date ||
-        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value))))) {
+      value =
+        value instanceof Date
+          ? value.toISOString().substring(0, 10)
+          : new Date(value).toISOString().substring(0, 10);
+    } else if (typeName.match(/^DateTime$/gi) !== null) {
+      if (
+        !(
+          value instanceof Date ||
+          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+        )
+      ) {
         throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
       }
-      value = (value instanceof Date) ? value.toISOString() : new Date(value).toISOString();
-    } else if (typeName.match(/^DateTimeRfc1123$/ig) !== null) {
-      if (!(value instanceof Date ||
-        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value))))) {
+      value = value instanceof Date ? value.toISOString() : new Date(value).toISOString();
+    } else if (typeName.match(/^DateTimeRfc1123$/gi) !== null) {
+      if (
+        !(
+          value instanceof Date ||
+          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+        )
+      ) {
         throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123 format.`);
       }
-      value = (value instanceof Date) ? value.toUTCString() : new Date(value).toUTCString();
-    } else if (typeName.match(/^UnixTime$/ig) !== null) {
-      if (!(value instanceof Date ||
-        (typeof value.valueOf() === "string" && !isNaN(Date.parse(value))))) {
-        throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
-          `for it to be serialized in UnixTime/Epoch format.`);
+      value = value instanceof Date ? value.toUTCString() : new Date(value).toUTCString();
+    } else if (typeName.match(/^UnixTime$/gi) !== null) {
+      if (
+        !(
+          value instanceof Date ||
+          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+        )
+      ) {
+        throw new Error(
+          `${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
+            `for it to be serialized in UnixTime/Epoch format.`
+        );
       }
       value = dateToUnixTime(value);
-    } else if (typeName.match(/^TimeSpan$/ig) !== null) {
+    } else if (typeName.match(/^TimeSpan$/gi) !== null) {
       if (!utils.isDuration(value)) {
-        throw new Error(`${objectName} must be a string in ISO 8601 format. Instead was "${value}".`);
+        throw new Error(
+          `${objectName} must be a string in ISO 8601 format. Instead was "${value}".`
+        );
       }
       value = value;
     }
@@ -401,14 +453,21 @@ function serializeDateTypes(typeName: string, value: any, objectName: string) {
   return value;
 }
 
-function serializeSequenceType(serializer: Serializer, mapper: SequenceMapper, object: any, objectName: string) {
+function serializeSequenceType(
+  serializer: Serializer,
+  mapper: SequenceMapper,
+  object: any,
+  objectName: string
+) {
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
   }
   const elementType = mapper.type.element;
   if (!elementType || typeof elementType !== "object") {
-    throw new Error(`element" metadata for an Array must be defined in the ` +
-      `mapper and it must of type "object" in ${objectName}.`);
+    throw new Error(
+      `element" metadata for an Array must be defined in the ` +
+        `mapper and it must of type "object" in ${objectName}.`
+    );
   }
   const tempArray = [];
   for (let i = 0; i < object.length; i++) {
@@ -417,14 +476,21 @@ function serializeSequenceType(serializer: Serializer, mapper: SequenceMapper, o
   return tempArray;
 }
 
-function serializeDictionaryType(serializer: Serializer, mapper: DictionaryMapper, object: any, objectName: string) {
+function serializeDictionaryType(
+  serializer: Serializer,
+  mapper: DictionaryMapper,
+  object: any,
+  objectName: string
+) {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
   }
   const valueType = mapper.type.value;
   if (!valueType || typeof valueType !== "object") {
-    throw new Error(`"value" metadata for a Dictionary must be defined in the ` +
-      `mapper and it must of type "object" in ${objectName}.`);
+    throw new Error(
+      `"value" metadata for a Dictionary must be defined in the ` +
+        `mapper and it must of type "object" in ${objectName}.`
+    );
   }
   const tempDictionary: { [key: string]: any } = {};
   for (const key of Object.keys(object)) {
@@ -438,12 +504,22 @@ function serializeDictionaryType(serializer: Serializer, mapper: DictionaryMappe
  * @param serializer the serializer containing the entire set of mappers
  * @param mapper the composite mapper to resolve
  */
-function resolveModelProperties(serializer: Serializer, mapper: CompositeMapper, objectName: string): { [propertyName: string]: Mapper } {
+function resolveModelProperties(
+  serializer: Serializer,
+  mapper: CompositeMapper,
+  objectName: string
+): { [propertyName: string]: Mapper } {
   let modelProps = mapper.type.modelProperties;
   if (!modelProps) {
     const className = mapper.type.className;
     if (!className) {
-      throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper, undefined, 2)}".`);
+      throw new Error(
+        `Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(
+          mapper,
+          undefined,
+          2
+        )}".`
+      );
     }
 
     const modelMapper = serializer.modelMappers[className];
@@ -452,15 +528,24 @@ function resolveModelProperties(serializer: Serializer, mapper: CompositeMapper,
     }
     modelProps = modelMapper.type.modelProperties;
     if (!modelProps) {
-      throw new Error(`modelProperties cannot be null or undefined in the ` +
-        `mapper "${JSON.stringify(modelMapper)}" of type "${className}" for object "${objectName}".`);
+      throw new Error(
+        `modelProperties cannot be null or undefined in the ` +
+          `mapper "${JSON.stringify(
+            modelMapper
+          )}" of type "${className}" for object "${objectName}".`
+      );
     }
   }
 
   return modelProps;
 }
 
-function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper, object: any, objectName: string) {
+function serializeCompositeType(
+  serializer: Serializer,
+  mapper: CompositeMapper,
+  object: any,
+  objectName: string
+) {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
   }
@@ -488,7 +573,7 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
 
         for (const pathName of paths) {
           const childObject = parentObject[pathName];
-          if ((childObject == undefined) && (object[key] != undefined)) {
+          if (childObject == undefined && object[key] != undefined) {
             parentObject[pathName] = {};
           }
           parentObject = parentObject[pathName];
@@ -496,17 +581,26 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
       }
 
       if (parentObject != undefined) {
-        const propertyObjectName = propertyMapper.serializedName !== ""
-          ? objectName + "." + propertyMapper.serializedName
-          : objectName;
+        const propertyObjectName =
+          propertyMapper.serializedName !== ""
+            ? objectName + "." + propertyMapper.serializedName
+            : objectName;
 
         let toSerialize = object[key];
         const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
-        if (polymorphicDiscriminator && polymorphicDiscriminator.clientName === key && toSerialize == undefined) {
+        if (
+          polymorphicDiscriminator &&
+          polymorphicDiscriminator.clientName === key &&
+          toSerialize == undefined
+        ) {
           toSerialize = mapper.serializedName;
         }
 
-        const serializedValue = serializer.serialize(propertyMapper, toSerialize, propertyObjectName);
+        const serializedValue = serializer.serialize(
+          propertyMapper,
+          toSerialize,
+          propertyObjectName
+        );
         if (serializedValue !== undefined && propName != undefined) {
           if (propertyMapper.xmlIsAttribute) {
             // $ is the key attributes are kept under in xml2js.
@@ -527,9 +621,13 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
     if (additionalPropertiesMapper) {
       const propNames = Object.keys(modelProps);
       for (const clientPropName in object) {
-        const isAdditionalProperty = propNames.every(pn => pn !== clientPropName);
+        const isAdditionalProperty = propNames.every((pn) => pn !== clientPropName);
         if (isAdditionalProperty) {
-          payload[clientPropName] = serializer.serialize(additionalPropertiesMapper, object[clientPropName], objectName + '["' + clientPropName + '"]');
+          payload[clientPropName] = serializer.serialize(
+            additionalPropertiesMapper,
+            object[clientPropName],
+            objectName + '["' + clientPropName + '"]'
+          );
         }
       }
     }
@@ -543,7 +641,12 @@ function isSpecialXmlProperty(propertyName: string): boolean {
   return ["$", "_"].includes(propertyName);
 }
 
-function deserializeCompositeType(serializer: Serializer, mapper: CompositeMapper, responseBody: any, objectName: string): any {
+function deserializeCompositeType(
+  serializer: Serializer,
+  mapper: CompositeMapper,
+  responseBody: any,
+  objectName: string
+): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
   }
@@ -567,7 +670,11 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       const dictionary: any = {};
       for (const headerKey of Object.keys(responseBody)) {
         if (headerKey.startsWith(headerCollectionPrefix)) {
-          dictionary[headerKey.substring(headerCollectionPrefix.length)] = serializer.deserialize((propertyMapper as DictionaryMapper).type.value, responseBody[headerKey], propertyObjectName);
+          dictionary[headerKey.substring(headerCollectionPrefix.length)] = serializer.deserialize(
+            (propertyMapper as DictionaryMapper).type.value,
+            responseBody[headerKey],
+            propertyObjectName
+          );
         }
 
         handledPropertyNames.push(headerKey);
@@ -575,7 +682,11 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       instance[key] = dictionary;
     } else if (serializer.isXML) {
       if (propertyMapper.xmlIsAttribute && responseBody.$) {
-        instance[key] = serializer.deserialize(propertyMapper, responseBody.$[xmlName!], propertyObjectName);
+        instance[key] = serializer.deserialize(
+          propertyMapper,
+          responseBody.$[xmlName!],
+          propertyObjectName
+        );
       } else {
         const propertyName = xmlElementName || xmlName || serializedName;
         let unwrappedProperty = responseBody[propertyName!];
@@ -588,7 +699,11 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
             unwrappedProperty = [];
           }
         }
-        instance[key] = serializer.deserialize(propertyMapper, unwrappedProperty, propertyObjectName);
+        instance[key] = serializer.deserialize(
+          propertyMapper,
+          unwrappedProperty,
+          propertyObjectName
+        );
       }
     } else {
       // deserialize the property if it is present in the provided responseBody instance
@@ -610,7 +725,11 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       // the clientName transformation of the polymorphicDiscriminator (ex: "fishtype") and
       // the transformation of model property name (ex: "fishtype") is done consistently.
       // Hence, it is a safer bet to rely on the clientName of the polymorphicDiscriminator.
-      if (polymorphicDiscriminator && key === polymorphicDiscriminator.clientName && propertyInstance == undefined) {
+      if (
+        polymorphicDiscriminator &&
+        key === polymorphicDiscriminator.clientName &&
+        propertyInstance == undefined
+      ) {
         propertyInstance = mapper.serializedName;
       }
 
@@ -620,7 +739,11 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
         propertyInstance = responseBody[key];
         instance = serializer.deserialize(propertyMapper, propertyInstance, propertyObjectName);
       } else if (propertyInstance !== undefined || propertyMapper.defaultValue !== undefined) {
-        serializedValue = serializer.deserialize(propertyMapper, propertyInstance, propertyObjectName);
+        serializedValue = serializer.deserialize(
+          propertyMapper,
+          propertyInstance,
+          propertyObjectName
+        );
         instance[key] = serializedValue;
       }
     }
@@ -640,12 +763,20 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
 
     for (const responsePropName in responseBody) {
       if (isAdditionalProperty(responsePropName)) {
-        instance[responsePropName] = serializer.deserialize(additionalPropertiesMapper, responseBody[responsePropName], objectName + '["' + responsePropName + '"]');
+        instance[responsePropName] = serializer.deserialize(
+          additionalPropertiesMapper,
+          responseBody[responsePropName],
+          objectName + '["' + responsePropName + '"]'
+        );
       }
     }
   } else if (responseBody) {
     for (const key of Object.keys(responseBody)) {
-      if (instance[key] === undefined && !handledPropertyNames.includes(key) && !isSpecialXmlProperty(key)) {
+      if (
+        instance[key] === undefined &&
+        !handledPropertyNames.includes(key) &&
+        !isSpecialXmlProperty(key)
+      ) {
         instance[key] = responseBody[key];
       }
     }
@@ -654,12 +785,19 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
   return instance;
 }
 
-function deserializeDictionaryType(serializer: Serializer, mapper: DictionaryMapper, responseBody: any, objectName: string): any {
+function deserializeDictionaryType(
+  serializer: Serializer,
+  mapper: DictionaryMapper,
+  responseBody: any,
+  objectName: string
+): any {
   /*jshint validthis: true */
   const value = mapper.type.value;
   if (!value || typeof value !== "object") {
-    throw new Error(`"value" metadata for a Dictionary must be defined in the ` +
-      `mapper and it must of type "object" in ${objectName}`);
+    throw new Error(
+      `"value" metadata for a Dictionary must be defined in the ` +
+        `mapper and it must of type "object" in ${objectName}`
+    );
   }
   if (responseBody) {
     const tempDictionary: { [key: string]: any } = {};
@@ -671,12 +809,19 @@ function deserializeDictionaryType(serializer: Serializer, mapper: DictionaryMap
   return responseBody;
 }
 
-function deserializeSequenceType(serializer: Serializer, mapper: SequenceMapper, responseBody: any, objectName: string): any {
+function deserializeSequenceType(
+  serializer: Serializer,
+  mapper: SequenceMapper,
+  responseBody: any,
+  objectName: string
+): any {
   /*jshint validthis: true */
   const element = mapper.type.element;
   if (!element || typeof element !== "object") {
-    throw new Error(`element" metadata for an Array must be defined in the ` +
-      `mapper and it must of type "object" in ${objectName}`);
+    throw new Error(
+      `element" metadata for an Array must be defined in the ` +
+        `mapper and it must of type "object" in ${objectName}`
+    );
   }
   if (responseBody) {
     if (!Array.isArray(responseBody)) {
@@ -693,7 +838,12 @@ function deserializeSequenceType(serializer: Serializer, mapper: SequenceMapper,
   return responseBody;
 }
 
-function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, object: any, polymorphicPropertyName: "clientName" | "serializedName"): CompositeMapper {
+function getPolymorphicMapper(
+  serializer: Serializer,
+  mapper: CompositeMapper,
+  object: any,
+  polymorphicPropertyName: "clientName" | "serializedName"
+): CompositeMapper {
   const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
   if (polymorphicDiscriminator) {
     const discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
@@ -701,9 +851,10 @@ function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, o
       const discriminatorValue = object[discriminatorName];
       if (discriminatorValue != undefined) {
         const typeName = mapper.type.uberParent || mapper.type.className;
-        const indexDiscriminator = discriminatorValue === typeName
-          ? discriminatorValue
-          : typeName + "." + discriminatorValue;
+        const indexDiscriminator =
+          discriminatorValue === typeName
+            ? discriminatorValue
+            : typeName + "." + discriminatorValue;
         const polymorphicMapper = serializer.modelMappers.discriminators[indexDiscriminator];
         if (polymorphicMapper) {
           mapper = polymorphicMapper;
@@ -714,14 +865,23 @@ function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, o
   return mapper;
 }
 
-function getPolymorphicDiscriminatorRecursively(serializer: Serializer, mapper: CompositeMapper): PolymorphicDiscriminator | undefined {
-  return mapper.type.polymorphicDiscriminator
-    || getPolymorphicDiscriminatorSafely(serializer, mapper.type.uberParent)
-    || getPolymorphicDiscriminatorSafely(serializer, mapper.type.className);
+function getPolymorphicDiscriminatorRecursively(
+  serializer: Serializer,
+  mapper: CompositeMapper
+): PolymorphicDiscriminator | undefined {
+  return (
+    mapper.type.polymorphicDiscriminator ||
+    getPolymorphicDiscriminatorSafely(serializer, mapper.type.uberParent) ||
+    getPolymorphicDiscriminatorSafely(serializer, mapper.type.className)
+  );
 }
 
 function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: string) {
-  return (typeName && serializer.modelMappers[typeName] && serializer.modelMappers[typeName].type.polymorphicDiscriminator);
+  return (
+    typeName &&
+    serializer.modelMappers[typeName] &&
+    serializer.modelMappers[typeName].type.polymorphicDiscriminator
+  );
 }
 
 export interface MapperConstraints {
@@ -738,23 +898,29 @@ export interface MapperConstraints {
   MultipleOf?: number;
 }
 
-export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
+export type MapperType =
+  | SimpleMapperType
+  | CompositeMapperType
+  | SequenceMapperType
+  | DictionaryMapperType
+  | EnumMapperType;
 
 export interface SimpleMapperType {
-  name: "Base64Url"
-  | "Boolean"
-  | "ByteArray"
-  | "Date"
-  | "DateTime"
-  | "DateTimeRfc1123"
-  | "Object"
-  | "Stream"
-  | "String"
-  | "TimeSpan"
-  | "UnixTime"
-  | "Uuid"
-  | "Number"
-  | "any";
+  name:
+    | "Base64Url"
+    | "Boolean"
+    | "ByteArray"
+    | "Date"
+    | "DateTime"
+    | "DateTimeRfc1123"
+    | "Object"
+    | "Stream"
+    | "String"
+    | "TimeSpan"
+    | "UnixTime"
+    | "Uuid"
+    | "Number"
+    | "any";
 }
 
 export interface CompositeMapperType {
@@ -838,11 +1004,9 @@ export function serializeObject(toSerialize: any): any {
   if (toSerialize instanceof Uint8Array) {
     toSerialize = base64.encodeByteArray(toSerialize);
     return toSerialize;
-  }
-  else if (toSerialize instanceof Date) {
+  } else if (toSerialize instanceof Date) {
     return toSerialize.toISOString();
-  }
-  else if (Array.isArray(toSerialize)) {
+  } else if (Array.isArray(toSerialize)) {
     const array = [];
     for (let i = 0; i < toSerialize.length; i++) {
       array.push(serializeObject(toSerialize[i]));

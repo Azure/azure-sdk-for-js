@@ -1,8 +1,15 @@
-### (Date) 5.0.0-preview.4
+### 2019-10-08 5.0.0-preview.5
+
+- Updated to use the latest version of the `@azure/core-tracing` package.
+
+### 2019-10-07 5.0.0-preview.4
 
 - Current implementation of the Partition Manager takes the event hub name, consumer group name and partition id to ensure uniqueness for the checkpoint and ownership.
   Since the same event hub name and consumer group name can exist in another namespace, we added `fullyQualifiedNamespace` as well to ensure uniqueness.
   ([PR #5153](https://github.com/Azure/azure-sdk-for-js/pull/5153))
+- Adds preview capabilities for `@azure/core-tracing`.
+  ([PR #5207](https://github.com/Azure/azure-sdk-for-js/pull/5207)
+
 
 #### Breaking changes
 
@@ -21,6 +28,8 @@
   ```javascript
   const client = new EventHubClient(iotEventHubsCompatibleConnectionString);
   ```
+- The `PartitionContext` properties have been merged into the `PartitionProcessor` class.
+  The `PartitionProcessor` now exposes an `updateCheckpoint` method that can be called to checkpoint events.
 
 ### 2019-09-09 5.0.0-preview.3
 

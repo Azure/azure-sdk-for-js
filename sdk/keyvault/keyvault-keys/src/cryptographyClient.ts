@@ -76,7 +76,7 @@ export class CryptographyClient {
     options?: EncryptOptions
   ): Promise<EncryptResult> {
     let iv = options ? options.iv : undefined;
-    let authenticationData = options? options.authenticationData : undefined;
+    let authenticationData = options ? options.authenticationData : undefined;
 
     if (isNode) {
       await this.fetchFullKeyIfPossible();
@@ -110,7 +110,7 @@ export class CryptographyClient {
             let keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
-            return { result: encrypted, algorithm, keyID: this.key.kid, iv, authenticationData  };
+            return { result: encrypted, algorithm, keyID: this.key.kid, iv, authenticationData };
           }
         }
       }
@@ -409,7 +409,10 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return { result: verifier.verify(keyPEM, Buffer.from(signature)), keyID: this.getKeyID() };
+            return {
+              result: verifier.verify(keyPEM, Buffer.from(signature)),
+              keyID: this.getKeyID()
+            };
           }
           case "RS384": {
             if (this.key.kty != "RSA") {
@@ -426,7 +429,10 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return { result: verifier.verify(keyPEM, Buffer.from(signature)), keyID: this.getKeyID() };
+            return {
+              result: verifier.verify(keyPEM, Buffer.from(signature)),
+              keyID: this.getKeyID()
+            };
           }
           case "RS512": {
             if (this.key.kty != "RSA") {
@@ -443,7 +449,10 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return { result: verifier.verify(keyPEM, Buffer.from(signature)), keyID: this.getKeyID() };
+            return {
+              result: verifier.verify(keyPEM, Buffer.from(signature)),
+              keyID: this.getKeyID()
+            };
           }
         }
       }
@@ -496,7 +505,6 @@ export class CryptographyClient {
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @returns {Pipeline} A new Pipeline object.
    * @memberof CryptographyClient
    */
   public static getDefaultPipeline(

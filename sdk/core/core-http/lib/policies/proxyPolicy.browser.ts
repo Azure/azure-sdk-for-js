@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { ProxySettings } from "../serviceClient";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
 

@@ -4,7 +4,12 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
 import { RestError } from "../restError";
 
 export interface RetryData {
@@ -19,10 +24,22 @@ export interface RetryError extends Error {
   innerError?: RetryError;
 }
 
-export function exponentialRetryPolicy(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory {
+export function exponentialRetryPolicy(
+  retryCount?: number,
+  retryInterval?: number,
+  minRetryInterval?: number,
+  maxRetryInterval?: number
+): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ExponentialRetryPolicy(nextPolicy, options, retryCount, retryInterval, minRetryInterval, maxRetryInterval);
+      return new ExponentialRetryPolicy(
+        nextPolicy,
+        options,
+        retryCount,
+        retryInterval,
+        minRetryInterval,
+        maxRetryInterval
+      );
     }
   };
 }
@@ -63,19 +80,33 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
    * @param {number} [minRetryInterval]  The minimum retry interval, in milliseconds.
    * @param {number} [maxRetryInterval]  The maximum retry interval, in milliseconds.
    */
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    retryCount?: number,
+    retryInterval?: number,
+    minRetryInterval?: number,
+    maxRetryInterval?: number
+  ) {
     super(nextPolicy, options);
-    function isNumber(n: any): n is number { return typeof n === "number"; }
+    function isNumber(n: any): n is number {
+      return typeof n === "number";
+    }
     this.retryCount = isNumber(retryCount) ? retryCount : DEFAULT_CLIENT_RETRY_COUNT;
     this.retryInterval = isNumber(retryInterval) ? retryInterval : DEFAULT_CLIENT_RETRY_INTERVAL;
-    this.minRetryInterval = isNumber(minRetryInterval) ? minRetryInterval : DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
-    this.maxRetryInterval = isNumber(maxRetryInterval) ? maxRetryInterval : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+    this.minRetryInterval = isNumber(minRetryInterval)
+      ? minRetryInterval
+      : DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
+    this.maxRetryInterval = isNumber(maxRetryInterval)
+      ? maxRetryInterval
+      : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request.clone())
-      .then(response => retry(this, request, response))
-      .catch(error => retry(this, request, error.response, undefined, error));
+    return this._nextPolicy
+      .sendRequest(request.clone())
+      .then((response) => retry(this, request, response))
+      .catch((error) => retry(this, request, error.response, undefined, error));
   }
 }
 
@@ -87,8 +118,17 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
  * @param {RetryData} retryData  The retry data.
  * @return {boolean} True if the operation qualifies for a retry; false otherwise.
  */
-function shouldRetry(policy: ExponentialRetryPolicy, statusCode: number | undefined, retryData: RetryData): boolean {
-  if (statusCode == undefined || (statusCode < 500 && statusCode !== 408) || statusCode === 501 || statusCode === 505) {
+function shouldRetry(
+  policy: ExponentialRetryPolicy,
+  statusCode: number | undefined,
+  retryData: RetryData
+): boolean {
+  if (
+    statusCode == undefined ||
+    (statusCode < 500 && statusCode !== 408) ||
+    statusCode === 501 ||
+    statusCode === 505
+  ) {
     return false;
   }
 
@@ -96,10 +136,10 @@ function shouldRetry(policy: ExponentialRetryPolicy, statusCode: number | undefi
   if (!retryData) {
     throw new Error("retryData for the ExponentialRetryPolicyFilter cannot be null.");
   } else {
-    currentCount = (retryData && retryData.retryCount);
+    currentCount = retryData && retryData.retryCount;
   }
 
-  return (currentCount < policy.retryCount);
+  return currentCount < policy.retryCount;
 }
 
 /**
@@ -109,7 +149,11 @@ function shouldRetry(policy: ExponentialRetryPolicy, statusCode: number | undefi
  * @param {RetryData} retryData  The retry data.
  * @param {RetryError} [err] The operation"s error, if any.
  */
-function updateRetryData(policy: ExponentialRetryPolicy, retryData?: RetryData, err?: RetryError): RetryData {
+function updateRetryData(
+  policy: ExponentialRetryPolicy,
+  retryData?: RetryData,
+  err?: RetryError
+): RetryData {
   if (!retryData) {
     retryData = {
       retryCount: 0,
@@ -130,32 +174,45 @@ function updateRetryData(policy: ExponentialRetryPolicy, retryData?: RetryData, 
 
   // Adjust retry interval
   let incrementDelta = Math.pow(2, retryData.retryCount) - 1;
-  const boundedRandDelta = policy.retryInterval * 0.8 +
+  const boundedRandDelta =
+    policy.retryInterval * 0.8 +
     Math.floor(Math.random() * (policy.retryInterval * 1.2 - policy.retryInterval * 0.8));
   incrementDelta *= boundedRandDelta;
 
-  retryData.retryInterval = Math.min(policy.minRetryInterval + incrementDelta, policy.maxRetryInterval);
+  retryData.retryInterval = Math.min(
+    policy.minRetryInterval + incrementDelta,
+    policy.maxRetryInterval
+  );
 
   return retryData;
 }
 
-function retry(policy: ExponentialRetryPolicy, request: WebResource, response?: HttpOperationResponse, retryData?: RetryData, requestError?: RetryError): Promise<HttpOperationResponse> {
+function retry(
+  policy: ExponentialRetryPolicy,
+  request: WebResource,
+  response?: HttpOperationResponse,
+  retryData?: RetryData,
+  requestError?: RetryError
+): Promise<HttpOperationResponse> {
   retryData = updateRetryData(policy, retryData, requestError);
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
   if (!isAborted && shouldRetry(policy, response && response.status, retryData)) {
-    return utils.delay(retryData.retryInterval)
+    return utils
+      .delay(retryData.retryInterval)
       .then(() => policy._nextPolicy.sendRequest(request.clone()))
-      .then(res => retry(policy, request, res, retryData, undefined))
-      .catch(err => retry(policy, request, response, retryData, err));
+      .then((res) => retry(policy, request, res, retryData, undefined))
+      .catch((err) => retry(policy, request, response, retryData, err));
   } else if (isAborted || requestError || !response) {
     // If the operation failed in the end, return all errors instead of just the last one
-    const err = retryData.error ||
+    const err =
+      retryData.error ||
       new RestError(
         "Failed to send the request.",
         RestError.REQUEST_SEND_ERROR,
         response && response.status,
         response && response.request,
-        response);
+        response
+      );
     return Promise.reject(err);
   } else {
     return Promise.resolve(response);

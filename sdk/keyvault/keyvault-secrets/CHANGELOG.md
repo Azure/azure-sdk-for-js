@@ -1,5 +1,8 @@
 # Release History
 
+## 4.0.0-preview.7 (2019-10-07)
+- API Change: Nested classes are now flattened into a "properties" property.
+
 ## 4.0.0-preview.5 (2019-09-11)
 - Improved the tests, the README and upgraded dependencies.
 - Added the browser folder to the released bundle.

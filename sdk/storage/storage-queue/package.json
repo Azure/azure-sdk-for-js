@@ -80,13 +80,13 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
-    "@azure/core-http": "1.0.0-preview.4",
+    "@azure/core-http": "1.0.0-preview.5",
     "@azure/core-paging": "1.0.0-preview.2",
-    "@azure/core-tracing": "1.0.0-preview.3",
+    "@azure/core-tracing": "1.0.0-preview.4",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/identity": "1.0.0-preview.4",
+    "@azure/identity": "1.0.0-preview.5",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",
     "@types/fs-extra": "^8.0.0",

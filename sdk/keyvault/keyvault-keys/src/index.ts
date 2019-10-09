@@ -132,7 +132,6 @@ export class KeysClient {
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @returns {Pipeline} A new Pipeline object.
    * @memberof KeysClient
    */
   public static getDefaultPipeline(
@@ -266,7 +265,6 @@ export class KeysClient {
    * @param name The name of the key.
    * @param keyType The type of the key.
    * @param [options] The optional parameters
-   * @returns Promise<Key>
    */
   public async createKey(
     name: string,
@@ -312,7 +310,7 @@ export class KeysClient {
   }
 
   /**
-   * The create key operation can be used to create any key type in Azure Key Vault. If the named key
+   * The createEcKey method creates a new eliptic curve key in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
    *
@@ -325,7 +323,6 @@ export class KeysClient {
    * @param name The name of the key.
    * @param keyType The type of the key.
    * @param [options] The optional parameters
-   * @returns Promise<Key>
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key> {
     if (options) {
@@ -367,7 +364,7 @@ export class KeysClient {
   }
 
   /**
-   * The create key operation can be used to create any key type in Azure Key Vault. If the named key
+   * The createRSAKey method creates a new RSA key in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
    *
@@ -380,7 +377,6 @@ export class KeysClient {
    * @param name The name of the key.
    * @param keyType The type of the key.
    * @param [options] The optional parameters
-   * @returns Promise<Key>
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key> {
     if (options) {
@@ -477,8 +473,9 @@ export class KeysClient {
   }
 
   /**
-   * The DELETE operation applies to any key stored in Azure Key Vault. DELETE cannot be applied
-   * to an individual version of a key. This operation requires the keys/delete permission.
+   * The delete operation applies to any key stored in Azure Key Vault. Individual versions
+   * of a key can not be deleted, only all versions of a given key at once.
+   * This operation requires the keys/delete permission.
    *
    * Example usage:
    * ```ts
@@ -489,7 +486,6 @@ export class KeysClient {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param name The name of the key.
    * @param [options] The optional parameters
-   * @returns Promise<DeletedKey>
    */
   public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
     const requestOptions = (options && options.requestOptions) || {};
@@ -510,7 +506,7 @@ export class KeysClient {
   }
 
   /**
-   * The UPDATE operation changes specified properties of an existing stored key. Properties that
+   * The updateKey method changes specified properties of an existing stored key. Properties that
    * are not specified in the request are left unchanged. The value of a key itself cannot be
    * changed. This operation requires the keys/set permission.
    *
@@ -525,7 +521,6 @@ export class KeysClient {
    * @param name The name of the key.
    * @param keyVersion The version of the key.
    * @param [options] The optional parameters
-   * @returns Promise<Key>
    */
   public async updateKey(
     name: string,
@@ -571,8 +566,8 @@ export class KeysClient {
   }
 
   /**
-   * The GET operation is applicable to any key stored in Azure Key Vault. This operation requires
-   * the keys/get permission.
+   * The get method gets a specified key and is applicable to any key stored in Azure Key Vault.
+   * This operation requires the keys/get permission.
    *
    * Example usage:
    * ```ts
@@ -582,7 +577,6 @@ export class KeysClient {
    * @summary Get a specified key from a given key vault.
    * @param name The name of the key.
    * @param [options] The optional parameters
-   * @returns Promise<Key>
    */
   public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
@@ -604,7 +598,7 @@ export class KeysClient {
   }
 
   /**
-   * The Get Deleted Key operation returns the specified deleted key along with its properties.
+   * The getDeletedKey method returns the specified deleted key along with its properties.
    * This operation requires the keys/get permission.
    *
    * Example usage:
@@ -615,7 +609,6 @@ export class KeysClient {
    * @summary Gets the specified deleted key.
    * @param name The name of the key.
    * @param [options] The optional parameters
-   * @returns Promise<DeletedKey>
    */
   public async getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
     const requestOptions = (options && options.requestOptions) || {};
@@ -650,7 +643,6 @@ export class KeysClient {
    * @summary Permanently deletes the specified key.
    * @param name The name of the key.
    * @param [options] The optional parameters
-   * @returns Promise<void>
    */
   public async purgeDeletedKey(name: string, options?: RequestOptions): Promise<void> {
     const requestOptions = (options && options.requestOptions) || {};
@@ -681,7 +673,6 @@ export class KeysClient {
    * @summary Recovers the deleted key to the latest version.
    * @param name The name of the deleted key.
    * @param [options] The optional parameters
-   * @returns Promise<Key>
    */
   public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
@@ -713,7 +704,6 @@ export class KeysClient {
    * @summary Backs up the specified key.
    * @param name The name of the key.
    * @param [options] The optional parameters
-   * @returns Promise<Uint8Array | undefined>
    */
   public async backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined> {
     const requestOptions = (options && options.requestOptions) || {};
@@ -747,7 +737,6 @@ export class KeysClient {
    * @summary Restores a backed up key to a vault.
    * @param backup The backup blob associated with a key bundle.
    * @param [options] The optional parameters
-   * @returns Promise<Key>
    */
   public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
@@ -822,7 +811,6 @@ export class KeysClient {
    * ```
    * @param name Name of the key to fetch versions for
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>
    */
   public listKeyVersions(
     name: string,
@@ -896,7 +884,6 @@ export class KeysClient {
    * ```
    * @summary List all keys in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>
    */
   public listKeys(
     options: ListKeysOptions = {}
@@ -973,7 +960,6 @@ export class KeysClient {
    * ```
    * @summary List all keys in the vault
    * @param [options] The optional parameters
-   * @returns PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>
    */
   public listDeletedKeys(
     options: ListKeysOptions = {}
