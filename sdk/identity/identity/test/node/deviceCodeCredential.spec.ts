@@ -234,7 +234,13 @@ describe("DeviceCodeCredential", function() {
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 401, parsedBody: { error: "invalid_client", error_description: "The request body must contain..."} }
+        {
+          status: 401,
+          parsedBody: {
+            error: "invalid_client",
+            error_description: "The request body must contain..."
+          }
+        }
       ]
     });
 
@@ -278,6 +284,8 @@ describe("DeviceCodeCredential", function() {
 
       const abortController = new AbortController();
       const getTokenPromise = credential.getToken("scope", { abortSignal: abortController.signal });
+      // getToken ends up calling pollForToken which normally has a 1000ms delay.
+      // This code allows us to control the delay programatically in the test.
       let delay = await delayController.waitForDelay();
       delay.resolve();
       delay = await delayController.waitForDelay();
