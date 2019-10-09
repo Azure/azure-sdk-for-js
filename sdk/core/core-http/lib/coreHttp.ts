@@ -17,6 +17,7 @@ export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperati
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
+export { ResponseBodyNotFoundError } from "./responseBodyNotFoundError";
 export { OperationArguments } from "./operationArguments";
 export {
   OperationParameter,
@@ -108,4 +109,3 @@ export { Authenticator } from "./credentials/credentials";
 
 export { atomSerializationPolicy } from "./policies/atomSerializationPolicy";
 export { AtomXmlSerializer, AtomXmlOperationSpec } from "./atomXmlOperationSpec";
-export * from "@azure/core-tracing";

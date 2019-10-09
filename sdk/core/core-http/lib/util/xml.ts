@@ -53,10 +53,6 @@ const xml2jsDefaults = {
 
 // The default xml2js settings applicable for Atom based XML operations.
 const xml2jsSettingsForAtomXmlOperations: any = Object.assign({}, xml2jsDefaults);
-xml2jsSettingsForAtomXmlOperations.normalize = false;
-xml2jsSettingsForAtomXmlOperations.trim = false;
-xml2jsSettingsForAtomXmlOperations.attrkey = "$";
-xml2jsSettingsForAtomXmlOperations.charkey = "_";
 xml2jsSettingsForAtomXmlOperations.explicitCharkey = false;
 xml2jsSettingsForAtomXmlOperations.explicitArray = false;
 

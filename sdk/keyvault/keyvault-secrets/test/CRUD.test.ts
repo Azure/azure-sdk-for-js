@@ -3,7 +3,8 @@
 
 import * as assert from "assert";
 import { SecretsClient } from "../src";
-import { retry } from "./utils/recorderUtils";
+import { isNode } from "@azure/core-http";
+import { retry, isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -17,7 +18,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -25,7 +26,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
@@ -36,12 +37,19 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     const result = await client.setSecret(secretName, secretValue);
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(
+      result.properties.name,
+      secretName,
+      "Unexpected secret name in result from setSecret()."
+    );
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
   });
 
   it("can abort adding a secret", async function() {
+    if (!isNode && isPlayingBack) {
+      recorder.skip();
+    }
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -83,7 +91,11 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     const secretValue = "";
     const result = await client.setSecret(secretName, secretValue);
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(
+      result.properties.name,
+      secretName,
+      "Unexpected secret name in result from setSecret()."
+    );
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
   });
@@ -98,7 +110,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     const updated = await client.getSecret(secretName);
     assert.equal(
       expiryDate.getDate(),
-      updated!.expires!.getDate(),
+      updated!.properties.expires!.getDate(),
       "Expect attribute 'expires' to be defined."
     );
     await testClient.flushSecret(secretName);
@@ -112,13 +124,13 @@ describe("Secret client - create, read, update and delete operations", () => {
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue);
-    await client.updateSecretAttributes(secretName, "", {
+    await client.updateSecretProperties(secretName, "", {
       expires: expiryDate
     });
 
     const updated = await client.getSecret(secretName);
     assert.equal(
-      updated!.expires!.getDate(),
+      updated!.properties.expires!.getDate(),
       expiryDate.getDate(),
       "Expect attribute 'expires' to be updated."
     );
@@ -135,11 +147,11 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, secretValue, {
       enabled: false
     });
-    const updated = await client.updateSecretAttributes(secretName, "", {
+    const updated = await client.updateSecretProperties(secretName, "", {
       expires: expiryDate
     });
     assert.equal(
-      updated!.expires!.getDate(),
+      updated!.properties.expires!.getDate(),
       expiryDate.getDate(),
       "Expect attribute 'expires' to be updated."
     );
@@ -152,7 +164,11 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     await client.setSecret(secretName, secretValue);
     const result = await client.getSecret(secretName);
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(
+      result.properties.name,
+      secretName,
+      "Unexpected secret name in result from setSecret()."
+    );
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
   });
@@ -190,7 +206,11 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     const result = await client.getSecret(secretName);
 
-    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(
+      result.properties.name,
+      secretName,
+      "Unexpected secret name in result from setSecret()."
+    );
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
   });
@@ -262,7 +282,11 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, "RSA");
     await client.deleteSecret(secretName);
     const getResult = await retry(async () => client.getDeletedSecret(secretName));
-    assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
+    assert.equal(
+      getResult.properties.name,
+      secretName,
+      "Unexpected secret name in result from getSecret()."
+    );
     await testClient.purgeSecret(secretName);
   });
 

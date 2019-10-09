@@ -1,7 +1,10 @@
 import { GetKeyOptions, RequestOptions } from "./keysModels";
 import { JsonWebKey, JsonWebKeyEncryptionAlgorithm } from "./core/models";
 import {
-  ServiceClientCredentials, TokenCredential, isNode, RequestPolicyFactory,
+  ServiceClientCredentials,
+  TokenCredential,
+  isNode,
+  RequestPolicyFactory,
   isTokenCredential,
   deserializationPolicy,
   signingPolicy,
@@ -13,16 +16,12 @@ import {
   throttlingRetryPolicy,
   getDefaultProxySettings,
   userAgentPolicy,
-  getDefaultUserAgentValue,
+  getDefaultUserAgentValue
 } from "@azure/core-http";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { TelemetryOptions } from "./core";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
-import {
-  NewPipelineOptions,
-  isNewPipelineOptions,
-  Pipeline,
-} from "./core/keyVaultBase";
+import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 import * as crypto from "crypto";
@@ -32,7 +31,6 @@ import * as constants from "constants";
  * The client to interact with the KeyVault cryptography functionality
  */
 export class CryptographyClient {
-
   /**
    * Retrieves the complete key from the key vault
    *
@@ -51,7 +49,7 @@ export class CryptographyClient {
       const key = await this.client.getKey(
         this.vaultBaseUrl,
         this.name,
-        options && options.version ? options.version : (this.version ? this.version : ""),
+        options && options.version ? options.version : this.version ? this.version : "",
         options
       );
       return key.key!;
@@ -77,6 +75,9 @@ export class CryptographyClient {
     plaintext: Uint8Array,
     options?: EncryptOptions
   ): Promise<EncryptResult> {
+    let iv = options ? options.iv : undefined;
+    let authenticationData = options ? options.authenticationData : undefined;
+
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -95,8 +96,8 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
-            return {result: encrypted};
-          };
+            return { result: encrypted, algorithm, keyID: this.key.kid, iv, authenticationData };
+          }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
               throw new Error("Key type does not match algorithm");
@@ -109,15 +110,23 @@ export class CryptographyClient {
             let keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
-            return {result: encrypted};
-          };
+            return { result: encrypted, algorithm, keyID: this.key.kid, iv, authenticationData };
+          }
         }
       }
     }
 
     // Default to the service
-    let result = await this.client.encrypt(this.vaultBaseUrl, this.name, this.version, algorithm, plaintext, options);
-    return {result: result.result!};
+    let result = await this.client.encrypt(
+      this.vaultBaseUrl,
+      this.name,
+      this.version,
+      algorithm,
+      plaintext,
+      options
+    );
+
+    return { result: result.result!, algorithm, keyID: this.getKeyID(), iv, authenticationData };
   }
 
   /**
@@ -131,14 +140,23 @@ export class CryptographyClient {
    * @param algorithm The algorithm to use
    * @param ciphertext The ciphertext to decrypt
    * @param options Additional options
-   */  
+   */
+
   public async decrypt(
     algorithm: JsonWebKeyEncryptionAlgorithm,
     ciphertext: Uint8Array,
     options?: DecryptOptions
   ): Promise<DecryptResult> {
-    let result = await this.client.decrypt(this.vaultBaseUrl, this.name, this.version, algorithm, ciphertext, options);
-    return {result: result.result!};
+    let result = await this.client.decrypt(
+      this.vaultBaseUrl,
+      this.name,
+      this.version,
+      algorithm,
+      ciphertext,
+      options
+    );
+
+    return { result: result.result!, keyID: this.getKeyID(), algorithm };
   }
 
   /**
@@ -163,7 +181,7 @@ export class CryptographyClient {
 
       if (typeof this.key !== "string") {
         switch (algorithm) {
-        case "RSA1_5": {
+          case "RSA1_5": {
             if (this.key.kty != "RSA") {
               throw new Error("Key type does not match algorithm");
             }
@@ -176,8 +194,8 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(key));
-            return {result: encrypted};
-          };
+            return { result: encrypted, algorithm, keyID: this.getKeyID() };
+          }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
               throw new Error("Key type does not match algorithm");
@@ -190,15 +208,22 @@ export class CryptographyClient {
             let keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(key));
-            return {result: encrypted};
-          };
+            return { result: encrypted, algorithm, keyID: this.getKeyID() };
+          }
         }
       }
     }
 
     // Default to the service
-    let result = await this.client.wrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, key, options);
-    return {result: result.result!};
+    let result = await this.client.wrapKey(
+      this.vaultBaseUrl,
+      this.name,
+      this.version,
+      algorithm,
+      key,
+      options
+    );
+    return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
   /**
@@ -218,8 +243,15 @@ export class CryptographyClient {
     encryptedKey: Uint8Array,
     options?: RequestOptions
   ): Promise<UnwrapResult> {
-    let result = await this.client.unwrapKey(this.vaultBaseUrl, this.name, this.version, algorithm, encryptedKey, options);
-    return {result: result.result!};
+    let result = await this.client.unwrapKey(
+      this.vaultBaseUrl,
+      this.name,
+      this.version,
+      algorithm,
+      encryptedKey,
+      options
+    );
+    return { result: result.result!, keyID: this.getKeyID() };
   }
 
   /**
@@ -239,8 +271,15 @@ export class CryptographyClient {
     digest: Uint8Array,
     options?: RequestOptions
   ): Promise<SignResult> {
-    let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
-    return {result: result.result!};
+    let result = await this.client.sign(
+      this.vaultBaseUrl,
+      this.name,
+      this.version,
+      algorithm,
+      digest,
+      options
+    );
+    return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
   /**
@@ -262,8 +301,16 @@ export class CryptographyClient {
     signature: Uint8Array,
     options?: RequestOptions
   ): Promise<VerifyResult> {
-    const response = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
-    return {result: response.value ? response.value : false};
+    const response = await this.client.verify(
+      this.vaultBaseUrl,
+      this.name,
+      this.version,
+      algorithm,
+      digest,
+      signature,
+      options
+    );
+    return { result: response.value ? response.value : false, keyID: this.getKeyID() };
   }
 
   /**
@@ -285,29 +332,42 @@ export class CryptographyClient {
   ): Promise<SignResult> {
     let digest;
     switch (algorithm) {
-      case ("ES256"):
-      case ("ES256K"):
-      case ("PS256"):
-      case ("RS256"): {
-        digest = await createHash("sha256", data);
-      } break;
-      case ("ES384"):
-      case ("PS384"):
-      case ("RS384"): {
-        digest = await createHash("sha384", data);
-      } break;
-      case ("ES512"):
-      case ("PS512"):
-      case ("RS512"): {
-        digest = await createHash("sha512", data);
-      } break;
+      case "ES256":
+      case "ES256K":
+      case "PS256":
+      case "RS256":
+        {
+          digest = await createHash("sha256", data);
+        }
+        break;
+      case "ES384":
+      case "PS384":
+      case "RS384":
+        {
+          digest = await createHash("sha384", data);
+        }
+        break;
+      case "ES512":
+      case "PS512":
+      case "RS512":
+        {
+          digest = await createHash("sha512", data);
+        }
+        break;
       default: {
         throw new Error("Unsupported signature algorithm");
       }
     }
 
-    let result = await this.client.sign(this.vaultBaseUrl, this.name, this.version, algorithm, digest, options);
-    return {result: result.result!};
+    let result = await this.client.sign(
+      this.vaultBaseUrl,
+      this.name,
+      this.version,
+      algorithm,
+      digest,
+      options
+    );
+    return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
   /**
@@ -334,7 +394,7 @@ export class CryptographyClient {
 
       if (typeof this.key !== "string") {
         switch (algorithm) {
-          case ("RS256"): {
+          case "RS256": {
             if (this.key.kty != "RSA") {
               throw new Error("Key type does not match algorithm");
             }
@@ -349,9 +409,12 @@ export class CryptographyClient {
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return {result: verifier.verify(keyPEM, Buffer.from(signature))};
-          };
-          case ("RS384"): {
+            return {
+              result: verifier.verify(keyPEM, Buffer.from(signature)),
+              keyID: this.getKeyID()
+            };
+          }
+          case "RS384": {
             if (this.key.kty != "RSA") {
               throw new Error("Key type does not match algorithm");
             }
@@ -359,16 +422,19 @@ export class CryptographyClient {
             if (this.key.keyOps && !this.key.keyOps.includes("verify")) {
               throw new Error("Key does not support the verify operation");
             }
-            
+
             let keyPEM = convertJWKtoPEM(this.key);
 
             const verifier = crypto.createVerify("SHA384");
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return {result: verifier.verify(keyPEM, Buffer.from(signature))};
-          };
-          case ("RS512"): {
+            return {
+              result: verifier.verify(keyPEM, Buffer.from(signature)),
+              keyID: this.getKeyID()
+            };
+          }
+          case "RS512": {
             if (this.key.kty != "RSA") {
               throw new Error("Key type does not match algorithm");
             }
@@ -376,44 +442,61 @@ export class CryptographyClient {
             if (this.key.keyOps && !this.key.keyOps.includes("verify")) {
               throw new Error("Key does not support the verify operation");
             }
-            
+
             let keyPEM = convertJWKtoPEM(this.key);
 
             const verifier = crypto.createVerify("SHA512");
             verifier.update(Buffer.from(data));
             verifier.end();
 
-            return {result: verifier.verify(keyPEM, Buffer.from(signature))};
-          };
+            return {
+              result: verifier.verify(keyPEM, Buffer.from(signature)),
+              keyID: this.getKeyID()
+            };
+          }
         }
       }
     }
 
     let digest: Buffer;
     switch (algorithm) {
-      case ("ES256"):
-      case ("ES256K"):
-      case ("PS256"):
-      case ("RS256"): {
-        digest = await createHash("sha256", data);
-      } break;
-      case ("ES384"):
-      case ("PS384"):
-      case ("RS384"): {
-        digest = await createHash("sha384", data);
-      } break;
-      case ("ES512"):
-      case ("PS512"):
-      case ("RS512"): {
-        digest = await createHash("sha512", data);
-      } break;
+      case "ES256":
+      case "ES256K":
+      case "PS256":
+      case "RS256":
+        {
+          digest = await createHash("sha256", data);
+        }
+        break;
+      case "ES384":
+      case "PS384":
+      case "RS384":
+        {
+          digest = await createHash("sha384", data);
+        }
+        break;
+      case "ES512":
+      case "PS512":
+      case "RS512":
+        {
+          digest = await createHash("sha512", data);
+        }
+        break;
       default: {
         throw new Error("Unsupported signature algorithm");
       }
     }
 
-    let result = await this.client.verify(this.vaultBaseUrl, this.name, this.version, algorithm, digest, signature, options);
-    return {result: result.value!};
+    let result = await this.client.verify(
+      this.vaultBaseUrl,
+      this.name,
+      this.version,
+      algorithm,
+      digest,
+      signature,
+      options
+    );
+    return { result: result.value!, keyID: this.getKeyID() };
   }
 
   /**
@@ -422,7 +505,6 @@ export class CryptographyClient {
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @returns {Pipeline} A new Pipeline object.
    * @memberof CryptographyClient
    */
   public static getDefaultPipeline(
@@ -434,7 +516,9 @@ export class CryptographyClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = CryptographyClient.getUserAgentString(pipelineOptions.telemetry);
+    const userAgentString: string = CryptographyClient.getUserAgentString(
+      pipelineOptions.telemetry
+    );
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
     if (isNode) {
@@ -490,11 +574,20 @@ export class CryptographyClient {
       try {
         let result = await this.getKey();
         this.key = result;
-      } catch {
-
-      }
+      } catch {}
       this.hasTriedToGetKey = true;
     }
+  }
+
+  private getKeyID(): string | undefined {
+    let kid;
+    if (typeof this.key !== "string") {
+      kid = this.key.kid;
+    } else {
+      kid = this.key;
+    }
+
+    return kid;
   }
 
   /**
@@ -527,7 +620,7 @@ export class CryptographyClient {
    * Version of the key the client represents
    */
   private version: string;
-  
+
   /**
    * Has the client tried to fetch the full key yet
    */
@@ -600,18 +693,18 @@ export interface EncryptOptions extends RequestOptions {
   /**
    * Initialization vector
    */
-  iv?: Uint8Array,
+  iv?: Uint8Array;
   /**
    * Authentication data
    */
-  authenticationData?: Uint8Array,
+  authenticationData?: Uint8Array;
 }
 
 /**
  * @internal
  * @ignore
  * Encodes a length of a packet in DER format
-*/
+ */
 function encodeLength(length: number): Uint8Array {
   if (length <= 127) {
     return Uint8Array.of(length);
@@ -631,17 +724,17 @@ function encodeLength(length: number): Uint8Array {
  */
 function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
   if (buffer.length == 0) {
-      return buffer;
+    return buffer;
   }
 
   let result = new Uint8Array(buffer);
-  
+
   // If the high bit is set, prepend a 0
   if ((result[0] & 0x80) === 0x80) {
-      let array = new Uint8Array(result.length + 1);
-      array[0] = 0;
-      array.set(result, 1);
-      result = array;
+    let array = new Uint8Array(result.length + 1);
+    array[0] = 0;
+    array.set(result, 1);
+    result = array;
   }
 
   // Prepend the DER header for this buffer
@@ -650,7 +743,7 @@ function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
   let totalLength = 1 + encodedLength.length + result.length;
 
   let outputBuffer = new Uint8Array(totalLength);
-  outputBuffer[0] = bufferId; 
+  outputBuffer[0] = bufferId;
   outputBuffer.set(encodedLength, 1);
   outputBuffer.set(result, 1 + encodedLength.length);
 
@@ -692,7 +785,7 @@ export function convertJWKtoPEM(key: JsonWebKey): string {
   */
   let outputString = beginBanner;
   let lines = buffer.match(/.{1,64}/g);
-  
+
   if (lines) {
     for (let line of lines) {
       outputString += line;
@@ -733,15 +826,15 @@ export interface DecryptOptions extends RequestOptions {
   /**
    * Initialization vector
    */
-  iv?: Uint8Array,
+  iv?: Uint8Array;
   /**
    * Authentication data
    */
-  authenticationData?: Uint8Array,
+  authenticationData?: Uint8Array;
   /**
    * Authentication tag
    */
-  authenticationTag?: Uint8Array,
+  authenticationTag?: Uint8Array;
 }
 
 /**
@@ -775,7 +868,15 @@ export interface DecryptResult {
   /**
    * Result of the operation
    */
-  result: Uint8Array,
+  result: Uint8Array;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
+  /**
+   * Algorithm used
+   */
+  algorithm: JsonWebKeyEncryptionAlgorithm;
 }
 
 /**
@@ -785,7 +886,27 @@ export interface EncryptResult {
   /**
    * Result of the operation
    */
-  result: Uint8Array,
+  result: Uint8Array;
+  /**
+   * Algorithm used
+   */
+  algorithm: JsonWebKeyEncryptionAlgorithm;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
+  /**
+   * Initialization vector
+   */
+  iv?: Uint8Array;
+  /**
+   * Authentication data
+   */
+  authenticationData?: Uint8Array;
+  /**
+   * Authentication tag
+   */
+  authenticationTag?: string;
 }
 
 /**
@@ -795,7 +916,15 @@ export interface SignResult {
   /**
    * Result of the operation
    */
-  result: Uint8Array,
+  result: Uint8Array;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
+  /**
+   * Algorithm used
+   */
+  algorithm: KeySignatureAlgorithm;
 }
 
 /**
@@ -805,7 +934,11 @@ export interface VerifyResult {
   /**
    * Result of the operation
    */
-  result: boolean,
+  result: boolean;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
 }
 
 /**
@@ -815,7 +948,15 @@ export interface WrapResult {
   /**
    * Result of the operation
    */
-  result: Uint8Array,
+  result: Uint8Array;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
+  /**
+   * Algorithm used
+   */
+  algorithm: KeyWrapAlgorithm;
 }
 
 /**
@@ -825,5 +966,9 @@ export interface UnwrapResult {
   /**
    * Result of the operation
    */
-  result: Uint8Array,
+  result: Uint8Array;
+  /**
+   * Id of the key
+   */
+  keyID?: string;
 }

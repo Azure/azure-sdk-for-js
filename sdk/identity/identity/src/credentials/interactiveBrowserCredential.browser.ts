@@ -8,6 +8,8 @@ import {
   BrowserLoginStyle,
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
+import { createSpan } from "../util/tracing";
+import { CanonicalCode } from "@azure/core-tracing";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -113,23 +115,34 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions // eslint-disable-line @typescript-eslint/no-unused-vars
+    options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    if (!this.msalObject.getAccount()) {
-      await this.login();
-    }
+    const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
+    try {
+      if (!this.msalObject.getAccount()) {
+        await this.login();
+      }
 
-    const authResponse = await this.acquireToken({
-      scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
-    });
+      const authResponse = await this.acquireToken({
+        scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
+      });
 
-    if (authResponse) {
-      return {
-        token: authResponse.accessToken,
-        expiresOnTimestamp: authResponse.expiresOn.getTime()
-      };
-    } else {
-      return null;
+      if (authResponse) {
+        return {
+          token: authResponse.accessToken,
+          expiresOnTimestamp: authResponse.expiresOn.getTime()
+        };
+      } else {
+        return null;
+      }
+    } catch (err) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: err.message
+      });
+      throw err;
+    } finally {
+      span.end();
     }
   }
 }

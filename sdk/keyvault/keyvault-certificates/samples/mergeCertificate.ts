@@ -20,11 +20,9 @@ async function main(): Promise<void> {
 
   // Creating a certificate with an Unknown issuer.
   await client.createCertificate("MyCertificate", {
-    issuerParameters: {
-      name: "Unknown",
-      certificateTransparency: false
-    },
-    x509CertificateProperties: { subject: "cn=MyCert" }
+    issuerName: "Unknown",
+    certificateTransparency: false,
+    subjectName: "cn=MyCert"
   });
 
   // Retrieving the certificate's signing request

@@ -362,7 +362,6 @@ export interface CosmosClientOptions {
     resourceTokens?: {
         [resourcePath: string]: string;
     };
-    // Warning: (ae-forgotten-export) The symbol "TokenProvider" needs to be exported by the entry point index.d.ts
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
 }
@@ -579,12 +578,12 @@ export class Items {
     query<T>(query: string | SqlQuerySpec, options: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
+    readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
     readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<any>;
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions: ChangeFeedOptions): ChangeFeedIterator<T>;
-    readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
 }
@@ -923,6 +922,20 @@ export interface RequestContext {
     retryCount?: number;
 }
 
+// @public (undocumented)
+export interface RequestInfo {
+    // (undocumented)
+    headers: CosmosHeaders;
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    resourceId: string;
+    // (undocumented)
+    resourceType: ResourceType;
+    // (undocumented)
+    verb: HTTPMethod;
+}
+
 // @public
 export interface RequestOptions extends SharedOptions {
     accessCondition?: {
@@ -1150,6 +1163,9 @@ export class TimeSpan {
     // (undocumented)
     static readonly zero: TimeSpan;
 }
+
+// @public (undocumented)
+export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 // @public
 export class Trigger {

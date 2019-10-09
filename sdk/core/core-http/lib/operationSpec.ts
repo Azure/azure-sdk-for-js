@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
+import {
+  OperationParameter,
+  OperationQueryParameter,
+  OperationURLParameter
+} from "./operationParameter";
 import { OperationResponse } from "./operationResponse";
 import { MapperType, Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
@@ -82,7 +86,10 @@ export function isStreamOperation(operationSpec: OperationSpec): boolean {
   let result = false;
   for (const statusCode in operationSpec.responses) {
     const operationResponse: OperationResponse = operationSpec.responses[statusCode];
-    if (operationResponse.bodyMapper && operationResponse.bodyMapper.type.name === MapperType.Stream) {
+    if (
+      operationResponse.bodyMapper &&
+      operationResponse.bodyMapper.type.name === MapperType.Stream
+    ) {
       result = true;
       break;
     }

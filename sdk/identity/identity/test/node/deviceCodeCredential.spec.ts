@@ -3,6 +3,7 @@
 
 import assert from "assert";
 import { delay } from "@azure/core-http";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { MockAuthHttpClient, assertRejects } from "../authTestUtils";
 import { AuthenticationError, ErrorResponse } from "../../src/client/errors";
@@ -216,6 +217,31 @@ describe("DeviceCodeCredential", function() {
     });
   });
 
+  it("rethrows an unexpected AuthenticationError", async function() {
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        { status: 200, parsedBody: deviceCodeResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 401, parsedBody: { error: "invalid_client", error_description: "The request body must contain..."} }
+      ]
+    });
+
+    const credential = new DeviceCodeCredential(
+      "tenant",
+      "client",
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
+      mockHttpClient.identityClientOptions
+    );
+
+    await assertRejects(credential.getToken("scope"), (error) => {
+      const authError = error as AuthenticationError;
+      assert.strictEqual(error.name, "AuthenticationError");
+      assert.strictEqual(authError.errorResponse.error, "invalid_client");
+      return true;
+    });
+  });
+
   it("cancels polling when abort signal is raised", async function() {
     const mockHttpClient = new MockAuthHttpClient({
       authResponse: [
@@ -242,5 +268,66 @@ describe("DeviceCodeCredential", function() {
 
     assert.strictEqual(token, null);
     assert.strictEqual(mockHttpClient.requests.length, 2);
+  });
+
+  it("sends a device code request and returns a token with tracing", async function() {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        { status: 200, parsedBody: deviceCodeResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 400, parsedBody: pendingResponse },
+        { status: 200, parsedBody: { access_token: "token", expires_in: 5 } }
+      ]
+    });
+
+    const rootSpan = tracer.startSpan("root");
+
+    const credential = new DeviceCodeCredential(
+      "tenant",
+      "client",
+      (details) => assert.equal(details.message, deviceCodeResponse.message),
+      mockHttpClient.identityClientOptions
+    );
+
+    await credential.getToken("scope", {
+      spanOptions: {
+        parent: rootSpan
+      }
+    });
+
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Identity.DeviceCodeCredential-getToken",
+              children: [
+                {
+                  name: "Azure.Identity.DeviceCodeCredential-sendDeviceCodeRequest",
+                  children: []
+                },
+                {
+                  name: "Azure.Identity.DeviceCodeCredential-pollForToken",
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });

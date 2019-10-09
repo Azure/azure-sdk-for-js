@@ -31,7 +31,8 @@ const nodeConfig = {
     "tslib",
     "tunnel",
     "uuid/v4",
-    "xml2js"
+    "xml2js",
+    "@azure/core-tracing"
   ],
   output: {
     file: "./dist/coreHttp.node.js",
@@ -68,7 +69,7 @@ const browserConfig = {
   },
   plugins: [
     nodeResolve({
-      mainFields: ["module", "main", "browser"]
+      mainFields: ["module", "browser"]
     }),
     commonjs(),
     sourcemaps(),

@@ -6,6 +6,7 @@
 
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
+import { TracerBase } from '@opencensus/web-types';
 
 // @public
 export interface Attributes {
@@ -46,18 +47,21 @@ export interface Event {
 }
 
 // @public
+export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
+
+// @public
+export function getTraceParentHeader(spanContext: SpanContext): string | undefined;
+
+// @public
+export function getTracer(): Tracer;
+
+// @public
 export type HrTime = [number, number];
 
 // @public
 export interface HttpTextFormat {
     extract(format: string, carrier: unknown): SpanContext | null;
     inject(spanContext: SpanContext, format: string, carrier: unknown): void;
-}
-
-// @public
-export interface ITracerProxy {
-    getTracer(): Tracer;
-    setTracer(tracer: Tracer): void;
 }
 
 // @public
@@ -94,6 +98,7 @@ export { OpenCensusSpan }
 
 // @public
 export class OpenCensusSpanWrapper implements Span {
+    constructor(span: OpenCensusSpan);
     constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
     addEvent(name: string, attributes?: Attributes): this;
     addLink(spanContext: SpanContext, attributes?: Attributes): this;
@@ -111,12 +116,12 @@ export { OpenCensusTracer }
 
 // @public
 export class OpenCensusTracerWrapper implements Tracer {
-    constructor(tracer: OpenCensusTracer);
+    constructor(tracer: TracerBase);
     bind<T>(target: T, span?: Span): T;
     getBinaryFormat(): BinaryFormat;
     getCurrentSpan(): Span | null;
     getHttpTextFormat(): HttpTextFormat;
-    getWrappedTracer(): OpenCensusTracer;
+    getWrappedTracer(): TracerBase;
     recordSpanData(span: Span): void;
     startSpan(name: string, options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
@@ -127,6 +132,9 @@ export interface Sampler {
     shouldSample(parentContext?: SpanContext): boolean;
     toString(): string;
 }
+
+// @public
+export function setTracer(tracer: Tracer): void;
 
 // @public
 export interface Span {
@@ -147,6 +155,17 @@ export interface SpanContext {
     traceFlags?: TraceFlags;
     traceId: string;
     traceState?: TraceState;
+}
+
+// @public
+export interface SpanGraph {
+    roots: SpanGraphNode[];
+}
+
+// @public
+export interface SpanGraphNode {
+    children: SpanGraphNode[];
+    name: string;
 }
 
 // @public
@@ -174,6 +193,31 @@ export interface Status {
 }
 
 // @public
+export class TestSpan extends NoOpSpan {
+    constructor(parentTracer: TestTracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
+    context(): SpanContext;
+    end(_endTime?: number): void;
+    endCalled: boolean;
+    isRecordingEvents(): boolean;
+    kind: SpanKind;
+    name: string;
+    readonly parentSpanId?: string;
+    setStatus(status: Status): this;
+    readonly startTime: TimeInput;
+    status: Status;
+    tracer(): Tracer;
+    }
+
+// @public
+export class TestTracer extends NoOpTracer {
+    getActiveSpans(): TestSpan[];
+    getKnownSpans(): TestSpan[];
+    getRootSpans(): TestSpan[];
+    getSpanGraph(traceId: string): SpanGraph;
+    startSpan(name: string, options?: SpanOptions): TestSpan;
+    }
+
+// @public
 export interface TimedEvent extends Event {
     time: HrTime;
 }
@@ -197,9 +241,6 @@ export interface Tracer {
     startSpan(name: string, options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => ReturnType<T>>(span: Span, fn: T): ReturnType<T>;
 }
-
-// @public
-export const TracerProxy: ITracerProxy;
 
 // @public
 export interface TraceState {

@@ -257,7 +257,10 @@ describe("URLBuilder", () => {
       assert.strictEqual(urlBuilder.getScheme(), "https");
       assert.strictEqual(urlBuilder.getHost(), "www.example.com");
       assert.strictEqual(urlBuilder.getPath(), "mypath");
-      assert.strictEqual(urlBuilder.toString(), "https://www.example.com/mypath?thing=stuff&otherthing=otherstuff");
+      assert.strictEqual(
+        urlBuilder.toString(),
+        "https://www.example.com/mypath?thing=stuff&otherthing=otherstuff"
+      );
     });
 
     it(`to "https" and setHost() to "www.example.com" and setPath() to "http://www.othersite.com/mypath?thing=stuff" and setQueryParameter() to "otherthing=otherstuff"`, () => {
@@ -268,7 +271,10 @@ describe("URLBuilder", () => {
       urlBuilder.setQueryParameter("otherthing", "otherstuff");
       assert.strictEqual(urlBuilder.getScheme(), "http");
       assert.strictEqual(urlBuilder.getPath(), "/mypath");
-      assert.strictEqual(urlBuilder.toString(), "http://www.othersite.com/mypath?thing=stuff&otherthing=otherstuff");
+      assert.strictEqual(
+        urlBuilder.toString(),
+        "http://www.othersite.com/mypath?thing=stuff&otherthing=otherstuff"
+      );
     });
   });
 
@@ -805,23 +811,38 @@ describe("URLBuilder", () => {
     });
 
     it(`with "ftp://www.bing.com:8080"`, () => {
-      assert.strictEqual(URLBuilder.parse("ftp://www.bing.com:8080").toString(), "ftp://www.bing.com:8080");
+      assert.strictEqual(
+        URLBuilder.parse("ftp://www.bing.com:8080").toString(),
+        "ftp://www.bing.com:8080"
+      );
     });
 
     it(`with "www.bing.com/my/path"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com/my/path").toString(), "www.bing.com/my/path");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com/my/path").toString(),
+        "www.bing.com/my/path"
+      );
     });
 
     it(`with "ftp://www.bing.com/my/path"`, () => {
-      assert.strictEqual(URLBuilder.parse("ftp://www.bing.com/my/path").toString(), "ftp://www.bing.com/my/path");
+      assert.strictEqual(
+        URLBuilder.parse("ftp://www.bing.com/my/path").toString(),
+        "ftp://www.bing.com/my/path"
+      );
     });
 
     it(`with "www.bing.com:1234/my/path"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com:1234/my/path").toString(), "www.bing.com:1234/my/path");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com:1234/my/path").toString(),
+        "www.bing.com:1234/my/path"
+      );
     });
 
     it(`with "ftp://www.bing.com:1234/my/path"`, () => {
-      assert.strictEqual(URLBuilder.parse("ftp://www.bing.com:1234/my/path").toString(), "ftp://www.bing.com:1234/my/path");
+      assert.strictEqual(
+        URLBuilder.parse("ftp://www.bing.com:1234/my/path").toString(),
+        "ftp://www.bing.com:1234/my/path"
+      );
     });
 
     it(`with "www.bing.com?a=1"`, () => {
@@ -829,67 +850,115 @@ describe("URLBuilder", () => {
     });
 
     it(`with "https://www.bing.com?a=1"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com?a=1").toString(), "https://www.bing.com?a=1");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com?a=1").toString(),
+        "https://www.bing.com?a=1"
+      );
     });
 
     it(`with "www.bing.com:123?a=1"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com:123?a=1").toString(), "www.bing.com:123?a=1");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com:123?a=1").toString(),
+        "www.bing.com:123?a=1"
+      );
     });
 
     it(`with "https://www.bing.com:987?a=1"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com:987?a=1").toString(), "https://www.bing.com:987?a=1");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com:987?a=1").toString(),
+        "https://www.bing.com:987?a=1"
+      );
     });
 
     it(`with "www.bing.com/folder/index.html?a=1"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com/folder/index.html?a=1").toString(), "www.bing.com/folder/index.html?a=1");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com/folder/index.html?a=1").toString(),
+        "www.bing.com/folder/index.html?a=1"
+      );
     });
 
     it(`with "https://www.bing.com/image.gif?a=1"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com/image.gif?a=1").toString(), "https://www.bing.com/image.gif?a=1");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com/image.gif?a=1").toString(),
+        "https://www.bing.com/image.gif?a=1"
+      );
     });
 
     it(`with "www.bing.com:123/index.html?a=1"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com:123/index.html?a=1").toString(), "www.bing.com:123/index.html?a=1");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com:123/index.html?a=1").toString(),
+        "www.bing.com:123/index.html?a=1"
+      );
     });
 
     it(`with "https://www.bing.com:987/my/path/again?a=1"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com:987/my/path/again?a=1").toString(), "https://www.bing.com:987/my/path/again?a=1");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com:987/my/path/again?a=1").toString(),
+        "https://www.bing.com:987/my/path/again?a=1"
+      );
     });
 
     it(`with "www.bing.com?a=1&b=2"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com?a=1&b=2").toString(), "www.bing.com?a=1&b=2");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com?a=1&b=2").toString(),
+        "www.bing.com?a=1&b=2"
+      );
     });
 
     it(`with "https://www.bing.com?a=1&b=2"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com?a=1&b=2").toString(), "https://www.bing.com?a=1&b=2");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com?a=1&b=2").toString(),
+        "https://www.bing.com?a=1&b=2"
+      );
     });
 
     it(`with "www.bing.com:123?a=1&b=2"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com:123?a=1&b=2").toString(), "www.bing.com:123?a=1&b=2");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com:123?a=1&b=2").toString(),
+        "www.bing.com:123?a=1&b=2"
+      );
     });
 
     it(`with "https://www.bing.com:987?a=1&b=2"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com:987?a=1&b=2").toString(), "https://www.bing.com:987?a=1&b=2");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com:987?a=1&b=2").toString(),
+        "https://www.bing.com:987?a=1&b=2"
+      );
     });
 
     it(`with "www.bing.com/folder/index.html?a=1&b=2"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com/folder/index.html?a=1&b=2").toString(), "www.bing.com/folder/index.html?a=1&b=2");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com/folder/index.html?a=1&b=2").toString(),
+        "www.bing.com/folder/index.html?a=1&b=2"
+      );
     });
 
     it(`with "https://www.bing.com/image.gif?a=1&b=2"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com/image.gif?a=1&b=2").toString(), "https://www.bing.com/image.gif?a=1&b=2");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com/image.gif?a=1&b=2").toString(),
+        "https://www.bing.com/image.gif?a=1&b=2"
+      );
     });
 
     it(`with "www.bing.com:123/index.html?a=1&b=2"`, () => {
-      assert.strictEqual(URLBuilder.parse("www.bing.com:123/index.html?a=1&b=2").toString(), "www.bing.com:123/index.html?a=1&b=2");
+      assert.strictEqual(
+        URLBuilder.parse("www.bing.com:123/index.html?a=1&b=2").toString(),
+        "www.bing.com:123/index.html?a=1&b=2"
+      );
     });
 
     it(`with "https://www.bing.com:987/my/path/again?a=1&b=2"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com:987/my/path/again?a=1&b=2").toString(), "https://www.bing.com:987/my/path/again?a=1&b=2");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com:987/my/path/again?a=1&b=2").toString(),
+        "https://www.bing.com:987/my/path/again?a=1&b=2"
+      );
     });
 
     it(`with "https://www.bing.com/my:/path"`, () => {
-      assert.strictEqual(URLBuilder.parse("https://www.bing.com/my:/path").toString(), "https://www.bing.com/my:/path");
+      assert.strictEqual(
+        URLBuilder.parse("https://www.bing.com/my:/path").toString(),
+        "https://www.bing.com/my:/path"
+      );
     });
   });
 
@@ -979,12 +1048,30 @@ describe("URLTokenizer", () => {
       const tokenizer = new URLTokenizer(text);
       if (expectedURLTokens) {
         for (let i = 0; i < expectedURLTokens.length; ++i) {
-          assert.strictEqual(tokenizer.next(), true, `Expected to find ${expectedURLTokens.length} URLTokens, but found ${i} instead.`);
-          assert.deepEqual(tokenizer.current(), expectedURLTokens[i], `Expected the ${i + 1} URLToken to be ${JSON.stringify(expectedURLTokens[i])}, but found ${JSON.stringify(tokenizer.current())} instead.`);
+          assert.strictEqual(
+            tokenizer.next(),
+            true,
+            `Expected to find ${expectedURLTokens.length} URLTokens, but found ${i} instead.`
+          );
+          assert.deepEqual(
+            tokenizer.current(),
+            expectedURLTokens[i],
+            `Expected the ${i + 1} URLToken to be ${JSON.stringify(
+              expectedURLTokens[i]
+            )}, but found ${JSON.stringify(tokenizer.current())} instead.`
+          );
         }
       }
-      assert.strictEqual(tokenizer.next(), false, `Only expected to find ${(expectedURLTokens ? expectedURLTokens.length : 0)} URL token(s).`);
-      assert.strictEqual(tokenizer.current(), undefined, `After reading all of the URLTokens, expected the current value to be undefined.`);
+      assert.strictEqual(
+        tokenizer.next(),
+        false,
+        `Only expected to find ${expectedURLTokens ? expectedURLTokens.length : 0} URL token(s).`
+      );
+      assert.strictEqual(
+        tokenizer.current(),
+        undefined,
+        `After reading all of the URLTokens, expected the current value to be undefined.`
+      );
     }
 
     it(`with ""`, () => {
@@ -992,31 +1079,19 @@ describe("URLTokenizer", () => {
     });
 
     it(`with "http"`, () => {
-      nextTest("http", [
-        URLToken.host("http")
-      ]);
+      nextTest("http", [URLToken.host("http")]);
     });
 
     it(`with "http:"`, () => {
-      nextTest("http:", [
-        URLToken.host("http"),
-        URLToken.port("")
-      ]);
+      nextTest("http:", [URLToken.host("http"), URLToken.port("")]);
     });
 
     it(`with "http:/"`, () => {
-      nextTest("http:/", [
-        URLToken.host("http"),
-        URLToken.port(""),
-        URLToken.path("/")
-      ]);
+      nextTest("http:/", [URLToken.host("http"), URLToken.port(""), URLToken.path("/")]);
     });
 
     it(`with "http://"`, () => {
-      nextTest("http://", [
-        URLToken.scheme("http"),
-        URLToken.host("")
-      ]);
+      nextTest("http://", [URLToken.scheme("http"), URLToken.host("")]);
     });
 
     it(`with "https://www.example.com"`, () => {
@@ -1138,31 +1213,19 @@ describe("URLTokenizer", () => {
     });
 
     it(`with "www.test.com/"`, () => {
-      nextTest("www.test.com/", [
-        URLToken.host("www.test.com"),
-        URLToken.path("/")
-      ]);
+      nextTest("www.test.com/", [URLToken.host("www.test.com"), URLToken.path("/")]);
     });
 
     it(`with "www.test.com?"`, () => {
-      nextTest("www.test.com?", [
-        URLToken.host("www.test.com"),
-        URLToken.query("")
-      ]);
+      nextTest("www.test.com?", [URLToken.host("www.test.com"), URLToken.query("")]);
     });
 
     it(`with "folder/index.html"`, () => {
-      nextTest("folder/index.html", [
-        URLToken.host("folder"),
-        URLToken.path("/index.html")
-      ]);
+      nextTest("folder/index.html", [URLToken.host("folder"), URLToken.path("/index.html")]);
     });
 
     it(`with "/folder/index.html"`, () => {
-      nextTest("/folder/index.html", [
-        URLToken.host(""),
-        URLToken.path("/folder/index.html")
-      ]);
+      nextTest("/folder/index.html", [URLToken.host(""), URLToken.path("/folder/index.html")]);
     });
   });
 });

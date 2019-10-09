@@ -50,7 +50,10 @@ export class HttpHeaders {
    * @param headerValue The value of the header to set.
    */
   public set(headerName: string, headerValue: string | number): void {
-    this._headersMap[getHeaderKey(headerName)] = { name: headerName, value: headerValue.toString() };
+    this._headersMap[getHeaderKey(headerName)] = {
+      name: headerName,
+      value: headerValue.toString()
+    };
   }
 
   /**

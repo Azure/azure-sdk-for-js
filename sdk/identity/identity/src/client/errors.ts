@@ -27,6 +27,11 @@ function isErrorResponse(errorResponse: any): errorResponse is ErrorResponse {
 }
 
 /**
+ * The Error.name value of an AuthenticationError
+ */
+export const AuthenticationErrorName = "AuthenticationError";
+
+/**
  * Provides details about a failure to authenticate with Azure Active
  * Directory.  The `errorResponse` field contains more details about
  * the specific failure.
@@ -79,9 +84,14 @@ export class AuthenticationError extends Error {
     this.errorResponse = errorResponse;
 
     // Ensure that this type reports the correct name
-    this.name = "AuthenticationError";
+    this.name = AuthenticationErrorName;
   }
 }
+
+/**
+ * The Error.name value of an AggregateAuthenticationError
+ */
+export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
 
 /**
  * Provides an `errors` array containing {@link AuthenticationError} instance
@@ -90,10 +100,12 @@ export class AuthenticationError extends Error {
 export class AggregateAuthenticationError extends Error {
   public errors: any[];
   constructor(errors: any[]) {
-    super("Authentication failed to complete due to errors");
+    super(
+      `Authentication failed to complete due to the following errors:\n\n${errors.join("\n\n")}`
+    );
     this.errors = errors;
 
     // Ensure that this type reports the correct name
-    this.name = "AggregateAuthenticationError";
+    this.name = AggregateAuthenticationErrorName;
   }
 }

@@ -12,7 +12,7 @@ import * as coreHttp from "@azure/core-http";
 import * as coreArm from "@azure/core-arm";
 
 const packageName = "@azure/keyvault-secrets";
-const packageVersion = "4.0.0-preview.5";
+const packageVersion = "4.0.0-preview.8";
 
 export class KeyVaultClientContext extends coreArm.AzureServiceClient {
   credentials: coreHttp.TokenCredential;

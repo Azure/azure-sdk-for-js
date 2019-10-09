@@ -1,12 +1,12 @@
 {
   "name": "@azure/core-tracing",
-  "version": "1.0.0-preview.3",
+  "version": "1.0.0-preview.4",
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
-  "module": "dist-esm/index.js",
+  "module": "dist-esm/lib/index.js",
   "browser": {
-    "./dist/index.js": "./browser/index.js"
+    "./dist/index.js": "./browser/core-tracing.js"
   },
   "types": "types/core-tracing.d.ts",
   "scripts": {
@@ -37,7 +37,7 @@
   "files": [
     "browser/*.js*",
     "dist/",
-    "dist-esm/",
+    "dist-esm/lib/",
     "src/",
     "types/core-tracing.d.ts",
     "ThirdPartyNotices.txt"

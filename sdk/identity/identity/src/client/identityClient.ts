@@ -8,9 +8,13 @@ import {
   ServiceClientOptions,
   WebResource,
   RequestPrepareOptions,
-  GetTokenOptions
+  GetTokenOptions,
+  tracingPolicy,
+  RequestPolicyFactory
 } from "@azure/core-http";
-import { AuthenticationError } from "./errors";
+import { CanonicalCode } from "@azure/core-tracing";
+import { AuthenticationError, AuthenticationErrorName } from "./errors";
+import { createSpan } from "../util/tracing";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -88,6 +92,8 @@ export class IdentityClient extends ServiceClient {
       return null;
     }
 
+    const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
+
     const refreshParams = {
       grant_type: "refresh_token",
       client_id: clientId,
@@ -99,39 +105,54 @@ export class IdentityClient extends ServiceClient {
       (refreshParams as any).client_secret = clientSecret;
     }
 
-    const webResource = this.createWebResource({
-      url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
-      method: "POST",
-      disableJsonStringifyOnBody: true,
-      deserializationMapper: undefined,
-      body: qs.stringify(refreshParams),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      abortSignal: options && options.abortSignal
-    });
-
     try {
-      return await this.sendTokenRequest(webResource, expiresOnParser);
+      const webResource = this.createWebResource({
+        url: `${this.authorityHost}/${tenantId}/oauth2/v2.0/token`,
+        method: "POST",
+        disableJsonStringifyOnBody: true,
+        deserializationMapper: undefined,
+        body: qs.stringify(refreshParams),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        spanOptions: newOptions.spanOptions,
+        abortSignal: options && options.abortSignal
+      });
+
+      const response = await this.sendTokenRequest(webResource, expiresOnParser);
+      return response;
     } catch (err) {
       if (
-        err instanceof AuthenticationError &&
+        err.name === AuthenticationErrorName &&
         err.errorResponse.error === "interaction_required"
       ) {
         // It's likely that the refresh token has expired, so
         // return null so that the credential implementation will
         // initiate the authentication flow again.
+        span.setStatus({
+          code: CanonicalCode.UNAUTHENTICATED,
+          message: err.message
+        });
         return null;
       } else {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: err.message
+        });
         throw err;
       }
+    } finally {
+      span.end();
     }
   }
 
   static getDefaultOptions(): IdentityClientOptions {
     return {
-      authorityHost: DefaultAuthorityHost
+      authorityHost: DefaultAuthorityHost,
+      requestPolicyFactories: (factories: RequestPolicyFactory[]) => {
+        return [tracingPolicy(), ...factories];
+      }
     };
   }
 }

@@ -12,6 +12,7 @@ const env = getEnvVars();
 
 import { EventHubClient } from "../src";
 import { AbortController } from "@azure/abort-controller";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 describe("RuntimeInformation #RunnableInBrowser", function(): void {
   let client: EventHubClient;
   const service = {
@@ -51,7 +52,9 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getPartitionIds(controller.signal);
+        await client.getPartitionIds({
+          abortSignal: controller.signal
+        });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
@@ -70,6 +73,43 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         result.should.have.members(arrayOfIncreasingNumbersFromZero(result.length));
       }
     });
+  });
+
+  it("can be manually traced", async function(): Promise<void> {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+
+    const rootSpan = tracer.startSpan("root");
+    client = new EventHubClient(service.connectionString, service.path);
+    const ids = await client.getPartitionIds({ parentSpan: rootSpan });
+    ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    rootSpans.length.should.equal(1, "Should only have one root span.");
+    rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.EventHubs.getPartitionIds",
+              children: [
+                {
+                  name: "Azure.EventHubs.getProperties",
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+    tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
   });
 
   describe("hub runtime information", function(): void {
@@ -94,11 +134,47 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getProperties(controller.signal);
+        await client.getProperties({
+          abortSignal: controller.signal
+        });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
       }
+    });
+
+    it("can be manually traced", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+      client = new EventHubClient(service.connectionString, service.path);
+      const hubRuntimeInfo = await client.getProperties({ parentSpan: rootSpan });
+      hubRuntimeInfo.partitionIds.should.have.members(
+        arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+      );
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root span.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.getProperties",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
     });
   });
 
@@ -162,11 +238,51 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getPartitionProperties("0", controller.signal);
+        await client.getPartitionProperties("0", {
+          abortSignal: controller.signal
+        });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
       }
+    });
+
+    it("can be manually traced", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+      client = new EventHubClient(service.connectionString, service.path);
+      const partitionRuntimeInfo = await client.getPartitionProperties("0", {
+        parentSpan: rootSpan
+      });
+      partitionRuntimeInfo.partitionId.should.equal("0");
+      partitionRuntimeInfo.eventHubName.should.equal(service.path);
+      partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
+      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root span.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.getPartitionProperties",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
     });
   });
 }).timeout(60000);

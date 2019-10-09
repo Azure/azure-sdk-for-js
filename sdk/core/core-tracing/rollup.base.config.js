@@ -8,7 +8,7 @@ import viz from "rollup-plugin-visualizer";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
-const input = "dist-esm/index.js";
+const input = "dist-esm/lib/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
@@ -80,7 +80,11 @@ export function browserConfig(test = false, production = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
-      cjs(),
+      cjs({
+        namedExports: {
+          assert: ["ok", "fail", "equal", "deepEqual", "deepStrictEqual", "strictEqual"]
+        }
+      }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]
   };

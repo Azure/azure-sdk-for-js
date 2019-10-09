@@ -334,6 +334,10 @@ export class WebResource {
       }
     }
 
+    if (options.spanOptions) {
+      this.spanOptions = options.spanOptions;
+    }
+
     this.abortSignal = options.abortSignal;
     this.onDownloadProgress = options.onDownloadProgress;
     this.onUploadProgress = options.onUploadProgress;
@@ -358,8 +362,7 @@ export class WebResource {
       this.timeout,
       this.onUploadProgress,
       this.onDownloadProgress,
-      this.proxySettings,
-      this.keepAlive
+      this.proxySettings
     );
 
     if (this.formData) {
@@ -474,6 +477,7 @@ export interface RequestPrepareOptions {
   abortSignal?: AbortSignalLike;
   onUploadProgress?: (progress: TransferProgressEvent) => void;
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  spanOptions?: SpanOptions;
 }
 
 /**

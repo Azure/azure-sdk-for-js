@@ -6,12 +6,11 @@ import {
   getConnectionStringFromEnvironment,
   deleteKeyCompletely,
   toSortedArray,
-  assertEqualSettings
+  assertEqualSettings,
+  assertThrowsRestError
 } from "./testHelpers";
-import * as dotenv from "dotenv";
 import { AppConfigurationClient } from "../src";
-
-dotenv.config();
+import { quoteETag, formatWildcards, extractAfterTokenFromNextLink } from '../src/internal/helpers';
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
@@ -25,7 +24,7 @@ describe("AppConfigurationClient", () => {
 
   after("cleanup", async () => {
     for (const setting of settings) {
-      await client.deleteConfigurationSetting(setting.key, { label: setting.label });
+      await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     }
   });
 
@@ -53,10 +52,10 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "added",
-        label: null
+        label: undefined
       });
 
-      await client.deleteConfigurationSetting(key, {});
+      await client.deleteConfigurationSetting({ key });
 
       // will recreate the setting
       await client.setConfigurationSetting({ key, value: "set" });
@@ -64,7 +63,7 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "set",
-        label: null
+        label: undefined
       });
 
       // and now acts as a wholesale update
@@ -73,14 +72,14 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "set a second time",
-        label: null
+        label: undefined
       });
 
-      await client.deleteConfigurationSetting(key, {});
+      await client.deleteConfigurationSetting({ key });
     });
 
-    async function compare(expected: { key: string; value: string; label: string | null }) {
-      const actualSettings = await client.getConfigurationSetting(expected.key);
+    async function compare(expected: { key: string; value: string; label?: string }) {
+      const actualSettings = await client.getConfigurationSetting(expected);
 
       assert.equal(expected.key, actualSettings.key);
       assert.equal(expected.value, actualSettings.value);
@@ -172,7 +171,7 @@ describe("AppConfigurationClient", () => {
       );
 
       // delete configuration
-      const deletedSetting = await client.deleteConfigurationSetting(key, { label });
+      const deletedSetting = await client.deleteConfigurationSetting(result);
       assert.equal(
         deletedSetting.key,
         key,
@@ -191,7 +190,7 @@ describe("AppConfigurationClient", () => {
 
       // confirm setting no longer exists
       try {
-        await client.getConfigurationSetting(key, { label });
+        await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -219,10 +218,10 @@ describe("AppConfigurationClient", () => {
       );
 
       // delete configuration
-      const deletedSetting = await client.deleteConfigurationSetting(key, {
-        label,
-        etag: result.etag
-      });
+      const deletedSetting = await client.deleteConfigurationSetting({
+        key,
+        label
+      }, { ifMatch: result.etag });
       assert.equal(
         deletedSetting.key,
         key,
@@ -241,7 +240,7 @@ describe("AppConfigurationClient", () => {
 
       // confirm setting no longer exists
       try {
-        await client.getConfigurationSetting(key, { label });
+        await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -253,7 +252,7 @@ describe("AppConfigurationClient", () => {
       const label = "test";
 
       // delete configuration
-      await client.deleteConfigurationSetting(key, { label });
+      await client.deleteConfigurationSetting({ key, label });
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {
@@ -279,12 +278,7 @@ describe("AppConfigurationClient", () => {
       settings.push({ key, label });
 
       // delete configuration
-      try {
-        await client.deleteConfigurationSetting(key, { label, etag: "incorrect" });
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
+      await assertThrowsRestError(() => client.deleteConfigurationSetting({ key, label }, { ifMatch: "incorrect" }), 412);
     });
   });
 
@@ -337,7 +331,7 @@ describe("AppConfigurationClient", () => {
       );
 
       // retrieve the value from the service
-      const remoteResult = await client.getConfigurationSetting(key, { label });
+      const remoteResult = await client.getConfigurationSetting({ key, label });
       assert.equal(
         remoteResult.key,
         key,
@@ -381,7 +375,7 @@ describe("AppConfigurationClient", () => {
 
       // retrieve the value from the service
       try {
-        await client.getConfigurationSetting(key, { label });
+        await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -615,7 +609,9 @@ describe("AppConfigurationClient", () => {
     });
 
     it("key wildcards", async () => {
-      const revisionsWithKeyIterator = await client.listRevisions({ keys: ['*' + key.substring(1)] });
+      const revisionsWithKeyIterator = await client.listRevisions({
+        keys: ["*" + key.substring(1)]
+      });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 
       assertEqualSettings(
@@ -777,9 +773,8 @@ describe("AppConfigurationClient", () => {
       const replacedResult = await client.setConfigurationSetting({
         key,
         label,
-        value: "foo2",
-        etag: result.etag
-      });
+        value: "foo2"
+      }, { ifMatch: result.etag });
 
       assert.equal(
         replacedResult.key,
@@ -910,7 +905,10 @@ describe("AppConfigurationClient", () => {
       );
 
       try {
-        await client.setConfigurationSetting({ key, label, value: "foo2", etag: "incorrect" });
+        await client.setConfigurationSetting(
+          { key, label, value: "foo2" },
+          { ifMatch: "incorrect" }
+        );
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
@@ -918,27 +916,33 @@ describe("AppConfigurationClient", () => {
     });
   });
 
-  describe("formatETagForMatchHeaders", () => {
+  describe("quoteETag", () => {
     it("undefined", () => {
       assert.equal(
         undefined,
-        AppConfigurationClient["formatETagForMatchHeaders"]({
-          etag: undefined
-        })
+        quoteETag(undefined)
       );
 
       assert.equal(
         '"etagishere"',
-        AppConfigurationClient["formatETagForMatchHeaders"]({
-          etag: "etagishere"
-        })
+        quoteETag("etagishere")
+      );
+
+      assert.equal(
+        "'etagishere'",
+        quoteETag("'etagishere'")
+      );
+
+      assert.equal(
+        "*",
+        quoteETag("*")
       );
     });
   });
 
   describe("formatWildcards", () => {
     it("undefined", () => {
-      const result = AppConfigurationClient["formatWildcards"]({
+      const result = formatWildcards({
         keys: undefined,
         labels: undefined
       });
@@ -948,7 +952,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("single values only", () => {
-      const result = AppConfigurationClient["formatWildcards"]({
+      const result = formatWildcards({
         keys: ["key1"],
         labels: ["label1"]
       });
@@ -958,7 +962,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("multiple values", () => {
-      const result = AppConfigurationClient["formatWildcards"]({
+      const result = formatWildcards({
         keys: ["key1", "key2"],
         labels: ["label1", "label2"]
       });
@@ -970,7 +974,7 @@ describe("AppConfigurationClient", () => {
 
   describe("extractAfterTokenFromNextLink", () => {
     it("token is extracted and properly unescaped", () => {
-      let token = AppConfigurationClient["extractAfterTokenFromNextLink"](
+      let token = extractAfterTokenFromNextLink(
         "/kv?key=someKey&api-version=1.0&after=bGlah%3D"
       );
       assert.equal("bGlah=", token);

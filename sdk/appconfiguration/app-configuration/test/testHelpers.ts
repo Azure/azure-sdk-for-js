@@ -9,6 +9,7 @@ import * as assert from "assert";
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
 import * as dotenv from "dotenv";
+import { RestError } from "@azure/core-http";
 dotenv.config();
 
 export function getConnectionStringFromEnvironment(): string {
@@ -29,7 +30,11 @@ export async function deleteKeyCompletely(keys: string[], client: AppConfigurati
   });
 
   for await (const setting of settingsIterator) {
-    await client.deleteConfigurationSetting(setting.key, { label: setting.label });
+    if (setting.locked) {
+      await client.clearReadOnly(setting);
+    }
+
+    await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
 
@@ -68,5 +73,26 @@ export function assertEqualSettings(
   actual = actual.map((setting) => {
     return { key: setting.key, label: setting.label, value: setting.value };
   });
+
   assert.deepEqual(expected, actual);
+}
+
+export async function assertThrowsRestError(
+  testFunction: () => Promise<any>,
+  expectedStatusCode: number,
+  message: string = ""
+): Promise<Error> {
+  try {
+    await testFunction();
+    assert.fail(`${message}: No error thrown`);
+  } catch (err) {
+    if (err instanceof RestError) {
+      assert.equal(expectedStatusCode, err.statusCode, message);
+      return err;
+    }
+
+    assert.fail(`${message}: Caught error but wasn't a RestError: ${err}`);
+  }
+  
+  return new Error("We won't reach this - both cases above throw because of assert.fail()");
 }
