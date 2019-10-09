@@ -125,7 +125,7 @@ export async function assertRejects(
   }
 }
 
-export function setDelayInstantlyCompletes() {
+export function setDelayInstantlyCompletes(): void {
   _setDelayTestFunction(() => Promise.resolve());
 }
 
@@ -140,27 +140,34 @@ export class DelayController {
   private _waitPromise?: Promise<DelayInfo>;
   private _resolve?: (info: DelayInfo) => void;
   private _pendingRequests: DelayInfo[] = [];
+
+  private removeDelayInfo(info: DelayInfo): void {
+    const index = this._pendingRequests.indexOf(info);
+    if (index >= 0) {
+      this._pendingRequests.splice(index, 1);
+    }
+  }
+
   delayRequested(timeout: number): Promise<void> {
-    let resolve: () => void;
-    let reject: (e: Error) => void;
-    const promise = new Promise<void>((resolveThis, rejectThis) => {
-      resolve = resolveThis;
-      reject = rejectThis;
+    let resolveFunc: () => void;
+    let rejectFunc: (e: Error) => void;
+    const promise = new Promise<void>((resolve, reject) => {
+      resolveFunc = resolve;
+      rejectFunc = reject;
     });
-    let info: DelayInfo = {
-      resolve: resolve!,
-      reject: reject!,
+    const info: DelayInfo = {
+      resolve: resolveFunc!,
+      reject: rejectFunc!,
       promise,
       timeout
     };
     this._pendingRequests.push(info);
 
-    const removeThis = () => {
+    const removeThis = (): void => {
       this.removeDelayInfo(info);
     };
 
-    promise.then(removeThis);
-    promise.catch(removeThis);
+    promise.then(removeThis).catch(removeThis);
 
     if (this._resolve) {
       this._resolve(info);
@@ -170,15 +177,11 @@ export class DelayController {
 
     return promise;
   }
-  private removeDelayInfo(info: DelayInfo): void {
-    const index = this._pendingRequests.indexOf(info);
-    if (index >= 0) {
-      this._pendingRequests.splice(index, 1);
-    }
-  }
+
   getPendingRequests(): DelayInfo[] {
     return this._pendingRequests;
   }
+
   waitForDelay(): Promise<DelayInfo> {
     if (!this._waitPromise) {
       this._waitPromise = new Promise<DelayInfo>((resolve) => {
@@ -197,6 +200,6 @@ export function createDelayController(): DelayController {
   return controller;
 }
 
-export function restoreDelayBehavior() {
+export function restoreDelayBehavior(): void {
   _setDelayTestFunction();
 }

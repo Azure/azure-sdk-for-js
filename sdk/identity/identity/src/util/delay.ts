@@ -20,6 +20,6 @@ export function delay(t: number): Promise<void> {
 /**
  * @internal
  */
-export function _setDelayTestFunction(func?: (t: number) => Promise<void>) {
+export function _setDelayTestFunction(func?: (t: number) => Promise<void>): void {
   testFunction = func;
 }
