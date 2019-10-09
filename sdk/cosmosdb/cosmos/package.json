@@ -19,7 +19,8 @@
   "module": "./dist-esm/index.js",
   "browser": {
     "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
-    "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js"
+    "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",
+    "./dist-esm/utils/digest.js": "./dist-esm/utils/digest.browser.js"
   },
   "files": [
     "changelog.md",
@@ -74,7 +75,6 @@
     "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/cosmos-sign": "^1.0.2",
     "@types/debug": "^4.1.4",
-    "crypto-hash": "^1.1.0",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.0.0",
     "node-fetch": "^2.6.0",

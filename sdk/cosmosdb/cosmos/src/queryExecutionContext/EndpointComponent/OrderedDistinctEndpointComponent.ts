@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { sha1 } from "crypto-hash";
+import { digest } from "../../utils/digest";
 import stableStringify from "fast-json-stable-stringify";
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
@@ -14,7 +14,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
     const { headers, result } = await this.executionContext.nextItem();
     if (result) {
       const stringifiedResult = stableStringify(result);
-      const hashedResult = await sha1(stringifiedResult);
+      const hashedResult = await digest(stringifiedResult);
       if (hashedResult === this.hashedLastResult) {
         return { result: undefined, headers };
       }
