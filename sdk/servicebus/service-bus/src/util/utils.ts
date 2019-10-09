@@ -362,7 +362,7 @@ function buildAuthorizationRule(value: RawAuthorizationRule): AuthorizationRule 
 
 /**
  *  @ignore
- * Helper utility to retrieve `authorizationRules` value from given input,
+ * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
  * or undefined if not passed in.
  * @param value
  */

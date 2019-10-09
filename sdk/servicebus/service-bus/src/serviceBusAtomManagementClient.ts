@@ -596,14 +596,17 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param ruleName
+   * @param ruleOptions
    */
   async createRule(
     topicName: string,
     subscriptionName: string,
-    ruleName: string
+    ruleName: string,
+    ruleOptions?: RuleOptions
   ): Promise<CreateRuleResponse> {
-    log.httpAtomXml(`Performing management operation - createRule() for "${ruleName}"`);
-    let ruleOptions: RuleOptions | undefined;
+    log.httpAtomXml(
+      `Performing management operation - createRule() for "${ruleName}" with options: "${ruleOptions}"`
+    );
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this._putResource(
       fullPath,
@@ -659,33 +662,33 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     return this.buildListRulesResponse(response);
   }
 
-  // /**
-  //  * Updates properties on the Rule by the given name based on the given options
-  //  * @param topicName
-  //  * @param subscriptionName
-  //  * @param ruleName
-  //  * @param ruleOptions Options to configure the Rule being updated.
-  //  * For example, you can configure the filter to apply on associated Topic/Subscription
-  //  */
-  // async updateRule(
-  //   topicName: string,
-  //   subscriptionName: string,
-  //   ruleName: string,
-  //   ruleOptions: RuleOptions
-  // ): Promise<UpdateRuleResponse> {
-  //   log.httpAtomXml(
-  //     `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
-  //   );
-  //   const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-  //   const response: HttpOperationResponse = await this._putResource(
-  //     fullPath,
-  //     buildRuleOptions(ruleName, ruleOptions),
-  //     this.ruleResourceSerializer,
-  //     true
-  //   );
+  /**
+   * Updates properties on the Rule by the given name based on the given options
+   * @param topicName
+   * @param subscriptionName
+   * @param ruleName
+   * @param ruleOptions Options to configure the Rule being updated.
+   * For example, you can configure the filter to apply on associated Topic/Subscription
+   */
+  async updateRule(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleOptions: RuleOptions
+  ): Promise<UpdateRuleResponse> {
+    log.httpAtomXml(
+      `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
+    );
+    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+    const response: HttpOperationResponse = await this._putResource(
+      fullPath,
+      buildRuleOptions(ruleName, ruleOptions),
+      this.ruleResourceSerializer,
+      true
+    );
 
-  //   return this.buildRuleResponse(response);
-  // }
+    return this.buildRuleResponse(response);
+  }
 
   /**
    * Deletes a rule.

@@ -23,6 +23,18 @@ import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
+export type AuthorizationRule = {
+    claimType: string;
+    claimValue: string;
+    rights: {
+        accessRights?: string[];
+    };
+    keyName: string;
+    primaryKey?: string;
+    secondaryKey?: string;
+};
+
+// @public
 export interface CorrelationFilter {
     contentType?: string;
     correlationId?: string;
@@ -33,19 +45,6 @@ export interface CorrelationFilter {
     sessionId?: string;
     to?: string;
     userProperties?: any;
-}
-
-// @public
-export interface CorrelationFilterOptions {
-    contentType?: string;
-    correlationId?: string;
-    label?: string;
-    messageId?: number;
-    properties?: any;
-    replyTo?: number;
-    replyToSessionId?: string;
-    sessionId?: string;
-    to?: number;
 }
 
 // @public
@@ -92,12 +91,6 @@ export type DeleteSubscriptionResponse = SubscriptionResponse;
 export type DeleteTopicResponse = TopicResponse;
 
 export { Delivery }
-
-// @public
-export interface Filter extends CorrelationFilterOptions {
-    compatibilityLevel?: number;
-    sqlExpression?: string;
-}
 
 // @public
 export type GetQueueResponse = QueueResponse;
@@ -190,7 +183,7 @@ export class QueueClient implements Client {
 
 // @public
 export interface QueueOptions {
-    authorizationRules?: string;
+    authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
@@ -248,10 +241,8 @@ export class Receiver {
     }
 
 // @public
-export interface Rule {
-    action?: string;
+export interface Rule extends RuleOptions {
     createdAt?: string;
-    filter?: Filter;
     ruleName?: string;
     subscriptionName?: string;
     topicName?: string;
@@ -266,11 +257,8 @@ export interface RuleDescription {
 
 // @public
 export interface RuleOptions {
-    correlationIdFilter?: CorrelationFilterOptions;
-    falseFilter?: string;
-    sqlExpressionFilter?: string;
-    sqlRuleAction?: string;
-    trueFilter?: string;
+    action?: SqlAction;
+    filter?: SqlFilter | CorrelationFilter;
 }
 
 // @public
@@ -314,7 +302,7 @@ export class Sender {
 export class ServiceBusAtomManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions);
     createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse>;
-    createRule(topicName: string, subscriptionName: string, ruleName: string): Promise<CreateRuleResponse>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions): Promise<CreateRuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, subscriptionOptions?: SubscriptionOptions): Promise<CreateSubscriptionResponse>;
     createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse>;
     deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
@@ -332,6 +320,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
     listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse>;
     updateQueue(queueName: string, queueOptions: QueueOptions): Promise<UpdateQueueResponse>;
+    updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
     updateSubscription(topicName: string, subscriptionName: string, subscriptionOptions: SubscriptionOptions): Promise<UpdateSubscriptionResponse>;
     updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse>;
 }
@@ -435,6 +424,24 @@ export interface SessionReceiverOptions {
 }
 
 // @public
+export type SqlAction = SqlFilter;
+
+// @public
+export interface SqlFilter {
+    compatibilityLevel?: number;
+    requiresPreprocessing?: boolean;
+    sqlExpression?: string;
+    sqlParameters?: SqlParameter[];
+}
+
+// @public
+export type SqlParameter = {
+    key: string;
+    value: string | number;
+    type: string;
+};
+
+// @public
 export interface Subscription extends SubscriptionOptions {
     accessedAt?: string;
     countDetails?: CountDetails;
@@ -517,7 +524,7 @@ export class TopicClient implements Client {
 
 // @public
 export interface TopicOptions {
-    authorizationRules?: any;
+    authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;

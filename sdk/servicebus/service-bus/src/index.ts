@@ -66,7 +66,7 @@ export {
   ListRulesResponse,
   UpdateRuleResponse,
   DeleteRuleResponse
-} from "./serviceBusArmAtomXmlHttpClient";
+} from "./serviceBusAtomManagementClient";
 
 export { Queue, QueueOptions } from "./serializers/queueResourceSerializer";
 export { Topic, TopicOptions } from "./serializers/topicResourceSerializer";
@@ -74,8 +74,9 @@ export { Subscription, SubscriptionOptions } from "./serializers/subscriptionRes
 export {
   Rule,
   RuleOptions,
-  Filter,
-  CorrelationFilterOptions
+  SqlFilter,
+  SqlParameter,
+  SqlAction
 } from "./serializers/ruleResourceSerializer";
 
-export { CountDetails } from "./util/utils";
+export { CountDetails, AuthorizationRule } from "./util/utils";

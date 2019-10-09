@@ -215,8 +215,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
               alwaysBeExistingTopic,
               alwaysBeExistingSubscription
             );
-            // Disabling tests on Rule updates
-            // should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
+            should.equal(response.ruleName, alwaysBeExistingRule, "Rule name mismatch");
             break;
           default:
             throw new Error("TestError: Unrecognized EntityType");
@@ -790,15 +789,91 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 [
   {
     testCaseTitle: "Undefined rule options",
+    ruleName: "temp_rule_1",
     input: undefined,
     output: {
       filter: {
         sqlExpression: "1=1",
+        requiresPreprocessing: undefined,
+        sqlParameters: undefined,
         compatibilityLevel: 20
       },
-      action: "",
+      action: {
+        sqlExpression: undefined,
+        requiresPreprocessing: undefined,
+        sqlParameters: undefined,
+        compatibilityLevel: undefined
+      },
 
-      ruleName: "alwaysbeexistingrule",
+      ruleName: "temp_rule_1",
+      subscriptionName: "alwaysbeexistingsubscription",
+      topicName: "alwaysbeexistingtopic"
+    }
+  },
+  {
+    testCaseTitle: "Sql Filter rule options",
+    ruleName: "temp_rule_2",
+    input: {
+      filter: {
+        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+        sqlParameters: [
+          { key: "@intParam", value: 1, type: "int" },
+          { key: "@stringParam", value: "b", type: "string" }
+        ]
+      },
+      action: { sqlExpression: "SET a='b'" }
+    },
+    output: {
+      filter: {
+        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+        sqlParameters: [
+          { key: "@intParam", value: 1, type: "int" },
+          { key: "@stringParam", value: "b", type: "string" }
+        ],
+        requiresPreprocessing: false,
+        compatibilityLevel: 20
+      },
+      action: {
+        sqlExpression: "SET a='b'",
+        requiresPreprocessing: false,
+        sqlParameters: undefined,
+        compatibilityLevel: 20
+      },
+
+      ruleName: "temp_rule_2",
+      subscriptionName: "alwaysbeexistingsubscription",
+      topicName: "alwaysbeexistingtopic"
+    }
+  },
+  {
+    testCaseTitle: "Correlation Filter rule options",
+    ruleName: "temp_rule_3",
+    input: {
+      filter: {
+        correlationId: "abcd"
+      },
+      action: { sqlExpression: "SET sys.label='GREEN'" }
+    },
+    output: {
+      filter: {
+        correlationId: "abcd",
+        contentType: "",
+        label: "",
+        messageId: "",
+        replyTo: "",
+        replyToSessionId: "",
+        sessionId: "",
+        to: "",
+        userProperties: undefined
+      },
+      action: {
+        sqlExpression: "SET sys.label='GREEN'",
+        requiresPreprocessing: false,
+        sqlParameters: undefined,
+        compatibilityLevel: 20
+      },
+
+      ruleName: "temp_rule_3",
       subscriptionName: "alwaysbeexistingsubscription",
       topicName: "alwaysbeexistingtopic"
     }
@@ -818,7 +893,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
       const response = await createEntity(
         EntityType.RULE,
-        alwaysBeExistingRule,
+        testCase.ruleName,
         alwaysBeExistingTopic,
         alwaysBeExistingSubscription,
         true,
@@ -838,6 +913,17 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         "updatedAt",
         "accessedAt"
       ]);
+
+      try {
+        await deleteEntity(
+          EntityType.RULE,
+          testCase.ruleName,
+          alwaysBeExistingTopic,
+          alwaysBeExistingSubscription
+        );
+      } catch (err) {
+        console.log("Ignoring clean up step");
+      }
     });
   });
 });
@@ -887,7 +973,14 @@ async function createEntity(
 
     if (ruleOptions == undefined) {
       ruleOptions = {
-        trueFilter: "1=1"
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: [
+            { key: "@intParam", value: 1, type: "int" },
+            { key: "@stringParam", value: "b", type: "string" }
+          ]
+        },
+        action: { sqlExpression: "SET a='b'" }
       };
     }
   }
@@ -926,9 +1019,8 @@ async function createEntity(
       const ruleResponse = await serviceBusAtomManagementClient.createRule(
         topicPath,
         subscriptionPath,
-        entityPath
-        // ruleOptions
-        // Disabling use of ruleOptions
+        entityPath,
+        ruleOptions
       );
       return ruleResponse;
   }
@@ -1006,7 +1098,7 @@ async function updateEntity(
 
   if (ruleOptions == undefined) {
     ruleOptions = {
-      trueFilter: "1=1"
+      filter: { sqlExpression: "1=1" }
     };
   }
 
@@ -1041,16 +1133,13 @@ async function updateEntity(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      // const ruleResponse = await serviceBusAtomManagementClient.updateRule(
-      //   topicPath,
-      //   subscriptionPath,
-      //   entityPath,
-      //   ruleOptions
-      // );
-      // return ruleResponse;
-
-      // Disabling tests on Rule updates
-      return;
+      const ruleResponse = await serviceBusAtomManagementClient.updateRule(
+        topicPath,
+        subscriptionPath,
+        entityPath,
+        ruleOptions
+      );
+      return ruleResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
