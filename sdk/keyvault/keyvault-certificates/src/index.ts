@@ -94,6 +94,8 @@ import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+import { CertificatePoller } from "./lro/poller";
+import { CertificatePollOperation, makePollOperation } from "./lro/operation";
 
 export {
   CertificateProperties,
@@ -908,6 +910,54 @@ export class CertificatesClient {
     }
 
     return this.getCertificateFromCertificateBundle(result);
+  }
+
+  /**
+   * Creates a new certificate through a Long Running Operation poller that allows you to wait indifinetly until the certificate is signed.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificatesClient(url, credentials);
+   * const poller = await client.createCertificateLRO("MyCertificate", {
+   *   issuerName: "Self",
+   *   subjectName: "cn=MyCert"
+   * });
+   *
+   * // Serializing the poller
+   * const serialized = poller.toJSON();
+   * // A new poller can be created with:
+   * // await client.createCertificateLRO("MyCertificate", policy, serialized);
+   * 
+   * // Waiting until it's done
+   * await poller.done();
+   * ```
+   * @summary Creates a certificate
+   * @param name The name of the certificate
+   * @param certificatePolicy The certificate's policy
+   * @param [operation] A previous operation to continue polling
+   * @param [manual] Wether to run this manually or not
+   */
+  public async createCertificateLRO(
+    name: string,
+    certificatePolicy: CertificatePolicy,
+    options: {
+      manual?: boolean,
+      intervalInMs?: number,
+      operation?: CertificatePollOperation,
+      onProgress?: (properties: TestOperationProperties) => void
+    } = {}
+  ): Promise<CertificatePoller<CertificatesClient>> {
+    const operation = makePollOperation({
+      ...options.operation.state,
+    }, {
+      ...options.operation.properties,
+      name,
+      certificatePolicy,
+      client,
+      requestOptions
+    });
+ 
+    return new CertificatePoller<CertificatesClient>(this, options.manual, options.intervalInMs, options.operation, options.onProgress);
   }
 
   /**
