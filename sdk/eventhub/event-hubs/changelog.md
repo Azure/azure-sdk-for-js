@@ -1,4 +1,4 @@
-### 2019-10-09 5.0.0-preview.5
+### 2019-10-08 5.0.0-preview.5
 
 - Uses latest version of the `@azure/core-tracing` package that has the fix for the bug where the library wouldnt work in IE 11
 
