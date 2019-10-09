@@ -1,6 +1,6 @@
 ### 2019-10-08 1.0.0-preview.3
 
-- Uses latest version of the `@azure/event-hubs` package that has the fix for the bug where the library wouldnt work in IE 11
+- Updated to use the latest version of the `@azure/event-hubs` package.
 
 ### 2019-10-07 1.0.0-preview.2
 
