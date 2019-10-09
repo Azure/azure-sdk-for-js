@@ -27,6 +27,7 @@ import {
   CertificateContentType,
   CertificatePolicy,
   CertificateProperties,
+  CertificatesClientInterface,
   CreateCertificateOptions,
   SubjectAlternativeNames
 } from "./certificatesModels";
@@ -95,9 +96,12 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 import { CertificatePoller } from "./lro/poller";
-import { CertificatePollOperation, makePollOperation } from "./lro/operation";
+import { CertificatePollOperation, CertificatePollOperationProperties } from "./lro/operation";
 
 export {
+  CertificatePoller,
+  CertificatePollOperation,
+  CertificatePollOperationProperties,
   CertificateProperties,
   CertificateIssuer,
   CertificateOperation,
@@ -213,7 +217,7 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
  * The client to interact with the KeyVault certificates functionality
  */
 
-export class CertificatesClient {
+export class CertificatesClient implements CertificatesClientInterface {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    *
@@ -918,7 +922,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificateLRO("MyCertificate", {
+   * const poller = await client.startCertificateOperation("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -926,7 +930,7 @@ export class CertificatesClient {
    * // Serializing the poller
    * const serialized = poller.toJSON();
    * // A new poller can be created with:
-   * // await client.createCertificateLRO("MyCertificate", policy, serialized);
+   * // await client.startCertificateOperation("MyCertificate", policy, serialized);
    * 
    * // Waiting until it's done
    * await poller.done();
@@ -937,27 +941,17 @@ export class CertificatesClient {
    * @param [operation] A previous operation to continue polling
    * @param [manual] Wether to run this manually or not
    */
-  public async createCertificateLRO(
+  public async startCertificateOperation(
     name: string,
     certificatePolicy: CertificatePolicy,
     options: {
       manual?: boolean,
       intervalInMs?: number,
       operation?: CertificatePollOperation,
-      onProgress?: (properties: TestOperationProperties) => void
+      onProgress?: (properties: CertificatePollOperationProperties) => void
     } = {}
-  ): Promise<CertificatePoller<CertificatesClient>> {
-    const operation = makePollOperation({
-      ...options.operation.state,
-    }, {
-      ...options.operation.properties,
-      name,
-      certificatePolicy,
-      client,
-      requestOptions
-    });
- 
-    return new CertificatePoller<CertificatesClient>(this, options.manual, options.intervalInMs, options.operation, options.onProgress);
+  ): Promise<CertificatePoller> {
+    return new CertificatePoller(this, name, certificatePolicy, options.manual, options.intervalInMs, options.operation, options.onProgress);
   }
 
   /**

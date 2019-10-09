@@ -3,12 +3,29 @@ import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   SecretProperties,
   CertificateAttributes,
+  CertificateOperation,
   KeyVaultClientCreateCertificateOptionalParams,
   JsonWebKeyType,
   JsonWebKeyCurveName,
   LifetimeAction,
   KeyUsageType
 } from "./core/models";
+
+export interface CertificatesClientInterface {
+  createCertificate(
+    name: string,
+    certificatePolicy: CertificatePolicy,
+    options?: CreateCertificateOptions,
+  ): Promise<Certificate>;
+  getCertificateOperation(
+    name: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<CertificateOperation>;
+  cancelCertificateOperation(
+    name: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<CertificateOperation>;
+}
 
 /**
  * Defines values for contentType.

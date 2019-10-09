@@ -1,45 +1,49 @@
 import { RequestOptionsBase } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { CertificateOperation, CertificatePolicy } from "../certificatesModels";
+import { CertificateOperation } from "../core/models";
+import { CertificatePolicy, CertificatesClientInterface } from "../certificatesModels";
 
-export interface CertificatePollOperationProperties<Client> {
+export interface CertificatePollOperationProperties {
   name: string;
   certificatePolicy: CertificatePolicy;
-  client: Client;
+  client: CertificatesClientInterface;
   requestOptions?: RequestOptionsBase;
   initialResponse?: CertificateOperation;
   previousResponse?: CertificateOperation;
 }
 
-export interface CertificatePollOperation extends PollOperation<CertificatePollOperationProperties<Client>, CertificateOperation> {}
+export interface CertificatePollOperation extends PollOperation<CertificatePollOperationProperties, CertificateOperation> {}
 
 async function update(
   this: CertificatePollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (properties: CertificatePollOperationProperties<Client>) => void;
+    fireProgress?: (properties: CertificatePollOperationProperties) => void;
   } = {}
 ): Promise<CertificatePollOperation> {
-  const { name, certificatePolicy, client, requestOptions, initialResponse, previousResponse } = this.properties;
-  const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
+  const { name, certificatePolicy, client, initialResponse, previousResponse } = this.properties;
+  const requestOptions = this.properties.requestOptions || {};
+  if (options.abortSignal) {
+    requestOptions.abortSignal = options.abortSignal;
+  }
 
   let response: CertificateOperation;
-  const doFinalResponse = previousResponse && previousResponse.parsedBody.doFinalResponse;
+  const doFinalResponse = previousResponse && previousResponse.status !== "pending";
 
   if (!initialResponse) {
-    await client.createCertificate(name, certificatePolicy, { requestOptions });
-    response = await client.getCertificateOperation(name, { requestOptions });
+    await client.createCertificate(name, certificatePolicy, requestOptions);
+    response = await client.getCertificateOperation(name, requestOptions);
     this.properties.initialResponse = response;
   } else if (doFinalResponse) {
-    response = await client.getCertificateOperation(name, { requestOptions });
+    response = await client.getCertificateOperation(name, requestOptions);
     this.state.completed = true;
     this.state.result = response;
   } else {
-    response = await client.getCertificateOperation(name, { requestOptions });
+    response = await client.getCertificateOperation(name, requestOptions);
   }
 
-  const properties: CertificatePollOperationProperties<Client> = {
+  const properties: CertificatePollOperationProperties = {
     ...this.properties,
     previousResponse: response
   };
@@ -49,27 +53,28 @@ async function update(
     options.fireProgress(properties);
   }
 
-  return makePollOperation({ ...this.state }, properties);
+  return makePollOperation(this.state, properties);
 }
 
 async function cancel(
   this: CertificatePollOperation,
   options: { abortSignal?: AbortSignal } = {}
 ): Promise<CertificatePollOperation> {
-  const requestOptions = this.properties.requestOptions;
-  const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
-  const response = this.client.cancelCertificateOperation(this.properties.name);
+  const requestOptions = this.properties.requestOptions || {};
+  if (options.abortSignal) {
+    requestOptions.abortSignal = options.abortSignal;
+  }
+  const client = this.properties.client;
+  await client.cancelCertificateOperation(this.properties.name, requestOptions);
+  const response = await client.getCertificateOperation(name, requestOptions);
 
-  return makePollOperation(
-    {
-      ...this.state,
-      cancelled: true
-    },
-    {
-      ...this.properties,
-      previousResponse: response
-    }
-  );
+  return makePollOperation({
+    ...this.state,
+    cancelled: true
+  }, {
+    ...this.properties,
+    previousResponse: response
+  });
 }
 
 function toString(this: CertificatePollOperation): string {
@@ -82,12 +87,16 @@ function toString(this: CertificatePollOperation): string {
 }
 
 export function makePollOperation(
-  state: PollOperationState<Certificate>,
-  properties: CertificatePollOperationProperties<Client>
+  state: PollOperationState<CertificateOperation>,
+  properties: CertificatePollOperationProperties
 ): CertificatePollOperation {
   return {
-    state,
-    properties,
+    state: {
+      ...state
+    },
+    properties: {
+      ...properties
+    },
     update,
     cancel,
     toString

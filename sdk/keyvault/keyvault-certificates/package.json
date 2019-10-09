@@ -68,6 +68,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@azure/abort-controller": "1.0.0-preview.2",
     "@azure/core-arm": "1.0.0-preview.5",
     "@azure/core-http": "1.0.0-preview.5",
     "@azure/core-lro": "1.0.0-preview.1",

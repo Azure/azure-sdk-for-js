@@ -8,6 +8,8 @@ import * as coreHttp from '@azure/core-http';
 import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Poller } from '@azure/core-lro';
+import { PollOperation } from '@azure/core-lro';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -56,6 +58,36 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
     validityInMonths?: number;
 }
 
+// @public (undocumented)
+export class CertificatePoller extends Poller<CertificatePollOperationProperties, CertificateOperation> {
+    // Warning: (ae-forgotten-export) The symbol "CertificatesClientInterface" needs to be exported by the entry point index.d.ts
+    constructor(client: CertificatesClientInterface, name: string, certificatePolicy: CertificatePolicy, manual?: boolean, intervalInMs?: number, baseOperation?: CertificatePollOperation, onProgress?: (properties: CertificatePollOperationProperties) => void);
+    // (undocumented)
+    delay(): Promise<void>;
+    // (undocumented)
+    intervalInMs: number;
+}
+
+// @public (undocumented)
+export interface CertificatePollOperation extends PollOperation<CertificatePollOperationProperties, CertificateOperation> {
+}
+
+// @public (undocumented)
+export interface CertificatePollOperationProperties {
+    // (undocumented)
+    certificatePolicy: CertificatePolicy;
+    // (undocumented)
+    client: CertificatesClientInterface;
+    // (undocumented)
+    initialResponse?: CertificateOperation;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    previousResponse?: CertificateOperation;
+    // (undocumented)
+    requestOptions?: RequestOptionsBase;
+}
+
 // @public
 export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
     readonly created?: Date;
@@ -70,7 +102,7 @@ export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
 }
 
 // @public
-export class CertificatesClient {
+export class CertificatesClient implements CertificatesClientInterface {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
@@ -103,6 +135,12 @@ export class CertificatesClient {
     restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptionsBase): Promise<Certificate>;
     setCertificateContacts(contacts: Contact[], options?: RequestOptionsBase): Promise<Contacts>;
     setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
+    startCertificateOperation(name: string, certificatePolicy: CertificatePolicy, options?: {
+        manual?: boolean;
+        intervalInMs?: number;
+        operation?: CertificatePollOperation;
+        onProgress?: (properties: CertificatePollOperationProperties) => void;
+    }): Promise<CertificatePoller>;
     updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
     updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
     updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy>;

@@ -1,18 +1,36 @@
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { delay } from "@azure/core-http";
 import { Poller, PollOperationState } from "@azure/core-lro";
-import { makeOperation, CertificatePollOperation, CertificatePollOperationProperties } from "./operation";
-import { Certificate } from "../certificatesModels";
+import { CertificatePollOperation, CertificatePollOperationProperties, makePollOperation } from "./operation";
+import { CertificateOperation } from "../core/models";
+import { CertificatePolicy, CertificatesClientInterface } from "../certificatesModels";
  
-export class CertificatePoller<Client> extends Poller<CertificatePollOperationProperties, Certificate> {
+export class CertificatePoller extends Poller<CertificatePollOperationProperties, CertificateOperation> {
   public intervalInMs: number;
 
   constructor(
-    client: Client,
+    client: CertificatesClientInterface,
+    name: string,
+    certificatePolicy: CertificatePolicy,
     manual: boolean = false,
     intervalInMs: number = 1000,
-    baseOperation: CertificatePollOperation = {},
-    onProgress?: (properties: CertificatePollOperationProperties<Client>) => void
+    baseOperation?: CertificatePollOperation,
+    onProgress?: (properties: CertificatePollOperationProperties) => void
   ) {
+    let state: PollOperationState<CertificateOperation> = {};
+    let properties: CertificatePollOperationProperties | undefined = undefined;
+
+    if (baseOperation) {
+      state = baseOperation.state;
+      properties = baseOperation.properties;
+    }
+ 
+    const operation: CertificatePollOperation = makePollOperation(state, {
+      ...properties,
+      name,
+      certificatePolicy,
+      client,
+    });
+ 
     super(operation, manual);
 
     if (onProgress) {
