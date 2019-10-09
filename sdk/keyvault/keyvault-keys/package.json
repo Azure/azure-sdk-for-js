@@ -69,8 +69,8 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-arm": "1.0.0-preview.4",
-    "@azure/core-http": "1.0.0-preview.4",
+    "@azure/core-arm": "1.0.0-preview.5",
+    "@azure/core-http": "1.0.0-preview.5",
     "@azure/core-paging": "1.0.0-preview.2",
     "@azure/identity": "1.0.0-preview.4",
     "@azure/core-tracing": "1.0.0-preview.4",
