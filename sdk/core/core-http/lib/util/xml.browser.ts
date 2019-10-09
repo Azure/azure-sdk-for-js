@@ -101,6 +101,14 @@ function domToObject(node: Node): any {
 
 const serializer = new XMLSerializer();
 
+export function stringifyXML(obj: any, opts?: { rootName?: string }) {
+  const rootName = (opts && opts.rootName) || "root";
+  const dom = buildNode(obj, rootName)[0];
+  return (
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+  );
+}
+
 function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
@@ -158,17 +166,9 @@ export function convertJsonToAtomXml(content: any): string {
   const res = buildNode(content, "content");
   const dom = res[0];
 
-  const result =
+  return (
     `<?xml version="1.0" encoding="utf-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>${new Date().toISOString()}</updated>` +
     serializer.serializeToString(dom) +
-    `</entry>`;
-  return result;
-}
-
-export function stringifyXML(obj: any, opts?: { rootName?: string }) {
-  const rootName = (opts && opts.rootName) || "root";
-  const dom = buildNode(obj, rootName)[0];
-  return (
-    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+    `</entry>`
   );
 }

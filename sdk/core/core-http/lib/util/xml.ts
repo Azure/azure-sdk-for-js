@@ -98,7 +98,7 @@ export function parseXML(str: string): Promise<any> {
  */
 export async function convertAtomXmlToJson(body: string): Promise<any> {
   const parser = new xml2js.Parser(xml2jsSettingsForAtomXmlOperations);
-  const result = await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     parser.parseString(removeBOM(body.toString()), function(err: any, parsedBody: any) {
       if (err) {
         reject(err);
@@ -107,7 +107,6 @@ export async function convertAtomXmlToJson(body: string): Promise<any> {
       }
     });
   });
-  return result;
 }
 
 /**
