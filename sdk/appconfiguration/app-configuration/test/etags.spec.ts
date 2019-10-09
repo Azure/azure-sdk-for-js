@@ -68,7 +68,7 @@ describe("etags", () => {
     );
   });
 
-  it.only("get using ifNoneMatch to only get the setting if it's changed (ie: safe GET)", async () => {
+  it("get using ifNoneMatch to only get the setting if it's changed (ie: safe GET)", async () => {
     const originalSetting = await client.setConfigurationSetting({
       key: key,
       value: "world"
@@ -81,14 +81,14 @@ describe("etags", () => {
 
     assert.equal(response._response.status, 304);
 
-    assert.throws(() => response.contentType, /The requested setting's value has not changed since the last request./, "");
-    assert.throws(() => response.etag, /The requested setting's value has not changed since the last request./, "");
-    assert.throws(() => response.key, /The requested setting's value has not changed since the last request./, "");
-    assert.throws(() => response.label, /The requested setting's value has not changed since the last request./, "");
-    assert.throws(() => response.lastModified, /The requested setting's value has not changed since the last request./, "");
-    assert.throws(() => response.locked, /The requested setting's value has not changed since the last request./, "");
-    assert.throws(() => response.tags, /The requested setting's value has not changed since the last request./, "");
-    assert.throws(() => response.value, /The requested setting's value has not changed since the last request./, "");
+    assert.throws(() => response.contentType, /The requested value was not retrieved since it has not changed since the last request./, "");
+    assert.throws(() => response.etag, /The requested value was not retrieved since it has not changed since the last request./, "");
+    assert.throws(() => response.key, /The requested value was not retrieved since it has not changed since the last request./, "");
+    assert.throws(() => response.label, /The requested value was not retrieved since it has not changed since the last request./, "");
+    assert.throws(() => response.lastModified, /The requested value was not retrieved since it has not changed since the last request./, "");
+    assert.throws(() => response.locked, /The requested value was not retrieved since it has not changed since the last request./, "");
+    assert.throws(() => response.tags, /The requested value was not retrieved since it has not changed since the last request./, "");
+    assert.throws(() => response.value, /The requested value was not retrieved since it has not changed since the last request./, "");
 
     // let's update it and then try again
     await client.setConfigurationSetting({ key: key, value: "new world" });

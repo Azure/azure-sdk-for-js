@@ -5,6 +5,7 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
+import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -53,16 +54,16 @@ describe("Various error cases", () => {
       );
     });
 
-    it("get: value is unchanged from etag (304) using ifNoneMatch, throws ReponseBodyNotFoundError (derived from RestError)", async () => {
-      const errThrown = await assertThrowsRestError(
-        () =>
-          client.getConfigurationSetting({ key: addedSetting.key }, {
-            ifNoneMatch: addedSetting.etag
-          }),
-        304
-      );
+    it("get: value is unchanged from etag (304) using ifNoneMatch, throws ReponseBodyNotFoundError on property access (derived from RestError)", async () => {
+      // changed slightly - now it only throws when we access properties
+      const response = await client.getConfigurationSetting({ key: addedSetting.key }, {
+        ifNoneMatch: addedSetting.etag
+      });
 
-      assert.equal("ResponseBodyNotFoundError", errThrown.name);
+      assert.throws(() => response.key, (err: ResponseBodyNotFoundError) => {
+        assert.equal("ResponseBodyNotFoundError", err.name);
+        return true;
+      });
     });
 
     it("add: Setting already exists throws 412", async () => {
