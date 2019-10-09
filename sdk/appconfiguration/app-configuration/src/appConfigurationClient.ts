@@ -152,18 +152,51 @@ export class AppConfigurationClient {
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
       if (response._response.status === 304) {
-        throw new ResponseBodyNotFoundError(
-          "The requested setting's value has not changed since the last request.",
-          "Resource same as remote",
-          response._response.status,
-          response._response.request,
-          response._response,
-          null
-        );
+        return this.craftSpecial304Response(response);
       }
 
       return response;
     });
+  }
+
+  craftSpecial304Response(originalResponse: GetConfigurationSettingResponse): GetConfigurationSettingResponse {
+    const newResponse : GetConfigurationSettingResponse = {
+      ...originalResponse,
+      _response: originalResponse._response
+    };
+
+    Object.defineProperty(newResponse, '_response', {
+      enumerable: false
+    });
+
+    // TODO:  can I identify these fields in a less manual manner?
+    const names: (keyof ConfigurationSetting)[] = [
+      "contentType",
+      "etag",
+      "key",
+      "label",
+      "lastModified",
+      "locked",
+      "tags",
+      "value"
+    ];
+
+    const err =  new ResponseBodyNotFoundError(
+      "The requested value was not retrieved since it has not changed since the last request.",
+      "Resource same as remote",
+      originalResponse._response.status,
+      originalResponse._response.request,
+      originalResponse._response,
+      null
+    );
+
+    for (const name of names) {
+      Object.defineProperty(newResponse, name, {
+        get: () => { throw err }
+      });
+    }
+
+    return newResponse;
   }
 
   /**
