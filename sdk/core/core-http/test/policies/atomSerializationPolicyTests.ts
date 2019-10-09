@@ -4,12 +4,7 @@
 import { assert } from "chai";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import {
-  HttpClient,
-  AtomXmlOperationSpec,
-  AtomXmlSerializer,
-  XMLRequestInJSON
-} from "../../lib/coreHttp";
+import { HttpClient, AtomXmlOperationSpec, AtomXmlSerializer } from "../../lib/coreHttp";
 import { atomSerializationPolicy } from "../../lib/policies/atomSerializationPolicy";
 import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
@@ -108,7 +103,7 @@ function createRequest(atomXmlOperationSpec?: AtomXmlOperationSpec): WebResource
 }
 
 class TestSerializer implements AtomXmlSerializer {
-  serialize(resource: any): XMLRequestInJSON {
+  serialize(resource: any): object {
     const property1 = "LockDuration";
     const property2 = "MaxSizeInMegabytes";
 

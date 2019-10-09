@@ -51,6 +51,21 @@ const xml2jsDefaults = {
   cdata: false
 };
 
+// The default xml2js settings applicable for Atom based XML operations.
+const xml2jsSettingsForAtomXmlOperations: any = Object.assign({}, xml2jsDefaults);
+xml2jsSettingsForAtomXmlOperations.normalize = false;
+xml2jsSettingsForAtomXmlOperations.trim = false;
+xml2jsSettingsForAtomXmlOperations.attrkey = "$";
+xml2jsSettingsForAtomXmlOperations.charkey = "_";
+xml2jsSettingsForAtomXmlOperations.explicitCharkey = false;
+xml2jsSettingsForAtomXmlOperations.explicitArray = false;
+
+// The default settings applicable for general XML operations.
+const xml2jsSettingsForXmlOperations: any = Object.assign({}, xml2jsDefaults);
+xml2jsSettingsForXmlOperations.explicitArray = false;
+xml2jsSettingsForXmlOperations.explicitCharkey = false;
+xml2jsSettingsForXmlOperations.explicitRoot = false;
+
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   const builder = new xml2js.Builder({
     explicitArray: false,
@@ -64,7 +79,7 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
 }
 
 export function parseXML(str: string): Promise<any> {
-  const xmlParser = new xml2js.Parser(getDefaultSettings());
+  const xmlParser = new xml2js.Parser(xml2jsSettingsForXmlOperations);
   const result = new Promise((resolve, reject) => {
     if (!str) {
       reject(new Error("Document is empty"));
@@ -86,7 +101,7 @@ export function parseXML(str: string): Promise<any> {
  * @param body
  */
 export async function convertAtomXmlToJson(body: string): Promise<any> {
-  const parser = new xml2js.Parser(getDefaultSettingsForAtomXmlOperations());
+  const parser = new xml2js.Parser(xml2jsSettingsForAtomXmlOperations);
   const result = await new Promise((resolve, reject) => {
     parser.parseString(removeBOM(body.toString()), function(err: any, parsedBody: any) {
       if (err) {
@@ -115,33 +130,6 @@ export function convertJsonToAtomXml(content: any): string {
 
   doc = writeElementValue(doc, "content", content);
   return doc.doc().toString();
-}
-
-/**
- * @ignore
- * Gets the default xml2js settings applicable for Atom based XML operations.
- */
-function getDefaultSettingsForAtomXmlOperations(): any {
-  const xml2jsSettings = Object.assign({}, xml2jsDefaults);
-  xml2jsSettings.normalize = false;
-  xml2jsSettings.trim = false;
-  xml2jsSettings.attrkey = "$";
-  xml2jsSettings.charkey = "_";
-  xml2jsSettings.explicitCharkey = false;
-  xml2jsSettings.explicitArray = false;
-  return xml2jsSettings;
-}
-
-/**
- * @ignore
- * Gets the default settings applicable for general XML operations.
- */
-function getDefaultSettings(): any {
-  const xml2jsSettings = Object.assign({}, xml2jsDefaults);
-  xml2jsSettings.explicitArray = false;
-  xml2jsSettings.explicitCharkey = false;
-  xml2jsSettings.explicitRoot = false;
-  return xml2jsSettings;
 }
 
 /**

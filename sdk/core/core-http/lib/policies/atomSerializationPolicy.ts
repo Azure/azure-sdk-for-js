@@ -9,7 +9,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { AtomXmlSerializer, XMLRequestInJSON } from "../atomXmlOperationSpec";
+import { AtomXmlSerializer } from "../atomXmlOperationSpec";
 import { convertAtomXmlToJson } from "../util/xml";
 import { RestError } from "../restError";
 import * as utils from "../util/utils";
@@ -50,7 +50,7 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     const serializer: AtomXmlSerializer = request.atomXmlOperationSpec.serializer;
 
     if (request.body) {
-      const content: XMLRequestInJSON = serializer.serialize(JSON.parse(request.body));
+      const content: object = serializer.serialize(JSON.parse(request.body));
       request.body = convertJsonToAtomXml(content);
     }
 

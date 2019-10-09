@@ -3,6 +3,9 @@
 
 import { Constants } from "./constants";
 
+// tslint:disable-next-line:no-null-keyword
+const doc = document.implementation.createDocument(null, null, null);
+
 const parser = new DOMParser();
 export function parseXML(str: string): Promise<any> {
   try {
@@ -98,17 +101,7 @@ function domToObject(node: Node): any {
 
 const serializer = new XMLSerializer();
 
-export function stringifyXML(obj: any, opts?: { rootName?: string }) {
-  const rootName = (opts && opts.rootName) || "root";
-  // tslint:disable-next-line:no-null-keyword
-  const doc = document.implementation.createDocument(null, null, null);
-  const dom = buildNode(doc, obj, rootName)[0];
-  return (
-    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
-  );
-}
-
-function buildAttributes(doc: Document, attrs: { [key: string]: { toString(): string } }): Attr[] {
+function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
     const attr = doc.createAttribute(key);
@@ -118,7 +111,7 @@ function buildAttributes(doc: Document, attrs: { [key: string]: { toString(): st
   return result;
 }
 
-function buildNode(doc: Document, obj: any, elementName: string): Node[] {
+function buildNode(obj: any, elementName: string): Node[] {
   if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
     const elem = doc.createElement(elementName);
     elem.textContent = obj.toString();
@@ -126,7 +119,7 @@ function buildNode(doc: Document, obj: any, elementName: string): Node[] {
   } else if (Array.isArray(obj)) {
     const result = [];
     for (const arrayElem of obj) {
-      for (const child of buildNode(doc, arrayElem, elementName)) {
+      for (const child of buildNode(arrayElem, elementName)) {
         result.push(child);
       }
     }
@@ -135,11 +128,11 @@ function buildNode(doc: Document, obj: any, elementName: string): Node[] {
     const elem = doc.createElement(elementName);
     for (const key of Object.keys(obj)) {
       if (key === "$") {
-        for (const attr of buildAttributes(doc, obj[key])) {
+        for (const attr of buildAttributes(obj[key])) {
           elem.attributes.setNamedItem(attr);
         }
       } else {
-        for (const child of buildNode(doc, obj[key], key)) {
+        for (const child of buildNode(obj[key], key)) {
           elem.appendChild(child);
         }
       }
@@ -162,12 +155,7 @@ export function convertAtomXmlToJson(body: string): any {
  */
 export function convertJsonToAtomXml(content: any): string {
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
-
-  const serializer = new XMLSerializer();
-
-  // tslint:disable-next-line:no-null-keyword
-  const doc = document.implementation.createDocument(null, null, null);
-  const res = buildNode(doc, content, "content");
+  const res = buildNode(content, "content");
   const dom = res[0];
 
   const result =
@@ -175,4 +163,12 @@ export function convertJsonToAtomXml(content: any): string {
     serializer.serializeToString(dom) +
     `</entry>`;
   return result;
+}
+
+export function stringifyXML(obj: any, opts?: { rootName?: string }) {
+  const rootName = (opts && opts.rootName) || "root";
+  const dom = buildNode(obj, rootName)[0];
+  return (
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+  );
 }
