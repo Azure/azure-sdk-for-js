@@ -1,3 +1,7 @@
+### 2019-10-08 5.0.0-preview.5
+
+- Updated to use the latest version of the `@azure/core-tracing` package.
+
 ### 2019-10-07 5.0.0-preview.4
 
 - Current implementation of the Partition Manager takes the event hub name, consumer group name and partition id to ensure uniqueness for the checkpoint and ownership.
