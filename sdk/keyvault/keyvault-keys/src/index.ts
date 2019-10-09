@@ -227,7 +227,7 @@ export class KeysClient {
 
     this.pipeline.requestPolicyFactories;
 
-    this.client = new KeyVaultClient(credential, this.pipeline);
+    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -772,15 +772,16 @@ export class KeysClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
+      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getKeyVersionsNext(
+      const currentSetResponse = await this.client.getKeyVersions(
         continuationState.continuationToken,
+        name,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
+      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
     }
   }
 
@@ -848,15 +849,15 @@ export class KeysClient {
       };
       const currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
+      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getKeysNext(
+      const currentSetResponse = await this.client.getKeys(
         continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
+      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
     }
   }
 
@@ -922,15 +923,15 @@ export class KeysClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
+      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getDeletedKeysNext(
+      const currentSetResponse = await this.client.getDeletedKeys(
         continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getKeyPropertiesFromKeyItem);
+      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
     }
   }
 
