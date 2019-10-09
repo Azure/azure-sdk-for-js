@@ -63,11 +63,12 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
     } catch (err) {
       const error = new RestError(
         `ResponseNotInAtomXMLFormat - ${err.message}`,
-        RestError.PARSE_ERROR
+        RestError.PARSE_ERROR,
+        response.status,
+        utils.stripRequest(response.request),
+        utils.stripResponse(response)
       );
-      error.statusCode = response.status;
-      error.request = utils.stripRequest(response.request);
-      error.response = utils.stripResponse(response);
+
       throw error;
     }
 
