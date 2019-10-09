@@ -953,6 +953,28 @@ describe("Cross Partition", function() {
       });
     });
 
+    it.only("Validate GROUP BY", async function() {
+      // an order by query with explicit ascending ordering
+      const querySpec = {
+        query: `SELECT r.spam3 FROM root r GROUP BY r.spam3`
+      };
+
+      const options = {
+        maxItemCount: 2,
+        forceQueryPlan: true
+      };
+
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+        return r["id"];
+      });
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({
+        query: querySpec,
+        options
+      });
+    });
+
     it("Validate Failure", async function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
