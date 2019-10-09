@@ -14,7 +14,6 @@
   - `messageId` is added to `MessageIdClient`.
 - [Breaking] `Models.StorageServiceProperties` is renamed to `Models.QueueServiceProperties`.
 - [Breaking] `Models.StorageServiceStats` is renamed to `Models.QueueServiceStatistics`.
-- [Breaking] `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
 - [Breaking] Replace string with boolean flag to specify dataset to include when listing queues.
   Before this change the option is specified as
   ```js

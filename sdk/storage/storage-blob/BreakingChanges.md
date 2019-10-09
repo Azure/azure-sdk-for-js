@@ -34,8 +34,9 @@
     });
     ```
 - Fixed typo - `chanageLease` -> `changeLease`, a method on `LeaseClient`.
-- Rename `BlobClient.setTier()` to `BlobClient.setAccessTier()`.
-- `Models.StorageServiceProperties` is renamed into `Models.BlobServiceProperties`
+- `BlobClient.setTier()` is renamed to `BlobClient.setAccessTier()`.
+- `Models.StorageServiceProperties` is renamed to `Models.BlobServiceProperties`
+- `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
 
 ### 2019.09 Version 12.0.0-preview.3
 

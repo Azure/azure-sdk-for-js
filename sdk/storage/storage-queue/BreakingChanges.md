@@ -5,7 +5,6 @@
 - `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
 - `Models.StorageServiceProperties` is renamed into `Models.QueueServiceProperties`.
 - `Models.StorageServiceStats` is renamed into `Models.QueueServiceStatistics`.
-- `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
 - Replace string with boolean flag to specify dataset to include when listing queues.
   Before this change the option is specified as
   ```js
