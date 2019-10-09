@@ -56,8 +56,8 @@ describe("getParameterPathString()", () => {
   it("should return the mapper's serialized name when the parameterPath is an object", () => {
     const parameter: OperationParameter = {
       parameterPath: {
-        "a": "A",
-        "b": "B"
+        a: "A",
+        b: "B"
       },
       mapper: {
         serializedName: "value",

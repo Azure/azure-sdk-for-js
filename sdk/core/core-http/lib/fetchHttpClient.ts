@@ -26,7 +26,7 @@ class ReportTransform extends Transform {
     callback(undefined, chunk);
   }
 
-  constructor(private progressCallback: ((progress: TransferProgressEvent) => void)) {
+  constructor(private progressCallback: (progress: TransferProgressEvent) => void) {
     super();
   }
 }
@@ -34,13 +34,20 @@ class ReportTransform extends Transform {
 export abstract class FetchHttpClient implements HttpClient {
   async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
     if (!httpRequest && typeof httpRequest !== "object") {
-      throw new Error("'httpRequest' (WebResource) cannot be null or undefined and must be of type object.");
+      throw new Error(
+        "'httpRequest' (WebResource) cannot be null or undefined and must be of type object."
+      );
     }
 
     const abortController = new AbortController();
     if (httpRequest.abortSignal) {
       if (httpRequest.abortSignal.aborted) {
-        throw new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR, undefined, httpRequest);
+        throw new RestError(
+          "The request was aborted",
+          RestError.REQUEST_ABORTED_ERROR,
+          undefined,
+          httpRequest
+        );
       }
 
       httpRequest.abortSignal.addEventListener("abort", (event: Event) => {
@@ -60,7 +67,7 @@ export abstract class FetchHttpClient implements HttpClient {
       const formData: any = httpRequest.formData;
       const requestForm = new FormData();
       const appendFormValue = (key: string, value: any) => {
-            // value function probably returns a stream so we can provide a fresh stream on each retry
+        // value function probably returns a stream so we can provide a fresh stream on each retry
         if (typeof value === "function") {
           value = value();
         }
@@ -86,7 +93,10 @@ export abstract class FetchHttpClient implements HttpClient {
       const contentType = httpRequest.headers.get("Content-Type");
       if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
         if (typeof requestForm.getBoundary === "function") {
-          httpRequest.headers.set("Content-Type", `multipart/form-data; boundary=${requestForm.getBoundary()}`);
+          httpRequest.headers.set(
+            "Content-Type",
+            `multipart/form-data; boundary=${requestForm.getBoundary()}`
+          );
         } else {
           // browser will automatically apply a suitable content-type header
           httpRequest.headers.remove("Content-Type");
@@ -95,8 +105,10 @@ export abstract class FetchHttpClient implements HttpClient {
     }
 
     let body = httpRequest.body
-            ? (typeof httpRequest.body === "function" ? httpRequest.body() : httpRequest.body)
-            : undefined;
+      ? typeof httpRequest.body === "function"
+        ? httpRequest.body()
+        : httpRequest.body
+      : undefined;
     if (httpRequest.onUploadProgress && httpRequest.body) {
       const onUploadProgress = httpRequest.onUploadProgress;
       const uploadReportStream = new ReportTransform(onUploadProgress);
@@ -109,7 +121,9 @@ export abstract class FetchHttpClient implements HttpClient {
       body = uploadReportStream;
     }
 
-    const platformSpecificRequestInit: Partial<RequestInit> = await this.prepareRequest(httpRequest);
+    const platformSpecificRequestInit: Partial<RequestInit> = await this.prepareRequest(
+      httpRequest
+    );
 
     const requestInit: RequestInit = {
       body: body,
@@ -127,12 +141,14 @@ export abstract class FetchHttpClient implements HttpClient {
         headers: headers,
         request: httpRequest,
         status: response.status,
-        readableStreamBody: httpRequest.streamResponseBody ? (response.body as unknown) as NodeJS.ReadableStream : undefined,
-        bodyAsText: !httpRequest.streamResponseBody ? await response.text() : undefined,
+        readableStreamBody: httpRequest.streamResponseBody
+          ? ((response.body as unknown) as NodeJS.ReadableStream)
+          : undefined,
+        bodyAsText: !httpRequest.streamResponseBody ? await response.text() : undefined
       };
 
       const onDownloadProgress = httpRequest.onDownloadProgress;
-      if (onDownloadProgress)  {
+      if (onDownloadProgress) {
         const responseBody: ReadableStream<Uint8Array> | undefined = response.body || undefined;
 
         if (isReadableStream(responseBody)) {
@@ -154,9 +170,19 @@ export abstract class FetchHttpClient implements HttpClient {
     } catch (error) {
       const fetchError: FetchError = error;
       if (fetchError.code === "ENOTFOUND") {
-        throw new RestError(fetchError.message, RestError.REQUEST_SEND_ERROR, undefined, httpRequest);
+        throw new RestError(
+          fetchError.message,
+          RestError.REQUEST_SEND_ERROR,
+          undefined,
+          httpRequest
+        );
       } else if (fetchError.type === "aborted") {
-        throw new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR, undefined, httpRequest);
+        throw new RestError(
+          "The request was aborted",
+          RestError.REQUEST_ABORTED_ERROR,
+          undefined,
+          httpRequest
+        );
       }
 
       throw fetchError;

@@ -14,7 +14,12 @@ export type MockResponseData = {
   headers?: any;
 };
 
-export type MockResponseFunction = (url?: string, method?: string, body?: any, headers?: any) => Promise<MockResponseData>;
+export type MockResponseFunction = (
+  url?: string,
+  method?: string,
+  body?: any,
+  headers?: any
+) => Promise<MockResponseData>;
 
 export type MockResponse = MockResponseData | MockResponseFunction;
 
@@ -30,7 +35,7 @@ export interface HttpMockFacade {
 }
 
 export function getHttpMock(): HttpMockFacade {
-  return (isNode ? new FetchHttpMock() : new BrowserHttpMock());
+  return isNode ? new FetchHttpMock() : new BrowserHttpMock();
 }
 
 class FetchHttpMock implements HttpMockFacade {
@@ -48,7 +53,7 @@ class FetchHttpMock implements HttpMockFacade {
 
   timeout(_method: HttpMethods, url: UrlFilter): void {
     const delay = new Promise((resolve) => {
-      setTimeout(() => resolve({$uri: url, delay: 500}), 2500);
+      setTimeout(() => resolve({ $uri: url, delay: 500 }), 2500);
     });
 
     fetchMock.mock(url, delay);
@@ -82,7 +87,8 @@ class FetchHttpMock implements HttpMockFacade {
       }) as fetch.MockResponseFunction;
     }
 
-    const matcher = (_url: string, opts: fetch.MockRequest) => (url === _url) && (opts.method === method);
+    const matcher = (_url: string, opts: fetch.MockRequest) =>
+      url === _url && opts.method === method;
     fetchMock.mock(matcher, mockResponse);
   }
 
@@ -111,8 +117,16 @@ export class BrowserHttpMock implements HttpMockFacade {
   mockHttpMethod(method: HttpMethods, url: UrlFilter, response: MockResponse): void {
     if (typeof response === "function") {
       xhrMock.use(method, url, async (req, res) => {
-        const result = await response(req.url().toString(), req.method().toString(), req.body(), req.headers());
-        return res.status(result.status || 200).body(result.body || {}).headers(result.headers || {});
+        const result = await response(
+          req.url().toString(),
+          req.method().toString(),
+          req.body(),
+          req.headers()
+        );
+        return res
+          .status(result.status || 200)
+          .body(result.body || {})
+          .headers(result.headers || {});
       });
     } else {
       xhrMock.use(method, url, {
@@ -143,6 +157,6 @@ export class BrowserHttpMock implements HttpMockFacade {
   }
 
   timeout(method: HttpMethods, url: UrlFilter): void {
-    return this.mockHttpMethod(method, url, () => new Promise(() => { }));
+    return this.mockHttpMethod(method, url, () => new Promise(() => {}));
   }
 }

@@ -3,7 +3,12 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
 
 export function logPolicy(logger: any = console.log): RequestPolicyFactory {
   return {
@@ -22,11 +27,14 @@ export class LogPolicy extends BaseRequestPolicy {
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request).then(response => logResponse(this, response));
+    return this._nextPolicy.sendRequest(request).then((response) => logResponse(this, response));
   }
 }
 
-function logResponse(policy: LogPolicy, response: HttpOperationResponse): Promise<HttpOperationResponse> {
+function logResponse(
+  policy: LogPolicy,
+  response: HttpOperationResponse
+): Promise<HttpOperationResponse> {
   policy.logger(`>> Request: ${JSON.stringify(response.request, undefined, 2)}`);
   policy.logger(`>> Response status code: ${response.status}`);
   const responseBody = response.bodyAsText;

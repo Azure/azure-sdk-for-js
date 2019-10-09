@@ -14,7 +14,14 @@ export class RestError extends Error {
   request?: WebResource;
   response?: HttpOperationResponse;
   body?: any;
-  constructor(message: string, code?: string, statusCode?: number, request?: WebResource, response?: HttpOperationResponse, body?: any) {
+  constructor(
+    message: string,
+    code?: string,
+    statusCode?: number,
+    request?: WebResource,
+    response?: HttpOperationResponse,
+    body?: any
+  ) {
     super(message);
     this.code = code;
     this.statusCode = statusCode;

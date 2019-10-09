@@ -39,7 +39,9 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
    */
   constructor(options: ApiKeyCredentialOptions) {
     if (!options || (options && !options.inHeader && !options.inQuery)) {
-      throw new Error(`options cannot be null or undefined. Either "inHeader" or "inQuery" property of the options object needs to be provided.`);
+      throw new Error(
+        `options cannot be null or undefined. Either "inHeader" or "inQuery" property of the options object needs to be provided.`
+      );
     }
     this.inHeader = options.inHeader;
     this.inQuery = options.inQuery;
@@ -53,7 +55,9 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
    */
   signRequest(webResource: WebResource): Promise<WebResource> {
     if (!webResource) {
-      return Promise.reject(new Error(`webResource cannot be null or undefined and must be of type "object".`));
+      return Promise.reject(
+        new Error(`webResource cannot be null or undefined and must be of type "object".`)
+      );
     }
 
     if (this.inHeader) {
