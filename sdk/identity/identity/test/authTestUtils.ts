@@ -9,11 +9,8 @@ import {
   HttpOperationResponse,
   WebResource,
   HttpClient,
-  delay,
-  RestError,
-  promiseToCallback
+  RestError
 } from "@azure/core-http";
-import { resolve } from "url";
 
 export interface MockAuthResponse {
   status: number;
@@ -69,7 +66,6 @@ export class MockAuthHttpClient implements HttpClient {
     this.requests.push(httpRequest);
 
     if (this.mockTimeout) {
-      await delay(httpRequest.timeout);
       throw new RestError("Request timed out", RestError.REQUEST_SEND_ERROR);
     }
 
