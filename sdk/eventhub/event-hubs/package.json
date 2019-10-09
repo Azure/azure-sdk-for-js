@@ -78,7 +78,7 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@azure/identity": "1.0.0-preview.4",
+    "@azure/identity": "1.0.0-preview.5",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
