@@ -21,7 +21,7 @@ describe("Log filter", () => {
     // possible breaking change - log level must now be set to info in order to
     // log appropriately.
     const currentLogLevel = getLogLevel();
-    setLogLevel('info');
+    setLogLevel("info");
     const expected = `Request: {
   "url": "https://foo.com",
   "method": "PUT",
@@ -41,6 +41,7 @@ Headers: {
 Body: null
 `;
     let output = "";
+
     const logger = (message: string): void => {
       output += message + "\n";
     };
@@ -56,8 +57,9 @@ Body: null
       })
       .catch((err: Error) => {
         done(err);
-    }).finally(() => {
-      setLogLevel(currentLogLevel);
-    })
+      })
+      .finally(() => {
+        setLogLevel(currentLogLevel);
+      });
   });
 });

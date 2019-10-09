@@ -16,23 +16,28 @@ export interface LogPolicyOptions {
    * Date, traceparent, x-ms-client-request-id, and x-ms-request id. Other values
    * will show as "REDACTED".
    */
-  allowedHeaderNames?: string[],
+  allowedHeaderNames?: string[];
 
   /**
    * Query string names whose values will be logged when logging is enabled. By default no
    * query string values are logged.
    */
-  allowedQueryParameters?: string[]
+  allowedQueryParameters?: string[];
 }
 
 const defaultAllowedHeaderNames = [
-  'Date', 'traceparent', 'x-ms-client-request-id', 'x-ms-request-id'
-]
+  "Date",
+  "traceparent",
+  "x-ms-client-request-id",
+  "x-ms-request-id"
+];
 
 const defaultAllowedQueryParameters: string[] = [];
 
-export function logPolicy(logger: any = coreLogger.info.bind(coreLogger), logOptions: LogPolicyOptions = {}): RequestPolicyFactory {
-
+export function logPolicy(
+  logger: any = coreLogger.info.bind(coreLogger),
+  logOptions: LogPolicyOptions = {}
+): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new LogPolicy(nextPolicy, options, logger, logOptions);
@@ -45,10 +50,15 @@ export class LogPolicy extends BaseRequestPolicy {
 
   public allowedHeaderNames: string[];
   public allowedQueryParameters: string[];
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, logger: any = console.log,{
-    allowedHeaderNames = defaultAllowedHeaderNames,
-    allowedQueryParameters = defaultAllowedQueryParameters
-  }: LogPolicyOptions = {}) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    logger: any = console.log,
+    {
+      allowedHeaderNames = defaultAllowedHeaderNames,
+      allowedQueryParameters = defaultAllowedQueryParameters
+    }: LogPolicyOptions = {}
+  ) {
     super(nextPolicy, options);
     this.logger = logger;
     this.allowedHeaderNames = allowedHeaderNames;
@@ -59,7 +69,7 @@ export class LogPolicy extends BaseRequestPolicy {
     if (!logger.info.enabled) return this._nextPolicy.sendRequest(request);
 
     this.logRequest(request);
-    return this._nextPolicy.sendRequest(request).then(response => this.logResponse(response));
+    return this._nextPolicy.sendRequest(request).then((response) => this.logResponse(response));
   }
 
   private logRequest(request: WebResource) {
@@ -67,14 +77,14 @@ export class LogPolicy extends BaseRequestPolicy {
   }
 
   private sanitize(key: string, value: unknown) {
-    if (key === '_headersMap') {
+    if (key === "_headersMap") {
       return this.sanitizeHeaders(key, value as {});
-    } else if (key === 'query') {
+    } else if (key === "query") {
       return this.sanitizeQuery(value as {});
-    } else if (key === 'response') {
+    } else if (key === "response") {
       // don't log response again
       return undefined;
-    } else if (key === 'operationSpec') {
+    } else if (key === "operationSpec") {
       // When using sendOperationRequest, the request carries a massive
       // field with the autorest spec. No need to log it.
       return undefined;
@@ -84,17 +94,17 @@ export class LogPolicy extends BaseRequestPolicy {
   }
 
   private sanitizeHeaders(_: string, value: { [s: string]: string }) {
-    if (typeof value !== 'object' || value === null) {
+    if (typeof value !== "object" || value === null) {
       return value;
     }
 
-    const sanitized: {[s: string]: string} = {};
+    const sanitized: { [s: string]: string } = {};
 
     for (const k of Object.keys(value)) {
       if (this.allowedHeaderNames.includes(k)) {
         sanitized[k] = value[k];
       } else {
-        sanitized[k] = 'REDACTED';
+        sanitized[k] = "REDACTED";
       }
     }
 
@@ -105,10 +115,9 @@ export class LogPolicy extends BaseRequestPolicy {
     return value;
   }
 
-
   private logResponse(response: HttpOperationResponse): HttpOperationResponse {
     this.logger(`Response status code: ${response.status}`);
-    this.logger(`Headers: ${JSON.stringify(response.headers, this.sanitize.bind(this), 2)}`)
+    this.logger(`Headers: ${JSON.stringify(response.headers, this.sanitize.bind(this), 2)}`);
     const responseBody = response.bodyAsText;
     this.logger(`Body: ${responseBody}`);
     return response;
