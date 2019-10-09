@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AtomXmlSerializer, HttpOperationResponse, XMLRequestInJSON } from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 import {
@@ -387,7 +387,7 @@ export interface Queue extends QueueOptions {
  * Atom XML Serializer for Queues.
  */
 export class QueueResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalQueueOptions): XMLRequestInJSON {
+  serialize(resource: InternalQueueOptions): object {
     return serializeToAtomXmlRequest(
       "QueueDescription",
       resource,

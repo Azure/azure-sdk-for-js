@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AtomXmlSerializer, HttpOperationResponse, XMLRequestInJSON } from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 import {
@@ -423,7 +423,7 @@ export interface Topic extends TopicOptions {
  * @ignore TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalTopicOptions): XMLRequestInJSON {
+  serialize(resource: InternalTopicOptions): object {
     return serializeToAtomXmlRequest(
       "TopicDescription",
       resource,

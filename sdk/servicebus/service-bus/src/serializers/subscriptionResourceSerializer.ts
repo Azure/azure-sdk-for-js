@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AtomXmlSerializer, HttpOperationResponse, XMLRequestInJSON } from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 import {
@@ -344,7 +344,7 @@ export interface Subscription extends SubscriptionOptions {
  * SubscriptionResourceSerializer for serializing / deserializing Subscription entities
  */
 export class SubscriptionResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalSubscriptionOptions): XMLRequestInJSON {
+  serialize(resource: InternalSubscriptionOptions): object {
     return serializeToAtomXmlRequest(
       "SubscriptionDescription",
       resource,

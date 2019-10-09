@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { AtomXmlSerializer, HttpOperationResponse, XMLRequestInJSON } from "@azure/core-http";
+import { AtomXmlSerializer, HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import { serializeToAtomXmlRequest, deserializeAtomXmlResponse } from "../util/atomXmlHelper";
 import {
@@ -186,7 +186,7 @@ export interface SqlFilter {
  * @ignore RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: InternalRuleOptions): XMLRequestInJSON {
+  serialize(rule: InternalRuleOptions): object {
     const resource: { Name: any; Filter: any; Action: any } = {
       Filter: {},
       Action: {},
