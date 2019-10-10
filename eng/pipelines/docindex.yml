@@ -22,7 +22,7 @@ jobs:
       - task: CopyFiles@2
         displayName: Copy Template to templates folder
         inputs:
-          sourceFolder: $(Build.SourcesDirectory)/tools/generate-static-index/static-files/templates
+          sourceFolder: $(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/templates
           content: '**\*'
           targetFolder: $(Build.SourcesDirectory)/docfx_project/templates
           overWrite: true
@@ -31,7 +31,7 @@ jobs:
       - pwsh: ls
         workingDirectory: $(Build.SourcesDirectory)/docfx_project/templates
       - pwsh: |
-          Copy-Item "$(Build.SourcesDirectory)/tools/generate-static-index/static-files/docfx.json" -Destination "$(Build.SourcesDirectory)/docfx_project/" -Force
+          Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/docfx.json" -Destination "$(Build.SourcesDirectory)/docfx_project/" -Force
         displayName: Copy over docfx.json
 
       - script: |
@@ -52,7 +52,7 @@ jobs:
           workingDirectory: $(Build.SourcesDirectory)/docfx_project/
           failOnStderr: true
       - pwsh: |
-          Copy-Item "$(Build.SourcesDirectory)/tools/generate-static-index/static-files/assets/*" -Destination "$(Build.SourcesDirectory)/docfx_project/_site/" -Force
+          Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/assets/*" -Destination "$(Build.SourcesDirectory)/docfx_project/_site/" -Force
         displayName: Replace site assets
       - task: CopyFiles@2
         displayName: Copy HTML to Artifacts Directory
