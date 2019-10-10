@@ -192,9 +192,11 @@ the same certificate, which will have the latest provided attributes.
 Certificates take some time to get fully created since they need to be signed
 by their respective Certificate Authority. Since this is a process that can
 take an unbounded amount of time, we're providing a special method
-`beginCreateCertificate`, which returns a Poller, which will be able to manage
-the underlying Long Running Operation and wait until the certificate finished
-being created. Here's a quick example on how to use this method:
+`beginCreateCertificate`, which returns a Poller who manages
+the underlying Long Running Operation according to our guidelines:
+https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
+
+Here's a quick example on how to use this method:
 
 ```typescript
 const certificateName = "MyCertificateName";
