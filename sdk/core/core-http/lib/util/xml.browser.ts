@@ -139,6 +139,8 @@ function buildNode(obj: any, elementName: string): Node[] {
         for (const attr of buildAttributes(obj[key])) {
           elem.attributes.setNamedItem(attr);
         }
+      } else if (key === "_") {
+        elem.textContent = obj[key].toString();
       } else {
         for (const child of buildNode(obj[key], key)) {
           elem.appendChild(child);
