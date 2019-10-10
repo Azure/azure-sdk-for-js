@@ -31,7 +31,7 @@ const finalResponse = {
   }
 };
 
-describe("Long Running Operations - custom client", function() {
+describe("Long Running Operations - working with abort signals", function() {
   it("should support an abort signal sent through the constructor", async function() {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([
@@ -54,9 +54,14 @@ describe("Long Running Operations - custom client", function() {
       pollError = e;
     });
 
-    await delay(10);
+    await poller.nextPoll();
     assert.ok(poller.getState().started);
-    await delay(100);
+
+    // Waiting for 10 poller loops
+    for (let i = 1; i <= 10; i++) {
+      await poller.nextPoll();
+    }
+
     assert.equal(client.totalSentRequests, 11);
     abortController.abort();
     await delay(50);
@@ -150,13 +155,18 @@ describe("Long Running Operations - custom client", function() {
     poller.done().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "Poller stopped");
+      assert.equal(e.message, "This poller is already stopped");
     });
 
-    await delay(10);
+    await poller.nextPoll();
     assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
-    await delay(100);
+
+    // Waiting for 10 poller loops
+    for (let i = 1; i <= 10; i++) {
+      await poller.nextPoll();
+    }
+
     assert.equal(client.totalSentRequests, 11);
 
     abortController.abort();
@@ -187,11 +197,16 @@ describe("Long Running Operations - custom client", function() {
     poller.done().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "Poller stopped");
+      assert.equal(e.message, "This poller is already stopped");
     });
 
     assert.equal(client.totalSentRequests, 1);
-    await delay(100);
+
+    // Waiting for 10 poller loops
+    for (let i = 1; i <= 10; i++) {
+      await poller.nextPoll();
+    }
+
     assert.equal(client.totalSentRequests, 10);
 
     const abortController = new AbortController();
@@ -229,11 +244,16 @@ describe("Long Running Operations - custom client", function() {
     poller.done().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "Poller stopped");
+      assert.equal(e.message, "This poller is already stopped");
     });
 
     assert.equal(client.totalSentRequests, 1);
-    await delay(100);
+
+    // Waiting for 10 poller loops
+    for (let i = 1; i <= 10; i++) {
+      await poller.nextPoll();
+    }
+
     assert.equal(client.totalSentRequests, 10);
 
     const abortController = new AbortController();

@@ -41,7 +41,7 @@ describe("Long Running Operations - custom client", function() {
     const poller = await client.startLRO();
 
     // synchronously checking the operation state
-    await delay(10);
+    await poller.nextPoll();
     assert.ok(poller.getState().started);
 
     // Checking the serialized version of the operation
@@ -65,12 +65,12 @@ describe("Long Running Operations - custom client", function() {
 
     const poller = await client.startLRO();
 
-    await delay(10);
+    await poller.nextPoll();
 
     assert.ok(poller.getProperties().initialResponse!.parsedBody.started);
     assert.ok(poller.getProperties().previousResponse!.parsedBody.started);
 
-    await delay(10);
+    await poller.nextPoll();
     assert.ok(poller.getProperties().previousResponse!.parsedBody.doFinalResponse);
 
     let result = await poller.getState().result;
@@ -127,11 +127,15 @@ describe("Long Running Operations - custom client", function() {
       assert.equal(e.message, "Poller cancelled");
     });
 
-    await delay(10);
+    await poller.nextPoll();
     assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
 
-    await delay(100); // The poller loops every 10 milliseconds
+    // Waiting for 10 poller loops
+    for (let i = 1; i <= 10; i++) {
+      await poller.nextPoll();
+    }
+
     assert.equal(client.totalSentRequests, 11);
 
     await poller.cancelOperation();
@@ -147,12 +151,16 @@ describe("Long Running Operations - custom client", function() {
     poller.done().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "Poller stopped");
+      assert.equal(e.message, "This poller is already stopped");
     });
 
     assert.equal(client.totalSentRequests, 1);
 
-    await delay(100); // The poller loops every 10 milliseconds
+    // Waiting for 10 poller loops
+    for (let i = 1; i <= 10; i++) {
+      await poller.nextPoll();
+    }
+
     assert.equal(client.totalSentRequests, 10);
 
     let error: any;
@@ -173,19 +181,24 @@ describe("Long Running Operations - custom client", function() {
     poller.done().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "Poller stopped");
+      assert.equal(e.message, "This poller is already stopped");
     });
 
-    await delay(10);
+    await poller.nextPoll();
     assert.ok(poller.getState().started);
     assert.equal(client.totalSentRequests, 1);
 
-    await delay(100); // The poller loops every 10 milliseconds
+    // Waiting for 10 poller loops
+    for (let i = 1; i <= 10; i++) {
+      await poller.nextPoll();
+    }
+
     assert.equal(client.totalSentRequests, 11);
 
     poller.stop();
 
     await delay(100);
+
     assert.equal(client.totalSentRequests, 11);
   });
 
@@ -227,16 +240,20 @@ describe("Long Running Operations - custom client", function() {
 
     const poller = await client.startLRO();
     poller.done().catch((e) => {
-      assert.equal(e.message, "Poller stopped");
+      assert.equal(e.message, "This poller is already stopped");
     });
 
-    await delay(100); // The poller loops every 10 milliseconds
+    // Waiting for 10 poller loops
+    for (let i = 1; i <= 10; i++) {
+      await poller.nextPoll();
+    }
 
     assert.equal(client.totalSentRequests, 10);
 
     poller.stop();
 
     await delay(100);
+
     assert.equal(client.totalSentRequests, 10);
 
     // Let's try to resume this with a new poller.
