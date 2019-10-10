@@ -3,7 +3,7 @@
 
 import { NoOpTracer } from "./tracers/noop/noOpTracer";
 import { Tracer } from "./interfaces/tracer";
-import { getCache } from "./utils/global";
+import { getCache } from "./utils/cache";
 
 /**
  * Sets the global tracer, enabling tracing for the Azure SDK.
