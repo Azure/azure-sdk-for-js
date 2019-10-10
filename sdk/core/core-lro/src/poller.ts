@@ -136,7 +136,7 @@ export abstract class Poller<TProperties, TResult> {
     );
   }
 
-  public done(): Promise<TResult | undefined> {
+  public done(): Promise<TResult> {
     return this.promise;
   }
 
