@@ -97,7 +97,7 @@ describe("ManagedIdentityCredential", function() {
 
     assert.strictEqual(authDetails.requests[0].timeout, 5000);
     assert.strictEqual(authDetails.token, null);
-  }).timeout(10000);
+  });
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function() {
     const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });

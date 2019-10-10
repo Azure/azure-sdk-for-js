@@ -3,12 +3,12 @@
 
 import assert from "assert";
 import { IdentityClientOptions } from "../src";
+import { _setDelayTestFunction } from "../src/util/delay";
 import {
   HttpHeaders,
   HttpOperationResponse,
   WebResource,
   HttpClient,
-  delay,
   RestError
 } from "@azure/core-http";
 
@@ -66,7 +66,6 @@ export class MockAuthHttpClient implements HttpClient {
     this.requests.push(httpRequest);
 
     if (this.mockTimeout) {
-      await delay(httpRequest.timeout);
       throw new RestError("Request timed out", RestError.REQUEST_SEND_ERROR);
     }
 
@@ -124,4 +123,83 @@ export async function assertRejects(
   } catch (error) {
     assert.ok(expected(error), message || "The error didn't pass the assertion predicate.");
   }
+}
+
+export function setDelayInstantlyCompletes(): void {
+  _setDelayTestFunction(() => Promise.resolve());
+}
+
+export interface DelayInfo {
+  resolve: () => void;
+  reject: (e: Error) => void;
+  promise: Promise<void>;
+  timeout: number;
+}
+
+export class DelayController {
+  private _waitPromise?: Promise<DelayInfo>;
+  private _resolve?: (info: DelayInfo) => void;
+  private _pendingRequests: DelayInfo[] = [];
+
+  private removeDelayInfo(info: DelayInfo): void {
+    const index = this._pendingRequests.indexOf(info);
+    if (index >= 0) {
+      this._pendingRequests.splice(index, 1);
+    }
+  }
+
+  delayRequested(timeout: number): Promise<void> {
+    let resolveFunc: () => void;
+    let rejectFunc: (e: Error) => void;
+    const promise = new Promise<void>((resolve, reject) => {
+      resolveFunc = resolve;
+      rejectFunc = reject;
+    });
+    const info: DelayInfo = {
+      resolve: resolveFunc!,
+      reject: rejectFunc!,
+      promise,
+      timeout
+    };
+    this._pendingRequests.push(info);
+
+    const removeThis = (): void => {
+      this.removeDelayInfo(info);
+    };
+
+    promise.then(removeThis).catch(removeThis);
+
+    if (this._resolve) {
+      this._resolve(info);
+      this._resolve = undefined;
+      this._waitPromise = undefined;
+    }
+
+    return promise;
+  }
+
+  getPendingRequests(): DelayInfo[] {
+    return this._pendingRequests;
+  }
+
+  waitForDelay(): Promise<DelayInfo> {
+    if (!this._waitPromise) {
+      this._waitPromise = new Promise<DelayInfo>((resolve) => {
+        this._resolve = resolve;
+      });
+    }
+    return this._waitPromise;
+  }
+}
+
+export function createDelayController(): DelayController {
+  const controller = new DelayController();
+  _setDelayTestFunction((t) => {
+    return controller.delayRequested(t);
+  });
+  return controller;
+}
+
+export function restoreDelayBehavior(): void {
+  _setDelayTestFunction();
 }
