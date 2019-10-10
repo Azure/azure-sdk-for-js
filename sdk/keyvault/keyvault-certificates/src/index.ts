@@ -536,17 +536,19 @@ export class CertificatesClient {
    * // Serializing the poller
    * const serialized = poller.toJSON();
    * // A new poller can be created with:
-   * // await client.beginDeleteCertificate("MyCertificate", { resumeFrom: serialized });
+   * // await client.beginDeleteCertificate("MyCertificate", {}, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * await poller.done();
    * ```
    * @summary Deletes a certificate with a Long Running Operation Poller
    * @param name The name of the certificate
+   * @param [requestOptions] The optional parameters given to deleteCertificate
    * @param [pollerOptions] Optional parameters to the creation of the poller
    */
   public async beginCreateCertificate(
     name: string,
+    requestOptions: RequestOptionsBase,
     pollerOptions: {
       manual?: boolean;
       intervalInMs?: number;
@@ -556,6 +558,7 @@ export class CertificatesClient {
     return new DeleteCertificatePoller({
       client: this,
       name,
+      requestOptions,
       ...pollerOptions
     });
   }
