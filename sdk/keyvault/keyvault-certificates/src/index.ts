@@ -94,8 +94,10 @@ import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+import { DeleteCertificatePoller } from "./lro/delete/poller";
 
 export {
+  DeleteCertificatePoller,
   CertificateProperties,
   CertificateIssuer,
   CertificateOperation,
@@ -515,6 +517,47 @@ export class CertificatesClient {
     }
 
     return this.getDeletedCertificateFromDeletedCertificateBundle(response);
+  }
+
+  /**
+   * Deletes a certificate through a Long Running Operation poller that can wait indifinetly until the certificate is deleted.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new CertificatesClient(url, credentials);
+   * await client.setCertificateContacts([{
+   *   emailAddress: "b@b.com",
+   *   name: "b",
+   *   phone: "222222222222"
+   * }]);
+   *
+   * const poller = await client.beginDeleteCertificate("MyCertificate");
+   *
+   * // Serializing the poller
+   * const serialized = poller.toJSON();
+   * // A new poller can be created with:
+   * // await client.beginDeleteCertificate("MyCertificate", { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * await poller.done();
+   * ```
+   * @summary Deletes a certificate with a Long Running Operation Poller
+   * @param name The name of the certificate
+   * @param [pollerOptions] Optional parameters to the creation of the poller
+   */
+  public async beginCreateCertificate(
+    name: string,
+    pollerOptions: {
+      manual?: boolean;
+      intervalInMs?: number;
+      resumeFrom?: string;
+    } = {}
+  ): Promise<CreateCertificatePoller> {
+    return new DeleteCertificatePoller({
+      client: this,
+      name,
+      ...pollerOptions
+    });
   }
 
   /**

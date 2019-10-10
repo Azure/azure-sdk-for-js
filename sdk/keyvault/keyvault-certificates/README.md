@@ -143,6 +143,7 @@ tasks using Azure Key Vault Certificates. The scenarios that are covered here co
 - [Certificate attributes](#certificate-attributes).
 - [Updating a certificate](#updating-a-certificate).
 - [Deleting a certificate](#deleting-a-certificate).
+- [Waiting until the certificate is deleted](#waiting-until-the-certificate-is-deleted).
 - [Iterating lists of certificates](#iterating-lists-of-certificates).
 
 ### Creating and setting a certificate
@@ -278,6 +279,27 @@ await client.recoverDeletedCertificate(certificateName);
 Since the deletion of a certificate won't happen instantly, some time is needed
 after the `deleteCertificate` method is called before the deleted certificate is
 available to be read, recovered or purged.
+
+### Waiting until the certificate is deleted
+
+Certificates take some time to get fully deleted.
+For this purpose, `beginDeleteCertificate` returns a Poller,
+which manages the underlying Long Running Operation according to our guidelines: 
+https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
+
+Here's a quick example on how to use this method:
+
+```typescript
+const certificateName = "MyCertificateName";
+const certificatePolicy = {
+  issuerName: "Self"
+};
+
+const poller = await client.beginDeleteCertificate(certificateName);
+
+await poller.done();
+await client.getCertificateWithPolicy(certificateName); // Throws 'Certificate not found "MyCertificateName"'
+```
 
 ### Iterating lists of certificates
 
