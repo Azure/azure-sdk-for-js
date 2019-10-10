@@ -4,7 +4,7 @@
 import { ListConfigurationSettingsOptions } from '..';
 import { URLBuilder, ResponseBodyNotFoundError } from '@azure/core-http';
 import { isArray } from 'util';
-import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpResponseField } from '../models';
+import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpResponseField, HttpConditionalFields } from '../models';
 import { AppConfigurationGetKeyValuesOptionalParams } from '../generated/src/models';
 
 /**

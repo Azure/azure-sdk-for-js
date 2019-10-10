@@ -37,7 +37,7 @@ import {
   formatWildcards,
   makeConfigurationSettingsFieldsThrow
 } from "./internal/helpers";
-import { ResponseBodyNotFoundError, tracingPolicy } from "@azure/core-http";
+import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import { GetKeyValuesResponse } from './generated/src/models';
 

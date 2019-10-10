@@ -71,7 +71,7 @@ export interface DeleteConfigurationSettingOptions extends HttpConditionalFields
 }
 
 // @public
-export interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+export interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -85,8 +85,7 @@ export interface GetConfigurationSettingOptions extends RequestOptionsBase, Http
 }
 
 // @public
-export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseField<GetConfigurationHeaders> {
-    statusCode: number;
+export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseFields, HttpResponseField<GetConfigurationHeaders> {
 }
 
 // @public
@@ -101,6 +100,11 @@ export interface HttpResponseField<HeadersT> {
         parsedHeaders: HeadersT;
         bodyAsText: string;
     };
+}
+
+// @public
+export interface HttpResponseFields {
+    statusCode: number;
 }
 
 // @public

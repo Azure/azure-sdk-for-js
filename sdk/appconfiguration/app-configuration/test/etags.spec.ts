@@ -1,6 +1,6 @@
 import { AppConfigurationClient } from "../src";
 import {
-  getConnectionStringFromEnvironment,
+  createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError
 } from "./testHelpers";
@@ -10,8 +10,8 @@ describe("etags", () => {
   let client: AppConfigurationClient;
   const key = `etags-${Date.now()}`;
 
-  before(async () => {
-    client = new AppConfigurationClient(getConnectionStringFromEnvironment());
+  before(async function () {
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
   beforeEach(async () => {

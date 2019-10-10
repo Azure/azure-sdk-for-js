@@ -1,5 +1,5 @@
 import {
-  getConnectionStringFromEnvironment,
+  createAppConfigurationClientForTests,
   assertThrowsRestError,
   deleteKeyCompletely
 } from "./testHelpers";
@@ -14,12 +14,14 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label"
   };
 
-  before(() => {
-    client = new AppConfigurationClient(getConnectionStringFromEnvironment());
+  before(function () {
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  after(() => {
-    deleteKeyCompletely([testConfigSetting.key], client);
+  after(async function () {
+    if (!this.currentTest!.isPending) {
+      await deleteKeyCompletely([testConfigSetting.key], client);
+    }
   });
 
   it("basic", async () => {

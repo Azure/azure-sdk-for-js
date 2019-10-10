@@ -3,14 +3,13 @@
 
 import * as assert from "assert";
 import {
-  getConnectionStringFromEnvironment,
+  createAppConfigurationClientForTests,
   deleteKeyCompletely,
   toSortedArray,
   assertEqualSettings,
   assertThrowsRestError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
-import { quoteETag, formatWildcards, extractAfterTokenFromNextLink } from '../src/internal/helpers';
 import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 describe("AppConfigurationClient", () => {
@@ -18,30 +17,14 @@ describe("AppConfigurationClient", () => {
 
   let client: AppConfigurationClient;
 
-  before("validate environment variables", () => {
-    let connectionString = getConnectionStringFromEnvironment();
-    client = new AppConfigurationClient(connectionString);
+  before("validate environment variables", function () {
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
   after("cleanup", async () => {
     for (const setting of settings) {
       await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     }
-  });
-
-  describe("constructor", () => {
-    it("supports connection string", async () => {
-      const connectionString = getConnectionStringFromEnvironment();
-      const client = new AppConfigurationClient(connectionString);
-
-      // make sure a service call succeeds
-
-      // just not throwing an exception is enough - we just want to make sure that the call
-      // can work.
-      for await (const _ of await client.listConfigurationSettings()) {
-        break;
-      }
-    });
   });
 
   describe("simple usages", () => {
@@ -869,71 +852,6 @@ describe("AppConfigurationClient", () => {
         null,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
-    });
-  });
-
-  describe("quoteETag", () => {
-    it("undefined", () => {
-      assert.equal(
-        undefined,
-        quoteETag(undefined)
-      );
-
-      assert.equal(
-        '"etagishere"',
-        quoteETag("etagishere")
-      );
-
-      assert.equal(
-        "'etagishere'",
-        quoteETag("'etagishere'")
-      );
-
-      assert.equal(
-        "*",
-        quoteETag("*")
-      );
-    });
-  });
-
-  describe("formatWildcards", () => {
-    it("undefined", () => {
-      const result = formatWildcards({
-        keys: undefined,
-        labels: undefined
-      });
-
-      assert.ok(!result.key);
-      assert.ok(!result.label);
-    });
-
-    it("single values only", () => {
-      const result = formatWildcards({
-        keys: ["key1"],
-        labels: ["label1"]
-      });
-
-      assert.equal("key1", result.key);
-      assert.equal("label1", result.label);
-    });
-
-    it("multiple values", () => {
-      const result = formatWildcards({
-        keys: ["key1", "key2"],
-        labels: ["label1", "label2"]
-      });
-
-      assert.equal("key1,key2", result.key);
-      assert.equal("label1,label2", result.label);
-    });
-  });
-
-  describe("extractAfterTokenFromNextLink", () => {
-    it("token is extracted and properly unescaped", () => {
-      let token = extractAfterTokenFromNextLink(
-        "/kv?key=someKey&api-version=1.0&after=bGlah%3D"
-      );
-      assert.equal("bGlah=", token);
     });
   });
 });

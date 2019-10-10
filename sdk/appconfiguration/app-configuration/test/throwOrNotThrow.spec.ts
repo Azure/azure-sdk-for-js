@@ -1,6 +1,6 @@
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
 import {
-  getConnectionStringFromEnvironment,
+  createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError
 } from "./testHelpers";
@@ -15,8 +15,8 @@ describe("Various error cases", () => {
   let client: AppConfigurationClient;
   const nonMatchingETag = "never-match-etag";
 
-  before(() => {
-    client = new AppConfigurationClient(getConnectionStringFromEnvironment());
+  before(function () {
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
   describe("throws", () => {
