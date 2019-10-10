@@ -956,7 +956,7 @@ describe("Cross Partition", function() {
     it.only("Validate GROUP BY", async function() {
       // an order by query with explicit ascending ordering
       const querySpec = {
-        query: `SELECT r.spam3 FROM root r GROUP BY r.spam3`
+        query: `SELECT r.spam3, SUM(r.number) FROM root r GROUP BY r.spam3`
       };
 
       const options = {

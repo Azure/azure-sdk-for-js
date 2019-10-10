@@ -9,6 +9,7 @@ import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEnd
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
+import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
@@ -64,6 +65,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.endpoint = new AggregateEndpointComponent(this.endpoint, aggregates);
     }
 
+    if (partitionedQueryExecutionInfo.queryInfo.groupByExpressions) {
+      this.endpoint = new GroupByEndpointComponent(this.endpoint);
+    }
     // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
     const top = partitionedQueryExecutionInfo.queryInfo.top;
     if (typeof top === "number") {

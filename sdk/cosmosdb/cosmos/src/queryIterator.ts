@@ -222,6 +222,10 @@ export class QueryIterator<T> {
           this.query,
           this.options
         )
+        .then((response) => {
+          console.log(JSON.stringify(response, null, 2));
+          return response;
+        })
         .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
     }
     return this.queryPlanPromise;

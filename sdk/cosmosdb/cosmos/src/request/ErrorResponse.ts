@@ -40,6 +40,8 @@ interface QueryInfo {
   offset?: number;
   limit?: number;
   aggregates?: any[];
+  groupByExpressions?: string[];
+  groupByAliasToAggregateType: { [key: string]: string };
   rewrittenQuery?: any;
   distinctType: string;
   hasSelectValue: boolean;

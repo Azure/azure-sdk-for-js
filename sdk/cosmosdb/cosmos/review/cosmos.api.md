@@ -100,19 +100,6 @@ export enum ConsistencyLevel {
 
 // @public (undocumented)
 export const Constants: {
-    MediaTypes: {
-        Any: string;
-        ImageJpeg: string;
-        ImagePng: string;
-        Javascript: string;
-        Json: string;
-        OctetStream: string;
-        QueryJson: string;
-        SQL: string;
-        TextHtml: string;
-        TextPlain: string;
-        Xml: string;
-    };
     HttpHeaders: {
         Authorization: string;
         ETag: string;
@@ -219,8 +206,6 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
-    Name: string;
-    DatabaseAccountEndpoint: string;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -228,22 +213,10 @@ export const Constants: {
     CurrentVersion: string;
     SDKName: string;
     SDKVersion: string;
-    DefaultPrecisions: {
-        DefaultNumberHashPrecision: number;
-        DefaultNumberRangePrecision: number;
-        DefaultStringHashPrecision: number;
-        DefaultStringRangePrecision: number;
-    };
-    ConsistentHashRing: {
-        DefaultVirtualNodesPerCollection: number;
-    };
     RegularExpressions: {
         TrimLeftSlashes: RegExp;
         TrimRightSlashes: RegExp;
         IllegalResourceIdCharacters: RegExp;
-    };
-    Quota: {
-        CollectionSize: string;
     };
     Path: {
         DatabasesPathSegment: string;
