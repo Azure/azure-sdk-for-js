@@ -192,7 +192,7 @@ the same certificate, which will have the latest provided attributes.
 Certificates take some time to get fully created since they need to be signed
 by their respective Certificate Authority. Since this is a process that can
 take an unbounded amount of time, we're providing a special method
-`beginCertificateCreate`, which returns a Poller, which will be able to manage
+`beginCreateCertificate`, which returns a Poller, which will be able to manage
 the underlying Long Running Operation and wait until the certificate finished
 being created. Here's a quick example on how to use this method:
 
@@ -202,7 +202,7 @@ const certificatePolicy = {
   issuerName: "Self"
 };
 
-const poller = await client.beginCertificateCreate(certificateName, certificatePolicy);
+const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
 
 const result = await poller.done();
 console.log(result!.status); // "completed"

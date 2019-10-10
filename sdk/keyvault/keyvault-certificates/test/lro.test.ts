@@ -36,7 +36,7 @@ describe("Certificates client - Long Running Operations", () => {
 
   it("can create a certificate and wait until it's signed", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.beginCertificateCreate(certificateName, basicCertificatePolicy);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
 
     await poller.nextPoll();
     assert.ok(poller.getState().started);
@@ -53,7 +53,7 @@ describe("Certificates client - Long Running Operations", () => {
 
   it("can cancel a certificate's creation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.beginCertificateCreate(certificateName, basicCertificatePolicy);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     poller.done().catch(e => {
       assert.ok(e instanceof PollerCancelledError);
       assert.equal(e.name, "PollerCancelledError");

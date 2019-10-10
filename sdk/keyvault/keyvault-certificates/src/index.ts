@@ -925,7 +925,7 @@ export class CertificatesClient implements CertificatesClientInterface {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.beginCertificateCreate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -933,7 +933,7 @@ export class CertificatesClient implements CertificatesClientInterface {
    * // Serializing the poller
    * const serialized = poller.toJSON();
    * // A new poller can be created with:
-   * // await client.beginCertificateCreate("MyCertificate", policy, serialized);
+   * // await client.beginCreateCertificate("MyCertificate", policy, serialized);
    *
    * // Waiting until it's done
    * await poller.done();
@@ -944,7 +944,7 @@ export class CertificatesClient implements CertificatesClientInterface {
    * @param [createCertificateOptions] Optional parameters to the createCertificate operation
    * @param [pollerOptions] Optional parameters to the creation of the poller
    */
-  public async beginCertificateCreate(
+  public async beginCreateCertificate(
     name: string,
     certificatePolicy: CertificatePolicy,
     createCertificateOptions: CreateCertificateOptions = {},
