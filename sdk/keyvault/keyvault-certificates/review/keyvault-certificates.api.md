@@ -132,12 +132,10 @@ export interface Contacts {
     readonly id?: string;
 }
 
-// @public (undocumented)
+// @public
 export class CreateCertificatePoller extends Poller<CreateCertificatePollOperationProperties, CertificateOperation> {
     constructor(client: CertificatesClientInterface, name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, manual?: boolean, intervalInMs?: number, baseOperation?: CreateCertificatePollOperation, onProgress?: (properties: CreateCertificatePollOperationProperties) => void);
-    // (undocumented)
     delay(): Promise<void>;
-    // (undocumented)
     intervalInMs: number;
 }
 
@@ -147,17 +145,11 @@ export interface CreateCertificatePollOperation extends PollOperation<CreateCert
 
 // @public
 export interface CreateCertificatePollOperationProperties {
-    // (undocumented)
     certificatePolicy: CertificatePolicy;
-    // (undocumented)
     client: CertificatesClientInterface;
-    // (undocumented)
     createCertificateOptions: CreateCertificateOptions;
-    // (undocumented)
     initialResponse?: CertificateOperation;
-    // (undocumented)
     name: string;
-    // (undocumented)
     previousResponse?: CertificateOperation;
 }
 

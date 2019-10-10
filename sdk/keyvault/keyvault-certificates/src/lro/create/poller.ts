@@ -12,10 +12,17 @@ import {
   CreateCertificateOptions
 } from "../../certificatesModels";
 
+/**
+ * Class that creates a poller that waits until a certificate finishes being created
+ */
 export class CreateCertificatePoller extends Poller<
   CreateCertificatePollOperationProperties,
   CertificateOperation
 > {
+  /**
+   * Defines how much time the poller is going to wait before making a new request to the service.
+   * @memberof CreateCertificatePoller
+   */
   public intervalInMs: number;
 
   constructor(
@@ -52,6 +59,10 @@ export class CreateCertificatePoller extends Poller<
     this.intervalInMs = intervalInMs;
   }
 
+  /**
+   * The method used by the poller to wait before attempting to update its operation.
+   * @memberof CreateCertificatePoller
+   */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }

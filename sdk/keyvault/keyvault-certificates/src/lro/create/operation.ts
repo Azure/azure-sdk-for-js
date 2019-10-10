@@ -12,11 +12,29 @@ import {
  * An interface representing the properties of a create certificate's poll operation
  */
 export interface CreateCertificatePollOperationProperties {
+  /**
+   * @member {CreateCertificatePollOperationProperties} [name] The name of the certificate that will be created
+   */
   name: string;
+  /**
+   * @member {CreateCertificatePollOperationProperties} [certificatePolicy] The policy of the certificate that will be created
+   */
   certificatePolicy: CertificatePolicy;
+  /**
+   * @member {CreateCertificatePollOperationProperties} [createCertificateOptions] The optional parameters that will be used to create the certificate
+   */
   createCertificateOptions: CreateCertificateOptions;
+  /**
+   * @member {CreateCertificatePollOperationProperties} [client] An instance of the CertificatesClient class
+   */
   client: CertificatesClientInterface;
+  /**
+   * @member {CreateCertificatePollOperationProperties} [initialResponse] The initial response received the first time the service was reached by the operation's update function
+   */
   initialResponse?: CertificateOperation;
+  /**
+   * @member {CreateCertificatePollOperationProperties} [previousResponse] The previous response received the last time the service was reached by the operation's update function
+   */
   previousResponse?: CertificateOperation;
 }
 
