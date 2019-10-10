@@ -3,7 +3,6 @@
 
 import * as xml2js from "xml2js";
 import { Constants } from "./constants";
-const xmlbuilder: any = require("xmlbuilder");
 
 // Note: The reason we re-define all of the xml2js default settings (version 2.0) here is because the default settings object exposed
 // by the xm2js library is mutable. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/536
@@ -114,17 +113,24 @@ export async function convertAtomXmlToJson(body: string): Promise<any> {
  */
 export function convertJsonToAtomXml(content: any): string {
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
+  const builder = new xml2js.Builder({
+    explicitRoot: false,
+    renderOpts: {
+      pretty: false
+    }
+  });
 
-  let doc = xmlbuilder.create();
+  content = {
+    entry: {
+      $: {
+        xmlns: "http://www.w3.org/2005/Atom"
+      },
+      updated: new Date().toISOString(),
+      content: content
+    }
+  };
 
-  doc = doc
-    .begin("entry", { version: "1.0", encoding: "utf-8", standalone: "yes" })
-    .att("xmlns", "http://www.w3.org/2005/Atom");
-
-  doc = doc.ele("updated", new Date().toISOString()).up();
-
-  doc = writeElementValue(doc, "content", content);
-  return doc.doc().toString();
+  return builder.buildObject(content);
 }
 
 /**
@@ -136,85 +142,5 @@ function removeBOM(str: string) {
   if (str.charCodeAt(0) === 0xfeff || str.charCodeAt(0) === 0xffef) {
     str = str.substring(1);
   }
-
   return str;
-}
-
-/**
- *
- * @ignore
- * Writes a single property for an entry or complex type.
- *
- * @param {object} parentElement         Parent DOM element under which the property should be added.
- * @param {string} name                  Property name.
- * @param {object} value                 Property value.
- * @return {object} The current DOM element.
- *
- */
-function writeElementValue(parentElement: any, name: any, value: any): any {
-  let ignored = false;
-  const propertyTagName = name;
-
-  if (
-    typeof value !== "string" &&
-    typeof value === "object" &&
-    Object.prototype.toString.call(value) !== "[object Date]"
-  ) {
-    if (Array.isArray(value) && value.length > 0) {
-      // Example:
-      // JSON: element: [ { property1: 'hi there' }, { property2: 'hello there' } ]
-      // XML: <element><property1>hi there</property1></element><element><property2>hello there</property2></element>
-
-      Object.keys(value).forEach(function(i: any) {
-        parentElement = writeElementValue(parentElement, name, value[i]);
-      });
-
-      // For an array no element was actually added at this level, so skip uping level.
-      ignored = true;
-    } else if (
-      value[Constants.XML_METADATA_MARKER] !== undefined &&
-      value[Constants.XML_VALUE_MARKER] !== undefined
-    ) {
-      // Example:
-      // JSON: element: { '$': { 'm:type' = 'Edm.String' }, '_': 'hi there' }
-      // XML: <element m:type="Edm.String">hi there</element>
-
-      parentElement = parentElement.ele(propertyTagName);
-      if (value[Constants.XML_VALUE_MARKER]) {
-        parentElement = parentElement.raw(value[Constants.XML_VALUE_MARKER]);
-      }
-    } else {
-      // Example:
-      // JSON: element: { '$': { 'metadata' = 'value' }, 'property1': 'hi there', 'property2': 'hello there' }
-      // XML: <element metadata="value"><property1>hi there</property1><property2>hello there</property2></element>
-
-      parentElement = parentElement.ele(propertyTagName);
-      Object.keys(value).forEach((propertyName: string) => {
-        if (propertyName !== Constants.XML_METADATA_MARKER && value.hasOwnProperty(propertyName)) {
-          parentElement = writeElementValue(parentElement, propertyName, value[propertyName]);
-        }
-      });
-    }
-  } else {
-    if (value != undefined) {
-      parentElement = parentElement.ele(propertyTagName);
-      parentElement = parentElement.raw(value.toString());
-    } else {
-      parentElement = parentElement.ele(propertyTagName, {}, undefined);
-    }
-  }
-
-  if (value != undefined && value[Constants.XML_METADATA_MARKER]) {
-    // include the metadata
-    const attributeList = value[Constants.XML_METADATA_MARKER];
-    Object.keys(attributeList).forEach(function(attribute) {
-      parentElement = parentElement.att(attribute, attributeList[attribute]);
-    });
-  }
-
-  if (!ignored) {
-    parentElement = parentElement.up();
-  }
-
-  return parentElement;
 }
