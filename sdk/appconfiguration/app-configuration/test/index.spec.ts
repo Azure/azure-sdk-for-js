@@ -11,6 +11,7 @@ import {
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 import { quoteETag, formatWildcards, extractAfterTokenFromNextLink } from '../src/internal/helpers';
+import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
@@ -252,7 +253,24 @@ describe("AppConfigurationClient", () => {
       const label = "test";
 
       // delete configuration
-      await client.deleteConfigurationSetting({ key, label });
+      const response = await client.deleteConfigurationSetting({ key, label });
+
+      // we hoist this code up to the top in case users want to check if the 
+      // delete actually happened (status code: 200) or if the setting wasn't 
+      // found which results in the same state but might matter to 
+      // the user(status code: 204)
+      assert.equal(response._response.status, response.statusCode);
+      assert.equal(204, response.statusCode);
+
+      // also, fields throw on access
+      assert.throws(() => response.key, (err: ResponseBodyNotFoundError) => {
+        assert.equal("ResponseBodyNotFoundError", err.name);
+        
+        assert.equal("The key that we were requested to delete was not found (data in the non-response properties will be invalid)", err.message);
+        assert.equal("Resource already deleted or missing", err.code);
+        
+        return true;
+      });
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {

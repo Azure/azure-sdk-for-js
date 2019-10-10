@@ -29,12 +29,13 @@ import {
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
-  SetReadOnlyResponse
+  SetReadOnlyResponse,
 } from "./models";
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
-  formatWildcards
+  formatWildcards,
+  makeConfigurationSettingsFieldsThrow
 } from "./internal/helpers";
 import { ResponseBodyNotFoundError, tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
@@ -118,13 +119,29 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    return this.spanner.trace("deleteConfigurationSetting", options, (newOptions) => {
+    const originalResponse = await this.spanner.trace("deleteConfigurationSetting", options, (newOptions) => {
       return this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
         ...checkAndFormatIfAndIfNoneMatch(newOptions)
       });
     });
+
+    const response: DeleteConfigurationSettingResponse = {
+      ...originalResponse,
+      _response: originalResponse._response,
+      statusCode: originalResponse._response.status
+    };
+
+    if (response._response.status == 204) {
+      // setting wasn't found (might have already been deleted). Users that care can check that the response
+      // code is not 200 but we don't consider this to be an error.
+      makeConfigurationSettingsFieldsThrow(response,
+        "The key that we were requested to delete was not found (data in the non-response properties will be invalid)",
+        "Resource already deleted or missing");  
+    }
+
+    return response;
   }
 
   /**
@@ -158,52 +175,13 @@ export class AppConfigurationClient {
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
       if (response.statusCode === 304) {
-        return AppConfigurationClient.craftSpecial304Response(response);
+        makeConfigurationSettingsFieldsThrow(response,
+          "The requested value was not retrieved since it has not changed since the last request.",
+          "Resource same as remote");
       }
 
       return response;
     });
-  }
-
-  private static craftSpecial304Response(originalResponse: GetConfigurationSettingResponse): GetConfigurationSettingResponse {
-    const newResponse: GetConfigurationSettingResponse = {
-        ...originalResponse,
-      _response: originalResponse._response
-    };
-
-    Object.defineProperty(newResponse, '_response', {
-      enumerable: false
-    });
-
-    // TODO:  can I identify these fields in a less manual manner?
-    const names: (keyof ConfigurationSetting)[] = [
-      "contentType",
-      "etag",
-      "key",
-      "label",
-      "lastModified",
-      "locked",
-      "tags",
-      "value"
-    ];
-
-    const errThrower = () => {
-      throw new ResponseBodyNotFoundError(
-        "The requested value was not retrieved since it has not changed since the last request.",
-        "Resource same as remote",
-        originalResponse.statusCode,
-        originalResponse._response.request,
-        originalResponse._response,
-        null)
-    };
-
-    for (const name of names) {
-      Object.defineProperty(newResponse, name, {
-        get: errThrower
-      });
-    }
-
-    return newResponse;
   }
 
   /**

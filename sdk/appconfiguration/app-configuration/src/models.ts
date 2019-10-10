@@ -80,6 +80,18 @@ export interface ConfigurationSetting extends ConfigurationSettingParam {
 }
 
 /**
+ * Fields that are hoisted up  from the _response field of the object
+ * Used in cases where individual HTTP response fields are important for
+ * the user to use in common-use cases like handling http status codes 204 or 304.
+ */
+export interface HttpResponseFields {
+  /**
+   * The HTTP status code for the response
+   */
+  statusCode: number;
+}
+
+/**
  * Parameters for adding a new configuration setting
  */
 export interface AddConfigurationSettingParam extends ConfigurationSettingParam {}
@@ -171,6 +183,7 @@ export interface AddConfigurationSettingResponse
 export interface DeleteConfigurationSettingResponse
   extends ConfigurationSetting,
     SyncTokenHeaderField,
+    HttpResponseFields,
     HttpResponseField<SyncTokenHeaderField> {}
 
 /**
@@ -209,11 +222,8 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField {
 export interface GetConfigurationSettingResponse
   extends ConfigurationSetting,
     GetConfigurationHeaders,
+    HttpResponseFields,
   HttpResponseField<GetConfigurationHeaders> {
-  /**
-   * The HTTP status code for the response
-   */
-  statusCode: number;
 }
 
 /**
