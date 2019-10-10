@@ -137,7 +137,7 @@ export class AppConfigurationClient {
       // setting wasn't found (might have already been deleted). Users that care can check that the response
       // code is not 200 but we don't consider this to be an error.
       makeConfigurationSettingsFieldsThrow(response,
-        "The key that we were requested to delete was not found (data in the non-response properties will be invalid)",
+        "The key that we were requested to delete was not found. Only data in the _response and statusCode field are valid.",
         "Resource already deleted or missing");  
     }
 
