@@ -26,9 +26,9 @@ export async function run() {
 
   const unchangedResponse = await client.getConfigurationSetting(addedSetting,
     {
-      // onlyIfUnchanged allows us to say "get me the value only if it doesn't match the one I already have"
+      // onlyIfChanged allows us to say "get me the value only if it doesn't match the one I already have"
       // this allows us to avoid transferring the setting if nothing has changed.
-      onlyIfUnchanged: true
+      onlyIfChanged: true
     }
   );
 

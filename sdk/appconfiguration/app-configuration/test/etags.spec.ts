@@ -76,8 +76,8 @@ describe("etags", () => {
     });
 
     // only get the setting if it changed (it hasn't)
-    const response = await client.getConfigurationSetting({ key }, {
-      ifNoneMatch: originalSetting.etag
+    const response = await client.getConfigurationSetting(originalSetting, {
+      onlyIfChanged: true
     });
 
     assert.equal(response._response.status, 304);
@@ -106,8 +106,8 @@ describe("etags", () => {
     assert.equal(200, updatedSetting.statusCode);
 
     // only get the setting if it changed (it has!)
-    const configurationSetting = await client.getConfigurationSetting({ key }, {
-      ifNoneMatch: originalSetting.etag
+    const configurationSetting = await client.getConfigurationSetting(originalSetting, {
+      onlyIfChanged: true
     });
 
     // now our retrieved setting matches what's on the server
