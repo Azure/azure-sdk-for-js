@@ -1,4 +1,4 @@
-# Azure Core LRO
+# Azure Core LRO client library for JS
 
 Azure's Core LRO is a non-published library that provides an API that aims to
 allow the azure-sdk-for-js public libraries to implement fully featured pollers
@@ -194,7 +194,7 @@ import { Poller, PollOperationState } from "@azure/core-lro";
 import { makeOperation, MyOperation, MyOperationProperties } from "./myOperation";
 
 // See that "string" here is the type of the result
-export class TestPoller extends Poller<MyOperationProperties, string> {
+export class MyPoller extends Poller<MyOperationProperties, string> {
   constructor(
     manual: boolean = false,
     baseOperation?: MyOperation,
@@ -224,6 +224,21 @@ export class TestPoller extends Poller<MyOperationProperties, string> {
     // Your own implementation of a delay
   }
 }
+```
+
+### Using your poller
+
+Here's one simple examle of your poller in action. More examples can be found in the test folder near this README.
+
+```typescript
+const poller = new MyPoller();
+
+// Waiting until the operation completes
+const result = await poller.done();
+const state = poller.getState();
+const properties = poller.getProperties();
+
+console.log(state.completed);
 ```
 
 ## Troubleshooting
