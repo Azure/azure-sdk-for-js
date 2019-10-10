@@ -927,12 +927,12 @@ export class CertificatesClient implements CertificatesClientInterface {
    * // Serializing the poller
    * const serialized = poller.toJSON();
    * // A new poller can be created with:
-   * // await client.beginCreateCertificate("MyCertificate", policy, serialized);
+   * // await client.beginCreateCertificate("MyCertificate", policy, {}, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * await poller.done();
    * ```
-   * @summary Creates a certificate
+   * @summary Creates a certificate through a Long Running Operation Poller
    * @param name The name of the certificate
    * @param certificatePolicy The certificate's policy
    * @param [createCertificateOptions] Optional parameters to the createCertificate operation
