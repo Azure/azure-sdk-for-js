@@ -42,7 +42,7 @@ const iteratePackages = (packageList, itemList)=>{
     var packagename = "@azure/"+package;
     var mdFile = package +".md";
     itemList.push({"name": packagename, "href": mdFile});
-    var mdContent = "# " + packagename + " `r`n ## PUBLISHED VERSIONS";
+    var mdContent = "<h1>" + packagename + "</h1> <h2>PUBLISHED VERSIONS</h2> <div id='versions'></div>";
     var mdFilePath = path.join(yamlPath, mdFile);
     fs.writeFileSync(mdFilePath, mdContent);
   }
