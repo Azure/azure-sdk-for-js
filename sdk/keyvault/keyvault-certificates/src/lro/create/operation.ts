@@ -90,7 +90,7 @@ async function update(
   };
 
   // Progress only after the poller has started and before the poller is done
-  if (!(!initialResponse || doFinalResponse) && options.fireProgress) {
+  if (initialResponse && !doFinalResponse && options.fireProgress) {
     options.fireProgress(properties);
   }
 
@@ -111,8 +111,7 @@ async function cancel(
     requestOptions.abortSignal = options.abortSignal;
   }
   const client = this.properties.client;
-  await client.cancelCertificateOperation(name, requestOptions);
-  const response = await client.getCertificateOperation(name, requestOptions);
+  const response = await client.cancelCertificateOperation(name, requestOptions);
 
   return makeCreateCertificatePollOperation(
     {
@@ -131,9 +130,7 @@ async function cancel(
  */
 function toString(this: CreateCertificatePollOperation): string {
   return JSON.stringify({
-    state: {
-      ...this.state
-    },
+    state: this.state,
     properties: this.properties
   });
 }

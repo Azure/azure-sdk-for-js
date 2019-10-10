@@ -96,15 +96,9 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 import { CreateCertificatePoller } from "./lro/create/poller";
-import {
-  CreateCertificatePollOperation,
-  CreateCertificatePollOperationProperties
-} from "./lro/create/operation";
 
 export {
   CreateCertificatePoller,
-  CreateCertificatePollOperation,
-  CreateCertificatePollOperationProperties,
   CertificateProperties,
   CertificateIssuer,
   CertificateOperation,
@@ -951,20 +945,16 @@ export class CertificatesClient implements CertificatesClientInterface {
     pollerOptions: {
       manual?: boolean;
       intervalInMs?: number;
-      operation?: CreateCertificatePollOperation;
-      onProgress?: (properties: CreateCertificatePollOperationProperties) => void;
+      resumeFrom?: string;
     } = {}
   ): Promise<CreateCertificatePoller> {
-    return new CreateCertificatePoller(
-      this,
+    return new CreateCertificatePoller({
+      client: this,
       name,
       certificatePolicy,
       createCertificateOptions,
-      pollerOptions.manual,
-      pollerOptions.intervalInMs,
-      pollerOptions.operation,
-      pollerOptions.onProgress
-    );
+      ...pollerOptions
+    });
   }
 
   /**

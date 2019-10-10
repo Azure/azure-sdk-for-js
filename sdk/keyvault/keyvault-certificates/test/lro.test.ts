@@ -6,7 +6,7 @@ import { CertificatesClient } from "../src";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { PollerCancelledError } from "@azure/core-lro";
+import { PollerCancelledError, PollerStoppedError } from "@azure/core-lro";
 
 describe("Certificates client - Long Running Operations", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -72,6 +72,33 @@ describe("Certificates client - Long Running Operations", () => {
     const getResponse = await client.getCertificateOperation(certificateName);
     assert.equal(getResponse.cancellationRequested, true); 
 
+    await testClient.flushCertificate(certificateName);
+  });
+
+  it("can resume from a stopped poller", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
+    poller.done().catch((e) => {
+      assert.ok(e instanceof PollerStoppedError);
+      assert.equal(e.name, "PollerStoppedError");
+      assert.equal(e.message, "This poller is already stopped");
+    });
+
+    poller.stop();
+    assert.ok(poller.isStopped());
+    assert.ok(!poller.getState().completed);
+
+    const serialized = poller.toString();
+
+    const resumePoller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+      resumeFrom: serialized,
+    });
+
+    const result = await resumePoller.done();
+    assert.equal(result!.status, "completed"); 
+    assert.equal(resumePoller.getState().result!.status, "completed"); 
+    assert.ok(resumePoller.getState().completed);
+ 
     await testClient.flushCertificate(certificateName);
   });
 });

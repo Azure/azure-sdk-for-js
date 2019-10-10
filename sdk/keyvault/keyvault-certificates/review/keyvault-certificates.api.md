@@ -9,7 +9,6 @@ import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Poller } from '@azure/core-lro';
-import { PollOperation } from '@azure/core-lro';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -78,11 +77,10 @@ export class CertificatesClient implements CertificatesClientInterface {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
-    beginCertificateCreate(name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, pollerOptions?: {
+    beginCreateCertificate(name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, pollerOptions?: {
         manual?: boolean;
         intervalInMs?: number;
-        operation?: CreateCertificatePollOperation;
-        onProgress?: (properties: CreateCertificatePollOperationProperties) => void;
+        resumeFrom?: string;
     }): Promise<CreateCertificatePoller>;
     cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
@@ -132,25 +130,14 @@ export interface Contacts {
     readonly id?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CreateCertificatePollOperationProperties" needs to be exported by the entry point index.d.ts
+// 
 // @public
 export class CreateCertificatePoller extends Poller<CreateCertificatePollOperationProperties, CertificateOperation> {
-    constructor(client: CertificatesClientInterface, name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, manual?: boolean, intervalInMs?: number, baseOperation?: CreateCertificatePollOperation, onProgress?: (properties: CreateCertificatePollOperationProperties) => void);
+    // Warning: (ae-forgotten-export) The symbol "CreateCertificatePollerOptions" needs to be exported by the entry point index.d.ts
+    constructor(options: CreateCertificatePollerOptions);
     delay(): Promise<void>;
     intervalInMs: number;
-}
-
-// @public
-export interface CreateCertificatePollOperation extends PollOperation<CreateCertificatePollOperationProperties, CertificateOperation> {
-}
-
-// @public
-export interface CreateCertificatePollOperationProperties {
-    certificatePolicy: CertificatePolicy;
-    client: CertificatesClientInterface;
-    createCertificateOptions: CreateCertificateOptions;
-    initialResponse?: CertificateOperation;
-    name: string;
-    previousResponse?: CertificateOperation;
 }
 
 // @public

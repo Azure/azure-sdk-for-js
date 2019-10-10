@@ -12,6 +12,16 @@ import {
   CreateCertificateOptions
 } from "../../certificatesModels";
 
+export interface CreateCertificatePollerOptions {
+  client: CertificatesClientInterface;
+  name: string;
+  certificatePolicy: CertificatePolicy;
+  createCertificateOptions?: CreateCertificateOptions;
+  manual?: boolean;
+  intervalInMs?: number;
+  resumeFrom?: string;
+}
+
 /**
  * Class that creates a poller that waits until a certificate finishes being created
  */
@@ -25,20 +35,25 @@ export class CreateCertificatePoller extends Poller<
    */
   public intervalInMs: number;
 
-  constructor(
-    client: CertificatesClientInterface,
-    name: string,
-    certificatePolicy: CertificatePolicy,
-    createCertificateOptions: CreateCertificateOptions = {},
-    manual: boolean = false,
-    intervalInMs: number = 1000,
-    baseOperation?: CreateCertificatePollOperation,
-    onProgress?: (properties: CreateCertificatePollOperationProperties) => void
-  ) {
+  constructor(options: CreateCertificatePollerOptions) {
+    const {
+      client,
+      name,
+      certificatePolicy,
+      createCertificateOptions = {},
+      manual = false,
+      intervalInMs = 1000,
+      resumeFrom
+    } = options;
+
     let state: PollOperationState<CertificateOperation> = {};
     let properties: CreateCertificatePollOperationProperties | undefined = undefined;
 
-    if (baseOperation) {
+    if (resumeFrom) {
+      const baseOperation: {
+        state: PollOperationState<CertificateOperation>;
+        properties: CreateCertificatePollOperationProperties;
+      } = JSON.parse(resumeFrom);
       state = baseOperation.state;
       properties = baseOperation.properties;
     }
@@ -53,9 +68,6 @@ export class CreateCertificatePoller extends Poller<
 
     super(operation, manual);
 
-    if (onProgress) {
-      this.onProgress(onProgress);
-    }
     this.intervalInMs = intervalInMs;
   }
 
