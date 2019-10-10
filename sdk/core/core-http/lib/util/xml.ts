@@ -117,6 +117,11 @@ export function convertJsonToAtomXml(content: any): string {
     explicitRoot: false,
     renderOpts: {
       pretty: false
+    },
+    xmldec: {
+      version: "1.0",
+      encoding: "utf-8",
+      standalone: true
     }
   });
 
