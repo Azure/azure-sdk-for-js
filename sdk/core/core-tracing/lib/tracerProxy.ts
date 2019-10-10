@@ -6,7 +6,7 @@ import { Tracer } from "./interfaces/tracer";
 import { getCache } from "./utils/global";
 
 /**
- * Sets the global tracer, enabling tracing for the AzureSDK.
+ * Sets the global tracer, enabling tracing for the Azure SDK.
  * @param tracer An OpenTelemetry Tracer instance.
  */
 export function setTracer(tracer: Tracer) {
