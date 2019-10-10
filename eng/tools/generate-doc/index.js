@@ -6,7 +6,7 @@ const nunjucks = require("nunjucks");
 nunjucks.configure("documentation/templateDocGen", { autoescape: true });
 
 /* Traversing the directory */
-function walk(dir, checks) {
+const walk = (dir, checks) => {
   var list = fs.readdirSync(dir);
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
@@ -26,6 +26,7 @@ function walk(dir, checks) {
       if (settings["sdk-type"] === "client") {
         checks.isClient = true;
       }
+      checks.version = settings["version"]
     }
     if (fileName == "typedoc.json") {
       checks.typedocPresent = true;
@@ -36,16 +37,47 @@ function walk(dir, checks) {
     }
   }
   return checks;
-}
+};
 
 /* Checking if a service exists in the exclusion/ inclusion list */
-function isServiceInArray(service, inputArray) {
+const isServiceInArray = (service, inputArray) => {
   for (var i in inputArray) {
     if (inputArray[i] == service) {
       return true;
     }
   }
   return false;
+};
+
+//Old Method Index
+const generateOldIndex = (serviceList) => {
+  console.log("generateIndexWithTemplate=" + generateIndexWithTemplate);
+  if (generateIndexWithTemplate) {
+
+    var renderedIndex = nunjucks.render("template.html", {
+      serviceList: serviceList
+    });
+
+    var dest = process.cwd() + "/docGen/index.html";
+    fs.writeFile(dest, renderedIndex, function(err, result) {
+      if (err)
+        console.log("error in writing the generated html to docGen/index.html", err);
+      console.log("Generated html written to docGen/index.html");
+    });
+
+
+    console.log("serviceList length = " + serviceList.length);
+    if (serviceList.length > 0) {
+      /* Copy from pathToAssets to docGen/assets */
+      pathToAssets = process.cwd() + "/docGen/" + serviceList[0].packageList[0] + "/assets";
+      var assetsDest = process.cwd() + "/docGen/assets/";
+      fs.copy(pathToAssets, assetsDest, err => {
+        if (err)
+          return console.error("error copying the assets folder to docGen/assets/",err);
+        console.log("assets folder copied to docGen!");
+      });
+    }
+  }
 }
 
 /* Input arguments to the script */
@@ -80,8 +112,13 @@ var argv = require("yargs")
         "exclusion list for packages for which the docs should be NOT generated.These packages will be added to index template html generated."
     },
     clientOnly: {
+     type: "boolean",
+     default:false,
+     demandOption: true
+    },
+    oldIndex: {
       type: "boolean",
-      default: false,
+      default:false,
       demandOption: true
     }
   })
@@ -106,7 +143,9 @@ if (argv.dgOp === "local" && argv.includeMode !== "none") {
 console.log("arv.include = " + argv.include);
 
 if (argv.includeMode === "inc") {
-  generateIndexWithTemplate = false;
+  if(argv.oldIndex){
+    generateIndexWithTemplate = false;
+  }
   if (argv.include !== undefined) {
     inclusionList = argv.include;
   } else {
@@ -162,26 +201,15 @@ for (const eachService of serviceFolders) {
 
       /* Initializing package list for template index generation */
       let indexPackageList = [];
-      for (const eachPackage of packageList) {
+      for (var eachPackage of packageList) {
         let checks = {
           isRush: false,
           isPrivate: false,
           srcPresent: false,
           typedocPresent: false,
-          isClient: false
+          isClient: false,
+          version: "0"
         };
-        console.log(
-          "checks before walk: checks.isRush = " +
-            checks.isRush +
-            " , checks.isPrivate = " +
-            checks.isPrivate +
-            ", checks.srcPresent = " +
-            checks.srcPresent +
-            ", typedocPresent = " +
-            checks.typedocPresent +
-            ", isClient = " +
-            checks.isClient
-        );
         eachPackagePath = path.join(eachServicePath, eachPackage);
         pathToAssets = eachPackagePath + "/assets";
         const packageStat = fs.statSync(eachPackagePath);
@@ -224,8 +252,7 @@ for (const eachService of serviceFolders) {
                   }
                 }
                 if (argv.docGenOutput === "dg") {
-                  docOutputFolder =
-                    "--out ../../../docGen/" + eachPackage + " ./src";
+                  docOutputFolder = "--out ../../../docGen/" + eachPackage + "/" + checks.version + " ./src";
                 }
 
                 try {
@@ -280,55 +307,25 @@ for (const eachService of serviceFolders) {
                   "...SKIPPING Since src folder could not be found....."
                 );
               }
-            } else {
-              console.log(
-                "...SKIPPING Since package is either not sdkType client"
-              );
+            }
+            else{
+              //console.log("...SKIPPING Since package is either not sdkType client");
             }
           } else {
             console.log("...SKIPPING Since package marked as private...");
           }
         }
-        //}
+
       } //end-for each-package
       /* Adding service entry for the template index generation */
-      serviceList.push({ name: eachService, packageList: indexPackageList });
+      serviceList.push({ name: eachService, packageList: indexPackageList});
     }
   }
   else{
-    console.log("...SKIPPING Since service doesn't satisfy one of the 3 condition checks...");
+    //console.log("...SKIPPING Since service doesn't satisfy one of the 3 condition checks...");
     }
 
 } // end-for ServiceFolders
-console.log("generateIndexWithTemplate=" + generateIndexWithTemplate);
-if (generateIndexWithTemplate) {
-  var renderedIndex = nunjucks.render("template.html", {
-    serviceList: serviceList
-  });
 
-  var dest = process.cwd() + "/docGen/index.html";
-  fs.writeFile(dest, renderedIndex, function(err, result) {
-    if (err)
-      console.log(
-        "error in writing the generated html to docGen/index.html",
-        err
-      );
-    console.log("Generated html written to docGen/index.html");
-  });
-
-  console.log("serviceList length = " + serviceList.length);
-  if (serviceList.length > 0) {
-    /* Copy from pathToAssets to docGen/assets */
-    pathToAssets =
-      process.cwd() + "/docGen/" + serviceList[0].packageList[0] + "/assets";
-    var assetsDest = process.cwd() + "/docGen/assets/";
-    fs.copy(pathToAssets, assetsDest, err => {
-      if (err)
-        return console.error(
-          "error copying the assets folder to docGen/assets/",
-          err
-        );
-      console.log("assets folder copied to docGen!");
-    });
-  }
-}
+if (oldIndex)
+  generateOldIndex(serviceList);
