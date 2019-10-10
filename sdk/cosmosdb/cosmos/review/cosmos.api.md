@@ -1025,7 +1025,7 @@ export class RuntimeExecutionTimes {
 }
 
 // @public
-export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, resourceId: string, resourceType: ResourceType, headers: CosmosHeaders, masterKey: string): void;
+export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, resourceId: string, resourceType: ResourceType, headers: CosmosHeaders, masterKey: string): Promise<void>;
 
 // @public
 export interface SqlParameter {
