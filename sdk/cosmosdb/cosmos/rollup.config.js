@@ -12,7 +12,7 @@ export default [
       "node-fetch",
       "priorityqueuejs",
       "semaphore",
-      "crypto-hash",
+      "crypto",
       "fast-json-stable-stringify"
     ],
     output: {
@@ -23,11 +23,11 @@ export default [
       globals: {
         "universal-user-agent": "universalUserAgent",
         "@azure/cosmos-sign": "cosmosSign",
-        "crypto-hash": "cryptoHash",
         "fast-json-stable-stringify": "stableStringify",
         "uuid/v4": "uuid",
         "@azure/abort-controller": "AbortController",
         "node-fetch": "fetch",
+        crypto: "crypto",
         tslib: "tslib_1",
         debug: "debugLib",
         priorityqueuejs: "PriorityQueue",
