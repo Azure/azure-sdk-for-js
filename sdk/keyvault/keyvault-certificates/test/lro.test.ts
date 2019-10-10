@@ -44,7 +44,7 @@ describe("Certificates client - Long Running Operations", () => {
     assert.equal(poller.getProperties().previousResponse!.status, "inProgress"); 
 
     const result = await poller.done();
-    assert.equal(result!.status, "completed"); 
+    assert.equal(result.status, "completed"); 
     assert.equal(poller.getState().result!.status, "completed"); 
     assert.ok(poller.getState().completed);
 
@@ -95,7 +95,7 @@ describe("Certificates client - Long Running Operations", () => {
     });
 
     const result = await resumePoller.done();
-    assert.equal(result!.status, "completed"); 
+    assert.equal(result.status, "completed"); 
     assert.equal(resumePoller.getState().result!.status, "completed"); 
     assert.ok(resumePoller.getState().completed);
  
