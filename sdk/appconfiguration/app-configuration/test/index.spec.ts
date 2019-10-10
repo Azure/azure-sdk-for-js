@@ -249,7 +249,7 @@ describe("AppConfigurationClient", () => {
       assert.throws(() => response.key, (err: ResponseBodyNotFoundError) => {
         assert.equal("ResponseBodyNotFoundError", err.name);
         
-        assert.equal("The key that we were requested to delete was not found (data in the non-response properties will be invalid)", err.message);
+        assert.equal("The resource was already deleted (or was missing). Only the _response and statusCode properties are valid for this object.", err.message);
         assert.equal("Resource already deleted or missing", err.code);
         
         return true;

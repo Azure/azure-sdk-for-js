@@ -10,7 +10,7 @@ describe("etags", () => {
   let client: AppConfigurationClient;
   const key = `etags-${Date.now()}`;
 
-  before(async function () {
+  before(function () {
     client = createAppConfigurationClientForTests() || this.skip();
   });
 

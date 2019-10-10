@@ -18,8 +18,6 @@ export interface ConfigurationSettingId {
    */
   label?: string;
 
-  // TODO: might not be the right spot.
-
   /**
    * The etag for this setting
    */
