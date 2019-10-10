@@ -327,5 +327,5 @@ for (const eachService of serviceFolders) {
 
 } // end-for ServiceFolders
 
-if (oldIndex)
+if (argv.oldIndex)
   generateOldIndex(serviceList);
