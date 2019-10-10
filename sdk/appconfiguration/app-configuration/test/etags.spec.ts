@@ -25,7 +25,7 @@ describe("etags", () => {
     await deleteKeyCompletely([key], client);
   });
 
-  // etag usage is 'opt-in' via the ifMatch/ifNoneMatch options for certain calls
+  // etag usage is 'opt-in' via the onlyIfChanged/onlyIfUnchanged options for certain calls
   // by default no etags are used.
   it("Get and set by default doesn't use etags", async () => {
     const addedSetting = await client.getConfigurationSetting({ key });
@@ -36,12 +36,13 @@ describe("etags", () => {
     await client.setConfigurationSetting(addedSetting);
   });
 
-  it("Get and set, enabling etag checking using ifMatch", async () => {
+  it("Get and set, enabling etag checking using onlyIfUnchanged", async () => {
     const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";
 
-    await client.setConfigurationSetting(addedSetting, { ifMatch: addedSetting.etag });
+    const newlyUpdatedSetting = await client.setConfigurationSetting(addedSetting, { onlyIfUnchanged: true });
+    assert.equal(newlyUpdatedSetting.value, addedSetting.value);
   });
 
   it("set with an old etag will throw RestError", async () => {
@@ -61,7 +62,7 @@ describe("etags", () => {
     await assertThrowsRestError(
       () =>
         client.setConfigurationSetting(addedSetting, {
-          ifMatch: addedSetting.etag
+          onlyIfUnchanged: true
         }),
       412,
       "Old etag will result in a failed update and error"

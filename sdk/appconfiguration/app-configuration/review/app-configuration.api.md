@@ -43,13 +43,13 @@ export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHe
 
 // @public
 export interface ConfigurationSetting extends ConfigurationSettingParam {
-    etag?: string;
     lastModified?: Date;
     locked?: boolean;
 }
 
 // @public
 export interface ConfigurationSettingId {
+    etag?: string;
     key: string;
     label?: string;
 }
@@ -91,8 +91,8 @@ export interface GetConfigurationSettingResponse extends ConfigurationSetting, G
 
 // @public
 export interface HttpConditionalFields {
-    ifMatch?: string;
-    ifNoneMatch?: string;
+    onlyIfChanged?: boolean;
+    onlyIfUnchanged?: boolean;
 }
 
 // @public

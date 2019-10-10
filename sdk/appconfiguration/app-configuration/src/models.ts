@@ -17,6 +17,13 @@ export interface ConfigurationSettingId {
    * setting does not have a label.
    */
   label?: string;
+
+  // TODO: might not be the right spot.
+
+  /**
+   * The etag for this setting
+   */
+  etag?: string;
 }
 
 /**
@@ -45,19 +52,14 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
  */
 export interface ConfigurationSetting extends ConfigurationSettingParam {
   /**
-   * The date when this setting was last modified
-   */
-  lastModified?: Date;
-
-  /**
    * Whether or not the setting is read-only
    */
   locked?: boolean;
 
   /**
-   * The etag for this setting
+   * The date when this setting was last modified
    */
-  etag?: string;
+  lastModified?: Date;
 }
 
 /**
@@ -116,12 +118,13 @@ export interface HttpConditionalFields {
   /**
    * Used to perform an operation only if the targeted resource's etag matches the value provided.
    */
-  ifMatch?: string;
+  onlyIfUnchanged?: boolean;
+
   /**
    * Used to perform an operation only if the targeted resource's etag does not match the value
    * provided.
    */
-  ifNoneMatch?: string;
+  onlyIfChanged?: boolean;
 }
 
 /**

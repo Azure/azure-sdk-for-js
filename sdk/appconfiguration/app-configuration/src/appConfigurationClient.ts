@@ -123,7 +123,7 @@ export class AppConfigurationClient {
       return this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
-        ...checkAndFormatIfAndIfNoneMatch(newOptions)
+        ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
       });
     });
 
@@ -163,7 +163,7 @@ export class AppConfigurationClient {
         label: id.label,
         select: newOptions.fields,
         ...newOptions,
-        ...checkAndFormatIfAndIfNoneMatch(newOptions),
+        ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
       });
 
       const response: GetConfigurationSettingResponse = {
@@ -367,7 +367,7 @@ export class AppConfigurationClient {
         ...newOptions,
         label: configurationSetting.label,
         entity: configurationSetting,
-        ...checkAndFormatIfAndIfNoneMatch(newOptions)
+        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, newOptions)
       });
     });
   }

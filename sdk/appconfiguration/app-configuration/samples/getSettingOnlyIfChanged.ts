@@ -24,11 +24,11 @@ export async function run() {
   // now our application only wants to download the setting if it's changed
   console.log("Checking to see if the value has changed using the etag and ifNoneMatch");
 
-  const unchangedResponse = await client.getConfigurationSetting(
-    { key: key },
+  const unchangedResponse = await client.getConfigurationSetting(addedSetting,
     {
-      // ifNoneMatch allows us to say "get me the value so long as it doesn't match the etag I have"
-      ifNoneMatch: addedSetting.etag
+      // onlyIfUnchanged allows us to say "get me the value only if it doesn't match the one I already have"
+      // this allows us to avoid transferring the setting if nothing has changed.
+      onlyIfUnchanged: true
     }
   );
 
