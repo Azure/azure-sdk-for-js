@@ -58,36 +58,6 @@ export interface CertificatePolicy extends SecretProperties, CertificateAttribut
     validityInMonths?: number;
 }
 
-// @public (undocumented)
-export class CertificatePoller extends Poller<CertificatePollOperationProperties, CertificateOperation> {
-    // Warning: (ae-forgotten-export) The symbol "CertificatesClientInterface" needs to be exported by the entry point index.d.ts
-    constructor(client: CertificatesClientInterface, name: string, certificatePolicy: CertificatePolicy, manual?: boolean, intervalInMs?: number, baseOperation?: CertificatePollOperation, onProgress?: (properties: CertificatePollOperationProperties) => void);
-    // (undocumented)
-    delay(): Promise<void>;
-    // (undocumented)
-    intervalInMs: number;
-}
-
-// @public (undocumented)
-export interface CertificatePollOperation extends PollOperation<CertificatePollOperationProperties, CertificateOperation> {
-}
-
-// @public (undocumented)
-export interface CertificatePollOperationProperties {
-    // (undocumented)
-    certificatePolicy: CertificatePolicy;
-    // (undocumented)
-    client: CertificatesClientInterface;
-    // (undocumented)
-    initialResponse?: CertificateOperation;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    previousResponse?: CertificateOperation;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
-}
-
 // @public
 export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
     readonly created?: Date;
@@ -101,11 +71,19 @@ export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
     readonly x509Thumbprint?: Uint8Array;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CertificatesClientInterface" needs to be exported by the entry point index.d.ts
+// 
 // @public
 export class CertificatesClient implements CertificatesClientInterface {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
+    beginCertificateCreate(name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, pollerOptions?: {
+        manual?: boolean;
+        intervalInMs?: number;
+        operation?: CreateCertificatePollOperation;
+        onProgress?: (properties: CreateCertificatePollOperationProperties) => void;
+    }): Promise<CreateCertificatePoller>;
     cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
     createCertificate(name: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
@@ -135,12 +113,6 @@ export class CertificatesClient implements CertificatesClientInterface {
     restoreCertificate(certificateBackup: Uint8Array, options?: RequestOptionsBase): Promise<Certificate>;
     setCertificateContacts(contacts: Contact[], options?: RequestOptionsBase): Promise<Contacts>;
     setCertificateIssuer(issuerName: string, provider: string, options?: KeyVaultClientSetCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
-    startCertificateOperation(name: string, certificatePolicy: CertificatePolicy, options?: {
-        manual?: boolean;
-        intervalInMs?: number;
-        operation?: CertificatePollOperation;
-        onProgress?: (properties: CertificatePollOperationProperties) => void;
-    }): Promise<CertificatePoller>;
     updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
     updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
     updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy>;
@@ -158,6 +130,35 @@ export interface Contact {
 export interface Contacts {
     contactList?: Contact[];
     readonly id?: string;
+}
+
+// @public (undocumented)
+export class CreateCertificatePoller extends Poller<CreateCertificatePollOperationProperties, CertificateOperation> {
+    constructor(client: CertificatesClientInterface, name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, manual?: boolean, intervalInMs?: number, baseOperation?: CreateCertificatePollOperation, onProgress?: (properties: CreateCertificatePollOperationProperties) => void);
+    // (undocumented)
+    delay(): Promise<void>;
+    // (undocumented)
+    intervalInMs: number;
+}
+
+// @public
+export interface CreateCertificatePollOperation extends PollOperation<CreateCertificatePollOperationProperties, CertificateOperation> {
+}
+
+// @public
+export interface CreateCertificatePollOperationProperties {
+    // (undocumented)
+    certificatePolicy: CertificatePolicy;
+    // (undocumented)
+    client: CertificatesClientInterface;
+    // (undocumented)
+    createCertificateOptions: CreateCertificateOptions;
+    // (undocumented)
+    initialResponse?: CertificateOperation;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    previousResponse?: CertificateOperation;
 }
 
 // @public

@@ -3,9 +3,10 @@
 
 import * as assert from "assert";
 import { CertificatesClient } from "../src";
-import { env, delay } from "@azure/test-utils-recorder";
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+import { PollerCancelledError } from "@azure/core-lro";
 
 describe("Certificates client - Long Running Operations", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -35,17 +36,16 @@ describe("Certificates client - Long Running Operations", () => {
 
   it("can create a certificate and wait until it's signed", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.startCertificateOperation(certificateName, basicCertificatePolicy);
+    const poller = await client.beginCertificateCreate(certificateName, basicCertificatePolicy);
 
-    await delay(1000);
+    await poller.nextPoll();
     assert.ok(poller.getState().started);
-    console.log("Initial Response: ", poller.getProperties().initialResponse);
-    // assert.equal(poller.getProperties().initialResponse.status, "inProgress"); 
-    // assert.equal(poller.getProperties().previousResponse.status, "inProgress"); 
+    assert.equal(poller.getProperties().initialResponse!.status, "inProgress"); 
+    assert.equal(poller.getProperties().previousResponse!.status, "inProgress"); 
 
     const result = await poller.done();
-    console.log({ result });
-
+    assert.equal(result!.status, "completed"); 
+    assert.equal(poller.getState().result!.status, "completed"); 
     assert.ok(poller.getState().completed);
 
     await testClient.flushCertificate(certificateName);
@@ -53,13 +53,17 @@ describe("Certificates client - Long Running Operations", () => {
 
   it("can cancel a certificate's creation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.startCertificateOperation(certificateName, basicCertificatePolicy);
+    const poller = await client.beginCertificateCreate(certificateName, basicCertificatePolicy);
+    poller.done().catch(e => {
+      assert.ok(e instanceof PollerCancelledError);
+      assert.equal(e.name, "PollerCancelledError");
+      assert.equal(e.message, "Poller cancelled");
+    });
 
-    await delay(1000);
+    await poller.nextPoll();
     assert.ok(poller.getState().started);
-    console.log("Initial Response: ", poller.getProperties().initialResponse);
-    // assert.equal(poller.getProperties().initialResponse!.operation.status, "inProgress"); 
-    // assert.equal(poller.getProperties().previousResponse!.operation.status, "inProgress"); 
+    assert.equal(poller.getProperties().initialResponse!.status, "inProgress"); 
+    assert.equal(poller.getProperties().previousResponse!.status, "inProgress"); 
 
     await poller.cancelOperation();
     assert.ok(poller.getState().cancelled);

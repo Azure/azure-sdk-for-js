@@ -139,6 +139,7 @@ The following sections provide code snippets that cover some of the common
 tasks using Azure Key Vault Certificates. The scenarios that are covered here consist of:
 
 - [Creating and setting a certificate](#creating-and-setting-a-certificate).
+- [Waiting until the certificate is created](#waiting-until-the-certificate-is-created).
 - [Getting a certificate](#getting-a-certificate).
 - [Certificate attributes](#certificate-attributes).
 - [Updating a certificate](#updating-a-certificate).
@@ -185,6 +186,27 @@ const result = await client.createCertificate(
 
 Calling to `createCertificate` with the same name will create a new version of
 the same certificate, which will have the latest provided attributes.
+
+### Waiting until the certificate is created
+
+Certificates take some time to get fully created since they need to be signed
+by their respective Certificate Authority. Since this is a process that can
+take an unbounded amount of time, we're providing a special method
+`beginCertificateCreate`, which returns a Poller, which will be able to manage
+the underlying Long Running Operation and wait until the certificate finished
+being created. Here's a quick example on how to use this method:
+
+```typescript
+const certificateName = "MyCertificateName";
+const certificatePolicy = {
+  issuerName: "Self"
+};
+
+const poller = await client.beginCertificateCreate(certificateName, certificatePolicy);
+
+const result = await poller.done();
+console.log(result!.status); // "completed"
+```
 
 ### Get a certificate
 

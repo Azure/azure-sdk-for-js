@@ -95,13 +95,16 @@ import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
-import { CertificatePoller } from "./lro/poller";
-import { CertificatePollOperation, CertificatePollOperationProperties } from "./lro/operation";
+import { CreateCertificatePoller } from "./lro/create/poller";
+import {
+  CreateCertificatePollOperation,
+  CreateCertificatePollOperationProperties
+} from "./lro/create/operation";
 
 export {
-  CertificatePoller,
-  CertificatePollOperation,
-  CertificatePollOperationProperties,
+  CreateCertificatePoller,
+  CreateCertificatePollOperation,
+  CreateCertificatePollOperationProperties,
   CertificateProperties,
   CertificateIssuer,
   CertificateOperation,
@@ -922,7 +925,7 @@ export class CertificatesClient implements CertificatesClientInterface {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.startCertificateOperation("MyCertificate", {
+   * const poller = await client.beginCertificateCreate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -930,7 +933,7 @@ export class CertificatesClient implements CertificatesClientInterface {
    * // Serializing the poller
    * const serialized = poller.toJSON();
    * // A new poller can be created with:
-   * // await client.startCertificateOperation("MyCertificate", policy, serialized);
+   * // await client.beginCertificateCreate("MyCertificate", policy, serialized);
    *
    * // Waiting until it's done
    * await poller.done();
@@ -938,27 +941,29 @@ export class CertificatesClient implements CertificatesClientInterface {
    * @summary Creates a certificate
    * @param name The name of the certificate
    * @param certificatePolicy The certificate's policy
-   * @param [operation] A previous operation to continue polling
-   * @param [manual] Wether to run this manually or not
+   * @param [createCertificateOptions] Optional parameters to the createCertificate operation
+   * @param [pollerOptions] Optional parameters to the creation of the poller
    */
-  public async startCertificateOperation(
+  public async beginCertificateCreate(
     name: string,
     certificatePolicy: CertificatePolicy,
-    options: {
+    createCertificateOptions: CreateCertificateOptions = {},
+    pollerOptions: {
       manual?: boolean;
       intervalInMs?: number;
-      operation?: CertificatePollOperation;
-      onProgress?: (properties: CertificatePollOperationProperties) => void;
+      operation?: CreateCertificatePollOperation;
+      onProgress?: (properties: CreateCertificatePollOperationProperties) => void;
     } = {}
-  ): Promise<CertificatePoller> {
-    return new CertificatePoller(
+  ): Promise<CreateCertificatePoller> {
+    return new CreateCertificatePoller(
       this,
       name,
       certificatePolicy,
-      options.manual,
-      options.intervalInMs,
-      options.operation,
-      options.onProgress
+      createCertificateOptions,
+      pollerOptions.manual,
+      pollerOptions.intervalInMs,
+      pollerOptions.operation,
+      pollerOptions.onProgress
     );
   }
 
