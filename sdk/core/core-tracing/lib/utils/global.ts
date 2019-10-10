@@ -14,10 +14,13 @@ export interface TracerCache {
 let cache: TracerCache;
 
 function loadTracerCache(): void {
-  const existingCache = (global as any)[GLOBAL_TRACER_SYMBOL];
+  const existingCache: TracerCache = (global as any)[GLOBAL_TRACER_SYMBOL];
   if (existingCache) {
     if (existingCache.version !== GLOBAL_TRACER_VERSION) {
-      throw new Error("Two incompatible versions of @azure/core-tracing have been loaded.");
+      throw new Error(
+        `Two incompatible versions of @azure/core-tracing have been loaded.
+         This library is ${GLOBAL_TRACER_VERSION}, existing is ${existingCache.version}.`
+      );
     }
     cache = existingCache;
   } else {
