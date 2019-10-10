@@ -170,7 +170,7 @@ export class AppConfigurationClient {
         ...originalResponse,
         _response: originalResponse._response,
         statusCode: originalResponse._response.status
-      };
+      };      
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
