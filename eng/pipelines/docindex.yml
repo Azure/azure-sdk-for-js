@@ -4,7 +4,7 @@ steps:
       -OutFile "docfx.zip" | Wait-Process; Expand-Archive -Path "docfx.zip" -DestinationPath "./docfx/"
     workingDirectory: $(Build.BinariesDirectory)
     displayName: Download and Extract DocFX
-  - task: CmdLine@2
+  - task: PowerShell@2
     displayName: Provision DocFX Directory
     inputs:
       script: $(Build.BinariesDirectory)/docfx/docfx.exe init -q
