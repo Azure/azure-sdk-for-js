@@ -298,7 +298,7 @@ export class CertificatesClient {
       this.pipeline = pipelineOrOptions;
     }
 
-    this.client = new KeyVaultClient(credential, this.pipeline);
+    this.client = new KeyVaultClient(credential, "7.0", this.pipeline);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions) {
@@ -333,15 +333,21 @@ export class CertificatesClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);
+      }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getCertificatesNext(
+      const currentSetResponse = await this.client.getCertificates(
         continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);
+      } else {
+        break;
+      }
     }
   }
 
@@ -416,15 +422,22 @@ export class CertificatesClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);
+      }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getCertificateVersionsNext(
+      const currentSetResponse = await this.client.getCertificateVersions(
         continuationState.continuationToken,
+        name,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getCertificateFromCertificateBundle);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);
+      } else {
+        break;
+      }
     }
   }
 
@@ -633,15 +646,21 @@ export class CertificatesClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getCertificateIssuersNext(
+      const currentSetResponse = await this.client.getCertificateIssuers(
         continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      } else {
+        break;
+      }
     }
   }
 
@@ -1378,15 +1397,21 @@ export class CertificatesClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getDeletedCertificateFromItem);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem);
+      }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getDeletedCertificatesNext(
+      const currentSetResponse = await this.client.getDeletedCertificates(
         continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.map(this.getDeletedCertificateFromItem);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem);
+      } else {
+        break;
+      }
     }
   }
 

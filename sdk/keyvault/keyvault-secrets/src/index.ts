@@ -576,7 +576,11 @@ export class SecretsClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map((bundle) => this.getSecretFromSecretBundle(bundle).properties);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(
+          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+        );
+      }
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getSecretVersions(
@@ -585,7 +589,13 @@ export class SecretsClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map((bundle) => this.getSecretFromSecretBundle(bundle).properties);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(
+          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+        );
+      } else {
+        break;
+      }
     }
   }
 
@@ -653,7 +663,11 @@ export class SecretsClient {
       };
       const currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map((bundle) => this.getSecretFromSecretBundle(bundle).properties);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(
+          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+        );
+      }
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getSecrets(
@@ -661,7 +675,13 @@ export class SecretsClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map((bundle) => this.getSecretFromSecretBundle(bundle).properties);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(
+          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+        );
+      } else {
+        break;
+      }
     }
   }
 
@@ -729,7 +749,11 @@ export class SecretsClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map((bundle) => this.getSecretFromSecretBundle(bundle).properties);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(
+          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+        );
+      }
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getDeletedSecrets(
@@ -737,7 +761,13 @@ export class SecretsClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map((bundle) => this.getSecretFromSecretBundle(bundle).properties);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(
+          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+        );
+      } else {
+        break;
+      }
     }
   }
 

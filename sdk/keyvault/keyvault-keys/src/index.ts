@@ -772,7 +772,9 @@ export class KeysClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+      }
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getKeyVersions(
@@ -781,7 +783,11 @@ export class KeysClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+      } else {
+        break;
+      }
     }
   }
 
@@ -849,7 +855,9 @@ export class KeysClient {
       };
       const currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+      }
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getKeys(
@@ -857,7 +865,11 @@ export class KeysClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+      } else {
+        break;
+      }
     }
   }
 
@@ -923,7 +935,9 @@ export class KeysClient {
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+      }
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getDeletedKeys(
@@ -931,7 +945,11 @@ export class KeysClient {
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
-      yield currentSetResponse.value!.map(this.getKeyPropertiesFromKeyItem);
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+      } else {
+        break;
+      }
     }
   }
 
