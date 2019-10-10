@@ -26,6 +26,8 @@ export abstract class Poller<TProperties, TResult> {
   private resolve?: (value?: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
   private pollOncePromise?: Promise<void>;
+  private pollOnceResolve?: () => void;
+  private pollOnceReject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
   private cancelPromise?: Promise<void>;
   private operation: PollOperation<TProperties, TResult>;
   private promise: Promise<TResult>;
@@ -93,16 +95,45 @@ export abstract class Poller<TProperties, TResult> {
   public poll(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce(options);
-      const after = (): void => {
+      const resolve = (): void => {
+        if (this.pollOnceResolve) {
+          this.pollOnceResolve();
+        }
         this.pollOncePromise = undefined;
       };
-      this.pollOncePromise.then(after, after);
+      const reject = (error: PollerStoppedError | PollerCancelledError | Error): void => {
+        if (this.pollOnceReject) {
+          this.pollOnceReject(error);
+        }
+        this.pollOncePromise = undefined;
+      };
+      this.pollOncePromise.then(resolve, reject);
     } else {
       throw new Error(
         "This poller is in automatic mode. You can get its current status with the .getState() method. To poll manually, pass { manual: true } when creating the poller."
       );
     }
     return this.pollOncePromise;
+  }
+
+  public nextPoll(): Promise<void> {
+    if (this.stopped) {
+      throw new PollerStoppedError(
+        "This poller is stopped. You can use poll() to run and wait for individual pollings."
+      );
+    }
+    if (this.isDone()) {
+      throw new Error("This poller has finished polling.");
+    }
+    return new Promise(
+      (
+        resolve: () => void,
+        reject: (error: PollerStoppedError | PollerCancelledError | Error) => void
+      ) => {
+        this.pollOnceResolve = resolve;
+        this.pollOnceReject = reject;
+      }
+    );
   }
 
   public done(): Promise<TResult | undefined> {
@@ -126,7 +157,7 @@ export abstract class Poller<TProperties, TResult> {
     if (!this.stopped) {
       this.stopped = true;
       if (this.reject) {
-        this.reject(new PollerStoppedError("Poller stopped"));
+        this.reject(new PollerStoppedError("This poller is already stopped"));
       }
     }
   }

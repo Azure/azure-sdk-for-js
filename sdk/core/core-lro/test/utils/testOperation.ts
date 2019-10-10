@@ -9,7 +9,6 @@ export interface TestOperationProperties {
   requestOptions?: RequestOptionsBase;
   initialResponse?: HttpOperationResponse;
   previousResponse?: HttpOperationResponse;
-  resultValue?: string;
   unsupportedCancel?: boolean;
 }
 
@@ -49,7 +48,7 @@ async function update(
     options.fireProgress(properties);
   }
 
-  return makeOperation({ ...this.state }, properties);
+  return makeOperation(this.state, properties);
 }
 
 async function cancel(
@@ -101,8 +100,12 @@ export function makeOperation(
   properties: TestOperationProperties
 ): TestOperation {
   return {
-    state,
-    properties,
+    state: {
+      ...state
+    },
+    properties: {
+      ...properties
+    },
     update,
     cancel,
     toString
