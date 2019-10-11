@@ -4,7 +4,7 @@
 import { HttpOperationResponse } from "./httpOperationResponse";
 
 export interface AtomXmlSerializer {
-  serialize(requestBodyInJson: any): object;
+  serialize(requestBodyInJson: object): object;
 
   deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
 }
