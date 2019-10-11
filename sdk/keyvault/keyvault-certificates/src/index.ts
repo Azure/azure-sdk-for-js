@@ -930,7 +930,8 @@ export class CertificatesClient implements CertificatesClientInterface {
    * // await client.beginCreateCertificate("MyCertificate", policy, {}, { resumeFrom: serialized });
    *
    * // Waiting until it's done
-   * await poller.done();
+   * const certificate = await poller.done();
+   * console.log(certificate);
    * ```
    * @summary Creates a certificate through a Long Running Operation Poller
    * @param name The name of the certificate

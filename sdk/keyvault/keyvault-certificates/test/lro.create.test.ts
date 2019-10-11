@@ -43,10 +43,18 @@ describe("Certificates client - Long Running Operations", () => {
     assert.equal(poller.getProperties().initialResponse!.status, "inProgress"); 
     assert.equal(poller.getProperties().previousResponse!.status, "inProgress"); 
 
-    const result = await poller.done();
-    assert.equal(result.status, "completed"); 
-    assert.equal(poller.getState().result!.status, "completed"); 
+    // Getting the pending certificate instantly
+    assert.equal(poller.getProperties().pendingCertificate!.properties.name, certificateName); 
+
+    const certificate = await poller.done();
+    assert.equal(certificate.properties.name, certificateName); 
     assert.ok(poller.getState().completed);
+
+    // The pending certificate exists no more
+    assert.equal(poller.getProperties().pendingCertificate, undefined); 
+
+    // The final certificate can also be obtained this way:
+    assert.equal(poller.getState().result!.properties.name, certificateName); 
 
     await testClient.flushCertificate(certificateName);
   });
@@ -94,9 +102,8 @@ describe("Certificates client - Long Running Operations", () => {
       resumeFrom: serialized,
     });
 
-    const result = await resumePoller.done();
-    assert.equal(result.status, "completed"); 
-    assert.equal(resumePoller.getState().result!.status, "completed"); 
+    const certificate = await resumePoller.done();
+    assert.equal(certificate.properties.name, certificateName); 
     assert.ok(resumePoller.getState().completed);
  
     await testClient.flushCertificate(certificateName);

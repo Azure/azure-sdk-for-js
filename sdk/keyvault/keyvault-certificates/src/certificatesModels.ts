@@ -11,6 +11,10 @@ import {
   KeyUsageType
 } from "./core/models";
 
+/**
+ * @interface
+ * An interface representing a certificate client.
+ */
 export interface CertificatesClientInterface {
   createCertificate(
     name: string,
@@ -25,6 +29,10 @@ export interface CertificatesClientInterface {
     name: string,
     options?: coreHttp.RequestOptionsBase
   ): Promise<CertificateOperation>;
+  getCertificateWithPolicy(
+    name: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Certificate>;
 }
 
 /**

@@ -2,6 +2,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { CertificateOperation } from "../../core/models";
 import {
+  Certificate,
   CertificatePolicy,
   CertificatesClientInterface,
   CreateCertificateOptions
@@ -36,6 +37,10 @@ export interface CreateCertificatePollOperationProperties {
    * @member {CreateCertificatePollOperationProperties} [previousResponse] The previous response received the last time the service was reached by the operation's update function
    */
   previousResponse?: CertificateOperation;
+  /**
+   * @member {CreateCertificatePollOperationProperties} [pendingCertificate] The pending certificate, for easy access.
+   */
+  pendingCertificate?: Certificate;
 }
 
 /**
@@ -43,7 +48,7 @@ export interface CreateCertificatePollOperationProperties {
  * An interface representing a create certificate's poll operation
  */
 export interface CreateCertificatePollOperation
-  extends PollOperation<CreateCertificatePollOperationProperties, CertificateOperation> {}
+  extends PollOperation<CreateCertificatePollOperationProperties, Certificate> {}
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
@@ -70,23 +75,28 @@ async function update(
   }
 
   let response: CertificateOperation;
+  let pendingCertificate: Certificate | undefined;
   const doFinalResponse = previousResponse && previousResponse.status !== "inProgress";
 
   if (!initialResponse) {
     await client.createCertificate(name, certificatePolicy, createCertificateOptions);
+    pendingCertificate = await client.getCertificateWithPolicy(name, requestOptions);
     response = await client.getCertificateOperation(name, requestOptions);
     this.properties.initialResponse = response;
   } else if (doFinalResponse) {
     response = await client.getCertificateOperation(name, requestOptions);
+    const finalCertificate = await client.getCertificateWithPolicy(name, requestOptions);
     this.state.completed = true;
-    this.state.result = response;
+    this.state.result = finalCertificate;
   } else {
+    pendingCertificate = await client.getCertificateWithPolicy(name, requestOptions);
     response = await client.getCertificateOperation(name, requestOptions);
   }
 
   const properties: CreateCertificatePollOperationProperties = {
     ...this.properties,
-    previousResponse: response
+    previousResponse: response,
+    pendingCertificate
   };
 
   // Progress only after the poller has started and before the poller is done
@@ -141,7 +151,7 @@ function toString(this: CreateCertificatePollOperation): string {
  * @param [properties] The properties of a previous create certificate's poll operation, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeCreateCertificatePollOperation(
-  state: PollOperationState<CertificateOperation>,
+  state: PollOperationState<Certificate>,
   properties: CreateCertificatePollOperationProperties
 ): CreateCertificatePollOperation {
   return {

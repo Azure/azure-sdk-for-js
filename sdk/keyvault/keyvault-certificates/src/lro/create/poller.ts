@@ -5,8 +5,8 @@ import {
   CreateCertificatePollOperationProperties,
   makeCreateCertificatePollOperation
 } from "./operation";
-import { CertificateOperation } from "../../core/models";
 import {
+  Certificate,
   CertificatePolicy,
   CertificatesClientInterface,
   CreateCertificateOptions
@@ -27,7 +27,7 @@ export interface CreateCertificatePollerOptions {
  */
 export class CreateCertificatePoller extends Poller<
   CreateCertificatePollOperationProperties,
-  CertificateOperation
+  Certificate
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -46,12 +46,12 @@ export class CreateCertificatePoller extends Poller<
       resumeFrom
     } = options;
 
-    let state: PollOperationState<CertificateOperation> = {};
+    let state: PollOperationState<Certificate> = {};
     let properties: CreateCertificatePollOperationProperties | undefined = undefined;
 
     if (resumeFrom) {
       const baseOperation: {
-        state: PollOperationState<CertificateOperation>;
+        state: PollOperationState<Certificate>;
         properties: CreateCertificatePollOperationProperties;
       } = JSON.parse(resumeFrom);
       state = baseOperation.state;
