@@ -844,6 +844,19 @@ export class Deployments {
   }
 
   /**
+   * Returns changes that will be made by the deployment if executed at the scope of the
+   * subscription.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to What If.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsWhatIfAtSubscriptionScopeResponse>
+   */
+  whatIfAtSubscriptionScope(deploymentName: string, parameters: Models.DeploymentWhatIf, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsWhatIfAtSubscriptionScopeResponse> {
+    return this.beginWhatIfAtSubscriptionScope(deploymentName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsWhatIfAtSubscriptionScopeResponse>;
+  }
+
+  /**
    * Exports the template used for specified deployment.
    * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
@@ -1072,6 +1085,21 @@ export class Deployments {
       },
       validateOperationSpec,
       callback) as Promise<Models.DeploymentsValidateResponse>;
+  }
+
+  /**
+   * Returns changes that will be made by the deployment if executed at the scope of the resource
+   * group.
+   * @param resourceGroupName The name of the resource group the template will be deployed to. The
+   * name is case insensitive.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DeploymentsWhatIfResponse>
+   */
+  whatIf(resourceGroupName: string, deploymentName: string, parameters: Models.DeploymentWhatIf, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsWhatIfResponse> {
+    return this.beginWhatIf(resourceGroupName,deploymentName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsWhatIfResponse>;
   }
 
   /**
@@ -1342,6 +1370,25 @@ export class Deployments {
   }
 
   /**
+   * Returns changes that will be made by the deployment if executed at the scope of the
+   * subscription.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to What If.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginWhatIfAtSubscriptionScope(deploymentName: string, parameters: Models.DeploymentWhatIf, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        deploymentName,
+        parameters,
+        options
+      },
+      beginWhatIfAtSubscriptionScopeOperationSpec,
+      options);
+  }
+
+  /**
    * A template deployment that is currently running cannot be deleted. Deleting a template
    * deployment removes the associated deployment operations. Deleting a template deployment does not
    * affect the state of the resource group. This is an asynchronous operation that returns a status
@@ -1387,6 +1434,28 @@ export class Deployments {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Returns changes that will be made by the deployment if executed at the scope of the resource
+   * group.
+   * @param resourceGroupName The name of the resource group the template will be deployed to. The
+   * name is case insensitive.
+   * @param deploymentName The name of the deployment.
+   * @param parameters Parameters to validate.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginWhatIf(resourceGroupName: string, deploymentName: string, parameters: Models.DeploymentWhatIf, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        deploymentName,
+        parameters,
+        options
+      },
+      beginWhatIfOperationSpec,
       options);
   }
 
@@ -1626,6 +1695,9 @@ const validateAtScopeOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.DeploymentValidateResult
     },
+    400: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1771,6 +1843,9 @@ const validateAtTenantScopeOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.DeploymentValidateResult
     },
+    400: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1914,6 +1989,9 @@ const validateAtManagementGroupScopeOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
+    400: {
       bodyMapper: Mappers.DeploymentValidateResult
     },
     default: {
@@ -2063,6 +2141,9 @@ const validateAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
+    400: {
       bodyMapper: Mappers.DeploymentValidateResult
     },
     default: {
@@ -2216,6 +2297,9 @@ const validateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.DeploymentValidateResult
+    },
+    400: {
       bodyMapper: Mappers.DeploymentValidateResult
     },
     default: {
@@ -2532,6 +2616,41 @@ const beginCreateOrUpdateAtSubscriptionScopeOperationSpec: msRest.OperationSpec 
   serializer
 };
 
+const beginWhatIfAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf",
+  urlParameters: [
+    Parameters.deploymentName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.DeploymentWhatIf,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.WhatIfOperationResult,
+      headersMapper: Mappers.DeploymentsWhatIfAtSubscriptionScopeHeaders
+    },
+    202: {
+      headersMapper: Mappers.DeploymentsWhatIfAtSubscriptionScopeHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
@@ -2583,6 +2702,42 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.DeploymentExtended
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginWhatIfOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.deploymentName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.DeploymentWhatIf,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.WhatIfOperationResult,
+      headersMapper: Mappers.DeploymentsWhatIfHeaders
+    },
+    202: {
+      headersMapper: Mappers.DeploymentsWhatIfHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
