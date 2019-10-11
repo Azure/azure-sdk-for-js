@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "./constants";
-
 // tslint:disable-next-line:no-null-keyword
 const doc = document.implementation.createDocument(null, null, null);
 
@@ -169,13 +167,19 @@ export function convertAtomXmlToJson(body: string): any {
  * @param {object} content The content payload as it is to be serialized. It should include any root node(s).
  */
 export function convertJsonToAtomXml(content: any): string {
-  content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
-  const res = buildNode(content, "content");
-  const dom = res[0];
+  let res: Node[] | undefined = undefined;
+  if (content.entry) {
+    res = buildNode(content.entry, "entry");
+  } else if (content.feed) {
+    res = buildNode(content.feed, "feed");
+  }
 
-  return (
-    `<?xml version="1.0" encoding="utf-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>${new Date().toISOString()}</updated>` +
-    serializer.serializeToString(dom) +
-    `</entry>`
-  );
+  if (res && res.length) {
+    const dom = res[0];
+    return (
+      `<?xml version="1.0" encoding="utf-8" standalone="yes"?>` + serializer.serializeToString(dom)
+    );
+  } else {
+    throw new Error("Unrecognized Atom XML result: " + JSON.stringify(content));
+  }
 }
