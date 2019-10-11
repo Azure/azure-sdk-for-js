@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as xml2js from "xml2js";
-import { Constants } from "./constants";
 
 // Note: The reason we re-define all of the xml2js default settings (version 2.0) here is because the default settings object exposed
 // by the xm2js library is mutable. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/536
@@ -123,7 +122,6 @@ export async function convertAtomXmlToJson(body: string): Promise<any> {
  * @param content The content as it is to be serialized. It should include any root node(s).
  */
 export function convertJsonToAtomXml(content: any): string {
-  content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
   const builder = new xml2js.Builder(xml2jsBuilderSettingsForAtomXML);
   return builder.buildObject(content);
 }
