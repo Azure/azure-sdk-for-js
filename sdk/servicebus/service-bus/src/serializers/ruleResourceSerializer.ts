@@ -332,14 +332,14 @@ export function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefi
     return undefined;
   } else {
     try {
-      let rawParameters = value["KeyValueOfstringanyType"];
+      let rawParameters = jsonValue["KeyValueOfstringanyType"];
 
       if (rawParameters && rawParameters.length && rawParameters.length > 0) {
         for (let i = 0; i < rawParameters.length; i++) {
           parameters.push(buildSqlParameter(rawParameters[i]));
         }
       } else {
-        parameters.push(buildSqlParameter(value));
+        parameters.push(buildSqlParameter(rawParameters));
       }
       return parameters;
     } catch (err) {

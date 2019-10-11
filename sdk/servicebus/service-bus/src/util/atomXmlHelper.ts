@@ -38,7 +38,16 @@ export function serializeToAtomXmlRequest(
       }
     });
   }
-  return content;
+  content[CoreHttpConstants.XML_METADATA_MARKER] = { type: "application/xml" };
+  return {
+    entry: {
+      $: {
+        xmlns: "http://www.w3.org/2005/Atom"
+      },
+      updated: new Date().toISOString(),
+      content: content
+    }
+  };
 }
 
 /**
@@ -118,7 +127,7 @@ function parseAtomResult(
     return result;
   }
 
-  throw new Error("Unrecognized result: " + JSON.stringify(atomResponseInJson));
+  throw new Error("Unrecognized Atom XML result: " + JSON.stringify(atomResponseInJson));
 }
 
 /**
