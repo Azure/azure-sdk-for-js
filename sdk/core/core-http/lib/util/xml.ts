@@ -125,16 +125,6 @@ export async function convertAtomXmlToJson(body: string): Promise<any> {
 export function convertJsonToAtomXml(content: any): string {
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
   const builder = new xml2js.Builder(xml2jsBuilderSettingsForAtomXML);
-
-  content = {
-    entry: {
-      $: {
-        xmlns: "http://www.w3.org/2005/Atom"
-      },
-      updated: new Date().toISOString(),
-      content: content
-    }
-  };
   return builder.buildObject(content);
 }
 

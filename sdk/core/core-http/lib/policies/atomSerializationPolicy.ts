@@ -10,10 +10,9 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { AtomXmlSerializer } from "../atomXmlOperationSpec";
-import { convertAtomXmlToJson } from "../util/xml";
 import { RestError } from "../restError";
 import * as utils from "../util/utils";
-import { convertJsonToAtomXml } from "../util/xml";
+import { convertJsonToAtomXml, convertAtomXmlToJson } from "../util/xml";
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialize/deserialize
