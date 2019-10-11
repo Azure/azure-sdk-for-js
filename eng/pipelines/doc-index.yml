@@ -50,6 +50,7 @@ jobs:
 
       - pwsh: ls
         workingDirectory: $(Build.SourcesDirectory)/docfx_project/api
+
       - task: CmdLine@2
         displayName: Build Doc Content
         inputs:
@@ -60,6 +61,7 @@ jobs:
       - pwsh: |
           Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/assets/*" -Destination "$(Build.SourcesDirectory)/docfx_project/_site/" -Force
         displayName: Replace site assets
+
       - task: CopyFiles@2
         displayName: Copy HTML to Artifacts Directory
         inputs:
