@@ -1,6 +1,7 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
+  DocArgs: not-specified
   RunUnitTests: false
 
 stages:
