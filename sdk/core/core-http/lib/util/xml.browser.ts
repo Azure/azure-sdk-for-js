@@ -159,8 +159,7 @@ function buildNode(obj: any, elementName: string): Node[] {
 export function convertAtomXmlToJson(body: string): any {
   const dom = parser.parseFromString(body, "text/xml");
   throwIfError(dom);
-  const result = domToObject(dom);
-  return result;
+  return domToObject(dom);
 }
 
 /**
