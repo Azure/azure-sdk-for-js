@@ -1,4 +1,4 @@
-
+#variables => $(TargetPipelineProjectId), $(TargetPipelineDefinition), $(TargetPipelineBranch), $(azure-sdk-doc-sas-key) (from keyvault)
 jobs:
   - job: CopyDocsToBlob
     variables:
@@ -10,10 +10,10 @@ jobs:
         displayName: "Download Pipeline Artifact"
         inputs:
           buildType: specific
-          project: $(TargetPipelineProjectId)
-          definition: $(TargetPipelineDefinition)
+          project: $(TargetPipelineProjectId) #590cfd2a-581c-4dcb-a12e-6568ce786175
+          definition: $(TargetPipelineDefinition) #54
           buildVersionToDownload: latestFromBranch
-          branchName: refs/heads/$(TargetPipelineBranch)
+          branchName: $(TargetPipelineBranch) #refs/pull/5252/merge
 
       - pwsh: ls
         workingDirectory: $(Pipeline.Workspace)
