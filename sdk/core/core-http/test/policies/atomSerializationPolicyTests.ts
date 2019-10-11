@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpClient, AtomXmlOperationSpec, AtomXmlSerializer } from "../../lib/coreHttp";
+import { HttpClient, AtomXmlOperationSpec, AtomXmlSerializer, Constants } from "../../lib/coreHttp";
 import { atomSerializationPolicy } from "../../lib/policies/atomSerializationPolicy";
 import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
@@ -117,8 +117,17 @@ class TestSerializer implements AtomXmlSerializer {
 
     content[resourceName][property1] = resource[property1];
     content[resourceName][property2] = resource[property2];
+    content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
 
-    return content;
+    return {
+      entry: {
+        $: {
+          xmlns: "http://www.w3.org/2005/Atom"
+        },
+        updated: new Date().toISOString(),
+        content: content
+      }
+    };
   }
 
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
