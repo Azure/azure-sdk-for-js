@@ -1,10 +1,10 @@
 import { RequestOptionsBase } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { CertificateOperation } from "../../core/models";
 import {
   CertificatePolicy,
   CertificatesClientInterface,
+  DeletedCertificate,
 } from "../../certificatesModels";
 
 /**
@@ -27,11 +27,11 @@ export interface DeleteCertificatePollOperationProperties {
   /**
    * @member {DeleteCertificatePollOperationProperties} [initialResponse] The initial response received the first time the service was reached by the operation's update function
    */
-  initialResponse?: CertificateOperation;
+  initialResponse?: DeletedCertificate;
   /**
    * @member {DeleteCertificatePollOperationProperties} [previousResponse] The previous response received the last time the service was reached by the operation's update function
    */
-  previousResponse?: CertificateOperation;
+  previousResponse?: DeletedCertificate;
 }
 
 /**
@@ -39,7 +39,7 @@ export interface DeleteCertificatePollOperationProperties {
  * An interface representing a delete certificate's poll operation
  */
 export interface DeleteCertificatePollOperation
-  extends PollOperation<DeleteCertificatePollOperationProperties, CertificateOperation> {}
+  extends PollOperation<DeleteCertificatePollOperationProperties, DeletedCertificate> {}
 
 /**
  * @summary Reaches to the service and updates the delete certificate's poll operation.
@@ -64,19 +64,27 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  let response: CertificateOperation;
-  const doFinalResponse = previousResponse && previousResponse.status !== "inProgress";
+  let response: DeletedCertificate;
+  let doFinalResponse = false;
+
+  try {
+    await client.getCertificateWithPolicy(name);
+  } catch(e) {
+    if (initialResponse && !["Certificate is currently being deleted."].includes(e.message)) {
+      doFinalResponse = true;
+    }
+  }
 
   if (!initialResponse) {
     await client.deleteCertificate(name, requestOptions);
-    response = await client.getCertificateOperation(name, requestOptions);
+    response = await client.getDeletedCertificate(name, requestOptions);
     this.properties.initialResponse = response;
   } else if (doFinalResponse) {
-    response = await client.getCertificateOperation(name, requestOptions);
+    response = await client.getDeletedCertificate(name, requestOptions);
     this.state.completed = true;
     this.state.result = response;
   } else {
-    response = await client.getCertificateOperation(name, requestOptions);
+    response = await client.getDeletedCertificate(name, requestOptions);
   }
 
   const properties: DeleteCertificatePollOperationProperties = {
@@ -98,26 +106,9 @@ async function update(
  */
 async function cancel(
   this: DeleteCertificatePollOperation,
-  options: { abortSignal?: AbortSignal } = {}
+  _: { abortSignal?: AbortSignal } = {}
 ): Promise<DeleteCertificatePollOperation> {
-  const requestOptions = this.properties.requestOptions || {};
-  const name = this.properties.name;
-  if (options.abortSignal) {
-    requestOptions.abortSignal = options.abortSignal;
-  }
-  const client = this.properties.client;
-  const response = await client.cancelCertificateOperation(name, requestOptions);
-
-  return makeDeleteCertificatePollOperation(
-    {
-      ...this.state,
-      cancelled: true
-    },
-    {
-      ...this.properties,
-      previousResponse: response
-    }
-  );
+  throw new Error(`The certificate ${this.properties.name} is currently being deleted. This operation cannot be cancelled.`)
 }
 
 /**
@@ -136,7 +127,7 @@ function toString(this: DeleteCertificatePollOperation): string {
  * @param [properties] The properties of a previous delete certificate's poll operation, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeDeleteCertificatePollOperation(
-  state: PollOperationState<CertificateOperation>,
+  state: PollOperationState<DeletedCertificate>,
   properties: DeleteCertificatePollOperationProperties
 ): DeleteCertificatePollOperation {
   return {

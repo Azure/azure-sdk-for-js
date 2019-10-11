@@ -5,8 +5,7 @@ import {
   DeleteCertificatePollOperationProperties,
   makeDeleteCertificatePollOperation
 } from "./operation";
-import { CertificateOperation } from "../../core/models";
-import { CertificatesClientInterface } from "../../certificatesModels";
+import { CertificatesClientInterface, DeletedCertificate } from "../../certificatesModels";
 
 export interface DeleteCertificatePollerOptions {
   client: CertificatesClientInterface;
@@ -22,7 +21,7 @@ export interface DeleteCertificatePollerOptions {
  */
 export class DeleteCertificatePoller extends Poller<
   DeleteCertificatePollOperationProperties,
-  CertificateOperation
+  DeletedCertificate
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -40,12 +39,12 @@ export class DeleteCertificatePoller extends Poller<
       resumeFrom
     } = options;
 
-    let state: PollOperationState<CertificateOperation> = {};
+    let state: PollOperationState<DeletedCertificate> = {};
     let properties: DeleteCertificatePollOperationProperties | undefined = undefined;
 
     if (resumeFrom) {
       const baseOperation: {
-        state: PollOperationState<CertificateOperation>;
+        state: PollOperationState<DeletedCertificate>;
         properties: DeleteCertificatePollOperationProperties;
       } = JSON.parse(resumeFrom);
       state = baseOperation.state;
