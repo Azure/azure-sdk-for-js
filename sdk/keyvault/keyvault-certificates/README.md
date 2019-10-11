@@ -206,8 +206,8 @@ const certificatePolicy = {
 
 const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
 
-const result = await poller.done();
-console.log(result.status); // "completed"
+const certificate = await poller.done();
+console.log(certificate);
 ```
 
 ### Get a certificate
