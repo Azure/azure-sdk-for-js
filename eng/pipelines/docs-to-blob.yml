@@ -1,0 +1,40 @@
+
+jobs:
+  - job: CopyDocsToBlob
+    variables:
+      - template: templates/variables/globals.yml
+    pool:
+      vmImage: ubuntu-16.04
+    steps:
+      - task: DownloadPipelineArtifact@2
+        displayName: "Download Pipeline Artifact"
+        inputs:
+          buildType: specific
+          project: $(TargetPipelineProjectId)
+          definition: $(TargetPipelineDefinition)
+          buildVersionToDownload: latestFromBranch
+          branchName: refs/heads/$(TargetPipelineBranch)
+
+      - pwsh: ls
+        workingDirectory: $(Pipeline.Workspace)
+        displayName: View Downloaded Artifacts
+
+      - pwsh: |
+          Invoke-WebRequest -MaximumRetryCount 10 -Uri "https://aka.ms/downloadazcopy-v10-windows" `
+          -OutFile "azcopy.zip" | Wait-Process; Expand-Archive -Path "azcopy.zip" -DestinationPath "./azcopy/"
+        workingDirectory: $(Build.BinariesDirectory)
+        displayName: Download and Extract azcopy Zip
+
+      - pwsh: ls
+        workingDirectory: $(Build.BinariesDirectory)/azcopy
+        displayName: View Content of Azcopy
+
+      - task: Powershell@2
+        inputs:
+          targetType: 'filePath'
+          filePath: $(Build.SourcesDirectory)/eng/tools
+          arguments: -BinariesDir $(Build.BinariesDirectory) -PipelineWorkspace $(Pipeline.Workspace) -SASKey $(azure-sdk-doc-sas-key)
+          script: upload-to-storage-blob.ps1
+          pwsh: true
+        displayName: Copy Docs to Blob
+        continueOnError: false
