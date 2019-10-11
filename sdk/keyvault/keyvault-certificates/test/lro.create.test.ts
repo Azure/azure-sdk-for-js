@@ -8,7 +8,7 @@ import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerCancelledError, PollerStoppedError } from "@azure/core-lro";
 
-describe("Certificates client - Long Running Operations", () => {
+describe("Certificates client - Long Running Operations - create", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificatesClient;
