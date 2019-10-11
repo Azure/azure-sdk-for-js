@@ -148,6 +148,10 @@ if (argv.includeMode === "inc") {
   }
   if (argv.include !== undefined) {
     inclusionList = argv.include;
+    if(inclusionList.includes("not-specified")){
+      console.error(`One or more value to the input package list is "not-specified"`);
+      process.exit(1);
+    }
   } else {
     console.error(
       `--includeMode "inc" requires the inclusion list --inc to be passed as an argument!!`
