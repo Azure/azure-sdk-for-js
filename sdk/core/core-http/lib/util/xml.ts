@@ -8,7 +8,7 @@ import { Constants } from "./constants";
 // by the xm2js library is mutable. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/536
 // By creating a new copy of the settings each time we instantiate the parser,
 // we are safeguarding against the possibility of the default settings being mutated elsewhere unintentionally.
-const xml2jsDefaults = {
+const xml2jsDefaultOptionsV2 = {
   explicitCharkey: false,
   trim: false,
   normalize: false,
@@ -50,31 +50,42 @@ const xml2jsDefaults = {
   cdata: false
 };
 
-// The default xml2js settings applicable for Atom based XML operations.
-const xml2jsSettingsForAtomXmlOperations: any = Object.assign({}, xml2jsDefaults);
-xml2jsSettingsForAtomXmlOperations.explicitCharkey = false;
-xml2jsSettingsForAtomXmlOperations.explicitArray = false;
+// The xml2js settings for general XML parsing operations.
+const xml2jsParserSettings: any = Object.assign({}, xml2jsDefaultOptionsV2);
+xml2jsParserSettings.explicitArray = false;
+xml2jsParserSettings.explicitRoot = false;
 
-// The default settings applicable for general XML operations.
-const xml2jsSettingsForXmlOperations: any = Object.assign({}, xml2jsDefaults);
-xml2jsSettingsForXmlOperations.explicitArray = false;
-xml2jsSettingsForXmlOperations.explicitCharkey = false;
-xml2jsSettingsForXmlOperations.explicitRoot = false;
+// The xml2js settings for ATOM XML parsing operations.
+const xml2jsParserSettingsForAtomXml: any = Object.assign({}, xml2jsDefaultOptionsV2);
+xml2jsParserSettingsForAtomXml.explicitArray = false;
+
+// The xml2js settings for general XML building operations.
+const xml2jsBuilderSettings: any = Object.assign({}, xml2jsDefaultOptionsV2);
+xml2jsBuilderSettings.explicitArray = false;
+xml2jsBuilderSettings.renderOpts = {
+  pretty: false
+};
+
+// The xml2js settings for ATOM XML building operations.
+const xml2jsBuilderSettingsForAtomXML: any = Object.assign({}, xml2jsDefaultOptionsV2);
+xml2jsBuilderSettingsForAtomXML.explicitRoot = false;
+xml2jsBuilderSettingsForAtomXML.renderOpts = {
+  pretty: false
+};
+xml2jsBuilderSettingsForAtomXML.xmldec = {
+  version: "1.0",
+  encoding: "utf-8",
+  standalone: true
+};
 
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
-  const builder = new xml2js.Builder({
-    explicitArray: false,
-    explicitCharkey: false,
-    rootName: (opts || {}).rootName,
-    renderOpts: {
-      pretty: false
-    }
-  });
+  xml2jsBuilderSettings.rootName = (opts || {}).rootName;
+  const builder = new xml2js.Builder(xml2jsBuilderSettings);
   return builder.buildObject(obj);
 }
 
 export function parseXML(str: string): Promise<any> {
-  const xmlParser = new xml2js.Parser(xml2jsSettingsForXmlOperations);
+  const xmlParser = new xml2js.Parser(xml2jsParserSettings);
   const result = new Promise((resolve, reject) => {
     if (!str) {
       reject(new Error("Document is empty"));
@@ -96,8 +107,8 @@ export function parseXML(str: string): Promise<any> {
  * @param body
  */
 export async function convertAtomXmlToJson(body: string): Promise<any> {
-  const parser = new xml2js.Parser(xml2jsSettingsForAtomXmlOperations);
-  return new Promise((resolve, reject) => {
+  const parser = new xml2js.Parser(xml2jsParserSettingsForAtomXml);
+  return await new Promise((resolve, reject) => {
     parser.parseString(removeBOM(body.toString()), function(err: any, parsedBody: any) {
       if (err) {
         reject(err);
@@ -113,17 +124,7 @@ export async function convertAtomXmlToJson(body: string): Promise<any> {
  */
 export function convertJsonToAtomXml(content: any): string {
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
-  const builder = new xml2js.Builder({
-    explicitRoot: false,
-    renderOpts: {
-      pretty: false
-    },
-    xmldec: {
-      version: "1.0",
-      encoding: "utf-8",
-      standalone: true
-    }
-  });
+  const builder = new xml2js.Builder(xml2jsBuilderSettingsForAtomXML);
 
   content = {
     entry: {
@@ -134,7 +135,6 @@ export function convertJsonToAtomXml(content: any): string {
       content: content
     }
   };
-
   return builder.buildObject(content);
 }
 
