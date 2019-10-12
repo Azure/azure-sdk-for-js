@@ -10,7 +10,6 @@ function Upload-Blobs
         [Parameter(Mandatory=$true)] [String]$DocDir,
         [Parameter(Mandatory=$true)] [String]$PkgName,
         [Parameter(Mandatory=$true)] [String]$DocVersion,
-        [Parameter(Mandatory=$true)] [String]$SAS,
         [Parameter(Mandatory=$true)] [String]$Language
     )
     
@@ -27,10 +26,10 @@ function Upload-Blobs
     Write-Host "Final Dest $($DocDest)/$($PkgName)/$($DocVersion)"
 
     Write-Host "Uploading $($PkgName)/$($DocVersion) to $($DocDest)..."
-    & $($AzCopy) cp "$($DocDir)/**" "$($DocDest)/$($PkgName)/$($DocVersion)/$($SAS)" --recursive=true
+    & $($AzCopy) cp "$($DocDir)/**" "$($DocDest)/$($PkgName)/$($DocVersion)/$($SASKey)" --recursive=true
 
     Write-Host "Uploading versionplaceholder $($DocDest)/$($PkgName)/versions/$($DocVersion)"
-    & $($AzCopy) cp "$($BinariesDir)/versionplaceholder.txt" "$($DocDest)/$($PkgName)/versions/$($DocVersion)$($SAS)" --recursive=true
+    & $($AzCopy) cp "$($BinariesDir)/versionplaceholder.txt" "$($DocDest)/$($PkgName)/versions/$($DocVersion)$($SASKey)" --recursive=true
 }
 
 function Process-DocJS
@@ -50,7 +49,7 @@ function Process-DocJS
             $DocVersion = $PkgFullName[0].BaseName.Remove(0, $PkgName.Length + 1)
             Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
             Expand-Archive -Path "$($PipelineWorkspace)/documentation/$($Item)" -DestinationPath "$($PipelineWorkspace)/documentation/$($Item.BaseName)"
-            Upload-Blobs -DocDir "$($PipelineWorkspace)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -SAS $SASKey -Language "javascript"
+            Upload-Blobs -DocDir "$($PipelineWorkspace)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -Language "javascript"
         }
         else
         {
