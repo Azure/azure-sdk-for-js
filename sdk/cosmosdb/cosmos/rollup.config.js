@@ -4,7 +4,6 @@ export default [
     input: "dist-esm/index.js",
     external: [
       "tslib",
-      "@azure/cosmos-sign",
       "universal-user-agent",
       "uuid/v4",
       "debug",
@@ -22,7 +21,6 @@ export default [
       sourcemap: true,
       globals: {
         "universal-user-agent": "universalUserAgent",
-        "@azure/cosmos-sign": "cosmosSign",
         "fast-json-stable-stringify": "stableStringify",
         "uuid/v4": "uuid",
         "@azure/abort-controller": "AbortController",
