@@ -5,7 +5,6 @@ import assert from "assert";
 
 let debug = false;
 let testOnInternalServer = false;
-const env = getEnvVars();
 const serverBase = "https://api.cognitive.microsoft.com";
 const apiKey = process.env['INKRECOGNIZER_API_KEY'];
 
