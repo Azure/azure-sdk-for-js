@@ -33,7 +33,7 @@ jobs:
         inputs:
           targetType: "filePath"
           filePath: $(Build.SourcesDirectory)/eng/tools/upload-to-storage-blob.ps1
-          arguments: -BinariesDir $(Build.BinariesDirectory) -PipelineWorkspace $(Pipeline.Workspace) -SASKey $(azure-sdk-doc-sas-key)
+          arguments: -BinariesDir "$(Build.BinariesDirectory)" -PipelineWorkspace "$(Pipeline.Workspace)" -SASKey "$(azure-sdk-doc-sas-key)"
           script: upload-to-storage-blob.ps1
           pwsh: true
         displayName: Copy Docs to Blob
