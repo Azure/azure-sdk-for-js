@@ -50,16 +50,13 @@ describe("Long Running Operations - working with abort signals", function() {
 
     // Testing subscriptions to the poll errors
     let pollError: Error | undefined;
-    poller.done().catch((e) => {
+    poller.pollUntilDone().catch((e) => {
       pollError = e;
     });
 
-    await poller.nextPoll();
-    assert.ok(poller.getState().started);
-
     // Waiting for 10 poller loops
     for (let i = 1; i <= 10; i++) {
-      await poller.nextPoll();
+      await poller.poll();
     }
 
     assert.equal(client.totalSentRequests, 11);
@@ -68,10 +65,9 @@ describe("Long Running Operations - working with abort signals", function() {
 
     assert.equal(pollError!.message, "The request was aborted");
     assert.equal(client.totalSentRequests, 11);
-    poller.stop();
   });
 
-  it("should support an abort signal sent through the constructor (manual poller)", async function() {
+  it("should support an abort signal sent through the parameters of poll()", async function() {
     const client = new TestClient(new SimpleTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
@@ -81,59 +77,33 @@ describe("Long Running Operations - working with abort signals", function() {
     ]);
 
     const abortController = new AbortController();
-    const poller = await client.startLRO({
-      manual: true,
-      requestOptions: {
+    const poller = await client.startLRO();
+
+    // Testing subscriptions to the poll errors
+    let doneError: Error | undefined;
+    poller.pollUntilDone().catch((e) => {
+      doneError = e;
+    });
+
+    await poller.poll();
+    assert.equal(client.totalSentRequests, 2);
+
+    abortController.abort();
+
+    let pollError: Error | undefined;
+    try {
+      await poller.poll({
         abortSignal: abortController.signal
-      }
-    });
-
-    // Testing subscriptions to the poll errors
-    let pollError: Error | undefined;
-    poller.done().catch((e) => {
+      });
+    } catch (e) {
       pollError = e;
-    });
+    }
 
-    await poller.poll(); // Manual polling
-    assert.equal(client.totalSentRequests, 1);
-
-    abortController.abort();
-    await poller.poll(); // Manual polling
-    assert.equal(client.totalSentRequests, 1);
-    assert.ok(poller.isDone());
     assert.equal(pollError!.message, "The request was aborted");
-  });
+    assert.equal(doneError!.message, "The request was aborted");
 
-  it("should support an abort signal sent through the parameters of poll() on a manual poller", async function() {
-    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-    client.setResponses([
-      initialResponse,
-      ...Array(20).fill(basicResponseStructure),
-      doFinalResponse,
-      finalResponse
-    ]);
-
-    const abortController = new AbortController();
-    const poller = await client.startLRO({
-      manual: true
-    });
-
-    // Testing subscriptions to the poll errors
-    let pollError: Error | undefined;
-    poller.done().catch((e) => {
-      pollError = e;
-    });
-
-    await poller.poll(); // Manual polling
-    assert.equal(client.totalSentRequests, 1);
-
-    abortController.abort();
-    await poller.poll({
-      abortSignal: abortController.signal
-    }); // Manual polling
-    assert.equal(client.totalSentRequests, 1);
+    assert.equal(client.totalSentRequests, 2);
     assert.ok(poller.isDone());
-    assert.equal(pollError!.message, "The request was aborted");
   });
 
   it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function() {
@@ -152,19 +122,9 @@ describe("Long Running Operations - working with abort signals", function() {
       }
     });
 
-    poller.done().catch((e) => {
-      assert.ok(e instanceof PollerStoppedError);
-      assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "This poller is already stopped");
-    });
-
-    await poller.nextPoll();
-    assert.ok(poller.getState().started);
-    assert.equal(client.totalSentRequests, 1);
-
     // Waiting for 10 poller loops
     for (let i = 1; i <= 10; i++) {
-      await poller.nextPoll();
+      await poller.poll();
     }
 
     assert.equal(client.totalSentRequests, 11);
@@ -179,54 +139,6 @@ describe("Long Running Operations - working with abort signals", function() {
 
     assert.ok(poller.isStopped());
     assert.equal(cancelError!.message, "The request was aborted");
-    poller.stop();
-  });
-
-  it("can abort the cancel method (when cancellation is supported) by with an abortSignal updated on the operation", async function() {
-    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
-    client.setResponses([
-      initialResponse,
-      ...Array(20).fill(basicResponseStructure),
-      doFinalResponse,
-      finalResponse
-    ]);
-
-    const poller = await client.startLRO();
-
-    // Testing subscriptions to the poll errors
-    poller.done().catch((e) => {
-      assert.ok(e instanceof PollerStoppedError);
-      assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "This poller is already stopped");
-    });
-
-    assert.equal(client.totalSentRequests, 1);
-
-    // Waiting for 10 poller loops
-    for (let i = 1; i <= 10; i++) {
-      await poller.nextPoll();
-    }
-
-    assert.equal(client.totalSentRequests, 10);
-
-    const abortController = new AbortController();
-    abortController.abort();
-
-    // This also can be done at any point to abort any poll() request.
-    poller.getProperties().requestOptions = {
-      abortSignal: abortController.signal
-    };
-
-    let cancelError: Error | undefined;
-    try {
-      await poller.cancelOperation();
-    } catch (e) {
-      cancelError = e;
-    }
-
-    assert.ok(poller.isStopped());
-    assert.equal(cancelError!.message, "The request was aborted");
-    poller.stop();
   });
 
   it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent as a parameter to cancelOperation()", async function() {
@@ -239,22 +151,21 @@ describe("Long Running Operations - working with abort signals", function() {
     ]);
 
     const poller = await client.startLRO();
+    assert.equal(client.totalSentRequests, 1);
 
     // Testing subscriptions to the poll errors
-    poller.done().catch((e) => {
+    poller.pollUntilDone().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "This poller is already stopped");
     });
 
-    assert.equal(client.totalSentRequests, 1);
-
     // Waiting for 10 poller loops
     for (let i = 1; i <= 10; i++) {
-      await poller.nextPoll();
+      await poller.poll();
     }
 
-    assert.equal(client.totalSentRequests, 10);
+    assert.equal(client.totalSentRequests, 11);
 
     const abortController = new AbortController();
     abortController.abort();

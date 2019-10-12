@@ -1,35 +1,37 @@
-import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller, PollOperationState } from "../../src";
+import { delay, RequestOptionsBase, HttpOperationResponse } from "@azure/core-http";
+import { Poller } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
-import { makeOperation, TestOperation, TestOperationProperties } from "./testOperation";
+import { makeOperation, TestOperationState } from "./testOperation";
 
-export class TestNonCancellablePoller extends Poller<TestOperationProperties, string> {
+export class TestNonCancellablePoller extends Poller<TestOperationState, string> {
   public intervalInMs: number;
 
   constructor(
     client: TestServiceClient,
-    manual: boolean = false,
     intervalInMs: number = 10,
     requestOptions?: RequestOptionsBase,
-    baseOperation?: TestOperation,
-    onProgress?: (properties: TestOperationProperties) => void
+    baseOperation?: string,
+    onProgress?: (state: TestOperationState) => void
   ) {
-    let state: PollOperationState<string> = {};
-    let properties: TestOperationProperties | undefined = undefined;
+    let state: TestOperationState = {
+      client
+    };
 
     if (baseOperation) {
-      state = baseOperation.state;
-      properties = baseOperation.properties;
+      state = {
+        ...JSON.parse(baseOperation).state,
+        ...state
+      };
     }
 
-    const operation = makeOperation(state, {
-      ...properties,
+    const operation = makeOperation({
+      ...state,
       client,
       requestOptions,
       unsupportedCancel: true
     });
 
-    super(operation, manual);
+    super(operation);
 
     if (onProgress) {
       this.onProgress(onProgress);
@@ -37,14 +39,15 @@ export class TestNonCancellablePoller extends Poller<TestOperationProperties, st
     this.intervalInMs = intervalInMs;
   }
 
-  async delay(): Promise<void> {
-    return delay(this.intervalInMs);
+  public get initialResponse(): HttpOperationResponse | undefined {
+    return this.operation.state.initialResponse;
   }
 
-  async getResult(): Promise<string> {
-    if (!this.isDone()) {
-      return "Not done";
-    }
-    return "Done!";
+  public get previousResponse(): HttpOperationResponse | undefined {
+    return this.operation.state.previousResponse;
+  }
+
+  async delay(): Promise<void> {
+    return delay(this.intervalInMs);
   }
 }

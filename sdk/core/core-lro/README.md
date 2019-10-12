@@ -44,10 +44,11 @@ for more information.
 ## Key concepts
 
 - Whenever we talk about an **operation**, we mean the static representation of a Long Running Operation.
-  Any operation will have an invariant definition of a state, and an abstract set of properties, which
-  will be defined by the implementation of the operation. Any operation will have three basic functionalities:
+  Any operation will have a definition of a state, which has a defined set of
+  properties plus any property the implementations would like to add. Any
+  operation will have three basic functionalities:
     1. An update() method that will generate a new operation that might or might
-      not include changes to its state and properties.
+      not include changes to its state.
     2. A cancel() method, which will tell the service that the operation is no longer needed.
     3. A toString() method, that will output a serialized version of the operation.
 - A **Poller** is an object who's main function is to interact with an operation until one of three things happen:
@@ -72,11 +73,11 @@ First, you'll need to import the definitions of a poll operation and its state, 
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 ```
 
-A **PollOperation** requires implementing its properties, which can an arbitrary representation.
+A **PollOperation** requires implementing its state. We recommend extending the PollOperationState we provide.
 An example can be:
 
 ```typescript
-export interface MyPollOperationProperties {
+export interface MyOperationState extends PollOperationState<string> {
   serviceClient: any; // You define all of these properties
   myCustomString: string;
   startedAt: Date;
@@ -86,29 +87,25 @@ export interface MyPollOperationProperties {
 ```
 
 Now, to be able to create your custom operations, you'll need to extend the
-PollOperation class with both your operation's properties and the final result
+PollOperation class with both your operation's state and the final result
 value. For this example, we'll think on the final result value to be a string,
 but it can be any type.
 
 ```typescript
-export interface MyPollOperation extends PollOperation<MyPollOperationProperties, string> {}
+export interface MyPollOperation extends PollOperation<MyOperationState, string> {}
 ```
 
 Now you can make a utility function to create new instances of your operation, as follows:
 
 ```typescript
 function makeOperation(
-  state: PollOperationState<string>,
-  properties: MyOperationProperties
+  state: MyOperationState,
 ): MyOperation {
   return {
-    // We recommend you to create copies of the given state and properties,
+    // We recommend you to create copies of the given state,
     // just to make sure that no references are left or manipulated by mistake.
     state: {
       ...state,
-    },
-    properties: {
-      ...properties,
     },
     update,
     cancel,
@@ -127,27 +124,26 @@ async function update(
   this: MyOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (properties: MyOperationProperties) => void;
+    fireProgress?: (state: MyOperationState) => void;
   } = {}
 ): Promise<MyOperation> {
   let isDone: boolean = false;
   let doFireProgress: boolean = false;
 
-  // Asyncrhonously call your service client, and update the operation's
-  // properties based on the result.
+  // Asyncrhonously call your service client...
 
-  // You might also update the operation's tate.
+  // You might also update the operation's state
   if (isDone) {
     this.state.completed = true;
     this.state.result = "Done";
   }
 
-  // You can also arbitrarily report progress,
+  // You can also arbitrarily report progress
   if (doFireProgress) {
-    options.fireProgress(properties);
+    options.fireProgress(state);
   }
 
-  return makeOperation(this.state, this.properties);
+  return makeOperation(this.state);
 }
 ```
 
@@ -164,8 +160,7 @@ async function cancel(
     {
       ...this.state,
       cancelled: true
-    },
-    this.properties
+    }
   );
 }
 ```
@@ -176,9 +171,7 @@ async function cancel(
 function toString(this: MyOperation): string {
   return JSON.stringify({
     state: {
-      ...this.state
-    },
-    properties: {
+      ...this.state,
       // Only the plain text properties, for examle
     }
   });
@@ -190,27 +183,24 @@ function toString(this: MyOperation): string {
 To implement a poller, you must pull in the definitions of your operation and extend core-lro's poller, as follows:
 
 ```typescript
-import { Poller, PollOperationState } from "@azure/core-lro";
-import { makeOperation, MyOperation, MyOperationProperties } from "./myOperation";
+import { Poller } from "@azure/core-lro";
+import { makeOperation, MyOperation, MyOperationState } from "./myOperation";
 
 // See that "string" here is the type of the result
-export class MyPoller extends Poller<MyOperationProperties, string> {
+export class MyPoller extends Poller<MyOperationState, string> {
   constructor(
-    manual: boolean = false,
     baseOperation?: MyOperation,
-    onProgress?: (properties: MyOperationProperties) => void
+    onProgress?: (state: MyOperationState) => void
   ) {
-    let state: PollOperationState<string> = {};
-    let properties: MyOperationProperties | undefined = undefined;
+    let state: MyOperationState = {};
 
     if (baseOperation) {
       state = baseOperation.state;
-      properties = baseOperation.properties;
     }
 
-    const operation = makeOperation(state, properties);
+    const operation = makeOperation(state);
 
-    super(operation, manual);
+    super(operation);
 
     // Setting up the poller to call progress when the operation decides.
     // This ties to the operation's update method, which receives a
@@ -234,9 +224,8 @@ Here's one simple examle of your poller in action. More examples can be found in
 const poller = new MyPoller();
 
 // Waiting until the operation completes
-const result = await poller.done();
-const state = poller.getState();
-const properties = poller.getProperties();
+const result = await poller.pollUntilDone();
+const state = poller.getOperationState();
 
 console.log(state.completed);
 ```

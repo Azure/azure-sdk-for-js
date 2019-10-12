@@ -8,13 +8,16 @@ export interface PollOperationState<TResult> {
   result?: TResult;
 }
 
-export interface PollOperation<TProperties, TResult> {
-  state: PollOperationState<TResult>;
-  properties: TProperties;
+export interface PollOperationBase<TState, TResult> {
+  state: TState;
   update(options?: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (properties: TProperties) => void;
-  }): Promise<PollOperation<TProperties, TResult>>;
-  cancel(options?: { abortSignal?: AbortSignal }): Promise<PollOperation<TProperties, TResult>>;
+    fireProgress?: (state: TState) => void;
+  }): Promise<PollOperation<TState, TResult>>;
+  cancel(options?: { abortSignal?: AbortSignal }): Promise<PollOperation<TState, TResult>>;
   toString(): string;
 }
+
+export type PollOperation<TState, TResult> = PollOperationBase<TState, TResult> & {
+  [prop: string]: any;
+};

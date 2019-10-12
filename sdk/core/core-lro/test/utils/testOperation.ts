@@ -4,7 +4,7 @@ import { PollOperationState, PollOperation } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
 
-export interface TestOperationProperties {
+export interface TestOperationState extends PollOperationState<string> {
   client: TestServiceClient;
   requestOptions?: RequestOptionsBase;
   initialResponse?: HttpOperationResponse;
@@ -12,16 +12,16 @@ export interface TestOperationProperties {
   unsupportedCancel?: boolean;
 }
 
-export interface TestOperation extends PollOperation<TestOperationProperties, string> {}
+export interface TestOperation extends PollOperation<TestOperationState, string> {}
 
 async function update(
   this: TestOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (properties: TestOperationProperties) => void;
+    fireProgress?: (state: TestOperationState) => void;
   } = {}
 ): Promise<TestOperation> {
-  const { client, requestOptions, initialResponse, previousResponse } = this.properties;
+  const { client, requestOptions, initialResponse, previousResponse } = this.state;
   const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
 
   let response: HttpOperationResponse;
@@ -29,33 +29,35 @@ async function update(
 
   if (!initialResponse) {
     response = await client.sendInitialRequest(new TestWebResource(abortSignal));
-    this.properties.initialResponse = response;
+    this.state.initialResponse = response;
+    this.state.started = true;
   } else if (doFinalResponse) {
     response = await client.sendFinalRequest(new TestWebResource(abortSignal));
     this.state.completed = true;
     this.state.result = "Done";
+    this.state.previousResponse = response;
   } else {
     response = await client.sendRequest(new TestWebResource(abortSignal));
+    this.state.previousResponse = response;
   }
 
-  const properties: TestOperationProperties = {
-    ...this.properties,
-    previousResponse: response
-  };
+  if (!response) {
+    throw new Error("Our tests must not run forever");
+  }
 
   // Progress only after the poller has started and before the poller is done
-  if (!(!initialResponse || doFinalResponse) && options.fireProgress) {
-    options.fireProgress(properties);
+  if (initialResponse && !doFinalResponse && options.fireProgress) {
+    options.fireProgress(this.state);
   }
 
-  return makeOperation(this.state, properties);
+  return makeOperation(this.state);
 }
 
 async function cancel(
   this: TestOperation,
   options: { abortSignal?: AbortSignal } = {}
 ): Promise<TestOperation> {
-  const requestOptions = this.properties.requestOptions;
+  const requestOptions = this.state.requestOptions;
   const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
 
   if (abortSignal && abortSignal.aborted) {
@@ -65,7 +67,7 @@ async function cancel(
     }); // This will throw
   }
 
-  if (this.properties.unsupportedCancel) {
+  if (this.state.unsupportedCancel) {
     throw new Error("Cancellation not supported");
   }
 
@@ -74,37 +76,23 @@ async function cancel(
     status: 205
   } as HttpOperationResponse;
 
-  return makeOperation(
-    {
-      ...this.state,
-      cancelled: true
-    },
-    {
-      ...this.properties,
-      previousResponse: response
-    }
-  );
+  return makeOperation({
+    ...this.state,
+    cancelled: true,
+    previousResponse: response
+  });
 }
 
 function toString(this: TestOperation): string {
   return JSON.stringify({
-    state: {
-      ...this.state
-    },
-    properties: this.properties
+    state: this.state
   });
 }
 
-export function makeOperation(
-  state: PollOperationState<string>,
-  properties: TestOperationProperties
-): TestOperation {
+export function makeOperation(state: TestOperationState): TestOperation {
   return {
     state: {
       ...state
-    },
-    properties: {
-      ...properties
     },
     update,
     cancel,

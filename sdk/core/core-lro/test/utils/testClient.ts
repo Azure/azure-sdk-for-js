@@ -7,14 +7,13 @@ import {
 import { TestServiceClient } from "./testServiceClient";
 import { TestPoller } from "./testPoller";
 import { TestNonCancellablePoller } from "./testNonCancellablePoller";
-import { TestOperation, TestOperationProperties } from "./testOperation";
+import { TestOperationState } from "./testOperation";
 
 interface StartLROOptions {
-  manual?: boolean;
   intervalInMs?: number;
   requestOptions?: RequestOptionsBase;
-  operation?: TestOperation;
-  onProgress?: (properties: TestOperationProperties) => void;
+  baseOperation?: string;
+  onProgress?: (state: TestOperationState) => void;
 }
 
 export class TestClient extends TestServiceClient {
@@ -26,26 +25,28 @@ export class TestClient extends TestServiceClient {
   }
 
   public async startLRO(options: StartLROOptions = {}): Promise<TestPoller> {
-    return new TestPoller(
+    const poller = new TestPoller(
       this,
-      options.manual,
       options.intervalInMs,
       options.requestOptions,
-      options.operation,
+      options.baseOperation,
       options.onProgress
     );
+    await poller.poll(); // Initial request
+    return poller;
   }
 
   public async startNonCancellableLRO(
     options: StartLROOptions = {}
   ): Promise<TestNonCancellablePoller> {
-    return new TestNonCancellablePoller(
+    const poller = new TestNonCancellablePoller(
       this,
-      options.manual,
       options.intervalInMs,
       options.requestOptions,
-      options.operation,
+      options.baseOperation,
       options.onProgress
     );
+    await poller.poll(); // Initial request
+    return poller;
   }
 }

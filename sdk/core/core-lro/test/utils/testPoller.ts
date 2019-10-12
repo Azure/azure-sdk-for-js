@@ -1,39 +1,49 @@
-import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller, PollOperationState } from "../../src";
+import { delay, RequestOptionsBase, HttpOperationResponse } from "@azure/core-http";
+import { Poller } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
-import { makeOperation, TestOperation, TestOperationProperties } from "./testOperation";
+import { makeOperation, TestOperationState } from "./testOperation";
 
-export class TestPoller extends Poller<TestOperationProperties, string> {
+export class TestPoller extends Poller<TestOperationState, string> {
   public intervalInMs: number;
 
   constructor(
     client: TestServiceClient,
-    manual: boolean = false,
     intervalInMs: number = 10,
     requestOptions?: RequestOptionsBase,
-    baseOperation?: TestOperation,
-    onProgress?: (properties: TestOperationProperties) => void
+    baseOperation?: string,
+    onProgress?: (state: TestOperationState) => void
   ) {
-    let state: PollOperationState<string> = {};
-    let properties: TestOperationProperties | undefined = undefined;
+    let state: TestOperationState = {
+      client
+    };
 
     if (baseOperation) {
-      state = baseOperation.state;
-      properties = baseOperation.properties;
+      state = {
+        ...JSON.parse(baseOperation).state,
+        ...state
+      };
     }
 
-    const operation = makeOperation(state, {
-      ...properties,
+    const operation = makeOperation({
+      ...state,
       client,
       requestOptions
     });
 
-    super(operation, manual);
+    super(operation);
 
     if (onProgress) {
       this.onProgress(onProgress);
     }
     this.intervalInMs = intervalInMs;
+  }
+
+  public get initialResponse(): HttpOperationResponse | undefined {
+    return this.operation.state.initialResponse;
+  }
+
+  public get previousResponse(): HttpOperationResponse | undefined {
+    return this.operation.state.previousResponse;
   }
 
   async delay(): Promise<void> {

@@ -3,7 +3,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 export type CancelOnProgress = () => void;
 
-export type PollProgressCallback<TProperties> = (properties: TProperties) => void;
+export type PollProgressCallback<TState> = (state: TState) => void;
 
 export class PollerStoppedError extends Error {
   constructor(message: string) {
@@ -21,21 +21,18 @@ export class PollerCancelledError extends Error {
   }
 }
 
-export abstract class Poller<TProperties, TResult> {
-  private stopped: boolean;
+export abstract class Poller<TState, TResult> {
+  private stopped: boolean = true;
   private resolve?: (value?: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
   private pollOncePromise?: Promise<void>;
-  private pollOnceResolve?: () => void;
-  private pollOnceReject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
   private cancelPromise?: Promise<void>;
-  private operation: PollOperation<TProperties, TResult>;
   private promise: Promise<TResult>;
-  private pollProgressCallbacks: PollProgressCallback<TProperties>[] = [];
+  private pollProgressCallbacks: PollProgressCallback<TState>[] = [];
+  protected operation: PollOperation<TState, TResult>;
 
-  constructor(operation: PollOperation<TProperties, TResult>, stopped: boolean = false) {
+  constructor(operation: PollOperation<TState, TResult>) {
     this.operation = operation;
-    this.stopped = stopped;
     this.promise = new Promise(
       (
         resolve: (result?: TResult) => void,
@@ -45,22 +42,22 @@ export abstract class Poller<TProperties, TResult> {
         this.reject = reject;
       }
     );
-    this.startPolling();
   }
 
   protected abstract async delay(): Promise<void>;
 
   private async startPolling(): Promise<void> {
+    if (this.stopped) {
+      this.stopped = false;
+    }
     while (!this.isStopped() && !this.isDone()) {
       await this.poll();
-      if (!this.operation.state.started) {
-        this.operation.state.started = true;
-      }
       await this.delay();
     }
   }
 
   private async pollOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    const state = this.getOperationState();
     try {
       if (!this.isDone()) {
         this.operation = await this.operation.update({
@@ -68,20 +65,21 @@ export abstract class Poller<TProperties, TResult> {
           fireProgress: this.fireProgress.bind(this)
         });
         if (this.isDone() && this.resolve) {
-          this.resolve(this.operation.state.result);
+          this.resolve(state.result);
         }
       }
     } catch (e) {
-      this.operation.state.error = e;
+      state.error = e;
       if (this.reject) {
         this.reject(e);
       }
+      throw e;
     }
   }
 
-  private fireProgress(properties: TProperties): void {
+  private fireProgress(state: TState): void {
     for (const callback of this.pollProgressCallbacks) {
-      callback(properties);
+      callback(state);
     }
   }
 
@@ -95,52 +93,22 @@ export abstract class Poller<TProperties, TResult> {
   public poll(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce(options);
-      const resolve = (): void => {
-        if (this.pollOnceResolve) {
-          this.pollOnceResolve();
-        }
+      const clearPollOncePromise = (): void => {
         this.pollOncePromise = undefined;
       };
-      const reject = (error: PollerStoppedError | PollerCancelledError | Error): void => {
-        if (this.pollOnceReject) {
-          this.pollOnceReject(error);
-        }
-        this.pollOncePromise = undefined;
-      };
-      this.pollOncePromise.then(resolve, reject);
-    } else {
-      throw new Error(
-        "This poller is in automatic mode. You can get its current status with the .getState() method. To poll manually, pass { manual: true } when creating the poller."
-      );
+      this.pollOncePromise.then(clearPollOncePromise, clearPollOncePromise);
     }
     return this.pollOncePromise;
   }
 
-  public nextPoll(): Promise<void> {
+  public async pollUntilDone(): Promise<TResult> {
     if (this.stopped) {
-      throw new PollerStoppedError(
-        "This poller is stopped. You can use poll() to run and wait for individual pollings."
-      );
+      this.startPolling().catch(this.reject);
     }
-    if (this.isDone()) {
-      throw new Error("This poller has finished polling.");
-    }
-    return new Promise(
-      (
-        resolve: () => void,
-        reject: (error: PollerStoppedError | PollerCancelledError | Error) => void
-      ) => {
-        this.pollOnceResolve = resolve;
-        this.pollOnceReject = reject;
-      }
-    );
-  }
-
-  public done(): Promise<TResult> {
     return this.promise;
   }
 
-  public onProgress(callback: (properties: TProperties) => void): CancelOnProgress {
+  public onProgress(callback: (state: TState) => void): CancelOnProgress {
     this.pollProgressCallbacks.push(callback);
     return (): void => {
       this.pollProgressCallbacks = this.pollProgressCallbacks.filter((c) => c !== callback);
@@ -148,9 +116,8 @@ export abstract class Poller<TProperties, TResult> {
   }
 
   public isDone(): boolean {
-    return Boolean(
-      this.operation.state.completed || this.operation.state.cancelled || this.operation.state.error
-    );
+    const state = this.getOperationState();
+    return Boolean(state.completed || state.cancelled || state.error);
   }
 
   public stop(): void {
@@ -178,15 +145,19 @@ export abstract class Poller<TProperties, TResult> {
     return this.cancelPromise;
   }
 
-  public getState(): PollOperationState<TResult> {
+  public getOperationState(): PollOperationState<TResult> {
     return this.operation.state;
   }
 
-  public getProperties(): TProperties {
-    return this.operation.properties;
+  public getResult(): TResult | undefined {
+    if (!this.isDone()) {
+      throw new Error("The poller hasn't finished");
+    }
+    const state = this.getOperationState();
+    return state.result;
   }
 
-  public toJSON(): string {
+  public toString(): string {
     return this.operation.toString();
   }
 }
