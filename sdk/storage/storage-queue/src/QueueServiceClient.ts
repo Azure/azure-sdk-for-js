@@ -3,9 +3,18 @@
 
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import * as Models from "./generated/src/models";
+import {
+  ListQueuesIncludeType,
+  QueueCreateResponse,
+  QueueDeleteResponse,
+  QueueItem,
+  QueueServiceProperties,
+  ServiceGetPropertiesResponse,
+  ServiceGetStatisticsResponse,
+  ServiceListQueuesSegmentResponse,
+  ServiceSetPropertiesResponse
+} from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ListQueuesIncludeType } from "./generated/src/models";
 import { Service } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
@@ -260,13 +269,13 @@ export class QueueServiceClient extends StorageClient {
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
-   * @returns {Promise<Models.ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
+   * @returns {Promise<ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
    * @memberof QueueServiceClient
    */
   private async listQueuesSegment(
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
-  ): Promise<Models.ServiceListQueuesSegmentResponse> {
+  ): Promise<ServiceListQueuesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-listQueuesSegment",
       options.spanOptions
@@ -303,13 +312,13 @@ export class QueueServiceClient extends StorageClient {
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
-   * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
+   * @returns {AsyncIterableIterator<ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
    */
   private async *listSegments(
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse> {
+  ): AsyncIterableIterator<ServiceListQueuesSegmentResponse> {
     let listQueuesResponse;
     do {
       listQueuesResponse = await this.listQueuesSegment(marker, options);
@@ -323,12 +332,12 @@ export class QueueServiceClient extends StorageClient {
    *
    * @private
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
-   * @returns {AsyncIterableIterator<Models.ServiceListQueuesSegmentResponse>}
+   * @returns {AsyncIterableIterator<ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
    */
   private async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.QueueItem> {
+  ): AsyncIterableIterator<QueueItem> {
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
       yield* segment.queueItems;
@@ -405,11 +414,11 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
    * @memberof QueueServiceClient
-   * @returns {PagedAsyncIterableIterator<Models.QueueItem, Models.ServiceListQueuesSegmentResponse>} An asyncIterableIterator that supports paging.
+   * @returns {PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse>} An asyncIterableIterator that supports paging.
    */
   public listQueues(
     options: ServiceListQueuesOptions = {}
-  ): PagedAsyncIterableIterator<Models.QueueItem, Models.ServiceListQueuesSegmentResponse> {
+  ): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse> {
     const updatedOptions: ServiceListQueuesSegmentOptions = {
       ...options,
       ...(options.includeMetadata ? { include: "metadata" } : {})
@@ -448,12 +457,12 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
    * @param {ServiceGetPropertiesOptions} [options] Options to get properties operation.
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data including the queue service properties.
+   * @returns {Promise<ServiceGetPropertiesResponse>} Response data including the queue service properties.
    * @memberof QueueServiceClient
    */
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
-  ): Promise<Models.ServiceGetPropertiesResponse> {
+  ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-getProperties",
       options.spanOptions
@@ -479,15 +488,15 @@ export class QueueServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
-   * @param {Models.QueueServiceProperties} properties
+   * @param {QueueServiceProperties} properties
    * @param {ServiceGetPropertiesOptions} [options] Options to set properties operation.
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
+   * @returns {Promise<ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof QueueServiceClient
    */
   public async setProperties(
-    properties: Models.QueueServiceProperties,
+    properties: QueueServiceProperties,
     options: ServiceGetPropertiesOptions = {}
-  ): Promise<Models.ServiceSetPropertiesResponse> {
+  ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-setProperties",
       options.spanOptions
@@ -515,12 +524,12 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
    * @param {ServiceGetStatisticsOptions} [options] Options to get statistics operation.
-   * @returns {Promise<Models.ServiceGetStatisticsResponse>} Response data for get statistics the operation.
+   * @returns {Promise<ServiceGetStatisticsResponse>} Response data for get statistics the operation.
    * @memberof QueueServiceClient
    */
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
-  ): Promise<Models.ServiceGetStatisticsResponse> {
+  ): Promise<ServiceGetStatisticsResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-getStatistics",
       options.spanOptions
@@ -546,13 +555,13 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param {QueueCreateOptions} [options] Options to Queue create operation.
-   * @returns {Promise<Models.QueueCreateResponse>} Response data for the Queue create operation.
+   * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueServiceClient
    */
   public async createQueue(
     queueName: string,
     options: QueueCreateOptions = {}
-  ): Promise<Models.QueueCreateResponse> {
+  ): Promise<QueueCreateResponse> {
     return this.getQueueClient(queueName).create(options);
   }
 
@@ -561,13 +570,13 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
-   * @returns {Promise<Models.QueueDeleteResponse>} Response data for the Queue delete operation.
+   * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueServiceClient
    */
   public async deleteQueue(
     queueName: string,
     options: QueueDeleteOptions = {}
-  ): Promise<Models.QueueDeleteResponse> {
+  ): Promise<QueueDeleteResponse> {
     return this.getQueueClient(queueName).delete(options);
   }
 }
