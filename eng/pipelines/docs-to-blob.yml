@@ -4,7 +4,7 @@ jobs:
     variables:
       - template: templates/variables/globals.yml
     pool:
-      vmImage: ubuntu-16.04
+      vmImage: windows-2019
     steps:
       - task: DownloadPipelineArtifact@2
         displayName: "Download Pipeline Artifact"
