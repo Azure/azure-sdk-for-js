@@ -1,4 +1,4 @@
-import { CertificatesClient } from "../src";
+import { CertificatesClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates, updates and deletes a certificate's operation.
@@ -19,7 +19,7 @@ async function main(): Promise<void> {
   let getResponse: any;
 
   // Certficates' operations will be pending for some time right after they're created.
-  await client.createCertificate("MyCertificate", {
+  await client.createCertificate(certificateName, {
     issuerName: "Self",
     subjectName: "cn=MyCert"
   });

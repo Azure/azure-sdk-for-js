@@ -1,9 +1,9 @@
-import { CertificatesClient } from "../src";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CertificatesClient } = require("../../src");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates, updates and deletes certificate issuers.
 
-async function main(): Promise<void> {
+async function main() {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -15,6 +15,7 @@ async function main(): Promise<void> {
 
   const client = new CertificatesClient(url, credential);
 
+  const certificateName = "MyCertificate6892342";
   const issuerName = "issuerName";
 
   // Create
@@ -35,13 +36,13 @@ async function main(): Promise<void> {
   });
 
   // We can create a certificate with that issuer's name.
-  await client.createCertificate("MyCertificate", {
+  await client.createCertificate(certificateName, {
     issuerName,
     subjectName: "cn=MyCert"
   });
 
   // Reading the certificate will give us back the issuer name, but no other information.
-  const certificate = await client.getCertificateWithPolicy("MyCertificate");
+  const certificate = await client.getCertificateWithPolicy(certificateName);
   console.log("Certificate: ", certificate);
 
   // We can retrieve the issuer this way:
