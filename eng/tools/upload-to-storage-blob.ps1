@@ -17,8 +17,6 @@ function Upload-Blobs
     $DocDest = "https://azuresdkdocsdev.blob.core.windows.net/`$web/$($Language)"
 
     New-Item "$($BinariesDir)/versionplaceholder.txt" -Force
-
-
     Write-Host "DocDest $($DocDest)"
     Write-Host "PkgName $($PkgName)"
     Write-Host "DocVersion $($DocVersion)"
@@ -35,25 +33,21 @@ function Process-DocJS
 {
     Write-Host "In function Process-DocJS $($PipelineWorkspace)"
 
-    $PublishedPkgs = Get-ChildItem "$($PipelineWorkspace)/packages" | Where-Object -FilterScript {$_.Name.EndsWith(".tgz")}
+    #$PublishedPkgs = Get-ChildItem "$($PipelineWorkspace)/packages" | Where-Object -FilterScript {$_.Name.EndsWith(".tgz")}
     $PublishedDocs = Get-ChildItem "$($PipelineWorkspace)/documentation" | Where-Object -FilterScript {$_.Name.EndsWith(".zip")}
 
     foreach ($Item in $PublishedDocs) {
         $PkgName = "azure-$($Item.BaseName)"
         Write-Host $PkgName
-        $PkgFullName = $PublishedPkgs | Where-Object -FilterScript {$_.Name -match "$($PkgName)-\d"}
-        Write-Host $PkgFullName
-        if (($PkgFullName | Measure-Object).count -eq 1) 
-        {
-            $DocVersion = $PkgFullName[0].BaseName.Remove(0, $PkgName.Length + 1)
-            Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
-            Expand-Archive -Path "$($PipelineWorkspace)/documentation/$($Item.Name)" -DestinationPath "$($PipelineWorkspace)/documentation/$($Item.BaseName)"
-            Upload-Blobs -DocDir "$($PipelineWorkspace)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -Language "javascript"
+        Expand-Archive -Path "$($PipelineWorkspace)/documentation/$($Item.Name)" -DestinationPath "$($PipelineWorkspace)/documentation/$($Item.BaseName)"
+        $dirList = Get-ChildItem "$($PipelineWorkspace)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
+        if($dirList.Length -eq 1){
+          $DocVersion = $dirList[0].Name
+          Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
+          Upload-Blobs -DocDir "$($PipelineWorkspace)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -Language "javascript"
         }
-        else
-        {
-            Write-Host "Package with the same name Exists. Upload Skipped"
-            continue
+        else{
+            Write-Host "found more than 1 folder under the documentation for package - $($Item.Name)"
         }
     }
 }
