@@ -29,8 +29,21 @@ export interface DeviceCodeResponse {
  * contains an instruction with these details.
  */
 export interface DeviceCodeDetails {
+  /**
+   * The device code that the user must enter into the verification page.
+   */
   userCode: string;
+
+  /**
+   * The verification URI to which the user must navigate to enter the device
+   * code.
+   */
   verificationUri: string;
+
+  /**
+   * A message that may be shown to the user to instruct them on how to enter
+   * the device code in the page specified by the verification URI.
+   */
   message: string;
 }
 
@@ -168,7 +181,8 @@ export class DeviceCodeCredential implements TokenCredential {
                 throw err;
               case "bad_verification_code":
                 throw err;
-              default: // Any other error should be rethrown
+              default:
+                // Any other error should be rethrown
                 throw err;
             }
           } else {
