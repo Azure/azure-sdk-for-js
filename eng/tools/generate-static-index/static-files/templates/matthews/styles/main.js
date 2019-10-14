@@ -121,7 +121,7 @@ function populateIndexList(selector, packageName) {
         $(publishedversions).append(
           '<li><a href="' +
             getPackageUrl(SELECTED_LANGUAGE, packageName, options[i]) +
-            '">' +
+            '" target="_blank">' +
             options[i] +
             "</a></li>"
         );
