@@ -26,7 +26,7 @@ jobs:
         displayName: Copy Template to templates folder
         inputs:
           sourceFolder: $(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/templates
-          content: '**/*'
+          content: "**/*"
           targetFolder: $(Build.SourcesDirectory)/docfx_project/templates
           overWrite: true
 
@@ -50,6 +50,11 @@ jobs:
 
       - pwsh: ls
         workingDirectory: $(Build.SourcesDirectory)/docfx_project/api
+
+      - pwsh: |
+          New-Item -Path "$(Build.SourcesDirectory)/docfx_project" -Name "toc.yml" -Force
+          Add-Content -Path "$(Build.SourcesDirectory)/docfx_project/toc.yml" -Value "- name: Azure SDK for Javascript Apis`r`n  href: api/`r`n  homepage: api/index.md"
+        displayName: Overwrite toc.yml
 
       - task: CmdLine@2
         displayName: Build Doc Content
