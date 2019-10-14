@@ -17,6 +17,9 @@ chai.use(chaiExclude);
 const should = chai.should();
 const assert = chai.assert;
 
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import { EnvVarKeys, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
@@ -302,17 +305,29 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
         let response;
         switch (entityType) {
           case EntityType.QUEUE:
-            await createEntity(entityType, alwaysBeDeletedQueue);
+            try {
+              await createEntity(entityType, alwaysBeDeletedQueue);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await deleteEntity(entityType, alwaysBeDeletedQueue);
             break;
 
           case EntityType.TOPIC:
-            await createEntity(entityType, alwaysBeDeletedTopic);
+            try {
+              await createEntity(entityType, alwaysBeDeletedTopic);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await deleteEntity(entityType, alwaysBeDeletedTopic);
             break;
 
           case EntityType.SUBSCRIPTION:
-            await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
+            try {
+              await createEntity(entityType, alwaysBeDeletedSubscription, alwaysBeExistingTopic);
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await deleteEntity(
               entityType,
               alwaysBeDeletedSubscription,
@@ -321,12 +336,16 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
             break;
 
           case EntityType.RULE:
-            await createEntity(
-              entityType,
-              alwaysBeDeletedRule,
-              alwaysBeExistingTopic,
-              alwaysBeExistingSubscription
-            );
+            try {
+              await createEntity(
+                entityType,
+                alwaysBeDeletedRule,
+                alwaysBeExistingTopic,
+                alwaysBeExistingSubscription
+              );
+            } catch (err) {
+              console.log("Ignoring clean up step");
+            }
             response = await deleteEntity(
               entityType,
               alwaysBeDeletedRule,
@@ -511,7 +530,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Queue creation with differing options`, function(): void {
+  describe(`Queue creation with differing options #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         await deleteEntity(EntityType.QUEUE, alwaysBeExistingQueue);
@@ -638,7 +657,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Topic creation with differing options`, function(): void {
+  describe(`Topic creation with differing options #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         await deleteEntity(EntityType.TOPIC, alwaysBeExistingTopic);
@@ -748,7 +767,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Subscription creation with differing options`, function(): void {
+  describe(`Subscription creation with differing options #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.SUBSCRIPTION,
@@ -879,7 +898,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     }
   }
 ].forEach((testCase) => {
-  describe(`Rule creation with differing options`, function(): void {
+  describe(`Rule creation with differing options #RunInBrowser`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         await createEntity(

@@ -10,6 +10,18 @@ import {
 } from "@azure/core-http";
 
 import * as ServiceBusConstants from "./constants";
+import { isNode } from "./utils";
+
+/**
+ * @ignore
+ * Represents the internal ATOM XML serializer interface
+ */
+export interface AtomXmlSerializer {
+  serialize(requestBodyInJson: object): object;
+
+  deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
+}
+
 /**
  * Serializes input information to construct the Atom XML request
  * @param resourceName
@@ -227,7 +239,18 @@ function setName(entry: any, nameProperties: any): any {
   if (entry[ServiceBusConstants.ATOM_METADATA_MARKER]) {
     const parsedUrl = new URL(entry[ServiceBusConstants.ATOM_METADATA_MARKER].id);
 
-    const parts = parsedUrl.pathname!.split("/");
+    let pathname: string = parsedUrl.pathname;
+
+    // The parsedUrl gets constructed differently for browser vs Node.
+    // It is specifically behaves different for some of the Atom based management API where
+    // the received URL in "id" element is of type "sb:// ... " and not a standard HTTP one
+    if (!isNode) {
+      if (pathname.startsWith("//")) {
+        pathname = pathname.substring(3);
+      }
+    }
+
+    const parts = pathname.split("/");
 
     for (let i = 0; i * 2 < parts.length - 1; i++) {
       entry[nameProperties[i]] = parts[i * 2 + 1];
