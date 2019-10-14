@@ -9,7 +9,8 @@ import "node-fetch";
 import { FetchHttpClient } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
-import { createProxyAgent, ProxyAgent } from "./proxyAgent";
+import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
+import { HttpClientOptions } from "./httpClient";
 
 interface GlobalWithFetch extends NodeJS.Global {
   fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
@@ -22,7 +23,56 @@ if (typeof globalWithFetch.fetch !== "function") {
 }
 
 export class NodeFetchHttpClient extends FetchHttpClient {
+  private httpAgent: http.Agent | undefined;
+  private httpsAgent: https.Agent | undefined;
+  private httpClientOptions: HttpClientOptions;
+
   private readonly cookieJar = new tough.CookieJar(undefined, { looseMode: true });
+
+  constructor(httpClientOptions?: HttpClientOptions) {
+    super();
+
+    this.httpClientOptions = {
+      keepAlive: true,
+      proxySettings: undefined,
+      ...httpClientOptions
+    };
+  }
+
+  private getOrCreateAgent(httpRequest: WebResource): http.Agent | https.Agent {
+    let agent: http.Agent | https.Agent | undefined = undefined;
+    const isHttps = isUrlHttps(httpRequest.url);
+
+    if (isHttps) {
+      agent = this.httpsAgent;
+    } else {
+      agent = this.httpAgent;
+    }
+
+    if (!agent) {
+      if (this.httpClientOptions.proxySettings) {
+        const tunnel: ProxyAgent = createProxyAgent(
+          httpRequest.url,
+          this.httpClientOptions.proxySettings,
+          httpRequest.headers
+        );
+
+        agent = tunnel.agent;
+        if (tunnel.isHttps) {
+          this.httpsAgent = tunnel.agent as https.Agent;
+        } else {
+          this.httpAgent = tunnel.agent;
+        }
+      } else {
+        const agentOptions: http.AgentOptions | https.AgentOptions = {
+          keepAlive: this.httpClientOptions.keepAlive
+        };
+        agent = isHttps ? new https.Agent(agentOptions) : new http.Agent(agentOptions);
+      }
+    }
+
+    return agent;
+  }
 
   async fetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
     return fetch(input, init);
@@ -45,26 +95,8 @@ export class NodeFetchHttpClient extends FetchHttpClient {
       httpRequest.headers.set("Cookie", cookieString);
     }
 
-    if (httpRequest.proxySettings) {
-      const tunnel: ProxyAgent = createProxyAgent(
-        httpRequest.url,
-        httpRequest.proxySettings,
-        httpRequest.headers
-      );
-      requestInit.agent = tunnel.agent;
-    }
-
-    if (httpRequest.keepAlive === true) {
-      if (requestInit.agent) {
-        requestInit.agent.keepAlive = true;
-      } else {
-        const options: http.AgentOptions | https.AgentOptions = { keepAlive: true };
-        const agent = httpRequest.url.startsWith("https")
-          ? new https.Agent(options)
-          : new http.Agent(options);
-        requestInit.agent = agent;
-      }
-    }
+    // Set the http(s) agent
+    requestInit.agent = this.getOrCreateAgent(httpRequest);
 
     return requestInit;
   }

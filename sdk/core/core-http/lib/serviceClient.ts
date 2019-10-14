@@ -3,7 +3,7 @@
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { DefaultHttpClient } from "./defaultHttpClient";
-import { HttpClient } from "./httpClient";
+import { HttpClient, ProxySettings } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { logPolicy } from "./policies/logPolicy";
@@ -48,16 +48,6 @@ import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from "./policies/signingPolicy";
 import { logger } from "./log";
-
-/**
- * HTTP proxy settings (Node.js only)
- */
-export interface ProxySettings {
-  host: string;
-  port: number;
-  username?: string;
-  password?: string;
-}
 
 /**
  * Options to be provided while creating the client.
@@ -120,6 +110,10 @@ export interface ServiceClientOptions {
    * Proxy settings which will be used for every HTTP request (Node.js only).
    */
   proxySettings?: ProxySettings;
+  /**
+   * When true, keeps the TCP socket alive across multiple requests (Node.js only).
+   */
+  keepAlive?: boolean;
 }
 
 /**
@@ -162,8 +156,13 @@ export class ServiceClient {
       options = {};
     }
 
+    const httpClientOptions = {
+      proxySettings: options.proxySettings,
+      keepAlive: options.keepAlive
+    };
+
     this._withCredentials = options.withCredentials || false;
-    this._httpClient = options.httpClient || new DefaultHttpClient();
+    this._httpClient = options.httpClient || new DefaultHttpClient(httpClientOptions);
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     let requestPolicyFactories: RequestPolicyFactory[];

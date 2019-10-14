@@ -7,7 +7,7 @@ import { Mapper, Serializer } from "./serializer";
 import { generateUuid } from "./util/utils";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
-import { ProxySettings } from "./serviceClient";
+import { ProxySettings } from "./httpClient";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanOptions } from "@azure/core-tracing";
 

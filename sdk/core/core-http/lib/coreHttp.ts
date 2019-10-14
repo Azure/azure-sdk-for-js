@@ -11,7 +11,7 @@ export {
   TransferProgressEvent
 } from "./webResource";
 export { DefaultHttpClient } from "./defaultHttpClient";
-export { HttpClient } from "./httpClient";
+export { HttpClient, ProxySettings } from "./httpClient";
 export { HttpHeaders } from "./httpHeaders";
 export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperationResponse";
 export { HttpPipelineLogger } from "./httpPipelineLogger";
@@ -25,12 +25,7 @@ export {
 } from "./operationParameter";
 export { OperationResponse } from "./operationResponse";
 export { OperationSpec } from "./operationSpec";
-export {
-  ServiceClient,
-  ServiceClientOptions,
-  flattenResponse,
-  ProxySettings
-} from "./serviceClient";
+export { ServiceClient, ServiceClientOptions, flattenResponse } from "./serviceClient";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export {
