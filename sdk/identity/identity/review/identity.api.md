@@ -14,7 +14,6 @@ export { AccessToken }
 // @public
 export class AggregateAuthenticationError extends Error {
     constructor(errors: any[]);
-    // (undocumented)
     errors: any[];
 }
 
@@ -24,11 +23,7 @@ export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
 // @public
 export class AuthenticationError extends Error {
     constructor(statusCode: number, errorBody: object | string | undefined | null);
-    // Warning: (ae-forgotten-export) The symbol "ErrorResponse" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
     readonly errorResponse: ErrorResponse;
-    // (undocumented)
     readonly statusCode: number;
 }
 
@@ -41,7 +36,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
-// @public (undocumented)
+// @public
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public
@@ -69,10 +64,19 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
 // @public
 export class DeviceCodeCredential implements TokenCredential {
-    // Warning: (ae-forgotten-export) The symbol "DeviceCodePromptCallback" needs to be exported by the entry point index.d.ts
     constructor(tenantId: string, clientId: string, userPromptCallback: DeviceCodePromptCallback, options?: IdentityClientOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface DeviceCodeDetails {
+    message: string;
+    userCode: string;
+    verificationUri: string;
+}
+
+// @public
+export type DeviceCodePromptCallback = (deviceCodeDetails: DeviceCodeDetails) => void;
 
 // @public
 export class EnvironmentCredential implements TokenCredential {
@@ -80,21 +84,29 @@ export class EnvironmentCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
-// @public (undocumented)
+// @public
+export interface ErrorResponse {
+    correlation_id?: string;
+    error: string;
+    error_codes?: number[];
+    error_description: string;
+    timestamp?: string;
+    trace_id?: string;
+}
+
+// @public
 export function getDefaultAzureCredential(): TokenCredential;
 
 export { GetTokenOptions }
 
-// @public (undocumented)
+// @public
 export interface IdentityClientOptions extends ServiceClientOptions {
-    // (undocumented)
     authorityHost?: string;
 }
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions);
-    // (undocumented)
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
