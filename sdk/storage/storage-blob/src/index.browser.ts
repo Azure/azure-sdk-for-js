@@ -29,3 +29,4 @@ export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";

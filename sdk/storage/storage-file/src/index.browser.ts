@@ -30,3 +30,4 @@ export * from "./UniqueRequestIDPolicyFactory";
 export * from "./BrowserPolicyFactory";
 export * from "./FileServiceClient";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";

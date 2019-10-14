@@ -39,3 +39,4 @@ export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./SASQueryParameters";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";
