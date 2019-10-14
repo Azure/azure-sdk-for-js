@@ -103,7 +103,7 @@ describe("atomSerializationPolicy", function() {
 
     await policy.sendRequest(request);
     const expectedRequestBody =
-      '<?xml version="1.0" encoding="utf-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-02T00:55:40.280Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"><LockDuration>PT2M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes></QueueDescription></content></entry>';
+      '<?xml version="1.0" encoding="utf-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-02T00:55:40.280Z</updated><content><entry xmlns="http://www.w3.org/2005/Atom"><author><name>dummy</name></author><id>https://dummy.servicebus.windows.net/dummy?api-version=2017-04</id><title type="text">dummy</title><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry></content></entry>';
 
     const indexOfOpenUpdateTag = request.body.indexOf("<updated>");
     const indexOfCloseUpdateTag = request.body.indexOf("</updated>");
@@ -179,7 +179,7 @@ class TestSerializer implements AtomXmlSerializer {
     const property1 = "LockDuration";
     const property2 = "MaxSizeInMegabytes";
 
-    const serializedContent = this.expectedParsedBody.entry.content;
+    const serializedContent = this.expectedParsedBody;
     serializedContent.entry.content.QueueDescription[property1] = resource[property1];
     serializedContent.entry.content.QueueDescription[property2] = resource[property2];
 
