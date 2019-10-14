@@ -71,7 +71,7 @@ describe("Long Running Operations - custom client", function() {
     } catch (e) {
       getResultError = e;
     }
-    assert.equal(getResultError.message, "The poller hasn't finished");
+    assert.equal(getResultError.message, "The poller hasn't finished. You can call and wait for the method pollUntilDone() to finish, or manually check until the method isDone() returns true.");
 
     await poller.pollUntilDone();
     assert.ok(poller.previousResponse!.parsedBody.finished);
