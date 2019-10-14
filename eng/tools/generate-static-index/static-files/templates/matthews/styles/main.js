@@ -75,3 +75,45 @@ $(function () {
         $(this).html(text);
     });
 })
+
+function httpGetAsync(targetUrl, callback) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function () {
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+      callback(xmlHttp.responseText);
+  }
+  xmlHttp.open("GET", targetUrl, true); // true for asynchronous 
+  xmlHttp.send(null);
+}
+function populateIndexList(selector, packageName) {
+  url = "https://azuresdkdocsdev.blob.core.windows.net/$web?restype=container&comp=list&prefix=" + SELECTED_LANGUAGE + "/" + packageName + "/versions/"
+  console.log(url)
+  console.log(selector)
+  httpGetAsync(url, function (responseText) {
+    var publishedversions = document.createElement("ul")
+    if (responseText) {
+      parser = new DOMParser();
+      xmlDoc = parser.parseFromString(responseText, "text/xml");
+      nameElements = Array.from(xmlDoc.getElementsByTagName('Name'))
+      options = []
+      for (var i in nameElements) {
+        options.push(nameElements[i].textContent.split('/')[3])
+      }
+      for (var i in options) {
+        $(publishedversions).append('<li><a href="' + getPackageUrl(SELECTED_LANGUAGE, packageName, options[i]) + '">' + options[i] + '</a></li>')
+      }
+    }
+    else {
+      $(publishedversions).append('<li>No discovered versions present in blob storage.</li>')
+    }
+    $(selector).after(publishedversions)
+  })
+}
+function getPackageUrl(language, package, version) {
+  return "https://azuresdkdocsdev.blob.core.windows.net/$web/" + language + "/" + package + "/" + version + "/api/index.html"
+}
+// Populate Index
+$(function () {
+  var pkgname = WINDOW_CONTENTS[WINDOW_CONTENTS.length - 1].replace(".html", "");
+  populateIndexList("#published-versions", pkgname);
+})
