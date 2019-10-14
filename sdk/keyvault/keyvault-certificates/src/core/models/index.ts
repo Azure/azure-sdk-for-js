@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError } from "@azure/core-arm";
 import * as coreHttp from "@azure/core-http";
-
-export { BaseResource, CloudError };
 
 /**
  * The object attributes managed by the KeyVault service.
@@ -1181,6 +1178,125 @@ export interface KeyVerifyResult {
 }
 
 /**
+ * The key list result.
+ */
+export interface KeyListResult {
+  /**
+   * A response message containing a list of keys in the key vault along with a link to the next
+   * page of keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: KeyItem[];
+  /**
+   * The URL to get the next set of keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * A list of keys that have been deleted in this vault.
+ */
+export interface DeletedKeyListResult {
+  /**
+   * A response message containing a list of deleted keys in the vault along with a link to the
+   * next page of deleted keys
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedKeyItem[];
+  /**
+   * The URL to get the next set of deleted keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The secret list result.
+ */
+export interface SecretListResult {
+  /**
+   * A response message containing a list of secrets in the key vault along with a link to the next
+   * page of secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: SecretItem[];
+  /**
+   * The URL to get the next set of secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The deleted secret list result
+ */
+export interface DeletedSecretListResult {
+  /**
+   * A response message containing a list of the deleted secrets in the vault along with a link to
+   * the next page of deleted secrets
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedSecretItem[];
+  /**
+   * The URL to get the next set of deleted secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The certificate list result.
+ */
+export interface CertificateListResult {
+  /**
+   * A response message containing a list of certificates in the key vault along with a link to the
+   * next page of certificates.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: CertificateItem[];
+  /**
+   * The URL to get the next set of certificates.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * A list of certificates that have been deleted in this vault.
+ */
+export interface DeletedCertificateListResult {
+  /**
+   * A response message containing a list of deleted certificates in the vault along with a link to
+   * the next page of deleted certificates
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedCertificateItem[];
+  /**
+   * The URL to get the next set of deleted certificates.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The certificate issuer list result.
+ */
+export interface CertificateIssuerListResult {
+  /**
+   * A response message containing a list of certificate issuers in the key vault along with a link
+   * to the next page of certificate issuers.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: CertificateIssuerItem[];
+  /**
+   * The URL to get the next set of certificate issuers.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * The backup key result, containing the backup blob.
  */
 export interface BackupKeyResult {
@@ -1428,6 +1544,40 @@ export interface DeletedStorageAccountItem extends StorageAccountItem {
 }
 
 /**
+ * The storage accounts list result.
+ */
+export interface StorageListResult {
+  /**
+   * A response message containing a list of storage accounts in the key vault along with a link to
+   * the next page of storage accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: StorageAccountItem[];
+  /**
+   * The URL to get the next set of storage accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The deleted storage account list result
+ */
+export interface DeletedStorageListResult {
+  /**
+   * A response message containing a list of the deleted storage accounts in the vault along with a
+   * link to the next page of deleted storage accounts
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedStorageAccountItem[];
+  /**
+   * The URL to get the next set of deleted storage accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * The SAS definition management attributes.
  */
 export interface SasDefinitionAttributes {
@@ -1564,6 +1714,40 @@ export interface DeletedSasDefinitionItem extends SasDefinitionItem {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly deletedDate?: Date;
+}
+
+/**
+ * The storage account SAS definition list result.
+ */
+export interface SasDefinitionListResult {
+  /**
+   * A response message containing a list of SAS definitions along with a link to the next page of
+   * SAS definitions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: SasDefinitionItem[];
+  /**
+   * The URL to get the next set of SAS definitions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The deleted SAS definition list result
+ */
+export interface DeletedSasDefinitionListResult {
+  /**
+   * A response message containing a list of the deleted SAS definitions in the vault along with a
+   * link to the next page of deleted sas definitions
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedSasDefinitionItem[];
+  /**
+   * The URL to get the next set of deleted SAS definitions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -1828,7 +2012,8 @@ export interface KeyVaultClientGetCertificatesOptionalParams extends coreHttp.Re
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetCertificateIssuersOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetCertificateIssuersOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -1839,7 +2024,8 @@ export interface KeyVaultClientGetCertificateIssuersOptionalParams extends coreH
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientSetCertificateIssuerOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientSetCertificateIssuerOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * The credentials to be used for the issuer.
    */
@@ -1857,7 +2043,8 @@ export interface KeyVaultClientSetCertificateIssuerOptionalParams extends coreHt
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientUpdateCertificateIssuerOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientUpdateCertificateIssuerOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * The issuer provider.
    */
@@ -1919,7 +2106,8 @@ export interface KeyVaultClientImportCertificateOptionalParams extends coreHttp.
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetCertificateVersionsOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetCertificateVersionsOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -1962,7 +2150,8 @@ export interface KeyVaultClientMergeCertificateOptionalParams extends coreHttp.R
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetDeletedCertificatesOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetDeletedCertificatesOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -1977,7 +2166,8 @@ export interface KeyVaultClientGetDeletedCertificatesOptionalParams extends core
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetStorageAccountsOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetStorageAccountsOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -1988,7 +2178,8 @@ export interface KeyVaultClientGetStorageAccountsOptionalParams extends coreHttp
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetDeletedStorageAccountsOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetDeletedStorageAccountsOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -2017,7 +2208,8 @@ export interface KeyVaultClientSetStorageAccountOptionalParams extends coreHttp.
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientUpdateStorageAccountOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientUpdateStorageAccountOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * The current active storage account key name.
    */
@@ -2054,7 +2246,8 @@ export interface KeyVaultClientGetSasDefinitionsOptionalParams extends coreHttp.
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetDeletedSasDefinitionsOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetDeletedSasDefinitionsOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -2079,7 +2272,8 @@ export interface KeyVaultClientSetSasDefinitionOptionalParams extends coreHttp.R
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientUpdateSasDefinitionOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientUpdateSasDefinitionOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * The SAS definition token template signed with an arbitrary key.  Tokens created according to
    * the SAS definition will have the same properties as the template.
@@ -2105,155 +2299,12 @@ export interface KeyVaultClientUpdateSasDefinitionOptionalParams extends coreHtt
 }
 
 /**
- * @interface
- * The key list result.
- * @extends Array<KeyItem>
- */
-export interface KeyListResult extends Array<KeyItem> {
-  /**
-   * The URL to get the next set of keys.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of keys that have been deleted in this vault.
- * @extends Array<DeletedKeyItem>
- */
-export interface DeletedKeyListResult extends Array<DeletedKeyItem> {
-  /**
-   * The URL to get the next set of deleted keys.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The secret list result.
- * @extends Array<SecretItem>
- */
-export interface SecretListResult extends Array<SecretItem> {
-  /**
-   * The URL to get the next set of secrets.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The deleted secret list result
- * @extends Array<DeletedSecretItem>
- */
-export interface DeletedSecretListResult extends Array<DeletedSecretItem> {
-  /**
-   * The URL to get the next set of deleted secrets.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The certificate list result.
- * @extends Array<CertificateItem>
- */
-export interface CertificateListResult extends Array<CertificateItem> {
-  /**
-   * The URL to get the next set of certificates.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The certificate issuer list result.
- * @extends Array<CertificateIssuerItem>
- */
-export interface CertificateIssuerListResult extends Array<CertificateIssuerItem> {
-  /**
-   * The URL to get the next set of certificate issuers.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of certificates that have been deleted in this vault.
- * @extends Array<DeletedCertificateItem>
- */
-export interface DeletedCertificateListResult extends Array<DeletedCertificateItem> {
-  /**
-   * The URL to get the next set of deleted certificates.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The storage accounts list result.
- * @extends Array<StorageAccountItem>
- */
-export interface StorageListResult extends Array<StorageAccountItem> {
-  /**
-   * The URL to get the next set of storage accounts.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The deleted storage account list result
- * @extends Array<DeletedStorageAccountItem>
- */
-export interface DeletedStorageListResult extends Array<DeletedStorageAccountItem> {
-  /**
-   * The URL to get the next set of deleted storage accounts.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The storage account SAS definition list result.
- * @extends Array<SasDefinitionItem>
- */
-export interface SasDefinitionListResult extends Array<SasDefinitionItem> {
-  /**
-   * The URL to get the next set of SAS definitions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The deleted SAS definition list result
- * @extends Array<DeletedSasDefinitionItem>
- */
-export interface DeletedSasDefinitionListResult extends Array<DeletedSasDefinitionItem> {
-  /**
-   * The URL to get the next set of deleted SAS definitions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
  * Defines values for JsonWebKeyType.
  * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
+export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * Defines values for JsonWebKeyCurveName.
@@ -2261,7 +2312,7 @@ export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyCurveName = 'P-256' | 'P-384' | 'P-521' | 'P-256K';
+export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * Defines values for DeletionRecoveryLevel.
@@ -2270,7 +2321,11 @@ export type JsonWebKeyCurveName = 'P-256' | 'P-384' | 'P-521' | 'P-256K';
  * @readonly
  * @enum {string}
  */
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel =
+  | "Purgeable"
+  | "Recoverable+Purgeable"
+  | "Recoverable"
+  | "Recoverable+ProtectedSubscription";
 
 /**
  * Defines values for KeyUsageType.
@@ -2279,7 +2334,16 @@ export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Rec
  * @readonly
  * @enum {string}
  */
-export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherment' | 'dataEncipherment' | 'keyAgreement' | 'keyCertSign' | 'cRLSign' | 'encipherOnly' | 'decipherOnly';
+export type KeyUsageType =
+  | "digitalSignature"
+  | "nonRepudiation"
+  | "keyEncipherment"
+  | "dataEncipherment"
+  | "keyAgreement"
+  | "keyCertSign"
+  | "cRLSign"
+  | "encipherOnly"
+  | "decipherOnly";
 
 /**
  * Defines values for ActionType.
@@ -2287,7 +2351,7 @@ export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherm
  * @readonly
  * @enum {string}
  */
-export type ActionType = 'EmailContacts' | 'AutoRenew';
+export type ActionType = "EmailContacts" | "AutoRenew";
 
 /**
  * Defines values for JsonWebKeyOperation.
@@ -2295,7 +2359,13 @@ export type ActionType = 'EmailContacts' | 'AutoRenew';
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey';
+export type JsonWebKeyOperation =
+  | "encrypt"
+  | "decrypt"
+  | "sign"
+  | "verify"
+  | "wrapKey"
+  | "unwrapKey";
 
 /**
  * Defines values for JsonWebKeyEncryptionAlgorithm.
@@ -2303,7 +2373,7 @@ export type JsonWebKeyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'w
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5';
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
  * Defines values for JsonWebKeySignatureAlgorithm.
@@ -2312,7 +2382,18 @@ export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeySignatureAlgorithm = 'PS256' | 'PS384' | 'PS512' | 'RS256' | 'RS384' | 'RS512' | 'RSNULL' | 'ES256' | 'ES384' | 'ES512' | 'ES256K';
+export type JsonWebKeySignatureAlgorithm =
+  | "PS256"
+  | "PS384"
+  | "PS512"
+  | "RS256"
+  | "RS384"
+  | "RS512"
+  | "RSNULL"
+  | "ES256"
+  | "ES384"
+  | "ES512"
+  | "ES256K";
 
 /**
  * Defines values for SasTokenType.
@@ -2320,7 +2401,7 @@ export type JsonWebKeySignatureAlgorithm = 'PS256' | 'PS384' | 'PS512' | 'RS256'
  * @readonly
  * @enum {string}
  */
-export type SasTokenType = 'account' | 'service';
+export type SasTokenType = "account" | "service";
 
 /**
  * Contains response data for the createKey operation.
@@ -2330,16 +2411,16 @@ export type CreateKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -2350,16 +2431,16 @@ export type ImportKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -2370,16 +2451,16 @@ export type DeleteKeyResponse = DeletedKeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedKeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedKeyBundle;
+  };
 };
 
 /**
@@ -2390,16 +2471,16 @@ export type UpdateKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -2410,16 +2491,16 @@ export type GetKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -2430,16 +2511,16 @@ export type GetKeyVersionsResponse = KeyListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyListResult;
+  };
 };
 
 /**
@@ -2450,16 +2531,16 @@ export type GetKeysResponse = KeyListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyListResult;
+  };
 };
 
 /**
@@ -2470,16 +2551,16 @@ export type BackupKeyResponse = BackupKeyResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupKeyResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupKeyResult;
+  };
 };
 
 /**
@@ -2490,16 +2571,16 @@ export type RestoreKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -2510,16 +2591,16 @@ export type EncryptResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -2530,16 +2611,16 @@ export type DecryptResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -2550,16 +2631,16 @@ export type SignResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -2570,16 +2651,16 @@ export type VerifyResponse = KeyVerifyResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyVerifyResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyVerifyResult;
+  };
 };
 
 /**
@@ -2590,16 +2671,16 @@ export type WrapKeyResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -2610,16 +2691,16 @@ export type UnwrapKeyResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -2630,16 +2711,16 @@ export type GetDeletedKeysResponse = DeletedKeyListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedKeyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedKeyListResult;
+  };
 };
 
 /**
@@ -2650,16 +2731,16 @@ export type GetDeletedKeyResponse = DeletedKeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedKeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedKeyBundle;
+  };
 };
 
 /**
@@ -2670,16 +2751,16 @@ export type RecoverDeletedKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -2690,16 +2771,16 @@ export type SetSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretBundle;
+  };
 };
 
 /**
@@ -2710,16 +2791,16 @@ export type DeleteSecretResponse = DeletedSecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedSecretBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedSecretBundle;
+  };
 };
 
 /**
@@ -2730,16 +2811,16 @@ export type UpdateSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretBundle;
+  };
 };
 
 /**
@@ -2750,16 +2831,16 @@ export type GetSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretBundle;
+  };
 };
 
 /**
@@ -2770,16 +2851,16 @@ export type GetSecretsResponse = SecretListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretListResult;
+  };
 };
 
 /**
@@ -2790,16 +2871,16 @@ export type GetSecretVersionsResponse = SecretListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretListResult;
+  };
 };
 
 /**
@@ -2810,16 +2891,16 @@ export type GetDeletedSecretsResponse = DeletedSecretListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedSecretListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedSecretListResult;
+  };
 };
 
 /**
@@ -2830,16 +2911,16 @@ export type GetDeletedSecretResponse = DeletedSecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedSecretBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedSecretBundle;
+  };
 };
 
 /**
@@ -2850,16 +2931,16 @@ export type RecoverDeletedSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretBundle;
+  };
 };
 
 /**
@@ -2870,16 +2951,16 @@ export type BackupSecretResponse = BackupSecretResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupSecretResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupSecretResult;
+  };
 };
 
 /**
@@ -2890,16 +2971,16 @@ export type RestoreSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretBundle;
+  };
 };
 
 /**
@@ -2910,16 +2991,16 @@ export type GetCertificatesResponse = CertificateListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateListResult;
+  };
 };
 
 /**
@@ -2930,16 +3011,16 @@ export type DeleteCertificateResponse = DeletedCertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedCertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedCertificateBundle;
+  };
 };
 
 /**
@@ -2950,16 +3031,16 @@ export type SetCertificateContactsResponse = Contacts & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Contacts;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Contacts;
+  };
 };
 
 /**
@@ -2970,16 +3051,16 @@ export type GetCertificateContactsResponse = Contacts & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Contacts;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Contacts;
+  };
 };
 
 /**
@@ -2990,16 +3071,16 @@ export type DeleteCertificateContactsResponse = Contacts & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Contacts;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Contacts;
+  };
 };
 
 /**
@@ -3010,16 +3091,16 @@ export type GetCertificateIssuersResponse = CertificateIssuerListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateIssuerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateIssuerListResult;
+  };
 };
 
 /**
@@ -3030,16 +3111,16 @@ export type SetCertificateIssuerResponse = IssuerBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssuerBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssuerBundle;
+  };
 };
 
 /**
@@ -3050,16 +3131,16 @@ export type UpdateCertificateIssuerResponse = IssuerBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssuerBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssuerBundle;
+  };
 };
 
 /**
@@ -3070,16 +3151,16 @@ export type GetCertificateIssuerResponse = IssuerBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssuerBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssuerBundle;
+  };
 };
 
 /**
@@ -3090,16 +3171,16 @@ export type DeleteCertificateIssuerResponse = IssuerBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssuerBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssuerBundle;
+  };
 };
 
 /**
@@ -3110,16 +3191,16 @@ export type CreateCertificateResponse = CertificateOperation & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateOperation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateOperation;
+  };
 };
 
 /**
@@ -3130,16 +3211,16 @@ export type ImportCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -3150,16 +3231,16 @@ export type GetCertificateVersionsResponse = CertificateListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateListResult;
+  };
 };
 
 /**
@@ -3170,16 +3251,16 @@ export type GetCertificatePolicyResponse = CertificatePolicy & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificatePolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificatePolicy;
+  };
 };
 
 /**
@@ -3190,16 +3271,16 @@ export type UpdateCertificatePolicyResponse = CertificatePolicy & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificatePolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificatePolicy;
+  };
 };
 
 /**
@@ -3210,16 +3291,16 @@ export type UpdateCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -3230,16 +3311,16 @@ export type GetCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -3250,16 +3331,16 @@ export type UpdateCertificateOperationResponse = CertificateOperation & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateOperation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateOperation;
+  };
 };
 
 /**
@@ -3270,16 +3351,16 @@ export type GetCertificateOperationResponse = CertificateOperation & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateOperation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateOperation;
+  };
 };
 
 /**
@@ -3290,16 +3371,16 @@ export type DeleteCertificateOperationResponse = CertificateOperation & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateOperation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateOperation;
+  };
 };
 
 /**
@@ -3310,16 +3391,16 @@ export type MergeCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -3330,16 +3411,16 @@ export type BackupCertificateResponse = BackupCertificateResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupCertificateResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupCertificateResult;
+  };
 };
 
 /**
@@ -3350,16 +3431,16 @@ export type RestoreCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -3370,16 +3451,16 @@ export type GetDeletedCertificatesResponse = DeletedCertificateListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedCertificateListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedCertificateListResult;
+  };
 };
 
 /**
@@ -3390,16 +3471,16 @@ export type GetDeletedCertificateResponse = DeletedCertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedCertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedCertificateBundle;
+  };
 };
 
 /**
@@ -3410,16 +3491,16 @@ export type RecoverDeletedCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -3430,16 +3511,16 @@ export type GetStorageAccountsResponse = StorageListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageListResult;
+  };
 };
 
 /**
@@ -3450,16 +3531,16 @@ export type GetDeletedStorageAccountsResponse = DeletedStorageListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedStorageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedStorageListResult;
+  };
 };
 
 /**
@@ -3470,16 +3551,16 @@ export type GetDeletedStorageAccountResponse = DeletedStorageBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedStorageBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedStorageBundle;
+  };
 };
 
 /**
@@ -3490,16 +3571,16 @@ export type RecoverDeletedStorageAccountResponse = StorageBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageBundle;
+  };
 };
 
 /**
@@ -3510,16 +3591,16 @@ export type BackupStorageAccountResponse = BackupStorageResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupStorageResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupStorageResult;
+  };
 };
 
 /**
@@ -3530,16 +3611,16 @@ export type RestoreStorageAccountResponse = StorageBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageBundle;
+  };
 };
 
 /**
@@ -3550,16 +3631,16 @@ export type DeleteStorageAccountResponse = DeletedStorageBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedStorageBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedStorageBundle;
+  };
 };
 
 /**
@@ -3570,16 +3651,16 @@ export type GetStorageAccountResponse = StorageBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageBundle;
+  };
 };
 
 /**
@@ -3590,16 +3671,16 @@ export type SetStorageAccountResponse = StorageBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageBundle;
+  };
 };
 
 /**
@@ -3610,16 +3691,16 @@ export type UpdateStorageAccountResponse = StorageBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageBundle;
+  };
 };
 
 /**
@@ -3630,16 +3711,16 @@ export type RegenerateStorageAccountKeyResponse = StorageBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageBundle;
+  };
 };
 
 /**
@@ -3650,16 +3731,16 @@ export type GetSasDefinitionsResponse = SasDefinitionListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SasDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SasDefinitionListResult;
+  };
 };
 
 /**
@@ -3670,16 +3751,16 @@ export type GetDeletedSasDefinitionsResponse = DeletedSasDefinitionListResult & 
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedSasDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedSasDefinitionListResult;
+  };
 };
 
 /**
@@ -3690,16 +3771,16 @@ export type GetDeletedSasDefinitionResponse = DeletedSasDefinitionBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedSasDefinitionBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedSasDefinitionBundle;
+  };
 };
 
 /**
@@ -3710,16 +3791,16 @@ export type RecoverDeletedSasDefinitionResponse = SasDefinitionBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SasDefinitionBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SasDefinitionBundle;
+  };
 };
 
 /**
@@ -3730,16 +3811,16 @@ export type DeleteSasDefinitionResponse = DeletedSasDefinitionBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedSasDefinitionBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedSasDefinitionBundle;
+  };
 };
 
 /**
@@ -3750,16 +3831,16 @@ export type GetSasDefinitionResponse = SasDefinitionBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SasDefinitionBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SasDefinitionBundle;
+  };
 };
 
 /**
@@ -3770,16 +3851,16 @@ export type SetSasDefinitionResponse = SasDefinitionBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SasDefinitionBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SasDefinitionBundle;
+  };
 };
 
 /**
@@ -3790,294 +3871,14 @@ export type UpdateSasDefinitionResponse = SasDefinitionBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SasDefinitionBundle;
-    };
-};
-
-/**
- * Contains response data for the getKeyVersionsNext operation.
- */
-export type GetKeyVersionsNextResponse = KeyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyListResult;
-    };
-};
-
-/**
- * Contains response data for the getKeysNext operation.
- */
-export type GetKeysNextResponse = KeyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyListResult;
-    };
-};
-
-/**
- * Contains response data for the getDeletedKeysNext operation.
- */
-export type GetDeletedKeysNextResponse = DeletedKeyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedKeyListResult;
-    };
-};
-
-/**
- * Contains response data for the getSecretsNext operation.
- */
-export type GetSecretsNextResponse = SecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretListResult;
-    };
-};
-
-/**
- * Contains response data for the getSecretVersionsNext operation.
- */
-export type GetSecretVersionsNextResponse = SecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretListResult;
-    };
-};
-
-/**
- * Contains response data for the getDeletedSecretsNext operation.
- */
-export type GetDeletedSecretsNextResponse = DeletedSecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedSecretListResult;
-    };
-};
-
-/**
- * Contains response data for the getCertificatesNext operation.
- */
-export type GetCertificatesNextResponse = CertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListResult;
-    };
-};
-
-/**
- * Contains response data for the getCertificateIssuersNext operation.
- */
-export type GetCertificateIssuersNextResponse = CertificateIssuerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateIssuerListResult;
-    };
-};
-
-/**
- * Contains response data for the getCertificateVersionsNext operation.
- */
-export type GetCertificateVersionsNextResponse = CertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListResult;
-    };
-};
-
-/**
- * Contains response data for the getDeletedCertificatesNext operation.
- */
-export type GetDeletedCertificatesNextResponse = DeletedCertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedCertificateListResult;
-    };
-};
-
-/**
- * Contains response data for the getStorageAccountsNext operation.
- */
-export type GetStorageAccountsNextResponse = StorageListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageListResult;
-    };
-};
-
-/**
- * Contains response data for the getDeletedStorageAccountsNext operation.
- */
-export type GetDeletedStorageAccountsNextResponse = DeletedStorageListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedStorageListResult;
-    };
-};
-
-/**
- * Contains response data for the getSasDefinitionsNext operation.
- */
-export type GetSasDefinitionsNextResponse = SasDefinitionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SasDefinitionListResult;
-    };
-};
-
-/**
- * Contains response data for the getDeletedSasDefinitionsNext operation.
- */
-export type GetDeletedSasDefinitionsNextResponse = DeletedSasDefinitionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedSasDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SasDefinitionBundle;
+  };
 };

@@ -3,6 +3,8 @@
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { AggregateAuthenticationError } from "../client/errors";
+import { createSpan } from "../util/tracing";
+import { CanonicalCode } from "@azure/core-tracing";
 
 /**
  * Enables multiple {@link TokenCredential} implementations to be tried in order
@@ -32,17 +34,26 @@ export class ChainedTokenCredential implements TokenCredential {
     let token = null;
     const errors = [];
 
+    const { span, options: newOptions } = createSpan("ChainedTokenCredential-getToken", options);
+
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
-        token = await this._sources[i].getToken(scopes, options);
+        token = await this._sources[i].getToken(scopes, newOptions);
       } catch (err) {
         errors.push(err);
       }
     }
 
     if (!token && errors.length > 0) {
-      throw new AggregateAuthenticationError(errors);
+      const err = new AggregateAuthenticationError(errors);
+      span.setStatus({
+        code: CanonicalCode.UNAUTHENTICATED,
+        message: err.message
+      });
+      throw err;
     }
+
+    span.end();
 
     return token;
   }

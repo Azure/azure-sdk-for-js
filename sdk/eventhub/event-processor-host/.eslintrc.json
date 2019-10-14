@@ -1,0 +1,7 @@
+{
+  "plugins": ["@azure/azure-sdk"],
+  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
+  "parserOptions": {
+    "createDefaultProgram": true
+  }
+}

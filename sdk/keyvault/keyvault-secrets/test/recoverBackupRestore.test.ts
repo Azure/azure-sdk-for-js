@@ -16,7 +16,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -24,7 +24,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
@@ -38,13 +38,17 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.deleteSecret(secretName);
     const getDeletedResult = await retry(async () => client.getDeletedSecret(secretName));
     assert.equal(
-      getDeletedResult.name,
+      getDeletedResult.properties.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
     await client.recoverDeletedSecret(secretName);
     const getResult = await retry(async () => client.getSecret(secretName));
-    assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
+    assert.equal(
+      getResult.properties.name,
+      secretName,
+      "Unexpected secret name in result from getSecret()."
+    );
     await testClient.flushSecret(secretName);
   });
 
@@ -75,7 +79,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     }
     assert.ok(
       result!.length > 0,
-      `Unexpected length (${result.length}) of buffer from backupSecret()`
+      `Unexpected length (${result!.length}) of buffer from backupSecret()`
     );
     await testClient.flushSecret(secretName);
   });
@@ -103,7 +107,11 @@ describe("Secret client - restore secrets and recover backups", () => {
     await testClient.flushSecret(secretName);
     await retry(async () => client.restoreSecret(backup as Uint8Array));
     const getResult = await client.getSecret(secretName);
-    assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
+    assert.equal(
+      getResult.properties.name,
+      secretName,
+      "Unexpected secret name in result from getSecret()."
+    );
     await testClient.flushSecret(secretName);
   });
 

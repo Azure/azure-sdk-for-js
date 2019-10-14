@@ -16,7 +16,7 @@ export function encodeString(value: string): string {
 export function encodeByteArray(value: Uint8Array): string {
   // Buffer.from accepts <ArrayBuffer> | <SharedArrayBuffer>-- the TypeScript definition is off here
   // https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_arraybuffer_byteoffset_length
-  const bufferValue = (value instanceof Buffer) ? value : Buffer.from(value.buffer as ArrayBuffer);
+  const bufferValue = value instanceof Buffer ? value : Buffer.from(value.buffer as ArrayBuffer);
   return bufferValue.toString("base64");
 }
 

@@ -1,26 +1,27 @@
-import { SupportedPlugins } from "./utils/supportedPlugins";
-import { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugin";
-import { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
-import { TracerNoOpImpl } from "./implementations/noop/tracerNoOpImpl";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { NoOpTracer } from "./tracers/noop/noOpTracer";
 import { Tracer } from "./interfaces/tracer";
+import { getCache } from "./utils/cache";
 
-export class TracerProxy {
-  private static _tracerPlugin: Tracer;
+/**
+ * Sets the global tracer, enabling tracing for the Azure SDK.
+ * @param tracer An OpenTelemetry Tracer instance.
+ */
+export function setTracer(tracer: Tracer) {
+  const cache = getCache();
+  cache.tracer = tracer;
+}
 
-  private constructor() {}
-
-  public static setTracer(tracer: any, tracerPluginType: SupportedPlugins) {
-    if (tracerPluginType === SupportedPlugins.OPENCENSUS) {
-      TracerProxy._tracerPlugin = new OpenCensusTracePlugin(tracer);
-    } else {
-      TracerProxy._tracerPlugin = new NoOpTracePlugin(tracer);
-    }
+/**
+ * Retrieves the active tracer, or returns a
+ * no-op implementation if one is not set.
+ */
+export function getTracer() {
+  const cache = getCache();
+  if (!cache.tracer) {
+    cache.tracer = new NoOpTracer();
   }
-
-  public static getTracer() {
-    if (!TracerProxy._tracerPlugin) {
-      TracerProxy._tracerPlugin = new NoOpTracePlugin(new TracerNoOpImpl());
-    }
-    return TracerProxy._tracerPlugin;
-  }
+  return cache.tracer;
 }

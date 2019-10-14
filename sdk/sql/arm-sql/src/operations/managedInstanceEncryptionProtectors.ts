@@ -28,6 +28,19 @@ export class ManagedInstanceEncryptionProtectors {
   }
 
   /**
+   * Revalidates an existing encryption protector.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  revalidate(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRevalidate(resourceGroupName,managedInstanceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Gets a list of managed instance encryption protectors
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -109,6 +122,25 @@ export class ManagedInstanceEncryptionProtectors {
   createOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstanceEncryptionProtector, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,managedInstanceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedInstanceEncryptionProtectorsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Revalidates an existing encryption protector.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRevalidate(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        managedInstanceName,
+        options
+      },
+      beginRevalidateOperationSpec,
+      options);
   }
 
   /**
@@ -207,6 +239,31 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedInstanceEncryptionProtector
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRevalidateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/encryptionProtector/{encryptionProtectorName}/revalidate",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+    Parameters.encryptionProtectorName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

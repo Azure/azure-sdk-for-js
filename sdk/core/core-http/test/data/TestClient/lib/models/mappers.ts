@@ -351,9 +351,7 @@ internalMappers.Product = {
     modelProperties: {
       id: {
         serializedName: "id",
-        constraints: {
-
-        },
+        constraints: {},
         required: true,
         type: {
           name: "Number"
@@ -671,10 +669,10 @@ internalMappers.SubProduct = {
 };
 
 internalMappers.discriminators = {
-  "Fish": internalMappers.Fish,
+  Fish: internalMappers.Fish,
   "Fish.shark": internalMappers.Shark,
   "Fish.sawshark": internalMappers.SawShark,
-  "Pet": internalMappers.Pet,
+  Pet: internalMappers.Pet,
   "Pet.Cat": internalMappers.Cat,
   "Pet.Dog": internalMappers.Dog
 };

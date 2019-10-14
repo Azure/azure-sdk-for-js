@@ -2,12 +2,14 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.0.0-preview.2",
+  "version": "1.0.0-preview.6",
   "sdk-type": "client",
   "dependencies": {
-    "@azure/core-arm": "1.0.0-preview.3",
-    "@azure/core-http": "1.0.0-preview.3",
+    "@azure/core-arm": "1.0.0-preview.5",
+    "@azure/core-asynciterator-polyfill": "1.0.0-preview.1",
+    "@azure/core-http": "1.0.0-preview.5",
     "@azure/core-paging": "1.0.0-preview.2",
+    "@azure/core-tracing": "1.0.0-preview.4",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -20,7 +22,7 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
+  "types": "./types/app-configuration.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",
@@ -84,7 +86,7 @@
     "swagger": "autorest --typescript swagger/swagger.md",
     "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "npm run test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,

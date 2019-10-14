@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * Represents the consistency levels supported for Azure Cosmos DB client operations.<br>
  * The requested ConsistencyLevel must match or be weaker than that provisioned for the database account.
@@ -7,8 +9,6 @@
  *
  * See https://aka.ms/cosmos-consistency for more detailed documentation on Consistency Levels.
  */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 export enum ConsistencyLevel {
   /**
    * Strong Consistency guarantees that read operations always return the value that was last written.

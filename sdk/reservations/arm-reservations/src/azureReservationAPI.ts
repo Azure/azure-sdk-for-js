@@ -68,7 +68,8 @@ class AzureReservationAPI extends AzureReservationAPIContext {
   }
 
   /**
-   * Get applicable `Reservation`s that are applied to this subscription.
+   * Get applicable `Reservation`s that are applied to this subscription or a resource group under
+   * this subscription.
    * @summary Get list of applicable `Reservation`s.
    * @param subscriptionId Id of the subscription
    * @param [options] The optional parameters

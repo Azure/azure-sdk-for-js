@@ -6,6 +6,35 @@ import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
 import { message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { Span, SpanContext } from "@azure/core-tracing";
+import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import { createMessageSpan } from "./diagnostics/messageSpan";
+
+/**
+ * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
+ * @param eventDataBatch The instance of `EventDataBatch` to verify.
+ * @internal
+ * @ignore
+ */
+export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDataBatch {
+  return (
+    eventDataBatch &&
+    typeof eventDataBatch.tryAdd === "function" &&
+    typeof eventDataBatch.count === "number" &&
+    typeof eventDataBatch.sizeInBytes === "number"
+  );
+}
+
+/**
+ * The set of options to configure the behavior of `tryAdd`.
+ * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
+ */
+export interface TryAddOptions {
+  /**
+   * The `Span` or `SpanContext` to use as the `parent` of any spans created while adding events.
+   */
+  parentSpan?: Span | SpanContext;
+}
 
 /**
  * A class representing a batch of events which can be passed to the `send` method of a `EventProducer` instance.
@@ -50,6 +79,10 @@ export class EventDataBatch {
    * @property Encoded batch message.
    */
   private _batchMessage: Buffer | undefined;
+  /**
+   * List of 'message' span contexts.
+   */
+  private _spanContexts: SpanContext[] = [];
 
   /**
    * EventDataBatch should not be constructed using `new EventDataBatch()`
@@ -67,7 +100,7 @@ export class EventDataBatch {
   }
 
   /**
-   * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to 
+   * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to
    * produce a partition assignment when the producer is created without a `partitionId`
    * @readonly
    */
@@ -95,9 +128,9 @@ export class EventDataBatch {
   /**
    * @property Represents the single AMQP message which is the result of encoding all the events
    * added into the `EventDataBatch` instance.
-   * 
+   *
    * This is not meant for the user to use directly.
-   * 
+   *
    * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
@@ -107,15 +140,34 @@ export class EventDataBatch {
   }
 
   /**
+   * Gets the "message" span contexts that were created when adding events to the batch.
+   * @internal
+   * @ignore
+   */
+  get _messageSpanContexts(): SpanContext[] {
+    return this._spanContexts;
+  }
+  /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
-   * 
+   *
    * @param eventData  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
-  public tryAdd(eventData: EventData): boolean {
+  public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
+
+    // check if the event has already been instrumented
+    const previouslyInstrumented = Boolean(
+      eventData.properties && eventData.properties[TRACEPARENT_PROPERTY]
+    );
+    if (!previouslyInstrumented) {
+      const messageSpan = createMessageSpan(options.parentSpan);
+      eventData = instrumentEventData(eventData, messageSpan);
+      this._spanContexts.push(messageSpan.context());
+      messageSpan.end();
+    }
     // Convert EventData to AmqpMessage.
     const amqpMessage = toAmqpMessage(eventData, this._partitionKey);
     amqpMessage.body = this._context.dataTransformer.encode(eventData.body);
@@ -137,6 +189,12 @@ export class EventDataBatch {
     // this._batchMessage will be used for final send operation
     if (currentSize > this._maxSizeInBytes) {
       this._encodedMessages.pop();
+      if (
+        !previouslyInstrumented &&
+        Boolean(eventData.properties && eventData.properties[TRACEPARENT_PROPERTY])
+      ) {
+        this._spanContexts.pop();
+      }
       return false;
     }
     this._batchMessage = encodedBatchMessage;

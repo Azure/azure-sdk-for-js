@@ -18,9 +18,16 @@ import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { RetryOptions } from '@azure/core-amqp';
 import { SharedKeyCredential } from '@azure/core-amqp';
+import { Span } from '@azure/core-tracing';
+import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
+
+// @public
+export interface AbortSignalOptions {
+    abortSignal?: AbortSignalLike;
+}
 
 // @public
 export interface BatchOptions {
@@ -69,26 +76,27 @@ export class EventDataBatch {
     constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string);
     readonly batchMessage: Buffer | undefined;
     readonly count: number;
+    // @internal
+    readonly _messageSpanContexts: SpanContext[];
     readonly partitionKey: string | undefined;
     readonly sizeInBytes: number;
-    tryAdd(eventData: EventData): boolean;
+    tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 }
 
 // @public
 export class EventHubClient {
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
-    static createFromIotHubConnectionString(iothubConnectionString: string, options?: EventHubClientOptions): Promise<EventHubClient>;
     createProducer(options?: EventHubProducerOptions): EventHubProducer;
     static defaultConsumerGroupName: string;
     readonly eventHubName: string;
     readonly fullyQualifiedNamespace: string;
-    getPartitionIds(abortSignal?: AbortSignalLike): Promise<Array<string>>;
-    getPartitionProperties(partitionId: string, abortSignal?: AbortSignalLike): Promise<PartitionProperties>;
-    getProperties(abortSignal?: AbortSignalLike): Promise<EventHubProperties>;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
+    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+    getProperties(options?: GetPropertiesOptions): Promise<EventHubProperties>;
 }
 
 // @public
@@ -126,7 +134,7 @@ export interface EventHubConsumerOptions {
 // @public
 export class EventHubProducer {
     // @internal
-    constructor(context: ConnectionContext, options?: EventHubProducerOptions);
+    constructor(eventHubName: string, endpoint: string, context: ConnectionContext, options?: EventHubProducerOptions);
     close(): Promise<void>;
     createBatch(options?: BatchOptions): Promise<EventDataBatch>;
     readonly isClosed: boolean;
@@ -184,6 +192,21 @@ export interface EventProcessorOptions {
 }
 
 // @public
+export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined;
+
+// @public
+export interface GetPartitionIdsOptions extends AbortSignalOptions, ParentSpanOptions {
+}
+
+// @public
+export interface GetPartitionPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {
+}
+
+// @public
+export interface GetPropertiesOptions extends AbortSignalOptions, ParentSpanOptions {
+}
+
+// @public
 export class InMemoryPartitionManager implements PartitionManager {
     claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
     listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroupName: string): Promise<PartitionOwnership[]>;
@@ -205,6 +228,11 @@ export type OnError = (error: MessagingError | Error) => void;
 
 // @public
 export type OnMessage = (eventData: ReceivedEventData) => void;
+
+// @public
+export interface ParentSpanOptions {
+    parentSpan?: Span | SpanContext;
+}
 
 // @public
 export interface PartitionManager {
@@ -286,12 +314,18 @@ export { RetryOptions }
 // @public
 export interface SendOptions {
     abortSignal?: AbortSignalLike;
+    parentSpan?: Span | SpanContext;
     partitionKey?: string | null;
 }
 
 export { TokenCredential }
 
 export { TokenType }
+
+// @public
+export interface TryAddOptions {
+    parentSpan?: Span | SpanContext;
+}
 
 export { WebSocketImpl }
 

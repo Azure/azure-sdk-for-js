@@ -4,7 +4,7 @@ Azure Key Vault is a service that allows you to encrypt authentication
 keys, storage account keys, data encryption keys, .pfx files, and
 passwords by using keys that are protected by hardware security
 modules (HSMs). If you would like to know more about Azure Key Vault, you may
-want to review [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview).
+want to review "[What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)".
 
 Azure Key Vault Certificates allows you to securely manage, store and
 tightly control your certificates.
@@ -35,7 +35,11 @@ Install the Azure Key Vault Certificates client library using npm
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
 If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
-### Configure Typescript
+To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2Ftests-resources.json)
+
+### Configure TypeScript
 
 TypeScript users need to have Node type definitions installed:
 
@@ -74,7 +78,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 - Grant the above mentioned application authorization to perform certificate operations on the keyvault:
 
   ```Bash
-  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --certificate-permissions backup delete get list create deleteissuers getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
+  az keyvault set-policy --name <your-key-vault-name> --spn $AZURE_CLIENT_ID --certificate-permissions backup create delete deleteissuers get getissuers import list listissuers managecontacts manageissuers purge recover restore setissuers update
   ```
 
   > --certificate-permissions:
@@ -143,14 +147,14 @@ tasks using Azure Key Vault Certificates. The scenarios that are covered here co
 
 ### Creating and setting a certificate
 
-`setCertificate` creates a certificate to be stored in the Azure Key Vault. If
+`createCertificate` creates a certificate to be stored in the Azure Key Vault. If
 a certificate with the same name already exists, a new version of the
 certificate is created.
 
 ```javascript
 const certificateName = "MyCertificateName";
 const result = await client.createCertificate(certificateName, {
-  issuerParameters: { name: "Self" },
+  issuerName: "Self"
 });
 ```
 
@@ -163,8 +167,8 @@ Besides the name of the certificate, you can also pass the following attributes:
 ```javascript
 const certificateName = "MyCertificateName";
 const certificatePolicy = {
-  issuerParameters: { name: "Self" }
-}
+  issuerName: "Self"
+};
 const enabled = true;
 const tags = {
   myCustomTag: "myCustomTagsValue"
@@ -172,8 +176,10 @@ const tags = {
 const result = await client.createCertificate(
   certificateName,
   certificatePolicy,
-  enabled,
-  tags
+  {
+    enabled,
+    tags
+  }
 );
 ```
 
@@ -191,9 +197,9 @@ the certificate's policy.
 
 ```javascript
 const latestCertificate = await client.getCertificateWithPolicy(certificateName);
-console.log(`Latest version of the certificate ${certificateName}: `, getResult);
-const specificCertificate = await client.getCertificate(certificateName, latestCertificate.version!);
-console.log(`The certificate ${certificateName} at the version ${latestCertificate.version!}: `, getResult);
+console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
+const specificCertificate = await client.getCertificate(certificateName, latestCertificate.properties.version!);
+console.log(`The certificate ${certificateName} at the version ${latestCertificate.properties.version!}: `, specificCertificate);
 ```
 
 ### List all versions of a certificate
@@ -202,7 +208,7 @@ console.log(`The certificate ${certificateName} at the version ${latestCertifica
 
 ```javascript
 for await (let certificate of client.listCertificateVersions(certificateName)) {
-  console.log("version: ", certificate.version);
+  console.log("version: ", certificate.properties.version);
 }
 ```
 
@@ -223,9 +229,9 @@ The certificate attributes can be updated to an existing certificate version wit
 
 ```javascript
 const result = client.getCertificateWithPolicy(certificateName);
-await client.updateCertificate(certificateName, result.version, {
+await client.updateCertificate(certificateName, result.properties.version, {
   certificatePolicy: {
-    issuerParameters: { name: "Self" }
+    issuerName: "Self"
   },
   certificateAttributes: {
     enabled: false
@@ -241,7 +247,7 @@ The certificate's policy can also be updated individually with `updateCertificat
 ```javascript
 const result = client.getCertificateWithPolicy(certificateName);
 await client.updateCertificatePolicy(certificateName, {
-  issuerParameters: { name: "Self" }
+  issuerName: "Self"
 });
 ```
 
@@ -272,6 +278,55 @@ await client.recoverDeletedCertificate(certificateName);
 Since the deletion of a certificate won't happen instantly, some time is needed
 after the `deleteCertificate` method is called before the deleted certificate is
 available to be read, recovered or purged.
+
+### Iterating lists of certificates
+
+Using the CertificatesClient, you can retrieve and iterate through all of the
+certificates in a Certificate Vault, as well as through all of the deleted certificates and the
+versions of a specific certificate. The following API methods are available:
+
+- `listCertificates` will list all of your non-deleted certificates by their names, only
+  at their latest versions.
+- `listDeletedCertificates` will list all of your deleted certificates by their names,
+  only at their latest versions.
+- `listCertificateVersions` will list all the versions of a certificate based on a certificate
+  name.
+
+Which can be used as follows:
+
+```javascript
+for await (let certificate of client.listCertificates()) {
+  console.log("Certificate: ", certificate);
+}
+for await (let deletedCertificate of client.listDeletedCertificates()) {
+  console.log("Deleted certificate: ", deletedCertificate);
+}
+for await (let version of client.listCertificateVersions(certificateName)) {
+  console.log("Version: ", version);
+}
+```
+
+All of these methods will return **all of the available results** at once. To
+retrieve them by pages, add `.byPage()` right after invoking the API method you
+want to use, as follows:
+
+```javascript
+for await (let page of client.listCertificates().byPage()) {
+  for (let certificate of page) {
+    console.log("Certificate: ", certificate);
+  }
+}
+for await (let page of client.listDeletedCertificates().byPage()) {
+  for (let deletedCertificate of page) {
+    console.log("Deleted certificate: ", deletedCertificate);
+  }
+}
+for await (let page of client.listCertificateVersions(certificateName).byPage()) {
+  for (let version of page) {
+    console.log("Version: ", version);
+  }
+}
+```
 
 ## Troubleshooting
 
@@ -315,7 +370,7 @@ environment variables:
 - `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
 - `KEYVAULT_NAME`: The name of the Key Vault you want to run the tests against.
 
-**WARNING:** 
+**WARNING:**
 Integration tests will wipe all of the existing records in the targeted Key Vault.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).

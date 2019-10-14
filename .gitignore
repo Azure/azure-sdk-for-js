@@ -150,4 +150,3 @@ swagger/*.json
 
 # library-specific ignores
 sdk/keyvault/*/src/**/*.js
-sdk/keyvault/*/samples/**/*.js

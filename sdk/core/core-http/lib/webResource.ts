@@ -9,6 +9,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { SpanOptions } from "@azure/core-tracing";
 
 export type HttpMethods =
   | "GET"
@@ -86,7 +87,7 @@ export class WebResource {
   /**
    * Options used to create a span when tracing is enabled.
    */
-  spanOptions?: any;
+  spanOptions?: SpanOptions;
 
   constructor(
     url?: string,
@@ -331,6 +332,10 @@ export class WebResource {
       }
     }
 
+    if (options.spanOptions) {
+      this.spanOptions = options.spanOptions;
+    }
+
     this.abortSignal = options.abortSignal;
     this.onDownloadProgress = options.onDownloadProgress;
     this.onUploadProgress = options.onUploadProgress;
@@ -355,8 +360,7 @@ export class WebResource {
       this.timeout,
       this.onUploadProgress,
       this.onDownloadProgress,
-      this.proxySettings,
-      this.keepAlive
+      this.proxySettings
     );
 
     if (this.formData) {
@@ -467,6 +471,7 @@ export interface RequestPrepareOptions {
   abortSignal?: AbortSignalLike;
   onUploadProgress?: (progress: TransferProgressEvent) => void;
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  spanOptions?: SpanOptions;
 }
 
 /**
@@ -511,7 +516,7 @@ export interface RequestOptionsBase {
   /**
    * Options used to create a span when tracing is enabled.
    */
-  spanOptions?: any;
+  spanOptions?: SpanOptions;
 
   [key: string]: any;
 }

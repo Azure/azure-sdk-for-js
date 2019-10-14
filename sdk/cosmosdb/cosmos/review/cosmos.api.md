@@ -362,7 +362,6 @@ export interface CosmosClientOptions {
     resourceTokens?: {
         [resourcePath: string]: string;
     };
-    // Warning: (ae-forgotten-export) The symbol "TokenProvider" needs to be exported by the entry point index.d.ts
     tokenProvider?: TokenProvider;
     userAgentSuffix?: string;
 }
@@ -923,6 +922,20 @@ export interface RequestContext {
     retryCount?: number;
 }
 
+// @public (undocumented)
+export interface RequestInfo {
+    // (undocumented)
+    headers: CosmosHeaders;
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    resourceId: string;
+    // (undocumented)
+    resourceType: ResourceType;
+    // (undocumented)
+    verb: HTTPMethod;
+}
+
 // @public
 export interface RequestOptions extends SharedOptions {
     accessCondition?: {
@@ -1012,7 +1025,7 @@ export class RuntimeExecutionTimes {
 }
 
 // @public
-export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, resourceId: string, resourceType: ResourceType, headers: CosmosHeaders, masterKey: string): void;
+export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, resourceId: string, resourceType: ResourceType, headers: CosmosHeaders, masterKey: string): Promise<void>;
 
 // @public
 export interface SqlParameter {
@@ -1150,6 +1163,9 @@ export class TimeSpan {
     // (undocumented)
     static readonly zero: TimeSpan;
 }
+
+// @public (undocumented)
+export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 // @public
 export class Trigger {

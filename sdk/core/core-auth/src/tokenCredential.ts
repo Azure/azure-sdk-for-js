@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
+import { SpanOptions } from "@azure/core-tracing";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -33,7 +34,7 @@ export interface GetTokenOptions {
   /**
    * Options to create a span using the tracer if any was set.
    */
-  spanOptions?: any;
+  spanOptions?: SpanOptions;
 }
 
 /**
@@ -62,7 +63,9 @@ export function isTokenCredential(credential: any): credential is TokenCredentia
   // a ServiceClientCredentials implementor (like TokenClientCredentials
   // in ms-rest-nodeauth) doesn't get mistaken for a TokenCredential if
   // it doesn't actually implement TokenCredential also.
-  return credential
-    && typeof credential.getToken === "function"
-    && (credential.signRequest === undefined || credential.getToken.length > 0);
+  return (
+    credential &&
+    typeof credential.getToken === "function" &&
+    (credential.signRequest === undefined || credential.getToken.length > 0)
+  );
 }

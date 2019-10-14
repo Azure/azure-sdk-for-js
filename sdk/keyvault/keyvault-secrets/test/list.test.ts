@@ -18,7 +18,7 @@ describe("Secret client - list secrets in various ways", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -26,7 +26,7 @@ describe("Secret client - list secrets in various ways", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
@@ -37,12 +37,12 @@ describe("Secret client - list secrets in various ways", () => {
     for await (const secret of client.listSecrets()) {
       try {
         await testClient.flushSecret(secret.name);
-      } catch(e) {}
+      } catch (e) {}
     }
     for await (const secret of client.listDeletedSecrets()) {
       try {
         await testClient.purgeSecret(secret.name);
-      } catch(e) {}
+      } catch (e) {}
     }
   });
 
@@ -112,7 +112,7 @@ describe("Secret client - list secrets in various ways", () => {
     const versions: VersionValuePair[] = [];
     for (const v of secretValues) {
       const response = await client.setSecret(secretName, v);
-      versions.push({ version: response.version!, value: response.value! });
+      versions.push({ version: response.properties.version!, value: response.value! });
     }
 
     const results: VersionValuePair[] = [];
@@ -212,7 +212,7 @@ describe("Secret client - list secrets in various ways", () => {
     const versions: VersionValuePair[] = [];
     for (const v of secretValues) {
       const response = await client.setSecret(secretName, v);
-      versions.push({ version: response.version!, value: response.value! });
+      versions.push({ version: response.properties.version!, value: response.value! });
     }
 
     const results: VersionValuePair[] = [];

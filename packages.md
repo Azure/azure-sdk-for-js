@@ -124,6 +124,8 @@
 | [`@azure/arm-visualstudio`]( sdk/visualstudio/arm-visualstudio/package.json )| [Readme](sdk/visualstudio/arm-visualstudio/README.md) |  N/A  |  N/A  |
 | [`@azure/arm-webservices`]( sdk/machinelearning/arm-webservices/package.json )| [Readme](sdk/machinelearning/arm-webservices/README.md) |  N/A  |  N/A  |
 | [`@azure/arm-workspaces`]( sdk/machinelearning/arm-workspaces/package.json )| [Readme](sdk/machinelearning/arm-workspaces/README.md) |  N/A  |  N/A  |
+| [`@azure/arm-peering`]( sdk/peering/arm-peering/package.json )| [Readme](sdk/peering/arm-peering/README.md) |  N/A  |  N/A  |
+| [`@azure/arm-vmwarecloudsimple`]( sdk/vmwarecloudsimple/arm-vmwarecloudsimple/package.json )| [Readme](sdk/vmwarecloudsimple/arm-vmwarecloudsimple/README.md) |  N/A  |  N/A  |
 | [`@azure/batch`]( sdk/batch/batch/package.json )| [Readme](sdk/batch/batch/README.md) |  N/A  |  N/A  |
 | [`@azure/cognitiveservices-anomalydetector`]( sdk/cognitiveservices/cognitiveservices-anomalydetector/package.json )| [Readme](sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md) |  N/A  |  N/A  |
 | [`@azure/cognitiveservices-autosuggest`]( sdk/cognitiveservices/cognitiveservices-autosuggest/package.json )| [Readme](sdk/cognitiveservices/cognitiveservices-autosuggest/README.md) |  N/A  |  N/A  |

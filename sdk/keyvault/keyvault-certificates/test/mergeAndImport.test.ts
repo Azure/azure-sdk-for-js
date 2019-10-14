@@ -43,8 +43,8 @@ describe("Certificates client - merge and import certificates", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     await client.createCertificate(certificateNames[0], {
-      issuerParameters: { name: "Self" },
-      x509CertificateProperties: { subject: "cn=MyCert" }
+      issuerName: "Self",
+      subjectName: "cn=MyCert"
     });
     const certificateSecret = await retry(async () => secretsClient.getSecret(certificateNames[0]));
     const base64EncodedCertificate = certificateSecret.value!;
@@ -61,11 +61,9 @@ describe("Certificates client - merge and import certificates", () => {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
       await client.createCertificate(certificateName, {
-        issuerParameters: {
-          name: "Unknown",
-          certificateTransparency: false
-        },
-        x509CertificateProperties: { subject: "cn=MyCert" } 
+        issuerName: "Unknown",
+        certificateTransparency: false,
+        subjectName: "cn=MyCert",
       });
 
       const { csr } = await client.getCertificateOperation(certificateName);

@@ -1,8 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * @ignore
  */
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 export class LocationRouting {
   private pIgnorePreferredLocation: boolean;
   private pLocationIndexToRoute: number;

@@ -33,7 +33,7 @@ pr:
     include:
       - sdk/eventhub/
 
-stages:
+stages: 
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
       ServiceDirectory: eventhub

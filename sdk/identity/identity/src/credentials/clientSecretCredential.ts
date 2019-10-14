@@ -4,6 +4,9 @@
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { createSpan } from "../util/tracing";
+import { AuthenticationErrorName } from "../client/errors";
+import { CanonicalCode } from "@azure/core-tracing";
 
 /**
  * Enables authentication to Azure Active Directory using a client secret
@@ -55,26 +58,42 @@ export class ClientSecretCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const webResource = this.identityClient.createWebResource({
-      url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
-      method: "POST",
-      disableJsonStringifyOnBody: true,
-      deserializationMapper: undefined,
-      body: qs.stringify({
-        response_type: "token",
-        grant_type: "client_credentials",
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        scope: typeof scopes === "string" ? scopes : scopes.join(" ")
-      }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      abortSignal: options && options.abortSignal
-    });
+    const { span, options: newOptions } = createSpan("ClientSecretCredential-getToken", options);
+    try {
+      const webResource = this.identityClient.createWebResource({
+        url: `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`,
+        method: "POST",
+        disableJsonStringifyOnBody: true,
+        deserializationMapper: undefined,
+        body: qs.stringify({
+          response_type: "token",
+          grant_type: "client_credentials",
+          client_id: this.clientId,
+          client_secret: this.clientSecret,
+          scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        abortSignal: options && options.abortSignal,
+        spanOptions: newOptions.spanOptions
+      });
 
-    const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-    return (tokenResponse && tokenResponse.accessToken) || null;
+      const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      return (tokenResponse && tokenResponse.accessToken) || null;
+    } catch (err) {
+      const code =
+        err.name === AuthenticationErrorName
+          ? CanonicalCode.UNAUTHENTICATED
+          : CanonicalCode.UNKNOWN;
+      span.setStatus({
+        code,
+        message: err.message
+      });
+      throw err;
+    } finally {
+      span.end();
+    }
   }
 }

@@ -10,11 +10,34 @@
  * response details still apply to v2.
  */
 export interface ErrorResponse {
+  /**
+   * The string identifier for the error.
+   */
   error: string;
+
+  /**
+   * The error's description.
+   */
   error_description: string;
+
+  /**
+   * An array of codes pertaining to the error(s) that occurred.
+   */
   error_codes?: number[];
+
+  /**
+   * The timestamp at which the error occurred.
+   */
   timestamp?: string;
+
+  /**
+   * The trace identifier for this error occurrence.
+   */
   trace_id?: string;
+
+  /**
+   * The correlation ID to be used for tracking the source of the error.
+   */
   correlation_id?: string;
 }
 
@@ -27,12 +50,24 @@ function isErrorResponse(errorResponse: any): errorResponse is ErrorResponse {
 }
 
 /**
+ * The Error.name value of an AuthenticationError
+ */
+export const AuthenticationErrorName = "AuthenticationError";
+
+/**
  * Provides details about a failure to authenticate with Azure Active
  * Directory.  The `errorResponse` field contains more details about
  * the specific failure.
  */
 export class AuthenticationError extends Error {
+  /**
+   * The HTTP status code returned from the authentication request.
+   */
   public readonly statusCode: number;
+
+  /**
+   * The error response details.
+   */
   public readonly errorResponse: ErrorResponse;
 
   constructor(statusCode: number, errorBody: object | string | undefined | null) {
@@ -79,21 +114,33 @@ export class AuthenticationError extends Error {
     this.errorResponse = errorResponse;
 
     // Ensure that this type reports the correct name
-    this.name = "AuthenticationError";
+    this.name = AuthenticationErrorName;
   }
 }
+
+/**
+ * The Error.name value of an AggregateAuthenticationError
+ */
+export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
 
 /**
  * Provides an `errors` array containing {@link AuthenticationError} instance
  * for authentication failures from credentials in a {@link ChainedTokenCredential}.
  */
 export class AggregateAuthenticationError extends Error {
+  /**
+   * The array of error objects that were thrown while trying to authenticate
+   * with the credentials in a {@link ChainedTokenCredential}.
+   */
   public errors: any[];
+
   constructor(errors: any[]) {
-    super("Authentication failed to complete due to errors");
+    super(
+      `Authentication failed to complete due to the following errors:\n\n${errors.join("\n\n")}`
+    );
     this.errors = errors;
 
     // Ensure that this type reports the correct name
-    this.name = "AggregateAuthenticationError";
+    this.name = AggregateAuthenticationErrorName;
   }
 }

@@ -11,9 +11,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SupportedPlugins } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
-import { TracerProxy } from '@azure/core-http';
 
 // @public
 export interface DeletedSecret extends Secret {
@@ -74,12 +72,13 @@ export interface RetryOptions {
 }
 
 // @public
-export interface Secret extends SecretAttributes {
+export interface Secret {
+    properties: SecretProperties;
     value?: string;
 }
 
 // @public
-export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
+export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
     contentType?: string;
     readonly created?: Date;
     enabled?: boolean;
@@ -98,21 +97,21 @@ export interface SecretAttributes extends ParsedKeyVaultEntityIdentifier {
 // @public
 export class SecretsClient {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
-    backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array>;
+    backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
     protected readonly credential: TokenCredential;
     deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
     static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-    listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>;
-    listSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>;
-    listSecretVersions(secretName: string, options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]>;
+    listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    listSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    listSecretVersions(secretName: string, options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void>;
     recoverDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<Secret>;
     restoreSecret(secretBundleBackup: Uint8Array, options?: RequestOptionsBase): Promise<Secret>;
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<Secret>;
-    updateSecretAttributes(secretName: string, secretVersion: string, options?: UpdateSecretOptions): Promise<Secret>;
+    updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretOptions): Promise<Secret>;
     readonly vaultBaseUrl: string;
 }
 
@@ -128,15 +127,11 @@ export interface SetSecretOptions {
     };
 }
 
-export { SupportedPlugins }
-
 // @public (undocumented)
 export interface TelemetryOptions {
     // (undocumented)
     value: string;
 }
-
-export { TracerProxy }
 
 // @public
 export interface UpdateSecretOptions {
