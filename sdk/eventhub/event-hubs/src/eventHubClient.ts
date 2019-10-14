@@ -593,9 +593,9 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "consumerGroup", consumerGroup);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventPosition", eventPosition);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "createConsumer", "consumerGroup", consumerGroup);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "createConsumer", "partitionId", partitionId);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "createConsumer", "eventPosition", eventPosition);
     partitionId = String(partitionId);
     return new EventHubConsumer(this._context, consumerGroup, partitionId, eventPosition, options);
   }
@@ -671,7 +671,7 @@ export class EventHubClient {
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
     throwErrorIfConnectionClosed(this._context);
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "partitionId", partitionId);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "getPartitionProperties", "partitionId", partitionId);
     partitionId = String(partitionId);
     const clientSpan = this._createClientSpan("getPartitionProperties", options.parentSpan);
     try {

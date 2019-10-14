@@ -61,7 +61,7 @@ describe("Event Processor", function(): void {
     id.length.should.be.gt(1);
   });
 
-  it("should match the fullyQualifiedNamespace, eventHubName and cosumerGroupName of partition processor with respective EventHubClient's properties #RunnableInBrowser", async function(): Promise<
+  it("should match the fullyQualifiedNamespace, eventHubName and consumerGroupName of partition processor with respective EventHubClient's properties #RunnableInBrowser", async function(): Promise<
     void
   > {
     const producer = client.createProducer({ partitionId: `0` });
