@@ -1,11 +1,11 @@
-import { SecretsClient } from "../src";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SecretsClient } = require("../../src");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-export function delay<T>(t: number, value?: T): Promise<T> {
+function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
-async function main(): Promise<void> {
+async function main() {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -16,8 +16,8 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretsClient(url, credential);
 
-  const bankAccountSecretName = "BankAccountPassword11";
-  const storageAccountSecretName = "StorageAccountPassword11";
+  const bankAccountSecretName = "BankAccountPassword1112923";
+  const storageAccountSecretName = "StorageAccountPassword1112923";
 
   // Create our secrets
   console.log("Creating our secrets");
@@ -31,8 +31,13 @@ async function main(): Promise<void> {
   await delay(30000);
 
   console.log("Showing deleted secrets");
-  for await (const deletedSecret of client.listDeletedSecrets()) {
-    console.log(deletedSecret);
+  let listDeletedSecrets = client.listDeletedSecrets();
+  while (true) {
+    let { done, value } = await listDeletedSecrets.next();
+    if (done) {
+      break;
+    }
+    console.log(value);
   }
 
   // That's okay, it's not gone until it's fully deleted (purged)
@@ -53,8 +58,13 @@ async function main(): Promise<void> {
   await client.purgeDeletedSecret(bankAccountSecretName);
   await delay(30000);
 
-  for await (const deletedSecret of client.listDeletedSecrets()) {
-    console.log(deletedSecret);
+  let listDeletedSecrets2 = client.listDeletedSecrets();
+  while (true) {
+    let { done, value } = await listDeletedSecrets2.next();
+    if (done) {
+      break;
+    }
+    console.log(value);
   }
 
   await client.deleteSecret(storageAccountSecretName);

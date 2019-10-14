@@ -1,10 +1,10 @@
-import { CertificatesClient } from "../src";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CertificatesClient } = require("../../src");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a self-signed certificate, reads it in various ways,
 // updates the tags of the certificate and finaly deletes the certificate.
 
-async function main(): Promise<void> {
+async function main() {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -16,7 +16,7 @@ async function main(): Promise<void> {
 
   const client = new CertificatesClient(url, credential);
 
-  const certificateName = "MyCertificate";
+  const certificateName = "MyCertificate96123";
 
   // Creating a self-signed certificate
   const certificate = await client.createCertificate(certificateName, {
@@ -35,7 +35,7 @@ async function main(): Promise<void> {
   // To read a certificate from a specific version:
   const certificateFromVersion = await client.getCertificate(
     certificateName,
-    certificateWithPolicy.properties.version!
+    certificateWithPolicy.properties.version
   );
   // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);

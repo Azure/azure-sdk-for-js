@@ -1,6 +1,6 @@
-import { KeysClient, CryptographyClient } from "../src";
+import { KeysClient, CryptographyClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as crypto from 'crypto';
+import * as crypto from "crypto";
 
 async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
@@ -9,7 +9,7 @@ async function main(): Promise<void> {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
 
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
 
   // Connection to Azure Key Vault

@@ -1,8 +1,8 @@
-import { SecretsClient } from "../src";
-import * as fs from "fs";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SecretsClient } = require("../../src");
+const { DefaultAzureCredential } = require("@azure/identity");
+const fs = require("fs");
 
-function writeFile(filename: string, text: Uint8Array): Promise<void> {
+function writeFile(filename, text) {
   return new Promise((resolve, reject) => {
     fs.writeFile(filename, text, (err) => {
       if (err) reject(err);
@@ -11,7 +11,7 @@ function writeFile(filename: string, text: Uint8Array): Promise<void> {
   });
 }
 
-function readFile(filename: string): Promise<Uint8Array> {
+function readFile(filename) {
   return new Promise((resolve, reject) => {
     fs.readFile(filename, (err, data) => {
       if (err) reject(err);
@@ -20,11 +20,11 @@ function readFile(filename: string): Promise<Uint8Array> {
   });
 }
 
-export function delay<T>(t: number, value?: T): Promise<T> {
+function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
-async function main(): Promise<void> {
+async function main() {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -35,7 +35,7 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretsClient(url, credential);
 
-  const secretName = "StorageAccountPassword";
+  const secretName = "StorageAccountPassword19312312";
 
   // Create our secret
   await client.setSecret(secretName, "XYZ789");
@@ -44,7 +44,7 @@ async function main(): Promise<void> {
   const backupResult = await client.backupSecret(secretName);
 
   // Write the backup to a file
-  await writeFile("secret_backup.dat", backupResult!);
+  await writeFile("secret_backup.dat", backupResult);
 
   // Delete the secret
   console.log("about to delete");

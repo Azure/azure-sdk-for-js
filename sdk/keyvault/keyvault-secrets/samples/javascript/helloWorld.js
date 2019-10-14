@@ -1,7 +1,7 @@
-import { SecretsClient } from "../src";
-import { DefaultAzureCredential } from "@azure/identity";
+const { SecretsClient } = require("../../src");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-async function main(): Promise<void> {
+async function main() {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -14,7 +14,7 @@ async function main(): Promise<void> {
   const client = new SecretsClient(url, credential);
 
   // Create a secret
-  const secretName = "MySecretName";
+  const secretName = "MySecretName91231";
   const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
 
@@ -23,7 +23,7 @@ async function main(): Promise<void> {
   console.log("secret: ", secret);
 
   // Update the secret with different attributes
-  const updatedSecret = await client.updateSecretProperties(secretName, result.properties.version!, {
+  const updatedSecret = await client.updateSecretProperties(secretName, result.properties.version, {
     enabled: false
   });
   console.log("updated secret: ", updatedSecret);

@@ -1,12 +1,12 @@
-import * as fs from "fs";
-import * as childProcess from "child_process";
-import { CertificatesClient } from "../src";
-import { DefaultAzureCredential } from "@azure/identity";
+const fs = require("fs");
+const childProcess = require("child_process");
+const { CertificatesClient } = require("../../src");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
 // certificate authority and the mergeCertificate API method.
 
-async function main(): Promise<void> {
+async function main() {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -27,7 +27,7 @@ async function main(): Promise<void> {
 
   // Retrieving the certificate's signing request
   const { csr } = await client.getCertificateOperation("MyCertificate");
-  const base64Csr = Buffer.from(csr!).toString("base64");
+  const base64Csr = Buffer.from(csr).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}
 -----END CERTIFICATE REQUEST-----`;

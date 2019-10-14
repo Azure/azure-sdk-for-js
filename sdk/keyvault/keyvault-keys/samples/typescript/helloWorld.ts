@@ -1,4 +1,4 @@
-import { KeysClient } from "../src";
+import { KeysClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
@@ -8,7 +8,7 @@ async function main(): Promise<void> {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
 
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>"
+  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new KeysClient(url, credential);
 
@@ -37,7 +37,9 @@ async function main(): Promise<void> {
   }
 
   // Update the key
-  const updatedKey = await client.updateKey(keyName, result.properties.version!, { enabled: false });
+  const updatedKey = await client.updateKey(keyName, result.properties.version!, {
+    enabled: false
+  });
   console.log("updated key: ", updatedKey);
 
   await client.deleteKey(keyName);
