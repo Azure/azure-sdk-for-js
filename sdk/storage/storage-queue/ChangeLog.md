@@ -1,5 +1,9 @@
 # Changelog
 
+## 2019.10 12.0.0-preview.5
+
+- [Breaking] `IPRange` is renamed to `SasIPRange`.
+
 ## 2019.10 12.0.0-preview.4
 
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `QueueServiceClient` or `QueueClient` are instantiated.
