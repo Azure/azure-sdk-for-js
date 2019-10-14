@@ -10,8 +10,13 @@ import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClient, CommonOptions } from "./StorageClient";
-import { extractConnectionStringParts, appendToURLPath } from "./utils/utils.common";
+import {
+  extractConnectionStringParts,
+  appendToURLPath,
+  getValueInConnString
+} from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
+import { DevelopmentConnectionString } from "./utils/constants";
 
 /**
  * Options to configure MessageId - Delete operation
@@ -287,18 +292,38 @@ export class MessageIdClient extends StorageClient {
   }
 
   private getQueueNameAndMessageIdFromUrl(): { queueName: string; messageId: string } {
-    //  URL may look like the following
-    // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
-    // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid".
+    let queueName;
+    let messageId;
     try {
+      //  URL may look like the following
+      // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid?sasString".
+      // "https://myaccount.queue.core.windows.net/myqueue/messages/messageid".
+      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10001/devstoreaccount1`
+
       let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
       urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-      const queueNameAndMessageId = urlWithoutSAS.match(
-        "([^/]*)://([^/]*)/([^/]*)/messages/([^/]*)"
+      // http://127.0.0.1:10001/devstoreaccount1
+      const emulatorQueueEndpoint = getValueInConnString(
+        DevelopmentConnectionString,
+        "QueueEndpoint"
       );
-      const queueName = queueNameAndMessageId![3];
-      const messageId = queueNameAndMessageId![4];
+
+      if (this.url.startsWith(emulatorQueueEndpoint)) {
+        // Emulator URL starts with `http://127.0.0.1:10001/devstoreaccount1`
+        const queueNameAndMessageId = urlWithoutSAS.match(
+          emulatorQueueEndpoint + "/([^/]*)/messages/([^/]*)"
+        );
+        queueName = queueNameAndMessageId![1];
+        messageId = queueNameAndMessageId![2];
+      } else {
+        const queueNameAndMessageId = urlWithoutSAS.match(
+          "([^/]*)://([^/]*)/([^/]*)/messages/([^/]*)"
+        );
+        queueName = queueNameAndMessageId![3];
+        messageId = queueNameAndMessageId![4];
+      }
+
       if (!queueName) {
         throw new Error("Provided queueName is invalid.");
       } else if (!messageId) {
