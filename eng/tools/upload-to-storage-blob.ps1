@@ -24,9 +24,6 @@ function Upload-Blobs
     Write-Host "DocVersion $($DocVersion)"
     Write-Host "DocDir $($DocDir)"
     Write-Host "Final Dest $($DocDest)/$($PkgName)/$($DocVersion)"
-    #$SASKey = "?sv=2018-03-28&ss=bfqt&srt=sco&sp=rl&st=2019-10-12T01%3A38%3A20Z&se=2019-10-13T01%3A38%3A20Z&sig=l7vz7F67H6abZVk1hEaazbJ%2BhgNYvPMXsHEt9TPUcu0%3D"
-    #With write-permission
-    #?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwl&st=2019-10-12T01%3A42%3A29Z&se=2019-10-13T01%3A42%3A29Z&sig=TQh9yt2v5L74ByUNDNPY0Lvk0DHME0FLgWRG%2Bp34wAc%3D
     Write-Host "Uploading $($PkgName)/$($DocVersion) to $($DocDest)..."
     & $($AzCopy) cp "$($DocDir)/**" "$($DocDest)/$($PkgName)/$($DocVersion)/$($SASKey)" --recursive=true
 
