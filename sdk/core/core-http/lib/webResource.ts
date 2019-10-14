@@ -9,7 +9,6 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { AtomXmlOperationSpec } from "./atomXmlOperationSpec";
 import { SpanOptions } from "@azure/core-tracing";
 
 export type HttpMethods =
@@ -72,7 +71,6 @@ export class WebResource {
   formData?: any;
   query?: { [key: string]: any };
   operationSpec?: OperationSpec;
-  atomXmlOperationSpec?: AtomXmlOperationSpec;
   withCredentials: boolean;
   timeout: number;
   proxySettings?: ProxySettings;
@@ -371,10 +369,6 @@ export class WebResource {
 
     if (this.operationSpec) {
       result.operationSpec = this.operationSpec;
-    }
-
-    if (this.atomXmlOperationSpec) {
-      result.atomXmlOperationSpec = this.atomXmlOperationSpec;
     }
 
     if (this.shouldDeserialize) {
