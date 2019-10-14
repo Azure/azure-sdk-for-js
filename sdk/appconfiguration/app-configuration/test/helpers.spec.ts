@@ -136,7 +136,7 @@ describe("helper methods", () => {
       "My error code");
     
     for (const name of getAllConfigurationSettingFields()) {
-      assert.throws(() => (<any>response)[name], (err: ResponseBodyNotFoundError) => {
+      assert.throws(() => response[name], (err: ResponseBodyNotFoundError) => {
         assert.equal("ResponseBodyNotFoundError", err.name);
         assert.equal("My error message", err.message);
         assert.equal("My error code", err.code);
@@ -152,7 +152,7 @@ describe("helper methods", () => {
     assert.equal(204, response.statusCode);
   });
 
-  function getAllConfigurationSettingFields() : string[] {
+  function getAllConfigurationSettingFields() : (keyof ConfigurationSetting)[] {
     const configObjectWithAllFieldsRequired: Required<ConfigurationSetting> = {
       contentType: "",
       etag: "",
@@ -164,6 +164,6 @@ describe("helper methods", () => {
       value: ""
     };   
     
-    return Object.keys(configObjectWithAllFieldsRequired);
+    return Object.keys(configObjectWithAllFieldsRequired) as (keyof ConfigurationSetting)[];    
   }
 })
