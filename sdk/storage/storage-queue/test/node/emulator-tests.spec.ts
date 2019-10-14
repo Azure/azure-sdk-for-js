@@ -24,6 +24,7 @@ describe("Emulator Tests", () => {
     const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
 
     const eResult = await newClient.enqueue(messageContent);
+    assert.equal(newClient.queueName, queueName, "Queue name didn't match with the provided one.");
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -35,6 +36,7 @@ describe("Emulator Tests", () => {
     const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
 
     const eResult = await newClient.enqueue(messageContent);
+    assert.equal(newClient.queueName, queueName, "Queue name didn't match with the provided one.");
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
@@ -42,6 +44,16 @@ describe("Emulator Tests", () => {
       getConnectionStringFromEnvironment(),
       queueName,
       eResult.messageId
+    );
+    assert.equal(
+      messageIdClient.queueName,
+      queueName,
+      "Queue name didn't match with the provided one."
+    );
+    assert.equal(
+      messageIdClient.messageId,
+      eResult.messageId,
+      "messageId didn't match with the provided one."
     );
 
     let buffer = Buffer.alloc(64); //64B
@@ -62,6 +74,7 @@ describe("Emulator Tests", () => {
 
     const result = await newClient.getProperties();
 
+    assert.equal(newClient.queueName, queueName, "Queue name didn't match with the provided one.");
     assert.ok(result.requestId);
     assert.ok(result.version);
     assert.ok(result.date);
