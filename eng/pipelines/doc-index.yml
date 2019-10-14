@@ -54,7 +54,8 @@ jobs:
       - pwsh: |
           New-Item -Path "$(Build.SourcesDirectory)/docfx_project" -Name "toc.yml" -Force
           Add-Content -Path "$(Build.SourcesDirectory)/docfx_project/toc.yml" -Value "- name: Azure SDK for Javascript Apis`r`n  href: api/`r`n  homepage: api/index.md"
-        displayName: Overwrite toc.yml
+          Copy-Item "$(Build.SourcesDirectory)/README.md" -Destination "$(Build.SourcesDirectory)/docfx_project/api/index.md" -Force
+        displayName: Update toc.yml and index
 
       - task: CmdLine@2
         displayName: Build Doc Content
