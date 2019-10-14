@@ -7,7 +7,7 @@ import * as Models from "./generated/src/models";
 
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export { IPRange } from "./IPRange";
+export { SasIPRange } from "./SasIPRange";
 export * from "./MessageIdClient";
 export * from "./MessagesClient";
 export * from "./Pipeline";

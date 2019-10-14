@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { IPRange, ipRangeToString } from "./IPRange";
+import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { UserDelegationKey } from "./BlobServiceClient";
 
@@ -166,10 +166,10 @@ export class SASQueryParameters {
    * Inner value of getter ipRange.
    *
    * @private
-   * @type {IPRange}
+   * @type {SasIPRange}
    * @memberof SASQueryParameters
    */
-  private readonly ipRangeInner?: IPRange;
+  private readonly ipRangeInner?: SasIPRange;
 
   /**
    * The Azure Active Directory object ID in GUID format.
@@ -235,10 +235,10 @@ export class SASQueryParameters {
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
-   * @type {(IPRange | undefined)}
+   * @type {(SasIPRange | undefined)}
    * @memberof SASQueryParameters
    */
-  public get ipRange(): IPRange | undefined {
+  public get ipRange(): SasIPRange | undefined {
     if (this.ipRangeInner) {
       return {
         end: this.ipRangeInner.end,
@@ -259,7 +259,7 @@ export class SASQueryParameters {
    * @param {SASProtocol} [protocol] Representing the allowed HTTP protocol(s)
    * @param {Date} [startTime] Representing the start time for this SAS token
    * @param {Date} [expiryTime] Representing the expiry time for this SAS token
-   * @param {IPRange} [ipRange] Representing the range of valid IP addresses for this SAS token
+   * @param {SasIPRange} [ipRange] Representing the range of valid IP addresses for this SAS token
    * @param {string} [identifier] Representing the signed identifier (only for Service SAS)
    * @param {string} [resource] Representing the storage container or blob (only for Service SAS)
    * @param {string} [cacheControl] Representing the cache-control header (only for Blob/File Service SAS)
@@ -279,7 +279,7 @@ export class SASQueryParameters {
     protocol?: SASProtocol,
     startTime?: Date,
     expiryTime?: Date,
-    ipRange?: IPRange,
+    ipRange?: SasIPRange,
     identifier?: string,
     resource?: string,
     cacheControl?: string,

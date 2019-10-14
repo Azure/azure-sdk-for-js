@@ -3,7 +3,7 @@
 
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { IPRange, ipRangeToString } from "./IPRange";
+import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
@@ -64,10 +64,10 @@ export interface QueueSASSignatureValues {
   /**
    * Optional. IP ranges allowed in this SAS.
    *
-   * @type {IPRange}
+   * @type {SasIPRange}
    * @memberof QueueSASSignatureValues
    */
-  ipRange?: IPRange;
+  ipRange?: SasIPRange;
 
   /**
    * The name of the queue the SAS user may access.

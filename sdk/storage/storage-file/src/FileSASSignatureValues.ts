@@ -3,7 +3,7 @@
 
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
-import { IPRange, ipRangeToString } from "./IPRange";
+import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SERVICE_VERSION } from "./utils/constants";
@@ -65,10 +65,10 @@ export interface FileSASSignatureValues {
   /**
    * Optional. IP ranges allowed in this SAS.
    *
-   * @type {IPRange}
+   * @type {SasIPRange}
    * @memberof FileSASSignatureValues
    */
-  ipRange?: IPRange;
+  ipRange?: SasIPRange;
 
   /**
    * The name of the share the SAS user may access.
