@@ -11,6 +11,7 @@ export {
   TransferProgressEvent
 } from "./webResource";
 export { DefaultHttpClient } from "./defaultHttpClient";
+export { BrowserFetchHttpClient } from "./browserFetchHttpClient";
 export { HttpClient } from "./httpClient";
 export { HttpHeaders } from "./httpHeaders";
 export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperationResponse";
