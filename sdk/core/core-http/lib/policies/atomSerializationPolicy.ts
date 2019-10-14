@@ -71,6 +71,6 @@ export class AtomSerializationPolicy extends BaseRequestPolicy {
       throw error;
     }
 
-    return await serializer.deserialize(response);
+    return serializer.deserialize(response);
   }
 }

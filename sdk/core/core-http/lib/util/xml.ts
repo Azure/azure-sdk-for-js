@@ -85,7 +85,7 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
 
 export function parseXML(str: string): Promise<any> {
   const xmlParser = new xml2js.Parser(xml2jsParserSettings);
-  const result = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     if (!str) {
       reject(new Error("Document is empty"));
     } else {
@@ -98,7 +98,6 @@ export function parseXML(str: string): Promise<any> {
       });
     }
   });
-  return result;
 }
 
 /**
