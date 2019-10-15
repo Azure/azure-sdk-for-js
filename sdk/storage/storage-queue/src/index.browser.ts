@@ -21,3 +21,4 @@ export * from "./QueueSASPermissions";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";

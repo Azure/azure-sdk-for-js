@@ -29,3 +29,4 @@ export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
 export * from "./SASQueryParameters";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";

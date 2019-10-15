@@ -40,3 +40,4 @@ export * from "./BrowserPolicyFactory";
 export * from "./FileServiceClient";
 export * from "./SASQueryParameters";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";
