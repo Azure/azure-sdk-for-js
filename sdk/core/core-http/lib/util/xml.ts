@@ -54,11 +54,6 @@ const xml2jsDefaultOptionsV2 = {
 // The xml2js settings for general XML parsing operations.
 const xml2jsParserSettings: any = Object.assign({}, xml2jsDefaultOptionsV2);
 xml2jsParserSettings.explicitArray = false;
-xml2jsParserSettings.explicitRoot = false;
-
-// The xml2js settings for ATOM XML parsing operations.
-const xml2jsParserSettingsWithRoot: any = Object.assign({}, xml2jsDefaultOptionsV2);
-xml2jsParserSettingsWithRoot.explicitArray = false;
 
 // The xml2js settings for general XML building operations.
 const xml2jsBuilderSettings: any = Object.assign({}, xml2jsDefaultOptionsV2);
@@ -86,9 +81,8 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
  * `includeRoot` indicates whether the root element is to be included or not in the output
  */
 export function parseXML(str: string, opts?: { includeRoot?: boolean }): Promise<any> {
-  const xml2jsSettings =
-    opts && opts.includeRoot ? xml2jsParserSettingsWithRoot : xml2jsParserSettings;
-  const xmlParser = new xml2js.Parser(xml2jsSettings);
+  xml2jsParserSettings.explicitRoot = !!(opts && opts.includeRoot);
+  const xmlParser = new xml2js.Parser(xml2jsParserSettings);
   return new Promise((resolve, reject) => {
     if (!str) {
       reject(new Error("Document is empty"));

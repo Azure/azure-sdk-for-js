@@ -94,21 +94,5 @@ export const Constants = {
      * @type {string}
      */
     USER_AGENT: "User-Agent"
-  },
-
-  /**
-   * Marker for atom metadata.
-   *
-   * @const
-   * @type {string}
-   */
-  XML_METADATA_MARKER: "$",
-
-  /**
-   * Marker for atom value.
-   *
-   * @const
-   * @type {string}
-   */
-  XML_VALUE_MARKER: "_"
+  }
 };
