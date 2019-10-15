@@ -144,7 +144,7 @@ let serviceList = [];
 let count = 0;
 for (const eachService of serviceFolders) {
   count++;
-  console.log("count = " + count);
+  //console.log("count = " + count);
   const eachServicePath = path.join(workingDir, eachService);
   const stat = fs.statSync(eachServicePath);
 
