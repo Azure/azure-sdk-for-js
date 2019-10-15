@@ -170,10 +170,13 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Keeps track of the number of messages that have been received.
-   * @ignore
-   * @internal
    */
   private _receivedMessageCount = 0;
+
+  /**
+   * Keeps track of the last time the number of messages received were logged.
+   */
+  private _lastTimestamp = new Date().toISOString();
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
@@ -206,22 +209,18 @@ export class EventHubReceiver extends LinkEntity {
       this._receivedMessageCount++;
       const logMessageInterval = 1000;
       // log every 1000 messages
-      if (this._receivedMessageCount % logMessageInterval === 1) {
+      if (this._receivedMessageCount === logMessageInterval) {
         log.receiver(
-          "[%s] Receiver '%s' has received %i messages.",
+          "[%s] Receiver '%s' has received %i messages since %s.",
           this._context.connectionId,
           this.name,
-          this._receivedMessageCount
+          this._receivedMessageCount,
+          this._lastTimestamp
         );
-      }
-      if (this._receivedMessageCount >= Number.MAX_SAFE_INTEGER) {
-        log.receiver(
-          "[%s] Receiver '%s' has processed %i messages. Resetting message count.",
-          this._context.connectionId,
-          this.name,
-          this._receivedMessageCount
-        );
+
+        // reset tracking values
         this._receivedMessageCount = 0;
+        this._lastTimestamp = new Date().toISOString();
       }
 
       const evData = EventData.fromAmqpMessage(context.message!);
