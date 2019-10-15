@@ -142,7 +142,7 @@ function getPackageUrl(language, package, version) {
     package +
     "/" +
     version +
-    "/api/index.html"
+    "/index.html"
   );
 }
 // Populate Index
@@ -151,5 +151,6 @@ $(function() {
     ".html",
     ""
   );
+  pkgname = "azure-" + pkgname;
   populateIndexList("#published-versions", pkgname);
 });
