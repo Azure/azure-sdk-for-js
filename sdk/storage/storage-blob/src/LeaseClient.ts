@@ -3,7 +3,10 @@
 
 import { HttpResponse, generateUuid } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import * as Models from "../src/generated/src/models";
+import {
+  ModifiedAccessConditions,
+  ContainerBreakLeaseOptionalParams
+} from "../src/generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient } from "./ContainerClient";
 import { Blob, Container } from "./generated/src/operations";
@@ -86,10 +89,10 @@ export interface LeaseOperationOptions extends CommonOptions {
   /**
    * Conditions to meet when changing the lease.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof LeaseOperationOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -303,7 +306,7 @@ export class LeaseClient {
   ): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("LeaseClient-breakLease", options.spanOptions);
     try {
-      const operationOptions: Models.ContainerBreakLeaseOptionalParams = {
+      const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
         breakPeriod,
         modifiedAccessConditions: options.modifiedAccessConditions,

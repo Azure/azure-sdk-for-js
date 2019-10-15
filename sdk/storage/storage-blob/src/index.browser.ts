@@ -3,8 +3,6 @@
 
 import { RestError } from "@azure/core-http";
 
-import * as Models from "./generated/src/models";
-
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
@@ -28,5 +26,6 @@ export * from "./RetryPolicyFactory";
 export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
-export { Models, RestError };
 export { CommonOptions } from "./StorageClient";
+export * from "./generatedModels";
+export { RestError };
