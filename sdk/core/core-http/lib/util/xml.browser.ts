@@ -1,16 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { removeBOM } from "./utils";
+
 // tslint:disable-next-line:no-null-keyword
 const doc = document.implementation.createDocument(null, null, null);
 
 const parser = new DOMParser();
-export function parseXML(str: string): Promise<any> {
+export function parseXML(str: string, opts?: { includeRoot?: boolean }): Promise<any> {
   try {
+    if (str == undefined || str == "") {
+      throw new Error("Document is empty");
+    }
+
+    if (!removeBOM(str).startsWith("<")) {
+      throw new Error("Non-whitespace before first tag");
+    }
+
     const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
 
-    const obj = domToObject(dom.childNodes[0]);
+    let obj;
+    if (opts && opts.includeRoot) {
+      obj = domToObject(dom);
+    } else {
+      obj = domToObject(dom.childNodes[0]);
+    }
+
     return Promise.resolve(obj);
   } catch (err) {
     return Promise.reject(err);
@@ -99,9 +115,15 @@ function domToObject(node: Node): any {
 
 const serializer = new XMLSerializer();
 
-export function stringifyXML(obj: any, opts?: { rootName?: string }) {
+export function stringifyXML(content: any, opts?: { rootName?: string }): string {
+  if (content == undefined) {
+    throw new Error("Cannot convert undefined or null to object");
+  }
+  if (content == "") {
+    throw new Error("Missing element text");
+  }
   const rootName = (opts && opts.rootName) || "root";
-  const dom = buildNode(obj, rootName)[0];
+  const dom = buildNode(removeBOM(content), rootName)[0];
   return (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
   );
@@ -153,32 +175,5 @@ function buildNode(obj: any, elementName: string): Node[] {
     return [elem];
   } else {
     throw new Error(`Illegal value passed to buildObject: ${obj}`);
-  }
-}
-
-export function convertAtomXmlToJson(body: string): any {
-  const dom = parser.parseFromString(body, "text/xml");
-  throwIfError(dom);
-  return domToObject(dom);
-}
-
-/**
- * @param {object} content The content payload as it is to be serialized. It should include any root node(s).
- */
-export function convertJsonToAtomXml(content: any): string {
-  let res: Node[] | undefined = undefined;
-  if (content.entry) {
-    res = buildNode(content.entry, "entry");
-  } else if (content.feed) {
-    res = buildNode(content.feed, "feed");
-  }
-
-  if (res && res.length) {
-    const dom = res[0];
-    return (
-      `<?xml version="1.0" encoding="utf-8" standalone="yes"?>` + serializer.serializeToString(dom)
-    );
-  } else {
-    throw new Error("Unrecognized Atom XML result: " + JSON.stringify(content));
   }
 }

@@ -107,4 +107,4 @@ export { ServiceClientCredentials } from "./credentials/serviceClientCredentials
 export { TopicCredentials } from "./credentials/topicCredentials";
 export { Authenticator } from "./credentials/credentials";
 
-export { convertAtomXmlToJson, convertJsonToAtomXml } from "./util/xml";
+export { parseXML, stringifyXML } from "./util/xml";

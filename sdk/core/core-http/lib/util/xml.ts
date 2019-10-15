@@ -3,6 +3,8 @@
 
 import * as xml2js from "xml2js";
 
+import { removeBOM } from "./utils";
+
 // Note: The reason we re-define all of the xml2js default settings (version 2.0) here is because the default settings object exposed
 // by the xm2js library is mutable. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/536
 // By creating a new copy of the settings each time we instantiate the parser,
@@ -55,8 +57,8 @@ xml2jsParserSettings.explicitArray = false;
 xml2jsParserSettings.explicitRoot = false;
 
 // The xml2js settings for ATOM XML parsing operations.
-const xml2jsParserSettingsForAtomXml: any = Object.assign({}, xml2jsDefaultOptionsV2);
-xml2jsParserSettingsForAtomXml.explicitArray = false;
+const xml2jsParserSettingsWithRoot: any = Object.assign({}, xml2jsDefaultOptionsV2);
+xml2jsParserSettingsWithRoot.explicitArray = false;
 
 // The xml2js settings for general XML building operations.
 const xml2jsBuilderSettings: any = Object.assign({}, xml2jsDefaultOptionsV2);
@@ -65,26 +67,28 @@ xml2jsBuilderSettings.renderOpts = {
   pretty: false
 };
 
-// The xml2js settings for ATOM XML building operations.
-const xml2jsBuilderSettingsForAtomXML: any = Object.assign({}, xml2jsDefaultOptionsV2);
-xml2jsBuilderSettingsForAtomXML.explicitRoot = false;
-xml2jsBuilderSettingsForAtomXML.renderOpts = {
-  pretty: false
-};
-xml2jsBuilderSettingsForAtomXML.xmldec = {
-  version: "1.0",
-  encoding: "utf-8",
-  standalone: true
-};
-
+/**
+ * Converts given JSON object to XML string
+ * @param obj JSON object to be converted into XML string
+ * @param opts Options that govern the parsing of given JSON object.
+ * `rootName` indicates the name of the root element in the resulting XML
+ */
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   xml2jsBuilderSettings.rootName = (opts || {}).rootName;
   const builder = new xml2js.Builder(xml2jsBuilderSettings);
-  return builder.buildObject(obj);
+  return builder.buildObject(removeBOM(obj));
 }
 
-export function parseXML(str: string): Promise<any> {
-  const xmlParser = new xml2js.Parser(xml2jsParserSettings);
+/**
+ * Converts given XML string into JSON
+ * @param str String containg the XML content to be parsed into JSON
+ * @param opts Options that govern the parsing of given xml string.
+ * `includeRoot` indicates whether the root element is to be included or not in the output
+ */
+export function parseXML(str: string, opts?: { includeRoot?: boolean }): Promise<any> {
+  const xml2jsSettings =
+    opts && opts.includeRoot ? xml2jsParserSettingsWithRoot : xml2jsParserSettings;
+  const xmlParser = new xml2js.Parser(xml2jsSettings);
   return new Promise((resolve, reject) => {
     if (!str) {
       reject(new Error("Document is empty"));
@@ -98,41 +102,4 @@ export function parseXML(str: string): Promise<any> {
       });
     }
   });
-}
-
-/**
- * The XML body to convert to JSON
- * @param body
- */
-export async function convertAtomXmlToJson(body: string): Promise<any> {
-  const parser = new xml2js.Parser(xml2jsParserSettingsForAtomXml);
-  return await new Promise((resolve, reject) => {
-    parser.parseString(removeBOM(body.toString()), function(err: any, parsedBody: any) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(parsedBody);
-      }
-    });
-  });
-}
-
-/**
- * @param content The content as it is to be serialized. It should include any root node(s).
- */
-export function convertJsonToAtomXml(content: any): string {
-  const builder = new xml2js.Builder(xml2jsBuilderSettingsForAtomXML);
-  return builder.buildObject(content);
-}
-
-/**
- * @ignore
- * Helper utility to clean up unintended characters that get appended by OS.
- * @param str
- */
-function removeBOM(str: string) {
-  if (str.charCodeAt(0) === 0xfeff || str.charCodeAt(0) === 0xffef) {
-    str = str.substring(1);
-  }
-  return str;
 }
