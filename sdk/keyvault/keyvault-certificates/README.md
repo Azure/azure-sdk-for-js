@@ -139,7 +139,6 @@ The following sections provide code snippets that cover some of the common
 tasks using Azure Key Vault Certificates. The scenarios that are covered here consist of:
 
 - [Creating and setting a certificate](#creating-and-setting-a-certificate).
-- [Waiting until the certificate is created](#waiting-until-the-certificate-is-created).
 - [Getting a certificate](#getting-a-certificate).
 - [Certificate attributes](#certificate-attributes).
 - [Updating a certificate](#updating-a-certificate).
@@ -154,9 +153,10 @@ certificate is created.
 
 ```javascript
 const certificateName = "MyCertificateName";
-const result = await client.createCertificate(certificateName, {
+const poller = await client.createCertificate(certificateName, {
   issuerName: "Self"
 });
+// Keep reading to see how to get the final value from the poller
 ```
 
 Besides the name of the certificate, you can also pass the following attributes:
@@ -174,7 +174,7 @@ const enabled = true;
 const tags = {
   myCustomTag: "myCustomTagsValue"
 };
-const result = await client.createCertificate(
+const poller = await client.createCertificate(
   certificateName,
   certificatePolicy,
   {
@@ -182,21 +182,21 @@ const result = await client.createCertificate(
     tags
   }
 );
+// Keep reading to see how to get the final value from the poller
 ```
 
 Calling to `createCertificate` with the same name will create a new version of
 the same certificate, which will have the latest provided attributes.
 
-### Waiting until the certificate is created
-
 Certificates take some time to get fully created since they need to be signed
 by their respective Certificate Authority. Since this is a process that can
-take an unbounded amount of time, we're providing a special method
-`beginCreateCertificate`, which returns a Poller who manages
-the underlying Long Running Operation according to our guidelines:
+take an unbounded amount of time, `createCertificate` returns a Poller, which
+is an object that keeps track of the underlying Long Running Operation
+according to our guidelines:
 https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
 
-Here's a quick example on how to use this method:
+Once you receive the poller, you'll be able to get the pending certificate by
+checking on the state of the poller, as follows:
 
 ```typescript
 const certificateName = "MyCertificateName";
@@ -204,9 +204,24 @@ const certificatePolicy = {
   issuerName: "Self"
 };
 
-const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
+const poller = await client.createCertificate(certificateName, certificatePolicy);
 
-const certificate = await poller.done();
+const certificate = poller.getPendingCertificate();
+console.log(certificate);
+```
+
+You can also wait until the cerificate finishes being signed, as follows:
+
+```typescript
+const certificateName = "MyCertificateName";
+const certificatePolicy = {
+  issuerName: "Self"
+};
+
+const poller = await client.createCertificate(certificateName, certificatePolicy);
+
+// This might take a while
+const certificate = await poller.pollUntilDone();
 console.log(certificate);
 ```
 

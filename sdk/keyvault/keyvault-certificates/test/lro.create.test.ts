@@ -36,45 +36,43 @@ describe("Certificates client - Long Running Operations - create", () => {
 
   it("can create a certificate and wait until it's signed", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
+    const poller = await client.createCertificate(certificateName, basicCertificatePolicy);
 
-    await poller.nextPoll();
-    assert.ok(poller.getState().started);
-    assert.equal(poller.getProperties().initialResponse!.status, "inProgress"); 
-    assert.equal(poller.getProperties().previousResponse!.status, "inProgress"); 
+    assert.ok(poller.getOperationState().started);
+    assert.equal(poller.getInitialResponse()!.status, "inProgress"); 
+    assert.equal(poller.getPreviousResponse()!.status, "inProgress"); 
 
     // Getting the pending certificate instantly
-    assert.equal(poller.getProperties().pendingCertificate!.properties.name, certificateName); 
+    assert.equal(poller.getPendingCertificate()!.properties.name, certificateName); 
 
-    const certificate = await poller.done();
+    const certificate = await poller.pollUntilDone();
     assert.equal(certificate.properties.name, certificateName); 
-    assert.ok(poller.getState().completed);
+    assert.ok(poller.getOperationState().completed);
 
     // The pending certificate exists no more
-    assert.equal(poller.getProperties().pendingCertificate, undefined); 
+    assert.equal(poller.getPendingCertificate(), undefined); 
 
     // The final certificate can also be obtained this way:
-    assert.equal(poller.getState().result!.properties.name, certificateName); 
+    assert.equal(poller.getOperationState().result!.properties.name, certificateName); 
 
     await testClient.flushCertificate(certificateName);
   });
 
   it("can cancel a certificate's creation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
-    poller.done().catch(e => {
+    const poller = await client.createCertificate(certificateName, basicCertificatePolicy);
+    poller.pollUntilDone().catch(e => {
       assert.ok(e instanceof PollerCancelledError);
       assert.equal(e.name, "PollerCancelledError");
       assert.equal(e.message, "Poller cancelled");
     });
 
-    await poller.nextPoll();
-    assert.ok(poller.getState().started);
-    assert.equal(poller.getProperties().initialResponse!.status, "inProgress"); 
-    assert.equal(poller.getProperties().previousResponse!.status, "inProgress"); 
+    assert.ok(poller.getOperationState().started);
+    assert.equal(poller.getInitialResponse()!.status, "inProgress"); 
+    assert.equal(poller.getPreviousResponse()!.status, "inProgress"); 
 
     await poller.cancelOperation();
-    assert.ok(poller.getState().cancelled);
+    assert.ok(poller.getOperationState().cancelled);
     assert.ok(poller.isStopped());
 
     const getResponse = await client.getCertificateOperation(certificateName);
@@ -85,8 +83,8 @@ describe("Certificates client - Long Running Operations - create", () => {
 
   it("can resume from a stopped poller", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
-    poller.done().catch((e) => {
+    const poller = await client.createCertificate(certificateName, basicCertificatePolicy);
+    poller.pollUntilDone().catch(e => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "This poller is already stopped");
@@ -94,17 +92,17 @@ describe("Certificates client - Long Running Operations - create", () => {
 
     poller.stop();
     assert.ok(poller.isStopped());
-    assert.ok(!poller.getState().completed);
+    assert.ok(!poller.getOperationState().completed);
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+    const resumePoller = await client.createCertificate(certificateName, basicCertificatePolicy, {}, {
       resumeFrom: serialized,
     });
 
-    const certificate = await resumePoller.done();
+    const certificate = await resumePoller.pollUntilDone();
     assert.equal(certificate.properties.name, certificateName); 
-    assert.ok(resumePoller.getState().completed);
+    assert.ok(resumePoller.getOperationState().completed);
  
     await testClient.flushCertificate(certificateName);
   });

@@ -36,8 +36,9 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can create a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const result = await client.createCertificate(certificateName, basicCertificatePolicy);
-    assert.equal(result.properties.name, certificateName, "Unexpected key name in result from createCertificate().");
+    const poller = await client.createCertificate(certificateName, basicCertificatePolicy);
+    const result = poller.getPendingCertificate();
+    assert.equal(result!.properties.name, certificateName, "Unexpected key name in result from createCertificate().");
     await testClient.flushCertificate(certificateName);
   });
 

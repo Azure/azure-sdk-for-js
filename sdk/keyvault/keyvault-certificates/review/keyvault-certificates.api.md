@@ -9,6 +9,7 @@ import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Poller } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -70,21 +71,18 @@ export interface CertificateProperties extends ParsedKeyVaultEntityIdentifier {
     readonly x509Thumbprint?: Uint8Array;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CertificatesClientInterface" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export class CertificatesClient implements CertificatesClientInterface {
+export class CertificatesClient {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
-    beginCreateCertificate(name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, pollerOptions?: {
+    cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
+    // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
+    createCertificate(name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, pollerOptions?: {
         manual?: boolean;
         intervalInMs?: number;
         resumeFrom?: string;
     }): Promise<CreateCertificatePoller>;
-    cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
-    createCertificate(name: string, certificatePolicy: CertificatePolicy, options?: CreateCertificateOptions): Promise<Certificate>;
     protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
@@ -130,13 +128,16 @@ export interface Contacts {
     readonly id?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CreateCertificatePollOperationProperties" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CreateCertificatePollOperationState" needs to be exported by the entry point index.d.ts
 // 
 // @public
-export class CreateCertificatePoller extends Poller<CreateCertificatePollOperationProperties, CertificateOperation> {
+export class CreateCertificatePoller extends Poller<CreateCertificatePollOperationState, Certificate> {
     // Warning: (ae-forgotten-export) The symbol "CreateCertificatePollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: CreateCertificatePollerOptions);
     delay(): Promise<void>;
+    getInitialResponse(): CertificateOperation | undefined;
+    getPendingCertificate(): Certificate | undefined;
+    getPreviousResponse(): CertificateOperation | undefined;
     intervalInMs: number;
 }
 

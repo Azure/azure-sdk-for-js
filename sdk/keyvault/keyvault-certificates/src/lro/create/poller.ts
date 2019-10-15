@@ -1,8 +1,7 @@
 import { delay } from "@azure/core-http";
-import { Poller, PollOperationState } from "@azure/core-lro";
+import { Poller } from "@azure/core-lro";
 import {
-  CreateCertificatePollOperation,
-  CreateCertificatePollOperationProperties,
+  CreateCertificatePollOperationState,
   makeCreateCertificatePollOperation
 } from "./operation";
 import {
@@ -11,13 +10,13 @@ import {
   CertificatesClientInterface,
   CreateCertificateOptions
 } from "../../certificatesModels";
+import { CertificateOperation } from "../../core/models";
 
 export interface CreateCertificatePollerOptions {
   client: CertificatesClientInterface;
   name: string;
   certificatePolicy: CertificatePolicy;
   createCertificateOptions?: CreateCertificateOptions;
-  manual?: boolean;
   intervalInMs?: number;
   resumeFrom?: string;
 }
@@ -26,7 +25,7 @@ export interface CreateCertificatePollerOptions {
  * Class that creates a poller that waits until a certificate finishes being created
  */
 export class CreateCertificatePoller extends Poller<
-  CreateCertificatePollOperationProperties,
+  CreateCertificatePollOperationState,
   Certificate
 > {
   /**
@@ -41,32 +40,28 @@ export class CreateCertificatePoller extends Poller<
       name,
       certificatePolicy,
       createCertificateOptions = {},
-      manual = false,
       intervalInMs = 1000,
       resumeFrom
     } = options;
 
-    let state: PollOperationState<Certificate> = {};
-    let properties: CreateCertificatePollOperationProperties | undefined = undefined;
+    let state: CreateCertificatePollOperationState | undefined;
 
     if (resumeFrom) {
-      const baseOperation: {
-        state: PollOperationState<Certificate>;
-        properties: CreateCertificatePollOperationProperties;
-      } = JSON.parse(resumeFrom);
-      state = baseOperation.state;
-      properties = baseOperation.properties;
+      state = {
+        ...JSON.parse(resumeFrom).state,
+        ...state
+      };
     }
 
-    const operation: CreateCertificatePollOperation = makeCreateCertificatePollOperation(state, {
-      ...properties,
+    const operation = makeCreateCertificatePollOperation({
+      ...state,
       name,
       certificatePolicy,
       createCertificateOptions,
       client
     });
 
-    super(operation, manual);
+    super(operation);
 
     this.intervalInMs = intervalInMs;
   }
@@ -77,5 +72,28 @@ export class CreateCertificatePoller extends Poller<
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
+  }
+
+  /**
+   * Returns a pending certificate
+   * @memberof CreateCertificatePoller
+   */
+  getPendingCertificate(): Certificate | undefined {
+    return this.operation.state.pendingCertificate;
+  }
+
+  /**
+   * Returns the initial response
+   * @memberof CreateCertificatePoller
+   */
+  getInitialResponse(): CertificateOperation | undefined {
+    return this.operation.state.initialResponse;
+  }
+  /**
+   * Returns the previous response
+   * @memberof CreateCertificatePoller
+   */
+  getPreviousResponse(): CertificateOperation | undefined {
+    return this.operation.state.previousResponse;
   }
 }

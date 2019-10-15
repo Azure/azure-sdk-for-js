@@ -21,10 +21,12 @@ async function main(): Promise<void> {
   const client = new CertificatesClient(url, credential);
 
   // Creating a self-signed certificate
-  const certificate = await client.createCertificate("MyCertificate", {
+  const poller = await client.createCertificate("MyCertificate", {
     issuerName: "Self",
     subjectName: "cn=MyCert"
   });
+
+  const certificate = await poller.pollUntilDone();
 
   console.log("Certificate: ", certificate);
 
