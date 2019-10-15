@@ -3,6 +3,7 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
+import { URLBuilder, URLQuery } from '../url';
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -10,6 +11,7 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { logger as coreLogger, logger } from "../log";
+
 export interface LogPolicyOptions {
   /**
    * Header names whose values will be logged when logging is enabled. Defaults to
@@ -25,6 +27,8 @@ export interface LogPolicyOptions {
   allowedQueryParameters?: string[];
 }
 
+const RedactedString = "REDACTED";
+
 const defaultAllowedHeaderNames = [
   "Date",
   "traceparent",
@@ -32,7 +36,9 @@ const defaultAllowedHeaderNames = [
   "x-ms-request-id"
 ];
 
-const defaultAllowedQueryParameters: string[] = [];
+const defaultAllowedQueryParameters: string[] = [
+  "api-version"
+];
 
 export function logPolicy(
   logger: any = coreLogger.info.bind(coreLogger),
@@ -79,6 +85,8 @@ export class LogPolicy extends BaseRequestPolicy {
   private sanitize(key: string, value: unknown) {
     if (key === "_headersMap") {
       return this.sanitizeHeaders(key, value as {});
+    } else if (key === "url") {
+      return this.sanitizeUrl(value as string);
     } else if (key === "query") {
       return this.sanitizeQuery(value as {});
     } else if (key === "response") {
@@ -93,7 +101,19 @@ export class LogPolicy extends BaseRequestPolicy {
     return value;
   }
 
-  private sanitizeHeaders(_: string, value: { [s: string]: string }) {
+  private sanitizeHeaders(_: string, value: { [s: string]: any }) {
+    return this.sanitizeObject(value, this.allowedHeaderNames, (v, k) => v[k].value);
+  }
+
+  private sanitizeQuery(value: { [s: string]: string }) {
+    return this.sanitizeObject(value, this.allowedQueryParameters, (v, k) => v[k]);
+  }
+
+  private sanitizeObject(
+    value: { [s: string]: any },
+    allowedKeys: string[],
+    accessor: (value: any, key: string) => any
+  ) {
     if (typeof value !== "object" || value === null) {
       return value;
     }
@@ -101,18 +121,37 @@ export class LogPolicy extends BaseRequestPolicy {
     const sanitized: { [s: string]: string } = {};
 
     for (const k of Object.keys(value)) {
-      if (this.allowedHeaderNames.includes(k)) {
-        sanitized[k] = value[k];
+      if (allowedKeys.includes(k)) {
+        sanitized[k] = accessor(value, k);
       } else {
-        sanitized[k] = "REDACTED";
+        sanitized[k] = RedactedString;
       }
     }
 
     return sanitized;
   }
 
-  private sanitizeQuery(value: object) {
-    return value;
+  private sanitizeUrl(value: string): string {
+    if (typeof value !== "string" || value === null) {
+      return value;
+    }
+
+    const urlBuilder = URLBuilder.parse(value);
+    const queryString = urlBuilder.getQuery();
+
+    if (!queryString) {
+      return value;
+    }
+
+    const query = URLQuery.parse(queryString);
+    for (const k of query.keys()) {
+      if (!this.allowedQueryParameters.includes(k)) {
+        query.set(k, RedactedString);
+      }
+    }
+
+    urlBuilder.setQuery(query.toString());
+    return urlBuilder.toString();
   }
 
   private logResponse(response: HttpOperationResponse): HttpOperationResponse {
