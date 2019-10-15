@@ -141,6 +141,47 @@ export interface ServiceListQueuesOptions extends CommonOptions {
  */
 export class QueueServiceClient extends StorageClient {
   /**
+   * Creates an instance of QueueServiceClient.
+   *
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
+   * @memberof QueueServiceClient
+   */
+  public static fromConnectionString(
+    connectionString: string,
+    options?: NewPipelineOptions
+  ): QueueServiceClient {
+    options = options || {};
+    const extractedCreds = extractConnectionStringParts(connectionString);
+    if (extractedCreds.kind === "AccountConnString") {
+      if (isNode) {
+        const sharedKeyCredential = new SharedKeyCredential(
+          extractedCreds.accountName!,
+          extractedCreds.accountKey
+        );
+        options.proxy = extractedCreds.proxyUri;
+        const pipeline = newPipeline(sharedKeyCredential, options);
+        return new QueueServiceClient(extractedCreds.url, pipeline);
+      } else {
+        throw new Error("Account connection string is only supported in Node.js environment");
+      }
+    } else if (extractedCreds.kind === "SASConnString") {
+      const pipeline = newPipeline(new AnonymousCredential(), options);
+      return new QueueServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
+    } else {
+      throw new Error(
+        "Connection string must be either an Account connection string or a SAS connection string"
+      );
+    }
+  }
+
+  /**
    * serviceContext provided by protocol layer.
    *
    * @private
@@ -152,24 +193,9 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Creates an instance of QueueServiceClient.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
-   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
-   *                                  Account connection string example -
-   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
-   *                                  SAS connection string example -
-   *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} queueName Queue name.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
-   * @memberof QueueServiceClient
-   */
-  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
-  /**
-   * Creates an instance of QueueServiceClient.
-   *
-   * @param {string} url A URL string pointing to Azure Storage queue, such as
-   *                     "https://myaccount.queue.core.windows.net/myqueue". You can
-   *                     append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
+   * @param {string} url A URL string pointing to Azure Storage queue service, such as
+   *                     "https://myaccount.queue.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
@@ -184,78 +210,31 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Creates an instance of QueueServiceClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage queue, such as
-   *                     "https://myaccount.queue.core.windows.net/myqueue". You can
-   *                     append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
+   * @param {string} url A URL string pointing to Azure Storage queue service, such as
+   *                     "https://myaccount.queue.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueServiceClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
-    urlOrConnectionString: string,
-    credentialOrPipelineOrQueueName?:
-      | SharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Pipeline
-      | string,
+    url: string,
+    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     options?: NewPipelineOptions
   ) {
-    options = options || {};
     let pipeline: Pipeline;
-    let url: string;
-    if (credentialOrPipelineOrQueueName instanceof Pipeline) {
-      // (url: string, pipeline: Pipeline)
-      url = urlOrConnectionString;
-      pipeline = credentialOrPipelineOrQueueName;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
-      credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
-      isTokenCredential(credentialOrPipelineOrQueueName)
+      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
+      credentialOrPipeline instanceof AnonymousCredential ||
+      isTokenCredential(credentialOrPipeline)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
-      url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
-    } else if (
-      !credentialOrPipelineOrQueueName &&
-      typeof credentialOrPipelineOrQueueName !== "string"
-    ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
-      // The second paramter is undefined. Use anonymous credential.
-      url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
-    } else if (
-      credentialOrPipelineOrQueueName &&
-      typeof credentialOrPipelineOrQueueName === "string"
-    ) {
-      // (connectionString: string, containerName: string, queueName: string, options?: NewPipelineOptions)
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
-          const queueName = credentialOrPipelineOrQueueName;
-          const sharedKeyCredential = new SharedKeyCredential(
-            extractedCreds.accountName,
-            extractedCreds.accountKey
-          );
-          url = appendToURLPath(extractedCreds.url, queueName);
-          options.proxy = extractedCreds.proxyUri;
-          pipeline = newPipeline(sharedKeyCredential, options);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
-        const queueName = credentialOrPipelineOrQueueName;
-        url = appendToURLPath(extractedCreds.url, queueName) + "?" + extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
-      } else {
-        throw new Error(
-          "Connection string must be either an Account connection string or a SAS connection string"
-        );
-      }
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
-      throw new Error("Expecting non-empty strings for queueName parameter");
+      // The second paramter is undefined. Use anonymous credential.
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
