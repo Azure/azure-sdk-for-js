@@ -40,16 +40,15 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   }
 
   private getOrCreateAgent(httpRequest: WebResource): http.Agent | https.Agent {
-    let agent: http.Agent | https.Agent | undefined = undefined;
     const isHttps = isUrlHttps(httpRequest.url);
+    const getCachedAgent = () => isHttps ? this.httpsAgent : this.httpAgent;
 
-    if (isHttps) {
-      agent = this.httpsAgent;
-    } else {
-      agent = this.httpAgent;
-    }
+    let agent = getCachedAgent();
 
     if (!agent) {
+      // At the moment, proxy settings and keepAlive are mutually
+      // exclusive because the 'tunnel' library currently lacks the
+      // ability to create a proxy with keepAlive turned on.
       if (this.httpClientOptions.proxySettings) {
         const tunnel: ProxyAgent = createProxyAgent(
           httpRequest.url,
@@ -67,11 +66,20 @@ export class NodeFetchHttpClient extends FetchHttpClient {
         const agentOptions: http.AgentOptions | https.AgentOptions = {
           keepAlive: this.httpClientOptions.keepAlive
         };
-        agent = isHttps ? new https.Agent(agentOptions) : new http.Agent(agentOptions);
+
+        if (isHttps) {
+          this.httpsAgent = new https.Agent(agentOptions);
+        } else {
+          this.httpAgent = new http.Agent(agentOptions);
+        }
       }
+
+      agent = getCachedAgent();
     }
 
-    return agent;
+    // We've created or reused an agent by this point, so assert
+    // that agent is not undefined
+    return agent!;
   }
 
   async fetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
