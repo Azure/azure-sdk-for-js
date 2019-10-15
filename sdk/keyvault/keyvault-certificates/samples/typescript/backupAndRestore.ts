@@ -1,4 +1,4 @@
-import { CertificatesClient } from "../src";
+import { CertificatesClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates a self-signed certificate, then makes a backup from it,
@@ -20,25 +20,27 @@ async function main(): Promise<void> {
 
   const client = new CertificatesClient(url, credential);
 
+  const certificateName = "MyCertificate126342";
   // Creating a self-signed certificate
-  const certificate = await client.createCertificate("MyCertificate", {
+  const certificate = await client.createCertificate(certificateName, {
     issuerName: "Self",
     subjectName: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
 
-  const backup = await client.backupCertificate("MyCertificate");
+  const backup = await client.backupCertificate(certificateName);
 
   // It might take less time, or more, depending on your location, internet speed and other factors.
+  await client.deleteCertificate(certificateName);
   await delay(30000);
 
-  await client.purgeDeletedCertificate("MyCertificate23310");
+  await client.purgeDeletedCertificate(certificateName);
   await delay(30000);
 
   await client.restoreCertificate(backup.value!);
 
-  const restoredCertificate = await client.getCertificateWithPolicy("MyCertificate");
+  const restoredCertificate = await client.getCertificateWithPolicy(certificateName);
 
   console.log("Restored certificate: ", restoredCertificate);
 }

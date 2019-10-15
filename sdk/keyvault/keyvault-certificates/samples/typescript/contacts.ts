@@ -1,4 +1,4 @@
-import { CertificatesClient } from "../src";
+import { CertificatesClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates, updates and deletes certificate contacts.

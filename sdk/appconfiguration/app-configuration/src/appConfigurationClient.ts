@@ -29,14 +29,15 @@ import {
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
-  SetReadOnlyResponse
+  SetReadOnlyResponse,
 } from "./models";
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
-  formatWildcards
+  formatWildcards,
+  makeConfigurationSettingsFieldsThrow
 } from "./internal/helpers";
-import { ResponseBodyNotFoundError, tracingPolicy } from "@azure/core-http";
+import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import { GetKeyValuesResponse } from './generated/src/models';
 
@@ -118,13 +119,29 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    return this.spanner.trace("deleteConfigurationSetting", options, (newOptions) => {
+    const originalResponse = await this.spanner.trace("deleteConfigurationSetting", options, (newOptions) => {
       return this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
-        ...checkAndFormatIfAndIfNoneMatch(newOptions)
+        ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
       });
     });
+
+    const response: DeleteConfigurationSettingResponse = {
+      ...originalResponse,
+      _response: originalResponse._response,
+      statusCode: originalResponse._response.status
+    };
+
+    if (response._response.status == 204) {
+      // setting wasn't found (might have already been deleted). Users that care can check that the response
+      // code is not 200 but we don't consider this to be a fatal error.
+      makeConfigurationSettingsFieldsThrow(response,
+        "The resource was already deleted (or was missing). Only the _response and statusCode properties are valid for this object.",
+        "Resource already deleted or missing");  
+    }
+
+    return response;
   }
 
   /**
@@ -142,24 +159,25 @@ export class AppConfigurationClient {
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
     return await this.spanner.trace("getConfigurationSetting", options, async (newOptions) => {
-      const response = (await this.client.getKeyValue(id.key, {
+      const originalResponse = await this.client.getKeyValue(id.key, {
         label: id.label,
         select: newOptions.fields,
         ...newOptions,
-        ...checkAndFormatIfAndIfNoneMatch(newOptions)
-      })) as GetConfigurationSettingResponse;
+        ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
+      });
+
+      const response: GetConfigurationSettingResponse = {
+        ...originalResponse,
+        _response: originalResponse._response,
+        statusCode: originalResponse._response.status
+      };      
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
-      if (response._response.status === 304) {
-        throw new ResponseBodyNotFoundError(
-          "The requested setting's value has not changed since the last request.",
-          "Resource same as remote",
-          response._response.status,
-          response._response.request,
-          response._response,
-          null
-        );
+      if (response.statusCode === 304) {
+        makeConfigurationSettingsFieldsThrow(response,
+          "The requested value was not retrieved since it has not changed since the last request.",
+          "Resource same as remote");
       }
 
       return response;
@@ -349,7 +367,7 @@ export class AppConfigurationClient {
         ...newOptions,
         label: configurationSetting.label,
         entity: configurationSetting,
-        ...checkAndFormatIfAndIfNoneMatch(newOptions)
+        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, newOptions)
       });
     });
   }

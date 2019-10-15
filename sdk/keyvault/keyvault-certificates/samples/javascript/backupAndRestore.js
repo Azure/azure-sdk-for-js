@@ -1,14 +1,14 @@
-import { CertificatesClient } from "../src";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CertificatesClient } = require("../../src");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-// This sample creates a self-signed certificate, then deletes it, then recovers it.
-// Soft-delete is required for this sample to run: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete
+// This sample creates a self-signed certificate, then makes a backup from it,
+// then deletes it and purges it, and finally restores it.
 
-export function delay<T>(t: number, value?: T): Promise<T> {
+function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
-async function main(): Promise<void> {
+async function main() {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -20,29 +20,30 @@ async function main(): Promise<void> {
 
   const client = new CertificatesClient(url, credential);
 
+  const certificateName = "MyCertificate123129";
+
   // Creating a self-signed certificate
-  const certificate = await client.createCertificate("MyCertificate", {
+  const certificate = await client.createCertificate(certificateName, {
     issuerName: "Self",
     subjectName: "cn=MyCert"
   });
 
   console.log("Certificate: ", certificate);
 
-  await client.deleteCertificate("MyCertificate");
+  const backup = await client.backupCertificate(certificateName);
 
   // It might take less time, or more, depending on your location, internet speed and other factors.
-  await delay(10000);
+  await client.deleteCertificate(certificateName);
+  await delay(30000);
 
-  const deletedCertificate = await client.getDeletedCertificate("MyCertificate");
-  console.log("Deleted certificate: ", deletedCertificate);
+  await client.purgeDeletedCertificate(certificateName);
+  await delay(30000);
 
-  await client.recoverDeletedCertificate("MyCertificate");
+  await client.restoreCertificate(backup.value);
 
-  // It might take less time, or more, depending on your location, internet speed and other factors.
-  await delay(10000);
+  const restoredCertificate = await client.getCertificateWithPolicy(certificateName);
 
-  const certificateWithPolicy = await client.getCertificateWithPolicy("MyCertificate");
-  console.log("Certificate with policy:", certificateWithPolicy);
+  console.log("Restored certificate: ", restoredCertificate);
 }
 
 main().catch((err) => {

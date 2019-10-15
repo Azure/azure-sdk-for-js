@@ -1,4 +1,4 @@
-import { CertificatesClient } from "../src";
+import { CertificatesClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample list previously created certificates in a single chunk and by page,

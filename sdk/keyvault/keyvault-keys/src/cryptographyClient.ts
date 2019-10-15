@@ -79,9 +79,6 @@ export class CryptographyClient {
     plaintext: Uint8Array,
     options?: EncryptOptions
   ): Promise<EncryptResult> {
-    let iv = options ? options.iv : undefined;
-    let authenticationData = options ? options.authenticationData : undefined;
-
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -100,7 +97,7 @@ export class CryptographyClient {
 
             let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = crypto.publicEncrypt(padded, Buffer.from(plaintext));
-            return { result: encrypted, algorithm, keyID: this.key.kid, iv, authenticationData };
+            return { result: encrypted, algorithm, keyID: this.key.kid };
           }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
@@ -114,7 +111,7 @@ export class CryptographyClient {
             let keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(plaintext));
-            return { result: encrypted, algorithm, keyID: this.key.kid, iv, authenticationData };
+            return { result: encrypted, algorithm, keyID: this.key.kid };
           }
         }
       }
@@ -130,7 +127,7 @@ export class CryptographyClient {
       options
     );
 
-    return { result: result.result!, algorithm, keyID: this.getKeyID(), iv, authenticationData };
+    return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
   /**
@@ -178,7 +175,7 @@ export class CryptographyClient {
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
-    options?: RequestOptions
+    options?: WrapOptions
   ): Promise<WrapResult> {
     if (isNode) {
       await this.fetchFullKeyIfPossible();
@@ -245,7 +242,7 @@ export class CryptographyClient {
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
-    options?: RequestOptions
+    options?: UnwrapOptions
   ): Promise<UnwrapResult> {
     let result = await this.client.unwrapKey(
       this.vaultBaseUrl,
@@ -273,7 +270,7 @@ export class CryptographyClient {
   public async sign(
     algorithm: KeySignatureAlgorithm,
     digest: Uint8Array,
-    options?: RequestOptions
+    options?: SignOptions
   ): Promise<SignResult> {
     let result = await this.client.sign(
       this.vaultBaseUrl,
@@ -303,7 +300,7 @@ export class CryptographyClient {
     algorithm: KeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options?: RequestOptions
+    options?: VerifyOptions
   ): Promise<VerifyResult> {
     const response = await this.client.verify(
       this.vaultBaseUrl,
@@ -332,7 +329,7 @@ export class CryptographyClient {
   public async signData(
     algorithm: KeySignatureAlgorithm,
     data: Uint8Array,
-    options?: RequestOptions
+    options?: SignOptions
   ): Promise<SignResult> {
     let digest;
     switch (algorithm) {
@@ -391,7 +388,7 @@ export class CryptographyClient {
     algorithm: KeySignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    options?: RequestOptions
+    options?: VerifyOptions
   ): Promise<VerifyResult> {
     if (isNode) {
       await this.fetchFullKeyIfPossible();
@@ -691,20 +688,6 @@ export class CryptographyClient {
 }
 
 /**
- * Options for the encrypt call to the CryptographyClient
- */
-export interface EncryptOptions extends RequestOptions {
-  /**
-   * Initialization vector
-   */
-  iv?: Uint8Array;
-  /**
-   * Authentication data
-   */
-  authenticationData?: Uint8Array;
-}
-
-/**
  * @internal
  * @ignore
  * Encodes a length of a packet in DER format
@@ -824,24 +807,6 @@ async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> 
 }
 
 /**
- * Options for the decrypt call to the CryptographyClient
- */
-export interface DecryptOptions extends RequestOptions {
-  /**
-   * Initialization vector
-   */
-  iv?: Uint8Array;
-  /**
-   * Authentication data
-   */
-  authenticationData?: Uint8Array;
-  /**
-   * Authentication tag
-   */
-  authenticationTag?: Uint8Array;
-}
-
-/**
  * Allow algorithms for key wrapping/unwrapping
  */
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
@@ -864,6 +829,36 @@ export type KeySignatureAlgorithm =
   | "ES384"
   | "ES512"
   | "ES256K";
+
+/**
+ * Options for the encrypt call to the CryptographyClient
+ */
+export interface EncryptOptions extends RequestOptions {}
+
+/**
+ * Options for the decrypt call to the CryptographyClient
+ */
+export interface DecryptOptions extends RequestOptions {}
+
+/**
+ * Options for the sign call to the CryptographyClient
+ */
+export interface SignOptions extends RequestOptions {}
+
+/**
+ * Options for the verify call to the CryptographyClient
+ */
+export interface VerifyOptions extends RequestOptions {}
+
+/**
+ * Options for the wrapKey call to the CryptographyClient
+ */
+export interface WrapOptions extends RequestOptions {}
+
+/**
+ * Options for the unwrap call to the CryptographyClient
+ */
+export interface UnwrapOptions extends RequestOptions {}
 
 /**
  * Result of a decrypt operation
@@ -899,18 +894,6 @@ export interface EncryptResult {
    * Id of the key
    */
   keyID?: string;
-  /**
-   * Initialization vector
-   */
-  iv?: Uint8Array;
-  /**
-   * Authentication data
-   */
-  authenticationData?: Uint8Array;
-  /**
-   * Authentication tag
-   */
-  authenticationTag?: string;
 }
 
 /**

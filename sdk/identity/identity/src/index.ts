@@ -15,12 +15,17 @@ export {
   BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
-export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
+export {
+  DeviceCodeCredential,
+  DeviceCodePromptCallback,
+  DeviceCodeDetails
+} from "./credentials/deviceCodeCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export {
   AuthenticationError,
+  ErrorResponse,
   AggregateAuthenticationError,
   AuthenticationErrorName,
   AggregateAuthenticationErrorName
@@ -28,6 +33,9 @@ export {
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 
+/**
+ * Returns a new instance of the {@link DefaultAzureCredential}.
+ */
 export function getDefaultAzureCredential(): TokenCredential {
   return new DefaultAzureCredential();
 }
