@@ -20,7 +20,7 @@ export enum SASProtocol {
   /**
    * Protocol that allows both HTTPS and HTTP
    */
-  HTTPSandHTTP = "https,http"
+  HTTPSAndHTTP = "https,http"
 }
 
 /**

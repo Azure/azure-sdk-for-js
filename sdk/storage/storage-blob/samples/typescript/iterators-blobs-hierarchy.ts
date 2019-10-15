@@ -70,7 +70,7 @@ async function main() {
       console.log(`\tBlobPrefix: ${item.name}`);
     } else {
       console.log(
-        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`
+        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModifiedOn}`
       );
     }
   }
@@ -85,7 +85,7 @@ async function main() {
       console.log(`\tBlobPrefix: ${item.name}`);
     } else {
       console.log(
-        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`
+        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModifiedOn}`
       );
     }
     entity = await iter.next();
@@ -102,7 +102,7 @@ async function main() {
     }
     for (const blob of response.segment.blobItems) {
       console.log(
-        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`
+        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModifiedOn}`
       );
     }
   }
@@ -122,7 +122,7 @@ async function main() {
     }
     for (const blob of response.segment.blobItems) {
       console.log(
-        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`
+        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModifiedOn}`
       );
     }
   }

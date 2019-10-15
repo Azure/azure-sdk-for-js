@@ -85,7 +85,7 @@ describe("BlobClient Node.js only", () => {
     const result = await blobClient.getProperties();
 
     assert.deepStrictEqual(result.blobType, "BlockBlob");
-    assert.ok(result.lastModified);
+    assert.ok(result.lastModifiedOn);
     assert.deepStrictEqual(result.metadata, {});
     assert.ok(!result.cacheControl);
     assert.ok(!result.contentType);
@@ -108,7 +108,7 @@ describe("BlobClient Node.js only", () => {
     const result = await blobClient.getProperties();
     assert.ok(result.date);
     assert.deepStrictEqual(result.blobType, "BlockBlob");
-    assert.ok(result.lastModified);
+    assert.ok(result.lastModifiedOn);
     assert.deepStrictEqual(result.metadata, {});
     assert.deepStrictEqual(result.cacheControl, headers.blobCacheControl);
     assert.deepStrictEqual(result.contentType, headers.blobContentType);

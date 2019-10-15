@@ -899,13 +899,13 @@ export const marker1: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const maxresults: coreHttp.OperationQueryParameter = {
+export const maxResults: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "maxresults"
+    "maxResults"
   ],
   mapper: {
-    serializedName: "maxresults",
+    serializedName: "maxResults",
     constraints: {
       InclusiveMinimum: 1
     },
@@ -1393,10 +1393,10 @@ export const tier1: coreHttp.OperationParameter = {
     }
   }
 };
-export const timeout: coreHttp.OperationQueryParameter = {
+export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "timeout"
+    "timeoutInSeconds"
   ],
   mapper: {
     serializedName: "timeout",

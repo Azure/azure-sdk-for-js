@@ -78,6 +78,182 @@ directive:
     }
 ```
 
+
+### Rename maxresults -> maxResults
+``` yaml
+directive:
+- from: swagger-document
+  where: $.parameters.MaxResults
+  transform: >
+     $["name"] = "maxResults";
+
+```
+
+### Rename timeoutParameter -> timeout
+``` yaml
+directive:
+- from: swagger-document
+  where: $.parameters.Timeout
+  transform: >
+     $["x-ms-client-name"] = "timeoutInSeconds";
+
+```
+
+### Rename NextMarker -> ContinuationToken
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions..properties.NextMarker
+  transform: >
+     $["x-ms-client-name"] = "continuationToken";
+- from: swagger-document
+  where: $.parameters..description
+  transform: return $.replace(/(?:NextMarker)+/, "ContinuationToken")
+     
+```
+
+### Rename LastSyncTime -> LastSyncOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions..properties.LastSyncTime
+  transform: >
+     $["x-ms-client-name"] = "lastSyncOn"
+- from: swagger-document
+  where: $.parameters..description
+  transform: return $.replace(/(?:NextMarker)+/, "ContinuationToken")
+     
+```
+
+### Rename permission -> permissions
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions.AccessPolicy.properties.Permission
+  transform: >
+     $["x-ms-client-name"] = "permissions";
+     
+```
+
+### Rename Properies lastModified -> lastModifiedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions..properties["Last-Modified"]
+  transform: >
+     $["x-ms-client-name"] = "lastModifiedOn";
+     
+```
+
+### Rename PUT Headers lastModified -> lastModifiedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]..put.responses..headers["Last-Modified"]
+  transform: >
+     $["x-ms-client-name"] = "lastModifiedOn";
+     
+```
+
+### Rename GET Headers lastModified -> lastModifiedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]..get.responses..headers["Last-Modified"]
+  transform: >
+     $["x-ms-client-name"] = "lastModifiedOn";
+     
+```
+
+### Rename PATCH Headers lastModified -> lastModifiedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]..patch.responses..headers["Last-Modified"]
+  transform: >
+     $["x-ms-client-name"] = "lastModifiedOn";
+     
+```
+
+### Rename HEAD Headers lastModified -> lastModifiedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]..head.responses..headers["Last-Modified"]
+  transform: >
+     $["x-ms-client-name"] = "lastModifiedOn";
+     
+```
+
+### Rename Headers copyCompletionTime -> copyCompletedTime
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]["/{containerName}/{blob}"]..responses..headers["x-ms-copy-completion-time"]
+  transform: >
+     $["x-ms-client-name"] = "copyCompletedOn";
+     
+```
+
+### Rename Properties copyCompletionTime -> copyCompletedTime
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions..properties.CopyCompletionTime
+  transform: >
+     $["x-ms-client-name"] = "copyCompletedOn";
+     
+```
+
+### Rename Headers CreationTime -> CreatedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]["/{containerName}/{blob}"]..responses..headers["x-ms-creation-time"]
+  transform: >
+     $["x-ms-client-name"] = "createdOn";
+```
+
+### Rename Properties CreationTime -> CreatedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions..properties["Creation-Time"]
+  transform: >
+     $["x-ms-client-name"] = "createdOn";
+     
+```
+
+### Rename Headers AccessTierChangeTime -> AccessTierChangedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]["/{containerName}/{blob}"]..responses..headers["x-ms-access-tier-change-time"]
+  transform: >
+     $["x-ms-client-name"] = "accessTierChangedOn";
+```
+
+### Rename Properties AccessTierChangeTime -> AccessTierChangedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions..properties.AccessTierChangeTime
+  transform: >
+     $["x-ms-client-name"] = "accessTierChangedOn";
+     
+```
+
+### Rename Properties DeletedTime -> DeletedOn
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions..properties.DeletedTime
+  transform: >
+     $["x-ms-client-name"] = "deletedOn";
+     
+```
+     
+
 ### UserDelegationKey properties
 ``` yaml
 directive:

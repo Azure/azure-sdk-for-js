@@ -172,8 +172,8 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @type {(Date | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get copyCompletionTime(): Date | undefined {
-    return this.originalResponse.copyCompletionTime;
+  public get copyCompletedOn(): Date | undefined {
+    return this.originalResponse.copyCompletedOn;
   }
 
   /**
@@ -358,7 +358,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @memberof BlobDownloadResponse
    */
   public get lastModified(): Date | undefined {
-    return this.originalResponse.lastModified;
+    return this.originalResponse.lastModifiedOn;
   }
 
   /**
@@ -439,7 +439,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @type {(Promise<Blob> | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get blobBody(): Promise<Blob> | undefined {
+  public get bodyAsBlob(): Promise<Blob> | undefined {
     return this.originalResponse.blobBody;
   }
 
