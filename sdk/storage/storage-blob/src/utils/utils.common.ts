@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
-import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
+import * as fs from "fs";
+
+import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -113,6 +114,24 @@ function getValueInConnString(
     }
   }
   return "";
+}
+
+/**
+ * Compatible Object.entries support.
+ * For example, {a: 1, b: 2} will return [["a", "1"], ["b", "2"]].
+ *
+ * @export
+ * @param {*} obj
+ * @returns {Array<Array<string>>}
+ */
+export function objectEntries(obj: any): Array<Array<string>> {
+  const ownProps = Object.keys(obj);
+  let i = ownProps.length;
+  const resArray = new Array(i);
+  while (i--) {
+    resArray[i] = [ownProps[i], obj[ownProps[i]]];
+  }
+  return resArray;
 }
 
 /**
@@ -325,6 +344,19 @@ export function getURLPathAndQuery(url: string): string | undefined {
 }
 
 /**
+ * Get URL scheme from an URL string.
+ * Get URL host from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getURLHost(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getHost();
+}
+
+/**
  * Get URL query key value pairs from an URL string.
  *
  * @export
@@ -511,6 +543,73 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
 
   return headers;
 }
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * Writes the content of a readstream to a local file. Returns a Promise which is completed after the file handle is closed.
+ * If Promise is rejected, the reason will be set to the first error raised by either the
+ * ReadableStream or the fs.WriteStream.
+ *
+ * @export
+ * @param {NodeJS.ReadableStream} rs The read stream.
+ * @param {string} file Destination file path.
+ * @returns {Promise<void>}
+ */
+export async function readStreamToLocalFile(
+  rs: NodeJS.ReadableStream,
+  file: string
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    const ws = fs.createWriteStream(file);
+
+    // Set STREAM_DEBUG env var to log stream events while running tests
+    if (process.env.STREAM_DEBUG) {
+      rs.on("close", () => console.log("rs.close"));
+      rs.on("data", () => console.log("rs.data"));
+      rs.on("end", () => console.log("rs.end"));
+      rs.on("error", () => console.log("rs.error"));
+
+      ws.on("close", () => console.log("ws.close"));
+      ws.on("drain", () => console.log("ws.drain"));
+      ws.on("error", () => console.log("ws.error"));
+      ws.on("finish", () => console.log("ws.finish"));
+      ws.on("pipe", () => console.log("ws.pipe"));
+      ws.on("unpipe", () => console.log("ws.unpipe"));
+    }
+
+    let error: Error;
+
+    rs.on("error", (err: Error) => {
+      // First error wins
+      if (!error) {
+        error = err;
+      }
+
+      // When rs.error is raised, rs.end will never be raised automatically, so it must be raised manually
+      // to ensure ws.close is eventually raised.
+      rs.emit("end");
+    });
+
+    ws.on("error", (err: Error) => {
+      // First error wins
+      if (!error) {
+        error = err;
+      }
+    });
+
+    ws.on("close", () => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+
+    rs.pipe(ws);
+  });
+}
+
 /**
  * If two strings are equal when compared case insensitive.
  *

@@ -1,30 +1,32 @@
+import { TokenCredential } from "@azure/core-http";
 import * as crypto from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
-import { SimpleTokenCredential, env } from "./testutils.common";
-import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
-import { BlobServiceClient } from "../../src/BlobServiceClient";
-import { getUniqueName } from "./testutils.common";
-import { newPipeline } from "../../src/Pipeline";
 import {
-  generateAccountSASQueryParameters,
   AccountSASPermissions,
-  SASProtocol,
   AccountSASResourceTypes,
-  AccountSASServices
+  AccountSASServices,
+  generateAccountSASQueryParameters,
+  SASProtocol,
 } from "../../src";
+import { BlobServiceClient } from "../../src/BlobServiceClient";
+import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { newPipeline } from "../../src/Pipeline";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { TokenCredential } from "@azure/core-http";
+import { env, getUniqueName, SimpleTokenCredential } from "./testutils.common";
 
 dotenv.config({ path: "../.env" });
 
 export * from "./testutils.common";
 
-export function getGenericCredential(accountType: string): SharedKeyCredential {
-  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
-  const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
+export function getGenericCredential(
+  accountType: string,
+  envSuffix: string = ""
+): SharedKeyCredential {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME${envSuffix}`;
+  const accountKeyEnvVar = `${accountType}ACCOUNT_KEY${envSuffix}`;
 
   let accountName: string | undefined;
   let accountKey: string | undefined;
@@ -43,7 +45,8 @@ export function getGenericCredential(accountType: string): SharedKeyCredential {
 
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  envSuffix: string = ""
 ): BlobServiceClient {
   if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
     return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
@@ -100,8 +103,17 @@ export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
-export function getConnectionStringFromEnvironment(): string {
-  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
+// export DFS_ACCOUNT_NAME_OPTIONAL="account"
+// export DFS_ACCOUNT_KEY_OPTIONAL="KEY"
+export function getAdlsBSU(): BlobServiceClient {
+  return getGenericBSU("DFS_", "", "_OPTIONAL");
+}
+
+export function getConnectionStringFromEnvironment(
+  accountType: string = "",
+  envSuffix: string = ""
+): string {
+  const connectionStringEnvVar = `${accountType}STORAGE_CONNECTION_STRING${envSuffix}`;
   const connectionString = process.env[connectionStringEnvVar];
 
   if (!connectionString) {
@@ -109,6 +121,10 @@ export function getConnectionStringFromEnvironment(): string {
   }
 
   return connectionString;
+}
+
+export function getAdlsConnectionStringFromEnvironment() {
+  return getConnectionStringFromEnvironment("DFS_", "_OPTIONAL");
 }
 
 /**
@@ -175,13 +191,16 @@ export async function createRandomLocalFile(
   });
 }
 
-export function getSASConnectionStringFromEnvironment(): string {
+export function getSASConnectionStringFromEnvironment(
+  accountType: string = "",
+  envSuffix: string = ""
+): string {
   const now = new Date();
   now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
   const tmr = new Date();
   tmr.setDate(tmr.getDate() + 1);
-  const queueServiceClient = getBSU();
+  const queueServiceClient = getGenericBSU(accountType, "", envSuffix);
   // By default, credential is always the last element of pipeline factories
   const factories = (queueServiceClient as any).pipeline.factories;
   const sharedKeyCredential = factories[factories.length - 1];
@@ -200,7 +219,9 @@ export function getSASConnectionStringFromEnvironment(): string {
     sharedKeyCredential as SharedKeyCredential
   ).toString();
 
-  const blobEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
+  const blobEndpoint = extractConnectionStringParts(
+    getConnectionStringFromEnvironment(accountType, envSuffix)
+  ).url;
 
   return `BlobEndpoint=${blobEndpoint}/;QueueEndpoint=${blobEndpoint.replace(
     ".blob.",
@@ -209,4 +230,8 @@ export function getSASConnectionStringFromEnvironment(): string {
     ".queue.",
     ".file."
   )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
+}
+
+export function getAdlsSASConnectionStringFromEnvironment() {
+  return getSASConnectionStringFromEnvironment("DFS_", "_OPTIONAL");
 }

@@ -25,6 +25,7 @@ import {
   BlobClient,
   BlockBlobClient,
   PageBlobClient,
+  DirectoryClient,
   StorageClient,
   BlockBlobUploadOptions,
   BlobDeleteOptions,
@@ -615,68 +616,17 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Creates a new container under the specified account. If the container with
-   * the same name already exists, the operation fails.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * Create a DirectoryClient object under current container.
    *
-   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
-   * @returns {Promise<Models.ContainerCreateResponse>}
+   * @param {string} directoryName
+   * @returns {DirectoryClient}
    * @memberof ContainerClient
    */
-  public async create(
-    options: ContainerCreateOptions = {}
-  ): Promise<Models.ContainerCreateResponse> {
-    const { span, spanOptions } = createSpan("ContainerClient-create", options.spanOptions);
-    try {
-      // Spread operator in destructuring assignments,
-      // this will filter out unwanted properties from the response object into result object
-      return this.containerContext.create({
-        ...options,
-        spanOptions
-      });
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Returns true if the Azrue container resource represented by this client exists; false otherwise.
-   *
-   * NOTE: use this function with care since an existing container might be deleted by other clients or
-   * applications. Vice versa new containers with the same name might be added by other clients or
-   * applications after this function completes.
-   *
-   * @param {ContainerExistsOptions} [options={}]
-   * @returns {Promise<boolean>}
-   * @memberof ContainerClient
-   */
-  public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("ContainerClient-exists", options.spanOptions);
-    try {
-      await this.getProperties({ abortSignal: options.abortSignal, spanOptions });
-      return true;
-    } catch (e) {
-      if (e.statusCode === 404) {
-        span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
-          message: "Expected exception when checking container existence"
-        });
-        return false;
-      }
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public getDirectoryClient(directoryName: string): DirectoryClient {
+    return new DirectoryClient(
+      appendToURLPath(this.url, encodeURIComponent(directoryName)),
+      this.pipeline
+    );
   }
 
   /**
@@ -730,6 +680,71 @@ export class ContainerClient extends StorageClient {
       appendToURLPath(this.url, encodeURIComponent(blobName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Creates a new container under the specified account. If the container with
+   * the same name already exists, the operation fails.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   *
+   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
+   * @returns {Promise<Models.ContainerCreateResponse>}
+   * @memberof ContainerClient
+   */
+  public async create(
+    options: ContainerCreateOptions = {}
+  ): Promise<Models.ContainerCreateResponse> {
+    const { span, spanOptions } = createSpan("ContainerClient-create", options.spanOptions);
+    try {
+      // Spread operator in destructuring assignments,
+      // this will filter out unwanted properties from the response object into result object
+      return this.containerContext.create({
+        ...options,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the Azure container resource represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing container might be deleted by other clients or
+   * applications. Vice versa new containers with the same name might be added by other clients or
+   * applications after this function completes.
+   *
+   * @param {ContainerExistsOptions} [options={}]
+   * @returns {Promise<boolean>}
+   * @memberof ContainerClient
+   */
+  public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ContainerClient-exists", options.spanOptions);
+    try {
+      await this.getProperties({ abortSignal: options.abortSignal, spanOptions });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking container existence"
+        });
+        return false;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**

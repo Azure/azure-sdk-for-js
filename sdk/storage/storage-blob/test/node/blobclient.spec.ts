@@ -1,20 +1,21 @@
+import { isNode, TokenCredential } from "@azure/core-http";
 import * as assert from "assert";
-
-import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
+
 import {
   BlobClient,
+  BlobSASPermissions,
+  BlobServiceClient,
+  BlockBlobClient,
+  ContainerClient,
+  generateBlobSASQueryParameters,
   newPipeline,
   SharedKeyCredential,
-  ContainerClient,
-  BlockBlobClient,
-  generateBlobSASQueryParameters,
-  BlobSASPermissions
 } from "../../src";
-import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
-import { TokenCredential } from "@azure/core-http";
+import { bodyToString, getAdlsBSU, getBSU, getConnectionStringFromEnvironment } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "../utils/recorder";
+import { delay, record } from "../utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
@@ -374,5 +375,66 @@ describe("BlobClient Node.js only", () => {
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
+  });
+});
+
+// ADLS related APIs depends on following optional environments, otherwise cases will be ignored in a live test
+// When recording test cases "TEST_MODE=record", following environment variables are required
+// DFS_ACCOUNT_NAME_OPTIONAL
+// DFS_ACCOUNT_KEY_OPTIONAL
+// DFS_ACCOUNT_SAS_OPTIONAL
+// DFS_STORAGE_CONNECTION_STRING_OPTIONAL
+describe("BlobClient ADLS Node.js only", () => {
+  let blobServiceClient: BlobServiceClient;
+  try {
+    blobServiceClient = getAdlsBSU();
+  } catch (err) {}
+
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  let blockBlobClient: BlockBlobClient;
+  const content = "Hello World";
+
+  let recorder: any;
+
+  beforeEach(async function() {
+    if (blobServiceClient === undefined) {
+      this.skip();
+    }
+
+    recorder = record(this);
+    containerName = recorder.getUniqueName("container");
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.getUniqueName("blob");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
+
+  afterEach(async function() {
+    await containerClient.delete();
+    recorder.stop();
+  });
+
+  it("move blob should work", async function() {
+    const destBlobName = recorder.getUniqueName("blob_move");
+    const destBlobClient = containerClient.getBlobClient(destBlobName);
+    await blobClient.move(destBlobClient);
+    await destBlobClient.getProperties();
+  });
+
+  it("move blob should work with all parameters", async function() {
+    await blobClient.setPermissions("0666");
+
+    const destBlobName = recorder.getUniqueName("blob_move");
+    const destBlobClient = containerClient.getBlobClient(destBlobName);
+
+    await blobClient.move(destBlobClient, { mode: "posix" });
+    const permissions = await destBlobClient.getAccessControl();
+    assert.deepStrictEqual(permissions.xMsPermissions, "rw-rw-rw-");
+    await destBlobClient.getProperties();
   });
 });

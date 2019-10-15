@@ -1,0 +1,66 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930909665601586",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 24 Sep 2019 07:07:14 GMT",
+    "last-modified": "Tue, 24 Sep 2019 07:07:14 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D740BDD3D8780C\"",
+    "x-ms-request-id": "cee9ab20-101e-001b-30a6-726b0c000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "9dd57ede-7ae4-4e1d-aaca-987d1c2e78f7",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.dfs.core.windows.net/container156930909665601586/directory156930909724000196",
+   "query": {
+    "resource": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 24 Sep 2019 07:07:14 GMT",
+    "last-modified": "Tue, 24 Sep 2019 07:07:14 GMT",
+    "server": "Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D740BDD432F8BD\"",
+    "x-ms-request-id": "34abb1f6-601f-0072-30a6-7234a0000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "da906237-399f-43e8-a015-c2f35094136a",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container156930909665601586",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 24 Sep 2019 07:07:15 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "cee9af4f-101e-001b-14a6-726b0c000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "93152169-f37c-4a3d-b468-576dc4d22fbd",
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "container": "container156930909665601586",
+  "directory": "directory156930909724000196"
+ }
+}

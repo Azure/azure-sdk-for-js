@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import { RestError } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
 
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
+export * from "./DirectoryClient";
 // ordering of these clients is important as there are circular dependencies
 export * from "./BlobClient";
 export * from "./AppendBlobClient";
@@ -37,5 +37,7 @@ export * from "./LoggingPolicyFactory";
 export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
+export * from "./DfsPolicyFactory";
+export { DFS_ENDPOINT_REPLACEMENTS } from "./policies/DfsPolicy";
 export * from "./SASQueryParameters";
 export { Models, RestError };

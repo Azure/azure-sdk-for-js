@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import * as Models from "./generated/src/models";
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
@@ -9,6 +8,11 @@ export interface Metadata {
 }
 
 export interface ContainerAccessConditions {
+  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  leaseAccessConditions?: Models.LeaseAccessConditions;
+}
+
+export interface DirectoryAccessConditions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }

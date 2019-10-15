@@ -1,14 +1,10 @@
 import * as assert from "assert";
-
 import * as dotenv from "dotenv";
+
 import { BlobServiceClient } from "../src/BlobServiceClient";
-import {
-  getAlternateBSU,
-  getBSU,
-  getSASConnectionStringFromEnvironment,
-  getTokenBSU
-} from "./utils";
-import { record, delay } from "./utils/recorder";
+import { getAlternateBSU, getBSU, getSASConnectionStringFromEnvironment, getTokenBSU } from "./utils";
+import { delay, record } from "./utils/recorder";
+
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {
@@ -417,6 +413,7 @@ describe("BlobServiceClient", () => {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: BlobServiceClient | undefined;
+    // When recording, this environment is required to record this case
     try {
       serviceURLWithToken = getTokenBSU();
     } catch {}
