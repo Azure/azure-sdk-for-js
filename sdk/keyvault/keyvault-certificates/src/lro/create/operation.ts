@@ -14,33 +14,37 @@ import {
  */
 export interface CreateCertificatePollOperationState extends PollOperationState<Certificate> {
   /**
-   * @member {CreateCertificatePollOperationState} [name] The name of the certificate that will be created
+   * @member {string} [name] The name of the certificate that will be created
    */
   name: string;
   /**
-   * @member {CreateCertificatePollOperationState} [certificatePolicy] The policy of the certificate that will be created
+   * @member {CertificatePolicy} [certificatePolicy] The policy of the certificate that will be created
    */
-  certificatePolicy: CertificatePolicy;
+  certificatePolicy?: CertificatePolicy;
   /**
-   * @member {CreateCertificatePollOperationState} [createCertificateOptions] The optional parameters that will be used to create the certificate
+   * @member {CreateCertificateOptions} [createCertificateOptions] The optional parameters that will be used to create the certificate
    */
   createCertificateOptions: CreateCertificateOptions;
   /**
-   * @member {CreateCertificatePollOperationState} [client] An instance of the CertificatesClient class
+   * @member {CertificatesClientInterface} [client] An instance of the CertificatesClient class
    */
   client: CertificatesClientInterface;
   /**
-   * @member {CreateCertificatePollOperationState} [initialResponse] The initial response received the first time the service was reached by the operation's update function
+   * @member {CertificateOperation} [initialResponse] The initial response received the first time the service was reached by the operation's update function
    */
   initialResponse?: CertificateOperation;
   /**
-   * @member {CreateCertificatePollOperationState} [previousResponse] The previous response received the last time the service was reached by the operation's update function
+   * @member {CertificateOperation} [previousResponse] The previous response received the last time the service was reached by the operation's update function
    */
   previousResponse?: CertificateOperation;
   /**
-   * @member {CreateCertificatePollOperationState} [pendingCertificate] The pending certificate, for easy access.
+   * @member {Certificate} [pendingCertificate] The pending certificate, for easy access.
    */
   pendingCertificate?: Certificate;
+  /**
+   * @member {boolean} [doNotCreate] Boolean to skip the creation of the certificate.
+   */
+  doNotCreate?: boolean;
 }
 
 /**
@@ -62,7 +66,7 @@ async function update(
   } = {}
 ): Promise<CreateCertificatePollOperation> {
   const state = this.state;
-  const { name, certificatePolicy, createCertificateOptions, client } = state;
+  const { name, createCertificateOptions, client } = state;
 
   const requestOptions = state.createCertificateOptions.requestOptions || {};
   if (options.abortSignal) {
@@ -72,19 +76,22 @@ async function update(
   const doFinalResponse = state.previousResponse && state.previousResponse.status !== "inProgress";
 
   if (!state.initialResponse) {
-    await client.beginCreateCertificate(name, certificatePolicy, createCertificateOptions);
+    if (!state.doNotCreate) {
+      let certificatePolicy = state.certificatePolicy || (await client.getCertificatePolicy(name));
+      await client.createCertificate(name, certificatePolicy!, createCertificateOptions);
+    }
     state.pendingCertificate = await client.getCertificateWithPolicy(name, requestOptions);
-    state.previousResponse = await client.getCertificateOperation(name, requestOptions);
+    state.previousResponse = await client.getPlainCertificateOperation(name, requestOptions);
     state.initialResponse = state.previousResponse;
     state.started = true;
   } else if (doFinalResponse) {
-    state.previousResponse = await client.getCertificateOperation(name, requestOptions);
+    state.previousResponse = await client.getPlainCertificateOperation(name, requestOptions);
     state.result = await client.getCertificateWithPolicy(name, requestOptions);
     state.completed = true;
     state.pendingCertificate = undefined;
   } else {
     state.pendingCertificate = await client.getCertificateWithPolicy(name, requestOptions);
-    state.previousResponse = await client.getCertificateOperation(name, requestOptions);
+    state.previousResponse = await client.getPlainCertificateOperation(name, requestOptions);
   }
 
   // Progress only after the poller has started and before the poller is done

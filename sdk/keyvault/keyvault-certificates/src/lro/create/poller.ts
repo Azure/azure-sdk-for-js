@@ -15,10 +15,11 @@ import { CertificateOperation } from "../../core/models";
 export interface CreateCertificatePollerOptions {
   client: CertificatesClientInterface;
   name: string;
-  certificatePolicy: CertificatePolicy;
+  certificatePolicy?: CertificatePolicy;
   createCertificateOptions?: CreateCertificateOptions;
   intervalInMs?: number;
   resumeFrom?: string;
+  doNotCreate?: boolean;
 }
 
 /**
@@ -41,7 +42,8 @@ export class CreateCertificatePoller extends Poller<
       certificatePolicy,
       createCertificateOptions = {},
       intervalInMs = 1000,
-      resumeFrom
+      resumeFrom,
+      doNotCreate
     } = options;
 
     let state: CreateCertificatePollOperationState | undefined;
@@ -58,7 +60,8 @@ export class CreateCertificatePoller extends Poller<
       name,
       certificatePolicy,
       createCertificateOptions,
-      client
+      client,
+      doNotCreate
     });
 
     super(operation);
@@ -80,6 +83,17 @@ export class CreateCertificatePoller extends Poller<
    */
   getPendingCertificate(): Certificate | undefined {
     return this.operation.state.pendingCertificate;
+  }
+
+  /**
+   * Ensures the poller has a previousResponse, and returns it
+   * @memberof CreateCertificatePoller
+   */
+  async getOperation(): Promise<CertificateOperation> {
+    if (!this.getPreviousResponse()) {
+      await this.poll();
+    }
+    return this.getPreviousResponse()!;
   }
 
   /**

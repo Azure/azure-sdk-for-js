@@ -38,7 +38,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     await client.deleteCertificate(certificateName);
     const getDeletedResult = await retry(async () => client.getDeletedCertificate(certificateName));
     assert.equal(
@@ -71,7 +71,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     const backup = await client.backupCertificate(certificateName);
     await testClient.flushCertificate(certificateName);
     await retry(async () => client.restoreCertificate(backup.value!));

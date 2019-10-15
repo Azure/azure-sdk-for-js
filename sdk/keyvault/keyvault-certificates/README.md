@@ -147,13 +147,13 @@ tasks using Azure Key Vault Certificates. The scenarios that are covered here co
 
 ### Creating and setting a certificate
 
-`createCertificate` creates a certificate to be stored in the Azure Key Vault. If
+`beginCreateCertificate` creates a certificate to be stored in the Azure Key Vault. If
 a certificate with the same name already exists, a new version of the
 certificate is created.
 
 ```javascript
 const certificateName = "MyCertificateName";
-const poller = await client.createCertificate(certificateName, {
+const poller = await client.beginCreateCertificate(certificateName, {
   issuerName: "Self"
 });
 // Keep reading to see how to get the final value from the poller
@@ -174,7 +174,7 @@ const enabled = true;
 const tags = {
   myCustomTag: "myCustomTagsValue"
 };
-const poller = await client.createCertificate(
+const poller = await client.beginCreateCertificate(
   certificateName,
   certificatePolicy,
   {
@@ -185,12 +185,12 @@ const poller = await client.createCertificate(
 // Keep reading to see how to get the final value from the poller
 ```
 
-Calling to `createCertificate` with the same name will create a new version of
+Calling to `beginCreateCertificate` with the same name will create a new version of
 the same certificate, which will have the latest provided attributes.
 
 Certificates take some time to get fully created since they need to be signed
 by their respective Certificate Authority. Since this is a process that can
-take an unbounded amount of time, `createCertificate` returns a Poller, which
+take an unbounded amount of time, `beginCreateCertificate` returns a Poller, which
 is an object that keeps track of the underlying Long Running Operation
 according to our guidelines:
 https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
@@ -204,7 +204,7 @@ const certificatePolicy = {
   issuerName: "Self"
 };
 
-const poller = await client.createCertificate(certificateName, certificatePolicy);
+const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
 
 const certificate = poller.getPendingCertificate();
 console.log(certificate);
@@ -218,7 +218,7 @@ const certificatePolicy = {
   issuerName: "Self"
 };
 
-const poller = await client.createCertificate(certificateName, certificatePolicy);
+const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
 
 // This might take a while
 const certificate = await poller.pollUntilDone();

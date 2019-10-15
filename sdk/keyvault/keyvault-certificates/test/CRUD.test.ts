@@ -36,7 +36,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can create a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.createCertificate(certificateName, basicCertificatePolicy);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     const result = poller.getPendingCertificate();
     assert.equal(result!.properties.name, certificateName, "Unexpected key name in result from createCertificate().");
     await testClient.flushCertificate(certificateName);
@@ -46,7 +46,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = "";
     let error;
     try {
-      await client.createCertificate(certificateName, basicCertificatePolicy);
+      await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -63,7 +63,7 @@ describe("Certificates client - create, read, update and delete", () => {
       `${prefix}-${this!.test!.title}-${suffix}`
     );
 
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     await client.updateCertificate(certificateName, "", {
       tags: {
         customTag: "value"
@@ -83,7 +83,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     const result = await client.getCertificateWithPolicy(certificateName);
     assert.equal(result.properties.name, certificateName, "Unexpected certificate name in result from createCertificate().");
     await testClient.flushCertificate(certificateName);
@@ -93,7 +93,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
 
     const result = await client.getCertificateWithPolicy(certificateName);
 
@@ -123,7 +123,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     const result = await client.deleteCertificate(certificateName);
 
     assert.equal(typeof result.recoveryId, "string");
@@ -165,7 +165,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const certificateName = testClient.formatName(
       `${prefix}-${this!.test!.title}-${suffix}`
     );
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     await client.deleteCertificate(certificateName);
     const getResult = await retry(async () => client.getDeletedCertificate(certificateName));
     assert.equal(getResult.properties.name, certificateName, "Unexpected certificate name in result from getCertificateWithPolicy().");
@@ -210,7 +210,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
 
     // Creating a certificate with that issuer
-    await client.createCertificate(certificateName, {
+    await client.beginCreateCertificate(certificateName, {
       issuerName,
       subjectName: "cn=MyCert",
     });
@@ -256,7 +256,7 @@ describe("Certificates client - create, read, update and delete", () => {
   it("can update a certificate's policy", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     const result = await client.getCertificateWithPolicy(certificateName);
     assert.equal(result.policy!.issuerName, "Self");
     assert.equal(result.policy!.subjectName, "cn=MyCert");
@@ -273,18 +273,18 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can read, cancel and delete a certificate's operation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.createCertificate(certificateName, basicCertificatePolicy);
+    await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
 
     let getResponse: any;
 
     // Read
-    getResponse = await client.getCertificateOperation(certificateName);
+    getResponse = await client.getCertificateOperation(certificateName).getOperation();
     assert.equal(getResponse.status, "inProgress"); 
     assert.equal(getResponse.cancellationRequested, false); 
 
     // Cancel
     await client.cancelCertificateOperation(certificateName);
-    getResponse = await client.getCertificateOperation(certificateName);
+    getResponse = await client.getCertificateOperation(certificateName).getOperation();
     assert.equal(getResponse.cancellationRequested, true); 
 
     // Delete
@@ -292,7 +292,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     let error;
     try {
-      await client.getCertificateOperation(certificateName);
+      await client.getCertificateOperation(certificateName).getOperation();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

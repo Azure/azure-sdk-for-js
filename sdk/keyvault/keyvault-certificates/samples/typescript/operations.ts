@@ -19,7 +19,7 @@ async function main(): Promise<void> {
   let getResponse: any;
 
   // Certficates' operations will be pending for some time right after they're created.
-  await client.createCertificate(certificateName, {
+  await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subjectName: "cn=MyCert"
   });
@@ -29,12 +29,12 @@ async function main(): Promise<void> {
   console.log({ pendingCertificate });
 
   // Reading the certificate's operation (it will be pending)
-  getResponse = await client.getCertificateOperation(certificateName);
+  getResponse = await client.getCertificateOperation(certificateName).getOperation();
   console.log("Certificate operation:", getResponse);
 
   // Cancelling the certificate's operation
   await client.cancelCertificateOperation(certificateName);
-  getResponse = await client.getCertificateOperation(certificateName);
+  getResponse = await client.getCertificateOperation(certificateName).getOperation();
   console.log("Cancelled certificate operation:", getResponse);
 
   // Deleting the certificate's operation
@@ -42,7 +42,8 @@ async function main(): Promise<void> {
 
   let error;
   try {
-    await client.getCertificateOperation(certificateName);
+    poller = client.getCertificateOperation(certificateName);
+    await poller.getCertificateOperation();
     throw Error("Expecting an error but not catching one.");
   } catch (e) {
     error = e;

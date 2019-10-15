@@ -16,12 +16,12 @@ import {
  * An interface representing a certificate client.
  */
 export interface CertificatesClientInterface {
-  beginCreateCertificate(
+  createCertificate(
     name: string,
     certificatePolicy: CertificatePolicy,
     options?: CreateCertificateOptions
   ): Promise<Certificate>;
-  getCertificateOperation(
+  getPlainCertificateOperation(
     name: string,
     options?: coreHttp.RequestOptionsBase
   ): Promise<CertificateOperation>;
@@ -33,6 +33,10 @@ export interface CertificatesClientInterface {
     name: string,
     options?: coreHttp.RequestOptionsBase
   ): Promise<Certificate>;
+  getCertificatePolicy(
+    name: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<CertificatePolicy>;
 }
 
 /**
@@ -241,6 +245,22 @@ export interface CreateCertificateOptions extends KeyVaultClientCreateCertificat
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: coreHttp.RequestOptionsBase;
+}
+
+/**
+ * @interface
+ * An interface representing options for creating a certificate with a poller.
+ * Optional Parameters.
+ */
+export interface BeginCreateCertificateOptions extends CreateCertificateOptions {
+  /**
+   * @member {number} [intervalInMs] Time between each polling
+   */
+  intervalInMs?: number;
+  /**
+   * @member {string} [resumeFrom] A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
 }
 
 export type CertificateTags = { [propertyName: string]: string };

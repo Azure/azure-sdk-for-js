@@ -19,7 +19,7 @@ async function main() {
   const certificateName = "MyCertificate96123";
 
   // Creating a self-signed certificate
-  const poller = await client.createCertificate(certificateName, {
+  const poller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
     subjectName: "cn=MyCert"
   });

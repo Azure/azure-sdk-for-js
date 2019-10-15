@@ -21,11 +21,11 @@ async function main() {
   const certificateName2 = "MyCertificate209088";
 
   // Creating two self-signed certificates. They will appear as pending initially.
-  await client.createCertificate(certificateName1, {
+  await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
     subjectName: "cn=MyCert"
   });
-  await client.createCertificate(certificateName2, {
+  await client.beginCreateCertificate(certificateName2, {
     issuerName: "Self",
     subjectName: "cn=MyCert"
   });

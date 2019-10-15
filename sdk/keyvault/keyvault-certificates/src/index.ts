@@ -28,6 +28,7 @@ import {
   CertificatePolicy,
   CertificateProperties,
   CreateCertificateOptions,
+  BeginCreateCertificateOptions,
   SubjectAlternativeNames,
   CertificatesClientInterface
 } from "./certificatesModels";
@@ -507,7 +508,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * })
@@ -878,7 +879,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -886,7 +887,7 @@ export class CertificatesClient {
    * // Serializing the poller
    * const serialized = poller.toJSON();
    * // A new poller can be created with:
-   * // await client.createCertificate("MyCertificate", policy, {}, { resumeFrom: serialized });
+   * // await client.beginCreateCertificate("MyCertificate", policy, {}, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * const certificate = await poller.done();
@@ -898,30 +899,27 @@ export class CertificatesClient {
    * @param [createCertificateOptions] Optional parameters to the createCertificate operation
    * @param [pollerOptions] Optional parameters to the creation of the poller
    */
-  public async createCertificate(
+  public async beginCreateCertificate(
     name: string,
     certificatePolicy: CertificatePolicy,
-    createCertificateOptions: CreateCertificateOptions = {},
-    pollerOptions: {
-      manual?: boolean;
-      intervalInMs?: number;
-      resumeFrom?: string;
-    } = {}
+    createCertificateOptions: BeginCreateCertificateOptions = {}
   ): Promise<CreateCertificatePoller> {
     // Making a fake client to reduce the duplicated code
     const pollerKeyVaultClient: CertificatesClientInterface = {
-      beginCreateCertificate: this.beginCreateCertificate.bind(this),
-      getCertificateOperation: this.getCertificateOperation.bind(this),
+      createCertificate: this.createCertificate.bind(this),
+      getPlainCertificateOperation: this.getPlainCertificateOperation.bind(this),
       cancelCertificateOperation: this.cancelCertificateOperation.bind(this),
-      getCertificateWithPolicy: this.getCertificateWithPolicy.bind(this)
+      getCertificateWithPolicy: this.getCertificateWithPolicy.bind(this),
+      getCertificatePolicy: this.getCertificatePolicy.bind(this)
     };
 
     const poller = new CreateCertificatePoller({
       client: pollerKeyVaultClient,
       name,
       certificatePolicy,
-      createCertificateOptions,
-      ...pollerOptions
+      createCertificateOptions: createCertificateOptions as CreateCertificateOptions,
+      intervalInMs: createCertificateOptions.intervalInMs,
+      resumeFrom: createCertificateOptions.resumeFrom
     });
 
     await poller.poll();
@@ -934,7 +932,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * })
@@ -974,7 +972,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * })
@@ -1060,7 +1058,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -1128,7 +1126,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -1173,7 +1171,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -1207,42 +1205,48 @@ export class CertificatesClient {
   }
 
   /**
-   * Gets the creation operation associated with a specified certificate. This operation requires the certificates/get permission.
+   * Returns a poller that lets you check the current certificate operation and wait until it finishes
    *
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * let poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
    * await poller.pollUntilDone();
-   * const operation = await client.getCertificateOperation("MyCertificate");
-   * console.log(operation);
+   *
+   * // Another way to get the poller
+   * poller = client.getCertificateOperation("MyCertificate");
+   * console.log(poller.getOperation());
    * ```
    * @summary Gets a certificate's operation
    * @param name The name of the certificate
    * @param options The optional parameters
    */
-  public async getCertificateOperation(
+  public getCertificateOperation(
     name: string,
-    options?: RequestOptionsBase
-  ): Promise<CertificateOperation> {
-    const span = this.createSpan("getCertificateOperation", options);
+    createCertificateOptions: BeginCreateCertificateOptions = {}
+  ): CreateCertificatePoller {
+    // Making a fake client to reduce the duplicated code
+    const pollerKeyVaultClient: CertificatesClientInterface = {
+      createCertificate: this.createCertificate.bind(this),
+      getPlainCertificateOperation: this.getPlainCertificateOperation.bind(this),
+      cancelCertificateOperation: this.cancelCertificateOperation.bind(this),
+      getCertificateWithPolicy: this.getCertificateWithPolicy.bind(this),
+      getCertificatePolicy: this.getCertificatePolicy.bind(this)
+    };
 
-    let result: GetCertificateOperationResponse;
+    const poller = new CreateCertificatePoller({
+      client: pollerKeyVaultClient,
+      name,
+      doNotCreate: true,
+      createCertificateOptions: createCertificateOptions as CreateCertificateOptions,
+      intervalInMs: createCertificateOptions.intervalInMs,
+      resumeFrom: createCertificateOptions.resumeFrom
+    });
 
-    try {
-      result = await this.client.getCertificateOperation(
-        this.vaultBaseUrl,
-        name,
-        this.setParentSpan(span, options)
-      );
-    } finally {
-      span.end();
-    }
-
-    return result._response.parsedBody;
+    return poller;
   }
 
   /**
@@ -1252,7 +1256,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -1291,7 +1295,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Unknown",
    *   subjectName: "cn=MyCert"
    * });
@@ -1343,7 +1347,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -1380,7 +1384,7 @@ export class CertificatesClient {
    * Example usage:
    * ```ts
    * const client = new CertificatesClient(url, credentials);
-   * const poller = await client.createCertificate("MyCertificate", {
+   * const poller = await client.beginCreateCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
    * });
@@ -1415,7 +1419,7 @@ export class CertificatesClient {
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
   }
 
-  private async beginCreateCertificate(
+  private async createCertificate(
     name: string,
     certificatePolicy: CertificatePolicy,
     options: CreateCertificateOptions = {}
@@ -1436,6 +1440,27 @@ export class CertificatesClient {
       span.end();
     }
     return this.getCertificateFromCertificateBundle(result);
+  }
+
+  public async getPlainCertificateOperation(
+    name: string,
+    options?: RequestOptionsBase
+  ): Promise<CertificateOperation> {
+    const span = this.createSpan("getCertificateOperation", options);
+
+    let result: GetCertificateOperationResponse;
+
+    try {
+      result = await this.client.getCertificateOperation(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, options)
+      );
+    } finally {
+      span.end();
+    }
+
+    return result._response.parsedBody;
   }
 
   private async *listDeletedCertificatesPage(

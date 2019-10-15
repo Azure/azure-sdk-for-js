@@ -36,7 +36,7 @@ describe("Certificates client - Long Running Operations - create", () => {
 
   it("can create a certificate and wait until it's signed", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.createCertificate(certificateName, basicCertificatePolicy);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
 
     assert.ok(poller.getOperationState().started);
     assert.equal(poller.getInitialResponse()!.status, "inProgress"); 
@@ -60,7 +60,7 @@ describe("Certificates client - Long Running Operations - create", () => {
 
   it("can cancel a certificate's creation", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.createCertificate(certificateName, basicCertificatePolicy);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     poller.pollUntilDone().catch(e => {
       assert.ok(e instanceof PollerCancelledError);
       assert.equal(e.name, "PollerCancelledError");
@@ -75,15 +75,15 @@ describe("Certificates client - Long Running Operations - create", () => {
     assert.ok(poller.getOperationState().cancelled);
     assert.ok(poller.isStopped());
 
-    const getResponse = await client.getCertificateOperation(certificateName);
-    assert.equal(getResponse.cancellationRequested, true); 
+    const certificateOperation = await poller.getOperation();
+    assert.equal(certificateOperation.cancellationRequested, true); 
 
     await testClient.flushCertificate(certificateName);
   });
 
   it("can resume from a stopped poller", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const poller = await client.createCertificate(certificateName, basicCertificatePolicy);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy);
     poller.pollUntilDone().catch(e => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
@@ -96,7 +96,7 @@ describe("Certificates client - Long Running Operations - create", () => {
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.createCertificate(certificateName, basicCertificatePolicy, {}, {
+    const resumePoller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
       resumeFrom: serialized,
     });
 

@@ -19,7 +19,7 @@ async function main(): Promise<void> {
   const client = new CertificatesClient(url, credential);
 
   // Creating a certificate with an Unknown issuer.
-  await client.createCertificate("MyCertificate", {
+  await client.beginCreateCertificate("MyCertificate", {
     issuerName: "Unknown",
     certificateTransparency: false,
     subjectName: "cn=MyCert"

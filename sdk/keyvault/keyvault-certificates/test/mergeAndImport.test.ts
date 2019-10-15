@@ -42,7 +42,7 @@ describe("Certificates client - merge and import certificates", () => {
   it("can import a certificate from a certificate's base64 secret value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
-    await client.createCertificate(certificateNames[0], {
+    await client.beginCreateCertificate(certificateNames[0], {
       issuerName: "Self",
       subjectName: "cn=MyCert"
     });
@@ -60,13 +60,13 @@ describe("Certificates client - merge and import certificates", () => {
     it("can merge a self signed certificate", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-      await client.createCertificate(certificateName, {
+      await client.beginCreateCertificate(certificateName, {
         issuerName: "Unknown",
         certificateTransparency: false,
         subjectName: "cn=MyCert",
       });
 
-      const { csr } = await client.getCertificateOperation(certificateName);
+      const { csr } = await client.getCertificateOperation(certificateName).getOperation();
       const base64Csr = Buffer.from(csr!).toString("base64");
       const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}

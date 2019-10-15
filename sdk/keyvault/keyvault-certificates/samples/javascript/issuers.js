@@ -36,7 +36,7 @@ async function main() {
   });
 
   // We can create a certificate with that issuer's name.
-  await client.createCertificate(certificateName, {
+  await client.beginCreateCertificate(certificateName, {
     issuerName,
     subjectName: "cn=MyCert"
   });
