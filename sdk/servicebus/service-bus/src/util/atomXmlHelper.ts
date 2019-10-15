@@ -6,7 +6,11 @@ import {
   HttpOperationResponse,
   RestError,
   stripRequest,
-  stripResponse
+  stripResponse,
+  WebResource,
+  stringifyXML,
+  parseXML,
+  ServiceClient
 } from "@azure/core-http";
 
 import * as ServiceBusConstants from "./constants";
@@ -20,6 +24,45 @@ export interface AtomXmlSerializer {
   serialize(requestBodyInJson: object): object;
 
   deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
+}
+
+/**
+ * @ignore
+ * Utility to execute Atom XML operations as HTTP requests
+ * @param webResource
+ * @param serializer
+ */
+export async function executeAtomXmlOperation(
+  serviceBusAtomManagementClient: ServiceClient,
+  webResource: WebResource,
+  serializer: AtomXmlSerializer
+): Promise<HttpOperationResponse> {
+  if (webResource.body) {
+    const content: object = serializer.serialize(JSON.parse(webResource.body));
+    webResource.body = stringifyXML(content, { rootName: "entry" });
+  }
+
+  let response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
+    webResource
+  );
+
+  try {
+    if (response.bodyAsText) {
+      response.parsedBody = await parseXML(response.bodyAsText, { includeRoot: true });
+    }
+  } catch (err) {
+    const error = new RestError(
+      `ResponseNotInAtomXMLFormat - ${err.message}`,
+      RestError.PARSE_ERROR,
+      response.status,
+      stripRequest(response.request),
+      stripResponse(response)
+    );
+
+    throw error;
+  }
+
+  return serializer.deserialize(response);
 }
 
 /**
@@ -38,7 +81,8 @@ export function serializeToAtomXmlRequest(
   const content: any = {};
   content[resourceName] = {
     $: {
-      xmlns: xmlNamespace
+      xmlns: xmlNamespace,
+      "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
     }
   };
 
@@ -52,13 +96,11 @@ export function serializeToAtomXmlRequest(
   }
   content[CoreHttpConstants.XML_METADATA_MARKER] = { type: "application/xml" };
   return {
-    entry: {
-      $: {
-        xmlns: "http://www.w3.org/2005/Atom"
-      },
-      updated: new Date().toISOString(),
-      content: content
-    }
+    $: {
+      xmlns: "http://www.w3.org/2005/Atom"
+    },
+    updated: new Date().toISOString(),
+    content: content
   };
 }
 

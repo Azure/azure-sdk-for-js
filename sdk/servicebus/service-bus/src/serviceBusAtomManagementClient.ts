@@ -11,15 +11,10 @@ import {
   proxyPolicy,
   RequestPolicyFactory,
   URLBuilder,
-  ProxySettings,
-  convertJsonToAtomXml,
-  convertAtomXmlToJson,
-  RestError,
-  stripRequest,
-  stripResponse
+  ProxySettings
 } from "@azure/core-http";
 
-import { AtomXmlSerializer } from "./util/atomXmlHelper";
+import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
 import * as log from "./log";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
@@ -304,7 +299,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - createQueue() for "${queueName}" with options: ${queueOptions}`
     );
-    const response: HttpOperationResponse = await this._putResource(
+    const response: HttpOperationResponse = await this.putResource(
       queueName,
       buildQueueOptions(queueOptions || {}),
       this.queueResourceSerializer,
@@ -360,7 +355,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const getQueueResult = await this.getQueue(queueName);
     Object.assign(finalQueueOptions, getQueueResult, queueOptions);
 
-    const response: HttpOperationResponse = await this._putResource(
+    const response: HttpOperationResponse = await this.putResource(
       queueName,
       buildQueueOptions(finalQueueOptions),
       this.queueResourceSerializer,
@@ -394,7 +389,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     log.httpAtomXml(
       `Performing management operation - createTopic() for "${topicName}" with options: ${topicOptions}`
     );
-    const response: HttpOperationResponse = await this._putResource(
+    const response: HttpOperationResponse = await this.putResource(
       topicName,
       buildTopicOptions(topicOptions || {}),
       this.topicResourceSerializer,
@@ -450,7 +445,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const getTopicResult = await this.getTopic(topicName);
     Object.assign(finalTopicOptions, getTopicResult, topicOptions);
 
-    const response: HttpOperationResponse = await this._putResource(
+    const response: HttpOperationResponse = await this.putResource(
       topicName,
       buildTopicOptions(finalTopicOptions),
       this.topicResourceSerializer,
@@ -490,7 +485,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
     );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this._putResource(
+    const response: HttpOperationResponse = await this.putResource(
       fullPath,
       buildSubscriptionOptions(subscriptionOptions || {}),
       this.subscriptionResourceSerializer,
@@ -563,7 +558,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const getSubscriptionResult = await this.getSubscription(topicName, subscriptionName);
     Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscriptionOptions);
 
-    const response: HttpOperationResponse = await this._putResource(
+    const response: HttpOperationResponse = await this.putResource(
       fullPath,
       buildSubscriptionOptions(finalSubscriptionOptions),
       this.subscriptionResourceSerializer,
@@ -612,7 +607,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - createRule() for "${ruleName}" with options: "${ruleOptions}"`
     );
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-    const response: HttpOperationResponse = await this._putResource(
+    const response: HttpOperationResponse = await this.putResource(
       fullPath,
       buildRuleOptions(ruleName, ruleOptions),
       this.ruleResourceSerializer,
@@ -684,7 +679,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
     );
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-    const response: HttpOperationResponse = await this._putResource(
+    const response: HttpOperationResponse = await this.putResource(
       fullPath,
       buildRuleOptions(ruleName, ruleOptions),
       this.ruleResourceSerializer,
@@ -722,7 +717,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param isUpdate
    * @param serializer
    */
-  private async _putResource(
+  private async putResource(
     name: string,
     entityFields:
       | InternalQueueOptions
@@ -936,43 +931,4 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const ruleResponse: RuleResponse = Object.assign(rule || {}, { _response: response });
     return ruleResponse;
   }
-}
-
-/**
- * @ignore
- * Utility to execute Atom XML operations as HTTP requests
- * @param webResource
- * @param serializer
- */
-export async function executeAtomXmlOperation(
-  serviceBusAtomManagementClient: ServiceBusAtomManagementClient,
-  webResource: WebResource,
-  serializer: AtomXmlSerializer
-): Promise<HttpOperationResponse> {
-  if (webResource.body) {
-    const content: object = serializer.serialize(JSON.parse(webResource.body));
-    webResource.body = convertJsonToAtomXml(content);
-  }
-
-  let response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
-    webResource
-  );
-
-  try {
-    if (response.bodyAsText) {
-      response.parsedBody = await convertAtomXmlToJson(response.bodyAsText);
-    }
-  } catch (err) {
-    const error = new RestError(
-      `ResponseNotInAtomXMLFormat - ${err.message}`,
-      RestError.PARSE_ERROR,
-      response.status,
-      stripRequest(response.request),
-      stripResponse(response)
-    );
-
-    throw error;
-  }
-
-  return serializer.deserialize(response);
 }
