@@ -198,17 +198,12 @@ export function deserializeResponseBody(
                 }
               }
 
-              if (parsedResponse.headers) {
-                const defaultResponseHeadersMapper: Mapper | undefined =
-                  defaultResponseSpec.headersMapper;
-
-                if (defaultResponseHeadersMapper) {
-                  error.parsedHeaders = operationSpec.serializer.deserialize(
-                    defaultResponseHeadersMapper,
-                    parsedResponse.headers.rawHeaders(),
-                    "operationRes.parsedHeaders"
-                  );
-                }
+              if (parsedResponse.headers && defaultResponseSpec.headersMapper) {
+                error.parsedHeaders = operationSpec.serializer.deserialize(
+                  defaultResponseSpec.headersMapper,
+                  parsedResponse.headers.rawHeaders(),
+                  "operationRes.parsedHeaders"
+                );
               }
             } catch (defaultError) {
               error.message = `Error \"${defaultError.message}\" occurred in deserializing the responseBody - \"${parsedResponse.bodyAsText}\" for the default response.`;
