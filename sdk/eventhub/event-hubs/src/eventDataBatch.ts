@@ -156,7 +156,7 @@ export class EventDataBatch {
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(

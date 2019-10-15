@@ -995,7 +995,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
-        err.message.should.equal(`Missing parameter "eventPosition"`);
+        err.message.should.equal(`createConsumer called without required argument "eventPosition"`);
       }
     });
 
@@ -1005,7 +1005,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
-        err.message.should.equal(`Missing parameter "consumerGroup"`);
+        err.message.should.equal(`createConsumer called without required argument "consumerGroup"`);
       }
     });
 

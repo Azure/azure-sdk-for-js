@@ -155,7 +155,7 @@ export class EventHubProducer {
     options: SendOptions = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "eventData", eventData);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "send", "eventData", eventData);
     if (Array.isArray(eventData) && eventData.length === 0) {
       log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
       return;
