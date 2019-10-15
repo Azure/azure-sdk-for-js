@@ -1,6 +1,6 @@
 import { KeysClient, CryptographyClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
-import crypto from 'crypto';
+import crypto from "crypto";
 
 async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
