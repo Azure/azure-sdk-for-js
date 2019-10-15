@@ -889,7 +889,7 @@ export class CertificatesClient {
    * // Serializing the poller
    * const serialized = poller.toJSON();
    * // A new poller can be created with:
-   * // await client.beginCreateCertificate("MyCertificate", policy, {}, { resumeFrom: serialized });
+   * // await client.beginCreateCertificate("MyCertificate", policy, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * const certificate = await poller.done();
