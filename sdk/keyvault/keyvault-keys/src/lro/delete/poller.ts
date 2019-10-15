@@ -1,18 +1,12 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
-import {
-  DeleteKeyPollOperationState,
-  makeDeleteKeyPollOperation
-} from "./operation";
-import {
-  DeletedKey,
-  KeyClientInterface,
-} from "../../keysModels";
+import { DeleteKeyPollOperationState, makeDeleteKeyPollOperation } from "./operation";
+import { DeletedKey, KeyClientInterface } from "../../keysModels";
 
 export interface DeleteKeyPollerOptions {
   client: KeyClientInterface;
   name: string;
-  requestOptions: RequestOptionsBase;
+  requestOptions?: RequestOptionsBase;
   intervalInMs?: number;
   resumeFrom?: string;
 }
@@ -20,10 +14,7 @@ export interface DeleteKeyPollerOptions {
 /**
  * Class that deletes a poller that waits until a key finishes being deleted
  */
-export class DeleteKeyPoller extends Poller<
-  DeleteKeyPollOperationState,
-  DeletedKey
-> {
+export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, DeletedKey> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    * @memberof DeleteKeyPoller
@@ -31,13 +22,7 @@ export class DeleteKeyPoller extends Poller<
   public intervalInMs: number;
 
   constructor(options: DeleteKeyPollerOptions) {
-    const {
-      client,
-      name,
-      requestOptions,
-      intervalInMs = 1000,
-      resumeFrom,
-    } = options;
+    const { client, name, requestOptions, intervalInMs = 1000, resumeFrom } = options;
 
     let state: DeleteKeyPollOperationState | undefined;
 
@@ -52,7 +37,7 @@ export class DeleteKeyPoller extends Poller<
       ...state,
       name,
       requestOptions,
-      client,
+      client
     });
 
     super(operation);

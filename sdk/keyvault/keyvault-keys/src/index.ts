@@ -29,7 +29,6 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
 import {
-  BeginDeleteKeyOptions,
   KeyBundle,
   JsonWebKeyType,
   JsonWebKey,
@@ -61,7 +60,9 @@ import {
   ParsedKeyVaultEntityIdentifier
 } from "./core/keyVaultBase";
 import {
+  BeginDeleteKeyOptions,
   Key,
+  KeyClientInterface,
   DeletedKey,
   CreateKeyOptions,
   CreateEcKeyOptions,
@@ -527,19 +528,22 @@ export class KeyClient {
    * @param name The name of the key.
    * @param [options] The optional parameters
    */
-  public async beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<DeleteKeyPoller> {
+  public beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): DeleteKeyPoller {
     // Making a fake client to reduce the duplicated code
     const pollerClient: KeyClientInterface = {
       deleteKey: this.deleteKey.bind(this),
+      getDeletedKey: this.getDeletedKey.bind(this)
     };
 
     const poller = new DeleteKeyPoller({
-      client: pollerKeyVaultClient,
       name,
-			...options
+      client: pollerClient,
+      ...options
     });
 
-    await poller.poll(); // This will initialize the poller's operation (the deletion of the key).
+    // This will initialize the poller's operation (the deletion of the key).
+    poller.poll();
+
     return poller;
   }
 

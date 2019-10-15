@@ -1,10 +1,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import {
-  DeletedKey,
-  KeyClientInterface,
-} from "../../certificatesModels";
+import { DeletedKey, KeyClientInterface } from "../../keysModels";
 
 /**
  * @interface
@@ -18,24 +15,24 @@ export interface DeleteKeyPollOperationState extends PollOperationState<DeletedK
   /**
    * @member {RequestOptionsBase} [requestOptions] The optional HTTP parameters that will be used to dele the key
    */
-  requestOptions: RequestOptionsBase;
+  requestOptions?: RequestOptionsBase;
   /**
-   * @member {CertificatesClientInterface} [client] An instance of the CertificatesClient class
+   * @member {KeyClientInterface} [client] An instance of the key's client
    */
-  client: CertificatesClientInterface;
+  client: KeyClientInterface;
   /**
-   * @member {CertificateOperation} [initialResponse] The initial response received the first time the service was reached by the operation's update function
+   * @member {DeletedKey} [initialResponse] The initial response received the first time the service was reached by the operation's update function
    */
-  initialResponse?: CertificateOperation;
+  initialResponse?: DeletedKey;
   /**
-   * @member {CertificateOperation} [previousResponse] The previous response received the last time the service was reached by the operation's update function
+   * @member {DeletedKey} [previousResponse] The previous response received the last time the service was reached by the operation's update function
    */
-  previousResponse?: CertificateOperation;
+  previousResponse?: DeletedKey;
 }
 
 /**
  * @interface
- * An interface representing a delete certificate's poll operation
+ * An interface representing a delete key's poll operation
  */
 export interface DeleteKeyPollOperation
   extends PollOperation<DeleteKeyPollOperationState, DeletedKey> {}
@@ -59,12 +56,11 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  const done = false;
+  let done = false;
   try {
-    state.previousResponse = await client.getDeletedKey();
-    doFinalResponse = true;
-  } catch(_) {
-  }
+    state.previousResponse = await client.getDeletedKey(name, { requestOptions });
+    done = true;
+  } catch (_) {}
 
   if (!state.initialResponse) {
     await client.deleteKey(name, requestOptions);
@@ -76,41 +72,26 @@ async function update(
   }
 
   // Progress only after the poller has started and before the poller is done
-  if (state.initialResponse && !doFinalResponse && options.fireProgress) {
+  if (state.initialResponse && !done && options.fireProgress) {
     options.fireProgress(state);
   }
 
   return makeDeleteKeyPollOperation(state);
 }
 
-
 /**
- * @summary Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
+ * @summary Reaches to the service and cancels the key's operation, also updating the key's poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
 async function cancel(
   this: DeleteKeyPollOperation,
-  options: { abortSignal?: AbortSignal } = {}
+  _: { abortSignal?: AbortSignal } = {}
 ): Promise<DeleteKeyPollOperation> {
-  const requestOptions = this.state.createCertificateOptions.requestOptions || {};
-  const name = this.state.name;
-  if (options.abortSignal) {
-    requestOptions.abortSignal = options.abortSignal;
-  }
-
-  const client = this.state.client;
-  const response = await client.cancelCertificateOperation(name, requestOptions);
-
-  return makeDeleteKeyPollOperation({
-    ...this.state,
-    cancelled: true,
-    previousResponse: response
-  });
+  throw new Error("Canceling the deletion of a key is not supported.");
 }
 
-
 /**
- * @summary Serializes the create certificate's poll operation
+ * @summary Serializes the create key's poll operation
  */
 function toString(this: DeleteKeyPollOperation): string {
   return JSON.stringify({
@@ -118,9 +99,8 @@ function toString(this: DeleteKeyPollOperation): string {
   });
 }
 
-
 /**
- * @summary Builds a create certificate's poll operation
+ * @summary Builds a create key's poll operation
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeDeleteKeyPollOperation(
