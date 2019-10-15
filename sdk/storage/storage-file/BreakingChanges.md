@@ -1,5 +1,9 @@
 # Breaking Changes
 
+### 2019.10 12.0.0-preview.5
+
+- `IPRange` is renamed to `SasIPRange`.
+
 ### 2019.10 12.0.0-preview.4
 
 - `Models.StorageServiceProperties` is renamed into `Models.FileServiceProperties`
@@ -17,6 +21,7 @@
     includeSnapshots: true
   });
   ```
+
 ### 2019.08 Version 12.0.0-preview.2
 
 - Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.

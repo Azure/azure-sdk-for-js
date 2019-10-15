@@ -7,7 +7,7 @@ import * as Models from "./generated/src/models";
 
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export { IPRange } from "./IPRange";
+export { SasIPRange } from "./SasIPRange";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
@@ -19,3 +19,4 @@ export * from "./QueueSASPermissions";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";

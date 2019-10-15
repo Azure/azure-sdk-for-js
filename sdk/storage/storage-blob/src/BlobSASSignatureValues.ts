@@ -4,7 +4,7 @@
 import { BlobSASPermissions } from "./BlobSASPermissions";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { IPRange, ipRangeToString } from "./IPRange";
+import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
 import { UserDelegationKeyCredential } from "./credentials/UserDelegationKeyCredential";
@@ -67,10 +67,10 @@ export interface BlobSASSignatureValues {
   /**
    * Optional. IP ranges allowed in this SAS.
    *
-   * @type {IPRange}
+   * @type {SasIPRange}
    * @memberof BlobSASSignatureValues
    */
-  ipRange?: IPRange;
+  ipRange?: SasIPRange;
 
   /**
    * The name of the container the SAS user may access.
