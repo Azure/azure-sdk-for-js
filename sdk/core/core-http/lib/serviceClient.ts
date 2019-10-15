@@ -227,7 +227,7 @@ export class ServiceClient {
    * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
    * @param {ServiceCallback} callback The callback to call when the response is received.
    */
-  sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec, callback?: ServiceCallback<any>): Promise<RestResponse> {
+  async sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec, callback?: ServiceCallback<any>): Promise<RestResponse> {
     if (typeof operationArguments.options === "function") {
       callback = operationArguments.options;
       operationArguments.options = undefined;
@@ -353,18 +353,23 @@ export class ServiceClient {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
-      result = this.sendRequest(httpRequest)
-        .then(res => flattenResponse(res, operationSpec.responses[res.status]))
-        .catch(ex =>
-          Promise.reject(
-            flattenResponse(
-              ex, 
-              operationSpec.responses[ex.statusCode]? 
-                operationSpec.responses[ex.statusCode] : 
-                operationSpec.responses["default"]
-            )
+      let rawResponse: HttpOperationResponse;
+      let sendRequestError;
+      try {
+        rawResponse = await this.sendRequest(httpRequest)
+      } catch (error) {
+        sendRequestError = error;
+      }
+      if (sendRequestError) {
+        result = Promise.reject(
+          flattenResponse(
+            sendRequestError, 
+            operationSpec.responses[sendRequestError.statusCode] || operationSpec.responses["default"]
           )
-        );
+        )
+      } else {
+        result = Promise.resolve(flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status]));
+      }
     } catch (error) {
       result = Promise.reject(error);
     }
