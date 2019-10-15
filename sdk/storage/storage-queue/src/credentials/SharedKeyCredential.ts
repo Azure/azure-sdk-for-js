@@ -1,4 +1,4 @@
-import * as Crypto from "crypto";
+import Crypto from "crypto";
 import { RequestPolicy, RequestPolicyOptions } from "@azure/ms-rest-js";
 
 import { SharedKeyCredentialPolicy } from "../policies/SharedKeyCredentialPolicy";

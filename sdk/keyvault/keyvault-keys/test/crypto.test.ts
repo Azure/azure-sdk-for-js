@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import * as crypto from "crypto";
+import crypto from "crypto";
 import * as constants from "constants";
 import { isNode } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";

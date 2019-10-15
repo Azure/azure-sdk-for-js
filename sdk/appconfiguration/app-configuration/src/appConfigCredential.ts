@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as crypto from "crypto";
+import crypto from "crypto";
 import { ServiceClientCredentials, WebResource, URLBuilder } from "@azure/core-http";
 
 /**
