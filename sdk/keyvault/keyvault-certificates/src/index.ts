@@ -21,6 +21,7 @@ import {
 import { getTracer, Span } from "@azure/core-tracing";
 
 import {
+  BeginCreateCertificateOptions,
   Certificate,
   DeletedCertificate,
   CertificateIssuer,
@@ -28,7 +29,6 @@ import {
   CertificatePolicy,
   CertificateProperties,
   CreateCertificateOptions,
-  BeginCreateCertificateOptions,
   SubjectAlternativeNames,
   CertificatesClientInterface
 } from "./certificatesModels";
@@ -99,6 +99,7 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 import { CreateCertificatePoller } from "./lro/create/poller";
 
 export {
+  BeginCreateCertificateOptions,
   CreateCertificatePoller,
   CertificateProperties,
   CertificateIssuer,
