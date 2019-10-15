@@ -910,30 +910,7 @@ export class CertificatesClient {
   ): Promise<CreateCertificatePoller> {
     // Making a fake client to reduce the duplicated code
     const pollerKeyVaultClient: CertificatesClientInterface = {
-      createCertificate: async (
-        name: string,
-        certificatePolicy: CertificatePolicy,
-        options: CreateCertificateOptions = {}
-      ): Promise<Certificate> => {
-        const span = this.createSpan("createCertificate", options);
-        let result: CreateCertificateResponse;
-        try {
-          result = await this.client.createCertificate(this.vaultBaseUrl, name, {
-            ...this.setParentSpan(span, options.requestOptions || {}),
-            certificateAttributes: {
-              ...options.certificateAttributes,
-              enabled: options.enabled
-            },
-            tags: options.tags,
-            certificatePolicy: toCorePolicy(certificatePolicy)
-          });
-        } finally {
-          span.end();
-        }
-        return this.getCertificateFromCertificateBundle(result);
-      },
-      // TODO: These methods will change soon due to API feedback,
-      // this is also a way to minimize the complexity of the changes
+      beginCreateCertificate: this.beginCreateCertificate.bind(this),
       getCertificateOperation: this.getCertificateOperation.bind(this),
       cancelCertificateOperation: this.cancelCertificateOperation.bind(this),
       getCertificateWithPolicy: this.getCertificateWithPolicy.bind(this)
@@ -1436,6 +1413,29 @@ export class CertificatesClient {
     }
 
     return this.getCertificateFromCertificateBundle(result._response.parsedBody);
+  }
+
+  private async beginCreateCertificate(
+    name: string,
+    certificatePolicy: CertificatePolicy,
+    options: CreateCertificateOptions = {}
+  ): Promise<Certificate> {
+    const span = this.createSpan("createCertificate", options);
+    let result: CreateCertificateResponse;
+    try {
+      result = await this.client.createCertificate(this.vaultBaseUrl, name, {
+        ...this.setParentSpan(span, options.requestOptions || {}),
+        certificateAttributes: {
+          ...options.certificateAttributes,
+          enabled: options.enabled
+        },
+        tags: options.tags,
+        certificatePolicy: toCorePolicy(certificatePolicy)
+      });
+    } finally {
+      span.end();
+    }
+    return this.getCertificateFromCertificateBundle(result);
   }
 
   private async *listDeletedCertificatesPage(

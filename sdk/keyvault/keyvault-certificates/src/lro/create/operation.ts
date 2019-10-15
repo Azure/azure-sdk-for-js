@@ -72,7 +72,7 @@ async function update(
   const doFinalResponse = state.previousResponse && state.previousResponse.status !== "inProgress";
 
   if (!state.initialResponse) {
-    await client.createCertificate(name, certificatePolicy, createCertificateOptions);
+    await client.beginCreateCertificate(name, certificatePolicy, createCertificateOptions);
     state.pendingCertificate = await client.getCertificateWithPolicy(name, requestOptions);
     state.previousResponse = await client.getCertificateOperation(name, requestOptions);
     state.initialResponse = state.previousResponse;

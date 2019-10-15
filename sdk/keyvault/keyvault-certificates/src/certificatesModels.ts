@@ -16,7 +16,7 @@ import {
  * An interface representing a certificate client.
  */
 export interface CertificatesClientInterface {
-  createCertificate(
+  beginCreateCertificate(
     name: string,
     certificatePolicy: CertificatePolicy,
     options?: CreateCertificateOptions
