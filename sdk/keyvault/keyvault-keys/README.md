@@ -226,11 +226,11 @@ await client.updateKey(keyName, result.properties.version, {
 
 ### Deleting a key
 
-The `deleteKey` method sets a key up for deletion. This process will
+The `beginDeleteKey` method sets a key up for deletion. This process will
 happen in the background as soon as the necessary resources are available.
 
 ```javascript
-await client.deleteKey(keyName);
+await client.beginDeleteKey(keyName).pollUntilDone();
 ```
 
 If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
@@ -239,7 +239,7 @@ _deleted_ key. A deleted key can't be updated. They can only be either
 read, recovered or purged.
 
 ```javascript
-await client.deleteKey(keyName);
+await client.beginDeleteKey(keyName).pollUntilDone();
 
 // If soft-delete is enabled, we can eventually do:
 await client.getDeletedKey(keyName);
@@ -248,9 +248,22 @@ await client.recoverDeletedKey(keyName);
 // await client.purgeDeletedKey(keyName);
 ```
 
-Since the deletion of a key won't happen instantly, some time is needed
-after the `deleteKey` method is called before the deleted key is
-available to be read, recovered or purged.
+Since Keys take some time to get fully deleted, `beginDeleteKey`
+returns a Poller object that keeps track of the underlying Long Running
+Operation according to our guidelines:
+https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
+
+Once you receive the poller, you'll be able to either run individual service
+calls until the key is deleted, or wait until the process is done:
+
+```typescript
+const poller = await client.beginDeleteKey(certificateName, certificatePolicy);
+
+await poller.poll(); // One service call
+
+const deletedKey = await poller.pollUntilDone();
+console.log(deletedKey);
+```
 
 ### Iterating lists of keys
 
