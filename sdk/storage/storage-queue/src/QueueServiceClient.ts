@@ -244,8 +244,8 @@ export class QueueServiceClient extends StorageClient {
    * Creates a QueueClient object.
    * @param queueName
    */
-  public getQueueClient(): QueueClient {
-    return new QueueClient(appendToURLPath(this.url, "messages"), this.pipeline);
+  public getQueueClient(queueName: string): QueueClient {
+    return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
   }
 
   /**
