@@ -1,5 +1,9 @@
 # Changelog
 
+## 2019.10 12.0.0-preview.5
+
+- [Breaking] `IPRange` is renamed to `SasIPRange`.
+
 ## 2019.10 12.0.0-preview.4
 
 - [Breaking] Replace string array with boolean flags to specify dataset to include when listing containers or blobs.

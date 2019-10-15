@@ -12,7 +12,7 @@ export * from "./AccountSASSignatureValues";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/SharedKeyCredential";
-export { IPRange } from "./IPRange";
+export { SasIPRange } from "./SasIPRange";
 export * from "./MessageIdClient";
 export * from "./MessagesClient";
 export * from "./Pipeline";

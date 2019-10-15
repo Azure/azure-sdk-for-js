@@ -10,7 +10,7 @@ export * from "./DirectoryClient";
 export * from "./FileClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export { IPRange } from "./IPRange";
+export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
 export {
   FilePermissionInheritType,
