@@ -33,7 +33,7 @@ describe("Keys client - restore keys and recover backups", () => {
   it("can recover a deleted key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    await client.deleteKey(keyName);
+    await client.beginDeleteKey(keyName).pollUntilDone();
     const getDeletedResult = await retry(async () => client.getDeletedKey(keyName));
     assert.equal(
       getDeletedResult.properties.name,

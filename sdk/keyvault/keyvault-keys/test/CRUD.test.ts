@@ -213,7 +213,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can delete a key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    await client.deleteKey(keyName);
+    await client.beginDeleteKey(keyName).pollUntilDone();
 
     try {
       await client.getKey(keyName);
@@ -270,7 +270,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can get a deleted key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    await client.deleteKey(keyName);
+    await client.beginDeleteKey(keyName).pollUntilDone();
     const getResult = await retry(async () => client.getDeletedKey(keyName));
     assert.equal(
       getResult.properties.name,
@@ -284,7 +284,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
-      await client.deleteKey(keyName);
+      await client.beginDeleteKey(keyName).pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
