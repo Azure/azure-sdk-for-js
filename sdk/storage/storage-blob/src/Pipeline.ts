@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import {
   BaseRequestPolicy,
-  bearerTokenAuthenticationPolicy,
   deserializationPolicy,
   getDefaultProxySettings,
   HttpClient as IHttpClient,
@@ -12,9 +11,7 @@ import {
   HttpPipelineLogLevel,
   HttpRequestBody,
   isNode,
-  isTokenCredential,
   proxyPolicy,
-  ProxySettings,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
@@ -24,12 +21,10 @@ import {
   bearerTokenAuthenticationPolicy,
   ProxySettings,
   tracingPolicy,
-  WebResource,
+  WebResource
 } from "@azure/core-http";
 
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { DfsPolicyFactory } from "./DfsPolicyFactory";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
@@ -39,7 +34,6 @@ import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageOAuthScopes } from "./utils/constants";
-import { DefaultStorageScope } from "./utils/constants";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -211,7 +205,7 @@ export function newPipeline(
   ];
 
   if (isNode) {
-    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    // ProxyPolicy is only available in Node.js runtime, not in browsers
     let proxySettings: ProxySettings | undefined;
     if (typeof pipelineOptions.proxy === "string" || !pipelineOptions.proxy) {
       proxySettings = getDefaultProxySettings(pipelineOptions.proxy);

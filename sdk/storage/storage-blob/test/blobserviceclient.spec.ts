@@ -2,14 +2,18 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { BlobServiceClient } from "../src/BlobServiceClient";
-import { getAlternateBSU, getBSU, getSASConnectionStringFromEnvironment, getTokenBSU } from "./utils";
+import {
+  getAlternateBSU,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  getTokenBSU
+} from "./utils";
 import { delay, record } from "./utils/recorder";
 
 dotenv.config({ path: "../.env" });
+let recorder: any;
 
 describe("BlobServiceClient", () => {
-  let recorder: any;
-
   beforeEach(async function() {
     recorder = record(this);
   });
@@ -421,6 +425,7 @@ describe("BlobServiceClient", () => {
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
     if (serviceURLWithToken === undefined) {
+      recorder.stop();
       this.skip();
     }
 

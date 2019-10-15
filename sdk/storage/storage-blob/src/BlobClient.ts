@@ -1180,7 +1180,7 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Returns true if the Azrue blob resource represented by this client exists; false otherwise.
+   * Returns true if the Azure blob resource represented by this client exists; false otherwise.
    *
    * NOTE: use this function with care since an existing blob might be deleted by other clients or
    * applications. Vice versa new blobs might be added by other clients or applications after this

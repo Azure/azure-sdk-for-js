@@ -9,7 +9,7 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   generateAccountSASQueryParameters,
-  SASProtocol,
+  SASProtocol
 } from "../../src";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
@@ -51,7 +51,7 @@ export function getGenericBSU(
   if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
     return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   } else {
-    const credential = getGenericCredential(accountType) as SharedKeyCredential;
+    const credential = getGenericCredential(accountType, envSuffix) as SharedKeyCredential;
 
     const pipeline = newPipeline(credential, {
       // Enable logger when debugging

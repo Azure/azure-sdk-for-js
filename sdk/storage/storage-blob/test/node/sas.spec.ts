@@ -19,10 +19,10 @@ import { SASProtocol } from "../../src/SASQueryParameters";
 import { getBSU, getTokenBSU } from "../utils";
 import { record } from "../utils/recorder";
 
+let recorder: any;
+
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const blobServiceClient = getBSU();
-
-  let recorder: any;
 
   beforeEach(function() {
     recorder = record(this);
@@ -491,6 +491,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
     if (blobServiceClientWithToken === undefined) {
+      recorder.stop();
       this.skip();
     }
 
