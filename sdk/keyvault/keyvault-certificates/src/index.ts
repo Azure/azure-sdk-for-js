@@ -892,7 +892,7 @@ export class CertificatesClient {
    * // await client.beginCreateCertificate("MyCertificate", policy, { resumeFrom: serialized });
    *
    * // Waiting until it's done
-   * const certificate = await poller.done();
+   * const certificate = await poller.pollUntilDone();
    * console.log(certificate);
    * ```
    * @summary Creates a certificate through a Long Running Operation Poller
