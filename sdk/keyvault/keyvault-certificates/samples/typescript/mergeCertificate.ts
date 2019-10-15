@@ -26,7 +26,7 @@ async function main(): Promise<void> {
   });
 
   // Retrieving the certificate's signing request
-  const { csr } = await client.getCertificateOperation("MyCertificate");
+  const { csr } = await client.getCertificateOperation("MyCertificate").getOperation();
   const base64Csr = Buffer.from(csr!).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}

@@ -42,8 +42,7 @@ async function main(): Promise<void> {
 
   let error;
   try {
-    poller = client.getCertificateOperation(certificateName);
-    await poller.getCertificateOperation();
+    await client.getCertificateOperation(certificateName).getOperation();
     throw Error("Expecting an error but not catching one.");
   } catch (e) {
     error = e;

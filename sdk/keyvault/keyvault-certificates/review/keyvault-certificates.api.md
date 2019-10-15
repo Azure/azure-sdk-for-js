@@ -76,13 +76,9 @@ export class CertificatesClient {
     constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
+    // Warning: (ae-forgotten-export) The symbol "BeginCreateCertificateOptions" needs to be exported by the entry point index.d.ts
+    beginCreateCertificate(name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: BeginCreateCertificateOptions): Promise<CreateCertificatePoller>;
     cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
-    // Warning: (ae-forgotten-export) The symbol "CreateCertificateOptions" needs to be exported by the entry point index.d.ts
-    createCertificate(name: string, certificatePolicy: CertificatePolicy, createCertificateOptions?: CreateCertificateOptions, pollerOptions?: {
-        manual?: boolean;
-        intervalInMs?: number;
-        resumeFrom?: string;
-    }): Promise<CreateCertificatePoller>;
     protected readonly credential: TokenCredential;
     deleteCertificate(certificateName: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     deleteCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
@@ -91,11 +87,13 @@ export class CertificatesClient {
     getCertificate(name: string, version: string, options?: RequestOptionsBase): Promise<Certificate>;
     getCertificateContacts(options?: RequestOptionsBase): Promise<Contacts>;
     getCertificateIssuer(issuerName: string, options?: RequestOptionsBase): Promise<CertificateIssuer>;
-    getCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
+    getCertificateOperation(name: string, createCertificateOptions?: BeginCreateCertificateOptions): CreateCertificatePoller;
     getCertificatePolicy(name: string, options?: RequestOptionsBase): Promise<CertificatePolicy>;
     getCertificateWithPolicy(name: string, options?: RequestOptionsBase): Promise<Certificate>;
     static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
+    // (undocumented)
+    getPlainCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
     listCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
     // Warning: (ae-forgotten-export) The symbol "Certificate" needs to be exported by the entry point index.d.ts
@@ -136,6 +134,7 @@ export class CreateCertificatePoller extends Poller<CreateCertificatePollOperati
     constructor(options: CreateCertificatePollerOptions);
     delay(): Promise<void>;
     getInitialResponse(): CertificateOperation | undefined;
+    getOperation(): Promise<CertificateOperation>;
     getPendingCertificate(): Certificate | undefined;
     getPreviousResponse(): CertificateOperation | undefined;
     intervalInMs: number;
