@@ -189,10 +189,9 @@ Calling to `beginCreateCertificate` with the same name will create a new version
 the same certificate, which will have the latest provided attributes.
 
 Certificates take some time to get fully created since they need to be signed
-by their respective Certificate Authority. Since this is a process that can
-take an unbounded amount of time, `beginCreateCertificate` returns a Poller, which
-is an object that keeps track of the underlying Long Running Operation
-according to our guidelines:
+by their respective Certificate Authority. For this purpose,
+`beginCreateCertificate` returns a Poller object that keeps track
+of the underlying Long Running Operation according to our guidelines:
 https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
 
 Once you receive the poller, you'll be able to get the pending certificate by
