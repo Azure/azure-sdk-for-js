@@ -49,9 +49,9 @@ export async function run() {
     key: key,
     value: "Beta has updated the value"
   }, {
-    // ifMatch allows Beta to say "only update the setting if the _current_ etag matches my etag"
+    // onlyIfUnchanged allows Beta to say "only update the setting if the _current_ etag matches my etag"
     // which is true for Beta since nobody has modified it since Beta got it.
-    ifMatch: betaSetting.etag
+    onlyIfUnchanged: true
   });
 
   console.log(`Beta has updated the setting. The setting's etag is now ${betaUpdatedSetting.etag}`);
@@ -70,7 +70,7 @@ export async function run() {
       // it.
       //
       // the 'catch' below will now incorporate the update
-      ifMatch: alphaSetting.etag
+      onlyIfUnchanged: true
     })
   } catch (err) {    
     if (err.statusCode === 412) {    // precondition failed
@@ -85,7 +85,7 @@ export async function run() {
 
       console.log(`Alpha is setting the value again with the new etag ${actualSetting.etag}`);
       await client.setConfigurationSetting(actualSetting, {
-        ifMatch: actualSetting.etag
+        onlyIfUnchanged: true
       });
     }
   }

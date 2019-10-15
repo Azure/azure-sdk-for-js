@@ -135,9 +135,9 @@ export class BlobPartitionManager implements PartitionManager {
    * @return The new eTag on successful update
    */
   async updateCheckpoint(checkpoint: Checkpoint): Promise<string> {
-    throwTypeErrorIfParameterMissing("ownerId", checkpoint.ownerId);
-    throwTypeErrorIfParameterMissing("sequenceNumber", checkpoint.sequenceNumber);
-    throwTypeErrorIfParameterMissing("offset", checkpoint.offset);
+    throwTypeErrorIfParameterMissing("updateCheckpoint", "ownerId", checkpoint.ownerId);
+    throwTypeErrorIfParameterMissing("updateCheckpoint", "sequenceNumber", checkpoint.sequenceNumber);
+    throwTypeErrorIfParameterMissing("updateCheckpoint", "offset", checkpoint.offset);
 
     const blobName = `${checkpoint.fullyQualifiedNamespace}/${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/${checkpoint.partitionId}`;
     try {

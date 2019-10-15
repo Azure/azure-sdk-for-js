@@ -267,6 +267,68 @@ export const DeploymentExportResult: msRest.CompositeMapper = {
   }
 };
 
+export const DeploymentWhatIfSettings: msRest.CompositeMapper = {
+  serializedName: "DeploymentWhatIfSettings",
+  type: {
+    name: "Composite",
+    className: "DeploymentWhatIfSettings",
+    modelProperties: {
+      resultFormat: {
+        serializedName: "resultFormat",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "ResourceIdOnly",
+            "FullResourcePayloads"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentWhatIfProperties: msRest.CompositeMapper = {
+  serializedName: "DeploymentWhatIfProperties",
+  type: {
+    name: "Composite",
+    className: "DeploymentWhatIfProperties",
+    modelProperties: {
+      ...DeploymentProperties.type.modelProperties,
+      whatIfSettings: {
+        serializedName: "whatIfSettings",
+        type: {
+          name: "Composite",
+          className: "DeploymentWhatIfSettings"
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentWhatIf: msRest.CompositeMapper = {
+  serializedName: "DeploymentWhatIf",
+  type: {
+    name: "Composite",
+    className: "DeploymentWhatIf",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DeploymentWhatIfProperties"
+        }
+      }
+    }
+  }
+};
+
 export const ErrorAdditionalInfo: msRest.CompositeMapper = {
   serializedName: "ErrorAdditionalInfo",
   type: {
@@ -745,6 +807,13 @@ export const DeploymentValidateResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "DeploymentValidateResult",
     modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
+        }
+      },
       properties: {
         serializedName: "properties",
         type: {
@@ -1627,6 +1696,195 @@ export const TemplateHashResult: msRest.CompositeMapper = {
       },
       templateHash: {
         serializedName: "templateHash",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WhatIfPropertyChange: msRest.CompositeMapper = {
+  serializedName: "WhatIfPropertyChange",
+  type: {
+    name: "Composite",
+    className: "WhatIfPropertyChange",
+    modelProperties: {
+      path: {
+        required: true,
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      propertyChangeType: {
+        required: true,
+        serializedName: "propertyChangeType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Create",
+            "Delete",
+            "Modify",
+            "Array"
+          ]
+        }
+      },
+      before: {
+        serializedName: "before",
+        type: {
+          name: "Object"
+        }
+      },
+      after: {
+        serializedName: "after",
+        type: {
+          name: "Object"
+        }
+      },
+      children: {
+        serializedName: "children",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WhatIfPropertyChange"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WhatIfChange: msRest.CompositeMapper = {
+  serializedName: "WhatIfChange",
+  type: {
+    name: "Composite",
+    className: "WhatIfChange",
+    modelProperties: {
+      resourceId: {
+        required: true,
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      changeType: {
+        required: true,
+        serializedName: "changeType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Create",
+            "Delete",
+            "Ignore",
+            "Deploy",
+            "NoChange",
+            "Modify"
+          ]
+        }
+      },
+      before: {
+        serializedName: "before",
+        type: {
+          name: "Object"
+        }
+      },
+      after: {
+        serializedName: "after",
+        type: {
+          name: "Object"
+        }
+      },
+      delta: {
+        serializedName: "delta",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WhatIfPropertyChange"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WhatIfOperationResult: msRest.CompositeMapper = {
+  serializedName: "WhatIfOperationResult",
+  type: {
+    name: "Composite",
+    className: "WhatIfOperationResult",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      changes: {
+        serializedName: "properties.changes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WhatIfChange"
+            }
+          }
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentsWhatIfAtSubscriptionScopeHeaders: msRest.CompositeMapper = {
+  serializedName: "deployments-whatifatsubscriptionscope-headers",
+  type: {
+    name: "Composite",
+    className: "DeploymentsWhatIfAtSubscriptionScopeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentsWhatIfHeaders: msRest.CompositeMapper = {
+  serializedName: "deployments-whatif-headers",
+  type: {
+    name: "Composite",
+    className: "DeploymentsWhatIfHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
         type: {
           name: "String"
         }

@@ -5,7 +5,6 @@ dependencies:
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/core-auth': 1.0.0-preview.3
   '@azure/core-paging': 1.0.0-preview.2
-  '@azure/cosmos-sign': 1.0.2
   '@azure/eslint-plugin-azure-sdk': 2.0.1_9e8391ca70fb0408a9da4393803aa477
   '@azure/event-hubs': 2.1.1
   '@azure/keyvault-keys': 4.0.0-preview.7
@@ -23,6 +22,7 @@ dependencies:
   '@rush-temp/core-asynciterator-polyfill': 'file:projects/core-asynciterator-polyfill.tgz'
   '@rush-temp/core-auth': 'file:projects/core-auth.tgz'
   '@rush-temp/core-http': 'file:projects/core-http.tgz'
+  '@rush-temp/core-lro': 'file:projects/core-lro.tgz'
   '@rush-temp/core-paging': 'file:projects/core-paging.tgz'
   '@rush-temp/core-tracing': 'file:projects/core-tracing.tgz'
   '@rush-temp/cosmos': 'file:projects/cosmos.tgz_webpack@4.39.2'
@@ -88,7 +88,6 @@ dependencies:
   chai-as-promised: 7.1.1_chai@4.2.0
   chai-string: 1.5.0_chai@4.2.0
   cross-env: 5.2.0
-  crypto-hash: 1.2.2
   death: 1.1.0
   debug: 4.1.1
   delay: 4.3.0
@@ -145,6 +144,7 @@ dependencies:
   msal: 1.1.3
   nise: 1.5.1
   nock: 11.3.2
+  node-abort-controller: 1.0.4
   node-fetch: 2.6.0
   npm-run-all: 4.1.5
   nyc: 14.1.1
@@ -204,7 +204,6 @@ dependencies:
   ws: 7.1.2
   xhr-mock: 2.5.0
   xml2js: 0.4.19
-  xmlbuilder: 0.4.3
   yargs: 14.0.0
   yarn: 1.17.3
 lockfileVersion: 5.1
@@ -783,6 +782,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-LDKlQW/V8bQr5p9aoHye9p7x9faxq0GVeWAkn/Zgyyn848LIAzuR1sHQjGmUBFUpINuGWDG2NTM/ofA2aLMIew==
+  /@types/chai/4.2.3:
+    dev: false
+    resolution:
+      integrity: sha512-VRw2xEGbll3ZiTQ4J02/hUjNqZoue1bMhoo2dgM2LXjDdyaq4q80HgBDHwpI0/VKlo4Eg+BavyQMv/NYgTetzA==
   /@types/connect/3.4.32:
     dependencies:
       '@types/node': 8.10.52
@@ -1170,6 +1173,24 @@ packages:
       typescript: '*'
     resolution:
       integrity: sha512-12cCbwu5PbQudkq2xCIS/QhB7hCMrsNPXK+vJtqy/zFqtzVkPRGy12O5Yy0gUK086f3VHV/P4a4R4CjMW853pA==
+  /@typescript-eslint/eslint-plugin/2.4.0_4828c2c2dec21a69cf7db8f78e46e2d1:
+    dependencies:
+      '@typescript-eslint/experimental-utils': 2.4.0_eslint@6.5.1
+      '@typescript-eslint/parser': 2.4.0_eslint@6.5.1
+      eslint: 6.5.1
+      eslint-utils: 1.4.2
+      functional-red-black-tree: 1.0.1
+      regexpp: 2.0.1
+      tsutils: 3.17.1_typescript@3.6.4
+    dev: false
+    engines:
+      node: ^8.10.0 || ^10.13.0 || >=11.10.1
+    peerDependencies:
+      '@typescript-eslint/parser': ^2.0.0
+      eslint: ^5.0.0 || ^6.0.0
+      typescript: '*'
+    resolution:
+      integrity: sha512-se/YCk7PUoyMwSm/u3Ii9E+BgDUc736uw/lXCDpXEqRgPGsoBTtS8Mntue/vZX8EGyzGplYuePBuVyhZDM9EpQ==
   /@typescript-eslint/experimental-utils/2.0.0_eslint@6.2.1:
     dependencies:
       '@types/json-schema': 7.0.3
@@ -1222,6 +1243,19 @@ packages:
       eslint: '*'
     resolution:
       integrity: sha512-MQ4jKPMTU1ty4TigJCRKFPye2qyQdH8jzIIkceaHgecKFmkNS1hXPqKiZ+mOehkz6+HcN5Nuvwm+frmWZR9tdg==
+  /@typescript-eslint/experimental-utils/2.4.0_eslint@6.5.1:
+    dependencies:
+      '@types/json-schema': 7.0.3
+      '@typescript-eslint/typescript-estree': 2.4.0
+      eslint: 6.5.1
+      eslint-scope: 5.0.0
+    dev: false
+    engines:
+      node: ^8.10.0 || ^10.13.0 || >=11.10.1
+    peerDependencies:
+      eslint: '*'
+    resolution:
+      integrity: sha512-2cvhNaJoWavgTtnC7e1jUSPZQ7e4U2X9Yoy5sQmkS7lTESuyuZrlRcaoNuFfYEd6hgrmMU7+QoSp8Ad+kT1nfA==
   /@typescript-eslint/parser/2.0.0_eslint@6.2.1:
     dependencies:
       '@types/eslint-visitor-keys': 1.0.0
@@ -1264,6 +1298,20 @@ packages:
       eslint: ^5.0.0 || ^6.0.0
     resolution:
       integrity: sha512-+cV53HuYFeeyrNW8x/rgPmbVrzzp/rpRmwbJnNtwn4K8mroL1BdjxwQh7X9cUHp9rm4BBiEWmD3cSBjKG7d5mw==
+  /@typescript-eslint/parser/2.4.0_eslint@6.5.1:
+    dependencies:
+      '@types/eslint-visitor-keys': 1.0.0
+      '@typescript-eslint/experimental-utils': 2.4.0_eslint@6.5.1
+      '@typescript-eslint/typescript-estree': 2.4.0
+      eslint: 6.5.1
+      eslint-visitor-keys: 1.1.0
+    dev: false
+    engines:
+      node: ^8.10.0 || ^10.13.0 || >=11.10.1
+    peerDependencies:
+      eslint: ^5.0.0 || ^6.0.0
+    resolution:
+      integrity: sha512-IouAKi/grJ4MFrwdXIJ1GHAwbPWYgkT3b/x8Q49F378c9nwgxVkO76e0rZeUVpwHMaUuoKG2sUeK0XGkwdlwkw==
   /@typescript-eslint/typescript-estree/2.0.0:
     dependencies:
       lodash.unescape: 4.0.1
@@ -1306,6 +1354,18 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     resolution:
       integrity: sha512-GkACs12Xp8d/STunNv/iSMYJFQrkrax9vuPZySlgSzoJJtw1cp6tbEw4qsLskQv6vloLrkFJHcTJ0a/yCB5cIA==
+  /@typescript-eslint/typescript-estree/2.4.0:
+    dependencies:
+      chokidar: 3.2.1
+      glob: 7.1.4
+      is-glob: 4.0.1
+      lodash.unescape: 4.0.1
+      semver: 6.3.0
+    dev: false
+    engines:
+      node: ^8.10.0 || ^10.13.0 || >=11.10.1
+    resolution:
+      integrity: sha512-/DzDAtMqF5d9IlXrrvu/Id/uoKjnSxf/3FbtKK679a/T7lbDM8qQuirtGvFy6Uh+x0hALuCMwnMfUf0P24/+Iw==
   /@webassemblyjs/ast/1.8.5:
     dependencies:
       '@webassemblyjs/helper-module-context': 1.8.5
@@ -1678,6 +1738,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-c6IvoeBECQlMVuYUjSwimnhmztImpErfxJzWZhIQinIvQWoGOnB0dLIgifbPHQt5heS6mNlaZG16f06H3C8t1g==
+  /anymatch/3.1.1:
+    dependencies:
+      normalize-path: 3.0.0
+      picomatch: 2.0.7
+    dev: false
+    engines:
+      node: '>= 8'
+    resolution:
+      integrity: sha512-mM8522psRCqzV+6LhomX5wgp25YVibjh8Wj23I5RPkPppSVSjyKD2A2mBJmWGa+KN7f2D6LNh9jkBCeyLktzjg==
   /append-buffer/1.0.2:
     dependencies:
       buffer-equal: 1.0.0
@@ -2968,6 +3037,22 @@ packages:
       fsevents: 2.0.7
     resolution:
       integrity: sha512-c4PR2egjNjI1um6bamCQ6bUNPDiyofNQruHvKgHQ4gDUP/ITSVSzNsiI5OWtHOsX323i5ha/kk4YmOZ1Ktg7KA==
+  /chokidar/3.2.1:
+    dependencies:
+      anymatch: 3.1.1
+      braces: 3.0.2
+      glob-parent: 5.1.0
+      is-binary-path: 2.1.0
+      is-glob: 4.0.1
+      normalize-path: 3.0.0
+      readdirp: 3.1.3
+    dev: false
+    engines:
+      node: '>= 8'
+    optionalDependencies:
+      fsevents: 2.1.1
+    resolution:
+      integrity: sha512-/j5PPkb5Feyps9e+jo07jUZGvkB5Aj953NrI4s8xSVScrAo/RHeILrtdb4uzR7N6aaFFxxJ+gt8mA8HfNpw76w==
   /chownr/1.1.2:
     dev: false
     resolution:
@@ -3411,12 +3496,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-5DWmfCxQZHWocCpkOXVFmfYj7v5vZXF3ZNzMeyyJ6OzGfDTEEOm2CWA8KzZ578eA7j5VPCLOdGjOU8sGgi8BYw==
-  /crypto-hash/1.2.2:
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-rXXMXepuKg9gIfqE7I1jtVa6saLhzIkDQ2u3kTGUWYiUGsHcUa3LTsfrjPEdOY8kxKlryQtsOmJOU0F23yRJTg==
   /crypto-js/3.1.9-1:
     dev: false
     resolution:
@@ -4862,6 +4941,13 @@ packages:
     optional: true
     resolution:
       integrity: sha512-a7YT0SV3RB+DjYcppwVDLtn13UQnmg0SWZS7ezZD0UjnLwXmy8Zm21GMVGLaFGimIqcvyMQaOJBrop8MyOp1kQ==
+  /fsevents/2.1.1:
+    dev: false
+    engines:
+      node: ^8.16.0 || ^10.6.0 || >=11.0.0
+    optional: true
+    resolution:
+      integrity: sha512-4FRPXWETxtigtJW/gxzEDsX1LVbPAM93VleB83kZB+ellqbHMkyt2aJfuzNLRvFPnGi6bcE5SvfxgbXPeKteJw==
   /ftp/0.3.10:
     dependencies:
       readable-stream: 1.1.14
@@ -6255,6 +6341,14 @@ packages:
       karma: '>=0.9'
     resolution:
       integrity: sha1-X36ZW+uuS06PCiy1IVBVSq8LHi4=
+  /karma-json-preprocessor/0.3.3_karma@4.3.0:
+    dependencies:
+      karma: 4.3.0
+    dev: false
+    peerDependencies:
+      karma: '>=0.9'
+    resolution:
+      integrity: sha1-X36ZW+uuS06PCiy1IVBVSq8LHi4=
   /karma-json-to-file-reporter/1.0.1:
     dependencies:
       json5: 2.1.0
@@ -7371,10 +7465,10 @@ packages:
       node: '>= 8.0'
     resolution:
       integrity: sha512-Bb00vTmuXyucMT9gcnMSiE2n6P5yrRoAyej0eF6ik6VUxG0FKp4RcSx1TzFusEDtY3hMNpsd7ZYUSIvwtNpTrw==
-  /node-abort-controller/1.0.3:
+  /node-abort-controller/1.0.4:
     dev: false
     resolution:
-      integrity: sha512-w07Dwqd/SWv9Lqrlhlx3mo4i4EWsuN3majbIIj4d6twBWGZUKtB9zvT9W+D5Rko56uas55CLO0YZ4zMrf6AKMw==
+      integrity: sha512-7cNtLKTAg0LrW3ViS2C7UfIzbL3rZd8L0++5MidbKqQVJ8yrH6+1VRSHl33P0ZjBTbOJd37d9EYekvHyKkB0QQ==
   /node-environment-flags/1.0.5:
     dependencies:
       object.getownpropertydescriptors: 2.0.3
@@ -8493,6 +8587,14 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-8rhl0xs2cxfVsqzreYCvs8EwBfn/DhVdqtoLmw19uI3SC5avYX9teCurlErfpPXGmYtMHReGaP2RsLnFvz/lnw==
+  /readdirp/3.1.3:
+    dependencies:
+      picomatch: 2.0.7
+    dev: false
+    engines:
+      node: '>= 8'
+    resolution:
+      integrity: sha512-ZOsfTGkjO2kqeR5Mzr5RYDbTGYneSkdNKX2fOX2P5jF7vMrd/GNnIAUtDldeHHumHUCQ3V05YfWUdxMPAsRu9Q==
   /rechoir/0.6.2:
     dependencies:
       resolve: 1.12.0
@@ -8957,6 +9059,19 @@ packages:
       rollup: '>=1.11.0'
     resolution:
       integrity: sha512-jUlyaDXts7TW2CqQ4GaO5VJ4PwwaV8VUGA7+km3n6k6xtOEacf61u0VXwN80phY/evMcaS+9eIeJ9MOyDxt5Zw==
+  /rollup-plugin-node-resolve/5.2.0_rollup@1.24.0:
+    dependencies:
+      '@types/resolve': 0.0.8
+      builtin-modules: 3.1.0
+      is-module: 1.0.0
+      resolve: 1.12.0
+      rollup: 1.24.0
+      rollup-pluginutils: 2.8.1
+    dev: false
+    peerDependencies:
+      rollup: '>=1.11.0'
+    resolution:
+      integrity: sha512-jUlyaDXts7TW2CqQ4GaO5VJ4PwwaV8VUGA7+km3n6k6xtOEacf61u0VXwN80phY/evMcaS+9eIeJ9MOyDxt5Zw==
   /rollup-plugin-replace/2.2.0:
     dependencies:
       magic-string: 0.25.3
@@ -8997,6 +9112,19 @@ packages:
   /rollup-plugin-sourcemaps/0.4.2_rollup@1.23.1:
     dependencies:
       rollup: 1.23.1
+      rollup-pluginutils: 2.8.2
+      source-map-resolve: 0.5.2
+    dev: false
+    engines:
+      node: '>=4.5.0'
+      npm: '>=2.15.9'
+    peerDependencies:
+      rollup: '>=0.31.2'
+    resolution:
+      integrity: sha1-YhJaqUCHqt97g+9N+vYptHMTXoc=
+  /rollup-plugin-sourcemaps/0.4.2_rollup@1.24.0:
+    dependencies:
+      rollup: 1.24.0
       rollup-pluginutils: 2.8.2
       source-map-resolve: 0.5.2
     dev: false
@@ -9086,6 +9214,20 @@ packages:
       rollup: '>=0.60.0'
     resolution:
       integrity: sha512-ehMX8Us4UmHmt9y6uvBdtW3ASAQDqCcmp07Qrm8dBqQMf1eAd89Rc/owGZr0cDp764dvLKQRA03W+nWlRajl4w==
+  /rollup-plugin-visualizer/2.6.0_rollup@1.24.0:
+    dependencies:
+      mkdirp: 0.5.1
+      open: 6.4.0
+      pupa: 2.0.1
+      rollup: 1.24.0
+      source-map: 0.7.3
+    dev: false
+    engines:
+      node: '>=8.10'
+    peerDependencies:
+      rollup: '>=0.60.0'
+    resolution:
+      integrity: sha512-9HjvKAKUNqlcpLszA14njiQJgi+5rZSdMJymKXpFncHMBRPPCRh9jmKzZHqhoq5c1K/+Tjo9flMUcgdlPD397Q==
   /rollup-pluginutils/2.8.1:
     dependencies:
       estree-walker: 0.6.1
@@ -9125,6 +9267,15 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-95C1GZQpr/NIA0kMUQmSjuMDQ45oZfPgDBcN0yZwBG7Kee//m7H68vgIyg+SPuyrTZ5PrXfyLK80OzXeKG5dAA==
+  /rollup/1.24.0:
+    dependencies:
+      '@types/estree': 0.0.39
+      '@types/node': 8.10.54
+      acorn: 7.1.0
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-PiFETY/rPwodQ8TTC52Nz2DSCYUATznGh/ChnxActCr8rV5FIk3afBUb3uxNritQW/Jpbdn3kq1Rwh1HHYMwdQ==
   /run-async/2.3.0:
     dependencies:
       is-promise: 2.1.0
@@ -10418,6 +10569,16 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-W+jrUHJr3DXKhrsS7NUVxn3zqMOFn0hL/Ei6v0anCIMoKC93TjcflTagwIHLW7SfMFfiQuktQyFVCFHGUE0+yg==
+  /uglify-js/3.6.2:
+    dependencies:
+      commander: 2.20.0
+      source-map: 0.6.1
+    dev: false
+    engines:
+      node: '>=0.8.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-+gh/xFte41GPrgSMJ/oJVq15zYmqr74pY9VoM69UzMzq9NFk4YDylclb1/bhEzZSaUQjbW5RvniHeq1cdtRYjw==
   /ultron/1.1.1:
     dev: false
     resolution:
@@ -11186,6 +11347,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-CgA8o7nRZaQvmeF/WBx2FC7f9W/0X59T2IaLYqgMo6637wfp5mMEsM3YXoJtKUspnpmDJKl/gGFhnqS+sON7hA==
+  /yarn/1.19.1:
+    dev: false
+    engines:
+      node: '>=4.0.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-gBnfbL9rYY05Gt0cjJhs/siqQXHYlZalTjK3nXn2QO20xbkIFPob+LlH44ML47GcR4VU9/2dYck1BWFM0Javxw==
   /yauzl/2.4.1:
     dependencies:
       fd-slicer: 1.0.1
@@ -11467,7 +11635,7 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-LMN6euFFQloSvbE81KTIQSSRtp5wvVb9qLmpzDBaXdSdvoWs8HP6iMB40FqLTjikvlliOgyKqyX8IBMW+dQwHg==
+      integrity: sha512-JkdIS912W1VEKSCo/lIBfA3QNb9HcV13AiVMwUMuOzZEGEI5ViS0Tx0zSYXkOSTzF1kTztUcRkoOqYR+L3/2PQ==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -11555,8 +11723,61 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-Cq/NAJMAdvTrMTJo2B0SEWd+jwCg1RplmtLwRxW4wx+wSO5CbwcpTe8xm5x5Xmo/7Pb9TwKhZuszyb0IcK1ERg==
+      integrity: sha512-L77x1CXag8fh2KxCFs73tj53MwiihhHedQpLAkdP7+Og84lzY1dzwuvGS133d0qiafwHwaA7sc95AdD3ovIufA==
       tarball: 'file:projects/core-http.tgz'
+    version: 0.0.0
+  'file:projects/core-lro.tgz':
+    dependencies:
+      '@azure/abort-controller': 1.0.0-preview.2
+      '@microsoft/api-extractor': 7.5.0
+      '@types/chai': 4.2.3
+      '@types/mocha': 5.2.7
+      '@types/node': 8.10.54
+      '@typescript-eslint/eslint-plugin': 2.4.0_4828c2c2dec21a69cf7db8f78e46e2d1
+      '@typescript-eslint/parser': 2.4.0_eslint@6.5.1
+      assert: 1.5.0
+      chai: 4.2.0
+      eslint: 6.5.1
+      eslint-config-prettier: 6.4.0_eslint@6.5.1
+      eslint-plugin-no-null: 1.0.2_eslint@6.5.1
+      eslint-plugin-no-only-tests: 2.3.1
+      eslint-plugin-promise: 4.2.1
+      events: 3.0.0
+      karma: 4.3.0
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.1
+      karma-edge-launcher: 0.4.2_karma@4.3.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.2.0
+      karma-ie-launcher: 1.0.0_karma@4.3.0
+      karma-json-preprocessor: 0.3.3_karma@4.3.0
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 1.2.0_karma@4.3.0
+      karma-mocha: 1.3.0
+      karma-mocha-reporter: 2.2.5_karma@4.3.0
+      karma-remap-coverage: 0.1.5_karma-coverage@2.0.1
+      mocha: 6.2.1
+      mocha-junit-reporter: 1.23.1_mocha@6.2.1
+      mocha-multi: 1.1.3_mocha@6.2.1
+      npm-run-all: 4.1.5
+      nyc: 14.1.1
+      prettier: 1.18.2
+      rimraf: 3.0.0
+      rollup: 1.24.0
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.24.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.24.0
+      rollup-plugin-visualizer: 2.6.0_rollup@1.24.0
+      shx: 0.3.2
+      ts-node: 8.4.1_typescript@3.6.4
+      tslib: 1.10.0
+      typescript: 3.6.4
+      uglify-js: 3.6.2
+      yarn: 1.19.1
+    dev: false
+    name: '@rush-temp/core-lro'
+    resolution:
+      integrity: sha512-l6Rl8nee9kyveCwaAlE0lkNAgfeW54uGjnQ3rKlOZ0qDxkSlMzi5zXNKhzV1tvGV9oY2Vrjt1ftzbrJVuosqUA==
+      tarball: 'file:projects/core-lro.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
     dependencies:
@@ -11664,7 +11885,7 @@ packages:
       mocha: 6.2.0
       mocha-junit-reporter: 1.23.1_mocha@6.2.0
       mocha-multi: 1.1.3_mocha@6.2.0
-      node-abort-controller: 1.0.3
+      node-abort-controller: 1.0.4
       node-fetch: 2.6.0
       prettier: 1.18.2
       priorityqueuejs: 1.0.0
@@ -11692,7 +11913,7 @@ packages:
     peerDependencies:
       webpack: '*'
     resolution:
-      integrity: sha512-U3kI/4+4ZkOYcEBVsSe9CurXKQKzt/q+cu4j+PzriPzFplXUaVEijq8Jo/VfSeTVwNJkRkmIlz0W81Tln3qNZA==
+      integrity: sha512-Hsi4SJtXUP+3mGrTqwa5jipkQeRiUTfaKPG4BsJD0fljGI3x0A5gc7IghThVGxMI4SqNGY84gHKlNnFBzHpswA==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -11898,6 +12119,7 @@ packages:
   'file:projects/identity.tgz':
     dependencies:
       '@azure/abort-controller': 1.0.0-preview.2
+      '@microsoft/api-extractor': 7.5.0
       '@types/express': 4.17.1
       '@types/jws': 3.2.0
       '@types/mocha': 5.2.7
@@ -11948,7 +12170,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-hXeyont8gl+00XnSNSIFVCGIi+YAGZ4gnAsjGj7N4Cmgh8IpJ4Gf8OL8zhmf97XSq/F53qeL+xXfg/ebqAFVHg==
+      integrity: sha512-xfZzhKMorSi8gvgyikO6oVyoK+zX0Fc1Z44aBTNS86gogL0WYuUHCLHIgva3Lf1fpSzlzg97D04OZGxspTh79A==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -12089,7 +12311,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-Jl705oMniGDzdKmQGvfcU/4oJ1k2795fs5PGjBsdNU/SG5RDdR5/BM724O8LKFV1eBMf7k4HsrnEBcc+ywonhg==
+      integrity: sha512-rAHnubIk5JjJq5obSlzK+/C7ZJF/IXNoh1Yo7Uzqk5c1hpKQSkAoSU2cGShVZzYeaCvQP6mVbvWp9+77vbzbNA==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -12158,7 +12380,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-aMS/8hXlIJBKpTPBSB7H10kVvapQa+EHDGwvDXNPXD4nZFVBZNODUCnxVKjAWNsC5Ehnd1VpGiduxF023Va40w==
+      integrity: sha512-qDI0PiKzYCY5TEAuIhdjysEq7asrGlN1PbQ+1nmE+Euaphp/dfc5Dj6YxCgS10Fprt/TpzOsIiAl8+GgTFYmyQ==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/logger.tgz':
@@ -12605,7 +12827,6 @@ specifiers:
   '@azure/core-asynciterator-polyfill': 1.0.0-preview.1
   '@azure/core-auth': 1.0.0-preview.3
   '@azure/core-paging': 1.0.0-preview.2
-  '@azure/cosmos-sign': ^1.0.2
   '@azure/eslint-plugin-azure-sdk': ^2.0.1
   '@azure/event-hubs': ^2.1.1
   '@azure/keyvault-keys': 4.0.0-preview.7
@@ -12623,6 +12844,7 @@ specifiers:
   '@rush-temp/core-asynciterator-polyfill': 'file:./projects/core-asynciterator-polyfill.tgz'
   '@rush-temp/core-auth': 'file:./projects/core-auth.tgz'
   '@rush-temp/core-http': 'file:./projects/core-http.tgz'
+  '@rush-temp/core-lro': 'file:./projects/core-lro.tgz'
   '@rush-temp/core-paging': 'file:./projects/core-paging.tgz'
   '@rush-temp/core-tracing': 'file:./projects/core-tracing.tgz'
   '@rush-temp/cosmos': 'file:./projects/cosmos.tgz'
@@ -12688,7 +12910,6 @@ specifiers:
   chai-as-promised: ^7.1.1
   chai-string: ^1.5.0
   cross-env: ^5.2.0
-  crypto-hash: ^1.1.0
   death: ^1.1.0
   debug: ^4.1.1
   delay: ^4.2.0
@@ -12745,6 +12966,7 @@ specifiers:
   msal: ^1.0.2
   nise: ^1.4.10
   nock: ^11.3.2
+  node-abort-controller: ^1.0.4
   node-fetch: ^2.6.0
   npm-run-all: ^4.1.5
   nyc: ^14.0.0
@@ -12804,6 +13026,5 @@ specifiers:
   ws: ^7.1.1
   xhr-mock: ^2.4.1
   xml2js: ^0.4.19
-  xmlbuilder: ^0.4.3
   yargs: ^14.0.0
   yarn: ^1.6.0

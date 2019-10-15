@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "newLine": "LF",
+    "target": "es5",
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "module": "esNext",
+    "outDir": "./dist-esm",
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": true,
+    "declarationDir": "./types",
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+    "esModuleInterop": true
+  },
+  "compileOnSave": true,
+  "exclude": ["node_modules", "./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+}

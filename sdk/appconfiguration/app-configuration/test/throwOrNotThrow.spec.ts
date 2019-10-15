@@ -1,10 +1,11 @@
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
 import {
-  getConnectionStringFromEnvironment,
+  createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
+import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -14,8 +15,8 @@ describe("Various error cases", () => {
   let client: AppConfigurationClient;
   const nonMatchingETag = "never-match-etag";
 
-  before(() => {
-    client = new AppConfigurationClient(getConnectionStringFromEnvironment());
+  before(function () {
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
   describe("throws", () => {
@@ -39,39 +40,27 @@ describe("Various error cases", () => {
       await assertThrowsRestError(() => client.getConfigurationSetting({ key: nonExistentKey }), 404);
     });
 
-    it("get: Non-existent key (ifMatch: non-matching etag) throws 404", async () => {
-      await assertThrowsRestError(
-        () => client.getConfigurationSetting({ key: nonExistentKey }, { ifMatch: nonMatchingETag }),
-        412
-      );
-    });
+    it("get: value is unchanged from etag (304) using ifNoneMatch, throws ReponseBodyNotFoundError on property access (derived from RestError)", async () => {
+      const response = await client.getConfigurationSetting(addedSetting, {
+        onlyIfChanged: true,
+      });
 
-    it("get: Non-existent key (ifMatch: *) throws 412", async () => {
-      await assertThrowsRestError(
-        () => client.getConfigurationSetting({ key: nonExistentKey }, { ifMatch: "*" }),
-        412
-      );
-    });
-
-    it("get: value is unchanged from etag (304) using ifNoneMatch, throws ReponseBodyNotFoundError (derived from RestError)", async () => {
-      const errThrown = await assertThrowsRestError(
-        () =>
-          client.getConfigurationSetting({ key: addedSetting.key }, {
-            ifNoneMatch: addedSetting.etag
-          }),
-        304
-      );
-
-      assert.equal("ResponseBodyNotFoundError", errThrown.name);
+      assert.throws(() => response.key, (err: ResponseBodyNotFoundError) => {
+        assert.equal("ResponseBodyNotFoundError", err.name);
+        return true;
+      });
     });
 
     it("add: Setting already exists throws 412", async () => {
       await assertThrowsRestError(() => client.addConfigurationSetting(addedSetting), 412);
     });
 
-    it("set: Existing key, (ifMatch: non-matching etag) throws 412", async () => {
+    it("set: Existing key, (onlyIfUnchanged) throws 412", async () => {
       await assertThrowsRestError(
-        () => client.setConfigurationSetting(addedSetting, { ifMatch: nonMatchingETag }),
+        () => client.setConfigurationSetting({
+          ...addedSetting,
+          etag: nonMatchingETag   // purposefully make the etag not match the server
+        }, { onlyIfUnchanged: true }),
         412
       );
     });
@@ -80,29 +69,6 @@ describe("Various error cases", () => {
       await client.setReadOnly(addedSetting);
 
       await assertThrowsRestError(() => client.setConfigurationSetting(addedSetting), 409);
-    });
-  });
-
-  // these are just here for completeness so we understand what the failures are for some
-  // of the weirder, but possible, scenarios from our API.
-  describe("throws, but not mainline scenarios", () => {
-    const nonExistentKey = `non-existent-key-etags-${Date.now()}`;
-
-    // it's a bit non-sensical (delete a key that doesn't exist but
-    // only if it matches any key)
-    it("delete: Non-existent key (ifMatch: *) throws 412", async () => {
-      await assertThrowsRestError(
-        () => client.deleteConfigurationSetting({ key: nonExistentKey }, { ifMatch: "*" }),
-        412
-      );
-    });
-
-    // again, a weird one - delete a non-existent key but only if the etag doesn't match
-    it("delete: Non-existent key (ifMatch: non-matching etag) throws 412", async () => {
-      await assertThrowsRestError(
-        () => client.deleteConfigurationSetting({ key: nonExistentKey }, { ifMatch: nonMatchingETag }),
-        412
-      );
     });
   });
 
