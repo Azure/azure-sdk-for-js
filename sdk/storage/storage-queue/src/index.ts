@@ -13,8 +13,6 @@ export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/SharedKeyCredential";
 export { IPRange } from "./IPRange";
-export * from "./MessageIdClient";
-export * from "./MessagesClient";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
