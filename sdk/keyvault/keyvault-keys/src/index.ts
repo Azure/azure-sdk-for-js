@@ -29,6 +29,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
 import {
+  BeginDeleteKeyOptions,
   KeyBundle,
   JsonWebKeyType,
   JsonWebKey,
@@ -51,6 +52,7 @@ import {
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+import { DeleteKeyPoller } from "./lro/delete/poller";
 
 import {
   NewPipelineOptions,
@@ -87,6 +89,8 @@ import {
 } from "./cryptographyClient";
 
 export {
+  DeleteKeyPoller,
+  BeginDeleteKeyOptions,
   CreateEcKeyOptions,
   CreateRsaKeyOptions,
   CreateKeyOptions,
@@ -232,6 +236,24 @@ export class KeyClient {
     this.pipeline.requestPolicyFactories;
 
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
+  }
+
+  private async deleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<DeletedKey> {
+    const requestOptions = (options && options.requestOptions) || {};
+    const span = this.createSpan("deleteKey", requestOptions);
+
+    let response: DeleteKeyResponse;
+    try {
+      response = await this.client.deleteKey(
+        this.vaultBaseUrl,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getKeyFromKeyBundle(response);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -482,34 +504,43 @@ export class KeyClient {
   /**
    * The delete operation applies to any key stored in Azure Key Vault. Individual versions
    * of a key can not be deleted, only all versions of a given key at once.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the key is deleted.
+   *
    * This operation requires the keys/delete permission.
    *
    * Example usage:
    * ```ts
-   * let client = new KeyClient(url, credentials);
-   * let result = await client.deleteKey("MyKey");
+   * const client = new KeyClient(url, credentials);
+   * const poller = await client.beginDeleteKey("MyKey");
+   *
+   * // Serializing the poller
+   * const serialized = poller.toJSON();
+   * // A new poller can be created with:
+   * // await client.beginDeleteKey("MyKey", { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * const deletedKey = await poller.pollUntilDone();
+   * console.log(deletedKey);
    * ```
    * @summary Deletes a key from a specified key vault.
-   * @param vaultEndpoint The vault name, for example https://myvault.vault.azure.net.
    * @param name The name of the key.
    * @param [options] The optional parameters
    */
-  public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
-    const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("deleteKey", requestOptions);
+  public async beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<DeleteKeyPoller> {
+    // Making a fake client to reduce the duplicated code
+    const pollerClient: KeyClientInterface = {
+      deleteKey: this.deleteKey.bind(this),
+    };
 
-    let response: DeleteKeyResponse;
-    try {
-      response = await this.client.deleteKey(
-        this.vaultEndpoint,
-        name,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
+    const poller = new DeleteKeyPoller({
+      client: pollerKeyVaultClient,
+      name,
+			...options
+    });
 
-    return this.getKeyFromKeyBundle(response);
+    await poller.poll(); // This will initialize the poller's operation (the deletion of the key).
+    return poller;
   }
 
   /**
@@ -642,8 +673,9 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeyClient(url, credentials);
-   * await client.deleteKey("MyKey");
+   * const client = new KeyClient(url, credentials);
+	 * const deletePoller = await client.beginDeleteKey("MyKey")
+	 * await deletePoller.pollUntilDone();
    * // ...
    * await client.purgeDeletedKey("MyKey");
    * ```
@@ -672,8 +704,9 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeyClient(url, credentials);
-   * await client.deleteKey("MyKey");
+   * const client = new KeyClient(url, credentials);
+   * const deletePoller = await client.beginDeleteKey("MyKey");
+	 * await deletePoller.pollUntilDone();
    * // ...
    * await client.recoverDeletedKey("MyKey");
    * ```

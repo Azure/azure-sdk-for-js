@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msRest from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   JsonWebKey,
@@ -10,6 +10,14 @@ import {
   JsonWebKeyType
 } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
+
+/**
+ * @interface
+ * An interface representing the key client. For internal use.
+ */
+export interface KeyClientInterface {
+  deleteKey(name: string, options?: coreHttp.RequestOptions): Promise<DeletedKey>;
+}
 
 /**
  * @interface
@@ -141,12 +149,32 @@ export interface CreateKeyOptions {
    */
   expires?: Date;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
   keySize?: number;
 }
 
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to beginDeleteKey
+ */
+export interface BeginDeleteKeyOptions {
+  /**
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: coreHttp.RequestOptionsBase;
+  /**
+   * @member {number} [intervalInMs] Time between each polling
+   */
+  intervalInMs?: number;
+  /**
+   * @member {string} [resumeFrom] A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
+}
+ 
 /**
  * @interface
  * An interface representing the optional parameters that can be
@@ -213,9 +241,9 @@ export interface ImportKeyOptions {
    */
   expires?: Date;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -246,9 +274,9 @@ export interface UpdateKeyOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -262,9 +290,9 @@ export interface GetKeyOptions {
    */
   version?: string;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -273,9 +301,9 @@ export interface GetKeyOptions {
  */
 export interface ListKeysOptions {
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -284,7 +312,7 @@ export interface ListKeysOptions {
  */
 export interface RequestOptions {
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
