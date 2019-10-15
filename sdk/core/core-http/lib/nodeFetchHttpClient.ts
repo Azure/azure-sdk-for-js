@@ -17,7 +17,7 @@ interface GlobalWithFetch extends NodeJS.Global {
 
 const globalWithFetch = global as GlobalWithFetch;
 if (typeof globalWithFetch.fetch !== "function") {
-  const fetch = require("node-fetch");
+  const fetch = require("node-fetch").default;
   globalWithFetch.fetch = fetch;
 }
 

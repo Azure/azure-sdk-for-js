@@ -72,7 +72,8 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
     const token = await this.getToken({
-      abortSignal: webResource.abortSignal
+      abortSignal: webResource.abortSignal,
+      spanOptions: webResource.spanOptions
     });
     webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);
     return this._nextPolicy.sendRequest(webResource);
