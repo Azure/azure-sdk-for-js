@@ -14,8 +14,8 @@ export class RestError extends Error {
   request?: WebResource;
   response?: HttpOperationResponse;
   body?: any;
-  parsedBody?: any;
-  parsedHeaders?: { [key: string]: any };
+  parsedBody?: unknown;
+  parsedHeaders?: { [key: string]: unknown };
   
   constructor(
     message: string,
@@ -24,7 +24,7 @@ export class RestError extends Error {
     request?: WebResource,
     response?: HttpOperationResponse,
     body?: any,
-    parsedHeaders?: { [key: string]: any }
+    parsedHeaders?: { [key: string]: unknown }
   ) {
     super(message);
     this.code = code;

@@ -151,7 +151,7 @@ describe("deserializationPolicy", function () {
 
       try {
         await deserializeResponse(response);
-        assert.strictEqual(true, false);
+        assert.fail();
       } catch (e) {
         assert(e);
         assert.strictEqual(e.parsedHeaders.errorCode, "InvalidResourceNameHeader");
