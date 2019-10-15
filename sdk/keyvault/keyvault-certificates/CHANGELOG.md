@@ -2,7 +2,7 @@
 
 ## 4.0.0-preview.9 (2019-10-31)
 
-- createCertificate now returns a Long Running Operation Poller (from our package @azure/core-lro).
+- createCertificate is now out of the public API. Use beginCreateCertificate instead. beginCreateCertificate and getCertificateOperation return a Long Running Operation Poller (from our package @azure/core-lro).
 
 ## 4.0.0-preview.8 (2019-10-09)
 
