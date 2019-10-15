@@ -1,6 +1,6 @@
 import { KeysClient, CryptographyClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
-import crypto from "crypto";
+import { createHash } from "crypto";
 
 async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
@@ -24,7 +24,7 @@ async function main(): Promise<void> {
 
   // Sign and Verify
   const signatureValue = "MySignature";
-  let hash = crypto.createHash("sha256");
+  let hash = createHash("sha256");
 
   hash.update(signatureValue);
   let digest = hash.digest();

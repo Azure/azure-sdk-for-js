@@ -1,4 +1,4 @@
-import Crypto from "crypto";
+import { createHmac } from "crypto";
 import { RequestPolicy, RequestPolicyOptions } from "@azure/ms-rest-js";
 
 import { SharedKeyCredentialPolicy } from "../policies/SharedKeyCredentialPolicy";
@@ -65,7 +65,7 @@ export class SharedKeyCredential extends Credential {
    * @memberof SharedKeyCredential
    */
   public computeHMACSHA256(stringToSign: string): string {
-    return Crypto.createHmac("sha256", this.accountKey)
+    return createHmac("sha256", this.accountKey)
       .update(stringToSign, "utf8")
       .digest("base64");
   }
