@@ -875,7 +875,8 @@ export class CertificatesClient {
   }
 
   /**
-   * Creates a new certificate through a Long Running Operation poller that allows you to wait indifinetly until the certificate is signed.
+   * Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
+   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the certificate is signed.
    *
    * Example usage:
    * ```ts
