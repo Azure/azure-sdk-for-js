@@ -23,11 +23,11 @@ export interface DeleteKeyPollOperationState extends PollOperationState<DeletedK
   /**
    * @member {DeletedKey} [initialResponse] The initial response received the first time the service was reached by the operation's update function
    */
-  initialResponse?: DeletedKey;
+  initialResponse?: Error;
   /**
    * @member {DeletedKey} [previousResponse] The previous response received the last time the service was reached by the operation's update function
    */
-  previousResponse?: DeletedKey;
+  previousResponse?: Error;
 }
 
 /**
@@ -56,24 +56,20 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  let done = false;
-  try {
-    state.previousResponse = await client.getDeletedKey(name, { requestOptions });
-    done = true;
-  } catch (_) {}
-
   if (!state.initialResponse) {
     await client.deleteKey(name, requestOptions);
-    state.initialResponse = state.previousResponse;
     state.started = true;
-  } else if (done) {
-    state.result = state.previousResponse;
-    state.completed = true;
   }
 
-  // Progress only after the poller has started and before the poller is done
-  if (state.initialResponse && !done && options.fireProgress) {
-    options.fireProgress(state);
+  try {
+    state.result = await client.getDeletedKey(name, { requestOptions });
+    state.completed = true;
+  } catch (error) {
+    state.previousResponse = error;
+  }
+
+  if (!state.initialResponse) {
+    state.initialResponse = state.previousResponse;
   }
 
   return makeDeleteKeyPollOperation(state);
