@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError } from "@azure/core-arm";
 import * as coreHttp from "@azure/core-http";
-
-export { BaseResource, CloudError };
 
 /**
  * The object attributes managed by the KeyVault service.
@@ -53,7 +50,7 @@ export interface JsonWebKey {
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
   kty?: JsonWebKeyType;
-  keyOps?: string[];
+  keyOps?: JsonWebKeyOperation[];
   /**
    * RSA modulus.
    */
@@ -1181,6 +1178,125 @@ export interface KeyVerifyResult {
 }
 
 /**
+ * The key list result.
+ */
+export interface KeyListResult {
+  /**
+   * A response message containing a list of keys in the key vault along with a link to the next
+   * page of keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: KeyItem[];
+  /**
+   * The URL to get the next set of keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * A list of keys that have been deleted in this vault.
+ */
+export interface DeletedKeyListResult {
+  /**
+   * A response message containing a list of deleted keys in the vault along with a link to the
+   * next page of deleted keys
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedKeyItem[];
+  /**
+   * The URL to get the next set of deleted keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The secret list result.
+ */
+export interface SecretListResult {
+  /**
+   * A response message containing a list of secrets in the key vault along with a link to the next
+   * page of secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: SecretItem[];
+  /**
+   * The URL to get the next set of secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The deleted secret list result
+ */
+export interface DeletedSecretListResult {
+  /**
+   * A response message containing a list of the deleted secrets in the vault along with a link to
+   * the next page of deleted secrets
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedSecretItem[];
+  /**
+   * The URL to get the next set of deleted secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The certificate list result.
+ */
+export interface CertificateListResult {
+  /**
+   * A response message containing a list of certificates in the key vault along with a link to the
+   * next page of certificates.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: CertificateItem[];
+  /**
+   * The URL to get the next set of certificates.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * A list of certificates that have been deleted in this vault.
+ */
+export interface DeletedCertificateListResult {
+  /**
+   * A response message containing a list of deleted certificates in the vault along with a link to
+   * the next page of deleted certificates
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedCertificateItem[];
+  /**
+   * The URL to get the next set of deleted certificates.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The certificate issuer list result.
+ */
+export interface CertificateIssuerListResult {
+  /**
+   * A response message containing a list of certificate issuers in the key vault along with a link
+   * to the next page of certificate issuers.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: CertificateIssuerItem[];
+  /**
+   * The URL to get the next set of certificate issuers.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * The backup key result, containing the backup blob.
  */
 export interface BackupKeyResult {
@@ -1428,6 +1544,40 @@ export interface DeletedStorageAccountItem extends StorageAccountItem {
 }
 
 /**
+ * The storage accounts list result.
+ */
+export interface StorageListResult {
+  /**
+   * A response message containing a list of storage accounts in the key vault along with a link to
+   * the next page of storage accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: StorageAccountItem[];
+  /**
+   * The URL to get the next set of storage accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The deleted storage account list result
+ */
+export interface DeletedStorageListResult {
+  /**
+   * A response message containing a list of the deleted storage accounts in the vault along with a
+   * link to the next page of deleted storage accounts
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedStorageAccountItem[];
+  /**
+   * The URL to get the next set of deleted storage accounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * The SAS definition management attributes.
  */
 export interface SasDefinitionAttributes {
@@ -1564,6 +1714,40 @@ export interface DeletedSasDefinitionItem extends SasDefinitionItem {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly deletedDate?: Date;
+}
+
+/**
+ * The storage account SAS definition list result.
+ */
+export interface SasDefinitionListResult {
+  /**
+   * A response message containing a list of SAS definitions along with a link to the next page of
+   * SAS definitions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: SasDefinitionItem[];
+  /**
+   * The URL to get the next set of SAS definitions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The deleted SAS definition list result
+ */
+export interface DeletedSasDefinitionListResult {
+  /**
+   * A response message containing a list of the deleted SAS definitions in the vault along with a
+   * link to the next page of deleted sas definitions
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: DeletedSasDefinitionItem[];
+  /**
+   * The URL to get the next set of deleted SAS definitions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -2112,149 +2296,6 @@ export interface KeyVaultClientUpdateSasDefinitionOptionalParams
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * The key list result.
- * @extends Array<KeyItem>
- */
-export interface KeyListResult extends Array<KeyItem> {
-  /**
-   * The URL to get the next set of keys.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of keys that have been deleted in this vault.
- * @extends Array<DeletedKeyItem>
- */
-export interface DeletedKeyListResult extends Array<DeletedKeyItem> {
-  /**
-   * The URL to get the next set of deleted keys.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The secret list result.
- * @extends Array<SecretItem>
- */
-export interface SecretListResult extends Array<SecretItem> {
-  /**
-   * The URL to get the next set of secrets.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The deleted secret list result
- * @extends Array<DeletedSecretItem>
- */
-export interface DeletedSecretListResult extends Array<DeletedSecretItem> {
-  /**
-   * The URL to get the next set of deleted secrets.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The certificate list result.
- * @extends Array<CertificateItem>
- */
-export interface CertificateListResult extends Array<CertificateItem> {
-  /**
-   * The URL to get the next set of certificates.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The certificate issuer list result.
- * @extends Array<CertificateIssuerItem>
- */
-export interface CertificateIssuerListResult extends Array<CertificateIssuerItem> {
-  /**
-   * The URL to get the next set of certificate issuers.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of certificates that have been deleted in this vault.
- * @extends Array<DeletedCertificateItem>
- */
-export interface DeletedCertificateListResult extends Array<DeletedCertificateItem> {
-  /**
-   * The URL to get the next set of deleted certificates.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The storage accounts list result.
- * @extends Array<StorageAccountItem>
- */
-export interface StorageListResult extends Array<StorageAccountItem> {
-  /**
-   * The URL to get the next set of storage accounts.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The deleted storage account list result
- * @extends Array<DeletedStorageAccountItem>
- */
-export interface DeletedStorageListResult extends Array<DeletedStorageAccountItem> {
-  /**
-   * The URL to get the next set of deleted storage accounts.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The storage account SAS definition list result.
- * @extends Array<SasDefinitionItem>
- */
-export interface SasDefinitionListResult extends Array<SasDefinitionItem> {
-  /**
-   * The URL to get the next set of SAS definitions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The deleted SAS definition list result
- * @extends Array<DeletedSasDefinitionItem>
- */
-export interface DeletedSasDefinitionListResult extends Array<DeletedSasDefinitionItem> {
-  /**
-   * The URL to get the next set of deleted SAS definitions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -3839,285 +3880,5 @@ export type UpdateSasDefinitionResponse = SasDefinitionBundle & {
      * The response body as parsed JSON or XML
      */
     parsedBody: SasDefinitionBundle;
-  };
-};
-
-/**
- * Contains response data for the getKeyVersionsNext operation.
- */
-export type GetKeyVersionsNextResponse = KeyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: KeyListResult;
-  };
-};
-
-/**
- * Contains response data for the getKeysNext operation.
- */
-export type GetKeysNextResponse = KeyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: KeyListResult;
-  };
-};
-
-/**
- * Contains response data for the getDeletedKeysNext operation.
- */
-export type GetDeletedKeysNextResponse = DeletedKeyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedKeyListResult;
-  };
-};
-
-/**
- * Contains response data for the getSecretsNext operation.
- */
-export type GetSecretsNextResponse = SecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretListResult;
-  };
-};
-
-/**
- * Contains response data for the getSecretVersionsNext operation.
- */
-export type GetSecretVersionsNextResponse = SecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretListResult;
-  };
-};
-
-/**
- * Contains response data for the getDeletedSecretsNext operation.
- */
-export type GetDeletedSecretsNextResponse = DeletedSecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedSecretListResult;
-  };
-};
-
-/**
- * Contains response data for the getCertificatesNext operation.
- */
-export type GetCertificatesNextResponse = CertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CertificateListResult;
-  };
-};
-
-/**
- * Contains response data for the getCertificateIssuersNext operation.
- */
-export type GetCertificateIssuersNextResponse = CertificateIssuerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CertificateIssuerListResult;
-  };
-};
-
-/**
- * Contains response data for the getCertificateVersionsNext operation.
- */
-export type GetCertificateVersionsNextResponse = CertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CertificateListResult;
-  };
-};
-
-/**
- * Contains response data for the getDeletedCertificatesNext operation.
- */
-export type GetDeletedCertificatesNextResponse = DeletedCertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedCertificateListResult;
-  };
-};
-
-/**
- * Contains response data for the getStorageAccountsNext operation.
- */
-export type GetStorageAccountsNextResponse = StorageListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: StorageListResult;
-  };
-};
-
-/**
- * Contains response data for the getDeletedStorageAccountsNext operation.
- */
-export type GetDeletedStorageAccountsNextResponse = DeletedStorageListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedStorageListResult;
-  };
-};
-
-/**
- * Contains response data for the getSasDefinitionsNext operation.
- */
-export type GetSasDefinitionsNextResponse = SasDefinitionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SasDefinitionListResult;
-  };
-};
-
-/**
- * Contains response data for the getDeletedSasDefinitionsNext operation.
- */
-export type GetDeletedSasDefinitionsNextResponse = DeletedSasDefinitionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedSasDefinitionListResult;
   };
 };

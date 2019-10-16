@@ -19,6 +19,13 @@ export class URLQuery {
   }
 
   /**
+   * Get the keys of the query string.
+   */
+  public keys(): string[] {
+    return Object.keys(this._rawQuery);
+  }
+
+  /**
    * Set a query parameter with the provided name and value. If the parameterValue is undefined or
    * empty, then this will attempt to remove an existing query parameter with the provided
    * parameterName.

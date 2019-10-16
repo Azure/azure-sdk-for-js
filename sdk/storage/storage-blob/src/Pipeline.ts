@@ -134,29 +134,29 @@ export class Pipeline {
  * Option interface for newPipeline() method.
  *
  * @export
- * @interface NewPipelineOptions
+ * @interface StoragePipelineOptions
  */
-export interface NewPipelineOptions {
+export interface StoragePipelineOptions {
   proxy?: ProxySettings | string;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
    * @type {TelemetryOptions}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   telemetry?: TelemetryOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
    * @type {RetryOptions}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   retryOptions?: RetryOptions;
   /**
    * Keep alive configurations. Default keep-alive is enabled.
    *
    * @type {KeepAliveOptions}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   keepAliveOptions?: KeepAliveOptions;
 
@@ -164,14 +164,14 @@ export interface NewPipelineOptions {
    * Configures the HTTP pipeline logger.
    *
    * @type {IHttpPipelineLogger}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   logger?: IHttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
    * @type {IHttpClient}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   httpClient?: IHttpClient;
 }
@@ -182,12 +182,12 @@ export interface NewPipelineOptions {
  * @export
  * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
  *                                                  or a TokenCredential from @azure/identity.
- * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
+ * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(
   credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
-  pipelineOptions: NewPipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any

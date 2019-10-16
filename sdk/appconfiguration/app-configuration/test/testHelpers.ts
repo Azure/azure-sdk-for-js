@@ -12,16 +12,24 @@ import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
 dotenv.config();
 
-export function getConnectionStringFromEnvironment(): string {
-  const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
+export function getConnectionStringFromEnvironment(): (string | undefined) {
+  return process.env["AZ_CONFIG_CONNECTION"];
+}
+
+let connectionStringNotPresentWarning = false;
+
+export function createAppConfigurationClientForTests(): (AppConfigurationClient|undefined) {
+  const connectionString = getConnectionStringFromEnvironment();
 
   if (connectionString == null) {
-    throw Error(
-      `No connection string in environment - set AZ_CONFIG_CONNECTION with a connection string for your AppConfiguration instance.`
-    );
+    if (!connectionStringNotPresentWarning) {
+      connectionStringNotPresentWarning = true;
+      console.log("Functional tests not running - set AZ_CONFIG_CONNECTION to a valid AppConfig connection string to activate");
+    }
+    return undefined;
   }
 
-  return connectionString;
+  return new AppConfigurationClient(connectionString);
 }
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {

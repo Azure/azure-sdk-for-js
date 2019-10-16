@@ -17,8 +17,7 @@ describe("XhrHttpClient", function() {
 
   it("parses empty string headers", function() {
     const xhr = {
-      getAllResponseHeaders: () =>
-        "Content-Type: \r\n" + "value:\r\n" // preserve trailing whitespace in test case
+      getAllResponseHeaders: () => "Content-Type: \r\n" + "value:\r\n" // preserve trailing whitespace in test case
     } as XMLHttpRequest;
     const headers = parseHeaders(xhr);
     assert.strictEqual(headers.get("content-type"), "");

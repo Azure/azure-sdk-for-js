@@ -13,8 +13,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Container } from "./generated/src/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
-import { ETagNone, DevelopmentConnectionString } from "./utils/constants";
+import { DevelopmentConnectionString } from "./utils/constants";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { ETagNone } from "./utils/constants";
 import {
   appendToURLPath,
   truncatedISO8061Date,
@@ -211,10 +212,10 @@ export interface SignedIdentifier {
      */
     expiry?: Date;
     /**
-     * @member {string} permission The permissions for the acl policy
+     * @member {string} permissions The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      */
-    permission: string;
+    permissions: string;
   };
 }
 
@@ -404,15 +405,15 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {number} [maxresults] Specifies the maximum number of containers
-   * to return. If the request does not specify maxresults, or specifies a
+   * @member {number} [maxResults] Specifies the maximum number of containers
+   * to return. If the request does not specify maxResults, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
    * service will return a continuation token for retrieving the remainder of
    * the results. For this reason, it is possible that the service will return
-   * fewer results than specified by maxresults, or than the default of 5000.
+   * fewer results than specified by maxResults, or than the default of 5000.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
    * specify one or more datasets to include in the response.
@@ -494,10 +495,10 @@ export class ContainerClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
-  constructor(connectionString: string, containerName: string, options?: NewPipelineOptions);
+  constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of PageBlobClient.
    * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
@@ -515,13 +516,13 @@ export class ContainerClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -551,7 +552,7 @@ export class ContainerClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
     let url: string;
@@ -565,14 +566,14 @@ export class ContainerClient extends StorageClient {
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -580,7 +581,7 @@ export class ContainerClient extends StorageClient {
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string"
     ) {
-      // (connectionString: string, containerName: string, blobName: string, options?: NewPipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
@@ -934,7 +935,7 @@ export class ContainerClient extends StorageClient {
 
       for (const identifier of response) {
         const accessPolicy: any = {
-          permission: identifier.accessPolicy.permission
+          permissions: identifier.accessPolicy.permissions
         };
 
         if (identifier.accessPolicy.expiry) {
@@ -996,7 +997,7 @@ export class ContainerClient extends StorageClient {
             expiry: identifier.accessPolicy.expiry
               ? truncatedISO8061Date(identifier.accessPolicy.expiry)
               : "",
-            permission: identifier.accessPolicy.permission,
+            permissions: identifier.accessPolicy.permissions,
             start: identifier.accessPolicy.start
               ? truncatedISO8061Date(identifier.accessPolicy.start)
               : ""
@@ -1202,9 +1203,9 @@ export class ContainerClient extends StorageClient {
    * @private
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
+   *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all blobs remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
+   *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
@@ -1219,7 +1220,7 @@ export class ContainerClient extends StorageClient {
     if (!!marker || marker === undefined) {
       do {
         listBlobsFlatSegmentResponse = await this.listBlobFlatSegment(marker, options);
-        marker = listBlobsFlatSegmentResponse.nextMarker;
+        marker = listBlobsFlatSegmentResponse.continuationToken;
         yield await listBlobsFlatSegmentResponse;
       } while (marker);
     }
@@ -1350,7 +1351,7 @@ export class ContainerClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...updatedOptions
         });
       }
@@ -1363,9 +1364,9 @@ export class ContainerClient extends StorageClient {
    * @private
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
+   *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all blobs remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
+   *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
@@ -1384,7 +1385,7 @@ export class ContainerClient extends StorageClient {
           marker,
           options
         );
-        marker = listBlobsHierarchySegmentResponse.nextMarker;
+        marker = listBlobsHierarchySegmentResponse.continuationToken;
         yield await listBlobsHierarchySegmentResponse;
       } while (marker);
     }
@@ -1547,7 +1548,7 @@ export class ContainerClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...updatedOptions
         });
       }

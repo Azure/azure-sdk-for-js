@@ -232,7 +232,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp0
   ],
@@ -266,7 +266,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp0
   ],
@@ -293,7 +293,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp1
   ],
@@ -322,9 +322,9 @@ const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker0,
-    Parameters.maxresults,
+    Parameters.maxResults,
     Parameters.include0,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp2
   ],
   headerParameters: [
@@ -350,7 +350,7 @@ const getUserDelegationKeyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp3
   ],
@@ -409,7 +409,7 @@ const submitBatchOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp4
   ],
   headerParameters: [

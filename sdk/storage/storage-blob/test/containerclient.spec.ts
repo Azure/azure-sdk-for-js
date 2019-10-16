@@ -88,7 +88,7 @@ describe("ContainerClient", () => {
       .next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
-    assert.deepStrictEqual(result.nextMarker, "");
+    assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
     assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
 
@@ -144,7 +144,7 @@ describe("ContainerClient", () => {
         includeUncommitedBlobs: true,
         prefix
       })
-      .byPage({ continuationToken: result.nextMarker, maxPageSize: 2 })
+      .byPage({ continuationToken: result.continuationToken, maxPageSize: 2 })
       .next()).value;
 
     assert.ok(result2.serviceEndpoint.length > 0);
@@ -343,7 +343,7 @@ describe("ContainerClient", () => {
       i++;
     }
     // Gets next marker
-    const marker = response.nextMarker;
+    const marker = response.continuationToken;
     // Passing next marker as continuationToken
     iter = containerClient
       .listBlobsFlat({
@@ -387,7 +387,7 @@ describe("ContainerClient", () => {
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
-    assert.deepStrictEqual(result.nextMarker, "");
+    assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.delimiter, delimiter);
     assert.deepStrictEqual(result.segment.blobPrefixes!.length, blobClients.length);
 
@@ -445,7 +445,7 @@ describe("ContainerClient", () => {
         includeUncommitedBlobs: true,
         prefix
       })
-      .byPage({ continuationToken: result.nextMarker, maxPageSize: 2 })
+      .byPage({ continuationToken: result.continuationToken, maxPageSize: 2 })
       .next()).value;
 
     assert.ok(result2.serviceEndpoint.length > 0);
@@ -467,7 +467,7 @@ describe("ContainerClient", () => {
 
     assert.ok(result3.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result3.containerName));
-    assert.deepStrictEqual(result3.nextMarker, "");
+    assert.deepStrictEqual(result3.continuationToken, "");
     assert.deepStrictEqual(result3.delimiter, delimiter);
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
     assert.ok(

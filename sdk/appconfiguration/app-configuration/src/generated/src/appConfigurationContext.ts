@@ -12,7 +12,8 @@ import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 
 const packageName = "app-configuration";
-export const packageVersion = "1.0.0-preview.4";
+export const
+  packageVersion = "1.0.0-preview.6";
 
 export class AppConfigurationContext extends coreHttp.ServiceClient {
   syncToken?: string;
