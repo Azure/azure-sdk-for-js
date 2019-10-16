@@ -739,15 +739,15 @@ export class KeyClient {
    * let client = new KeyClient(url, credentials);
    * let backupContents = await client.backupKey("MyKey");
    * // ...
-   * let key = await client.restoreKey(backupContents);
+   * let key = await client.restoreKeyBackup(backupContents);
    * ```
    * @summary Restores a backed up key to a vault.
    * @param backup The backup blob associated with a key bundle.
    * @param [options] The optional parameters
    */
-  public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
+  public async restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("restoreKey", requestOptions);
+    const span = this.createSpan("restoreKeyBackup", requestOptions);
 
     let response: RestoreKeyResponse;
     try {
