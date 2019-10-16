@@ -7,6 +7,8 @@
  */
 
 export {
+  BlobServiceProperties,
+  BlobServiceStatistics,
   ContainerItem,
   ContainerProperties,
   CorsRule,
@@ -25,7 +27,5 @@ export {
   ServiceSubmitBatchHeaders,
   StaticWebsite,
   StorageError,
-  StorageServiceProperties,
-  StorageServiceStats,
   UserDelegationKey
 } from "../models/mappers";

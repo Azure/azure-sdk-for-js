@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const comp0: msRest.OperationQueryParameter = {
+export const comp0: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -22,7 +22,7 @@ export const comp0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp1: msRest.OperationQueryParameter = {
+export const comp1: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -34,7 +34,7 @@ export const comp1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp10: msRest.OperationQueryParameter = {
+export const comp10: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -46,7 +46,7 @@ export const comp10: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp11: msRest.OperationQueryParameter = {
+export const comp11: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -58,7 +58,7 @@ export const comp11: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp2: msRest.OperationQueryParameter = {
+export const comp2: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -70,7 +70,7 @@ export const comp2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp3: msRest.OperationQueryParameter = {
+export const comp3: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -82,7 +82,7 @@ export const comp3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp4: msRest.OperationQueryParameter = {
+export const comp4: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -94,7 +94,7 @@ export const comp4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp5: msRest.OperationQueryParameter = {
+export const comp5: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -106,7 +106,7 @@ export const comp5: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp6: msRest.OperationQueryParameter = {
+export const comp6: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -118,7 +118,7 @@ export const comp6: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp7: msRest.OperationQueryParameter = {
+export const comp7: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -130,7 +130,7 @@ export const comp7: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp8: msRest.OperationQueryParameter = {
+export const comp8: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -142,7 +142,7 @@ export const comp8: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp9: msRest.OperationQueryParameter = {
+export const comp9: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -154,7 +154,7 @@ export const comp9: msRest.OperationQueryParameter = {
     }
   }
 };
-export const contentLength: msRest.OperationParameter = {
+export const contentLength: coreHttp.OperationParameter = {
   parameterPath: "contentLength",
   mapper: {
     required: true,
@@ -164,7 +164,7 @@ export const contentLength: msRest.OperationParameter = {
     }
   }
 };
-export const contentMD5: msRest.OperationParameter = {
+export const contentMD5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "contentMD5"
@@ -176,7 +176,7 @@ export const contentMD5: msRest.OperationParameter = {
     }
   }
 };
-export const copyActionAbortConstant: msRest.OperationParameter = {
+export const copyActionAbortConstant: coreHttp.OperationParameter = {
   parameterPath: "copyActionAbortConstant",
   mapper: {
     required: true,
@@ -188,7 +188,7 @@ export const copyActionAbortConstant: msRest.OperationParameter = {
     }
   }
 };
-export const copyId: msRest.OperationQueryParameter = {
+export const copyId: coreHttp.OperationQueryParameter = {
   parameterPath: "copyId",
   mapper: {
     required: true,
@@ -198,7 +198,7 @@ export const copyId: msRest.OperationQueryParameter = {
     }
   }
 };
-export const copySource: msRest.OperationParameter = {
+export const copySource: coreHttp.OperationParameter = {
   parameterPath: "copySource",
   mapper: {
     required: true,
@@ -208,7 +208,7 @@ export const copySource: msRest.OperationParameter = {
     }
   }
 };
-export const deleteSnapshots: msRest.OperationParameter = {
+export const deleteSnapshots: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "deleteSnapshots"
@@ -223,7 +223,7 @@ export const deleteSnapshots: msRest.OperationParameter = {
     }
   }
 };
-export const fileAttributes: msRest.OperationParameter = {
+export const fileAttributes: coreHttp.OperationParameter = {
   parameterPath: "fileAttributes",
   mapper: {
     required: true,
@@ -233,7 +233,7 @@ export const fileAttributes: msRest.OperationParameter = {
     }
   }
 };
-export const fileCacheControl: msRest.OperationParameter = {
+export const fileCacheControl: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileHTTPHeaders",
@@ -246,7 +246,7 @@ export const fileCacheControl: msRest.OperationParameter = {
     }
   }
 };
-export const fileContentDisposition: msRest.OperationParameter = {
+export const fileContentDisposition: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileHTTPHeaders",
@@ -259,7 +259,7 @@ export const fileContentDisposition: msRest.OperationParameter = {
     }
   }
 };
-export const fileContentEncoding: msRest.OperationParameter = {
+export const fileContentEncoding: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileHTTPHeaders",
@@ -272,7 +272,7 @@ export const fileContentEncoding: msRest.OperationParameter = {
     }
   }
 };
-export const fileContentLanguage: msRest.OperationParameter = {
+export const fileContentLanguage: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileHTTPHeaders",
@@ -285,7 +285,7 @@ export const fileContentLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const fileContentLength0: msRest.OperationParameter = {
+export const fileContentLength0: coreHttp.OperationParameter = {
   parameterPath: "fileContentLength",
   mapper: {
     required: true,
@@ -295,7 +295,7 @@ export const fileContentLength0: msRest.OperationParameter = {
     }
   }
 };
-export const fileContentLength1: msRest.OperationParameter = {
+export const fileContentLength1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileContentLength"
@@ -307,7 +307,7 @@ export const fileContentLength1: msRest.OperationParameter = {
     }
   }
 };
-export const fileContentMD5: msRest.OperationParameter = {
+export const fileContentMD5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileHTTPHeaders",
@@ -320,7 +320,7 @@ export const fileContentMD5: msRest.OperationParameter = {
     }
   }
 };
-export const fileContentType: msRest.OperationParameter = {
+export const fileContentType: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "fileHTTPHeaders",
@@ -333,7 +333,7 @@ export const fileContentType: msRest.OperationParameter = {
     }
   }
 };
-export const fileCreationTime: msRest.OperationParameter = {
+export const fileCreationTime: coreHttp.OperationParameter = {
   parameterPath: "fileCreationTime",
   mapper: {
     required: true,
@@ -343,7 +343,7 @@ export const fileCreationTime: msRest.OperationParameter = {
     }
   }
 };
-export const fileLastWriteTime: msRest.OperationParameter = {
+export const fileLastWriteTime: coreHttp.OperationParameter = {
   parameterPath: "fileLastWriteTime",
   mapper: {
     required: true,
@@ -353,7 +353,7 @@ export const fileLastWriteTime: msRest.OperationParameter = {
     }
   }
 };
-export const filePermission: msRest.OperationParameter = {
+export const filePermission: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "filePermission"
@@ -365,7 +365,7 @@ export const filePermission: msRest.OperationParameter = {
     }
   }
 };
-export const filePermissionKey0: msRest.OperationParameter = {
+export const filePermissionKey0: coreHttp.OperationParameter = {
   parameterPath: "filePermissionKey",
   mapper: {
     required: true,
@@ -375,7 +375,7 @@ export const filePermissionKey0: msRest.OperationParameter = {
     }
   }
 };
-export const filePermissionKey1: msRest.OperationParameter = {
+export const filePermissionKey1: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "filePermissionKey"
@@ -387,7 +387,7 @@ export const filePermissionKey1: msRest.OperationParameter = {
     }
   }
 };
-export const fileRangeWrite: msRest.OperationParameter = {
+export const fileRangeWrite: coreHttp.OperationParameter = {
   parameterPath: "fileRangeWrite",
   mapper: {
     required: true,
@@ -402,7 +402,7 @@ export const fileRangeWrite: msRest.OperationParameter = {
     }
   }
 };
-export const fileRangeWriteFromUrl: msRest.OperationParameter = {
+export const fileRangeWriteFromUrl: coreHttp.OperationParameter = {
   parameterPath: "fileRangeWriteFromUrl",
   mapper: {
     required: true,
@@ -414,7 +414,7 @@ export const fileRangeWriteFromUrl: msRest.OperationParameter = {
     }
   }
 };
-export const fileTypeConstant: msRest.OperationParameter = {
+export const fileTypeConstant: coreHttp.OperationParameter = {
   parameterPath: "fileTypeConstant",
   mapper: {
     required: true,
@@ -426,7 +426,7 @@ export const fileTypeConstant: msRest.OperationParameter = {
     }
   }
 };
-export const handleId: msRest.OperationParameter = {
+export const handleId: coreHttp.OperationParameter = {
   parameterPath: "handleId",
   mapper: {
     required: true,
@@ -436,7 +436,7 @@ export const handleId: msRest.OperationParameter = {
     }
   }
 };
-export const include: msRest.OperationQueryParameter = {
+export const include: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "include"
@@ -456,9 +456,9 @@ export const include: msRest.OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: msRest.QueryCollectionFormat.Csv
+  collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
-export const marker: msRest.OperationQueryParameter = {
+export const marker: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "marker"
@@ -470,7 +470,7 @@ export const marker: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxresults: msRest.OperationQueryParameter = {
+export const maxresults: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "maxresults"
@@ -485,7 +485,7 @@ export const maxresults: msRest.OperationQueryParameter = {
     }
   }
 };
-export const metadata: msRest.OperationParameter = {
+export const metadata: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "metadata"
@@ -503,7 +503,7 @@ export const metadata: msRest.OperationParameter = {
     headerCollectionPrefix: "x-ms-meta-"
   }
 };
-export const prefix: msRest.OperationQueryParameter = {
+export const prefix: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "prefix"
@@ -515,7 +515,7 @@ export const prefix: msRest.OperationQueryParameter = {
     }
   }
 };
-export const quota: msRest.OperationParameter = {
+export const quota: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "quota"
@@ -530,7 +530,7 @@ export const quota: msRest.OperationParameter = {
     }
   }
 };
-export const range0: msRest.OperationParameter = {
+export const range0: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "range"
@@ -542,7 +542,7 @@ export const range0: msRest.OperationParameter = {
     }
   }
 };
-export const range1: msRest.OperationParameter = {
+export const range1: coreHttp.OperationParameter = {
   parameterPath: "range",
   mapper: {
     required: true,
@@ -552,7 +552,7 @@ export const range1: msRest.OperationParameter = {
     }
   }
 };
-export const rangeGetContentMD5: msRest.OperationParameter = {
+export const rangeGetContentMD5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "rangeGetContentMD5"
@@ -564,7 +564,7 @@ export const rangeGetContentMD5: msRest.OperationParameter = {
     }
   }
 };
-export const recursive: msRest.OperationParameter = {
+export const recursive: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "recursive"
@@ -576,7 +576,7 @@ export const recursive: msRest.OperationParameter = {
     }
   }
 };
-export const restype0: msRest.OperationQueryParameter = {
+export const restype0: coreHttp.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -588,7 +588,7 @@ export const restype0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const restype1: msRest.OperationQueryParameter = {
+export const restype1: coreHttp.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -600,7 +600,7 @@ export const restype1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const restype2: msRest.OperationQueryParameter = {
+export const restype2: coreHttp.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -612,7 +612,7 @@ export const restype2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const sharesnapshot: msRest.OperationQueryParameter = {
+export const sharesnapshot: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "sharesnapshot"
@@ -624,7 +624,7 @@ export const sharesnapshot: msRest.OperationQueryParameter = {
     }
   }
 };
-export const sourceContentCrc64: msRest.OperationParameter = {
+export const sourceContentCrc64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceContentCrc64"
@@ -636,7 +636,7 @@ export const sourceContentCrc64: msRest.OperationParameter = {
     }
   }
 };
-export const sourceIfMatchCrc64: msRest.OperationParameter = {
+export const sourceIfMatchCrc64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -649,7 +649,7 @@ export const sourceIfMatchCrc64: msRest.OperationParameter = {
     }
   }
 };
-export const sourceIfNoneMatchCrc64: msRest.OperationParameter = {
+export const sourceIfNoneMatchCrc64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
@@ -662,7 +662,7 @@ export const sourceIfNoneMatchCrc64: msRest.OperationParameter = {
     }
   }
 };
-export const sourceRange: msRest.OperationParameter = {
+export const sourceRange: coreHttp.OperationParameter = {
   parameterPath: "sourceRange",
   mapper: {
     required: true,
@@ -672,7 +672,7 @@ export const sourceRange: msRest.OperationParameter = {
     }
   }
 };
-export const timeout: msRest.OperationQueryParameter = {
+export const timeout: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "timeout"
@@ -687,7 +687,7 @@ export const timeout: msRest.OperationQueryParameter = {
     }
   }
 };
-export const url: msRest.OperationURLParameter = {
+export const url: coreHttp.OperationURLParameter = {
   parameterPath: "url",
   mapper: {
     required: true,
@@ -699,7 +699,7 @@ export const url: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const version: msRest.OperationParameter = {
+export const version: coreHttp.OperationParameter = {
   parameterPath: "version",
   mapper: {
     required: true,

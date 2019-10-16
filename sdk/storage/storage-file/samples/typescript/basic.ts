@@ -2,21 +2,13 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import {
-  Aborter,
-  StorageURL,
-  ServiceURL,
-  ShareURL,
-  DirectoryURL,
-  FileURL,
-  SharedKeyCredential,
-  Models
-} from "../.."; // Change to "@azure/storage-file" in your package
+import { FileServiceClient, SharedKeyCredential } from "../../src"; // Change to "@azure/storage-file" in your package
 
 async function main() {
   // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
+  const account = process.env.ACCOUNT_NAME || "";
+  const accountKey = process.env.ACCOUNT_KEY || "";
+
   // Use SharedKeyCredential with storage account and account key
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
@@ -24,84 +16,63 @@ async function main() {
   // Use AnonymousCredential when url already includes a SAS signature
   // const anonymousCredential = new AnonymousCredential();
 
-  // Use sharedKeyCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageURL.newPipeline(sharedKeyCredential);
-
   // List shares
-  const serviceURL = new ServiceURL(
+  const serviceClient = new FileServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
-    pipeline
+    sharedKeyCredential
   );
 
   console.log(`List shares`);
-  let marker;
-  do {
-    const listSharesResponse: Models.ServiceListSharesSegmentResponse = await serviceURL.listSharesSegment(
-      Aborter.none,
-      marker
-    );
-
-    marker = listSharesResponse.nextMarker;
-    for (const share of listSharesResponse.shareItems!) {
-      console.log(`\tShare: ${share.name}`);
-    }
-  } while (marker);
+  let i = 1;
+  for await (const share of serviceClient.listShares()) {
+    console.log(`Share ${i++}: ${share.name}`);
+  }
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  await shareURL.create(Aborter.none);
+  const shareClient = serviceClient.getShareClient(shareName);
+  await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
-  await directoryURL.create(Aborter.none);
+  const directoryClient = shareClient.getDirectoryClient(directoryName);
+  await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Create a file
   const content = "Hello World!";
   const fileName = "newfile" + new Date().getTime();
-  const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
-  await fileURL.create(Aborter.none, content.length);
+  const fileClient = directoryClient.getFileClient(fileName);
+  await fileClient.create(content.length);
   console.log(`Create file ${fileName} successfully`);
 
   // Upload file range
-  await fileURL.uploadRange(Aborter.none, content, 0, content.length);
+  await fileClient.uploadRange(content, 0, content.length);
   console.log(`Upload file range "${content}" to ${fileName} successfully`);
 
   // List directories and files
   console.log(`List directories and files under directory ${directoryName}`);
-  marker = undefined;
-  do {
-    const listFilesAndDirectoriesResponse: Models.DirectoryListFilesAndDirectoriesSegmentResponse = await directoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      marker
-    );
-
-    marker = listFilesAndDirectoriesResponse.nextMarker;
-    for (const file of listFilesAndDirectoriesResponse.segment.fileItems) {
-      console.log(`\tFile: ${file.name}`);
+  i = 1;
+  for await (const entity of directoryClient.listFilesAndDirectories()) {
+    if (entity.kind === "directory") {
+      console.log(`${i++} - directory\t: ${entity.name}`);
+    } else {
+      console.log(`${i++} - file\t: ${entity.name}`);
     }
-    for (const directory of listFilesAndDirectoriesResponse.segment
-      .directoryItems) {
-      console.log(`\tDirectory: ${directory.name}`);
-    }
-  } while (marker);
+  }
 
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
-  const downloadFileResponse = await fileURL.download(Aborter.none, 0);
+  const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(
-      downloadFileResponse.readableStreamBody!
-    )}`
+    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody!)}`
   );
 
   // Delete share
-  await shareURL.delete(Aborter.none);
+  await shareClient.delete();
   console.log(`deleted share ${shareName}`);
 }
 
@@ -109,7 +80,7 @@ async function main() {
 async function streamToString(readableStream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
     const chunks: string[] = [];
-    readableStream.on("data", data => {
+    readableStream.on("data", (data) => {
       chunks.push(data.toString());
     });
     readableStream.on("end", () => {
@@ -124,6 +95,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

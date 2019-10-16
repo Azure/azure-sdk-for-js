@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/directoryMappers";
 import * as Parameters from "../models/parameters";
@@ -39,13 +39,13 @@ export class Directory {
   /**
    * @param callback The callback
    */
-  create(callback: msRest.ServiceCallback<void>): void;
+  create(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.DirectoryCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.DirectoryCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
+  create(options: Models.DirectoryCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  create(options?: Models.DirectoryCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -73,7 +73,7 @@ export class Directory {
    * overwrite the existing properties; otherwise, the existing properties will be preserved.
    * @param callback The callback
    */
-  rename(renameSource: string, callback: msRest.ServiceCallback<void>): void;
+  rename(renameSource: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param renameSource The file or directory to be renamed. The value must have the following
    * format: "/{filesysystem}/{path}".  If "x-ms-properties" is specified, the properties will
@@ -81,8 +81,8 @@ export class Directory {
    * @param options The optional parameters
    * @param callback The callback
    */
-  rename(renameSource: string, options: Models.DirectoryRenameOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  rename(renameSource: string, options?: Models.DirectoryRenameOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryRenameResponse> {
+  rename(renameSource: string, options: Models.DirectoryRenameOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  rename(renameSource: string, options?: Models.DirectoryRenameOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryRenameResponse> {
     return this.client.sendOperationRequest(
       {
         renameSource,
@@ -105,15 +105,15 @@ export class Directory {
    * "false" and the directory is non-empty, an error occurs.
    * @param callback The callback
    */
-  deleteMethod(recursiveDirectoryDelete: boolean, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(recursiveDirectoryDelete: boolean, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param recursiveDirectoryDelete If "true", all paths beneath the directory will be deleted. If
    * "false" and the directory is non-empty, an error occurs.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(recursiveDirectoryDelete: boolean, options: Models.DirectoryDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(recursiveDirectoryDelete: boolean, options?: Models.DirectoryDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryDeleteResponse> {
+  deleteMethod(recursiveDirectoryDelete: boolean, options: Models.DirectoryDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(recursiveDirectoryDelete: boolean, options?: Models.DirectoryDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         recursiveDirectoryDelete,
@@ -132,13 +132,13 @@ export class Directory {
   /**
    * @param callback The callback
    */
-  setAccessControl(callback: msRest.ServiceCallback<void>): void;
+  setAccessControl(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessControl(options: Models.DirectorySetAccessControlOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setAccessControl(options?: Models.DirectorySetAccessControlOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectorySetAccessControlResponse> {
+  setAccessControl(options: Models.DirectorySetAccessControlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setAccessControl(options?: Models.DirectorySetAccessControlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectorySetAccessControlResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -156,13 +156,13 @@ export class Directory {
   /**
    * @param callback The callback
    */
-  getAccessControl(callback: msRest.ServiceCallback<void>): void;
+  getAccessControl(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccessControl(options: Models.DirectoryGetAccessControlOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getAccessControl(options?: Models.DirectoryGetAccessControlOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DirectoryGetAccessControlResponse> {
+  getAccessControl(options: Models.DirectoryGetAccessControlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  getAccessControl(options?: Models.DirectoryGetAccessControlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.DirectoryGetAccessControlResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -173,8 +173,8 @@ export class Directory {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const createOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}/{path}",
   urlParameters: [
@@ -213,7 +213,7 @@ const createOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const renameOperationSpec: msRest.OperationSpec = {
+const renameOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}/{path}",
   urlParameters: [
@@ -259,7 +259,7 @@ const renameOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{filesystem}/{path}",
   urlParameters: [
@@ -291,7 +291,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const setAccessControlOperationSpec: msRest.OperationSpec = {
+const setAccessControlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
   urlParameters: [
@@ -326,7 +326,7 @@ const setAccessControlOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getAccessControlOperationSpec: msRest.OperationSpec = {
+const getAccessControlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "{filesystem}/{path}",
   urlParameters: [

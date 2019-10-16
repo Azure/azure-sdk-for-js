@@ -7,7 +7,7 @@ import {
   RestError
 } from "../../src";
 
-export interface INextInjectErrorHolder {
+export interface NextInjectErrorHolder {
   nextInjectError?: RestError;
 }
 

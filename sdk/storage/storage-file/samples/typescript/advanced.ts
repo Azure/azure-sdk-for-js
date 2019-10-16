@@ -3,87 +3,100 @@
 */
 
 import fs from "fs";
+import { AbortController } from "@azure/abort-controller";
 import {
   AnonymousCredential,
-  downloadAzureFileToBuffer,
-  uploadFileToAzureFile,
-  uploadStreamToAzureFile,
-  Aborter,
-  FileURL,
-  DirectoryURL,
-  ShareURL,
-  ServiceURL,
-  StorageURL
-} from "../.."; // Change to "@azure/storage-file" in your package
+  FileServiceClient,
+  newPipeline,
+  HttpPipelineLogLevel
+} from "../../src"; // Change to "@azure/storage-file" in your package
+
+class ConsoleHttpPipelineLogger {
+  minimumLogLevel: any;
+  constructor(minimumLogLevel: any) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel: number, message: any) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        // tslint:disable-next-line:no-console
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        // tslint:disable-next-line:no-console
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        // tslint:disable-next-line:no-console
+        console.log(logMessage);
+        break;
+    }
+  }
+}
 
 async function main() {
   // Fill in following settings before running this sample
-  const account = "";
-  const accountSas = "";
-  const localFilePath = "";
+  const account = process.env.ACCOUNT_NAME || "";
+  const accountSas = process.env.ACCOUNT_SAS || "";
+  const localFilePath = "../README.md";
 
-  const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
+  const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     // logger: MyLogger, // A customized logger implementing IHttpPipelineLogger interface
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO),
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "HighLevelSample V1.0.0" }, // Customized telemetry string
+    telemetry: { value: "AdvancedSample V1.0.0" }, // Customized telemetry string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
       enable: false
     }
   });
 
-  const serviceURL = new ServiceURL(
+  const serviceClient = new FileServiceClient(
     `https://${account}.file.core.windows.net${accountSas}`,
     pipeline
   );
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
-  const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-  await shareURL.create(Aborter.none);
+  const shareClient = serviceClient.getShareClient(shareName);
+  await shareClient.create();
   console.log(`Create share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
-  const directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
-  await directoryURL.create(Aborter.none);
+  const directoryClient = shareClient.getDirectoryClient(directoryName);
+  await directoryClient.create();
   console.log(`Create directory ${directoryName} successfully`);
 
   // Upload local file to Azure file parallelly
   const fileName = "newfile" + new Date().getTime();
-  const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+  const fileClient = directoryClient.getFileClient(fileName);
   const fileSize = fs.statSync(localFilePath).size;
 
-  // Parallel uploading with uploadFileToAzureFile in Node.js runtime
-  // uploadFileToAzureFile is only available in Node.js
-  await uploadFileToAzureFile(Aborter.none, localFilePath, fileURL, {
+  // Parallel uploading with FileClient.uploadFile() in Node.js runtime
+  // FileClient.uploadFile() is only available in Node.js
+  await fileClient.uploadFile(localFilePath, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    progress: (ev) => console.log(ev)
   });
-  console.log("uploadFileToAzureFile success");
+  console.log("uploadFile success");
 
-  // Parallel uploading a Readable stream with uploadStreamToAzureFile in Node.js runtime
-  // uploadStreamToAzureFile is only available in Node.js
-  await uploadStreamToAzureFile(
-    Aborter.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-    fs.createReadStream(localFilePath),
-    fileSize,
-    fileURL,
-    4 * 1024 * 1024,
-    20,
-    {
-      progress: ev => console.log(ev)
-    }
-  );
-  console.log("uploadStreamToAzureFile success");
+  // Parallel uploading a Readable stream with FileClient.uploadStream() in Node.js runtime
+  // FileClient.uploadStream() is only available in Node.js
+  await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
+    abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    progress: (ev: any) => console.log(ev)
+  });
+  console.log("uploadStream success");
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with uploadBrowserDataToAzureFile
-  // Uncomment following code in browsers because uploadBrowserDataToAzureFile is only available in browsers
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with FileClient.uploadBrowserData()
+  // Uncomment following code in browsers because FileClient.uploadBrowserData() is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToAzureFile(Aborter.none, browserFile, fileURL, {
+  await fileClient.uploadBrowserData(browserFile, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -91,24 +104,18 @@ async function main() {
   */
 
   // Parallel downloading an Azure file into Node.js buffer
-  // downloadAzureFileToBuffer is only available in Node.js
+  // FileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
-  await downloadAzureFileToBuffer(
-    Aborter.timeout(30 * 60 * 1000),
-    buffer,
-    fileURL,
-    0,
-    undefined,
-    {
-      rangeSize: 4 * 1024 * 1024, // 4MB range size
-      parallelism: 20, // 20 concurrency
-      progress: ev => console.log(ev)
-    }
-  );
-  console.log("downloadAzureFileToBuffer success");
+  await fileClient.downloadToBuffer(buffer, 0, undefined, {
+    abortSignal: AbortController.timeout(30 * 60 * 1000),
+    rangeSize: 4 * 1024 * 1024, // 4MB range size
+    parallelism: 20, // 20 concurrency
+    progress: (ev) => console.log(ev)
+  });
+  console.log("downloadToBuffer success");
 
   // Delete share
-  await shareURL.delete(Aborter.none);
+  await shareClient.delete();
   console.log("deleted share");
 }
 
@@ -117,6 +124,6 @@ main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err.message);
   });

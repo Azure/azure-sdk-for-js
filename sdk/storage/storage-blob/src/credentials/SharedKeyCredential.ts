@@ -1,5 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import * as Crypto from "crypto";
-import { RequestPolicy, RequestPolicyOptions } from "@azure/ms-rest-js";
+import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";
 
 import { SharedKeyCredentialPolicy } from "../policies/SharedKeyCredentialPolicy";
 import { Credential } from "./Credential";

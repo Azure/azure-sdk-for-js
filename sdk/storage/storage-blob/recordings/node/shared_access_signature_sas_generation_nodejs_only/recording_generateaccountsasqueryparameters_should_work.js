@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"now":"2019-09-06T09:29:05.639Z","tmr":"2019-09-06T09:29:05.639Z"}
+module.exports.testInfo = {"now":"2019-09-11T02:25:36.321Z","tmr":"2019-09-11T02:25:36.321Z"}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')
@@ -10,9 +10,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ddb80cf1-b01e-0072-6595-64f0cc000000',
+  '8fec175d-b01e-0009-7748-687c72000000',
   'x-ms-client-request-id',
-  '23cce20e-5d11-4ddb-a11a-4dce9ea4902e',
+  '4e3a6849-7d25-47fc-aca0-afa318ae4f1f',
   'x-ms-version',
   '2019-02-02',
   'x-ms-sku-name',
@@ -20,11 +20,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-account-kind',
   'StorageV2',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-sku-name,x-ms-account-kind,Content-Length,Date,Transfer-Encoding,content-md5,x-ms-content-crc64',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-sku-name,x-ms-account-kind,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 06 Sep 2019 09:29:05 GMT',
-  'Connection',
-  'close' ]);
+  'Wed, 11 Sep 2019 02:25:35 GMT' ]);
 
