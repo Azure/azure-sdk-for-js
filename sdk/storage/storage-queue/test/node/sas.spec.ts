@@ -239,7 +239,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasURLForMessages,
       newPipeline(new AnonymousCredential())
     );
-    const enqueueResult = await messagesClientWithSAS.enqueueMessage(messageContent);
+    const enqueueResult = await messagesClientWithSAS.sendMessage(messageContent);
 
     let pResult = await queueClient.peekMessages();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
@@ -295,11 +295,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const messageContent = "hello";
 
-    const eResult = await messagesClientwithSAS.enqueueMessage(messageContent);
+    const eResult = await messagesClientwithSAS.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     const pResult = await messagesClientwithSAS.peekMessages();
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    const dResult = await messagesClientwithSAS.dequeueMessages({
+    const dResult = await messagesClientwithSAS.receiveMessages({
       visibilitytimeout: 1
     });
     assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);

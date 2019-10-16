@@ -35,7 +35,7 @@ describe("MessagesClient Node.js only", () => {
     buffer.write(specialChars, 0);
     let messageContent = buffer.toString();
 
-    let eResult = await queueClient.enqueueMessage(messageContent, {
+    let eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
       visibilitytimeout: 0
     });
@@ -61,7 +61,7 @@ describe("MessagesClient Node.js only", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertionTime, eResult.insertionTime);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].expirationTime, eResult.expirationTime);
 
-    let dResult = await queueClient.dequeueMessages({
+    let dResult = await queueClient.receiveMessages({
       visibilitytimeout: 10,
       numberOfMessages: 2
     });
@@ -89,7 +89,7 @@ describe("MessagesClient Node.js only", () => {
 
     let error;
     try {
-      await queueClient.enqueueMessage(messageContent, {});
+      await queueClient.sendMessage(messageContent, {});
     } catch (err) {
       error = err;
     }
@@ -106,7 +106,7 @@ describe("MessagesClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential);
 
-    const eResult = await newClient.enqueueMessage(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -126,7 +126,7 @@ describe("MessagesClient Node.js only", () => {
       }
     });
 
-    const eResult = await newClient.enqueueMessage(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -143,7 +143,7 @@ describe("MessagesClient Node.js only", () => {
     const pipeline = newPipeline(credential);
     const newClient = new QueueClient(queueClient.url, pipeline);
 
-    const eResult = await newClient.enqueueMessage(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -157,7 +157,7 @@ describe("MessagesClient Node.js only", () => {
   it("can be created with a connection string and a queue name", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
-    const eResult = await newClient.enqueueMessage(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -172,7 +172,7 @@ describe("MessagesClient Node.js only", () => {
       }
     });
 
-    const eResult = await newClient.enqueueMessage(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);

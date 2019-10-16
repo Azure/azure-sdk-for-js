@@ -770,11 +770,11 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<Models.MessagesEnqueueResponse>} Response data for the Messages enqueue operation.
    * @memberof QueueClient
    */
-  public async enqueueMessage(
+  public async sendMessage(
     messageText: string,
     options: MessagesEnqueueOptions = {}
   ): Promise<MessagesEnqueueResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-enqueueMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.spanOptions);
     try {
       const response = await this.messagesContext.enqueue(
         {
@@ -819,10 +819,10 @@ export class QueueClient extends StorageClient {
    * @returns {Promise<Models.MessagesDequeueResponse>} Response data for the Messages dequeue operation.
    * @memberof QueueClient
    */
-  public async dequeueMessages(
+  public async receiveMessages(
     options: MessagesDequeueOptions = {}
   ): Promise<MessagesDequeueResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-dequeueMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.spanOptions);
     try {
       const response = await this.messagesContext.dequeue({
         abortSignal: options.abortSignal,

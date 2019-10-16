@@ -27,7 +27,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update and delete empty message with default parameters", async () => {
-    let eResult = await queueClient.enqueueMessage(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -65,7 +65,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update and delete message with all parameters", async () => {
-    let eResult = await queueClient.enqueueMessage(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -99,7 +99,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update and delete message with all parameters - test sas connection string MessageIdClient constructor", async () => {
-    let eResult = await queueClient.enqueueMessage(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -133,7 +133,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update message with 64KB characters size which is computed after encoding", async () => {
-    let eResult = await queueClient.enqueueMessage(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -161,7 +161,7 @@ describe("MessageIdClient", () => {
   });
 
   it("update message negative with 65537B (64KB+1B) characters size which is computed after encoding", async () => {
-    let eResult = await queueClient.enqueueMessage(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -188,7 +188,7 @@ describe("MessageIdClient", () => {
   });
 
   it("delete message negative", async () => {
-    let eResult = await queueClient.enqueueMessage(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
 
     let error;
     try {

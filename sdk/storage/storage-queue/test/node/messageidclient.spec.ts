@@ -26,7 +26,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
-    let eResult = await queueClient.enqueueMessage(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -61,7 +61,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("update message negative with 65537B (64KB+1B) characters including special char which is computed after encoding", async () => {
-    let eResult = await queueClient.enqueueMessage(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -96,7 +96,7 @@ describe("MessageIdClient Node.js only", () => {
     const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
 
-    const eResult = await queueClient.enqueueMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
@@ -117,7 +117,7 @@ describe("MessageIdClient Node.js only", () => {
     const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
 
-    const eResult = await queueClient.enqueueMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
@@ -142,7 +142,7 @@ describe("MessageIdClient Node.js only", () => {
     const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
 
-    const eResult = await queueClient.enqueueMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
@@ -161,7 +161,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a connection string and a queue name and a message id", async () => {
-    const eResult = await queueClient.enqueueMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
@@ -179,7 +179,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a connection string and a queue name and a message id and an option bag", async () => {
-    const eResult = await queueClient.enqueueMessage(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 

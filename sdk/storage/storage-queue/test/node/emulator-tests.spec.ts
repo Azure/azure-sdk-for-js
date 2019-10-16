@@ -23,7 +23,7 @@ describe("Emulator Tests", () => {
   it("MessagesClient can be created with a connection string and a queue name", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
-    const eResult = await newClient.enqueueMessage(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -34,7 +34,7 @@ describe("Emulator Tests", () => {
   it("MessageIdClient can update message with 64B encoded characters", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
-    const eResult = await newClient.enqueueMessage(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
