@@ -241,17 +241,3 @@ export function replaceAll(
 export function isPrimitiveType(value: any): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
 }
-
-/**
- * @ignore
- * Helper utility to clean up unintended characters that get appended by OS.
- * @param str
- */
-export function removeBOM(str: any) {
-  if (typeof str == "string") {
-    if (str.charCodeAt(0) === 0xfeff || str.charCodeAt(0) === 0xffef) {
-      str = str.substring(1);
-    }
-  }
-  return str;
-}

@@ -113,63 +113,9 @@ describe("XML serializer", function() {
         }
       });
     });
-
-    it("with unwanted BOM characters", async function() {
-      const xml: any = await parseXML("\uFEFF<root><fruit>apple</fruit></root>");
-      assert.deepStrictEqual(xml, { fruit: "apple" });
-    });
   });
 
   describe("parseXML(string) with root", function() {
-    it("with undefined", async function() {
-      try {
-        await parseXML(undefined as any, { includeRoot: true });
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Document is empty"),
-          -1,
-          `error.message ("${err.message}") should have contained "Document is empty"`
-        );
-      }
-    });
-
-    it("with null", async function() {
-      try {
-        // tslint:disable-next-line:no-null-keyword
-        await parseXML(null as any, { includeRoot: true });
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Document is empty"),
-          -1,
-          `error.message ("${err.message}") should have contained "Document is empty"`
-        );
-      }
-    });
-
-    it("with empty", async function() {
-      try {
-        await parseXML("", { includeRoot: true });
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Document is empty"),
-          -1,
-          `error.message ("${err.message}") should have contained "Document is empty"`
-        );
-      }
-    });
-
-    it("with text", async function() {
-      try {
-        await parseXML("Hello World!", { includeRoot: true });
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Non-whitespace before first tag"),
-          -1,
-          `error.message ("${err.message}") should have contained "Non-whitespace before first tag"`
-        );
-      }
-    });
-
     it("with empty element", async function() {
       const json: any = await parseXML("<fruit/>", { includeRoot: true });
       assert.deepStrictEqual(json, { fruit: `` });
@@ -288,85 +234,6 @@ describe("XML serializer", function() {
   });
 
   describe("stringifyXML(JSON) with root", function() {
-    it("with undefined", async function() {
-      try {
-        await stringifyXML(undefined as any);
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Cannot convert undefined or null to object"),
-          -1,
-          `error.message ("${err.message}") should have contained "Cannot convert undefined or null to object"`
-        );
-      }
-    });
-
-    it("with null", async function() {
-      try {
-        // tslint:disable-next-line:no-null-keyword
-        await stringifyXML(null as any);
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Cannot convert undefined or null to object"),
-          -1,
-          `error.message ("${err.message}") should have contained "Cannot convert undefined or null to object"`
-        );
-      }
-    });
-
-    it("with empty", async function() {
-      try {
-        await stringifyXML("", { rootName: "fruits" });
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Missing element text"),
-          -1,
-          `error.message ("${err.message}") should have contained "Missing element text"`
-        );
-      }
-    });
-
-    it("with text", async function() {
-      try {
-        await stringifyXML("Hello World!", { rootName: "fruits" });
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Document is empty"),
-          -1,
-          `error.message ("${err.message}") should have contained "Document is empty"`
-        );
-      }
-    });
-
-    it("with empty element", async function() {
-      try {
-        await stringifyXML({}, { rootName: "fruits" });
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Missing element text"),
-          -1,
-          `error.message ("${err.message}") should have contained "Missing element text"`
-        );
-      }
-    });
-
-    it("with no root element name", async function() {
-      try {
-        await stringifyXML({
-          fruit: {
-            $: {
-              healthy: "true"
-            }
-          }
-        });
-      } catch (err) {
-        assert.notStrictEqual(
-          err.message.indexOf("Root element needs a name"),
-          -1,
-          `error.message ("${err.message}") should have contained "Root element needs a name"`
-        );
-      }
-    });
-
     it("with empty element with attribute", async function() {
       const xml: any = await stringifyXML(
         {
@@ -397,14 +264,6 @@ describe("XML serializer", function() {
       assert.deepStrictEqual(
         xml,
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit>hurray</fruit></fruits>`
-      );
-    });
-
-    it("with unwanted BOM characters", async function() {
-      const xml: any = await stringifyXML(`\uFEFFtext`, { rootName: "fruits" });
-      assert.equal(
-        xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits>text</fruits>`
       );
     });
 
@@ -443,11 +302,29 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with child empty element", async function() {
+    it("with element with attribute and value", async function() {
       const xml: any = await stringifyXML(
         {
           fruit: {
-            apples: ``
+            $: {
+              healthy: "true"
+            },
+            _: "yum"
+          }
+        },
+        { rootName: "fruits" }
+      );
+      assert.deepStrictEqual(
+        xml,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`
+      );
+    });
+
+    it.only("with element with child undefined element", async function() {
+      const xml: any = await stringifyXML(
+        {
+          fruit: {
+            apples: undefined
           }
         },
         { rootName: "fruits" }

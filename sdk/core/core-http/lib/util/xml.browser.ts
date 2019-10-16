@@ -1,22 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { removeBOM } from "./utils";
-
 // tslint:disable-next-line:no-null-keyword
 const doc = document.implementation.createDocument(null, null, null);
 
 const parser = new DOMParser();
 export function parseXML(str: string, opts?: { includeRoot?: boolean }): Promise<any> {
   try {
-    if (str == undefined || str == "") {
-      throw new Error("Document is empty");
-    }
-
-    if (!removeBOM(str).startsWith("<")) {
-      throw new Error("Non-whitespace before first tag");
-    }
-
     const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
 
@@ -116,14 +106,8 @@ function domToObject(node: Node): any {
 const serializer = new XMLSerializer();
 
 export function stringifyXML(content: any, opts?: { rootName?: string }): string {
-  if (content == undefined) {
-    throw new Error("Cannot convert undefined or null to object");
-  }
-  if (content == "") {
-    throw new Error("Missing element text");
-  }
   const rootName = (opts && opts.rootName) || "root";
-  const dom = buildNode(removeBOM(content), rootName)[0];
+  const dom = buildNode(content, rootName)[0];
   return (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
   );

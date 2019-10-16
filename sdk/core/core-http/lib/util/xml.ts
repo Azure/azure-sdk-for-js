@@ -3,8 +3,6 @@
 
 import * as xml2js from "xml2js";
 
-import { removeBOM } from "./utils";
-
 // Note: The reason we re-define all of the xml2js default settings (version 2.0) here is because the default settings object exposed
 // by the xm2js library is mutable. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/536
 // By creating a new copy of the settings each time we instantiate the parser,
@@ -71,7 +69,7 @@ xml2jsBuilderSettings.renderOpts = {
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   xml2jsBuilderSettings.rootName = (opts || {}).rootName;
   const builder = new xml2js.Builder(xml2jsBuilderSettings);
-  return builder.buildObject(removeBOM(obj));
+  return builder.buildObject(obj);
 }
 
 /**
