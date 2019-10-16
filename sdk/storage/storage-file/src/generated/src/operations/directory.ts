@@ -269,7 +269,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2
   ],
   headerParameters: [
@@ -301,7 +301,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.shareSnapshot,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2
   ],
   headerParameters: [
@@ -326,7 +326,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2
   ],
   headerParameters: [
@@ -351,7 +351,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2,
     Parameters.comp0
   ],
@@ -382,7 +382,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2,
     Parameters.comp4
   ],
@@ -413,7 +413,7 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.shareSnapshot,
     Parameters.marker,
     Parameters.maxResults,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2,
     Parameters.comp1
   ],
@@ -442,7 +442,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.marker,
     Parameters.maxResults,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
     Parameters.comp7
   ],
@@ -470,7 +470,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
     Parameters.comp8

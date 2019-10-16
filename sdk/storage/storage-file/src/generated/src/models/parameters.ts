@@ -672,10 +672,10 @@ export const sourceRange: coreHttp.OperationParameter = {
     }
   }
 };
-export const timeout: coreHttp.OperationQueryParameter = {
+export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "timeout"
+    "timeoutInSeconds"
   ],
   mapper: {
     serializedName: "timeout",

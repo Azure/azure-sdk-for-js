@@ -98,3 +98,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "continuationToken";
 ```
+
+### Rename timeoutParameter -> timeout
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.Timeout
+    transform: >
+      $["x-ms-client-name"] = "timeoutInSeconds";
+```

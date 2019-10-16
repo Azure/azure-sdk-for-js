@@ -499,7 +499,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -537,7 +537,7 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -579,7 +579,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.shareSnapshot,
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version
@@ -603,7 +603,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version
@@ -627,7 +627,7 @@ const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp0
   ],
   headerParameters: [
@@ -664,7 +664,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp4
   ],
   headerParameters: [
@@ -690,7 +690,7 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp9
   ],
   headerParameters: [
@@ -732,7 +732,7 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp9
   ],
   headerParameters: [
@@ -766,7 +766,7 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.shareSnapshot,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp10
   ],
   headerParameters: [
@@ -805,7 +805,7 @@ const startCopyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -832,7 +832,7 @@ const abortCopyOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.copyId,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp11
   ],
   headerParameters: [
@@ -860,7 +860,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.marker,
     Parameters.maxResults,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
     Parameters.comp7
   ],
@@ -887,7 +887,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
     Parameters.comp8
