@@ -8,16 +8,16 @@ import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
 
-describe.only("Secrets client - Long Running Operations - recoverDelete", () => {
-  const keyPrefix = `recover${env.CERTIFICATE_NAME || "SecretName"}`;
-  let keySuffix: string;
+describe("Secrets client - Long Running Operations - recoverDelete", () => {
+  const secretPrefix = `recover${env.CERTIFICATE_NAME || "SecretName"}`;
+  let secretSuffix: string;
   let client: SecretsClient;
   let testClient: TestClient;
   let recorder: any;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    keySuffix = authentication.keySuffix;
+    secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
@@ -29,33 +29,37 @@ describe.only("Secrets client - Long Running Operations - recoverDelete", () => 
 
   // The tests follow
 
-  it("can wait until a key is recovered", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.setSecret(keyName, "value");
+  it("can wait until a secret is recovered", async function() {
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await client.setSecret(secretName, "value");
 
-    const deletePoller = await client.beginDeleteSecret(keyName);
+    const deletePoller = await client.beginDeleteSecret(secretName);
     await deletePoller.pollUntilDone();
 
-    const poller = await client.beginRecoverDeletedSecret(keyName);
+    const poller = await client.beginRecoverDeletedSecret(secretName);
     assert.ok(poller.getOperationState().started);
 
     const deletedSecret: DeletedSecret = await poller.pollUntilDone();
-    assert.equal(deletedSecret.properties.name, keyName);
+    assert.equal(deletedSecret.properties.name, secretName);
     assert.ok(poller.getOperationState().completed);
 
-    // The final key can also be obtained this way:
-    assert.equal(poller.getOperationState().result!.properties.name, keyName);
+    // The final secret can also be obtained this way:
+    assert.equal(poller.getOperationState().result!.properties.name, secretName);
 
-    await testClient.flushSecret(keyName);
+    await testClient.flushSecret(secretName);
   });
 
   it("can resume from a stopped poller", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.setSecret(keyName, "value");
-    const deletePoller = await client.beginDeleteSecret(keyName);
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await client.setSecret(secretName, "value");
+    const deletePoller = await client.beginDeleteSecret(secretName);
     await deletePoller.pollUntilDone();
 
-    const poller = await client.beginRecoverDeletedSecret(keyName);
+    const poller = await client.beginRecoverDeletedSecret(secretName);
     assert.ok(poller.getOperationState().started);
 
     poller.pollUntilDone().catch((e: PollerStoppedError | Error) => {
@@ -72,15 +76,15 @@ describe.only("Secrets client - Long Running Operations - recoverDelete", () => 
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.beginRecoverDeletedSecret(keyName, {
+    const resumePoller = await client.beginRecoverDeletedSecret(secretName, {
       resumeFrom: serialized
     });
 
     assert.ok(poller.getOperationState().started);
     const deletedSecret: DeletedSecret = await resumePoller.pollUntilDone();
-    assert.equal(deletedSecret.properties.name, keyName);
+    assert.equal(deletedSecret.properties.name, secretName);
     assert.ok(resumePoller.getOperationState().completed);
 
-    await testClient.flushSecret(keyName);
+    await testClient.flushSecret(secretName);
   });
 });

@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { retry, isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -284,7 +284,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, "RSA");
     const deletePoller = await client.beginDeleteSecret(secretName);
     await deletePoller.pollUntilDone();
-    const getResult = await retry(async () => client.getDeletedSecret(secretName));
+    const getResult = await client.getDeletedSecret(secretName);
     assert.equal(
       getResult.properties.name,
       secretName,

@@ -3,7 +3,7 @@ let nock = require('nock');
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/secrets/CRUDSecretName-canbackupasecretnonexisting-/backup')
+  .put('/secrets/recoverSecretName-canwaituntilakeyisrecovered-undefined')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
@@ -22,7 +22,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'da679e16-e199-4b40-bc71-07bb0fb7ac31',
+  'b0ff1443-a7b0-45f4-85a9-7c781e2edbec',
   'x-ms-keyvault-service-version',
   '1.1.0.879',
   'x-ms-keyvault-network-info',
@@ -36,7 +36,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 16 Oct 2019 22:38:13 GMT',
+  'Wed, 16 Oct 2019 21:17:47 GMT',
   'Connection',
   'close' ]);
 
@@ -56,19 +56,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '6c6f5df7-9bff-4eca-b733-9ba1861e2700',
+  '076402ad-1133-4c53-b4bc-f5dfc9542500',
   'x-ms-ests-server',
   '2.1.9557.13 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AhknelsTZotBnNT8a0uKciA_aSJHAQAAANaSOdUOAAAA; expires=Fri, 15-Nov-2019 22:38:14 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnwoJCFTYoROnmZY3cTYEV0_aSJHAQAAAPt_OdUOAAAA; expires=Fri, 15-Nov-2019 21:17:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; HttpOnly',
   'Date',
-  'Wed, 16 Oct 2019 22:38:14 GMT',
+  'Wed, 16 Oct 2019 21:17:47 GMT',
   'Connection',
   'close',
   'Content-Length',
@@ -76,14 +76,14 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/secrets/CRUDSecretName-canbackupasecretnonexisting-/backup')
+  .put('/secrets/recoverSecretName-canwaituntilakeyisrecovered-undefined', {"value":"value"})
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Secret not found: CRUDSecretName-canbackupasecretnonexisting-"}}, [ 'Cache-Control',
+  .reply(409, {"error":{"code":"Conflict","message":"Secret recoverSecretName-canwaituntilakeyisrecovered-undefined is currently in a deleted but recoverable state, and its name cannot be reused; in this state, the secret can only be recovered or purged.","innererror":{"code":"ObjectIsDeletedButRecoverable"}}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '125',
+  '297',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -93,7 +93,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '399fecf6-2fc4-4c31-9cbc-5ab3b6188948',
+  '52c3e577-2ddc-4578-8866-ab646d7fe288',
   'x-ms-keyvault-service-version',
   '1.1.0.879',
   'x-ms-keyvault-network-info',
@@ -107,7 +107,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 16 Oct 2019 22:38:14 GMT',
+  'Wed, 16 Oct 2019 21:17:48 GMT',
   'Connection',
   'close' ]);
 

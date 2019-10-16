@@ -622,7 +622,7 @@ export class SecretClient {
       span.end();
     }
 
-    return this.getDeletedSecretFromDeletedSecretBundle(response);
+    return this.getSecretFromSecretBundle(response);
   }
 
   private async recoverDeletedSecret(
@@ -905,50 +905,25 @@ export class SecretClient {
     };
   }
 
-  private getSecretFromSecretBundle(secretBundle: SecretBundle): Secret {
+  private getSecretFromSecretBundle(secretBundle: SecretBundle | DeletedSecretBundle): Secret {
     const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
 
     let resultObject;
     if (secretBundle.attributes) {
       resultObject = {
-        ...secretBundle,
+        value: secretBundle.value,
         properties: {
+          ...secretBundle,
           ...parsedId,
           ...secretBundle.attributes
         }
       };
-      delete resultObject.attributes;
+      delete resultObject.properties.attributes;
     } else {
       resultObject = {
-        ...secretBundle,
+        value: secretBundle.value,
         properties: {
-          ...parsedId
-        }
-      };
-    }
-
-    return resultObject;
-  }
-
-  private getDeletedSecretFromDeletedSecretBundle(
-    deletedSecretBundle: DeletedSecretBundle
-  ): DeletedSecret {
-    const parsedId = parseKeyvaultEntityIdentifier("secrets", deletedSecretBundle.id);
-
-    let resultObject;
-    if (deletedSecretBundle.attributes) {
-      resultObject = {
-        ...deletedSecretBundle,
-        properties: {
-          ...parsedId,
-          ...deletedSecretBundle.attributes
-        }
-      };
-      delete resultObject.attributes;
-    } else {
-      resultObject = {
-        ...deletedSecretBundle,
-        properties: {
+          ...secretBundle,
           ...parsedId
         }
       };

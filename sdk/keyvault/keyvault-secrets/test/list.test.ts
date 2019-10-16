@@ -4,7 +4,6 @@
 import * as assert from "assert";
 import chai from "chai";
 import { SecretClient } from "../src";
-import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -80,11 +79,6 @@ describe("Secret client - list secrets in various ways", () => {
     for (const name of secretNames) {
       const deletePoller = await client.beginDeleteSecret(name);
       await deletePoller.pollUntilDone();
-    }
-
-    // Waiting until the secrets are deleted
-    for (const name of secretNames) {
-      await retry(async () => client.getDeletedSecret(name));
     }
 
     let found = 0;
@@ -181,11 +175,6 @@ describe("Secret client - list secrets in various ways", () => {
     for (const name of secretNames) {
       const deletePoller = await client.beginDeleteSecret(name);
       await deletePoller.pollUntilDone();
-    }
-
-    // Waiting until the secrets are deleted
-    for (const name of secretNames) {
-      await retry(async () => client.getDeletedSecret(name));
     }
 
     let found = 0;
