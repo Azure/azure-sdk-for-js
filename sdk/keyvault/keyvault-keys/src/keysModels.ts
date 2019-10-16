@@ -33,7 +33,7 @@ export interface Key {
   /**
    * Operations allowed on this key
    */
-  keyOperations?: string[];
+  keyOperations?: JsonWebKeyOperation[];
 }
 
 /**
