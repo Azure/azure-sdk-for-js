@@ -78,7 +78,7 @@ describe("FileClient", () => {
     const now = recorder.newDate("now");
 
     const options = {
-      fileHTTPHeaders: {
+      fileHttpHeaders: {
         fileCacheControl: "fileCacheControl",
         fileContentDisposition: "fileContentDisposition",
         fileContentEncoding: "fileContentEncoding",
@@ -115,11 +115,11 @@ describe("FileClient", () => {
     assert.ok(result.fileParentId!);
 
     const properties = await fileClient.getProperties();
-    assert.equal(properties.cacheControl, options.fileHTTPHeaders.fileCacheControl);
-    assert.equal(properties.contentDisposition, options.fileHTTPHeaders.fileContentDisposition);
-    assert.equal(properties.contentEncoding, options.fileHTTPHeaders.fileContentEncoding);
-    assert.equal(properties.contentLanguage, options.fileHTTPHeaders.fileContentLanguage);
-    assert.equal(properties.contentType, options.fileHTTPHeaders.fileContentType);
+    assert.equal(properties.cacheControl, options.fileHttpHeaders.fileCacheControl);
+    assert.equal(properties.contentDisposition, options.fileHttpHeaders.fileContentDisposition);
+    assert.equal(properties.contentEncoding, options.fileHttpHeaders.fileContentEncoding);
+    assert.equal(properties.contentLanguage, options.fileHttpHeaders.fileContentLanguage);
+    assert.equal(properties.contentType, options.fileHttpHeaders.fileContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
     assert.equal(properties.errorCode, undefined);
@@ -171,7 +171,7 @@ describe("FileClient", () => {
     const now = recorder.newDate("now");
 
     const options = {
-      fileHTTPHeaders: {
+      fileHttpHeaders: {
         fileCacheControl: "fileCacheControl",
         fileContentDisposition: "fileContentDisposition",
         fileContentEncoding: "fileContentEncoding",
@@ -238,7 +238,7 @@ describe("FileClient", () => {
 
   it("setHTTPHeaders with default parameters", async () => {
     await fileClient.create(content.length);
-    await fileClient.setHTTPHeaders({});
+    await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
 
     assert.ok(result.lastModified);
@@ -264,7 +264,7 @@ describe("FileClient", () => {
       fileContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       fileContentType: "fileContentType"
     };
-    await fileClient.setHTTPHeaders(headers);
+    await fileClient.setHttpHeaders(headers);
     const result = await fileClient.getProperties();
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});

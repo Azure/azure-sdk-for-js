@@ -14,7 +14,7 @@ import {
   fileLastWriteTimeToString,
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
 } from "./models";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { appendToURLPath, getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
@@ -312,10 +312,10 @@ export class DirectoryClient extends StorageClient {
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof DirectoryClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of DirectoryClient.
    *
@@ -335,7 +335,7 @@ export class DirectoryClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?: Credential | Pipeline,
-    options: NewPipelineOptions = {}
+    options: StoragePipelineOptions = {}
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {

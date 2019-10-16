@@ -10,7 +10,7 @@ import * as Models from "./generated/src/models";
 import { File } from "./generated/src/operations";
 import { Range, rangeToString } from "./Range";
 import {
-  FileHTTPHeaders,
+  FileHttpHeaders,
   Metadata,
   FileAndDirectoryCreateCommonOptions,
   FileAndDirectorySetPropertiesCommonOptions,
@@ -20,13 +20,13 @@ import {
   validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
 } from "./models";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES,
-  DEFAULT_HIGH_LEVEL_PARALLELISM
+  DEFAULT_HIGH_LEVEL_CONCURRENCY
 } from "./utils/constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -59,10 +59,10 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
   /**
    * File HTTP headers like Content-Type.
    *
-   * @type {FileHTTPHeaders}
+   * @type {FileHttpHeaders}
    * @memberof FileCreateOptions
    */
-  fileHTTPHeaders?: FileHTTPHeaders;
+  fileHttpHeaders?: FileHttpHeaders;
 
   /**
    * A collection of key-value string pair to associate with the file storage object.
@@ -85,10 +85,10 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
   /**
    * File HTTP headers like Content-Type.
    *
-   * @type {FileHTTPHeaders}
+   * @type {FileHttpHeaders}
    * @memberof FileProperties
    */
-  fileHTTPHeaders?: FileHTTPHeaders;
+  fileHttpHeaders?: FileHttpHeaders;
 }
 
 export interface SetPropertiesResponse extends Models.FileSetHTTPHeadersResponse {}
@@ -354,9 +354,9 @@ export interface FileSetMetadataOptions extends CommonOptions {
  * Options to configure File - HTTP Headers operation.
  *
  * @export
- * @interface FileHTTPHeadersOptions
+ * @interface FileSetHttpHeadersOptions
  */
-export interface FileSetHTTPHeadersOptions
+export interface FileSetHttpHeadersOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
     CommonOptions {
   /**
@@ -364,7 +364,7 @@ export interface FileSetHTTPHeadersOptions
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof FileSetHTTPHeadersOptions
+   * @memberof FileSetHttpHeadersOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -444,7 +444,7 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
    * @type {number}
    * @memberof FileListHandlesSegmentOptions
    */
-  maxResults?: number;
+  maxPageSize?: number;
 }
 
 export interface FileListHandlesOptions extends CommonOptions {
@@ -492,10 +492,10 @@ export interface UploadStreamToAzureFileOptions extends CommonOptions {
   /**
    * Azure File HTTP Headers.
    *
-   * @type {FileHTTPHeaders}
+   * @type {FileHttpHeaders}
    * @memberof UploadStreamToAzureFileOptions
    */
-  fileHTTPHeaders?: FileHTTPHeaders;
+  fileHttpHeaders?: FileHttpHeaders;
 
   /**
    * Metadata of the Azure file.
@@ -547,10 +547,10 @@ export interface UploadToAzureFileOptions extends CommonOptions {
   /**
    * File HTTP Headers.
    *
-   * @type {FileHTTPHeaders}
+   * @type {FileHttpHeaders}
    * @memberof UploadToAzureFileOptions
    */
-  fileHTTPHeaders?: FileHTTPHeaders;
+  fileHttpHeaders?: FileHttpHeaders;
 
   /**
    * Metadata of an Azure file.
@@ -561,13 +561,13 @@ export interface UploadToAzureFileOptions extends CommonOptions {
   metadata?: Metadata;
 
   /**
-   * Parallelism indicates the maximum number of ranges to upload in parallel.
-   * If not provided, 5 parallelism will be used by default.
+   * Concurrency indicates the maximum number of ranges to upload in parallel.
+   * If not provided, 5 concurrency will be used by default.
    *
    * @type {number}
    * @memberof UploadToAzureFileOptions
    */
-  parallelism?: number;
+  concurrency?: number;
 }
 
 /**
@@ -622,13 +622,13 @@ export interface DownloadFromAzureFileOptions extends CommonOptions {
   progress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Parallelism indicates the maximum number of ranges to download in parallel.
-   * If not provided, 5 parallelism will be used by default.
+   * Concurrency indicates the maximum number of ranges to download in parallel.
+   * If not provided, 5 concurrency will be used by default.
    *
    * @type {number}
    * @memberof DownloadFromAzureFileOptions
    */
-  parallelism?: number;
+  concurrency?: number;
 }
 
 /**
@@ -670,10 +670,10 @@ export class FileClient extends StorageClient {
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of FileClient.
    *
@@ -693,7 +693,7 @@ export class FileClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?: Credential | Pipeline,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
@@ -740,7 +740,7 @@ export class FileClient extends StorageClient {
         options.fileAttributes = attributes;
       }
 
-      options.fileHTTPHeaders = options.fileHTTPHeaders || {};
+      options.fileHttpHeaders = options.fileHttpHeaders || {};
 
       return this.context.create(
         size,
@@ -749,7 +749,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(options.lastWriteTime!),
         {
           abortSignal: options.abortSignal,
-          fileHTTPHeaders: options.fileHTTPHeaders,
+          fileHttpHeaders: options.fileHttpHeaders,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
@@ -907,7 +907,7 @@ export class FileClient extends StorageClient {
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
-      properties.fileHTTPHeaders = properties.fileHTTPHeaders || {};
+      properties.fileHttpHeaders = properties.fileHttpHeaders || {};
 
       return this.context.setHTTPHeaders(
         fileAttributesToString(properties.fileAttributes!),
@@ -915,7 +915,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(properties.lastWriteTime!),
         {
           abortSignal: properties.abortSignal,
-          fileHTTPHeaders: properties.fileHTTPHeaders,
+          fileHTTPHeaders: properties.fileHttpHeaders,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
           spanOptions
@@ -975,15 +975,15 @@ export class FileClient extends StorageClient {
    * these file HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-properties
    *
-   * @param {fileHTTPHeaders} [FileHTTPHeaders] File HTTP headers like Content-Type.
+   * @param {fileHttpHeaders} [FileHttpHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
-   * @param {FileSetHTTPHeadersOptions} [options] Options to File Set HTTP Headers operation.
+   * @param {FileSetHttpHeadersOptions} [options] Options to File Set HTTP Headers operation.
    * @returns {Promise<Models.FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
    * @memberof FileClient
    */
-  public async setHTTPHeaders(
-    fileHTTPHeaders: FileHTTPHeaders = {},
-    options: FileSetHTTPHeadersOptions = {}
+  public async setHttpHeaders(
+    fileHttpHeaders: FileHttpHeaders = {},
+    options: FileSetHttpHeadersOptions = {}
   ): Promise<Models.FileSetHTTPHeadersResponse> {
     const { span, spanOptions } = createSpan("FileClient-setHTTPHeaders", options.spanOptions);
     try {
@@ -995,7 +995,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(options.lastWriteTime!),
         {
           abortSignal: options.abortSignal,
-          fileHTTPHeaders: fileHTTPHeaders,
+          fileHTTPHeaders: fileHttpHeaders,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           spanOptions
@@ -1361,7 +1361,7 @@ export class FileClient extends StorageClient {
     const { span, spanOptions } = createSpan("FileClient-uploadBrowserData", options.spanOptions);
     try {
       const browserBlob = new Blob([browserData]);
-      return this.UploadSeekableBlob(
+      return this.uploadSeekableBlob(
         (offset: number, size: number): Blob => {
           return browserBlob.slice(offset, offset + size);
         },
@@ -1390,7 +1390,7 @@ export class FileClient extends StorageClient {
    * @param {UploadToAzureFileOptions} [options]
    * @returns {Promise<void>}
    */
-  async UploadSeekableBlob(
+  async uploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
     size: number,
     options: UploadToAzureFileOptions = {}
@@ -1404,21 +1404,21 @@ export class FileClient extends StorageClient {
         throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
       }
 
-      if (!options.fileHTTPHeaders) {
-        options.fileHTTPHeaders = {};
+      if (!options.fileHttpHeaders) {
+        options.fileHttpHeaders = {};
       }
 
-      if (!options.parallelism) {
-        options.parallelism = DEFAULT_HIGH_LEVEL_PARALLELISM;
+      if (!options.concurrency) {
+        options.concurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
       }
-      if (options.parallelism < 0) {
-        throw new RangeError(`options.parallelism cannot less than 0.`);
+      if (options.concurrency < 0) {
+        throw new RangeError(`options.concurrency cannot less than 0.`);
       }
 
       // Create the file
       await this.create(size, {
         abortSignal: options.abortSignal,
-        fileHTTPHeaders: options.fileHTTPHeaders,
+        fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
         spanOptions
       });
@@ -1426,7 +1426,7 @@ export class FileClient extends StorageClient {
       const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
       let transferProgress: number = 0;
 
-      const batch = new Batch(options.parallelism);
+      const batch = new Batch(options.concurrency);
       for (let i = 0; i < numBlocks; i++) {
         batch.addOperation(
           async (): Promise<any> => {
@@ -1525,28 +1525,28 @@ export class FileClient extends StorageClient {
         throw new RangeError(`options.rangeSize must be > 0 and <= ${FILE_RANGE_MAX_SIZE_BYTES}`);
       }
 
-      if (!options.fileHTTPHeaders) {
-        options.fileHTTPHeaders = {};
+      if (!options.fileHttpHeaders) {
+        options.fileHttpHeaders = {};
       }
 
-      if (!options.parallelism) {
-        options.parallelism = DEFAULT_HIGH_LEVEL_PARALLELISM;
+      if (!options.concurrency) {
+        options.concurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
       }
-      if (options.parallelism < 0) {
-        throw new RangeError(`options.parallelism cannot less than 0.`);
+      if (options.concurrency < 0) {
+        throw new RangeError(`options.concurrency cannot less than 0.`);
       }
 
       // Create the file
       await this.create(size, {
         abortSignal: options.abortSignal,
-        fileHTTPHeaders: options.fileHTTPHeaders,
+        fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
         spanOptions
       });
 
       const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
       let transferProgress: number = 0;
-      const batch = new Batch(options.parallelism);
+      const batch = new Batch(options.concurrency);
 
       for (let i = 0; i < numBlocks; i++) {
         batch.addOperation(
@@ -1618,11 +1618,11 @@ export class FileClient extends StorageClient {
         throw new RangeError("count option must be > 0");
       }
 
-      if (!options.parallelism) {
-        options.parallelism = DEFAULT_HIGH_LEVEL_PARALLELISM;
+      if (!options.concurrency) {
+        options.concurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
       }
-      if (options.parallelism < 0) {
-        throw new RangeError(`options.parallelism cannot less than 0.`);
+      if (options.concurrency < 0) {
+        throw new RangeError(`options.concurrency cannot less than 0.`);
       }
 
       // Customer doesn't specify length, get it
@@ -1646,7 +1646,7 @@ export class FileClient extends StorageClient {
       }
 
       let transferProgress: number = 0;
-      const batch = new Batch(options.parallelism);
+      const batch = new Batch(options.concurrency);
       for (let off = offset; off < offset + count; off = off + options.rangeSize) {
         batch.addOperation(async () => {
           // Exclusive chunk end position
@@ -1713,8 +1713,8 @@ export class FileClient extends StorageClient {
   ): Promise<void> {
     const { span, spanOptions } = createSpan("FileClient-uploadStream", options.spanOptions);
     try {
-      if (!options.fileHTTPHeaders) {
-        options.fileHTTPHeaders = {};
+      if (!options.fileHttpHeaders) {
+        options.fileHttpHeaders = {};
       }
 
       if (bufferSize <= 0 || bufferSize > FILE_RANGE_MAX_SIZE_BYTES) {
@@ -1728,7 +1728,7 @@ export class FileClient extends StorageClient {
       // Create the file
       await this.create(size, {
         abortSignal: options.abortSignal,
-        fileHTTPHeaders: options.fileHTTPHeaders,
+        fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
         spanOptions
       });
@@ -1757,7 +1757,7 @@ export class FileClient extends StorageClient {
             options.progress({ loadedBytes: transferProgress });
           }
         },
-        // Parallelism should set a smaller value than maxBuffers, which is helpful to
+        // Concurrency should set a smaller value than maxBuffers, which is helpful to
         // reduce the possibility when a outgoing handler waits for stream data, in
         // this situation, outgoing handlers are blocked.
         // Outgoing queue shouldn't be empty.
@@ -1945,7 +1945,7 @@ export class FileClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateHandleSegments(settings.continuationToken, {
-          maxResults: settings.maxPageSize,
+          maxPageSize: settings.maxPageSize,
           ...options
         });
       }
