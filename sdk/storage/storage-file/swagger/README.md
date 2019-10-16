@@ -118,3 +118,81 @@ directive:
     transform: >
       $["x-ms-client-name"] = "copyCompletedOn";
 ```
+
+### Rename fileCreationTime -> fileCreatedOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]..responses..headers["x-ms-file-creation-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileCreatedOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=properties"]..responses..headers["x-ms-file-creation-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileCreatedOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}?restype=directory"]..responses..headers["x-ms-file-creation-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileCreatedOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}?restype=directory&comp=properties"]..responses..headers["x-ms-file-creation-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileCreatedOn";
+  - from: swagger-document
+    where: $.parameters.FileCreationTime
+    transform: >
+      $["x-ms-client-name"] = "fileCreatedOn";
+```
+
+### Rename FileLastWriteTime -> FileLastWriteOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=properties"]..responses..headers["x-ms-file-last-write-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileLastWriteOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]..responses..headers["x-ms-file-last-write-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileLastWriteOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}?restype=directory"]..responses..headers["x-ms-file-last-write-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileLastWriteOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}?restype=directory&comp=properties"]..responses..headers["x-ms-file-last-write-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileLastWriteOn";
+  - from: swagger-document
+    where: $.parameters.FileLastWriteTime
+    transform: >
+      $["x-ms-client-name"] = "fileLastWriteOn";
+```
+
+### Rename FileChangeTime -> FileChangeOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]..responses..headers["x-ms-file-change-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileChangeOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}?comp=properties"]..responses..headers["x-ms-file-change-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileChangeOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}?restype=directory"]..responses..headers["x-ms-file-change-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileChangeOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}?restype=directory&comp=properties"]..responses..headers["x-ms-file-change-time"]
+    transform: >
+      $["x-ms-client-name"] = "fileChangeOn";
+  - from: swagger-document
+    where: $.parameters.FileChangeTime
+    transform: >
+      $["x-ms-client-name"] = "fileChangeOn";
+```

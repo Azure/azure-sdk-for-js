@@ -344,8 +344,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(Date | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get fileCreationTime(): Date | undefined {
-    return this.originalResponse.fileCreationTime;
+  public get fileCreatedOn(): Date | undefined {
+    return this.originalResponse.fileCreatedOn;
   }
 
   /**
@@ -355,8 +355,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(string | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get fileLastWriteTime(): Date | undefined {
-    return this.originalResponse.fileLastWriteTime;
+  public get fileLastWriteOn(): Date | undefined {
+    return this.originalResponse.fileLastWriteOn;
   }
 
   /**
@@ -366,8 +366,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(string | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get fileChangeTime(): Date | undefined {
-    return this.originalResponse.fileChangeTime;
+  public get fileChangeOn(): Date | undefined {
+    return this.originalResponse.fileChangeOn;
   }
 
   /**

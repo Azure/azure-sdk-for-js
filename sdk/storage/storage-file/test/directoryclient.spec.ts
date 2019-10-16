@@ -41,10 +41,10 @@ describe("DirectoryClient", () => {
     defaultDirCreateResp = await dirClient.create();
     assert.equal(defaultDirCreateResp.errorCode, undefined);
     assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
-    assert.ok(defaultDirCreateResp.fileChangeTime!);
-    assert.ok(defaultDirCreateResp.fileCreationTime!);
+    assert.ok(defaultDirCreateResp.fileChangeOn!);
+    assert.ok(defaultDirCreateResp.fileCreatedOn!);
     assert.ok(defaultDirCreateResp.fileId!);
-    assert.ok(defaultDirCreateResp.fileLastWriteTime!);
+    assert.ok(defaultDirCreateResp.fileLastWriteOn!);
     assert.ok(defaultDirCreateResp.fileParentId!);
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
@@ -109,10 +109,10 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
@@ -144,10 +144,10 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
@@ -159,15 +159,15 @@ describe("DirectoryClient", () => {
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
     assert.equal(
-      truncatedISO8061Date(result.fileCreationTime!),
-      truncatedISO8061Date(defaultDirCreateResp.fileCreationTime!)
+      truncatedISO8061Date(result.fileCreatedOn!),
+      truncatedISO8061Date(defaultDirCreateResp.fileCreatedOn!)
     );
     assert.equal(
-      truncatedISO8061Date(result.fileLastWriteTime!),
-      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteTime!)
+      truncatedISO8061Date(result.fileLastWriteOn!),
+      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!)
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
@@ -197,10 +197,10 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });

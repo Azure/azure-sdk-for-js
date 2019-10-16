@@ -1459,19 +1459,19 @@ export const DirectoryCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      fileCreationTime: {
+      fileCreatedOn: {
         serializedName: "x-ms-file-creation-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileLastWriteTime: {
+      fileLastWriteOn: {
         serializedName: "x-ms-file-last-write-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileChangeTime: {
+      fileChangeOn: {
         serializedName: "x-ms-file-change-time",
         type: {
           name: "DateTimeRfc1123"
@@ -1559,19 +1559,19 @@ export const DirectoryGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      fileCreationTime: {
+      fileCreatedOn: {
         serializedName: "x-ms-file-creation-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileLastWriteTime: {
+      fileLastWriteOn: {
         serializedName: "x-ms-file-last-write-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileChangeTime: {
+      fileChangeOn: {
         serializedName: "x-ms-file-change-time",
         type: {
           name: "DateTimeRfc1123"
@@ -1693,19 +1693,19 @@ export const DirectorySetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      fileCreationTime: {
+      fileCreatedOn: {
         serializedName: "x-ms-file-creation-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileLastWriteTime: {
+      fileLastWriteOn: {
         serializedName: "x-ms-file-last-write-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileChangeTime: {
+      fileChangeOn: {
         serializedName: "x-ms-file-change-time",
         type: {
           name: "DateTimeRfc1123"
@@ -1959,19 +1959,19 @@ export const FileCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      fileCreationTime: {
+      fileCreatedOn: {
         serializedName: "x-ms-file-creation-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileLastWriteTime: {
+      fileLastWriteOn: {
         serializedName: "x-ms-file-last-write-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileChangeTime: {
+      fileChangeOn: {
         serializedName: "x-ms-file-change-time",
         type: {
           name: "DateTimeRfc1123"
@@ -2161,19 +2161,19 @@ export const FileDownloadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      fileCreationTime: {
+      fileCreatedOn: {
         serializedName: "x-ms-file-creation-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileLastWriteTime: {
+      fileLastWriteOn: {
         serializedName: "x-ms-file-last-write-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileChangeTime: {
+      fileChangeOn: {
         serializedName: "x-ms-file-change-time",
         type: {
           name: "DateTimeRfc1123"
@@ -2357,19 +2357,19 @@ export const FileGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      fileCreationTime: {
+      fileCreatedOn: {
         serializedName: "x-ms-file-creation-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileLastWriteTime: {
+      fileLastWriteOn: {
         serializedName: "x-ms-file-last-write-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileChangeTime: {
+      fileChangeOn: {
         serializedName: "x-ms-file-change-time",
         type: {
           name: "DateTimeRfc1123"
@@ -2491,19 +2491,19 @@ export const FileSetHTTPHeadersHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      fileCreationTime: {
+      fileCreatedOn: {
         serializedName: "x-ms-file-creation-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileLastWriteTime: {
+      fileLastWriteOn: {
         serializedName: "x-ms-file-last-write-time",
         type: {
           name: "DateTimeRfc1123"
         }
       },
-      fileChangeTime: {
+      fileChangeOn: {
         serializedName: "x-ms-file-change-time",
         type: {
           name: "DateTimeRfc1123"

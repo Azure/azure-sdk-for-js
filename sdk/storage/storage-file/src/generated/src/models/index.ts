@@ -1475,15 +1475,15 @@ export interface DirectoryCreateHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */
@@ -1535,15 +1535,15 @@ export interface DirectoryGetPropertiesHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the directory.
    */
@@ -1624,15 +1624,15 @@ export interface DirectorySetPropertiesHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */
@@ -1800,15 +1800,15 @@ export interface FileCreateHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the file.
    */
@@ -1943,15 +1943,15 @@ export interface FileDownloadHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the file.
    */
@@ -2077,15 +2077,15 @@ export interface FileGetPropertiesHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the file.
    */
@@ -2166,15 +2166,15 @@ export interface FileSetHTTPHeadersHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */

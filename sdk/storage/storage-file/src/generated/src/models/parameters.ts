@@ -333,8 +333,8 @@ export const fileContentType: coreHttp.OperationParameter = {
     }
   }
 };
-export const fileCreationTime: coreHttp.OperationParameter = {
-  parameterPath: "fileCreationTime",
+export const fileCreatedOn: coreHttp.OperationParameter = {
+  parameterPath: "fileCreatedOn",
   mapper: {
     required: true,
     serializedName: "x-ms-file-creation-time",
@@ -343,8 +343,8 @@ export const fileCreationTime: coreHttp.OperationParameter = {
     }
   }
 };
-export const fileLastWriteTime: coreHttp.OperationParameter = {
-  parameterPath: "fileLastWriteTime",
+export const fileLastWriteOn: coreHttp.OperationParameter = {
+  parameterPath: "fileLastWriteOn",
   mapper: {
     required: true,
     serializedName: "x-ms-file-last-write-time",
