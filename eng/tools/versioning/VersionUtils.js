@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const parse = require("../../../common/lib/jju/parse").parse;
 
 async function readFileJson(filename) {
@@ -24,7 +25,7 @@ async function writePackageJson(filename, contentObject) {
 
 async function getRushSpec(repoRoot) {
   const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
-  return await versionUtils.readFileJson(rushPath);
+  return await readFileJson(rushPath);
 }
 
 module.exports.readFileJson = readFileJson;
