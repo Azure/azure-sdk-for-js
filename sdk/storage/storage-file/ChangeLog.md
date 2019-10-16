@@ -28,6 +28,7 @@
   });
   ```
 - A new interface `CommonOptions` for options common to remote operations is exported. Currently, `CommonOptions` contains span options for tracing.
+- `offset` parameter is optional in `downloadToBuffer` method of `FileClient`.
 
 ## 2019.08 12.0.0-preview.3
 

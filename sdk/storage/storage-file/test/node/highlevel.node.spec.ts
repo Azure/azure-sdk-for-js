@@ -213,7 +213,7 @@ describe("Highlevel Node.js only", () => {
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20);
 
     const buf = Buffer.alloc(tempFileLargeLength);
-    await fileClient.downloadToBuffer(buf, 0, undefined, {
+    await fileClient.downloadToBuffer(buf, undefined, undefined, {
       parallelism: 20,
       rangeSize: 4 * 1024 * 1024
     });

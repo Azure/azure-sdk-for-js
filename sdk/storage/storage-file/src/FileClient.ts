@@ -1597,7 +1597,7 @@ export class FileClient extends StorageClient {
    */
   public async downloadToBuffer(
     buffer: Buffer,
-    offset: number,
+    offset: number = 0,
     count?: number,
     options: DownloadFromAzureFileOptions = {}
   ): Promise<void> {
