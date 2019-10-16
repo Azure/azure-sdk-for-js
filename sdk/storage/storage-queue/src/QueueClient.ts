@@ -5,19 +5,19 @@ import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure
 import { CanonicalCode } from "@azure/core-tracing";
 import * as Models from "./generated/src/models";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Queue } from "./generated/src/operations";
-import { Metadata } from "./models";
+import { Messages, MessageId, Queue } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   appendToURLPath,
+  extractConnectionStringParts,
   truncatedISO8061Date,
-  extractConnectionStringParts
+  getStorageClientContext
 } from "./utils/utils.common";
-import { MessagesClient } from "./MessagesClient";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import { Metadata } from "./models";
 
 /**
  * Options to configure Queue - Create operation
@@ -183,12 +183,192 @@ export declare type QueueGetAccessPolicyResponse = {
   };
 
 /**
- * A QueueClient represents a URL to the Azure Storage queue.
+ * Options to configure Messages - Clear operation
+ *
+ * @export
+ * @interface MessagesClearOptions
+ */
+export interface MessagesClearOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobCreateOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure Messages - Enqueue operation
+ *
+ * @export
+ * @interface MessagesEnqueueOptions
+ * @extends {Models.MessagesEnqueueOptionalParams}
+ */
+export interface MessagesEnqueueOptions
+  extends Models.MessagesEnqueueOptionalParams,
+    CommonOptions {}
+
+/**
+ * Options to configure Messages - Dequeue operation
+ *
+ * @export
+ * @interface MessagesDequeueOptions
+ * @extends {Models.MessagesDequeueOptionalParams}
+ */
+export interface MessagesDequeueOptions
+  extends Models.MessagesDequeueOptionalParams,
+    CommonOptions {}
+
+/**
+ * Options to configure Messages - Peek operation
+ *
+ * @export
+ * @interface MessagesPeekOptions
+ * @extends {Models.MessagesPeekOptionalParams}
+ */
+export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams, CommonOptions {}
+
+export declare type MessagesEnqueueResponse = {
+  /**
+   * @member {string} messageId The ID of the enqueued Message.
+   */
+  messageId: string;
+  /**
+   * @member {string} popReceipt This value is required to delete the Message.
+   * If deletion fails using this popreceipt then the message has been dequeued
+   * by another client.
+   */
+  popReceipt: string;
+  /**
+   * @member {Date} insertionTime The time that the message was inserted into the
+   * Queue.
+   */
+  insertionTime: Date;
+  /**
+   * @member {Date} expirationTime The time that the message will expire and be
+   * automatically deleted.
+   */
+  expirationTime: Date;
+  /**
+   * @member {Date} timeNextVisible The time that the message will again become
+   * visible in the Queue.
+   */
+  timeNextVisible: Date;
+} & Models.MessagesEnqueueHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesEnqueueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.EnqueuedMessage[];
+    };
+  };
+
+export declare type MessagesDequeueResponse = {
+  dequeuedMessageItems: Models.DequeuedMessageItem[];
+} & Models.MessagesDequeueHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesDequeueHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.DequeuedMessageItem[];
+    };
+  };
+
+export declare type MessagesPeekResponse = {
+  peekedMessageItems: Models.PeekedMessageItem[];
+} & Models.MessagesPeekHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.MessagesPeekHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Models.PeekedMessageItem[];
+    };
+  };
+
+/**
+ * Options to configure MessageId - Delete operation
+ *
+ * @export
+ * @interface MessageIdDeleteOptions
+ */
+export interface MessageIdDeleteOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobCreateOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure MessageId - Update operation
+ *
+ * @export
+ * @interface MessageIdUpdateOptions
+ */
+export interface MessageIdUpdateOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobCreateOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * A QueueClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
  *
  * @export
  * @class QueueClient
  */
 export class QueueClient extends StorageClient {
+  /**
+   * messagesContext provided by protocol layer.
+   *
+   * @private
+   * @type {Messages}
+   * @memberof QueueClient
+   */
+  private messagesContext: Messages;
   /**
    * queueContext provided by protocol layer.
    *
@@ -198,6 +378,7 @@ export class QueueClient extends StorageClient {
    */
   private queueContext: Queue;
   private _queueName: string;
+  private _messagesUrl: string;
   public get queueName(): string {
     return this._queueName;
   }
@@ -313,6 +494,25 @@ export class QueueClient extends StorageClient {
     super(url, pipeline);
     this._queueName = this.getQueueNameFromUrl();
     this.queueContext = new Queue(this.storageClientContext);
+
+    // MessagesContext
+    // Build the url with "messages"
+    const partsOfUrl = this.url.split("?");
+    this._messagesUrl = partsOfUrl[1]
+      ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
+      : appendToURLPath(partsOfUrl[0], "messages");
+
+    this.messagesContext = new Messages(getStorageClientContext(this._messagesUrl, this.pipeline));
+  }
+
+  private getMessageIdContext(messageId: string): MessageId {
+    // Build the url with messageId
+    const partsOfUrl = this._messagesUrl.split("?");
+    const urlWithMessageId = partsOfUrl[1]
+      ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
+      : appendToURLPath(partsOfUrl[0], messageId);
+
+    return new MessageId(getStorageClientContext(urlWithMessageId, this.pipeline));
   }
 
   /**
@@ -343,11 +543,29 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Creates a MessagesClient object.
-   * @param queueName
+   * Deletes the specified queue permanently.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   *
+   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
+   * @returns {Promise<Models.QueueDeleteResponse>} Response data for the Queue delete operation.
+   * @memberof QueueClient
    */
-  public getMessagesClient(): MessagesClient {
-    return new MessagesClient(appendToURLPath(this.url, "messages"), this.pipeline);
+  public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-delete", options.spanOptions);
+    try {
+      return this.queueContext.deleteMethod({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -365,32 +583,6 @@ export class QueueClient extends StorageClient {
     const { span, spanOptions } = createSpan("QueueClient-getProperties", options.spanOptions);
     try {
       return this.queueContext.getProperties({
-        abortSignal: options.abortSignal,
-        spanOptions
-      });
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Deletes the specified queue permanently.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
-   *
-   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
-   * @returns {Promise<Models.QueueDeleteResponse>} Response data for the Queue delete operation.
-   * @memberof QueueClient
-   */
-  public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-delete", options.spanOptions);
-    try {
-      return this.queueContext.deleteMethod({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -527,6 +719,254 @@ export class QueueClient extends StorageClient {
         queueAcl: acl,
         spanOptions
       });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Clear deletes all messages from a queue.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
+   *
+   * @param {MessagesClearOptions} [options] Options to Messages clear operation.
+   * @returns {Promise<Models.MessageClearResponse>} Response data for the Messages clear operation.
+   * @memberof QueueClient
+   */
+  public async clearMessages(
+    options: MessagesClearOptions = {}
+  ): Promise<Models.MessagesClearResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.spanOptions);
+    try {
+      return this.messagesContext.clear({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Enqueue adds a new message to the back of a queue. The visibility timeout specifies how long
+   * the message should be invisible to Dequeue and Peek operations.
+   * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
+   * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
+   *
+   * @param {string} messageText Text of the message to enqueue
+   * @param {MessagesEnqueueOptionas} [options] Options to Messages enqueue operation.
+   * @returns {Promise<Models.MessagesEnqueueResponse>} Response data for the Messages enqueue operation.
+   * @memberof QueueClient
+   */
+  public async sendMessage(
+    messageText: string,
+    options: MessagesEnqueueOptions = {}
+  ): Promise<MessagesEnqueueResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.spanOptions);
+    try {
+      const response = await this.messagesContext.enqueue(
+        {
+          messageText: messageText
+        },
+        {
+          abortSignal: options.abortSignal,
+          ...options,
+          spanOptions
+        }
+      );
+      const item = response[0];
+      return {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        version: response.version,
+        errorCode: response.errorCode,
+        messageId: item.messageId,
+        popReceipt: item.popReceipt,
+        timeNextVisible: item.timeNextVisible,
+        insertionTime: item.insertionTime,
+        expirationTime: item.expirationTime
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Dequeue retrieves one or more messages from the front of the queue.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
+   *
+   * @param {MessagesDequeueOptionals} [options] Options to Messages dequeue operation.
+   * @returns {Promise<Models.MessagesDequeueResponse>} Response data for the Messages dequeue operation.
+   * @memberof QueueClient
+   */
+  public async receiveMessages(
+    options: MessagesDequeueOptions = {}
+  ): Promise<MessagesDequeueResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.spanOptions);
+    try {
+      const response = await this.messagesContext.dequeue({
+        abortSignal: options.abortSignal,
+        ...options,
+        spanOptions
+      });
+
+      const res: MessagesDequeueResponse = {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        dequeuedMessageItems: [],
+        version: response.version,
+        errorCode: response.errorCode
+      };
+
+      for (const item of response) {
+        res.dequeuedMessageItems.push(item);
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Peek retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
+   *
+   * @param {MessagesPeekOptions} [options] Options to Messages peek operation.
+   * @returns {Promise<Models.MessagesPeekResponse>} Response data for the Messages peek operation.
+   * @memberof QueueClient
+   */
+  public async peekMessages(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.spanOptions);
+    try {
+      const response = await this.messagesContext.peek({
+        abortSignal: options.abortSignal,
+        ...options,
+        spanOptions
+      });
+
+      const res: MessagesPeekResponse = {
+        _response: response._response,
+        date: response.date,
+        requestId: response.requestId,
+        clientRequestId: response.clientRequestId,
+        peekedMessageItems: [],
+        version: response.version,
+        errorCode: response.errorCode
+      };
+
+      for (const item of response) {
+        res.peekedMessageItems.push(item);
+      }
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Delete permanently removes the specified message from its queue.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
+   *
+   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
+   * @param {MessageIdDeleteOptions} [options] Options to MessageId Delete operation.
+   * @returns {Promise<Models.MessageIdDeleteResponse>} Response data for the MessageId delete operation.
+   * @memberof QueueClient
+   */
+  public async deleteMessage(
+    messageId: string,
+    popReceipt: string,
+    options: MessageIdDeleteOptions = {}
+  ): Promise<Models.MessageIdDeleteResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.spanOptions);
+    try {
+      return this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Update changes a message's visibility timeout and contents.
+   * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
+   * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
+   *
+   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
+   * @param {string} message Message to update.
+   * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
+   *                                   relative to server time. The new value must be larger than or equal to 0,
+   *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
+   *                                   be set to a value later than the expiry time.
+   *                                   A message can be updated until it has been deleted or has expired.
+   * @param {MessageIdUpdateOptions} [options] Options to MessageId Update operation.
+   * @returns {Promise<Models.MessageIdUpdateResponse>} Response data for the MessageId update operation.
+   * @memberof QueueClient
+   */
+  public async updateMessage(
+    messageId: string,
+    popReceipt: string,
+    message: string,
+    visibilityTimeout?: number,
+    options: MessageIdUpdateOptions = {}
+  ): Promise<Models.MessageIdUpdateResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.spanOptions);
+    try {
+      return this.getMessageIdContext(messageId).update(
+        {
+          messageText: message
+        },
+        popReceipt,
+        visibilityTimeout || 0,
+        {
+          abortSignal: options.abortSignal,
+          spanOptions
+        }
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

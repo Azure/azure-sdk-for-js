@@ -3,7 +3,7 @@
 
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
-import { getAccountNameFromUrl } from "./utils/utils.common";
+import { getAccountNameFromUrl, getStorageClientContext } from "./utils/utils.common";
 import { SpanOptions } from "@azure/core-tracing";
 
 /**
@@ -59,10 +59,6 @@ export abstract class StorageClient {
     this.url = url;
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
-    this.storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
-
-    // Override protocol layer's default content-type
-    const storageClientContext = this.storageClientContext as any;
-    storageClientContext.requestContentType = undefined;
+    this.storageClientContext = getStorageClientContext(url, pipeline);
   }
 }

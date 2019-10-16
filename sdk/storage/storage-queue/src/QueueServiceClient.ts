@@ -9,13 +9,13 @@ import { ListQueuesIncludeType } from "./generated/src/models";
 import { Service } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
-import { QueueClient } from "./QueueClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 
 /**
  * Options to configure Queue Service - Get Properties operation
@@ -249,105 +249,6 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Gets the properties of a storage account’s Queue service, including properties
-   * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
-   *
-   * @param {ServiceGetPropertiesOptions} [options] Options to get properties operation.
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data including the queue service properties.
-   * @memberof QueueServiceClient
-   */
-  public async getProperties(
-    options: ServiceGetPropertiesOptions = {}
-  ): Promise<Models.ServiceGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-getProperties",
-      options.spanOptions
-    );
-    try {
-      return this.serviceContext.getProperties({
-        abortSignal: options.abortSignal,
-        spanOptions
-      });
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Sets properties for a storage account’s Queue service endpoint, including properties
-   * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
-   *
-   * @param {Models.QueueServiceProperties} properties
-   * @param {ServiceGetPropertiesOptions} [options] Options to set properties operation.
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
-   * @memberof QueueServiceClient
-   */
-  public async setProperties(
-    properties: Models.QueueServiceProperties,
-    options: ServiceGetPropertiesOptions = {}
-  ): Promise<Models.ServiceSetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-setProperties",
-      options.spanOptions
-    );
-    try {
-      return this.serviceContext.setProperties(properties, {
-        abortSignal: options.abortSignal,
-        spanOptions
-      });
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Retrieves statistics related to replication for the Queue service. It is only
-   * available on the secondary location endpoint when read-access geo-redundant
-   * replication is enabled for the storage account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
-   *
-   * @param {ServiceGetStatisticsOptions} [options] Options to get statistics operation.
-   * @returns {Promise<Models.ServiceGetStatisticsResponse>} Response data for get statistics the operation.
-   * @memberof QueueServiceClient
-   */
-  public async getStatistics(
-    options: ServiceGetStatisticsOptions = {}
-  ): Promise<Models.ServiceGetStatisticsResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-getStatistics",
-      options.spanOptions
-    );
-    try {
-      return this.serviceContext.getStatistics({
-        abortSignal: options.abortSignal,
-        spanOptions
-      });
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
    * Returns a list of the queues under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
@@ -539,5 +440,134 @@ export class QueueServiceClient extends StorageClient {
         });
       }
     };
+  }
+
+  /**
+   * Gets the properties of a storage account’s Queue service, including properties
+   * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
+   *
+   * @param {ServiceGetPropertiesOptions} [options] Options to get properties operation.
+   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data including the queue service properties.
+   * @memberof QueueServiceClient
+   */
+  public async getProperties(
+    options: ServiceGetPropertiesOptions = {}
+  ): Promise<Models.ServiceGetPropertiesResponse> {
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-getProperties",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.getProperties({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sets properties for a storage account’s Queue service endpoint, including properties
+   * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
+   *
+   * @param {Models.QueueServiceProperties} properties
+   * @param {ServiceGetPropertiesOptions} [options] Options to set properties operation.
+   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
+   * @memberof QueueServiceClient
+   */
+  public async setProperties(
+    properties: Models.QueueServiceProperties,
+    options: ServiceGetPropertiesOptions = {}
+  ): Promise<Models.ServiceSetPropertiesResponse> {
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-setProperties",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.setProperties(properties, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves statistics related to replication for the Queue service. It is only
+   * available on the secondary location endpoint when read-access geo-redundant
+   * replication is enabled for the storage account.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
+   *
+   * @param {ServiceGetStatisticsOptions} [options] Options to get statistics operation.
+   * @returns {Promise<Models.ServiceGetStatisticsResponse>} Response data for get statistics the operation.
+   * @memberof QueueServiceClient
+   */
+  public async getStatistics(
+    options: ServiceGetStatisticsOptions = {}
+  ): Promise<Models.ServiceGetStatisticsResponse> {
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-getStatistics",
+      options.spanOptions
+    );
+    try {
+      return this.serviceContext.getStatistics({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new queue under the specified account.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   *
+   * @param {QueueCreateOptions} [options] Options to Queue create operation.
+   * @returns {Promise<Models.QueueCreateResponse>} Response data for the Queue create operation.
+   * @memberof QueueServiceClient
+   */
+  public async createQueue(
+    queueName: string,
+    options: QueueCreateOptions = {}
+  ): Promise<Models.QueueCreateResponse> {
+    return this.getQueueClient(queueName).create(options);
+  }
+
+  /**
+   * Deletes the specified queue permanently.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   *
+   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
+   * @returns {Promise<Models.QueueDeleteResponse>} Response data for the Queue delete operation.
+   * @memberof QueueServiceClient
+   */
+  public async deleteQueue(
+    queueName: string,
+    options: QueueDeleteOptions = {}
+  ): Promise<Models.QueueDeleteResponse> {
+    return this.getQueueClient(queueName).delete(options);
   }
 }
