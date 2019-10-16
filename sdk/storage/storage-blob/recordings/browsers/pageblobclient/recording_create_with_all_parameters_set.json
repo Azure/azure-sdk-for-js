@@ -1,131 +1,129 @@
 {
-  "recordings": [
-    {
-      "method": "PUT",
-      "url": "https://fakestorageaccount.blob.core.windows.net/container157003463293104508",
-      "query": {
-        "restype": "container"
-      },
-      "requestBody": null,
-      "status": 201,
-      "response": "",
-      "responseHeaders": {
-        "date": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "last-modified": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-        "etag": "\"0x8D74757B559CA94\"",
-        "x-ms-request-id": "215fd8b1-201e-0080-4b40-7993dc000000",
-        "x-ms-version": "2019-02-02",
-        "x-ms-client-request-id": "f710fdac-635c-4c02-96c8-9f18fab7a3f7",
-        "content-length": "0"
-      }
-    },
-    {
-      "method": "PUT",
-      "url": "https://fakestorageaccount.blob.core.windows.net/container157003463293104508/blob157003463302208709",
-      "query": {},
-      "requestBody": null,
-      "status": 201,
-      "response": "",
-      "responseHeaders": {
-        "date": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "last-modified": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-        "etag": "\"0x8D74757B5640969\"",
-        "x-ms-request-id": "215fd8dc-201e-0080-6f40-7993dc000000",
-        "x-ms-version": "2019-02-02",
-        "x-ms-client-request-id": "cfa22e47-e24c-4812-87ad-c3038d1f2496",
-        "x-ms-request-server-encrypted": "true",
-        "content-length": "0"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://fakestorageaccount.blob.core.windows.net/container157003463293104508/blob157003463302208709",
-      "query": {},
-      "requestBody": null,
-      "status": 200,
-      "response": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
-      "responseHeaders": {
-        "x-ms-blob-type": "PageBlob",
-        "date": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "content-encoding": "blobContentEncoding",
-        "x-ms-server-encrypted": "true",
-        "x-ms-client-request-id": "a18df878-32a9-460a-b7d6-2cd50f4743d1",
-        "content-disposition": "blobContentDisposition",
-        "content-length": "512",
-        "x-ms-lease-state": "available",
-        "x-ms-lease-status": "unlocked",
-        "accept-ranges": "bytes",
-        "x-ms-creation-time": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "last-modified": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-        "x-ms-blob-sequence-number": "0",
-        "etag": "\"0x8D74757B5640969\"",
-        "content-language": "blobContentLanguage",
-        "x-ms-request-id": "215fd913-201e-0080-1c40-7993dc000000",
-        "cache-control": "blobCacheControl",
-        "x-ms-version": "2019-02-02",
-        "x-ms-meta-key1": "vala",
-        "content-type": "blobContentType",
-        "x-ms-meta-key2": "valb"
-      }
-    },
-    {
-      "method": "HEAD",
-      "url": "https://fakestorageaccount.blob.core.windows.net/container157003463293104508/blob157003463302208709",
-      "query": {},
-      "requestBody": null,
-      "status": 200,
-      "response": "",
-      "responseHeaders": {
-        "x-ms-blob-type": "PageBlob",
-        "date": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "content-encoding": "blobContentEncoding",
-        "x-ms-server-encrypted": "true",
-        "x-ms-access-tier": "Cool",
-        "x-ms-client-request-id": "d93dcee2-f3fa-49bb-aec1-f527a83813a2",
-        "content-disposition": "blobContentDisposition",
-        "content-length": "512",
-        "x-ms-lease-state": "available",
-        "x-ms-lease-status": "unlocked",
-        "accept-ranges": "bytes",
-        "x-ms-creation-time": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "last-modified": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-        "x-ms-blob-sequence-number": "0",
-        "etag": "\"0x8D74757B5640969\"",
-        "content-language": "blobContentLanguage",
-        "x-ms-access-tier-inferred": "true",
-        "cache-control": "blobCacheControl",
-        "x-ms-version": "2019-02-02",
-        "x-ms-meta-key1": "vala",
-        "content-type": "blobContentType",
-        "x-ms-request-id": "215fd94e-201e-0080-4d40-7993dc000000",
-        "x-ms-meta-key2": "valb"
-      }
-    },
-    {
-      "method": "DELETE",
-      "url": "https://fakestorageaccount.blob.core.windows.net/container157003463293104508",
-      "query": {
-        "restype": "container"
-      },
-      "requestBody": null,
-      "status": 202,
-      "response": "",
-      "responseHeaders": {
-        "date": "Wed, 02 Oct 2019 16:43:52 GMT",
-        "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-        "x-ms-request-id": "215fd975-201e-0080-7240-7993dc000000",
-        "x-ms-version": "2019-02-02",
-        "x-ms-client-request-id": "daade1df-343d-4e54-9c29-71a43f8dcc0d",
-        "content-length": "0"
-      }
-    }
-  ],
-  "uniqueTestInfo": {
-    "container": "container157003463293104508",
-    "blob": "blob157003463302208709"
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157113119971105889",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 15 Oct 2019 09:15:04 GMT",
+    "last-modified": "Tue, 15 Oct 2019 09:15:05 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D751502AB49B99\"",
+    "x-ms-request-id": "c0c6675c-501e-00f8-0239-83f58b000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "572ec262-3bb7-42fd-997b-7087bdce9341",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157113119971105889/blob157113119984909297",
+   "query": {},
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 15 Oct 2019 09:15:04 GMT",
+    "last-modified": "Tue, 15 Oct 2019 09:15:05 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "etag": "\"0x8D751502ACA39D4\"",
+    "x-ms-request-id": "c0c667cc-501e-00f8-6239-83f58b000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "0918b534-ff7e-4baa-b942-4ba2a6014ecb",
+    "x-ms-request-server-encrypted": "true",
+    "content-length": "0"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157113119971105889/blob157113119984909297",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+   "responseHeaders": {
+    "x-ms-blob-type": "PageBlob",
+    "date": "Tue, 15 Oct 2019 09:15:04 GMT",
+    "content-encoding": "blobContentEncoding",
+    "x-ms-server-encrypted": "true",
+    "x-ms-client-request-id": "43ae843e-fb3b-4275-bff1-fc4dd92ac32c",
+    "content-disposition": "blobContentDisposition",
+    "content-length": "512",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "accept-ranges": "bytes",
+    "x-ms-creation-time": "Tue, 15 Oct 2019 09:15:05 GMT",
+    "last-modified": "Tue, 15 Oct 2019 09:15:05 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-blob-sequence-number": "0",
+    "etag": "\"0x8D751502ACA39D4\"",
+    "content-language": "blobContentLanguage",
+    "x-ms-request-id": "c0c66810-501e-00f8-1b39-83f58b000000",
+    "cache-control": "blobCacheControl",
+    "x-ms-version": "2019-02-02",
+    "x-ms-meta-key1": "vala",
+    "content-type": "blobContentType",
+    "x-ms-meta-key2": "valb"
+   }
+  },
+  {
+   "method": "HEAD",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157113119971105889/blob157113119984909297",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "x-ms-blob-type": "PageBlob",
+    "date": "Tue, 15 Oct 2019 09:15:05 GMT",
+    "content-encoding": "blobContentEncoding",
+    "x-ms-server-encrypted": "true",
+    "x-ms-client-request-id": "5a806d1c-c5b7-40f3-955d-0433eb659637",
+    "content-disposition": "blobContentDisposition",
+    "content-length": "512",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "accept-ranges": "bytes",
+    "x-ms-creation-time": "Tue, 15 Oct 2019 09:15:05 GMT",
+    "last-modified": "Tue, 15 Oct 2019 09:15:05 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-blob-sequence-number": "0",
+    "etag": "\"0x8D751502ACA39D4\"",
+    "content-language": "blobContentLanguage",
+    "x-ms-request-id": "c0c66866-501e-00f8-6a39-83f58b000000",
+    "cache-control": "blobCacheControl",
+    "x-ms-version": "2019-02-02",
+    "x-ms-meta-key1": "vala",
+    "content-type": "blobContentType",
+    "x-ms-meta-key2": "valb"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container157113119971105889",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Tue, 15 Oct 2019 09:15:05 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-request-id": "c0c668d3-501e-00f8-4739-83f58b000000",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "6f68f245-9795-467d-836e-541f58cc2f83",
+    "content-length": "0"
+   }
   }
+ ],
+ "uniqueTestInfo": {
+  "container": "container157113119971105889",
+  "blob": "blob157113119984909297"
+ }
 }
