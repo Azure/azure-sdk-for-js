@@ -51,20 +51,21 @@ export class CryptographyClient {
     key: string | JsonWebKey;
     readonly pipeline: ServiceClientOptions;
     // Warning: (ae-forgotten-export) The symbol "KeySignatureAlgorithm" needs to be exported by the entry point index.d.ts
-    sign(algorithm: KeySignatureAlgorithm, digest: Uint8Array, options?: RequestOptions): Promise<SignResult>;
-    signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: RequestOptions): Promise<SignResult>;
-    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: RequestOptions): Promise<UnwrapResult>;
+    // Warning: (ae-forgotten-export) The symbol "SignOptions" needs to be exported by the entry point index.d.ts
+    sign(algorithm: KeySignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
+    signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
+    // Warning: (ae-forgotten-export) The symbol "UnwrapOptions" needs to be exported by the entry point index.d.ts
+    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapOptions): Promise<UnwrapResult>;
     readonly vaultBaseUrl: string;
-    verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
-    verifyData(algorithm: KeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: RequestOptions): Promise<VerifyResult>;
-    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: RequestOptions): Promise<WrapResult>;
+    // Warning: (ae-forgotten-export) The symbol "VerifyOptions" needs to be exported by the entry point index.d.ts
+    verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
+    verifyData(algorithm: KeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
+    // Warning: (ae-forgotten-export) The symbol "WrapOptions" needs to be exported by the entry point index.d.ts
+    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapOptions): Promise<WrapResult>;
 }
 
 // @public
 export interface DecryptOptions extends RequestOptions {
-    authenticationData?: Uint8Array;
-    authenticationTag?: Uint8Array;
-    iv?: Uint8Array;
 }
 
 // @public
@@ -86,16 +87,11 @@ export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Rec
 
 // @public
 export interface EncryptOptions extends RequestOptions {
-    authenticationData?: Uint8Array;
-    iv?: Uint8Array;
 }
 
 // @public
 export interface EncryptResult {
     algorithm: JsonWebKeyEncryptionAlgorithm;
-    authenticationData?: Uint8Array;
-    authenticationTag?: string;
-    iv?: Uint8Array;
     keyID?: string;
     result: Uint8Array;
 }
@@ -159,6 +155,8 @@ export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 // @public
 export interface Key {
     keyMaterial?: JsonWebKey;
+    keyOperations?: string[];
+    keyType?: JsonWebKeyType;
     properties: KeyProperties;
 }
 
@@ -188,7 +186,7 @@ export class KeysClient {
     static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
-    importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
+    importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<Key>;
     listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
