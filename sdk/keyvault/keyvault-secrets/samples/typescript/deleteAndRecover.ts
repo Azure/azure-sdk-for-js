@@ -27,7 +27,7 @@ async function main(): Promise<void> {
 
   // Oops, what happens if we delete the wrong one?
   console.log("Deleting secret: ", bankAccountSecretName);
-  let deletePoller = await client.deleteSecret(bankAccountSecretName);
+  let deletePoller = await client.beginDeleteSecret(bankAccountSecretName);
   await deletePoller.pollUntilDone();
 
   console.log("Showing deleted secrets");
@@ -45,7 +45,7 @@ async function main(): Promise<void> {
   // To actually delete it, we delete and then purge the secret
   // Delete the secret
   console.log("about to delete");
-  deletePoller = await client.deleteSecret(bankAccountSecretName);
+  deletePoller = await client.beginDeleteSecret(bankAccountSecretName);
   await deletePoller.pollUntilDone();
 
   // Purge the deleted secret
@@ -57,7 +57,7 @@ async function main(): Promise<void> {
     console.log(deletedSecret);
   }
 
-  deletePoller = await client.deleteSecret(storageAccountSecretName);
+  deletePoller = await client.beginDeleteSecret(storageAccountSecretName);
   await deletePoller.pollUntilDone();
 }
 

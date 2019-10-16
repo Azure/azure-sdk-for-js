@@ -31,7 +31,7 @@ describe.only("Secrets client - Long Running Operations - recoverDelete", () => 
 
   it("can wait until a key is recovered", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createSecret(keyName, "RSA");
+    await client.setSecret(keyName, "value");
 
     const deletePoller = await client.beginDeleteSecret(keyName);
     await deletePoller.pollUntilDone();
@@ -51,14 +51,14 @@ describe.only("Secrets client - Long Running Operations - recoverDelete", () => 
 
   it("can resume from a stopped poller", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createSecret(keyName, "RSA");
+    await client.setSecret(keyName, "value");
     const deletePoller = await client.beginDeleteSecret(keyName);
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedSecret(keyName);
     assert.ok(poller.getOperationState().started);
 
-    poller.pollUntilDone().catch((e) => {
+    poller.pollUntilDone().catch((e: PollerStoppedError | Error) => {
       assert.ok(e instanceof PollerStoppedError);
       assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "This poller is already stopped");

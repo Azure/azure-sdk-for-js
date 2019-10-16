@@ -51,8 +51,8 @@ import { RecoverDeletedSecretPollOperationState } from "./lro/recover/operation"
 
 import {
   Secret,
-  KeyClientInterface,
-  KeyPollerOptions,
+  SecretClientInterface,
+  SecretPollerOptions,
   DeletedSecret,
   SetSecretOptions,
   UpdateSecretOptions,
@@ -70,16 +70,16 @@ import {
 } from "./core";
 
 export {
-  DeleteKeyPoller,
-  DeleteKeyPollerOptions,
-  DeleteKeyPollOperationState,
-  RecoverDeletedKeyPoller,
-  RecoverDeletedKeyPollerOptions,
-  RecoverDeletedKeyPollOperationState,
+  DeleteSecretPoller,
+  DeleteSecretPollerOptions,
+  DeleteSecretPollOperationState,
+  RecoverDeletedSecretPoller,
+  RecoverDeletedSecretPollerOptions,
+  RecoverDeletedSecretPollOperationState,
   DeletedSecret,
   DeletionRecoveryLevel,
   GetSecretOptions,
-  ListSecretsOptions as GetSecretsOptions,
+  RequestOptions,
   NewPipelineOptions,
   PagedAsyncIterableIterator,
   PageSettings,
@@ -230,8 +230,6 @@ export class SecretClient {
     return userAgentInfo.join(" ");
   }
 
-  // TODO: do we want Aborter as well?
-
   /**
    * The setSecret method adds a secret or secret version to the Azure Key Vault. If the named secret
    * already exists, Azure Key Vault creates a new version of that secret.
@@ -317,7 +315,7 @@ export class SecretClient {
    * @param [options] The optional parameters
    */
   public async beginDeleteSecret(
-    secretName: string,
+    name: string,
     options?: SecretPollerOptions,
   ): Promise<DeleteSecretPoller> {
    const poller = new DeleteSecretPoller({
@@ -522,7 +520,7 @@ export class SecretClient {
    * @param [options] The optional parameters
    */
   public async beginRecoverDeletedSecret(
-    secretName: string,
+    name: string,
     options?: SecretPollerOptions,
   ): Promise<RecoverDeletedSecretPoller> {
    const poller = new RecoverDeletedSecretPoller({

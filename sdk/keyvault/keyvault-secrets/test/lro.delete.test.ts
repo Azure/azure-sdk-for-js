@@ -31,7 +31,7 @@ describe.only("Secrets client - Long Running Operations - delete", () => {
 
   it("can wait until a key is deleted", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createSecret(keyName, "RSA");
+    await client.setSecret(keyName, "value");
     const poller = await client.beginDeleteSecret(keyName);
     assert.ok(poller.getOperationState().started);
 
@@ -47,7 +47,7 @@ describe.only("Secrets client - Long Running Operations - delete", () => {
 
   it("can resume from a stopped poller", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createSecret(keyName, "RSA");
+    await client.setSecret(keyName, "value");
     const poller = await client.beginDeleteSecret(keyName);
     assert.ok(poller.getOperationState().started);
 

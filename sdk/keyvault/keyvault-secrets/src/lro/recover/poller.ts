@@ -1,9 +1,12 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
-import { DeleteSecretPollOperationState, makeDeleteSecretPollOperation } from "./operation";
-import { DeletedSecret, SecretClientInterface } from "../../secretsModels";
+import {
+  RecoverDeletedSecretPollOperationState,
+  makeRecoverDeletedSecretPollOperation
+} from "./operation";
+import { Secret, SecretClientInterface } from "../../secretsModels";
 
-export interface DeleteSecretPollerOptions {
+export interface RecoverDeletedSecretPollerOptions {
   client: SecretClientInterface;
   name: string;
   requestOptions?: RequestOptionsBase;
@@ -14,23 +17,23 @@ export interface DeleteSecretPollerOptions {
 /**
  * Class that deletes a poller that waits until a secret finishes being deleted
  */
-export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, DeletedSecret> {
+export class RecoverDeletedSecretPoller extends Poller<RecoverDeletedSecretPollOperationState, Secret> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
-   * @memberof DeleteSecretPoller
+   * @memberof RecoverDeletedSecretPoller
    */
   public intervalInMs: number;
 
-  constructor(options: DeleteSecretPollerOptions) {
+  constructor(options: RecoverDeletedSecretPollerOptions) {
     const { client, name, requestOptions, intervalInMs = 5000, resumeFrom } = options;
 
-    let state: DeleteSecretPollOperationState | undefined;
+    let state: RecoverDeletedSecretPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeDeleteSecretPollOperation({
+    const operation = makeRecoverDeletedSecretPollOperation({
       ...state,
       name,
       requestOptions,
@@ -44,7 +47,7 @@ export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, D
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
-   * @memberof DeleteSecretPoller
+   * @memberof RecoverDeletedSecretPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);

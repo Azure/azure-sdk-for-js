@@ -9,11 +9,11 @@ import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
  * @interface
  * An interface representing the secret client. For internal use.
  */
-export interface KeyClientInterface {
-  recoverDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<Secret>;
+export interface SecretClientInterface {
+  recoverDeletedSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<Secret>;
   getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
-  deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
-  getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
+  deleteSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
+  getDeletedSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
 }
 
 /**

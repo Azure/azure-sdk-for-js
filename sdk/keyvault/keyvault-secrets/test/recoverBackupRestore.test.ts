@@ -44,7 +44,7 @@ describe.only("Secret client - restore secrets and recover backups", () => {
       "Unexpected secret name in result from getSecret()."
     );
     const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
-    await getResult = await recoverPoller.pollUntilDone();
+    const getResult = await recoverPoller.pollUntilDone();
     assert.equal(
       getResult.properties.name,
       secretName,
@@ -59,7 +59,8 @@ describe.only("Secret client - restore secrets and recover backups", () => {
     );
     let error;
     try {
-      await client.recoverDeletedSecret(secretName);
+      const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+      await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

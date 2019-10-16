@@ -1,13 +1,13 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { DeletedSecret, SecretClientInterface } from "../../secretsModels";
+import { Secret, SecretClientInterface } from "../../secretsModels";
 
 /**
  * @interface
  * An interface representing the state of a delete secret's poll operation
  */
-export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
+export interface RecoverDeletedSecretPollOperationState extends PollOperationState<Secret> {
   name: string;
   requestOptions?: RequestOptionsBase;
   client: SecretClientInterface;
@@ -17,20 +17,20 @@ export interface DeleteSecretPollOperationState extends PollOperationState<Delet
  * @interface
  * An interface representing a delete secret's poll operation
  */
-export interface DeleteSecretPollOperation
-  extends PollOperation<DeleteSecretPollOperationState, DeletedSecret> {}
+export interface RecoverDeletedSecretPollOperation
+  extends PollOperation<RecoverDeletedSecretPollOperationState, Secret> {}
 
 /**
  * @summary Reaches to the service and updates the delete secret's poll operation.
  * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
  */
 async function update(
-  this: DeleteSecretPollOperation,
+  this: RecoverDeletedSecretPollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: DeleteSecretPollOperationState) => void;
+    fireProgress?: (state: RecoverDeletedSecretPollOperationState) => void;
   } = {}
-): Promise<DeleteSecretPollOperation> {
+): Promise<RecoverDeletedSecretPollOperation> {
   const state = this.state;
   const { name, client } = state;
 
@@ -40,17 +40,19 @@ async function update(
   }
 
   if (!state.started) {
-    const deletedSecret = await client.deleteSecret(name, requestOptions);
-    state.started = true;
-    if (!deletedSecret.properties.recoveryId) {
+    try {
+      state.result = await client.getSecret(name, { requestOptions });
       state.completed = true;
-      state.result = deletedSecret;
+    } catch (_) {}
+    if (!state.completed) {
+      await client.recoverDeletedSecret(name, { requestOptions });
+      state.started = true;
     }
   }
 
   if (!state.completed) {
     try {
-      state.result = await client.getDeletedSecret(name, { requestOptions });
+      state.result = await client.getSecret(name, { requestOptions });
       state.completed = true;
     } catch (error) {
       if (error.statusCode !== 404) {
@@ -60,7 +62,7 @@ async function update(
     }
   }
 
-  return makeDeleteSecretPollOperation(state);
+  return makeRecoverDeletedSecretPollOperation(state);
 }
 
 /**
@@ -68,16 +70,16 @@ async function update(
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
 async function cancel(
-  this: DeleteSecretPollOperation,
+  this: RecoverDeletedSecretPollOperation,
   _: { abortSignal?: AbortSignal } = {}
-): Promise<DeleteSecretPollOperation> {
+): Promise<RecoverDeletedSecretPollOperation> {
   throw new Error("Canceling the deletion of a secret is not supported.");
 }
 
 /**
  * @summary Serializes the create secret's poll operation
  */
-function toString(this: DeleteSecretPollOperation): string {
+function toString(this: RecoverDeletedSecretPollOperation): string {
   return JSON.stringify({
     state: this.state
   });
@@ -87,9 +89,9 @@ function toString(this: DeleteSecretPollOperation): string {
  * @summary Builds a create secret's poll operation
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
-export function makeDeleteSecretPollOperation(
-  state: DeleteSecretPollOperationState
-): DeleteSecretPollOperation {
+export function makeRecoverDeletedSecretPollOperation(
+  state: RecoverDeletedSecretPollOperationState
+): RecoverDeletedSecretPollOperation {
   return {
     state: {
       ...state

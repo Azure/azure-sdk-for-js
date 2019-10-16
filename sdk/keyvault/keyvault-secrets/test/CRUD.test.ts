@@ -238,12 +238,12 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, secretValue);
-    const deletePoller = const result = await client.beginDeleteSecret(secretName);
-    await deletePoller.pollUntilDone();
+    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletedSecret = await deletePoller.pollUntilDone();
 
-    assert.equal(typeof result.recoveryId, "string");
-    assert.ok(result.deletedDate instanceof Date);
-    assert.ok(result.scheduledPurgeDate instanceof Date);
+    assert.equal(typeof deletedSecret.properties.recoveryId, "string");
+    assert.ok(deletedSecret.properties.deletedDate instanceof Date);
+    assert.ok(deletedSecret.properties.scheduledPurgeDate instanceof Date);
 
     try {
       await client.getSecret(secretName);
