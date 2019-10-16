@@ -134,8 +134,8 @@ for (const eachService of serviceList) {
       "</h3>";
   }
   var mdFilePath = path.join(yamlPath, mdFile);
-  fs.writeFileSync(mdFilePath, mdContent);
+  fs.writeFile(mdFilePath, mdContent);
 }
 
-fs.writeFileSync(yamlFilePath, jsyaml.safeDump(jObject));
+fs.writeFile(yamlFilePath, jsyaml.safeDump(jObject));
 console.log("toc.yml created");
