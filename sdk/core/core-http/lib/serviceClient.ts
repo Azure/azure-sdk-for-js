@@ -204,9 +204,6 @@ export class ServiceClient {
         logger.info("ServiceClient: creating signing policy from provided credentials");
         authPolicyFactory = signingPolicy(credentials);
       } else if (credentials !== undefined) {
-        logger.warning(
-          "ServiceClient: The provided credentials argument must implement the TokenCredential interface"
-        );
         throw new Error("The credentials argument must implement the TokenCredential interface");
       }
 
