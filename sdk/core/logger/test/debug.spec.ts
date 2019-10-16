@@ -55,4 +55,30 @@ describe("debug", function() {
     subLogger(testMessage);
     assert.isTrue(logStub.calledOnceWith(testMessage));
   });
+  it("enable() handles a csv list", () => {
+    debug.enable("test,test2");
+    assert.isTrue(debug.enabled("test"));
+    assert.isTrue(debug.enabled("test2"));
+  });
+  it("enable() supports wildcards", () => {
+    const subLogger = logger.extend("foo");
+    debug.enable("test:*");
+    assert.isTrue(subLogger.enabled);
+    const testMessage = "hello world!";
+    subLogger(testMessage);
+    assert.isTrue(logStub.calledOnceWith(testMessage));
+  });
+  it("enable() supports the global wildcard", () => {
+    debug.enable("*");
+    assert.isTrue(debug.enabled("test"));
+    assert.isTrue(debug.enabled("bar"));
+  });
+  it("enable() supports skips", () => {
+    debug.enable("*,-test:*");
+    assert.isTrue(debug.enabled("bar"));
+    assert.isFalse(debug.enabled("test:foo"));
+  });
+  it("names ending in * are always enabled", () => {
+    assert.isTrue(debug.enabled("foo*"));
+  });
 });

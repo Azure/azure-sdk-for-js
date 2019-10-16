@@ -23,7 +23,9 @@ export interface Debugger {
 const debugEnvVariable =
   (typeof process !== "undefined" && process.env && process.env.DEBUG) || undefined;
 
-let enabledNamespaces: string[] = [];
+let enabledString: string | undefined;
+let enabledNamespaces: RegExp[] = [];
+let skippedNamespaces: RegExp[] = [];
 const debuggers: Debugger[] = [];
 
 if (debugEnvVariable) {
@@ -31,16 +33,35 @@ if (debugEnvVariable) {
 }
 
 function enable(namespaces: string): void {
-  // TODO: support wildcard (*) and skip (-) syntax
-  enabledNamespaces = namespaces.split(",");
+  enabledString = namespaces;
+  enabledNamespaces = [];
+  skippedNamespaces = [];
+  const wildcard = /\*/g;
+  const namespaceList = namespaces.split(",").map((ns) => ns.trim().replace(wildcard, ".*?"));
+  for (const ns of namespaceList) {
+    if (ns.startsWith("-")) {
+      skippedNamespaces.push(new RegExp(`^${ns.substr(1)}$`));
+    } else {
+      enabledNamespaces.push(new RegExp(`^${ns}$`));
+    }
+  }
   for (const instance of debuggers) {
     instance.enabled = enabled(instance.namespace);
   }
 }
 
 function enabled(namespace: string): boolean {
-  for (const ns of enabledNamespaces) {
-    if (ns === namespace) {
+  if (namespace.endsWith("*")) {
+    return true;
+  }
+
+  for (const skipped of skippedNamespaces) {
+    if (skipped.test(namespace)) {
+      return false;
+    }
+  }
+  for (const enabled of enabledNamespaces) {
+    if (enabled.test(namespace)) {
       return true;
     }
   }
@@ -48,7 +69,7 @@ function enabled(namespace: string): boolean {
 }
 
 function disable(): string {
-  const result = enabledNamespaces.join(",");
+  const result = enabledString || "";
   enable("");
   return result;
 }
