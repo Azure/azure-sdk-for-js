@@ -32,14 +32,13 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
 
   const packageName = artifactName.replace("azure-", "@azure/");
-  const rushPath = path.resolve(`${repoRoot}/rush.json`);
-  const rushSpec = await versionUtils.readFileJson(rushPath);
+  const rushSpec = await versionUtils.getRushSpec(repoRoot);
 
   const targetPackage = rushSpec.projects.find(
     packageSpec => packageSpec.packageName == packageName
   );
   const targetFile = path.resolve(
-    `${repoRoot}/${targetPackage.projectFolder}/package.json`
+    path.join(repoRoot, targetPackage.projectFolder, "package.json")
   );
 
   const targetFileContents = await versionUtils.readFileJson(targetFile);

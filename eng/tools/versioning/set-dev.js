@@ -20,13 +20,12 @@ async function main(argv) {
   const buildId = argv["build-id"];
   const repoRoot = argv["repo-root"];
 
-  const rushPath = path.resolve(`${repoRoot}/rush.json`);
-  const rushSpec = await versionUtils.readFileJson(rushPath);
+  const rushSpec = await versionUtils.getRushSpec(repoRoot);
 
   console.log(`Updating packages with Build ID ${buildId}`);
 
   const targetPackageFiles = rushSpec.projects.map(project =>
-    path.resolve(`${repoRoot}/${project.projectFolder}/package.json`)
+    path.resolve(path.join(repoRoot, project.projectFolder, "package.json"))
   );
 
   for (const targetFile of targetPackageFiles) {

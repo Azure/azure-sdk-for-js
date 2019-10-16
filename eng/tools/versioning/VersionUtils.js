@@ -22,5 +22,11 @@ async function writePackageJson(filename, contentObject) {
   }
 }
 
+async function getRushSpec(repoRoot) {
+  const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
+  return await versionUtils.readFileJson(rushPath);
+}
+
 module.exports.readFileJson = readFileJson;
 module.exports.writePackageJson = writePackageJson;
+module.exports.getRushSpec = getRushSpec;
