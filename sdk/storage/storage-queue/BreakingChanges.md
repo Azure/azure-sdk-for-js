@@ -1,5 +1,9 @@
 # Breaking Changes
 
+### 2019.10 12.0.0-preview.5
+
+- `IPRange` is renamed to `SasIPRange`.
+
 ### 2019.10 Version 12.0.0-preview.3
 
 - `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
@@ -18,6 +22,7 @@
     includeMetadata: true
   });
   ```
+
 ### 2019.08 Version 12.0.0-preview.2
 
 - Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.

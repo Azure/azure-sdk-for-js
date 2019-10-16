@@ -1,5 +1,9 @@
 # Changelog
 
+## 2019.10 12.0.0-preview.5
+
+- [Breaking] `IPRange` is renamed to `SasIPRange`.
+
 ## 2019.10 12.0.0-preview.4
 
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `QueueServiceClient` or `QueueClient` are instantiated.
@@ -27,6 +31,7 @@
     includeMetadata: true
   });
   ```
+- A new interface `CommonOptions` for options common to remote operations is exported. Currently, `CommonOptions` contains span options for tracing.
 
 ## 2019.08 12.0.0-preview.3
 

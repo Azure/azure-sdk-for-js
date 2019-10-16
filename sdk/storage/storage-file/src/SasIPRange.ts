@@ -5,15 +5,15 @@
  * Allowed IP range for a SAS.
  *
  * @export
- * @interface IPRange
+ * @interface SasIPRange
  */
-export interface IPRange {
+export interface SasIPRange {
   /**
    * Starting IP address in the IP range.
    * If end IP doesn't provide, start IP will the only IP allowed.
    *
    * @type {string}
-   * @memberof IPRange
+   * @memberof SasIPRange
    */
   start: string;
   /**
@@ -21,20 +21,20 @@ export interface IPRange {
    * If not provided, start IP will the only IP allowed.
    *
    * @type {string}
-   * @memberof IPRange
+   * @memberof SasIPRange
    */
   end?: string;
 }
 
 /**
- * Generate IPRange format string. For example:
+ * Generate SasIPRange format string. For example:
  *
  * "8.8.8.8" or "1.1.1.1-255.255.255.255"
  *
  * @export
- * @param {IPRange} ipRange
- * @returns {string}
+ * @param {SasIPRange} ipRange A range of IP addresses.
+ * @returns {string} string representation of the IP range.
  */
-export function ipRangeToString(ipRange: IPRange): string {
+export function ipRangeToString(ipRange: SasIPRange): string {
   return ipRange.end ? `${ipRange.start}-${ipRange.end}` : ipRange.start;
 }

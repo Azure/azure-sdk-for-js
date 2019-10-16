@@ -1,5 +1,9 @@
 # Breaking Changes
 
+### 2019.10 12.0.0-preview.5
+
+- `IPRange` is renamed to `SasIPRange`.
+
 ### 2019.10 Version 12.0.0-preview.4
 
 - Replace string array with boolean flags to specify dataset to include when list containers or blobs.
@@ -13,7 +17,7 @@
     After this change:
     ```js
     blobServiceClient.listContainers({
-      includeMetadata : true
+      includeMetadata: true
     });
     ```
   - For listing blobs

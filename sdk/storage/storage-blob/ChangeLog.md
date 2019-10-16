@@ -1,7 +1,8 @@
 # Changelog
 
-## Next release
+## 2019.10 12.0.0-preview.5
 
+- [Breaking] `IPRange` is renamed to `SasIPRange`.
 - Added ADLSgen2 related APIs.
   - Added new `DirectoryClient` for directory related operations.
   - Added `ContainerClient.getDirectoryClient()` to get a sub directory client under specific container.
@@ -40,7 +41,7 @@
       includeUncommitedBlobs: true
     });
     ```
-- [Breaking]  `BlobClient.setTier()` is renamed to `BlobClient.setAccessTier()`.
+- [Breaking] `BlobClient.setTier()` is renamed to `BlobClient.setAccessTier()`.
 - [Breaking] Fixed typo - `chanageLease` -> `changeLease`, a method on `LeaseClient`.
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `BlobServiceClient` or `BlobClient` are instantiated.
 - Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
@@ -55,6 +56,7 @@
 - [Breaking] `Models.StorageServiceProperties` is renamed to `Models.BlobServiceProperties`
 - [Breaking] `Models.StorageServiceStats` is renamed to `Models.BlobServiceStatistics`
 - [Breaking] `UserDelegationKey.signedOid` is renamed to `UserDelegationKey.signedObjectId`. `UserDelegationKey.signedTid` is renamed to `UserDelegationKey.signedTenantId`.
+- A new interface `CommonOptions` for options common to remote operations is exported. Currently, `CommonOptions` contains span options for tracing.
 
 ## 2019.09 12.0.0-preview.3
 
