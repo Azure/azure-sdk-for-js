@@ -320,7 +320,7 @@ describe("XML serializer", function() {
       );
     });
 
-    it.only("with element with child undefined element", async function() {
+    it("with element with child undefined element", async function() {
       const xml: any = await stringifyXML(
         {
           fruit: {

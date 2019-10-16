@@ -74,7 +74,7 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
 
 /**
  * Converts given XML string into JSON
- * @param str String containg the XML content to be parsed into JSON
+ * @param str String containing the XML content to be parsed into JSON
  * @param opts Options that govern the parsing of given xml string.
  * `includeRoot` indicates whether the root element is to be included or not in the output
  */
