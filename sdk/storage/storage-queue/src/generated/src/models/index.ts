@@ -7,7 +7,7 @@
  */
 
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 /**
  * An Access policy
@@ -284,7 +284,7 @@ export interface SignedIdentifier {
 /**
  * Storage Service Properties.
  */
-export interface StorageServiceProperties {
+export interface QueueServiceProperties {
   /**
    * Azure Analytics Logging settings
    */
@@ -306,7 +306,7 @@ export interface StorageServiceProperties {
 /**
  * Stats for the storage service.
  */
-export interface StorageServiceStats {
+export interface QueueServiceStatistics {
   /**
    * Geo-Replication information for the Secondary Storage Service
    */
@@ -316,7 +316,7 @@ export interface StorageServiceStats {
 /**
  * Optional Parameters.
  */
-export interface ServiceSetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceSetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -333,7 +333,7 @@ export interface ServiceSetPropertiesOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface ServiceGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceGetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -350,7 +350,7 @@ export interface ServiceGetPropertiesOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface ServiceGetStatisticsOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceGetStatisticsOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -367,7 +367,7 @@ export interface ServiceGetStatisticsOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface ServiceListQueuesSegmentOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceListQueuesSegmentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Filters the results to return only queues whose name begins with the specified prefix.
    */
@@ -410,7 +410,7 @@ export interface ServiceListQueuesSegmentOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface QueueCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface QueueCreateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -435,7 +435,7 @@ export interface QueueCreateOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface QueueDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface QueueDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -452,7 +452,7 @@ export interface QueueDeleteMethodOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface QueueGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface QueueGetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -469,7 +469,7 @@ export interface QueueGetPropertiesOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface QueueSetMetadataOptionalParams extends msRest.RequestOptionsBase {
+export interface QueueSetMetadataOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -494,7 +494,7 @@ export interface QueueSetMetadataOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface QueueGetAccessPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface QueueGetAccessPolicyOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -511,7 +511,7 @@ export interface QueueGetAccessPolicyOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface QueueSetAccessPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface QueueSetAccessPolicyOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * the acls for the queue
    */
@@ -532,7 +532,7 @@ export interface QueueSetAccessPolicyOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface MessagesDequeueOptionalParams extends msRest.RequestOptionsBase {
+export interface MessagesDequeueOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Optional. A nonzero integer value that specifies the number of messages to retrieve from the
    * queue, up to a maximum of 32. If fewer are visible, the visible messages are returned. By
@@ -563,7 +563,7 @@ export interface MessagesDequeueOptionalParams extends msRest.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface MessagesClearOptionalParams extends msRest.RequestOptionsBase {
+export interface MessagesClearOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -580,7 +580,7 @@ export interface MessagesClearOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface MessagesEnqueueOptionalParams extends msRest.RequestOptionsBase {
+export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Optional. Specifies the new visibility timeout value, in seconds, relative to server time. The
    * default value is 30 seconds. A specified value must be larger than or equal to 1 second, and
@@ -612,7 +612,7 @@ export interface MessagesEnqueueOptionalParams extends msRest.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface MessagesPeekOptionalParams extends msRest.RequestOptionsBase {
+export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Optional. A nonzero integer value that specifies the number of messages to retrieve from the
    * queue, up to a maximum of 32. If fewer are visible, the visible messages are returned. By
@@ -635,7 +635,7 @@ export interface MessagesPeekOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface MessageIdUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface MessageIdUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -652,7 +652,7 @@ export interface MessageIdUpdateOptionalParams extends msRest.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface MessageIdDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface MessageIdDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
@@ -1146,7 +1146,7 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1157,11 +1157,11 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGetPropertiesHeaders & {
+export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1175,18 +1175,18 @@ export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGet
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: StorageServiceProperties;
+      parsedBody: QueueServiceProperties;
     };
 };
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export type ServiceGetStatisticsResponse = StorageServiceStats & ServiceGetStatisticsHeaders & {
+export type ServiceGetStatisticsResponse = QueueServiceStatistics & ServiceGetStatisticsHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1200,7 +1200,7 @@ export type ServiceGetStatisticsResponse = StorageServiceStats & ServiceGetStati
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: StorageServiceStats;
+      parsedBody: QueueServiceStatistics;
     };
 };
 
@@ -1211,7 +1211,7 @@ export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & Servi
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1236,7 +1236,7 @@ export type QueueCreateResponse = QueueCreateHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1251,7 +1251,7 @@ export type QueueDeleteResponse = QueueDeleteHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1266,7 +1266,7 @@ export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1281,7 +1281,7 @@ export type QueueSetMetadataResponse = QueueSetMetadataHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1296,7 +1296,7 @@ export type QueueGetAccessPolicyResponse = Array<SignedIdentifier> & QueueGetAcc
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1321,7 +1321,7 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1336,7 +1336,7 @@ export type MessagesDequeueResponse = Array<DequeuedMessageItem> & MessagesDeque
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1361,7 +1361,7 @@ export type MessagesClearResponse = MessagesClearHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1376,7 +1376,7 @@ export type MessagesEnqueueResponse = Array<EnqueuedMessage> & MessagesEnqueueHe
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1401,7 +1401,7 @@ export type MessagesPeekResponse = Array<PeekedMessageItem> & MessagesPeekHeader
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1426,7 +1426,7 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1441,7 +1441,7 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */

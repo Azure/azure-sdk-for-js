@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 
-export const AccessPolicy: msRest.CompositeMapper = {
+export const AccessPolicy: coreHttp.CompositeMapper = {
   serializedName: "AccessPolicy",
   type: {
     name: "Composite",
@@ -40,7 +40,7 @@ export const AccessPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const CorsRule: msRest.CompositeMapper = {
+export const CorsRule: coreHttp.CompositeMapper = {
   serializedName: "CorsRule",
   type: {
     name: "Composite",
@@ -93,7 +93,7 @@ export const CorsRule: msRest.CompositeMapper = {
   }
 };
 
-export const DirectoryItem: msRest.CompositeMapper = {
+export const DirectoryItem: coreHttp.CompositeMapper = {
   xmlName: "Directory",
   serializedName: "DirectoryItem",
   type: {
@@ -112,7 +112,7 @@ export const DirectoryItem: msRest.CompositeMapper = {
   }
 };
 
-export const FileProperty: msRest.CompositeMapper = {
+export const FileProperty: coreHttp.CompositeMapper = {
   serializedName: "FileProperty",
   type: {
     name: "Composite",
@@ -130,7 +130,7 @@ export const FileProperty: msRest.CompositeMapper = {
   }
 };
 
-export const FileItem: msRest.CompositeMapper = {
+export const FileItem: coreHttp.CompositeMapper = {
   xmlName: "File",
   serializedName: "FileItem",
   type: {
@@ -158,7 +158,7 @@ export const FileItem: msRest.CompositeMapper = {
   }
 };
 
-export const FilesAndDirectoriesListSegment: msRest.CompositeMapper = {
+export const FilesAndDirectoriesListSegment: coreHttp.CompositeMapper = {
   xmlName: "Entries",
   serializedName: "FilesAndDirectoriesListSegment",
   type: {
@@ -199,7 +199,7 @@ export const FilesAndDirectoriesListSegment: msRest.CompositeMapper = {
   }
 };
 
-export const HandleItem: msRest.CompositeMapper = {
+export const HandleItem: coreHttp.CompositeMapper = {
   xmlName: "Handle",
   serializedName: "HandleItem",
   type: {
@@ -272,7 +272,7 @@ export const HandleItem: msRest.CompositeMapper = {
   }
 };
 
-export const ListFilesAndDirectoriesSegmentResponse: msRest.CompositeMapper = {
+export const ListFilesAndDirectoriesSegmentResponse: coreHttp.CompositeMapper = {
   xmlName: "EnumerationResults",
   serializedName: "ListFilesAndDirectoriesSegmentResponse",
   type: {
@@ -357,7 +357,7 @@ export const ListFilesAndDirectoriesSegmentResponse: msRest.CompositeMapper = {
   }
 };
 
-export const ListHandlesResponse: msRest.CompositeMapper = {
+export const ListHandlesResponse: coreHttp.CompositeMapper = {
   xmlName: "EnumerationResults",
   serializedName: "ListHandlesResponse",
   type: {
@@ -391,7 +391,7 @@ export const ListHandlesResponse: msRest.CompositeMapper = {
   }
 };
 
-export const ShareProperties: msRest.CompositeMapper = {
+export const ShareProperties: coreHttp.CompositeMapper = {
   serializedName: "ShareProperties",
   type: {
     name: "Composite",
@@ -425,7 +425,7 @@ export const ShareProperties: msRest.CompositeMapper = {
   }
 };
 
-export const ShareItem: msRest.CompositeMapper = {
+export const ShareItem: coreHttp.CompositeMapper = {
   xmlName: "Share",
   serializedName: "ShareItem",
   type: {
@@ -472,7 +472,7 @@ export const ShareItem: msRest.CompositeMapper = {
   }
 };
 
-export const ListSharesResponse: msRest.CompositeMapper = {
+export const ListSharesResponse: coreHttp.CompositeMapper = {
   xmlName: "EnumerationResults",
   serializedName: "ListSharesResponse",
   type: {
@@ -536,7 +536,7 @@ export const ListSharesResponse: msRest.CompositeMapper = {
   }
 };
 
-export const RetentionPolicy: msRest.CompositeMapper = {
+export const RetentionPolicy: coreHttp.CompositeMapper = {
   serializedName: "RetentionPolicy",
   type: {
     name: "Composite",
@@ -565,7 +565,7 @@ export const RetentionPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const Metrics: msRest.CompositeMapper = {
+export const Metrics: coreHttp.CompositeMapper = {
   serializedName: "Metrics",
   type: {
     name: "Composite",
@@ -606,7 +606,7 @@ export const Metrics: msRest.CompositeMapper = {
   }
 };
 
-export const Range: msRest.CompositeMapper = {
+export const Range: coreHttp.CompositeMapper = {
   serializedName: "Range",
   type: {
     name: "Composite",
@@ -632,7 +632,7 @@ export const Range: msRest.CompositeMapper = {
   }
 };
 
-export const StorageError: msRest.CompositeMapper = {
+export const StorageError: coreHttp.CompositeMapper = {
   serializedName: "StorageError",
   type: {
     name: "Composite",
@@ -649,7 +649,7 @@ export const StorageError: msRest.CompositeMapper = {
   }
 };
 
-export const ShareStats: msRest.CompositeMapper = {
+export const ShareStats: coreHttp.CompositeMapper = {
   serializedName: "ShareStats",
   type: {
     name: "Composite",
@@ -667,7 +667,7 @@ export const ShareStats: msRest.CompositeMapper = {
   }
 };
 
-export const SignedIdentifier: msRest.CompositeMapper = {
+export const SignedIdentifier: coreHttp.CompositeMapper = {
   serializedName: "SignedIdentifier",
   type: {
     name: "Composite",
@@ -693,11 +693,30 @@ export const SignedIdentifier: msRest.CompositeMapper = {
   }
 };
 
-export const StorageServiceProperties: msRest.CompositeMapper = {
-  serializedName: "StorageServiceProperties",
+export const Permission: coreHttp.CompositeMapper = {
+  serializedName: "Permission",
   type: {
     name: "Composite",
-    className: "StorageServiceProperties",
+    className: "Permission",
+    modelProperties: {
+      permission: {
+        xmlName: "Permission",
+        required: true,
+        serializedName: "Permission",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileServiceProperties: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceProperties",
+  serializedName: "FileServiceProperties",
+  type: {
+    name: "Composite",
+    className: "FileServiceProperties",
     modelProperties: {
       hourMetrics: {
         xmlName: "HourMetrics",
@@ -734,25 +753,7 @@ export const StorageServiceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const Permission: msRest.CompositeMapper = {
-  serializedName: "Permission",
-  type: {
-    name: "Composite",
-    className: "Permission",
-    modelProperties: {
-      permission: {
-        xmlName: "Permission",
-        required: true,
-        serializedName: "Permission",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FileHTTPHeaders: msRest.CompositeMapper = {
+export const FileHTTPHeaders: coreHttp.CompositeMapper = {
   xmlName: "file-HTTP-headers",
   type: {
     name: "Composite",
@@ -798,7 +799,7 @@ export const FileHTTPHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const SourceModifiedAccessConditions: msRest.CompositeMapper = {
+export const SourceModifiedAccessConditions: coreHttp.CompositeMapper = {
   xmlName: "source-modified-access-conditions",
   type: {
     name: "Composite",
@@ -820,7 +821,7 @@ export const SourceModifiedAccessConditions: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceSetPropertiesHeaders: msRest.CompositeMapper = {
+export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-setproperties-headers",
   type: {
     name: "Composite",
@@ -848,7 +849,7 @@ export const ServiceSetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceGetPropertiesHeaders: msRest.CompositeMapper = {
+export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-getproperties-headers",
   type: {
     name: "Composite",
@@ -876,7 +877,7 @@ export const ServiceGetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceListSharesSegmentHeaders: msRest.CompositeMapper = {
+export const ServiceListSharesSegmentHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-listsharessegment-headers",
   type: {
     name: "Composite",
@@ -904,7 +905,7 @@ export const ServiceListSharesSegmentHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareCreateHeaders: msRest.CompositeMapper = {
+export const ShareCreateHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-create-headers",
   type: {
     name: "Composite",
@@ -950,7 +951,7 @@ export const ShareCreateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareGetPropertiesHeaders: msRest.CompositeMapper = {
+export const ShareGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-getproperties-headers",
   type: {
     name: "Composite",
@@ -1014,7 +1015,7 @@ export const ShareGetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareDeleteHeaders: msRest.CompositeMapper = {
+export const ShareDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-delete-headers",
   type: {
     name: "Composite",
@@ -1048,7 +1049,7 @@ export const ShareDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareCreateSnapshotHeaders: msRest.CompositeMapper = {
+export const ShareCreateSnapshotHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-createsnapshot-headers",
   type: {
     name: "Composite",
@@ -1100,7 +1101,7 @@ export const ShareCreateSnapshotHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareCreatePermissionHeaders: msRest.CompositeMapper = {
+export const ShareCreatePermissionHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-createpermission-headers",
   type: {
     name: "Composite",
@@ -1140,7 +1141,7 @@ export const ShareCreatePermissionHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareGetPermissionHeaders: msRest.CompositeMapper = {
+export const ShareGetPermissionHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-getpermission-headers",
   type: {
     name: "Composite",
@@ -1174,7 +1175,7 @@ export const ShareGetPermissionHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareSetQuotaHeaders: msRest.CompositeMapper = {
+export const ShareSetQuotaHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-setquota-headers",
   type: {
     name: "Composite",
@@ -1220,7 +1221,7 @@ export const ShareSetQuotaHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareSetMetadataHeaders: msRest.CompositeMapper = {
+export const ShareSetMetadataHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-setmetadata-headers",
   type: {
     name: "Composite",
@@ -1266,7 +1267,7 @@ export const ShareSetMetadataHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareGetAccessPolicyHeaders: msRest.CompositeMapper = {
+export const ShareGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-getaccesspolicy-headers",
   type: {
     name: "Composite",
@@ -1312,7 +1313,7 @@ export const ShareGetAccessPolicyHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareSetAccessPolicyHeaders: msRest.CompositeMapper = {
+export const ShareSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-setaccesspolicy-headers",
   type: {
     name: "Composite",
@@ -1358,7 +1359,7 @@ export const ShareSetAccessPolicyHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ShareGetStatisticsHeaders: msRest.CompositeMapper = {
+export const ShareGetStatisticsHeaders: coreHttp.CompositeMapper = {
   serializedName: "share-getstatistics-headers",
   type: {
     name: "Composite",
@@ -1404,7 +1405,7 @@ export const ShareGetStatisticsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DirectoryCreateHeaders: msRest.CompositeMapper = {
+export const DirectoryCreateHeaders: coreHttp.CompositeMapper = {
   serializedName: "directory-create-headers",
   type: {
     name: "Composite",
@@ -1498,7 +1499,7 @@ export const DirectoryCreateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DirectoryGetPropertiesHeaders: msRest.CompositeMapper = {
+export const DirectoryGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "directory-getproperties-headers",
   type: {
     name: "Composite",
@@ -1604,7 +1605,7 @@ export const DirectoryGetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DirectoryDeleteHeaders: msRest.CompositeMapper = {
+export const DirectoryDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "directory-delete-headers",
   type: {
     name: "Composite",
@@ -1638,7 +1639,7 @@ export const DirectoryDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DirectorySetPropertiesHeaders: msRest.CompositeMapper = {
+export const DirectorySetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "directory-setproperties-headers",
   type: {
     name: "Composite",
@@ -1732,7 +1733,7 @@ export const DirectorySetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DirectorySetMetadataHeaders: msRest.CompositeMapper = {
+export const DirectorySetMetadataHeaders: coreHttp.CompositeMapper = {
   serializedName: "directory-setmetadata-headers",
   type: {
     name: "Composite",
@@ -1778,7 +1779,7 @@ export const DirectorySetMetadataHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DirectoryListFilesAndDirectoriesSegmentHeaders: msRest.CompositeMapper = {
+export const DirectoryListFilesAndDirectoriesSegmentHeaders: coreHttp.CompositeMapper = {
   serializedName: "directory-listfilesanddirectoriessegment-headers",
   type: {
     name: "Composite",
@@ -1818,7 +1819,7 @@ export const DirectoryListFilesAndDirectoriesSegmentHeaders: msRest.CompositeMap
   }
 };
 
-export const DirectoryListHandlesHeaders: msRest.CompositeMapper = {
+export const DirectoryListHandlesHeaders: coreHttp.CompositeMapper = {
   serializedName: "directory-listhandles-headers",
   type: {
     name: "Composite",
@@ -1858,7 +1859,7 @@ export const DirectoryListHandlesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const DirectoryForceCloseHandlesHeaders: msRest.CompositeMapper = {
+export const DirectoryForceCloseHandlesHeaders: coreHttp.CompositeMapper = {
   serializedName: "directory-forceclosehandles-headers",
   type: {
     name: "Composite",
@@ -1904,7 +1905,7 @@ export const DirectoryForceCloseHandlesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileCreateHeaders: msRest.CompositeMapper = {
+export const FileCreateHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-create-headers",
   type: {
     name: "Composite",
@@ -1998,7 +1999,7 @@ export const FileCreateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileDownloadHeaders: msRest.CompositeMapper = {
+export const FileDownloadHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-download-headers",
   type: {
     name: "Composite",
@@ -2206,7 +2207,7 @@ export const FileDownloadHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetPropertiesHeaders: msRest.CompositeMapper = {
+export const FileGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-getproperties-headers",
   type: {
     name: "Composite",
@@ -2402,7 +2403,7 @@ export const FileGetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileDeleteHeaders: msRest.CompositeMapper = {
+export const FileDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-delete-headers",
   type: {
     name: "Composite",
@@ -2436,7 +2437,7 @@ export const FileDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileSetHTTPHeadersHeaders: msRest.CompositeMapper = {
+export const FileSetHTTPHeadersHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-sethttpheaders-headers",
   type: {
     name: "Composite",
@@ -2530,7 +2531,7 @@ export const FileSetHTTPHeadersHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileSetMetadataHeaders: msRest.CompositeMapper = {
+export const FileSetMetadataHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-setmetadata-headers",
   type: {
     name: "Composite",
@@ -2576,7 +2577,7 @@ export const FileSetMetadataHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileUploadRangeHeaders: msRest.CompositeMapper = {
+export const FileUploadRangeHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-uploadrange-headers",
   type: {
     name: "Composite",
@@ -2634,7 +2635,7 @@ export const FileUploadRangeHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileUploadRangeFromURLHeaders: msRest.CompositeMapper = {
+export const FileUploadRangeFromURLHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-uploadrangefromurl-headers",
   type: {
     name: "Composite",
@@ -2692,7 +2693,7 @@ export const FileUploadRangeFromURLHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileGetRangeListHeaders: msRest.CompositeMapper = {
+export const FileGetRangeListHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-getrangelist-headers",
   type: {
     name: "Composite",
@@ -2744,7 +2745,7 @@ export const FileGetRangeListHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileStartCopyHeaders: msRest.CompositeMapper = {
+export const FileStartCopyHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-startcopy-headers",
   type: {
     name: "Composite",
@@ -2808,7 +2809,7 @@ export const FileStartCopyHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileAbortCopyHeaders: msRest.CompositeMapper = {
+export const FileAbortCopyHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-abortcopy-headers",
   type: {
     name: "Composite",
@@ -2842,7 +2843,7 @@ export const FileAbortCopyHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileListHandlesHeaders: msRest.CompositeMapper = {
+export const FileListHandlesHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-listhandles-headers",
   type: {
     name: "Composite",
@@ -2882,7 +2883,7 @@ export const FileListHandlesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const FileForceCloseHandlesHeaders: msRest.CompositeMapper = {
+export const FileForceCloseHandlesHeaders: coreHttp.CompositeMapper = {
   serializedName: "file-forceclosehandles-headers",
   type: {
     name: "Composite",

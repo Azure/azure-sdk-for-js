@@ -42,7 +42,7 @@ const nodeConfig = {
   },
   plugins: [
     nodeResolve({
-      mainFields: ["module", "main"],
+      mainFields: ["module", "main"]
     }),
     commonjs(),
     sourcemaps(),

@@ -1,17 +1,73 @@
-import { delay as restDelay } from "@azure/ms-rest-js";
 import * as dotenv from "dotenv";
 import fs from "fs-extra";
 import nise from "nise";
 import queryString from "query-string";
 
 import { getUniqueName, isBrowser } from "../utils";
+import { delay as restDelay } from "@azure/core-http";
 import { blobToString } from "./index.browser";
 
 dotenv.config({ path: "../.env" });
 
 let nock: any;
 if (!isBrowser()) {
-  nock = require("nock");
+  if (process.env.TEST_MODE === "record" || process.env.TEST_MODE === "playback") {
+    nock = require("nock");
+  }
+} else if ((window as any).__env__.TEST_MODE === "record") {
+  // Converting content corresponding to all the console statements
+  //  into (JSON.stringify)-ed content in record mode for browser tests.
+  //
+  // In browser, once the content to be recorded is ready, recordings
+  //  are supposed to be sent to the appropriate karma reporter(jsonToFileReporter)
+  //  in order to generate the corresponding recording file.
+  // The way to do this is by printing the recordings as JSON strings to `console.log()`.
+  // As a result, the console gets filled with lots of prints while recording.
+  //
+  // We solve this issue by
+  // - disabling the console.logs from karma and
+  // - by adding a custom console.log() which converts all the console statements into
+  //   console.log() with stringified JSON objects.
+  // - Handle all the console.logs with stringified JSON objects in karma.conf.js
+  //   as explained below.
+  //
+  // Karma.conf.js
+  // - jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs.
+  // - Console logs with `.writeFile` property are captured and are written to a file(recordings).
+  // - The other console statements are captured and printed normally.
+  // - Example - console.warn("hello"); -> console.log({ warn: "hello" });
+  // - Example - console.log("hello"); -> console.log({ log: "hello" });
+  const consoleLog = window.console.log;
+  for (const method in window.console) {
+    if (
+      window.console.hasOwnProperty(method) &&
+      typeof (window.console as any)[method] === "function"
+    ) {
+      (window.console as any)[method] = function(obj: any) {
+        try {
+          if (!JSON.parse(obj).writeFile) {
+            // If the JSON string doesn't contain `.writeFile` property,
+            // we wrap the object as a JSON object and apply JSON.stringify()
+            // Example - console.warn("hello"); -> console.log({ warn: "hello" });
+            const newObj: any = {};
+            newObj[method] = obj;
+            consoleLog(JSON.stringify(newObj));
+          } else {
+            // If the JSON strings contain `.writeFile` property,
+            // use the console.log as it is.
+            consoleLog(obj);
+          }
+        } catch (error) {
+          // If the object is not a JSON string, the try block fails and
+          // we wrap the object as a JSON object and apply JSON.stringify()
+          // (same as the if block in try)
+          const newObj: any = {};
+          newObj[method] = obj;
+          consoleLog(JSON.stringify(newObj));
+        }
+      };
+    }
+  }
 }
 
 const env = isBrowser() ? (window as any).__env__ : process.env;
@@ -23,6 +79,7 @@ if (isPlayingBack) {
   env.ACCOUNT_NAME = "fakestorageaccount";
   env.ACCOUNT_KEY = "aaaaa";
   env.ACCOUNT_SAS = "aaaaa";
+  env.STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=${env.ACCOUNT_NAME};AccountKey=${env.ACCOUNT_KEY};EndpointSuffix=core.windows.net`;
 }
 
 export function delay(milliseconds: number): Promise<void> | null {
@@ -48,12 +105,49 @@ const skip = [
   // Abort
   "browsers/aborter/recording_should_abort_when_calling_abort_before_request_finishes.json",
   // Unknown reason (playback fails, probably same as Nock)
-  "browsers/fileurl/recording_download_should_update_progress_and_abort_successfully.json",
+  "browsers/fileclient/recording_download_should_update_progress_and_abort_successfully.json",
   // Unknown reason (recording throws an error, but file is generated and playback works)
-  "browsers/fileurl/recording_uploadrange_with_progress_event.json",
-  // Nock issue: https://github.com/Azure/azure-sdk-for-js/issues/5229
-  "node/fileurl/recording_uploadrange_with_progress_event.js",
+  "browsers/fileclient/recording_uploadrange_with_progress_event.json",
+  // Progress
+  "node/fileclient/recording_download_should_update_progress_and_abort_successfully.js",
   // Abort. Nock doesn't record aborted request, should investigate
+  "node/highlevel_nodejs_only/recording_uploadfile_should_abort_for_large_data.js",
+  // Abort. Nock doesn't record aborted request, should investigate
+  "node/highlevel_nodejs_only/recording_uploadfile_should_abort_for_small_data.js",
+  // Nock issue: https://github.com/Azure/azure-sdk-for-js/issues/5229
+  "node/fileclient/recording_uploadrange_with_progress_event.js",
+  // Abort. Nock doesn't record aborted request, should investigate
+  "node/highlevel_nodejs_only/recording_uploadstream_should_abort.js",
+  // Progress, Size (15MB), Tempfile
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_abort_after_retrys.js",
+  // Size (15MB), Tempfile
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_download_data_failed_when_exceeding_max_stream_retry_requests.js",
+  // Size (30MB), Tempfile
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_download_full_data_successfully_when_internal_stream_unexcepted_ends.js",
+  // Size (15MB), Tempfile
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_download_partial_data_when_internal_stream_unexcepted_ends.js",
+  // Size (30MB), Tempfile
+  "node/highlevel_nodejs_only/recording_fileclientdownload_should_success_when_internal_stream_unexcepted_ends_at_the_stream_end.js",
+  // Size (263MB), Tempfile
+  "node/highlevel_nodejs_only/recording_downloadtobuffer_should_abort.js",
+  // Size (526MB), Tempfile
+  "node/highlevel_nodejs_only/recording_downloadtobuffer_should_success.js",
+  // Progress, Size (15MB), Tempfile
+  "node/highlevel_nodejs_only/recording_downloadtobuffer_should_update_progress_event.js",
+  // Size (526MB), Tempfile
+  "node/highlevel_nodejs_only/recording_uploadfile_should_success_for_large_data.js",
+  // Size (30MB), Tempfile
+  "node/highlevel_nodejs_only/recording_uploadfile_should_success_for_small_data.js",
+  // Progress, Size (4MB), Tempfile
+  "node/highlevel_nodejs_only/recording_uploadfile_should_update_progress_for_large_data.js",
+  // Progress, Size (3MB), Tempfile
+  "node/highlevel_nodejs_only/recording_uploadfile_should_update_progress_for_small_data.js",
+  // Size (526MB), Tempfile
+  "node/highlevel_nodejs_only/recording_uploadstream_should_success.js",
+  // Size (263MB), Tempfile
+  "node/highlevel_nodejs_only/recording_uploadstream_should_update_progress_event.js",
+  // Size (30MB), Tempfile
+  "node/highlevel_nodejs_only/recording_downloadtofile_should_success.js",
   "node/highlevel_nodejs_only/recording_uploadfiletoazurefile_should_abort_for_large_data.js",
   // Abort. Nock doesn't record aborted request, should investigate
   "node/highlevel_nodejs_only/recording_uploadfiletoazurefile_should_abort_for_small_data.js",
@@ -90,7 +184,7 @@ const skip = [
   // Size (263MB), Tempfile
   "node/highlevel_nodejs_only/recording_uploadstreamtoazurefile_should_update_progress_event.js",
   // Skipping for now, further investigation needed on the errors in playback
-  "browsers/fileurl/recording_startcopyfromurl.json"
+  "browsers/fileclient/recording_startcopyfromurl.json"
 ];
 
 abstract class Recorder {

@@ -1,28 +1,25 @@
-import { Aborter } from "../../src/Aborter";
-import { DirectoryURL } from "../../src/DirectoryURL";
-import { FileURL } from "../../src/FileURL";
-import { ShareURL } from "../../src/ShareURL";
 import { getBSU } from "../utils";
 import { record } from "../utils/recorder";
+import { ShareClient } from "../../src";
 
 describe("SharedKeyCredentialPolicy Node.js only", () => {
-  const serviceURL = getBSU();
+  const serviceClient = getBSU();
   let shareName: string;
-  let shareURL: ShareURL;
+  let shareClient: ShareClient;
 
   let recorder: any;
 
   before(async function() {
     recorder = record(this);
     shareName = recorder.getUniqueName("1share-with-dash");
-    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
     recorder.stop();
   });
 
   after(async function() {
     recorder = record(this);
-    await shareURL.delete(Aborter.none);
+    await shareClient.delete();
     recorder.stop();
   });
 
@@ -30,27 +27,27 @@ describe("SharedKeyCredentialPolicy Node.js only", () => {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 
   it("SharedKeyCredentialPolicy should work with special share and file names with spaces", async () => {
     const dirName = recorder.getUniqueName("dir empty");
-    const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    const dirClient = shareClient.getDirectoryClient(dirName);
+    await dirClient.create();
 
     const fileName: string = recorder.getUniqueName("file empty");
-    const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
-    await fileURL.create(Aborter.none, 0);
+    const fileClient = dirClient.getFileClient(fileName);
+    await fileClient.create(0);
   });
 
   it("SharedKeyCredentialPolicy should work with special share and file names uppercase", async () => {
     const dirName = recorder.getUniqueName("Dir empty");
-    const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    const dirClient = shareClient.getDirectoryClient(dirName);
+    await dirClient.create();
 
     const fileName: string = recorder.getUniqueName("Upper_another");
-    const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
-    await fileURL.create(Aborter.none, 0);
+    const fileClient = dirClient.getFileClient(fileName);
+    await fileClient.create(0);
   });
 });
