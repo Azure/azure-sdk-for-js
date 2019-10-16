@@ -9,6 +9,10 @@ describe("debug", function() {
   let logger: Debugger;
   let logStub: sinon.SinonStub<any[], void>;
 
+  function expectedTestMessage(namespace: string, message: string): string {
+    return `${namespace} ${message}`;
+  }
+
   beforeEach(() => {
     logger = debug("test");
     logStub = stub(logger, "log");
@@ -24,7 +28,7 @@ describe("debug", function() {
     assert.isTrue(logger.enabled);
     const testMessage = "hello world!";
     logger(testMessage);
-    assert.isTrue(logStub.calledOnceWith(testMessage));
+    assert.isTrue(logStub.calledOnceWith(expectedTestMessage("test", testMessage)));
   });
   it("does not log when not enabled", () => {
     const testMessage = "hello world!";
@@ -36,7 +40,7 @@ describe("debug", function() {
     assert.isTrue(logger.enabled);
     const testMessage = "hello world!";
     logger(testMessage);
-    assert.isTrue(logStub.calledOnceWith(testMessage));
+    assert.isTrue(logStub.calledOnceWith(expectedTestMessage("test", testMessage)));
     assert.strictEqual(
       debug.disable(),
       "test",
@@ -53,7 +57,7 @@ describe("debug", function() {
     const testMessage = "hello world!";
     logger(testMessage);
     subLogger(testMessage);
-    assert.isTrue(logStub.calledOnceWith(testMessage));
+    assert.isTrue(logStub.calledOnceWith(expectedTestMessage("test:foo", testMessage)));
   });
   it("enable() handles a csv list", () => {
     debug.enable("test,test2");
@@ -66,7 +70,7 @@ describe("debug", function() {
     assert.isTrue(subLogger.enabled);
     const testMessage = "hello world!";
     subLogger(testMessage);
-    assert.isTrue(logStub.calledOnceWith(testMessage));
+    assert.isTrue(logStub.calledOnceWith(expectedTestMessage("test:foo", testMessage)));
   });
   it("enable() supports the global wildcard", () => {
     debug.enable("*");
