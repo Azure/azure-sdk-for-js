@@ -106,7 +106,7 @@ async function main() {
   // Parallel downloading an Azure file into Node.js buffer
   // FileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
-  await fileClient.downloadToBuffer(buffer, 0, undefined, {
+  await fileClient.downloadToBuffer(buffer, undefined, undefined, {
     abortSignal: AbortController.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
