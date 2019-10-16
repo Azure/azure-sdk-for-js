@@ -13,7 +13,10 @@ export interface SecretClientInterface {
   recoverDeletedSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<Secret>;
   getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
   deleteSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
-  getDeletedSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
+  getDeletedSecret(
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<DeletedSecret>;
 }
 
 /**
@@ -110,7 +113,7 @@ export interface DeletedSecret {
   /**
    * @member {SecretProperties} [properties] The properties of the secret
    */
-  properties: SecretProperties & {	
+  properties: SecretProperties & {
     /**
      * @member {string} [recoveryId] The url of the recovery object, used to
      * identify and recover the deleted secret.

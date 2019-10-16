@@ -17,7 +17,10 @@ export interface RecoverDeletedSecretPollerOptions {
 /**
  * Class that deletes a poller that waits until a secret finishes being deleted
  */
-export class RecoverDeletedSecretPoller extends Poller<RecoverDeletedSecretPollOperationState, Secret> {
+export class RecoverDeletedSecretPoller extends Poller<
+  RecoverDeletedSecretPollOperationState,
+  Secret
+> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    * @memberof RecoverDeletedSecretPoller

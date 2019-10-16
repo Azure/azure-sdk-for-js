@@ -46,7 +46,10 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 
 import { DeleteSecretPoller, DeleteSecretPollerOptions } from "./lro/delete/poller";
 import { DeleteSecretPollOperationState } from "./lro/delete/operation";
-import { RecoverDeletedSecretPoller, RecoverDeletedSecretPollerOptions } from "./lro/recover/poller";
+import {
+  RecoverDeletedSecretPoller,
+  RecoverDeletedSecretPollerOptions
+} from "./lro/recover/poller";
 import { RecoverDeletedSecretPollOperationState } from "./lro/recover/operation";
 
 import {
@@ -316,9 +319,9 @@ export class SecretClient {
    */
   public async beginDeleteSecret(
     name: string,
-    options?: SecretPollerOptions,
+    options?: SecretPollerOptions
   ): Promise<DeleteSecretPoller> {
-   const poller = new DeleteSecretPoller({
+    const poller = new DeleteSecretPoller({
       name,
       client: this.pollerClient,
       ...options
@@ -521,9 +524,9 @@ export class SecretClient {
    */
   public async beginRecoverDeletedSecret(
     name: string,
-    options?: SecretPollerOptions,
+    options?: SecretPollerOptions
   ): Promise<RecoverDeletedSecretPoller> {
-   const poller = new RecoverDeletedSecretPoller({
+    const poller = new RecoverDeletedSecretPoller({
       name,
       client: this.pollerClient,
       ...options
@@ -620,7 +623,7 @@ export class SecretClient {
     }
 
     return this.getDeletedSecretFromDeletedSecretBundle(response);
-  } 
+  }
 
   private async recoverDeletedSecret(
     secretName: string,
@@ -768,9 +771,7 @@ export class SecretClient {
     }
   }
 
-  private async *listSecretsAll(
-    options?: RequestOptions
-  ): AsyncIterableIterator<SecretProperties> {
+  private async *listSecretsAll(options?: RequestOptions): AsyncIterableIterator<SecretProperties> {
     const f = {};
 
     for await (const page of this.listSecretsPage(f, options)) {
