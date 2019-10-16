@@ -97,8 +97,7 @@ export {
   TokenCredential,
   GetTokenOptions,
   AccessToken,
-  isTokenCredential,
-  SimpleTokenCredential
+  isTokenCredential
 } from "@azure/core-auth";
 export { AccessTokenCache, ExpiringAccessTokenCache } from "./credentials/accessTokenCache";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";
