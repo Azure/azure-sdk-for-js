@@ -53,8 +53,8 @@ export function logPolicy(
 export class LogPolicy extends BaseRequestPolicy {
   logger?: any;
 
-  public allowedHeaderNames: string[] = defaultAllowedHeaderNames;
-  public allowedQueryParameters: string[] = defaultAllowedQueryParameters;
+  public allowedHeaderNames: Set<string>;
+  public allowedQueryParameters: Set<string>;
 
   constructor(
     nextPolicy: RequestPolicy,
@@ -68,13 +68,16 @@ export class LogPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
     this.logger = logger;
 
-    if (allowedHeaderNames) {
-      this.allowedHeaderNames = this.allowedHeaderNames.concat(allowedHeaderNames);
-    }
+    allowedHeaderNames = allowedHeaderNames && allowedHeaderNames instanceof Array
+      ? defaultAllowedHeaderNames.concat(allowedHeaderNames)
+      : defaultAllowedHeaderNames;
 
-    if (allowedQueryParameters) {
-      this.allowedQueryParameters = this.allowedQueryParameters.concat(allowedQueryParameters);
-    }
+    allowedQueryParameters = allowedQueryParameters && allowedQueryParameters instanceof Array
+      ? defaultAllowedQueryParameters.concat(allowedQueryParameters)
+      : defaultAllowedQueryParameters;
+
+    this.allowedHeaderNames = new Set(allowedHeaderNames);
+    this.allowedQueryParameters = new Set(allowedQueryParameters);
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -120,7 +123,7 @@ export class LogPolicy extends BaseRequestPolicy {
 
   private sanitizeObject(
     value: { [s: string]: any },
-    allowedKeys: string[],
+    allowedKeys: Set<string>,
     accessor: (value: any, key: string) => any
   ) {
     if (typeof value !== "object" || value === null) {
@@ -130,7 +133,7 @@ export class LogPolicy extends BaseRequestPolicy {
     const sanitized: { [s: string]: string } = {};
 
     for (const k of Object.keys(value)) {
-      if (allowedKeys.includes(k)) {
+      if (allowedKeys.has(k)) {
         sanitized[k] = accessor(value, k);
       } else {
         sanitized[k] = RedactedString;
@@ -154,7 +157,7 @@ export class LogPolicy extends BaseRequestPolicy {
 
     const query = URLQuery.parse(queryString);
     for (const k of query.keys()) {
-      if (!this.allowedQueryParameters.includes(k)) {
+      if (!this.allowedQueryParameters.has(k)) {
         query.set(k, RedactedString);
       }
     }
