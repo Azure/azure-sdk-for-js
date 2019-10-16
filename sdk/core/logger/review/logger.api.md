@@ -23,7 +23,7 @@ export interface AzureLogger {
 }
 
 // @public
-export type AzureLogLevel = 'verbose' | 'info' | 'warning' | 'error';
+export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
 
 // @public
 export function createClientLogger(namespace: string): AzureLogger;
