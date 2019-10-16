@@ -266,7 +266,7 @@ export class CertificateClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultBaseUrl: string;
+  public readonly vaultEndpoint: string;
 
   /**
    * The options to create the connection to the service
@@ -288,11 +288,11 @@ export class CertificateClient {
    * @memberof CertificateClient
    */
   constructor(
-    url: string,
+    endPoint: string,
     credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
-    this.vaultBaseUrl = url;
+    this.vaultEndpoint = endPoint;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
       this.pipeline = CertificateClient.getDefaultPipeline(credential, pipelineOrOptions);
@@ -331,7 +331,7 @@ export class CertificateClient {
         ...options
       };
       const currentSetResponse = await this.client.getCertificates(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -419,7 +419,7 @@ export class CertificateClient {
         ...options
       };
       const currentSetResponse = await this.client.getCertificateVersions(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         optionsComplete
       );
@@ -521,7 +521,7 @@ export class CertificateClient {
     let response: DeleteCertificateResponse;
     try {
       response = await this.client.deleteCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         certificateName,
         this.setParentSpan(span, options)
       );
@@ -555,7 +555,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.deleteCertificateContacts(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         this.setParentSpan(span, options)
       );
     } finally {
@@ -591,7 +591,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.setCertificateContacts(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         { contactList: contacts },
         this.setParentSpan(span, options)
       );
@@ -624,7 +624,7 @@ export class CertificateClient {
     let result: GetCertificateContactsResponse;
     try {
       result = await this.client.getCertificateContacts(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         this.setParentSpan(span, options)
       );
     } finally {
@@ -644,7 +644,7 @@ export class CertificateClient {
         ...options
       };
       const currentSetResponse = await this.client.getCertificateIssuers(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -747,7 +747,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.setCertificateIssuer(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         issuerName,
         provider,
         this.setParentSpan(span, options)
@@ -784,7 +784,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.updateCertificateIssuer(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         issuerName,
         this.setParentSpan(span, options)
       );
@@ -821,7 +821,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.getCertificateIssuer(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         issuerName,
         this.setParentSpan(span, options)
       );
@@ -855,7 +855,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.deleteCertificateIssuer(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         issuerName,
         this.setParentSpan(span, options)
       );
@@ -892,7 +892,7 @@ export class CertificateClient {
     let result: CreateCertificateResponse;
 
     try {
-      result = await this.client.createCertificate(this.vaultBaseUrl, name, {
+      result = await this.client.createCertificate(this.vaultEndpoint, name, {
         ...this.setParentSpan(span, options.requestOptions || {}),
         certificateAttributes: {
           ...options.certificateAttributes,
@@ -935,7 +935,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.getCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         "",
         this.setParentSpan(span, options)
@@ -981,7 +981,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.getCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         version,
         this.setParentSpan(span, options)
@@ -1020,7 +1020,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.importCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         base64EncodedCertificate,
         this.setParentSpan(span, options)
@@ -1059,7 +1059,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.getCertificatePolicy(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1087,7 +1087,7 @@ export class CertificateClient {
     let result: UpdateCertificatePolicyResponse;
     try {
       result = await this.client.updateCertificatePolicy(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         toCorePolicy(policy),
         this.setParentSpan(span, options)
@@ -1131,7 +1131,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.updateCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         version,
         this.setParentSpan(span, options)
@@ -1169,7 +1169,7 @@ export class CertificateClient {
     let result: UpdateCertificateOperationResponse;
     try {
       result = await this.client.updateCertificateOperation(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         true,
         this.setParentSpan(span, options)
@@ -1208,7 +1208,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.getCertificateOperation(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1247,7 +1247,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.deleteCertificateOperation(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1297,7 +1297,7 @@ export class CertificateClient {
     let result: MergeCertificateResponse;
     try {
       result = await this.client.mergeCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         x509Certificates,
         this.setParentSpan(span, options)
@@ -1334,7 +1334,7 @@ export class CertificateClient {
     let result: BackupCertificateResponse;
     try {
       result = await this.client.backupCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1374,7 +1374,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.restoreCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         certificateBackup,
         this.setParentSpan(span, options)
       );
@@ -1395,7 +1395,7 @@ export class CertificateClient {
         ...options
       };
       const currentSetResponse = await this.client.getDeletedCertificates(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -1493,7 +1493,7 @@ export class CertificateClient {
     let result: GetDeletedCertificateResponse;
     try {
       result = await this.client.getDeletedCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1524,7 +1524,7 @@ export class CertificateClient {
 
     try {
       await this.client.purgeDeletedCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1560,7 +1560,7 @@ export class CertificateClient {
 
     try {
       result = await this.client.recoverDeletedCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );

@@ -140,7 +140,7 @@ export class SecretClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultBaseUrl: string;
+  public readonly vaultEndpoint: string;
 
   /**
    * The options to create the connection to the service
@@ -166,18 +166,18 @@ export class SecretClient {
    *
    * let client = new SecretClient(url, credentials);
    * ```
-   * @param {string} url the base url to the key vault.
+   * @param {string} endPoint the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
    * @memberof SecretClient
    */
   constructor(
-    url: string,
+    endPoint: string,
     credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
-    this.vaultBaseUrl = url;
+    this.vaultEndpoint = endPoint;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
       this.pipeline = SecretClient.getDefaultPipeline(credential, pipelineOrOptions);
@@ -249,7 +249,7 @@ export class SecretClient {
       let response: SetSecretResponse;
       try {
         response = await this.client.setSecret(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           secretName,
           value,
           this.setParentSpan(span, unflattenedOptions)
@@ -260,7 +260,7 @@ export class SecretClient {
 
       return this.getSecretFromSecretBundle(response);
     } else {
-      const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
+      const response = await this.client.setSecret(this.vaultEndpoint, secretName, value, options);
       return this.getSecretFromSecretBundle(response);
     }
   }
@@ -276,7 +276,7 @@ export class SecretClient {
    * await client.deleteSecret("MySecretName");
    * ```
    * @summary Deletes a secret from a specified key vault.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param vaultEndpoint The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
    */
@@ -289,7 +289,7 @@ export class SecretClient {
     let response: DeleteSecretResponse;
     try {
       response = await this.client.deleteSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         this.setParentSpan(span, options)
       );
@@ -344,7 +344,7 @@ export class SecretClient {
 
       try {
         response = await this.client.updateSecret(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           secretName,
           secretVersion,
           this.setParentSpan(span, unflattenedOptions)
@@ -356,7 +356,7 @@ export class SecretClient {
       return this.getSecretFromSecretBundle(response);
     } else {
       const response = await this.client.updateSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         secretVersion,
         options
@@ -385,7 +385,7 @@ export class SecretClient {
     let response: GetSecretResponse;
     try {
       response = await this.client.getSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         options && options.version ? options.version : "",
         requestOptions
@@ -420,7 +420,7 @@ export class SecretClient {
 
     try {
       response = await this.client.getDeletedSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         this.setParentSpan(span, options)
       );
@@ -451,7 +451,7 @@ export class SecretClient {
 
     try {
       await this.client.purgeDeletedSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         this.setParentSpan(span, options)
       );
@@ -484,7 +484,7 @@ export class SecretClient {
 
     try {
       response = await this.client.recoverDeletedSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         this.setParentSpan(span, options)
       );
@@ -518,7 +518,7 @@ export class SecretClient {
 
     try {
       response = await this.client.backupSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         this.setParentSpan(span, options)
       );
@@ -553,7 +553,7 @@ export class SecretClient {
 
     try {
       response = await this.client.restoreSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretBundleBackup,
         this.setParentSpan(span, options)
       );
@@ -575,7 +575,7 @@ export class SecretClient {
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       const currentSetResponse = await this.client.getSecretVersions(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         optionsComplete
       );
@@ -665,7 +665,7 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      const currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, optionsComplete);
+      const currentSetResponse = await this.client.getSecrets(this.vaultEndpoint, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
@@ -749,7 +749,7 @@ export class SecretClient {
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       const currentSetResponse = await this.client.getDeletedSecrets(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
