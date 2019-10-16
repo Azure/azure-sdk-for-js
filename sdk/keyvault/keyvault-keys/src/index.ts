@@ -129,14 +129,14 @@ const SERVICE_API_VERSION = "7.0";
 /**
  * The client to interact with the KeyVault keys functionality
  */
-export class KeysClient {
+export class KeyClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @memberof KeysClient
+   * @memberof KeyClient
    */
   public static getDefaultPipeline(
     credential: TokenCredential,
@@ -147,7 +147,7 @@ export class KeysClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
+    const userAgentString: string = KeyClient.getUserAgentString(pipelineOptions.telemetry);
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
     if (isNode) {
@@ -198,23 +198,23 @@ export class KeysClient {
   private readonly client: KeyVaultClient;
 
   /**
-   * Creates an instance of KeysClient.
+   * Creates an instance of KeyClient.
    *
    * Example usage:
    * ```ts
-   * import { KeysClient } from "@azure/keyvault-keys";
+   * import { KeyClient } from "@azure/keyvault-keys";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * ```
    * @param {string} url the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
-   * @memberof KeysClient
+   * @memberof KeyClient
    */
   constructor(
     url: string,
@@ -224,7 +224,7 @@ export class KeysClient {
     this.vaultBaseUrl = url;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = KeysClient.getDefaultPipeline(credential, pipelineOrOptions);
+      this.pipeline = KeyClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
@@ -261,7 +261,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * // Create an elliptic-curve key:
    * let result = await client.createKey("MyKey", "EC");
    * ```
@@ -320,7 +320,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let result = await client.createEcKey("MyKey", { curve: "P-256" });
    * ```
    * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
@@ -374,7 +374,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let result = await client.createRsaKey("MyKey", { keySize: 2048 });
    * ```
    * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
@@ -428,7 +428,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * // Key contents in myKeyContents
    * let result = await client.importKey("MyKey", myKeyContents);
    * ```
@@ -486,7 +486,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let result = await client.deleteKey("MyKey");
    * ```
    * @summary Deletes a key from a specified key vault.
@@ -520,7 +520,7 @@ export class KeysClient {
    * Example usage:
    * ```ts
    * let keyName = "MyKey";
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let key = await client.getKey(keyName);
    * let result = await client.updateKey(keyName, key.version, { enabled: false });
    * ```
@@ -578,7 +578,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let key = await client.getKey("MyKey");
    * ```
    * @summary Get a specified key from a given key vault.
@@ -610,7 +610,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let key = await client.getDeletedKey("MyDeletedKey");
    * ```
    * @summary Gets the specified deleted key.
@@ -642,7 +642,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * await client.deleteKey("MyKey");
    * // ...
    * await client.purgeDeletedKey("MyKey");
@@ -672,7 +672,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * await client.deleteKey("MyKey");
    * // ...
    * await client.recoverDeletedKey("MyKey");
@@ -705,7 +705,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let backupContents = await client.backupKey("MyKey");
    * ```
    * @summary Backs up the specified key.
@@ -736,7 +736,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let backupContents = await client.backupKey("MyKey");
    * // ...
    * let key = await client.restoreKey(backupContents);
@@ -817,7 +817,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * for await (const keyAttr of client.listKeyVersions("MyKey")) {
    *   const key = await client.getKey(keyAttr.name);
    *   console.log("key version: ", key);
@@ -896,7 +896,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * for await (const keyAttr of client.listKeys()) {
    *   const key = await client.getKey(keyAttr.name);
    *   console.log("key: ", key);
@@ -978,7 +978,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * for await (const keyAttr of client.listDeletedKeys()) {
    *   const deletedKey = await client.getKey(keyAttr.name);
    *   console.log("deleted key: ", deletedKey);

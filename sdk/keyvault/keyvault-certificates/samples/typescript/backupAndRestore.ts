@@ -1,4 +1,4 @@
-import { CertificatesClient } from "../../src";
+import { CertificateClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample creates a self-signed certificate, then makes a backup from it,
@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   const certificateName = "MyCertificate126342";
   // Creating a self-signed certificate

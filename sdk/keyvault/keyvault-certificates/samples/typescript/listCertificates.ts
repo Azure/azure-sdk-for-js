@@ -1,4 +1,4 @@
-import { CertificatesClient } from "../../src";
+import { CertificateClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // This sample list previously created certificates in a single chunk and by page,
@@ -15,7 +15,7 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.createCertificate("MyCertificate1", {

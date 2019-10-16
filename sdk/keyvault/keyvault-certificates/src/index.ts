@@ -211,14 +211,14 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
  * The client to interact with the KeyVault certificates functionality
  */
 
-export class CertificatesClient {
+export class CertificateClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @memberof CertificatesClient
+   * @memberof CertificateClient
    */
   public static getDefaultPipeline(
     credential: TokenCredential,
@@ -229,9 +229,7 @@ export class CertificatesClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = CertificatesClient.getUserAgentString(
-      pipelineOptions.telemetry
-    );
+    const userAgentString: string = CertificateClient.getUserAgentString(pipelineOptions.telemetry);
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
     if (isNode) {
@@ -282,12 +280,12 @@ export class CertificatesClient {
   private readonly client: KeyVaultClient;
 
   /**
-   * Creates an instance of CertificatesClient.
+   * Creates an instance of CertificateClient.
    * @param {string} url the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
-   * @memberof CertificatesClient
+   * @memberof CertificateClient
    */
   constructor(
     url: string,
@@ -297,7 +295,7 @@ export class CertificatesClient {
     this.vaultBaseUrl = url;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = CertificatesClient.getDefaultPipeline(credential, pipelineOrOptions);
+      this.pipeline = CertificateClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
@@ -373,7 +371,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * // All in one call
    * for await (const certificate of client.listCertificates()) {
    *   console.log(certificate);
@@ -464,7 +462,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * for await (const item of client.listCertificateVersions("MyCertificate")) {
    *   console.log(item.properties.version!);
    * }
@@ -503,7 +501,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -539,7 +537,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CertificatesClient(url, credentials);
+   * let client = new CertificateClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -572,7 +570,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CertificatesClient(url, credentials);
+   * let client = new CertificateClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -608,7 +606,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CertificatesClient(url, credentials);
+   * let client = new CertificateClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -685,7 +683,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * // All in one call
    * for await (const issuer of client.listCertificateIssuers()) {
@@ -730,7 +728,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * ```
    * @summary Sets the specified certificate issuer.
@@ -766,7 +764,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * await client.updateCertificateIssuer("IssuerName", {
    *   provider: "Provider2"
@@ -804,7 +802,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * const certificateIssuer = await client.getCertificateIssuer("IssuerName");
    * console.log(certificateIssuer);
@@ -839,7 +837,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * await client.deleteCertificateIssuer("IssuerName");
    * ```
@@ -873,7 +871,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -915,7 +913,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -954,7 +952,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1001,8 +999,8 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
-   * const certificateSecret = await secretsClient.getSecret("MyCertificate");
+   * const client = new CertificateClient(url, credentials);
+   * const certificateSecret = await secretClient.getSecret("MyCertificate");
    * const base64EncodedCertificate = certificateSecret.value!;
    * await client.importCertificate("MyCertificate", base64EncodedCertificate);
    * ```
@@ -1039,7 +1037,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1106,7 +1104,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1150,7 +1148,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1188,7 +1186,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1227,7 +1225,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1265,7 +1263,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Unknown",
    *   subjectName: "cn=MyCert"
@@ -1316,7 +1314,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1352,7 +1350,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1437,7 +1435,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * for await (const certificate of client.listDeletedCertificates()) {
    *   console.log(certificate);
    * }
@@ -1479,7 +1477,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * client.getDeletedCertificate("MyDeletedCertificate");
    * ```
    * @summary Gets a deleted certificate
@@ -1512,7 +1510,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.deleteCertificate("MyCertificate");
    * // Deleting a certificate takes time, make sure to wait before purging it
    * client.purgeDeletedCertificate("MyCertificate");
@@ -1543,7 +1541,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.deleteCertificate("MyCertificate");
    * // Deleting a certificate takes time, make sure to wait before recovering it
    * await client.recoverDeletedCertificate("MyCertificate");

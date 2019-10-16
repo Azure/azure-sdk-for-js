@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
+import { KeyClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
 import { RestError, isNode } from "@azure/core-http";
 import { retry, isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
@@ -13,7 +13,7 @@ import { AbortController } from "@azure/abort-controller";
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
-  let client: KeysClient;
+  let client: KeyClient;
   let testClient: TestClient;
   let recorder: any;
 

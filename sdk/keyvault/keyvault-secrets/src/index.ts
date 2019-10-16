@@ -86,13 +86,13 @@ const SERVICE_API_VERSION = "7.0";
 /**
  * The client to interact with the KeyVault secrets functionality
  */
-export class SecretsClient {
+export class SecretClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @memberof SecretsClient
+   * @memberof SecretClient
    */
   public static getDefaultPipeline(
     credential: TokenCredential,
@@ -103,7 +103,7 @@ export class SecretsClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = SecretsClient.getUserAgentString(pipelineOptions.telemetry);
+    const userAgentString: string = SecretClient.getUserAgentString(pipelineOptions.telemetry);
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
     if (isNode) {
@@ -154,23 +154,23 @@ export class SecretsClient {
   private readonly client: KeyVaultClient;
 
   /**
-   * Creates an instance of SecretsClient.
+   * Creates an instance of SecretClient.
    *
    * Example usage:
    * ```ts
-   * import { SecretsClient } from "@azure/keyvault-secrets";
+   * import { SecretClient } from "@azure/keyvault-secrets";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * ```
    * @param {string} url the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
-   * @memberof SecretsClient
+   * @memberof SecretClient
    */
   constructor(
     url: string,
@@ -180,7 +180,7 @@ export class SecretsClient {
     this.vaultBaseUrl = url;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = SecretsClient.getDefaultPipeline(credential, pipelineOrOptions);
+      this.pipeline = SecretClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
@@ -215,7 +215,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * await client.setSecret("MySecretName", "ABC123");
    * ```
    * @summary Adds a secret in a specified key vault.
@@ -272,7 +272,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * await client.deleteSecret("MySecretName");
    * ```
    * @summary Deletes a secret from a specified key vault.
@@ -308,7 +308,7 @@ export class SecretsClient {
    * Example usage:
    * ```ts
    * let secretName = "MySecretName";
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * let secret = await client.getSecret(secretName);
    * await client.updateSecret(secretName, secret.version, { enabled: false });
    * ```
@@ -371,7 +371,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * let secret = await client.getSecret("MySecretName");
    * ```
    * @summary Get a specified secret from a given key vault.
@@ -403,7 +403,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * await client.getDeletedSecret("MyDeletedSecret");
    * ```
    * @summary Gets the specified deleted secret.
@@ -438,7 +438,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * await client.deleteSecret("MySecretName");
    * await client.purgeDeletedSecret("MySecretName");
    * ```
@@ -466,7 +466,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * await client.deleteSecret("MySecretName");
    * await client.recoverDeletedSecret("MySecretName");
    * ```
@@ -501,7 +501,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * let backupResult = await client.backupSecret("MySecretName");
    * ```
    * @summary Backs up the specified secret.
@@ -534,7 +534,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * let mySecretBundle = await client.backupSecret("MySecretName");
    * // ...
    * await client.restoreSecret(mySecretBundle);
@@ -622,7 +622,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * for await (const secretAttr of client.listSecretVersions("MySecretName")) {
    *   const secret = await client.getSecret(secretAttr.name);
    *   console.log("secret version: ", secret);
@@ -707,7 +707,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * for await (const secretAttr of client.listSecrets()) {
    *   const secret = await client.getSecret(secretAttr.name);
    *   console.log("secret: ", secret);
@@ -793,7 +793,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * for await (const secretAttr of client.listDeletedSecrets()) {
    *   const deletedSecret = await client.getSecret(secretAttr.name);
    *   console.log("deleted secret: ", deletedSecret);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { KeysClient } from "../src";
+import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
@@ -12,7 +12,7 @@ import TestClient from "./utils/testClient";
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
-  let client: KeysClient;
+  let client: KeyClient;
   let testClient: TestClient;
   let recorder: any;
 
