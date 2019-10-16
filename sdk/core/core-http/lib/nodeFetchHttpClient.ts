@@ -41,9 +41,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
   private getOrCreateAgent(httpRequest: WebResource): http.Agent | https.Agent {
     const isHttps = isUrlHttps(httpRequest.url);
-    const getCachedAgent = () => isHttps ? this.httpsAgent : this.httpAgent;
-
-    let agent = getCachedAgent();
+    let agent = isHttps ? this.httpsAgent : this.httpAgent;
 
     if (!agent) {
       // At the moment, proxy settings and keepAlive are mutually
@@ -68,18 +66,14 @@ export class NodeFetchHttpClient extends FetchHttpClient {
         };
 
         if (isHttps) {
-          this.httpsAgent = new https.Agent(agentOptions);
+          agent = this.httpsAgent = new https.Agent(agentOptions);
         } else {
-          this.httpAgent = new http.Agent(agentOptions);
+          agent = this.httpAgent = new http.Agent(agentOptions);
         }
       }
-
-      agent = getCachedAgent();
     }
 
-    // We've created or reused an agent by this point, so assert
-    // that agent is not undefined
-    return agent!;
+    return agent;
   }
 
   async fetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
