@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.0.0-preview.5",
+  "version": "1.0.0-preview.6",
   "sdk-type": "client",
   "dependencies": {
     "@azure/core-arm": "1.0.0-preview.5",
@@ -86,7 +86,7 @@
     "swagger": "autorest --typescript swagger/swagger.md",
     "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "npm run test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,

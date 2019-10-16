@@ -3,44 +3,28 @@
 
 import * as assert from "assert";
 import {
-  getConnectionStringFromEnvironment,
+  createAppConfigurationClientForTests,
   deleteKeyCompletely,
   toSortedArray,
   assertEqualSettings,
   assertThrowsRestError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
-import { quoteETag, formatWildcards, extractAfterTokenFromNextLink } from '../src/internal/helpers';
+import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
 
   let client: AppConfigurationClient;
 
-  before("validate environment variables", () => {
-    let connectionString = getConnectionStringFromEnvironment();
-    client = new AppConfigurationClient(connectionString);
+  before("validate environment variables", function () {
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
   after("cleanup", async () => {
     for (const setting of settings) {
       await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     }
-  });
-
-  describe("constructor", () => {
-    it("supports connection string", async () => {
-      const connectionString = getConnectionStringFromEnvironment();
-      const client = new AppConfigurationClient(connectionString);
-
-      // make sure a service call succeeds
-
-      // just not throwing an exception is enough - we just want to make sure that the call
-      // can work.
-      for await (const _ of await client.listConfigurationSettings()) {
-        break;
-      }
-    });
   });
 
   describe("simple usages", () => {
@@ -172,22 +156,8 @@ describe("AppConfigurationClient", () => {
 
       // delete configuration
       const deletedSetting = await client.deleteConfigurationSetting(result);
-      assert.equal(
-        deletedSetting.key,
-        key,
-        "Unexpected key in result from deleteConfigurationSetting()."
-      );
-      assert.equal(
-        deletedSetting.label,
-        label,
-        "Unexpected label in result from deleteConfigurationSetting()."
-      );
-      assert.equal(
-        deletedSetting.value,
-        value,
-        "Unexpected value in result from deleteConfigurationSetting()."
-      );
-
+      assert.equal(200, deletedSetting._response.status);
+      
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
@@ -221,23 +191,8 @@ describe("AppConfigurationClient", () => {
       const deletedSetting = await client.deleteConfigurationSetting({
         key,
         label
-      }, { ifMatch: result.etag });
-      assert.equal(
-        deletedSetting.key,
-        key,
-        "Unexpected key in result from deleteConfigurationSetting()."
-      );
-      assert.equal(
-        deletedSetting.label,
-        label,
-        "Unexpected label in result from deleteConfigurationSetting()."
-      );
-      assert.equal(
-        deletedSetting.value,
-        value,
-        "Unexpected value in result from deleteConfigurationSetting()."
-      );
-
+      }, { onlyIfUnchanged: true });
+      
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
@@ -252,7 +207,14 @@ describe("AppConfigurationClient", () => {
       const label = "test";
 
       // delete configuration
-      await client.deleteConfigurationSetting({ key, label });
+      const response = await client.deleteConfigurationSetting({ key, label });
+
+      // we hoist this code up to the top in case users want to check if the 
+      // delete actually happened (status code: 200) or if the setting wasn't 
+      // found which results in the same state but might matter to 
+      // the user(status code: 204)
+      assert.equal(response._response.status, response.statusCode);
+      assert.equal(204, response.statusCode);
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {
@@ -278,7 +240,7 @@ describe("AppConfigurationClient", () => {
       settings.push({ key, label });
 
       // delete configuration
-      await assertThrowsRestError(() => client.deleteConfigurationSetting({ key, label }, { ifMatch: "incorrect" }), 412);
+      await assertThrowsRestError(() => client.deleteConfigurationSetting({ key, label, etag: "invalid" }, { onlyIfUnchanged: true }), 412);
     });
   });
 
@@ -773,8 +735,9 @@ describe("AppConfigurationClient", () => {
       const replacedResult = await client.setConfigurationSetting({
         key,
         label,
-        value: "foo2"
-      }, { ifMatch: result.etag });
+        value: "foo2",
+        etag: result.etag
+      }, { onlyIfUnchanged: true });
 
       assert.equal(
         replacedResult.key,
@@ -850,134 +813,6 @@ describe("AppConfigurationClient", () => {
         null,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
-    });
-
-    it("throws when replacing a configuration setting (invalid etag)", async () => {
-      const key = `setConfigTestBadEtag-${Date.now()}`;
-      const label = "test";
-      const contentType = "application/json";
-      const tags = {
-        bar: "baz",
-        car: "caz"
-      };
-
-      // create configuration
-      const result = await client.addConfigurationSetting({
-        key,
-        label,
-        value: "foo",
-        contentType,
-        tags
-      });
-
-      settings.push({ key, label });
-
-      assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
-      assert.equal(
-        result.label,
-        label,
-        "Unexpected label in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.value,
-        "foo",
-        "Unexpected value in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.lastModified instanceof Date,
-        true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.locked,
-        false,
-        "Unexpected locked in result from addConfigurationSetting()."
-      );
-      assert.deepEqual(
-        result.tags,
-        tags,
-        "Unexpected tags in result from addConfigurationSetting()."
-      );
-      assert.equal(
-        result.contentType,
-        contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
-      );
-
-      try {
-        await client.setConfigurationSetting(
-          { key, label, value: "foo2" },
-          { ifMatch: "incorrect" }
-        );
-        throw new Error("Test failure");
-      } catch (err) {
-        assert.notEqual(err.message, "Test failure");
-      }
-    });
-  });
-
-  describe("quoteETag", () => {
-    it("undefined", () => {
-      assert.equal(
-        undefined,
-        quoteETag(undefined)
-      );
-
-      assert.equal(
-        '"etagishere"',
-        quoteETag("etagishere")
-      );
-
-      assert.equal(
-        "'etagishere'",
-        quoteETag("'etagishere'")
-      );
-
-      assert.equal(
-        "*",
-        quoteETag("*")
-      );
-    });
-  });
-
-  describe("formatWildcards", () => {
-    it("undefined", () => {
-      const result = formatWildcards({
-        keys: undefined,
-        labels: undefined
-      });
-
-      assert.ok(!result.key);
-      assert.ok(!result.label);
-    });
-
-    it("single values only", () => {
-      const result = formatWildcards({
-        keys: ["key1"],
-        labels: ["label1"]
-      });
-
-      assert.equal("key1", result.key);
-      assert.equal("label1", result.label);
-    });
-
-    it("multiple values", () => {
-      const result = formatWildcards({
-        keys: ["key1", "key2"],
-        labels: ["label1", "label2"]
-      });
-
-      assert.equal("key1,key2", result.key);
-      assert.equal("label1,label2", result.label);
-    });
-  });
-
-  describe("extractAfterTokenFromNextLink", () => {
-    it("token is extracted and properly unescaped", () => {
-      let token = extractAfterTokenFromNextLink(
-        "/kv?key=someKey&api-version=1.0&after=bGlah%3D"
-      );
-      assert.equal("bGlah=", token);
     });
   });
 });
