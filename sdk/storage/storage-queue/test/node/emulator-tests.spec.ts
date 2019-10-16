@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { MessagesClient, QueueClient, QueueServiceClient, MessageIdClient } from "../../src";
+import { QueueClient, QueueServiceClient } from "../../src";
 import { getConnectionStringFromEnvironment, getQSU } from "../utils";
 import { isBrowser, getUniqueName } from "../utils/testutils.common";
 
@@ -21,9 +21,9 @@ describe("Emulator Tests", () => {
   });
 
   it("MessagesClient can be created with a connection string and a queue name", async () => {
-    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
-    const eResult = await newClient.enqueue(messageContent);
+    const eResult = await newClient.enqueueMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -32,27 +32,27 @@ describe("Emulator Tests", () => {
   });
 
   it("MessageIdClient can update message with 64B encoded characters", async () => {
-    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
-    const eResult = await newClient.enqueue(messageContent);
+    const eResult = await newClient.enqueueMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const messageIdClient = new MessageIdClient(
-      getConnectionStringFromEnvironment(),
-      queueName,
-      eResult.messageId
-    );
+    const messageIdClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
     let buffer = Buffer.alloc(64); //64B
     buffer.fill("a");
     buffer.write("aaaa", 0);
     let newMessage = buffer.toString();
 
-    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
+    let uResult = await messageIdClient.updateMessage(
+      eResult.messageId,
+      eResult.popReceipt,
+      newMessage
+    );
     assert.ok(uResult.popReceipt);
 
-    let pResult = await newClient.peek();
+    let pResult = await newClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });
