@@ -15,10 +15,12 @@ import {
   isNode,
   userAgentPolicy,
   RequestOptionsBase,
-  tracingPolicy
+  tracingPolicy,
+  logPolicy
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
+import { logger } from "./log";
 
 import {
   Certificate,
@@ -119,7 +121,8 @@ export {
   OrganizationDetails,
   ParsedKeyVaultEntityIdentifier,
   SecretProperties,
-  X509CertificateProperties
+  X509CertificateProperties,
+  logger
 };
 
 export { ProxyOptions, RetryOptions, TelemetryOptions };
@@ -253,7 +256,16 @@ export class CertificateClient {
       redirectPolicy(),
       isTokenCredential(credential)
         ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+        : signingPolicy(credential),
+      logPolicy(
+        logger.info, {
+          allowedHeaderNames: [
+            "x-ms-keyvault-region",
+            "x-ms-keyvault-network-info",
+            "x-ms-keyvault-service-version"
+          ],
+          allowedQueryParameters: ["api-version"]
+      })
     ]);
 
     return {
