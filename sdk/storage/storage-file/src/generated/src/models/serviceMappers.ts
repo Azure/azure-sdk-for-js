@@ -8,6 +8,7 @@
 
 export {
   CorsRule,
+  FileServiceProperties,
   ListSharesResponse,
   Metrics,
   RetentionPolicy,
@@ -16,6 +17,5 @@ export {
   ServiceSetPropertiesHeaders,
   ShareItem,
   ShareProperties,
-  StorageError,
-  StorageServiceProperties
+  StorageError
 } from "../models/mappers";

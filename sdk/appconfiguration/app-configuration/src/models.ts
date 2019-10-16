@@ -163,8 +163,7 @@ export interface AddConfigurationSettingResponse
  * Response from deleting a ConfigurationSetting.
  */
 export interface DeleteConfigurationSettingResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
+  extends SyncTokenHeaderField,
     HttpResponseFields,
     HttpResponseField<SyncTokenHeaderField> {}
 

@@ -2,21 +2,28 @@
 
 ## Install the library
 
-Run the below in your samples folder to install the npm package for Azure Storage Queue library.
+Copy the sample file you want to a folder of your choice and run the following command in your samples folder to install the npm package for Azure Storage Queue library.
 
 ```bash
-npm install @azure/storage-queue
+npm install @azure/storage-queue@12.0.0-preview.4
 ```
+
+Or, in case you have cloned the repo and want to utilize the published npm package instead of src code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-queue package.
+
+```bash
+npm init -y
+npm install @azure/storage-queue@12.0.0-preview.4
+```
+
+### Running Samples
+
+Also, change `"../.."` to `"@azure/storage-queue"` in the samples in order to import the published package instead of using source code.
 
 ## Get account credentials of your storage account
 
 - In the [Azure Portal](https://portal.azure.com), go to **Dashboard > Storage > _your-storage-account_**.
 - Note down the "AccountName", "AccountKey" obtained at **Access keys** and "AccountSAS" from **Shared access signature** under **Settings** tab.
   Before running any of the samples, update with the credentials you have noted down above.
-
-## Running Samples
-
-- Change `"../.."` to `"@azure/storage-queue"` in the samples in order to import the published package instead of using source code.
 
 ## Javascript sample
 

@@ -1,18 +1,24 @@
-import { RestError } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { RestError } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
 
-export * from "./Aborter";
-export * from "./ShareURL";
-export * from "./DirectoryURL";
-export * from "./FileURL";
+export * from "./ShareClient";
+export * from "./DirectoryClient";
+export * from "./FileClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export * from "./highlevel.browser";
-export * from "./highlevel.common";
-export { IIPRange } from "./IIPRange";
-export { IRange } from "./IRange";
-export { FilePermissionInheritType, FilePermissionPreserveType, TimeNowType, TimePreserveType, FileAttributesPreserveType } from "./models";
+export { SasIPRange } from "./SasIPRange";
+export { Range } from "./Range";
+export {
+  FilePermissionInheritType,
+  FilePermissionPreserveType,
+  TimeNowType,
+  TimePreserveType,
+  FileAttributesPreserveType
+} from "./models";
 export * from "./FileSystemAttributes";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
@@ -22,6 +28,6 @@ export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./BrowserPolicyFactory";
-export * from "./ServiceURL";
-export * from "./StorageURL";
+export * from "./FileServiceClient";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";

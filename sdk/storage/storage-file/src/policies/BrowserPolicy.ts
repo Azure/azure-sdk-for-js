@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import {
   BaseRequestPolicy,
   HttpOperationResponse,
@@ -5,7 +8,7 @@ import {
   RequestPolicy,
   RequestPolicyOptions,
   WebResource
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
 import { HeaderConstants, URLConstants } from "../utils/constants";
 import { setURLParameter } from "../utils/utils.common";

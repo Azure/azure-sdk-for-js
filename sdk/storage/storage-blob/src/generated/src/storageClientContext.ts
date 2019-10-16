@@ -8,13 +8,13 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 
 const packageName = "azure-storage-blob";
 const packageVersion = "1.0.0";
 
-export class StorageClientContext extends msRest.ServiceClient {
+export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
   version: string;
   pathRenameMode?: Models.PathRenameMode;
@@ -35,7 +35,7 @@ export class StorageClientContext extends msRest.ServiceClient {
     }
 
     if (!options.userAgent) {
-      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 

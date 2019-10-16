@@ -10,7 +10,6 @@ dependencies:
   '@azure/keyvault-keys': 4.0.0-preview.7
   '@azure/keyvault-secrets': 4.0.0-preview.7
   '@azure/logger-js': 1.3.2
-  '@azure/ms-rest-js': 2.0.4
   '@azure/ms-rest-nodeauth': 0.9.3
   '@azure/storage-blob': 12.0.0-preview.3
   '@microsoft/api-extractor': 7.3.8
@@ -47,6 +46,7 @@ dependencies:
   '@types/chai-string': 1.4.2
   '@types/debug': 4.1.5
   '@types/dotenv': 6.1.1
+  '@types/execa': 0.9.0
   '@types/express': 4.17.1
   '@types/fast-json-stable-stringify': 2.0.0
   '@types/fetch-mock': 7.3.1
@@ -814,6 +814,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
+  /@types/execa/0.9.0:
+    dependencies:
+      '@types/node': 8.10.55
+    dev: false
+    resolution:
+      integrity: sha512-mgfd93RhzjYBUHHV532turHC2j4l/qxsF/PbfDmprHDEUHmNZGlDn1CEsulGK3AfsPdhkWzZQT/S/k0UGhLGsA==
   /@types/express-serve-static-core/4.16.9:
     dependencies:
       '@types/node': 8.10.52
@@ -964,6 +970,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-kaYyLYf6ICn6/isAyD4K1MyWWd5Q3JgH6bnMN089LUx88+s4W8GvK9Q6JMBVu5vsFFp7pMdSxdKmlBXwH/VFRg==
+  /@types/node/8.10.55:
+    dev: false
+    resolution:
+      integrity: sha512-iZeh1EgupfmAAOASk580R1SL5lWF3CsBVgVH0395qyNF8fhO16xy1UwAav2PdGxIIsYRn7RzJgMGjdsvam6YYg==
   /@types/node/8.5.8:
     dev: false
     resolution:
@@ -12513,9 +12523,12 @@ packages:
     version: 0.0.0
   'file:projects/storage-blob.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.2
+      '@azure/core-paging': 1.0.0-preview.2
       '@azure/ms-rest-js': 2.0.4
       '@microsoft/api-extractor': 7.3.8
       '@types/dotenv': 6.1.1
+      '@types/execa': 0.9.0
       '@types/fs-extra': 8.0.0
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
@@ -12534,6 +12547,7 @@ packages:
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       events: 3.0.0
+      execa: 1.0.0
       fs-extra: 8.1.0
       gulp: 4.0.2
       gulp-zip: 5.0.0_gulp@4.0.2
@@ -12578,11 +12592,13 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-76kxW4mT5QbNSGd1oOkcZxqa2ZoZYn5E8LSoui/rWtH3tX1i0lCT/FJhSgcnOQXYMM56Gdno8AqEI5CT9dFRmg==
+      integrity: sha512-mQfIW21XiLkG4P56uEfVKeJeq7d8Pe1YaxknHeM8DTwOsvLmsuAYZiyyDDtQx65mcVyQiBtN4xppKylWvmNSHA==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.2
+      '@azure/core-paging': 1.0.0-preview.2
       '@azure/ms-rest-js': 2.0.4
       '@microsoft/api-extractor': 7.3.8
       '@types/dotenv': 6.1.1
@@ -12604,6 +12620,7 @@ packages:
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
       events: 3.0.0
+      execa: 1.0.0
       fs-extra: 8.1.0
       gulp: 4.0.2
       gulp-zip: 5.0.0_gulp@4.0.2
@@ -12648,11 +12665,13 @@ packages:
     dev: false
     name: '@rush-temp/storage-file'
     resolution:
-      integrity: sha512-1vuu96rlT8OLbWybGYkV7wXK2iRYEAg9JBdTFS2VbcYWztw2/L5gXM/HrRrnDN891SpDW1KsHNng0oj880UL/Q==
+      integrity: sha512-3bGCSVDCYa9rj7bogPFEstWCYFslGX8lj4u6asKBopaSJqK5empAKRaZ9qbvDTXDH9XBQy5gJhl9kYi0JJ9ohw==
       tarball: 'file:projects/storage-file.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
     dependencies:
+      '@azure/abort-controller': 1.0.0-preview.2
+      '@azure/core-paging': 1.0.0-preview.2
       '@azure/ms-rest-js': 2.0.4
       '@microsoft/api-extractor': 7.3.8
       '@types/dotenv': 6.1.1
@@ -12673,6 +12692,7 @@ packages:
       eslint-plugin-no-null: 1.0.2_eslint@6.2.1
       eslint-plugin-no-only-tests: 2.3.1
       eslint-plugin-promise: 4.2.1
+      execa: 1.0.0
       fs-extra: 8.1.0
       gulp: 4.0.2
       gulp-zip: 5.0.0_gulp@4.0.2
@@ -12717,7 +12737,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-Sva5UkbRrEXShOKLaZ4ALhk/2RdGETd4oKVAmgRmeo1CACidcSPDvHQC/MJhEgdmM/47YJLMOyKkP/mVSgZqjw==
+      integrity: sha512-fJQuIU+K/yb6x4aW8G1mqURMnX8VxJXiXs9cMNxUVhPHNyJTlzpRAsGg+tCDHBWuEyN8HoBl8sIs3ATwBNomnw==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -12832,7 +12852,6 @@ specifiers:
   '@azure/keyvault-keys': 4.0.0-preview.7
   '@azure/keyvault-secrets': 4.0.0-preview.7
   '@azure/logger-js': ^1.0.2
-  '@azure/ms-rest-js': ^2.0.0
   '@azure/ms-rest-nodeauth': ^0.9.2
   '@azure/storage-blob': 12.0.0-preview.3
   '@microsoft/api-extractor': ^7.1.5
@@ -12869,6 +12888,7 @@ specifiers:
   '@types/chai-string': ^1.4.1
   '@types/debug': ^4.1.4
   '@types/dotenv': ^6.1.0
+  '@types/execa': 0.9.0
   '@types/express': ^4.16.0
   '@types/fast-json-stable-stringify': ^2.0.0
   '@types/fetch-mock': ^7.3.1

@@ -1,23 +1,35 @@
-import { RestError, TransferProgressEvent } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { RestError, TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
 
-import { Aborter } from "../Aborter";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
-export interface IRetriableReadableStreamOptions {
+export interface RetriableReadableStreamOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof RetriableReadableStreamOptions
+   */
+  abortSignal?: AbortSignalLike;
+
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
    * @type {number}
-   * @memberof IRetriableReadableStreamOptions
+   * @memberof RetriableReadableStreamOptions
    */
   maxRetryRequests?: number;
 
   /**
    * Read progress event handler
    *
-   * @memberof IRetriableReadableStreamOptions
+   * @memberof RetriableReadableStreamOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -31,7 +43,7 @@ export interface IRetriableReadableStreamOptions {
    * The value will then update to "undefined", once the injection works.
    *
    * @type {boolean}
-   * @memberof IRetriableReadableStreamOptions
+   * @memberof RetriableReadableStreamOptions
    */
   doInjectErrorOnce?: boolean;
 }
@@ -47,7 +59,7 @@ const ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_A
  * @extends {Readable}
  */
 export class RetriableReadableStream extends Readable {
-  private aborter: Aborter;
+  private aborter: AbortSignalLike;
   private start: number;
   private offset: number;
   private end: number;
@@ -56,7 +68,7 @@ export class RetriableReadableStream extends Readable {
   private retries: number = 0;
   private maxRetryRequests: number;
   private progress?: (progress: TransferProgressEvent) => void;
-  private options: IRetriableReadableStreamOptions;
+  private options: RetriableReadableStreamOptions;
   private abortHandler = () => {
     this.source.pause();
     this.emit("error", ABORT_ERROR);
@@ -65,26 +77,23 @@ export class RetriableReadableStream extends Readable {
   /**
    * Creates an instance of RetriableReadableStream.
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
    * @param {ReadableStreamGetter} getter A method calling downloading request returning
    *                                      a new ReadableStream from specified offset
    * @param {number} offset Offset position in original data source to read
    * @param {number} count How much data in original data source to read
-   * @param {IRetriableReadableStreamOptions} [options={}]
+   * @param {RetriableReadableStreamOptions} [options={}]
    * @memberof RetriableReadableStream
    */
   public constructor(
-    aborter: Aborter,
     source: NodeJS.ReadableStream,
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: IRetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {}
   ) {
     super();
-    this.aborter = aborter;
+    this.aborter = options.abortSignal || AbortSignal.none;
     this.getter = getter;
     this.source = source;
     this.start = offset;
@@ -95,7 +104,7 @@ export class RetriableReadableStream extends Readable {
     this.progress = options.progress;
     this.options = options;
 
-    aborter.addEventListener("abort", this.abortHandler);
+    this.aborter.addEventListener("abort", this.abortHandler);
 
     this.setSourceDataHandler();
     this.setSourceEndHandler();

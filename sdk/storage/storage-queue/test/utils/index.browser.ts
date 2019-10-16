@@ -1,10 +1,12 @@
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { ServiceURL } from "../../src/ServiceURL";
-import { StorageURL } from "../../src/StorageURL";
-
+import { newPipeline } from "../../src/Pipeline";
+import { QueueServiceClient } from "../../src/QueueServiceClient";
 export * from "./testutils.common";
 
-export function getGenericQSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
+export function getGenericQSU(
+  accountType: string,
+  accountNameSuffix: string = ""
+): QueueServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -24,19 +26,19 @@ export function getGenericQSU(accountType: string, accountNameSuffix: string = "
   }
 
   const credentials = new AnonymousCredential();
-  const pipeline = StorageURL.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.queue.core.windows.net${accountSAS}`;
-  return new ServiceURL(filePrimaryURL, pipeline);
+  return new QueueServiceClient(filePrimaryURL, pipeline);
 }
 
-export function getQSU(): ServiceURL {
+export function getQSU(): QueueServiceClient {
   return getGenericQSU("");
 }
 
-export function getAlternateQSU(): ServiceURL {
+export function getAlternateQSU(): QueueServiceClient {
   return getGenericQSU("SECONDARY_", "-secondary");
 }
 
@@ -105,7 +107,7 @@ export function isIE(): boolean {
   // If IE, return version number.
   if (Idx > 0) {
     return true;
-  } else if (!!navigator.userAgent.match(/Trident\/7\./)) {
+  } else if (navigator.userAgent.match(/Trident\/7\./)) {
     // IE 11
     return true;
   } else {
@@ -126,4 +128,17 @@ export function getBrowserFile(name: string, size: number): File {
   const file = new Blob([uint8Arr]) as any;
   file.name = name;
   return file;
+}
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const env = (window as any).__env__;
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${
+    env.ACCOUNT_NAME
+  }.queue.core.windows.net/;FileEndpoint=https://${
+    env.ACCOUNT_NAME
+  }.file.core.windows.net/;TableEndpoint=https://${
+    env.ACCOUNT_NAME
+  }.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS.substring(1)}`;
+  // env.ACCOUNT_SAS.substring(1) - to remove the `?` in ACCOUNT_SAS
+  // SAS Connection String doesn't have `?` in the `SharedAccessSignature`
 }
