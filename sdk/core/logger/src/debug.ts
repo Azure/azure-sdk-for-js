@@ -14,6 +14,7 @@ export interface Debug {
 export interface Debugger {
   (...args: any[]): void;
   enabled: boolean;
+  destroy: () => boolean;
   log: (...args: any[]) => void;
   namespace: string;
   extend: (namespace: string) => Debugger;
@@ -62,7 +63,8 @@ function createDebugger(namespace: string): Debugger {
 
   const newDebugger: Debugger = Object.assign(debug, {
     enabled: enabled(namespace),
-    log,
+    destroy,
+    log: debugObj.log,
     namespace,
     extend
   });
@@ -72,13 +74,22 @@ function createDebugger(namespace: string): Debugger {
   return newDebugger;
 }
 
+function destroy(this: Debugger): boolean {
+  const index = debuggers.indexOf(this);
+  if (index >= 0) {
+    debuggers.splice(index, 1);
+    return true;
+  }
+  return false;
+}
+
 function extend(this: Debugger, namespace: string): Debugger {
   const newDebugger = createDebugger(`${this.namespace}:${namespace}`);
   newDebugger.log = this.log;
   return newDebugger;
 }
 
-export const debug: Debug = Object.assign(
+const debugObj: Debug = Object.assign(
   (namespace: string): Debugger => {
     return createDebugger(namespace);
   },
@@ -89,3 +100,5 @@ export const debug: Debug = Object.assign(
     log
   }
 );
+
+export default debugObj;

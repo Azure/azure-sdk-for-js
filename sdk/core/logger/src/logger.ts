@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { debug, Debugger } from "./debug";
+import debug, { Debugger } from "./debug";
 export { Debugger } from "./debug";
 
 const registeredLoggers = new Set<AzureDebugger>();

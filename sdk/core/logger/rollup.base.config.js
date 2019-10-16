@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import nodeResolve from "rollup-plugin-node-resolve";
+import path from "path";
 import multiEntry from "rollup-plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
 import replace from "rollup-plugin-replace";
@@ -44,7 +45,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "dist-test/logger.js";
 
     // mark assert as external
-    baseConfig.external.push("assert");
+    baseConfig.external.push("assert", "chai", "sinon");
 
     baseConfig.context = "null";
 
@@ -94,6 +95,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
+          chai: ["assert"],
           events: ["EventEmitter"],
           assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "notDeepEqual", "throws"]
         }
@@ -105,6 +107,18 @@ export function browserConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
     baseConfig.context = "null";
+
+    baseConfig.onwarn = (warning) => {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+      ) {
+        // Chai contains circular references, but they are not fatal and can be ignored.
+        return;
+      }
+
+      console.error(`(!) ${warning.message}`);
+    };
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

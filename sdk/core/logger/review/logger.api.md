@@ -33,6 +33,8 @@ export interface Debugger {
     // (undocumented)
     (...args: any[]): void;
     // (undocumented)
+    destroy: () => boolean;
+    // (undocumented)
     enabled: boolean;
     // (undocumented)
     extend: (namespace: string) => Debugger;
