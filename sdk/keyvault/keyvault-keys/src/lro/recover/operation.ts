@@ -8,17 +8,8 @@ import { Key, KeyClientInterface } from "../../keysModels";
  * An interface representing the state of a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperationState extends PollOperationState<Key> {
-  /**
-   * @member {string} [name] The name of the key that will be deleted
-   */
   name: string;
-  /**
-   * @member {RequestOptionsBase} [requestOptions] The optional HTTP parameters that will be used to dele the key
-   */
   requestOptions?: RequestOptionsBase;
-  /**
-   * @member {KeyClientInterface} [client] An instance of the key's client
-   */
   client: KeyClientInterface;
 }
 
