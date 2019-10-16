@@ -153,6 +153,8 @@ export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTy
                       : [];
                   }
                   error.body = operationSpec.serializer.deserialize(defaultResponseBodyMapper, valueToDeserialize, "error.body");
+                  // The following line is required so the flattening response (serviceClient.ts)
+                  // will flatten the response correctly.
                   error.parsedBody = error.body;
                 }
               }
