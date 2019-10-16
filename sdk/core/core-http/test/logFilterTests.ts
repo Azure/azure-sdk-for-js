@@ -13,7 +13,12 @@ function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
   return {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       // tslint:disable-next-line: no-null-keyword
-      return Promise.resolve({ request, status: 200, headers: new HttpHeaders(responseHeaders), bodyAsText: null });
+      return Promise.resolve({
+        request,
+        status: 200,
+        headers: new HttpHeaders(responseHeaders),
+        bodyAsText: null
+      });
     }
   };
 }
@@ -24,7 +29,6 @@ function assertLog(
   doneCallback: Mocha.Done,
   responseHeaders?: RawHttpHeaders
 ): void {
-
   let output = "";
 
   const logger = (message: string): void => {
@@ -59,11 +63,11 @@ describe("Log filtering", () => {
   beforeEach(() => {
     originalLogLevel = getLogLevel();
     setLogLevel("info");
-  })
+  });
 
   afterEach(() => {
     setLogLevel(originalLogLevel);
-  })
+  });
 
   it("redacts request headers", (done) => {
     const expected = `Request: {
@@ -137,9 +141,14 @@ Headers: {
 }
 `;
 
-    const request = new WebResource("https://foo.com", "PUT", { a: 1 }, { "api-version": "1.0", "secret": "goose"});
+    const request = new WebResource(
+      "https://foo.com",
+      "PUT",
+      { a: 1 },
+      { "api-version": "1.0", secret: "goose" }
+    );
     assertLog(request, expected, done);
-  })
+  });
 
   it("redacts query parameters in the request URI", (done) => {
     const expected = `Request: {
@@ -157,7 +166,9 @@ Headers: {
 }
 `;
 
-    const request = new WebResource("https://foo.com?api-version=1.0&secret=goose", "PUT", { a: 1 });
+    const request = new WebResource("https://foo.com?api-version=1.0&secret=goose", "PUT", {
+      a: 1
+    });
     assertLog(request, expected, done);
-  })
+  });
 });

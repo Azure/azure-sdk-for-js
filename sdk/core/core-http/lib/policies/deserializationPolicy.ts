@@ -73,7 +73,11 @@ export class DeserializationPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) => deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response));
+    return this._nextPolicy
+      .sendRequest(request)
+      .then((response: HttpOperationResponse) =>
+        deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response)
+      );
   }
 }
 

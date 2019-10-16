@@ -3,7 +3,7 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
-import { URLBuilder, URLQuery } from '../url';
+import { URLBuilder, URLQuery } from "../url";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -60,21 +60,20 @@ export class LogPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     logger: any = console.log,
-    {
-      allowedHeaderNames = [],
-      allowedQueryParameters = []
-    }: LogPolicyOptions = {}
+    { allowedHeaderNames = [], allowedQueryParameters = [] }: LogPolicyOptions = {}
   ) {
     super(nextPolicy, options);
     this.logger = logger;
 
-    allowedHeaderNames = allowedHeaderNames && allowedHeaderNames instanceof Array
-      ? defaultAllowedHeaderNames.concat(allowedHeaderNames)
-      : defaultAllowedHeaderNames;
+    allowedHeaderNames =
+      allowedHeaderNames && allowedHeaderNames instanceof Array
+        ? defaultAllowedHeaderNames.concat(allowedHeaderNames)
+        : defaultAllowedHeaderNames;
 
-    allowedQueryParameters = allowedQueryParameters && allowedQueryParameters instanceof Array
-      ? defaultAllowedQueryParameters.concat(allowedQueryParameters)
-      : defaultAllowedQueryParameters;
+    allowedQueryParameters =
+      allowedQueryParameters && allowedQueryParameters instanceof Array
+        ? defaultAllowedQueryParameters.concat(allowedQueryParameters)
+        : defaultAllowedQueryParameters;
 
     this.allowedHeaderNames = new Set(allowedHeaderNames);
     this.allowedQueryParameters = new Set(allowedQueryParameters);

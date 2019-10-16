@@ -199,7 +199,8 @@ function retry(
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
   if (!isAborted && shouldRetry(policy, response && response.status, retryData)) {
     logger.error(`Retrying request in ${retryData.retryInterval}`);
-    return utils.delay(retryData.retryInterval)
+    return utils
+      .delay(retryData.retryInterval)
       .then(() => policy._nextPolicy.sendRequest(request.clone()))
       .then((res) => retry(policy, request, res, retryData, undefined))
       .catch((err) => retry(policy, request, response, retryData, err));
