@@ -68,8 +68,6 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger",
   "sideEffects": false,
   "dependencies": {
-    "@types/debug": "^4.1.4",
-    "debug": "^4.1.1",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
