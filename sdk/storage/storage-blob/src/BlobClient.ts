@@ -1618,7 +1618,6 @@ export class BlobClient extends StorageClient {
 
       if (this.url.startsWith(emulatorBlobEndpoint)) {
         // Emulator URL starts with `http://127.0.0.1:10000/devstoreaccount1`
-
         const partsOfUrl = urlWithoutSAS.match(emulatorBlobEndpoint + "/([^/]*)(/(.*))?");
         containerName = partsOfUrl![1];
         blobName = partsOfUrl![3];
