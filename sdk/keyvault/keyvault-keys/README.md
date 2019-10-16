@@ -226,8 +226,9 @@ await client.updateKey(keyName, result.properties.version, {
 
 ### Deleting a key
 
-The `beginDeleteKey` method sets a key up for deletion. This process will
-happen in the background as soon as the necessary resources are available.
+The `beginDeleteKey` method starts the deletion of a key.
+This process will happen in the background as soon as the necessary resources
+are available.
 
 ```javascript
 const poller = await client.beginDeleteKey(keyName);
@@ -265,8 +266,8 @@ calls until the key is deleted, or wait until the process is done:
 ```typescript
 const poller = await client.beginDeleteKey(certificateName, certificatePolicy);
 
-await poller.poll(); // One service call
-console.log(poller.isDone()) // You can manually check if the operation has finished
+await poller.poll(); // On each poll, the poller checks whether the key has been deleted or not.
+console.log(poller.isDone()) // The poller will be done once the key is fully deleted.
 
 // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
 const deletedKey = await poller.pollUntilDone();
