@@ -36,7 +36,7 @@ export class BlobPartitionManager implements PartitionManager {
     try {
       for await (const blob of this._containerClient.listBlobsFlat({
         include: ["metadata"],
-        prefix: `${fullyQualifiedNamespace}/${eventHubName}/${consumerGroupName}/`
+        prefix: BlobPartitionManager.getBlobPrefix({ fullyQualifiedNamespace, eventHubName, consumerGroupName }),
       })) {
         const blobPath = blob.name.split("/");
         const blobName = blobPath[blobPath.length - 1];
@@ -75,7 +75,7 @@ export class BlobPartitionManager implements PartitionManager {
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     let partitionOwnershipArray: PartitionOwnership[] = [];
     for (const ownership of partitionOwnership) {
-      const blobName = `${ownership.fullyQualifiedNamespace}/${ownership.eventHubName}/${ownership.consumerGroupName}/${ownership.partitionId}`;
+      const blobName = BlobPartitionManager.getBlobPrefix(ownership)
       try {
         let updatedBlobResponse;
         const blobClient = this._containerClient.getBlobClient(blobName);
@@ -139,7 +139,7 @@ export class BlobPartitionManager implements PartitionManager {
     throwTypeErrorIfParameterMissing("updateCheckpoint", "sequenceNumber", checkpoint.sequenceNumber);
     throwTypeErrorIfParameterMissing("updateCheckpoint", "offset", checkpoint.offset);
 
-    const blobName = `${checkpoint.fullyQualifiedNamespace}/${checkpoint.eventHubName}/${checkpoint.consumerGroupName}/${checkpoint.partitionId}`;
+    const blobName = BlobPartitionManager.getBlobPrefix(checkpoint)
     try {
       const blobClient = this._containerClient.getBlobClient(blobName);
       const properties = await blobClient.getProperties();
@@ -189,6 +189,20 @@ export class BlobPartitionManager implements PartitionManager {
           checkpoint.partitionId
         }, ${err}`
       );
+    }
+  }
+
+  private static getBlobPrefix(params: { fullyQualifiedNamespace: string; eventHubName: string; consumerGroupName: string; partitionId?: string }): string {
+    // none of these are case-sensitive in eventhubs so we need to make sure we don't accidentally allow
+    // the user to create a case-sensitive blob for their state!
+    const consumerGroupName = params.consumerGroupName.toLowerCase();
+    const eventHubName = params.eventHubName.toLowerCase();
+    const fullyQualifiedNamespace = params.fullyQualifiedNamespace.toLowerCase();
+
+    if (params.partitionId) {
+      return `${fullyQualifiedNamespace}/${eventHubName}/${consumerGroupName}/${params.partitionId}`;
+    } else {
+      return `${fullyQualifiedNamespace}/${eventHubName}/${consumerGroupName}/`;
     }
   }
 }
