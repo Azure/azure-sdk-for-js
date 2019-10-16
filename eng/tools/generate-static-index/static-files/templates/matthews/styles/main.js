@@ -147,10 +147,9 @@ function getPackageUrl(language, package, version) {
 }
 // Populate Index
 $(function() {
-  var pkgname = WINDOW_CONTENTS[WINDOW_CONTENTS.length - 1].replace(
-    ".html",
-    ""
-  );
-  pkgname = "azure-" + pkgname;
-  populateIndexList("#published-versions", pkgname);
+  $('h3').each(function () {
+    var pkgName = $(this).text().replace("@azure/","azure-");
+    console.log(pkgName);
+    populateIndexList($(this), pkgName)
+  });
 });

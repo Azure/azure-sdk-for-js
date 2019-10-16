@@ -36,16 +36,8 @@ const walk = (dir, checks) => {
   return checks;
 };
 
-const iteratePackages = (packageList, itemList)=>{
+const iteratePackages = (packageList,mdContent) => {
 
-   for(const package of packageList){
-    var packagename = "@azure/"+package;
-    var mdFile = package +".md";
-    itemList.push({"name": packagename, "href": mdFile});
-    var mdContent = "<h1>" + packagename + "</h1> <h2 id='published-versions'>PUBLISHED VERSIONS</h2>";
-    var mdFilePath = path.join(yamlPath, mdFile);
-    fs.writeFileSync(mdFilePath, mdContent);
-  }
 
 };
 
@@ -57,7 +49,6 @@ const serviceFolders = fs.readdirSync(workingDir);
 /* Initializing package list for template index generation */
 let serviceList = [];
 for (const eachService of serviceFolders) {
-
     const eachServicePath = path.join(workingDir, eachService);
     const stat = fs.statSync(eachServicePath);
 
@@ -104,31 +95,46 @@ for (const eachService of serviceFolders) {
             console.log("...SKIPPING Since package marked as private...");
           }
         }
-
       } //end-for each-package
       /* Adding service entry for the template index generation */
       serviceList.push({ name: eachService, mngmtList: mngmtList, clientList: clientList });
     }
-
 } // end-for ServiceFolders
 
 // Versioned Indexes
 var yamlPath = path.join(process.cwd(), "docfx_project/api");
-var yamlFilePath =  path.join(yamlPath, "toc.yml");
+var yamlFilePath = path.join(yamlPath, "toc.yml");
 
-var jObject = [{"uid":"ClientLibraries","name":"ClientLibraries" ,"items": [] },{"uid":"ManagementLibraries","name":"ManagementLibraries","items": [] }];
-for(const eachService of serviceList){
-  var itemList = [];
-  iteratePackages(eachService.clientList,itemList);
-  if(itemList.length > 0)
-    jObject[0].items.push({"uid": eachService.name, "name": eachService.name.toUpperCase(), "items":itemList});
-}
+var jObject = []; //[{"name": service, "href": <link-to-md-file>}]
 
-for(const eachService of serviceList){
-  var itemList = [];
-  iteratePackages(eachService.mngmtList,itemList);
-  if(itemList.length > 0)
-    jObject[1].items.push({"uid": eachService.name, "name": eachService.name.toUpperCase(), "items":itemList});
+for (const eachService of serviceList) {
+  var mdFile = eachService.name + ".md";
+  jObject.push({ name: eachService.name, href: mdFile });
+  var mdContent = "";
+  if(eachService.clientList.length > 0){
+     mdContent += "<h1>Client Libraries </h1><hr>";
+  }
+
+  for (var package of eachService.clientList) {
+    var packagename = "@azure/" + package;
+    mdContent +=
+      "<h3>" +
+      packagename +
+      "</h3>";
+  }
+  if (eachService.mngmtList.length > 0) {
+    mdContent += "<h1>Management Libraries </h1><hr>";
+  }
+
+  for (var package of eachService.mngmtList) {
+    var packagename = "@azure/" + package;
+    mdContent +=
+      "<h3>" +
+      packagename +
+      "</h3>";
+  }
+  var mdFilePath = path.join(yamlPath, mdFile);
+  fs.writeFileSync(mdFilePath, mdContent);
 }
 
 fs.writeFileSync(yamlFilePath, jsyaml.safeDump(jObject));
