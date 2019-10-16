@@ -35,6 +35,9 @@ export interface GetSecretsOptions {
 }
 
 // @public
+export const logger: import("@azure/logger").AzureLogger;
+
+// @public
 export interface NewPipelineOptions {
     // (undocumented)
     HTTPClient?: HttpClient;
