@@ -19,7 +19,7 @@ import {
   Metadata,
   ensureCpkIfSpecified
 } from "./models";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import {
   setURLParameter,
@@ -217,14 +217,14 @@ export class AppendBlobClient extends BlobClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
   constructor(
     connectionString: string,
     containerName: string,
     blobName: string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -243,13 +243,13 @@ export class AppendBlobClient extends BlobClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
   constructor(
     url: string,
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -278,8 +278,8 @@ export class AppendBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
-    blobNameOrOptions?: string | NewPipelineOptions,
-    options?: NewPipelineOptions
+    blobNameOrOptions?: string | StoragePipelineOptions,
+    options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -295,15 +295,15 @@ export class AppendBlobClient extends BlobClient {
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)      url = urlOrConnectionString;
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)      url = urlOrConnectionString;
       url = urlOrConnectionString;
-      options = blobNameOrOptions as NewPipelineOptions;
+      options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       // The second parameter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -313,7 +313,7 @@ export class AppendBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      // (connectionString: string, containerName: string, blobName: string, options?: NewPipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
