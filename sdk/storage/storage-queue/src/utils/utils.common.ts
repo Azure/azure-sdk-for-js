@@ -3,6 +3,8 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
+import { StorageClientContext } from "../generated/src/storageClientContext";
+import { Pipeline } from "../Pipeline";
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string
@@ -366,4 +368,12 @@ export function getAccountNameFromUrl(url: string): string {
       throw new Error("Unable to extract accountName with provided information.");
     }
   }
+}
+
+export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
+  const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
+
+  // Override protocol layer's default content-type
+  (storageClientContext as any).requestContentType = undefined;
+  return storageClientContext;
 }

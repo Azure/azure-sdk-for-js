@@ -11,12 +11,12 @@ import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   appendToURLPath,
   extractConnectionStringParts,
-  truncatedISO8061Date
+  truncatedISO8061Date,
+  getStorageClientContext
 } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
-import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Metadata } from "./models";
 
 /**
@@ -501,14 +501,8 @@ export class QueueClient extends StorageClient {
     this._messagesUrl = partsOfUrl[1]
       ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], "messages");
-    // Duplicating the following lines from StorageClient constructor
-    let storageClientContext = new StorageClientContext(
-      this._messagesUrl,
-      this.pipeline.toServiceClientOptions()
-    );
-    // Override protocol layer's default content-type
-    (storageClientContext as any).requestContentType = undefined;
-    this.messagesContext = new Messages(storageClientContext);
+
+    this.messagesContext = new Messages(getStorageClientContext(this._messagesUrl, this.pipeline));
   }
 
   private getMessageIdContext(messageId: string): MessageId {
@@ -518,15 +512,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], messageId);
 
-    // Duplicating the following lines from StorageClient constructor
-    let storageClientContext = new StorageClientContext(
-      urlWithMessageId,
-      this.pipeline.toServiceClientOptions()
-    );
-    // Override protocol layer's default content-type
-    (storageClientContext as any).requestContentType = undefined;
-
-    return new MessageId(storageClientContext);
+    return new MessageId(getStorageClientContext(urlWithMessageId, this.pipeline));
   }
 
   /**
