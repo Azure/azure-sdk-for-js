@@ -16,15 +16,14 @@ export class RestError extends Error {
   body?: any;
   parsedBody?: unknown;
   parsedHeaders?: { [key: string]: unknown };
-  
+
   constructor(
     message: string,
     code?: string,
     statusCode?: number,
     request?: WebResource,
     response?: HttpOperationResponse,
-    body?: any,
-    parsedHeaders?: { [key: string]: unknown }
+    body?: any
   ) {
     super(message);
     this.code = code;
@@ -32,7 +31,6 @@ export class RestError extends Error {
     this.request = request;
     this.response = response;
     this.body = body;
-    this.parsedHeaders = parsedHeaders;
 
     Object.setPrototypeOf(this, RestError.prototype);
   }
