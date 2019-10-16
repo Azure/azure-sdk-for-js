@@ -111,7 +111,7 @@ export interface GetKeysOptions {
 export interface ImportKeyOptions {
     enabled?: boolean;
     expires?: Date;
-    hsm?: boolean;
+    hardwareProtected?: boolean;
     notBefore?: Date;
     requestOptions?: msRest.RequestOptionsBase;
     tags?: {
@@ -159,22 +159,8 @@ export interface Key {
 }
 
 // @public
-export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
-    readonly created?: Date;
-    enabled?: boolean;
-    expires?: Date;
-    id?: string;
-    notBefore?: Date;
-    readonly recoveryLevel?: DeletionRecoveryLevel;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly updated?: Date;
-}
-
-// @public
-export class KeysClient {
-    constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
+export class KeyClient {
+    constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key>;
     createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
@@ -191,9 +177,23 @@ export class KeysClient {
     readonly pipeline: ServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
     recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
-    restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key>;
+    restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<Key>;
     updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<Key>;
-    readonly vaultBaseUrl: string;
+    readonly vaultEndpoint: string;
+}
+
+// @public
+export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
+    readonly created?: Date;
+    enabled?: boolean;
+    expires?: Date;
+    id?: string;
+    notBefore?: Date;
+    readonly recoveryLevel?: DeletionRecoveryLevel;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly updated?: Date;
 }
 
 // @public

@@ -78,25 +78,8 @@ export interface Secret {
 }
 
 // @public
-export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
-    contentType?: string;
-    readonly created?: Date;
-    enabled?: boolean;
-    expires?: Date;
-    id?: string;
-    readonly keyId?: string;
-    readonly managed?: boolean;
-    notBefore?: Date;
-    readonly recoveryLevel?: DeletionRecoveryLevel;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly updated?: Date;
-}
-
-// @public
-export class SecretsClient {
-    constructor(url: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
+export class SecretClient {
+    constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
     protected readonly credential: TokenCredential;
     deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
@@ -112,7 +95,24 @@ export class SecretsClient {
     restoreSecret(secretBundleBackup: Uint8Array, options?: RequestOptionsBase): Promise<Secret>;
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<Secret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretOptions): Promise<Secret>;
-    readonly vaultBaseUrl: string;
+    readonly vaultEndpoint: string;
+}
+
+// @public
+export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
+    contentType?: string;
+    readonly created?: Date;
+    enabled?: boolean;
+    expires?: Date;
+    id?: string;
+    readonly keyId?: string;
+    readonly managed?: boolean;
+    notBefore?: Date;
+    readonly recoveryLevel?: DeletionRecoveryLevel;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly updated?: Date;
 }
 
 // @public
