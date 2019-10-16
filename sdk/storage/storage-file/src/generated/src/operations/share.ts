@@ -341,7 +341,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
+    Parameters.shareSnapshot,
     Parameters.timeout,
     Parameters.restype1
   ],
@@ -367,7 +367,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
+    Parameters.shareSnapshot,
     Parameters.timeout,
     Parameters.restype1
   ],

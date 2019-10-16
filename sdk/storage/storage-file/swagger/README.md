@@ -65,3 +65,12 @@ directive:
   transform: >
      $["x-ms-client-name"] = "maxResults";
 ```
+
+### Rename sharesnapshot -> shareSnapshot
+``` yaml
+directive:
+- from: swagger-document
+  where: $.parameters.ShareSnapshot
+  transform: >
+     $["x-ms-client-name"] = "shareSnapshot";
+```

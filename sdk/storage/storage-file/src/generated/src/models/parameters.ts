@@ -612,10 +612,10 @@ export const restype2: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const sharesnapshot: coreHttp.OperationQueryParameter = {
+export const shareSnapshot: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "sharesnapshot"
+    "shareSnapshot"
   ],
   mapper: {
     serializedName: "sharesnapshot",

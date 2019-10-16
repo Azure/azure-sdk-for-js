@@ -300,7 +300,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
+    Parameters.shareSnapshot,
     Parameters.timeout,
     Parameters.restype2
   ],
@@ -410,7 +410,7 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.prefix,
-    Parameters.sharesnapshot,
+    Parameters.shareSnapshot,
     Parameters.marker,
     Parameters.maxResults,
     Parameters.timeout,
@@ -443,7 +443,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.marker,
     Parameters.maxResults,
     Parameters.timeout,
-    Parameters.sharesnapshot,
+    Parameters.shareSnapshot,
     Parameters.comp7
   ],
   headerParameters: [
@@ -472,7 +472,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeout,
     Parameters.marker,
-    Parameters.sharesnapshot,
+    Parameters.shareSnapshot,
     Parameters.comp8
   ],
   headerParameters: [

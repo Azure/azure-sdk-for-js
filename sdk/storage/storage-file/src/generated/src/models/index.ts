@@ -433,7 +433,7 @@ export interface ShareGetPropertiesOptionalParams extends coreHttp.RequestOption
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
@@ -450,7 +450,7 @@ export interface ShareDeleteMethodOptionalParams extends coreHttp.RequestOptions
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
@@ -613,7 +613,7 @@ export interface DirectoryGetPropertiesOptionalParams extends coreHttp.RequestOp
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
@@ -687,7 +687,7 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends c
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -734,7 +734,7 @@ export interface DirectoryListHandlesOptionalParams extends coreHttp.RequestOpti
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -763,7 +763,7 @@ export interface DirectoryForceCloseHandlesOptionalParams extends coreHttp.Reque
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -834,7 +834,7 @@ export interface FileGetPropertiesOptionalParams extends coreHttp.RequestOptions
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
@@ -956,7 +956,7 @@ export interface FileGetRangeListOptionalParams extends coreHttp.RequestOptionsB
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
@@ -1023,7 +1023,7 @@ export interface FileListHandlesOptionalParams extends coreHttp.RequestOptionsBa
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
 }
 
 /**
@@ -1047,7 +1047,7 @@ export interface FileForceCloseHandlesOptionalParams extends coreHttp.RequestOpt
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
 }
 
 /**
