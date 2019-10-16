@@ -197,7 +197,7 @@ export declare interface DeleteConfigurationSettingOptions extends HttpCondition
 /**
  * Response from deleting a ConfigurationSetting.
  */
-export declare interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
+export declare interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
 /**
