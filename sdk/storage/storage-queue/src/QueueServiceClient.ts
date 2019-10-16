@@ -15,7 +15,7 @@ import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.com
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
-import { QueueClient } from "./QueueClient";
+import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 
 /**
  * Options to configure Queue Service - Get Properties operation
@@ -542,7 +542,32 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * createQueue and deleteQueue goes here
+   * Creates a new queue under the specified account.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
+   * @param {QueueCreateOptions} [options] Options to Queue create operation.
+   * @returns {Promise<Models.QueueCreateResponse>} Response data for the Queue create operation.
+   * @memberof QueueServiceClient
    */
+  public async createQueue(
+    queueName: string,
+    options: QueueCreateOptions = {}
+  ): Promise<Models.QueueCreateResponse> {
+    return this.getQueueClient(queueName).create(options);
+  }
+
+  /**
+   * Deletes the specified queue permanently.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   *
+   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
+   * @returns {Promise<Models.QueueDeleteResponse>} Response data for the Queue delete operation.
+   * @memberof QueueServiceClient
+   */
+  public async deleteQueue(
+    queueName: string,
+    options: QueueDeleteOptions = {}
+  ): Promise<Models.QueueDeleteResponse> {
+    return this.getQueueClient(queueName).delete(options);
+  }
 }
