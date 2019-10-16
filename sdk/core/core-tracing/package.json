@@ -60,12 +60,12 @@
   "sideEffects": false,
   "dependencies": {
     "@opencensus/web-types": "0.0.7",
+    "@opentelemetry/types": "^0.1.1",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@microsoft/api-extractor": "^7.1.5",
-    "@opentelemetry/types": "^0.1.1",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
