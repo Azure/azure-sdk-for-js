@@ -15,8 +15,9 @@ import { logger as coreLogger, logger } from "../log";
 export interface LogPolicyOptions {
   /**
    * Header names whose values will be logged when logging is enabled. Defaults to
-   * Date, traceparent, x-ms-client-request-id, and x-ms-request id. Other values
-   * will show as "REDACTED".
+   * Date, traceparent, x-ms-client-request-id, and x-ms-request id.  Any headers
+   * specified in this field will be added to that list.  Any other values will
+   * be written to logs as "REDACTED".
    */
   allowedHeaderNames?: string[];
 
@@ -36,9 +37,7 @@ const defaultAllowedHeaderNames = [
   "x-ms-request-id"
 ];
 
-const defaultAllowedQueryParameters: string[] = [
-  "api-version"
-];
+const defaultAllowedQueryParameters: string[] = [];
 
 export function logPolicy(
   logger: any = coreLogger.info.bind(coreLogger),
@@ -54,21 +53,28 @@ export function logPolicy(
 export class LogPolicy extends BaseRequestPolicy {
   logger?: any;
 
-  public allowedHeaderNames: string[];
-  public allowedQueryParameters: string[];
+  public allowedHeaderNames: string[] = defaultAllowedHeaderNames;
+  public allowedQueryParameters: string[] = defaultAllowedQueryParameters;
+
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     logger: any = console.log,
     {
-      allowedHeaderNames = defaultAllowedHeaderNames,
-      allowedQueryParameters = defaultAllowedQueryParameters
+      allowedHeaderNames = [],
+      allowedQueryParameters = []
     }: LogPolicyOptions = {}
   ) {
     super(nextPolicy, options);
     this.logger = logger;
-    this.allowedHeaderNames = allowedHeaderNames;
-    this.allowedQueryParameters = allowedQueryParameters;
+
+    if (allowedHeaderNames) {
+      this.allowedHeaderNames = this.allowedHeaderNames.concat(allowedHeaderNames);
+    }
+
+    if (allowedQueryParameters) {
+      this.allowedQueryParameters = this.allowedQueryParameters.concat(allowedQueryParameters);
+    }
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
