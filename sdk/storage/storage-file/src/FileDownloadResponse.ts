@@ -150,8 +150,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(Date | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get copyCompletionTime(): Date | undefined {
-    return this.originalResponse.copyCompletionTime;
+  public get copyCompletedOn(): Date | undefined {
+    return this.originalResponse.copyCompletedOn;
   }
 
   /**

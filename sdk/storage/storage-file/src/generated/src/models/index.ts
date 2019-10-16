@@ -1896,7 +1896,7 @@ export interface FileDownloadHeaders {
    * Conclusion time of the last attempted Copy File operation where this file was the destination
    * file. This value can specify the time of a completed, aborted, or failed copy attempt.
    */
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   /**
    * Only appears when x-ms-copy-status is failed or pending. Describes cause of fatal or non-fatal
    * copy operation failure.
@@ -2037,7 +2037,7 @@ export interface FileGetPropertiesHeaders {
    * Conclusion time of the last attempted Copy File operation where this file was the destination
    * file. This value can specify the time of a completed, aborted, or failed copy attempt.
    */
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   /**
    * Only appears when x-ms-copy-status is failed or pending. Describes cause of fatal or non-fatal
    * copy operation failure.

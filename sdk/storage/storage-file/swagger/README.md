@@ -108,3 +108,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "timeoutInSeconds";
 ```
+
+### Rename Headers copyCompletionTime -> copyCompletedOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{shareName}/{directory}/{fileName}"]..responses..headers["x-ms-copy-completion-time"]
+    transform: >
+      $["x-ms-client-name"] = "copyCompletedOn";
+```
