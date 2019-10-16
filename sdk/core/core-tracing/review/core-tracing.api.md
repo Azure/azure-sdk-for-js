@@ -4,47 +4,35 @@
 
 ```ts
 
+import { Attributes } from '@opentelemetry/types';
+import { BinaryFormat } from '@opentelemetry/types';
+import { CanonicalCode } from '@opentelemetry/types';
+import { Event } from '@opentelemetry/types';
+import { HrTime } from '@opentelemetry/types';
+import { HttpTextFormat } from '@opentelemetry/types';
+import { Link } from '@opentelemetry/types';
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
+import { Sampler } from '@opentelemetry/types';
+import { Span } from '@opentelemetry/types';
+import { SpanContext } from '@opentelemetry/types';
+import { SpanKind } from '@opentelemetry/types';
+import { SpanOptions } from '@opentelemetry/types';
+import { Status } from '@opentelemetry/types';
+import { TimedEvent } from '@opentelemetry/types';
+import { TimeInput } from '@opentelemetry/types';
+import { TraceFlags } from '@opentelemetry/types';
+import { Tracer } from '@opentelemetry/types';
 import { TracerBase } from '@opencensus/web-types';
+import { TraceState } from '@opentelemetry/types';
 
-// @public
-export interface Attributes {
-    [attributeKey: string]: unknown;
-}
+export { Attributes }
 
-// @public
-export interface BinaryFormat {
-    fromBytes(buffer: ArrayBuffer): SpanContext | null;
-    toBytes(spanContext: SpanContext): ArrayBuffer;
-}
+export { BinaryFormat }
 
-// @public
-export enum CanonicalCode {
-    ABORTED = 10,
-    ALREADY_EXISTS = 6,
-    CANCELLED = 1,
-    DATA_LOSS = 15,
-    DEADLINE_EXCEEDED = 4,
-    FAILED_PRECONDITION = 9,
-    INTERNAL = 13,
-    INVALID_ARGUMENT = 3,
-    NOT_FOUND = 5,
-    OK = 0,
-    OUT_OF_RANGE = 11,
-    PERMISSION_DENIED = 7,
-    RESOURCE_EXHAUSTED = 8,
-    UNAUTHENTICATED = 16,
-    UNAVAILABLE = 14,
-    UNIMPLEMENTED = 12,
-    UNKNOWN = 2
-}
+export { CanonicalCode }
 
-// @public
-export interface Event {
-    attributes?: Attributes;
-    name: string;
-}
+export { Event }
 
 // @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
@@ -55,20 +43,11 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
 // @public
 export function getTracer(): Tracer;
 
-// @public
-export type HrTime = [number, number];
+export { HrTime }
 
-// @public
-export interface HttpTextFormat {
-    extract(format: string, carrier: unknown): SpanContext | null;
-    inject(spanContext: SpanContext, format: string, carrier: unknown): void;
-}
+export { HttpTextFormat }
 
-// @public
-export interface Link {
-    attributes?: Attributes;
-    spanContext: SpanContext;
-}
+export { Link }
 
 // @public
 export class NoOpSpan implements Span {
@@ -127,35 +106,14 @@ export class OpenCensusTracerWrapper implements Tracer {
     withSpan<T extends (...args: unknown[]) => unknown>(span: Span, fn: T): ReturnType<T>;
 }
 
-// @public
-export interface Sampler {
-    shouldSample(parentContext?: SpanContext): boolean;
-    toString(): string;
-}
+export { Sampler }
 
 // @public
 export function setTracer(tracer: Tracer): void;
 
-// @public
-export interface Span {
-    addEvent(name: string, attributes?: Attributes): this;
-    addLink(spanContext: SpanContext, attributes?: Attributes): this;
-    context(): SpanContext;
-    end(endTime?: TimeInput): void;
-    isRecordingEvents(): boolean;
-    setAttribute(key: string, value: unknown): this;
-    setAttributes(attributes: Attributes): this;
-    setStatus(status: Status): this;
-    updateName(name: string): this;
-}
+export { Span }
 
-// @public
-export interface SpanContext {
-    spanId: string;
-    traceFlags?: TraceFlags;
-    traceId: string;
-    traceState?: TraceState;
-}
+export { SpanContext }
 
 // @public
 export interface SpanGraph {
@@ -168,29 +126,11 @@ export interface SpanGraphNode {
     name: string;
 }
 
-// @public
-export enum SpanKind {
-    CLIENT = 2,
-    CONSUMER = 4,
-    INTERNAL = 0,
-    PRODUCER = 3,
-    SERVER = 1
-}
+export { SpanKind }
 
-// @public
-export interface SpanOptions {
-    attributes?: Attributes;
-    isRecordingEvents?: boolean;
-    kind?: SpanKind;
-    parent?: Span | SpanContext;
-    startTime?: number;
-}
+export { SpanOptions }
 
-// @public
-export interface Status {
-    code: CanonicalCode;
-    message?: string;
-}
+export { Status }
 
 // @public
 export class TestSpan extends NoOpSpan {
@@ -217,38 +157,15 @@ export class TestTracer extends NoOpTracer {
     startSpan(name: string, options?: SpanOptions): TestSpan;
     }
 
-// @public
-export interface TimedEvent extends Event {
-    time: HrTime;
-}
+export { TimedEvent }
 
-// @public
-export type TimeInput = HrTime | number | Date;
+export { TimeInput }
 
-// @public
-export enum TraceFlags {
-    SAMPLED = 1,
-    UNSAMPLED = 0
-}
+export { TraceFlags }
 
-// @public
-export interface Tracer {
-    bind<T>(target: T, span?: Span): T;
-    getBinaryFormat(): BinaryFormat;
-    getCurrentSpan(): Span | null;
-    getHttpTextFormat(): HttpTextFormat;
-    recordSpanData(span: Span): void;
-    startSpan(name: string, options?: SpanOptions): Span;
-    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(span: Span, fn: T): ReturnType<T>;
-}
+export { Tracer }
 
-// @public
-export interface TraceState {
-    get(key: string): string | undefined;
-    serialize(): string;
-    set(key: string, value: string): void;
-    unset(key: string): void;
-}
+export { TraceState }
 
 
 // (No @packageDocumentation comment for this package)

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { BinaryFormat } from "../../interfaces/BinaryFormat";
-import { SpanContext } from "../../interfaces/span_context";
+import { BinaryFormat, SpanContext } from "@opentelemetry/types";
 
 /**
  * A no-op implementation of BinaryFormat to be used when tracing is disabled.

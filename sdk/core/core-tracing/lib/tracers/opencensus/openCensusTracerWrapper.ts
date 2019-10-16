@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { Tracer } from "../../interfaces/tracer";
-import { SpanOptions } from "../../interfaces/SpanOptions";
-import { Span } from "../../interfaces/span";
+import { BinaryFormat, HttpTextFormat, Tracer, Span, SpanOptions } from "@opentelemetry/types";
 import { OpenCensusSpanWrapper } from "./openCensusSpanWrapper";
-import { BinaryFormat } from "../../interfaces/BinaryFormat";
-import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
 import { TracerBase as OpenCensusTracer } from "@opencensus/web-types";
 
 /**

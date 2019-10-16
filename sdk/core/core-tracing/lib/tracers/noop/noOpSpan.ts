@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { Span } from "../../interfaces/span";
-import { SpanContext } from "../../interfaces/span_context";
-import { Attributes } from "../../interfaces/attributes";
-import { Status } from "../../interfaces/status";
+import { Span, SpanContext, Attributes, Status } from "@opentelemetry/types";
 
 /**
  * A no-op implementation of Span that can safely be used without side-effects.
  */
 export class NoOpSpan implements Span {
-
   /**
    * Returns the SpanContext associated with this Span.
    */

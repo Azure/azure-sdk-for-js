@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { Tracer } from "../../interfaces/tracer";
-import { Span } from "../../interfaces/span";
-import { SpanOptions } from "../../interfaces/SpanOptions";
 import { NoOpSpan } from "./noOpSpan";
-import { BinaryFormat } from "../../interfaces/BinaryFormat";
-import { HttpTextFormat } from "../../interfaces/HttpTextFormat";
+import { BinaryFormat, HttpTextFormat, Tracer, Span, SpanOptions } from "@opentelemetry/types";
 import { NoOpBinaryFormat } from "./noOpBinaryFormat";
 import { NoOpHttpTextFormat } from "./noOpHttpTextFormat";
 
@@ -14,7 +10,6 @@ import { NoOpHttpTextFormat } from "./noOpHttpTextFormat";
  * is disabled.
  */
 export class NoOpTracer implements Tracer {
-
   /**
    * Starts a new Span.
    * @param _name The name of the span.
@@ -36,10 +31,7 @@ export class NoOpTracer implements Tracer {
    * @param _span The span that provides the context.
    * @param fn The function to be executed.
    */
-  withSpan<T extends (...args: unknown[]) => ReturnType<T>>(
-    _span: Span,
-    fn: T
-  ): ReturnType<T> {
+  withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T> {
     return fn();
   }
 

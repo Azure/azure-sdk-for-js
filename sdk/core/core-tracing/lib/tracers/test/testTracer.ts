@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { NoOpTracer } from "../noop/noOpTracer";
-import { SpanOptions } from "../../interfaces/SpanOptions";
 import { TestSpan } from "./testSpan";
-import { SpanContext } from "../../interfaces/span_context";
-import { SpanKind } from "../../interfaces/span_kind";
+import { SpanContext, SpanKind, SpanOptions } from "@opentelemetry/types";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -36,7 +34,6 @@ export interface SpanGraph {
  * A mock tracer useful for testing
  */
 export class TestTracer extends NoOpTracer {
-
   private traceIdCounter = 0;
   private getNextTraceId(): string {
     this.traceIdCounter++;
@@ -70,7 +67,7 @@ export class TestTracer extends NoOpTracer {
    * Returns all Spans where end() has not been called
    */
   getActiveSpans(): TestSpan[] {
-    return this.knownSpans.filter(span => {
+    return this.knownSpans.filter((span) => {
       return !span.endCalled;
     });
   }
@@ -81,7 +78,7 @@ export class TestTracer extends NoOpTracer {
    * @param traceId The traceId to return the graph for
    */
   getSpanGraph(traceId: string): SpanGraph {
-    const traceSpans = this.knownSpans.filter(span => {
+    const traceSpans = this.knownSpans.filter((span) => {
       return span.context().traceId === traceId;
     });
 
@@ -98,7 +95,9 @@ export class TestTracer extends NoOpTracer {
       if (span.parentSpanId) {
         const parent = nodeMap.get(span.parentSpanId);
         if (!parent) {
-          throw new Error(`Span with name ${node.name} has an unknown parentSpan with id ${span.parentSpanId}`);
+          throw new Error(
+            `Span with name ${node.name} has an unknown parentSpan with id ${span.parentSpanId}`
+          );
         }
         parent.children.push(node);
       } else {
@@ -109,7 +108,6 @@ export class TestTracer extends NoOpTracer {
     return {
       roots
     };
-
   }
 
   /**
@@ -118,7 +116,6 @@ export class TestTracer extends NoOpTracer {
    * @param options The SpanOptions used during Span creation.
    */
   startSpan(name: string, options: SpanOptions = {}): TestSpan {
-
     const parentContext = this._getParentContext(options);
 
     let traceId: string;
@@ -134,14 +131,15 @@ export class TestTracer extends NoOpTracer {
     const context: SpanContext = {
       traceId,
       spanId: this.getNextSpanId()
-    }
+    };
     const span = new TestSpan(
       this,
       name,
       context,
       options.kind || SpanKind.INTERNAL,
       parentContext ? parentContext.spanId : undefined,
-      options.startTime);
+      options.startTime
+    );
     this.knownSpans.push(span);
     if (isRootSpan) {
       this.rootSpans.push(span);
@@ -152,12 +150,11 @@ export class TestTracer extends NoOpTracer {
   private _getParentContext(options: SpanOptions): SpanContext | undefined {
     const parent = options.parent;
     if (parent) {
-      if ('traceId' in parent) {
+      if ("traceId" in parent) {
         return parent;
       } else {
         return parent.context();
       }
     }
-
   }
 }

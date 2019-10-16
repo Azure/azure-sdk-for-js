@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { Span } from "../../interfaces/span";
-import { SpanContext } from "../../interfaces/span_context";
-import { Attributes } from "../../interfaces/attributes";
-import { Status } from "../../interfaces/status";
+import { SpanContext, Span, SpanOptions, Attributes, Status } from "@opentelemetry/types";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
-import { SpanOptions } from "../../interfaces/SpanOptions";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
 import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan } from "@opencensus/web-types";
 
