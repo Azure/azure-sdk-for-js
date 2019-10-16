@@ -438,13 +438,13 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * Specifies the maximum number of entries to return. If the request does not specify maxResults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
    * @memberof FileListHandlesSegmentOptions
    */
-  maxresults?: number;
+  maxResults?: number;
 }
 
 export interface FileListHandlesOptions extends CommonOptions {
@@ -1945,7 +1945,7 @@ export class FileClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateHandleSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...options
         });
       }

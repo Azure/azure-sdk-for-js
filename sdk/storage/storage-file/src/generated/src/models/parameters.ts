@@ -470,10 +470,10 @@ export const marker: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const maxresults: coreHttp.OperationQueryParameter = {
+export const maxResults: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "maxresults"
+    "maxResults"
   ],
   mapper: {
     serializedName: "maxresults",

@@ -41,13 +41,13 @@ interface ServiceListSharesSegmentOptions extends CommonOptions {
   prefix?: string;
   /**
    * Specifies the maximum number of entries to
-   * return. If the request does not specify maxresults, or specifies a value
+   * return. If the request does not specify maxResults, or specifies a value
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
    * @memberof ServiceListSharesSegmentOptions
    */
-  maxresults?: number;
+  maxResults?: number;
 
   /**
    * Include this parameter to
@@ -518,7 +518,7 @@ export class FileServiceClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...updatedOptions
         });
       }

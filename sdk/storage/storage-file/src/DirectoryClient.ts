@@ -88,13 +88,13 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
 
   /**
    * Specifies the maximum number of entries to
-   * return. If the request does not specify maxresults, or specifies a value
+   * return. If the request does not specify maxResults, or specifies a value
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
    * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
-  maxresults?: number;
+  maxResults?: number;
 }
 
 /**
@@ -189,13 +189,13 @@ export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * Specifies the maximum number of entries to return. If the request does not specify maxResults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
    * @memberof DirectoryListHandlesSegmentOptions
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -862,7 +862,7 @@ export class DirectoryClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...options
         });
       }
@@ -1047,7 +1047,7 @@ export class DirectoryClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateHandleSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...options
         });
       }

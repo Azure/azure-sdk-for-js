@@ -859,7 +859,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.marker,
-    Parameters.maxresults,
+    Parameters.maxResults,
     Parameters.timeout,
     Parameters.sharesnapshot,
     Parameters.comp7

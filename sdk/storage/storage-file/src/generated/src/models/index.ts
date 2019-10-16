@@ -392,7 +392,7 @@ export interface ServiceListSharesSegmentOptionalParams extends coreHttp.Request
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * Include this parameter to specify one or more datasets to include in the response.
    */
@@ -699,7 +699,7 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends c
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
@@ -723,7 +723,7 @@ export interface DirectoryListHandlesOptionalParams extends coreHttp.RequestOpti
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
@@ -1012,7 +1012,7 @@ export interface FileListHandlesOptionalParams extends coreHttp.RequestOptionsBa
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting

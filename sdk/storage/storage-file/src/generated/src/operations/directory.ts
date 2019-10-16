@@ -412,7 +412,7 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.prefix,
     Parameters.sharesnapshot,
     Parameters.marker,
-    Parameters.maxresults,
+    Parameters.maxResults,
     Parameters.timeout,
     Parameters.restype2,
     Parameters.comp1
@@ -441,7 +441,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.marker,
-    Parameters.maxresults,
+    Parameters.maxResults,
     Parameters.timeout,
     Parameters.sharesnapshot,
     Parameters.comp7

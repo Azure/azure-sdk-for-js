@@ -175,7 +175,7 @@ const listSharesSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker,
-    Parameters.maxresults,
+    Parameters.maxResults,
     Parameters.include,
     Parameters.timeout,
     Parameters.comp1

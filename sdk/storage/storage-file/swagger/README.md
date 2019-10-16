@@ -56,3 +56,12 @@ directive:
         $.get.responses["200"].schema = { "$ref": path };
     }
 ```
+
+### Rename maxresults -> maxResults
+``` yaml
+directive:
+- from: swagger-document
+  where: $.parameters.MaxResults
+  transform: >
+     $["x-ms-client-name"] = "maxResults";
+```
