@@ -511,7 +511,7 @@ export class SecretClient {
    * const serialized = recoverPoller.toJSON();
    *
    * // A new poller can be created with:
-   * // const newPoller = await client.beginDeleteSecret("MySecretName", { resumeFrom: serialized });
+   * // const newPoller = await client.beginRecoverDeletedSecret("MySecretName", { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * const deletedSecret = await recoverPoller.pollUntilDone();
