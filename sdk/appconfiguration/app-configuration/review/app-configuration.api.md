@@ -71,7 +71,7 @@ export interface DeleteConfigurationSettingOptions extends HttpConditionalFields
 }
 
 // @public
-export interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
+export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
