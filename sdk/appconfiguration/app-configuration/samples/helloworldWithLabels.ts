@@ -29,10 +29,10 @@ export async function run() {
     await client.addConfigurationSetting({ key: urlKey, label: "beta", value: "https://beta.example.com" });
     await client.addConfigurationSetting({ key: urlKey, label: "production", value: "https://example.com" });
 
-    const betaEndpoint = await client.getConfigurationSetting(urlKey, { label: "beta" });
+    const betaEndpoint = await client.getConfigurationSetting({ key: urlKey, label: "beta" });
     console.log(`Endpoint with beta label: ${betaEndpoint.value}`);
 
-    const productionEndpoint = await client.getConfigurationSetting(urlKey, { label: "production" });
+    const productionEndpoint = await client.getConfigurationSetting({ key: urlKey, label: "production" });
     console.log(`Endpoint with production label: ${productionEndpoint.value}`);
 
     await cleanupSampleValues([urlKey], client);
@@ -44,7 +44,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
     });
 
     for await (const setting of existingSettings) {
-        await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     }
 }
 

@@ -16,7 +16,6 @@ export class RestError extends Error {
   body?: any;
   parsedBody?: unknown;
   parsedHeaders?: { [key: string]: unknown };
-
   constructor(
     message: string,
     code?: string,

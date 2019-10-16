@@ -10,7 +10,11 @@ import { URLBuilder } from "./url";
 import { HttpHeaders } from "./httpHeaders";
 
 export type ProxyAgent = { isHttps: boolean; agent: http.Agent | https.Agent };
-export function createProxyAgent(requestUrl: string, proxySettings: ProxySettings, headers?: HttpHeaders): ProxyAgent {
+export function createProxyAgent(
+  requestUrl: string,
+  proxySettings: ProxySettings,
+  headers?: HttpHeaders
+): ProxyAgent {
   const tunnelOptions: tunnel.HttpsOverHttpsOptions = {
     proxy: {
       host: URLBuilder.parse(proxySettings.host).getHost() as string,
@@ -19,7 +23,7 @@ export function createProxyAgent(requestUrl: string, proxySettings: ProxySetting
     }
   };
 
-  if ((proxySettings.username && proxySettings.password)) {
+  if (proxySettings.username && proxySettings.password) {
     tunnelOptions.proxy!.proxyAuth = `${proxySettings.username}:${proxySettings.password}`;
   }
 
@@ -36,7 +40,11 @@ export function createProxyAgent(requestUrl: string, proxySettings: ProxySetting
   return proxyAgent;
 }
 
-export function createTunnel(isRequestHttps: boolean, isProxyHttps: boolean, tunnelOptions: tunnel.HttpsOverHttpsOptions): http.Agent | https.Agent {
+export function createTunnel(
+  isRequestHttps: boolean,
+  isProxyHttps: boolean,
+  tunnelOptions: tunnel.HttpsOverHttpsOptions
+): http.Agent | https.Agent {
   if (isRequestHttps && isProxyHttps) {
     return tunnel.httpsOverHttps(tunnelOptions);
   } else if (isRequestHttps && !isProxyHttps) {

@@ -4,17 +4,14 @@ export default [
     input: "dist-esm/index.js",
     external: [
       "tslib",
-      "@azure/cosmos-sign",
       "universal-user-agent",
       "uuid/v4",
       "debug",
-      "@azure/abort-controller",
+      "node-abort-controller",
       "node-fetch",
-      "atob",
-      "binary-search-bounds",
       "priorityqueuejs",
       "semaphore",
-      "crypto-hash",
+      "crypto",
       "fast-json-stable-stringify"
     ],
     output: {
@@ -24,18 +21,15 @@ export default [
       sourcemap: true,
       globals: {
         "universal-user-agent": "universalUserAgent",
-        "@azure/cosmos-sign": "cosmosSign",
-        "binary-search-bounds": "bs",
-        "crypto-hash": "cryptoHash",
         "fast-json-stable-stringify": "stableStringify",
         "uuid/v4": "uuid",
-        "@azure/abort-controller": "AbortController",
+        "node-abort-controller": "AbortController",
         "node-fetch": "fetch",
+        crypto: "crypto",
         tslib: "tslib_1",
         debug: "debugLib",
         priorityqueuejs: "PriorityQueue",
-        semaphore: "semaphore",
-        atob: "atob"
+        semaphore: "semaphore"
       }
     },
     plugins: [resolve()]

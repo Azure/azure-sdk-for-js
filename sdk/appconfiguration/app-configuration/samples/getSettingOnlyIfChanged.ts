@@ -11,37 +11,51 @@ import { AppConfigurationClient } from "../src";
 
 export async function run() {
   console.log("Running get setting only if changed sample");
-    
+
   // You will need to set this environment variable
   const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
   const client = new AppConfigurationClient(connectionString);
 
   const key = "getSettingOnlyIfChangedExample";
   await cleanupSampleValues([key], client);
-  
+
   const addedSetting = await client.addConfigurationSetting({ key, value: "Initial value" });
 
   // now our application only wants to download the setting if it's changed
-  // when it's not changed we throw an error that you can inspect and deal 
-  // with
   console.log("Checking to see if the value has changed using the etag and ifNoneMatch");
+
+  const unchangedResponse = await client.getConfigurationSetting(addedSetting,
+    {
+      // onlyIfChanged allows us to say "get me the value only if it doesn't match the one I already have"
+      // this allows us to avoid transferring the setting if nothing has changed.
+      onlyIfChanged: true
+    }
+  );
+
+  // we return the response so you can still inspect the returned headers. The body, however, is blank
+  console.log(`Received a response code of ${unchangedResponse.statusCode}`);   // will be HTTP status 304
+
   try {
-    await client.getConfigurationSetting(key, {
-      // ifNoneMatch allows us to say "get me the value so long as it doesn't match the etag I have"
-      ifNoneMatch: addedSetting.etag
-    });
+    // To prevent any accidental usages of this model we throw on access to the properties - this model wasn't deserialized
+    // from an actual HTTP response body so it's invalid
+    //
+    // The _request and .statusCode properties, however, are valid and available
+    unchangedResponse.key;
+    throw new Error(
+      "We won't get here - accessing .key (or any members) will throw a ResponseBodyNotFoundError"
+    );
   } catch (err) {
     if (err.name === "ResponseBodyNotFoundError") {
       // this means the setting has not changed
       // for this example we'll just continue using the original value
-      console.log("The setting hasn't changed - we'll just continue using our current setting");            
+      console.log("The setting hasn't changed - we'll just continue using our current setting");
     } else {
       // other errors indicate actual failures in the service call
       // should be handled (or propagated)
       throw err;
     }
   }
-  
+
   await cleanupSampleValues([key], client);
 }
 
@@ -52,7 +66,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
 
   for await (const setting of existingSettings) {
     await client.clearReadOnly(setting);
-    await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
 

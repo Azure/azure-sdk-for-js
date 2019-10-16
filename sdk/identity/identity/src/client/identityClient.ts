@@ -157,6 +157,14 @@ export class IdentityClient extends ServiceClient {
   }
 }
 
+/**
+ * Provides options to configure how the Identity library makes authentication
+ * requests to Azure Active Directory.
+ */
 export interface IdentityClientOptions extends ServiceClientOptions {
+  /**
+   * The authority host to use for authentication requests.  The default is
+   * "https://login.microsoftonline.com".
+   */
   authorityHost?: string;
 }

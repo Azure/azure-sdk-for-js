@@ -3,8 +3,8 @@
 
 import * as assert from "assert";
 import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
-import { RestError } from "@azure/core-http";
-import { retry } from "./utils/recorderUtils";
+import { RestError, isNode } from "@azure/core-http";
+import { retry, isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -43,6 +43,9 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can abort creating a key", async function() {
+    if (!isNode && isPlayingBack) {
+      recorder.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const controller = new AbortController();
     const resultPromise = client.createKey(keyName, "RSA", {

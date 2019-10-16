@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AbortController } from "@azure/abort-controller";
+import AbortController from "node-abort-controller";
 import fetch, { RequestInit, Response } from "node-fetch";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
@@ -17,8 +17,7 @@ import { TimeoutError } from "./TimeoutError";
 /** @hidden */
 const log = logger("RequestHandler");
 
-/** @hidden */
-export async function executeRequest(requestContext: RequestContext) {
+async function executeRequest(requestContext: RequestContext) {
   return executePlugins(requestContext, httpRequest, PluginOn.request);
 }
 
@@ -143,6 +142,7 @@ export async function request<T>(requestContext: RequestContext): Promise<Cosmos
   }
 
   return RetryUtility.execute({
-    requestContext
+    requestContext,
+    executeRequest
   });
 }

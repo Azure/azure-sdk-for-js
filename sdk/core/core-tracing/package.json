@@ -1,12 +1,13 @@
 {
   "name": "@azure/core-tracing",
-  "version": "1.0.0-preview.3",
+  "version": "1.0.0-preview.4",
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/lib/index.js",
   "browser": {
-    "./dist/index.js": "./browser/core-tracing.js"
+    "./dist/index.js": "./browser/core-tracing.js",
+    "./dist-esm/lib/utils/global.js": "./dist-esm/lib/utils/global.browser.js"
   },
   "types": "types/core-tracing.d.ts",
   "scripts": {
@@ -59,13 +60,11 @@
   "sideEffects": false,
   "dependencies": {
     "@opencensus/web-types": "0.0.7",
-    "debug": "^4.1.1",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@microsoft/api-extractor": "^7.1.5",
-    "@types/debug": "^4.1.4",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",

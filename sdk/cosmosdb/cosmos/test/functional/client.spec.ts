@@ -10,7 +10,7 @@ import {
   generateDocuments,
   bulkInsertItems
 } from "../common/TestHelpers";
-import { AbortController } from "@azure/abort-controller";
+import AbortController from "node-abort-controller";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

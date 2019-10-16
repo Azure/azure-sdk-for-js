@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { ProxySettings } from "../serviceClient";
 import { WebResource } from "../webResource";
@@ -41,7 +46,6 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
   };
 }
 
-
 export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -53,7 +57,11 @@ export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory
 export class ProxyPolicy extends BaseRequestPolicy {
   proxySettings: ProxySettings;
 
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, proxySettings: ProxySettings) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    proxySettings: ProxySettings
+  ) {
     super(nextPolicy, options);
     this.proxySettings = proxySettings;
   }

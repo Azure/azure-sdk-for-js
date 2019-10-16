@@ -27,8 +27,8 @@
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan
 
 # Management Plane
-/**/*Management*.ts @michaeljqzq
-/**/arm-*/ @michaeljqzq
+/**/*Management*.ts @ruowan
+/**/arm-*/ @ruowan
 
 ###########
 # Eng Sys

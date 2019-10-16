@@ -23,17 +23,17 @@ export async function run() {
     console.log(`Adding in new setting ${greetingKey}`);
     await client.addConfigurationSetting({ key: greetingKey, value: "Hello!" });
 
-    const newSetting = await client.getConfigurationSetting(greetingKey);
+    const newSetting = await client.getConfigurationSetting({ key: greetingKey });
     console.log(`${greetingKey} has been set to ${newSetting.value}`);
 
     // changing the value of a setting
     await client.setConfigurationSetting({ key: greetingKey, value: "Goodbye!" });
 
-    const updatedSetting = await client.getConfigurationSetting(greetingKey);
+    const updatedSetting = await client.getConfigurationSetting({ key: greetingKey });
     console.log(`${greetingKey} has been set to ${updatedSetting.value}`);
 
     // removing the setting
-    await client.deleteConfigurationSetting(greetingKey, {});
+    await client.deleteConfigurationSetting({ key: greetingKey });
     console.log(`${greetingKey} has been deleted`);
 
     await cleanupSampleValues([greetingKey], client);
@@ -45,7 +45,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
     });
 
     for await (const setting of settingsIterator) {
-        await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     }    
 }
 

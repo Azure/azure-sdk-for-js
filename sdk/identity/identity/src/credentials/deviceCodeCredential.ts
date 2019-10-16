@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken, delay } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
+import { delay } from "../util/delay";
 import { CanonicalCode } from "@azure/core-tracing";
 
 /**
@@ -28,8 +29,21 @@ export interface DeviceCodeResponse {
  * contains an instruction with these details.
  */
 export interface DeviceCodeDetails {
+  /**
+   * The device code that the user must enter into the verification page.
+   */
   userCode: string;
+
+  /**
+   * The verification URI to which the user must navigate to enter the device
+   * code.
+   */
   verificationUri: string;
+
+  /**
+   * A message that may be shown to the user to instruct them on how to enter
+   * the device code in the page specified by the verification URI.
+   */
   message: string;
 }
 
@@ -166,6 +180,9 @@ export class DeviceCodeCredential implements TokenCredential {
               case "expired_token":
                 throw err;
               case "bad_verification_code":
+                throw err;
+              default:
+                // Any other error should be rethrown
                 throw err;
             }
           } else {

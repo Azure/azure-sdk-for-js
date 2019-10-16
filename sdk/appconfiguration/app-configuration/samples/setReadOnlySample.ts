@@ -34,7 +34,7 @@ export async function run() {
   }
     
   // clients that read from the key are unaffected
-  await client.getConfigurationSetting(readOnlySampleKey, { label: "a label" });
+  await client.getConfigurationSetting({ key: readOnlySampleKey, label: "a label" });
   
   // to make a key writable again we can clear the read-only status
   console.log("Clearing the read-only status on the key so we can update the value");
@@ -54,7 +54,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
 
   for await (const setting of existingSettings) {
     await client.clearReadOnly(setting);
-    await client.deleteConfigurationSetting(setting.key!, { label: setting.label });
+    await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
 
