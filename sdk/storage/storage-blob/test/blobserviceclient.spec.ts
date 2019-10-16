@@ -42,7 +42,7 @@ describe("BlobServiceClient", () => {
       const container = result.containerItems![0];
       assert.ok(container.name.length > 0);
       assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModifiedOn);
+      assert.ok(container.properties.lastModified);
     }
   });
 
@@ -69,7 +69,7 @@ describe("BlobServiceClient", () => {
     assert.equal(result1.containerItems!.length, 1);
     assert.ok(result1.containerItems![0].name.startsWith(containerNamePrefix));
     assert.ok(result1.containerItems![0].properties.etag.length > 0);
-    assert.ok(result1.containerItems![0].properties.lastModifiedOn);
+    assert.ok(result1.containerItems![0].properties.lastModified);
     assert.ok(!result1.containerItems![0].properties.leaseDuration);
     assert.ok(!result1.containerItems![0].properties.publicAccess);
     assert.deepEqual(result1.containerItems![0].properties.leaseState, "available");
@@ -88,7 +88,7 @@ describe("BlobServiceClient", () => {
     assert.equal(result2.containerItems!.length, 1);
     assert.ok(result2.containerItems![0].name.startsWith(containerNamePrefix));
     assert.ok(result2.containerItems![0].properties.etag.length > 0);
-    assert.ok(result2.containerItems![0].properties.lastModifiedOn);
+    assert.ok(result2.containerItems![0].properties.lastModified);
     assert.ok(!result2.containerItems![0].properties.leaseDuration);
     assert.ok(!result2.containerItems![0].properties.publicAccess);
     assert.deepEqual(result2.containerItems![0].properties.leaseState, "available");
@@ -118,7 +118,7 @@ describe("BlobServiceClient", () => {
     })) {
       assert.ok(container.name.startsWith(containerNamePrefix));
       assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModifiedOn);
+      assert.ok(container.properties.lastModified);
       assert.ok(!container.properties.leaseDuration);
       assert.ok(!container.properties.publicAccess);
       assert.deepEqual(container.properties.leaseState, "available");
@@ -150,7 +150,7 @@ describe("BlobServiceClient", () => {
     let containerItem = await iterator.next();
     assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
     assert.ok(containerItem.value.properties.etag.length > 0);
-    assert.ok(containerItem.value.properties.lastModifiedOn);
+    assert.ok(containerItem.value.properties.lastModified);
     assert.ok(!containerItem.value.properties.leaseDuration);
     assert.ok(!containerItem.value.properties.publicAccess);
     assert.deepEqual(containerItem.value.properties.leaseState, "available");
@@ -160,7 +160,7 @@ describe("BlobServiceClient", () => {
     containerItem = await iterator.next();
     assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
     assert.ok(containerItem.value.properties.etag.length > 0);
-    assert.ok(containerItem.value.properties.lastModifiedOn);
+    assert.ok(containerItem.value.properties.lastModified);
     assert.ok(!containerItem.value.properties.leaseDuration);
     assert.ok(!containerItem.value.properties.publicAccess);
     assert.deepEqual(containerItem.value.properties.leaseState, "available");
@@ -193,7 +193,7 @@ describe("BlobServiceClient", () => {
       for (const container of response.containerItems) {
         assert.ok(container.name.startsWith(containerNamePrefix));
         assert.ok(container.properties.etag.length > 0);
-        assert.ok(container.properties.lastModifiedOn);
+        assert.ok(container.properties.lastModified);
         assert.ok(!container.properties.leaseDuration);
         assert.ok(!container.properties.publicAccess);
         assert.deepEqual(container.properties.leaseState, "available");
@@ -230,7 +230,7 @@ describe("BlobServiceClient", () => {
     for (const container of response.containerItems) {
       assert.ok(container.name.startsWith(containerNamePrefix));
       assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModifiedOn);
+      assert.ok(container.properties.lastModified);
       assert.ok(!container.properties.leaseDuration);
       assert.ok(!container.properties.publicAccess);
       assert.deepEqual(container.properties.leaseState, "available");
@@ -251,7 +251,7 @@ describe("BlobServiceClient", () => {
     for (const container of response.containerItems) {
       assert.ok(container.name.startsWith(containerNamePrefix));
       assert.ok(container.properties.etag.length > 0);
-      assert.ok(container.properties.lastModifiedOn);
+      assert.ok(container.properties.lastModified);
       assert.ok(!container.properties.leaseDuration);
       assert.ok(!container.properties.publicAccess);
       assert.deepEqual(container.properties.leaseState, "available");

@@ -107,7 +107,7 @@ describe("BlobClient", () => {
     const result = await blobClient.getProperties();
 
     assert.deepStrictEqual(result.blobType, "BlockBlob");
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.ok(!result.cacheControl);
     assert.ok(!result.contentType);
@@ -130,7 +130,7 @@ describe("BlobClient", () => {
     const result = await blobClient.getProperties();
     assert.ok(result.date);
     assert.deepStrictEqual(result.blobType, "BlockBlob");
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.deepStrictEqual(result.cacheControl, headers.blobCacheControl);
     assert.deepStrictEqual(result.contentType, headers.blobContentType);
@@ -372,7 +372,7 @@ describe("BlobClient", () => {
     assert.equal(gResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
     assert.ok(gResp.date);
     assert.deepStrictEqual(gResp.blobType, "BlockBlob");
-    assert.ok(gResp.lastModifiedOn);
+    assert.ok(gResp.lastModified);
     assert.deepStrictEqual(gResp.metadata, metadata);
     assert.deepStrictEqual(gResp.cacheControl, headers.blobCacheControl);
     assert.deepStrictEqual(gResp.contentType, headers.blobContentType);

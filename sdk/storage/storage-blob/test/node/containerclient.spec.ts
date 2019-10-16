@@ -28,7 +28,7 @@ describe("ContainerClient Node.js only", () => {
   it("getAccessPolicy", async () => {
     const result = await containerClient.getAccessPolicy();
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.clientRequestId);
     assert.ok(result.version);
@@ -79,7 +79,7 @@ describe("ContainerClient Node.js only", () => {
     const result = await newClient.getProperties();
 
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
@@ -101,7 +101,7 @@ describe("ContainerClient Node.js only", () => {
     const result = await newClient.getProperties();
 
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
@@ -132,7 +132,7 @@ describe("ContainerClient Node.js only", () => {
     const result = await newClient.getProperties();
 
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
@@ -148,7 +148,7 @@ describe("ContainerClient Node.js only", () => {
     const result = await newClient.getProperties();
 
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
@@ -168,7 +168,7 @@ describe("ContainerClient Node.js only", () => {
     const result = await newClient.getProperties();
 
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");

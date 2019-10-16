@@ -85,7 +85,7 @@ directive:
 - from: swagger-document
   where: $.parameters.MaxResults
   transform: >
-     $["name"] = "maxResults";
+     $["x-ms-client-name"] = "maxResults";
 
 ```
 
@@ -135,55 +135,6 @@ directive:
      
 ```
 
-### Rename Properies lastModified -> lastModifiedOn
-``` yaml
-directive:
-- from: swagger-document
-  where: $.definitions..properties["Last-Modified"]
-  transform: >
-     $["x-ms-client-name"] = "lastModifiedOn";
-     
-```
-
-### Rename PUT Headers lastModified -> lastModifiedOn
-``` yaml
-directive:
-- from: swagger-document
-  where: $["x-ms-paths"]..put.responses..headers["Last-Modified"]
-  transform: >
-     $["x-ms-client-name"] = "lastModifiedOn";
-     
-```
-
-### Rename GET Headers lastModified -> lastModifiedOn
-``` yaml
-directive:
-- from: swagger-document
-  where: $["x-ms-paths"]..get.responses..headers["Last-Modified"]
-  transform: >
-     $["x-ms-client-name"] = "lastModifiedOn";
-     
-```
-
-### Rename PATCH Headers lastModified -> lastModifiedOn
-``` yaml
-directive:
-- from: swagger-document
-  where: $["x-ms-paths"]..patch.responses..headers["Last-Modified"]
-  transform: >
-     $["x-ms-client-name"] = "lastModifiedOn";
-     
-```
-
-### Rename HEAD Headers lastModified -> lastModifiedOn
-``` yaml
-directive:
-- from: swagger-document
-  where: $["x-ms-paths"]..head.responses..headers["Last-Modified"]
-  transform: >
-     $["x-ms-client-name"] = "lastModifiedOn";
-     
-```
 
 ### Rename Headers copyCompletionTime -> copyCompletedTime
 ``` yaml
@@ -252,6 +203,16 @@ directive:
      $["x-ms-client-name"] = "deletedOn";
      
 ```
+<!-- 
+### Unify PageRange and ClearRange by using only PageRange type in PageList
+``` yaml
+directive:
+- from: swagger-document
+  where: $.definitions.PageList.properties.ClearRange
+  transform: >
+     $.items["$ref"] = "#/definitions/PageRange";
+     $.xml = {"elementName": "ClearRange"}     
+``` -->
      
 
 ### UserDelegationKey properties

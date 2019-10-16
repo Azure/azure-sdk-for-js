@@ -119,7 +119,7 @@ export interface AccessPolicy {
  */
 export interface BlobProperties {
   createdOn?: Date;
-  lastModifiedOn: Date;
+  lastModified: Date;
   etag: string;
   /**
    * Size in bytes
@@ -284,7 +284,7 @@ export interface BlockLookupList {
  * Properties of a container
  */
 export interface ContainerProperties {
-  lastModifiedOn: Date;
+  lastModified: Date;
   etag: string;
   /**
    * Possible values include: 'locked', 'unlocked'
@@ -2987,7 +2987,7 @@ export interface ContainerCreateHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -3026,7 +3026,7 @@ export interface ContainerGetPropertiesHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * When a blob is leased, specifies whether the lease is of infinite or fixed duration. Possible
    * values include: 'infinite', 'fixed'
@@ -3118,7 +3118,7 @@ export interface ContainerSetMetadataHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -3161,7 +3161,7 @@ export interface ContainerGetAccessPolicyHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -3199,7 +3199,7 @@ export interface ContainerSetAccessPolicyHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -3237,7 +3237,7 @@ export interface ContainerAcquireLeaseHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * Uniquely identifies a container's lease
    */
@@ -3279,7 +3279,7 @@ export interface ContainerReleaseLeaseHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -3317,7 +3317,7 @@ export interface ContainerRenewLeaseHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * Uniquely identifies a container's lease
    */
@@ -3359,7 +3359,7 @@ export interface ContainerBreakLeaseHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * Approximate time remaining in the lease period, in seconds.
    */
@@ -3401,7 +3401,7 @@ export interface ContainerChangeLeaseHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * Uniquely identifies a container's lease
    */
@@ -3539,7 +3539,7 @@ export interface DirectoryCreateHeaders {
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -3584,7 +3584,7 @@ export interface DirectoryRenameHeaders {
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -3658,7 +3658,7 @@ export interface DirectorySetAccessControlHeaders {
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -3691,7 +3691,7 @@ export interface DirectoryGetAccessControlHeaders {
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * The owner of the file or directory. Included in the response if Hierarchical Namespace is
    * enabled for the account.
@@ -3736,7 +3736,7 @@ export interface BlobDownloadHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   metadata?: { [propertyName: string]: string };
   /**
    * The number of bytes present in the response body.
@@ -3913,7 +3913,7 @@ export interface BlobGetPropertiesHeaders {
    * including an update of the blob's metadata or properties, changes the last-modified time of
    * the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * Returns the date and time the blob was created.
    */
@@ -4145,7 +4145,7 @@ export interface BlobSetAccessControlHeaders {
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -4178,7 +4178,7 @@ export interface BlobGetAccessControlHeaders {
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * The owner of the file or directory. Included in the response if Hierarchical Namespace is
    * enabled for the account.
@@ -4226,7 +4226,7 @@ export interface BlobRenameHeaders {
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -4265,7 +4265,7 @@ export interface PageBlobCreateHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -4318,7 +4318,7 @@ export interface AppendBlobCreateHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -4371,7 +4371,7 @@ export interface BlockBlobUploadHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -4451,7 +4451,7 @@ export interface BlobSetHTTPHeadersHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * The current sequence number for a page blob. This header is not returned for block blobs or
    * append blobs
@@ -4494,7 +4494,7 @@ export interface BlobSetMetadataHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -4542,7 +4542,7 @@ export interface BlobAcquireLeaseHeaders {
    * including an update of the blob's metadata or properties, changes the last-modified time of
    * the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * Uniquely identifies a blobs's lease
    */
@@ -4584,7 +4584,7 @@ export interface BlobReleaseLeaseHeaders {
    * including an update of the blob's metadata or properties, changes the last-modified time of
    * the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -4622,7 +4622,7 @@ export interface BlobRenewLeaseHeaders {
    * including an update of the blob's metadata or properties, changes the last-modified time of
    * the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * Uniquely identifies a blobs's lease
    */
@@ -4664,7 +4664,7 @@ export interface BlobChangeLeaseHeaders {
    * including an update of the blob's metadata or properties, changes the last-modified time of
    * the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -4706,7 +4706,7 @@ export interface BlobBreakLeaseHeaders {
    * including an update of the blob's metadata or properties, changes the last-modified time of
    * the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * Approximate time remaining in the lease period, in seconds.
    */
@@ -4753,7 +4753,7 @@ export interface BlobCreateSnapshotHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -4797,7 +4797,7 @@ export interface BlobStartCopyFromURLHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -4845,7 +4845,7 @@ export interface BlobCopyFromURLHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -5074,7 +5074,7 @@ export interface BlockBlobCommitBlockListHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * This header is returned so that the client can check for message content integrity. This
    * header refers to the content of the request, meaning, in this case, the list of blocks, and
@@ -5129,7 +5129,7 @@ export interface BlockBlobGetBlockListHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
@@ -5180,7 +5180,7 @@ export interface PageBlobUploadPagesHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -5243,7 +5243,7 @@ export interface PageBlobClearPagesHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -5296,7 +5296,7 @@ export interface PageBlobUploadPagesFromURLHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -5349,7 +5349,7 @@ export interface PageBlobGetPageRangesHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
@@ -5391,7 +5391,7 @@ export interface PageBlobGetPageRangesDiffHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * The ETag contains a value that you can use to perform operations conditionally. If the request
    * version is 2011-08-18 or newer, the ETag value will be in quotes.
@@ -5438,7 +5438,7 @@ export interface PageBlobResizeHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * The current sequence number for a page blob. This header is not returned for block blobs or
    * append blobs
@@ -5481,7 +5481,7 @@ export interface PageBlobUpdateSequenceNumberHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * The current sequence number for a page blob. This header is not returned for block blobs or
    * append blobs
@@ -5524,7 +5524,7 @@ export interface PageBlobCopyIncrementalHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
@@ -5572,7 +5572,7 @@ export interface AppendBlobAppendBlockHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.
@@ -5641,7 +5641,7 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * blob, including an update of the blob's metadata or properties, changes the last-modified time
    * of the blob.
    */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /**
    * If the blob has an MD5 hash and this operation is to read the full blob, this response header
    * is returned so that the client can check for message content integrity.

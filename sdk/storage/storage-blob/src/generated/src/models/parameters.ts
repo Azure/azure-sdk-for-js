@@ -905,7 +905,7 @@ export const maxResults: coreHttp.OperationQueryParameter = {
     "maxResults"
   ],
   mapper: {
-    serializedName: "maxResults",
+    serializedName: "maxresults",
     constraints: {
       InclusiveMinimum: 1
     },

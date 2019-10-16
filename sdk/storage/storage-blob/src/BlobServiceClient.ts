@@ -149,15 +149,15 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {number} [maxresults] Specifies the maximum number of containers
-   * to return. If the request does not specify maxresults, or specifies a
+   * @member {number} [maxResults] Specifies the maximum number of containers
+   * to return. If the request does not specify maxResults, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
    * service will return a continuation token for retrieving the remainder of
    * the results. For this reason, it is possible that the service will return
-   * fewer results than specified by maxresults, or than the default of 5000.
+   * fewer results than specified by maxResults, or than the default of 5000.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * @member {ListContainersIncludeType} [include] Include this parameter to
    * specify that the container's metadata be returned as part of the response
@@ -787,7 +787,7 @@ export class BlobServiceClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...listSegmentOptions
         });
       }

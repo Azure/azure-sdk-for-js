@@ -358,7 +358,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @memberof BlobDownloadResponse
    */
   public get lastModified(): Date | undefined {
-    return this.originalResponse.lastModifiedOn;
+    return this.originalResponse.lastModified;
   }
 
   /**
@@ -439,7 +439,7 @@ export class BlobDownloadResponse implements Models.BlobDownloadResponse {
    * @type {(Promise<Blob> | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get bodyAsBlob(): Promise<Blob> | undefined {
+  public get contentAsBlob(): Promise<Blob> | undefined {
     return this.originalResponse.blobBody;
   }
 

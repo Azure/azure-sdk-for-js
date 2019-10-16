@@ -92,12 +92,12 @@ export function getAlternateBSU(): BlobServiceClient {
 export async function bodyToString(
   response: {
     readableStreamBody?: NodeJS.ReadableStream;
-    bodyAsBlob?: Promise<Blob>;
+    contentAsBlob?: Promise<Blob>;
   },
   // tslint:disable-next-line:variable-name
   _length?: number
 ): Promise<string> {
-  const blob = await response.bodyAsBlob!;
+  const blob = await response.contentAsBlob!;
   return blobToString(blob);
 }
 

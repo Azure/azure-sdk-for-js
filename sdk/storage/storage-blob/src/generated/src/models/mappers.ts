@@ -208,7 +208,7 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         xmlName: "Last-Modified",
         required: true,
         serializedName: "Last-Modified",
@@ -883,7 +883,7 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ContainerProperties",
     modelProperties: {
-      lastModifiedOn: {
+      lastModified: {
         xmlName: "Last-Modified",
         required: true,
         serializedName: "Last-Modified",
@@ -2052,7 +2052,7 @@ export const ContainerCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2116,7 +2116,7 @@ export const ContainerGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2259,7 +2259,7 @@ export const ContainerSetMetadataHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2317,7 +2317,7 @@ export const ContainerGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2369,7 +2369,7 @@ export const ContainerSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2421,7 +2421,7 @@ export const ContainerAcquireLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2479,7 +2479,7 @@ export const ContainerReleaseLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2531,7 +2531,7 @@ export const ContainerRenewLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2589,7 +2589,7 @@ export const ContainerBreakLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2647,7 +2647,7 @@ export const ContainerChangeLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2861,7 +2861,7 @@ export const DirectoryCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -2919,7 +2919,7 @@ export const DirectoryRenameHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3017,7 +3017,7 @@ export const DirectorySetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3063,7 +3063,7 @@ export const DirectoryGetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3121,7 +3121,7 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobDownloadHeaders",
     modelProperties: {
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3361,7 +3361,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobGetPropertiesHeaders",
     modelProperties: {
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3677,7 +3677,7 @@ export const BlobSetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3723,7 +3723,7 @@ export const BlobGetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3787,7 +3787,7 @@ export const BlobRenameHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3839,7 +3839,7 @@ export const PageBlobCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3909,7 +3909,7 @@ export const AppendBlobCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -3979,7 +3979,7 @@ export const BlockBlobUploadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4089,7 +4089,7 @@ export const BlobSetHTTPHeadersHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4147,7 +4147,7 @@ export const BlobSetMetadataHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4211,7 +4211,7 @@ export const BlobAcquireLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4269,7 +4269,7 @@ export const BlobReleaseLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4321,7 +4321,7 @@ export const BlobRenewLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4379,7 +4379,7 @@ export const BlobChangeLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4437,7 +4437,7 @@ export const BlobBreakLeaseHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4501,7 +4501,7 @@ export const BlobCreateSnapshotHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4559,7 +4559,7 @@ export const BlobStartCopyFromURLHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4629,7 +4629,7 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -4962,7 +4962,7 @@ export const BlockBlobCommitBlockListHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5032,7 +5032,7 @@ export const BlockBlobGetBlockListHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlockBlobGetBlockListHeaders",
     modelProperties: {
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5102,7 +5102,7 @@ export const PageBlobUploadPagesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5184,7 +5184,7 @@ export const PageBlobClearPagesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5254,7 +5254,7 @@ export const PageBlobUploadPagesFromURLHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5324,7 +5324,7 @@ export const PageBlobGetPageRangesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobGetPageRangesHeaders",
     modelProperties: {
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5382,7 +5382,7 @@ export const PageBlobGetPageRangesDiffHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageBlobGetPageRangesDiffHeaders",
     modelProperties: {
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5446,7 +5446,7 @@ export const PageBlobResizeHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5504,7 +5504,7 @@ export const PageBlobUpdateSequenceNumberHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5562,7 +5562,7 @@ export const PageBlobCopyIncrementalHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5632,7 +5632,7 @@ export const AppendBlobAppendBlockHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
@@ -5720,7 +5720,7 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastModifiedOn: {
+      lastModified: {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"

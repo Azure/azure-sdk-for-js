@@ -42,7 +42,7 @@ describe("ContainerClient", () => {
   it("getProperties", async () => {
     const result = await containerClient.getProperties();
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
@@ -621,7 +621,7 @@ describe("ContainerClient", () => {
     const result = await newClient.getProperties();
 
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");
@@ -641,7 +641,7 @@ describe("ContainerClient", () => {
     const result = await newClient.getProperties();
 
     assert.ok(result.eTag!.length > 0);
-    assert.ok(result.lastModifiedOn);
+    assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
     assert.equal(result.leaseStatus, "unlocked");

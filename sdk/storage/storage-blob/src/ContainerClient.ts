@@ -403,15 +403,15 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {number} [maxresults] Specifies the maximum number of containers
-   * to return. If the request does not specify maxresults, or specifies a
+   * @member {number} [maxResults] Specifies the maximum number of containers
+   * to return. If the request does not specify maxResults, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
    * service will return a continuation token for retrieving the remainder of
    * the results. For this reason, it is possible that the service will return
-   * fewer results than specified by maxresults, or than the default of 5000.
+   * fewer results than specified by maxResults, or than the default of 5000.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
    * specify one or more datasets to include in the response.
@@ -924,7 +924,7 @@ export class ContainerClient extends StorageClient {
         date: response.date,
         eTag: response.eTag,
         errorCode: response.errorCode,
-        lastModifiedOn: response.lastModifiedOn,
+        lastModified: response.lastModified,
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         signedIdentifiers: [],
@@ -933,7 +933,7 @@ export class ContainerClient extends StorageClient {
 
       for (const identifier of response) {
         const accessPolicy: any = {
-          permission: identifier.accessPolicy.permissions
+          permissions: identifier.accessPolicy.permissions
         };
 
         if (identifier.accessPolicy.expiry) {
@@ -1349,7 +1349,7 @@ export class ContainerClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...updatedOptions
         });
       }
@@ -1546,7 +1546,7 @@ export class ContainerClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...updatedOptions
         });
       }
