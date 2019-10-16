@@ -299,7 +299,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         accessPolicy: {
           expiry: tmr,
-          permission: ShareSASPermissions.parse("rcwdl").toString(),
+          permissions: ShareSASPermissions.parse("rcwdl").toString(),
           start: now
         },
         id

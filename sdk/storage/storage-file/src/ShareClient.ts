@@ -209,10 +209,10 @@ export interface SignedIdentifier {
      */
     expiry: Date;
     /**
-     * @member {string} permission the permissions for the acl policy
+     * @member {string} permissions the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
      */
-    permission: string;
+    permissions: string;
   };
 }
 
@@ -766,7 +766,7 @@ export class ShareClient extends StorageClient {
         res.signedIdentifiers.push({
           accessPolicy: {
             expiry: new Date(identifier.accessPolicy!.expiry!),
-            permission: identifier.accessPolicy!.permission!,
+            permissions: identifier.accessPolicy!.permissions!,
             start: new Date(identifier.accessPolicy!.start!)
           },
           id: identifier.id
@@ -810,7 +810,7 @@ export class ShareClient extends StorageClient {
         acl.push({
           accessPolicy: {
             expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
-            permission: identifier.accessPolicy.permission,
+            permissions: identifier.accessPolicy.permissions,
             start: truncatedISO8061Date(identifier.accessPolicy.start)
           },
           id: identifier.id

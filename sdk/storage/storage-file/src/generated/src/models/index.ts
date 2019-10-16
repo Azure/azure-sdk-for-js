@@ -28,7 +28,7 @@ export interface AccessPolicy {
   /**
    * The permissions for the ACL policy.
    */
-  permission?: string;
+  permissions?: string;
 }
 
 /**

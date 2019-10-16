@@ -29,7 +29,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      permission: {
+      permissions: {
         xmlName: "Permission",
         serializedName: "Permission",
         type: {
