@@ -35,15 +35,16 @@ describe("Secret client - restore secrets and recover backups", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    await client.deleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName);
+    await deletePoller.pollUntilDone();
     const getDeletedResult = await retry(async () => client.getDeletedSecret(secretName));
     assert.equal(
       getDeletedResult.properties.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
-    await client.recoverDeletedSecret(secretName);
-    const getResult = await retry(async () => client.getSecret(secretName));
+    const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+    await getResult = await recoverPoller.pollUntilDone();
     assert.equal(
       getResult.properties.name,
       secretName,

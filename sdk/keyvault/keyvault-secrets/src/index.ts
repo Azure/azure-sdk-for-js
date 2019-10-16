@@ -272,8 +272,9 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretClient(url, credentials);
-   * await client.deleteSecret("MySecretName");
+   * const client = new SecretClient(url, credentials);
+   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   * await deletePoller.pollUntilDone();
    * ```
    * @summary Deletes a secret from a specified key vault.
    * @param vaultEndpoint The vault name, for example https://myvault.vault.azure.net.
@@ -438,8 +439,9 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretClient(url, credentials);
-   * await client.deleteSecret("MySecretName");
+   * const client = new SecretClient(url, credentials);
+   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   * await deletePoller.pollUntilDone();
    * await client.purgeDeletedSecret("MySecretName");
    * ```
    * @summary Permanently deletes the specified secret.
@@ -466,8 +468,9 @@ export class SecretClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretClient(url, credentials);
-   * await client.deleteSecret("MySecretName");
+   * const client = new SecretClient(url, credentials);
+   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   * await deletePoller.pollUntilDone();
    * await client.recoverDeletedSecret("MySecretName");
    * ```
    * @summary Recovers the deleted secret to the latest version.

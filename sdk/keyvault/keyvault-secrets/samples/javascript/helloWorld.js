@@ -29,7 +29,8 @@ async function main() {
   console.log("updated secret: ", updatedSecret);
 
   // Delete the secret
-  await client.deleteSecret(secretName);
+  const deletePoller = await client.beginDeleteSecret(secretName);
+  await deletePoller.pollUntilDone();
 }
 
 main().catch((err) => {

@@ -48,8 +48,8 @@ async function main(): Promise<void> {
 
   // Delete the secret
   console.log("about to delete");
-  await client.deleteSecret(secretName);
-  await delay(30000);
+  let deletePoller = await client.beginDeleteSecret(secretName);
+  await deletePoller.pollUntilDone();
 
   // Purge the deleted secret
   console.log("about to purge");
@@ -64,7 +64,8 @@ async function main(): Promise<void> {
   const result = await client.restoreSecret(backupContents);
   console.log("Restored secret: ", result);
 
-  await client.deleteSecret(secretName);
+  deletePoller = await client.beginDeleteSecret(secretName);
+  await deletePoller.pollUntilDone();
 }
 
 main().catch((err) => {

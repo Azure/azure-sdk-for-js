@@ -238,7 +238,8 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, secretValue);
-    const result = await client.deleteSecret(secretName);
+    const deletePoller = const result = await client.beginDeleteSecret(secretName);
+    await deletePoller.pollUntilDone();
 
     assert.equal(typeof result.recoveryId, "string");
     assert.ok(result.deletedDate instanceof Date);
@@ -263,7 +264,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     let error;
     try {
-      await client.deleteSecret(secretName);
+      const deletePoller = await client.beginDeleteSecret(secretName);
+      await deletePoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -280,7 +282,8 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    await client.deleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName);
+    await deletePoller.pollUntilDone();
     const getResult = await retry(async () => client.getDeletedSecret(secretName));
     assert.equal(
       getResult.properties.name,
@@ -296,7 +299,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     let error;
     try {
-      await client.deleteSecret(secretName);
+      const deletePoller = await client.beginDeleteSecret(secretName);
+      await deletePoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

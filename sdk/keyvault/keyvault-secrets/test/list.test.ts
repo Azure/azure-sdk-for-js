@@ -78,7 +78,8 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      await client.deleteSecret(name);
+      const deletePoller = await client.beginDeleteSecret(name);
+      await deletePoller.pollUntilDone();
     }
 
     // Waiting until the secrets are deleted
@@ -178,7 +179,8 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      await client.deleteSecret(name);
+      const deletePoller = await client.beginDeleteSecret(name);
+      await deletePoller.pollUntilDone();
     }
 
     // Waiting until the secrets are deleted
