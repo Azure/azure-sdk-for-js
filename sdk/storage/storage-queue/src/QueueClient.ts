@@ -378,6 +378,7 @@ export class QueueClient extends StorageClient {
    */
   private queueContext: Queue;
   private _queueName: string;
+  private _messagesUrl: string;
   public get queueName(): string {
     return this._queueName;
   }
@@ -494,15 +495,15 @@ export class QueueClient extends StorageClient {
     this._queueName = this.getQueueNameFromUrl();
     this.queueContext = new Queue(this.storageClientContext);
 
-    // Declare MessagesContext
+    // MessagesContext
     // Build the url with "messages"
     const partsOfUrl = this.url.split("?");
-    const messagesUrl = partsOfUrl[1]
+    this._messagesUrl = partsOfUrl[1]
       ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], "messages");
     // Duplicating the following lines from StorageClient constructor
     let storageClientContext = new StorageClientContext(
-      messagesUrl,
+      this._messagesUrl,
       this.pipeline.toServiceClientOptions()
     );
     // Override protocol layer's default content-type
@@ -512,7 +513,7 @@ export class QueueClient extends StorageClient {
 
   private getMessageIdContext(messageId: string): MessageId {
     // Build the url with messageId
-    const partsOfUrl = this.url.split("?");
+    const partsOfUrl = this._messagesUrl.split("?");
     const urlWithMessageId = partsOfUrl[1]
       ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], messageId);
