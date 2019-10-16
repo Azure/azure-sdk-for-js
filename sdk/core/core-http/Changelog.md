@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-preview.5 - TBD
+
+- Removed error type `ResponseBodyNotFoundError`. Use cases for it were removed.
+
 ## 1.0.0-preview.4 - 2019-10-07
 
 - No longer re-exports `@azure/core-tracing`. To enable tracing, call `setTracer` from `@azure/core-tracing` directly.

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { checkAndFormatIfAndIfNoneMatch, formatWildcards, extractAfterTokenFromNextLink, quoteETag, makeConfigurationSettingsFieldsThrow } from "../src/internal/helpers"
+import { checkAndFormatIfAndIfNoneMatch, formatWildcards, extractAfterTokenFromNextLink, quoteETag, makeConfigurationSettingEmpty } from "../src/internal/helpers"
 import * as assert from "assert";
-import { ConfigurationSetting, HttpResponseField, AppConfigurationClient, HttpResponseFields } from '../src';
-import { HttpHeaders, ResponseBodyNotFoundError } from '@azure/core-http';
+import { ConfigurationSetting, HttpResponseField, HttpResponseFields } from '../src';
+import { HttpHeaders } from '@azure/core-http';
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {    
@@ -104,9 +104,9 @@ describe("helper methods", () => {
     });
   });
 
-  it("makeConfigurationSettingsFieldsThrow", () => {
+  it("makeConfigurationSettingEmpty", () => {
     const response: ConfigurationSetting & HttpResponseField<any> & HttpResponseFields = {
-      key: "undefined",
+      key: "mykey",
       _response: {
         request: {
           url: "unused",
@@ -131,18 +131,13 @@ describe("helper methods", () => {
       statusCode: 204
     };
 
-    makeConfigurationSettingsFieldsThrow(response,
-      "My error message",
-      "My error code");
-    
+    makeConfigurationSettingEmpty(response);
+
+    // key isn't touched
+    assert.equal("mykey", response.key);
+
     for (const name of getAllConfigurationSettingFields()) {
-      assert.throws(() => response[name], (err: ResponseBodyNotFoundError) => {
-        assert.equal("ResponseBodyNotFoundError", err.name);
-        assert.equal("My error message", err.message);
-        assert.equal("My error code", err.code);
-        assert.strictEqual(response._response, err.response);
-        return true;
-      });
+      assert.ok(!response[name], name);
     }
 
     // These point is these properties are untouched and won't throw
@@ -152,7 +147,7 @@ describe("helper methods", () => {
     assert.equal(204, response.statusCode);
   });
 
-  function getAllConfigurationSettingFields() : (keyof ConfigurationSetting)[] {
+  function getAllConfigurationSettingFields() : (Exclude<keyof ConfigurationSetting, 'key'>)[] {
     const configObjectWithAllFieldsRequired: Required<ConfigurationSetting> = {
       contentType: "",
       etag: "",
@@ -162,8 +157,9 @@ describe("helper methods", () => {
       locked: true,
       tags: {},
       value: ""
-    };   
-    
-    return Object.keys(configObjectWithAllFieldsRequired) as (keyof ConfigurationSetting)[];    
+    };
+
+    const keys = Object.keys(configObjectWithAllFieldsRequired).filter(key => key !== "key");
+    return keys as (Exclude<keyof ConfigurationSetting, 'key'>[]);
   }
 })
