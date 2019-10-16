@@ -14,7 +14,7 @@ const input = "./dist-esm/src/logger.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = [];
+  const externalNodeBuiltins = ["util", "os"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),

@@ -37,7 +37,7 @@ export interface Debugger {
     // (undocumented)
     extend: (namespace: string) => Debugger;
     // (undocumented)
-    log: (...args: any[]) => any;
+    log: (...args: any[]) => void;
     // (undocumented)
     namespace: string;
 }

@@ -1,6 +1,11 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { log } from "./log";
+
 export interface Debug {
   (namespace: string): Debugger;
-  log: (...args: any[]) => any;
+  log: (...args: any[]) => void;
   enable: (namespaces: string) => void;
   enabled: (namespace: string) => void;
   disable: () => string;
@@ -9,7 +14,7 @@ export interface Debug {
 export interface Debugger {
   (...args: any[]): void;
   enabled: boolean;
-  log: (...args: any[]) => any;
+  log: (...args: any[]) => void;
   namespace: string;
   extend: (namespace: string) => Debugger;
 }
@@ -45,10 +50,6 @@ function disable(): string {
   const result = enabledNamespaces.join(",");
   enable("");
   return result;
-}
-
-function log(...args: any[]): any {
-  // TODO: log to the right place!
 }
 
 function createDebugger(namespace: string): Debugger {
