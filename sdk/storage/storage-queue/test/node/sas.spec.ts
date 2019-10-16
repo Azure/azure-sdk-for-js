@@ -5,8 +5,6 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
-  MessagesClient,
-  MessageIdClient,
   QueueSASPermissions,
   QueueClient,
   generateAccountSASQueryParameters,
@@ -236,24 +234,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const messageContent = "Hello World!";
 
-    const messagesClient = queueClient.getMessagesClient();
-    const sasURLForMessages = `${messagesClient.url}?${queueSAS}`;
-    const messagesClientWithSAS = new MessagesClient(
+    const sasURLForMessages = `${queueClient.url}?${queueSAS}`;
+    const messagesClientWithSAS = new QueueClient(
       sasURLForMessages,
       newPipeline(new AnonymousCredential())
     );
-    const enqueueResult = await messagesClientWithSAS.enqueue(messageContent);
+    const enqueueResult = await messagesClientWithSAS.sendMessage(messageContent);
 
-    let pResult = await messagesClient.peek();
+    let pResult = await queueClient.peekMessages();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 1);
 
-    const messageIdClient = messagesClient.getMessageIdClient(enqueueResult.messageId);
-    const sasURLForMessageId = `${messageIdClient.url}?${queueSAS}`;
-    const messageIdClientWithSAS = new MessageIdClient(sasURLForMessageId);
+    const sasURLForMessageId = `${queueClient.url}?${queueSAS}`;
+    const messageIdClientWithSAS = new QueueClient(sasURLForMessageId);
 
-    await messageIdClientWithSAS.delete(enqueueResult.popReceipt);
+    await messageIdClientWithSAS.deleteMessage(enqueueResult.messageId, enqueueResult.popReceipt);
 
-    pResult = await messagesClient.peek();
+    pResult = await queueClient.peekMessages();
     assert.deepStrictEqual(pResult.peekedMessageItems.length, 0);
 
     await queueClient.delete();
@@ -294,31 +290,26 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const messagesClient = queueClient.getMessagesClient();
-
-    const sasURL = `${messagesClient.url}?${queueSAS}`;
-    const messagesClientwithSAS = new MessagesClient(sasURL);
+    const sasURL = `${queueClient.url}?${queueSAS}`;
+    const messagesClientwithSAS = new QueueClient(sasURL);
 
     const messageContent = "hello";
 
-    const eResult = await messagesClientwithSAS.enqueue(messageContent);
+    const eResult = await messagesClientwithSAS.sendMessage(messageContent);
     assert.ok(eResult.messageId);
-    const pResult = await messagesClientwithSAS.peek();
+    const pResult = await messagesClientwithSAS.peekMessages();
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
-    const dResult = await messagesClientwithSAS.dequeue({
+    const dResult = await messagesClientwithSAS.receiveMessages({
       visibilitytimeout: 1
     });
     assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
 
     await delay(2 * 1000);
 
-    const messageIdClient = messagesClient.getMessageIdClient(
-      dResult.dequeuedMessageItems[0].messageId
-    );
-
-    const sasURLForMessage = `${messageIdClient.url}?${queueSAS}`;
-    const messageIdClientwithSAS = new MessageIdClient(sasURLForMessage);
-    const deleteResult = await messageIdClientwithSAS.delete(
+    const sasURLForMessage = `${queueClient.url}?${queueSAS}`;
+    const messageIdClientwithSAS = new QueueClient(sasURLForMessage);
+    const deleteResult = await messageIdClientwithSAS.deleteMessage(
+      dResult.dequeuedMessageItems[0].messageId,
       dResult.dequeuedMessageItems[0].popReceipt
     );
     assert.ok(deleteResult.requestId);

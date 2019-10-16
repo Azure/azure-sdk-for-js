@@ -1,12 +1,9 @@
 import * as assert from "assert";
-import { MessageIdClient, newPipeline } from "../../src";
+import { newPipeline } from "../../src";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
-import { TokenCredential } from "@azure/core-http";
-import { assertClientUsesTokenCredential } from "../utils/assert";
 
 describe("MessageIdClient Node.js only", () => {
   const queueServiceClient = getQSU();
@@ -29,8 +26,7 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
-    let messagesClient = queueClient.getMessagesClient();
-    let eResult = await messagesClient.enqueue(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -47,8 +43,11 @@ describe("MessageIdClient Node.js only", () => {
     buffer.fill("a");
     buffer.write(specialChars, 0);
     let newMessage = buffer.toString();
-    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
-    let uResult = await messageIdClient.update(eResult.popReceipt, newMessage);
+    let uResult = await queueClient.updateMessage(
+      eResult.messageId,
+      eResult.popReceipt,
+      newMessage
+    );
     assert.ok(uResult.version);
     assert.ok(uResult.timeNextVisible);
     assert.ok(uResult.date);
@@ -56,14 +55,13 @@ describe("MessageIdClient Node.js only", () => {
     assert.ok(eResult.clientRequestId);
     assert.ok(uResult.popReceipt);
 
-    let pResult = await messagesClient.peek();
+    let pResult = await queueClient.peekMessages();
     assert.equal(pResult.peekedMessageItems.length, 1);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, newMessage);
   });
 
   it("update message negative with 65537B (64KB+1B) characters including special char which is computed after encoding", async () => {
-    let messagesClient = queueClient.getMessagesClient();
-    let eResult = await messagesClient.enqueue(messageContent);
+    let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -79,11 +77,10 @@ describe("MessageIdClient Node.js only", () => {
     buffer.fill("a");
     buffer.write(specialChars, 0);
     let newMessage = buffer.toString();
-    let messageIdClient = messagesClient.getMessageIdClient(eResult.messageId);
 
     let error;
     try {
-      await messageIdClient.update(eResult.popReceipt, newMessage);
+      await queueClient.updateMessage(eResult.messageId, eResult.popReceipt, newMessage);
     } catch (err) {
       error = err;
     }
@@ -96,17 +93,20 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const messagesClient = queueClient.getMessagesClient();
-    const factories = (messagesClient as any).pipeline.factories;
+    const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
 
-    const eResult = await messagesClient.enqueue(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const newClient = new MessageIdClient(messagesClient.url + "/" + eResult.messageId, credential);
-    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
-    const response = await messagesClient.peek();
+    const newClient = new QueueClient(queueClient.url, credential);
+    await newClient.updateMessage(
+      eResult.messageId,
+      eResult.popReceipt,
+      messageContent + " " + messageContent
+    );
+    const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
       messageContent + " " + messageContent
@@ -114,25 +114,24 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const messagesClient = queueClient.getMessagesClient();
-    const factories = (messagesClient as any).pipeline.factories;
+    const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
 
-    const eResult = await messagesClient.enqueue(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const newClient = new MessageIdClient(
-      messagesClient.url + "/" + eResult.messageId,
-      credential,
-      {
-        retryOptions: {
-          maxTries: 5
-        }
+    const newClient = new QueueClient(queueClient.url, credential, {
+      retryOptions: {
+        maxTries: 5
       }
+    });
+    await newClient.updateMessage(
+      eResult.messageId,
+      eResult.popReceipt,
+      messageContent + " " + messageContent
     );
-    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
-    const response = await messagesClient.peek();
+    const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
       messageContent + " " + messageContent
@@ -140,18 +139,21 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const messagesClient = queueClient.getMessagesClient();
-    const factories = (messagesClient as any).pipeline.factories;
+    const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
 
-    const eResult = await messagesClient.enqueue(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
     const pipeline = newPipeline(credential);
-    const newClient = new MessageIdClient(messagesClient.url + "/" + eResult.messageId, pipeline);
-    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
-    const response = await messagesClient.peek();
+    const newClient = new QueueClient(queueClient.url, pipeline);
+    await newClient.updateMessage(
+      eResult.messageId,
+      eResult.popReceipt,
+      messageContent + " " + messageContent
+    );
+    const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
       messageContent + " " + messageContent
@@ -159,19 +161,17 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a connection string and a queue name and a message id", async () => {
-    const messagesClient = queueClient.getMessagesClient();
-
-    const eResult = await messagesClient.enqueue(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const newClient = new MessageIdClient(
-      getConnectionStringFromEnvironment(),
-      messagesClient.queueName,
-      eResult.messageId
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.queueName);
+    await newClient.updateMessage(
+      eResult.messageId,
+      eResult.popReceipt,
+      messageContent + " " + messageContent
     );
-    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
-    const response = await messagesClient.peek();
+    const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
       messageContent + " " + messageContent
@@ -179,24 +179,21 @@ describe("MessageIdClient Node.js only", () => {
   });
 
   it("can be created with a connection string and a queue name and a message id and an option bag", async () => {
-    const messagesClient = queueClient.getMessagesClient();
-
-    const eResult = await messagesClient.enqueue(messageContent);
+    const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const newClient = new MessageIdClient(
-      getConnectionStringFromEnvironment(),
-      messagesClient.queueName,
-      eResult.messageId,
-      {
-        retryOptions: {
-          maxTries: 5
-        }
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.queueName, {
+      retryOptions: {
+        maxTries: 5
       }
+    });
+    await newClient.updateMessage(
+      eResult.messageId,
+      eResult.popReceipt,
+      messageContent + " " + messageContent
     );
-    await newClient.update(eResult.popReceipt, messageContent + " " + messageContent);
-    const response = await messagesClient.peek();
+    const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
       messageContent + " " + messageContent
@@ -206,7 +203,7 @@ describe("MessageIdClient Node.js only", () => {
   it("throws error if constructor queueName parameter is empty", async () => {
     try {
       // tslint:disable-next-line: no-unused-expression
-      new MessagesClient(getConnectionStringFromEnvironment(), "");
+      new QueueClient(getConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
       assert.equal(
@@ -215,20 +212,5 @@ describe("MessageIdClient Node.js only", () => {
         "Error message is different than expected."
       );
     }
-  });
-
-  it("can be created with a url and a TokenCredential", async () => {
-    const tokenCredential: TokenCredential = {
-      getToken: () =>
-        Promise.resolve({
-          token: "token",
-          expiresOnTimestamp: 12345
-        })
-    };
-    const newClient = new MessageIdClient(
-      `https://myaccount.queue.core.windows.net/` + queueName + "/messages/fake-message-id",
-      tokenCredential
-    );
-    assertClientUsesTokenCredential(newClient);
   });
 });

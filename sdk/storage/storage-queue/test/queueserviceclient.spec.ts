@@ -311,4 +311,33 @@ describe("QueueServiceClient", () => {
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
   });
+
+  it("can create and delete a queue", async () => {
+    const queueServiceClient = getQSU();
+    const queueName = recorder.getUniqueName("queue");
+
+    // creates a queue
+    await queueServiceClient.createQueue(queueName);
+    const metadata = {
+      key0: "val0",
+      keya: "vala"
+    };
+    await queueServiceClient.getQueueClient(queueName).setMetadata(metadata);
+
+    const result = await getQSU()
+      .getQueueClient(queueName)
+      .getProperties();
+    assert.deepEqual(result.metadata, metadata);
+
+    // deletes the queue
+    await queueServiceClient.deleteQueue(queueName);
+
+    let err;
+    try {
+      await queueServiceClient.getQueueClient(queueName).getProperties();
+    } catch (error) {
+      err = error;
+    }
+    assert.ok(err.message.includes("QueueNotFound"), "Error doesn't say `QueueNotFound`");
+  });
 });

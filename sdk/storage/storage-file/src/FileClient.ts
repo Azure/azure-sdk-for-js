@@ -28,6 +28,8 @@ import {
   FILE_RANGE_MAX_SIZE_BYTES,
   DEFAULT_HIGH_LEVEL_PARALLELISM
 } from "./utils/constants";
+import "@azure/core-paging";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Credential } from "./credentials/Credential";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -443,6 +445,17 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
    * @memberof FileListHandlesSegmentOptions
    */
   maxresults?: number;
+}
+
+export interface FileListHandlesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileClearRangeOptions
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -1819,7 +1832,7 @@ export class FileClient extends StorageClient {
    * @returns {Promise<Models.FileListHandlesResponse>}
    * @memberof FileURL
    */
-  public async listHandlesSegment(
+  private async listHandlesSegment(
     marker?: string,
     options: FileListHandlesSegmentOptions = {}
   ): Promise<Models.FileListHandlesResponse> {
@@ -1848,6 +1861,95 @@ export class FileClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for FileListHandlesResponse
+   *
+   * @private
+   * @param {string} [marker] A string value that identifies the portion of the list to be
+   *                          returned with the next list handles operation. The operation returns a
+   *                          marker value within the response body if the list returned was not complete.
+   *                          The marker value may then be used in a subsequent call to request the next
+   *                          set of list items.
+   * @param {FileListHandlesSegmentOptions} [options] Options to list handles operation.
+   * @returns {AsyncIterableIterator<Models.FileListHandlesResponse>}
+   * @memberof FileClient
+   */
+  private async *iterateHandleSegments(
+    marker?: string,
+    options: FileListHandlesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.FileListHandlesResponse> {
+    let listHandlesResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        listHandlesResponse = await this.listHandlesSegment(marker, options);
+        marker = listHandlesResponse.nextMarker;
+        yield listHandlesResponse;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for handles
+   *
+   * @private
+   * @param {FileListHandlesSegmentOptions} [options] Options to list handles operation.
+   * @returns {AsyncIterableIterator<Models.HandleItem>}
+   * @memberof FileClient
+   */
+  private async *listHandleItems(
+    options: FileListHandlesSegmentOptions = {}
+  ): AsyncIterableIterator<Models.HandleItem> {
+    let marker: string | undefined;
+    for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
+      if (listHandlesResponse.handleList) {
+        for (const handle of listHandlesResponse.handleList) {
+          yield handle;
+        }
+      }
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the handles.
+   * under the specified account.
+   *
+   * .byPage() returns an async iterable iterator to list the handles in pages.
+   *
+   * @param {FileListHandlesOptions} [options] Options to list handles operation.
+   * @memberof FileClient
+   * @returns {PagedAsyncIterableIterator<Models.HandleItem, Models.FileListHandlesResponse>}
+   * An asyncIterableIterator that supports paging.
+   */
+  public listHandles(
+    options: FileListHandlesOptions = {}
+  ): PagedAsyncIterableIterator<Models.HandleItem, Models.FileListHandlesResponse> {
+    // an AsyncIterableIterator to iterate over handles
+    const iter = this.listHandleItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.iterateHandleSegments(settings.continuationToken, {
+          maxresults: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**

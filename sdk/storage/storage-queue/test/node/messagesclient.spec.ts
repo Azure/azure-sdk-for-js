@@ -2,7 +2,6 @@ import * as assert from "assert";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record } from "../utils/recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { MessagesClient } from "../../src/MessagesClient";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -29,7 +28,6 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("enqueue, peek, dequeue with 64KB characters including special char which is computed after encoding", async () => {
-    let messagesClient = queueClient.getMessagesClient();
     let specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
     let buffer = Buffer.alloc(64 * 1024); //64KB
@@ -37,7 +35,7 @@ describe("MessagesClient Node.js only", () => {
     buffer.write(specialChars, 0);
     let messageContent = buffer.toString();
 
-    let eResult = await messagesClient.enqueue(messageContent, {
+    let eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
       visibilitytimeout: 0
     });
@@ -51,7 +49,7 @@ describe("MessagesClient Node.js only", () => {
     assert.ok(eResult.timeNextVisible);
     assert.ok(eResult.version);
 
-    let pResult = await messagesClient.peek({ numberOfMessages: 2 });
+    let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
     assert.ok(pResult.date);
     assert.ok(pResult.requestId);
     assert.ok(eResult.clientRequestId);
@@ -63,7 +61,7 @@ describe("MessagesClient Node.js only", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].insertionTime, eResult.insertionTime);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].expirationTime, eResult.expirationTime);
 
-    let dResult = await messagesClient.dequeue({
+    let dResult = await queueClient.receiveMessages({
       visibilitytimeout: 10,
       numberOfMessages: 2
     });
@@ -82,7 +80,6 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters including special char which is computed after encoding", async () => {
-    let messagesClient = queueClient.getMessagesClient();
     let specialChars =
       "!@#$%^&*()_+`-=[]|};'\":,./?><`~漢字㒈保ᨍ揫^p[뷁)׷񬓔7񈺝l鮍򧽶ͺ簣ڞ츊䈗㝯綞߫⯹?ÎᦡC왶żsmt㖩닡򈸱𕩣ОլFZ򃀮9tC榅ٻ컦驿Ϳ[𱿛봻烌󱰷򙥱Ռ򽒏򘤰δŊϜ췮㐦9ͽƙp퐂ʩ由巩KFÓ֮򨾭⨿󊻅aBm󶴂旨Ϣ񓙠򻐪񇧱򆋸ջ֨ipn򒷐ꝷՆ򆊙斡賆𒚑m˞𻆕󛿓򐞺Ӯ򡗺򴜍<񐸩԰Bu)򁉂񖨞á<џɏ嗂�⨣1PJ㬵┡ḸI򰱂ˮaࢸ۳i灛ȯɨb𹺪򕕱뿶uٔ䎴񷯆Φ륽󬃨س_NƵ¦";
     let buffer = Buffer.alloc(64 * 1024 + 1);
@@ -92,7 +89,7 @@ describe("MessagesClient Node.js only", () => {
 
     let error;
     try {
-      await messagesClient.enqueue(messageContent, {});
+      await queueClient.sendMessage(messageContent, {});
     } catch (err) {
       error = err;
     }
@@ -105,12 +102,11 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const messagesClient = queueClient.getMessagesClient();
-    const factories = (messagesClient as any).pipeline.factories;
+    const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new MessagesClient(messagesClient.url, credential);
+    const newClient = new QueueClient(queueClient.url, credential);
 
-    const eResult = await newClient.enqueue(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -122,16 +118,15 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const messagesClient = queueClient.getMessagesClient();
-    const factories = (messagesClient as any).pipeline.factories;
+    const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const newClient = new MessagesClient(messagesClient.url, credential, {
+    const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
         maxTries: 5
       }
     });
 
-    const eResult = await newClient.enqueue(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -143,13 +138,12 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const messagesClient = queueClient.getMessagesClient();
-    const factories = (messagesClient as any).pipeline.factories;
+    const factories = (queueClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const pipeline = newPipeline(credential);
-    const newClient = new MessagesClient(messagesClient.url, pipeline);
+    const newClient = new QueueClient(queueClient.url, pipeline);
 
-    const eResult = await newClient.enqueue(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -161,9 +155,9 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a connection string and a queue name", async () => {
-    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName);
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
-    const eResult = await newClient.enqueue(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -172,13 +166,13 @@ describe("MessagesClient Node.js only", () => {
   });
 
   it("can be created with a connection string and a queue name and an option bag", async () => {
-    const newClient = new MessagesClient(getConnectionStringFromEnvironment(), queueName, {
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName, {
       retryOptions: {
         maxTries: 5
       }
     });
 
-    const eResult = await newClient.enqueue(messageContent);
+    const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
     assert.ok(eResult.expirationTime);
     assert.ok(eResult.insertionTime);
@@ -194,8 +188,8 @@ describe("MessagesClient Node.js only", () => {
           expiresOnTimestamp: 12345
         })
     };
-    const newClient = new MessagesClient(
-      `https://myaccount.queue.core.windows.net/` + queueName + "/messages",
+    const newClient = new QueueClient(
+      `https://myaccount.queue.core.windows.net/` + queueName,
       tokenCredential
     );
     assertClientUsesTokenCredential(newClient);

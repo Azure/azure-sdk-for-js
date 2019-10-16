@@ -18,7 +18,7 @@ export * from "./ShareClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export * from "./credentials/SharedKeyCredential";
-export { IPRange } from "./IPRange";
+export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
 export {
   FilePermissionInheritType,
@@ -40,3 +40,4 @@ export * from "./BrowserPolicyFactory";
 export * from "./FileServiceClient";
 export * from "./SASQueryParameters";
 export { Models, RestError };
+export { CommonOptions } from "./StorageClient";
