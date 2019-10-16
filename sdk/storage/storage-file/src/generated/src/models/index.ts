@@ -151,7 +151,7 @@ export interface ListFilesAndDirectoriesSegmentResponse {
   marker?: string;
   maxResults?: number;
   segment: FilesAndDirectoriesListSegment;
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -159,7 +159,7 @@ export interface ListFilesAndDirectoriesSegmentResponse {
  */
 export interface ListHandlesResponse {
   handleList?: HandleItem[];
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -190,7 +190,7 @@ export interface ListSharesResponse {
   marker?: string;
   maxResults?: number;
   shareItems?: ShareItem[];
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**

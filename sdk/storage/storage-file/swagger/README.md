@@ -88,3 +88,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "permissions";
 ```
+
+### Rename NextMarker -> ContinuationToken
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.NextMarker
+    transform: >
+      $["x-ms-client-name"] = "continuationToken";
+```

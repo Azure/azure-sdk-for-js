@@ -374,9 +374,9 @@ export class FileServiceClient extends StorageClient {
    * @private
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of shares to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
+   *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all shares remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
+   *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
@@ -390,7 +390,7 @@ export class FileServiceClient extends StorageClient {
     let listSharesSegmentResponse;
     do {
       listSharesSegmentResponse = await this.listSharesSegment(marker, options);
-      marker = listSharesSegmentResponse.nextMarker;
+      marker = listSharesSegmentResponse.continuationToken;
       yield await listSharesSegmentResponse;
     } while (marker);
   }
@@ -465,7 +465,7 @@ export class FileServiceClient extends StorageClient {
    *     }
    *   }
    *   // Gets next marker
-   *   let marker = response.nextMarker;
+   *   let marker = response.continuationToken;
    *   // Passing next marker as continuationToken
    *   iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
    *   response = (await iterator.next()).value;

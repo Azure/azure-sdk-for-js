@@ -703,9 +703,9 @@ export class DirectoryClient extends StorageClient {
    * @private
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of files and directories to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
+   *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all files and directories remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
+   *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
@@ -719,7 +719,7 @@ export class DirectoryClient extends StorageClient {
     let listFilesAndDirectoriesResponse;
     do {
       listFilesAndDirectoriesResponse = await this.listFilesAndDirectoriesSegment(marker, options);
-      marker = listFilesAndDirectoriesResponse.nextMarker;
+      marker = listFilesAndDirectoriesResponse.continuationToken;
       yield await listFilesAndDirectoriesResponse;
     } while (marker);
   }
@@ -816,7 +816,7 @@ export class DirectoryClient extends StorageClient {
    *     console.log(`${i++} - directory\t: ${dirItem.name}`);
    *   }
    *   // Gets next marker
-   *   let dirMarker = response.nextMarker;
+   *   let dirMarker = response.continuationToken;
    *   // Passing next marker as continuationToken
    *   iterator = directoryClient
    *     .listFilesAndDirectories()
@@ -925,7 +925,7 @@ export class DirectoryClient extends StorageClient {
     if (!!marker || marker === undefined) {
       do {
         listHandlesResponse = await this.listHandlesSegment(marker, options);
-        marker = listHandlesResponse.nextMarker;
+        marker = listHandlesResponse.continuationToken;
         yield await listHandlesResponse;
       } while (marker);
     }
@@ -1006,7 +1006,7 @@ export class DirectoryClient extends StorageClient {
    *     }
    *   }
    *   // Gets next marker
-   *   let marker = response.value.nextMarker;
+   *   let marker = response.value.continuationToken;
    *   // Passing next marker as continuationToken
    *   console.log(`    continuation`);
    *   iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });

@@ -1884,7 +1884,7 @@ export class FileClient extends StorageClient {
     if (!!marker || marker === undefined) {
       do {
         listHandlesResponse = await this.listHandlesSegment(marker, options);
-        marker = listHandlesResponse.nextMarker;
+        marker = listHandlesResponse.continuationToken;
         yield listHandlesResponse;
       } while (marker);
     }

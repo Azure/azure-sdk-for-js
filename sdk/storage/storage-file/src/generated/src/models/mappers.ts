@@ -345,7 +345,7 @@ export const ListFilesAndDirectoriesSegmentResponse: coreHttp.CompositeMapper = 
           className: "FilesAndDirectoriesListSegment"
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         required: true,
         serializedName: "NextMarker",
@@ -379,7 +379,7 @@ export const ListHandlesResponse: coreHttp.CompositeMapper = {
           }
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         required: true,
         serializedName: "NextMarker",
@@ -524,7 +524,7 @@ export const ListSharesResponse: coreHttp.CompositeMapper = {
           }
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         required: true,
         serializedName: "NextMarker",

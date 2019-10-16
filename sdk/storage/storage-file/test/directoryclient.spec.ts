@@ -244,7 +244,7 @@ describe("DirectoryClient", () => {
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareClient.url.indexOf(result.shareName));
-    assert.deepStrictEqual(result.nextMarker, "");
+    assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
 
@@ -305,12 +305,12 @@ describe("DirectoryClient", () => {
       firstResult.segment.directoryItems.length + firstResult.segment.fileItems.length,
       firstRequestSize
     );
-    assert.notDeepEqual(firstResult.nextMarker, undefined);
+    assert.notDeepEqual(firstResult.continuationToken, undefined);
 
     const secondResult = (await rootDirClient
       .listFilesAndDirectories({ prefix })
       .byPage({
-        continuationToken: firstResult.nextMarker,
+        continuationToken: firstResult.continuationToken,
         maxPageSize: firstRequestSize + secondRequestSize
       })
       .next()).value;
@@ -507,14 +507,14 @@ describe("DirectoryClient", () => {
       response.segment.directoryItems.length + response.segment.fileItems.length,
       firstRequestSize
     );
-    assert.notDeepEqual(response.nextMarker, undefined);
+    assert.notDeepEqual(response.continuationToken, undefined);
 
     iter = await rootDirClient
       .listFilesAndDirectories({
         prefix
       })
       .byPage({
-        continuationToken: response.nextMarker,
+        continuationToken: response.continuationToken,
         maxPageSize: firstRequestSize + secondRequestSize
       });
     response = (await iter.next()).value;
