@@ -23,7 +23,7 @@ export interface AzureLogger {
     warning: debug.Debugger;
 }
 
-// @public (undocumented)
+// @public
 export type AzureLogLevel = 'verbose' | 'info' | 'warning' | 'error';
 
 // @public

@@ -32,8 +32,8 @@ AzureLogger.log = (...args) => {
  * - warning
  * - error
  */
-const AZURE_LOG_LEVELS = ['verbose', 'info', 'warning', 'error'] as const;
 export type AzureLogLevel = 'verbose' | 'info' | 'warning' | 'error';
+const AZURE_LOG_LEVELS = ['verbose', 'info', 'warning', 'error'];
 
 type AzureDebugger = debug.Debugger & { level: number };
 
