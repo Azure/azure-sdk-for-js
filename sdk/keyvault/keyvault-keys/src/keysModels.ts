@@ -181,10 +181,10 @@ export interface ImportKeyOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
+   * @member {boolean} [hardwareProtected] Whether to import as a hardware key (HSM) or
    * software key.
    */
-  hsm?: boolean;
+  hardwareProtected?: boolean;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */

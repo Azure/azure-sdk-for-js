@@ -443,8 +443,10 @@ export class KeysClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expires
+        expires: options.expires,
+        hsm: options.hardwareProtected
       };
+
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
@@ -454,6 +456,7 @@ export class KeysClient {
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
+      delete unflattenedOptions.hardwareProtected;
 
       const span = this.createSpan("importKey", unflattenedOptions);
 
