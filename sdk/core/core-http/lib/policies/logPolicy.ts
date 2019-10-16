@@ -95,8 +95,11 @@ export class LogPolicy extends BaseRequestPolicy {
       return this.sanitizeUrl(value as string);
     } else if (key === "query") {
       return this.sanitizeQuery(value as {});
+    } else if (key === "body") {
+      // Don't log the request body
+      return undefined;
     } else if (key === "response") {
-      // don't log response again
+      // Don't log response again
       return undefined;
     } else if (key === "operationSpec") {
       // When using sendOperationRequest, the request carries a massive
@@ -163,8 +166,6 @@ export class LogPolicy extends BaseRequestPolicy {
   private logResponse(response: HttpOperationResponse): HttpOperationResponse {
     this.logger(`Response status code: ${response.status}`);
     this.logger(`Headers: ${JSON.stringify(response.headers, this.sanitize.bind(this), 2)}`);
-    const responseBody = response.bodyAsText;
-    this.logger(`Body: ${responseBody}`);
     return response;
   }
 }

@@ -75,9 +75,6 @@ describe("Log filtering", () => {
       "x-ms-oh-noes": "REDACTED"
     }
   },
-  "body": {
-    "a": 1
-  },
   "withCredentials": false,
   "timeout": 0
 }
@@ -85,7 +82,6 @@ Response status code: 200
 Headers: {
   "_headersMap": {}
 }
-Body: null
 `;
 
     const request = new WebResource("https://foo.com", "PUT", { a: 1 }, undefined, {
@@ -102,9 +98,6 @@ Body: null
   "headers": {
     "_headersMap": {}
   },
-  "body": {
-    "a": 1
-  },
   "withCredentials": false,
   "timeout": 0
 }
@@ -115,7 +108,6 @@ Headers: {
     "x-ms-oh-noes": "REDACTED"
   }
 }
-Body: null
 `;
 
     const request = new WebResource("https://foo.com", "PUT", { a: 1 });
@@ -132,9 +124,6 @@ Body: null
   "headers": {
     "_headersMap": {}
   },
-  "body": {
-    "a": 1
-  },
   "query": {
     "api-version": "1.0",
     "secret": "REDACTED"
@@ -146,7 +135,6 @@ Response status code: 200
 Headers: {
   "_headersMap": {}
 }
-Body: null
 `;
 
     const request = new WebResource("https://foo.com", "PUT", { a: 1 }, { "api-version": "1.0", "secret": "goose"});
@@ -160,9 +148,6 @@ Body: null
   "headers": {
     "_headersMap": {}
   },
-  "body": {
-    "a": 1
-  },
   "withCredentials": false,
   "timeout": 0
 }
@@ -170,7 +155,6 @@ Response status code: 200
 Headers: {
   "_headersMap": {}
 }
-Body: null
 `;
 
     const request = new WebResource("https://foo.com?api-version=1.0&secret=goose", "PUT", { a: 1 });
