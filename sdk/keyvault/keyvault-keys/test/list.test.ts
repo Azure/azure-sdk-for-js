@@ -150,7 +150,8 @@ describe("Keys client - list keys in various ways", () => {
       await client.createKey(name, "RSA");
     }
     for (const name of keyNames) {
-      await client.beginDeleteKey(name).pollUntilDone();
+      const poller = await client.beginDeleteKey(name);
+      await poller.pollUntilDone();
     }
 
     // Waiting until the keys are deleted
@@ -179,7 +180,8 @@ describe("Keys client - list keys in various ways", () => {
       await client.createKey(name, "RSA");
     }
     for (const name of keyNames) {
-      await client.beginDeleteKey(name).pollUntilDone();
+      const poller = await client.beginDeleteKey(name);
+      await poller.pollUntilDone();
     }
 
     // Waiting until the keys are deleted

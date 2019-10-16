@@ -42,9 +42,14 @@ async function main(): Promise<void> {
   });
   console.log("updated key: ", updatedKey);
 
-  await client.beginDeleteKey(keyName).pollUntilDone();
-  await client.beginDeleteKey(ecKeyName).pollUntilDone();
-  await client.beginDeleteKey(rsaKeyName).pollUntilDone();
+  let poller = await client.beginDeleteKey(keyName);
+  await poller.pollUntilDone();
+
+  poller = await client.beginDeleteKey(ecKeyName);
+  await poller.pollUntilDone();
+
+  poller = await client.beginDeleteKey(rsaKeyName);
+  await poller.pollUntilDone();
 }
 
 main().catch((err) => {

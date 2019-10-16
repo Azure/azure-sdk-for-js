@@ -33,15 +33,17 @@ describe("Keys client - restore keys and recover backups", () => {
   it("can recover a deleted key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    await client.beginDeleteKey(keyName).pollUntilDone();
-    const getDeletedResult = await retry(async () => client.getDeletedKey(keyName));
+    const deletePoller = await client.beginDeleteKey(keyName);
+    await deletePoller.pollUntilDone();
+    const getDeletedResult = await client.getDeletedKey(keyName);
     assert.equal(
       getDeletedResult.properties.name,
       keyName,
       "Unexpected key name in result from getKey()."
     );
-    await client.recoverDeletedKey(keyName);
-    const getResult = await retry(async () => client.getKey(keyName));
+    const recoverPoller = await client.beginRecoverDeletedKey(keyName);
+    await recoverPoller.pollUntilDone();
+    const getResult = await client.getKey(keyName);
     assert.equal(
       getResult.properties.name,
       keyName,
@@ -54,7 +56,8 @@ describe("Keys client - restore keys and recover backups", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
-      await client.recoverDeletedKey(keyName);
+      const recoverPoller = await client.beginRecoverDeletedKey(keyName);
+      await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

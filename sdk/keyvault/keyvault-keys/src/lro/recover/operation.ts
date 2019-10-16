@@ -1,13 +1,13 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { DeletedKey, KeyClientInterface } from "../../keysModels";
+import { Key, KeyClientInterface } from "../../keysModels";
 
 /**
  * @interface
  * An interface representing the state of a delete key's poll operation
  */
-export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
+export interface RecoverDeletedKeyPollOperationState extends PollOperationState<Key> {
   /**
    * @member {string} [name] The name of the key that will be deleted
    */
@@ -26,20 +26,20 @@ export interface DeleteKeyPollOperationState extends PollOperationState<DeletedK
  * @interface
  * An interface representing a delete key's poll operation
  */
-export interface DeleteKeyPollOperation
-  extends PollOperation<DeleteKeyPollOperationState, DeletedKey> {}
+export interface RecoverDeletedKeyPollOperation
+  extends PollOperation<RecoverDeletedKeyPollOperationState, Key> {}
 
 /**
  * @summary Reaches to the service and updates the delete key's poll operation.
  * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
  */
 async function update(
-  this: DeleteKeyPollOperation,
+  this: RecoverDeletedKeyPollOperation,
   options: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: DeleteKeyPollOperationState) => void;
+    fireProgress?: (state: RecoverDeletedKeyPollOperationState) => void;
   } = {}
-): Promise<DeleteKeyPollOperation> {
+): Promise<RecoverDeletedKeyPollOperation> {
   const state = this.state;
   const { name, client } = state;
 
@@ -49,17 +49,19 @@ async function update(
   }
 
   if (!state.started) {
-    const deletedKey = await client.deleteKey(name, requestOptions);
-    state.started = true;
-    if (!deletedKey.properties.recoveryId) {
+    try {
+      state.result = await client.getKey(name, { requestOptions });
       state.completed = true;
-      state.result = deletedKey;
+    } catch (_) {}
+    if (!state.completed) {
+      await client.recoverDeletedKey(name, { requestOptions });
+      state.started = true;
     }
   }
 
   if (!state.completed) {
     try {
-      state.result = await client.getDeletedKey(name, { requestOptions });
+      state.result = await client.getKey(name, { requestOptions });
       state.completed = true;
     } catch (error) {
       if (error.statusCode !== 404) {
@@ -69,7 +71,7 @@ async function update(
     }
   }
 
-  return makeDeleteKeyPollOperation(state);
+  return makeRecoverDeletedKeyPollOperation(state);
 }
 
 /**
@@ -77,16 +79,16 @@ async function update(
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
 async function cancel(
-  this: DeleteKeyPollOperation,
+  this: RecoverDeletedKeyPollOperation,
   _: { abortSignal?: AbortSignal } = {}
-): Promise<DeleteKeyPollOperation> {
+): Promise<RecoverDeletedKeyPollOperation> {
   throw new Error("Canceling the deletion of a key is not supported.");
 }
 
 /**
  * @summary Serializes the create key's poll operation
  */
-function toString(this: DeleteKeyPollOperation): string {
+function toString(this: RecoverDeletedKeyPollOperation): string {
   return JSON.stringify({
     state: this.state
   });
@@ -96,9 +98,9 @@ function toString(this: DeleteKeyPollOperation): string {
  * @summary Builds a create key's poll operation
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
-export function makeDeleteKeyPollOperation(
-  state: DeleteKeyPollOperationState
-): DeleteKeyPollOperation {
+export function makeRecoverDeletedKeyPollOperation(
+  state: RecoverDeletedKeyPollOperationState
+): RecoverDeletedKeyPollOperation {
   return {
     state: {
       ...state

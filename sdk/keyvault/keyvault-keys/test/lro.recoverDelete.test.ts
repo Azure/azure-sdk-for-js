@@ -8,7 +8,7 @@ import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
 
-describe("Keys client - Long Running Operations - delete", () => {
+describe("Keys client - Long Running Operations - recoverDelete", () => {
   const keyPrefix = `recover${env.CERTIFICATE_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeysClient;
@@ -29,10 +29,14 @@ describe("Keys client - Long Running Operations - delete", () => {
 
   // The tests follow
 
-  it("can wait until a key is deleted", async function() {
+  it("can wait until a key is recovered", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    const poller = await client.beginDeleteKey(keyName);
+
+    const deletePoller = await client.beginDeleteKey(keyName);
+    await deletePoller.pollUntilDone();
+
+    const poller = await client.beginRecoverDeletedKey(keyName);
     assert.ok(poller.getOperationState().started);
 
     const deletedKey: DeletedKey = await poller.pollUntilDone();
@@ -42,13 +46,16 @@ describe("Keys client - Long Running Operations - delete", () => {
     // The final key can also be obtained this way:
     assert.equal(poller.getOperationState().result!.properties.name, keyName);
 
-    await testClient.purgeKey(keyName);
+    await testClient.flushKey(keyName);
   });
 
   it("can resume from a stopped poller", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    const poller = await client.beginDeleteKey(keyName);
+    const deletePoller = await client.beginDeleteKey(keyName);
+    await deletePoller.pollUntilDone();
+
+    const poller = await client.beginRecoverDeletedKey(keyName);
     assert.ok(poller.getOperationState().started);
 
     poller.pollUntilDone().catch((e) => {
@@ -65,15 +72,15 @@ describe("Keys client - Long Running Operations - delete", () => {
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.beginDeleteKey(keyName, {
+    const resumePoller = await client.beginRecoverDeletedKey(keyName, {
       resumeFrom: serialized
     });
 
-    assert.ok(resumePoller.getOperationState().started);
+    assert.ok(poller.getOperationState().started);
     const deletedKey: DeletedKey = await resumePoller.pollUntilDone();
     assert.equal(deletedKey.properties.name, keyName);
     assert.ok(resumePoller.getOperationState().completed);
 
-    await testClient.purgeKey(keyName);
+    await testClient.flushKey(keyName);
   });
 });

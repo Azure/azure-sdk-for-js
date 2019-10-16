@@ -1,9 +1,12 @@
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
-import { DeleteKeyPollOperationState, makeDeleteKeyPollOperation } from "./operation";
-import { DeletedKey, KeyClientInterface } from "../../keysModels";
+import {
+  RecoverDeletedKeyPollOperationState,
+  makeRecoverDeletedKeyPollOperation
+} from "./operation";
+import { Key, KeyClientInterface } from "../../keysModels";
 
-export interface DeleteKeyPollerOptions {
+export interface RecoverDeletedKeyPollerOptions {
   client: KeyClientInterface;
   name: string;
   requestOptions?: RequestOptionsBase;
@@ -14,23 +17,23 @@ export interface DeleteKeyPollerOptions {
 /**
  * Class that deletes a poller that waits until a key finishes being deleted
  */
-export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, DeletedKey> {
+export class RecoverDeletedKeyPoller extends Poller<RecoverDeletedKeyPollOperationState, Key> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
-   * @memberof DeleteKeyPoller
+   * @memberof RecoverDeletedKeyPoller
    */
   public intervalInMs: number;
 
-  constructor(options: DeleteKeyPollerOptions) {
+  constructor(options: RecoverDeletedKeyPollerOptions) {
     const { client, name, requestOptions, intervalInMs = 5000, resumeFrom } = options;
 
-    let state: DeleteKeyPollOperationState | undefined;
+    let state: RecoverDeletedKeyPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeDeleteKeyPollOperation({
+    const operation = makeRecoverDeletedKeyPollOperation({
       ...state,
       name,
       requestOptions,
@@ -44,7 +47,7 @@ export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, Deleted
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
-   * @memberof DeleteKeyPoller
+   * @memberof RecoverDeletedKeyPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);

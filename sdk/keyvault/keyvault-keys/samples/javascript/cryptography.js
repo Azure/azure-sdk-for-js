@@ -50,7 +50,8 @@ async function main() {
   const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 
-  await client.beginDeleteKey(keyName).pollUntilDone();
+  const deletePoller = await client.beginDeleteKey(keyName)
+  await deletePoller.pollUntilDone();
 }
 main().catch((err) => {
   console.log("error code: ", err.code);

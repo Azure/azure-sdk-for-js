@@ -22,7 +22,8 @@ export default class TestClient {
   }
   public async flushKey(keyName: string): Promise<void> {
     const that = this;
-    await that.client.beginDeleteKey(keyName).pollUntilDone();
+    const poller = await that.client.beginDeleteKey(keyName);
+    await poller.pollUntilDone();
     await this.purgeKey(keyName);
   }
 }
