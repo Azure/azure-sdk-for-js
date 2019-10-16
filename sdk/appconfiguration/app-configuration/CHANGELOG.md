@@ -1,6 +1,6 @@
 # 1.0.0-preview.5 (Coming Soon)
 
-- Updated to use the latest version of `@azure/core-tracing`, `@azure/core-http` and `@azure/core-arm` packages
+- Updated to use the latest version of `@azure/core-tracing` and `@azure/core-http` packages
 
 # 1.0.0-preview.5 (2019-10-09)
 
