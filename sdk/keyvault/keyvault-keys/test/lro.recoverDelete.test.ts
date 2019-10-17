@@ -66,7 +66,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
 
     await poller.poll(); // Making sure it has some data
 
-    poller.stop();
+    poller.stopPolling();
     assert.ok(poller.isStopped());
     assert.ok(!poller.getOperationState().completed);
 
