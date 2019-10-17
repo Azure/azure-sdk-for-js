@@ -294,6 +294,22 @@ export const ODATA_ERROR_MESSAGE = "message";
 export const ODATA_ERROR_MESSAGE_VALUE = "value";
 
 /**
+ * Marker for atom metadata.
+ *
+ * @const
+ * @type {string}
+ */
+export const XML_METADATA_MARKER = "$";
+
+/**
+ * Marker for atom value.
+ *
+ * @const
+ * @type {string}
+ */
+export const XML_VALUE_MARKER = "_";
+
+/**
  * Constant representing the property where the atom default elements are stored.
  *
  * @const
