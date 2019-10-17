@@ -236,7 +236,7 @@ describe("BlobClient Node.js only", () => {
     const sas = generateBlobSASQueryParameters(
       {
         expiryTime,
-        permissions: BlobSASPermissions.parse("racwd").toString(),
+        permissions: BlobSASPermissions.parse("racwd"),
         containerName,
         blobName
       },
