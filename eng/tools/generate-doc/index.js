@@ -67,7 +67,145 @@ const generateOldIndex = (serviceList) => {
       });
     }
   }
-}
+};
+/*
+    project: '29ec6040-b234-4e31-b139-33dc4287b756'
+    definition: 614
+
+*/
+const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemplate) => {
+ console.log("inside executeTypedoc");
+ console.log("exc list ="+ exclusionList);
+ console.log("inc list"+ inclusionList);
+  let docOutputFolder = "--out ./dist/docs ./src";
+  console.log("process.cwd = " + process.cwd());
+  let workingDir = path.join(process.cwd(), "sdk");
+  let pathToAssets = "";
+  const serviceFolders = fs.readdirSync(workingDir);
+
+  /* Initializing package list for template index generation */
+  let serviceList = [];
+  console.log(serviceFolders.length);
+  let promises = [];
+  for (const eachService of serviceFolders) {
+
+    if ((argv.includeMode === "inc" && inclusionList.includes(eachService)) || (argv.includeMode === "exc" && !exclusionList.includes(eachService)) || (argv.includeMode === "inc" && argv.include[0] === "*")) {
+      console.log("inside if statement");
+      const eachServicePath = path.join(workingDir, eachService);
+      const stat = fs.statSync(eachServicePath);
+
+      if (stat && stat.isDirectory()) {
+        var packageList = fs.readdirSync(eachServicePath);
+
+        /* Initializing package list for template index generation */
+        let indexPackageList = [];
+        for (var eachPackage of packageList) {
+          let checks = {
+            isPrivate: false,
+            srcPresent: false,
+            typedocPresent: false,
+            isClient: false,
+            version: "0"
+          };
+          eachPackagePath = path.join(eachServicePath, eachPackage);
+          pathToAssets = eachPackagePath + "/assets";
+          const packageStat = fs.statSync(eachPackagePath);
+          if (packageStat && packageStat.isDirectory()) {
+            checks = walk(eachPackagePath, checks);
+
+            console.log(
+              "checks after walk: checks.isPrivate = " +
+              checks.isPrivate +
+              ", checks.srcPresent = " +
+              checks.srcPresent +
+              ", typedocPresent = " +
+              checks.typedocPresent +
+              ", isClient = " +
+              checks.isClient
+            );
+            console.log("Path: " + eachPackagePath);
+            if (!checks.isPrivate) {
+              if ((argv.clientOnly && checks.isClient) || !argv.clientOnly) {
+                if (checks.srcPresent) {
+                  if (argv.docGenOutput === "dg") {
+                    docOutputFolder = "--out ../../../docGen/" + eachPackage + "/" + checks.version + " ./src";
+                  }
+
+                  try {
+                    if (checks.typedocPresent) {
+                      const typedocResult = childProcess.spawnSync(
+                        "typedoc",
+                        [docOutputFolder, "--ignoreCompilerErrors"],
+                        {
+                          cwd: eachPackagePath,
+                          shell: true
+                        }
+                      );
+                      console.log(
+                        'typedocResult.output for "typedoc ' +
+                        docOutputFolder +
+                        ' ":' +
+                        typedocResult.output
+                      );
+                    } else {
+                      const typedocResult = childProcess.spawnSync(
+                        "typedoc",
+                        [
+                          "--excludePrivate",
+                          "--excludeNotExported",
+                          '--exclude "node_modules/**/*"',
+                          "--ignoreCompilerErrors",
+                          "--mode file",
+                          docOutputFolder
+                        ],
+                        {
+                          cwd: eachPackagePath,
+                          shell: true
+                        }
+                      );
+                      console.log(
+                        'typedocResult.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +
+                        docOutputFolder +
+                        ' ":' +
+                        typedocResult.output
+                      );
+                    }
+                  } catch (e) {
+                    console.error(`\n\n${e.toString()}\n\n`);
+                    process.exit(1);
+                  }
+                  if (generateIndexWithTemplate) {
+                    /* Adding package to packageList for the template index generation */
+                    indexPackageList.push(eachPackage);
+                  }
+                } else {
+                  console.log(
+                    "...SKIPPING Since src folder could not be found....."
+                  );
+                }
+              }
+              else {
+                //console.log("...SKIPPING Since package is either not sdkType client");
+              }
+            } else {
+              console.log("...SKIPPING Since package marked as private...");
+            }
+          }
+
+        } //end-for each-package
+        /* Adding service entry for the template index generation */
+        serviceList.push({ name: eachService, packageList: indexPackageList });
+      }
+    }
+    else {
+      //console.log("...SKIPPING Since service doesn't satisfy one of the 3 condition checks...");
+    }
+
+  } // end-for ServiceFolders
+
+  if (argv.oldIndex)
+    generateOldIndex(serviceList);
+};
 
 /* Input arguments to the script */
 var argv = require("yargs")
@@ -117,12 +255,12 @@ var argv = require("yargs")
   )
   .help().argv;
 
+  console.log("Argv.clientOnly = " + argv.clientOnly);
 /* Variables for inclusion or exclusion package lists */
 let exclusionList = [];
 let inclusionList = [];
-console.log("Argv.clientOnly = " + argv.clientOnly);
-/* Generate index html from the template by default */
-let generateIndexWithTemplate = true;
+let generateIndexWithTemplate = true; /* Generate index html from the template by default */
+
 if (argv.dgOp === "local" && argv.includeMode !== "none") {
   console.error(
     `--includeMode "inc" or "exc" is supported only when the documentGenoutput is set to "dg" instead of "local"!!`
@@ -132,12 +270,12 @@ if (argv.dgOp === "local" && argv.includeMode !== "none") {
 console.log("arv.include = " + argv.include);
 
 if (argv.includeMode === "inc") {
-  if(argv.oldIndex){
+  if (argv.oldIndex) {
     generateIndexWithTemplate = false;
   }
   if (argv.include !== undefined) {
     inclusionList = argv.include;
-    if(inclusionList.includes("not-specified")){
+    if (inclusionList.includes("not-specified")) {
       console.error(`One or more value to the input package list is "not-specified"`);
       process.exit(1);
     }
@@ -159,144 +297,4 @@ if (argv.includeMode === "inc") {
 } else if (argv.includeMode === "none") {
   generateIndexWithTemplate = false;
 }
-
-let docOutputFolder = "--out ./dist/docs ./src";
-
-console.log("process.cwd = " + process.cwd());
-// try {
-//   const result = childProcess.spawnSync("rush", ["install"], {
-//     cwd: process.cwd(),
-//     env: process.env,
-//     shell: true
-//   });
-//   console.log('result.output for "rush install":' + result.output);
-// } catch (e) {
-//   console.error(`\n\n${e.toString()}\n\n`);
-//   process.exit(1);
-// }
-
-let workingDir = path.join(process.cwd(), "sdk");
-let pathToAssets = "";
-
-const serviceFolders = fs.readdirSync(workingDir);
-
-/* Initializing package list for template index generation */
-let serviceList = [];
-let count = 0;
-for (const eachService of serviceFolders) {
-  count++;
-  if ((argv.includeMode === "inc" && inclusionList.includes(eachService)) || (argv.includeMode === "exc" && !exclusionList.includes(eachService))|| (argv.includeMode === "inc" && argv.include[0] === "*")){
-    const eachServicePath = path.join(workingDir, eachService);
-    const stat = fs.statSync(eachServicePath);
-
-    if (stat && stat.isDirectory()) {
-      var packageList = fs.readdirSync(eachServicePath);
-
-      /* Initializing package list for template index generation */
-      let indexPackageList = [];
-      for (var eachPackage of packageList) {
-        let checks = {
-          isPrivate: false,
-          srcPresent: false,
-          typedocPresent: false,
-          isClient: false,
-          version: "0"
-        };
-        eachPackagePath = path.join(eachServicePath, eachPackage);
-        pathToAssets = eachPackagePath + "/assets";
-        const packageStat = fs.statSync(eachPackagePath);
-        if (packageStat && packageStat.isDirectory()) {
-          checks = walk(eachPackagePath, checks);
-
-          console.log(
-            "checks after walk: checks.isPrivate = " +
-              checks.isPrivate +
-              ", checks.srcPresent = " +
-              checks.srcPresent +
-              ", typedocPresent = " +
-              checks.typedocPresent +
-              ", isClient = " +
-              checks.isClient
-          );
-          console.log("Path: " + eachPackagePath);
-          if (!checks.isPrivate) {
-            if ((argv.clientOnly && checks.isClient) || !argv.clientOnly) {
-              if (checks.srcPresent) {
-                if (argv.docGenOutput === "dg") {
-                  docOutputFolder = "--out ../../../docGen/" + eachPackage + "/" + checks.version + " ./src";
-                }
-
-                try {
-                  if (checks.typedocPresent) {
-                    const typedocResult = childProcess.spawnSync(
-                      "typedoc",
-                      [docOutputFolder, "--ignoreCompilerErrors"],
-                      {
-                        cwd: eachPackagePath,
-                        shell: true
-                      }
-                    );
-                    console.log(
-                      'typedocResult.output for "typedoc ' +
-                        docOutputFolder +
-                        ' ":' +
-                        typedocResult.output
-                    );
-                  } else {
-                    const typedocResult = childProcess.spawnSync(
-                      "typedoc",
-                      [
-                        "--excludePrivate",
-                        "--excludeNotExported",
-                        '--exclude "node_modules/**/*"',
-                        "--ignoreCompilerErrors",
-                        "--mode file",
-                        docOutputFolder
-                      ],
-                      {
-                        cwd: eachPackagePath,
-                        shell: true
-                      }
-                    );
-                    console.log(
-                      'typedocResult.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +
-                        docOutputFolder +
-                        ' ":' +
-                        typedocResult.output
-                    );
-                  }
-                } catch (e) {
-                  console.error(`\n\n${e.toString()}\n\n`);
-                  process.exit(1);
-                }
-                if (generateIndexWithTemplate) {
-                  /* Adding package to packageList for the template index generation */
-                  indexPackageList.push(eachPackage);
-                }
-              } else {
-                console.log(
-                  "...SKIPPING Since src folder could not be found....."
-                );
-              }
-            }
-            else{
-              //console.log("...SKIPPING Since package is either not sdkType client");
-            }
-          } else {
-            console.log("...SKIPPING Since package marked as private...");
-          }
-        }
-
-      } //end-for each-package
-      /* Adding service entry for the template index generation */
-      serviceList.push({ name: eachService, packageList: indexPackageList});
-    }
-  }
-  else{
-    //console.log("...SKIPPING Since service doesn't satisfy one of the 3 condition checks...");
-    }
-
-} // end-for ServiceFolders
-
-if (argv.oldIndex)
-  generateOldIndex(serviceList);
+executeTypedoc(exclusionList, inclusionList, generateIndexWithTemplate);
