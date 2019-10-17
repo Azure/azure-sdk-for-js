@@ -10,7 +10,7 @@
 
 # Core
 /sdk/core/abort-controller/ @chradek
-/sdk/core/core-amqp/ @ramya-rao-a @chradek @shivangireja
+/sdk/core/core-amqp/ @ramya-rao-a @chradek
 /sdk/core/core-auth/ @daviwil
 /sdk/core/core-http/ @daviwil
 /sdk/core/core-paging/ @daviwil
@@ -19,8 +19,8 @@
 /sdk/batch/ @xingwu1 @matthchr @bgklein
 /sdk/cosmosdb/ @southpolesteve
 
-/sdk/eventhub/ @ramya-rao-a @chradek @shivangireja
-/sdk/servicebus/ @ramya-rao-a @chradek @shivangireja
+/sdk/eventhub/ @ramya-rao-a @chradek
+/sdk/servicebus/ @ramya-rao-a @chradek @ramya0820
 
 /sdk/identity/ @daviwil @jonathandturner
 /sdk/keyvault/ @jonathandturner @sadasant
