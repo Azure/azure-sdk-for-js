@@ -11,6 +11,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
+const devDepNames = Object.keys(pkg.devDependencies);
 const input = "./dist-esm/src/logger.js";
 const production = process.env.NODE_ENV === "production";
 
@@ -44,8 +45,8 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/logger.js";
 
-    // mark assert as external
-    baseConfig.external.push("assert", "chai", "sinon");
+    // mark devdeps as external
+    baseConfig.external.push(...devDepNames);
 
     baseConfig.context = "null";
 

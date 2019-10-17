@@ -32,6 +32,10 @@ export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
 const AZURE_LOG_LEVELS = ["verbose", "info", "warning", "error"];
 
 type AzureDebugger = Debugger & { level: AzureLogLevel };
+
+/**
+ * An AzureClientLogger is a function that can log to an appropriate severity level.
+ */
 export type AzureClientLogger = Debugger;
 
 if (logLevelFromEnv) {
@@ -90,12 +94,28 @@ const levelMap = {
 
 /**
  * Defines the methods available on the SDK-facing logger.
- * @ignore
  */
 export interface AzureLogger {
+  /**
+   * Used for failures the program is unlikely to recover from,
+   * such as Out of Memory.
+   */
   error: Debugger;
+  /**
+   * Used when a function fails to perform its intended task.
+   * Usually this means the function will throw an exception.
+   * Not used for self-healing events (e.g. automatic retry)
+   */
   warning: Debugger;
+  /**
+   * Used when a function operates normally.
+   */
   info: Debugger;
+  /**
+   * Used for detailed trbouleshooting scenarios. This is
+   * intended for use by developers / system administrators
+   * for diagnosing specific failures.
+   */
   verbose: Debugger;
 }
 

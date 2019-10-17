@@ -4,7 +4,7 @@
 
 ```ts
 
-// @public (undocumented)
+// @public
 export type AzureClientLogger = Debugger;
 
 // @public
@@ -12,13 +12,9 @@ export const AzureLogger: AzureClientLogger;
 
 // @public
 export interface AzureLogger {
-    // (undocumented)
     error: Debugger;
-    // (undocumented)
     info: Debugger;
-    // (undocumented)
     verbose: Debugger;
-    // (undocumented)
     warning: Debugger;
 }
 
@@ -28,19 +24,13 @@ export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
 // @public
 export function createClientLogger(namespace: string): AzureLogger;
 
-// @public (undocumented)
+// @public
 export interface Debugger {
-    // (undocumented)
     (...args: any[]): void;
-    // (undocumented)
     destroy: () => boolean;
-    // (undocumented)
     enabled: boolean;
-    // (undocumented)
     extend: (namespace: string) => Debugger;
-    // (undocumented)
     log: (...args: any[]) => void;
-    // (undocumented)
     namespace: string;
 }
 
