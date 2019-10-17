@@ -40,6 +40,7 @@ import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
+import { FileForceCloseHandlesResponse } from "./generated/src/models";
 
 /**
  * Options to configure File - Create operation.
@@ -1961,10 +1962,11 @@ export class FileClient extends StorageClient {
    *                          The operation returns a marker value within the response
    *                          body if there are more handles to close. The marker value
    *                          may then be used in a subsequent call to close the next set of handles.
+   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
    * @returns {Promise<Models.FileForceCloseHandlesResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
-  public async forceCloseHandlesSegment(
+  private async forceCloseHandlesSegment(
     marker?: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<Models.FileForceCloseHandlesResponse> {
@@ -1991,15 +1993,52 @@ export class FileClient extends StorageClient {
   }
 
   /**
+   * Force close all handles for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
+   * @returns {Promise<number>}
+   * @memberof FileClient
+   */
+  public async forceCloseAllHandles(options: FileForceCloseHandlesOptions = {}): Promise<number> {
+    const { span, spanOptions } = createSpan(
+      "FileClient-forceCloseAllHandles",
+      options.spanOptions
+    );
+    try {
+      let handlesClosed = 0;
+      let marker: string | undefined = "";
+
+      do {
+        const response: FileForceCloseHandlesResponse = await this.forceCloseHandlesSegment(
+          marker,
+          { spanOptions }
+        );
+        marker = response.marker;
+        response.numberOfHandlesClosed && (handlesClosed += response.numberOfHandlesClosed);
+      } while (marker);
+
+      return handlesClosed;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Force close a specific handle for a file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} handleId Specific handle ID, cannot be asterisk "*".
-   *                          Use forceCloseHandlesSegment() to close all handles.
+   *                          Use forceCloseAllHandles() to close all handles.
+   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
    * @returns {Promise<Models.FileForceCloseHandlesResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async forceCloseHandle(
     handleId: string,
