@@ -226,7 +226,7 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -281,7 +281,7 @@ const stageBlockOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.blockId,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp16
   ],
   headerParameters: [
@@ -326,7 +326,7 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.blockId,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp16
   ],
   headerParameters: [
@@ -365,7 +365,7 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp17
   ],
   headerParameters: [
@@ -419,7 +419,7 @@ const getBlockListOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.listType,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp17
   ],
   headerParameters: [

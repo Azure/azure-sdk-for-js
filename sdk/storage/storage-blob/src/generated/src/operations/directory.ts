@@ -181,7 +181,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.resource
   ],
   headerParameters: [
@@ -220,7 +220,7 @@ const renameOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.marker1,
     Parameters.pathRenameMode
   ],
@@ -266,7 +266,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.recursiveDirectoryDelete,
     Parameters.marker1
   ],
@@ -298,7 +298,7 @@ const setAccessControlOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.action5
   ],
   headerParameters: [
@@ -333,7 +333,7 @@ const getAccessControlOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.upn,
     Parameters.action6
   ],

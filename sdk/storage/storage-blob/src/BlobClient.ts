@@ -21,7 +21,7 @@ import {
   PremiumPageBlobTier,
   toAccessTier
 } from "./models";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
@@ -678,7 +678,7 @@ export interface DownloadFromBlobOptions extends CommonOptions {
    * @type {number}
    * @memberof DownloadFromBlobOptions
    */
-  parallelism?: number;
+  concurrency?: number;
 }
 
 /**
@@ -720,14 +720,14 @@ export class BlobClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
     connectionString: string,
     containerName: string,
     blobName: string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of BlobClient.
@@ -741,13 +741,13 @@ export class BlobClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of BlobClient.
@@ -776,8 +776,8 @@ export class BlobClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
-    blobNameOrOptions?: string | NewPipelineOptions,
-    options?: NewPipelineOptions
+    blobNameOrOptions?: string | StoragePipelineOptions,
+    options?: StoragePipelineOptions
   ) {
     options = options || {};
     let pipeline: Pipeline;
@@ -791,15 +791,15 @@ export class BlobClient extends StorageClient {
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      options = blobNameOrOptions as NewPipelineOptions;
+      options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -809,7 +809,7 @@ export class BlobClient extends StorageClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      // (connectionString: string, containerName: string, blobName: string, options?: NewPipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
@@ -1510,7 +1510,7 @@ export class BlobClient extends StorageClient {
       }
 
       let transferProgress: number = 0;
-      const batch = new Batch(options.parallelism);
+      const batch = new Batch(options.concurrency);
       for (let off = offset; off < offset + count; off = off + options.blockSize) {
         batch.addOperation(async () => {
           // Exclusive chunk end position
