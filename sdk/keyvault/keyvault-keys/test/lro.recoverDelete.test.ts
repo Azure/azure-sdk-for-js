@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { KeysClient, DeletedKey } from "../src";
+import { KeyClient, DeletedKey } from "../src";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -11,7 +11,7 @@ import { PollerStoppedError } from "@azure/core-lro";
 describe("Keys client - Long Running Operations - recoverDelete", () => {
   const keyPrefix = `recover${env.CERTIFICATE_NAME || "KeyName"}`;
   let keySuffix: string;
-  let client: KeysClient;
+  let client: KeyClient;
   let testClient: TestClient;
   let recorder: any;
 

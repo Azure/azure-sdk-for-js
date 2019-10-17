@@ -265,7 +265,7 @@ export class KeyClient {
     let response: DeleteKeyResponse;
     try {
       response = await this.client.deleteKey(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -283,7 +283,7 @@ export class KeyClient {
     let response: RecoverDeletedKeyResponse;
     try {
       response = await this.client.recoverDeletedKey(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -710,8 +710,8 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * const client = new KeyClient(url, credentials);
-	 * const deletePoller = await client.beginDeleteKey("MyKey")
-	 * await deletePoller.pollUntilDone();
+   * const deletePoller = await client.beginDeleteKey("MyKey")
+   * await deletePoller.pollUntilDone();
    * await client.purgeDeletedKey("MyKey");
    * ```
    * @summary Permanently deletes the specified key.
