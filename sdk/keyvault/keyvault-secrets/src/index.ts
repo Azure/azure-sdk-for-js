@@ -614,7 +614,7 @@ export class SecretClient {
     let response: DeleteSecretResponse;
     try {
       response = await this.client.deleteSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         this.setParentSpan(span, options)
       );
@@ -635,7 +635,7 @@ export class SecretClient {
 
     try {
       response = await this.client.recoverDeletedSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         this.setParentSpan(span, options)
       );
