@@ -450,30 +450,6 @@ export const BlobProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const BlobMetadata: coreHttp.CompositeMapper = {
-  xmlName: "Metadata",
-  serializedName: "BlobMetadata",
-  type: {
-    name: "Composite",
-    className: "BlobMetadata",
-    modelProperties: {
-      encrypted: {
-        xmlIsAttribute: true,
-        xmlName: "Encrypted",
-        serializedName: "Encrypted",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "String"
-      }
-    }
-  }
-};
-
 export const BlobItem: coreHttp.CompositeMapper = {
   xmlName: "Blob",
   serializedName: "BlobItem",
@@ -518,9 +494,8 @@ export const BlobItem: coreHttp.CompositeMapper = {
         xmlName: "Metadata",
         serializedName: "Metadata",
         type: {
-          name: "Composite",
-          className: "BlobMetadata",
-          additionalProperties: {
+          name: "Dictionary",
+          value: {
             type: {
               name: "String"
             }

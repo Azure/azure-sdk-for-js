@@ -41,10 +41,10 @@ describe("DirectoryClient", () => {
     defaultDirCreateResp = await dirClient.create();
     assert.equal(defaultDirCreateResp.errorCode, undefined);
     assert.equal(defaultDirCreateResp.fileAttributes!, "Directory");
-    assert.ok(defaultDirCreateResp.fileChangeTime!);
-    assert.ok(defaultDirCreateResp.fileCreationTime!);
+    assert.ok(defaultDirCreateResp.fileChangeOn!);
+    assert.ok(defaultDirCreateResp.fileCreatedOn!);
     assert.ok(defaultDirCreateResp.fileId!);
-    assert.ok(defaultDirCreateResp.fileLastWriteTime!);
+    assert.ok(defaultDirCreateResp.fileLastWriteOn!);
     assert.ok(defaultDirCreateResp.fileParentId!);
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
@@ -109,10 +109,10 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
@@ -144,10 +144,10 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
@@ -159,15 +159,15 @@ describe("DirectoryClient", () => {
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, defaultDirCreateResp.fileAttributes!);
     assert.equal(
-      truncatedISO8061Date(result.fileCreationTime!),
-      truncatedISO8061Date(defaultDirCreateResp.fileCreationTime!)
+      truncatedISO8061Date(result.fileCreatedOn!),
+      truncatedISO8061Date(defaultDirCreateResp.fileCreatedOn!)
     );
     assert.equal(
-      truncatedISO8061Date(result.fileLastWriteTime!),
-      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteTime!)
+      truncatedISO8061Date(result.fileLastWriteOn!),
+      truncatedISO8061Date(defaultDirCreateResp.fileLastWriteOn!)
     );
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
@@ -197,10 +197,10 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.offline);
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
-    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
@@ -244,7 +244,7 @@ describe("DirectoryClient", () => {
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareClient.url.indexOf(result.shareName));
-    assert.deepStrictEqual(result.nextMarker, "");
+    assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
 
@@ -305,12 +305,12 @@ describe("DirectoryClient", () => {
       firstResult.segment.directoryItems.length + firstResult.segment.fileItems.length,
       firstRequestSize
     );
-    assert.notDeepEqual(firstResult.nextMarker, undefined);
+    assert.notDeepEqual(firstResult.continuationToken, undefined);
 
     const secondResult = (await rootDirClient
       .listFilesAndDirectories({ prefix })
       .byPage({
-        continuationToken: firstResult.nextMarker,
+        continuationToken: firstResult.continuationToken,
         maxPageSize: firstRequestSize + secondRequestSize
       })
       .next()).value;
@@ -507,14 +507,14 @@ describe("DirectoryClient", () => {
       response.segment.directoryItems.length + response.segment.fileItems.length,
       firstRequestSize
     );
-    assert.notDeepEqual(response.nextMarker, undefined);
+    assert.notDeepEqual(response.continuationToken, undefined);
 
     iter = await rootDirClient
       .listFilesAndDirectories({
         prefix
       })
       .byPage({
-        continuationToken: response.nextMarker,
+        continuationToken: response.continuationToken,
         maxPageSize: firstRequestSize + secondRequestSize
       });
     response = (await iter.next()).value;

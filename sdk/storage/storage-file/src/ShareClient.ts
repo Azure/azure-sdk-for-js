@@ -7,7 +7,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Share } from "./generated/src/operations";
 import { Metadata } from "./models";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import { URLConstants } from "./utils/constants";
 import {
@@ -209,10 +209,10 @@ export interface SignedIdentifier {
      */
     expiry: Date;
     /**
-     * @member {string} permission the permissions for the acl policy
+     * @member {string} permissions the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
      */
-    permission: string;
+    permissions: string;
   };
 }
 
@@ -342,10 +342,10 @@ export class ShareClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} shareName Share name.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(connectionString: string, shareName: string, options?: NewPipelineOptions);
+  constructor(connectionString: string, shareName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -355,10 +355,10 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share?sasString".
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -374,7 +374,7 @@ export class ShareClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
     let url: string;
@@ -383,14 +383,14 @@ export class ShareClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrShareName;
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
-      // (url: string, credential?: Credential, options?: NewPipelineOptions)
+      // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
       pipeline = newPipeline(credentialOrPipelineOrShareName, options);
     } else if (
       !credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName !== "string"
     ) {
-      // (url: string, credential?: Credential, options?: NewPipelineOptions)
+      // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -398,7 +398,7 @@ export class ShareClient extends StorageClient {
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
     ) {
-      // (connectionString: string, shareName: string, options?: NewPipelineOptions)
+      // (connectionString: string, shareName: string, options?: StoragePipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       const shareName = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {
@@ -766,7 +766,7 @@ export class ShareClient extends StorageClient {
         res.signedIdentifiers.push({
           accessPolicy: {
             expiry: new Date(identifier.accessPolicy!.expiry!),
-            permission: identifier.accessPolicy!.permission!,
+            permissions: identifier.accessPolicy!.permissions!,
             start: new Date(identifier.accessPolicy!.start!)
           },
           id: identifier.id
@@ -810,7 +810,7 @@ export class ShareClient extends StorageClient {
         acl.push({
           accessPolicy: {
             expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
-            permission: identifier.accessPolicy.permission,
+            permissions: identifier.accessPolicy.permissions,
             start: truncatedISO8061Date(identifier.accessPolicy.start)
           },
           id: identifier.id

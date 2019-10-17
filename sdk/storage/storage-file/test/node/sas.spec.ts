@@ -48,7 +48,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
         startTime: now,
@@ -147,7 +147,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31"
@@ -188,7 +188,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ShareSASPermissions.parse("rcwdl").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        protocol: SASProtocol.HttpsAndHttp,
         shareName: shareClient.shareName,
         startTime: now,
         version: "2018-03-28"
@@ -230,7 +230,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileName = recorder.getUniqueName("file");
     const fileClient = dirClient.getFileClient(fileName);
     await fileClient.create(1024, {
-      fileHTTPHeaders: {
+      fileHttpHeaders: {
         fileContentType: "content-type-original"
       }
     });
@@ -246,7 +246,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         filePath: fileClient.filePath,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSASPermissions.parse("rcwd").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        protocol: SASProtocol.HttpsAndHttp,
         shareName: fileClient.shareName,
         startTime: now,
         version: "2016-05-31"
@@ -289,7 +289,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileName = recorder.getUniqueName("file");
     const fileClient = dirClient.getFileClient(fileName);
     await fileClient.create(1024, {
-      fileHTTPHeaders: {
+      fileHttpHeaders: {
         fileContentType: "content-type-original"
       }
     });
@@ -299,7 +299,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         accessPolicy: {
           expiry: tmr,
-          permission: ShareSASPermissions.parse("rcwdl").toString(),
+          permissions: ShareSASPermissions.parse("rcwdl").toString(),
           start: now
         },
         id

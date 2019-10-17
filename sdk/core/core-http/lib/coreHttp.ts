@@ -17,7 +17,6 @@ export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperati
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
-export { ResponseBodyNotFoundError } from "./responseBodyNotFoundError";
 export { OperationArguments } from "./operationArguments";
 export {
   OperationParameter,
@@ -97,8 +96,7 @@ export {
   TokenCredential,
   GetTokenOptions,
   AccessToken,
-  isTokenCredential,
-  SimpleTokenCredential
+  isTokenCredential
 } from "@azure/core-auth";
 export { AccessTokenCache, ExpiringAccessTokenCache } from "./credentials/accessTokenCache";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";

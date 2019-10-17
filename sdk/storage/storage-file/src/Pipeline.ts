@@ -66,7 +66,7 @@ export interface PipelineOptions {
    * @type {IHttpClient}
    * @memberof PipelineOptions
    */
-  HTTPClient?: IHttpClient;
+  HttpClient?: IHttpClient;
 }
 
 /**
@@ -116,7 +116,7 @@ export class Pipeline {
    */
   public toServiceClientOptions(): ServiceClientOptions {
     return {
-      httpClient: this.options.HTTPClient,
+      httpClient: this.options.HttpClient,
       httpPipelineLogger: this.options.logger,
       requestPolicyFactories: this.factories
     };
@@ -127,43 +127,43 @@ export class Pipeline {
  * Option interface for newPipeline() function.
  *
  * @export
- * @interface NewPipelineOptions
+ * @interface StoragePipelineOptions
  */
-export interface NewPipelineOptions {
+export interface StoragePipelineOptions {
   proxy?: ProxySettings | string;
   /**
    * Telemetry configures the built-in telemetry policy behavior.
    *
    * @type {TelemetryOptions}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   telemetry?: TelemetryOptions;
   /**
    * Configures the built-in retry policy behavior.
    *
    * @type {RetryOptions}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   retryOptions?: RetryOptions;
   /**
    * Keep alive configurations. Default keep-alive is enabled.
    *
    * @type {KeepAliveOptions}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   keepAliveOptions?: KeepAliveOptions;
   /**
    * Configures the HTTP pipeline logger.
    *
    * @type {IHttpPipelineLogger}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   logger?: IHttpPipelineLogger;
   /**
    * Configures the HTTP client to send requests and receive responses.
    *
    * @type {IHttpClient}
-   * @memberof NewPipelineOptions
+   * @memberof StoragePipelineOptions
    */
   httpClient?: IHttpClient;
 }
@@ -173,13 +173,13 @@ export interface NewPipelineOptions {
  *
  * @static
  * @param {Credential} credential Such as AnonymousCredential, SharedKeyCredential.
- * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
+ * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  * @memberof Pipeline
  */
 export function newPipeline(
   credential: Credential,
-  pipelineOptions: NewPipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
@@ -208,7 +208,7 @@ export function newPipeline(
   factories.push(credential);
 
   return new Pipeline(factories, {
-    HTTPClient: pipelineOptions.httpClient,
+    HttpClient: pipelineOptions.httpClient,
     logger: pipelineOptions.logger
   });
 }

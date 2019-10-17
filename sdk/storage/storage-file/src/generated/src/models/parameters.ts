@@ -333,8 +333,8 @@ export const fileContentType: coreHttp.OperationParameter = {
     }
   }
 };
-export const fileCreationTime: coreHttp.OperationParameter = {
-  parameterPath: "fileCreationTime",
+export const fileCreatedOn: coreHttp.OperationParameter = {
+  parameterPath: "fileCreatedOn",
   mapper: {
     required: true,
     serializedName: "x-ms-file-creation-time",
@@ -343,8 +343,8 @@ export const fileCreationTime: coreHttp.OperationParameter = {
     }
   }
 };
-export const fileLastWriteTime: coreHttp.OperationParameter = {
-  parameterPath: "fileLastWriteTime",
+export const fileLastWriteOn: coreHttp.OperationParameter = {
+  parameterPath: "fileLastWriteOn",
   mapper: {
     required: true,
     serializedName: "x-ms-file-last-write-time",
@@ -470,10 +470,10 @@ export const marker: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const maxresults: coreHttp.OperationQueryParameter = {
+export const maxResults: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "maxresults"
+    "maxResults"
   ],
   mapper: {
     serializedName: "maxresults",
@@ -612,10 +612,10 @@ export const restype2: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const sharesnapshot: coreHttp.OperationQueryParameter = {
+export const shareSnapshot: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "sharesnapshot"
+    "shareSnapshot"
   ],
   mapper: {
     serializedName: "sharesnapshot",
@@ -672,10 +672,10 @@ export const sourceRange: coreHttp.OperationParameter = {
     }
   }
 };
-export const timeout: coreHttp.OperationQueryParameter = {
+export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "timeout"
+    "timeoutInSeconds"
   ],
   mapper: {
     serializedName: "timeout",

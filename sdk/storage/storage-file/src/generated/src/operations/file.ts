@@ -31,38 +31,38 @@ export class File {
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreationTime Creation time for the file/directory.
-   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory.
+   * @param fileLastWriteOn Last write time for the file/directory.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileCreateResponse>
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
+  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
   /**
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreationTime Creation time for the file/directory.
-   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory.
+   * @param fileLastWriteOn Last write time for the file/directory.
    * @param callback The callback
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, callback: coreHttp.ServiceCallback<void>): void;
+  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreationTime Creation time for the file/directory.
-   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory.
+   * @param fileLastWriteOn Last write time for the file/directory.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options: Models.FileCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(fileContentLength: number, fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.FileCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
+  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options: Models.FileCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
     return this.client.sendOperationRequest(
       {
         fileContentLength,
         fileAttributes,
-        fileCreationTime,
-        fileLastWriteTime,
+        fileCreatedOn,
+        fileLastWriteOn,
         options
       },
       createOperationSpec,
@@ -146,35 +146,35 @@ export class File {
    * Sets HTTP headers on the file.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreationTime Creation time for the file/directory.
-   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory.
+   * @param fileLastWriteOn Last write time for the file/directory.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSetHTTPHeadersResponse>
    */
-  setHTTPHeaders(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
+  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
   /**
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreationTime Creation time for the file/directory.
-   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory.
+   * @param fileLastWriteOn Last write time for the file/directory.
    * @param callback The callback
    */
-  setHTTPHeaders(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, callback: coreHttp.ServiceCallback<void>): void;
+  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreationTime Creation time for the file/directory.
-   * @param fileLastWriteTime Last write time for the file/directory.
+   * @param fileCreatedOn Creation time for the file/directory.
+   * @param fileLastWriteOn Last write time for the file/directory.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setHTTPHeaders(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options: Models.FileSetHTTPHeadersOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setHTTPHeaders(fileAttributes: string, fileCreationTime: string, fileLastWriteTime: string, options?: Models.FileSetHTTPHeadersOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
+  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options: Models.FileSetHTTPHeadersOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileSetHTTPHeadersOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         fileAttributes,
-        fileCreationTime,
-        fileLastWriteTime,
+        fileCreatedOn,
+        fileLastWriteOn,
         options
       },
       setHTTPHeadersOperationSpec,
@@ -499,7 +499,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -509,8 +509,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
-    Parameters.fileCreationTime,
-    Parameters.fileLastWriteTime,
+    Parameters.fileCreatedOn,
+    Parameters.fileLastWriteOn,
     Parameters.fileContentType,
     Parameters.fileContentEncoding,
     Parameters.fileContentLanguage,
@@ -537,7 +537,7 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -578,8 +578,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
-    Parameters.timeout
+    Parameters.shareSnapshot,
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version
@@ -603,7 +603,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version
@@ -627,7 +627,7 @@ const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp0
   ],
   headerParameters: [
@@ -636,8 +636,8 @@ const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.filePermission,
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
-    Parameters.fileCreationTime,
-    Parameters.fileLastWriteTime,
+    Parameters.fileCreatedOn,
+    Parameters.fileLastWriteOn,
     Parameters.fileContentType,
     Parameters.fileContentEncoding,
     Parameters.fileContentLanguage,
@@ -664,7 +664,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp4
   ],
   headerParameters: [
@@ -690,7 +690,7 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp9
   ],
   headerParameters: [
@@ -732,7 +732,7 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp9
   ],
   headerParameters: [
@@ -765,8 +765,8 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
-    Parameters.timeout,
+    Parameters.shareSnapshot,
+    Parameters.timeoutInSeconds,
     Parameters.comp10
   ],
   headerParameters: [
@@ -805,7 +805,7 @@ const startCopyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -832,7 +832,7 @@ const abortCopyOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.copyId,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp11
   ],
   headerParameters: [
@@ -859,9 +859,9 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.marker,
-    Parameters.maxresults,
-    Parameters.timeout,
-    Parameters.sharesnapshot,
+    Parameters.maxResults,
+    Parameters.timeoutInSeconds,
+    Parameters.shareSnapshot,
     Parameters.comp7
   ],
   headerParameters: [
@@ -887,9 +887,9 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.marker,
-    Parameters.sharesnapshot,
+    Parameters.shareSnapshot,
     Parameters.comp8
   ],
   headerParameters: [

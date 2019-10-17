@@ -7,7 +7,7 @@ export const SERVICE_VERSION: string = "2019-02-02";
 export const FILE_MAX_SIZE_BYTES: number = 1024 * 1024 * 1024 * 1024; // 1TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB
 export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
-export const DEFAULT_HIGH_LEVEL_PARALLELISM: number = 5;
+export const DEFAULT_HIGH_LEVEL_CONCURRENCY: number = 5;
 
 export const URLConstants = {
   Parameters: {
@@ -18,7 +18,7 @@ export const URLConstants = {
   }
 };
 
-export const HTTPURLConnection = {
+export const HttpUrlConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,

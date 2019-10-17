@@ -1,4 +1,4 @@
-import { SecretsClient } from "../../src";
+import { SecretClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 export function delay<T>(t: number, value?: T): Promise<T> {
@@ -14,7 +14,7 @@ async function main(): Promise<void> {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretsClient(url, credential);
+  const client = new SecretClient(url, credential);
 
   const bankAccountSecretName = "BankAccountPassword11";
   const storageAccountSecretName = "StorageAccountPassword11";
