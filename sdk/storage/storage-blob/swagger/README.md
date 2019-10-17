@@ -94,7 +94,7 @@ directive:
       $["x-ms-client-name"] = "maxPageSize";
 ```
 
-### Rename timeoutParameter -> timeout
+### Rename timeoutParameter -> timeoutInSeconds
 
 ```yaml
 directive:
@@ -217,14 +217,6 @@ directive:
       if ($.Encrypted) {
         delete $.Encrypted;
       }
-```
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions..properties.DeletedTime
-    transform: >
-      $["x-ms-client-name"] = "deletedOn";
 ```
 
 ### UserDelegationKey properties
