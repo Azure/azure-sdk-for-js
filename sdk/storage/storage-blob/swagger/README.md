@@ -233,3 +233,13 @@ directive:
       $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
       $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
 ```
+
+### Add missing x-ms-parameter-location for PathRenameMode
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.PathRenameMode
+    transform: >
+      $["x-ms-parameter-location"] = "method";
+```
