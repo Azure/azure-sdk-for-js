@@ -131,7 +131,8 @@ describe("PageBlobClient", () => {
     assert.equal(page2.pageRange![0].end, 1023);
   });
 
-  it("getPageRangesDiff", async () => {
+  // This is the test failing
+  it.only("getPageRangesDiff", async () => {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
