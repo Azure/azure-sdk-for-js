@@ -106,12 +106,12 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
-    await client.setSecret(secretName, secretValue, { expires: expiryDate });
+    await client.setSecret(secretName, secretValue, { expiresOn: expiryDate });
     const updated = await client.getSecret(secretName);
     assert.equal(
       expiryDate.getDate(),
-      updated!.properties.expires!.getDate(),
-      "Expect attribute 'expires' to be defined."
+      updated!.properties.expiresOn!.getDate(),
+      "Expect attribute 'expiresOn' to be defined."
     );
     await testClient.flushSecret(secretName);
   });
@@ -125,14 +125,14 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     await client.setSecret(secretName, secretValue);
     await client.updateSecretProperties(secretName, "", {
-      expires: expiryDate
+      expiresOn: expiryDate
     });
 
     const updated = await client.getSecret(secretName);
     assert.equal(
-      updated!.properties.expires!.getDate(),
+      updated!.properties.expiresOn!.getDate(),
       expiryDate.getDate(),
-      "Expect attribute 'expires' to be updated."
+      "Expect attribute 'expiresOn' to be updated."
     );
     await testClient.flushSecret(secretName);
   });
@@ -148,12 +148,12 @@ describe("Secret client - create, read, update and delete operations", () => {
       enabled: false
     });
     const updated = await client.updateSecretProperties(secretName, "", {
-      expires: expiryDate
+      expiresOn: expiryDate
     });
     assert.equal(
-      updated!.properties.expires!.getDate(),
+      updated!.properties.expiresOn!.getDate(),
       expiryDate.getDate(),
-      "Expect attribute 'expires' to be updated."
+      "Expect attribute 'expiresOn' to be updated."
     );
     await testClient.flushSecret(secretName);
   });
@@ -247,7 +247,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     deletedSecret = await deletePoller.pollUntilDone();
     assert.equal(typeof deletedSecret.properties.recoveryId, "string");
-    assert.ok(deletedSecret.properties.deletedDate instanceof Date);
+    assert.ok(deletedSecret.properties.deletedOn instanceof Date);
     assert.ok(deletedSecret.properties.scheduledPurgeDate instanceof Date);
 
     try {

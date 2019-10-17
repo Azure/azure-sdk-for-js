@@ -59,9 +59,9 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -87,13 +87,13 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created?: Date;
+  createdOn?: Date;
   /**
    * @member {Date} [updated] Last updated time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly updated?: Date;
+  updatedOn?: Date;
   /**
    * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
    * recovery level currently in effect for keys in the current vault. If it
@@ -128,13 +128,13 @@ export interface DeletedSecret {
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
      */
-    readonly scheduledPurgeDate?: Date;
+    scheduledPurgeDate?: Date;
     /**
-     * @member {Date} [deletedDate] The time when the secret was deleted, in UTC
+     * @member {Date} [deletedOn] The time when the secret was deleted, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
      */
-    readonly deletedDate?: Date;
+    deletedOn?: Date;
   };
   /**
    * @member {string} [value] The secret value.
@@ -186,9 +186,9 @@ export interface SetSecretOptions {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
@@ -214,9 +214,9 @@ export interface UpdateSecretOptions {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
