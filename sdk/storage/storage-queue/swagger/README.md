@@ -181,3 +181,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "nextVisibleOn";
 ```
+
+### Rename logging -> analyticsLogging
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.Logging
+    transform: >
+      $["x-ms-client-name"] = "analyticsLogging"
+```

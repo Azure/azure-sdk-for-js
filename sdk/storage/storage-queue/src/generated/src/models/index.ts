@@ -288,7 +288,7 @@ export interface QueueServiceProperties {
   /**
    * Azure Analytics Logging settings
    */
-  logging?: Logging;
+  analyticsLogging?: Logging;
   /**
    * A summary of request statistics grouped by API in hourly aggregates for queues
    */
