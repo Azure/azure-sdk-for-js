@@ -79,7 +79,7 @@ async function main() {
   // FileClient.uploadFile() is only available in Node.js
   await fileClient.uploadFile(localFilePath, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
-    parallelism: 20, // 20 concurrency
+    concurrency: 20, // 20 concurrency
     progress: (ev) => console.log(ev)
   });
   console.log("uploadFile success");
@@ -98,7 +98,7 @@ async function main() {
   const browserFile = document.getElementById("fileinput").files[0];
   await fileClient.uploadBrowserData(browserFile, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
-    parallelism: 20, // 20 concurrency
+    concurrency: 20, // 20 concurrency
     progress: ev => console.log(ev)
   });
   */
@@ -109,7 +109,7 @@ async function main() {
   await fileClient.downloadToBuffer(buffer, undefined, undefined, {
     abortSignal: AbortController.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024, // 4MB range size
-    parallelism: 20, // 20 concurrency
+    concurrency: 20, // 20 concurrency
     progress: (ev) => console.log(ev)
   });
   console.log("downloadToBuffer success");

@@ -32,7 +32,7 @@ describe("ShareClient Node.js only", () => {
       {
         accessPolicy: {
           expiry: tomorrow,
-          permission: "rwd",
+          permissions: "rwd",
           start: yesterday
         },
         id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
@@ -52,8 +52,8 @@ describe("ShareClient Node.js only", () => {
       identifiers[0].accessPolicy.start.getTime()
     );
     assert.equal(
-      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.permission,
-      identifiers[0].accessPolicy.permission
+      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.permissions,
+      identifiers[0].accessPolicy.permissions
     );
   });
 

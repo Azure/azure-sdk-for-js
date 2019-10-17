@@ -60,10 +60,10 @@ describe("FileClient", () => {
     const cResp = await fileClient.create(content.length);
     assert.equal(cResp.errorCode, undefined);
     assert.equal(cResp.fileAttributes!, "Archive");
-    assert.ok(cResp.fileChangeTime!);
-    assert.ok(cResp.fileCreationTime!);
+    assert.ok(cResp.fileChangeOn!);
+    assert.ok(cResp.fileCreatedOn!);
     assert.ok(cResp.fileId!);
-    assert.ok(cResp.fileLastWriteTime!);
+    assert.ok(cResp.fileLastWriteOn!);
     assert.ok(cResp.fileParentId!);
     assert.ok(cResp.filePermissionKey!);
 
@@ -78,7 +78,7 @@ describe("FileClient", () => {
     const now = recorder.newDate("now");
 
     const options = {
-      fileHTTPHeaders: {
+      fileHttpHeaders: {
         fileCacheControl: "fileCacheControl",
         fileContentDisposition: "fileContentDisposition",
         fileContentEncoding: "fileContentEncoding",
@@ -107,19 +107,19 @@ describe("FileClient", () => {
     assert.ok(respFileAttributesFromDownload.notContentIndexed);
     assert.ok(respFileAttributesFromDownload.noScrubData);
     assert.ok(respFileAttributesFromDownload.temporary);
-    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
 
     const properties = await fileClient.getProperties();
-    assert.equal(properties.cacheControl, options.fileHTTPHeaders.fileCacheControl);
-    assert.equal(properties.contentDisposition, options.fileHTTPHeaders.fileContentDisposition);
-    assert.equal(properties.contentEncoding, options.fileHTTPHeaders.fileContentEncoding);
-    assert.equal(properties.contentLanguage, options.fileHTTPHeaders.fileContentLanguage);
-    assert.equal(properties.contentType, options.fileHTTPHeaders.fileContentType);
+    assert.equal(properties.cacheControl, options.fileHttpHeaders.fileCacheControl);
+    assert.equal(properties.contentDisposition, options.fileHttpHeaders.fileContentDisposition);
+    assert.equal(properties.contentEncoding, options.fileHttpHeaders.fileContentEncoding);
+    assert.equal(properties.contentLanguage, options.fileHttpHeaders.fileContentLanguage);
+    assert.equal(properties.contentType, options.fileHttpHeaders.fileContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
     assert.equal(properties.errorCode, undefined);
@@ -132,10 +132,10 @@ describe("FileClient", () => {
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
     assert.ok(respFileAttributes.temporary);
-    assert.equal(truncatedISO8061Date(properties.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(properties.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(properties.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(properties.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
-    assert.ok(properties.fileChangeTime!);
+    assert.ok(properties.fileChangeOn!);
     assert.ok(properties.fileId!);
     assert.ok(properties.fileParentId!);
   });
@@ -147,10 +147,10 @@ describe("FileClient", () => {
     const result = await fileClient.getProperties();
     assert.equal(result.errorCode, undefined);
     assert.equal(result.fileAttributes!, "Archive");
-    assert.ok(result.fileCreationTime!);
-    assert.ok(result.fileLastWriteTime!);
+    assert.ok(result.fileCreatedOn!);
+    assert.ok(result.fileLastWriteOn!);
     assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
     assert.ok(result.lastModified);
@@ -171,7 +171,7 @@ describe("FileClient", () => {
     const now = recorder.newDate("now");
 
     const options = {
-      fileHTTPHeaders: {
+      fileHttpHeaders: {
         fileCacheControl: "fileCacheControl",
         fileContentDisposition: "fileContentDisposition",
         fileContentEncoding: "fileContentEncoding",
@@ -202,10 +202,10 @@ describe("FileClient", () => {
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
     assert.ok(respFileAttributes.temporary);
-    assert.equal(truncatedISO8061Date(result.fileCreationTime!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteTime!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
     assert.ok(result.filePermissionKey!);
-    assert.ok(result.fileChangeTime!);
+    assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
@@ -238,7 +238,7 @@ describe("FileClient", () => {
 
   it("setHTTPHeaders with default parameters", async () => {
     await fileClient.create(content.length);
-    await fileClient.setHTTPHeaders({});
+    await fileClient.setHttpHeaders({});
     const result = await fileClient.getProperties();
 
     assert.ok(result.lastModified);
@@ -264,7 +264,7 @@ describe("FileClient", () => {
       fileContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       fileContentType: "fileContentType"
     };
-    await fileClient.setHTTPHeaders(headers);
+    await fileClient.setHttpHeaders(headers);
     const result = await fileClient.getProperties();
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});

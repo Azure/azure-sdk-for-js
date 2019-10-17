@@ -61,7 +61,7 @@ describe("FileServiceClient", () => {
       .byPage({ maxPageSize: 1 })
       .next()).value;
 
-    assert.ok(result1.nextMarker);
+    assert.ok(result1.continuationToken);
     assert.equal(result1.shareItems!.length, 1);
     assert.ok(result1.shareItems![0].name.startsWith(shareNamePrefix));
     assert.ok(result1.shareItems![0].properties.etag.length > 0);
@@ -74,10 +74,10 @@ describe("FileServiceClient", () => {
         includeSnapshots: true,
         prefix: shareNamePrefix
       })
-      .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
+      .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
       .next()).value;
 
-    assert.ok(!result2.nextMarker);
+    assert.ok(!result2.continuationToken);
     assert.equal(result2.shareItems!.length, 1);
     assert.ok(result2.shareItems![0].name.startsWith(shareNamePrefix));
     assert.ok(result2.shareItems![0].properties.etag.length > 0);
@@ -203,7 +203,7 @@ describe("FileServiceClient", () => {
       assert.deepEqual(item.metadata!.key, "val");
     }
     // Gets next marker
-    const marker = response.nextMarker;
+    const marker = response.continuationToken;
     iter = serviceClient
       .listShares({
         includeMetadata: true,

@@ -114,7 +114,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp0
   ],
@@ -147,7 +147,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp0
   ],
@@ -175,9 +175,9 @@ const listSharesSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker,
-    Parameters.maxresults,
+    Parameters.maxResults,
     Parameters.include,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp1
   ],
   headerParameters: [

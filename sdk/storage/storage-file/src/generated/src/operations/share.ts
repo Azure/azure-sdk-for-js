@@ -314,7 +314,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1
   ],
   headerParameters: [
@@ -341,8 +341,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
-    Parameters.timeout,
+    Parameters.shareSnapshot,
+    Parameters.timeoutInSeconds,
     Parameters.restype1
   ],
   headerParameters: [
@@ -367,8 +367,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
-    Parameters.timeout,
+    Parameters.shareSnapshot,
+    Parameters.timeoutInSeconds,
     Parameters.restype1
   ],
   headerParameters: [
@@ -394,7 +394,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp2
   ],
@@ -421,7 +421,7 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp3
   ],
@@ -455,7 +455,7 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp3
   ],
@@ -483,7 +483,7 @@ const setQuotaOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp0
   ],
@@ -510,7 +510,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp4
   ],
@@ -537,7 +537,7 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp5
   ],
@@ -576,7 +576,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp5
   ],
@@ -623,7 +623,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp6
   ],
