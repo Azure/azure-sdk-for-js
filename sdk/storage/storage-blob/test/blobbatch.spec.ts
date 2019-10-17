@@ -84,6 +84,37 @@ describe("BlobBatch", () => {
     assert.equal(resp2.segment.blobItems.length, 0);
   });
 
+  it("deleteBlobs should work for batch delete", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobURLs[i].upload(content, content.length);
+    }
+
+    // Submit batch request and verify response.
+    const urls = blockBlobURLs.map((b) => b.url);
+    const resp = await blobBatchClient.deleteBlobs(urls, credential, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobURLs[i].url);
+    }
+
+    // Verify blobs deleted.
+    const resp2 = (await containerClient
+      .listBlobsFlat({
+        includeSnapshots: true
+      })
+      .byPage({ maxPageSize: 1 })
+      .next()).value;
+    assert.equal(resp2.segment.blobItems.length, 0);
+  });
+
   it("submitBatch should work for batch delete with snapshot", async () => {
     //
     // Test delete blob with snapshot.
@@ -250,6 +281,32 @@ describe("BlobBatch", () => {
 
     // Submit batch request and verify response.
     const resp = await blobBatchClient.submitBatch(batchSetTierRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 200);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobURLs[i].url);
+
+      // Check blob tier set properly.
+      let resp2 = await blockBlobURLs[i].getProperties();
+      assert.equal(resp2.accessTier, "Cool");
+    }
+  });
+
+  it("setBlobsAccessTier should work for batch set tier", async () => {
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobURLs[i].upload(content, content.length);
+    }
+
+    // Submit batch request and verify response.
+    const urls = blockBlobURLs.map((b) => b.url);
+    const resp = await blobBatchClient.setBlobsAccessTier(urls, credential, "Cool", {});
     assert.equal(resp.subResponses.length, blockBlobCount);
     assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
     assert.equal(resp.subResponsesFailedCount, 0);

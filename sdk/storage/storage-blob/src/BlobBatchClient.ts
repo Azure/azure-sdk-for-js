@@ -115,9 +115,9 @@ export class BlobBatchClient {
     const batch = new BlobBatch();
     for (const urlOrBlobClient of urlsOrBlobClients) {
       if (typeof urlOrBlobClient === "string") {
-        batch.deleteBlob(urlOrBlobClient, credentialOrOptions as TokenCredential, options);
+        await batch.deleteBlob(urlOrBlobClient, credentialOrOptions as TokenCredential, options);
       } else {
-        batch.deleteBlob(urlOrBlobClient, credentialOrOptions as BlobDeleteOptions);
+        await batch.deleteBlob(urlOrBlobClient, credentialOrOptions as BlobDeleteOptions);
       }
     }
     return this.submitBatch(batch);
@@ -184,14 +184,14 @@ export class BlobBatchClient {
     const batch = new BlobBatch();
     for (const urlOrBlobClient of urlsOrBlobClients) {
       if (typeof urlOrBlobClient === "string") {
-        batch.setBlobAccessTier(
+        await batch.setBlobAccessTier(
           urlOrBlobClient,
           credentialOrTier as TokenCredential,
           tierOrOptions as Models.AccessTier,
           options
         );
       } else {
-        batch.setBlobAccessTier(
+        await batch.setBlobAccessTier(
           urlOrBlobClient,
           credentialOrTier as Models.AccessTier,
           tierOrOptions as BlobSetTierOptions
