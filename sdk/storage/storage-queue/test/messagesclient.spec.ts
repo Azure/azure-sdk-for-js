@@ -384,6 +384,6 @@ describe("MessagesClient", () => {
         queueName +
         "/messages/"
     );
-    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });
 });

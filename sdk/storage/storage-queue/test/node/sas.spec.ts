@@ -186,7 +186,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueSAS = generateQueueSASQueryParameters(
       {
-        queueName: queueClient.queueName,
+        queueName: queueClient.name,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: QueueSASPermissions.parse("raup").toString(),
@@ -221,7 +221,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueSAS = generateQueueSASQueryParameters(
       {
-        queueName: queueClient.queueName,
+        queueName: queueClient.name,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: QueueSASPermissions.parse("raup").toString(),
@@ -284,7 +284,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueSAS = generateQueueSASQueryParameters(
       {
-        queueName: queueClient.queueName,
+        queueName: queueClient.name,
         identifier: id
       },
       sharedKeyCredential as SharedKeyCredential

@@ -745,7 +745,7 @@ describe("DirectoryClient", () => {
       `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName
     );
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
-    assert.equal(newClient.dirPath, dirName, "DirPath is not the same as the one provided.");
+    assert.equal(newClient.name, dirName, "DirPath is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,

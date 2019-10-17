@@ -165,7 +165,7 @@ describe("MessageIdClient Node.js only", () => {
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.queueName);
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.name);
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
@@ -183,7 +183,7 @@ describe("MessageIdClient Node.js only", () => {
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.queueName, {
+    const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.name, {
       retryOptions: {
         maxTries: 5
       }
