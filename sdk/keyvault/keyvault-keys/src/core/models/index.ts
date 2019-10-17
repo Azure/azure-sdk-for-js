@@ -50,7 +50,7 @@ export interface JsonWebKey {
    * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
   kty?: JsonWebKeyType;
-  keyOps?: string[];
+  keyOps?: JsonWebKeyOperation[];
   /**
    * RSA modulus.
    */

@@ -417,7 +417,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2
   ],
   headerParameters: [
@@ -445,7 +445,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2
   ],
   headerParameters: [
@@ -472,7 +472,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2
   ],
   headerParameters: [
@@ -501,7 +501,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2,
     Parameters.comp5
   ],
@@ -531,7 +531,7 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2,
     Parameters.comp6
   ],
@@ -572,7 +572,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2,
     Parameters.comp6
   ],
@@ -624,7 +624,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp7,
     Parameters.restype2
   ],
@@ -656,7 +656,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp7,
     Parameters.restype2
   ],
@@ -687,7 +687,7 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp7,
     Parameters.restype2
   ],
@@ -718,7 +718,7 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp7,
     Parameters.restype2
   ],
@@ -749,7 +749,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp7,
     Parameters.restype2
   ],
@@ -783,9 +783,9 @@ const listBlobFlatSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker0,
-    Parameters.maxresults,
+    Parameters.maxResults,
     Parameters.include1,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2,
     Parameters.comp2
   ],
@@ -816,9 +816,9 @@ const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.prefix,
     Parameters.delimiter,
     Parameters.marker0,
-    Parameters.maxresults,
+    Parameters.maxResults,
     Parameters.include1,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype2,
     Parameters.comp2
   ],

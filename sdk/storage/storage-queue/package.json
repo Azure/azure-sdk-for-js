@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.0.0-preview.4",
+  "version": "12.0.0-preview.5",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -80,13 +80,13 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
-    "@azure/core-http": "1.0.0-preview.5",
+    "@azure/core-http": "1.0.0-preview.6",
     "@azure/core-paging": "1.0.0-preview.2",
-    "@azure/core-tracing": "1.0.0-preview.4",
+    "@azure/core-tracing": "1.0.0-preview.5",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/identity": "1.0.0-preview.5",
+    "@azure/identity": "1.0.0-preview.6",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",
     "@types/fs-extra": "^8.0.0",

@@ -182,7 +182,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      permission: {
+      permissions: {
         xmlName: "Permission",
         required: true,
         serializedName: "Permission",
@@ -201,7 +201,7 @@ export const BlobProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobProperties",
     modelProperties: {
-      creationTime: {
+      createdOn: {
         xmlName: "Creation-Time",
         serializedName: "Creation-Time",
         type: {
@@ -362,7 +362,7 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      copyCompletionTime: {
+      copyCompletedOn: {
         xmlName: "CopyCompletionTime",
         serializedName: "CopyCompletionTime",
         type: {
@@ -397,7 +397,7 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      deletedTime: {
+      deletedOn: {
         xmlName: "DeletedTime",
         serializedName: "DeletedTime",
         type: {
@@ -439,36 +439,12 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      accessTierChangeTime: {
+      accessTierChangedOn: {
         xmlName: "AccessTierChangeTime",
         serializedName: "AccessTierChangeTime",
         type: {
           name: "DateTimeRfc1123"
         }
-      }
-    }
-  }
-};
-
-export const BlobMetadata: coreHttp.CompositeMapper = {
-  xmlName: "Metadata",
-  serializedName: "BlobMetadata",
-  type: {
-    name: "Composite",
-    className: "BlobMetadata",
-    modelProperties: {
-      encrypted: {
-        xmlIsAttribute: true,
-        xmlName: "Encrypted",
-        serializedName: "Encrypted",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "String"
       }
     }
   }
@@ -518,9 +494,8 @@ export const BlobItem: coreHttp.CompositeMapper = {
         xmlName: "Metadata",
         serializedName: "Metadata",
         type: {
-          name: "Composite",
-          className: "BlobMetadata",
-          additionalProperties: {
+          name: "Dictionary",
+          value: {
             type: {
               name: "String"
             }
@@ -619,7 +594,7 @@ export const ListBlobsFlatSegmentResponse: coreHttp.CompositeMapper = {
           className: "BlobFlatListSegment"
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         serializedName: "NextMarker",
         type: {
@@ -750,7 +725,7 @@ export const ListBlobsHierarchySegmentResponse: coreHttp.CompositeMapper = {
           className: "BlobHierarchyListSegment"
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         serializedName: "NextMarker",
         type: {
@@ -1053,7 +1028,7 @@ export const ListContainersSegmentResponse: coreHttp.CompositeMapper = {
           }
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         serializedName: "NextMarker",
         type: {
@@ -1131,7 +1106,7 @@ export const GeoReplication: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastSyncTime: {
+      lastSyncOn: {
         xmlName: "LastSyncTime",
         required: true,
         serializedName: "LastSyncTime",
@@ -3210,7 +3185,7 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           ]
         }
       },
-      copyCompletionTime: {
+      copyCompletedOn: {
         serializedName: "x-ms-copy-completion-time",
         type: {
           name: "DateTimeRfc1123"
@@ -3367,7 +3342,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      creationTime: {
+      createdOn: {
         serializedName: "x-ms-creation-time",
         type: {
           name: "DateTimeRfc1123"
@@ -3396,7 +3371,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           ]
         }
       },
-      copyCompletionTime: {
+      copyCompletedOn: {
         serializedName: "x-ms-copy-completion-time",
         type: {
           name: "DateTimeRfc1123"
@@ -3603,7 +3578,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      accessTierChangeTime: {
+      accessTierChangedOn: {
         serializedName: "x-ms-access-tier-change-time",
         type: {
           name: "DateTimeRfc1123"

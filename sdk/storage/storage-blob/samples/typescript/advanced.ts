@@ -72,7 +72,7 @@ async function main() {
   // BlockBlobClient.uploadFile() is only available in Node.js
   await blockBlobClient.uploadFile(localFilePath, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
+    concurrency: 20, // 20 concurrency
     progress: (ev) => console.log(ev)
   });
   console.log("uploadFile success");
@@ -91,7 +91,7 @@ async function main() {
   const browserFile = document.getElementById("fileinput").files[0];
   await blockBlobClient.uploadBrowserData(browserFile, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
+    concurrency: 20, // 20 concurrency
     progress: ev => console.log(ev)
   });
   */
@@ -103,7 +103,7 @@ async function main() {
   await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
     abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     blockSize: 4 * 1024 * 1024, // 4MB block size
-    parallelism: 20, // 20 concurrency
+    concurrency: 20, // 20 concurrency
     progress: (ev) => console.log(ev)
   });
   console.log("downloadToBuffer success");

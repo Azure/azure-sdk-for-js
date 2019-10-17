@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificatesClient } from "../src";
-import { retry } from "./utils/recorder"; 
+import { CertificateClient } from "../src";
+import { retry } from "./utils/recorder";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -11,13 +11,13 @@ import TestClient from "./utils/testClient";
 describe("Certificates client - restore certificates and recover backups", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
-  let client: CertificatesClient;
+  let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subjectName: "cn=MyCert",
+    subjectName: "cn=MyCert"
   };
 
   beforeEach(async function() {
@@ -31,13 +31,11 @@ describe("Certificates client - restore certificates and recover backups", () =>
   afterEach(async function() {
     recorder.stop();
   });
- 
+
   // The tests follow
 
   it("can recover a deleted certificate", async function() {
-    const certificateName = testClient.formatName(
-      `${prefix}-${this!.test!.title}-${suffix}`
-    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.createCertificate(certificateName, basicCertificatePolicy);
     await client.deleteCertificate(certificateName);
     const getDeletedResult = await retry(async () => client.getDeletedCertificate(certificateName));
@@ -48,14 +46,16 @@ describe("Certificates client - restore certificates and recover backups", () =>
     );
     await client.recoverDeletedCertificate(certificateName);
     const getResult = await retry(async () => client.getCertificateWithPolicy(certificateName));
-    assert.equal(getResult.properties.name, certificateName, "Unexpected certificate name in result from getCertificateWithPolicy().");
+    assert.equal(
+      getResult.properties.name,
+      certificateName,
+      "Unexpected certificate name in result from getCertificateWithPolicy()."
+    );
     await testClient.flushCertificate(certificateName);
   });
 
   it("can recover a deleted certificate (non existing)", async function() {
-    const certificateName = testClient.formatName(
-      `${prefix}-${this!.test!.title}-${suffix}`
-    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
       await client.recoverDeletedCertificate(certificateName);
@@ -68,15 +68,17 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   // This is taking forever
   it("can restore a certificate", async function() {
-    const certificateName = testClient.formatName(
-      `${prefix}-${this!.test!.title}-${suffix}`
-    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.createCertificate(certificateName, basicCertificatePolicy);
     const backup = await client.backupCertificate(certificateName);
     await testClient.flushCertificate(certificateName);
     await retry(async () => client.restoreCertificate(backup.value!));
     const getResult = await client.getCertificateWithPolicy(certificateName);
-    assert.equal(getResult.properties.name, certificateName, "Unexpected certificate name in result from getCertificateWithPolicy().");
+    assert.equal(
+      getResult.properties.name,
+      certificateName,
+      "Unexpected certificate name in result from getCertificateWithPolicy()."
+    );
     await testClient.flushCertificate(certificateName);
   });
 

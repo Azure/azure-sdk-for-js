@@ -26,7 +26,7 @@ import {
   BlockBlobTier,
   toAccessTier
 } from "./models";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
   setURLParameter,
   extractConnectionStringParts,
@@ -430,7 +430,7 @@ export interface UploadToBlockBlobOptions extends CommonOptions {
    * @type {number}
    * @memberof UploadToBlockBlobOptions
    */
-  parallelism?: number;
+  concurrency?: number;
 }
 
 /**
@@ -477,14 +477,14 @@ export class BlockBlobClient extends BlobClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
   constructor(
     connectionString: string,
     containerName: string,
     blobName: string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of BlockBlobClient.
@@ -501,13 +501,13 @@ export class BlockBlobClient extends BlobClient {
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of BlockBlobClient.
@@ -536,8 +536,8 @@ export class BlockBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
-    blobNameOrOptions?: string | NewPipelineOptions,
-    options?: NewPipelineOptions
+    blobNameOrOptions?: string | StoragePipelineOptions,
+    options?: StoragePipelineOptions
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -553,15 +553,15 @@ export class BlockBlobClient extends BlobClient {
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      options = blobNameOrOptions as NewPipelineOptions;
+      options = blobNameOrOptions as StoragePipelineOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       pipeline = newPipeline(new AnonymousCredential(), options);
@@ -571,7 +571,7 @@ export class BlockBlobClient extends BlobClient {
       blobNameOrOptions &&
       typeof blobNameOrOptions === "string"
     ) {
-      // (connectionString: string, containerName: string, blobName: string, options?: NewPipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
       const containerName = credentialOrPipelineOrContainerName;
       const blobName = blobNameOrOptions;
 
@@ -897,7 +897,7 @@ export class BlockBlobClient extends BlobClient {
     );
     try {
       const browserBlob = new Blob([browserData]);
-      return this.UploadSeekableBlob(
+      return this.uploadSeekableBlob(
         (offset: number, size: number): Blob => {
           return browserBlob.slice(offset, offset + size);
         },
@@ -930,7 +930,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {UploadToBlockBlobOptions} [options] Options to Upload to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
-  private async UploadSeekableBlob(
+  private async uploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
     size: number,
     options: UploadToBlockBlobOptions = {}
@@ -996,7 +996,7 @@ export class BlockBlobClient extends BlobClient {
       const blockIDPrefix = generateUuid();
       let transferProgress: number = 0;
 
-      const batch = new Batch(options.parallelism);
+      const batch = new Batch(options.concurrency);
       for (let i = 0; i < numBlocks; i++) {
         batch.addOperation(
           async (): Promise<any> => {
@@ -1134,7 +1134,7 @@ export class BlockBlobClient extends BlobClient {
             options.progress({ loadedBytes: transferProgress });
           }
         },
-        // Parallelism should set a smaller value than maxBuffers, which is helpful to
+        // concurrency should set a smaller value than maxBuffers, which is helpful to
         // reduce the possibility when a outgoing handler waits for stream data, in
         // this situation, outgoing handlers are blocked.
         // Outgoing queue shouldn't be empty.
@@ -1238,7 +1238,7 @@ export class BlockBlobClient extends BlobClient {
       const blockIDPrefix = generateUuid();
       let transferProgress: number = 0;
 
-      const batch = new Batch(options.parallelism);
+      const batch = new Batch(options.concurrency);
       for (let i = 0; i < numBlocks; i++) {
         batch.addOperation(
           async (): Promise<any> => {

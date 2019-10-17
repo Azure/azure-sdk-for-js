@@ -334,7 +334,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -379,7 +379,7 @@ const uploadPagesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -432,7 +432,7 @@ const clearPagesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -472,7 +472,7 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
   headerParameters: [
@@ -521,7 +521,7 @@ const getPageRangesOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.snapshot,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp13
   ],
   headerParameters: [
@@ -555,7 +555,7 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.snapshot,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.prevsnapshot,
     Parameters.comp13
   ],
@@ -589,7 +589,7 @@ const resizeOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp0
   ],
   headerParameters: [
@@ -624,7 +624,7 @@ const updateSequenceNumberOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp0
   ],
   headerParameters: [
@@ -657,7 +657,7 @@ const copyIncrementalOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp14
   ],
   headerParameters: [
