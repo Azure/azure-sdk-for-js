@@ -243,3 +243,13 @@ directive:
     transform: >
       $["x-ms-parameter-location"] = "method";
 ```
+
+### Rename logging -> analyticsLogging
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.Logging
+    transform: >
+      $["x-ms-client-name"] = "analyticsLogging"
+```

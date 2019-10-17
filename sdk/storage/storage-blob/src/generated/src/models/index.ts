@@ -480,7 +480,7 @@ export interface StaticWebsite {
  * Storage Service Properties.
  */
 export interface BlobServiceProperties {
-  logging?: Logging;
+  analyticsLogging?: Logging;
   hourMetrics?: Metrics;
   minuteMetrics?: Metrics;
   /**
