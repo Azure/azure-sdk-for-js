@@ -432,19 +432,19 @@ export interface PageRange {
 }
 
 /**
- * the list of pages
- */
-export interface PageList {
-  pageRange?: PageRange[];
-  clearRange?: PageRange[];
-}
-
-/**
  * An interface representing ClearRange.
  */
 export interface ClearRange {
   start: number;
   end: number;
+}
+
+/**
+ * the list of pages
+ */
+export interface PageList {
+  pageRange?: PageRange[];
+  clearRange?: PageRange[];
 }
 
 /**
