@@ -93,6 +93,14 @@ describe("helper methods", () => {
       assert.equal("key1,key2", result.key);
       assert.equal("label1,label2", result.label);
     });
+
+    it("fields map properly", () => {
+      const result = formatWildcards({
+        fields: [ "readOnly", "value" ]
+      });
+      
+      assert.deepEqual([ "locked", "value" ], result.select);
+    });
   });
   
   describe("extractAfterTokenFromNextLink", () => {

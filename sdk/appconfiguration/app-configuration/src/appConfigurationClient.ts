@@ -234,8 +234,7 @@ export class AppConfigurationClient {
       (newOptions) => {
         return this.client.getKeyValues({
           ...newOptions,
-          ...formatWildcards(newOptions),
-          select: newOptions.fields
+          ...formatWildcards(newOptions)
         });
       }
     );
@@ -250,7 +249,6 @@ export class AppConfigurationClient {
           return this.client.getKeyValues({
             ...newOptions,
             ...formatWildcards(newOptions),
-            select: newOptions.fields,
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
           });
         }
