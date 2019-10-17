@@ -6,7 +6,7 @@ export interface Metadata {
   [propertyName: string]: string;
 }
 
-export interface FileHTTPHeaders {
+export interface FileHttpHeaders {
   /**
    * @member {string} [fileCacheControl] Optional. Sets the file's cache
    * control. If specified, this property is stored with the file and returned

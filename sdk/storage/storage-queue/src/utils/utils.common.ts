@@ -141,7 +141,7 @@ function getProxyUriFromDevConnString(connectionString: string): string {
   return proxyUri;
 }
 
-function getValueInConnString(
+export function getValueInConnString(
   connectionString: string,
   argument:
     | "QueueEndpoint"

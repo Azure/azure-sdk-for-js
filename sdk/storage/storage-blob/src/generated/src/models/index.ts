@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/core-http";
+
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -177,18 +177,6 @@ export interface BlobProperties {
 }
 
 /**
- * An interface representing BlobMetadata.
- */
-export interface BlobMetadata {
-  encrypted?: string;
-  /**
-   * Describes unknown properties. The value of an unknown property MUST be of type "string". Due
-   * to valid TS constraints we have modeled this as a union of `string | any`.
-   */
-  [property: string]: string | any;
-}
-
-/**
  * An Azure Storage blob
  */
 export interface BlobItem {
@@ -196,7 +184,7 @@ export interface BlobItem {
   deleted: boolean;
   snapshot: string;
   properties: BlobProperties;
-  metadata?: BlobMetadata;
+  metadata?: { [propertyName: string]: string };
 }
 
 /**
@@ -699,16 +687,6 @@ export interface AppendPositionAccessConditions {
    * status code 412 - Precondition Failed).
    */
   appendPosition?: number;
-}
-
-/**
- * An interface representing StorageClientOptions.
- */
-export interface StorageClientOptions extends ServiceClientOptions {
-  /**
-   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
-   */
-  pathRenameMode?: PathRenameMode;
 }
 
 /**
@@ -1291,6 +1269,10 @@ export interface DirectoryRenameOptionalParams extends coreHttp.RequestOptionsBa
    */
   marker?: string;
   /**
+   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
+   */
+  pathRenameMode?: PathRenameMode;
+  /**
    * Optional.  User-defined properties to be stored with the file or directory, in the format of a
    * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64
    * encoded.
@@ -1663,6 +1645,10 @@ export interface BlobRenameOptionalParams extends coreHttp.RequestOptionsBase {
    * Timeouts for Blob Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Determines the behavior of the rename operation. Possible values include: 'legacy', 'posix'
+   */
+  pathRenameMode?: PathRenameMode;
   /**
    * Optional.  User-defined properties to be stored with the file or directory, in the format of a
    * comma-separated list of name and value pairs "n1=v1, n2=v2, ...", where each value is base64

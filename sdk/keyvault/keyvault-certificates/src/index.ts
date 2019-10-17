@@ -211,14 +211,14 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
  * The client to interact with the KeyVault certificates functionality
  */
 
-export class CertificatesClient {
+export class CertificateClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @memberof CertificatesClient
+   * @memberof CertificateClient
    */
   public static getDefaultPipeline(
     credential: TokenCredential,
@@ -229,9 +229,7 @@ export class CertificatesClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = CertificatesClient.getUserAgentString(
-      pipelineOptions.telemetry
-    );
+    const userAgentString: string = CertificateClient.getUserAgentString(pipelineOptions.telemetry);
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
     if (isNode) {
@@ -268,7 +266,7 @@ export class CertificatesClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultBaseUrl: string;
+  public readonly vaultEndpoint: string;
 
   /**
    * The options to create the connection to the service
@@ -282,22 +280,22 @@ export class CertificatesClient {
   private readonly client: KeyVaultClient;
 
   /**
-   * Creates an instance of CertificatesClient.
+   * Creates an instance of CertificateClient.
    * @param {string} url the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
-   * @memberof CertificatesClient
+   * @memberof CertificateClient
    */
   constructor(
-    url: string,
+    endPoint: string,
     credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
-    this.vaultBaseUrl = url;
+    this.vaultEndpoint = endPoint;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = CertificatesClient.getDefaultPipeline(credential, pipelineOrOptions);
+      this.pipeline = CertificateClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
@@ -333,7 +331,7 @@ export class CertificatesClient {
         ...options
       };
       const currentSetResponse = await this.client.getCertificates(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -373,7 +371,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * // All in one call
    * for await (const certificate of client.listCertificates()) {
    *   console.log(certificate);
@@ -421,7 +419,7 @@ export class CertificatesClient {
         ...options
       };
       const currentSetResponse = await this.client.getCertificateVersions(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         optionsComplete
       );
@@ -464,7 +462,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * for await (const item of client.listCertificateVersions("MyCertificate")) {
    *   console.log(item.properties.version!);
    * }
@@ -503,7 +501,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -523,7 +521,7 @@ export class CertificatesClient {
     let response: DeleteCertificateResponse;
     try {
       response = await this.client.deleteCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         certificateName,
         this.setParentSpan(span, options)
       );
@@ -539,7 +537,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CertificatesClient(url, credentials);
+   * let client = new CertificateClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -557,7 +555,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.deleteCertificateContacts(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         this.setParentSpan(span, options)
       );
     } finally {
@@ -572,7 +570,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CertificatesClient(url, credentials);
+   * let client = new CertificateClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -593,7 +591,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.setCertificateContacts(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         { contactList: contacts },
         this.setParentSpan(span, options)
       );
@@ -608,7 +606,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * let client = new CertificatesClient(url, credentials);
+   * let client = new CertificateClient(url, credentials);
    * await client.setCertificateContacts([{
    *   emailAddress: "b@b.com",
    *   name: "b",
@@ -626,7 +624,7 @@ export class CertificatesClient {
     let result: GetCertificateContactsResponse;
     try {
       result = await this.client.getCertificateContacts(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         this.setParentSpan(span, options)
       );
     } finally {
@@ -646,7 +644,7 @@ export class CertificatesClient {
         ...options
       };
       const currentSetResponse = await this.client.getCertificateIssuers(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -685,7 +683,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * // All in one call
    * for await (const issuer of client.listCertificateIssuers()) {
@@ -730,7 +728,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * ```
    * @summary Sets the specified certificate issuer.
@@ -749,7 +747,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.setCertificateIssuer(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         issuerName,
         provider,
         this.setParentSpan(span, options)
@@ -766,7 +764,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * await client.updateCertificateIssuer("IssuerName", {
    *   provider: "Provider2"
@@ -786,7 +784,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.updateCertificateIssuer(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         issuerName,
         this.setParentSpan(span, options)
       );
@@ -804,7 +802,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * const certificateIssuer = await client.getCertificateIssuer("IssuerName");
    * console.log(certificateIssuer);
@@ -823,7 +821,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.getCertificateIssuer(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         issuerName,
         this.setParentSpan(span, options)
       );
@@ -839,7 +837,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.setCertificateIssuer("IssuerName", "Provider");
    * await client.deleteCertificateIssuer("IssuerName");
    * ```
@@ -857,7 +855,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.deleteCertificateIssuer(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         issuerName,
         this.setParentSpan(span, options)
       );
@@ -873,7 +871,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -894,7 +892,7 @@ export class CertificatesClient {
     let result: CreateCertificateResponse;
 
     try {
-      result = await this.client.createCertificate(this.vaultBaseUrl, name, {
+      result = await this.client.createCertificate(this.vaultEndpoint, name, {
         ...this.setParentSpan(span, options.requestOptions || {}),
         certificateAttributes: {
           ...options.certificateAttributes,
@@ -915,7 +913,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -937,7 +935,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.getCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         "",
         this.setParentSpan(span, options)
@@ -954,7 +952,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -983,7 +981,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.getCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         version,
         this.setParentSpan(span, options)
@@ -1001,8 +999,8 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
-   * const certificateSecret = await secretsClient.getSecret("MyCertificate");
+   * const client = new CertificateClient(url, credentials);
+   * const certificateSecret = await secretClient.getSecret("MyCertificate");
    * const base64EncodedCertificate = certificateSecret.value!;
    * await client.importCertificate("MyCertificate", base64EncodedCertificate);
    * ```
@@ -1022,7 +1020,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.importCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         base64EncodedCertificate,
         this.setParentSpan(span, options)
@@ -1039,7 +1037,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1061,7 +1059,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.getCertificatePolicy(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1089,7 +1087,7 @@ export class CertificatesClient {
     let result: UpdateCertificatePolicyResponse;
     try {
       result = await this.client.updateCertificatePolicy(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         toCorePolicy(policy),
         this.setParentSpan(span, options)
@@ -1106,7 +1104,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1133,7 +1131,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.updateCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         version,
         this.setParentSpan(span, options)
@@ -1150,7 +1148,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1171,7 +1169,7 @@ export class CertificatesClient {
     let result: UpdateCertificateOperationResponse;
     try {
       result = await this.client.updateCertificateOperation(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         true,
         this.setParentSpan(span, options)
@@ -1188,7 +1186,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1210,7 +1208,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.getCertificateOperation(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1227,7 +1225,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1249,7 +1247,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.deleteCertificateOperation(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1265,7 +1263,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Unknown",
    *   subjectName: "cn=MyCert"
@@ -1299,7 +1297,7 @@ export class CertificatesClient {
     let result: MergeCertificateResponse;
     try {
       result = await this.client.mergeCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         x509Certificates,
         this.setParentSpan(span, options)
@@ -1316,7 +1314,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1336,7 +1334,7 @@ export class CertificatesClient {
     let result: BackupCertificateResponse;
     try {
       result = await this.client.backupCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1352,7 +1350,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.createCertificate("MyCertificate", {
    *   issuerName: "Self",
    *   subjectName: "cn=MyCert"
@@ -1376,7 +1374,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.restoreCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         certificateBackup,
         this.setParentSpan(span, options)
       );
@@ -1397,7 +1395,7 @@ export class CertificatesClient {
         ...options
       };
       const currentSetResponse = await this.client.getDeletedCertificates(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -1437,7 +1435,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * for await (const certificate of client.listDeletedCertificates()) {
    *   console.log(certificate);
    * }
@@ -1479,7 +1477,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * client.getDeletedCertificate("MyDeletedCertificate");
    * ```
    * @summary Gets a deleted certificate
@@ -1495,7 +1493,7 @@ export class CertificatesClient {
     let result: GetDeletedCertificateResponse;
     try {
       result = await this.client.getDeletedCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1512,7 +1510,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.deleteCertificate("MyCertificate");
    * // Deleting a certificate takes time, make sure to wait before purging it
    * client.purgeDeletedCertificate("MyCertificate");
@@ -1526,7 +1524,7 @@ export class CertificatesClient {
 
     try {
       await this.client.purgeDeletedCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );
@@ -1543,7 +1541,7 @@ export class CertificatesClient {
    *
    * Example usage:
    * ```ts
-   * const client = new CertificatesClient(url, credentials);
+   * const client = new CertificateClient(url, credentials);
    * await client.deleteCertificate("MyCertificate");
    * // Deleting a certificate takes time, make sure to wait before recovering it
    * await client.recoverDeletedCertificate("MyCertificate");
@@ -1562,7 +1560,7 @@ export class CertificatesClient {
 
     try {
       result = await this.client.recoverDeletedCertificate(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, options)
       );

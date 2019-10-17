@@ -14,7 +14,7 @@ import {
   fileLastWriteTimeToString,
   validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
 } from "./models";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { appendToURLPath, getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
@@ -88,13 +88,13 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
 
   /**
    * Specifies the maximum number of entries to
-   * return. If the request does not specify maxresults, or specifies a value
+   * return. If the request does not specify maxResults, or specifies a value
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
    * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
-  maxresults?: number;
+  maxResults?: number;
 }
 
 /**
@@ -189,13 +189,13 @@ export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Specifies the maximum number of entries to return. If the request does not specify maxresults,
+   * Specifies the maximum number of entries to return. If the request does not specify maxResults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
    * @memberof DirectoryListHandlesSegmentOptions
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -312,10 +312,10 @@ export class DirectoryClient extends StorageClient {
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof DirectoryClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of DirectoryClient.
    *
@@ -335,7 +335,7 @@ export class DirectoryClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?: Credential | Pipeline,
-    options: NewPipelineOptions = {}
+    options: StoragePipelineOptions = {}
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
@@ -703,9 +703,9 @@ export class DirectoryClient extends StorageClient {
    * @private
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of files and directories to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
+   *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all files and directories remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
+   *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {DirectoryListFilesAndDirectoriesSegmentOptions} [options] Options to list files and directories operation.
@@ -719,7 +719,7 @@ export class DirectoryClient extends StorageClient {
     let listFilesAndDirectoriesResponse;
     do {
       listFilesAndDirectoriesResponse = await this.listFilesAndDirectoriesSegment(marker, options);
-      marker = listFilesAndDirectoriesResponse.nextMarker;
+      marker = listFilesAndDirectoriesResponse.continuationToken;
       yield await listFilesAndDirectoriesResponse;
     } while (marker);
   }
@@ -816,7 +816,7 @@ export class DirectoryClient extends StorageClient {
    *     console.log(`${i++} - directory\t: ${dirItem.name}`);
    *   }
    *   // Gets next marker
-   *   let dirMarker = response.nextMarker;
+   *   let dirMarker = response.continuationToken;
    *   // Passing next marker as continuationToken
    *   iterator = directoryClient
    *     .listFilesAndDirectories()
@@ -862,7 +862,7 @@ export class DirectoryClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...options
         });
       }
@@ -925,7 +925,7 @@ export class DirectoryClient extends StorageClient {
     if (!!marker || marker === undefined) {
       do {
         listHandlesResponse = await this.listHandlesSegment(marker, options);
-        marker = listHandlesResponse.nextMarker;
+        marker = listHandlesResponse.continuationToken;
         yield await listHandlesResponse;
       } while (marker);
     }
@@ -1006,7 +1006,7 @@ export class DirectoryClient extends StorageClient {
    *     }
    *   }
    *   // Gets next marker
-   *   let marker = response.value.nextMarker;
+   *   let marker = response.value.continuationToken;
    *   // Passing next marker as continuationToken
    *   console.log(`    continuation`);
    *   iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
@@ -1047,7 +1047,7 @@ export class DirectoryClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.iterateHandleSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...options
         });
       }

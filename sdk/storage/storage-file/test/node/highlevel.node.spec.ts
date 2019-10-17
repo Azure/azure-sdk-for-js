@@ -61,7 +61,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should success for large data", async () => {
     await fileClient.uploadFile(tempFileLarge, {
-      parallelism: 20,
+      concurrency: 20,
       rangeSize: 4 * 1024 * 1024
     });
 
@@ -78,7 +78,7 @@ describe("Highlevel Node.js only", () => {
 
   it("uploadFile should success for small data", async () => {
     await fileClient.uploadFile(tempFileSmall, {
-      parallelism: 20,
+      concurrency: 20,
       rangeSize: 4 * 1024 * 1024
     });
 
@@ -99,7 +99,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.uploadFile(tempFileLarge, {
         abortSignal: aborter,
-        parallelism: 20,
+        concurrency: 20,
         rangeSize: 4 * 1024 * 1024
       });
       assert.fail();
@@ -114,7 +114,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter,
-        parallelism: 20,
+        concurrency: 20,
         rangeSize: 4 * 1024 * 1024
       });
       assert.fail();
@@ -130,7 +130,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.uploadFile(tempFileLarge, {
         abortSignal: aborter.signal,
-        parallelism: 20,
+        concurrency: 20,
         progress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
@@ -151,7 +151,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter.signal,
-        parallelism: 20,
+        concurrency: 20,
         progress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
@@ -214,7 +214,7 @@ describe("Highlevel Node.js only", () => {
 
     const buf = Buffer.alloc(tempFileLargeLength);
     await fileClient.downloadToBuffer(buf, undefined, undefined, {
-      parallelism: 20,
+      concurrency: 20,
       rangeSize: 4 * 1024 * 1024
     });
 
@@ -230,35 +230,35 @@ describe("Highlevel Node.js only", () => {
     await fileClient.downloadToBuffer(buf, 4, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      parallelism: 1
+      concurrency: 1
     });
     assert.deepStrictEqual(buf.toString(), "bbbb");
 
     await fileClient.downloadToBuffer(buf, 3, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      parallelism: 1
+      concurrency: 1
     });
     assert.deepStrictEqual(buf.toString(), "abbb");
 
     await fileClient.downloadToBuffer(buf, 2, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      parallelism: 1
+      concurrency: 1
     });
     assert.deepStrictEqual(buf.toString(), "aabb");
 
     await fileClient.downloadToBuffer(buf, 1, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      parallelism: 1
+      concurrency: 1
     });
     assert.deepStrictEqual(buf.toString(), "aaab");
 
     await fileClient.downloadToBuffer(buf, 0, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      parallelism: 1
+      concurrency: 1
     });
     assert.deepStrictEqual(buf.toString(), "aaaa");
   });
@@ -271,7 +271,7 @@ describe("Highlevel Node.js only", () => {
       const buf = Buffer.alloc(tempFileLargeLength);
       await fileClient.downloadToBuffer(buf, 0, undefined, {
         abortSignal: AbortController.timeout(1),
-        parallelism: 20,
+        concurrency: 20,
         rangeSize: 4 * 1024 * 1024
       });
       assert.fail();
@@ -290,7 +290,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.downloadToBuffer(buf, 0, undefined, {
         abortSignal: aborter.signal,
-        parallelism: 1,
+        concurrency: 1,
         progress: () => {
           eventTriggered = true;
           aborter.abort();
@@ -306,7 +306,7 @@ describe("Highlevel Node.js only", () => {
   it("fileClient.download should success when internal stream unexcepted ends at the stream end", async () => {
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      parallelism: 20
+      concurrency: 20
     });
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
@@ -334,7 +334,7 @@ describe("Highlevel Node.js only", () => {
   it("fileClient.download should download full data successfully when internal stream unexcepted ends", async () => {
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      parallelism: 20
+      concurrency: 20
     });
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
@@ -363,7 +363,7 @@ describe("Highlevel Node.js only", () => {
   it("fileClient.download should download partial data when internal stream unexcepted ends", async () => {
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      parallelism: 20
+      concurrency: 20
     });
 
     const partialSize = 10 * 1024;
@@ -394,7 +394,7 @@ describe("Highlevel Node.js only", () => {
   it("fileClient.download should download data failed when exceeding max stream retry requests", async () => {
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      parallelism: 20
+      concurrency: 20
     });
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
@@ -425,7 +425,7 @@ describe("Highlevel Node.js only", () => {
   it("fileClient.download should abort after retrys", async () => {
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      parallelism: 20
+      concurrency: 20
     });
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
