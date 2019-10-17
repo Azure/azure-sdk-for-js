@@ -11,7 +11,6 @@ const walk = (dir, checks) => {
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
     if (fileName == "node_modules") {
-      checks.isRush = true;
       continue;
     }
     if (fileName == "src") {
@@ -37,16 +36,6 @@ const walk = (dir, checks) => {
     }
   }
   return checks;
-};
-
-/* Checking if a service exists in the exclusion/ inclusion list */
-const isServiceInArray = (service, inputArray) => {
-  for (var i in inputArray) {
-    if (inputArray[i] == service) {
-      return true;
-    }
-  }
-  return false;
 };
 
 //Old Method Index
@@ -196,9 +185,6 @@ let serviceList = [];
 let count = 0;
 for (const eachService of serviceFolders) {
   count++;
-  // console.log(count);
-  // console.log(inclusionList.includes(eachService));
-  //isServiceInArray(eachService, inclusionList)
   if ((argv.includeMode === "inc" && inclusionList.includes(eachService)) || (argv.includeMode === "exc" && !exclusionList.includes(eachService))|| (argv.includeMode === "inc" && argv.include[0] === "*")){
     const eachServicePath = path.join(workingDir, eachService);
     const stat = fs.statSync(eachServicePath);
@@ -210,7 +196,6 @@ for (const eachService of serviceFolders) {
       let indexPackageList = [];
       for (var eachPackage of packageList) {
         let checks = {
-          isRush: false,
           isPrivate: false,
           srcPresent: false,
           typedocPresent: false,
@@ -224,9 +209,7 @@ for (const eachService of serviceFolders) {
           checks = walk(eachPackagePath, checks);
 
           console.log(
-            "checks after walk: checks.isRush = " +
-              checks.isRush +
-              " , checks.isPrivate = " +
+            "checks after walk: checks.isPrivate = " +
               checks.isPrivate +
               ", checks.srcPresent = " +
               checks.srcPresent +
