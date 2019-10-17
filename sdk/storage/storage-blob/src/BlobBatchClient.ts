@@ -19,9 +19,9 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * Options to configure the Service - Submit Batch Optional Params.
  *
  * @export
- * @interface ServiceSubmitBatchOptionalParams
+ * @interface BlobBatchSubmitBatchOptionalParams
  */
-export interface ServiceSubmitBatchOptionalParams
+export interface BlobBatchSubmitBatchOptionalParams
   extends Models.ServiceSubmitBatchOptionalParams,
     CommonOptions {
   /**
@@ -29,12 +29,12 @@ export interface ServiceSubmitBatchOptionalParams
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof ServiceSubmitBatchOptionalParams
+   * @memberof BlobBatchSubmitBatchOptionalParams
    */
   abortSignal?: AbortSignalLike;
 }
 
-export declare type ServiceSubmitBatchResponse = ParsedBatchResponse &
+export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
   Models.ServiceSubmitBatchHeaders & {
     /**
      * The underlying HTTP response.
@@ -46,6 +46,9 @@ export declare type ServiceSubmitBatchResponse = ParsedBatchResponse &
       parsedHeaders: Models.ServiceSubmitBatchHeaders;
     };
   };
+
+export declare type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
+export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
 /**
  * A BlobBatchClient allows you to make batched requests to the Azure Storage Blob service.
@@ -73,14 +76,14 @@ export class BlobBatchClient {
    * @param {string[]} urls The urls of the blob resources to delete.
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {BlobDeleteOptions} [options]
-   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @returns {Promise<BlobBatchDeleteBlobsResponse>}
    * @memberof BatchDeleteRequest
    */
   public async deleteBlobs(
     urls: string[],
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: BlobDeleteOptions
-  ): Promise<ServiceSubmitBatchResponse>;
+  ): Promise<BlobBatchDeleteBlobsResponse>;
 
   /**
    * Create multiple delete operations to mark the specified blobs or snapshots for deletion.
@@ -91,13 +94,13 @@ export class BlobBatchClient {
    *
    * @param {BlobClient[]} blobClients The BlobClients for the blobs to delete.
    * @param {BlobDeleteOptions} [options]
-   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @returns {Promise<BlobBatchDeleteBlobsResponse>}
    * @memberof BatchDeleteRequest
    */
   public async deleteBlobs(
     blobClients: BlobClient[],
     options?: BlobDeleteOptions
-  ): Promise<ServiceSubmitBatchResponse>;
+  ): Promise<BlobBatchDeleteBlobsResponse>;
 
   public async deleteBlobs(
     urlsOrBlobClients: string[] | BlobClient[],
@@ -108,7 +111,7 @@ export class BlobBatchClient {
       | BlobDeleteOptions
       | undefined,
     options?: BlobDeleteOptions
-  ): Promise<ServiceSubmitBatchResponse> {
+  ): Promise<BlobBatchDeleteBlobsResponse> {
     const batch = new BlobBatch();
     for (const urlOrBlobClient of urlsOrBlobClients) {
       if (typeof urlOrBlobClient === "string") {
@@ -135,7 +138,7 @@ export class BlobBatchClient {
    * @param {Credential} credential The credential to be used for authentication and authorization.
    * @param {Models.AccessTier} tier
    * @param {BlobSetTierOptions} [options]
-   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
    * @memberof BatchSetTierRequest
    */
   public async setBlobsAccessTier(
@@ -143,7 +146,7 @@ export class BlobBatchClient {
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
     tier: Models.AccessTier,
     options?: BlobSetTierOptions
-  ): Promise<ServiceSubmitBatchResponse>;
+  ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
   /**
    * Create multiple set tier operations to set the tier on a blob.
@@ -159,14 +162,14 @@ export class BlobBatchClient {
    * @param {BlobClient[]} blobClients The BlobClients for the blobs which should have a new tier set.
    * @param {Models.AccessTier} tier
    * @param {BlobSetTierOptions} [options]
-   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
    * @memberof BatchSetTierRequest
    */
   public async setBlobsAccessTier(
     blobClients: BlobClient[],
     tier: Models.AccessTier,
     options?: BlobSetTierOptions
-  ): Promise<ServiceSubmitBatchResponse>;
+  ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
   public async setBlobsAccessTier(
     urlsOrBlobClients: string[] | BlobClient[],
@@ -177,7 +180,7 @@ export class BlobBatchClient {
       | Models.AccessTier,
     tierOrOptions?: Models.AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
-  ): Promise<ServiceSubmitBatchResponse> {
+  ): Promise<BlobBatchSetBlobsAccessTierResponse> {
     const batch = new BlobBatch();
     for (const urlOrBlobClient of urlsOrBlobClients) {
       if (typeof urlOrBlobClient === "string") {
@@ -217,14 +220,14 @@ export class BlobBatchClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
    * @param {BlobBatch} batchRequest A set of Delete or SetTier operations.
-   * @param {ServiceSubmitBatchOptionalParams} [options]
-   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @param {BlobBatchSubmitBatchOptionalParams} [options]
+   * @returns {Promise<BlobBatchSubmitBatchResponse>}
    * @memberof BlobServiceClient
    */
   public async submitBatch(
     batchRequest: BlobBatch,
-    options: ServiceSubmitBatchOptionalParams = {}
-  ): Promise<ServiceSubmitBatchResponse> {
+    options: BlobBatchSubmitBatchOptionalParams = {}
+  ): Promise<BlobBatchSubmitBatchResponse> {
     if (!batchRequest || batchRequest.getSubRequests().size == 0) {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
@@ -250,7 +253,7 @@ export class BlobBatchClient {
       );
       const responseSummary = await batchResponseParser.parseBatchResponse();
 
-      const res: ServiceSubmitBatchResponse = {
+      const res: BlobBatchSubmitBatchResponse = {
         _response: rawBatchResponse._response,
         contentType: rawBatchResponse.contentType,
         errorCode: rawBatchResponse.errorCode,
