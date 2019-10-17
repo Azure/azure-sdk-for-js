@@ -85,7 +85,7 @@ export interface ProxyOptions {
 }
 
 // @public
-export class RecoverDeletedSecretPoller extends Poller<RecoverDeletedSecretPollOperationState, Secret> {
+export class RecoverDeletedSecretPoller extends Poller<RecoverDeletedSecretPollOperationState, SecretProperties> {
     constructor(options: RecoverDeletedSecretPollerOptions);
     delay(): Promise<void>;
     intervalInMs: number;
@@ -106,7 +106,7 @@ export interface RecoverDeletedSecretPollerOptions {
 }
 
 // @public
-export interface RecoverDeletedSecretPollOperationState extends PollOperationState<Secret> {
+export interface RecoverDeletedSecretPollOperationState extends PollOperationState<SecretProperties> {
     // (undocumented)
     client: SecretClientInterface;
     // (undocumented)

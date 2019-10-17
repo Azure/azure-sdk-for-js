@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { SecretClient, DeletedSecret } from "../src";
+import { SecretClient, SecretProperties } from "../src";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -41,12 +41,15 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     const poller = await client.beginRecoverDeletedSecret(secretName);
     assert.ok(poller.getOperationState().started);
 
-    const deletedSecret: DeletedSecret = await poller.pollUntilDone();
-    assert.equal(deletedSecret.properties.name, secretName);
+    // The pending secret properties can be obtained this way:
+    assert.equal(poller.getOperationState().result!.name, secretName);
+
+    const secretProperties: SecretProperties = await poller.pollUntilDone();
+    assert.equal(secretProperties.name, secretName);
     assert.ok(poller.getOperationState().completed);
 
     // The final secret can also be obtained this way:
-    assert.equal(poller.getOperationState().result!.properties.name, secretName);
+    assert.equal(poller.getOperationState().result!.name, secretName);
 
     await testClient.flushSecret(secretName);
   });
@@ -81,8 +84,8 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     });
 
     assert.ok(poller.getOperationState().started);
-    const deletedSecret: DeletedSecret = await resumePoller.pollUntilDone();
-    assert.equal(deletedSecret.properties.name, secretName);
+    const secretProperties: SecretProperties = await resumePoller.pollUntilDone();
+    assert.equal(secretProperties.name, secretName);
     assert.ok(resumePoller.getOperationState().completed);
 
     await testClient.flushSecret(secretName);

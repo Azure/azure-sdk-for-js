@@ -2,9 +2,9 @@
 
 ## 4.0.0-preview.9 (2019-10-31)
 
-- deleteSecret and recoverDeletedSecret are now out of the public API.
-  Use beginDeleteSecret and beginRecoverDeletedSecret instead.
-  They both return a Poller (from our package @azure/core-lro) that manages the long running operation.
+- `deleteSecret` and `recoverDeletedSecret` are now out of the public API.
+  Use `beginDeleteSecret` and `beginRecoverDeletedSecret` instead.
+  They both return a Poller (from our package `@azure/core-lro`) that manages the long running operation.
 
 ## 4.0.0-preview.8 (2019-10-09)
 

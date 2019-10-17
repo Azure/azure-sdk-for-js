@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
@@ -42,9 +45,9 @@ async function update(
   if (!state.started) {
     const deletedSecret = await client.deleteSecret(name, requestOptions);
     state.started = true;
+    state.result = deletedSecret;
     if (!deletedSecret.properties.recoveryId) {
       state.completed = true;
-      state.result = deletedSecret;
     }
   }
 
@@ -53,7 +56,10 @@ async function update(
       state.result = await client.getDeletedSecret(name, { requestOptions });
       state.completed = true;
     } catch (error) {
-      if (error.statusCode !== 404) {
+      if (error.statusCode === 403) {
+        // At this point, the resource exists but the user doesn't have access to it.
+        state.completed = true;
+      } else if (error.statusCode !== 404) {
         state.error = error;
         state.completed = true;
       }

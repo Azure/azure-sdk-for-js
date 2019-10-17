@@ -1,13 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { Secret, SecretClientInterface } from "../../secretsModels";
+import { SecretProperties, SecretClientInterface } from "../../secretsModels";
 
 /**
  * @interface
  * An interface representing the state of a delete secret's poll operation
  */
-export interface RecoverDeletedSecretPollOperationState extends PollOperationState<Secret> {
+export interface RecoverDeletedSecretPollOperationState
+  extends PollOperationState<SecretProperties> {
   name: string;
   requestOptions?: RequestOptionsBase;
   client: SecretClientInterface;
@@ -18,7 +22,7 @@ export interface RecoverDeletedSecretPollOperationState extends PollOperationSta
  * An interface representing a delete secret's poll operation
  */
 export interface RecoverDeletedSecretPollOperation
-  extends PollOperation<RecoverDeletedSecretPollOperationState, Secret> {}
+  extends PollOperation<RecoverDeletedSecretPollOperationState, SecretProperties> {}
 
 /**
  * @summary Reaches to the service and updates the delete secret's poll operation.
@@ -41,21 +45,24 @@ async function update(
 
   if (!state.started) {
     try {
-      state.result = await client.getSecret(name, { requestOptions });
+      state.result = (await client.getSecret(name, { requestOptions })).properties;
       state.completed = true;
     } catch (_) {}
     if (!state.completed) {
-      await client.recoverDeletedSecret(name, { requestOptions });
+      state.result = await client.recoverDeletedSecret(name, { requestOptions });
       state.started = true;
     }
   }
 
   if (!state.completed) {
     try {
-      state.result = await client.getSecret(name, { requestOptions });
+      state.result = (await client.getSecret(name, { requestOptions })).properties;
       state.completed = true;
     } catch (error) {
-      if (error.statusCode !== 404) {
+      if (error.statusCode === 403) {
+        // At this point, the resource exists but the user doesn't have access to it.
+        state.completed = true;
+      } else if (error.statusCode !== 404) {
         state.error = error;
         state.completed = true;
       }

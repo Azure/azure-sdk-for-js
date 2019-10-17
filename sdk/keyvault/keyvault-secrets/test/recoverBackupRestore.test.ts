@@ -44,9 +44,9 @@ describe("Secret client - restore secrets and recover backups", () => {
       "Unexpected secret name in result from getSecret()."
     );
     const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
-    const getResult = await recoverPoller.pollUntilDone();
+    const secretProperties = await recoverPoller.pollUntilDone();
     assert.equal(
-      getResult.properties.name,
+      secretProperties.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );

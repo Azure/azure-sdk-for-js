@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import {
   RecoverDeletedSecretPollOperationState,
   makeRecoverDeletedSecretPollOperation
 } from "./operation";
-import { Secret, SecretClientInterface } from "../../secretsModels";
+import { SecretProperties, SecretClientInterface } from "../../secretsModels";
 
 export interface RecoverDeletedSecretPollerOptions {
   client: SecretClientInterface;
@@ -19,7 +22,7 @@ export interface RecoverDeletedSecretPollerOptions {
  */
 export class RecoverDeletedSecretPoller extends Poller<
   RecoverDeletedSecretPollOperationState,
-  Secret
+  SecretProperties
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.

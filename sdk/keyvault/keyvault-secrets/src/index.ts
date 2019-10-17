@@ -36,7 +36,6 @@ import {
   UpdateSecretResponse,
   GetSecretResponse,
   GetDeletedSecretResponse,
-  RecoverDeletedSecretResponse,
   BackupSecretResponse,
   RestoreSecretResponse
 } from "./core/models";
@@ -627,22 +626,23 @@ export class SecretClient {
   private async recoverDeletedSecret(
     secretName: string,
     options?: RequestOptionsBase
-  ): Promise<Secret> {
+  ): Promise<SecretProperties> {
     const span = this.createSpan("recoverDeletedSecret", options);
 
-    let response: RecoverDeletedSecretResponse;
+    let properties: SecretProperties;
 
     try {
-      response = await this.client.recoverDeletedSecret(
+      const response = await this.client.recoverDeletedSecret(
         this.vaultEndpoint,
         secretName,
         this.setParentSpan(span, options)
       );
+      properties = this.getSecretFromSecretBundle(response).properties;
     } finally {
       span.end();
     }
 
-    return this.getSecretFromSecretBundle(response);
+    return properties;
   }
 
   private async *listSecretVersionsPage(
