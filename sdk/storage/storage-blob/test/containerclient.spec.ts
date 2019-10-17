@@ -4,7 +4,6 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { bodyToString, getBSU, getSASConnectionStringFromEnvironment, isSuperSet } from "./utils";
 import { record } from "./utils/recorder";
 import { ContainerClient, BlockBlobTier } from "../src";
-import { BlobMetadata } from "../src/generated/src/models";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
@@ -130,9 +129,7 @@ describe("ContainerClient", () => {
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
     assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
-    assert.ok(
-      isSuperSet(result.segment.blobItems![0].metadata as BlobMetadata, metadata as BlobMetadata)
-    );
+    assert.ok(isSuperSet(result.segment.blobItems![0].metadata, metadata));
     assert.equal(result.segment.blobItems![0].properties.accessTier, BlockBlobTier.Cool);
 
     const result2 = (await containerClient
@@ -151,9 +148,7 @@ describe("ContainerClient", () => {
     assert.ok(containerClient.url.indexOf(result2.containerName));
     assert.deepStrictEqual(result2.segment.blobItems!.length, 1);
     assert.ok(blobClients[0].url.indexOf(result2.segment.blobItems![0].name));
-    assert.ok(
-      isSuperSet(result2.segment.blobItems![0].metadata as BlobMetadata, metadata as BlobMetadata)
-    );
+    assert.ok(isSuperSet(result2.segment.blobItems![0].metadata, metadata));
     assert.equal(result2.segment.blobItems![0].properties.accessTier, BlockBlobTier.Cool);
 
     for (const blob of blobClients) {
@@ -194,7 +189,6 @@ describe("ContainerClient", () => {
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.segment.blobItems!.length, 1);
     assert.ok(blobURLs[0].url.indexOf(result.segment.blobItems![0].name));
-    assert.equal(result.segment.blobItems![0].metadata!.encrypted, "true");
   });
 
   it("Verify PagedAsyncIterableIterator for listBlobsFlat", async () => {
@@ -223,7 +217,7 @@ describe("ContainerClient", () => {
       prefix
     })) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.ok(isSuperSet(blob.metadata as BlobMetadata, metadata as BlobMetadata));
+      assert.ok(isSuperSet(blob.metadata, metadata));
       i++;
     }
 
@@ -259,11 +253,11 @@ describe("ContainerClient", () => {
 
     let blobItem = await iterator.next();
     assert.ok(blobClients[0].url.indexOf(blobItem.value.name));
-    assert.ok(isSuperSet(blobItem.value.metadata as BlobMetadata, metadata as BlobMetadata));
+    assert.ok(isSuperSet(blobItem.value.metadata, metadata));
 
     blobItem = await iterator.next();
     assert.ok(blobClients[1].url.indexOf(blobItem.value.name));
-    assert.ok(isSuperSet(blobItem.value.metadata as BlobMetadata, metadata as BlobMetadata));
+    assert.ok(isSuperSet(blobItem.value.metadata, metadata));
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -299,7 +293,7 @@ describe("ContainerClient", () => {
       .byPage({ maxPageSize: 2 })) {
       for (const blob of response.segment.blobItems) {
         assert.ok(blobClients[i].url.indexOf(blob.name));
-        assert.ok(isSuperSet(blob.metadata as BlobMetadata, metadata as BlobMetadata));
+        assert.ok(isSuperSet(blob.metadata, metadata));
         i++;
       }
     }
@@ -339,7 +333,7 @@ describe("ContainerClient", () => {
     let response = (await iter.next()).value;
     for (const blob of response.segment.blobItems) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.ok(isSuperSet(blob.metadata as BlobMetadata, metadata as BlobMetadata));
+      assert.ok(isSuperSet(blob.metadata, metadata));
       i++;
     }
     // Gets next marker
@@ -359,7 +353,7 @@ describe("ContainerClient", () => {
     // Gets 2 blobs
     for (const blob of response.segment.blobItems) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
-      assert.ok(isSuperSet(blob.metadata as BlobMetadata, metadata as BlobMetadata));
+      assert.ok(isSuperSet(blob.metadata, metadata));
       i++;
     }
 
@@ -470,9 +464,7 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result3.continuationToken, "");
     assert.deepStrictEqual(result3.delimiter, delimiter);
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
-    assert.ok(
-      isSuperSet(result3.segment.blobItems![0].metadata as BlobMetadata, metadata as BlobMetadata)
-    );
+    assert.ok(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
     assert.ok(blobClients[0].url.indexOf(result3.segment.blobItems![0].name));
 
     for (const blob of blobClients) {
