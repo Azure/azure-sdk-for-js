@@ -202,7 +202,7 @@ export interface ListBlobsFlatSegmentResponse {
   containerName: string;
   prefix?: string;
   marker?: string;
-  maxResults?: number;
+  maxPageSize?: number;
   delimiter?: string;
   segment: BlobFlatListSegment;
   continuationToken?: string;
@@ -231,7 +231,7 @@ export interface ListBlobsHierarchySegmentResponse {
   containerName: string;
   prefix?: string;
   marker?: string;
-  maxResults?: number;
+  maxPageSize?: number;
   delimiter?: string;
   segment: BlobHierarchyListSegment;
   continuationToken?: string;
@@ -310,7 +310,7 @@ export interface ListContainersSegmentResponse {
   serviceEndpoint: string;
   prefix?: string;
   marker?: string;
-  maxResults?: number;
+  maxPageSize?: number;
   containerItems: ContainerItem[];
   continuationToken?: string;
 }
@@ -765,7 +765,7 @@ export interface ServiceListContainersSegmentOptionalParams extends coreHttp.Req
    * possible that the service will return fewer results than specified by maxresults, or than the
    * default of 5000.
    */
-  maxResults?: number;
+  maxPageSize?: number;
   /**
    * Include this parameter to specify that the container's metadata be returned as part of the
    * response body. Possible values include: 'metadata'
@@ -1138,7 +1138,7 @@ export interface ContainerListBlobFlatSegmentOptionalParams extends coreHttp.Req
    * possible that the service will return fewer results than specified by maxresults, or than the
    * default of 5000.
    */
-  maxResults?: number;
+  maxPageSize?: number;
   /**
    * Include this parameter to specify one or more datasets to include in the response.
    */
@@ -1181,7 +1181,7 @@ export interface ContainerListBlobHierarchySegmentOptionalParams extends coreHtt
    * possible that the service will return fewer results than specified by maxresults, or than the
    * default of 5000.
    */
-  maxResults?: number;
+  maxPageSize?: number;
   /**
    * Include this parameter to specify one or more datasets to include in the response.
    */

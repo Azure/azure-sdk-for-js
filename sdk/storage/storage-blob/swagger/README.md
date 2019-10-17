@@ -87,7 +87,11 @@ directive:
   - from: swagger-document
     where: $.parameters.MaxResults
     transform: >
-      $["x-ms-client-name"] = "maxResults";
+      $["x-ms-client-name"] = "maxPageSize";
+  - from: swagger-document
+    where: $.definitions..properties.MaxResults
+    transform: >
+      $["x-ms-client-name"] = "maxPageSize";
 ```
 
 ### Rename timeoutParameter -> timeout
