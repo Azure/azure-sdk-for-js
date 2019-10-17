@@ -15,10 +15,8 @@ import {
 import { CanonicalCode } from "@azure/core-tracing";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
+import { logger } from '../util/logging';
 
-
-import { createClientLogger, AzureLogger } from "@azure/logger";
-const defaultLogger = createClientLogger("identity");
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -40,7 +38,6 @@ export interface TokenResponse {
 
 export class IdentityClient extends ServiceClient {
   public authorityHost: string;
-  private logger: AzureLogger;
 
   constructor(options?: IdentityClientOptions) {
     options = options || IdentityClient.getDefaultOptions();
@@ -51,8 +48,6 @@ export class IdentityClient extends ServiceClient {
     if (!this.baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
     }
-
-    this.logger = options.logger || defaultLogger;
   }
 
   createWebResource(requestOptions: RequestPrepareOptions): WebResource {
@@ -65,7 +60,7 @@ export class IdentityClient extends ServiceClient {
     webResource: WebResource,
     expiresOnParser?: (responseBody: any) => number
   ): Promise<TokenResponse | null> {
-    this.logger.info(`sendTokenRequest: [${webResource.url}] started`);
+    logger.info(`IdentityClient: sending token request to [${webResource.url}]`);
     const response = await this.sendRequest(webResource);
 
     expiresOnParser =
@@ -83,11 +78,11 @@ export class IdentityClient extends ServiceClient {
         refreshToken: response.parsedBody.refresh_token
       };
 
-      this.logger.info(`sendTokenRequest: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`);
+      logger.info(`IdentityClient: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`);
       return token;
     } else {
       const error = new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
-      this.logger.error(`sendTokenRequest: authentication error. HTTP status: ${response.status}, ${error.errorResponse.error_description}`);
+      logger.error(`IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.error_description}`);
       throw error;
     }
   }
@@ -104,7 +99,7 @@ export class IdentityClient extends ServiceClient {
     if (refreshToken === undefined) {
       return null;
     }
-    this.logger.info(`refreshAccessToken: client ID: ${clientId}, scopes: ${scopes} started`);
+    logger.info(`IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`);
 
     const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
 
@@ -135,7 +130,7 @@ export class IdentityClient extends ServiceClient {
       });
 
       const response = await this.sendTokenRequest(webResource, expiresOnParser);
-      this.logger.info(`refreshAccessToken: client ID: ${clientId} token response received`);
+      logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
       return response;
     } catch (err) {
       if (
@@ -145,7 +140,7 @@ export class IdentityClient extends ServiceClient {
         // It's likely that the refresh token has expired, so
         // return null so that the credential implementation will
         // initiate the authentication flow again.
-        this.logger.info(`refreshAccessToken: client ID: ${clientId}, interaction required`);
+        logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
         span.setStatus({
           code: CanonicalCode.UNAUTHENTICATED,
           message: err.message
@@ -153,8 +148,8 @@ export class IdentityClient extends ServiceClient {
 
         return null;
       } else {
-        this.logger.error(`refreshAccessToken: client ID: ${clientId} failed, ${err}`);
-        span.setStatus({
+        logger.error(`IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`);
+      span.setStatus({
           code: CanonicalCode.UNKNOWN,
           message: err.message
         });
@@ -185,9 +180,4 @@ export interface IdentityClientOptions extends ServiceClientOptions {
    * "https://login.microsoftonline.com".
    */
   authorityHost?: string;
-
-  /**
-   * An AzureLogger for the client to optionally use
-   */
-  logger?: AzureLogger;
 }
