@@ -27,29 +27,16 @@ export interface DeletedSecret {
 
 // @public
 export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, DeletedSecret> {
+    // Warning: (ae-forgotten-export) The symbol "DeleteSecretPollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: DeleteSecretPollerOptions);
     delay(): Promise<void>;
     intervalInMs: number;
 }
 
-// @public (undocumented)
-export interface DeleteSecretPollerOptions {
-    // Warning: (ae-forgotten-export) The symbol "SecretClientInterface" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
-    client: SecretClientInterface;
-    // (undocumented)
-    intervalInMs?: number;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
-    // (undocumented)
-    resumeFrom?: string;
-}
-
 // @public
 export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
+    // Warning: (ae-forgotten-export) The symbol "SecretClientInterface" needs to be exported by the entry point index.d.ts
+    // 
     // (undocumented)
     client: SecretClientInterface;
     // (undocumented)

@@ -44,7 +44,7 @@ import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
-import { DeleteSecretPoller, DeleteSecretPollerOptions } from "./lro/delete/poller";
+import { DeleteSecretPoller } from "./lro/delete/poller";
 import { DeleteSecretPollOperationState } from "./lro/delete/operation";
 import {
   RecoverDeletedSecretPoller,
@@ -74,7 +74,6 @@ import {
 
 export {
   DeleteSecretPoller,
-  DeleteSecretPollerOptions,
   DeleteSecretPollOperationState,
   RecoverDeletedSecretPoller,
   RecoverDeletedSecretPollerOptions,
