@@ -16,6 +16,10 @@ import { CanonicalCode } from "@azure/core-tracing";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 
+
+import { createClientLogger } from "@azure/logger";
+const logger = createClientLogger("IdentityClient");
+
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
 /**
@@ -58,6 +62,10 @@ export class IdentityClient extends ServiceClient {
     webResource: WebResource,
     expiresOnParser?: (responseBody: any) => number
   ): Promise<TokenResponse | null> {
+    // TODO: does this URL typically have enough information to be useful? Also, does it ever contain
+    // stuff that I shouldn't be logging?
+    // TODO: do we have a correlation ID or some other thing I can latch onto to log with?
+    logger.info(`sendTokenRequest: [${webResource.url}] started`);
     const response = await this.sendRequest(webResource);
 
     expiresOnParser =
@@ -67,14 +75,18 @@ export class IdentityClient extends ServiceClient {
       });
 
     if (response.status === 200 || response.status === 201) {
-      return {
+      const token = {
         accessToken: {
           token: response.parsedBody.access_token,
           expiresOnTimestamp: expiresOnParser(response.parsedBody)
         },
         refreshToken: response.parsedBody.refresh_token
       };
+
+      logger.info(`sendTokenRequest: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`);
+      return token;
     } else {
+      logger.error(`sendTokenRequest: authentication error. HTTP status: ${response.status}, ${response.parsedBody || response.bodyAsText}`);
       throw new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
     }
   }
@@ -91,6 +103,8 @@ export class IdentityClient extends ServiceClient {
     if (refreshToken === undefined) {
       return null;
     }
+
+    logger.info(`refreshAccessToken: client ID: ${clientId}, scopes: ${scopes} started`);
 
     const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
 
@@ -121,8 +135,11 @@ export class IdentityClient extends ServiceClient {
       });
 
       const response = await this.sendTokenRequest(webResource, expiresOnParser);
+      logger.info(`refreshAccessToken: client ID: ${clientId} token response received`);
       return response;
     } catch (err) {
+      logger.error(`refreshAccessToken: client ID: ${clientId} failed, ${err}`);
+
       if (
         err.name === AuthenticationErrorName &&
         err.errorResponse.error === "interaction_required"
@@ -134,6 +151,7 @@ export class IdentityClient extends ServiceClient {
           code: CanonicalCode.UNAUTHENTICATED,
           message: err.message
         });
+
         return null;
       } else {
         span.setStatus({
