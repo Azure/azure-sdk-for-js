@@ -341,6 +341,10 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+export declare type QueueUpdateMessageResponse = Models.MessageIdUpdateResponse;
+export declare type QueueDeleteMessageResponse = Models.MessageIdDeleteResponse;
+export declare type QueueClearMessagesResponse = Models.MessagesClearResponse;
+
 /**
  * Options to configure MessageId - Update operation
  *
@@ -739,12 +743,12 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
    * @param {QueueClearMessagesOptions} [options] Options to clear messages operation.
-   * @returns {Promise<Models.MessageClearResponse>} Response data for the clear messages operation.
+   * @returns {Promise<QueueClearMessagesResponse>} Response data for the clear messages operation.
    * @memberof QueueClient
    */
   public async clearMessages(
     options: QueueClearMessagesOptions = {}
-  ): Promise<Models.MessagesClearResponse> {
+  ): Promise<QueueClearMessagesResponse> {
     const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.spanOptions);
     try {
       return this.messagesContext.clear({
@@ -911,14 +915,14 @@ export class QueueClient extends StorageClient {
    *
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
    * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
-   * @returns {Promise<Models.MessageIdDeleteResponse>} Response data for the delete message operation.
+   * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
    * @memberof QueueClient
    */
   public async deleteMessage(
     messageId: string,
     popReceipt: string,
     options: QueueDeleteMessageOptions = {}
-  ): Promise<Models.MessageIdDeleteResponse> {
+  ): Promise<QueueDeleteMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.spanOptions);
     try {
       return this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
@@ -950,7 +954,7 @@ export class QueueClient extends StorageClient {
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
    * @param {QueueUpdateMessageOptions} [options] Options to update message operation.
-   * @returns {Promise<Models.MessageIdUpdateResponse>} Response data for the update message operation.
+   * @returns {Promise<QueueUpdateMessageResponse>} Response data for the update message operation.
    * @memberof QueueClient
    */
   public async updateMessage(
@@ -959,7 +963,7 @@ export class QueueClient extends StorageClient {
     message: string,
     visibilityTimeout?: number,
     options: QueueUpdateMessageOptions = {}
-  ): Promise<Models.MessageIdUpdateResponse> {
+  ): Promise<QueueUpdateMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.spanOptions);
     try {
       return this.getMessageIdContext(messageId).update(
