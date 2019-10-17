@@ -239,9 +239,9 @@ export interface ListRulesResponse extends Array<Rule> {
 }
 
 /**
- * All operations return a `_response` of type `HttpOperationResponse`, of which the `parsedBody` field
- * is populated with the parsed result in JSON format.
- * This is in turn the primary object returned as result of the individual operations.
+ * All operations return promises that resolve to an object that has the relevant output.
+ * These objects also have a property called `_response` that you can use if you want to
+ * access the direct response from the service before.
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
   private endpoint: string;
