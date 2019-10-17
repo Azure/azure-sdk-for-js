@@ -85,7 +85,7 @@ export abstract class BatchRequest {
     return this.batchRequest.getSubRequests();
   }
 
-  protected async addSubRequestInternal(
+  private async addSubRequestInternal(
     subRequest: BatchSubRequest,
     assembleSubRequestFunc: () => Promise<void>
   ): Promise<void> {
@@ -98,19 +98,6 @@ export abstract class BatchRequest {
     } finally {
       await Mutex.unlock(this.batch);
     }
-  }
-}
-
-/**
- * A BatchDeleteRequest represents a batch delete request, which consists of one or more delete operations.
- *
- * @export
- * @class BatchDeleteRequest
- * @extends {BatchRequest}
- */
-export class BatchDeleteRequest extends BatchRequest {
-  constructor() {
-    super();
   }
 
   /**
@@ -126,7 +113,7 @@ export class BatchDeleteRequest extends BatchRequest {
    * @returns {Promise<void>}
    * @memberof BatchDeleteRequest
    */
-  public async addSubRequest(
+  public async deleteBlob(
     url: string,
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: BlobDeleteOptions
@@ -144,9 +131,9 @@ export class BatchDeleteRequest extends BatchRequest {
    * @returns {Promise<void>}
    * @memberof BatchDeleteRequest
    */
-  public async addSubRequest(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
+  public async deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
 
-  public async addSubRequest(
+  public async deleteBlob(
     urlOrBlobClient: string | BlobClient,
     credentialOrOptions:
       | SharedKeyCredential
@@ -189,7 +176,7 @@ export class BatchDeleteRequest extends BatchRequest {
     );
 
     try {
-      await super.addSubRequestInternal(
+      await this.addSubRequestInternal(
         {
           url: url,
           credential: credential
@@ -211,19 +198,6 @@ export class BatchDeleteRequest extends BatchRequest {
       span.end();
     }
   }
-}
-
-/**
- * A BatchSetTierRequest represents a batch set tier request, which consists of one or more set tier operations.
- *
- * @export
- * @class BatchSetTierRequest
- * @extends {BatchRequest}
- */
-export class BatchSetTierRequest extends BatchRequest {
-  constructor() {
-    super();
-  }
 
   /**
    * Add a set tier operation(subrequest) to set the tier on a blob.
@@ -243,7 +217,7 @@ export class BatchSetTierRequest extends BatchRequest {
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
    */
-  public async addSubRequest(
+  public async setBlobAccessTier(
     url: string,
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
     tier: Models.AccessTier,
@@ -267,13 +241,13 @@ export class BatchSetTierRequest extends BatchRequest {
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
    */
-  public async addSubRequest(
+  public async setBlobAccessTier(
     blobClient: BlobClient,
     tier: Models.AccessTier,
     options?: BlobSetTierOptions
   ): Promise<void>;
 
-  public async addSubRequest(
+  public async setBlobAccessTier(
     urlOrBlobClient: string | BlobClient,
     credentialOrTier:
       | SharedKeyCredential
@@ -319,7 +293,7 @@ export class BatchSetTierRequest extends BatchRequest {
     );
 
     try {
-      await super.addSubRequestInternal(
+      await this.addSubRequestInternal(
         {
           url: url,
           credential: credential
