@@ -10,7 +10,6 @@ export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
-export * from "./LoggingPolicyFactory";
 export { Metadata } from "./models";
 export * from "./TelemetryPolicyFactory";
 export * from "./QueueClient";

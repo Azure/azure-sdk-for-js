@@ -162,13 +162,6 @@ export interface ListQueuesSegmentResponse {
     serviceEndpoint: string;
 }
 
-// @public
-export class LoggingPolicyFactory implements RequestPolicyFactory {
-    constructor(loggingOptions?: RequestLogOptions);
-    // Warning: (ae-forgotten-export) The symbol "LoggingPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): LoggingPolicy;
-    }
-
 // Warning: (ae-forgotten-export) The symbol "MessageIdDeleteHeaders" needs to be exported by the entry point index.d.ts
 // 
 // @public
@@ -544,11 +537,6 @@ export type QueueUpdateMessageResponse = MessageIdUpdateResponse;
 
 // @public (undocumented)
 export type ReceivedMessageItem = DequeuedMessageItem;
-
-// @public
-export interface RequestLogOptions {
-    logWarningIfTryOverThreshold: number;
-}
 
 export { RequestPolicy }
 
