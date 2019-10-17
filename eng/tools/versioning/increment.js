@@ -42,8 +42,9 @@ async function main(argv) {
   );
 
   const targetFileContents = await versionUtils.readFileJson(targetFile);
+  const oldVersion = targetFileContents.version;
   const newVersion = incrementVersion(targetFileContents.version);
-  console.log(`File ${targetFile} version updated to ${newVersion}`);
+  console.log(`${oldVersion} -> ${newVersion}`);
   const updatedPackageJson = {
     ...targetFileContents,
     version: newVersion
