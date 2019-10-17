@@ -1446,7 +1446,7 @@ export class BlobClient extends StorageClient {
   }
 
   // High level function
-
+  
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
@@ -1465,7 +1465,7 @@ export class BlobClient extends StorageClient {
     offset: number,
     count?: number,
     options: DownloadFromBlobOptions = {}
-  ): Promise<void> {
+  ): Promise<Buffer> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
     try {
@@ -1538,6 +1538,7 @@ export class BlobClient extends StorageClient {
         });
       }
       await batch.do();
+      return buffer;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
