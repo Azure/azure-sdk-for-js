@@ -707,7 +707,7 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("forceCloseHandlesSegment should work", async () => {
+  it("forceCloseAllHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles - Has to be tested locally
 
     assert.equal(await dirClient.forceCloseAllHandles(), 0, "Error in forceCloseAllHandles");
