@@ -3,10 +3,7 @@ import { getBSU } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, DirectoryClient, FileSystemAttributes } from "../src";
 import { record } from "./utils/recorder";
-import {
-  DirectoryForceCloseHandlesResponse,
-  DirectoryCreateResponse
-} from "../src/generated/src/models";
+import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 dotenv.config({ path: "../.env" });
@@ -711,19 +708,9 @@ describe("DirectoryClient", () => {
   });
 
   it("forceCloseHandlesSegment should work", async () => {
-    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles - Has to be tested locally
 
-    let marker: string | undefined = "";
-
-    do {
-      const response: DirectoryForceCloseHandlesResponse = await dirClient.forceCloseHandlesSegment(
-        marker,
-        {
-          recursive: true
-        }
-      );
-      marker = response.marker;
-    } while (marker);
+    assert.equal(await dirClient.forceCloseAllHandles(), 0, "Error in forceCloseAllHandles");
   });
 
   it("forceCloseHandle should work", async () => {
