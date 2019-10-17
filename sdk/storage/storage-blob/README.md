@@ -136,7 +136,6 @@ Or you can selectively import certain types,
 
 ```javascript
 const { BlobServiceClient, SharedKeyCredential } = require("@azure/storage-blob");
-);
 ```
 
 ### Create the blob service client
