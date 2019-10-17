@@ -19,15 +19,23 @@ import {
   getDefaultProxySettings,
   isNode,
   ProxySettings,
-  tracingPolicy
+  tracingPolicy,
+  logPolicy
 } from "@azure/core-http";
+
+import { createClientLogger } from "@azure/logger";
+const logger = createClientLogger("storage-file");
+
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
-import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { KeepAlivePolicyFactory, KeepAliveOptions } from "./KeepAlivePolicyFactory";
+import {
+  StorageFileLoggingAllowedHeaderNames,
+  StorageFileLoggingAllowedQueryParameters
+} from "./utils/constants";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -192,7 +200,11 @@ export function newPipeline(
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
-    new LoggingPolicyFactory()
+    logPolicy(
+      logger.info, {
+        allowedHeaderNames: StorageFileLoggingAllowedHeaderNames,
+        allowedQueryParameters: StorageFileLoggingAllowedQueryParameters
+      })
   ];
 
   if (isNode) {
