@@ -30,7 +30,7 @@ describe("Cross Partition", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   describe("Validate Query", function() {
-    const documentDefinitions = generateDocuments(20);
+    const documentDefinitions = generateDocuments(30);
 
     const containerDefinition: ContainerDefinition = {
       id: "sample container",
@@ -953,26 +953,33 @@ describe("Cross Partition", function() {
       });
     });
 
-    it.only("Validate GROUP BY", async function() {
+    it("Validate GROUP BY", async function() {
       // an order by query with explicit ascending ordering
       const querySpec = {
-        query: `SELECT r.spam3, SUM(r.number) FROM root r GROUP BY r.spam3`
+        query: `SELECT VALUE COUNT(1) FROM root r GROUP BY r.spam3`
       };
 
       const options = {
         maxItemCount: 2,
-        forceQueryPlan: true
+        // forceQueryPlan: true,
+        initialHeaders: {
+          "x-ms-documentdb-partitionkeyrangeid": 0
+        }
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
-        return r["id"];
-      });
+      // const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+      //   return r["id"];
+      // });
+      const queryIterator = container.items.query(querySpec, options);
+
+      const result = await queryIterator.fetchAll();
+      console.log(JSON.stringify(result.resources, null, 2));
 
       // validates the results size and order
-      await executeQueryAndValidateResults({
-        query: querySpec,
-        options
-      });
+      // await executeQueryAndValidateResults({
+      //   query: querySpec,
+      //   options
+      // });
     });
 
     it("Validate Failure", async function() {

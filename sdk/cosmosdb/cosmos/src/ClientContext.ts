@@ -182,7 +182,7 @@ export class ClientContext {
     request.headers[Constants.HttpHeaders.IsQueryPlan] = "True";
     request.headers[Constants.HttpHeaders.QueryVersion] = "1.4";
     request.headers[Constants.HttpHeaders.SupportedQueryFeatures] =
-      "NonValueAggregate, Aggregate, Distinct, MultipleOrderBy, OffsetAndLimit, OrderBy, Top, CompositeAggregate, GroupBy";
+      "NonValueAggregate, Aggregate, Distinct, MultipleOrderBy, OffsetAndLimit, OrderBy, Top, CompositeAggregate, GroupBy, MultipleAggregates";
     request.headers[Constants.HttpHeaders.ContentType] = QueryJsonContentType;
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.

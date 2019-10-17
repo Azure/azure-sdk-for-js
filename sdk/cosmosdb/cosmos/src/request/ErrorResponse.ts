@@ -33,18 +33,24 @@ interface QueryRange {
 /**
  * @ignore
  */
-interface QueryInfo {
+export interface QueryInfo {
   top?: any;
   orderBy?: any[];
   orderByExpressions?: any[];
   offset?: number;
   limit?: number;
   aggregates?: any[];
-  groupByExpressions?: string[];
-  groupByAliasToAggregateType: { [key: string]: string };
+  groupByExpressions?: GroupByExpressions;
+  groupByAliasToAggregateType: GroupByAliasToAggregateType;
   rewrittenQuery?: any;
   distinctType: string;
   hasSelectValue: boolean;
+}
+
+export type GroupByExpressions = string[];
+
+export interface GroupByAliasToAggregateType {
+  [key: string]: string;
 }
 
 export interface ErrorResponse extends Error {

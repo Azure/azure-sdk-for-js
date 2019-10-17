@@ -110,13 +110,6 @@ export class AggregateEndpointComponent implements ExecutionContext {
     return ret;
   }
 
-  /**
-   * Execute a provided function on the next element in the AggregateEndpointComponent.
-   * @memberof AggregateEndpointComponent
-   * @instance
-   * @param {callback} callback - Function to execute for each element. \
-   * the function takes two parameters error, element.
-   */
   public async nextItem(): Promise<Response<any>> {
     let resHeaders: CosmosHeaders;
     if (this.aggregateValues === undefined) {
@@ -129,13 +122,6 @@ export class AggregateEndpointComponent implements ExecutionContext {
     return { result: resource, headers: resHeaders };
   }
 
-  /**
-   * Retrieve the current element on the AggregateEndpointComponent.
-   * @memberof AggregateEndpointComponent
-   * @instance
-   * @param {callback} callback - Function to execute for the current element. \
-   * the function takes two parameters error, element.
-   */
   public async current(): Promise<Response<any>> {
     if (this.aggregateValues === undefined) {
       const { headers } = await this._getAggregateResult();

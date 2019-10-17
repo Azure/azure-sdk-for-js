@@ -65,8 +65,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.endpoint = new AggregateEndpointComponent(this.endpoint, aggregates);
     }
 
+    console.log(partitionedQueryExecutionInfo.queryInfo);
     if (partitionedQueryExecutionInfo.queryInfo.groupByExpressions) {
-      this.endpoint = new GroupByEndpointComponent(this.endpoint);
+      this.endpoint = new GroupByEndpointComponent(
+        this.endpoint,
+        partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType
+      );
     }
     // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
     const top = partitionedQueryExecutionInfo.queryInfo.top;
