@@ -205,6 +205,7 @@ directive:
 
 
 ### Remove Encrypted property from BlobMetadata
+
 ```yaml
 directive:
   - from: swagger-document
@@ -219,13 +220,10 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions..properties.DeletedTime
-    transform: >
-      $["x-ms-client-name"] = "deletedOn";
     where: $.definitions.PageList.properties.ClearRange
     transform: >
       $.items["$ref"] = "#/definitions/PageRange";
-      $.items["$ref"]["x-ms-client-name"] = "ClearRange"
+      
 ```
 
 ### UserDelegationKey properties
