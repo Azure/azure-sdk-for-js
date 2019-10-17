@@ -73,7 +73,7 @@ const generateOldIndex = (serviceList) => {
     definition: 614
 
 */
-const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemplate) => {
+const executeTypedoc = (exclusionList, inclusionList, generateIndexWithTemplate) => {
  console.log("inside executeTypedoc");
  console.log("exc list ="+ exclusionList);
  console.log("inc list"+ inclusionList);
@@ -135,7 +135,7 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
                     if (checks.typedocPresent) {
                       const typedocResult = childProcess.spawnSync(
                         "typedoc",
-                        [docOutputFolder, "--ignoreCompilerErrors"],
+                        [docOutputFolder, '--theme "eng/tools/generate-doc/theme/default"', "--ignoreCompilerErrors"],
                         {
                           cwd: eachPackagePath,
                           shell: true
@@ -151,6 +151,7 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
                       const typedocResult = childProcess.spawnSync(
                         "typedoc",
                         [
+                          '--theme "eng/tools/generate-doc/theme/default"',
                           "--excludePrivate",
                           "--excludeNotExported",
                           '--exclude "node_modules/**/*"',
@@ -164,7 +165,7 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
                         }
                       );
                       console.log(
-                        'typedocResult.output for "typedoc --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +
+                        'typedocResult.output for "typedoc --theme "eng/tools/generate-doc/theme/default" --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +
                         docOutputFolder +
                         ' ":' +
                         typedocResult.output
