@@ -13,12 +13,14 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Container } from "./generated/src/operations";
 import { ContainerAccessConditions, Metadata } from "./models";
+import { DevelopmentConnectionString } from "./utils/constants";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ETagNone } from "./utils/constants";
 import {
   appendToURLPath,
   truncatedISO8061Date,
-  extractConnectionStringParts
+  extractConnectionStringParts,
+  getValueInConnString
 } from "./utils/utils.common";
 import {
   AppendBlobClient,
@@ -1554,17 +1556,34 @@ export class ContainerClient extends StorageClient {
   }
 
   private getContainerNameFromUrl(): string {
-    //  URL may look like the following
-    // "https://myaccount.blob.core.windows.net/mycontainer?sasString";
-    // "https://myaccount.blob.core.windows.net/mycontainer";
+    let containerName;
     try {
+      //  URL may look like the following
+      // "https://myaccount.blob.core.windows.net/mycontainer?sasString";
+      // "https://myaccount.blob.core.windows.net/mycontainer";
+      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10000/devstoreaccount1`
+
       let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
       urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-      const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)");
+      // http://127.0.0.1:10000/devstoreaccount1
+      const emulatorBlobEndpoint = getValueInConnString(
+        DevelopmentConnectionString,
+        "BlobEndpoint"
+      );
 
-      // decode the encoded containerName - to get all the special characters that might be present in it
-      const containerName = decodeURIComponent(partsOfUrl![3]);
+      if (this.url.startsWith(emulatorBlobEndpoint)) {
+        // Emulator URL starts with `http://127.0.0.1:10000/devstoreaccount1`
+
+        const partsOfUrl = urlWithoutSAS.match(emulatorBlobEndpoint + "/([^/]*)");
+        containerName = partsOfUrl![1];
+      } else {
+        const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)");
+
+        // decode the encoded containerName - to get all the special characters that might be present in it
+        containerName = partsOfUrl![3];
+      }
+      containerName = decodeURIComponent(containerName);
 
       if (!containerName) {
         throw new Error("Provided containerName is invalid.");

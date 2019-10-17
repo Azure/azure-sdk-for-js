@@ -12,11 +12,13 @@ import {
   appendToURLPath,
   extractConnectionStringParts,
   truncatedISO8061Date,
+  getValueInConnString,
   getStorageClientContext
 } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import { DevelopmentConnectionString } from "./utils/constants";
 import { Metadata } from "./models";
 
 /**
@@ -979,14 +981,29 @@ export class QueueClient extends StorageClient {
   }
 
   private getQueueNameFromUrl(): string {
-    //  URL may look like the following
-    // "https://myaccount.queue.core.windows.net/myqueue?sasString".
-    // "https://myaccount.queue.core.windows.net/myqueue".
+    let queueName;
     try {
+      //  URL may look like the following
+      // "https://myaccount.queue.core.windows.net/myqueue?sasString".
+      // "https://myaccount.queue.core.windows.net/myqueue".
+      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10001/devstoreaccount1`
+
       let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
       urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-      const queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+      // http://127.0.0.1:10001/devstoreaccount1
+      const emulatorQueueEndpoint = getValueInConnString(
+        DevelopmentConnectionString,
+        "QueueEndpoint"
+      );
+
+      if (this.url.startsWith(emulatorQueueEndpoint)) {
+        // Emulator URL starts with `http://127.0.0.1:10001/devstoreaccount1`
+        queueName = urlWithoutSAS.match(emulatorQueueEndpoint + "/([^/]*)")![1];
+      } else {
+        queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+      }
+
       if (!queueName) {
         throw new Error("Provided queueName is invalid.");
       } else {
