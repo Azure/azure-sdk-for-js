@@ -177,18 +177,6 @@ export interface BlobProperties {
 }
 
 /**
- * An interface representing BlobMetadata.
- */
-export interface BlobMetadata {
-  encrypted?: string;
-  /**
-   * Describes unknown properties. The value of an unknown property MUST be of type "string". Due
-   * to valid TS constraints we have modeled this as a union of `string | any`.
-   */
-  [property: string]: string | any;
-}
-
-/**
  * An Azure Storage blob
  */
 export interface BlobItem {
@@ -196,7 +184,7 @@ export interface BlobItem {
   deleted: boolean;
   snapshot: string;
   properties: BlobProperties;
-  metadata?: BlobMetadata;
+  metadata?: { [propertyName: string]: string };
 }
 
 /**
