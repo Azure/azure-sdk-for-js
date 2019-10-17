@@ -120,6 +120,10 @@ export interface ServiceClientOptions {
    * Proxy settings which will be used for every HTTP request (Node.js only).
    */
   proxySettings?: ProxySettings;
+  /**
+   * When true, keeps the TCP socket alive across multiple requests (Node.js only).
+   */
+  keepAlive?: boolean;
 }
 
 /**
