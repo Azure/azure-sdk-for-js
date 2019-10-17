@@ -18,7 +18,7 @@ import { createSpan } from "../util/tracing";
 
 
 import { createClientLogger } from "@azure/logger";
-const logger = createClientLogger("IdentityClient");
+const logger = createClientLogger("identity");
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -86,8 +86,9 @@ export class IdentityClient extends ServiceClient {
       logger.info(`sendTokenRequest: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`);
       return token;
     } else {
-      logger.error(`sendTokenRequest: authentication error. HTTP status: ${response.status}, ${response.parsedBody || response.bodyAsText}`);
-      throw new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
+      const error = new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
+      logger.error(`sendTokenRequest: authentication error. HTTP status: ${response.status}, ${error.errorResponse.error_description}`);
+      throw error;
     }
   }
 
@@ -103,7 +104,6 @@ export class IdentityClient extends ServiceClient {
     if (refreshToken === undefined) {
       return null;
     }
-
     logger.info(`refreshAccessToken: client ID: ${clientId}, scopes: ${scopes} started`);
 
     const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
@@ -138,8 +138,6 @@ export class IdentityClient extends ServiceClient {
       logger.info(`refreshAccessToken: client ID: ${clientId} token response received`);
       return response;
     } catch (err) {
-      logger.error(`refreshAccessToken: client ID: ${clientId} failed, ${err}`);
-
       if (
         err.name === AuthenticationErrorName &&
         err.errorResponse.error === "interaction_required"
@@ -147,6 +145,7 @@ export class IdentityClient extends ServiceClient {
         // It's likely that the refresh token has expired, so
         // return null so that the credential implementation will
         // initiate the authentication flow again.
+        logger.error(`refreshAccessToken: client ID: ${clientId}, interaction required`);
         span.setStatus({
           code: CanonicalCode.UNAUTHENTICATED,
           message: err.message
@@ -154,6 +153,7 @@ export class IdentityClient extends ServiceClient {
 
         return null;
       } else {
+        logger.error(`refreshAccessToken: client ID: ${clientId} failed, ${err}`);
         span.setStatus({
           code: CanonicalCode.UNKNOWN,
           message: err.message
