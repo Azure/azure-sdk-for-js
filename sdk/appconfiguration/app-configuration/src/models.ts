@@ -46,13 +46,13 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
 
 /**
  * Configuration setting with extra metadata from the server, indicating
- * its etag, whether it is currently readonly and when it was last modified.
+ * its etag, whether it is currently readOnly and when it was last modified.
  */
 export interface ConfigurationSetting extends ConfigurationSettingParam {
   /**
    * Whether or not the setting is read-only
    */
-  locked?: boolean;
+  readOnly: boolean;
 
   /**
    * The date when this setting was last modified
@@ -182,6 +182,7 @@ export interface SetConfigurationSettingOptions extends HttpConditionalFields, R
 /**
  * Response from setting a ConfigurationSetting.
  */
+// onlyIfUnchanged
 export interface SetConfigurationSettingResponse
   extends ConfigurationSetting,
     SyncTokenHeaderField,
@@ -210,6 +211,8 @@ export interface GetConfigurationSettingResponse
 /**
  * Options for getting a ConfigurationSetting.
  */
+
+ // onlyIfChanged
 export interface GetConfigurationSettingOptions
   extends RequestOptionsBase,
     HttpConditionalFields,

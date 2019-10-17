@@ -128,7 +128,8 @@ describe("helper methods", () => {
         bodyAsText: "",
         parsedHeaders: {}
       },
-      statusCode: 204
+      statusCode: 204,
+      readOnly: false
     };
 
     makeConfigurationSettingEmpty(response);
@@ -154,7 +155,7 @@ describe("helper methods", () => {
       key: "",
       label: "",
       lastModified: new Date(),
-      locked: true,
+      readOnly: true,
       tags: {},
       value: ""
     };

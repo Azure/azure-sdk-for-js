@@ -91,11 +91,11 @@ export class AppConfigurationClient {
    * @param configurationSetting A configuration setting.
    * @param options Optional parameters for the request.
    */
-  addConfigurationSetting(
+  async addConfigurationSetting(
     configurationSetting: AddConfigurationSettingParam,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    return this.spanner.trace("addConfigurationSetting", options, (_, newOptions) => {
+    const result = await this.spanner.trace("addConfigurationSetting", options, (_, newOptions) => {
       return this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
@@ -103,6 +103,11 @@ export class AppConfigurationClient {
         ...newOptions
       });
     });
+
+    return {
+      ...result,
+      readOnly: !!result.locked
+    };
   }
 
   /**
@@ -161,7 +166,8 @@ export class AppConfigurationClient {
       const response: GetConfigurationSettingResponse = {
         ...originalResponse,
         _response: originalResponse._response,
-        statusCode: originalResponse._response.status
+        statusCode: originalResponse._response.status,
+        readOnly: !!originalResponse.locked
       };      
 
       // 304 only comes back if the user has passed a conditional option in their
@@ -261,7 +267,12 @@ export class AppConfigurationClient {
   private *createListConfigurationPageFromResponse(currentResponse: GetKeyValuesResponse) {
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items : []
+      items: currentResponse.items != null ? currentResponse.items.map(item => {
+        return {
+          ...item,
+          readOnly: !!item.locked
+        }
+      }) : []
     };
   }
 
@@ -311,14 +322,17 @@ export class AppConfigurationClient {
     let currentResponse = await this.spanner.trace("listRevisions", options, (newOptions) => {
       return this.client.getRevisions({
         ...newOptions,
-        ...formatWildcards(newOptions),
-        select: newOptions.fields
+        ...formatWildcards(newOptions)
       });
     });
 
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items : []
+      items: currentResponse.items != null ? currentResponse.items.map(item => {
+        return {
+          ...item,
+          readOnly: !!item.locked
+      }}) : []
     };
 
     while (currentResponse.nextLink) {
@@ -337,7 +351,11 @@ export class AppConfigurationClient {
 
       yield {
         ...currentResponse,
-        items: currentResponse.items != null ? currentResponse.items : []
+        items: currentResponse.items != null ? currentResponse.items.map(item => {
+          return {
+            ...item,
+            readOnly: !!item.locked
+        }}) : []
       };
     }
   }
@@ -353,17 +371,22 @@ export class AppConfigurationClient {
    * await client.setConfigurationSetting({ key: "MyKey", value: "MyValue" });
    * ```
    */
-  setConfigurationSetting(
+  async setConfigurationSetting(
     configurationSetting: SetConfigurationSettingParam,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    return this.spanner.trace("setConfigurationSetting", options, (newOptions) => {
-      return this.client.putKeyValue(configurationSetting.key, {
+    return await this.spanner.trace("setConfigurationSetting", options, async (newOptions) => {
+      const response = await this.client.putKeyValue(configurationSetting.key, {
         ...newOptions,
         label: configurationSetting.label,
         entity: configurationSetting,
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, newOptions)
       });
+      
+      return {
+        ...response,
+        readOnly: !!response.locked
+      };
     });
   }
 
@@ -371,15 +394,20 @@ export class AppConfigurationClient {
    * Sets a key's value to read only
    * @param id The id of the configuration setting to set to read-only.
    */
-  setReadOnly(
+  async setReadOnly(
     id: ConfigurationSettingId,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    return this.spanner.trace("setReadOnly", options, (newOptions) => {
-      return this.client.putLock(id.key, {
+    return this.spanner.trace("setReadOnly", options, async (newOptions) => {
+      const response = await this.client.putLock(id.key, {
         ...newOptions,
         label: id.label
       });
+
+      return {
+        ...response,
+        readOnly: !!response.locked
+      };
     });
   }
 
@@ -387,15 +415,20 @@ export class AppConfigurationClient {
    * Makes the key's value writable again
    * @param id The id of the configuration setting to make writable.
    */
-  clearReadOnly(
+  async clearReadOnly(
     id: ConfigurationSettingId,
     options: ClearReadOnlyOptions = {}
   ): Promise<ClearReadOnlyResponse> {
-    return this.spanner.trace("clearReadOnly", options, (newOptions) => {
-      return this.client.deleteLock(id.key, {
+    return await this.spanner.trace("clearReadOnly", options, async (newOptions) => {
+      const response = await this.client.deleteLock(id.key, {
         ...newOptions,
         label: id.label
       });
+
+      return {
+        ...response,
+        readOnly: !!response.locked
+      };
     });
   }
 }

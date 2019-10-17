@@ -89,7 +89,7 @@ describe("etags", () => {
     assert.ok(!response.etag);    
     assert.ok(!response.label);
     assert.ok(!response.lastModified);
-    assert.ok(!response.locked);
+    assert.ok(!response.readOnly);
     assert.ok(!response.tags);
     assert.ok(!response.value);
 

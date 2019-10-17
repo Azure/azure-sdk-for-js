@@ -67,7 +67,7 @@ export function checkAndFormatIfAndIfNoneMatch(configurationSetting: Configurati
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label"> {
+): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select"> {
   let key;
 
   if (listConfigOptions.keys) {
@@ -81,9 +81,16 @@ export function formatWildcards(
     label = listConfigOptions.labels.join(",");
   }
 
+  let fields;
+
+  if (listConfigOptions.fields) {
+    fields = listConfigOptions.fields.map(opt => opt === "readOnly" ? "locked" : opt);
+  }
+
   return {
     key,
-    label
+    label,
+    select: fields
   };
 }
 
@@ -117,7 +124,7 @@ export function makeConfigurationSettingEmpty(configurationSetting: Partial<Reco
     "etag",
     "label",
     "lastModified",
-    "locked",
+    "readOnly",
     "tags",
     "value"
   ];
