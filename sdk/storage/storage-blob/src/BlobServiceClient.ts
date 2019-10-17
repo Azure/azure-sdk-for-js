@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { HttpResponse } from "@azure/core-http";
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { TokenCredential, isTokenCredential, isNode, HttpResponse } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { BlobBatch } from "./BlobBatch";
-import { BatchResponseParser } from "./BatchResponseParser";
-import { ParsedBatchResponse } from "./BatchResponse";
-import { utf8ByteLength } from "./BatchUtils";
 import { ListContainersIncludeType } from "./generated/src/models/index";
 import * as Models from "./generated/src/models";
 import { Service } from "./generated/src/operations";
@@ -25,6 +20,7 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
+import { BlobBatchClient } from "./BlobBatchClient";
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -107,24 +103,6 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
    *
    * @type {AbortSignalLike}
    * @memberof ServiceGetStatisticsOptions
-   */
-  abortSignal?: AbortSignalLike;
-}
-/**
- * Options to configure the Service - Submit Batch Optional Params.
- *
- * @export
- * @interface ServiceSubmitBatchOptionalParams
- */
-export interface ServiceSubmitBatchOptionalParams
-  extends Models.ServiceSubmitBatchOptionalParams,
-    CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceSubmitBatchOptionalParams
    */
   abortSignal?: AbortSignalLike;
 }
@@ -266,19 +244,6 @@ export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
        * The response body as parsed JSON or XML
        */
       parsedBody: Models.UserDelegationKey;
-    };
-  };
-
-export declare type ServiceSubmitBatchResponse = ParsedBatchResponse &
-  Models.ServiceSubmitBatchHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.ServiceSubmitBatchHeaders;
     };
   };
 
@@ -861,87 +826,12 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Submit batch request which consists of multiple subrequests.
+   * Creates a BlobBatchClient object
    *
-   * @example
-   * ```js
-   * let batchDeleteRequest = new BatchDeleteRequest();
-   * await batchDeleteRequest.addSubRequest(urlInString0, credential0);
-   * await batchDeleteRequest.addSubRequest(urlInString1, credential1, {
-   *  deleteSnapshots: "include"
-   * });
-   * const deleteBatchResp = await blobServiceClient.submitBatch(batchDeleteRequest);
-   * console.log(deleteBatchResp.subResponsesSucceededCount);
-   * ```
-   *
-   * @example
-   * ```js
-   * let batchSetTierRequest = new BatchSetTierRequest();
-   * await batchSetTierRequest.addSubRequest(blockBlobClient0, "Cool");
-   * await batchSetTierRequest.addSubRequest(blockBlobClient1, "Cool", {
-   *  leaseAccessConditions: { leaseId: leaseId }
-   * });
-   * const setTierBatchResp = await blobServiceClient.submitBatch(batchSetTierRequest);
-   * console.log(setTierBatchResp.subResponsesSucceededCount);
-   * ```
-   *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
-   *
-   * @param {BlobBatch} batchRequest Supported batch request: BatchDeleteRequest or BatchSetTierRequest.
-   * @param {ServiceSubmitBatchOptionalParams} [options]
-   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @returns {BlobBatchClient} A new BlobBatchClient object for this service.
    * @memberof BlobServiceClient
    */
-  public async submitBatch(
-    batchRequest: BlobBatch,
-    options: ServiceSubmitBatchOptionalParams = {}
-  ): Promise<ServiceSubmitBatchResponse> {
-    if (!batchRequest || batchRequest.getSubRequests().size == 0) {
-      throw new RangeError("Batch request should contain one or more sub requests.");
-    }
-
-    const { span, spanOptions } = createSpan("BlobServiceClient-submitBatch", options.spanOptions);
-    try {
-      const batchRequestBody = batchRequest.getHttpRequestBody();
-
-      const rawBatchResponse: Models.ServiceSubmitBatchResponse = await this.serviceContext.submitBatch(
-        batchRequestBody,
-        utf8ByteLength(batchRequestBody),
-        batchRequest.getMultiPartContentType(),
-        {
-          ...options,
-          spanOptions
-        }
-      );
-
-      // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
-      const batchResponseParser = new BatchResponseParser(
-        rawBatchResponse,
-        batchRequest.getSubRequests()
-      );
-      const responseSummary = await batchResponseParser.parseBatchResponse();
-
-      const res: ServiceSubmitBatchResponse = {
-        _response: rawBatchResponse._response,
-        contentType: rawBatchResponse.contentType,
-        errorCode: rawBatchResponse.errorCode,
-        requestId: rawBatchResponse.requestId,
-        clientRequestId: rawBatchResponse.clientRequestId,
-        version: rawBatchResponse.version,
-        subResponses: responseSummary.subResponses,
-        subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
-        subResponsesFailedCount: responseSummary.subResponsesFailedCount
-      };
-
-      return res;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public getBlobBatchClient(): BlobBatchClient {
+    return new BlobBatchClient(this.serviceContext);
   }
 }

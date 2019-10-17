@@ -1,0 +1,276 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import * as Models from "./generated/src/models";
+import { ParsedBatchResponse } from "./BatchResponse";
+import { BatchResponseParser } from "./BatchResponseParser";
+import { utf8ByteLength } from "./BatchUtils";
+import { BlobBatch } from "./BlobBatch";
+import { CommonOptions, BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./internal";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { CanonicalCode } from "@azure/core-tracing";
+import { createSpan } from "./utils/tracing";
+import { HttpResponse, TokenCredential } from "@azure/core-http";
+import { Service } from "./generated/src/operations";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+
+/**
+ * Options to configure the Service - Submit Batch Optional Params.
+ *
+ * @export
+ * @interface ServiceSubmitBatchOptionalParams
+ */
+export interface ServiceSubmitBatchOptionalParams
+  extends Models.ServiceSubmitBatchOptionalParams,
+    CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceSubmitBatchOptionalParams
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+export declare type ServiceSubmitBatchResponse = ParsedBatchResponse &
+  Models.ServiceSubmitBatchHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: Models.ServiceSubmitBatchHeaders;
+    };
+  };
+
+/**
+ * A BlobBatchClient allows you to make batched requests to the Azure Storage Blob service.
+ *
+ * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
+ */
+export class BlobBatchClient {
+  private _serviceContext: Service;
+
+  constructor(service: Service) {
+    this._serviceContext = service;
+  }
+
+  public createBatch(): BlobBatch {
+    return new BlobBatch();
+  }
+
+  /**
+   * Create multiple delete operations to mark the specified blobs or snapshots for deletion.
+   * Note that in order to delete a blob, you must delete all of its snapshots.
+   * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
+   * The operations will be authenticated and authorized with specified credential.
+   * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   *
+   * @param {string[]} urls The urls of the blob resources to delete.
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {BlobDeleteOptions} [options]
+   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @memberof BatchDeleteRequest
+   */
+  public async deleteBlobs(
+    urls: string[],
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: BlobDeleteOptions
+  ): Promise<ServiceSubmitBatchResponse>;
+
+  /**
+   * Create multiple delete operations to mark the specified blobs or snapshots for deletion.
+   * Note that in order to delete a blob, you must delete all of its snapshots.
+   * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
+   * The operation(subrequest) will be authenticated and authorized with specified credential.
+   * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   *
+   * @param {BlobClient[]} blobClients The BlobClients for the blobs to delete.
+   * @param {BlobDeleteOptions} [options]
+   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @memberof BatchDeleteRequest
+   */
+  public async deleteBlobs(
+    blobClients: BlobClient[],
+    options?: BlobDeleteOptions
+  ): Promise<ServiceSubmitBatchResponse>;
+
+  public async deleteBlobs(
+    urlsOrBlobClients: string[] | BlobClient[],
+    credentialOrOptions:
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | BlobDeleteOptions
+      | undefined,
+    options?: BlobDeleteOptions
+  ): Promise<ServiceSubmitBatchResponse> {
+    const batch = new BlobBatch();
+    for (const urlOrBlobClient of urlsOrBlobClients) {
+      if (typeof urlOrBlobClient === "string") {
+        batch.deleteBlob(urlOrBlobClient, credentialOrOptions as TokenCredential, options);
+      } else {
+        batch.deleteBlob(urlOrBlobClient, credentialOrOptions as BlobDeleteOptions);
+      }
+    }
+    return this.submitBatch(batch);
+  }
+
+  /**
+   * Create multiple set tier operations to set the tier on a blob.
+   * The operation is allowed on a page blob in a premium
+   * storage account and on a block blob in a blob storage account (locally redundant
+   * storage only). A premium page blob's tier determines the allowed size, IOPS,
+   * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
+   * storage type. This operation does not update the blob's ETag.
+   * See [set blob tier details](https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
+   * The operation(subrequest) will be authenticated and authorized
+   * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   *
+   * @param {string[]} urls The urls of the blob resource to delete.
+   * @param {Credential} credential The credential to be used for authentication and authorization.
+   * @param {Models.AccessTier} tier
+   * @param {BlobSetTierOptions} [options]
+   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @memberof BatchSetTierRequest
+   */
+  public async setBlobsAccessTier(
+    urls: string[],
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    tier: Models.AccessTier,
+    options?: BlobSetTierOptions
+  ): Promise<ServiceSubmitBatchResponse>;
+
+  /**
+   * Create multiple set tier operations to set the tier on a blob.
+   * The operation is allowed on a page blob in a premium
+   * storage account and on a block blob in a blob storage account (locally redundant
+   * storage only). A premium page blob's tier determines the allowed size, IOPS,
+   * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
+   * storage type. This operation does not update the blob's ETag.
+   * See [set blob tier details](https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
+   * The operation(subrequest) will be authenticated and authorized
+   * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   *
+   * @param {BlobClient[]} blobClients The BlobClients for the blobs which should have a new tier set.
+   * @param {Models.AccessTier} tier
+   * @param {BlobSetTierOptions} [options]
+   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @memberof BatchSetTierRequest
+   */
+  public async setBlobsAccessTier(
+    blobClients: BlobClient[],
+    tier: Models.AccessTier,
+    options?: BlobSetTierOptions
+  ): Promise<ServiceSubmitBatchResponse>;
+
+  public async setBlobsAccessTier(
+    urlsOrBlobClients: string[] | BlobClient[],
+    credentialOrTier:
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Models.AccessTier,
+    tierOrOptions?: Models.AccessTier | BlobSetTierOptions,
+    options?: BlobSetTierOptions
+  ): Promise<ServiceSubmitBatchResponse> {
+    const batch = new BlobBatch();
+    for (const urlOrBlobClient of urlsOrBlobClients) {
+      if (typeof urlOrBlobClient === "string") {
+        batch.setBlobAccessTier(
+          urlOrBlobClient,
+          credentialOrTier as TokenCredential,
+          tierOrOptions as Models.AccessTier,
+          options
+        );
+      } else {
+        batch.setBlobAccessTier(
+          urlOrBlobClient,
+          credentialOrTier as Models.AccessTier,
+          tierOrOptions as BlobSetTierOptions
+        );
+      }
+    }
+    return this.submitBatch(batch);
+  }
+
+  /**
+   * Submit batch request which consists of multiple subrequests.
+   *
+   * @example
+   * ```js
+   * let batchRequest = new BlobBatch();
+   * await batchRequest.deleteBlob(urlInString, credential, {
+   *  deleteSnapshots: "include"
+   * });
+   * await batchRequest.setBlobAccessTier(blockBlobClient, "Cool", {
+   *  leaseAccessConditions: { leaseId: leaseId }
+   * });
+   * const batchResp = await blobBatchClient.submitBatch(batchRequest);
+   * console.log(batchResp.subResponsesSucceededCount);
+   * ```
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   *
+   * @param {BlobBatch} batchRequest A set of Delete or SetTier operations.
+   * @param {ServiceSubmitBatchOptionalParams} [options]
+   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @memberof BlobServiceClient
+   */
+  public async submitBatch(
+    batchRequest: BlobBatch,
+    options: ServiceSubmitBatchOptionalParams = {}
+  ): Promise<ServiceSubmitBatchResponse> {
+    if (!batchRequest || batchRequest.getSubRequests().size == 0) {
+      throw new RangeError("Batch request should contain one or more sub requests.");
+    }
+
+    const { span, spanOptions } = createSpan("BlobBatchClient-submitBatch", options.spanOptions);
+    try {
+      const batchRequestBody = batchRequest.getHttpRequestBody();
+
+      const rawBatchResponse: Models.ServiceSubmitBatchResponse = await this._serviceContext.submitBatch(
+        batchRequestBody,
+        utf8ByteLength(batchRequestBody),
+        batchRequest.getMultiPartContentType(),
+        {
+          ...options,
+          spanOptions
+        }
+      );
+
+      // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
+      const batchResponseParser = new BatchResponseParser(
+        rawBatchResponse,
+        batchRequest.getSubRequests()
+      );
+      const responseSummary = await batchResponseParser.parseBatchResponse();
+
+      const res: ServiceSubmitBatchResponse = {
+        _response: rawBatchResponse._response,
+        contentType: rawBatchResponse.contentType,
+        errorCode: rawBatchResponse.errorCode,
+        requestId: rawBatchResponse.requestId,
+        clientRequestId: rawBatchResponse.clientRequestId,
+        version: rawBatchResponse.version,
+        subResponses: responseSummary.subResponses,
+        subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
+        subResponsesFailedCount: responseSummary.subResponsesFailedCount
+      };
+
+      return res;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+}
