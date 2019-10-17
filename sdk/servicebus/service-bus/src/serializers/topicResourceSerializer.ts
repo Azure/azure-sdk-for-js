@@ -431,8 +431,7 @@ export class TopicResourceSerializer implements AtomXmlSerializer {
     return serializeToAtomXmlRequest(
       "TopicDescription",
       resource,
-      requestProperties,
-      Constants.XML_NAMESPACE
+      requestProperties
     );
   }
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {

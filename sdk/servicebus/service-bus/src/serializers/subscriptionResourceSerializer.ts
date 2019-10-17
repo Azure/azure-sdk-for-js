@@ -352,8 +352,7 @@ export class SubscriptionResourceSerializer implements AtomXmlSerializer {
     return serializeToAtomXmlRequest(
       "SubscriptionDescription",
       resource,
-      requestProperties,
-      Constants.XML_NAMESPACE
+      requestProperties
     );
   }
 

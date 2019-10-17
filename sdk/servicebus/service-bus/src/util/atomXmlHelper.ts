@@ -41,7 +41,7 @@ export async function executeAtomXmlOperation(
     webResource.body = stringifyXML(content, { rootName: "entry" });
   }
 
-  let response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
+  const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
     webResource
   );
 
@@ -66,41 +66,39 @@ export async function executeAtomXmlOperation(
 
 /**
  * Serializes input information to construct the Atom XML request
- * @param resourceName
- * @param resource
- * @param properties
- * @param xmlNamespace
+ * @param resourceName Name of the resource to be serialized like `QueueDescription`
+ * @param resource The entity details
+ * @param allowedProperties The set of properties that are allowed by the service for the 
+ * associated operation(s);
  */
 export function serializeToAtomXmlRequest(
   resourceName: string,
   resource: any,
-  properties: string[],
-  xmlNamespace: string
+  allowedProperties: string[]
 ): object {
   const content: any = {};
-  content[resourceName] = {
-    $: {
-      xmlns: xmlNamespace,
-      "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
-    }
+  content[resourceName] = {};
+  content[resourceName][Constants.XML_METADATA_MARKER] = {
+    xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
+    "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
   };
 
-  if (resource) {
-    // Sort properties according to what is allowed by the service
-    properties.forEach((property: string) => {
-      if (resource[property] !== undefined) {
-        content[resourceName][property] = resource[property];
-      }
-    });
-  }
+  // Sort properties according to what is allowed by the service
+  allowedProperties.forEach((property: string) => {
+    if (resource[property] !== undefined) {
+      content[resourceName][property] = resource[property];
+    }
+  });
+
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
-  return {
-    $: {
-      xmlns: "http://www.w3.org/2005/Atom"
-    },
+  const requestDetails: any = {
     updated: new Date().toISOString(),
     content: content
   };
+  requestDetails[Constants.XML_METADATA_MARKER] = {
+    xmlns: "http://www.w3.org/2005/Atom"
+  };
+  return requestDetails;
 }
 
 /**

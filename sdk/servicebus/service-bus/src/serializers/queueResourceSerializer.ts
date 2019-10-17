@@ -395,8 +395,7 @@ export class QueueResourceSerializer implements AtomXmlSerializer {
     return serializeToAtomXmlRequest(
       "QueueDescription",
       resource,
-      requestProperties,
-      Constants.XML_NAMESPACE
+      requestProperties
     );
   }
 

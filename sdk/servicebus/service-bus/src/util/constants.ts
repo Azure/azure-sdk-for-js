@@ -274,11 +274,6 @@ export const API_VERSION_QUERY_KEY = "api-version";
 export const CURRENT_API_VERSION = "2017-04";
 
 /**
- * XML namespace string to use for the Atom based requests
- */
-export const XML_NAMESPACE = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
-
-/**
  * Constant representing the Odata Error 'message' property
  *
  * @const

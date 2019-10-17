@@ -7,6 +7,7 @@ import { generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import { ClientEntityContext } from "../../src/clientEntityContext";
+import * as Constants from "../util/constants";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -300,19 +301,6 @@ export type AuthorizationRule = {
 };
 
 /**
- * Internal representation of AuthorizationRule
- */
-type RawAuthorizationRule = {
-  $: any;
-  ClaimType: string;
-  ClaimValue: string;
-  Rights: { AccessRights?: string[] };
-  KeyName: string;
-  PrimaryKey?: string;
-  SecondaryKey?: string;
-};
-
-/**
  *  @ignore
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
@@ -346,7 +334,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
  * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input,
  * @param value
  */
-function buildAuthorizationRule(value: RawAuthorizationRule): AuthorizationRule {
+function buildAuthorizationRule(value: any): AuthorizationRule {
   const authorizationRule: AuthorizationRule = {
     claimType: value["ClaimType"],
     claimValue: value["ClaimValue"],
@@ -373,7 +361,7 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
   ) {
     return undefined;
   }
-  const rawAuthorizationRules: RawAuthorizationRule[] = [];
+  const rawAuthorizationRules: any[] = [];
   if (authorizationRules.length == 1) {
     rawAuthorizationRules.push(buildRawAuthorizationRule(authorizationRules[0]));
   } else {
@@ -385,15 +373,11 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
 }
 
 /**
- * Helper utility to build an instance of raw authorization rule as `RawAuthorizationRule` from given `AuthorizationRule` input,
+ * Helper utility to build an instance of raw authorization rule as RawAuthorizationRule from given `AuthorizationRule` input,
  * @param authorizationRule parsed Authorization Rule instance
  */
-function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): RawAuthorizationRule {
-  const rawAuthorizationRule: RawAuthorizationRule = {
-    $: {
-      "p5:type": "SharedAccessAuthorizationRule",
-      "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance"
-    },
+function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
+  const rawAuthorizationRule: any = {
     ClaimType: authorizationRule.claimType,
     ClaimValue: authorizationRule.claimValue,
     Rights: {
@@ -402,6 +386,10 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): RawAut
     KeyName: authorizationRule.keyName,
     PrimaryKey: authorizationRule.primaryKey,
     SecondaryKey: authorizationRule.secondaryKey
+  };
+  rawAuthorizationRule[Constants.XML_METADATA_MARKER] = {
+    "p5:type": "SharedAccessAuthorizationRule",
+    "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance"
   };
   return rawAuthorizationRule;
 }

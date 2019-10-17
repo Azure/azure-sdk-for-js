@@ -200,12 +200,12 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
     if (rule == undefined || rule.filter == undefined) {
       // Defaults to creating a true filter if none specified
       resource.Filter = {
-        $: {
-          "p4:type": "SqlFilter",
-          "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-        },
         SqlExpression: "1=1",
         CompatibilityLevel: 20
+      };
+      resource.Filter[Constants.XML_METADATA_MARKER] = {
+        "p4:type": "SqlFilter",
+        "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
       };
     } else {
       let isSqlFilter: boolean = false;
@@ -231,23 +231,19 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
       if (isSqlFilter) {
         const sqlFilter: SqlFilter = rule.filter as SqlFilter;
         resource.Filter = {
-          $: {
-            "p4:type": "SqlFilter",
-            "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-          },
           SqlExpression: sqlFilter.sqlExpression,
           Parameters: getRawSqlParameters(sqlFilter.sqlParameters),
           CompatibilityLevel: 20,
           RequiresPreprocessing: getStringOrUndefined(sqlFilter.requiresPreprocessing)
         };
+        resource.Filter[Constants.XML_METADATA_MARKER] = {
+          "p4:type": "SqlFilter",
+          "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+        };
       } else {
         const correlationFilter: CorrelationFilter = rule.filter as CorrelationFilter;
 
         resource.Filter = {
-          $: {
-            "p4:type": "CorrelationFilter",
-            "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-          },
           CorrelationId: correlationFilter.correlationId,
           Label: correlationFilter.label,
           To: correlationFilter.to,
@@ -258,38 +254,34 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           MessageId: correlationFilter.messageId,
           Properties: correlationFilter.userProperties
         };
+        resource.Filter[Constants.XML_METADATA_MARKER] = {
+          "p4:type": "CorrelationFilter",
+          "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+        };
       }
     }
 
     if (rule == undefined || rule.action == undefined) {
       // Defaults to creating an empty rule action instance if none specified
-      const emptyRuleAction = {
-        $: {
-          "p4:type": "EmptyRuleAction",
-          "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-        }
+      resource.Action = {};
+      resource.Action[Constants.XML_METADATA_MARKER] = {
+        "p4:type": "EmptyRuleAction",
+        "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
       };
-      resource.Action = emptyRuleAction;
     } else {
-      const sqlAction = {
-        $: {
-          "p4:type": "SqlRuleAction",
-          "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-        },
+      resource.Action = {
         SqlExpression: rule.action.sqlExpression,
         Parameters: getRawSqlParameters(rule.action.sqlParameters),
         CompatibilityLevel: 20,
         RequiresPreprocessing: getStringOrUndefined(rule.action.requiresPreprocessing)
       };
-      resource.Action = sqlAction;
+      resource.Action[Constants.XML_METADATA_MARKER] = {
+        "p4:type": "SqlRuleAction",
+        "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+      };
     }
 
-    return serializeToAtomXmlRequest(
-      "RuleDescription",
-      resource,
-      requestProperties,
-      Constants.XML_NAMESPACE
-    );
+    return serializeToAtomXmlRequest("RuleDescription", resource, requestProperties);
   }
 
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
@@ -317,10 +309,7 @@ export type SqlParameter = {
  */
 type RawSqlParameter = {
   Key: string;
-  Value: {
-    $: any;
-    _: string | number;
-  };
+  Value: any;
 };
 
 /**
@@ -437,15 +426,17 @@ function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
         `Invalid type "${parameter.type}"supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`
       );
   }
+
+  const rawParameterValue: any = {};
+  rawParameterValue[Constants.XML_METADATA_MARKER] = {
+    "p4:type": type.valueOf(),
+    "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
+  };
+  rawParameterValue[Constants.XML_VALUE_MARKER] = parameter.value;
+  
   const rawParameter: RawSqlParameter = {
     Key: parameter.key,
-    Value: {
-      $: {
-        "p4:type": type.valueOf(),
-        "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
-      },
-      _: parameter.value
-    }
+    Value: rawParameterValue
   };
   return rawParameter;
 }
