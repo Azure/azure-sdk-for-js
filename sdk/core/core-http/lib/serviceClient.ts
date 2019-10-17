@@ -6,6 +6,7 @@ import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
+import { logPolicy } from "./policies/logPolicy";
 import { OperationArguments } from "./operationArguments";
 import {
   getPathStringFromParameter,
@@ -46,6 +47,7 @@ import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from "./policies/signingPolicy";
+import { logger } from "./log";
 
 /**
  * HTTP proxy settings (Node.js only)
@@ -166,10 +168,14 @@ export class ServiceClient {
 
     let requestPolicyFactories: RequestPolicyFactory[];
     if (Array.isArray(options.requestPolicyFactories)) {
+      logger.info("ServiceClient: using custom request policies");
       requestPolicyFactories = options.requestPolicyFactories;
     } else {
       let authPolicyFactory: RequestPolicyFactory | undefined = undefined;
       if (isTokenCredential(credentials)) {
+        logger.info(
+          "ServiceClient: creating bearer token authentication policy from provided credentials"
+        );
         // Create a wrapped RequestPolicyFactory here so that we can provide the
         // correct scope to the BearerTokenAuthenticationPolicy at the first time
         // one is requested.  This is needed because generated ServiceClient
@@ -195,11 +201,13 @@ export class ServiceClient {
 
         authPolicyFactory = wrappedPolicyFactory();
       } else if (credentials && typeof credentials.signRequest === "function") {
+        logger.info("ServiceClient: creating signing policy from provided credentials");
         authPolicyFactory = signingPolicy(credentials);
       } else if (credentials !== undefined) {
         throw new Error("The credentials argument must implement the TokenCredential interface");
       }
 
+      logger.info("ServiceClient: using default request policies");
       requestPolicyFactories = createDefaultRequestPolicyFactories(authPolicyFactory, options);
       if (options.requestPolicyFactories) {
         // options.requestPolicyFactories can also be a function that manipulates
@@ -575,6 +583,8 @@ function createDefaultRequestPolicyFactories(
   if (proxySettings) {
     factories.push(proxyPolicy(proxySettings));
   }
+
+  factories.push(logPolicy(logger.info, {}));
 
   return factories;
 }

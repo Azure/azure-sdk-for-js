@@ -438,7 +438,7 @@ export class KeyClient {
    * @param key The Json web key
    * @param [options] The optional parameters
    */
-  public async importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key> {
+  public async importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<Key> {
     if (options) {
       const unflattenedProperties = {
         enabled: options.enabled,
@@ -1021,6 +1021,8 @@ export class KeyClient {
     if (keyBundle.attributes) {
       resultObject = {
         keyMaterial: keyBundle.key,
+        keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
+        keyType: keyBundle.key ? keyBundle.key.kty : undefined,
         properties: {
           ...keyBundle,
           ...parsedId,
@@ -1031,6 +1033,8 @@ export class KeyClient {
     } else {
       resultObject = {
         keyMaterial: keyBundle.key,
+        keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
+        keyType: keyBundle.key ? keyBundle.key.kty : undefined,
         properties: {
           ...keyBundle,
           ...parsedId

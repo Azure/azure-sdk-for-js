@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { ListConfigurationSettingsOptions } from '..';
-import { URLBuilder, ResponseBodyNotFoundError } from '@azure/core-http';
+import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
-import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpResponseField, HttpConditionalFields } from '../models';
+import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpConditionalFields } from '../models';
 import { AppConfigurationGetKeyValuesOptionalParams } from '../generated/src/models';
 
 /**
@@ -109,20 +109,12 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.
  * 
- * @param response The response to alter
- * @param errorMessage The error message to use for the thrown ResponseBodyNotFoundError
- * @param errorCode The error code to use for the thrown ResponseBodyNotFoundError
+ * @param configurationSetting The configuration setting to alter
  */
-export function makeConfigurationSettingsFieldsThrow(response: ConfigurationSetting & HttpResponseField<any>, errorMessage: string, errorCode: string) {
-  const errThrower = () => {
-    throw new ResponseBodyNotFoundError(errorMessage, errorCode, response._response.status, response._response.request, response._response, null);
-  };
-
-  // TODO:  can I identify these fields in a less manual manner?
-  const names: (keyof ConfigurationSetting)[] = [
+export function makeConfigurationSettingEmpty(configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, 'key'>, any>>) {
+  const names: (Exclude<keyof ConfigurationSetting, 'key'>)[] = [
     "contentType",
     "etag",
-    "key",
     "label",
     "lastModified",
     "locked",
@@ -131,8 +123,6 @@ export function makeConfigurationSettingsFieldsThrow(response: ConfigurationSett
   ];
 
   for (const name of names) {
-    Object.defineProperty(response, name, {
-      get: errThrower
-    });
+    configurationSetting[name] = undefined;
   }
 }

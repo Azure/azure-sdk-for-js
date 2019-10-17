@@ -3,10 +3,10 @@ import {
   HttpOperationResponse,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource,
-} from "@azure/ms-rest-js";
+  WebResource
+} from "@azure/core-http";
 
-import { IKeepAliveOptions } from "../KeepAlivePolicyFactory";
+import { KeepAliveOptions } from "../KeepAlivePolicyFactory";
 
 /**
  * KeepAlivePolicy is a policy used to control keep alive settings for every request.
@@ -17,13 +17,17 @@ import { IKeepAliveOptions } from "../KeepAlivePolicyFactory";
 export class KeepAlivePolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of KeepAlivePolicy.
-   * 
+   *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {IKeepAliveOptions} [keepAliveOptions]
+   * @param {KeepAliveOptions} [keepAliveOptions]
    * @memberof KeepAlivePolicy
    */
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, private readonly keepAliveOptions: IKeepAliveOptions) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    private readonly keepAliveOptions: KeepAliveOptions
+  ) {
     super(nextPolicy, options);
   }
 

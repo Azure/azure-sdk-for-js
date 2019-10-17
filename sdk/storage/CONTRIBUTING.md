@@ -10,7 +10,7 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 ### Install
 
-- Node.js valid LTS versions (>=6.5.0)
+- Node.js valid LTS versions (>=8.16.0)
 - Browsers like Chrome, Edge or Firefox
 - Clone the source code from GitHub
 
@@ -25,6 +25,27 @@ You can generate a valid account SAS from Azure portal or tools like Azure Stora
 ```bash
 set "ACCOUNT_SAS=<YOUR_SAS>"
 ```
+
+### Record and playback tests
+
+The environment variable **TEST_MODE** controls how tests are running.
+
+- If TEST_MODE = "record",
+  - Tests hit the live-service
+  - Nock/Nise are used for recording the request-responses for future use
+  - If recordings are already present, forces re-recording
+- Else If TEST_MODE = "playback",
+  - Existing recordings are used
+- Else
+  - Tests hit the live-service, we don't record the requests/responses
+
+Please refers to [RecordAndPlayback.md](./RecordAndPlayback.md) for more details about record and playback tests.
+
+### Emulator Tests
+
+- Expected environment variable to run tests with the emulator
+  [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
+  - STORAGE_CONNECTION_STRING="UseDevelopmentStorage=true" (or `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri`)
 
 #### CORS
 

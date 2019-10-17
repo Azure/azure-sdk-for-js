@@ -9,7 +9,6 @@ import { HttpPipelineLogger } from '@azure/core-http';
 import * as msRest from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
@@ -155,6 +154,8 @@ export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 // @public
 export interface Key {
     keyMaterial?: JsonWebKey;
+    keyOperations?: string[];
+    keyType?: JsonWebKeyType;
     properties: KeyProperties;
 }
 
@@ -170,7 +171,7 @@ export class KeyClient {
     static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
-    importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key>;
+    importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<Key>;
     listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;

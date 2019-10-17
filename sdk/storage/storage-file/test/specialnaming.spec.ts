@@ -1,20 +1,19 @@
-import { Aborter } from "../src/Aborter";
-import { FileURL } from "../src/FileURL";
-import { ShareURL } from "../src/ShareURL";
+import { FileClient } from "../src/FileClient";
 import { getBSU } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { DirectoryURL } from "../src/DirectoryURL";
+import { DirectoryClient } from "../src/DirectoryClient";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
+import { ShareClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
-  const serviceURL = getBSU();
+  const serviceClient = getBSU();
   let shareName: string;
-  let shareURL: ShareURL;
+  let shareClient: ShareClient;
   let directoryName: string;
-  let directoryURL: DirectoryURL;
+  let directoryClient: DirectoryClient;
 
   let recorder: any;
 
@@ -22,20 +21,20 @@ describe("Special Naming Tests", () => {
     recorder = record(this);
 
     shareName = recorder.getUniqueName("1share-with-dash");
-    shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
+    shareClient = serviceClient.getShareClient(shareName);
 
     directoryName = recorder.getUniqueName("dir");
-    directoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
+    directoryClient = shareClient.getDirectoryClient(directoryName);
 
-    await shareURL.create(Aborter.none);
-    await directoryURL.create(Aborter.none);
+    await shareClient.create();
+    await directoryClient.create();
 
     recorder.stop();
   });
 
   after(async function() {
     recorder = record(this);
-    await shareURL.delete(Aborter.none);
+    await shareClient.delete();
     recorder.stop();
   });
 
@@ -43,263 +42,364 @@ describe("Special Naming Tests", () => {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 
   it("Should work with special container and file names with spaces", async () => {
     const fileName: string = recorder.getUniqueName("file empty");
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+    const fileClient = directoryClient.getFileClient(fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({ prefix: fileName })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special container and file names with spaces in URL string", async () => {
     const fileName: string = recorder.getUniqueName("file empty");
-    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
+    const fileClient = new FileClient(
+      appendToURLPath(directoryClient.url, fileName),
+      (directoryClient as any).pipeline
+    );
 
-    await fileURL.create(Aborter.none, 10);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({ prefix: fileName })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special container and file names uppercase", async () => {
     const fileName: string = recorder.getUniqueName("Upper file empty another");
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+    const fileClient = directoryClient.getFileClient(fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({ prefix: fileName })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special container and file names uppercase in URL string", async () => {
     const fileName: string = recorder.getUniqueName("Upper file empty another");
-    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
+    const fileClient = new FileClient(
+      appendToURLPath(directoryClient.url, fileName),
+      (directoryClient as any).pipeline
+    );
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({ prefix: fileName })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file names Chinese characters", async () => {
     const fileName: string = recorder.getUniqueName("Upper file empty another 汉字");
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+    const fileClient = directoryClient.getFileClient(fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({ prefix: fileName })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file names Chinese characters in URL string", async () => {
     const fileName: string = recorder.getUniqueName("Upper file empty another 汉字");
-    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
+    const fileClient = new FileClient(
+      appendToURLPath(directoryClient.url, fileName),
+      (directoryClient as any).pipeline
+    );
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({ prefix: fileName })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name characters", async () => {
-    const fileName: string = recorder.getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+    const fileName: string = recorder.getUniqueName(
+      "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
+    );
+    const fileClient = directoryClient.getFileClient(fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-      prefix: fileName.replace(/\\/g, "/")
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
+        prefix: fileName.replace(/\\/g, "/")
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name characters in URL string", async () => {
-    const fileName: string = recorder.getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
-    const fileURL = new FileURL(
+    const fileName: string = recorder.getUniqueName(
+      "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
+    );
+    const fileClient = new FileClient(
       // There are 2 special cases for a URL string:
-      // Escape "%" when creating XXXURL object with URL strings
+      // Escape "%" when creating XXXClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
-      appendToURLPath(directoryURL.url, fileName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
-      directoryURL.pipeline
+      appendToURLPath(directoryClient.url, fileName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
+      (directoryClient as any).pipeline
     );
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
-      prefix: fileName.replace(/\\/g, "/")
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
+        prefix: fileName.replace(/\\/g, "/")
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special directory name characters", async () => {
-    const directoryName: string = recorder.getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
-    const specialDirectoryURL = DirectoryURL.fromShareURL(shareURL, directoryName);
-    const rootDirectoryURL = DirectoryURL.fromShareURL(shareURL, "");
+    const directoryName: string = recorder.getUniqueName(
+      "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
+    );
+    const specialDirectoryClient = shareClient.getDirectoryClient(directoryName);
+    const rootDirectoryClient = shareClient.getDirectoryClient("");
 
-    await specialDirectoryURL.create(Aborter.none);
-    await specialDirectoryURL.getProperties(Aborter.none);
-    const response = await rootDirectoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
+    await specialDirectoryClient.create();
+    await specialDirectoryClient.getProperties();
+
+    const response = (await rootDirectoryClient
+      .listFilesAndDirectories({
         // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
         prefix: directoryName.replace(/\\/g, "/")
-      }
-    );
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.directoryItems.length, 0);
   });
 
   it("Should work with special directory name characters in URL string", async () => {
-    const directoryName: string = recorder.getUniqueName("汉字. special ~!@#$%^&()_+`1234567890-={}[];','");
-    const specialDirectoryURL = new DirectoryURL(
+    const directoryName: string = recorder.getUniqueName(
+      "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
+    );
+    const specialDirectoryClient = new DirectoryClient(
       // There are 2 special cases for a URL string:
-      // Escape "%" when creating XXXURL object with URL strings
+      // Escape "%" when creating XXXClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
-      appendToURLPath(shareURL.url, directoryName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
-      shareURL.pipeline
+      appendToURLPath(shareClient.url, directoryName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
+      (shareClient as any).pipeline
     );
 
-    await specialDirectoryURL.create(Aborter.none);
-    await specialDirectoryURL.getProperties(Aborter.none);
+    await specialDirectoryClient.create();
+    await specialDirectoryClient.getProperties();
 
-    const rootDirectoryURL = DirectoryURL.fromShareURL(shareURL, "");
-    const response = await rootDirectoryURL.listFilesAndDirectoriesSegment(
-      Aborter.none,
-      undefined,
-      {
+    const rootDirectoryClient = shareClient.getDirectoryClient("");
+
+    const response = (await rootDirectoryClient
+      .listFilesAndDirectories({
         // NOTICE: Azure Storage Server will replace "\" with "/" in the file names
         prefix: directoryName.replace(/\\/g, "/")
-      }
-    );
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.directoryItems.length, 0);
   });
 
   it("Should work with special file name Russian URI encoded", async () => {
     const fileName: string = recorder.getUniqueName("ру́сский язы́к");
     const blobNameEncoded: string = encodeURIComponent(fileName);
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
+    const fileClient = directoryClient.getFileClient(blobNameEncoded);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: blobNameEncoded
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: blobNameEncoded
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Russian", async () => {
     const fileName: string = recorder.getUniqueName("ру́сский язы́к");
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+    const fileClient = directoryClient.getFileClient(fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: fileName
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Russian in URL string", async () => {
     const fileName: string = recorder.getUniqueName("ру́сский язы́к");
-    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
+    const fileClient = new FileClient(
+      appendToURLPath(directoryClient.url, fileName),
+      (directoryClient as any).pipeline
+    );
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: fileName
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Arabic URI encoded", async () => {
     const fileName: string = recorder.getUniqueName("عربي/عربى");
     const blobNameEncoded: string = encodeURIComponent(fileName);
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
+    const fileClient = directoryClient.getFileClient(blobNameEncoded);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: blobNameEncoded
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: blobNameEncoded
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Arabic", async () => {
     const fileName: string = recorder.getUniqueName("عربيعربى");
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+    const fileClient = directoryClient.getFileClient(fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: fileName
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Arabic in URL string", async () => {
     const fileName: string = recorder.getUniqueName("عربيعربى");
-    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
+    const fileClient = new FileClient(
+      appendToURLPath(directoryClient.url, fileName),
+      (directoryClient as any).pipeline
+    );
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: fileName
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Japanese URI encoded", async () => {
     const fileName: string = recorder.getUniqueName("にっぽんごにほんご");
     const blobNameEncoded: string = encodeURIComponent(fileName);
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, blobNameEncoded);
+    const fileClient = directoryClient.getFileClient(blobNameEncoded);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: blobNameEncoded
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: blobNameEncoded
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Japanese", async () => {
     const fileName: string = recorder.getUniqueName("にっぽんごにほんご");
-    const fileURL = FileURL.fromDirectoryURL(directoryURL, fileName);
+    const fileClient = directoryClient.getFileClient(fileName);
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: fileName
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 
   it("Should work with special file name Japanese in URL string", async () => {
     const fileName: string = recorder.getUniqueName("にっぽんごにほんご");
-    const fileURL = new FileURL(appendToURLPath(directoryURL.url, fileName), directoryURL.pipeline);
+    const fileClient = new FileClient(
+      appendToURLPath(directoryClient.url, fileName),
+      (directoryClient as any).pipeline
+    );
 
-    await fileURL.create(Aborter.none, 10);
-    await fileURL.getProperties(Aborter.none);
-    const response = await directoryURL.listFilesAndDirectoriesSegment(Aborter.none, undefined, {
-      prefix: fileName
-    });
+    await fileClient.create(10);
+    await fileClient.getProperties();
+
+    const response = (await directoryClient
+      .listFilesAndDirectories({
+        prefix: fileName
+      })
+      .byPage()
+      .next()).value;
+
     assert.notDeepEqual(response.segment.fileItems.length, 0);
   });
 });

@@ -1,12 +1,13 @@
-import { HttpResponse, isNode } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
-import { Aborter } from "./Aborter";
+import { HttpResponse, isNode } from "@azure/core-http";
 import * as Models from "./generated/src/models";
-import { IMetadata } from "./models";
+import { Metadata } from "./models";
 import {
   ReadableStreamGetter,
   RetriableReadableStream,
-  IRetriableReadableStreamOptions
+  RetriableReadableStreamOptions
 } from "./utils/RetriableReadableStream";
 
 /**
@@ -294,10 +295,10 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * to associate with a file storage object.
    *
    * @readonly
-   * @type {(IMetadata | undefined)}
+   * @type {(Metadata | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get metadata(): IMetadata | undefined {
+  public get metadata(): Metadata | undefined {
     return this.originalResponse.metadata;
   }
 
@@ -440,25 +441,22 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
   /**
    * Creates an instance of FileDownloadResponse.
    *
-   * @param {Aborter} aborter
    * @param {Models.FileDownloadResponse} originalResponse
    * @param {ReadableStreamGetter} getter
    * @param {number} offset
    * @param {number} count
-   * @param {IRetriableReadableStreamOptions} [options={}]
+   * @param {RetriableReadableStreamOptions} [options={}]
    * @memberof FileDownloadResponse
    */
   public constructor(
-    aborter: Aborter,
     originalResponse: Models.FileDownloadResponse,
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: IRetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {}
   ) {
     this.originalResponse = originalResponse;
     this.fileDownloadStream = new RetriableReadableStream(
-      aborter,
       this.originalResponse.readableStreamBody!,
       getter,
       offset,

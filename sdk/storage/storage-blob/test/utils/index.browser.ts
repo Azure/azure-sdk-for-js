@@ -1,16 +1,19 @@
-import { Credential, TokenCredential } from "../../src";
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { ServiceURL } from "../../src/ServiceURL";
-import { StorageURL } from "../../src/StorageURL";
+import { BlobServiceClient } from "../../src/BlobServiceClient";
+import { newPipeline } from "../../src/Pipeline";
+import { SimpleTokenCredential } from "./testutils.common";
+import { TokenCredential } from "@azure/core-http";
 
 export * from "./testutils.common";
 
-export function getGenericCredential(accountType: string): Credential {
+export function getGenericCredential(accountType: string): AnonymousCredential {
   accountType = accountType; // bypass compiling error
   return new AnonymousCredential();
 }
-
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
+export function getGenericBSU(
+  accountType: string,
+  accountNameSuffix: string = ""
+): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -30,12 +33,12 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   }
 
   const credentials = getGenericCredential(accountType);
-  const pipeline = StorageURL.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
-  return new ServiceURL(blobPrimaryURL, pipeline);
+  return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
 export function getTokenCredential(): TokenCredential {
@@ -45,15 +48,13 @@ export function getTokenCredential(): TokenCredential {
   accountToken = (window as any).__env__[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
-    throw new Error(
-      `${accountTokenEnvVar} environment variables not specified.`
-    );
+    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
   }
 
-  return new TokenCredential(accountToken);
+  return new SimpleTokenCredential(accountToken);
 }
 
-export function getTokenBSU(): ServiceURL {
+export function getTokenBSU(): BlobServiceClient {
   const accountNameEnvVar = `ACCOUNT_NAME`;
 
   let accountName: string | undefined;
@@ -61,25 +62,23 @@ export function getTokenBSU(): ServiceURL {
   accountName = (window as any).__env__[accountNameEnvVar];
 
   if (!accountName || accountName === "") {
-    throw new Error(
-      `${accountNameEnvVar} environment variables not specified.`
-    );
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
   const credentials = getTokenCredential();
-  const pipeline = StorageURL.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
-  return new ServiceURL(blobPrimaryURL, pipeline);
+  return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
-export function getBSU(): ServiceURL {
+export function getBSU(): BlobServiceClient {
   return getGenericBSU("");
 }
 
-export function getAlternateBSU(): ServiceURL {
+export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
@@ -148,7 +147,7 @@ export function isIE(): boolean {
   // If IE, return version number.
   if (Idx > 0) {
     return true;
-  } else if (!!navigator.userAgent.match(/Trident\/7\./)) {
+  } else if (navigator.userAgent.match(/Trident\/7\./)) {
     // IE 11
     return true;
   } else {
@@ -169,4 +168,9 @@ export function getBrowserFile(name: string, size: number): File {
   const file = new Blob([uint8Arr]) as any;
   file.name = name;
   return file;
+}
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const env = (window as any).__env__;
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }

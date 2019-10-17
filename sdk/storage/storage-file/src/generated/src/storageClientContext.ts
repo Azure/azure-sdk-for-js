@@ -8,12 +8,12 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-file";
 const packageVersion = "1.0.0";
 
-export class StorageClientContext extends msRest.ServiceClient {
+export class StorageClientContext extends coreHttp.ServiceClient {
   version: string;
   fileRangeWriteFromUrl: string;
   url: string;
@@ -25,7 +25,7 @@ export class StorageClientContext extends msRest.ServiceClient {
    * desired operation.
    * @param [options] The parameter options
    */
-  constructor(version: string, url: string, options?: msRest.ServiceClientOptions) {
+  constructor(version: string, url: string, options?: coreHttp.ServiceClientOptions) {
     if (version == undefined) {
       throw new Error("'version' cannot be null.");
     }
@@ -38,7 +38,7 @@ export class StorageClientContext extends msRest.ServiceClient {
     }
 
     if (!options.userAgent) {
-      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 

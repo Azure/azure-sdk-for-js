@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0-preview.6 - Coming Soon
+
+- Removed error type `ResponseBodyNotFoundError` that was introduced in the previous preview. Use cases for it were removed.
+- Placeholder for New logging support via the new logger package
+- Placeholder for the fix that parses error responses using default mappers
+- More
+
 ## 1.0.0-preview.4 - 2019-10-07
 
 - No longer re-exports `@azure/core-tracing`. To enable tracing, call `setTracer` from `@azure/core-tracing` directly.

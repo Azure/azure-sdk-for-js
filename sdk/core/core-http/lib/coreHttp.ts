@@ -17,7 +17,6 @@ export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperati
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
-export { ResponseBodyNotFoundError } from "./responseBodyNotFoundError";
 export { OperationArguments } from "./operationArguments";
 export {
   OperationParameter,
@@ -106,3 +105,5 @@ export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKey
 export { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 export { TopicCredentials } from "./credentials/topicCredentials";
 export { Authenticator } from "./credentials/credentials";
+
+export { parseXML, stringifyXML } from "./util/xml";
