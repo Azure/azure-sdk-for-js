@@ -13,7 +13,6 @@ import {
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
-import { isNode } from "./utils";
 
 /**
  * @ignore
@@ -68,7 +67,7 @@ export async function executeAtomXmlOperation(
  * Serializes input information to construct the Atom XML request
  * @param resourceName Name of the resource to be serialized like `QueueDescription`
  * @param resource The entity details
- * @param allowedProperties The set of properties that are allowed by the service for the 
+ * @param allowedProperties The set of properties that are allowed by the service for the
  * associated operation(s);
  */
 export function serializeToAtomXmlRequest(
@@ -273,19 +272,18 @@ function isKnownResponseCode(
  */
 function setName(entry: any, nameProperties: any): any {
   if (entry[Constants.ATOM_METADATA_MARKER]) {
-    const parsedUrl = new URL(entry[Constants.ATOM_METADATA_MARKER].id);
-
-    let pathname: string = parsedUrl.pathname;
+    let rawUrl = entry[Constants.ATOM_METADATA_MARKER].id;
 
     // The parsedUrl gets constructed differently for browser vs Node.
     // It is specifically behaves different for some of the Atom based management API where
     // the received URL in "id" element is of type "sb:// ... " and not a standard HTTP one
-    if (!isNode) {
-      if (pathname.startsWith("//")) {
-        pathname = pathname.substring(3);
-      }
+    // Hence, normalizing the URL for parsing to work as expected in browser
+    if (rawUrl.startsWith("sb://")) {
+      rawUrl = "https://" + rawUrl.substring(5);
     }
 
+    const parsedUrl = new URL(rawUrl);
+    const pathname: string = parsedUrl.pathname;
     const parts = pathname.split("/");
 
     for (let i = 0; i * 2 < parts.length - 1; i++) {
