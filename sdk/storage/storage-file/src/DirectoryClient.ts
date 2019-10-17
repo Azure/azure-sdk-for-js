@@ -289,14 +289,14 @@ export class DirectoryClient extends StorageClient {
    */
   private context: Directory;
   private _shareName: string;
-  private _name: string;
+  private _path: string;
 
   public get shareName(): string {
     return this._shareName;
   }
 
-  public get name(): string {
-    return this._name;
+  public get path(): string {
+    return this._path;
   }
 
   /**
@@ -350,7 +350,7 @@ export class DirectoryClient extends StorageClient {
     super(url, pipeline);
     ({
       shareName: this._shareName,
-      filePathOrDirectoryPath: this._name
+      filePathOrDirectoryPath: this._path
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new Directory(this.storageClientContext);
   }
