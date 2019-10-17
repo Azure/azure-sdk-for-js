@@ -127,8 +127,8 @@ describe("PageBlobClient", () => {
     const page1 = await pageBlobClient.getPageRanges(0, 512);
     const page2 = await pageBlobClient.getPageRanges(512, 512);
 
-    assert.equal(page1.pageRange![0].count! + page1.pageRange![0].offset, 511);
-    assert.equal(page2.pageRange![0].count! + page2.pageRange![0].offset, 1023);
+    assert.equal((page1.pageRange![0].count || 0) + page1.pageRange![0].offset, 511);
+    assert.equal((page2.pageRange![0].count || 0) + page2.pageRange![0].offset, 1023);
   });
 
   it("getPageRangesDiff", async () => {
