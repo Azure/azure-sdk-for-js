@@ -480,7 +480,7 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it.only("filter on fields", async () => {
+    it("filter on fields", async () => {
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       let byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`], fields: ["key", "label", "readOnly"] });
       let settings = await toSortedArray(byKeyIterator);
@@ -492,9 +492,7 @@ describe("AppConfigurationClient", () => {
 
       assert.ok(!settings[0].contentType);
       assert.ok(!settings[0].value); 
-      assert.ok(!settings[0].contentType);
       assert.ok(!settings[0].etag);
-
 
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`], fields: ["key", "label", "value"] });
@@ -506,9 +504,6 @@ describe("AppConfigurationClient", () => {
       assert.equal(uniqueLabel, settings[0].label);
 
       assert.ok(!settings[0].readOnly);
-      assert.ok(!settings[0].contentType);
-      assert.ok(!settings[0].label);
-      assert.ok(!settings[0].value); 
       assert.ok(!settings[0].contentType);
       assert.ok(!settings[0].etag);
     });
