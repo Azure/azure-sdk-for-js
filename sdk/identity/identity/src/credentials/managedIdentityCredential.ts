@@ -13,6 +13,7 @@ import { IdentityClientOptions, IdentityClient } from "../client/identityClient"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
+import { TokenRequestContext } from "@azure/core-auth";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -267,7 +268,7 @@ export class ManagedIdentityCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   public async getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     let result: AccessToken | null = null;
@@ -280,7 +281,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
         result = await this.authenticateManagedIdentity(
-          scopes,
+          requestContext.scopes,
           this.isEndpointUnavailable === null,
           this.clientId,
           newOptions

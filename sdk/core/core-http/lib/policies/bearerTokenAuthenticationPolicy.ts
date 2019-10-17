@@ -82,7 +82,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      accessToken = (await this.credential.getToken(this.scopes, options)) || undefined;
+      accessToken = (await this.credential.getToken({ scopes: this.scopes }, options)) || undefined;
       this.tokenCache.setCachedToken(accessToken);
     }
 

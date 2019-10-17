@@ -15,7 +15,7 @@ describe("EnvironmentCredential", function() {
     const mockHttpClient = new MockAuthHttpClient();
 
     const credential = new EnvironmentCredential(mockHttpClient.identityClientOptions);
-    await credential.getToken("scope");
+    await credential.getToken({ scopes: "scope" });
 
     delete process.env.AZURE_TENANT_ID;
     delete process.env.AZURE_CLIENT_ID;
@@ -36,11 +36,14 @@ describe("EnvironmentCredential", function() {
 
     const credential = new EnvironmentCredential(mockHttpClient.identityClientOptions);
     const rootSpan = tracer.startSpan("root");
-    await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+    await credential.getToken(
+      { scopes: "scope" },
+      {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
-    });
+    );
     rootSpan.end();
 
     delete process.env.AZURE_TENANT_ID;

@@ -47,7 +47,7 @@ describe("ClientCertificateCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope");
+    await credential.getToken({ scopes: "scope" });
 
     const authRequest = mockHttpClient.requests[0];
     if (!authRequest) {
@@ -94,11 +94,14 @@ describe("ClientCertificateCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+    await credential.getToken(
+      { scopes: "scope" },
+      {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
-    });
+    );
 
     rootSpan.end();
 

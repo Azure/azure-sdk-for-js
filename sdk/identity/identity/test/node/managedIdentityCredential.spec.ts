@@ -109,8 +109,8 @@ describe("ManagedIdentityCredential", function() {
     // Run getToken twice and verify that an auth request is only
     // attempted the first time.  It should be skipped the second
     // time after no IMDS endpoint was found.
-    const firstGetToken = await credential.getToken("scopes");
-    const secondGetToken = await credential.getToken("scopes");
+    const firstGetToken = await credential.getToken({ scopes: "scopes" });
+    const secondGetToken = await credential.getToken({ scopes: "scopes" });
 
     assert.strictEqual(firstGetToken, null);
     assert.strictEqual(secondGetToken, null);
@@ -188,7 +188,7 @@ describe("ManagedIdentityCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    const token = await credential.getToken(scopes, { timeout });
+    const token = await credential.getToken({ scopes }, { timeout });
     return {
       token,
       requests: mockHttpClient.requests

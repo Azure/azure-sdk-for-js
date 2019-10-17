@@ -5,6 +5,7 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
+import { TokenRequestContext } from "@azure/core-auth";
 
 const BrowserNotSupportedError = new Error(
   "ManagedIdentityCredential is not supported in the browser."
@@ -16,7 +17,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   public async getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     throw BrowserNotSupportedError;

@@ -5,6 +5,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
+import { TokenRequestContext } from "@azure/core-auth";
 
 const BrowserNotSupportedError = new Error(
   "AuthorizationCodeCredential is not supported in the browser.  InteractiveBrowserCredential is more appropriate for this use case."
@@ -23,7 +24,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   }
 
   public getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     throw BrowserNotSupportedError;

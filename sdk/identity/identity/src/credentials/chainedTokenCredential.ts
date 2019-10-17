@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { TokenRequestContext } from "@azure/core-auth";
 import { AggregateAuthenticationError } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@azure/core-tracing";
@@ -28,7 +29,7 @@ export class ChainedTokenCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     let token = null;
@@ -38,7 +39,7 @@ export class ChainedTokenCredential implements TokenCredential {
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
-        token = await this._sources[i].getToken(scopes, newOptions);
+        token = await this._sources[i].getToken(requestContext, newOptions);
       } catch (err) {
         errors.push(err);
       }

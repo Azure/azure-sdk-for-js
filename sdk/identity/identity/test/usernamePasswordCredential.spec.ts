@@ -17,7 +17,7 @@ describe("UsernamePasswordCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope");
+    await credential.getToken({ scopes: "scope" });
 
     const authRequest = await mockHttpClient.requests[0];
     if (!authRequest) {

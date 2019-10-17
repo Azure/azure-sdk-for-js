@@ -10,6 +10,7 @@ import {
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@azure/core-tracing";
+import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -118,7 +119,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
@@ -128,7 +129,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
       }
 
       const authResponse = await this.acquireToken({
-        scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
+        scopes: Array.isArray(requestContext.scopes)
+          ? requestContext.scopes
+          : requestContext.scopes.split(",")
       });
 
       if (authResponse) {

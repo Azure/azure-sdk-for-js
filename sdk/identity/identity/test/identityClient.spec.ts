@@ -32,7 +32,7 @@ describe("IdentityClient", function() {
       "secret",
       mockHttp.identityClientOptions
     );
-    await assertRejects(credential.getToken("https://test/.default"), (error) => {
+    await assertRejects(credential.getToken({ scopes: "https://test/.default" }), (error) => {
       assert.strictEqual(error.name, "AuthenticationError");
       return true;
     });
@@ -70,7 +70,7 @@ describe("IdentityClient", function() {
       mockHttp.identityClientOptions
     );
     await assertRejects(
-      credential.getToken("https://test/.default"),
+      credential.getToken({ scopes: "https://test/.default" }),
       isExpectedError("unknown_error")
     );
   });

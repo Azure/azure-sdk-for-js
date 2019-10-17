@@ -20,7 +20,7 @@ describe("AuthorizationCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope");
+    await credential.getToken({ scopes: "scope" });
 
     const authRequest = mockHttpClient.requests[0];
     assertClientCredentials(authRequest, "tenant", "client", "secret");
@@ -50,7 +50,7 @@ describe("AuthorizationCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope");
+    await credential.getToken({ scopes: "scope" });
 
     const authRequest = mockHttpClient.requests[0];
     assert.strictEqual(
@@ -94,11 +94,14 @@ describe("AuthorizationCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+    await credential.getToken(
+      { scopes: "scope" },
+      {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
-    });
+    );
 
     rootSpan.end();
 

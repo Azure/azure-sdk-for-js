@@ -85,9 +85,9 @@ export class EventDataBatch {
 
 // @public
 export class EventHubClient {
-    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
+    constructor(host: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     createConsumer(consumerGroup: string, partitionId: string, eventPosition: EventPosition, options?: EventHubConsumerOptions): EventHubConsumer;
     createProducer(options?: EventHubProducerOptions): EventHubProducer;

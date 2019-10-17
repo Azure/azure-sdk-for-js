@@ -4,6 +4,8 @@
 "use strict";
 
 import * as coreHttp from "../lib/coreHttp";
+import { TokenRequestContext } from "@azure/core-auth";
+
 const clientOptions: coreHttp.ServiceClientOptions = {
   requestPolicyFactories: [coreHttp.logPolicy()]
 };
@@ -13,22 +15,22 @@ const clientOptions: coreHttp.ServiceClientOptions = {
  * from @azure/identity unless they have specific authentication needs.
  */
 class TestTokenCredential implements coreHttp.TokenCredential {
-  public token : string;
-  public expiresOn : number;
+  public token: string;
+  public expiresOn: number;
 
   constructor(token: string, expiresOn?: Date) {
     this.token = token;
-    this.expiresOn = expiresOn ? expiresOn.getTime() : Date.now() + 60*60*1000;
+    this.expiresOn = expiresOn ? expiresOn.getTime() : Date.now() + 60 * 60 * 1000;
   }
 
   async getToken(
-    _scopes: string | string[],
-    _options? : coreHttp.GetTokenOptions
-  ) : Promise<coreHttp.AccessToken | null> { 
+    _requestContext: TokenRequestContext,
+    _options?: coreHttp.GetTokenOptions
+  ): Promise<coreHttp.AccessToken | null> {
     return {
-      token : this.token,
-      expiresOnTimestamp : this.expiresOn
-    }
+      token: this.token,
+      expiresOnTimestamp: this.expiresOn
+    };
   }
 }
 
@@ -49,6 +51,6 @@ const req: coreHttp.RequestPrepareOptions = {
   method: "GET"
 };
 
-client.sendRequest(req).then(function (res: coreHttp.HttpOperationResponse) {
+client.sendRequest(req).then(function(res: coreHttp.HttpOperationResponse) {
   console.log(res.bodyAsText);
 });

@@ -7,6 +7,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 import { CanonicalCode } from "@azure/core-tracing";
+import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * Enables authentication to Azure Active Directory using an authorization code
@@ -75,7 +76,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   public async getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan(
@@ -84,7 +85,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
     );
     try {
       let tokenResponse: TokenResponse | null = null;
-      let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
+      let scopeString =
+        typeof requestContext.scopes === "string"
+          ? requestContext.scopes
+          : requestContext.scopes.join(" ");
       if (scopeString.indexOf("offline_access") < 0) {
         scopeString += " offline_access";
       }

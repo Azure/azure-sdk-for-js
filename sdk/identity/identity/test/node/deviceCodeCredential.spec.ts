@@ -58,7 +58,7 @@ describe("DeviceCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    const accessToken = await credential.getToken("scope");
+    const accessToken = await credential.getToken({ scopes: "scope" });
     const currentTimestamp = Date.now() + 5000;
 
     if (accessToken === null) {
@@ -95,8 +95,8 @@ describe("DeviceCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope");
-    const refreshedToken = await credential.getToken("scope");
+    await credential.getToken({ scopes: "scope" });
+    const refreshedToken = await credential.getToken({ scopes: "scope" });
 
     if (refreshedToken === null) {
       assert.fail("getToken did not return a refreshed AccessToken");
@@ -139,8 +139,8 @@ describe("DeviceCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope");
-    const refreshedToken = await credential.getToken("scope");
+    await credential.getToken({ scopes: "scope" });
+    const refreshedToken = await credential.getToken({ scopes: "scope" });
 
     if (refreshedToken === null) {
       assert.fail("getToken did not return a refreshed AccessToken");
@@ -172,7 +172,7 @@ describe("DeviceCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await assertRejects(credential.getToken("scope"), (error) => {
+    await assertRejects(credential.getToken({ scopes: "scope" }), (error) => {
       const authError = error as AuthenticationError;
       assert.strictEqual(error.name, "AuthenticationError");
       assert.strictEqual(authError.errorResponse.error, "authorization_declined");
@@ -197,7 +197,7 @@ describe("DeviceCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await assertRejects(credential.getToken("scope"), (error) => {
+    await assertRejects(credential.getToken({ scopes: "scope" }), (error) => {
       const authError = error as AuthenticationError;
       assert.strictEqual(error.name, "AuthenticationError");
       assert.strictEqual(authError.errorResponse.error, "expired_token");
@@ -220,7 +220,7 @@ describe("DeviceCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await assertRejects(credential.getToken("scope"), (error) => {
+    await assertRejects(credential.getToken({ scopes: "scope" }), (error) => {
       const authError = error as AuthenticationError;
       assert.strictEqual(error.name, "AuthenticationError");
       assert.strictEqual(authError.errorResponse.error, "bad_verification_code");
@@ -251,7 +251,7 @@ describe("DeviceCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await assertRejects(credential.getToken("scope"), (error) => {
+    await assertRejects(credential.getToken({ scopes: "scope" }), (error) => {
       const authError = error as AuthenticationError;
       assert.strictEqual(error.name, "AuthenticationError");
       assert.strictEqual(authError.errorResponse.error, "invalid_client");
@@ -283,7 +283,10 @@ describe("DeviceCodeCredential", function() {
       );
 
       const abortController = new AbortController();
-      const getTokenPromise = credential.getToken("scope", { abortSignal: abortController.signal });
+      const getTokenPromise = credential.getToken(
+        { scopes: "scope" },
+        { abortSignal: abortController.signal }
+      );
       // getToken ends up calling pollForToken which normally has a 1000ms delay.
       // This code allows us to control the delay programatically in the test.
       let delay = await delayController.waitForDelay();
@@ -320,11 +323,14 @@ describe("DeviceCodeCredential", function() {
       mockHttpClient.identityClientOptions
     );
 
-    await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+    await credential.getToken(
+      { scopes: "scope" },
+      {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
-    });
+    );
 
     rootSpan.end();
 

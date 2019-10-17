@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenRequestContext } from "@azure/core-auth";
 import { IdentityClientOptions } from "../client/identityClient";
 
 const BrowserNotSupportedError = new Error(
@@ -21,7 +22,7 @@ export class ClientCertificateCredential implements TokenCredential {
   }
 
   public getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     throw BrowserNotSupportedError;

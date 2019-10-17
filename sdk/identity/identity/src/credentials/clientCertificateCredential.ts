@@ -11,6 +11,7 @@ import { IdentityClientOptions, IdentityClient } from "../client/identityClient"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
+import { TokenRequestContext } from "@azure/core-auth";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -86,7 +87,7 @@ export class ClientCertificateCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   public async getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan(
@@ -128,7 +129,10 @@ export class ClientCertificateCredential implements TokenCredential {
           client_id: this.clientId,
           client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
           client_assertion: clientAssertion,
-          scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+          scope:
+            typeof requestContext.scopes === "string"
+              ? requestContext.scopes
+              : requestContext.scopes.join(" ")
         }),
         headers: {
           Accept: "application/json",

@@ -8,6 +8,7 @@ import { AccessToken } from '@azure/core-http';
 import { GetTokenOptions } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
+import { TokenRequestContext } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -33,7 +34,7 @@ export const AuthenticationErrorName = "AuthenticationError";
 // @public
 export class AuthorizationCodeCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, clientSecret: string | undefined, authorizationCode: string, redirectUri: string, options?: IdentityClientOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
@@ -42,19 +43,19 @@ export type BrowserLoginStyle = "redirect" | "popup";
 // @public
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
 export class ClientCertificateCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, certificatePath: string, options?: IdentityClientOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, clientSecret: string, options?: IdentityClientOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
@@ -65,23 +66,23 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 // @public
 export class DeviceCodeCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, userPromptCallback: DeviceCodePromptCallback, options?: IdentityClientOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public
-export interface DeviceCodeDetails {
+export interface DeviceCodeInfo {
     message: string;
     userCode: string;
     verificationUri: string;
 }
 
 // @public
-export type DeviceCodePromptCallback = (deviceCodeDetails: DeviceCodeDetails) => void;
+export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 // @public
 export class EnvironmentCredential implements TokenCredential {
     constructor(options?: IdentityClientOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
 // @public
@@ -107,7 +108,7 @@ export interface IdentityClientOptions extends ServiceClientOptions {
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
 // @public
@@ -120,7 +121,7 @@ export interface InteractiveBrowserCredentialOptions extends IdentityClientOptio
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId?: string, options?: IdentityClientOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 export { TokenCredential }
@@ -128,7 +129,7 @@ export { TokenCredential }
 // @public
 export class UsernamePasswordCredential implements TokenCredential {
     constructor(tenantIdOrName: string, clientId: string, username: string, password: string, options?: IdentityClientOptions);
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 

@@ -1,6 +1,7 @@
 import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenRequestContext } from "@azure/core-auth";
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
@@ -37,7 +38,7 @@ export class SimpleTokenCredential implements TokenCredential {
    * @returns {AccessToken} The access token details.
    */
   async getToken(
-    _scopes: string | string[],
+    _requestContext: TokenRequestContext,
     _options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     return {

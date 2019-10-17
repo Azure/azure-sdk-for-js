@@ -5,7 +5,8 @@ export {
   TokenCredential,
   GetTokenOptions,
   AccessToken,
-  isTokenCredential
+  isTokenCredential,
+  TokenRequestContext
 } from "./tokenCredential";
 
-export { AbortSignalLike } from '@azure/abort-controller';
+export { AbortSignalLike } from "@azure/abort-controller";

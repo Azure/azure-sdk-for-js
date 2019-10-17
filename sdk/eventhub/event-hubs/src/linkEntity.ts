@@ -149,7 +149,9 @@ export class LinkEntity {
       // renew sas token in every 45 minutess
       this._tokenTimeoutInMs = (3600 - 900) * 1000;
     } else {
-      const aadToken = await this._context.tokenCredential.getToken(Constants.aadEventHubsScope);
+      const aadToken = await this._context.tokenCredential.getToken({
+        scopes: Constants.aadEventHubsScope
+      });
       if (!aadToken) {
         throw new Error(`Failed to get token from the provided "TokenCredential" object`);
       }

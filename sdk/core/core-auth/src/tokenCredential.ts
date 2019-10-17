@@ -15,7 +15,10 @@ export interface TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+  getToken(
+    requestContext: TokenRequestContext,
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null>;
 }
 
 /**
@@ -35,6 +38,16 @@ export interface GetTokenOptions {
    * Options to create a span using the tracer if any was set.
    */
   spanOptions?: SpanOptions;
+}
+
+/**
+ * Contains the details of an authentication token request
+ */
+export interface TokenRequestContext {
+  /**
+   * The scope(s) required for the token
+   */
+  scopes: string | string[];
 }
 
 /**

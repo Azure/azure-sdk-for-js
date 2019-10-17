@@ -7,6 +7,7 @@ import { IdentityClientOptions, IdentityClient } from "../client/identityClient"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
+import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * Enables authentication to Azure Active Directory using a client secret
@@ -55,7 +56,7 @@ export class ClientSecretCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   public async getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("ClientSecretCredential-getToken", options);
@@ -70,7 +71,10 @@ export class ClientSecretCredential implements TokenCredential {
           grant_type: "client_credentials",
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+          scope:
+            typeof requestContext.scopes === "string"
+              ? requestContext.scopes
+              : requestContext.scopes.join(" ")
         }),
         headers: {
           Accept: "application/json",

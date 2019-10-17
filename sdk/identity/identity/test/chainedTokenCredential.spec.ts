@@ -23,7 +23,7 @@ describe("ChainedTokenCredential", function() {
       mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
       mockCredential(Promise.resolve({ token: "secondToken", expiresOnTimestamp: 0 }))
     );
-    const accessToken = await chainedTokenCredential.getToken("scope");
+    const accessToken = await chainedTokenCredential.getToken({ scopes: "scope" });
     assert.notStrictEqual(accessToken, null);
     assert.strictEqual(accessToken && accessToken.token, "firstToken");
   });
@@ -36,7 +36,7 @@ describe("ChainedTokenCredential", function() {
     );
 
     await assertRejects(
-      chainedTokenCredential.getToken("scope"),
+      chainedTokenCredential.getToken({ scopes: "scope" }),
       (err: AggregateAuthenticationError) => err.errors.length === 2
     );
   });

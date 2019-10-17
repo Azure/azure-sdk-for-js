@@ -7,6 +7,7 @@ import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
+import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -50,11 +51,14 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  getToken(
+    requestContext: TokenRequestContext,
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
     if (this._credential) {
       try {
-        return this._credential.getToken(scopes, newOptions);
+        return this._credential.getToken(requestContext, newOptions);
       } catch (err) {
         const code =
           err.name === AuthenticationErrorName

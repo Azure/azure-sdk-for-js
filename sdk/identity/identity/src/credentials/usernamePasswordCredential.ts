@@ -7,6 +7,7 @@ import { IdentityClientOptions, IdentityClient } from "../client/identityClient"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
+import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * Enables authentication to Azure Active Directory with a user's
@@ -57,7 +58,7 @@ export class UsernamePasswordCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   public async getToken(
-    scopes: string | string[],
+    requestContext: TokenRequestContext,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan(
@@ -76,7 +77,10 @@ export class UsernamePasswordCredential implements TokenCredential {
           client_id: this.clientId,
           username: this.username,
           password: this.password,
-          scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+          scope:
+            typeof requestContext.scopes === "string"
+              ? requestContext.scopes
+              : requestContext.scopes.join(" ")
         }),
         headers: {
           Accept: "application/json",

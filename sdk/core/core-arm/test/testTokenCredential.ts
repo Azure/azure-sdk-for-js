@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenRequestContext } from "@azure/core-auth";
 
 export class TestTokenCredential implements TokenCredential {
   public token: string;
@@ -13,7 +14,7 @@ export class TestTokenCredential implements TokenCredential {
   }
 
   async getToken(
-    _scopes: string | string[],
+    _requestContext: TokenRequestContext,
     _options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     return {

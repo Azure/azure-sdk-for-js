@@ -27,7 +27,12 @@ export function isTokenCredential(credential: any): credential is TokenCredentia
 
 // @public
 export interface TokenCredential {
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(requestContext: TokenRequestContext, options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+// @public
+export interface TokenRequestContext {
+    scopes: string | string[];
 }
 
 
