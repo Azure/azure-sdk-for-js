@@ -31,13 +31,34 @@ export interface LogPolicyOptions {
 const RedactedString = "REDACTED";
 
 const defaultAllowedHeaderNames = [
-  "Date",
-  "traceparent",
   "x-ms-client-request-id",
-  "x-ms-request-id"
+  "x-ms-return-client-request-id",
+  "traceparent",
+
+  "Accept",
+  "Cache-Control",
+  "Connection",
+  "Content-Length",
+  "Content-Type",
+  "Date",
+  "ETag",
+  "Expires",
+  "If-Match",
+  "If-Modified-Since",
+  "If-None-Match",
+  "If-Unmodified-Since",
+  "Last-Modified",
+  "Pragma",
+  "Request-Id",
+  "Retry-After",
+  "Server",
+  "Transfer-Encoding",
+  "User-Agent"
 ];
 
-const defaultAllowedQueryParameters: string[] = [];
+const defaultAllowedQueryParameters: string[] = [
+  "api-version"
+];
 
 export function logPolicy(
   logger: any = coreLogger.info.bind(coreLogger),
