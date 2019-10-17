@@ -105,7 +105,7 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
     enabled?: boolean;
     expires?: Date;
     id?: string;
-    readonly keyId?: string;
+    readonly keyId?: URL;
     readonly managed?: boolean;
     notBefore?: Date;
     readonly recoveryLevel?: DeletionRecoveryLevel;

@@ -9,6 +9,7 @@ import { HttpPipelineLogger } from '@azure/core-http';
 import * as msRest from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
+import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
@@ -127,7 +128,7 @@ export interface JsonWebKey {
     e?: Uint8Array;
     k?: Uint8Array;
     // (undocumented)
-    keyOps?: string[];
+    keyOps?: JsonWebKeyOperation[];
     kid?: string;
     kty?: JsonWebKeyType;
     n?: Uint8Array;
@@ -154,7 +155,7 @@ export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 // @public
 export interface Key {
     keyMaterial?: JsonWebKey;
-    keyOperations?: string[];
+    keyOperations?: JsonWebKeyOperation[];
     keyType?: JsonWebKeyType;
     properties: KeyProperties;
 }
