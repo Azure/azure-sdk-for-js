@@ -61,7 +61,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
       assert.equal(e.message, "This poller is already stopped");
     });
 
-    poller.stop();
+    poller.stopPolling();
     assert.ok(poller.isStopped());
     assert.ok(!poller.getOperationState().completed);
 
