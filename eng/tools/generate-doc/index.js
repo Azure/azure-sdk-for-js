@@ -239,25 +239,25 @@ for (const eachService of serviceFolders) {
           if (!checks.isPrivate) {
             if ((argv.clientOnly && checks.isClient) || !argv.clientOnly) {
               if (checks.srcPresent) {
-                if (!checks.isRush) {
-                  try {
-                    const npmResult = childProcess.spawnSync(
-                      "npm",
-                      ["install"],
-                      {
-                        stdio: "inherit",
-                        cwd: eachPackagePath,
-                        shell: true
-                      }
-                    );
-                    console.log(
-                      'npmResult.output for "npm install":' + npmResult.output
-                    );
-                  } catch (e) {
-                    console.error(`\n\n${e.toString()}\n\n`);
-                    process.exit(1);
-                  }
-                }
+                // if (!checks.isRush) {
+                //   try {
+                //     const npmResult = childProcess.spawnSync(
+                //       "npm",
+                //       ["install"],
+                //       {
+                //         stdio: "inherit",
+                //         cwd: eachPackagePath,
+                //         shell: true
+                //       }
+                //     );
+                //     console.log(
+                //       'npmResult.output for "npm install":' + npmResult.output
+                //     );
+                //   } catch (e) {
+                //     console.error(`\n\n${e.toString()}\n\n`);
+                //     process.exit(1);
+                //   }
+                // }
                 if (argv.docGenOutput === "dg") {
                   docOutputFolder = "--out ../../../docGen/" + eachPackage + "/" + checks.version + " ./src";
                 }
