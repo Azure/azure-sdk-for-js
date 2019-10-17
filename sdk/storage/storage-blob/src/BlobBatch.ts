@@ -54,7 +54,7 @@ export interface BatchSubRequest {
  * @export
  * @class BatchRequest
  */
-export class BatchRequest {
+export class BlobBatch {
   protected batchRequest: InnerBatchRequest;
   protected readonly batch: string = "batch";
 

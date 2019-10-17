@@ -4,7 +4,7 @@ import { HttpResponse } from "@azure/core-http";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { BatchRequest } from "./BatchRequest";
+import { BlobBatch } from "./BlobBatch";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { ParsedBatchResponse } from "./BatchResponse";
 import { utf8ByteLength } from "./BatchUtils";
@@ -887,13 +887,13 @@ export class BlobServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
-   * @param {BatchRequest} batchRequest Supported batch request: BatchDeleteRequest or BatchSetTierRequest.
+   * @param {BlobBatch} batchRequest Supported batch request: BatchDeleteRequest or BatchSetTierRequest.
    * @param {ServiceSubmitBatchOptionalParams} [options]
    * @returns {Promise<ServiceSubmitBatchResponse>}
    * @memberof BlobServiceClient
    */
   public async submitBatch(
-    batchRequest: BatchRequest,
+    batchRequest: BlobBatch,
     options: ServiceSubmitBatchOptionalParams = {}
   ): Promise<ServiceSubmitBatchResponse> {
     if (!batchRequest || batchRequest.getSubRequests().size == 0) {

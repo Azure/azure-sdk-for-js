@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { getGenericBSU, getGenericCredential, getTokenCredential } from "./utils";
 import { record } from "./utils/recorder";
-import { BatchDeleteRequest, BatchSetTierRequest } from "../src/BatchRequest";
+import { BatchDeleteRequest, BatchSetTierRequest } from "../src/BlobBatch";
 import { SimpleTokenCredential } from "@azure/core-http";
 import { ContainerClient, BlockBlobClient, BlobServiceClient, newPipeline } from "../src";
 

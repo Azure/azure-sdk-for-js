@@ -16,7 +16,7 @@ export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
 export * from "./AccountSASSignatureValues";
-export * from "./BatchRequest";
+export * from "./BlobBatch";
 export * from "./BatchResponse";
 export * from "./BlobSASPermissions";
 export * from "./BlobSASSignatureValues";

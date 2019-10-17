@@ -8,7 +8,7 @@ import {
   HTTPURLConnection
 } from "./utils/constants";
 import { getBodyAsText } from "./BatchUtils";
-import { BatchSubRequest } from "./BatchRequest";
+import { BatchSubRequest } from "./BlobBatch";
 import { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
 
 const HTTP_HEADER_DELIMITER = ": ";
