@@ -120,7 +120,7 @@ export abstract class Poller<TState, TResult> {
     return Boolean(state.completed || state.cancelled || state.error);
   }
 
-  public stop(): void {
+  public stopPolling(): void {
     if (!this.stopped) {
       this.stopped = true;
       if (this.reject) {
