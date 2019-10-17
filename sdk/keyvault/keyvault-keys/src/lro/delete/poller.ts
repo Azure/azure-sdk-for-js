@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import { DeleteKeyPollOperationState, makeDeleteKeyPollOperation } from "./operation";

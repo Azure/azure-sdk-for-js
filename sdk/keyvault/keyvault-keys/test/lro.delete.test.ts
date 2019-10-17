@@ -35,6 +35,9 @@ describe("Keys client - Long Running Operations - delete", () => {
     const poller = await client.beginDeleteKey(keyName);
     assert.ok(poller.getOperationState().started);
 
+    // The pending deleted can be obtained this way:
+    assert.equal(poller.getOperationState().result!.properties.name, keyName);
+
     const deletedKey: DeletedKey = await poller.pollUntilDone();
     assert.equal(deletedKey.properties.name, keyName);
     assert.ok(poller.getOperationState().completed);

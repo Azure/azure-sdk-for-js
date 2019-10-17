@@ -39,6 +39,9 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     const poller = await client.beginRecoverDeletedKey(keyName);
     assert.ok(poller.getOperationState().started);
 
+    // The pending key can be obtained this way:
+    assert.equal(poller.getOperationState().result!.properties.name, keyName);
+
     const deletedKey: DeletedKey = await poller.pollUntilDone();
     assert.equal(deletedKey.properties.name, keyName);
     assert.ok(poller.getOperationState().completed);
