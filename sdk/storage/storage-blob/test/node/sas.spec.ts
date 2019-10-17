@@ -236,7 +236,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName: blobClient.blobName,
+        blobName: blobClient.name,
         cacheControl: "cache-control-override",
         containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
@@ -291,7 +291,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName: blobClient.blobName,
+        blobName: blobClient.name,
         cacheControl: "cache-control-override",
         containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
@@ -347,7 +347,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName: blobClient.blobName,
+        blobName: blobClient.name,
         cacheControl: "cache-control-override",
         containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
@@ -404,7 +404,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName: blobClient.blobName,
+        blobName: blobClient.name,
         cacheControl: "cache-control-override",
         containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
@@ -627,7 +627,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName: blobClient.blobName,
+        blobName: blobClient.name,
         cacheControl: "cache-control-override",
         containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
@@ -698,7 +698,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const blobSAS = generateBlobSASQueryParameters(
       {
-        blobName: blobClient.blobName,
+        blobName: blobClient.name,
         cacheControl: "cache-control-override",
         containerName: blobClient.containerName,
         contentDisposition: "content-disposition-override",
