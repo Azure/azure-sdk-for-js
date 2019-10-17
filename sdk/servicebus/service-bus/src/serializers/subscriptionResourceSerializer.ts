@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpOperationResponse } from "@azure/core-http";
+import * as Constants from "../util/constants";
 import {
   serializeToAtomXmlRequest,
   deserializeAtomXmlResponse,
@@ -59,42 +60,44 @@ export function buildSubscription(rawSubscription: any): Subscription | undefine
     return undefined;
   } else {
     const result: Subscription = {
-      subscriptionName: rawSubscription["SubscriptionName"],
-      topicName: rawSubscription["TopicName"],
+      subscriptionName: rawSubscription[Constants.SUBSCRIPTION_NAME],
+      topicName: rawSubscription[Constants.TOPIC_NAME],
 
-      lockDuration: rawSubscription["LockDuration"],
-      sizeInBytes: getIntegerOrUndefined(rawSubscription["SizeInBytes"]),
-      maxSizeInMegabytes: getIntegerOrUndefined(rawSubscription["MaxSizeInMegabytes"]),
+      lockDuration: rawSubscription[Constants.LOCK_DURATION],
+      sizeInBytes: getIntegerOrUndefined(rawSubscription[Constants.SIZE_IN_BYTES]),
+      maxSizeInMegabytes: getIntegerOrUndefined(rawSubscription[Constants.MAX_SIZE_IN_MEGABYTES]),
 
-      messageCount: getIntegerOrUndefined(rawSubscription["MessageCount"]),
-      maxDeliveryCount: getIntegerOrUndefined(rawSubscription["MaxDeliveryCount"]),
+      messageCount: getIntegerOrUndefined(rawSubscription[Constants.MESSAGE_COUNT]),
+      maxDeliveryCount: getIntegerOrUndefined(rawSubscription[Constants.MAX_DELIVERY_COUNT]),
 
-      enablePartitioning: getBooleanOrUndefined(rawSubscription["EnablePartitioning"]),
-      requiresSession: getBooleanOrUndefined(rawSubscription["RequiresSession"]),
-      enableBatchedOperations: getBooleanOrUndefined(rawSubscription["EnableBatchedOperations"]),
+      enablePartitioning: getBooleanOrUndefined(rawSubscription[Constants.ENABLE_PARTITIONING]),
+      requiresSession: getBooleanOrUndefined(rawSubscription[Constants.REQUIRES_SESSION]),
+      enableBatchedOperations: getBooleanOrUndefined(
+        rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS]
+      ),
 
-      defaultMessageTimeToLive: rawSubscription["DefaultMessageTimeToLive"],
-      autoDeleteOnIdle: rawSubscription["AutoDeleteOnIdle"],
+      defaultMessageTimeToLive: rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+      autoDeleteOnIdle: rawSubscription[Constants.AUTO_DELETE_ON_IDLE],
 
       deadLetteringOnMessageExpiration: getBooleanOrUndefined(
-        rawSubscription["DeadLetteringOnMessageExpiration"]
+        rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
       ),
       deadLetteringOnFilterEvaluationExceptions: getBooleanOrUndefined(
-        rawSubscription["DeadLetteringOnFilterEvaluationExceptions"]
+        rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS]
       ),
-      forwardDeadLetteredMessagesTo: rawSubscription["ForwardDeadLetteredMessagesTo"],
-      defaultRuleDescription: rawSubscription["DefaultRuleDescription"],
+      forwardDeadLetteredMessagesTo: rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
+      defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
 
-      countDetails: getCountDetailsOrUndefined(rawSubscription["CountDetails"]),
+      countDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
 
-      forwardTo: rawSubscription["ForwardTo"],
-      userMetadata: rawSubscription["UserMetadata"],
+      forwardTo: rawSubscription[Constants.FORWARD_TO],
+      userMetadata: rawSubscription[Constants.USER_METADATA],
 
-      entityAvailabilityStatus: rawSubscription["EntityAvailabilityStatus"],
-      status: rawSubscription["Status"],
-      createdAt: rawSubscription["CreatedAt"],
-      updatedAt: rawSubscription["UpdatedAt"],
-      accessedAt: rawSubscription["AccessedAt"]
+      entityAvailabilityStatus: rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
+      status: rawSubscription[Constants.STATUS],
+      createdAt: rawSubscription[Constants.CREATED_AT],
+      updatedAt: rawSubscription[Constants.UPDATED_AT],
+      accessedAt: rawSubscription[Constants.ACCESSED_AT]
     };
     return result;
   }

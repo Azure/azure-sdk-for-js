@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpOperationResponse } from "@azure/core-http";
+import * as Constants from "../util/constants";
 import {
   serializeToAtomXmlRequest,
   deserializeAtomXmlResponse,
@@ -65,49 +66,52 @@ export function buildTopic(rawTopic: any): Topic | undefined {
     return undefined;
   } else {
     const result: Topic = {
-      topicName: rawTopic["TopicName"],
+      topicName: rawTopic[Constants.TOPIC_NAME],
+      sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
+      maxSizeInMegabytes: getIntegerOrUndefined(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES]),
+      messageCount: getIntegerOrUndefined(rawTopic[Constants.MESSAGE_COUNT]),
+      maxDeliveryCount: getIntegerOrUndefined(rawTopic[Constants.MAX_DELIVERY_COUNT]),
+      subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
 
-      sizeInBytes: getIntegerOrUndefined(rawTopic["SizeInBytes"]),
-      maxSizeInMegabytes: getIntegerOrUndefined(rawTopic["MaxSizeInMegabytes"]),
+      enablePartitioning: getBooleanOrUndefined(rawTopic[Constants.ENABLE_PARTITIONING]),
+      supportOrdering: getBooleanOrUndefined(rawTopic[Constants.SUPPORT_ORDERING]),
+      enableBatchedOperations: getBooleanOrUndefined(rawTopic[Constants.ENABLE_BATCHED_OPERATIONS]),
 
-      messageCount: getIntegerOrUndefined(rawTopic["MessageCount"]),
-      maxDeliveryCount: getIntegerOrUndefined(rawTopic["MaxDeliveryCount"]),
-      subscriptionCount: getIntegerOrUndefined(rawTopic["SubscriptionCount"]),
+      defaultMessageTimeToLive: rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+      autoDeleteOnIdle: rawTopic[Constants.AUTO_DELETE_ON_IDLE],
 
-      enablePartitioning: getBooleanOrUndefined(rawTopic["EnablePartitioning"]),
-      supportOrdering: getBooleanOrUndefined(rawTopic["SupportOrdering"]),
-      enableBatchedOperations: getBooleanOrUndefined(rawTopic["EnableBatchedOperations"]),
-
-      defaultMessageTimeToLive: rawTopic["DefaultMessageTimeToLive"],
-      autoDeleteOnIdle: rawTopic["AutoDeleteOnIdle"],
-
-      requiresDuplicateDetection: getBooleanOrUndefined(rawTopic["RequiresDuplicateDetection"]),
-      duplicateDetectionHistoryTimeWindow: rawTopic["DuplicateDetectionHistoryTimeWindow"],
+      requiresDuplicateDetection: getBooleanOrUndefined(
+        rawTopic[Constants.REQUIRES_DUPLICATE_DETECTION]
+      ),
+      duplicateDetectionHistoryTimeWindow:
+        rawTopic[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
 
       filteringMessagesBeforePublishing: getBooleanOrUndefined(
-        rawTopic["FilteringMessagesBeforePublishing"]
+        rawTopic[Constants.FILTER_MESSAGES_BEFORE_PUBLISHING]
       ),
       enableSubscriptionPartitioning: getBooleanOrUndefined(
-        rawTopic["EnableSubscriptionPartitioning"]
+        rawTopic[Constants.ENABLE_SUBSCRIPTION_PARTITIONING]
       ),
 
-      countDetails: getCountDetailsOrUndefined(rawTopic["CountDetails"]),
-      isExpress: getBooleanOrUndefined(rawTopic["IsExpress"]),
-      enableExpress: getBooleanOrUndefined(rawTopic["EnableExpress"]),
-      maxSubscriptionsPerTopic: getIntegerOrUndefined(rawTopic["MaxSubscriptionsPerTopic"]),
-      maxSqlFiltersPerTopic: getIntegerOrUndefined(rawTopic["MaxSqlFiltersPerTopic"]),
+      countDetails: getCountDetailsOrUndefined(rawTopic[Constants.COUNT_DETAILS]),
+      isExpress: getBooleanOrUndefined(rawTopic[Constants.IS_EXPRESS]),
+      enableExpress: getBooleanOrUndefined(rawTopic[Constants.ENABLE_EXPRESS]),
+      maxSubscriptionsPerTopic: getIntegerOrUndefined(
+        rawTopic[Constants.MAX_SUBSCRIPTIONS_PER_TOPIC]
+      ),
+      maxSqlFiltersPerTopic: getIntegerOrUndefined(rawTopic[Constants.MAX_SQL_FILTERS_PER_TOPIC]),
       maxCorrelationFiltersPerTopic: getIntegerOrUndefined(
-        rawTopic["MaxCorrelationFiltersPerTopic"]
+        rawTopic[Constants.MAX_CORRELATION_FILTERS_PER_TOPIC]
       ),
 
-      authorizationRules: getAuthorizationRulesOrUndefined(rawTopic["AuthorizationRules"]),
-      isAnonymousAccessible: getBooleanOrUndefined(rawTopic["IsAnonymousAccessible"]),
+      authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
+      isAnonymousAccessible: getBooleanOrUndefined(rawTopic[Constants.IS_ANONYMOUS_ACCESSIBLE]),
 
-      entityAvailabilityStatus: rawTopic["EntityAvailabilityStatus"],
-      status: rawTopic["Status"],
-      createdAt: rawTopic["CreatedAt"],
-      updatedAt: rawTopic["UpdatedAt"],
-      accessedAt: rawTopic["AccessedAt"]
+      entityAvailabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
+      status: rawTopic[Constants.STATUS],
+      createdAt: rawTopic[Constants.CREATED_AT],
+      updatedAt: rawTopic[Constants.UPDATED_AT],
+      accessedAt: rawTopic[Constants.ACCESSED_AT]
     };
     return result;
   }
