@@ -163,17 +163,17 @@ if (argv.includeMode === "inc") {
 let docOutputFolder = "--out ./dist/docs ./src";
 
 console.log("process.cwd = " + process.cwd());
-try {
-  const result = childProcess.spawnSync("rush", ["install"], {
-    cwd: process.cwd(),
-    env: process.env,
-    shell: true
-  });
-  console.log('result.output for "rush install":' + result.output);
-} catch (e) {
-  console.error(`\n\n${e.toString()}\n\n`);
-  process.exit(1);
-}
+// try {
+//   const result = childProcess.spawnSync("rush", ["install"], {
+//     cwd: process.cwd(),
+//     env: process.env,
+//     shell: true
+//   });
+//   console.log('result.output for "rush install":' + result.output);
+// } catch (e) {
+//   console.error(`\n\n${e.toString()}\n\n`);
+//   process.exit(1);
+// }
 
 let workingDir = path.join(process.cwd(), "sdk");
 let pathToAssets = "";
