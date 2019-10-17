@@ -62,13 +62,8 @@ describe("Long Running Operations - custom client", function() {
       // NOTE: Don't set any responses so that poller.poll throws an error
       const client = new TestClient(new TestTokenCredential("my-test-token"));
       let foundUnhandled = false;
-      let checkerResolve: () => void;
-      const checkerPromise = new Promise((resolve) => {
-        checkerResolve = resolve;
-      });
       const checker = () => {
         foundUnhandled = true;
-        checkerResolve();
       };
 
       process.once("unhandledRejection", checker);
@@ -78,7 +73,7 @@ describe("Long Running Operations - custom client", function() {
       } catch (err) {
         assert.notEqual(err.message, "Test failure", "client.startLRO did not throw an error.");
         // delay(0) gives the event loop a chance emit the UnhandledPromiseRejectionWarning so we can catch it.
-        await Promise.race([checkerPromise, delay(0)]);
+        await delay(0);
         assert.equal(foundUnhandled, false, "An UnhandledPromiseRejectionWarning was thrown.");
       }
     });
