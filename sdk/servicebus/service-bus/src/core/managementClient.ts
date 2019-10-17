@@ -282,6 +282,34 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
+   * Evaluates the `associatedLinkName` to use for given Service Bus entity client instance
+   * @param forSender Boolean flag indicating if this for an operation on sender or receiver
+   * @param clientEntityContext The `ClientEntityContext` associated with given Service Bus entity client
+   * @param sessionId `sessionId` if applicable
+   */
+  private _getAssociatedLinkName(
+    forSender: boolean,
+    clientEntityContext: ClientEntityContext,
+    sessionId?: string
+  ): string | undefined {
+    let associatedLinkName: string | undefined;
+    if (forSender && clientEntityContext.sender) {
+      return clientEntityContext.sender.name;
+    } else {
+      if (sessionId != undefined) {
+        if (clientEntityContext.messageSessions[sessionId]) {
+          associatedLinkName = clientEntityContext.messageSessions[sessionId].name;
+        }
+      } else if (clientEntityContext.batchingReceiver) {
+        associatedLinkName = clientEntityContext.batchingReceiver.name;
+      } else if (clientEntityContext.streamingReceiver) {
+        associatedLinkName = clientEntityContext.streamingReceiver.name;
+      }
+      return associatedLinkName;
+    }
+  }
+
+  /**
    * Closes the AMQP management session to the ServiceBus namespace for this client,
    * returning a promise that will be resolved when disconnection is completed.
    * @return Promise<void>
@@ -316,14 +344,9 @@ export class ManagementClient extends LinkEntity {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number, associatedLinkName?: string): Promise<ReceivedMessageInfo[]> {
+  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    return this.peekBySequenceNumber(
-      this._lastPeekedSequenceNumber.add(1),
-      messageCount,
-      undefined,
-      associatedLinkName
-    );
+    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
   }
 
   /**
@@ -340,15 +363,13 @@ export class ManagementClient extends LinkEntity {
    */
   async peekMessagesBySession(
     sessionId: string,
-    associatedLinkName: string,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
-      sessionId,
-      associatedLinkName
+      sessionId
     );
   }
 
@@ -362,8 +383,7 @@ export class ManagementClient extends LinkEntity {
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     maxMessageCount?: number,
-    sessionId?: string,
-    associatedLinkName?: string
+    sessionId?: string
   ): Promise<ReceivedMessageInfo[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const connId = this._context.namespace.connectionId;
@@ -400,6 +420,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.peekMessage
         }
       };
+      const associatedLinkName = this._getAssociatedLinkName(false, this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -454,15 +475,10 @@ export class ManagementClient extends LinkEntity {
    * LockDuration set on the Entity.
    *
    * @param {string} lockToken Lock token of the message
-   * @param {string} associatedLinkName associated link name on which operation is to be executed, if applicable
    * @param {SendRequestOptions} [options] Options that can be set while sending the request.
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(
-    lockToken: string,
-    associatedLinkName?: string,
-    options?: SendRequestOptions
-  ): Promise<Date> {
+  async renewLock(lockToken: string, options?: SendRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     if (options.delayInSeconds == null) options.delayInSeconds = 1;
@@ -485,6 +501,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
+      const associatedLinkName = this._getAssociatedLinkName(false, this._context);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -522,8 +539,7 @@ export class ManagementClient extends LinkEntity {
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: SendableMessageInfo[],
-    associatedLinkName?: string
+    messages: SendableMessageInfo[]
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
@@ -577,6 +593,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.scheduleMessage
         }
       };
+      const associatedLinkName = this._getAssociatedLinkName(true, this._context);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -620,10 +637,7 @@ export class ManagementClient extends LinkEntity {
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    * @returns Promise<void>
    */
-  async cancelScheduledMessages(
-    sequenceNumbers: Long[],
-    associatedLinkName?: string
-  ): Promise<void> {
+  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
@@ -657,6 +671,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.cancelScheduledMessage
         }
       };
+      const associatedLinkName = this._getAssociatedLinkName(true, this._context);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -697,7 +712,6 @@ export class ManagementClient extends LinkEntity {
   async receiveDeferredMessages(
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
-    associatedLinkName?: string,
     sessionId?: string
   ): Promise<ServiceBusMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
@@ -740,6 +754,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.receiveBySequenceNumber
         }
       };
+      const associatedLinkName = this._getAssociatedLinkName(false, this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -802,7 +817,6 @@ export class ManagementClient extends LinkEntity {
   async updateDispositionStatus(
     lockToken: string,
     dispositionStatus: DispositionStatus,
-    associatedLinkName?: string,
     options?: DispositionStatusOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
@@ -834,6 +848,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.updateDisposition
         }
       };
+      const associatedLinkName = this._getAssociatedLinkName(false, this._context);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -865,15 +880,10 @@ export class ManagementClient extends LinkEntity {
   /**
    * Renews the lock for the specified session.
    * @param sessionId Id of the session for which the lock needs to be renewed
-   * @param {string} associatedLinkName associated link name on which operation is to be executed, if applicable
    * @param options Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewSessionLock(
-    sessionId: string,
-    associatedLinkName?: string,
-    options?: SendRequestOptions
-  ): Promise<Date> {
+  async renewSessionLock(sessionId: string, options?: SendRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     if (options.delayInSeconds == null) options.delayInSeconds = 1;
@@ -890,6 +900,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
+      const associatedLinkName = this._getAssociatedLinkName(false, this._context);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -930,7 +941,7 @@ export class ManagementClient extends LinkEntity {
    * @param state The state that needs to be set.
    * @returns Promise<void>
    */
-  async setSessionState(sessionId: string, state: any, associatedLinkName: string): Promise<void> {
+  async setSessionState(sessionId: string, state: any): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     try {
@@ -944,6 +955,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.setSessionState
         }
       };
+      const associatedLinkName = this._getAssociatedLinkName(false, this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -976,7 +988,7 @@ export class ManagementClient extends LinkEntity {
    * @param sessionId The session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
-  async getSessionState(sessionId: string, associatedLinkName: string): Promise<any> {
+  async getSessionState(sessionId: string): Promise<any> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const messageBody: any = {};
@@ -988,6 +1000,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.getSessionState
         }
       };
+      const associatedLinkName = this._getAssociatedLinkName(false, this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
