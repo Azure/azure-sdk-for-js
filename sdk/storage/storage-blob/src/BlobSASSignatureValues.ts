@@ -59,10 +59,10 @@ export interface BlobSASSignatureValues {
    * Please refer to either {@link ContainerSASPermissions} or {@link BlobSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
    *
-   * @type {string}
+   * @type {BlobSASPermissions}
    * @memberof BlobSASSignatureValues
    */
-  permissions?: string;
+  permissions?: BlobSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
@@ -359,11 +359,13 @@ function generateBlobSASQueryParameters20150405(
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
-      verifiedPermissions = BlobSASPermissions.parse(blobSASSignatureValues.permissions).toString();
+      verifiedPermissions = BlobSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString()
+      ).toString();
       resource = "b";
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions
+        blobSASSignatureValues.permissions.toString()
       ).toString();
     }
   }
@@ -456,14 +458,16 @@ function generateBlobSASQueryParameters20181109(
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
-      verifiedPermissions = BlobSASPermissions.parse(blobSASSignatureValues.permissions).toString();
+      verifiedPermissions = BlobSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString()
+      ).toString();
       resource = "b";
       if (blobSASSignatureValues.snapshotTime) {
         resource = "bs";
       }
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions
+        blobSASSignatureValues.permissions.toString()
       ).toString();
     }
   }
@@ -553,14 +557,16 @@ function generateBlobSASQueryParametersUDK20181109(
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
-      verifiedPermissions = BlobSASPermissions.parse(blobSASSignatureValues.permissions).toString();
+      verifiedPermissions = BlobSASPermissions.parse(
+        blobSASSignatureValues.permissions.toString()
+      ).toString();
       resource = "b";
       if (blobSASSignatureValues.snapshotTime) {
         resource = "bs";
       }
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions
+        blobSASSignatureValues.permissions.toString()
       ).toString();
     }
   }

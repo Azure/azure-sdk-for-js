@@ -57,10 +57,10 @@ export interface FileSASSignatureValues {
    * Please refer to either {@link ShareSASPermissions} or {@link FileSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
    *
-   * @type {string}
+   * @type {FileSASPermissions}
    * @memberof FileSASSignatureValues
    */
-  permissions?: string;
+  permissions?: FileSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
@@ -174,11 +174,13 @@ export function generateFileSASQueryParameters(
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (fileSASSignatureValues.permissions) {
     if (fileSASSignatureValues.filePath) {
-      verifiedPermissions = FileSASPermissions.parse(fileSASSignatureValues.permissions).toString();
+      verifiedPermissions = FileSASPermissions.parse(
+        fileSASSignatureValues.permissions.toString()
+      ).toString();
       resource = "f";
     } else {
       verifiedPermissions = ShareSASPermissions.parse(
-        fileSASSignatureValues.permissions
+        fileSASSignatureValues.permissions.toString()
       ).toString();
     }
   }
