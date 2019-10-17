@@ -28,7 +28,7 @@ export interface AccessPolicy {
   /**
    * The permissions for the ACL policy.
    */
-  permission?: string;
+  permissions?: string;
 }
 
 /**
@@ -151,7 +151,7 @@ export interface ListFilesAndDirectoriesSegmentResponse {
   marker?: string;
   maxResults?: number;
   segment: FilesAndDirectoriesListSegment;
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -159,7 +159,7 @@ export interface ListFilesAndDirectoriesSegmentResponse {
  */
 export interface ListHandlesResponse {
   handleList?: HandleItem[];
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -190,7 +190,7 @@ export interface ListSharesResponse {
   marker?: string;
   maxResults?: number;
   shareItems?: ShareItem[];
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -358,7 +358,7 @@ export interface ServiceSetPropertiesOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -370,7 +370,7 @@ export interface ServiceGetPropertiesOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -392,7 +392,7 @@ export interface ServiceListSharesSegmentOptionalParams extends coreHttp.Request
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * Include this parameter to specify one or more datasets to include in the response.
    */
@@ -402,7 +402,7 @@ export interface ServiceListSharesSegmentOptionalParams extends coreHttp.Request
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -414,7 +414,7 @@ export interface ShareCreateOptionalParams extends coreHttp.RequestOptionsBase {
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -433,13 +433,13 @@ export interface ShareGetPropertiesOptionalParams extends coreHttp.RequestOption
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -450,13 +450,13 @@ export interface ShareDeleteMethodOptionalParams extends coreHttp.RequestOptions
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies the option include to delete the base share and all of its snapshots. Possible
    * values include: 'include'
@@ -473,7 +473,7 @@ export interface ShareCreateSnapshotOptionalParams extends coreHttp.RequestOptio
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -489,7 +489,7 @@ export interface ShareCreatePermissionOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -501,7 +501,7 @@ export interface ShareGetPermissionOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -513,7 +513,7 @@ export interface ShareSetQuotaOptionalParams extends coreHttp.RequestOptionsBase
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies the maximum size of the share, in gigabytes.
    */
@@ -529,7 +529,7 @@ export interface ShareSetMetadataOptionalParams extends coreHttp.RequestOptionsB
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -545,7 +545,7 @@ export interface ShareGetAccessPolicyOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -561,7 +561,7 @@ export interface ShareSetAccessPolicyOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -573,7 +573,7 @@ export interface ShareGetStatisticsOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -585,7 +585,7 @@ export interface DirectoryCreateOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -613,13 +613,13 @@ export interface DirectoryGetPropertiesOptionalParams extends coreHttp.RequestOp
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -631,7 +631,7 @@ export interface DirectoryDeleteMethodOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -643,7 +643,7 @@ export interface DirectorySetPropertiesOptionalParams extends coreHttp.RequestOp
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * If specified the permission (security descriptor) shall be set for the directory/file. This
    * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
@@ -668,7 +668,7 @@ export interface DirectorySetMetadataOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -687,7 +687,7 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends c
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -699,13 +699,13 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends c
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -723,18 +723,18 @@ export interface DirectoryListHandlesOptionalParams extends coreHttp.RequestOpti
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -751,7 +751,7 @@ export interface DirectoryForceCloseHandlesOptionalParams extends coreHttp.Reque
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -763,7 +763,7 @@ export interface DirectoryForceCloseHandlesOptionalParams extends coreHttp.Reque
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -780,7 +780,7 @@ export interface FileCreateOptionalParams extends coreHttp.RequestOptionsBase {
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -813,7 +813,7 @@ export interface FileDownloadOptionalParams extends coreHttp.RequestOptionsBase 
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Return file data only from the specified byte range.
    */
@@ -834,13 +834,13 @@ export interface FileGetPropertiesOptionalParams extends coreHttp.RequestOptions
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -852,7 +852,7 @@ export interface FileDeleteMethodOptionalParams extends coreHttp.RequestOptionsB
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -864,7 +864,7 @@ export interface FileSetHTTPHeadersOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Resizes a file to the specified size. If the specified byte value is less than the current
    * size of the file, then all ranges above the specified byte value are cleared.
@@ -898,7 +898,7 @@ export interface FileSetMetadataOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -918,7 +918,7 @@ export interface FileUploadRangeOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * An MD5 hash of the content. This hash is used to verify the integrity of the data during
    * transport. When the Content-MD5 header is specified, the File service compares the hash of the
@@ -937,7 +937,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOp
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
@@ -956,13 +956,13 @@ export interface FileGetRangeListOptionalParams extends coreHttp.RequestOptionsB
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies the range of bytes over which to list ranges, inclusively.
    */
@@ -978,7 +978,7 @@ export interface FileStartCopyOptionalParams extends coreHttp.RequestOptionsBase
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -994,7 +994,7 @@ export interface FileAbortCopyOptionalParams extends coreHttp.RequestOptionsBase
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
@@ -1012,18 +1012,18 @@ export interface FileListHandlesOptionalParams extends coreHttp.RequestOptionsBa
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
 }
 
 /**
@@ -1035,7 +1035,7 @@ export interface FileForceCloseHandlesOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -1047,7 +1047,7 @@ export interface FileForceCloseHandlesOptionalParams extends coreHttp.RequestOpt
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
 }
 
 /**
@@ -1475,15 +1475,15 @@ export interface DirectoryCreateHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */
@@ -1535,15 +1535,15 @@ export interface DirectoryGetPropertiesHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the directory.
    */
@@ -1624,15 +1624,15 @@ export interface DirectorySetPropertiesHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */
@@ -1800,15 +1800,15 @@ export interface FileCreateHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the file.
    */
@@ -1896,7 +1896,7 @@ export interface FileDownloadHeaders {
    * Conclusion time of the last attempted Copy File operation where this file was the destination
    * file. This value can specify the time of a completed, aborted, or failed copy attempt.
    */
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   /**
    * Only appears when x-ms-copy-status is failed or pending. Describes cause of fatal or non-fatal
    * copy operation failure.
@@ -1943,15 +1943,15 @@ export interface FileDownloadHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the file.
    */
@@ -2037,7 +2037,7 @@ export interface FileGetPropertiesHeaders {
    * Conclusion time of the last attempted Copy File operation where this file was the destination
    * file. This value can specify the time of a completed, aborted, or failed copy attempt.
    */
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   /**
    * Only appears when x-ms-copy-status is failed or pending. Describes cause of fatal or non-fatal
    * copy operation failure.
@@ -2077,15 +2077,15 @@ export interface FileGetPropertiesHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the file.
    */
@@ -2166,15 +2166,15 @@ export interface FileSetHTTPHeadersHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */

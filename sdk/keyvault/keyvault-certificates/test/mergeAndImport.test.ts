@@ -3,24 +3,24 @@
 
 import fs from "fs";
 import childProcess from "child_process";
-import { CertificatesClient } from "../src";
+import { CertificateClient } from "../src";
 import { retry, isRecording } from "./utils/recorder";
 import { isNode } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { SecretsClient } from "@azure/keyvault-secrets";
+import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
 
 describe("Certificates client - merge and import certificates", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
-  let client: CertificatesClient;
+  let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
   let keyVaultUrl: string;
   let credential: ClientSecretCredential;
-  let secretsClient: SecretsClient;
+  let secretClient: SecretClient;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -30,7 +30,7 @@ describe("Certificates client - merge and import certificates", () => {
     recorder = authentication.recorder;
     keyVaultUrl = authentication.keyVaultUrl;
     credential = authentication.credential;
-    secretsClient = new SecretsClient(keyVaultUrl, credential);
+    secretClient = new SecretClient(keyVaultUrl, credential);
   });
 
   afterEach(async function() {
@@ -46,13 +46,13 @@ describe("Certificates client - merge and import certificates", () => {
       issuerName: "Self",
       subjectName: "cn=MyCert"
     });
-    const certificateSecret = await retry(async () => secretsClient.getSecret(certificateNames[0]));
+    const certificateSecret = await retry(async () => secretClient.getSecret(certificateNames[0]));
     const base64EncodedCertificate = certificateSecret.value!;
     await client.importCertificate(certificateNames[1], base64EncodedCertificate);
 
     for (const name of certificateNames) {
       await testClient.flushCertificate(name);
-    } 
+    }
   });
 
   // The signed csr will never be the same.
@@ -63,7 +63,7 @@ describe("Certificates client - merge and import certificates", () => {
       await client.createCertificate(certificateName, {
         issuerName: "Unknown",
         certificateTransparency: false,
-        subjectName: "cn=MyCert",
+        subjectName: "cn=MyCert"
       });
 
       const { csr } = await client.getCertificateOperation(certificateName);
@@ -76,12 +76,19 @@ ${base64Csr}
       // Certificate available locally made using:
       //   openssl genrsa -out ca.key 2048
       //   openssl req -new -x509 -key ca.key -out ca.crt
-      childProcess.execSync("openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt");
-      const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
+      childProcess.execSync(
+        "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
+      );
+      const base64Crt = fs
+        .readFileSync("test.crt")
+        .toString()
+        .split("\n")
+        .slice(1, -1)
+        .join("");
 
       await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
-  
+
       await testClient.flushCertificate(certificateName);
     });
   }
-}); 
+});

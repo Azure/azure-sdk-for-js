@@ -1,9 +1,13 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { getGenericBSU, getGenericCredential, getTokenCredential } from "./utils";
+import {
+  getGenericBSU,
+  getGenericCredential,
+  getTokenCredential,
+  SimpleTokenCredential
+} from "./utils";
 import { record } from "./utils/recorder";
 import { BlobBatch } from "../src/BlobBatch";
-import { SimpleTokenCredential } from "@azure/core-http";
 import { ContainerClient, BlockBlobClient, BlobServiceClient, newPipeline } from "../src";
 
 dotenv.config({ path: "../.env" });

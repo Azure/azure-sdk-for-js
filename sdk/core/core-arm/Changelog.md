@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-preview.5 (Coming Soon)
+
+- Updated to use the latest version of `@azure/core-http` package
+
 ## 1.0.0-preview.4 - 2019-10-07
 
 - Updated to use the latest version of the `@azure/core-http` library.

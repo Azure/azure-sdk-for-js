@@ -25,12 +25,14 @@ import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
-  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
+  DevelopmentConnectionString
 } from "./utils/constants";
 import {
   setURLParameter,
   extractConnectionStringParts,
-  appendToURLPath
+  appendToURLPath,
+  getValueInConnString
 } from "./utils/utils.common";
 import { readStreamToLocalFile } from "./utils/utils.node";
 import { AppendBlobClient, StorageClient, CommonOptions } from "./internal";
@@ -1595,21 +1597,39 @@ export class BlobClient extends StorageClient {
   }
 
   private getBlobAndContainerNamesFromUrl(): { blobName: string; containerName: string } {
-    //  URL may look like the following
-    // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
-    // "https://myaccount.blob.core.windows.net/mycontainer/blob";
-    // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt?sasString";
-    // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt";
-
+    let containerName;
+    let blobName;
     try {
+      //  URL may look like the following
+      // "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString";
+      // "https://myaccount.blob.core.windows.net/mycontainer/blob";
+      // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt?sasString";
+      // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt";
+      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10000/devstoreaccount1`
+
       let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
       urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-      const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
+      // http://127.0.0.1:10000/devstoreaccount1
+      const emulatorBlobEndpoint = getValueInConnString(
+        DevelopmentConnectionString,
+        "BlobEndpoint"
+      );
+
+      if (this.url.startsWith(emulatorBlobEndpoint)) {
+        // Emulator URL starts with `http://127.0.0.1:10000/devstoreaccount1`
+        const partsOfUrl = urlWithoutSAS.match(emulatorBlobEndpoint + "/([^/]*)(/(.*))?");
+        containerName = partsOfUrl![1];
+        blobName = partsOfUrl![3];
+      } else {
+        const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
+        containerName = partsOfUrl![3];
+        blobName = partsOfUrl![5];
+      }
 
       // decode the encoded blobName, containerName - to get all the special characters that might be present in them
-      const containerName = decodeURIComponent(partsOfUrl![3]);
-      let blobName = decodeURIComponent(partsOfUrl![5]);
+      containerName = decodeURIComponent(containerName);
+      blobName = decodeURIComponent(blobName);
 
       // Azure Storage Server will replace "\" with "/" in the blob names
       //   doing the same in the SDK side so that the user doesn't have to replace "\" instances in the blobName

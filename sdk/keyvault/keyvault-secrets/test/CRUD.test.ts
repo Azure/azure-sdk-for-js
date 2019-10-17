@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { SecretsClient } from "../src";
+import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { retry, isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
@@ -14,7 +14,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
-  let client: SecretsClient;
+  let client: SecretClient;
   let testClient: TestClient;
   let recorder: any;
 

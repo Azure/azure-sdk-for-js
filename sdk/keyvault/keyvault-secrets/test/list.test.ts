@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import chai from "chai";
-import { SecretsClient } from "../src";
+import { SecretClient } from "../src";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -14,7 +14,7 @@ describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
-  let client: SecretsClient;
+  let client: SecretClient;
   let testClient: TestClient;
   let recorder: any;
 

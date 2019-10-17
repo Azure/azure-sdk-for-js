@@ -12,11 +12,13 @@ import {
   appendToURLPath,
   extractConnectionStringParts,
   truncatedISO8061Date,
+  getValueInConnString,
   getStorageClientContext
 } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import { DevelopmentConnectionString } from "./utils/constants";
 import { Metadata } from "./models";
 
 /**
@@ -186,9 +188,9 @@ export declare type QueueGetAccessPolicyResponse = {
  * Options to configure Messages - Clear operation
  *
  * @export
- * @interface MessagesClearOptions
+ * @interface QueueClearMessagesOptions
  */
-export interface MessagesClearOptions extends CommonOptions {
+export interface QueueClearMessagesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -203,10 +205,10 @@ export interface MessagesClearOptions extends CommonOptions {
  * Options to configure Messages - Enqueue operation
  *
  * @export
- * @interface MessagesEnqueueOptions
+ * @interface QueueSendMessageOptions
  * @extends {Models.MessagesEnqueueOptionalParams}
  */
-export interface MessagesEnqueueOptions
+export interface QueueSendMessageOptions
   extends Models.MessagesEnqueueOptionalParams,
     CommonOptions {}
 
@@ -214,10 +216,10 @@ export interface MessagesEnqueueOptions
  * Options to configure Messages - Dequeue operation
  *
  * @export
- * @interface MessagesDequeueOptions
+ * @interface QueueReceiveMessageOptions
  * @extends {Models.MessagesDequeueOptionalParams}
  */
-export interface MessagesDequeueOptions
+export interface QueueReceiveMessageOptions
   extends Models.MessagesDequeueOptionalParams,
     CommonOptions {}
 
@@ -225,12 +227,14 @@ export interface MessagesDequeueOptions
  * Options to configure Messages - Peek operation
  *
  * @export
- * @interface MessagesPeekOptions
+ * @interface QueuePeekMessagesOptions
  * @extends {Models.MessagesPeekOptionalParams}
  */
-export interface MessagesPeekOptions extends Models.MessagesPeekOptionalParams, CommonOptions {}
+export interface QueuePeekMessagesOptions
+  extends Models.MessagesPeekOptionalParams,
+    CommonOptions {}
 
-export declare type MessagesEnqueueResponse = {
+export declare type QueueSendMessageResponse = {
   /**
    * @member {string} messageId The ID of the enqueued Message.
    */
@@ -276,7 +280,7 @@ export declare type MessagesEnqueueResponse = {
     };
   };
 
-export declare type MessagesDequeueResponse = {
+export declare type QueueReceiveMessageResponse = {
   dequeuedMessageItems: Models.DequeuedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
     /**
@@ -298,7 +302,7 @@ export declare type MessagesDequeueResponse = {
     };
   };
 
-export declare type MessagesPeekResponse = {
+export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: Models.PeekedMessageItem[];
 } & Models.MessagesPeekHeaders & {
     /**
@@ -324,9 +328,9 @@ export declare type MessagesPeekResponse = {
  * Options to configure MessageId - Delete operation
  *
  * @export
- * @interface MessageIdDeleteOptions
+ * @interface QueueDeleteMessageOptions
  */
-export interface MessageIdDeleteOptions extends CommonOptions {
+export interface QueueDeleteMessageOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -337,13 +341,17 @@ export interface MessageIdDeleteOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+export declare type QueueUpdateMessageResponse = Models.MessageIdUpdateResponse;
+export declare type QueueDeleteMessageResponse = Models.MessageIdDeleteResponse;
+export declare type QueueClearMessagesResponse = Models.MessagesClearResponse;
+
 /**
  * Options to configure MessageId - Update operation
  *
  * @export
- * @interface MessageIdUpdateOptions
+ * @interface QueueUpdateMessageOptions
  */
-export interface MessageIdUpdateOptions extends CommonOptions {
+export interface QueueUpdateMessageOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -734,13 +742,13 @@ export class QueueClient extends StorageClient {
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
-   * @param {MessagesClearOptions} [options] Options to Messages clear operation.
-   * @returns {Promise<Models.MessageClearResponse>} Response data for the Messages clear operation.
+   * @param {QueueClearMessagesOptions} [options] Options to clear messages operation.
+   * @returns {Promise<QueueClearMessagesResponse>} Response data for the clear messages operation.
    * @memberof QueueClient
    */
   public async clearMessages(
-    options: MessagesClearOptions = {}
-  ): Promise<Models.MessagesClearResponse> {
+    options: QueueClearMessagesOptions = {}
+  ): Promise<QueueClearMessagesResponse> {
     const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.spanOptions);
     try {
       return this.messagesContext.clear({
@@ -765,15 +773,15 @@ export class QueueClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
    *
-   * @param {string} messageText Text of the message to enqueue
-   * @param {MessagesEnqueueOptionas} [options] Options to Messages enqueue operation.
-   * @returns {Promise<Models.MessagesEnqueueResponse>} Response data for the Messages enqueue operation.
+   * @param {string} messageText Text of the message to send
+   * @param {QueueSendMessageOptions} [options] Options to send messages operation.
+   * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
    * @memberof QueueClient
    */
   public async sendMessage(
     messageText: string,
-    options: MessagesEnqueueOptions = {}
-  ): Promise<MessagesEnqueueResponse> {
+    options: QueueSendMessageOptions = {}
+  ): Promise<QueueSendMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.spanOptions);
     try {
       const response = await this.messagesContext.enqueue(
@@ -815,13 +823,13 @@ export class QueueClient extends StorageClient {
    * Dequeue retrieves one or more messages from the front of the queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
-   * @param {MessagesDequeueOptionals} [options] Options to Messages dequeue operation.
-   * @returns {Promise<Models.MessagesDequeueResponse>} Response data for the Messages dequeue operation.
+   * @param {QueueReceiveMessageOptions} [options] Options to receive messages operation.
+   * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
    * @memberof QueueClient
    */
   public async receiveMessages(
-    options: MessagesDequeueOptions = {}
-  ): Promise<MessagesDequeueResponse> {
+    options: QueueReceiveMessageOptions = {}
+  ): Promise<QueueReceiveMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.spanOptions);
     try {
       const response = await this.messagesContext.dequeue({
@@ -830,7 +838,7 @@ export class QueueClient extends StorageClient {
         spanOptions
       });
 
-      const res: MessagesDequeueResponse = {
+      const res: QueueReceiveMessageResponse = {
         _response: response._response,
         date: response.date,
         requestId: response.requestId,
@@ -860,11 +868,13 @@ export class QueueClient extends StorageClient {
    * Peek retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
-   * @param {MessagesPeekOptions} [options] Options to Messages peek operation.
-   * @returns {Promise<Models.MessagesPeekResponse>} Response data for the Messages peek operation.
+   * @param {QueuePeekMessagesOptions} [options] Options to peek messages operation.
+   * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
    * @memberof QueueClient
    */
-  public async peekMessages(options: MessagesPeekOptions = {}): Promise<MessagesPeekResponse> {
+  public async peekMessages(
+    options: QueuePeekMessagesOptions = {}
+  ): Promise<QueuePeekMessagesResponse> {
     const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.spanOptions);
     try {
       const response = await this.messagesContext.peek({
@@ -873,7 +883,7 @@ export class QueueClient extends StorageClient {
         spanOptions
       });
 
-      const res: MessagesPeekResponse = {
+      const res: QueuePeekMessagesResponse = {
         _response: response._response,
         date: response.date,
         requestId: response.requestId,
@@ -904,15 +914,15 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
-   * @param {MessageIdDeleteOptions} [options] Options to MessageId Delete operation.
-   * @returns {Promise<Models.MessageIdDeleteResponse>} Response data for the MessageId delete operation.
+   * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
+   * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
    * @memberof QueueClient
    */
   public async deleteMessage(
     messageId: string,
     popReceipt: string,
-    options: MessageIdDeleteOptions = {}
-  ): Promise<Models.MessageIdDeleteResponse> {
+    options: QueueDeleteMessageOptions = {}
+  ): Promise<QueueDeleteMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.spanOptions);
     try {
       return this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
@@ -943,8 +953,8 @@ export class QueueClient extends StorageClient {
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
-   * @param {MessageIdUpdateOptions} [options] Options to MessageId Update operation.
-   * @returns {Promise<Models.MessageIdUpdateResponse>} Response data for the MessageId update operation.
+   * @param {QueueUpdateMessageOptions} [options] Options to update message operation.
+   * @returns {Promise<QueueUpdateMessageResponse>} Response data for the update message operation.
    * @memberof QueueClient
    */
   public async updateMessage(
@@ -952,8 +962,8 @@ export class QueueClient extends StorageClient {
     popReceipt: string,
     message: string,
     visibilityTimeout?: number,
-    options: MessageIdUpdateOptions = {}
-  ): Promise<Models.MessageIdUpdateResponse> {
+    options: QueueUpdateMessageOptions = {}
+  ): Promise<QueueUpdateMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.spanOptions);
     try {
       return this.getMessageIdContext(messageId).update(
@@ -979,14 +989,29 @@ export class QueueClient extends StorageClient {
   }
 
   private getQueueNameFromUrl(): string {
-    //  URL may look like the following
-    // "https://myaccount.queue.core.windows.net/myqueue?sasString".
-    // "https://myaccount.queue.core.windows.net/myqueue".
+    let queueName;
     try {
+      //  URL may look like the following
+      // "https://myaccount.queue.core.windows.net/myqueue?sasString".
+      // "https://myaccount.queue.core.windows.net/myqueue".
+      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10001/devstoreaccount1`
+
       let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
       urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
 
-      const queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+      // http://127.0.0.1:10001/devstoreaccount1
+      const emulatorQueueEndpoint = getValueInConnString(
+        DevelopmentConnectionString,
+        "QueueEndpoint"
+      );
+
+      if (this.url.startsWith(emulatorQueueEndpoint)) {
+        // Emulator URL starts with `http://127.0.0.1:10001/devstoreaccount1`
+        queueName = urlWithoutSAS.match(emulatorQueueEndpoint + "/([^/]*)")![1];
+      } else {
+        queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+      }
+
       if (!queueName) {
         throw new Error("Provided queueName is invalid.");
       } else {

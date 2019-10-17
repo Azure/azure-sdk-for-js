@@ -3,8 +3,8 @@
 
 import * as assert from "assert";
 import chai from "chai";
-import { CertificatesClient } from "../src";
-import { retry, isRecording } from "./utils/recorder"; 
+import { CertificateClient } from "../src";
+import { retry, isRecording } from "./utils/recorder";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -13,13 +13,13 @@ const { expect } = chai;
 describe("Certificates client - list certificates in various ways", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
-  let client: CertificatesClient;
+  let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subjectName: "cn=MyCert",
+    subjectName: "cn=MyCert"
   };
 
   beforeEach(async function() {
@@ -33,7 +33,7 @@ describe("Certificates client - list certificates in various ways", () => {
   afterEach(async function() {
     recorder.stop();
   });
- 
+
   // The tests follow
 
   it("can purge all certificates", async function() {
@@ -41,19 +41,17 @@ describe("Certificates client - list certificates in various ways", () => {
     for await (const certificate of client.listCertificates({ includePending: true })) {
       try {
         await testClient.flushCertificate(certificate.properties.name);
-      } catch(e) {}
+      } catch (e) {}
     }
     for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
       try {
         await testClient.purgeCertificate(certificate.properties.name);
-      } catch(e) {}
+      } catch (e) {}
     }
   });
 
   it("can list certificates", async function() {
-    const certificateName = testClient.formatName(
-      `${prefix}-${this!.test!.title}-${suffix}`
-    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
       await client.createCertificate(name, basicCertificatePolicy);
@@ -79,9 +77,7 @@ describe("Certificates client - list certificates in various ways", () => {
   // this oddity happen for now and come back when the new recorder is here.
   if (isRecording) {
     it("can list deleted certificates", async function() {
-      const certificateName = testClient.formatName(
-        `${prefix}-${this!.test!.title}-${suffix}`
-      );
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const certificateNames = [`${certificateName}0`, `${certificateName}1`];
       for (const name of certificateNames) {
         await client.createCertificate(name, basicCertificatePolicy);
@@ -111,9 +107,7 @@ describe("Certificates client - list certificates in various ways", () => {
   }
 
   it("can list certificates by page", async function() {
-    const certificateName = testClient.formatName(
-      `${prefix}-${this!.test!.title}-${suffix}`
-    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
       await client.createCertificate(name, basicCertificatePolicy);
@@ -133,9 +127,7 @@ describe("Certificates client - list certificates in various ways", () => {
   });
 
   it("can list deleted certificates by page", async function() {
-    const certificateName = testClient.formatName(
-      `${prefix}-${this!.test!.title}-${suffix}`
-    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
       await client.createCertificate(name, basicCertificatePolicy);
@@ -164,9 +156,7 @@ describe("Certificates client - list certificates in various ways", () => {
   });
 
   it("can retrieve all versions of a certificate", async function() {
-    const certificateName = testClient.formatName(
-      `${prefix}-${this!.test!.title}-${suffix}`
-    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const certificateTags = ["tag01", "tag02", "tag03"];
 
@@ -179,7 +169,12 @@ describe("Certificates client - list certificates in various ways", () => {
     for (const tag of certificateTags) {
       // One can't re-create a certificate while it's pending,
       // so we're retrying until Azure allows us to do this.
-      await retry(async () => client.createCertificate(certificateName, basicCertificatePolicy, { tags: { tag }, enabled: true }));
+      await retry(async () =>
+        client.createCertificate(certificateName, basicCertificatePolicy, {
+          tags: { tag },
+          enabled: true
+        })
+      );
       let response: any;
       await retry(async () => {
         response = await client.getCertificateWithPolicy(certificateName);
@@ -191,7 +186,9 @@ describe("Certificates client - list certificates in various ways", () => {
     }
 
     const results: VersionTagPair[] = [];
-    for await (const item of client.listCertificateVersions(certificateName, { includePending: true })) {
+    for await (const item of client.listCertificateVersions(certificateName, {
+      includePending: true
+    })) {
       const version = item.properties.version!;
       const certificate = await client.getCertificate(certificateName, version);
       // Versions don't match. Something must be happening under the hood.
@@ -199,8 +196,7 @@ describe("Certificates client - list certificates in various ways", () => {
       results.push({ tag: certificate.properties.tags!.tag! });
     }
 
-    const comp = (a: VersionTagPair, b: VersionTagPair): number =>
-      a.tag.localeCompare(b.tag);
+    const comp = (a: VersionTagPair, b: VersionTagPair): number => a.tag.localeCompare(b.tag);
     results.sort(comp);
     versions.sort(comp);
 
@@ -209,9 +205,7 @@ describe("Certificates client - list certificates in various ways", () => {
   });
 
   it("can list certificate versions (non existing)", async function() {
-    const certificateName = testClient.formatName(
-      `${prefix}-${this!.test!.title}-${suffix}`
-    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let totalVersions = 0;
     for await (const page of client.listCertificateVersions(certificateName).byPage()) {
       for (const version of page) {

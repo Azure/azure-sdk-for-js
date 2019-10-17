@@ -4,7 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Service } from "./generated/src/operations";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
@@ -41,13 +41,13 @@ interface ServiceListSharesSegmentOptions extends CommonOptions {
   prefix?: string;
   /**
    * Specifies the maximum number of entries to
-   * return. If the request does not specify maxresults, or specifies a value
+   * return. If the request does not specify maxResults, or specifies a value
    * greater than 5,000, the server will return up to 5,000 items.
    *
    * @type {number}
    * @memberof ServiceListSharesSegmentOptions
    */
-  maxresults?: number;
+  maxResults?: number;
 
   /**
    * Include this parameter to
@@ -161,13 +161,13 @@ export class FileServiceClient extends StorageClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @returns {FileServiceClient} A new FileServiceClient from the given connection string.
    * @memberof FileServiceClient
    */
   public static fromConnectionString(
     connectionString: string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ): FileServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
@@ -199,10 +199,10 @@ export class FileServiceClient extends StorageClient {
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof FileServiceClient
    */
-  constructor(url: string, credential?: Credential, options?: NewPipelineOptions);
+  constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
    * Creates an instance of FileServiceClient.
    *
@@ -217,7 +217,7 @@ export class FileServiceClient extends StorageClient {
   constructor(
     url: string,
     credentialOrPipeline?: Credential | Pipeline,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
@@ -374,9 +374,9 @@ export class FileServiceClient extends StorageClient {
    * @private
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of shares to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
+   *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all shares remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
+   *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
@@ -390,7 +390,7 @@ export class FileServiceClient extends StorageClient {
     let listSharesSegmentResponse;
     do {
       listSharesSegmentResponse = await this.listSharesSegment(marker, options);
-      marker = listSharesSegmentResponse.nextMarker;
+      marker = listSharesSegmentResponse.continuationToken;
       yield await listSharesSegmentResponse;
     } while (marker);
   }
@@ -465,7 +465,7 @@ export class FileServiceClient extends StorageClient {
    *     }
    *   }
    *   // Gets next marker
-   *   let marker = response.nextMarker;
+   *   let marker = response.continuationToken;
    *   // Passing next marker as continuationToken
    *   iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
    *   response = (await iterator.next()).value;
@@ -518,7 +518,7 @@ export class FileServiceClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxResults: settings.maxPageSize,
           ...updatedOptions
         });
       }

@@ -1,7 +1,6 @@
 import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { BlobMetadata } from "../../src/generated/src/models";
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
@@ -89,13 +88,15 @@ export class ConsoleHttpPipelineLogger implements IHttpPipelineLogger {
   }
 }
 
+type BlobMetadata = { [propertyName: string]: string };
+
 /**
  * Validate if m1 is super set of m2.
  *
  * @param m1 BlobMetadata
  * @param m2 BlobMetadata
  */
-export function isSuperSet(m1: BlobMetadata, m2: BlobMetadata): boolean {
+export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
   if (!m1 || !m2) {
     throw new RangeError("m1 or m2 is invalid");
   }
