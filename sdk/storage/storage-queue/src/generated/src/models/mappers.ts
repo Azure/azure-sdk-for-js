@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 
-export const AccessPolicy: msRest.CompositeMapper = {
+export const AccessPolicy: coreHttp.CompositeMapper = {
   serializedName: "AccessPolicy",
   type: {
     name: "Composite",
@@ -43,7 +43,7 @@ export const AccessPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const QueueItem: msRest.CompositeMapper = {
+export const QueueItem: coreHttp.CompositeMapper = {
   xmlName: "Queue",
   serializedName: "QueueItem",
   type: {
@@ -74,7 +74,7 @@ export const QueueItem: msRest.CompositeMapper = {
   }
 };
 
-export const ListQueuesSegmentResponse: msRest.CompositeMapper = {
+export const ListQueuesSegmentResponse: coreHttp.CompositeMapper = {
   xmlName: "EnumerationResults",
   serializedName: "ListQueuesSegmentResponse",
   type: {
@@ -140,7 +140,7 @@ export const ListQueuesSegmentResponse: msRest.CompositeMapper = {
   }
 };
 
-export const CorsRule: msRest.CompositeMapper = {
+export const CorsRule: coreHttp.CompositeMapper = {
   serializedName: "CorsRule",
   type: {
     name: "Composite",
@@ -193,7 +193,7 @@ export const CorsRule: msRest.CompositeMapper = {
   }
 };
 
-export const GeoReplication: msRest.CompositeMapper = {
+export const GeoReplication: coreHttp.CompositeMapper = {
   serializedName: "GeoReplication",
   type: {
     name: "Composite",
@@ -219,7 +219,7 @@ export const GeoReplication: msRest.CompositeMapper = {
   }
 };
 
-export const RetentionPolicy: msRest.CompositeMapper = {
+export const RetentionPolicy: coreHttp.CompositeMapper = {
   serializedName: "RetentionPolicy",
   type: {
     name: "Composite",
@@ -247,7 +247,7 @@ export const RetentionPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const Logging: msRest.CompositeMapper = {
+export const Logging: coreHttp.CompositeMapper = {
   serializedName: "Logging",
   type: {
     name: "Composite",
@@ -298,7 +298,7 @@ export const Logging: msRest.CompositeMapper = {
   }
 };
 
-export const StorageError: msRest.CompositeMapper = {
+export const StorageError: coreHttp.CompositeMapper = {
   serializedName: "StorageError",
   type: {
     name: "Composite",
@@ -315,7 +315,7 @@ export const StorageError: msRest.CompositeMapper = {
   }
 };
 
-export const Metrics: msRest.CompositeMapper = {
+export const Metrics: coreHttp.CompositeMapper = {
   serializedName: "Metrics",
   type: {
     name: "Composite",
@@ -355,7 +355,7 @@ export const Metrics: msRest.CompositeMapper = {
   }
 };
 
-export const QueueMessage: msRest.CompositeMapper = {
+export const QueueMessage: coreHttp.CompositeMapper = {
   serializedName: "QueueMessage",
   type: {
     name: "Composite",
@@ -373,7 +373,7 @@ export const QueueMessage: msRest.CompositeMapper = {
   }
 };
 
-export const DequeuedMessageItem: msRest.CompositeMapper = {
+export const DequeuedMessageItem: coreHttp.CompositeMapper = {
   xmlName: "QueueMessage",
   serializedName: "DequeuedMessageItem",
   type: {
@@ -440,7 +440,7 @@ export const DequeuedMessageItem: msRest.CompositeMapper = {
   }
 };
 
-export const PeekedMessageItem: msRest.CompositeMapper = {
+export const PeekedMessageItem: coreHttp.CompositeMapper = {
   xmlName: "QueueMessage",
   serializedName: "PeekedMessageItem",
   type: {
@@ -491,7 +491,7 @@ export const PeekedMessageItem: msRest.CompositeMapper = {
   }
 };
 
-export const EnqueuedMessage: msRest.CompositeMapper = {
+export const EnqueuedMessage: coreHttp.CompositeMapper = {
   xmlName: "QueueMessage",
   serializedName: "EnqueuedMessage",
   type: {
@@ -542,7 +542,7 @@ export const EnqueuedMessage: msRest.CompositeMapper = {
   }
 };
 
-export const SignedIdentifier: msRest.CompositeMapper = {
+export const SignedIdentifier: coreHttp.CompositeMapper = {
   serializedName: "SignedIdentifier",
   type: {
     name: "Composite",
@@ -569,11 +569,12 @@ export const SignedIdentifier: msRest.CompositeMapper = {
   }
 };
 
-export const StorageServiceProperties: msRest.CompositeMapper = {
-  serializedName: "StorageServiceProperties",
+export const QueueServiceProperties: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceProperties",
+  serializedName: "QueueServiceProperties",
   type: {
     name: "Composite",
-    className: "StorageServiceProperties",
+    className: "QueueServiceProperties",
     modelProperties: {
       logging: {
         xmlName: "Logging",
@@ -618,11 +619,12 @@ export const StorageServiceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const StorageServiceStats: msRest.CompositeMapper = {
-  serializedName: "StorageServiceStats",
+export const QueueServiceStatistics: coreHttp.CompositeMapper = {
+  xmlName: "StorageServiceStats",
+  serializedName: "QueueServiceStatistics",
   type: {
     name: "Composite",
-    className: "StorageServiceStats",
+    className: "QueueServiceStatistics",
     modelProperties: {
       geoReplication: {
         xmlName: "GeoReplication",
@@ -636,7 +638,7 @@ export const StorageServiceStats: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceSetPropertiesHeaders: msRest.CompositeMapper = {
+export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-setproperties-headers",
   type: {
     name: "Composite",
@@ -670,7 +672,7 @@ export const ServiceSetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceGetPropertiesHeaders: msRest.CompositeMapper = {
+export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-getproperties-headers",
   type: {
     name: "Composite",
@@ -704,7 +706,7 @@ export const ServiceGetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceGetStatisticsHeaders: msRest.CompositeMapper = {
+export const ServiceGetStatisticsHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-getstatistics-headers",
   type: {
     name: "Composite",
@@ -744,7 +746,7 @@ export const ServiceGetStatisticsHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceListQueuesSegmentHeaders: msRest.CompositeMapper = {
+export const ServiceListQueuesSegmentHeaders: coreHttp.CompositeMapper = {
   serializedName: "service-listqueuessegment-headers",
   type: {
     name: "Composite",
@@ -784,7 +786,7 @@ export const ServiceListQueuesSegmentHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueCreateHeaders: msRest.CompositeMapper = {
+export const QueueCreateHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-create-headers",
   type: {
     name: "Composite",
@@ -824,7 +826,7 @@ export const QueueCreateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueDeleteHeaders: msRest.CompositeMapper = {
+export const QueueDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-delete-headers",
   type: {
     name: "Composite",
@@ -864,7 +866,7 @@ export const QueueDeleteHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueGetPropertiesHeaders: msRest.CompositeMapper = {
+export const QueueGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-getproperties-headers",
   type: {
     name: "Composite",
@@ -922,7 +924,7 @@ export const QueueGetPropertiesHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueSetMetadataHeaders: msRest.CompositeMapper = {
+export const QueueSetMetadataHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-setmetadata-headers",
   type: {
     name: "Composite",
@@ -962,7 +964,7 @@ export const QueueSetMetadataHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueGetAccessPolicyHeaders: msRest.CompositeMapper = {
+export const QueueGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-getaccesspolicy-headers",
   type: {
     name: "Composite",
@@ -1002,7 +1004,7 @@ export const QueueGetAccessPolicyHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const QueueSetAccessPolicyHeaders: msRest.CompositeMapper = {
+export const QueueSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   serializedName: "queue-setaccesspolicy-headers",
   type: {
     name: "Composite",
@@ -1042,7 +1044,7 @@ export const QueueSetAccessPolicyHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessagesDequeueHeaders: msRest.CompositeMapper = {
+export const MessagesDequeueHeaders: coreHttp.CompositeMapper = {
   serializedName: "messages-dequeue-headers",
   type: {
     name: "Composite",
@@ -1082,7 +1084,7 @@ export const MessagesDequeueHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessagesClearHeaders: msRest.CompositeMapper = {
+export const MessagesClearHeaders: coreHttp.CompositeMapper = {
   serializedName: "messages-clear-headers",
   type: {
     name: "Composite",
@@ -1122,7 +1124,7 @@ export const MessagesClearHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessagesEnqueueHeaders: msRest.CompositeMapper = {
+export const MessagesEnqueueHeaders: coreHttp.CompositeMapper = {
   serializedName: "messages-enqueue-headers",
   type: {
     name: "Composite",
@@ -1162,7 +1164,7 @@ export const MessagesEnqueueHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessagesPeekHeaders: msRest.CompositeMapper = {
+export const MessagesPeekHeaders: coreHttp.CompositeMapper = {
   serializedName: "messages-peek-headers",
   type: {
     name: "Composite",
@@ -1202,7 +1204,7 @@ export const MessagesPeekHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessageIdUpdateHeaders: msRest.CompositeMapper = {
+export const MessageIdUpdateHeaders: coreHttp.CompositeMapper = {
   serializedName: "messageid-update-headers",
   type: {
     name: "Composite",
@@ -1254,7 +1256,7 @@ export const MessageIdUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const MessageIdDeleteHeaders: msRest.CompositeMapper = {
+export const MessageIdDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "messageid-delete-headers",
   type: {
     name: "Composite",

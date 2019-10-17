@@ -1,4 +1,4 @@
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
 
 import { KeepAlivePolicy } from "./policies/KeepAlivePolicy";
 
@@ -6,9 +6,9 @@ import { KeepAlivePolicy } from "./policies/KeepAlivePolicy";
  * Interface of KeepAlivePolicy options.
  *
  * @export
- * @interface IKeepAliveOptions
+ * @interface KeepAliveOptions
  */
-export interface IKeepAliveOptions {
+export interface KeepAliveOptions {
   enable: boolean;
 }
 
@@ -23,10 +23,10 @@ export class KeepAlivePolicyFactory implements RequestPolicyFactory {
   /**
    * Creates an instance of KeepAlivePolicyFactory.
    *
-   * @param {IKeepAliveOptions} [telemetry]
+   * @param {KeepAliveOptions} [telemetry]
    * @memberof KeepAlivePolicyFactory
    */
-  constructor(private readonly keepAliveOptions: IKeepAliveOptions = { enable: true }) {}
+  constructor(private readonly keepAliveOptions: KeepAliveOptions = { enable: true }) {}
 
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): KeepAlivePolicy {
     return new KeepAlivePolicy(nextPolicy, options, this.keepAliveOptions);

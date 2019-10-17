@@ -1,5 +1,10 @@
-export const SDK_VERSION: string = "10.3.0";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+export const SDK_VERSION: string = "12.0.0-preview.4";
 export const SERVICE_VERSION: string = "2019-02-02";
+
+export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
 
 export const URLConstants = {
   Parameters: {
@@ -34,8 +39,13 @@ export const HeaderConstants = {
   RANGE: "Range",
   USER_AGENT: "User-Agent",
   X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id",
+  X_MS_COPY_SOURCE: "x-ms-copy-source",
   X_MS_DATE: "x-ms-date"
 };
 
 export const ETagNone = "";
 export const ETagAny = "*";
+
+export const DevelopmentConnectionString = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;
+  AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;
+  QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;`;

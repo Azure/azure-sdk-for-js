@@ -1,5 +1,7 @@
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
 import { RetryPolicy, RetryPolicyType } from "./policies/RetryPolicy";
 
 export { RetryPolicyType } from "./policies/RetryPolicy";
@@ -8,9 +10,9 @@ export { RetryPolicyType } from "./policies/RetryPolicy";
  * Retry options interface.
  *
  * @export
- * @interface IRetryOptions
+ * @interface RetryOptions
  */
-export interface IRetryOptions {
+export interface RetryOptions {
   /**
    * Optional. RetryPolicyType, default is exponential retry policy.
    *
@@ -25,7 +27,7 @@ export interface IRetryOptions {
    * A value smaller than 1 means default retry number of attempts.
    *
    * @type {number}
-   * @memberof IRetryOptions
+   * @memberof RetryOptions
    */
   readonly maxTries?: number;
 
@@ -39,7 +41,7 @@ export interface IRetryOptions {
    * like (60 seconds per MB of anticipated-payload-size)
    *
    * @type {number}
-   * @memberof IRetryOptions
+   * @memberof RetryOptions
    */
   readonly tryTimeoutInMs?: number;
 
@@ -49,7 +51,7 @@ export interface IRetryOptions {
    * maxRetryDelayInMs. If you specify 0, then you must also specify 0 for maxRetryDelayInMs.
    *
    * @type {number}
-   * @memberof IRetryOptions
+   * @memberof RetryOptions
    */
   readonly retryDelayInMs?: number;
 
@@ -58,7 +60,7 @@ export interface IRetryOptions {
    * If you specify 0, then you must also specify 0 for retryDelayInMs.
    *
    * @type {number}
-   * @memberof IRetryOptions
+   * @memberof RetryOptions
    */
   readonly maxRetryDelayInMs?: number;
 }
@@ -71,14 +73,14 @@ export interface IRetryOptions {
  * @implements {RequestPolicyFactory}
  */
 export class RetryPolicyFactory implements RequestPolicyFactory {
-  private retryOptions?: IRetryOptions;
+  private retryOptions?: RetryOptions;
 
   /**
    * Creates an instance of RetryPolicyFactory.
-   * @param {IRetryOptions} [retryOptions]
+   * @param {RetryOptions} [retryOptions]
    * @memberof RetryPolicyFactory
    */
-  constructor(retryOptions?: IRetryOptions) {
+  constructor(retryOptions?: RetryOptions) {
     this.retryOptions = retryOptions;
   }
 

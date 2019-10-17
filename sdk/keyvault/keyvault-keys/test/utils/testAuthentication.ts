@@ -1,6 +1,6 @@
 import { ClientSecretCredential } from "@azure/identity";
 import { getKeyvaultName } from "./utils.common";
-import { KeysClient } from "../../src";
+import { KeyClient } from "../../src";
 import { env, record, setReplaceableVariables, setReplacements } from "@azure/test-utils-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
@@ -30,7 +30,7 @@ export async function authenticate(that: any): Promise<any> {
 
   const keyVaultName = getKeyvaultName();
   const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
-  const client = new KeysClient(keyVaultUrl, credential);
+  const client = new KeyClient(keyVaultUrl, credential);
   const testClient = new TestClient(client);
 
   return { recorder, client, credential, testClient, keySuffix };

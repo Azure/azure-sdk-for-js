@@ -1,4 +1,4 @@
-import { SecretsClient } from "../../src";
+import { SecretClient } from "../../src";
 import * as fs from "fs";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -33,7 +33,7 @@ async function main(): Promise<void> {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretsClient(url, credential);
+  const client = new SecretClient(url, credential);
 
   const secretName = "StorageAccountPassword";
 

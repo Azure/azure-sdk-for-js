@@ -1,8 +1,9 @@
 import assert from "assert";
-import { delay, SimpleTokenCredential, WebResource, HttpHeaders } from "@azure/core-http";
+import { delay, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
 import { PollerStoppedError } from "../src";
+import { TestTokenCredential } from "./utils/testTokenCredential";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
@@ -33,7 +34,7 @@ const finalResponse = {
 
 describe("Long Running Operations - working with abort signals", function() {
   it("should support an abort signal sent through the constructor", async function() {
-    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(20).fill(basicResponseStructure),
@@ -68,7 +69,7 @@ describe("Long Running Operations - working with abort signals", function() {
   });
 
   it("should support an abort signal sent through the parameters of poll()", async function() {
-    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(20).fill(basicResponseStructure),
@@ -107,7 +108,7 @@ describe("Long Running Operations - working with abort signals", function() {
   });
 
   it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function() {
-    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(20).fill(basicResponseStructure),
@@ -142,7 +143,7 @@ describe("Long Running Operations - working with abort signals", function() {
   });
 
   it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent as a parameter to cancelOperation()", async function() {
-    const client = new TestClient(new SimpleTokenCredential("my-test-token"));
+    const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(20).fill(basicResponseStructure),

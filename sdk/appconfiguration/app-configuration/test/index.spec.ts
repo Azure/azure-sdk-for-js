@@ -10,7 +10,6 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
-import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];

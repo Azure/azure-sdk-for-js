@@ -1,6 +1,7 @@
 import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
 import { padStart } from "../../src/utils/utils.common";
 
+export const env = isBrowser() ? (window as any).__env__ : process.env;
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
