@@ -228,7 +228,7 @@ describe("QueueServiceClient", () => {
 
     const serviceProperties = await queueServiceClient.getProperties();
 
-    serviceProperties.analyticsLogging = {
+    serviceProperties.queueAnalyticsLogging = {
       deleteProperty: true,
       read: true,
       retentionPolicy: {

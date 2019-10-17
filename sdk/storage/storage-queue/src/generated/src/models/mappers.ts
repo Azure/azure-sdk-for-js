@@ -576,7 +576,7 @@ export const QueueServiceProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "QueueServiceProperties",
     modelProperties: {
-      analyticsLogging: {
+      queueAnalyticsLogging: {
         xmlName: "Logging",
         serializedName: "Logging",
         type: {
