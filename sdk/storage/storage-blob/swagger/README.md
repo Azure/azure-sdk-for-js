@@ -203,8 +203,8 @@ directive:
       $["x-ms-client-name"] = "deletedOn";
 ```
 
-### Remove Encrypted property from BlobMetadata
 
+### Remove Encrypted property from BlobMetadata
 ```yaml
 directive:
   - from: swagger-document
@@ -215,12 +215,17 @@ directive:
       }
 ```
 
+### Unify PageRange and ClearRange by using only PageRange type in PageList
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions..properties.DeletedTime
     transform: >
       $["x-ms-client-name"] = "deletedOn";
+    where: $.definitions.PageList.properties.ClearRange
+    transform: >
+      $.items["$ref"] = "#/definitions/PageRange";
+      $.items["$ref"]["x-ms-client-name"] = "ClearRange"
 ```
 
 ### UserDelegationKey properties

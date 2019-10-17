@@ -1263,32 +1263,6 @@ export const PageRange: coreHttp.CompositeMapper = {
   }
 };
 
-export const ClearRange: coreHttp.CompositeMapper = {
-  serializedName: "ClearRange",
-  type: {
-    name: "Composite",
-    className: "ClearRange",
-    modelProperties: {
-      start: {
-        xmlName: "Start",
-        required: true,
-        serializedName: "Start",
-        type: {
-          name: "Number"
-        }
-      },
-      end: {
-        xmlName: "End",
-        required: true,
-        serializedName: "End",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const PageList: coreHttp.CompositeMapper = {
   serializedName: "PageList",
   type: {
@@ -1311,16 +1285,42 @@ export const PageList: coreHttp.CompositeMapper = {
       },
       clearRange: {
         xmlName: "ClearRange",
-        xmlElementName: "ClearRange",
+        xmlElementName: "PageRange",
         serializedName: "ClearRange",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ClearRange"
+              className: "PageRange"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ClearRange: coreHttp.CompositeMapper = {
+  serializedName: "ClearRange",
+  type: {
+    name: "Composite",
+    className: "ClearRange",
+    modelProperties: {
+      start: {
+        xmlName: "Start",
+        required: true,
+        serializedName: "Start",
+        type: {
+          name: "Number"
+        }
+      },
+      end: {
+        xmlName: "End",
+        required: true,
+        serializedName: "End",
+        type: {
+          name: "Number"
         }
       }
     }

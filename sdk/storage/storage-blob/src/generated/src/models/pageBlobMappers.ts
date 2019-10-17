@@ -7,7 +7,6 @@
  */
 
 export {
-  ClearRange,
   PageBlobClearPagesHeaders,
   PageBlobCopyIncrementalHeaders,
   PageBlobCreateHeaders,
