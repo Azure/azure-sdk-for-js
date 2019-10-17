@@ -19,25 +19,6 @@ import {
   AuthorizationRule
 } from "../util/utils";
 
-const requestProperties: Array<keyof InternalQueueOptions> = [
-  Constants.LOCK_DURATION,
-  Constants.MAX_SIZE_IN_MEGABYTES,
-  Constants.REQUIRES_DUPLICATE_DETECTION,
-  Constants.REQUIRES_SESSION,
-  Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
-  Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION,
-  Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
-  Constants.MAX_DELIVERY_COUNT,
-  Constants.ENABLE_BATCHED_OPERATIONS,
-  Constants.SIZE_IN_BYTES,
-  Constants.MESSAGE_COUNT,
-  Constants.AUTHORIZATION_RULES,
-  Constants.AUTO_DELETE_ON_IDLE,
-  Constants.ENABLE_PARTITIONING,
-  Constants.FORWARD_DEADLETTERED_MESSAGES_TO,
-  Constants.USER_METADATA
-];
-
 /**
  * @ignore
  * Builds the queue options object
@@ -46,23 +27,23 @@ const requestProperties: Array<keyof InternalQueueOptions> = [
 export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOptions {
   const internalQueueOptions: InternalQueueOptions = {
     LockDuration: queueOptions.lockDuration,
-    SizeInBytes: getStringOrUndefined(queueOptions.sizeInBytes),
     MaxSizeInMegabytes: getStringOrUndefined(queueOptions.maxSizeInMegabytes),
-    MessageCount: getStringOrUndefined(queueOptions.messageCount),
-    DefaultMessageTimeToLive: queueOptions.defaultMessageTimeToLive,
-    DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
-    ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
-    AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
-    MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
-    EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
-    RequiresSession: getStringOrUndefined(queueOptions.requiresSession),
-    EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
     RequiresDuplicateDetection: getStringOrUndefined(queueOptions.requiresDuplicateDetection),
+    RequiresSession: getStringOrUndefined(queueOptions.requiresSession),
+    DefaultMessageTimeToLive: queueOptions.defaultMessageTimeToLive,
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
       queueOptions.deadLetteringOnMessageExpiration
     ),
-    UserMetadata: getStringOrUndefined(queueOptions.userMetadata),
-    AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules)
+    DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
+    MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
+    EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
+    SizeInBytes: getStringOrUndefined(queueOptions.sizeInBytes),
+    MessageCount: getStringOrUndefined(queueOptions.messageCount),
+    AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules),
+    AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
+    EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
+    ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
+    UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
   };
   return internalQueueOptions;
 }
@@ -392,11 +373,7 @@ export interface Queue extends QueueOptions {
  */
 export class QueueResourceSerializer implements AtomXmlSerializer {
   serialize(resource: InternalQueueOptions): object {
-    return serializeToAtomXmlRequest(
-      "QueueDescription",
-      resource,
-      requestProperties
-    );
+    return serializeToAtomXmlRequest("QueueDescription", resource);
   }
 
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {

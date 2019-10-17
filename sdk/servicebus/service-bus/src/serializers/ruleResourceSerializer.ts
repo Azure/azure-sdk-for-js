@@ -16,8 +16,6 @@ import {
 } from "../util/utils";
 import { CorrelationFilter } from "../core/managementClient";
 
-const requestProperties = ["Filter", "Action", "Name"];
-
 /**
  * @ignore
  * Builds the rule options object
@@ -281,7 +279,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
       };
     }
 
-    return serializeToAtomXmlRequest("RuleDescription", resource, requestProperties);
+    return serializeToAtomXmlRequest("RuleDescription", resource);
   }
 
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
@@ -433,7 +431,7 @@ function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
     "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
   };
   rawParameterValue[Constants.XML_VALUE_MARKER] = parameter.value;
-  
+
   const rawParameter: RawSqlParameter = {
     Key: parameter.key,
     Value: rawParameterValue

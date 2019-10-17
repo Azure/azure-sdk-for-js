@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { HttpOperationResponse } from "@azure/core-http";
-import * as Constants from "../util/constants";
 import {
   serializeToAtomXmlRequest,
   deserializeAtomXmlResponse,
@@ -16,21 +15,6 @@ import {
   CountDetails
 } from "../util/utils";
 
-const requestProperties: Array<keyof InternalSubscriptionOptions> = [
-  Constants.LOCK_DURATION,
-  Constants.REQUIRES_SESSION,
-  Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
-  Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION,
-  Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS,
-  Constants.DEFAULT_RULE_DESCRIPTION,
-  Constants.MAX_DELIVERY_COUNT,
-  Constants.ENABLE_BATCHED_OPERATIONS,
-  Constants.FORWARD_TO,
-  Constants.USER_METADATA,
-  Constants.FORWARD_DEADLETTERED_MESSAGES_TO,
-  Constants.AUTO_DELETE_ON_IDLE
-];
-
 /**
  * @ignore
  * Builds the subscription options object
@@ -41,26 +25,27 @@ export function buildSubscriptionOptions(
 ): InternalSubscriptionOptions {
   const internalSubscriptionOptions: InternalSubscriptionOptions = {
     LockDuration: subscriptionOptions.lockDuration,
-    MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
-    SizeInBytes: getStringOrUndefined(subscriptionOptions.sizeInBytes),
-    MaxSizeInMegabytes: getStringOrUndefined(subscriptionOptions.maxSizeInMegabytes),
-    MessageCount: getStringOrUndefined(subscriptionOptions.messageCount),
-    EnablePartitioning: getStringOrUndefined(subscriptionOptions.enablePartitioning),
     RequiresSession: getStringOrUndefined(subscriptionOptions.requiresSession),
-    EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
     DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTimeToLive),
-    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
       subscriptionOptions.deadLetteringOnMessageExpiration
     ),
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
       subscriptionOptions.deadLetteringOnFilterEvaluationExceptions
     ),
+    DefaultRuleDescription: subscriptionOptions.defaultRuleDescription,
+    MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
+    EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
+    SizeInBytes: getStringOrUndefined(subscriptionOptions.sizeInBytes),
+    MaxSizeInMegabytes: getStringOrUndefined(subscriptionOptions.maxSizeInMegabytes),
+    MessageCount: getStringOrUndefined(subscriptionOptions.messageCount),
+    EnablePartitioning: getStringOrUndefined(subscriptionOptions.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(
       subscriptionOptions.forwardDeadLetteredMessagesTo
     ),
-    DefaultRuleDescription: subscriptionOptions.defaultRuleDescription
+    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle)
   };
+
   return internalSubscriptionOptions;
 }
 
@@ -349,11 +334,7 @@ export interface Subscription extends SubscriptionOptions {
  */
 export class SubscriptionResourceSerializer implements AtomXmlSerializer {
   serialize(resource: InternalSubscriptionOptions): object {
-    return serializeToAtomXmlRequest(
-      "SubscriptionDescription",
-      resource,
-      requestProperties
-    );
+    return serializeToAtomXmlRequest("SubscriptionDescription", resource);
   }
 
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {

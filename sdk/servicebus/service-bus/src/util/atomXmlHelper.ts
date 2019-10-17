@@ -74,24 +74,13 @@ export async function executeAtomXmlOperation(
  * @param allowedProperties The set of properties that are allowed by the service for the
  * associated operation(s);
  */
-export function serializeToAtomXmlRequest(
-  resourceName: string,
-  resource: any,
-  allowedProperties: string[]
-): object {
+export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
   const content: any = {};
-  content[resourceName] = {};
+  content[resourceName] = resource;
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
     "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
   };
-
-  // Sort properties according to what is allowed by the service
-  allowedProperties.forEach((property: string) => {
-    if (resource[property] !== undefined) {
-      content[resourceName][property] = resource[property];
-    }
-  });
 
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
   const requestDetails: any = {

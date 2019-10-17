@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { HttpOperationResponse } from "@azure/core-http";
-import * as Constants from "../util/constants";
 import {
   serializeToAtomXmlRequest,
   deserializeAtomXmlResponse,
@@ -19,30 +18,6 @@ import {
   AuthorizationRule
 } from "../util/utils";
 
-const requestProperties: Array<keyof InternalTopicOptions> = [
-  Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
-  Constants.MAX_SIZE_IN_MEGABYTES,
-  Constants.REQUIRES_DUPLICATE_DETECTION,
-  Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
-  Constants.ENABLE_BATCHED_OPERATIONS,
-  Constants.SIZE_IN_BYTES,
-  Constants.USER_METADATA,
-  Constants.AUTO_DELETE_ON_IDLE,
-  Constants.AUTHORIZATION_RULES,
-  Constants.SUPPORT_ORDERING,
-  Constants.MAX_SUBSCRIPTIONS_PER_TOPIC,
-  Constants.MAX_SQL_FILTERS_PER_TOPIC,
-  Constants.MAX_CORRELATION_FILTERS_PER_TOPIC,
-  Constants.ENABLE_EXPRESS,
-  Constants.IS_EXPRESS,
-  Constants.ENABLE_SUBSCRIPTION_PARTITIONING,
-  Constants.FILTER_MESSAGES_BEFORE_PUBLISHING,
-  Constants.ENABLE_PARTITIONING,
-  Constants.MESSAGE_COUNT,
-  Constants.SUBSCRIPTION_COUNT,
-  Constants.MAX_DELIVERY_COUNT
-];
-
 /**
  * @ignore
  * Builds the topic options object
@@ -50,35 +25,31 @@ const requestProperties: Array<keyof InternalTopicOptions> = [
  */
 export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOptions {
   const internalQueueOptions: InternalTopicOptions = {
-    SizeInBytes: getStringOrUndefined(topicOptions.sizeInBytes),
-
-    MessageCount: getStringOrUndefined(topicOptions.messageCount),
-    SubscriptionCount: getStringOrUndefined(topicOptions.subscriptionCount),
-    MaxDeliveryCount: getStringOrUndefined(topicOptions.maxDeliveryCount),
-
     DefaultMessageTimeToLive: topicOptions.defaultMessageTimeToLive,
-    DuplicateDetectionHistoryTimeWindow: topicOptions.duplicateDetectionHistoryTimeWindow,
-
     MaxSizeInMegabytes: getStringOrUndefined(topicOptions.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topicOptions.requiresDuplicateDetection),
+    DuplicateDetectionHistoryTimeWindow: topicOptions.duplicateDetectionHistoryTimeWindow,
+    EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
+    SizeInBytes: getStringOrUndefined(topicOptions.sizeInBytes),
+
+    AutoDeleteOnIdle: getStringOrUndefined(topicOptions.autoDeleteOnIdle),
+    AuthorizationRules: getRawAuthorizationRules(topicOptions.authorizationRules),
+    SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
+    MaxSubscriptionsPerTopic: getStringOrUndefined(topicOptions.maxSubscriptionsPerTopic),
+    MaxSqlFiltersPerTopic: getStringOrUndefined(topicOptions.maxSqlFiltersPerTopic),
+    MaxCorrelationFiltersPerTopic: getStringOrUndefined(topicOptions.maxCorrelationFiltersPerTopic),
+    EnableExpress: getStringOrUndefined(topicOptions.enableExpress),
+    IsExpress: getStringOrUndefined(topicOptions.isExpress),
     EnableSubscriptionPartitioning: getStringOrUndefined(
       topicOptions.enableSubscriptionPartitioning
     ),
     FilteringMessagesBeforePublishing: getStringOrUndefined(
       topicOptions.filteringMessagesBeforePublishing
     ),
-    AuthorizationRules: getRawAuthorizationRules(topicOptions.authorizationRules),
     EnablePartitioning: getStringOrUndefined(topicOptions.enablePartitioning),
-    SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
-    EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
-    AutoDeleteOnIdle: getStringOrUndefined(topicOptions.autoDeleteOnIdle),
-
-    IsExpress: getStringOrUndefined(topicOptions.isExpress),
-    EnableExpress: getStringOrUndefined(topicOptions.enableExpress),
-
-    MaxSubscriptionsPerTopic: getStringOrUndefined(topicOptions.maxSubscriptionsPerTopic),
-    MaxSqlFiltersPerTopic: getStringOrUndefined(topicOptions.maxSqlFiltersPerTopic),
-    MaxCorrelationFiltersPerTopic: getStringOrUndefined(topicOptions.maxCorrelationFiltersPerTopic)
+    MessageCount: getStringOrUndefined(topicOptions.messageCount),
+    SubscriptionCount: getStringOrUndefined(topicOptions.subscriptionCount),
+    MaxDeliveryCount: getStringOrUndefined(topicOptions.maxDeliveryCount)
   };
 
   return internalQueueOptions;
@@ -428,11 +399,7 @@ export interface Topic extends TopicOptions {
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {
   serialize(resource: InternalTopicOptions): object {
-    return serializeToAtomXmlRequest(
-      "TopicDescription",
-      resource,
-      requestProperties
-    );
+    return serializeToAtomXmlRequest("TopicDescription", resource);
   }
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName"], response);
