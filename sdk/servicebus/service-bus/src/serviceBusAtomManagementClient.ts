@@ -733,7 +733,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       webResource.headers.set("If-Match", "*");
     }
     webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
-    webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
 
     return executeAtomXmlOperation(this, webResource, serializer);
   }

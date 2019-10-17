@@ -40,6 +40,10 @@ export async function executeAtomXmlOperation(
     webResource.body = stringifyXML(content, { rootName: "entry" });
   }
 
+  if (webResource.method == "PUT") {
+    webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
+  }
+
   const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
     webResource
   );
