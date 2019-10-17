@@ -1,9 +1,9 @@
 import { retry } from "./recorder";
-import { CertificatesClient } from "../../src";
+import { CertificateClient } from "../../src";
 
 export default class TestClient {
-  public readonly client: CertificatesClient;
-  constructor(client: CertificatesClient) {
+  public readonly client: CertificateClient;
+  constructor(client: CertificateClient) {
     this.client = client;
   }
   public formatName(name: string): string {

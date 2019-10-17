@@ -1,9 +1,9 @@
 import { retry } from "./recorderUtils";
-import { KeysClient } from "../../src";
+import { KeyClient } from "../../src";
 
 export default class TestClient {
-  public readonly client: KeysClient;
-  constructor(client: KeysClient) {
+  public readonly client: KeyClient;
+  constructor(client: KeyClient) {
     this.client = client;
   }
   public formatName(name: string): string {
