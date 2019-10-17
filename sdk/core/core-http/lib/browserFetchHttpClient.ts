@@ -4,16 +4,8 @@
 import { FetchHttpClient } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
-import { HttpClientOptions } from "./httpClient";
 
 export class BrowserFetchHttpClient extends FetchHttpClient {
-  constructor(_httpClientOptions?: HttpClientOptions) {
-    super();
-
-    // HttpClientOptions is not (yet) supported in this implementation
-    // so it will remain unused for now.
-  }
-
   prepareRequest(_httpRequest: WebResource): Promise<Partial<RequestInit>> {
     return Promise.resolve({});
   }

@@ -3,7 +3,7 @@
 
 import "chai/register-should";
 import { should } from "chai";
-import { ProxySettings } from "../../lib/httpClient";
+import { ProxySettings } from "../../lib/serviceClient";
 import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { WebResource } from "../../lib/webResource";
 import { HttpHeaders } from "../../lib/httpHeaders";

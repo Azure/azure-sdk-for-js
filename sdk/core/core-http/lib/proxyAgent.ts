@@ -5,7 +5,7 @@ import * as http from "http";
 import * as https from "https";
 import * as tunnel from "tunnel";
 
-import { ProxySettings } from "./httpClient";
+import { ProxySettings } from "./serviceClient";
 import { URLBuilder } from "./url";
 import { HttpHeaders } from "./httpHeaders";
 

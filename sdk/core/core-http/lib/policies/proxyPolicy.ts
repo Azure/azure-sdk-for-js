@@ -8,7 +8,7 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { ProxySettings } from "../httpClient";
+import { ProxySettings } from "../serviceClient";
 import { WebResource } from "../webResource";
 import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";

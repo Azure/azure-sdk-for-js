@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProxySettings } from "../httpClient";
+import { ProxySettings } from "../serviceClient";
 import {
   BaseRequestPolicy,
   RequestPolicy,
