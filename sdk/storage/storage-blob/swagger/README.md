@@ -240,12 +240,12 @@ directive:
       $["x-ms-parameter-location"] = "method";
 ```
 
-### Rename logging -> analyticsLogging
+### Rename logging -> blobAnalyticsLogging
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions..properties.Logging
     transform: >
-      $["x-ms-client-name"] = "analyticsLogging"
+      $["x-ms-client-name"] = "blobAnalyticsLogging"
 ```

@@ -289,7 +289,7 @@ describe("BlobServiceClient", () => {
 
     const serviceProperties = await blobServiceClient.getProperties();
 
-    serviceProperties.analyticsLogging = {
+    serviceProperties.blobAnalyticsLogging = {
       deleteProperty: true,
       read: true,
       retentionPolicy: {

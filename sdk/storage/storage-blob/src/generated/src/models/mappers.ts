@@ -1393,7 +1393,7 @@ export const BlobServiceProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobServiceProperties",
     modelProperties: {
-      analyticsLogging: {
+      blobAnalyticsLogging: {
         xmlName: "Logging",
         serializedName: "Logging",
         type: {
