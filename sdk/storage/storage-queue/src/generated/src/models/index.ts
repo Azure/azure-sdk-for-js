@@ -28,7 +28,7 @@ export interface AccessPolicy {
   /**
    * the permissions for the acl policy
    */
-  permission: string;
+  permissions: string;
 }
 
 /**
@@ -49,9 +49,9 @@ export interface ListQueuesSegmentResponse {
   serviceEndpoint: string;
   prefix: string;
   marker?: string;
-  maxResults: number;
+  maxPageSize: number;
   queueItems?: QueueItem[];
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -102,7 +102,7 @@ export interface GeoReplication {
    * to be available for read operations at the secondary. Primary writes after this point in time
    * may or may not be available for reads.
    */
-  lastSyncTime: Date;
+  lastSyncOn: Date;
 }
 
 /**
@@ -190,11 +190,11 @@ export interface DequeuedMessageItem {
   /**
    * The time the Message was inserted into the Queue.
    */
-  insertionTime: Date;
+  insertedOn: Date;
   /**
    * The time that the Message will expire and be automatically deleted.
    */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
    * This value is required to delete the Message. If deletion fails using this popreceipt then the
    * message has been dequeued by another client.
@@ -203,7 +203,7 @@ export interface DequeuedMessageItem {
   /**
    * The time that the message will again become visible in the Queue.
    */
-  timeNextVisible: Date;
+  nextVisibleOn: Date;
   /**
    * The number of times the message has been dequeued.
    */
@@ -225,11 +225,11 @@ export interface PeekedMessageItem {
   /**
    * The time the Message was inserted into the Queue.
    */
-  insertionTime: Date;
+  insertedOn: Date;
   /**
    * The time that the Message will expire and be automatically deleted.
    */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
    * The number of times the message has been dequeued.
    */
@@ -251,11 +251,11 @@ export interface EnqueuedMessage {
   /**
    * The time the Message was inserted into the Queue.
    */
-  insertionTime: Date;
+  insertedOn: Date;
   /**
    * The time that the Message will expire and be automatically deleted.
    */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
    * This value is required to delete the Message. If deletion fails using this popreceipt then the
    * message has been dequeued by another client.
@@ -264,7 +264,7 @@ export interface EnqueuedMessage {
   /**
    * The time that the message will again become visible in the Queue.
    */
-  timeNextVisible: Date;
+  nextVisibleOn: Date;
 }
 
 /**
@@ -322,7 +322,7 @@ export interface ServiceSetPropertiesOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -339,7 +339,7 @@ export interface ServiceGetPropertiesOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -356,7 +356,7 @@ export interface ServiceGetStatisticsOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -374,10 +374,11 @@ export interface ServiceListQueuesSegmentOptionalParams extends coreHttp.Request
   prefix?: string;
   /**
    * A string value that identifies the portion of the list of queues to be returned with the next
-   * listing operation. The operation returns the NextMarker value within the response body if the
-   * listing operation did not return all queues remaining to be listed with the current page. The
-   * NextMarker value can be used as the value for the marker parameter in a subsequent call to
-   * request the next page of list items. The marker value is opaque to the client.
+   * listing operation. The operation returns the ContinuationToken value within the response body
+   * if the listing operation did not return all queues remaining to be listed with the current
+   * page. The ContinuationToken value can be used as the value for the marker parameter in a
+   * subsequent call to request the next page of list items. The marker value is opaque to the
+   * client.
    */
   marker?: string;
   /**
@@ -388,7 +389,7 @@ export interface ServiceListQueuesSegmentOptionalParams extends coreHttp.Request
    * possible that the service will return fewer results than specified by maxresults, or than the
    * default of 5000.
    */
-  maxresults?: number;
+  maxPageSize?: number;
   /**
    * Include this parameter to specify that the queues's metadata be returned as part of the
    * response body.
@@ -399,7 +400,7 @@ export interface ServiceListQueuesSegmentOptionalParams extends coreHttp.Request
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -416,7 +417,7 @@ export interface QueueCreateOptionalParams extends coreHttp.RequestOptionsBase {
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Include this parameter to specify that the queue's metadata be returned as part of
    * the response body. Note that metadata requested with this parameter must be stored in
@@ -441,7 +442,7 @@ export interface QueueDeleteMethodOptionalParams extends coreHttp.RequestOptions
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -458,7 +459,7 @@ export interface QueueGetPropertiesOptionalParams extends coreHttp.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -475,7 +476,7 @@ export interface QueueSetMetadataOptionalParams extends coreHttp.RequestOptionsB
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Optional. Include this parameter to specify that the queue's metadata be returned as part of
    * the response body. Note that metadata requested with this parameter must be stored in
@@ -500,7 +501,7 @@ export interface QueueGetAccessPolicyOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -521,7 +522,7 @@ export interface QueueSetAccessPolicyOptionalParams extends coreHttp.RequestOpti
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -546,13 +547,13 @@ export interface MessagesDequeueOptionalParams extends coreHttp.RequestOptionsBa
    * version 2011-08-18. The visibility timeout of a message can be set to a value later than the
    * expiry time.
    */
-  visibilitytimeout?: number;
+  visibilityTimeout?: number;
   /**
    * The The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -569,7 +570,7 @@ export interface MessagesClearOptionalParams extends coreHttp.RequestOptionsBase
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -588,7 +589,7 @@ export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBa
    * version 2011-08-18. The visibility timeout of a message can be set to a value later than the
    * expiry time.
    */
-  visibilitytimeout?: number;
+  visibilityTimeout?: number;
   /**
    * Optional. Specifies the time-to-live interval for the message, in seconds. Prior to version
    * 2017-07-29, the maximum time-to-live allowed is 7 days. For version 2017-07-29 or later, the
@@ -601,7 +602,7 @@ export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -624,7 +625,7 @@ export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase 
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -641,7 +642,7 @@ export interface MessageIdUpdateOptionalParams extends coreHttp.RequestOptionsBa
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -658,7 +659,7 @@ export interface MessageIdDeleteMethodOptionalParams extends coreHttp.RequestOpt
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations>Setting
    * Timeouts for Queue Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1071,7 +1072,7 @@ export interface MessageIdUpdateHeaders {
   /**
    * A UTC date/time value that represents when the message will be visible on the queue.
    */
-  timeNextVisible?: Date;
+  nextVisibleOn?: Date;
   errorCode?: string;
 }
 

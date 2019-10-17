@@ -28,13 +28,13 @@ describe("MessageIdClient Node.js only", () => {
   it("update message with 64KB characters including special char which is computed after encoding", async () => {
     let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
     assert.ok(eResult.clientRequestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let specialChars =
@@ -49,7 +49,7 @@ describe("MessageIdClient Node.js only", () => {
       newMessage
     );
     assert.ok(uResult.version);
-    assert.ok(uResult.timeNextVisible);
+    assert.ok(uResult.nextVisibleOn);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(eResult.clientRequestId);
@@ -63,12 +63,12 @@ describe("MessageIdClient Node.js only", () => {
   it("update message negative with 65537B (64KB+1B) characters including special char which is computed after encoding", async () => {
     let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let specialChars =

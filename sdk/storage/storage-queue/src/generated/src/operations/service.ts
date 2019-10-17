@@ -139,7 +139,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype,
     Parameters.comp0
   ],
@@ -173,7 +173,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype,
     Parameters.comp0
   ],
@@ -200,7 +200,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype,
     Parameters.comp1
   ],
@@ -229,9 +229,9 @@ const listQueuesSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker,
-    Parameters.maxresults,
+    Parameters.maxPageSize,
     Parameters.include,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp2
   ],
   headerParameters: [

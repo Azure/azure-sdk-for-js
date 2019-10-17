@@ -142,8 +142,8 @@ const dequeueOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.numberOfMessages,
-    Parameters.visibilitytimeout0,
-    Parameters.timeout
+    Parameters.visibilityTimeout0,
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -181,7 +181,7 @@ const clearOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -206,9 +206,9 @@ const enqueueOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.visibilitytimeout0,
+    Parameters.visibilityTimeout0,
     Parameters.messageTimeToLive,
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -255,7 +255,7 @@ const peekOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.numberOfMessages,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.peekonly
   ],
   headerParameters: [
