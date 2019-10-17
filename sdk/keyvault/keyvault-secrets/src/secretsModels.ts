@@ -14,7 +14,7 @@ export interface SecretClientInterface {
     secretName: string,
     options?: coreHttp.RequestOptionsBase
   ): Promise<SecretProperties>;
-  getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
+  getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
   deleteSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
   getDeletedSecret(
     secretName: string,
@@ -26,7 +26,7 @@ export interface SecretClientInterface {
  * @interface
  * An interface representing the complete secret.
  */
-export interface Secret {
+export interface KeyVaultSecret {
   /**
    * @member {SecretProperties} [properties] The properties of the secret
    */

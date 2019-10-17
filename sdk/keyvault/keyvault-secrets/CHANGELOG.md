@@ -5,6 +5,8 @@
 - `deleteSecret` and `recoverDeletedSecret` are now out of the public API.
   Use `beginDeleteSecret` and `beginRecoverDeletedSecret` instead.
   They both return a Poller (from our package `@azure/core-lro`) that manages the long running operation.
+- Renamed `Secret` to `KeyVaultSecret`.
+- Renamed most of the date properties to end in the `On` suffix.
 
 ## 4.0.0-preview.8 (2019-10-09)
 
