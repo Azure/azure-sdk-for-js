@@ -741,7 +741,7 @@ export class BlobServiceClient extends StorageClient {
    *     }
    *   }
    *   // Gets next marker
-   *   let marker = response.nextMarker;
+   *   let marker = response.continuationToken;
    *   // Passing next marker as continuationToken
    *   iterator = blobServiceClient
    *     .listContainers()

@@ -1292,7 +1292,7 @@ export class ContainerClient extends StorageClient {
    *     console.log(`Blob ${i++}: ${blob.name}`);
    *    }
    *   // Gets next marker
-   *   let marker = response.nextMarker;
+   *   let marker = response.continuationToken;
    *    // Passing next marker as continuationToken
    *   iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
    *   response = (await iterator.next()).value;
