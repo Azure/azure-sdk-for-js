@@ -571,7 +571,7 @@ export const ListBlobsFlatSegmentResponse: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      maxResults: {
+      maxPageSize: {
         xmlName: "MaxResults",
         serializedName: "MaxResults",
         type: {
@@ -702,7 +702,7 @@ export const ListBlobsHierarchySegmentResponse: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      maxResults: {
+      maxPageSize: {
         xmlName: "MaxResults",
         serializedName: "MaxResults",
         type: {
@@ -1005,7 +1005,7 @@ export const ListContainersSegmentResponse: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      maxResults: {
+      maxPageSize: {
         xmlName: "MaxResults",
         serializedName: "MaxResults",
         type: {
@@ -1393,7 +1393,7 @@ export const BlobServiceProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "BlobServiceProperties",
     modelProperties: {
-      logging: {
+      blobAnalyticsLogging: {
         xmlName: "Logging",
         serializedName: "Logging",
         type: {

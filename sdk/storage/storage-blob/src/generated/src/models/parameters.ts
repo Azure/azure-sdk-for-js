@@ -899,10 +899,10 @@ export const marker1: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const maxResults: coreHttp.OperationQueryParameter = {
+export const maxPageSize: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "maxResults"
+    "maxPageSize"
   ],
   mapper: {
     serializedName: "maxresults",
