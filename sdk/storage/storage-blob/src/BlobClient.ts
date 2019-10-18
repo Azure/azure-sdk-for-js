@@ -1458,14 +1458,14 @@ export class BlobClient extends StorageClient {
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
    * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
-   * @returns {Promise<void>}
+   * @returns {Promise<Buffer>}
    */
   public async downloadToBuffer(
     buffer: Buffer,
     offset: number,
     count?: number,
     options: DownloadFromBlobOptions = {}
-  ): Promise<void> {
+  ): Promise<Buffer> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
     try {
@@ -1538,6 +1538,7 @@ export class BlobClient extends StorageClient {
         });
       }
       await batch.do();
+      return buffer;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
