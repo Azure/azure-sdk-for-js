@@ -21,15 +21,15 @@ async function main() {
 
   // List the secrets we have, by page
   console.log("Listing secrets by page");
-  let listSecrets = client.listSecrets().byPage({ maxPageSize: 2 });
+  let listPropertiesOfSecrets = client.listPropertiesOfSecrets().byPage({ maxPageSize: 2 });
   while (true) {
-    let { done, value } = await listSecrets.next();
+    let { done, value } = await listPropertiesOfSecrets.next();
     if (done) {
       break;
     }
 
-    for (const secretAttr of value) {
-      const secret = await client.getSecret(secretAttr.name);
+    for (const secretProperties of value) {
+      const secret = await client.getSecret(secretProperties.name);
       console.log("secret: ", secret);
     }
     console.log("--page--");
@@ -37,9 +37,9 @@ async function main() {
 
   // List the secrets we have, all at once
   console.log("Listing secrets all at once");
-  let listSecrets = client.listSecrets();
+  listPropertiesOfSecrets = client.listPropertiesOfSecrets();
   while (true) {
-    let { done, value } = await listSecrets.next();
+    let { done, value } = await listPropertiesOfSecrets.next();
     if (done) {
       break;
     }

@@ -689,7 +689,7 @@ export class SecretClient {
     };
   }
 
-  private async *listSecretsPage(
+  private async *listPropertiesOfSecretsPage(
     continuationState: PageSettings,
     options?: ListOperationOptions
   ): AsyncIterableIterator<SecretProperties[]> {
@@ -722,12 +722,12 @@ export class SecretClient {
     }
   }
 
-  private async *listSecretsAll(
+  private async *listPropertiesOfSecretsAll(
     options?: ListOperationOptions
   ): AsyncIterableIterator<SecretProperties> {
     const f = {};
 
-    for await (const page of this.listSecretsPage(f, options)) {
+    for await (const page of this.listPropertiesOfSecretsPage(f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -741,7 +741,7 @@ export class SecretClient {
    * Example usage:
    * ```ts
    * let client = new SecretClient(url, credentials);
-   * for await (const secretAttr of client.listSecrets()) {
+   * for await (const secretAttr of client.listPropertiesOfSecrets()) {
    *   const secret = await client.getSecret(secretAttr.name);
    *   console.log("secret: ", secret);
    * }
@@ -749,16 +749,16 @@ export class SecretClient {
    * @summary List all secrets in the vault
    * @param [options] The optional parameters
    */
-  public listSecrets(
+  public listPropertiesOfSecrets(
     options?: ListOperationOptions
   ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
-    const span = this.createSpan("listSecrets", options && options.requestOptions);
+    const span = this.createSpan("listPropertiesOfSecrets", options && options.requestOptions);
     const updatedOptions: ListOperationOptions = {
       ...options,
       requestOptions: this.setParentSpan(span, options && options.requestOptions)
     };
 
-    const iter = this.listSecretsAll(updatedOptions);
+    const iter = this.listPropertiesOfSecretsAll(updatedOptions);
 
     span.end();
     return {
@@ -768,14 +768,14 @@ export class SecretClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listSecretsPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listPropertiesOfSecretsPage(settings, updatedOptions)
     };
   }
 
   private async *listDeletedSecretsPage(
     continuationState: PageSettings,
     options?: ListOperationOptions
-  ): AsyncIterableIterator<SecretProperties[]> {
+  ): AsyncIterableIterator<DeletedSecret[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -788,7 +788,7 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+          (bundle) => this.getSecretFromSecretBundle(bundle)
         );
       }
     }
@@ -800,7 +800,7 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => this.getSecretFromSecretBundle(bundle).properties
+          (bundle) => this.getSecretFromSecretBundle(bundle)
         );
       } else {
         break;
@@ -810,7 +810,7 @@ export class SecretClient {
 
   private async *listDeletedSecretsAll(
     options?: ListOperationOptions
-  ): AsyncIterableIterator<SecretProperties> {
+  ): AsyncIterableIterator<DeletedSecret> {
     const f = {};
 
     for await (const page of this.listDeletedSecretsPage(f, options)) {
@@ -837,7 +837,7 @@ export class SecretClient {
    */
   public listDeletedSecrets(
     options?: ListOperationOptions
-  ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
+  ): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]> {
     const span = this.createSpan("listDeletedSecrets", options && options.requestOptions);
     const updatedOptions: ListOperationOptions = {
       ...options,

@@ -21,9 +21,9 @@ async function main(): Promise<void> {
 
   // List the secrets we have, by page
   console.log("Listing secrets by page");
-  for await (const page of client.listSecrets().byPage({ maxPageSize: 2 })) {
-    for (const secretAttr of page) {
-      const secret = await client.getSecret(secretAttr.name);
+  for await (const page of client.listPropertiesOfSecrets().byPage({ maxPageSize: 2 })) {
+    for (const secretProperties of page) {
+      const secret = await client.getSecret(secretProperties.name);
       console.log("secret: ", secret);
     }
     console.log("--page--");
@@ -31,8 +31,8 @@ async function main(): Promise<void> {
 
   // List the secrets we have, all at once
   console.log("Listing secrets all at once");
-  for await (const secretAttr of client.listSecrets()) {
-    const secret = await client.getSecret(secretAttr.name);
+  for await (const secretProperties of client.listPropertiesOfSecrets()) {
+    const secret = await client.getSecret(secretProperties.name);
     console.log("secret: ", secret);
   }
 
