@@ -7,7 +7,7 @@ import {
   RecoverDeletedKeyPollOperationState,
   makeRecoverDeletedKeyPollOperation
 } from "./operation";
-import { Key, KeyClientInterface } from "../../keysModels";
+import { KeyVaultKey, KeyClientInterface } from "../../keysModels";
 
 export interface RecoverDeletedKeyPollerOptions {
   client: KeyClientInterface;
@@ -20,7 +20,7 @@ export interface RecoverDeletedKeyPollerOptions {
 /**
  * Class that deletes a poller that waits until a key finishes being deleted
  */
-export class RecoverDeletedKeyPoller extends Poller<RecoverDeletedKeyPollOperationState, Key> {
+export class RecoverDeletedKeyPoller extends Poller<RecoverDeletedKeyPollOperationState, KeyVaultKey> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    * @memberof RecoverDeletedKeyPoller

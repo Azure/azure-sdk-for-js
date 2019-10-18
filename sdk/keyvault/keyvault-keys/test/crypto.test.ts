@@ -6,7 +6,7 @@ import * as crypto from "crypto";
 import * as constants from "constants";
 import { isNode } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
-import { CryptographyClient, Key, KeyClient } from "../src";
+import { CryptographyClient, KeyVaultKey, KeyClient } from "../src";
 import { convertJWKtoPEM } from "../src/cryptographyClient";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -20,7 +20,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let recorder: any;
   let credential: ClientSecretCredential;
   let keyName: string;
-  let key: Key;
+  let key: KeyVaultKey;
   let keyVaultUrl: string;
   let keyUrl: string;
   let keySuffix: string;

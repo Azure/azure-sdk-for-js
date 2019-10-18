@@ -16,8 +16,8 @@ import { DeletionRecoveryLevel } from "./core/models";
  * An interface representing the key client. For internal use.
  */
 export interface KeyClientInterface {
-  recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
-  getKey(name: string, options?: GetKeyOptions): Promise<Key>;
+  recoverDeletedKey(name: string, options?: RequestOptions): Promise<KeyVaultKey>;
+  getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
   deleteKey(name: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedKey>;
   getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
 }
@@ -26,7 +26,7 @@ export interface KeyClientInterface {
  * @interface
  * An interface representing the complete key with value
  */
-export interface Key {
+export interface KeyVaultKey {
   /**
    * @member {KeyProperties} [properties] The properties of the key.
    */

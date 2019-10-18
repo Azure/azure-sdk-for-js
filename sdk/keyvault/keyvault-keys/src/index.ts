@@ -53,7 +53,7 @@ import {
   ParsedKeyVaultEntityIdentifier
 } from "./core/keyVaultBase";
 import {
-  Key,
+  KeyVaultKey,
   KeyClientInterface,
   KeyPollerOptions,
   DeletedKey,
@@ -103,7 +103,7 @@ export {
   JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
   JsonWebKeyType,
-  Key,
+  KeyVaultKey,
   KeyProperties,
   KeyPollerOptions,
   PollerLike,
@@ -239,7 +239,7 @@ export class KeyClient {
     return this.getKeyFromKeyBundle(response);
   }
 
-  private async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
+  private async recoverDeletedKey(name: string, options?: RequestOptions): Promise<KeyVaultKey> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("recoverDeletedKey", requestOptions);
 
@@ -279,7 +279,7 @@ export class KeyClient {
     name: string,
     keyType: JsonWebKeyType,
     options?: CreateKeyOptions
-  ): Promise<Key> {
+  ): Promise<KeyVaultKey> {
     if (options) {
       const unflattenedProperties = {
         enabled: options.enabled,
@@ -333,7 +333,7 @@ export class KeyClient {
    * @param keyType The type of the key.
    * @param [options] The optional parameters
    */
-  public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key> {
+  public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
     if (options) {
       const unflattenedProperties = {
         enabled: options.enabled,
@@ -387,7 +387,7 @@ export class KeyClient {
    * @param keyType The type of the key.
    * @param [options] The optional parameters
    */
-  public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key> {
+  public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
     if (options) {
       const unflattenedProperties = {
         enabled: options.enabled,
@@ -443,7 +443,7 @@ export class KeyClient {
    * @param key The Json web key
    * @param [options] The optional parameters
    */
-  public async importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<Key> {
+  public async importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<KeyVaultKey> {
     if (options) {
       const unflattenedProperties = {
         enabled: options.enabled,
@@ -548,7 +548,7 @@ export class KeyClient {
     name: string,
     keyVersion: string,
     options?: UpdateKeyOptions
-  ): Promise<Key> {
+  ): Promise<KeyVaultKey> {
     if (options) {
       const unflattenedProperties = {
         enabled: options.enabled,
@@ -600,7 +600,7 @@ export class KeyClient {
    * @param name The name of the key.
    * @param [options] The optional parameters
    */
-  public async getKey(name: string, options?: GetKeyOptions): Promise<Key> {
+  public async getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("getKey", requestOptions);
 
@@ -770,7 +770,7 @@ export class KeyClient {
    * @param backup The backup blob associated with a key bundle.
    * @param [options] The optional parameters
    */
-  public async restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
+  public async restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<KeyVaultKey> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("restoreKeyBackup", requestOptions);
 
@@ -1036,7 +1036,7 @@ export class KeyClient {
     };
   }
 
-  private getKeyFromKeyBundle(keyBundle: KeyBundle): Key {
+  private getKeyFromKeyBundle(keyBundle: KeyBundle): KeyVaultKey {
     const parsedId = parseKeyvaultEntityIdentifier(
       "keys",
       keyBundle.key ? keyBundle.key.kid : undefined
