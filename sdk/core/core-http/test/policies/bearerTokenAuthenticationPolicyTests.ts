@@ -45,7 +45,10 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await bearerTokenAuthPolicy.sendRequest(request);
 
     assert(
-      fakeGetToken.calledWith(tokenScopes, { abortSignal: undefined, spanOptions: undefined }),
+      fakeGetToken.calledWith(
+        { scopes: tokenScopes },
+        { abortSignal: undefined, spanOptions: undefined }
+      ),
       "fakeGetToken called incorrectly."
     );
     assert.strictEqual(
