@@ -11,7 +11,6 @@ nunjucks.configure("documentation/templateDocGen", { autoescape: true });
 /* Traversing the directory */
 const walk = async(dir, checks) => {
   var list = await readDir(dir);
-  //var list = fs.readdirSync(dir);
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
     if (fileName == "node_modules") {
@@ -22,7 +21,6 @@ const walk = async(dir, checks) => {
     }
     if (fileName == "package.json") {
       let data = await readFile(filePath,"utf8");
-      //let data = fs.readFileSync(filePath, "utf8");
       let settings = JSON.parse(data);
       if (settings["private"] === true) {
         checks.isPrivate = true;
@@ -85,6 +83,7 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
   /* Initializing package list for template index generation */
   let serviceList = [];
   let promises = [];
+  let commandList = [];
   for (const eachService of serviceFolders) {
 
     if ((argv.includeMode === "inc" && inclusionList.includes(eachService)) || (argv.includeMode === "exc" && !exclusionList.includes(eachService)) || (argv.includeMode === "inc" && argv.include[0] === "*")) {
@@ -129,55 +128,28 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
                     docOutputFolder = "--out ../../../docGen/" + eachPackage + "/" + checks.version + " ./src";
                   }
 
-                  //try {
-                    let promise = new Promise((res,rej) => {
-                    let typedocProcess;
-                    let commandRun;
-                    if (checks.typedocPresent) {
-                      typedocProcess = childProcess.spawn(
-                        "typedoc",
-                        [docOutputFolder, '--theme "../../../eng/tools/generate-doc/theme/default"', "--ignoreCompilerErrors"],
-                        {
-                          cwd: eachPackagePath,
-                          shell: true
-                        }
-                      );
-                      commandRun = "typedoc " + docOutputFolder;
-          
-                    } else {
-                         typedocProcess = childProcess.spawn(
-                        "typedoc",
-                        [
-                          '--theme "../../../eng/tools/generate-doc/theme/default"',
-                          "--excludePrivate",
-                          "--excludeNotExported",
-                          '--exclude "node_modules/**/*"',
-                          "--ignoreCompilerErrors",
-                          "--mode file",
-                          docOutputFolder
-                        ],
-                        {
-                          cwd: eachPackagePath,
-                          shell: true
-                        }
-                      );
-                      // console.log(
-                      commandRun = 'typedocResult.output for "typedoc --theme "../../../eng/tools/generate-doc/theme/default" --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +  docOutputFolder;
-                      //   ' ":' +
-                      //   typedocResult.output
-                      // );
-                    }
-                   
-                    let stdOut = '';
-                    let stdErr = '';
-                    //typedocProcess.on('close', (commandRun,code) => code == 0 ? res({commandRun, code, stdOut, stdErr }) : rej({commandRun, code, stdOut, stdErr }));
-                    
-                    typedocProcess.on('close', (commandRun, code) => res({ commandRun, code, stdOut, stdErr }));
-                    typedocProcess.stdout.on('data', (data) => stdOut = stdOut + data.toString());
-                    typedocProcess.stderr.on('data', (err) => stdErr = stdErr);
+                  let typedocProcess;
+                  let commandRun = [];
+                  commandRun.push("typedoc");
+                  commandRun.push({
+                    cwd: eachPackagePath,
+                    shell: true
                   });
-                  promises.push(promise);
-                 
+                  if (checks.typedocPresent) {
+                    commandRun.push([docOutputFolder, '--theme "../../../eng/tools/generate-doc/theme/default"', "--ignoreCompilerErrors"]);
+                  } else {
+                    commandRun.push(
+                      [
+                        '--theme "../../../eng/tools/generate-doc/theme/default"',
+                        "--excludePrivate",
+                        "--excludeNotExported",
+                        '--exclude "node_modules/**/*"',
+                        "--ignoreCompilerErrors",
+                        "--mode file",
+                        docOutputFolder
+                      ]);
+                  }
+                  commandList.push(commandRun);
                   if (generateIndexWithTemplate) {
                     /* Adding package to packageList for the template index generation */
                     indexPackageList.push(eachPackage);
@@ -205,16 +177,34 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
     else {
       //console.log("...SKIPPING Since service doesn't satisfy one of the 3 condition checks...");
     }
-    try {
-      const results = await Promise.all(promises);
-      for (let item of results) {
-        console.log(item.stdOut);
-      }
-    } catch (ex) {
-      console.log("ERROR", ex);
-    }
+
   } // end-for ServiceFolders
 
+  for (const commandRun of commandList) {
+    let promise = new Promise((res, rej) => {
+      let typedocProcess = childProcess.spawn(commandRun[0], commandRun[2], commandRun[1]);
+      let stdOut = '';
+      let stdErr = '';
+      typedocProcess.on('close', (code) => res({ code, stdOut, stdErr }));
+
+
+      typedocProcess.stdout.on('data', (data) => stdOut = stdOut + data.toString());
+      typedocProcess.stderr.on('data', (err) => stdErr = stdErr );
+    });
+    promises.push(promise);
+  }
+  try {
+    const results = await Promise.all(promises);
+    for (let item of results) {
+      console.log(item.stdOut);
+      if (item.code !== 0)
+        console.log(item.stdErr);
+    }
+  } catch (ex) {
+    console.log("ERROR", ex);
+  }
+
+  console.log("All done!");
   if (argv.oldIndex)
     generateOldIndex(serviceList);
 };
