@@ -81,7 +81,7 @@ export function formatWildcards(
     label = listConfigOptions.labels.join(",");
   }
 
-  let fields;
+  let fields: (keyof KeyValue)[]|undefined;
 
   if (listConfigOptions.fields) {
     fields = listConfigOptions.fields.map(opt => opt === "readOnly" ? "locked" : opt);
