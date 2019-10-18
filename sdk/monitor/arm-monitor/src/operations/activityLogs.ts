@@ -28,22 +28,65 @@ export class ActivityLogs {
 
   /**
    * Provides the list of records from the activity logs.
+   * @param filter Reduces the set of data collected.<br>This argument is required and it also
+   * requires at least the start date/time.<br>The **$filter** argument is very restricted and allows
+   * only the following patterns.<br>- *List events for a resource group*: $filter=eventTimestamp ge
+   * '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and
+   * resourceGroupName eq 'resourceGroupName'.<br>- *List events for resource*:
+   * $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le
+   * '2014-07-20T04:36:37.6407898Z' and resourceUri eq 'resourceURI'.<br>- *List events for a
+   * subscription in a time range*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
+   * eventTimestamp le '2014-07-20T04:36:37.6407898Z'.<br>- *List events for a resource provider*:
+   * $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le
+   * '2014-07-20T04:36:37.6407898Z' and resourceProvider eq 'resourceProviderName'.<br>- *List events
+   * for a correlation Id*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
+   * eventTimestamp le '2014-07-20T04:36:37.6407898Z' and correlationId eq
+   * 'correlationID'.<br><br>**NOTE**: No other syntax is allowed.
    * @param [options] The optional parameters
    * @returns Promise<Models.ActivityLogsListResponse>
    */
-  list(options?: Models.ActivityLogsListOptionalParams): Promise<Models.ActivityLogsListResponse>;
+  list(filter: string, options?: Models.ActivityLogsListOptionalParams): Promise<Models.ActivityLogsListResponse>;
   /**
+   * @param filter Reduces the set of data collected.<br>This argument is required and it also
+   * requires at least the start date/time.<br>The **$filter** argument is very restricted and allows
+   * only the following patterns.<br>- *List events for a resource group*: $filter=eventTimestamp ge
+   * '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and
+   * resourceGroupName eq 'resourceGroupName'.<br>- *List events for resource*:
+   * $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le
+   * '2014-07-20T04:36:37.6407898Z' and resourceUri eq 'resourceURI'.<br>- *List events for a
+   * subscription in a time range*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
+   * eventTimestamp le '2014-07-20T04:36:37.6407898Z'.<br>- *List events for a resource provider*:
+   * $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le
+   * '2014-07-20T04:36:37.6407898Z' and resourceProvider eq 'resourceProviderName'.<br>- *List events
+   * for a correlation Id*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
+   * eventTimestamp le '2014-07-20T04:36:37.6407898Z' and correlationId eq
+   * 'correlationID'.<br><br>**NOTE**: No other syntax is allowed.
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
+  list(filter: string, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
   /**
+   * @param filter Reduces the set of data collected.<br>This argument is required and it also
+   * requires at least the start date/time.<br>The **$filter** argument is very restricted and allows
+   * only the following patterns.<br>- *List events for a resource group*: $filter=eventTimestamp ge
+   * '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and
+   * resourceGroupName eq 'resourceGroupName'.<br>- *List events for resource*:
+   * $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le
+   * '2014-07-20T04:36:37.6407898Z' and resourceUri eq 'resourceURI'.<br>- *List events for a
+   * subscription in a time range*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
+   * eventTimestamp le '2014-07-20T04:36:37.6407898Z'.<br>- *List events for a resource provider*:
+   * $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le
+   * '2014-07-20T04:36:37.6407898Z' and resourceProvider eq 'resourceProviderName'.<br>- *List events
+   * for a correlation Id*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
+   * eventTimestamp le '2014-07-20T04:36:37.6407898Z' and correlationId eq
+   * 'correlationID'.<br><br>**NOTE**: No other syntax is allowed.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ActivityLogsListOptionalParams, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
-  list(options?: Models.ActivityLogsListOptionalParams | msRest.ServiceCallback<Models.EventDataCollection>, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.ActivityLogsListResponse> {
+  list(filter: string, options: Models.ActivityLogsListOptionalParams, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
+  list(filter: string, options?: Models.ActivityLogsListOptionalParams | msRest.ServiceCallback<Models.EventDataCollection>, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.ActivityLogsListResponse> {
     return this.client.sendOperationRequest(
       {
+        filter,
         options
       },
       listOperationSpec,
@@ -89,7 +132,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion0,
-    Parameters.filter,
+    Parameters.filter0,
     Parameters.select
   ],
   headerParameters: [

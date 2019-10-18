@@ -32,6 +32,8 @@ export {
   DiagnosticSettingsCategoryResourceCollection,
   DiagnosticSettingsResource,
   Dimension,
+  DynamicMetricCriteria,
+  DynamicThresholdFailingPeriods,
   EmailNotification,
   EmailReceiver,
   ErrorResponse,
