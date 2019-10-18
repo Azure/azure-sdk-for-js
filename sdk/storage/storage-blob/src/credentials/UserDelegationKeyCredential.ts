@@ -1,5 +1,5 @@
 import { createHmac } from "crypto";
-import { UserDelegationKey } from '../ServiceURL';
+import { UserDelegationKey } from "../BlobServiceClient";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

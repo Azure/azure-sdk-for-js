@@ -1,4 +1,4 @@
-import { HttpHeaders } from "@azure/ms-rest-js";
+import { HttpHeaders } from "@azure/core-http";
 
 import * as Models from "./generated/src/models";
 import {
@@ -31,12 +31,12 @@ export class BatchResponseParser {
   ) {
     if (!batchResponse || !batchResponse.contentType) {
       // In special case(reported), server may return invalid content-type which could not be parsed.
-      throw new RangeError("batchResponse is malformed or doesn't contain valid content-type.")
+      throw new RangeError("batchResponse is malformed or doesn't contain valid content-type.");
     }
 
     if (!subRequests || subRequests.size === 0) {
       // This should be prevent during coding.
-      throw new RangeError("Invalid state: subRequests is not provided or size is 0.")
+      throw new RangeError("Invalid state: subRequests is not provided or size is 0.");
     }
 
     this.batchResponse = batchResponse;
@@ -68,7 +68,7 @@ export class BatchResponseParser {
     // Note: subResponseCount == 1 is special case where sub request is invalid.
     // We try to prevent such cases through early validation, e.g. validate sub request count >= 1.
     // While in unexpected sub request invalid case, we allow sub response to be parsed and return to user.
-    if (subResponseCount != this.subRequests.size && subResponseCount != 1) {  
+    if (subResponseCount != this.subRequests.size && subResponseCount != 1) {
       throw new Error("Invalid state: sub responses' count is not equal to sub requests' count.");
     }
 
@@ -97,7 +97,7 @@ export class BatchResponseParser {
           }
 
           // Http version line with status code indicates the start of sub request's response.
-          // Example: HTTP/1.1 202 Accepted 
+          // Example: HTTP/1.1 202 Accepted
           if (responseLine.startsWith(HTTP_VERSION_1_1)) {
             subRespHeaderStartFound = true;
 
@@ -110,9 +110,9 @@ export class BatchResponseParser {
         }
 
         if (responseLine.trim() === "") {
-          // Sub response's header start line already found, and the first empty line indicates header end line found. 
+          // Sub response's header start line already found, and the first empty line indicates header end line found.
           if (!subRespHeaderEndFound) {
-            subRespHeaderEndFound = true
+            subRespHeaderEndFound = true;
           }
 
           continue; // Skip empty line

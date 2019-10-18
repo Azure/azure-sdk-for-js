@@ -1,5 +1,5 @@
 import { BatchSubRequest } from "./BatchRequest";
-import { HttpHeaders } from "@azure/ms-rest-js";
+import { HttpHeaders } from "@azure/core-http";
 
 export interface BatchSubResponse {
   /**

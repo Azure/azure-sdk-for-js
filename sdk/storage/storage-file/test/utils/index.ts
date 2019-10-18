@@ -3,13 +3,24 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
-import { ServiceURL } from "../../src/ServiceURL";
-import { StorageURL } from "../../src/StorageURL";
+import { FileServiceClient } from "../../src/FileServiceClient";
+import { newPipeline } from "../../src/Pipeline";
 import { getUniqueName } from "./testutils.common";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import {
+  AccountSASPermissions,
+  SASProtocol,
+  AccountSASResourceTypes,
+  AccountSASServices,
+  generateAccountSASQueryParameters
+} from "../../src";
 
 export * from "./testutils.common";
 
-export function getGenericBSU(accountType: string, accountNameSuffix: string = ""): ServiceURL {
+export function getGenericBSU(
+  accountType: string,
+  accountNameSuffix: string = ""
+): FileServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -26,20 +37,31 @@ export function getGenericBSU(accountType: string, accountNameSuffix: string = "
   }
 
   const credentials = new SharedKeyCredential(accountName, accountKey);
-  const pipeline = StorageURL.newPipeline(credentials, {
+  const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
-  return new ServiceURL(filePrimaryURL, pipeline);
+  return new FileServiceClient(filePrimaryURL, pipeline);
 }
 
-export function getBSU(): ServiceURL {
+export function getBSU(): FileServiceClient {
   return getGenericBSU("");
 }
 
-export function getAlternateBSU(): ServiceURL {
+export function getAlternateBSU(): FileServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
+}
+
+export function getConnectionStringFromEnvironment(): string {
+  const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
+  const connectionString = process.env[connectionStringEnvVar];
+
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
 }
 
 /**
@@ -105,56 +127,41 @@ export async function createRandomLocalFile(
   });
 }
 
-// Returns a Promise which is completed after the file handle is closed.
-// If Promise is rejected, the reason will be set to the first error raised by either the
-// ReadableStream or the fs.WriteStream.
-export async function readStreamToLocalFile(rs: NodeJS.ReadableStream, file: string) {
-  return new Promise<void>((resolve, reject) => {
-    const ws = fs.createWriteStream(file);
+export function getSASConnectionStringFromEnvironment(): string {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    // Set STREAM_DEBUG env var to log stream events while running tests
-    if (process.env.STREAM_DEBUG) {
-      rs.on("close", () => console.log("rs.close"));
-      rs.on("data", () => console.log("rs.data"));
-      rs.on("end", () => console.log("rs.end"));
-      rs.on("error", () => console.log("rs.error"));
+  const tmr = new Date();
+  tmr.setDate(tmr.getDate() + 1);
+  const queueServiceClient = getBSU();
+  // By default, credential is always the last element of pipeline factories
+  const factories = (queueServiceClient as any).pipeline.factories;
+  const sharedKeyCredential = factories[factories.length - 1];
 
-      ws.on("close", () => console.log("ws.close"));
-      ws.on("drain", () => console.log("ws.drain"));
-      ws.on("error", () => console.log("ws.error"));
-      ws.on("finish", () => console.log("ws.finish"));
-      ws.on("pipe", () => console.log("ws.pipe"));
-      ws.on("unpipe", () => console.log("ws.unpipe"));
-    }
+  const sas = generateAccountSASQueryParameters(
+    {
+      expiryTime: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+      protocol: SASProtocol.HttpsAndHttp,
+      resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+      services: AccountSASServices.parse("btqf").toString(),
+      startTime: now,
+      version: "2016-05-31"
+    },
+    sharedKeyCredential as SharedKeyCredential
+  ).toString();
 
-    let error: Error;
+  const fileEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
 
-    rs.on("error", (err: Error) => {
-      // First error wins
-      if (!error) {
-        error = err;
-      }
-
-      // When rs.error is raised, rs.end will never be raised automatically, so it must be raised manually
-      // to ensure ws.close is eventually raised.
-      rs.emit("end");
-    });
-
-    ws.on("error", (err: Error) => {
-      // First error wins
-      if (!error) {
-        error = err;
-      }
-    });
-
-    ws.on("close", () => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-
-    rs.pipe(ws);
-  });
+  return `BlobEndpoint=${fileEndpoint.replace(
+    ".file.",
+    ".blob."
+  )}/;QueueEndpoint=${fileEndpoint.replace(
+    ".file.",
+    ".queue."
+  )}/;FileEndpoint=${fileEndpoint}/;TableEndpoint=${fileEndpoint.replace(
+    ".file.",
+    ".table."
+  )}/;SharedAccessSignature=${sas}`;
 }

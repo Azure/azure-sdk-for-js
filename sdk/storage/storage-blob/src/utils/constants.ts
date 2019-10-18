@@ -1,4 +1,7 @@
-export const SDK_VERSION: string = "10.5.0";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+export const SDK_VERSION: string = "12.0.0-preview.4";
 export const SERVICE_VERSION: string = "2019-02-02";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
@@ -6,6 +9,7 @@ export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 100 * 1024 * 1024; // 10
 export const BLOCK_BLOB_MAX_BLOCKS: number = 50000;
 export const DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES: number = 4 * 1024 * 1024; // 4MB
 export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
+export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
 
 export const URLConstants = {
   Parameters: {
@@ -44,6 +48,7 @@ export const HeaderConstants = {
   RANGE: "Range",
   USER_AGENT: "User-Agent",
   X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id",
+  X_MS_COPY_SOURCE: "x-ms-copy-source",
   X_MS_DATE: "x-ms-date",
   X_MS_ERROR_CODE: "x-ms-error-code",
   X_MS_VERSION: "x-ms-version"
@@ -59,3 +64,5 @@ export const HTTP_LINE_ENDING = "\r\n";
 export const HTTP_VERSION_1_1 = "HTTP/1.1";
 
 export const EncryptionAlgorithmAES25 = "AES256";
+
+export const DevelopmentConnectionString = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;`;

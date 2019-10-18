@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156758143805300367",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156816852546103139",
    "query": {
     "timeout": "30"
    },
@@ -10,38 +10,38 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 07:17:17 GMT",
+    "date": "Wed, 11 Sep 2019 02:22:04 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "4d2f838f-9003-0075-02f0-629caf000000",
+    "x-ms-request-id": "5019caab-f003-0027-0747-68fcb5000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "4f6ce807-7d8e-43f2-88d2-d8bfbb8671f8",
+    "x-ms-client-request-id": "b9cf6226-8939-4378-bdab-3114457c6758",
     "content-length": "0"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount-secondary.queue.core.windows.net/queue156758143805300367",
+   "url": "https://fakestorageaccount-secondary.queue.core.windows.net/queue156816852546103139",
    "query": {
     "comp": "metadata",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 404,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>QueueNotFound</Code><Message>The specified queue does not exist.\nRequestId:49005558-a003-0104-6ef0-6258d9000000\nTime:2019-09-04T07:17:18.8658898Z</Message></Error>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>QueueNotFound</Code><Message>The specified queue does not exist.\nRequestId:598bd7fd-d003-0041-6447-68966c000000\nTime:2019-09-11T02:22:06.2029792Z</Message></Error>",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 07:17:18 GMT",
+    "date": "Wed, 11 Sep 2019 02:22:06 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-error-code": "QueueNotFound",
     "content-type": "application/xml",
-    "x-ms-request-id": "49005558-a003-0104-6ef0-6258d9000000",
+    "x-ms-request-id": "598bd7fd-d003-0041-6447-68966c000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "35566321-672d-459a-97a8-08d68606d9a2",
+    "x-ms-client-request-id": "e9ca258c-7446-4deb-b146-8959ce512885",
     "content-length": "217"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.queue.core.windows.net/queue156758143805300367",
+   "url": "https://fakestorageaccount.queue.core.windows.net/queue156816852546103139",
    "query": {
     "timeout": "30"
    },
@@ -49,16 +49,16 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 04 Sep 2019 07:17:18 GMT",
+    "date": "Wed, 11 Sep 2019 02:22:05 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "4d2f83e8-9003-0075-46f0-629caf000000",
+    "x-ms-request-id": "5019cbd2-f003-0027-6847-68fcb5000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "242ca840-865e-4d1a-83e2-6bcb34cbaf34",
+    "x-ms-client-request-id": "9aa071b3-0024-4783-baa4-b455dd334c82",
     "content-length": "0"
    }
   }
  ],
  "uniqueTestInfo": {
-  "queue": "queue156758143805300367"
+  "queue": "queue156816852546103139"
  }
 }

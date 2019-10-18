@@ -4,6 +4,7 @@
     ],
     "exclude": [
       "**/*.d.ts",
+      "src/credentials/SharedKeyCredential.browser.ts",
       "src/models.ts",
       "src/generated/lib/storageClient.ts"
     ],

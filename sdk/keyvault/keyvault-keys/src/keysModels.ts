@@ -3,7 +3,12 @@
 
 import * as msRest from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
-import { JsonWebKey, JsonWebKeyOperation, JsonWebKeyCurveName } from "./core/models";
+import {
+  JsonWebKey,
+  JsonWebKeyOperation,
+  JsonWebKeyCurveName,
+  JsonWebKeyType
+} from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
 
 /**
@@ -19,6 +24,16 @@ export interface Key {
    * @member {string} [value] The key value.
    */
   keyMaterial?: JsonWebKey;
+  /**
+   * JsonWebKey Key Type (kty), as defined in
+   * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   */
+  keyType?: JsonWebKeyType;
+  /**
+   * Operations allowed on this key
+   */
+  keyOperations?: JsonWebKeyOperation[];
 }
 
 /**
@@ -181,10 +196,10 @@ export interface ImportKeyOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {boolean} [hsm] Whether to import as a hardware key (HSM) or
+   * @member {boolean} [hardwareProtected] Whether to import as a hardware key (HSM) or
    * software key.
    */
-  hsm?: boolean;
+  hardwareProtected?: boolean;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */

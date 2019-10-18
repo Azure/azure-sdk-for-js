@@ -6,7 +6,7 @@ import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
 import { isNode } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
-import { CryptographyClient, Key, KeysClient } from "../src";
+import { CryptographyClient, Key, KeyClient } from "../src";
 import { convertJWKtoPEM } from "../src/cryptographyClient";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -14,7 +14,7 @@ import { isRecording } from "./utils/recorderUtils";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
-  let client: KeysClient;
+  let client: KeyClient;
   let testClient: TestClient;
   let cryptoClient: CryptographyClient;
   let recorder: any;

@@ -1,14 +1,19 @@
-# Azure Storage SDK V10 for JavaScript - Blob
+# Azure Storage client library for JavaScript - Blob
 
-- [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
-- [API Reference documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/storage-blob/index?view=azure-node-preview)
-- [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
+Azure Blob storage is Microsoft's object storage solution for the cloud. Blob storage is optimized for storing massive amounts of unstructured data. Unstructured data is data that does not adhere to a particular data model or definition, such as text or binary data.
 
-## Introduction
+This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Blob Storage service.
 
-This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
+Version: 12.0.0-preview.4
 
-Please note that this version of the SDK is a complete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.4)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples)
+- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html)
+- [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob)
+- [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
+
+## Key concepts
 
 ### Features
 
@@ -25,12 +30,13 @@ Please note that this version of the SDK is a complete overhaul of the current [
 
 ### Compatibility
 
-This SDK is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=6.5) and latest versions of Chrome, Firefox and Edge.
+This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
 
 #### Compatible with IE11
 
 You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
-Or you can load separate polyfills for missed ES feature(s).
+
+You can also load separate polyfills for missed ES feature(s).
 This library depends on following ES features which need external polyfills loaded.
 
 - `Promise`
@@ -40,10 +46,11 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.includes`
 - `Array.prototype.includes`
 - `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
+- `Symbol`
 
 #### Differences between Node.js and browsers
 
-There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
+There are differences between Node.js and browsers runtime. When getting started with this library, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
 
 ##### Following features, interfaces, classes or functions are only available in Node.js
 
@@ -53,40 +60,41 @@ There are differences between Node.js and browsers runtime. When getting start w
   - `generateAccountSASQueryParameters()`
   - `generateBlobSASQueryParameters()`
 - Parallel uploading and downloading
-  - `uploadFileToBlockBlob()`
-  - `uploadStreamToBlockBlob()`
-  - `downloadBlobToBuffer()`
+  - `BlockBlobClient.uploadFile()`
+  - `BlockBlobClient.uploadStream()`
+  - `BlobClient.downloadToBuffer()`
+  - `BlobClient.downloadToFile()`
 
 ##### Following features, interfaces, classes or functions are only available in browsers
 
 - Parallel uploading and downloading
-  - `uploadBrowserDataToBlockBlob()`
+  - `BlockBlobClient.uploadBrowserData()`
 
-## Getting Started
+## Getting started
 
 ### NPM
 
-The preferred way to install the Azure Storage SDK for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
+The preferred way to install the Azure Blob Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-blob
+npm install @azure/storage-blob@12.0.0-preview.4
 ```
 
 In your TypeScript or JavaScript file, import via following:
 
-```JavaScript
+```javascript
 import * as Azure from "@azure/storage-blob";
 ```
 
 Or
 
-```JavaScript
+```javascript
 const Azure = require("@azure/storage-blob");
 ```
 
-### JavaScript Bundle
+### JavaScript bundle
 
-To use the SDK with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
+To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
 ```html
 <script src="https://mydomain/azure-storage-blob.min.js"></script>
@@ -98,13 +106,11 @@ The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) stand
 
 #### Download
 
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-sdk-for-js/releases). Or from following links directly:
-
-- Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
+Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-sdk-for-js/releases).
 
 ### CORS
 
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/zh-cn/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
@@ -114,106 +120,164 @@ For example, you can create following CORS settings for debugging. But please cu
 - Exposed headers: \*
 - Maximum age (seconds): 86400
 
-## SDK Architecture
+## Examples
 
-The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
+Samples can be found at
+[Javascript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/javascript)
+and
+[Typescript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript)
 
-- ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
+Below are the snippets to get started with the Azure Storage blob client library.
 
-- The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
+### Import types
 
-## Code Samples
+You can use the `const Azure = require("@azure/storage-blob");` shown above then use types and functions from `Azure`.
+Or you can selectively import certain types,
 
 ```javascript
-const {
-  Aborter,
-  BlobURL,
-  BlockBlobURL,
-  ContainerURL,
-  ServiceURL,
-  StorageURL,
-  SharedKeyCredential,
-  AnonymousCredential,
-  TokenCredential
-} = require("@azure/storage-blob");
+const { BlobServiceClient, SharedKeyCredential } = require("@azure/storage-blob");
+```
 
-async function main() {
+### Create the blob service client
+
+Use the constructor to create a instance of `BlobServiceClient`.
+
+- **Recommended way to instantiate a `BlobServiceClient` - with `DefaultAzureCredential` from `@azure/identity` package**
+
+  Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-app
+
+  - Register a new AAD application and give permissions to access Azure Storage on behalf of the signed-in user
+
+    - Register a new application in the Azure Active Directory(in the azure-portal) - https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app
+    - In the `API permissions` section, select `Add a permission` and choose `Microsoft APIs`.
+    - Pick `Azure Storage` and select the checkbox next to `user_impersonation` and then click `Add permissions`. This would allow the application to access Azure Storage on behalf of the signed-in user.
+
+  - Grant access to Azure Blob data with RBAC in the Azure Portal
+
+    - RBAC roles for blobs and queues - https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-portal.
+    - In the azure portal, go to your storage-account and assign **Storage Blob Data Contributor** role to the registered AAD application from `Access control (IAM)` tab (in the left-side-navbar of your storage account in the azure-portal).
+
+  - Environment setup for the sample
+    - From the overview page of your AAD Application, note down the `CLIENT ID` and `TENANT ID`. In the "Certificates & Secrets" tab, create a secret and note that down.
+    - Make sure you have AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET as environment variables to successfully execute the sample(Can leverage process.env).
+
+  ```javascript
+  const account = "";
+  const defaultAzureCredential = new DefaultAzureCredential();
+
+  const blobServiceClient = new BlobServiceClient(
+    `https://${account}.blob.core.windows.net`,
+    defaultAzureCredential
+  );
+  ```
+  [Note - Above steps are only for Node.js]
+- Alternatively, you instantiate a `BlobServiceClient` with a `SharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
+  [ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+  ```javascript
   // Enter your storage account name and shared key
   const account = "account";
   const accountKey = "accountkey";
 
   // Use SharedKeyCredential with storage account and account key
+  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
-  // Use TokenCredential with OAuth token
-  const tokenCredential = new TokenCredential("token");
-  tokenCredential.token = "renewedToken"; // Renew the token by updating token field of token credential
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
-
-  // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
-  const pipeline = StorageURL.newPipeline(sharedKeyCredential);
-
-  // List containers
-  const serviceURL = new ServiceURL(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
+  const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    pipeline
+    sharedKeyCredential
   );
+  ```
 
-  let marker;
-  do {
-    const listContainersResponse = await serviceURL.listContainersSegment(Aborter.none, marker);
+### Create a new container
 
-    marker = listContainersResponse.nextMarker;
-    for (const container of listContainersResponse.containerItems) {
-      console.log(`Container: ${container.name}`);
-    }
-  } while (marker);
+Use `BlobServiceClient.getContainerClient()` to get a container client instance then create a new container resource.
 
-  // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
-  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+```javascript
+// Create a container
+const containerName = `newcontainer${new Date().getTime()}`;
+const containerClient = blobServiceClient.getContainerClient(containerName);
+const createContainerResponse = await containerClient.create();
+console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
+```
 
-  const createContainerResponse = await containerURL.create(Aborter.none);
-  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
+### List the containers
 
-  // Create a blob
-  const content = "hello";
-  const blobName = "newblob" + new Date().getTime();
-  const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-  const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const uploadBlobResponse = await blockBlobURL.upload(Aborter.none, content, content.length);
-  console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+Use `BlobServiceClient.listContainers()` function to iterate the containers,
+with the new `for-await-of` syntax:
 
-  // List blobs
-  marker = undefined;
-  do {
-    const listBlobsResponse = await containerURL.listBlobFlatSegment(Aborter.none, marker);
-
-    marker = listBlobsResponse.nextMarker;
-    for (const blob of listBlobsResponse.segment.blobItems) {
-      console.log(`Blob: ${blob.name}`);
-    }
-  } while (marker);
-
-  // Get blob content from position 0 to the end
-  // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
-  // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
-  console.log(
-    "Downloaded blob content",
-    await streamToString(downloadBlockBlobResponse.readableStreamBody)
-  );
-
-  // Delete container
-  await containerURL.delete(Aborter.none);
-
-  console.log("deleted container");
+```javascript
+let i = 1;
+let iter = await blobServiceClient.listContainers();
+for await (const container of iter) {
+  console.log(`Container ${i++}: ${container.name}`);
 }
+```
 
-// A helper method used to read a Node.js readable stream into string
+Alternatively without using `for-await-of`:
+
+```javascript
+let i = 1;
+let iter = blobServiceClient.listContainers();
+let containerItem = await iter.next();
+while (!containerItem.done) {
+  console.log(`Container ${i++}: ${containerItem.value.name}`);
+  containerItem = await iter.next();
+}
+```
+
+In addition, pagination is supported for listing too via `byPage()`:
+
+```javascript
+let i = 1;
+for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
+  if (response.containerItems) {
+    for (const container of response.containerItems) {
+      console.log(`Container ${i++}: ${container.name}`);
+    }
+  }
+}
+```
+
+For a complete sample on iterating containers please see [samples/iterators-containers.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/iterators-containers.ts).
+
+### Create a blob by uploading data to
+
+```javascript
+const content = "hello";
+const blobName = "newblob" + new Date().getTime();
+const blobClient = containerClient.getBlobClient(blobName);
+const blockBlobClient = blobClient.getBlockBlobClient();
+const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+```
+
+### List blobs inside a container
+
+Similar to listing containers.
+
+```javascript
+let i = 1;
+let iter = await containerClient.listBlobsFlat();
+for await (const blob of iter) {
+  console.log(`Blob ${i++}: ${blob.name}`);
+}
+```
+
+For a complete sample on iterating blobs please see [samples/iterators-blobs.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/iterators-blobs.ts).
+
+### Download a blob and convert it to a string (Node.js)
+
+```javascript
+// Get blob content from position 0 to the end
+// In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
+const downloadBlockBlobResponse = await blobClient.download();
+const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
+console.log(
+  "Downloaded blob content:",
+  downloaded
+);
+
+// [Node.js only] A helper method used to read a Node.js readable stream into string
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -226,26 +290,83 @@ async function streamToString(readableStream) {
     readableStream.on("error", reject);
   });
 }
-
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
 ```
 
-## More Code Samples
+### Download a blob and convert it to a string (Browsers)
 
-- [Advanced Examples in Wiki](https://github.com/Azure/azure-storage-js/wiki)
-- [Blob Storage Examples](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
-- [Blob Storage Examples - Test Cases](https://github.com/azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/)
+```javascript
+  // Get blob content from position 0 to the end
+  // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
+  const downloadBlockBlobResponse = await blobClient.download();
+  const downloaded = await blobToString(downloadBlockBlobResponse.blobBody);
+  console.log(
+    "Downloaded blob content",
+    downloaded
+  );
 
-## License
+// [Browsers only] A helper method used to convert a browser Blob into string.
+export async function blobToString(blob: Blob): Promise<string> {
+  const fileReader = new FileReader();
+  return new Promise<string>((resolve, reject) => {
+    fileReader.onloadend = (ev: any) => {
+      resolve(ev.target!.result);
+    };
+    fileReader.onerror = reject;
+    fileReader.readAsText(blob);
+  });
+}
+```
 
-This project is licensed under MIT.
+A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/basic.ts).
+
+## Troubleshooting
+
+It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
+
+```javascript
+class ConsoleHttpPipelineLogger {
+  constructor(minimumLogLevel) {
+    this.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        console.error(logMessage);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        console.warn(logMessage);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        console.log(logMessage);
+        break;
+    }
+  }
+}
+```
+
+Then when creating the `BlobServiceClient` instance, pass the logger in the options
+
+```javascript
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  sharedKeyCredential,
+  {
+    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  }
+);
+```
+
+## Authenticating with Azure Active Directory
+
+If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/azureAdAuth.ts).
+
+## Next steps
+
+More code examples
+
+- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples)
+- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/test/)
 
 ## Contributing
 

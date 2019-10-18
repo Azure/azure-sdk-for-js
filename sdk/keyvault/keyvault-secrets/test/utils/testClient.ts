@@ -1,9 +1,9 @@
 import { retry } from "./recorderUtils";
-import { SecretsClient } from "../../src";
+import { SecretClient } from "../../src";
 
 export default class TestClient {
-  public readonly client: SecretsClient;
-  constructor(client: SecretsClient) {
+  public readonly client: SecretClient;
+  constructor(client: SecretClient) {
     this.client = client;
   }
   public formatName(name: string): string {

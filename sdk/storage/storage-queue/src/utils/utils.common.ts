@@ -1,4 +1,10 @@
-import { AbortSignalLike, URLBuilder } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+import { AbortSignalLike } from "@azure/abort-controller";
+import { HttpHeaders, URLBuilder } from "@azure/core-http";
+import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
+import { StorageClientContext } from "../generated/src/storageClientContext";
+import { Pipeline } from "../Pipeline";
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string
@@ -39,9 +45,9 @@ export function setURLParameter(url: string, name: string, value?: string): stri
  * Get URL parameter by name.
  *
  * @export
- * @param {string} url
- * @param {string} name
- * @returns {(string | string[] | undefined)}
+ * @param {string} url URL string
+ * @param {string} name Parameter name
+ * @returns {(string | string[] | undefined)} Parameter value(s) for the given parameter name.
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -63,11 +69,11 @@ export function setURLHost(url: string, host: string): string {
 }
 
 /**
- * Get URL path from an URL string.
+ * Gets URL path from an URL string.
  *
  * @export
  * @param {string} url Source URL string
- * @returns {(string | undefined)}
+ * @returns {(string | undefined)} The path part of the given URL string.
  */
 export function getURLPath(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -75,11 +81,11 @@ export function getURLPath(url: string): string | undefined {
 }
 
 /**
- * Get URL query key value pairs from an URL string.
+ * Gets URL query key value pairs from an URL string.
  *
  * @export
  * @param {string} url
- * @returns {{[key: string]: string}}
+ * @returns {{[key: string]: string}} query key value string pairs from the given URL string.
  */
 export function getURLQueries(url: string): { [key: string]: string } {
   let queryString = URLBuilder.parse(url).getQuery();
@@ -108,6 +114,134 @@ export function getURLQueries(url: string): { [key: string]: string } {
   }
 
   return queries;
+}
+
+export interface ConnectionString {
+  kind: "AccountConnString" | "SASConnString";
+  url: string;
+  accountName: string;
+  accountKey?: any;
+  accountSas?: string;
+  proxyUri?: string; // Development Connection String may contain proxyUri
+}
+
+function getProxyUriFromDevConnString(connectionString: string): string {
+  // Development Connection String
+  // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  let proxyUri = "";
+  if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
+    // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
+    const matchCredentials = connectionString.split(";");
+    for (const element of matchCredentials) {
+      if (element.trim().startsWith("DevelopmentStorageProxyUri=")) {
+        proxyUri = element.trim().match("DevelopmentStorageProxyUri=(.*)")![1];
+      }
+    }
+  }
+  return proxyUri;
+}
+
+export function getValueInConnString(
+  connectionString: string,
+  argument:
+    | "QueueEndpoint"
+    | "AccountName"
+    | "AccountKey"
+    | "DefaultEndpointsProtocol"
+    | "EndpointSuffix"
+    | "SharedAccessSignature"
+) {
+  const elements = connectionString.split(";");
+  for (const element of elements) {
+    if (element.trim().startsWith(argument)) {
+      return element.trim().match(argument + "=(.*)")![1];
+    }
+  }
+  return "";
+}
+
+/**
+ * Extracts the parts of an Azure Storage account connection string.
+ *
+ * @export
+ * @param {string} connectionString Connection string.
+ * @returns {ConnectionString} String key value pairs of the storage account's url and credentials.
+ */
+export function extractConnectionStringParts(connectionString: string): ConnectionString {
+  let proxyUri = "";
+
+  if (connectionString.startsWith("UseDevelopmentStorage=true")) {
+    // Development connection string
+    proxyUri = getProxyUriFromDevConnString(connectionString);
+    connectionString = DevelopmentConnectionString;
+  }
+
+  // Matching QueueEndpoint in the Account connection string
+  let queueEndpoint = getValueInConnString(connectionString, "QueueEndpoint");
+  // Slicing off '/' at the end if exists
+  // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
+  queueEndpoint = queueEndpoint.endsWith("/") ? queueEndpoint.slice(0, -1) : queueEndpoint;
+
+  if (
+    connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
+    connectionString.search("AccountKey=") !== -1
+  ) {
+    // Account connection string
+
+    let defaultEndpointsProtocol = "";
+    let accountName = "";
+    let accountKey = Buffer.from("accountKey", "base64");
+    let endpointSuffix = "";
+
+    // Get account name and key
+    accountName = getValueInConnString(connectionString, "AccountName");
+    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+
+    if (!queueEndpoint) {
+      // QueueEndpoint is not present in the Account connection string
+      // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`
+
+      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const protocol = defaultEndpointsProtocol!.toLowerCase();
+      if (protocol !== "https" && protocol !== "http") {
+        throw new Error(
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+        );
+      }
+
+      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      if (!endpointSuffix) {
+        throw new Error("Invalid EndpointSuffix in the provided Connection String");
+      }
+      queueEndpoint = `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
+    }
+
+    if (!accountName) {
+      throw new Error("Invalid AccountName in the provided Connection String");
+    } else if (accountKey.length === 0) {
+      throw new Error("Invalid AccountKey in the provided Connection String");
+    }
+
+    return {
+      kind: "AccountConnString",
+      url: queueEndpoint,
+      accountName,
+      accountKey,
+      proxyUri
+    };
+  } else {
+    // SAS connection string
+
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountName = getAccountNameFromUrl(queueEndpoint);
+    if (!queueEndpoint) {
+      throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
+    } else if (!accountSas) {
+      throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    }
+
+    return { kind: "SASConnString", url: queueEndpoint, accountName, accountSas };
+  }
 }
 
 /**
@@ -189,4 +323,57 @@ export function padStart(
     }
     return padString.slice(0, targetLength) + currentString;
   }
+}
+
+export function sanitizeURL(url: string): string {
+  let safeURL: string = url;
+  if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
+    safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
+  }
+
+  return safeURL;
+}
+
+export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
+  const headers: HttpHeaders = new HttpHeaders();
+  for (const header of originalHeader.headersArray()) {
+    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+      headers.set(header.name, "*****");
+    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(header.name, sanitizeURL(header.value));
+    } else {
+      headers.set(header.name, header.value);
+    }
+  }
+
+  return headers;
+}
+
+export function getAccountNameFromUrl(url: string): string {
+  if (url.startsWith("http://127.0.0.1:10000")) {
+    // Dev Conn String
+    return getValueInConnString(DevelopmentConnectionString, "AccountName");
+  } else {
+    try {
+      // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
+      // Slicing off '/' at the end if exists
+      url = url.endsWith("/") ? url.slice(0, -1) : url;
+
+      const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".queue."));
+      if (!accountName) {
+        throw new Error("Provided accountName is invalid.");
+      }
+      return accountName;
+    } catch (error) {
+      throw new Error("Unable to extract accountName with provided information.");
+    }
+  }
+}
+
+export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
+  const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
+
+  // Override protocol layer's default content-type
+  (storageClientContext as any).requestContentType = undefined;
+  return storageClientContext;
 }

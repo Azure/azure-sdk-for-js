@@ -8,9 +8,9 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
-export const comp0: msRest.OperationQueryParameter = {
+export const comp0: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -22,7 +22,7 @@ export const comp0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp1: msRest.OperationQueryParameter = {
+export const comp1: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -34,7 +34,7 @@ export const comp1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp2: msRest.OperationQueryParameter = {
+export const comp2: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -46,7 +46,7 @@ export const comp2: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp3: msRest.OperationQueryParameter = {
+export const comp3: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -58,7 +58,7 @@ export const comp3: msRest.OperationQueryParameter = {
     }
   }
 };
-export const comp4: msRest.OperationQueryParameter = {
+export const comp4: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -70,7 +70,7 @@ export const comp4: msRest.OperationQueryParameter = {
     }
   }
 };
-export const include: msRest.OperationQueryParameter = {
+export const include: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "include"
@@ -89,9 +89,9 @@ export const include: msRest.OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: msRest.QueryCollectionFormat.Csv
+  collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
-export const marker: msRest.OperationQueryParameter = {
+export const marker: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "marker"
@@ -103,10 +103,10 @@ export const marker: msRest.OperationQueryParameter = {
     }
   }
 };
-export const maxresults: msRest.OperationQueryParameter = {
+export const maxPageSize: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "maxresults"
+    "maxPageSize"
   ],
   mapper: {
     serializedName: "maxresults",
@@ -118,7 +118,7 @@ export const maxresults: msRest.OperationQueryParameter = {
     }
   }
 };
-export const messageTimeToLive: msRest.OperationQueryParameter = {
+export const messageTimeToLive: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "messageTimeToLive"
@@ -133,7 +133,7 @@ export const messageTimeToLive: msRest.OperationQueryParameter = {
     }
   }
 };
-export const metadata: msRest.OperationParameter = {
+export const metadata: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "metadata"
@@ -151,7 +151,7 @@ export const metadata: msRest.OperationParameter = {
     headerCollectionPrefix: "x-ms-meta-"
   }
 };
-export const numberOfMessages: msRest.OperationQueryParameter = {
+export const numberOfMessages: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "numberOfMessages"
@@ -166,7 +166,7 @@ export const numberOfMessages: msRest.OperationQueryParameter = {
     }
   }
 };
-export const peekonly: msRest.OperationQueryParameter = {
+export const peekonly: coreHttp.OperationQueryParameter = {
   parameterPath: "peekonly",
   mapper: {
     required: true,
@@ -178,7 +178,7 @@ export const peekonly: msRest.OperationQueryParameter = {
     }
   }
 };
-export const popReceipt: msRest.OperationQueryParameter = {
+export const popReceipt: coreHttp.OperationQueryParameter = {
   parameterPath: "popReceipt",
   mapper: {
     required: true,
@@ -188,7 +188,7 @@ export const popReceipt: msRest.OperationQueryParameter = {
     }
   }
 };
-export const prefix: msRest.OperationQueryParameter = {
+export const prefix: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "prefix"
@@ -200,7 +200,7 @@ export const prefix: msRest.OperationQueryParameter = {
     }
   }
 };
-export const requestId: msRest.OperationParameter = {
+export const requestId: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
     "requestId"
@@ -212,7 +212,7 @@ export const requestId: msRest.OperationParameter = {
     }
   }
 };
-export const restype: msRest.OperationQueryParameter = {
+export const restype: coreHttp.OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     required: true,
@@ -224,10 +224,10 @@ export const restype: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout: msRest.OperationQueryParameter = {
+export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "timeout"
+    "timeoutInSeconds"
   ],
   mapper: {
     serializedName: "timeout",
@@ -239,7 +239,7 @@ export const timeout: msRest.OperationQueryParameter = {
     }
   }
 };
-export const url: msRest.OperationURLParameter = {
+export const url: coreHttp.OperationURLParameter = {
   parameterPath: "url",
   mapper: {
     required: true,
@@ -251,7 +251,7 @@ export const url: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const version: msRest.OperationParameter = {
+export const version: coreHttp.OperationParameter = {
   parameterPath: "version",
   mapper: {
     required: true,
@@ -263,10 +263,10 @@ export const version: msRest.OperationParameter = {
     }
   }
 };
-export const visibilitytimeout0: msRest.OperationQueryParameter = {
+export const visibilityTimeout0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "visibilitytimeout"
+    "visibilityTimeout"
   ],
   mapper: {
     serializedName: "visibilitytimeout",
@@ -279,8 +279,8 @@ export const visibilitytimeout0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const visibilitytimeout1: msRest.OperationQueryParameter = {
-  parameterPath: "visibilitytimeout",
+export const visibilityTimeout1: coreHttp.OperationQueryParameter = {
+  parameterPath: "visibilityTimeout",
   mapper: {
     required: true,
     serializedName: "visibilitytimeout",

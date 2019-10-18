@@ -80,17 +80,18 @@ describe("etags", () => {
       onlyIfChanged: true
     });
 
+    // to keep 'key' a required field we fill this out (but set all the other properties to undefined)
+    assert.equal(response.key, key);
     assert.equal(response._response.status, 304);
-    assert.equal(response.statusCode, 304);
+    assert.equal(response.statusCode, 304);    
 
-    assert.throws(() => response.contentType, /The requested value was not retrieved since it has not changed since the last request./, "");
-    assert.throws(() => response.etag, /The requested value was not retrieved since it has not changed since the last request./, "");
-    assert.throws(() => response.key, /The requested value was not retrieved since it has not changed since the last request./, "");
-    assert.throws(() => response.label, /The requested value was not retrieved since it has not changed since the last request./, "");
-    assert.throws(() => response.lastModified, /The requested value was not retrieved since it has not changed since the last request./, "");
-    assert.throws(() => response.locked, /The requested value was not retrieved since it has not changed since the last request./, "");
-    assert.throws(() => response.tags, /The requested value was not retrieved since it has not changed since the last request./, "");
-    assert.throws(() => response.value, /The requested value was not retrieved since it has not changed since the last request./, "");
+    assert.ok(!response.contentType);
+    assert.ok(!response.etag);    
+    assert.ok(!response.label);
+    assert.ok(!response.lastModified);
+    assert.ok(!response.locked);
+    assert.ok(!response.tags);
+    assert.ok(!response.value);
 
     // let's update it and then try again
     await client.setConfigurationSetting({ key: key, value: "new world" });

@@ -1,11 +1,10 @@
-import { URLBuilder } from "@azure/ms-rest-js";
+import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { RestError, StorageURL } from "../src";
-import { Aborter } from "../src/Aborter";
-import { ContainerURL } from "../src/ContainerURL";
-import { Pipeline } from "../src/Pipeline";
+import { AbortController } from "@azure/abort-controller";
+import { ContainerClient, RestError } from "../src";
+import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record } from "./utils/recorder";
@@ -13,21 +12,21 @@ import { record } from "./utils/recorder";
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
-  const serviceURL = getBSU();
+  const blobServiceClient = getBSU();
   let containerName: string;
-  let containerURL: ContainerURL;
+  let containerClient: ContainerClient;
 
   let recorder: any;
 
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
-    containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.none);
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
   });
 
-  afterEach(async () => {
-    await containerURL.delete(Aborter.none);
+  afterEach(async function() {
+    await containerClient.delete();
     recorder.stop();
   });
 
@@ -39,19 +38,19 @@ describe("RetryPolicy", () => {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
     });
-    const factories = containerURL.pipeline.factories.slice(); // clone factories array
+    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerURL = containerURL.withPipeline(pipeline);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
       keya: "vala",
       keyb: "valb"
     };
-    await injectContainerURL.setMetadata(Aborter.none, metadata);
+    await injectContainerClient.setMetadata(metadata);
 
-    const result = await containerURL.getProperties(Aborter.none);
+    const result = await containerClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
 
@@ -64,10 +63,10 @@ describe("RetryPolicy", () => {
       }
     });
 
-    const factories = containerURL.pipeline.factories.slice(); // clone factories array
+    const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerURL = containerURL.withPipeline(pipeline);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
     const metadata = {
       key0: "val0",
@@ -79,7 +78,9 @@ describe("RetryPolicy", () => {
     try {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
-      await injectContainerURL.setMetadata(Aborter.timeout(2 * 1000), metadata);
+      await injectContainerClient.setMetadata(metadata, {
+        abortSignal: AbortController.timeout(2 * 1000)
+      });
     } catch (err) {
       hasError = true;
     }
@@ -91,13 +92,15 @@ describe("RetryPolicy", () => {
       return new RestError("Server Internal Error", "ServerInternalError", 500);
     });
 
-    const credential = containerURL.pipeline.factories[containerURL.pipeline.factories.length - 1];
-    const factories = StorageURL.newPipeline(credential, {
+    const credential = (containerClient as any).pipeline.factories[
+      (containerClient as any).pipeline.factories.length - 1
+    ];
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 3 }
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerURL = containerURL.withPipeline(pipeline);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
     let hasError = false;
     try {
@@ -106,7 +109,7 @@ describe("RetryPolicy", () => {
         keya: "vala",
         keyb: "valb"
       };
-      await injectContainerURL.setMetadata(Aborter.none, metadata);
+      await injectContainerClient.setMetadata(metadata);
     } catch (err) {
       hasError = true;
     }
@@ -121,7 +124,7 @@ describe("RetryPolicy", () => {
       }
     });
 
-    const url = serviceURL.url;
+    const url = blobServiceClient.url;
     const urlParsed = URLBuilder.parse(url);
     const host = urlParsed.getHost()!;
     const hostParts = host.split(".");
@@ -130,17 +133,19 @@ describe("RetryPolicy", () => {
     hostParts.unshift(secondaryAccount);
     const secondaryHost = hostParts.join(".");
 
-    const credential = containerURL.pipeline.factories[containerURL.pipeline.factories.length - 1];
-    const factories = StorageURL.newPipeline(credential, {
+    const credential = (containerClient as any).pipeline.factories[
+      (containerClient as any).pipeline.factories.length - 1
+    ];
+    const factories = newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost }
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerURL = containerURL.withPipeline(pipeline);
+    const injectContainerClient = new ContainerClient(containerClient.url, pipeline);
 
     let finalRequestURL = "";
     try {
-      const response = await injectContainerURL.getProperties(Aborter.none);
+      const response = await injectContainerClient.getProperties();
       finalRequestURL = response._response.request.url;
     } catch (err) {
       finalRequestURL = err.request ? err.request.url : "";

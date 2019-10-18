@@ -35,7 +35,7 @@ import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatWildcards,
-  makeConfigurationSettingsFieldsThrow
+  makeConfigurationSettingEmpty
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
@@ -133,14 +133,6 @@ export class AppConfigurationClient {
       statusCode: originalResponse._response.status
     };
 
-    if (response._response.status == 204) {
-      // setting wasn't found (might have already been deleted). Users that care can check that the response
-      // code is not 200 but we don't consider this to be a fatal error.
-      makeConfigurationSettingsFieldsThrow(response,
-        "The resource was already deleted (or was missing). Only the _response and statusCode properties are valid for this object.",
-        "Resource already deleted or missing");  
-    }
-
     return response;
   }
 
@@ -175,9 +167,12 @@ export class AppConfigurationClient {
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
       if (response.statusCode === 304) {
-        makeConfigurationSettingsFieldsThrow(response,
-          "The requested value was not retrieved since it has not changed since the last request.",
-          "Resource same as remote");
+        // this is one of our few 'required' fields so we'll make sure it does get initialized
+        // with a value
+        response.key = id.key
+
+        // and now we'll undefine all the other properties that are not HTTP related
+        makeConfigurationSettingEmpty(response);
       }
 
       return response;

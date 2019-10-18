@@ -1,4 +1,4 @@
-import { KeysClient, CryptographyClient } from "../../src";
+import { KeyClient, CryptographyClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createHash } from "crypto";
 
@@ -13,7 +13,7 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
 
   // Connection to Azure Key Vault
-  const client = new KeysClient(url, credential);
+  const client = new KeyClient(url, credential);
 
   let keyName = "localWorkKey";
 

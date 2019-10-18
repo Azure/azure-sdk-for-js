@@ -1,11 +1,12 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
-
-export interface IMetadata {
+export interface Metadata {
   [propertyName: string]: string;
 }
 
-export interface IFileHTTPHeaders {
+export interface FileHttpHeaders {
   /**
    * @member {string} [fileCacheControl] Optional. Sets the file's cache
    * control. If specified, this property is stored with the file and returned
@@ -66,30 +67,30 @@ export type TimePreserveType = "preserve";
 /**
  * Indicates keep existing file attributes unchanged.
  */
-export type FileAttributesPreserveType = "preserve"
+export type FileAttributesPreserveType = "preserve";
 
-export interface IFileAndDirectoryCreateCommonOptions {
+export interface FileAndDirectoryCreateCommonOptions {
   /**
-   * The permission(security descriptor) to be set for the file or directory in the 
-   * Security Descriptor Definition Language (SDDL). If specified, it must have an owner, group, and discretionary access control list (DACL). 
+   * The permission(security descriptor) to be set for the file or directory in the
+   * Security Descriptor Definition Language (SDDL). If specified, it must have an owner, group, and discretionary access control list (DACL).
    * A value of inherit may be passed to inherit from the parent directory.
    *
-   * Note that only one of filePermission or filePermissionKey can be specified. 
+   * Note that only one of filePermission or filePermissionKey can be specified.
    * And if both are not specified, inherit will be set to filePermission as default value by client library.
    */
-  filePermission?: string | FilePermissionInheritType,
+  filePermission?: string | FilePermissionInheritType;
 
   /**
    * The key of the permission to be set for the file or directory. This can be created using the Create-Permission API.
-   * 
+   *
    * Note that only one of filePermission or filePermissionKey can be specified.
    */
-  filePermissionKey?: string,
+  filePermissionKey?: string;
 
   /**
    * The file system attributes to be set on the file or directory.
    */
-  fileAttributes?: FileSystemAttributes
+  fileAttributes?: FileSystemAttributes;
 
   /**
    * The Coordinated Universal Time (UTC) creation time property for the directory.
@@ -106,29 +107,29 @@ export interface IFileAndDirectoryCreateCommonOptions {
   lastWriteTime?: Date | TimeNowType;
 }
 
-export interface IFileAndDirectorySetPropertiesCommonOptions {
+export interface FileAndDirectorySetPropertiesCommonOptions {
   /**
-   * The permission(security descriptor) to be set for the file or directory in the 
-   * Security Descriptor Definition Language (SDDL). If specified, it must have an owner, group, and discretionary access control list (DACL). 
+   * The permission(security descriptor) to be set for the file or directory in the
+   * Security Descriptor Definition Language (SDDL). If specified, it must have an owner, group, and discretionary access control list (DACL).
    * A value of inherit may be passed to inherit from the parent directory.
    * A value of preserve may be passed to keep the value unchanged.
    *
-   * Note that only one of filePermission or filePermissionKey can be specified. 
+   * Note that only one of filePermission or filePermissionKey can be specified.
    * And if both are not specified, preserve will be set to filePermission as default value by client library.
    */
-  filePermission?: string | FilePermissionInheritType | FilePermissionPreserveType,
+  filePermission?: string | FilePermissionInheritType | FilePermissionPreserveType;
 
   /**
    * The key of the permission to be set for the file or directory. This can be created using the Create-Permission API.
-   * 
+   *
    * Note that only one of filePermission or filePermissionKey can be specified.
    */
-  filePermissionKey?: string,
+  filePermissionKey?: string;
 
   /**
    * The file system attributes to be set on the file or directory.
    */
-  fileAttributes?: FileSystemAttributes | FileAttributesPreserveType
+  fileAttributes?: FileSystemAttributes | FileAttributesPreserveType;
 
   /**
    * The Coordinated Universal Time (UTC) creation time property for the directory.
@@ -154,12 +155,12 @@ export function validateFilePermissionOptions(filePermission?: string, filePermi
 }
 
 export function validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(
-  options: IFileAndDirectoryCreateCommonOptions
-): IFileAndDirectoryCreateCommonOptions {
+  options: FileAndDirectoryCreateCommonOptions
+): FileAndDirectoryCreateCommonOptions {
   // Would better deep copy params set by user.
 
   if (!options) {
-    options = {}
+    options = {};
   }
 
   validateFilePermissionOptions(options.filePermission, options.filePermissionKey);
@@ -180,12 +181,12 @@ export function validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(
 }
 
 export function validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(
-  options: IFileAndDirectorySetPropertiesCommonOptions
-): IFileAndDirectorySetPropertiesCommonOptions {
+  options: FileAndDirectorySetPropertiesCommonOptions
+): FileAndDirectorySetPropertiesCommonOptions {
   // Would better deep copy params set by user.
 
   if (!options) {
-    options = {}
+    options = {};
   }
 
   validateFilePermissionOptions(options.filePermission, options.filePermissionKey);
@@ -209,14 +210,18 @@ export function validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOpti
   return options;
 }
 
-export function fileAttributesToString(fileAttributes: FileSystemAttributes | FileAttributesPreserveType) : string {
-  return fileAttributes instanceof FileSystemAttributes ? fileAttributes.toString() : fileAttributes;
+export function fileAttributesToString(
+  fileAttributes: FileSystemAttributes | FileAttributesPreserveType
+): string {
+  return fileAttributes instanceof FileSystemAttributes
+    ? fileAttributes.toString()
+    : fileAttributes;
 }
 
-export function fileCreationTimeToString(time: Date | TimeNowType | TimePreserveType) : string {
+export function fileCreationTimeToString(time: Date | TimeNowType | TimePreserveType): string {
   return time instanceof Date ? truncatedISO8061Date(time) : time;
 }
 
-export function fileLastWriteTimeToString(time: Date | TimeNowType | TimePreserveType) : string {
+export function fileLastWriteTimeToString(time: Date | TimeNowType | TimePreserveType): string {
   return time instanceof Date ? truncatedISO8061Date(time) : time;
 }

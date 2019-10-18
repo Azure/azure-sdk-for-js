@@ -10,7 +10,6 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
-import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
@@ -156,22 +155,8 @@ describe("AppConfigurationClient", () => {
 
       // delete configuration
       const deletedSetting = await client.deleteConfigurationSetting(result);
-      assert.equal(
-        deletedSetting.key,
-        key,
-        "Unexpected key in result from deleteConfigurationSetting()."
-      );
-      assert.equal(
-        deletedSetting.label,
-        label,
-        "Unexpected label in result from deleteConfigurationSetting()."
-      );
-      assert.equal(
-        deletedSetting.value,
-        value,
-        "Unexpected value in result from deleteConfigurationSetting()."
-      );
-
+      assert.equal(200, deletedSetting._response.status);
+      
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
@@ -206,22 +191,7 @@ describe("AppConfigurationClient", () => {
         key,
         label
       }, { onlyIfUnchanged: true });
-      assert.equal(
-        deletedSetting.key,
-        key,
-        "Unexpected key in result from deleteConfigurationSetting()."
-      );
-      assert.equal(
-        deletedSetting.label,
-        label,
-        "Unexpected label in result from deleteConfigurationSetting()."
-      );
-      assert.equal(
-        deletedSetting.value,
-        value,
-        "Unexpected value in result from deleteConfigurationSetting()."
-      );
-
+      
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
@@ -244,16 +214,6 @@ describe("AppConfigurationClient", () => {
       // the user(status code: 204)
       assert.equal(response._response.status, response.statusCode);
       assert.equal(204, response.statusCode);
-
-      // also, fields throw on access
-      assert.throws(() => response.key, (err: ResponseBodyNotFoundError) => {
-        assert.equal("ResponseBodyNotFoundError", err.name);
-        
-        assert.equal("The resource was already deleted (or was missing). Only the _response and statusCode properties are valid for this object.", err.message);
-        assert.equal("Resource already deleted or missing", err.code);
-        
-        return true;
-      });
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {

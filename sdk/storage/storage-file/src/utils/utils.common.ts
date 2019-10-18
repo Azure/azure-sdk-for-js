@@ -1,13 +1,18 @@
-import { AbortSignalLike, isNode, URLBuilder } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { AbortSignalLike } from "@azure/abort-controller";
+import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { HeaderConstants, URLConstants } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
  *
- * ## URL encode and escape strategy for JSv10 SDKs
+ * ## URL encode and escape strategy for JS SDKs
  *
- * When customers pass a URL string into XXXURL classes constructor, the URL string may already be URL encoded or not.
+ * When customers pass a URL string into XXXClient classes constructor, the URL string may already be URL encoded or not.
  * But before sending to Azure Storage server, the URL must be encoded. However, it's hard for a SDK to guess whether the URL
- * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XXXURL constructors.
+ * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XXXClient constructors.
  *
  * ### Strategy One: Assume the customer URL string is not encoded, and always encode URL string in SDK.
  *
@@ -43,7 +48,7 @@ import { AbortSignalLike, isNode, URLBuilder } from "@azure/ms-rest-js";
  *
  * Another special character is "?", use "%2F" to represent a blob name with "?" in a URL string.
  *
- * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `BlobURL.fromContainerURL(containerURL, blobName)`
+ * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `ContainerClient.getBlobClient(blobName)`
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
@@ -64,6 +69,110 @@ export function escapeURLPath(url: string): string {
   urlParsed.setPath(path);
 
   return urlParsed.toString();
+}
+
+export interface ConnectionString {
+  kind: "AccountConnString" | "SASConnString";
+  url: string;
+  accountName: string;
+  accountKey?: any;
+  accountSas?: string;
+}
+
+function getValueInConnString(
+  connectionString: string,
+  argument:
+    | "FileEndpoint"
+    | "AccountName"
+    | "AccountKey"
+    | "DefaultEndpointsProtocol"
+    | "EndpointSuffix"
+    | "SharedAccessSignature"
+) {
+  const elements = connectionString.split(";");
+  for (const element of elements) {
+    if (element.trim().startsWith(argument)) {
+      return element.trim().match(argument + "=(.*)")![1];
+    }
+  }
+  return "";
+}
+
+/**
+ * Extracts the parts of an Azure Storage account connection string.
+ *
+ * @export
+ * @param {string} connectionString Connection string.
+ * @returns {ConnectionString} String key value pairs of the storage account's url and credentials.
+ */
+export function extractConnectionStringParts(connectionString: string): ConnectionString {
+  // Matching FileEndpoint in the Account connection string
+  let fileEndpoint = getValueInConnString(connectionString, "FileEndpoint");
+  // Slicing off '/' at the end if exists
+  // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
+  fileEndpoint = fileEndpoint.endsWith("/") ? fileEndpoint.slice(0, -1) : fileEndpoint;
+
+  if (
+    connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
+    connectionString.search("AccountKey=") !== -1
+  ) {
+    // Account connection string
+
+    let defaultEndpointsProtocol = "";
+    let accountName = "";
+    let accountKey = Buffer.from("accountKey", "base64");
+    let endpointSuffix = "";
+
+    // Get account name and key
+    accountName = getValueInConnString(connectionString, "AccountName");
+    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+
+    if (!fileEndpoint) {
+      // FileEndpoint is not present in the Account connection string
+      // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`
+
+      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const protocol = defaultEndpointsProtocol!.toLowerCase();
+      if (protocol !== "https" && protocol !== "http") {
+        throw new Error(
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+        );
+      }
+
+      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      if (!endpointSuffix) {
+        throw new Error("Invalid EndpointSuffix in the provided Connection String");
+      }
+      fileEndpoint = `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`;
+    }
+
+    if (!accountName) {
+      throw new Error("Invalid AccountName in the provided Connection String");
+    } else if (accountKey.length === 0) {
+      throw new Error("Invalid AccountKey in the provided Connection String");
+    }
+
+    return {
+      kind: "AccountConnString",
+      url: fileEndpoint,
+      accountName,
+      accountKey
+    };
+  } else {
+    // SAS connection string
+
+    let accountName = getAccountNameFromUrl(fileEndpoint);
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    if (!fileEndpoint) {
+      throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
+    } else if (!accountSas) {
+      throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    } else if (!accountName) {
+      throw new Error("Invalid AccountName in the provided SAS Connection String");
+    }
+
+    return { kind: "SASConnString", url: fileEndpoint, accountName, accountSas };
+  }
 }
 
 /**
@@ -174,9 +283,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
   querySubStrings = querySubStrings.filter((value: string) => {
     const indexOfEqual = value.indexOf("=");
     const lastIndexOfEqual = value.lastIndexOf("=");
-    return (
-      indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual
-    );
+    return indexOfEqual > 0 && indexOfEqual === lastIndexOfEqual;
   });
 
   const queries: { [key: string]: string } = {};
@@ -290,5 +397,79 @@ export function padStart(
       padString += padString.repeat(targetLength / padString.length);
     }
     return padString.slice(0, targetLength) + currentString;
+  }
+}
+
+export function sanitizeURL(url: string): string {
+  let safeURL: string = url;
+  if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
+    safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
+  }
+
+  return safeURL;
+}
+
+export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
+  const headers: HttpHeaders = new HttpHeaders();
+  for (const header of originalHeader.headersArray()) {
+    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION) {
+      headers.set(header.name, "*****");
+    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(header.name, sanitizeURL(header.value));
+    } else {
+      headers.set(header.name, header.value);
+    }
+  }
+
+  return headers;
+}
+
+export function getAccountNameFromUrl(url: string): string {
+  // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+  // Slicing off '/' at the end if exists
+  try {
+    url = url.endsWith("/") ? url.slice(0, -1) : url;
+
+    const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".file."));
+    if (!accountName) {
+      throw new Error("Provided accountName is invalid.");
+    }
+    return accountName;
+  } catch (error) {
+    throw new Error("Unable to extract accountName with provided information.");
+  }
+}
+
+export function getShareNameAndPathFromUrl(
+  url: string
+): { shareName: string; filePathOrDirectoryPath: string } {
+  //  URL may look like the following
+  // "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString";
+  // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";
+  // "https://myaccount.file.core.windows.net/myshare/mydirectory?sasString";
+  // "https://myaccount.file.core.windows.net/myshare/mydirectory";
+  // "https://myaccount.file.core.windows.net/myshare?sasString";
+  // "https://myaccount.file.core.windows.net/myshare";
+  // mydirectory can consist of multiple directories - dir1/dir2/dir3
+
+  try {
+    let urlWithoutSAS = url.split("?")[0]; // removing the sas part of url if present
+    urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+
+    let shareNameAndFilePath = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
+
+    // decode the encoded shareName and filePath - to get all the special characters that might be present in it
+    const shareName = decodeURIComponent(shareNameAndFilePath![3]);
+    const filePathOrDirectoryPath = decodeURIComponent(shareNameAndFilePath![5]);
+
+    if (!shareName) {
+      throw new Error("Provided shareName is invalid.");
+    } else {
+      return { shareName, filePathOrDirectoryPath };
+    }
+  } catch (error) {
+    throw new Error(
+      "Unable to extract shareName and filePath/directoryPath with provided information."
+    );
   }
 }
