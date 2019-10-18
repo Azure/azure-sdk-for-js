@@ -12,7 +12,7 @@ import {
 } from "@azure/core-http";
 
 import { RequestLogOptions } from "../LoggingPolicyFactory";
-import { HTTPURLConnection } from "../utils/constants";
+import { HttpUrlConnection } from "../utils/constants";
 import { sanitizeHeaders, sanitizeURL } from "../utils/utils.common";
 
 // Default values of RetryOptions
@@ -92,10 +92,10 @@ export class LoggingPolicy extends BaseRequestPolicy {
       if (
         (response.status >= 400 &&
           response.status <= 499 &&
-          (response.status !== HTTPURLConnection.HTTP_NOT_FOUND &&
-            response.status !== HTTPURLConnection.HTTP_CONFLICT &&
-            response.status !== HTTPURLConnection.HTTP_PRECON_FAILED &&
-            response.status !== HTTPURLConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
+          (response.status !== HttpUrlConnection.HTTP_NOT_FOUND &&
+            response.status !== HttpUrlConnection.HTTP_CONFLICT &&
+            response.status !== HttpUrlConnection.HTTP_PRECON_FAILED &&
+            response.status !== HttpUrlConnection.HTTP_RANGE_NOT_SATISFIABLE)) ||
         (response.status >= 500 && response.status <= 509)
       ) {
         const errorString = `REQUEST ERROR: HTTP request failed with status code: ${response.status}. `;
