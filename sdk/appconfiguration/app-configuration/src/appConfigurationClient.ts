@@ -35,7 +35,10 @@ import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatWildcards,
-  makeConfigurationSettingEmpty
+  makeConfigurationSettingEmpty,
+  transformKeyValueResponse,
+  transformKeyValueResponseWithStatusCode,
+  transformKeyValue
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
@@ -104,10 +107,7 @@ export class AppConfigurationClient {
       });
     });
 
-    return {
-      ...result,
-      readOnly: !!result.locked
-    };
+    return transformKeyValueResponse(result);
   }
 
   /**
@@ -132,13 +132,7 @@ export class AppConfigurationClient {
       });
     });
 
-    const response: DeleteConfigurationSettingResponse = {
-      ...originalResponse,
-      _response: originalResponse._response,
-      statusCode: originalResponse._response.status
-    };
-
-    return response;
+    return transformKeyValueResponseWithStatusCode(originalResponse);
   }
 
   /**
@@ -163,12 +157,7 @@ export class AppConfigurationClient {
         ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
       });
 
-      const response: GetConfigurationSettingResponse = {
-        ...originalResponse,
-        _response: originalResponse._response,
-        statusCode: originalResponse._response.status,
-        readOnly: !!originalResponse.locked
-      };      
+      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(originalResponse);
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
@@ -265,12 +254,7 @@ export class AppConfigurationClient {
   private *createListConfigurationPageFromResponse(currentResponse: GetKeyValuesResponse) {
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(item => {
-        return {
-          ...item,
-          readOnly: !!item.locked
-        }
-      }) : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
     };
   }
 
@@ -326,11 +310,7 @@ export class AppConfigurationClient {
 
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items.map(item => {
-        return {
-          ...item,
-          readOnly: !!item.locked
-      }}) : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
     };
 
     while (currentResponse.nextLink) {
@@ -349,11 +329,7 @@ export class AppConfigurationClient {
 
       yield {
         ...currentResponse,
-        items: currentResponse.items != null ? currentResponse.items.map(item => {
-          return {
-            ...item,
-            readOnly: !!item.locked
-        }}) : []
+        items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
       };
     }
   }
@@ -381,10 +357,7 @@ export class AppConfigurationClient {
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, newOptions)
       });
       
-      return {
-        ...response,
-        readOnly: !!response.locked
-      };
+      return transformKeyValueResponse(response);
     });
   }
 
@@ -402,10 +375,7 @@ export class AppConfigurationClient {
         label: id.label
       });
 
-      return {
-        ...response,
-        readOnly: !!response.locked
-      };
+      return transformKeyValueResponse(response);
     });
   }
 
@@ -423,10 +393,7 @@ export class AppConfigurationClient {
         label: id.label
       });
 
-      return {
-        ...response,
-        readOnly: !!response.locked
-      };
+      return transformKeyValueResponse(response);
     });
   }
 }

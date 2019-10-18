@@ -4,8 +4,8 @@
 import { ListConfigurationSettingsOptions } from '..';
 import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
-import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpConditionalFields } from '../models';
-import { AppConfigurationGetKeyValuesOptionalParams } from '../generated/src/models';
+import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpConditionalFields, HttpResponseField, HttpResponseFields } from '../models';
+import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from '../generated/src/models';
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -131,5 +131,49 @@ export function makeConfigurationSettingEmpty(configurationSetting: Partial<Reco
 
   for (const name of names) {
     configurationSetting[name] = undefined;
-  }
+  }  
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValue(kvp: KeyValue) : ConfigurationSetting {  
+  const obj : ConfigurationSetting & KeyValue = {
+    ...kvp,
+    readOnly: !!kvp.locked
+  };
+
+  delete obj.locked;
+  return obj;
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponseWithStatusCode<T extends KeyValue & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & HttpResponseField<any> & HttpResponseFields {
+  return addResponseField(kvp, <ConfigurationSetting & HttpResponseField<any> & HttpResponseFields>{
+    ...transformKeyValue(kvp),
+    statusCode: kvp._response.status,
+  });
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponse<T extends KeyValue & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & HttpResponseField<any> {
+  return addResponseField(kvp, <ConfigurationSetting & HttpResponseField<any>>{
+    ...transformKeyValue(kvp)
+  });
+}
+
+function addResponseField<T extends HttpResponseField<any>>(originalResponse: HttpResponseField<any>, newResponse: T) : T {
+  Object.defineProperty(newResponse, '_response', {
+    enumerable: false,
+    value: originalResponse._response
+  });
+
+  return newResponse;
 }
