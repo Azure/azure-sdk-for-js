@@ -440,7 +440,7 @@ export class ServiceClient {
       }
       if (sendRequestError) {
         sendRequestError.details = flattenResponse(
-          sendRequestError,
+          sendRequestError.response,
           operationSpec.responses[sendRequestError.statusCode] ||
             operationSpec.responses["default"]
         );

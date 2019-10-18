@@ -14,8 +14,6 @@ export class RestError extends Error {
   request?: WebResource;
   response?: HttpOperationResponse;
   body?: any;
-  parsedBody?: unknown;
-  parsedHeaders?: { [key: string]: unknown };
   details?: unknown;
   constructor(
     message: string,

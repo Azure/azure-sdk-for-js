@@ -561,8 +561,8 @@ describe("deserializationPolicy", function() {
         assert.fail();
       } catch (e) {
         assert(e);
-        assert.strictEqual(e.parsedHeaders.errorCode, "InvalidResourceNameHeader");
-        assert.strictEqual(e.message, "InvalidResourceNameBody");
+        assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
+        assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
       }
     });
   });

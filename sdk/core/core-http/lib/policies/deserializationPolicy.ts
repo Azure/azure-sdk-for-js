@@ -198,14 +198,14 @@ export function deserializeResponseBody(
                     valueToDeserialize,
                     "error.body"
                   );
-                  // The following line is required to flatten the response correctly
-                  // in serviceClient.ts
-                  error.parsedBody = error.body;
+                  // The following line is added to not introduce
+                  // any breaking change by removing error.body
+                  error.response!.parsedBody = error.body;
                 }
               }
 
               if (parsedResponse.headers && defaultResponseSpec.headersMapper) {
-                error.parsedHeaders = operationSpec.serializer.deserialize(
+                error.response!.parsedHeaders = operationSpec.serializer.deserialize(
                   defaultResponseSpec.headersMapper,
                   parsedResponse.headers.rawHeaders(),
                   "operationRes.parsedHeaders"
