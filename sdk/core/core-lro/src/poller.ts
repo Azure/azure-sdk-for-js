@@ -22,13 +22,13 @@ export class PollerCancelledError extends Error {
 }
 
 export interface PollerLike<TState, TResult> {
-  poll(options: { abortSignal?: AbortSignal }): Promise<void>;
+  poll(options?: { abortSignal?: AbortSignal }): Promise<void>;
   pollUntilDone(): Promise<TResult>;
   onProgress(callback: (state: TState) => void): CancelOnProgress;
   isDone(): boolean;
   stopPolling(): void;
   isStopped(): boolean;
-  cancelOperation(options: { abortSignal?: AbortSignal }): Promise<void>;
+  cancelOperation(options?: { abortSignal?: AbortSignal }): Promise<void>;
   getOperationState(): PollOperationState<TResult>;
   getResult(): TResult | undefined;
   toString(): string;
