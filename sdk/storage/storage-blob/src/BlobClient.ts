@@ -1446,7 +1446,7 @@ export class BlobClient extends StorageClient {
   }
 
   // High level function
-  
+
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
@@ -1458,7 +1458,7 @@ export class BlobClient extends StorageClient {
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
    * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
-   * @returns {Promise<void>}
+   * @returns {Promise<Buffer>}
    */
   public async downloadToBuffer(
     buffer: Buffer,
