@@ -21,7 +21,20 @@ export class PollerCancelledError extends Error {
   }
 }
 
-export abstract class Poller<TState, TResult> {
+export interface PollerInterface<TState, TResult> {
+  poll(options: { abortSignal?: AbortSignal }): Promise<void>;
+  pollUntilDone(): Promise<TResult>;
+  onProgress(callback: (state: TState) => void): CancelOnProgress;
+  isDone(): boolean;
+  stopPolling(): void;
+  isStopped(): boolean;
+  cancelOperation(options: { abortSignal?: AbortSignal }): Promise<void>;
+  getOperationState(): PollOperationState<TResult>;
+  getResult(): TResult | undefined;
+  toString(): string;
+}
+
+export abstract class Poller<TState, TResult> implements PollerInterface<TState, TResult> {
   private stopped: boolean = true;
   private resolve?: (value?: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
