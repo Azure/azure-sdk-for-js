@@ -64,8 +64,8 @@ async function main() {
   const result = await client.restoreSecret(backupContents);
   console.log("Restored secret: ", result);
 
-  deletePoller = await client.beginDeleteSecret(secretName);
-  await deletePoller.pollUntilDone();
+  // If we don't want to purge the secret later, we don't need to wait until this finishes
+  await client.beginDeleteSecret(secretName);
 }
 
 main().catch((err) => {

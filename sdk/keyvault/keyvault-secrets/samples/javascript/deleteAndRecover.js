@@ -67,8 +67,8 @@ async function main() {
     console.log(value);
   }
 
-  deletePoller = await client.beginDeleteSecret(storageAccountSecretName);
-  await deletePoller.pollUntilDone();
+  // If we don't want to purge the secret later, we don't need to wait until this finishes
+  await client.beginDeleteSecret(storageAccountSecretName);
 }
 
 main().catch((err) => {

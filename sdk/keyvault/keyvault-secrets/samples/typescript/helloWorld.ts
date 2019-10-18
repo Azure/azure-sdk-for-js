@@ -33,8 +33,8 @@ async function main(): Promise<void> {
   console.log("updated secret: ", updatedSecret);
 
   // Delete the secret
-  const deletePoller = await client.beginDeleteSecret(secretName);
-  await deletePoller.pollUntilDone();
+  // If we don't want to purge the secret later, we don't need to wait until this finishes
+  await client.beginDeleteSecret(secretName);
 }
 
 main().catch((err) => {

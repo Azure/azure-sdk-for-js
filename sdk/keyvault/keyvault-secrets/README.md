@@ -207,8 +207,7 @@ This process will happen in the background as soon as the necessary resources
 are available.
 
 ```javascript
-const poller = await client.beginDeleteSecret(secretName);
-await poller.pollUntilDone();
+await client.beginDeleteSecret(secretName);
 ```
 
 If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
@@ -218,9 +217,14 @@ read, recovered or purged.
 
 ```javascript
 const poller = await client.beginDeleteSecret(secretName)
+
+// You can use the deleted secret immediately:
+const deletedSecret = poller.getDeletedSecret();
+
+// The secret is being deleted. Only wait for it if you want to restore it or purge it.
 await poller.pollUntilDone();
 
-// If soft-delete is enabled, we can eventually do:
+// You can also get the deleted secret this way:
 await client.getDeletedSecret(secretName);
 
 // Deleted secrets can also be recovered or purged.
@@ -238,18 +242,21 @@ returns a Poller object that keeps track of the underlying Long Running
 Operation according to our guidelines:
 https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
 
-
-Once you receive the poller, you'll be able to either run individual service
-calls until the secret is deleted, or wait until the process is done:
+The received poller will allow you to get the deleted secret by calling to `poller.getDeletedSecret()`.
+You can also wait until the deletion finishes, either by running individual service
+calls until the secret is deleted, or by waiting until the process is done:
 
 ```typescript
 const poller = await client.beginDeleteSecret(certificateName, certificatePolicy);
+
+// You can use the deleted secret immediately:
+let deletedSecret = poller.getDeletedSecret();
 
 await poller.poll(); // On each poll, the poller checks whether the secret has been deleted or not.
 console.log(poller.isDone()) // The poller will be done once the secret is fully deleted.
 
 // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
-const deletedSecret = await poller.pollUntilDone();
+deletedSecret = await poller.pollUntilDone();
 console.log(deletedSecret);
 ```
 

@@ -63,11 +63,8 @@ async function main() {
     console.log("version: ", secret);
   }
 
-  let deletePoller = await client.beginDeleteSecret(bankAccountSecretName);
-  await deletePoller.pollUntilDone();
-
-  deletePoller = await client.beginDeleteSecret(storageAccountSecretName);
-  await deletePoller.pollUntilDone();
+  await client.beginDeleteSecret(bankAccountSecretName);
+  await client.beginDeleteSecret(storageAccountSecretName);
 }
 
 main().catch((err) => {

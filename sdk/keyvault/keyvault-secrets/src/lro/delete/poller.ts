@@ -25,7 +25,7 @@ export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, D
   public intervalInMs: number;
 
   constructor(options: DeleteSecretPollerOptions) {
-    const { client, name, requestOptions, intervalInMs = 5000, resumeFrom } = options;
+    const { client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteSecretPollOperationState | undefined;
 
@@ -51,5 +51,20 @@ export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, D
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
+  }
+
+  /**
+   * This method returns the deleted secret. It will throw if the deleted secret is missing.
+   * @memberof DeleteSecretPoller
+   */
+  getDeletedSecret(): DeletedSecret {
+    if (!this.operation.state.result) {
+      if (this.operation.state.error) {
+        throw this.operation.state.error;
+      } else {
+        throw new Error("The resource couldn't be retrieved");
+      }
+    }
+    return this.operation.state.result;
   }
 }

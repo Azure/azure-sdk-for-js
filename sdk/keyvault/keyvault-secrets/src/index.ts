@@ -45,10 +45,7 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { DeleteSecretPollOperationState } from "./lro/delete/operation";
-import {
-  RecoverDeletedSecretPoller,
-  RecoverDeletedSecretPollerOptions
-} from "./lro/recover/poller";
+import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
 import { RecoverDeletedSecretPollOperationState } from "./lro/recover/operation";
 
 import {
@@ -75,7 +72,6 @@ export {
   DeleteSecretPoller,
   DeleteSecretPollOperationState,
   RecoverDeletedSecretPoller,
-  RecoverDeletedSecretPollerOptions,
   RecoverDeletedSecretPollOperationState,
   DeletedSecret,
   DeletionRecoveryLevel,

@@ -239,8 +239,13 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     await client.setSecret(secretName, secretValue);
     const deletePoller = await client.beginDeleteSecret(secretName);
-    const deletedSecret = await deletePoller.pollUntilDone();
 
+    let deletedSecret = deletePoller.getDeletedSecret();
+    assert.equal(typeof deletedSecret.properties.recoveryId, "string");
+    assert.ok(deletedSecret.properties.deletedDate instanceof Date);
+    assert.ok(deletedSecret.properties.scheduledPurgeDate instanceof Date);
+
+    deletedSecret = await deletePoller.pollUntilDone();
     assert.equal(typeof deletedSecret.properties.recoveryId, "string");
     assert.ok(deletedSecret.properties.deletedDate instanceof Date);
     assert.ok(deletedSecret.properties.scheduledPurgeDate instanceof Date);
@@ -264,8 +269,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     let error;
     try {
-      const deletePoller = await client.beginDeleteSecret(secretName);
-      await deletePoller.pollUntilDone();
+      await client.beginDeleteSecret(secretName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -283,7 +287,16 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     await client.setSecret(secretName, "RSA");
     const deletePoller = await client.beginDeleteSecret(secretName);
+
+    let deletedSecret = deletePoller.getDeletedSecret();
+    assert.equal(
+      deletedSecret.properties.name,
+      secretName,
+      "Unexpected secret name in result from getSecret()."
+    );
+
     await deletePoller.pollUntilDone();
+    deletedSecret = deletePoller.getDeletedSecret();
     const getResult = await client.getDeletedSecret(secretName);
     assert.equal(
       getResult.properties.name,

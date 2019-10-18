@@ -36,6 +36,12 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
     await client.setSecret(secretName, "RSA");
     const deletePoller = await client.beginDeleteSecret(secretName);
+    assert.equal(
+      deletePoller.getDeletedSecret().properties.name,
+      secretName,
+      "Unexpected secret name in result from deletePoller.getDeletedSecret()."
+    );
+
     await deletePoller.pollUntilDone();
     const getDeletedResult = await client.getDeletedSecret(secretName);
     assert.equal(
@@ -43,6 +49,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
+
     const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
     const secretProperties = await recoverPoller.pollUntilDone();
     assert.equal(
