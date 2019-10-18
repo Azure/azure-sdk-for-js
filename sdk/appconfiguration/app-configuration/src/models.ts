@@ -187,7 +187,6 @@ export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField
 /**
  * Response from setting a ConfigurationSetting.
  */
-// onlyIfUnchanged
 export interface SetConfigurationSettingResponse
   extends ConfigurationSetting,
     SyncTokenHeaderField,
