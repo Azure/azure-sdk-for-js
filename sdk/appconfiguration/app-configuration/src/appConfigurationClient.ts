@@ -94,20 +94,20 @@ export class AppConfigurationClient {
    * @param configurationSetting A configuration setting.
    * @param options Optional parameters for the request.
    */
-  async addConfigurationSetting(
+  addConfigurationSetting(
     configurationSetting: AddConfigurationSettingParam,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    const result = await this.spanner.trace("addConfigurationSetting", options, (_, newOptions) => {
-      return this.client.putKeyValue(configurationSetting.key, {
+    return this.spanner.trace("addConfigurationSetting", options, async (_, newOptions) => {
+      const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
         entity: configurationSetting,
         ...newOptions
       });
-    });
 
-    return transformKeyValueResponse(result);
+      return transformKeyValueResponse(originalResponse);
+    });    
   }
 
   /**
@@ -120,19 +120,19 @@ export class AppConfigurationClient {
    * @param id The id of the configuration setting to delete.
    * @param options Optional parameters for the request (ex: etag, label)
    */
-  async deleteConfigurationSetting(
+  deleteConfigurationSetting(
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    const originalResponse = await this.spanner.trace("deleteConfigurationSetting", options, (newOptions) => {
-      return this.client.deleteKeyValue(id.key, {
+    return this.spanner.trace("deleteConfigurationSetting", options, async (newOptions) => {
+      const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
         ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
       });
-    });
 
-    return transformKeyValueResponseWithStatusCode(originalResponse);
+      return transformKeyValueResponseWithStatusCode(originalResponse);
+    });
   }
 
   /**
