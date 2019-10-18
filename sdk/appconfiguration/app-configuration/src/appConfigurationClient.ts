@@ -372,7 +372,8 @@ export class AppConfigurationClient {
     return this.spanner.trace("setReadOnly", options, async (newOptions) => {
       const response = await this.client.putLock(id.key, {
         ...newOptions,
-        label: id.label
+        label: id.label,
+        ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
 
       return transformKeyValueResponse(response);
@@ -390,7 +391,8 @@ export class AppConfigurationClient {
     return await this.spanner.trace("clearReadOnly", options, async (newOptions) => {
       const response = await this.client.deleteLock(id.key, {
         ...newOptions,
-        label: id.label
+        label: id.label,
+        ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
 
       return transformKeyValueResponse(response);
