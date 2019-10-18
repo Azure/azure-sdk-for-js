@@ -69,14 +69,14 @@ describe("MessagesClient Node.js only", () => {
     assert.ok(dResult.requestId);
     assert.ok(eResult.clientRequestId);
     assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.dequeuedMessageItems[0].popReceipt);
-    assert.ok(dResult.dequeuedMessageItems[0].nextVisibleOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.ok(dResult.receivedMessageItems[0].popReceipt);
+    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters including special char which is computed after encoding", async () => {

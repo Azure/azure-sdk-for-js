@@ -54,10 +54,10 @@ describe("MessagesClient", () => {
     assert.ok(dqResult.requestId);
     assert.ok(eResult.clientRequestId);
     assert.ok(dqResult.version);
-    assert.deepStrictEqual(dqResult.dequeuedMessageItems.length, 1);
-    assert.ok(dqResult.dequeuedMessageItems[0].popReceipt);
-    assert.deepStrictEqual(dqResult.dequeuedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dqResult.dequeuedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dqResult.receivedMessageItems.length, 1);
+    assert.ok(dqResult.receivedMessageItems[0].popReceipt);
+    assert.deepStrictEqual(dqResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dqResult.receivedMessageItems[0].messageId, eResult.messageId);
 
     let cResult = await queueClient.clearMessages();
     assert.ok(cResult.date);
@@ -122,14 +122,14 @@ describe("MessagesClient", () => {
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
     assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 2);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.dequeuedMessageItems[0].popReceipt);
-    assert.ok(dResult.dequeuedMessageItems[0].nextVisibleOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 2);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.ok(dResult.receivedMessageItems[0].popReceipt);
+    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
 
     assert.deepStrictEqual(pResult.peekedMessageItems[1].messageText, messageContent);
 
@@ -171,14 +171,14 @@ describe("MessagesClient", () => {
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
     assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, "");
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.dequeuedMessageItems[0].popReceipt);
-    assert.ok(dResult.dequeuedMessageItems[0].nextVisibleOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, "");
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.ok(dResult.receivedMessageItems[0].popReceipt);
+    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
   });
 
   it("enqueue, peek, dequeue special characters", async () => {
@@ -216,14 +216,14 @@ describe("MessagesClient", () => {
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
     assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, specialMessage);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.dequeuedMessageItems[0].popReceipt);
-    assert.ok(dResult.dequeuedMessageItems[0].nextVisibleOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, specialMessage);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.ok(dResult.receivedMessageItems[0].popReceipt);
+    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
   });
 
   it("enqueue, peek, dequeue with 64KB characters size which is computed after encoding", async () => {
@@ -260,14 +260,14 @@ describe("MessagesClient", () => {
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
     assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].insertedOn, eResult.insertedOn);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].expiresOn, eResult.expiresOn);
-    assert.ok(dResult.dequeuedMessageItems[0].popReceipt);
-    assert.ok(dResult.dequeuedMessageItems[0].nextVisibleOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.ok(dResult.receivedMessageItems[0].popReceipt);
+    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
   });
 
   it("enqueue, peek and dequeue negative", async () => {

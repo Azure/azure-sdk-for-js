@@ -202,7 +202,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Messages - Enqueue operation
+ * Options to configure Messages - Send operation
  *
  * @export
  * @interface QueueSendMessageOptions
@@ -236,12 +236,12 @@ export interface QueuePeekMessagesOptions
 
 export declare type QueueSendMessageResponse = {
   /**
-   * @member {string} messageId The ID of the enqueued Message.
+   * @member {string} messageId The ID of the sent Message.
    */
   messageId: string;
   /**
    * @member {string} popReceipt This value is required to delete the Message.
-   * If deletion fails using this popreceipt then the message has been dequeued
+   * If deletion fails using this popreceipt then the message has been received
    * by another client.
    */
   popReceipt: string;
@@ -280,8 +280,10 @@ export declare type QueueSendMessageResponse = {
     };
   };
 
+export declare type ReceivedMessageItem = Models.DequeuedMessageItem;
+
 export declare type QueueReceiveMessageResponse = {
-  dequeuedMessageItems: Models.DequeuedMessageItem[];
+  receivedMessageItems: ReceivedMessageItem[];
 } & Models.MessagesDequeueHeaders & {
     /**
      * The underlying HTTP response.
@@ -298,7 +300,7 @@ export declare type QueueReceiveMessageResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Models.DequeuedMessageItem[];
+      parsedBody: ReceivedMessageItem[];
     };
   };
 
@@ -767,7 +769,7 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Enqueue adds a new message to the back of a queue. The visibility timeout specifies how long
+   * SendMessage adds a new message to the back of a queue. The visibility timeout specifies how long
    * the message should be invisible to Dequeue and Peek operations.
    * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
@@ -843,13 +845,13 @@ export class QueueClient extends StorageClient {
         date: response.date,
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
-        dequeuedMessageItems: [],
+        receivedMessageItems: [],
         version: response.version,
         errorCode: response.errorCode
       };
 
       for (const item of response) {
-        res.dequeuedMessageItems.push(item);
+        res.receivedMessageItems.push(item);
       }
 
       return res;
@@ -913,7 +915,7 @@ export class QueueClient extends StorageClient {
    * Delete permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
-   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
+   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
    * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
    * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
    * @memberof QueueClient
@@ -946,7 +948,7 @@ export class QueueClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
-   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the dequeue messages or update message operation.
+   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
    * @param {string} message Message to update.
    * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
    *                                   relative to server time. The new value must be larger than or equal to 0,
