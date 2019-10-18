@@ -69,14 +69,14 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
 // @public
-export interface DeviceCodeDetails {
+export interface DeviceCodeInfo {
     message: string;
     userCode: string;
     verificationUri: string;
 }
 
 // @public
-export type DeviceCodePromptCallback = (deviceCodeDetails: DeviceCodeDetails) => void;
+export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 // @public
 export class EnvironmentCredential implements TokenCredential {
