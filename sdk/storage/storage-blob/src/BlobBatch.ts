@@ -114,10 +114,12 @@ export class BlobBatch {
   }
 
   /**
-   * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
+   * The deleteBlob operation marks the specified blob or snapshot for deletion.
+   * The blob is later deleted during garbage collection.
+   *
    * Note that in order to delete a blob, you must delete all of its snapshots.
    * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
-   * The operation(subrequest) will be authenticated and authorized with specified credential.
+   * The operation will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
@@ -133,10 +135,12 @@ export class BlobBatch {
   ): Promise<void>;
 
   /**
-   * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
+   * The deleteBlob operation marks the specified blob or snapshot for deletion.
+   * The blob is later deleted during garbage collection.
+   *
    * Note that in order to delete a blob, you must delete all of its snapshots.
    * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
-   * The operation(subrequest) will be authenticated and authorized with specified credential.
+   * The operation will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient} blobClient The BlobClient.
@@ -214,14 +218,14 @@ export class BlobBatch {
   }
 
   /**
-   * Add a set tier operation(subrequest) to set the tier on a blob.
-   * The operation is allowed on a page blob in a premium
-   * storage account and on a block blob in a blob storage account (locally redundant
-   * storage only). A premium page blob's tier determines the allowed size, IOPS,
-   * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
-   * storage type. This operation does not update the blob's ETag.
-   * See [set blob tier details](https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
-   * The operation(subrequest) will be authenticated and authorized
+   * The setBlobAccessTier operation sets the tier on a blob.
+   * The operation is allowed on block blobs in a blob storage or general purpose v2 account.
+   *
+   * A block blob's tier determines Hot/Cool/Archive storage type.
+   * This operation does not update the blob's ETag.
+   * For detailed information about block blob level tiering
+   * see [hot, cool, and archive access tiers](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
+   * The operation will be authenticated and authorized
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
@@ -239,14 +243,14 @@ export class BlobBatch {
   ): Promise<void>;
 
   /**
-   * Add a set tier operation(subrequest) to set the tier on a blob.
-   * The operation is allowed on a page blob in a premium
-   * storage account and on a block blob in a blob storage account (locally redundant
-   * storage only). A premium page blob's tier determines the allowed size, IOPS,
-   * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
-   * storage type. This operation does not update the blob's ETag.
-   * See [set blob tier details](https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
-   * The operation(subrequest) will be authenticated and authorized
+   * The setBlobAccessTier operation sets the tier on a blob.
+   * The operation is allowed on block blobs in a blob storage or general purpose v2 account.
+   *
+   * A block blob's tier determines Hot/Cool/Archive storage type.
+   * This operation does not update the blob's ETag.
+   * For detailed information about block blob level tiering
+   * see [hot, cool, and archive access tiers](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
+   * The operation will be authenticated and authorized
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient} blobClient The BlobClient.

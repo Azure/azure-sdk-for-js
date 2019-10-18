@@ -826,7 +826,9 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a BlobBatchClient object.
+   * Creates a BlobBatchClient object to conduct batch operations.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
    * @returns {BlobBatchClient} A new BlobBatchClient object for this service.
    * @memberof BlobServiceClient
