@@ -10,6 +10,7 @@ import {
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@azure/core-tracing";
+import { DefaultTenantId, DeveloperSignOnClientId } from '../constants';
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -30,8 +31,16 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions) {
-    options = { ...IdentityClient.getDefaultOptions(), ...options };
+  constructor(options?: InteractiveBrowserCredentialOptions) {
+    options = {
+      ...IdentityClient.getDefaultOptions(),
+      ...options,
+      tenantId: (options && options.tenantId) || DefaultTenantId,
+      // TODO: temporary - this is the Azure CLI clientID - we'll replace it when
+      // Developer Sign On application is available
+      // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/src/Constants.cs#L9
+      clientId: (options && options.clientId) || DeveloperSignOnClientId
+    };
 
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
@@ -40,8 +49,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     this.msalConfig = {
       auth: {
-        clientId: clientId,
-        authority: `${options.authorityHost}/${tenantId}`,
+        clientId: options.clientId!,    // we just initialized it above
+        authority: `${options.authorityHost}/${options.tenantId}`,
         ...(options.redirectUri && { redirectUri: options.redirectUri }),
         ...(options.postLogoutRedirectUri && { redirectUri: options.postLogoutRedirectUri })
       },
