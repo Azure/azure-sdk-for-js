@@ -9,7 +9,7 @@ import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { Poller } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientCredentials } from '@azure/core-http';
@@ -86,15 +86,6 @@ export interface DeletedKey {
         readonly scheduledPurgeDate?: Date;
         readonly deletedDate?: Date;
     };
-}
-
-// @public
-export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, DeletedKey> {
-    // Warning: (ae-forgotten-export) The symbol "DeleteKeyPollerOptions" needs to be exported by the entry point index.d.ts
-    constructor(options: DeleteKeyPollerOptions);
-    delay(): Promise<void>;
-    getDeletedKey(): DeletedKey;
-    intervalInMs: number;
 }
 
 // @public
@@ -191,8 +182,8 @@ export interface Key {
 export class KeyClient {
     constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
-    beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<DeleteKeyPoller>;
-    beginRecoverDeletedKey(name: string, options?: KeyPollerOptions): Promise<RecoverDeletedKeyPoller>;
+    beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
+    beginRecoverDeletedKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key>;
     createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key>;
@@ -259,19 +250,14 @@ export interface ParsedKeyVaultEntityIdentifier {
     version?: string;
 }
 
+export { PollerLike }
+
+export { PollOperationState }
+
 // @public
 export interface ProxyOptions {
     // (undocumented)
     proxySettings?: string;
-}
-
-// @public
-export class RecoverDeletedKeyPoller extends Poller<RecoverDeletedKeyPollOperationState, Key> {
-    // Warning: (ae-forgotten-export) The symbol "RecoverDeletedKeyPollerOptions" needs to be exported by the entry point index.d.ts
-    constructor(options: RecoverDeletedKeyPollerOptions);
-    delay(): Promise<void>;
-    getKey(): Key;
-    intervalInMs: number;
 }
 
 // @public

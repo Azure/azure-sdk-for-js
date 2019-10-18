@@ -119,6 +119,7 @@ export {
   KeyProperties,
   KeyPollerOptions,
   PollerLike,
+  PollOperationState,
   KeyWrapAlgorithm,
   NewPipelineOptions,
   PageSettings,
@@ -564,7 +565,10 @@ export class KeyClient {
    * @param name The name of the key.
    * @param [options] The optional parameters
    */
-	public async beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
+  public async beginDeleteKey(
+    name: string,
+    options?: KeyPollerOptions
+  ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
     const poller = new DeleteKeyPoller({
       name,
       client: this.pollerClient,
@@ -763,7 +767,7 @@ export class KeyClient {
   public async beginRecoverDeletedKey(
     name: string,
     options?: KeyPollerOptions
-	): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
+  ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
     const poller = new RecoverDeletedKeyPoller({
       name,
       client: this.pollerClient,

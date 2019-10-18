@@ -278,7 +278,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       "Unexpected key name in result from getKey()."
     );
     await poller.pollUntilDone();
-    const getResult = await client.getResult(keyName);
+    const getResult = await poller.getResult();
     assert.equal(
       getResult!.properties.name,
       keyName,

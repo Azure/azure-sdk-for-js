@@ -41,9 +41,9 @@ describe("Keys client - restore keys and recover backups", () => {
     );
     await deletePoller.pollUntilDone();
 
-    const getDeletedResult = await deletePoller.getResult(keyName);
+    const getDeletedResult = await deletePoller.getResult();
     assert.equal(
-      getDeletedResult.properties.name,
+      getDeletedResult!.properties.name,
       keyName,
       "Unexpected key name in result from getKey()."
     );
