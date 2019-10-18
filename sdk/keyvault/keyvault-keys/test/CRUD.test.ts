@@ -164,15 +164,15 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can create a key with expires", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const date = new Date("2019-01-01");
-    const expires = new Date(date.getTime() + 5000); // 5 seconds later
-    expires.setMilliseconds(0);
+    const expiresOn = new Date(date.getTime() + 5000); // 5 seconds later
+    expiresOn.setMilliseconds(0);
 
-    const options = { expires };
+    const options = { expiresOn };
     const result = await client.createRsaKey(keyName, options);
 
     assert.equal(
-      result!.properties.expires!.getTime(),
-      expires.getTime(),
+      result!.properties.expiresOn!.getTime(),
+      expiresOn.getTime(),
       "Unexpected expires value from createKey()."
     );
     assert.equal(
@@ -198,13 +198,13 @@ describe("Keys client - create, read, update and delete operations", () => {
       enabled: false
     };
     const { version } = (await client.createRsaKey(keyName, createOptions)).properties;
-    const expires = new Date("2019-01-01");
-    expires.setMilliseconds(0);
-    const updateOptions: UpdateKeyOptions = { expires };
+    const expiresOn = new Date("2019-01-01");
+    expiresOn.setMilliseconds(0);
+    const updateOptions: UpdateKeyOptions = { expiresOn };
     const result = await client.updateKey(keyName, version || "", updateOptions);
     assert.equal(
-      result!.properties.expires!.getTime(),
-      expires.getTime(),
+      result!.properties.expiresOn!.getTime(),
+      expiresOn.getTime(),
       "Unexpected expires value after attempting to update a disabled key"
     );
     await testClient.flushKey(keyName);

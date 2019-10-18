@@ -22,6 +22,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
 import {
   KeyBundle,
+  DeletedKeyBundle,
   JsonWebKeyType,
   JsonWebKey,
   JsonWebKeyEncryptionAlgorithm,
@@ -1036,38 +1037,47 @@ export class KeyClient {
     };
   }
 
-  private getKeyFromKeyBundle(keyBundle: KeyBundle): KeyVaultKey {
+  private getKeyFromKeyBundle(bundle: KeyBundle | DeletedKeyBundle): KeyVaultKey {
+    const keyBundle = bundle as KeyBundle;
+    const deletedKeyBundle = bundle as DeletedKeyBundle;
+
     const parsedId = parseKeyvaultEntityIdentifier(
       "keys",
       keyBundle.key ? keyBundle.key.kid : undefined
     );
 
-    //.....
-    //.....
+    const attributes = keyBundle.attributes;
+    delete keyBundle.attributes;
 
-    let resultObject;
-    if (keyBundle.attributes) {
-      resultObject = {
-        key: keyBundle.key,
-        keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
-        keyType: keyBundle.key ? keyBundle.key.kty : undefined,
-        properties: {
-          ...keyBundle,
-          ...parsedId,
-          ...keyBundle.attributes
-        }
-      };
-      delete resultObject.properties.attributes;
-    } else {
-      resultObject = {
-        key: keyBundle.key,
-        keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
-        keyType: keyBundle.key ? keyBundle.key.kty : undefined,
-        properties: {
-          ...keyBundle,
-          ...parsedId
-        }
-      };
+    let resultObject: KeyVaultKey & DeletedKey = {
+      key: keyBundle.key,
+      keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
+      keyType: keyBundle.key ? keyBundle.key.kty : undefined, 
+      properties: {
+        ...keyBundle,
+        ...parsedId,
+        ...attributes
+      }
+    }
+
+    if (deletedKeyBundle.deletedDate) {
+      resultObject.properties.deletedOn = deletedKeyBundle.deletedDate;
+      delete (resultObject.properties as any).deletedDate;
+    }
+
+    if (attributes) {
+      if (attributes.expires) {
+        resultObject.properties.expiresOn = attributes.expires;
+        delete (resultObject.properties as any).expires;
+      }
+      if (attributes.created) {
+        resultObject.properties.createdOn = attributes.created;
+        delete (resultObject.properties as any).created;
+      }
+      if (attributes.updated) {
+        resultObject.properties.updatedOn = attributes.updated;
+        delete (resultObject.properties as any).updated;
+      }
     }
 
     return resultObject;

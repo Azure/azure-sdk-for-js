@@ -35,8 +35,8 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     key = await client.createKey(keyName, "RSA");
     keyVaultUrl = key.properties.vaultUrl;
-    keyUrl = key.keyMaterial!.kid as string;
-    cryptoClient = new CryptographyClient(keyVaultUrl, key.keyMaterial!.kid!, credential);
+    keyUrl = key.key!.kid as string;
+    cryptoClient = new CryptographyClient(keyVaultUrl, key.key!.kid!, credential);
   });
 
   after(async function() {
@@ -52,9 +52,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   });
 
   it("getKey from client initialized with a JWK key", async function() {
-    const jwtKeyClient = new CryptographyClient(keyVaultUrl, key.keyMaterial!, credential);
+    const jwtKeyClient = new CryptographyClient(keyVaultUrl, key.key!, credential);
     const getKeyResult = await jwtKeyClient.getKey();
-    assert.equal(getKeyResult.kid, key.keyMaterial!.kid);
+    assert.equal(getKeyResult.kid, key.key!.kid);
   });
 
   if (isRecording) {
