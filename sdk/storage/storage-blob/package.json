@@ -82,7 +82,6 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
-    "@azure/core-auth": "1.0.0-preview.4",
     "@azure/core-http": "1.0.0-preview.6",
     "@azure/core-paging": "1.0.0-preview.2",
     "@azure/core-tracing": "1.0.0-preview.5",
@@ -90,6 +89,7 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@azure/core-auth": "1.0.0-preview.4",
     "@azure/identity": "1.0.0-preview.6",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/dotenv": "^6.1.0",

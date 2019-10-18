@@ -92,10 +92,10 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-http": "1.0.0-preview.6",
-    "@azure/core-auth": "1.0.0-preview.4",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@azure/core-auth": "1.0.0-preview.4",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
