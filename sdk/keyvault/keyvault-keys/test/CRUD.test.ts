@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
 import { RestError, isNode } from "@azure/core-http";
-import { retry, isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -272,8 +272,13 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName);
+    assert.equal(
+      poller.getDeletedKey().properties.name,
+      keyName,
+      "Unexpected key name in result from getKey()."
+    );
     await poller.pollUntilDone();
-    const getResult = await retry(async () => client.getDeletedKey(keyName));
+    const getResult = await client.getDeletedKey(keyName);
     assert.equal(
       getResult.properties.name,
       keyName,

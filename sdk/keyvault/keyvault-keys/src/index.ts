@@ -54,7 +54,7 @@ import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthent
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { DeleteKeyPollOperationState } from "./lro/delete/operation";
-import { RecoverDeletedKeyPoller, RecoverDeletedKeyPollerOptions } from "./lro/recover/poller";
+import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
 import { RecoverDeletedKeyPollOperationState } from "./lro/recover/operation";
 
 import {
@@ -97,7 +97,6 @@ export {
   DeleteKeyPoller,
   DeleteKeyPollOperationState,
   RecoverDeletedKeyPoller,
-  RecoverDeletedKeyPollerOptions,
   RecoverDeletedKeyPollOperationState,
   CreateEcKeyOptions,
   CreateRsaKeyOptions,

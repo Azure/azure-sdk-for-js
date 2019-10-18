@@ -93,6 +93,8 @@ export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, Deleted
     // Warning: (ae-forgotten-export) The symbol "DeleteKeyPollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: DeleteKeyPollerOptions);
     delay(): Promise<void>;
+    // (undocumented)
+    getDeletedKey(): DeletedKey;
     intervalInMs: number;
 }
 
@@ -266,23 +268,10 @@ export interface ProxyOptions {
 
 // @public
 export class RecoverDeletedKeyPoller extends Poller<RecoverDeletedKeyPollOperationState, Key> {
+    // Warning: (ae-forgotten-export) The symbol "RecoverDeletedKeyPollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: RecoverDeletedKeyPollerOptions);
     delay(): Promise<void>;
     intervalInMs: number;
-}
-
-// @public (undocumented)
-export interface RecoverDeletedKeyPollerOptions {
-    // (undocumented)
-    client: KeyClientInterface;
-    // (undocumented)
-    intervalInMs?: number;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    requestOptions?: RequestOptionsBase;
-    // (undocumented)
-    resumeFrom?: string;
 }
 
 // @public

@@ -28,7 +28,7 @@ export class RecoverDeletedKeyPoller extends Poller<RecoverDeletedKeyPollOperati
   public intervalInMs: number;
 
   constructor(options: RecoverDeletedKeyPollerOptions) {
-    const { client, name, requestOptions, intervalInMs = 5000, resumeFrom } = options;
+    const { client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RecoverDeletedKeyPollOperationState | undefined;
 

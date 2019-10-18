@@ -46,14 +46,9 @@ async function main() {
   const updatedKey = await client.updateKey(keyName, result.properties.version, { enabled: false });
   console.log("updated key: ", updatedKey);
 
-  let poller = await client.beginDeleteKey(keyName);
-  await poller.pollUntilDone();
-
-  poller = await client.beginDeleteKey(ecKeyName);
-  await poller.pollUntilDone();
-
-  poller = await client.beginDeleteKey(rsaKeyName);
-  await poller.pollUntilDone();
+  await client.beginDeleteKey(keyName);
+  await client.beginDeleteKey(ecKeyName);
+  await client.beginDeleteKey(rsaKeyName);
 }
 
 main().catch((err) => {

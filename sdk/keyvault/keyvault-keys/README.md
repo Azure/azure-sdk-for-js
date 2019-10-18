@@ -242,17 +242,24 @@ read, recovered or purged.
 
 ```javascript
 const poller = await client.beginDeleteKey(keyName)
+
+// You can use the deleted key immediately:
+const deletedKey = poller.getDeletedKey();
+
+// The key is being deleted. Only wait for it if you want to restore it or purge it.
 await poller.pollUntilDone();
 
-// If soft-delete is enabled, we can eventually do:
+// You can also get the deleted key this way:
 await client.getDeletedKey(keyName);
 
 // Deleted keys can also be recovered or purged:
+
 // recoverDeletedKey also returns a poller, just like beginDeleteKey.
 const recoverPoller = await client.beginRecoverDeletedKey(keyName)
 const recoverPoller.pollUntilDone();
 
-// await client.purgeDeletedKey(keyName);
+// And here is how to purge a deleted key
+await client.purgeDeletedKey(keyName);
 ```
 
 Since Keys take some time to get fully deleted, `beginDeleteKey`
@@ -260,17 +267,21 @@ returns a Poller object that keeps track of the underlying Long Running
 Operation according to our guidelines:
 https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
 
-Once you receive the poller, you'll be able to either run individual service
-calls until the key is deleted, or wait until the process is done:
+The received poller will allow you to get the deleted key by calling to `poller.getDeletedKey()`.
+You can also wait until the deletion finishes, either by running individual service
+calls until the key is deleted, or by waiting until the process is done:
 
 ```typescript
 const poller = await client.beginDeleteKey(certificateName, certificatePolicy);
 
+// You can use the deleted key immediately:
+let deletedKey = poller.getDeletedKey();
+ 
 await poller.poll(); // On each poll, the poller checks whether the key has been deleted or not.
 console.log(poller.isDone()) // The poller will be done once the key is fully deleted.
 
 // Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
-const deletedKey = await poller.pollUntilDone();
+deletedKey = await poller.pollUntilDone();
 console.log(deletedKey);
 ```
 

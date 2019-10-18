@@ -25,7 +25,7 @@ export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, Deleted
   public intervalInMs: number;
 
   constructor(options: DeleteKeyPollerOptions) {
-    const { client, name, requestOptions, intervalInMs = 5000, resumeFrom } = options;
+    const { client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteKeyPollOperationState | undefined;
 
@@ -51,5 +51,16 @@ export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, Deleted
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
+  }
+
+  getDeletedKey(): DeletedKey {
+    if (!this.operation.state.result) {
+      if (this.operation.state.error) {
+        throw this.operation.state.error;
+      } else {
+        throw new Error("The resource couldn't be retrieved");
+      }
+    }
+    return this.operation.state.result;
   }
 }
