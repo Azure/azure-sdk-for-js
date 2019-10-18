@@ -65,7 +65,8 @@ import { LeaseClient } from "./LeaseClient";
 import { createSpan } from "./utils/tracing";
 import {
   BlobBeginCopyFromUrlPoller,
-  BlobBeginCopyFromUrlPollState
+  BlobBeginCopyFromUrlPollState,
+  CopyPollerBlobClient
 } from "./pollers/BlobStartCopyFromUrlPoller";
 
 export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions {
@@ -1309,10 +1310,19 @@ export class BlobClient extends StorageClient {
     }
   }
 
+  /**
+   *
+   * @param copySource
+   * @param options
+   */
   public async beginCopyFromURL(copySource: string, options: BlobBeginCopyFromURLOptions = {}) {
-    // create poller
+    const client: CopyPollerBlobClient = {
+      abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),
+      getProperties: (...args) => this.getProperties(...args),
+      startCopyFromURL: (...args) => this.startCopyFromURL(...args)
+    };
     const poller = new BlobBeginCopyFromUrlPoller({
-      blobClient: this,
+      blobClient: client,
       copySource,
       intervalInMs: options.intervalInMs,
       onProgress: options.onProgress,
@@ -1320,14 +1330,10 @@ export class BlobClient extends StorageClient {
       startCopyFromURLOptions: options
     });
 
-    // await poll
-    try {
-      await poller.poll();
-    } catch (err) {
-      throw err;
-    }
+    // Trigger the startCopyFromURL call by calling poll.
+    // Any errors from this method should be surfaced to the user.
+    await poller.poll();
 
-    // return poller
     return poller;
   }
 
@@ -1346,7 +1352,7 @@ export class BlobClient extends StorageClient {
    * @returns {Promise<BlobStartCopyFromURLResponse>}
    * @memberof BlobClient
    */
-  public async startCopyFromURL(
+  private async startCopyFromURL(
     copySource: string,
     options: BlobStartCopyFromURLOptions = {}
   ): Promise<BlobStartCopyFromURLResponse> {

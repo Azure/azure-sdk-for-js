@@ -8,6 +8,7 @@ import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./u
 import { record, delay } from "./utils/recorder";
 import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
+import { BlobStartCopyFromURLResponse } from "../src/generated/src/models";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
@@ -233,26 +234,14 @@ describe("BlobClient", () => {
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
-  it("startCopyFromClient", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await newBlobClient.startCopyFromURL(blobClient.url);
-    assert.ok(result.copyId);
-
-    const properties1 = await blobClient.getProperties();
-    const properties2 = await newBlobClient.getProperties();
-    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
-    assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, blobClient.url);
-  });
-
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await newBlobClient.startCopyFromURL(blobClient.url);
+    const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
     try {
-      await newBlobClient.startCopyFromURL(result.copyId!);
+      await newBlobClient.beginCopyFromURL(result.copyId!);
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
@@ -400,13 +389,13 @@ describe("BlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("startCopyFromURL with rehydrate priority", async () => {
+  it("beginCopyFromURL with rehydrate priority", async () => {
     const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblobrehydrate"));
     const initialTier = BlockBlobTier.Archive;
-    const result = await newBlobURL.startCopyFromURL(blobClient.url, {
+    const result = await (await newBlobURL.beginCopyFromURL(blobClient.url, {
       tier: initialTier,
       rehydratePriority: "Standard"
-    });
+    })).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
@@ -542,5 +531,75 @@ describe("BlobClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  });
+
+  describe("beginCopyFromURL", () => {
+    let destinationContainerClient: ContainerClient;
+    let destinationContainerName: string;
+
+    beforeEach("setup destination", async () => {
+      destinationContainerName = recorder.getUniqueName("container");
+      destinationContainerClient = blobServiceClient.getContainerClient(destinationContainerName);
+      await destinationContainerClient.create();
+    });
+
+    afterEach("teardown destination", async function() {
+      await containerClient.delete();
+    });
+
+    it("supports automatic polling via pollUntilDone", async () => {
+      const newBlobClient = destinationContainerClient.getBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      const poller = await newBlobClient.beginCopyFromURL(blobClient.url);
+
+      const result = await poller.pollUntilDone();
+      assert.ok(result.copyId);
+
+      const properties1 = await blobClient.getProperties();
+      const properties2 = await newBlobClient.getProperties();
+      assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+      assert.deepStrictEqual(properties2.copyId, result.copyId);
+      assert.deepStrictEqual(properties2.copySource, blobClient.url);
+    });
+
+    it("supports manual polling via poll", async () => {
+      const newBlobClient = destinationContainerClient.getBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      const poller = await newBlobClient.beginCopyFromURL(blobClient.url);
+      let result: BlobStartCopyFromURLResponse;
+      do {
+        await poller.poll();
+        if (poller.isDone()) {
+          result = await poller.getResult()!;
+        }
+      } while (!poller.isDone());
+
+      assert.ok(result!);
+      assert.ok(result!.copyId);
+
+      const properties1 = await blobClient.getProperties();
+      const properties2 = await newBlobClient.getProperties();
+      assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+      assert.deepStrictEqual(properties2.copyId, result!.copyId);
+      assert.deepStrictEqual(properties2.copySource, blobClient.url);
+    });
+
+    it("supports cancellation of the copy", async () => {
+      const newBlobClient = destinationContainerClient.getBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      const poller = await newBlobClient.beginCopyFromURL(
+        "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md"
+      );
+      await poller.cancelOperation();
+      try {
+        await poller.pollUntilDone();
+        throw new Error("Test failure");
+      } catch (err) {
+        assert.equal(err.name, "PollerCancelledError");
+      }
+    });
   });
 });
