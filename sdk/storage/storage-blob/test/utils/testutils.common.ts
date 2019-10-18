@@ -1,7 +1,11 @@
 import { HttpPipelineLogLevel, IHttpPipelineLogger } from "../../src/Pipeline";
 import { padStart } from "../../src/utils/utils.common";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenRequestContext } from "@azure/core-auth";
+import {
+  TokenCredential,
+  GetTokenOptions,
+  AccessToken,
+  TokenRequestContext
+} from "@azure/core-http";
 
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 

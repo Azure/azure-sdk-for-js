@@ -4,10 +4,14 @@
 import qs from "qs";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import {
+  TokenCredential,
+  GetTokenOptions,
+  AccessToken,
+  TokenRequestContext
+} from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 import { CanonicalCode } from "@azure/core-tracing";
-import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * Enables authentication to Azure Active Directory using an authorization code

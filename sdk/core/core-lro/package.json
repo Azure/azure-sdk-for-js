@@ -97,7 +97,6 @@
   },
   "devDependencies": {
     "@azure/core-arm": "1.0.0-preview.6",
-    "@azure/core-auth": "1.0.0-preview.4",
     "@azure/identity": "1.0.0-preview.6",
     "@microsoft/api-extractor": "^7.1.5",
     "@types/chai": "^4.1.6",

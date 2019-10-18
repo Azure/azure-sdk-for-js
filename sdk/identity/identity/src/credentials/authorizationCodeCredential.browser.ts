@@ -3,9 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import {
+  TokenCredential,
+  GetTokenOptions,
+  AccessToken,
+  TokenRequestContext
+} from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
-import { TokenRequestContext } from "@azure/core-auth";
 
 const BrowserNotSupportedError = new Error(
   "AuthorizationCodeCredential is not supported in the browser.  InteractiveBrowserCredential is more appropriate for this use case."

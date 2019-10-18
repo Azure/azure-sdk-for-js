@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import * as msal from "msal";
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import {
+  AccessToken,
+  TokenCredential,
+  GetTokenOptions,
+  TokenRequestContext
+} from "@azure/core-http";
 import { IdentityClient } from "../client/identityClient";
 import {
   BrowserLoginStyle,
@@ -10,7 +15,6 @@ import {
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@azure/core-tracing";
-import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser

@@ -3,9 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import {
+  AccessToken,
+  TokenCredential,
+  GetTokenOptions,
+  TokenRequestContext
+} from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
-import { TokenRequestContext } from "@azure/core-auth";
 
 const BrowserNotSupportedError = new Error(
   "EnvironmentCredential is not supported in the browser."

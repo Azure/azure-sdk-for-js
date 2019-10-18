@@ -3,8 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenRequestContext } from "@azure/core-auth";
+import {
+  TokenCredential,
+  GetTokenOptions,
+  AccessToken,
+  TokenRequestContext
+} from "@azure/core-http";
+
 import { IdentityClientOptions } from "../client/identityClient";
 
 const BrowserNotSupportedError = new Error(

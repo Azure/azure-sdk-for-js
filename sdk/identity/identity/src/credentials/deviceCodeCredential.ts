@@ -2,13 +2,17 @@
 // Licensed under the MIT License.
 
 import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import {
+  TokenCredential,
+  GetTokenOptions,
+  AccessToken,
+  TokenRequestContext
+} from "@azure/core-http";
 import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
 import { CanonicalCode } from "@azure/core-tracing";
-import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * An internal interface that contains the verbatim devicecode response.

@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { TokenRequestContext } from "@azure/core-auth";
+import {
+  AccessToken,
+  TokenCredential,
+  GetTokenOptions,
+  TokenRequestContext
+} from "@azure/core-http";
+
 import { AggregateAuthenticationError } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@azure/core-tracing";

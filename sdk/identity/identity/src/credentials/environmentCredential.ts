@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import {
+  AccessToken,
+  TokenCredential,
+  GetTokenOptions,
+  TokenRequestContext
+} from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
-import { TokenRequestContext } from "@azure/core-auth";
 
 /**
  * Enables authentication to Azure Active Directory using client secret

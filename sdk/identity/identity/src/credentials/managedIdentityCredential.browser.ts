@@ -3,9 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import {
+  AccessToken,
+  GetTokenOptions,
+  TokenCredential,
+  TokenRequestContext
+} from "@azure/core-http";
 import { IdentityClientOptions } from "../client/identityClient";
-import { TokenRequestContext } from "@azure/core-auth";
 
 const BrowserNotSupportedError = new Error(
   "ManagedIdentityCredential is not supported in the browser."

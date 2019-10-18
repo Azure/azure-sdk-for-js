@@ -1,5 +1,4 @@
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenRequestContext } from "@azure/core-auth";
+import { TokenCredential, GetTokenOptions, AccessToken, TokenRequestContext } from "@azure/core-http";
 
 export class TestTokenCredential implements TokenCredential {
   public token: string;
