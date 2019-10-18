@@ -49,7 +49,7 @@ async function authenticate(
 ): Promise<CbsResponse> {
   await connectionContext.cbsSession.init();
   const credential = new DefaultAzureCredential();
-  const tokenObject = await credential.getToken(Constants.aadEventHubsScope);
+  const tokenObject = await credential.getToken({ scopes: Constants.aadEventHubsScope });
   if (!tokenObject) {
     throw new Error("Aad token cannot be null");
   }

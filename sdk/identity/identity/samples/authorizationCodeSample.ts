@@ -126,7 +126,7 @@ async function runExample() {
   // token using this credential but you *should not* use the credential
   // like this under normal circumstances.  The intended usage pattern is
   // to pass the credential directly into an API client class constructor.
-  const accessToken = await credential.getToken(scopes);
+  const accessToken = await credential.getToken({scopes});
   if (accessToken) {
     console.log("\nAccess token:", accessToken.token);
   } else {
