@@ -37,7 +37,7 @@ describe("Keys client - restore keys and recover backups", () => {
     assert.equal(
       deletePoller.getDeletedKey().properties.name,
       keyName,
-      "Unexpected key name in result from getKey()."
+      "Unexpected key name in result from deletePoller.getDeletedKey()."
     );
     await deletePoller.pollUntilDone();
 
