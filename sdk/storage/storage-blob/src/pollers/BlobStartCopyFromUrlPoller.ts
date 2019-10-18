@@ -6,10 +6,12 @@ import { BlobClient, BlobStartCopyFromURLOptions } from "../BlobClient";
 /**
  * Defines the operations needed from a BlobClient.
  */
-export type CopyPollerBlobClient = Pick<
-  BlobClient,
-  "abortCopyFromURL" | "getProperties" | "startCopyFromURL"
->;
+export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getProperties"> & {
+  startCopyFromURL(
+    copySource: string,
+    options?: BlobStartCopyFromURLOptions
+  ): Promise<BlobStartCopyFromURLResponse>;
+};
 
 /**
  * The state used by the PollOperation.
@@ -20,6 +22,7 @@ export interface BlobBeginCopyFromUrlPollState
   copyId?: string;
   copyProgress?: string;
   copySource: string;
+  startCopyFromURLOptions?: BlobStartCopyFromURLOptions;
 }
 
 /**
@@ -53,7 +56,14 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
   public intervalInMs: number;
 
   constructor(options: BlobBeginCopyFromUrlPollerOptions) {
-    const { blobClient, copySource, intervalInMs = 15000, onProgress, resumeFrom } = options;
+    const {
+      blobClient,
+      copySource,
+      intervalInMs = 15000,
+      onProgress,
+      resumeFrom,
+      startCopyFromURLOptions
+    } = options;
 
     let state: BlobBeginCopyFromUrlPollState | undefined;
 
@@ -64,7 +74,8 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
     const operation = makeBlobBeginCopyFromURLPollOperation({
       ...state,
       blobClient,
-      copySource
+      copySource,
+      startCopyFromURLOptions
     });
 
     super(operation);
@@ -114,12 +125,12 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
   options = {}
 ): Promise<BlobBeginCopyFromURLPollOperation> {
   const state = this.state;
-  const { blobClient, copySource } = state;
+  const { blobClient, copySource, startCopyFromURLOptions } = state;
 
   // TODO: Logic when state isn't started
   if (!state.started) {
     state.started = true;
-    const result = await blobClient.startCopyFromURL(copySource);
+    const result = await blobClient.startCopyFromURL(copySource, startCopyFromURLOptions);
 
     // copyId is needed to abort
     state.copyId = result.copyId;
