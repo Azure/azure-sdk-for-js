@@ -31,14 +31,14 @@ describe("Keys client - list keys in various ways", () => {
 
   it("can purge all keys", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the keys in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    for await (const key of client.listKeys()) {
+    for await (const key of client.listPropertiesOfKeys()) {
       try {
         await testClient.flushKey(key.name);
       } catch (e) {}
     }
-    for await (const key of client.listDeletedKeys()) {
+    for await (const deletedKey of client.listDeletedKeys()) {
       try {
-        await testClient.purgeKey(key.name);
+        await testClient.purgeKey(deletedKey.properties.name);
       } catch (e) {}
     }
   });
@@ -47,8 +47,12 @@ describe("Keys client - list keys in various ways", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
-    for await (const version of client.listKeyVersions(keyName)) {
-      assert.equal(version.name, keyName, "Unexpected key name in result from listKeyVersions().");
+    for await (const version of client.listPropertiesOfKeyVersions(keyName)) {
+      assert.equal(
+        version.name,
+        keyName,
+        "Unexpected key name in result from listPropertiesOfKeyVersions()."
+      );
       totalVersions += 1;
     }
     assert.equal(totalVersions, 1, `Unexpected total versions for key ${keyName}`);
@@ -59,12 +63,12 @@ describe("Keys client - list keys in various ways", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     let totalVersions = 0;
-    for await (const page of client.listKeyVersions(keyName).byPage()) {
+    for await (const page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
       for (const version of page) {
         assert.equal(
           version.name,
           keyName,
-          "Unexpected key name in result from listKeyVersions()."
+          "Unexpected key name in result from listPropertiesOfKeyVersions()."
         );
         totalVersions += 1;
       }
@@ -76,8 +80,12 @@ describe("Keys client - list keys in various ways", () => {
   it("list 0 versions of a non-existing key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let totalVersions = 0;
-    for await (const version of client.listKeyVersions(keyName)) {
-      assert.equal(version.name, keyName, "Unexpected key name in result from listKeyVersions().");
+    for await (const version of client.listPropertiesOfKeyVersions(keyName)) {
+      assert.equal(
+        version.name,
+        keyName,
+        "Unexpected key name in result from listPropertiesOfKeyVersions()."
+      );
       totalVersions += 1;
     }
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
@@ -86,12 +94,12 @@ describe("Keys client - list keys in various ways", () => {
   it("list 0 versions of a non-existing key (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let totalVersions = 0;
-    for await (const page of client.listKeyVersions(keyName).byPage()) {
+    for await (const page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
       for (const version of page) {
         assert.equal(
           version.name,
           keyName,
-          "Unexpected key name in result from listKeyVersions()."
+          "Unexpected key name in result from listPropertiesOfKeyVersions()."
         );
         totalVersions += 1;
       }
@@ -107,7 +115,7 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const key of client.listKeys()) {
+    for await (const key of client.listPropertiesOfKeys()) {
       // The vault might contain more keys than the ones we inserted.
       if (!keyNames.includes(key.name)) continue;
       found += 1;
@@ -128,7 +136,7 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const page of client.listKeys().byPage()) {
+    for await (const page of client.listPropertiesOfKeys().byPage()) {
       for (const key of page) {
         // The vault might contain more keys than the ones we inserted.
         if (!keyNames.includes(key.name)) continue;
@@ -160,9 +168,9 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const key of client.listDeletedKeys()) {
+    for await (const deletedKey of client.listDeletedKeys()) {
       // The vault might contain more keys than the ones we inserted.
-      if (!keyNames.includes(key.name)) continue;
+      if (!keyNames.includes(deletedKey.properties.name)) continue;
       found += 1;
     }
 
@@ -191,9 +199,9 @@ describe("Keys client - list keys in various ways", () => {
 
     let found = 0;
     for await (const page of client.listDeletedKeys().byPage()) {
-      for (const key of page) {
+      for (const deletedKey of page) {
         // The vault might contain more keys than the ones we inserted.
-        if (!keyNames.includes(key.name)) continue;
+        if (!keyNames.includes(deletedKey.properties.name)) continue;
         found += 1;
       }
     }

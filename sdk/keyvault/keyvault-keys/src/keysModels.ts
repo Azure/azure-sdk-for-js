@@ -16,10 +16,10 @@ import { DeletionRecoveryLevel } from "./core/models";
  * An interface representing the key client. For internal use.
  */
 export interface KeyClientInterface {
-  recoverDeletedKey(name: string, options?: RequestOptions): Promise<KeyVaultKey>;
+  recoverDeletedKey(name: string, options?: DeletedKeyOptions): Promise<KeyVaultKey>;
   getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
   deleteKey(name: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedKey>;
-  getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
+  getDeletedKey(name: string, options?: DeletedKeyOptions): Promise<DeletedKey>;
 }
 
 /**
@@ -320,9 +320,31 @@ export interface ListKeysOptions {
 
 /**
  * @interface
- * An interface representing the most general set of request options.
+ * An interface representing the options of the deleted key API methods
  */
-export interface RequestOptions {
+export interface DeletedKeyOptions {
+  /**
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: coreHttp.RequestOptionsBase;
+}
+
+/**
+ * @interface
+ * An interface representing the options of the backup key API methods
+ */
+export interface BackupKeyOptions {
+  /**
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: coreHttp.RequestOptionsBase;
+}
+
+/**
+ * @interface
+ * An interface representing the options of the cryptography API methods
+ */
+export interface CryptographyOptions {
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */

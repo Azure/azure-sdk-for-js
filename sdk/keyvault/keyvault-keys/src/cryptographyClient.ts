@@ -1,4 +1,4 @@
-import { GetKeyOptions, RequestOptions } from "./keysModels";
+import { GetKeyOptions, CryptographyOptions } from "./keysModels";
 import { JsonWebKey, JsonWebKeyEncryptionAlgorithm } from "./core/models";
 import {
   ServiceClientCredentials,
@@ -785,32 +785,32 @@ export type KeySignatureAlgorithm =
 /**
  * Options for the encrypt call to the CryptographyClient
  */
-export interface EncryptOptions extends RequestOptions {}
+export interface EncryptOptions extends CryptographyOptions {}
 
 /**
  * Options for the decrypt call to the CryptographyClient
  */
-export interface DecryptOptions extends RequestOptions {}
+export interface DecryptOptions extends CryptographyOptions {}
 
 /**
  * Options for the sign call to the CryptographyClient
  */
-export interface SignOptions extends RequestOptions {}
+export interface SignOptions extends CryptographyOptions {}
 
 /**
  * Options for the verify call to the CryptographyClient
  */
-export interface VerifyOptions extends RequestOptions {}
+export interface VerifyOptions extends CryptographyOptions {}
 
 /**
  * Options for the wrapKey call to the CryptographyClient
  */
-export interface WrapOptions extends RequestOptions {}
+export interface WrapOptions extends CryptographyOptions {}
 
 /**
  * Options for the unwrap call to the CryptographyClient
  */
-export interface UnwrapOptions extends RequestOptions {}
+export interface UnwrapOptions extends CryptographyOptions {}
 
 /**
  * Result of a decrypt operation

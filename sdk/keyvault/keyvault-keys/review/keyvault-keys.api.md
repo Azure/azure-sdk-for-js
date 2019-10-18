@@ -24,7 +24,7 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 // @public
 export interface CreateKeyOptions {
     enabled?: boolean;
-    expiresOn?: Date;
+    expires?: Date;
     keyOps?: JsonWebKeyOperation[];
     // (undocumented)
     keySize?: number;
@@ -78,11 +78,11 @@ export interface DecryptResult {
 
 // @public
 export interface DeletedKey {
-    key?: JsonWebKey;
+    keyMaterial?: JsonWebKey;
     properties: KeyProperties & {
         readonly recoveryId?: string;
         readonly scheduledPurgeDate?: Date;
-        deletedOn?: Date;
+        readonly deletedDate?: Date;
     };
 }
 
@@ -126,7 +126,7 @@ export interface GetKeysOptions {
 // @public
 export interface ImportKeyOptions {
     enabled?: boolean;
-    expiresOn?: Date;
+    expires?: Date;
     hardwareProtected?: boolean;
     notBefore?: Date;
     requestOptions?: coreHttp.RequestOptionsBase;
@@ -169,25 +169,33 @@ export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "w
 export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
+export interface Key {
+    keyMaterial?: JsonWebKey;
+    keyOperations?: JsonWebKeyOperation[];
+    keyType?: JsonWebKeyType;
+    properties: KeyProperties;
+}
+
+// @public
 export class KeyClient {
     constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
     beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     beginRecoverDeletedKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
-    createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
-    createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
-    createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
+    createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key>;
+    createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
+    createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key>;
     protected readonly credential: TokenCredential;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
-    getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-    importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<KeyVaultKey>;
+    getKey(name: string, options?: GetKeyOptions): Promise<Key>;
+    importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<Key>;
     listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
-    restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<KeyVaultKey>;
-    updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<KeyVaultKey>;
+    restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<Key>;
+    updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<Key>;
     readonly vaultEndpoint: string;
 }
 
@@ -200,24 +208,16 @@ export interface KeyPollerOptions {
 
 // @public
 export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
-    createdOn?: Date;
+    readonly created?: Date;
     enabled?: boolean;
-    expiresOn?: Date;
+    expires?: Date;
     id?: string;
     notBefore?: Date;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: {
         [propertyName: string]: string;
     };
-    updatedOn?: Date;
-}
-
-// @public
-export interface KeyVaultKey {
-    key?: JsonWebKey;
-    keyOperations?: JsonWebKeyOperation[];
-    keyType?: JsonWebKeyType;
-    properties: KeyProperties;
+    readonly updated?: Date;
 }
 
 // @public
@@ -250,7 +250,7 @@ export interface ProxyOptions {
 }
 
 // @public
-export interface RecoverDeletedKeyPollOperationState extends PollOperationState<KeyVaultKey> {
+export interface RecoverDeletedKeyPollOperationState extends PollOperationState<Key> {
     // (undocumented)
     client: KeyClientInterface;
     // (undocumented)
@@ -293,7 +293,7 @@ export interface UnwrapResult {
 // @public
 export interface UpdateKeyOptions {
     enabled?: boolean;
-    expiresOn?: Date;
+    expires?: Date;
     keyOps?: JsonWebKeyOperation[];
     notBefore?: Date;
     requestOptions?: coreHttp.RequestOptionsBase;

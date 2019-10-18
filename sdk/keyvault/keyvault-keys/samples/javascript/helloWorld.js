@@ -31,9 +31,9 @@ async function main() {
   console.log("key: ", key);
 
   // Or list the keys we have
-  let listKeys = client.listKeys();
+  let listPropertiesOfKeys = client.listPropertiesOfKeys();
   while (true) {
-    let { done, value } = await listKeys.next();
+    let { done, value } = await listPropertiesOfKeys.next();
     if (done) {
       break;
     }

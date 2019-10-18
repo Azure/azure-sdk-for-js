@@ -291,23 +291,23 @@ Using the KeysClient, you can retrieve and iterate through all of the
 keys in a Key Vault, as well as through all of the deleted keys and the
 versions of a specific key. The following API methods are available:
 
-- `listKeys` will list all of your non-deleted keys by their names, only
+- `listPropertiesOfKeys` will list all of your non-deleted keys by their names, only
   at their latest versions.
 - `listDeletedKeys` will list all of your deleted keys by their names,
   only at their latest versions.
-- `listKeyVersions` will list all the versions of a key based on a key
+- `listPropertiesOfKeyVersions` will list all the versions of a key based on a key
   name.
 
 Which can be used as follows:
 
 ```javascript
-for await (let key of client.listKeys()) {
+for await (let key of client.listPropertiesOfKeys()) {
   console.log("Key: ", key);
 }
 for await (let deletedKey of client.listDeletedKeys()) {
   console.log("Deleted key: ", deletedKey);
 }
-for await (let version of client.listKeyVersions(keyName)) {
+for await (let version of client.listPropertiesOfKeyVersions(keyName)) {
   console.log("Version: ", version);
 }
 ```
@@ -317,7 +317,7 @@ retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
 ```javascript
-for await (let page of client.listKeys().byPage()) {
+for await (let page of client.listPropertiesOfKeys().byPage()) {
   for (let key of page) {
     console.log("Key: ", key);
   }
@@ -327,7 +327,7 @@ for await (let page of client.listDeletedKeys().byPage()) {
     console.log("Deleted key: ", deletedKey);
   }
 }
-for await (let page of client.listKeyVersions(keyName).byPage()) {
+for await (let page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
   for (let version of page) {
     console.log("Version: ", version);
   }
