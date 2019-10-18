@@ -619,15 +619,15 @@ export interface BlobSetTierOptions extends CommonOptions {
  * Option interface for BlobClient.downloadToBuffer().
  *
  * @export
- * @interface DownloadFromBlobOptions
+ * @interface BlobDownloadToBufferOptionsOptions
  */
-export interface DownloadFromBlobOptions extends CommonOptions {
+export interface BlobDownloadToBufferOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptionsOptions
    */
   abortSignal?: AbortSignalLike;
 
@@ -637,7 +637,7 @@ export interface DownloadFromBlobOptions extends CommonOptions {
    * to the blob size.
    *
    * @type {number}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptionsOptions
    */
   blockSize?: number;
 
@@ -662,7 +662,7 @@ export interface DownloadFromBlobOptions extends CommonOptions {
   /**
    * Progress updater.
    *
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptionsOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -670,7 +670,7 @@ export interface DownloadFromBlobOptions extends CommonOptions {
    * Access conditions headers.
    *
    * @type {BlobAccessConditions}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptionsOptions
    */
   blobAccessConditions?: BlobAccessConditions;
 
@@ -678,7 +678,7 @@ export interface DownloadFromBlobOptions extends CommonOptions {
    * Concurrency of parallel download.
    *
    * @type {number}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptionsOptions
    */
   concurrency?: number;
 }
@@ -1457,14 +1457,14 @@ export class BlobClient extends StorageClient {
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
-   * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
+   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptionsOptions
    * @returns {Promise<Buffer>}
    */
   public async downloadToBuffer(
     buffer: Buffer,
     offset: number,
     count?: number,
-    options: DownloadFromBlobOptions = {}
+    options: BlobDownloadToBufferOptions = {}
   ): Promise<Buffer> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
