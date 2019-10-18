@@ -152,8 +152,8 @@ export function transformKeyValue(kvp: KeyValue) : ConfigurationSetting {
  * @ignore
  * @internal
  */
-export function transformKeyValueResponseWithStatusCode<T extends KeyValue & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & HttpResponseField<any> & HttpResponseFields {
-  return addResponseField(kvp, <ConfigurationSetting & HttpResponseField<any> & HttpResponseFields>{
+export function transformKeyValueResponseWithStatusCode<T extends KeyValue & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & { eTag?: string; } & HttpResponseField<any> & HttpResponseFields {
+  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any> & HttpResponseFields>{
     ...transformKeyValue(kvp),
     statusCode: kvp._response.status,
   });
@@ -163,17 +163,21 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue & Htt
  * @ignore
  * @internal
  */
-export function transformKeyValueResponse<T extends KeyValue & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & HttpResponseField<any> {
-  return addResponseField(kvp, <ConfigurationSetting & HttpResponseField<any>>{
+export function transformKeyValueResponse<T extends KeyValue & { eTag?: string; } & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & HttpResponseField<any> {
+  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
     ...transformKeyValue(kvp)
   });
 }
 
-function addResponseField<T extends HttpResponseField<any>>(originalResponse: HttpResponseField<any>, newResponse: T) : T {
+function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string; } >(originalResponse: HttpResponseField<any>, newResponse: T) : T {
   Object.defineProperty(newResponse, '_response', {
     enumerable: false,
     value: originalResponse._response
   });
+
+  // this field comes from the header but it's redundant with 
+  // the one serialized in the model itself
+  delete newResponse.eTag;
 
   return newResponse;
 }

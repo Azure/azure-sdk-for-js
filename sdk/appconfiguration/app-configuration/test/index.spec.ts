@@ -100,6 +100,11 @@ describe("AppConfigurationClient", () => {
         value,
         "Unexpected value in result from addConfigurationSetting()."
       );
+
+      // just a sanity check - the 'eTag' field that gets added by the response headers
+      // is removed (and is replaced by the 'etag' field in the model)
+      assert.ok(!(result as any).eTag);
+      assert.ok(result.etag);
     });
 
     it("throws an error if the configuration setting already exists", async () => {
