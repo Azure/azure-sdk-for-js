@@ -85,26 +85,19 @@ export class AuthenticationError extends Error {
   public readonly errorResponse: ErrorResponse;
 
   constructor(statusCode: number, errorBody: object | string | undefined | null) {
-    let errorResponse = {
+    let errorResponse: ErrorResponse = {
       error: "unknown",
       errorDescription: "An unknown error occurred and no additional details are available."
     };
 
     if (isErrorResponse(errorBody)) {
-      errorResponse = {
-        error: errorBody.error,
-        errorDescription: errorBody.error_description
-      };      
+      errorResponse = convertOAuthErrorResponseToErrorResponse(errorBody);
     } else if (typeof errorBody === "string") {
       try {
         // Most error responses will contain JSON-formatted error details
         // in the response body        
         const oauthErrorResponse: OAuthErrorResponse = JSON.parse(errorBody);
-
-        errorResponse = {
-          error: oauthErrorResponse.error,
-          errorDescription: oauthErrorResponse.error_description
-        };
+        errorResponse = convertOAuthErrorResponseToErrorResponse(oauthErrorResponse);
       } catch (e) {
         if (statusCode === 400) {
           errorResponse = {
@@ -165,4 +158,15 @@ export class AggregateAuthenticationError extends Error {
     // Ensure that this type reports the correct name
     this.name = AggregateAuthenticationErrorName;
   }
+}
+
+function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse) : ErrorResponse {
+  return {
+    error: errorBody.error,
+    errorDescription: errorBody.error_description,
+    correlationId: errorBody.correlation_id,
+    errorCodes: errorBody.error_codes,
+    timestamp: errorBody.timestamp,
+    traceId: errorBody.trace_id
+  };
 }
