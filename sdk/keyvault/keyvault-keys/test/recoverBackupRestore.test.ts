@@ -35,13 +35,13 @@ describe("Keys client - restore keys and recover backups", () => {
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName);
     assert.equal(
-      deletePoller.getDeletedKey().properties.name,
+      deletePoller.getResult()!.properties.name,
       keyName,
-      "Unexpected key name in result from deletePoller.getDeletedKey()."
+      "Unexpected key name in result from deletePoller.getResult()."
     );
     await deletePoller.pollUntilDone();
 
-    const getDeletedResult = await client.getDeletedKey(keyName);
+    const getDeletedResult = await deletePoller.getResult(keyName);
     assert.equal(
       getDeletedResult.properties.name,
       keyName,

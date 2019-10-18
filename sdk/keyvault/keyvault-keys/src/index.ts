@@ -26,6 +26,7 @@ import { getTracer, Span } from "@azure/core-tracing";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
 import {
@@ -53,8 +54,8 @@ import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
-import { DeleteKeyPollOperationState } from "./lro/delete/operation";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
+import { DeleteKeyPollOperationState } from "./lro/delete/operation";
 import { RecoverDeletedKeyPollOperationState } from "./lro/recover/operation";
 
 import {
@@ -94,9 +95,7 @@ import {
 } from "./cryptographyClient";
 
 export {
-  DeleteKeyPoller,
   DeleteKeyPollOperationState,
-  RecoverDeletedKeyPoller,
   RecoverDeletedKeyPollOperationState,
   CreateEcKeyOptions,
   CreateRsaKeyOptions,
@@ -119,6 +118,7 @@ export {
   Key,
   KeyProperties,
   KeyPollerOptions,
+  PollerLike,
   KeyWrapAlgorithm,
   NewPipelineOptions,
   PageSettings,
@@ -564,7 +564,7 @@ export class KeyClient {
    * @param name The name of the key.
    * @param [options] The optional parameters
    */
-  public async beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<DeleteKeyPoller> {
+	public async beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
     const poller = new DeleteKeyPoller({
       name,
       client: this.pollerClient,
@@ -763,7 +763,7 @@ export class KeyClient {
   public async beginRecoverDeletedKey(
     name: string,
     options?: KeyPollerOptions
-  ): Promise<RecoverDeletedKeyPoller> {
+	): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
     const poller = new RecoverDeletedKeyPoller({
       name,
       client: this.pollerClient,

@@ -273,14 +273,14 @@ describe("Keys client - create, read, update and delete operations", () => {
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName);
     assert.equal(
-      poller.getDeletedKey().properties.name,
+      poller.getResult()!.properties.name,
       keyName,
       "Unexpected key name in result from getKey()."
     );
     await poller.pollUntilDone();
-    const getResult = await client.getDeletedKey(keyName);
+    const getResult = await client.getResult(keyName);
     assert.equal(
-      getResult.properties.name,
+      getResult!.properties.name,
       keyName,
       "Unexpected key name in result from getKey()."
     );
