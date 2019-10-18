@@ -4,7 +4,6 @@
 import { createClientLogger } from "@azure/logger";
 
 /**
- * @internal
- * @ignore
+ * The AzureLogger used for all clients within the identity package
  */
 export const logger = createClientLogger("identity");
