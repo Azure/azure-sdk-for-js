@@ -1,21 +1,12 @@
 import {
-  getDefaultUserAgentValue,
   TokenCredential,
   isTokenCredential,
-  RequestPolicyFactory,
-  deserializationPolicy,
   signingPolicy,
-  exponentialRetryPolicy,
-  redirectPolicy,
-  systemErrorRetryPolicy,
-  generateClientRequestIdPolicy,
-  proxyPolicy,
-  throttlingRetryPolicy,
-  getDefaultProxySettings,
-  isNode,
-  userAgentPolicy,
   RequestOptionsBase,
-  tracingPolicy
+  PipelineOptions,
+  isPipelineOptions,
+  createPipelineFromOptions,
+  ServiceClientOptions as Pipeline,
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
@@ -31,10 +22,7 @@ import {
   SubjectAlternativeNames
 } from "./certificatesModels";
 import {
-  NewPipelineOptions,
-  isNewPipelineOptions,
   ParsedKeyVaultEntityIdentifier,
-  Pipeline
 } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
 import {
@@ -89,7 +77,7 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
-import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -115,7 +103,7 @@ export {
   KeyVaultClientUpdateCertificateIssuerOptionalParams,
   KeyVaultClientUpdateCertificateOptionalParams,
   LifetimeAction,
-  NewPipelineOptions,
+  PipelineOptions,
   OrganizationDetails,
   ParsedKeyVaultEntityIdentifier,
   SecretProperties,
@@ -213,57 +201,6 @@ function toPublicPolicy(p: CoreCertificatePolicy = {}): CertificatePolicy {
 
 export class CertificateClient {
   /**
-   * A static method used to create a new Pipeline object with the provided Credential.
-   *
-   * @static
-   * @param {TokenCredential} The credential to use for API requests.
-   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @memberof CertificateClient
-   */
-  public static getDefaultPipeline(
-    credential: TokenCredential,
-    pipelineOptions: NewPipelineOptions = {}
-  ): Pipeline {
-    // Order is important. Closer to the API at the top & closer to the network at the bottom.
-    // The credential's policy factory must appear close to the wire so it can sign any
-    // changes made by other factories (like UniqueRequestIDPolicyFactory)
-    const retryOptions = pipelineOptions.retryOptions || {};
-
-    const userAgentString: string = CertificateClient.getUserAgentString(pipelineOptions.telemetry);
-
-    let requestPolicyFactories: RequestPolicyFactory[] = [];
-    if (isNode) {
-      requestPolicyFactories.push(
-        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
-      );
-    }
-    requestPolicyFactories = requestPolicyFactories.concat([
-      tracingPolicy(),
-      userAgentPolicy({ value: userAgentString }),
-      generateClientRequestIdPolicy(),
-      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-      throttlingRetryPolicy(),
-      systemErrorRetryPolicy(),
-      exponentialRetryPolicy(
-        retryOptions.retryCount,
-        retryOptions.retryIntervalInMS,
-        RetryConstants.MIN_RETRY_INTERVAL_MS, // Minimum retry interval to prevent frequent retries
-        retryOptions.maxRetryDelayInMs
-      ),
-      redirectPolicy(),
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
-    ]);
-
-    return {
-      httpClient: pipelineOptions.HTTPClient,
-      httpPipelineLogger: pipelineOptions.logger,
-      requestPolicyFactories
-    };
-  }
-
-  /**
    * The base URL to the vault
    */
   public readonly vaultEndpoint: string;
@@ -283,42 +220,40 @@ export class CertificateClient {
    * Creates an instance of CertificateClient.
    * @param {string} url the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
-   * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
-   *                                                                 Omitting this parameter to create the default Pipeline instance.
+   * @param {(Pipeline | PipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
+   *                                                              Omitting this parameter to create the default Pipeline instance.
    * @memberof CertificateClient
    */
   constructor(
     endPoint: string,
     credential: TokenCredential,
-    pipelineOrOptions: Pipeline | NewPipelineOptions = {}
+    pipelineOrOptions: Pipeline | PipelineOptions = {}
   ) {
     this.vaultEndpoint = endPoint;
     this.credential = credential;
-    if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = CertificateClient.getDefaultPipeline(credential, pipelineOrOptions);
+    if (isPipelineOptions(pipelineOrOptions)) {
+      const libInfo = `Azure-KeyVault-Certificates/${SDK_VERSION}`;
+      if (pipelineOrOptions.userAgentOptions) {
+        pipelineOrOptions.userAgentOptions.userAgentPrefix !== undefined
+          ? `${pipelineOrOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo;
+      } else {
+        pipelineOrOptions.userAgentOptions = {
+          userAgentPrefix: libInfo
+        }
+      }
+
+      const authPolicy =
+        isTokenCredential(credential)
+          ? challengeBasedAuthenticationPolicy(credential)
+          : signingPolicy(credential)
+
+      this.pipeline = createPipelineFromOptions(pipelineOrOptions, authPolicy);
     } else {
       this.pipeline = pipelineOrOptions;
     }
 
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
-  }
-
-  private static getUserAgentString(telemetry?: TelemetryOptions) {
-    const userAgentInfo: string[] = [];
-    if (telemetry) {
-      if (userAgentInfo.indexOf(telemetry.value) === -1) {
-        userAgentInfo.push(telemetry.value);
-      }
-    }
-    const libInfo = `Azure-KeyVault-Certificates/${SDK_VERSION}`;
-    if (userAgentInfo.indexOf(libInfo) === -1) {
-      userAgentInfo.push(libInfo);
-    }
-    const defaultUserAgentInfo = getDefaultUserAgentValue();
-    if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
-      userAgentInfo.push(defaultUserAgentInfo);
-    }
-    return userAgentInfo.join(" ");
   }
 
   private async *listCertificatesPage(
