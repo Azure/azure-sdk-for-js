@@ -284,7 +284,7 @@ export class KeyClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expires
+        expires: options.expiresOn
       };
       const unflattenedOptions = {
         ...options,
@@ -294,7 +294,7 @@ export class KeyClient {
 
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expires;
+      delete unflattenedOptions.expiresOn;
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("createKey", unflattenedOptions);
@@ -338,7 +338,7 @@ export class KeyClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expires
+        expires: options.expiresOn
       };
       const unflattenedOptions = {
         ...options,
@@ -348,7 +348,7 @@ export class KeyClient {
 
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expires;
+      delete unflattenedOptions.expiresOn;
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("createEcKey", unflattenedOptions);
@@ -392,7 +392,7 @@ export class KeyClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expires
+        expires: options.expiresOn
       };
       const unflattenedOptions = {
         ...options,
@@ -402,7 +402,7 @@ export class KeyClient {
 
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expires;
+      delete unflattenedOptions.expiresOn;
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("createRsaKey", unflattenedOptions);
@@ -448,7 +448,7 @@ export class KeyClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expires,
+        expires: options.expiresOn,
         hsm: options.hardwareProtected
       };
 
@@ -459,7 +459,7 @@ export class KeyClient {
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expires;
+      delete unflattenedOptions.expiresOn;
       delete unflattenedOptions.requestOptions;
       delete unflattenedOptions.hardwareProtected;
 
@@ -553,7 +553,7 @@ export class KeyClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expires
+        expires: options.expiresOn
       };
       const unflattenedOptions = {
         ...options,
@@ -562,7 +562,7 @@ export class KeyClient {
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expires;
+      delete unflattenedOptions.expiresOn;
       delete unflattenedOptions.requestOptions;
 
       const span = this.createSpan("updateKey", unflattenedOptions);
@@ -1042,10 +1042,13 @@ export class KeyClient {
       keyBundle.key ? keyBundle.key.kid : undefined
     );
 
+    //.....
+    //.....
+
     let resultObject;
     if (keyBundle.attributes) {
       resultObject = {
-        keyMaterial: keyBundle.key,
+        key: keyBundle.key,
         keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
         keyType: keyBundle.key ? keyBundle.key.kty : undefined,
         properties: {
@@ -1057,7 +1060,7 @@ export class KeyClient {
       delete resultObject.properties.attributes;
     } else {
       resultObject = {
-        keyMaterial: keyBundle.key,
+        key: keyBundle.key,
         keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
         keyType: keyBundle.key ? keyBundle.key.kty : undefined,
         properties: {
@@ -1086,6 +1089,10 @@ export class KeyClient {
         ...keyItem,
         ...parsedId
       };
+    }
+
+		if (resultObject.properties.expires) {
+      delete (resultObject.properties as any).expires;
     }
 
     return resultObject;

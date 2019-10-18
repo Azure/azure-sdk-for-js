@@ -34,7 +34,7 @@ export interface KeyVaultKey {
   /**
    * @member {string} [value] The key value.
    */
-  keyMaterial?: JsonWebKey;
+  key?: JsonWebKey;
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
@@ -65,26 +65,26 @@ export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {Date} [created] Creation time in UTC.
+   * @member {Date} [createdOn] Creation time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created?: Date;
+  readonly createdOn?: Date;
   /**
-   * @member {Date} [updated] Last updated time in UTC.
+   * @member {Date} [updatedOn] Last updated time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly updated?: Date;
+  readonly updatedOn?: Date;
   /**
    * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
    * recovery level currently in effect for keys in the current vault. If it
@@ -107,7 +107,7 @@ export interface DeletedKey {
   /**
    * @member {string} [value] The key value.
    */
-  keyMaterial?: JsonWebKey;
+  key?: JsonWebKey;
   /**
    * @member {KeyProperties} [properties] The properties of the key.
    */
@@ -125,11 +125,11 @@ export interface DeletedKey {
      */
     readonly scheduledPurgeDate?: Date;
     /**
-     * @member {Date} [deletedDate] The time when the key was deleted, in UTC
+     * @member {Date} [deletedOn] The time when the key was deleted, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
      */
-    readonly deletedDate?: Date;
+    readonly deletedOn?: Date;
   };
 }
 
@@ -157,9 +157,9 @@ export interface CreateKeyOptions {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
@@ -249,9 +249,9 @@ export interface ImportKeyOptions {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
@@ -277,9 +277,9 @@ export interface UpdateKeyOptions {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
