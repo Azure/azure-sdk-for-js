@@ -73,7 +73,7 @@ const generateOldIndex = (serviceList) => {
     definition: 614
 
 */
-const executeTypedoc = (exclusionList, inclusionList, generateIndexWithTemplate) => {
+const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemplate) => {
  console.log("inside executeTypedoc");
  console.log("exc list ="+ exclusionList);
  console.log("inc list"+ inclusionList);
@@ -85,12 +85,11 @@ const executeTypedoc = (exclusionList, inclusionList, generateIndexWithTemplate)
 
   /* Initializing package list for template index generation */
   let serviceList = [];
-  console.log(serviceFolders.length);
   let promises = [];
   for (const eachService of serviceFolders) {
 
     if ((argv.includeMode === "inc" && inclusionList.includes(eachService)) || (argv.includeMode === "exc" && !exclusionList.includes(eachService)) || (argv.includeMode === "inc" && argv.include[0] === "*")) {
-      console.log("inside if statement");
+    
       const eachServicePath = path.join(workingDir, eachService);
       const stat = fs.statSync(eachServicePath);
 
@@ -131,27 +130,26 @@ const executeTypedoc = (exclusionList, inclusionList, generateIndexWithTemplate)
                     docOutputFolder = "--out ../../../docGen/" + eachPackage + "/" + checks.version + " ./src";
                   }
 
-                  try {
+                  //try {
+                    let promise = new Promise((res,rej) => {
+                    let typedocProcess;
+                    let commandRun;
                     if (checks.typedocPresent) {
-                      const typedocResult = childProcess.spawnSync(
+                      typedocProcess = childProcess.spawn(
                         "typedoc",
-                        [docOutputFolder, '--theme "eng/tools/generate-doc/theme/default"', "--ignoreCompilerErrors"],
+                        [docOutputFolder, '--theme "../../../eng/tools/generate-doc/theme/default"', "--ignoreCompilerErrors"],
                         {
                           cwd: eachPackagePath,
                           shell: true
                         }
                       );
-                      console.log(
-                        'typedocResult.output for "typedoc ' +
-                        docOutputFolder +
-                        ' ":' +
-                        typedocResult.output
-                      );
+                      commandRun = "typedoc " + docOutputFolder;
+          
                     } else {
-                      const typedocResult = childProcess.spawnSync(
+                         typedocProcess = childProcess.spawn(
                         "typedoc",
                         [
-                          '--theme "eng/tools/generate-doc/theme/default"',
+                          '--theme "../../../eng/tools/generate-doc/theme/default"',
                           "--excludePrivate",
                           "--excludeNotExported",
                           '--exclude "node_modules/**/*"',
@@ -164,17 +162,23 @@ const executeTypedoc = (exclusionList, inclusionList, generateIndexWithTemplate)
                           shell: true
                         }
                       );
-                      console.log(
-                        'typedocResult.output for "typedoc --theme "eng/tools/generate-doc/theme/default" --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +
-                        docOutputFolder +
-                        ' ":' +
-                        typedocResult.output
-                      );
+                      // console.log(
+                      commandRun = 'typedocResult.output for "typedoc --theme "../../../eng/tools/generate-doc/theme/default" --excludePrivate --excludeNotExported --exclude "node_modules/**/*" -ignoreCompilerErrors --mode file ' +  docOutputFolder;
+                      //   ' ":' +
+                      //   typedocResult.output
+                      // );
                     }
-                  } catch (e) {
-                    console.error(`\n\n${e.toString()}\n\n`);
-                    process.exit(1);
-                  }
+                   
+                    let stdOut = '';
+                    let stdErr = '';
+                    //typedocProcess.on('close', (code) => code == 0 ? res({ code, stdOut, stdErr }) : rej({ code, stdOut, stdErr }));
+                    
+                    typedocProcess.on('close', (commandRun, code) => res({ commandRun, code, stdOut, stdErr }));
+                    typedocProcess.stdout.on('data', (data) => stdOut = stdOut + data.toString());
+                    typedocProcess.stderr.on('data', (err) => stdErr = stdErr);
+                  });
+                  promises.push(promise);
+                 
                   if (generateIndexWithTemplate) {
                     /* Adding package to packageList for the template index generation */
                     indexPackageList.push(eachPackage);
@@ -194,6 +198,15 @@ const executeTypedoc = (exclusionList, inclusionList, generateIndexWithTemplate)
           }
 
         } //end-for each-package
+        try {
+          const results = await Promise.all(promises);
+          for (let item of results) {
+            console.log(item.stdOut);
+          }
+        } catch (ex) {
+          console.log("ERROR", ex);
+        }
+        console.log("eachService="+eachService);
         /* Adding service entry for the template index generation */
         serviceList.push({ name: eachService, packageList: indexPackageList });
       }
@@ -201,7 +214,6 @@ const executeTypedoc = (exclusionList, inclusionList, generateIndexWithTemplate)
     else {
       //console.log("...SKIPPING Since service doesn't satisfy one of the 3 condition checks...");
     }
-
   } // end-for ServiceFolders
 
   if (argv.oldIndex)

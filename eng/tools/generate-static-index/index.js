@@ -109,7 +109,7 @@ var jObject = []; //[{"name": service, "href": <link-to-md-file>}]
 
 for (const eachService of serviceList) {
   var mdFile = eachService.name + ".md";
-  jObject.push({ name: eachService.name, href: mdFile });
+  jObject.push({ name: eachService.name, href: mdFile });//change the value for name to lookup name for service from given json file
   var mdContent = "";
   if(eachService.clientList.length > 0){
      mdContent += "<h1>Client Libraries </h1><hr>";
