@@ -127,6 +127,8 @@ describe("IdentityClient", function () {
       /.*azure:identity:info.*IdentityClient: interaction required for client ID: client.*/
     ];
 
+    logMessages = logMessages.filter(msg => msg.indexOf("azure:identity:") >= 0);
+
     assert.equal(expectedMessages.length, logMessages.length);
 
     for (let i = 0; i < logMessages.length; i++) {
