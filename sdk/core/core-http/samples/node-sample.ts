@@ -4,7 +4,6 @@
 "use strict";
 
 import * as coreHttp from "../lib/coreHttp";
-import { TokenRequestContext } from "@azure/core-auth";
 
 const clientOptions: coreHttp.ServiceClientOptions = {
   requestPolicyFactories: [coreHttp.logPolicy()]
@@ -24,7 +23,7 @@ class TestTokenCredential implements coreHttp.TokenCredential {
   }
 
   async getToken(
-    _requestContext: TokenRequestContext,
+    _requestContext: coreHttp.TokenRequestContext,
     _options?: coreHttp.GetTokenOptions
   ): Promise<coreHttp.AccessToken | null> {
     return {
