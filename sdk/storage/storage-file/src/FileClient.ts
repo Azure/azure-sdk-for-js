@@ -40,6 +40,7 @@ import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
+import { FileForceCloseHandlesResponse } from "./generated/src/models";
 
 /**
  * Options to configure File - Create operation.
@@ -478,22 +479,22 @@ export interface FileForceCloseHandlesOptions extends CommonOptions {
  * Option interface for FileClient.uploadStream().
  *
  * @export
- * @interface UploadStreamToAzureFileOptions
+ * @interface FileUploadStreamOptions
  */
-export interface UploadStreamToAzureFileOptions extends CommonOptions {
+export interface FileUploadStreamOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof UploadStreamToAzureFileOptions
+   * @memberof FileUploadStreamOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Azure File HTTP Headers.
    *
    * @type {FileHttpHeaders}
-   * @memberof UploadStreamToAzureFileOptions
+   * @memberof FileUploadStreamOptions
    */
   fileHttpHeaders?: FileHttpHeaders;
 
@@ -501,14 +502,14 @@ export interface UploadStreamToAzureFileOptions extends CommonOptions {
    * Metadata of the Azure file.
    *
    * @type {Metadata}
-   * @memberof UploadStreamToAzureFileOptions
+   * @memberof FileUploadStreamOptions
    */
   metadata?: Metadata;
 
   /**
    * Progress updater.
    *
-   * @memberof UploadStreamToAzureFileOptions
+   * @memberof FileUploadStreamOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 }
@@ -517,15 +518,15 @@ export interface UploadStreamToAzureFileOptions extends CommonOptions {
  * Option interface for FileClient.uploadFile() and FileClient.uploadSeekableStream().
  *
  * @export
- * @interface UploadToAzureFileOptions
+ * @interface FileParallelUploadOptions
  */
-export interface UploadToAzureFileOptions extends CommonOptions {
+export interface FileParallelUploadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof UploadToAzureFileOptions
+   * @memberof FileParallelUploadOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -533,14 +534,14 @@ export interface UploadToAzureFileOptions extends CommonOptions {
    * the default (and maximum size) is FILE_RANGE_MAX_SIZE_BYTES.
    *
    * @type {number}
-   * @memberof UploadToAzureFileOptions
+   * @memberof FileParallelUploadOptions
    */
   rangeSize?: number;
 
   /**
    * Progress updater.
    *
-   * @memberof UploadToAzureFileOptions
+   * @memberof FileParallelUploadOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -548,7 +549,7 @@ export interface UploadToAzureFileOptions extends CommonOptions {
    * File HTTP Headers.
    *
    * @type {FileHttpHeaders}
-   * @memberof UploadToAzureFileOptions
+   * @memberof FileParallelUploadOptions
    */
   fileHttpHeaders?: FileHttpHeaders;
 
@@ -556,7 +557,7 @@ export interface UploadToAzureFileOptions extends CommonOptions {
    * Metadata of an Azure file.
    *
    * @type {Metadata}
-   * @memberof UploadToAzureFileOptions
+   * @memberof FileParallelUploadOptions
    */
   metadata?: Metadata;
 
@@ -565,7 +566,7 @@ export interface UploadToAzureFileOptions extends CommonOptions {
    * If not provided, 5 concurrency will be used by default.
    *
    * @type {number}
-   * @memberof UploadToAzureFileOptions
+   * @memberof FileParallelUploadOptions
    */
   concurrency?: number;
 }
@@ -574,15 +575,15 @@ export interface UploadToAzureFileOptions extends CommonOptions {
  * Option interface for DownloadAzurefileToBuffer.
  *
  * @export
- * @interface DownloadFromAzureFileOptions
+ * @interface FileDownloadToBufferOptions
  */
-export interface DownloadFromAzureFileOptions extends CommonOptions {
+export interface FileDownloadToBufferOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof DownloadFromAzureFileOptions
+   * @memberof FileDownloadToBufferOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -592,7 +593,7 @@ export interface DownloadFromAzureFileOptions extends CommonOptions {
    * Must be > 0, will use the default value if undefined,
    *
    * @type {number}
-   * @memberof DownloadFromAzureFileOptions
+   * @memberof FileDownloadToBufferOptions
    */
   rangeSize?: number;
 
@@ -610,14 +611,14 @@ export interface DownloadFromAzureFileOptions extends CommonOptions {
    * Default value is 5, please set a larger value when in poor network.
    *
    * @type {number}
-   * @memberof DownloadFromAzureFileOptions
+   * @memberof FileDownloadToBufferOptions
    */
   maxRetryRequestsPerRange?: number;
 
   /**
    * Progress updater.
    *
-   * @memberof DownloadFromAzureFileOptions
+   * @memberof FileDownloadToBufferOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -626,7 +627,7 @@ export interface DownloadFromAzureFileOptions extends CommonOptions {
    * If not provided, 5 concurrency will be used by default.
    *
    * @type {number}
-   * @memberof DownloadFromAzureFileOptions
+   * @memberof FileDownloadToBufferOptions
    */
   concurrency?: number;
 }
@@ -1351,12 +1352,12 @@ export class FileClient extends StorageClient {
    * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to an Azure File.
    *
    * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
-   * @param {UploadToAzureFileOptions} [options]
+   * @param {FileParallelUploadOptions} [options]
    * @returns {Promise<void>}
    */
   public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
-    options: UploadToAzureFileOptions = {}
+    options: FileParallelUploadOptions = {}
   ): Promise<void> {
     const { span, spanOptions } = createSpan("FileClient-uploadBrowserData", options.spanOptions);
     try {
@@ -1387,13 +1388,13 @@ export class FileClient extends StorageClient {
    *
    * @param {(offset: number, size: number) => Blob} blobFactory
    * @param {number} size
-   * @param {UploadToAzureFileOptions} [options]
+   * @param {FileParallelUploadOptions} [options]
    * @returns {Promise<void>}
    */
   async uploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
     size: number,
-    options: UploadToAzureFileOptions = {}
+    options: FileParallelUploadOptions = {}
   ): Promise<void> {
     const { span, spanOptions } = createSpan("FileClient-UploadSeekableBlob", options.spanOptions);
     try {
@@ -1465,10 +1466,10 @@ export class FileClient extends StorageClient {
    *
    * @param {string} filePath Full path of local file
    * @param {FileClient} fileClient FileClient
-   * @param {UploadToAzureFileOptions} [options]
+   * @param {FileParallelUploadOptions} [options]
    * @returns {(Promise<void>)}
    */
-  public async uploadFile(filePath: string, options: UploadToAzureFileOptions = {}): Promise<void> {
+  public async uploadFile(filePath: string, options: FileParallelUploadOptions = {}): Promise<void> {
     const { span, spanOptions } = createSpan("FileClient-uploadFile", options.spanOptions);
     try {
       const size = (await fsStat(filePath)).size;
@@ -1505,13 +1506,13 @@ export class FileClient extends StorageClient {
    *                                                                  from the offset defined
    * @param {number} size Size of the Azure file
    * @param {FileClient} fileClient FileClient
-   * @param {UploadToAzureFileOptions} [options]
+   * @param {FileParallelUploadOptions} [options]
    * @returns {(Promise<void>)}
    */
   async uploadResetableStream(
     streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
     size: number,
-    options: UploadToAzureFileOptions = {}
+    options: FileParallelUploadOptions = {}
   ): Promise<void> {
     const { span, spanOptions } = createSpan(
       "FileClient-uploadResetableStream",
@@ -1592,14 +1593,14 @@ export class FileClient extends StorageClient {
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the Azure File to download
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined
-   * @param {DownloadFromAzureFileOptions} [options]
+   * @param {FileDownloadToBufferOptions} [options]
    * @returns {Promise<void>}
    */
   public async downloadToBuffer(
     buffer: Buffer,
     offset: number = 0,
     count?: number,
-    options: DownloadFromAzureFileOptions = {}
+    options: FileDownloadToBufferOptions = {}
   ): Promise<void> {
     const { span, spanOptions } = createSpan("FileClient-downloadToBuffer", options.spanOptions);
     try {
@@ -1701,7 +1702,7 @@ export class FileClient extends StorageClient {
    *                            the uploaded file. Size must be > 0 and <= 4 * 1024 * 1024 (4MB)
    * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
    *                            with max uploading concurrency
-   * @param {UploadStreamToAzureFileOptions} [options]
+   * @param {FileUploadStreamOptions} [options]
    * @returns {Promise<void>}
    */
   public async uploadStream(
@@ -1709,7 +1710,7 @@ export class FileClient extends StorageClient {
     size: number,
     bufferSize: number,
     maxBuffers: number,
-    options: UploadStreamToAzureFileOptions = {}
+    options: FileUploadStreamOptions = {}
   ): Promise<void> {
     const { span, spanOptions } = createSpan("FileClient-uploadStream", options.spanOptions);
     try {
@@ -1961,10 +1962,11 @@ export class FileClient extends StorageClient {
    *                          The operation returns a marker value within the response
    *                          body if there are more handles to close. The marker value
    *                          may then be used in a subsequent call to close the next set of handles.
+   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
    * @returns {Promise<Models.FileForceCloseHandlesResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
-  public async forceCloseHandlesSegment(
+  private async forceCloseHandlesSegment(
     marker?: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<Models.FileForceCloseHandlesResponse> {
@@ -1991,15 +1993,52 @@ export class FileClient extends StorageClient {
   }
 
   /**
+   * Force close all handles for a file.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
+   * @returns {Promise<number>}
+   * @memberof FileClient
+   */
+  public async forceCloseAllHandles(options: FileForceCloseHandlesOptions = {}): Promise<number> {
+    const { span, spanOptions } = createSpan(
+      "FileClient-forceCloseAllHandles",
+      options.spanOptions
+    );
+    try {
+      let handlesClosed = 0;
+      let marker: string | undefined = "";
+
+      do {
+        const response: FileForceCloseHandlesResponse = await this.forceCloseHandlesSegment(
+          marker,
+          { spanOptions }
+        );
+        marker = response.marker;
+        response.numberOfHandlesClosed && (handlesClosed += response.numberOfHandlesClosed);
+      } while (marker);
+
+      return handlesClosed;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Force close a specific handle for a file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} handleId Specific handle ID, cannot be asterisk "*".
-   *                          Use forceCloseHandlesSegment() to close all handles.
+   *                          Use forceCloseAllHandles() to close all handles.
+   * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
    * @returns {Promise<Models.FileForceCloseHandlesResponse>}
-   * @memberof FileURL
+   * @memberof FileClient
    */
   public async forceCloseHandle(
     handleId: string,

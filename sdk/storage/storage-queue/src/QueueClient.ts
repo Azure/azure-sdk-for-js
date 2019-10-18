@@ -158,7 +158,7 @@ export interface SignedIdentifier {
      * @member {string} permission the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
      */
-    permission: string;
+    permissions: string;
   };
 }
 
@@ -246,20 +246,20 @@ export declare type QueueSendMessageResponse = {
    */
   popReceipt: string;
   /**
-   * @member {Date} insertionTime The time that the message was inserted into the
+   * @member {Date} insertedOn The time that the message was inserted into the
    * Queue.
    */
-  insertionTime: Date;
+  insertedOn: Date;
   /**
-   * @member {Date} expirationTime The time that the message will expire and be
+   * @member {Date} expiresOn The time that the message will expire and be
    * automatically deleted.
    */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
-   * @member {Date} timeNextVisible The time that the message will again become
+   * @member {Date} nextVisibleOn The time that the message will again become
    * visible in the Queue.
    */
-  timeNextVisible: Date;
+  nextVisibleOn: Date;
 } & Models.MessagesEnqueueHeaders & {
     /**
      * The underlying HTTP response.
@@ -675,7 +675,7 @@ export class QueueClient extends StorageClient {
         res.signedIdentifiers.push({
           accessPolicy: {
             expiry: new Date(identifier.accessPolicy.expiry),
-            permission: identifier.accessPolicy.permission,
+            permissions: identifier.accessPolicy.permissions,
             start: new Date(identifier.accessPolicy.start)
           },
           id: identifier.id
@@ -715,7 +715,7 @@ export class QueueClient extends StorageClient {
         acl.push({
           accessPolicy: {
             expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
-            permission: identifier.accessPolicy.permission,
+            permissions: identifier.accessPolicy.permissions,
             start: truncatedISO8061Date(identifier.accessPolicy.start)
           },
           id: identifier.id
@@ -804,9 +804,9 @@ export class QueueClient extends StorageClient {
         errorCode: response.errorCode,
         messageId: item.messageId,
         popReceipt: item.popReceipt,
-        timeNextVisible: item.timeNextVisible,
-        insertionTime: item.insertionTime,
-        expirationTime: item.expirationTime
+        nextVisibleOn: item.nextVisibleOn,
+        insertedOn: item.insertedOn,
+        expiresOn: item.expiresOn
       };
     } catch (e) {
       span.setStatus({

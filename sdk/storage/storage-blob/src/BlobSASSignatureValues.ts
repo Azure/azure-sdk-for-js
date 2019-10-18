@@ -184,7 +184,7 @@ export interface BlobSASSignatureValues {
  *   {
  *     accessPolicy: {
  *       expiry: tmr, // Date type
- *       permission: ContainerSASPermissions.parse("racwdl").toString(),
+ *       permissions: ContainerSASPermissions.parse("racwdl").toString(),
  *       start: now // Date type
  *     },
  *     id: identifier

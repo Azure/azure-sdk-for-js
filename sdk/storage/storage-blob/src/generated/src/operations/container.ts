@@ -783,7 +783,7 @@ const listBlobFlatSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker0,
-    Parameters.maxResults,
+    Parameters.maxPageSize,
     Parameters.include1,
     Parameters.timeoutInSeconds,
     Parameters.restype2,
@@ -816,7 +816,7 @@ const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.prefix,
     Parameters.delimiter,
     Parameters.marker0,
-    Parameters.maxResults,
+    Parameters.maxPageSize,
     Parameters.include1,
     Parameters.timeoutInSeconds,
     Parameters.restype2,

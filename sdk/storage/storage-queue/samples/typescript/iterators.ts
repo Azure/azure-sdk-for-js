@@ -90,7 +90,7 @@ async function main() {
     }
   }
   // Gets next marker
-  let marker = response.value.nextMarker;
+  let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
   response = await iterator.next();

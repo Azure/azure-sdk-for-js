@@ -1,5 +1,5 @@
 # Instructions for CODEOWNERS file format and automatic build failure notifications:
-# https://github.com/Azure/azure-sdk/blob/master/docs/engineering-system/codeowners.md
+# https://github.com/Azure/azure-sdk/blob/master/docs/policies/opensource.md#codeowners
 
 ###########
 # SDK
@@ -8,9 +8,12 @@
 # Catch all
 /sdk/ @ramya-rao-a
 
+# API review files
+/sdk/**/review/*api.md @bterlson
+
 # Core
 /sdk/core/abort-controller/ @chradek
-/sdk/core/core-amqp/ @ramya-rao-a @chradek @shivangireja
+/sdk/core/core-amqp/ @ramya-rao-a @chradek
 /sdk/core/core-auth/ @daviwil
 /sdk/core/core-http/ @daviwil
 /sdk/core/core-paging/ @daviwil
@@ -19,8 +22,8 @@
 /sdk/batch/ @xingwu1 @matthchr @bgklein
 /sdk/cosmosdb/ @southpolesteve
 
-/sdk/eventhub/ @ramya-rao-a @chradek @shivangireja
-/sdk/servicebus/ @ramya-rao-a @chradek @shivangireja
+/sdk/eventhub/ @ramya-rao-a @chradek
+/sdk/servicebus/ @ramya-rao-a @chradek @ramya0820
 
 /sdk/identity/ @daviwil @jonathandturner
 /sdk/keyvault/ @jonathandturner @sadasant

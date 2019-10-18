@@ -40,6 +40,7 @@ export abstract class FetchHttpClient implements HttpClient {
     }
 
     const abortController = new AbortController();
+    let abortListener: ((event: any) => void) | undefined;
     if (httpRequest.abortSignal) {
       if (httpRequest.abortSignal.aborted) {
         throw new RestError(
@@ -50,11 +51,12 @@ export abstract class FetchHttpClient implements HttpClient {
         );
       }
 
-      httpRequest.abortSignal.addEventListener("abort", (event: Event) => {
+      abortListener = (event: Event) => {
         if (event.type === "abort") {
           abortController.abort();
         }
-      });
+      };
+      httpRequest.abortSignal.addEventListener("abort", abortListener);
     }
 
     if (httpRequest.timeout) {
@@ -187,6 +189,10 @@ export abstract class FetchHttpClient implements HttpClient {
 
       throw fetchError;
     } finally {
+      // clean up event listener
+      if (httpRequest.abortSignal && abortListener) {
+        httpRequest.abortSignal.removeEventListener("abort", abortListener);
+      }
     }
   }
 

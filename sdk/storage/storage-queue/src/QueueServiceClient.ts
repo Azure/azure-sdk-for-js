@@ -88,15 +88,15 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {number} [maxresults] Specifies the maximum number of queues
-   * to return. If the request does not specify maxresults, or specifies a
+   * @member {number} [maxPageSize] Specifies the maximum number of queues
+   * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
    * service will return a continuation token for retrieving the remainder of
    * the results. For this reason, it is possible that the service will return
-   * fewer results than specified by maxresults, or than the default of 5000.
+   * fewer results than specified by maxPageSize, or than the default of 5000.
    */
-  maxresults?: number;
+  maxPageSize?: number;
   /**
    * @member {ListQueuesIncludeType} [include] Include this parameter to
    * specify that the queue's metadata be returned as part of the response
@@ -275,7 +275,7 @@ export class QueueServiceClient extends StorageClient {
       return this.serviceContext.listQueuesSegment({
         abortSignal: options.abortSignal,
         marker: marker,
-        maxresults: options.maxresults,
+        maxPageSize: options.maxPageSize,
         prefix: options.prefix,
         include: options.include === undefined ? undefined : [options.include],
         spanOptions
@@ -313,7 +313,7 @@ export class QueueServiceClient extends StorageClient {
     let listQueuesResponse;
     do {
       listQueuesResponse = await this.listQueuesSegment(marker, options);
-      marker = listQueuesResponse.nextMarker;
+      marker = listQueuesResponse.continuationToken;
       yield await listQueuesResponse;
     } while (marker);
   }
@@ -390,7 +390,7 @@ export class QueueServiceClient extends StorageClient {
    *      }
    *    }
    *    // Gets next marker
-   *    let marker = item.nextMarker;
+   *    let marker = item.continuationToken;
    *    // Passing next marker as continuationToken
    *    iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
    *    item = (await iterator.next()).value;
@@ -435,7 +435,7 @@ export class QueueServiceClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
-          maxresults: settings.maxPageSize,
+          maxPageSize: settings.maxPageSize,
           ...updatedOptions
         });
       }
