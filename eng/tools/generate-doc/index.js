@@ -1,13 +1,17 @@
 const fs = require("fs-extra");
 const path = require("path");
+const util = require("util");
 const childProcess = require("child_process");
 const nunjucks = require("nunjucks");
-
+const readFile = util.promisify(fs.readFile);
+const readDir = util.promisify(fs.readdir);
+const statFile = util.promisify(fs.stat);
 nunjucks.configure("documentation/templateDocGen", { autoescape: true });
 
 /* Traversing the directory */
-const walk = (dir, checks) => {
-  var list = fs.readdirSync(dir);
+const walk = async(dir, checks) => {
+  var list = await readDir(dir);
+  //var list = fs.readdirSync(dir);
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
     if (fileName == "node_modules") {
@@ -17,7 +21,8 @@ const walk = (dir, checks) => {
       checks.srcPresent = true;
     }
     if (fileName == "package.json") {
-      let data = fs.readFileSync(filePath, "utf8");
+      let data = await readFile(filePath,"utf8");
+      //let data = fs.readFileSync(filePath, "utf8");
       let settings = JSON.parse(data);
       if (settings["private"] === true) {
         checks.isPrivate = true;
@@ -30,9 +35,9 @@ const walk = (dir, checks) => {
     if (fileName == "typedoc.json") {
       checks.typedocPresent = true;
     }
-    const stat = fs.statSync(filePath);
+    const stat = await statFile(filePath);
     if (stat && stat.isDirectory()) {
-      checks = walk(filePath, checks);
+      checks = await walk(filePath, checks);
     }
   }
   return checks;
@@ -68,20 +73,14 @@ const generateOldIndex = (serviceList) => {
     }
   }
 };
-/*
-    project: '29ec6040-b234-4e31-b139-33dc4287b756'
-    definition: 614
 
-*/
 const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemplate) => {
- console.log("inside executeTypedoc");
- console.log("exc list ="+ exclusionList);
- console.log("inc list"+ inclusionList);
+  console.log("inside executeTypedoc");
   let docOutputFolder = "--out ./dist/docs ./src";
   console.log("process.cwd = " + process.cwd());
   let workingDir = path.join(process.cwd(), "sdk");
   let pathToAssets = "";
-  const serviceFolders = fs.readdirSync(workingDir);
+  const serviceFolders = await readDir(workingDir);
 
   /* Initializing package list for template index generation */
   let serviceList = [];
@@ -91,10 +90,10 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
     if ((argv.includeMode === "inc" && inclusionList.includes(eachService)) || (argv.includeMode === "exc" && !exclusionList.includes(eachService)) || (argv.includeMode === "inc" && argv.include[0] === "*")) {
     
       const eachServicePath = path.join(workingDir, eachService);
-      const stat = fs.statSync(eachServicePath);
+      const stat = await statFile(eachServicePath);
 
       if (stat && stat.isDirectory()) {
-        var packageList = fs.readdirSync(eachServicePath);
+        var packageList = await readDir(eachServicePath);
 
         /* Initializing package list for template index generation */
         let indexPackageList = [];
@@ -108,9 +107,9 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
           };
           eachPackagePath = path.join(eachServicePath, eachPackage);
           pathToAssets = eachPackagePath + "/assets";
-          const packageStat = fs.statSync(eachPackagePath);
+          const packageStat = await statFile(eachPackagePath);
           if (packageStat && packageStat.isDirectory()) {
-            checks = walk(eachPackagePath, checks);
+            checks = await walk(eachPackagePath, checks);
 
             console.log(
               "checks after walk: checks.isPrivate = " +
@@ -171,7 +170,7 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
                    
                     let stdOut = '';
                     let stdErr = '';
-                    //typedocProcess.on('close', (code) => code == 0 ? res({ code, stdOut, stdErr }) : rej({ code, stdOut, stdErr }));
+                    //typedocProcess.on('close', (commandRun,code) => code == 0 ? res({commandRun, code, stdOut, stdErr }) : rej({commandRun, code, stdOut, stdErr }));
                     
                     typedocProcess.on('close', (commandRun, code) => res({ commandRun, code, stdOut, stdErr }));
                     typedocProcess.stdout.on('data', (data) => stdOut = stdOut + data.toString());
@@ -198,21 +197,21 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
           }
 
         } //end-for each-package
-        try {
-          const results = await Promise.all(promises);
-          for (let item of results) {
-            console.log(item.stdOut);
-          }
-        } catch (ex) {
-          console.log("ERROR", ex);
-        }
-        console.log("eachService="+eachService);
+
         /* Adding service entry for the template index generation */
         serviceList.push({ name: eachService, packageList: indexPackageList });
       }
     }
     else {
       //console.log("...SKIPPING Since service doesn't satisfy one of the 3 condition checks...");
+    }
+    try {
+      const results = await Promise.all(promises);
+      for (let item of results) {
+        console.log(item.stdOut);
+      }
+    } catch (ex) {
+      console.log("ERROR", ex);
     }
   } // end-for ServiceFolders
 
