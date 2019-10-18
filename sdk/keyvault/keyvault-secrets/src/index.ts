@@ -315,7 +315,7 @@ export class SecretClient {
   public async beginDeleteSecret(
     name: string,
     options?: SecretPollerOptions
-  ): Promise<DeleteSecretPoller> {
+  ): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>> {
     const poller = new DeleteSecretPoller({
       name,
       client: this.pollerClient,
@@ -520,7 +520,7 @@ export class SecretClient {
   public async beginRecoverDeletedSecret(
     name: string,
     options?: SecretPollerOptions
-  ): Promise<RecoverDeletedSecretPoller> {
+  ): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>> {
     const poller = new RecoverDeletedSecretPoller({
       name,
       client: this.pollerClient,

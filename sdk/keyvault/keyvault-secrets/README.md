@@ -219,7 +219,7 @@ read, recovered or purged.
 const poller = await client.beginDeleteSecret(secretName)
 
 // You can use the deleted secret immediately:
-const deletedSecret = poller.getDeletedSecret();
+const deletedSecret = poller.getResult();
 
 // The secret is being deleted. Only wait for it if you want to restore it or purge it.
 await poller.pollUntilDone();
@@ -242,7 +242,7 @@ returns a Poller object that keeps track of the underlying Long Running
 Operation according to our guidelines:
 https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
 
-The received poller will allow you to get the deleted secret by calling to `poller.getDeletedSecret()`.
+The received poller will allow you to get the deleted secret by calling to `poller.getResult()`.
 You can also wait until the deletion finishes, either by running individual service
 calls until the secret is deleted, or by waiting until the process is done:
 
@@ -250,7 +250,7 @@ calls until the secret is deleted, or by waiting until the process is done:
 const poller = await client.beginDeleteSecret(certificateName, certificatePolicy);
 
 // You can use the deleted secret immediately:
-let deletedSecret = poller.getDeletedSecret();
+let deletedSecret = poller.getResult();
 
 await poller.poll(); // On each poll, the poller checks whether the secret has been deleted or not.
 console.log(poller.isDone()) // The poller will be done once the secret is fully deleted.

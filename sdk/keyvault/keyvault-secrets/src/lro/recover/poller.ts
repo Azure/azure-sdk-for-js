@@ -58,19 +58,4 @@ export class RecoverDeletedSecretPoller extends Poller<
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
-
-  /**
-   * This method returns the secret properties. It will throw if the secret properties are missing.
-   * @memberof RecoverDeletedSecretPoller
-   */
-  getSecretProperties(): SecretProperties {
-    if (!this.operation.state.result) {
-      if (this.operation.state.error) {
-        throw this.operation.state.error;
-      } else {
-        throw new Error("The resource couldn't be retrieved");
-      }
-    }
-    return this.operation.state.result;
-  }
 }

@@ -240,10 +240,10 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, secretValue);
     const deletePoller = await client.beginDeleteSecret(secretName);
 
-    let deletedSecret = deletePoller.getDeletedSecret();
-    assert.equal(typeof deletedSecret.properties.recoveryId, "string");
-    assert.ok(deletedSecret.properties.deletedDate instanceof Date);
-    assert.ok(deletedSecret.properties.scheduledPurgeDate instanceof Date);
+    let deletedSecret = deletePoller.getResult();
+    assert.equal(typeof deletedSecret!.properties.recoveryId, "string");
+    assert.ok(deletedSecret!.properties.deletedDate instanceof Date);
+    assert.ok(deletedSecret!.properties.scheduledPurgeDate instanceof Date);
 
     deletedSecret = await deletePoller.pollUntilDone();
     assert.equal(typeof deletedSecret.properties.recoveryId, "string");
@@ -288,15 +288,21 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, "RSA");
     const deletePoller = await client.beginDeleteSecret(secretName);
 
-    let deletedSecret = deletePoller.getDeletedSecret();
+    let deletedSecret = deletePoller.getResult();
     assert.equal(
-      deletedSecret.properties.name,
+      deletedSecret!.properties.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
 
     await deletePoller.pollUntilDone();
-    deletedSecret = deletePoller.getDeletedSecret();
+    deletedSecret = deletePoller.getResult();
+    assert.equal(
+      deletedSecret!.properties.name,
+      secretName,
+      "Unexpected secret name in result from getSecret()."
+    );
+
     const getResult = await client.getDeletedSecret(secretName);
     assert.equal(
       getResult.properties.name,

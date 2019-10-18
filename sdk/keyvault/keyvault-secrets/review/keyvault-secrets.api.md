@@ -9,7 +9,7 @@ import { HttpClient } from '@azure/core-http';
 import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { Poller } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
@@ -23,15 +23,6 @@ export interface DeletedSecret {
         readonly deletedDate?: Date;
     };
     value?: string;
-}
-
-// @public
-export class DeleteSecretPoller extends Poller<DeleteSecretPollOperationState, DeletedSecret> {
-    // Warning: (ae-forgotten-export) The symbol "DeleteSecretPollerOptions" needs to be exported by the entry point index.d.ts
-    constructor(options: DeleteSecretPollerOptions);
-    delay(): Promise<void>;
-    getDeletedSecret(): DeletedSecret;
-    intervalInMs: number;
 }
 
 // @public
@@ -79,19 +70,14 @@ export interface ParsedKeyVaultEntityIdentifier {
     version?: string;
 }
 
+export { PollerLike }
+
+export { PollOperationState }
+
 // @public
 export interface ProxyOptions {
     // (undocumented)
     proxySettings?: string;
-}
-
-// @public
-export class RecoverDeletedSecretPoller extends Poller<RecoverDeletedSecretPollOperationState, SecretProperties> {
-    // Warning: (ae-forgotten-export) The symbol "RecoverDeletedSecretPollerOptions" needs to be exported by the entry point index.d.ts
-    constructor(options: RecoverDeletedSecretPollerOptions);
-    delay(): Promise<void>;
-    getSecretProperties(): SecretProperties;
-    intervalInMs: number;
 }
 
 // @public
@@ -126,8 +112,8 @@ export interface Secret {
 export class SecretClient {
     constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
     backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
-    beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<DeleteSecretPoller>;
-    beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<RecoverDeletedSecretPoller>;
+    beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
+    beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
     protected readonly credential: TokenCredential;
     static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
