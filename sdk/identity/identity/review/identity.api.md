@@ -8,7 +8,7 @@ import { AccessToken } from '@azure/core-http';
 import { GetTokenOptions } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
-import { TokenRequestContext } from '@azure/core-auth';
+import { TokenRequestContext } from '@azure/core-http';
 
 export { AccessToken }
 
