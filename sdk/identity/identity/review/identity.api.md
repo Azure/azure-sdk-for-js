@@ -87,12 +87,12 @@ export class EnvironmentCredential implements TokenCredential {
 
 // @public
 export interface ErrorResponse {
-    correlation_id?: string;
+    correlationId?: string;
     error: string;
-    error_codes?: number[];
-    error_description: string;
+    errorCodes?: number[];
+    errorDescription: string;
     timestamp?: string;
-    trace_id?: string;
+    traceId?: string;
 }
 
 // @public

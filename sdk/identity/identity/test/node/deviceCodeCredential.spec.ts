@@ -12,7 +12,7 @@ import {
   createDelayController,
   DelayController
 } from "../authTestUtils";
-import { AuthenticationError, ErrorResponse } from "../../src/client/errors";
+import { AuthenticationError, ErrorResponse, OAuthErrorResponse } from "../../src/client/errors";
 import {
   DeviceCodeCredential,
   DeviceCodeResponse
@@ -27,7 +27,7 @@ const deviceCodeResponse: DeviceCodeResponse = {
   message: "Visit https://contoso.com/devicelogin and enter code B3920934"
 };
 
-const pendingResponse: ErrorResponse = {
+const pendingResponse: OAuthErrorResponse = {
   error: "authorization_pending",
   error_description: "Waiting for user to authenticate"
 };

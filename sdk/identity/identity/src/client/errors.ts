@@ -18,12 +18,12 @@ export interface ErrorResponse {
   /**
    * The error's description.
    */
-  error_description: string;
+  errorDescription: string;
 
   /**
    * An array of codes pertaining to the error(s) that occurred.
    */
-  error_codes?: number[];
+  errorCodes?: number[];
 
   /**
    * The timestamp at which the error occurred.
@@ -33,15 +33,29 @@ export interface ErrorResponse {
   /**
    * The trace identifier for this error occurrence.
    */
-  trace_id?: string;
+  traceId?: string;
 
   /**
    * The correlation ID to be used for tracking the source of the error.
    */
+  correlationId?: string;
+}
+
+/**
+ * Used for internal deserialization of OAuth responses. Public model is ErrorResponse
+ * @internal
+ * @ignore
+ */
+export interface OAuthErrorResponse {
+  error: string;
+  error_description: string;
+  error_codes?: number[];
+  timestamp?: string;
+  trace_id?: string;
   correlation_id?: string;
 }
 
-function isErrorResponse(errorResponse: any): errorResponse is ErrorResponse {
+function isErrorResponse(errorResponse: any): errorResponse is OAuthErrorResponse {
   return (
     errorResponse &&
     typeof errorResponse.error === "string" &&
@@ -73,33 +87,41 @@ export class AuthenticationError extends Error {
   constructor(statusCode: number, errorBody: object | string | undefined | null) {
     let errorResponse = {
       error: "unknown",
-      error_description: "An unknown error occurred and no additional details are available."
+      errorDescription: "An unknown error occurred and no additional details are available."
     };
 
     if (isErrorResponse(errorBody)) {
-      errorResponse = errorBody;
+      errorResponse = {
+        error: errorBody.error,
+        errorDescription: errorBody.error_description
+      };      
     } else if (typeof errorBody === "string") {
       try {
         // Most error responses will contain JSON-formatted error details
-        // in the response body
-        errorResponse = JSON.parse(errorBody);
+        // in the response body        
+        const oauthErrorResponse: OAuthErrorResponse = JSON.parse(errorBody);
+
+        errorResponse = {
+          error: oauthErrorResponse.error,
+          errorDescription: oauthErrorResponse.error_description
+        };
       } catch (e) {
         if (statusCode === 400) {
           errorResponse = {
             error: "authority_not_found",
-            error_description: "The specified authority URL was not found."
+            errorDescription: "The specified authority URL was not found."
           };
         } else {
           errorResponse = {
             error: "unknown_error",
-            error_description: `An unknown error has occurred. Response body:\n\n${errorBody}`
+            errorDescription: `An unknown error has occurred. Response body:\n\n${errorBody}`
           };
         }
       }
     } else {
       errorResponse = {
         error: "unknown_error",
-        error_description: "An unknown error occurred and no additional details are available."
+        errorDescription: "An unknown error occurred and no additional details are available."
       };
     }
 
