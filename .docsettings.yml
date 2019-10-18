@@ -6,6 +6,7 @@ omitted_paths:
   - "sdk/cognitiveservices/*"
   - "sdk/identity/identity/test/manual/*"
   - "sdk/cosmosdb/cosmos/samples/*"
+  - eng/tools/versioning/*
 language: js
 root_check_enabled: True
 required_readme_sections:
@@ -20,7 +21,7 @@ known_content_issues:
   - ["README.md", "#1583"]
   - ["sdk/template/template/README.md", "#1583"]
   - ["sdk/appconfiguration/app-configuration/README.md", "#1583"]
-  - ["sdk/applicationinsights/applicationinsights-query/README.md", "#1583"]  
+  - ["sdk/applicationinsights/applicationinsights-query/README.md", "#1583"]
   - ["sdk/batch/batch/README.md", "#1583"]
   - [
       "sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md",
