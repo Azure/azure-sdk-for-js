@@ -10,6 +10,13 @@ nunjucks.configure("documentation/templateDocGen", { autoescape: true });
 
 /* Traversing the directory */
 const walk = async(dir, checks) => {
+  checks = await walkRecurse(dir,checks,0);
+  return checks;
+};
+
+const walkRecurse = async (dir, checks,depth) => {
+  if (depth > 0)
+    return checks;
   var list = await readDir(dir);
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
@@ -20,7 +27,7 @@ const walk = async(dir, checks) => {
       checks.srcPresent = true;
     }
     if (fileName == "package.json") {
-      let data = await readFile(filePath,"utf8");
+      let data = await readFile(filePath, "utf8");
       let settings = JSON.parse(data);
       if (settings["private"] === true) {
         checks.isPrivate = true;
@@ -28,6 +35,7 @@ const walk = async(dir, checks) => {
       if (settings["sdk-type"] === "client") {
         checks.isClient = true;
       }
+      console.log(settings);
       checks.version = settings["version"]
     }
     if (fileName == "typedoc.json") {
@@ -35,7 +43,7 @@ const walk = async(dir, checks) => {
     }
     const stat = await statFile(filePath);
     if (stat && stat.isDirectory()) {
-      checks = await walk(filePath, checks);
+      checks = await walkRecurse(filePath, checks, depth+1);
     }
   }
   return checks;
@@ -118,7 +126,9 @@ const executeTypedoc = async(exclusionList, inclusionList, generateIndexWithTemp
               ", typedocPresent = " +
               checks.typedocPresent +
               ", isClient = " +
-              checks.isClient
+              checks.isClient +
+              ", version = " +
+              checks.version
             );
             console.log("Path: " + eachPackagePath);
             if (!checks.isPrivate) {
