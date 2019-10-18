@@ -439,11 +439,13 @@ export class ServiceClient {
         sendRequestError = error;
       }
       if (sendRequestError) {
-        sendRequestError.details = flattenResponse(
-          sendRequestError.response,
-          operationSpec.responses[sendRequestError.statusCode] ||
-            operationSpec.responses["default"]
-        );
+        if (sendRequestError.response){
+          sendRequestError.details = flattenResponse(
+            sendRequestError.response,
+            operationSpec.responses[sendRequestError.statusCode] ||
+              operationSpec.responses["default"]
+          );
+        }        
         result = Promise.reject(
           sendRequestError
         );

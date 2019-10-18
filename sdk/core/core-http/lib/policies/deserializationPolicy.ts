@@ -198,8 +198,7 @@ export function deserializeResponseBody(
                     valueToDeserialize,
                     "error.body"
                   );
-                  // The following line is added to not introduce
-                  // any breaking change by removing error.body
+                  // Setting the parsedBody on response to enable flattening as per operationSpec
                   error.response!.parsedBody = error.body;
                 }
               }
