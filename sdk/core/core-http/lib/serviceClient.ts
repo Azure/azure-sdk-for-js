@@ -19,14 +19,15 @@ import {
   deserializationPolicy,
   DeserializationContentTypes
 } from "./policies/deserializationPolicy";
-import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { exponentialRetryPolicy, DefaultRetryOptions, RetryOptions } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import {
   userAgentPolicy,
   getDefaultUserAgentHeaderName,
-  getDefaultUserAgentValue
+  getDefaultUserAgentValue,
+  DefaultUserAgentOptions
 } from "./policies/userAgentPolicy";
-import { redirectPolicy } from "./policies/redirectPolicy";
+import { redirectPolicy, DefaultRedirectOptions, RedirectOptions } from "./policies/redirectPolicy";
 import {
   RequestPolicy,
   RequestPolicyFactory,
@@ -42,12 +43,15 @@ import * as utils from "./util/utils";
 import { stringifyXML } from "./util/xml";
 import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
 import { OperationResponse } from "./operationResponse";
-import { ServiceCallback } from "./util/utils";
+import { ServiceCallback, isNode } from "./util/utils";
 import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from "./policies/signingPolicy";
 import { logger } from "./log";
+import { PipelineOptions } from './pipelineOptions';
+import { KeepAliveOptions, DefaultKeepAliveOptions, keepAlivePolicy } from './policies/keepAlivePolicy';
+import { tracingPolicy } from './policies/tracingPolicy';
 
 /**
  * HTTP proxy settings (Node.js only)
@@ -120,10 +124,6 @@ export interface ServiceClientOptions {
    * Proxy settings which will be used for every HTTP request (Node.js only).
    */
   proxySettings?: ProxySettings;
-  /**
-   * When true, keeps the TCP socket alive across multiple requests (Node.js only).
-   */
-  keepAlive?: boolean;
 }
 
 /**
@@ -592,6 +592,86 @@ function createDefaultRequestPolicyFactories(
 
   return factories;
 }
+
+export function createPipelineFromOptions(
+  pipelineOptions: PipelineOptions,
+  authPolicyFactory?: RequestPolicyFactory
+) : ServiceClientOptions {
+  const requestPolicyFactories: RequestPolicyFactory[] = [];
+
+  const userAgentInfo: string[] = [];
+  if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {
+    userAgentInfo.push(pipelineOptions.userAgentOptions.userAgentPrefix);
+  }
+
+  const defaultUserAgentInfo = getDefaultUserAgentValue();
+  if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
+    userAgentInfo.push(defaultUserAgentInfo);
+  }
+
+  const userAgentOptions = {
+    ...DefaultUserAgentOptions,
+    ...pipelineOptions.userAgentOptions,
+    ...{ userAgentPrefix: userAgentInfo.join(" ") }
+  };
+
+  const keepAliveOptions = {
+    ...DefaultKeepAliveOptions,
+    ...pipelineOptions.keepAliveOptions
+  };
+
+  const retryOptions = {
+    ...DefaultRetryOptions,
+    ...pipelineOptions.retryOptions
+  };
+
+  const redirectOptions = {
+    ...DefaultRedirectOptions,
+    ...pipelineOptions.redirectOptions
+  };
+
+  const proxySettings = pipelineOptions.proxyOptions || getDefaultProxySettings();
+  if (isNode && proxySettings) {
+    requestPolicyFactories.push(
+      proxyPolicy(proxySettings)
+    )
+  }
+
+  requestPolicyFactories.push(
+    tracingPolicy(),
+    keepAlivePolicy(keepAliveOptions),
+    userAgentPolicy({
+      value: userAgentOptions.userAgentPrefix,
+      key: userAgentOptions.userAgentHeaderName
+    }),
+    generateClientRequestIdPolicy(),
+    deserializationPolicy(),
+    throttlingRetryPolicy(),
+    systemErrorRetryPolicy(),
+    exponentialRetryPolicy(
+      retryOptions.retryCount,
+      retryOptions.retryIntervalInMs,
+      retryOptions.minRetryDelayInMs,
+      retryOptions.maxRetryDelayInMs
+    ),
+  )
+
+  if (redirectOptions.handleRedirects) {
+    requestPolicyFactories.push(
+      redirectPolicy(redirectOptions.maxRetries)
+    );
+  }
+
+  if (authPolicyFactory) {
+    requestPolicyFactories.push(authPolicyFactory);
+  }
+
+  return {
+    httpClient: pipelineOptions.httpClient,
+    requestPolicyFactories
+  };
+}
+
 
 export type PropertyParent = { [propertyName: string]: any };
 

@@ -51,6 +51,42 @@ const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
 const DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
 
 /**
+ * Options that control how to retry failed requests.
+ */
+export interface RetryOptions {
+  /**
+   * The maximum number of retry attempts.  Defaults to 3.
+   */
+  retryCount?: number;
+
+  /**
+   * The amount of delay in milliseconds between retry attempts. Defaults to 30000
+   * (30 seconds). The delay increases exponentially with each retry up to a maximum
+   * specified by maxRetryDelayInMs.
+   */
+  retryIntervalInMs?: number;
+
+  /**
+   * The minimum delay in milliseconds allowed before retrying an operation. Defaults
+   * to 3000 (3 seconds).
+   */
+  minRetryDelayInMs?: number;
+
+  /**
+   * The maximum delay in milliseconds allowed before retrying an operation. Defaults
+   * to 90000 (90 seconds).
+   */
+  maxRetryDelayInMs?: number;
+}
+
+export const DefaultRetryOptions: RetryOptions = {
+  retryCount: DEFAULT_CLIENT_RETRY_COUNT,
+  retryIntervalInMs: DEFAULT_CLIENT_RETRY_INTERVAL,
+  minRetryDelayInMs: DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
+  maxRetryDelayInMs: DEFAULT_CLIENT_MAX_RETRY_INTERVAL
+}
+
+/**
  * @class
  * Instantiates a new "ExponentialRetryPolicyFilter" instance.
  */

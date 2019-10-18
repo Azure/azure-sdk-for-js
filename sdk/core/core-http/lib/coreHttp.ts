@@ -29,8 +29,10 @@ export {
   ServiceClient,
   ServiceClientOptions,
   flattenResponse,
+  createPipelineFromOptions,
   ProxySettings
 } from "./serviceClient";
+export { PipelineOptions, isPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export {
@@ -45,13 +47,14 @@ export {
   RequestPolicyOptions
 } from "./policies/requestPolicy";
 export { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-export { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+export { exponentialRetryPolicy, RetryOptions } from "./policies/exponentialRetryPolicy";
 export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
-export { redirectPolicy } from "./policies/redirectPolicy";
+export { getDefaultProxySettings, proxyPolicy, ProxyOptions } from "./policies/proxyPolicy";
+export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
+export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
 export { signingPolicy } from "./policies/signingPolicy";
-export { userAgentPolicy, getDefaultUserAgentValue } from "./policies/userAgentPolicy";
+export { userAgentPolicy, getDefaultUserAgentValue, UserAgentOptions } from "./policies/userAgentPolicy";
 export { deserializationPolicy, deserializeResponseBody } from "./policies/deserializationPolicy";
 export { tracingPolicy } from "./policies/tracingPolicy";
 export {
