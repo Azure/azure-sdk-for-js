@@ -60,7 +60,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, "The request was aborted");
+    assert.equal(error.message, "The operation was aborted.");
   });
 
   it("cannot create a key with an empty name", async function() {

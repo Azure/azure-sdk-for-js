@@ -48,7 +48,7 @@ export interface RetriableReadableStreamOptions {
   doInjectErrorOnce?: boolean;
 }
 
-const ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
+const ABORT_ERROR = new RestError("The operation was aborted.", RestError.REQUEST_ABORTED_ERROR);
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

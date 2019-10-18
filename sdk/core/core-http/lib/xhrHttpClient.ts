@@ -22,7 +22,7 @@ export class XhrHttpClient implements HttpClient {
     const abortSignal = request.abortSignal;
     if (abortSignal) {
       if (abortSignal.aborted) {
-        return Promise.reject(new AbortError("The request was aborted"));
+        return Promise.reject(new AbortError("The operation was aborted."));
       }
 
       const listener = () => {
@@ -161,7 +161,7 @@ function rejectOnTerminalEvent(
       )
     )
   );
-  xhr.addEventListener("abort", () => reject(new AbortError("The request was aborted")));
+  xhr.addEventListener("abort", () => reject(new AbortError("The operation was aborted.")));
   xhr.addEventListener("timeout", () =>
     reject(
       new RestError(

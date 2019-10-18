@@ -59,7 +59,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   tryTimeoutInMs: undefined // Use server side default timeout strategy
 };
 
-const RETRY_ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
+const RETRY_ABORT_ERROR = new RestError("The operation was aborted.", RestError.REQUEST_ABORTED_ERROR);
 
 /**
  * Retry policy with exponential retry and linear retry implemented.

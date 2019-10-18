@@ -43,7 +43,7 @@ export abstract class FetchHttpClient implements HttpClient {
     let abortListener: ((event: any) => void) | undefined;
     if (httpRequest.abortSignal) {
       if (httpRequest.abortSignal.aborted) {
-        throw new AbortError("The request was aborted");
+        throw new AbortError("The operation was aborted.");
       }
 
       abortListener = (event: Event) => {
@@ -174,7 +174,7 @@ export abstract class FetchHttpClient implements HttpClient {
           httpRequest
         );
       } else if (fetchError.type === "aborted") {
-        throw new AbortError("The request was aborted");
+        throw new AbortError("The operation was aborted.");
       }
 
       throw fetchError;

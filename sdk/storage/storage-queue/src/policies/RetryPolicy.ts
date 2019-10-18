@@ -59,7 +59,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   tryTimeoutInMs: 30 * 1000 // https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
 };
 
-const RETRY_ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
+const RETRY_ABORT_ERROR = new RestError("The operation was aborted.", RestError.REQUEST_ABORTED_ERROR);
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
