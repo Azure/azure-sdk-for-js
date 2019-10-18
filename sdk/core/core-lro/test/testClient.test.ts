@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { delay, WebResource, HttpHeaders } from "@azure/core-http";
+import { delay, WebResource, HttpHeaders, isNode } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { PollerStoppedError, PollerCancelledError } from "../src";
 import { TestTokenCredential } from "./utils/testTokenCredential";
@@ -56,6 +56,28 @@ describe("Long Running Operations - custom client", function() {
     assert.ok(poller.getOperationState().completed);
     assert.equal(result, "Done");
   });
+
+  if (isNode) {
+    it("won't throw UnhandledPromiseRejectionWarnings when poll called without pollUntilDone", async function() {
+      // NOTE: Don't set any responses so that poller.poll throws an error
+      const client = new TestClient(new TestTokenCredential("my-test-token"));
+      let foundUnhandled = false;
+      const checker = () => {
+        foundUnhandled = true;
+      };
+
+      process.once("unhandledRejection", checker);
+      try {
+        await client.startLRO();
+        throw new Error("Test failure");
+      } catch (err) {
+        assert.notEqual(err.message, "Test failure", "client.startLRO did not throw an error.");
+        // delay(0) gives the event loop a chance emit the UnhandledPromiseRejectionWarning so we can catch it.
+        await delay(0);
+        assert.equal(foundUnhandled, false, "An UnhandledPromiseRejectionWarning was thrown.");
+      }
+    });
+  }
 
   it("can poll a long running operation with more than one promise", async function() {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
