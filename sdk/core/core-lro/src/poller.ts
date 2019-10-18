@@ -163,11 +163,6 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
   }
 
   public getResult(): TResult | undefined {
-    if (!this.isDone()) {
-      throw new Error(
-        "The poller hasn't finished. You can call and wait for the method pollUntilDone() to finish, or manually check until the method isDone() returns true."
-      );
-    }
     const state = this.getOperationState();
     return state.result;
   }
