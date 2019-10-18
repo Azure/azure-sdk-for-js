@@ -362,7 +362,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
  * Option interface for BlockBlobClient.uploadFile() and BlockBlobClient.uploadSeekableStream().
  *
  * @export
- * @interface BlobDownloadToBufferOptions
+ * @interface BlockBlobParallelUploadOptions
  */
 export interface BlockBlobParallelUploadOptions extends CommonOptions {
   /**
@@ -378,7 +378,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * Destination block blob size in bytes.
    *
    * @type {number}
-   * @memberof BlobDownloadToBufferOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   blockSize?: number;
 
@@ -389,14 +389,14 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * You can customize a value less equal than the default value.
    *
    * @type {number}
-   * @memberof BlobDownloadToBufferOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   maxSingleShotSize?: number;
 
   /**
    * Progress updater.
    *
-   * @memberof BlobDownloadToBufferOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   progress?: (progress: TransferProgressEvent) => void;
 
@@ -404,7 +404,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * Blob HTTP Headers.
    *
    * @type {BlobHTTPHeaders}
-   * @memberof BlobDownloadToBufferOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
 
@@ -412,7 +412,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * Metadata of block blob.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof BlobDownloadToBufferOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   metadata?: { [propertyName: string]: string };
 
@@ -420,7 +420,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * Access conditions headers.
    *
    * @type {BlobAccessConditions}
-   * @memberof BlobDownloadToBufferOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   blobAccessConditions?: BlobAccessConditions;
 
@@ -428,7 +428,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * Concurrency of parallel uploading. Must be >= 0.
    *
    * @type {number}
-   * @memberof BlobDownloadToBufferOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   concurrency?: number;
 }
