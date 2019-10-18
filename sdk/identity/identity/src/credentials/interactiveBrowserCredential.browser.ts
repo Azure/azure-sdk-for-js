@@ -114,7 +114,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
+   * @param requestContext Details of an authentication token request like scopes for which the token will have access.
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */

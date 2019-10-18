@@ -24,7 +24,7 @@ export class ChainedTokenCredential implements TokenCredential {
    * when one or more credentials throws an {@link AuthenticationError} and
    * no credentials have returned an {@link AccessToken}.
    *
-   * @param scopes The list of scopes for which the token will have access.
+   * @param requestContext Details of an authentication token request like scopes for which the token will have access.
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
