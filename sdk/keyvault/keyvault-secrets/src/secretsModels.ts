@@ -248,7 +248,7 @@ export interface GetSecretOptions {
  * @interface
  * An interface representing optional parameters for SecretClient paged operations.
  */
-export interface RequestOptions {
+export interface ListOperationOptions {
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */

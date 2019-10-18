@@ -48,7 +48,7 @@ import {
   SetSecretOptions,
   UpdateSecretOptions,
   GetSecretOptions,
-  RequestOptions,
+  ListOperationOptions,
   SecretProperties
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
@@ -67,6 +67,7 @@ export {
   GetSecretOptions,
   RequestOptions,
   PipelineOptions,
+  ListOperationOptions,
   PagedAsyncIterableIterator,
   PageSettings,
   ParsedKeyVaultEntityIdentifier,
@@ -662,10 +663,10 @@ export class SecretClient {
    */
   public listSecretVersions(
     secretName: string,
-    options?: RequestOptions
+    options?: ListOperationOptions
   ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
     const span = this.createSpan("listSecretVersions", options && options.requestOptions);
-    const updatedOptions: RequestOptions = {
+    const updatedOptions: ListOperationOptions = {
       ...options,
       requestOptions: this.setParentSpan(span, options && options.requestOptions)
     };
@@ -718,7 +719,7 @@ export class SecretClient {
     }
   }
 
-  private async *listSecretsAll(options?: RequestOptions): AsyncIterableIterator<SecretProperties> {
+  private async *listSecretsAll(options?: ListOperationOptions): AsyncIterableIterator<SecretProperties> {
     const f = {};
 
     for await (const page of this.listSecretsPage(f, options)) {
@@ -744,10 +745,10 @@ export class SecretClient {
    * @param [options] The optional parameters
    */
   public listSecrets(
-    options?: RequestOptions
+    options?: ListOperationOptions
   ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
     const span = this.createSpan("listSecrets", options && options.requestOptions);
-    const updatedOptions: RequestOptions = {
+    const updatedOptions: ListOperationOptions = {
       ...options,
       requestOptions: this.setParentSpan(span, options && options.requestOptions)
     };
@@ -830,10 +831,10 @@ export class SecretClient {
    * @param [options] The optional parameters
    */
   public listDeletedSecrets(
-    options?: RequestOptions
+    options?: ListOperationOptions
   ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
     const span = this.createSpan("listDeletedSecrets", options && options.requestOptions);
-    const updatedOptions: RequestOptions = {
+    const updatedOptions: ListOperationOptions = {
       ...options,
       requestOptions: this.setParentSpan(span, options && options.requestOptions)
     };
