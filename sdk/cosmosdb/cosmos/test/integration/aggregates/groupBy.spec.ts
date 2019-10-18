@@ -51,7 +51,7 @@ describe("Validate Query", function() {
   it.only("Simple GROUP BY with no aggregates", async () => {
     // an order by query with explicit ascending ordering
     const querySpec = {
-      query: `SELECT r.name, r.number, AVG(r.number) FROM root r GROUP BY r.name, r.number`
+      query: `SELECT VALUE COUNT(r.id) FROM root r`
     };
 
     const options = {

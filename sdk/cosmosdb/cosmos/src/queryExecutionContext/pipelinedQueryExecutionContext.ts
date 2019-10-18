@@ -66,7 +66,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
 
     console.log(partitionedQueryExecutionInfo.queryInfo);
-    if (partitionedQueryExecutionInfo.queryInfo.groupByExpressions) {
+    if (
+      Array.isArray(partitionedQueryExecutionInfo.queryInfo.groupByExpressions) &&
+      partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
+    ) {
       this.endpoint = new GroupByEndpointComponent(
         this.endpoint,
         partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType

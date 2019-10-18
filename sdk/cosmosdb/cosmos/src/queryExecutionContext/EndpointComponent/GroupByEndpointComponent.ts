@@ -20,7 +20,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
   ) {}
 
   private aggregatedResultMap: any = {};
-  private aggreateResultArray: any[];
+  private aggreateResultArray: any[] = [];
   // private aggregatedHeaders: CosmosHeaders;
 
   public async nextItem(): Promise<Response<any>> {
@@ -29,17 +29,17 @@ export class GroupByEndpointComponent implements ExecutionContext {
       headers: CosmosHeaders;
     };
     if (result) {
-      const groupByItemsHash = await hashObject(result.groupByItems);
+      const groupingHash = await hashObject(result.groupByItems);
 
-      const lastResult = this.aggregatedResultMap[groupByItemsHash];
+      const lastResult = this.aggregatedResultMap[groupingHash];
       if (lastResult) {
-        this.aggregatedResultMap[groupByItemsHash] = combineResults(
+        this.aggregatedResultMap[groupingHash] = combineResults(
           this.groupByAliasToAggregateType,
           lastResult,
           result.payload
         );
       } else {
-        this.aggregatedResultMap[groupByItemsHash] = result.payload;
+        this.aggregatedResultMap[groupingHash] = result.payload;
       }
 
       // const groupByAliases = Object.keys(this.groupByAliasToAggregateType);
@@ -47,8 +47,11 @@ export class GroupByEndpointComponent implements ExecutionContext {
       console.log(result, this.groupByAliasToAggregateType);
     }
     if (!this.hasMoreResults()) {
-      this.aggreateResultArray = resultMapToArray(this.aggregatedResultMap, this.groupByAliasToAggregateType);
-      return { result: Object.values(this.aggregatedResultMap), headers };
+      this.aggreateResultArray = groupingsToArray(
+        this.aggregatedResultMap,
+        this.groupByAliasToAggregateType
+      );
+      return { result: this.aggreateResultArray, headers };
     }
     return { result: undefined, headers };
   }
@@ -58,8 +61,15 @@ export class GroupByEndpointComponent implements ExecutionContext {
   }
 
   public hasMoreResults() {
-    return this.executionContext.hasMoreResults();
+    return (
+      this.executionContext.hasMoreResults() ||
+      (this.aggreateResultArray && this.aggreateResultArray.length > 0)
+    );
   }
+}
+
+function groupingsToArray(groupings: any, groupByFields: any): any[] {
+  return [];
 }
 
 function combineResults(aggregateMap: GroupByAliasToAggregateType, current: any, payload: any) {

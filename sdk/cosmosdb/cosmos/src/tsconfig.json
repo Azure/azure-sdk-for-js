@@ -16,8 +16,8 @@
     "newLine": "LF",
     "resolveJsonModule": true,
     "composite": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
     "stripInternal": true
   },
   "include": ["./**/*"]
