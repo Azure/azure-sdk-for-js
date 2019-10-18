@@ -26,6 +26,7 @@ import { getTracer, Span } from "@azure/core-tracing";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SecretBundle,
   DeletedSecretBundle,
@@ -44,8 +45,8 @@ import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
-import { DeleteSecretPollOperationState } from "./lro/delete/operation";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
+import { DeleteSecretPollOperationState } from "./lro/delete/operation";
 import { RecoverDeletedSecretPollOperationState } from "./lro/recover/operation";
 
 import {
@@ -69,9 +70,7 @@ import {
 } from "./core";
 
 export {
-  DeleteSecretPoller,
   DeleteSecretPollOperationState,
-  RecoverDeletedSecretPoller,
   RecoverDeletedSecretPollOperationState,
   DeletedSecret,
   DeletionRecoveryLevel,
@@ -81,6 +80,8 @@ export {
   PagedAsyncIterableIterator,
   PageSettings,
   ParsedKeyVaultEntityIdentifier,
+  PollerLike,
+  PollOperationState,
   Secret,
   SecretProperties,
   SecretPollerOptions,
