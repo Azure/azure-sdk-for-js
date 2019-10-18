@@ -39,8 +39,8 @@ async function main(): Promise<void> {
   await client.setSecret(bankAccountSecretName, "ABC567");
 
   // List the versions of BankAccountPassword
-  for await (const secretAttr of client.listSecretVersions(bankAccountSecretName)) {
-    const secret = await client.getSecret(secretAttr.name);
+  for await (const secretProperties of client.listPropertiesOfSecretVersions(bankAccountSecretName)) {
+    const secret = await client.getSecret(secretProperties.name);
     console.log("secret version: ", secret);
   }
 

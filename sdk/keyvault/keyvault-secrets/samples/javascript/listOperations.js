@@ -52,9 +52,9 @@ async function main() {
 
   // List the versions of BankAccountPassword
   console.log("Listing all versions of a secret");
-  let listSecretVersions = client.listSecretVersions(bankAccountSecretName);
+  let listPropertiesOfSecretVersions = client.listPropertiesOfSecretVersions(bankAccountSecretName);
   while (true) {
-    let { done, value } = await listSecretVersions.next();
+    let { done, value } = await listPropertiesOfSecretVersions.next();
     if (done) {
       break;
     }

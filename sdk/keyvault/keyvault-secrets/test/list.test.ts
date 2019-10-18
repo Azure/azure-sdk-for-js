@@ -111,7 +111,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const item of client.listSecretVersions(secretName)) {
+    for await (const item of client.listPropertiesOfSecretVersions(secretName)) {
       const version = item.version!;
       const secret = await client.getSecret(secretName, { version: version });
       results.push({ version: item.version!, value: secret.value! });
@@ -131,7 +131,7 @@ describe("Secret client - list secrets in various ways", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const version of client.listSecretVersions(secretName)) {
+    for await (const version of client.listPropertiesOfSecretVersions(secretName)) {
       assert.equal(
         version.name,
         secretName,
@@ -207,7 +207,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const page of client.listSecretVersions(secretName).byPage()) {
+    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
       for (const item of page) {
         const version = item.version!;
         const secret = await client.getSecret(secretName, { version });
@@ -229,7 +229,7 @@ describe("Secret client - list secrets in various ways", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const page of client.listSecretVersions(secretName).byPage()) {
+    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
       for (const version of page) {
         assert.equal(
           version.name,

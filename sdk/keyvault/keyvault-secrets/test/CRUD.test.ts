@@ -147,11 +147,11 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, secretValue, {
       enabled: false
     });
-    const updated = await client.updateSecretProperties(secretName, "", {
+    const updatedProperties = await client.updateSecretProperties(secretName, "", {
       expiresOn: expiryDate
     });
     assert.equal(
-      updated!.properties.expiresOn!.getDate(),
+      updatedProperties!.expiresOn!.getDate(),
       expiryDate.getDate(),
       "Expect attribute 'expiresOn' to be updated."
     );
