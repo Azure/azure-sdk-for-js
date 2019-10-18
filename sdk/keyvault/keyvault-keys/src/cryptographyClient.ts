@@ -552,8 +552,7 @@ export class CryptographyClient {
             "x-ms-keyvault-region",
             "x-ms-keyvault-network-info",
             "x-ms-keyvault-service-version"
-          ],
-          allowedQueryParameters: ["api-version"]
+          ]
       })
     ]);
 
