@@ -58,6 +58,12 @@ export interface PageBlobGetPageRangesDiffResponse
   };
 }
 
+/**
+ * Function that converts PageRange and ClearRange to a common Range object.
+ * PageRange and ClearRange have start and end while Range offset and count
+ * this function normalizes to Range.
+ * @param response Model PageBlob Range response
+ */
 export function rangeResponseFromModel(
   response: Models.PageBlobGetPageRangesResponse | Models.PageBlobGetPageRangesDiffResponse
 ): PageBlobGetPageRangesResponse | PageBlobGetPageRangesDiffResponse {
