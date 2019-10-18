@@ -85,7 +85,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
             logger.warning(`InteractiveBrowserCredential: authentication returned errorCode ${err.errorCode}`);
             break;
           default:
-            logger.error(`InteractiveBrowserCredential: failed to acquire token: ${err}`);
+            logger.warning(`InteractiveBrowserCredential: failed to acquire token: ${err}`);
             throw err;
         }
       }
@@ -93,7 +93,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     let authPromise: Promise<msal.AuthResponse> | undefined;
     if (authResponse === undefined) {
-      logger.error(`InteractiveBrowserCredential: silent authentication failed, falling back to interactive method ${this.loginStyle}`);
+      logger.warning(`InteractiveBrowserCredential: silent authentication failed, falling back to interactive method ${this.loginStyle}`);
       switch (this.loginStyle) {
         case "redirect":
           authPromise = new Promise((resolve, reject) => {

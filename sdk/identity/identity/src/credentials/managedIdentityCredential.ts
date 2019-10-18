@@ -177,7 +177,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       logger.info(`ManagedIdentityCredential: IMDS endpoint is available`);
       return true;
     } catch (err) {
-      logger.error(`ManagedIdentityCredential: error when accessing IMDS endpoint: ${err}`);
+      logger.warning(`ManagedIdentityCredential: error when accessing IMDS endpoint: ${err}`);
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message

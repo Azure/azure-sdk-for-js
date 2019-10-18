@@ -82,7 +82,7 @@ export class IdentityClient extends ServiceClient {
       return token;
     } else {
       const error = new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
-      logger.error(`IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.error_description}`);
+      logger.warning(`IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.error_description}`);
       throw error;
     }
   }
@@ -148,7 +148,7 @@ export class IdentityClient extends ServiceClient {
 
         return null;
       } else {
-        logger.error(`IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`);
+        logger.warning(`IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`);
       span.setStatus({
           code: CanonicalCode.UNKNOWN,
           message: err.message

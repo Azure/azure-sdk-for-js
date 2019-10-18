@@ -123,7 +123,7 @@ describe("IdentityClient", function () {
     const expectedMessages = [
       /.*azure:identity:info.*IdentityClient: refreshing access token with client ID: client, scopes: scopes started.*/,
       /.*azure:identity:info.*IdentityClient: sending token request to \[https:\/\/authority\/tenant\/oauth2\/v2.0\/token\].*/,
-      /.*azure:identity:error.*IdentityClient: authentication error. HTTP status: 401, Interaction required.*/,
+      /.*azure:identity:warning.*IdentityClient: authentication error. HTTP status: 401, Interaction required.*/,
       /.*azure:identity:info.*IdentityClient: interaction required for client ID: client.*/
     ];
 
