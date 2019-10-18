@@ -18,6 +18,7 @@ function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   };
 }
 
+
 describe("IdentityClient", function () {
   let logMessages: string[];
   let oldLogger: typeof AzureLogger.log;
