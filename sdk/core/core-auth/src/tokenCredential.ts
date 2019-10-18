@@ -11,7 +11,7 @@ export interface TokenCredential {
   /**
    * Gets the token provided by this credential.
    *
-   * @param scopes The list of scopes for which the token will have access.
+   * @param requestContext Details of an authentication token request like scopes for which the token will have access.
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
