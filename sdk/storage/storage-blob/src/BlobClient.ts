@@ -44,7 +44,16 @@ import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
 import { LeaseClient } from "./LeaseClient";
 import { createSpan } from "./utils/tracing";
+import {
+  BlobBeginCopyFromUrlPoller,
+  BlobBeginCopyFromUrlPollState
+} from "./pollers/BlobStartCopyFromUrlPoller";
 
+export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions {
+  intervalInMs?: number;
+  onProgress?: (state: BlobBeginCopyFromUrlPollState) => void;
+  resumeFrom?: string;
+}
 /**
  * Options to configure Blob - Download operation.
  *
@@ -1284,6 +1293,28 @@ export class BlobClient extends StorageClient {
     }
   }
 
+  public async beginCopyFromURL(copySource: string, options: BlobBeginCopyFromURLOptions = {}) {
+    // create poller
+    const poller = new BlobBeginCopyFromUrlPoller({
+      blobClient: this,
+      copySource,
+      intervalInMs: options.intervalInMs,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      startCopyFromURLOptions: options
+    });
+
+    // await poll
+    try {
+      await poller.poll();
+    } catch (err) {
+      throw err;
+    }
+
+    // return poller
+    return poller;
+  }
+
   /**
    * Asynchronously copies a blob to a destination within the storage account.
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
@@ -1294,7 +1325,7 @@ export class BlobClient extends StorageClient {
    * operation to copy from another storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * @param {string} copySource url to the ource Azure Blob/File.
+   * @param {string} copySource url to the source Azure Blob/File.
    * @param {BlobStartCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
    * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
    * @memberof BlobClient
