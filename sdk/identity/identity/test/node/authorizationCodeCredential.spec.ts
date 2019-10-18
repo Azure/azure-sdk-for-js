@@ -12,12 +12,11 @@ describe("AuthorizationCodeCredential", function() {
     const redirectUri = "http://localhost:8080/authresponse";
 
     const credential = new AuthorizationCodeCredential(
-      "tenant",
       "client",
       "secret",
       "authCode",
       redirectUri,
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     await credential.getToken("scope");
@@ -42,12 +41,13 @@ describe("AuthorizationCodeCredential", function() {
     const redirectUri = "http://localhost:8080/authresponse";
 
     const credential = new AuthorizationCodeCredential(
-      "tenant",
       "client",
-      undefined,
       "authCode",
       redirectUri,
-      mockHttpClient.identityClientOptions
+      {
+        ...mockHttpClient.identityClientOptions,
+        tenantId: "tenant"
+      }
     );
 
     await credential.getToken("scope");
@@ -85,13 +85,15 @@ describe("AuthorizationCodeCredential", function() {
 
     const rootSpan = tracer.startSpan("root");
 
-    const credential = new AuthorizationCodeCredential(
-      "tenant",
+    const credential = new AuthorizationCodeCredential(      
       "client",
       "secret",
       "authCode",
       redirectUri,
-      mockHttpClient.identityClientOptions
+      {
+        ...mockHttpClient.identityClientOptions,
+        tenantId: "tenant"
+      }
     );
 
     await credential.getToken("scope", {
