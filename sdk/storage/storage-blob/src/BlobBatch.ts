@@ -49,14 +49,16 @@ export interface BatchSubRequest {
 }
 
 /**
- * A BatchRequest represents a based class for BatchDeleteRequest and BatchSetTierRequest.
+ * A BlobBatch represents an aggregated set of operations on blobs.
+ * Currently, only delete and setAccessTier are supported.
  *
  * @export
- * @class BatchRequest
+ * @class BlobBatch
  */
 export class BlobBatch {
-  protected batchRequest: InnerBatchRequest;
-  protected readonly batch: string = "batch";
+  private batchRequest: InnerBatchRequest;
+  private readonly batch: string = "batch";
+  private batchType: "delete" | "setAccessTier" | undefined;
 
   constructor() {
     this.batchRequest = new InnerBatchRequest();
@@ -100,6 +102,17 @@ export class BlobBatch {
     }
   }
 
+  private setBatchType(batchType: "delete" | "setAccessTier"): void {
+    if (!this.batchType) {
+      this.batchType = batchType;
+    }
+    if (this.batchType !== batchType) {
+      throw new RangeError(
+        `BlobBatch only supports one operation type per batch and it already is being used for ${this.batchType} operations.`
+      );
+    }
+  }
+
   /**
    * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
    * Note that in order to delete a blob, you must delete all of its snapshots.
@@ -111,7 +124,7 @@ export class BlobBatch {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
-   * @memberof BatchDeleteRequest
+   * @memberof BlobBatch
    */
   public async deleteBlob(
     url: string,
@@ -129,7 +142,7 @@ export class BlobBatch {
    * @param {BlobClient} blobClient The BlobClient.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
-   * @memberof BatchDeleteRequest
+   * @memberof BlobBatch
    */
   public async deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
 
@@ -176,6 +189,7 @@ export class BlobBatch {
     );
 
     try {
+      this.setBatchType("delete");
       await this.addSubRequestInternal(
         {
           url: url,
@@ -215,7 +229,7 @@ export class BlobBatch {
    * @param {Models.AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
-   * @memberof BatchSetTierRequest
+   * @memberof BlobBatch
    */
   public async setBlobAccessTier(
     url: string,
@@ -239,7 +253,7 @@ export class BlobBatch {
    * @param {Models.AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
-   * @memberof BatchSetTierRequest
+   * @memberof BlobBatch
    */
   public async setBlobAccessTier(
     blobClient: BlobClient,
@@ -293,6 +307,7 @@ export class BlobBatch {
     );
 
     try {
+      this.setBatchType("setAccessTier");
       await this.addSubRequestInternal(
         {
           url: url,

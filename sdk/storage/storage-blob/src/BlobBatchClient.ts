@@ -77,7 +77,7 @@ export class BlobBatchClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<BlobBatchDeleteBlobsResponse>}
-   * @memberof BatchDeleteRequest
+   * @memberof BlobBatchClient
    */
   public async deleteBlobs(
     urls: string[],
@@ -95,7 +95,7 @@ export class BlobBatchClient {
    * @param {BlobClient[]} blobClients The BlobClients for the blobs to delete.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<BlobBatchDeleteBlobsResponse>}
-   * @memberof BatchDeleteRequest
+   * @memberof BlobBatchClient
    */
   public async deleteBlobs(
     blobClients: BlobClient[],
@@ -139,7 +139,7 @@ export class BlobBatchClient {
    * @param {Models.AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
-   * @memberof BatchSetTierRequest
+   * @memberof BlobBatchClient
    */
   public async setBlobsAccessTier(
     urls: string[],
@@ -163,7 +163,7 @@ export class BlobBatchClient {
    * @param {Models.AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
-   * @memberof BatchSetTierRequest
+   * @memberof BlobBatchClient
    */
   public async setBlobsAccessTier(
     blobClients: BlobClient[],
@@ -207,10 +207,19 @@ export class BlobBatchClient {
    * @example
    * ```js
    * let batchRequest = new BlobBatch();
-   * await batchRequest.deleteBlob(urlInString, credential, {
+   * await batchRequest.deleteBlob(urlInString0, credential0);
+   * await batchRequest.deleteBlob(urlInString1, credential1, {
    *  deleteSnapshots: "include"
    * });
-   * await batchRequest.setBlobAccessTier(blockBlobClient, "Cool", {
+   * const batchResp = await blobBatchClient.submitBatch(batchRequest);
+   * console.log(batchResp.subResponsesSucceededCount);
+   * ```
+   *
+   * @example
+   * ```js
+   * let batchRequest = new BlobBatch();
+   * await batchRequest.setBlobAccessTier(blockBlobClient0, "Cool");
+   * await batchRequest.setBlobAccessTier(blockBlobClient1, "Cool", {
    *  leaseAccessConditions: { leaseId: leaseId }
    * });
    * const batchResp = await blobBatchClient.submitBatch(batchRequest);
@@ -222,7 +231,7 @@ export class BlobBatchClient {
    * @param {BlobBatch} batchRequest A set of Delete or SetTier operations.
    * @param {BlobBatchSubmitBatchOptionalParams} [options]
    * @returns {Promise<BlobBatchSubmitBatchResponse>}
-   * @memberof BlobServiceClient
+   * @memberof BlobBatchClient
    */
   public async submitBatch(
     batchRequest: BlobBatch,

@@ -502,4 +502,23 @@ describe("BlobBatch", () => {
 
     assert.ok(exceptionCaught);
   });
+
+  it("BlobBatch should report error when mixing differnt request types in one batch", async () => {
+    let batchRequest = new BlobBatch();
+
+    let exceptionCaught = false;
+    try {
+      await batchRequest.deleteBlob(blockBlobURLs[0].url, credential);
+      await batchRequest.setBlobAccessTier(blockBlobURLs[0].url, credential, "Cool");
+    } catch (err) {
+      if (
+        err instanceof RangeError &&
+        err.message ==
+          "BlobBatch only supports one operation type per batch and it already is being used for delete operations."
+      ) {
+        exceptionCaught = true;
+      }
+    }
+    assert.ok(exceptionCaught);
+  });
 });

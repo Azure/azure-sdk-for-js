@@ -826,7 +826,7 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Creates a BlobBatchClient object
+   * Creates a BlobBatchClient object.
    *
    * @returns {BlobBatchClient} A new BlobBatchClient object for this service.
    * @memberof BlobServiceClient

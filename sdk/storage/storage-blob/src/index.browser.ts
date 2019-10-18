@@ -13,6 +13,7 @@ export * from "./AppendBlobClient";
 export * from "./BlockBlobClient";
 export * from "./PageBlobClient";
 export * from "./BlobBatch";
+export * from "./BlobBatchClient";
 export * from "./BatchResponse";
 export * from "./BrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
