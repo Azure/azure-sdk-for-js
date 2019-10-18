@@ -1041,8 +1041,8 @@ describe("ServiceClient", function() {
       await client.sendOperationRequest({}, operationSpec);
       assert.fail();
     } catch (ex) {
-      assert.strictEqual(ex.errorCode, "InvalidResourceNameHeader");
-      assert.strictEqual(ex.message, "InvalidResourceNameBody");
+      assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
+      assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
     }
   });
 });
