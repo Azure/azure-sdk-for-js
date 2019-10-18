@@ -147,12 +147,10 @@ describe("PageBlobClient", () => {
 
     const rangesDiff = await pageBlobClient.getPageRangesDiff(0, 1024, snapshotResult.snapshot!);
 
-    assert.equal(rangesDiff.pageRange![0].count, 511);
     assert.equal(rangesDiff.pageRange![0].offset, 0);
-    assert.equal(rangesDiff.pageRange![0].offset + (rangesDiff.pageRange![0].count || 0), 511);
-    assert.equal(rangesDiff.clearRange![0].count, 0);
+    assert.equal(rangesDiff.pageRange![0].count, 511);
     assert.equal(rangesDiff.clearRange![0].offset, 512);
-    assert.equal(rangesDiff.clearRange![0].offset + (rangesDiff.clearRange![0].count || 0), 1023);
+    assert.equal(rangesDiff.clearRange![0].count, 511);
   });
 
   it("updateSequenceNumber", async () => {
