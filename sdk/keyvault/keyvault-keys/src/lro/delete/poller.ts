@@ -53,6 +53,10 @@ export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, Deleted
     return delay(this.intervalInMs);
   }
 
+  /**
+   * This method returns the deleted key. It will throw if the deleted key is missing.
+   * @memberof DeleteKeyPoller
+   */
   getDeletedKey(): DeletedKey {
     if (!this.operation.state.result) {
       if (this.operation.state.error) {

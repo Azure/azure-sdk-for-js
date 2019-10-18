@@ -93,7 +93,6 @@ export class DeleteKeyPoller extends Poller<DeleteKeyPollOperationState, Deleted
     // Warning: (ae-forgotten-export) The symbol "DeleteKeyPollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: DeleteKeyPollerOptions);
     delay(): Promise<void>;
-    // (undocumented)
     getDeletedKey(): DeletedKey;
     intervalInMs: number;
 }
@@ -271,6 +270,7 @@ export class RecoverDeletedKeyPoller extends Poller<RecoverDeletedKeyPollOperati
     // Warning: (ae-forgotten-export) The symbol "RecoverDeletedKeyPollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: RecoverDeletedKeyPollerOptions);
     delay(): Promise<void>;
+    getKey(): Key;
     intervalInMs: number;
 }
 

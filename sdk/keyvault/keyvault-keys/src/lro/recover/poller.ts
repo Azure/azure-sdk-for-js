@@ -55,4 +55,19 @@ export class RecoverDeletedKeyPoller extends Poller<RecoverDeletedKeyPollOperati
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
+
+  /**
+   * This method returns the key. It will throw if the key is missing.
+   * @memberof RecoverDeletedKeyPoller
+   */
+  getKey(): Key {
+    if (!this.operation.state.result) {
+      if (this.operation.state.error) {
+        throw this.operation.state.error;
+      } else {
+        throw new Error("The resource couldn't be retrieved");
+      }
+    }
+    return this.operation.state.result;
+  }
 }
