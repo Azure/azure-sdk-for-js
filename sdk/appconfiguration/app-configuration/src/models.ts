@@ -110,19 +110,24 @@ export interface HttpResponseField<HeadersT> {
 }
 
 /**
- * Options used to provide if-match or if-none-match headers for an HTTP request
+ * Options used to provide if-none-match for an HTTP request
  */
-export interface HttpConditionalFields {
-  /**
-   * Used to perform an operation only if the targeted resource's etag matches the value provided.
-   */
-  onlyIfUnchanged?: boolean;
-
+export interface HttpOnlyIfChangedField {
   /**
    * Used to perform an operation only if the targeted resource's etag does not match the value
    * provided.
    */
   onlyIfChanged?: boolean;
+}
+
+/**
+ * Options used to provide if-match for an HTTP request
+ */
+export interface HttpOnlyIfUnchangedField {
+  /**
+   * Used to perform an operation only if the targeted resource's etag matches the value provided.
+   */
+  onlyIfUnchanged?: boolean;
 }
 
 /**
@@ -171,13 +176,13 @@ export interface DeleteConfigurationSettingResponse
  * Options for deleting a ConfigurationSetting.
  */
 export interface DeleteConfigurationSettingOptions
-  extends HttpConditionalFields,
+  extends HttpOnlyIfUnchangedField,
     RequestOptionsBase {}
 
 /**
  * Options used when saving a ConfigurationSetting.
  */
-export interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {}
+export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {}
 
 /**
  * Response from setting a ConfigurationSetting.
@@ -211,11 +216,9 @@ export interface GetConfigurationSettingResponse
 /**
  * Options for getting a ConfigurationSetting.
  */
-
- // onlyIfChanged
 export interface GetConfigurationSettingOptions
   extends RequestOptionsBase,
-    HttpConditionalFields,
+    HttpOnlyIfChangedField,
     OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
@@ -281,7 +284,7 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 /**
  * Options for clearReadOnly
  */
-export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {}
+export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {}
 
 /**
  * Response when clearing the read-only status from a value
@@ -294,7 +297,7 @@ export interface ClearReadOnlyResponse
 /**
  * Options for setReadOnly
  */
-export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {}
+export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {}
 
 /**
  * Response when setting a value to read-only.

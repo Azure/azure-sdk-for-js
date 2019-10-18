@@ -34,7 +34,7 @@ export class AppConfigurationClient {
     }
 
 // @public
-export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
+export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
 }
 
 // @public
@@ -67,7 +67,7 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 // @public
-export interface DeleteConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
+export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
 }
 
 // @public
@@ -80,7 +80,7 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField {
 }
 
 // @public
-export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields, OptionalFields {
+export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpOnlyIfChangedField, OptionalFields {
     acceptDatetime?: string;
 }
 
@@ -89,8 +89,12 @@ export interface GetConfigurationSettingResponse extends ConfigurationSetting, G
 }
 
 // @public
-export interface HttpConditionalFields {
+export interface HttpOnlyIfChangedField {
     onlyIfChanged?: boolean;
+}
+
+// @public
+export interface HttpOnlyIfUnchangedField {
     onlyIfUnchanged?: boolean;
 }
 
@@ -138,7 +142,7 @@ export interface OptionalFields {
 }
 
 // @public
-export interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
+export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
 }
 
 // @public
@@ -150,7 +154,7 @@ export interface SetConfigurationSettingResponse extends ConfigurationSetting, S
 }
 
 // @public
-export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
+export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
 }
 
 // @public

@@ -4,7 +4,7 @@
 import { ListConfigurationSettingsOptions } from '..';
 import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
-import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpConditionalFields, HttpResponseField, HttpResponseFields } from '../models';
+import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpResponseField, HttpResponseFields, HttpOnlyIfChangedField, HttpOnlyIfUnchangedField } from '../models';
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from '../generated/src/models';
 
 /**
@@ -36,7 +36,7 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * @internal
  * @ignore
  */
-export function checkAndFormatIfAndIfNoneMatch(configurationSetting: ConfigurationSettingId, options: HttpConditionalFields): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
+export function checkAndFormatIfAndIfNoneMatch(configurationSetting: ConfigurationSettingId, options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
     throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
