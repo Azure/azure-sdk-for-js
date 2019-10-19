@@ -2,7 +2,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { TokenCredential } from "@azure/core-http";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyOptions,
+  RequestPolicyFactory
+} from "@azure/core-http";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
 import { HttpHeaders } from "@azure/core-http";
@@ -14,7 +19,9 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
  *
  * @param credential The TokenCredential implementation that can supply the challenge token.
  */
-export function challengeBasedAuthenticationPolicy(credential: TokenCredential): RequestPolicyFactory {
+export function challengeBasedAuthenticationPolicy(
+  credential: TokenCredential
+): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -24,7 +31,7 @@ export function challengeBasedAuthenticationPolicy(credential: TokenCredential):
 }
 
 export class AuthenticationChallenge {
-  constructor(public scopes: string[] | string) { }
+  constructor(public scopes: string[] | string) {}
 }
 
 /**
@@ -71,7 +78,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       let kv = item.split("=");
       if (kv[0].trim() == "resource") {
         // Remove the quotations around the string
-        let resource = kv[1].trim().replace(/['"]+/g, '');
+        let resource = kv[1].trim().replace(/['"]+/g, "");
         return resource;
       }
     }
@@ -82,9 +89,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
    * Applies the Bearer token to the request through the Authorization header.
    * @param webResource
    */
-  public async sendRequest(
-    webResource: WebResource
-  ): Promise<HttpOperationResponse> {
+  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
 
     let originalBody = webResource.body;
@@ -106,7 +111,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
       if (www_authenticate) {
         let resource = this.parseWWWAuthenticate(www_authenticate);
-        let challenge = new AuthenticationChallenge(resource + "/.default")
+        let challenge = new AuthenticationChallenge(resource + "/.default");
 
         if (this.challenge != challenge) {
           this.challenge = challenge;

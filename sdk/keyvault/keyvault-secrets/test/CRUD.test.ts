@@ -55,9 +55,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     const controller = new AbortController();
     const resultPromise = client.setSecret(secretName, secretValue, {
-      requestOptions: {
-        abortSignal: controller.signal
-      }
+      abortSignal: controller.signal
     });
     controller.abort();
     let error;
