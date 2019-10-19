@@ -4,11 +4,10 @@
 
 ```ts
 
-import { HttpClient } from '@azure/core-http';
-import { HttpPipelineLogger } from '@azure/core-http';
 import * as msRest from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
+import { PipelineOptions } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -34,19 +33,6 @@ export interface GetSecretsOptions {
     requestOptions?: msRest.RequestOptionsBase;
 }
 
-// @public
-export interface NewPipelineOptions {
-    // (undocumented)
-    HTTPClient?: HttpClient;
-    // (undocumented)
-    logger?: HttpPipelineLogger;
-    // (undocumented)
-    proxyOptions?: ProxyOptions;
-    // (undocumented)
-    retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
-}
-
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
@@ -57,6 +43,8 @@ export interface ParsedKeyVaultEntityIdentifier {
     vaultUrl: string;
     version?: string;
 }
+
+export { PipelineOptions }
 
 // @public
 export interface ProxyOptions {
@@ -79,11 +67,10 @@ export interface Secret {
 
 // @public
 export class SecretClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
+    constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | PipelineOptions);
     backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
     protected readonly credential: TokenCredential;
     deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
-    static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
     listDeletedSecrets(options?: GetSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;

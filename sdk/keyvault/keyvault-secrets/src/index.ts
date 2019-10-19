@@ -3,23 +3,14 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
-  getDefaultUserAgentValue,
   TokenCredential,
   isTokenCredential,
-  RequestPolicyFactory,
-  deserializationPolicy,
   signingPolicy,
   RequestOptionsBase,
-  exponentialRetryPolicy,
-  redirectPolicy,
-  systemErrorRetryPolicy,
-  generateClientRequestIdPolicy,
-  proxyPolicy,
-  throttlingRetryPolicy,
-  getDefaultProxySettings,
-  isNode,
-  userAgentPolicy,
-  tracingPolicy
+  PipelineOptions,
+  isPipelineOptions,
+  createPipelineFromOptions,
+  ServiceClientOptions as Pipeline,
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
@@ -41,7 +32,7 @@ import {
   RestoreSecretResponse
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
-import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 import {
@@ -54,7 +45,6 @@ import {
   SecretProperties
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
-import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
 import {
   ProxyOptions,
   RetryOptions,
@@ -67,7 +57,7 @@ export {
   DeletionRecoveryLevel,
   GetSecretOptions,
   ListSecretsOptions as GetSecretsOptions,
-  NewPipelineOptions,
+  PipelineOptions,
   PagedAsyncIterableIterator,
   PageSettings,
   ParsedKeyVaultEntityIdentifier,
@@ -87,56 +77,6 @@ const SERVICE_API_VERSION = "7.0";
  * The client to interact with the KeyVault secrets functionality
  */
 export class SecretClient {
-  /**
-   * A static method used to create a new Pipeline object with the provided Credential.
-   * @static
-   * @param {TokenCredential} The credential to use for API requests.
-   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @memberof SecretClient
-   */
-  public static getDefaultPipeline(
-    credential: TokenCredential,
-    pipelineOptions: NewPipelineOptions = {}
-  ): Pipeline {
-    // Order is important. Closer to the API at the top & closer to the network at the bottom.
-    // The credential's policy factory must appear close to the wire so it can sign any
-    // changes made by other factories (like UniqueRequestIDPolicyFactory)
-    const retryOptions = pipelineOptions.retryOptions || {};
-
-    const userAgentString: string = SecretClient.getUserAgentString(pipelineOptions.telemetry);
-
-    let requestPolicyFactories: RequestPolicyFactory[] = [];
-    if (isNode) {
-      requestPolicyFactories.push(
-        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
-      );
-    }
-    requestPolicyFactories = requestPolicyFactories.concat([
-      tracingPolicy(),
-      userAgentPolicy({ value: userAgentString }),
-      generateClientRequestIdPolicy(),
-      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-      throttlingRetryPolicy(),
-      systemErrorRetryPolicy(),
-      exponentialRetryPolicy(
-        retryOptions.retryCount,
-        retryOptions.retryIntervalInMS,
-        RetryConstants.MIN_RETRY_INTERVAL_MS, // Minimum retry interval to prevent frequent retries
-        retryOptions.maxRetryDelayInMs
-      ),
-      redirectPolicy(),
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
-    ]);
-
-    return {
-      httpClient: pipelineOptions.HTTPClient,
-      httpPipelineLogger: pipelineOptions.logger,
-      requestPolicyFactories
-    };
-  }
-
   /**
    * The base URL to the vault
    */
@@ -168,42 +108,40 @@ export class SecretClient {
    * ```
    * @param {string} endPoint the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
-   * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
-   *                                                                 Omitting this parameter to create the default Pipeline instance.
+   * @param {(Pipeline | PipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
+   *                                                              Omitting this parameter to create the default Pipeline instance.
    * @memberof SecretClient
    */
   constructor(
     endPoint: string,
     credential: TokenCredential,
-    pipelineOrOptions: Pipeline | NewPipelineOptions = {}
+    pipelineOrOptions: Pipeline | PipelineOptions = {}
   ) {
     this.vaultEndpoint = endPoint;
     this.credential = credential;
-    if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = SecretClient.getDefaultPipeline(credential, pipelineOrOptions);
+    if (isPipelineOptions(pipelineOrOptions)) {
+      const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
+      if (pipelineOrOptions.userAgentOptions) {
+        pipelineOrOptions.userAgentOptions.userAgentPrefix !== undefined
+          ? `${pipelineOrOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo;
+      } else {
+        pipelineOrOptions.userAgentOptions = {
+          userAgentPrefix: libInfo
+        }
+      }
+
+      const authPolicy =
+        isTokenCredential(credential)
+          ? challengeBasedAuthenticationPolicy(credential)
+          : signingPolicy(credential)
+
+      this.pipeline = createPipelineFromOptions(pipelineOrOptions, authPolicy);
     } else {
       this.pipeline = pipelineOrOptions;
     }
 
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
-  }
-
-  private static getUserAgentString(telemetry?: TelemetryOptions): string {
-    const userAgentInfo: string[] = [];
-    if (telemetry) {
-      if (userAgentInfo.indexOf(telemetry.value) === -1) {
-        userAgentInfo.push(telemetry.value);
-      }
-    }
-    const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
-    if (userAgentInfo.indexOf(libInfo) === -1) {
-      userAgentInfo.push(libInfo);
-    }
-    const defaultUserAgentInfo = getDefaultUserAgentValue();
-    if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
-      userAgentInfo.push(defaultUserAgentInfo);
-    }
-    return userAgentInfo.join(" ");
   }
 
   // TODO: do we want Aborter as well?
