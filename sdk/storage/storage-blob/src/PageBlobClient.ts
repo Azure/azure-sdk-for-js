@@ -126,7 +126,7 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    *
    * @memberof PageBlobUploadPagesOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * An MD5 hash of the content. This hash is used to verify the integrity of the content during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
@@ -610,7 +610,7 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
+        onUploadProgress: options.onProgress,
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
         transactionalContentMD5: options.transactionalContentMD5,

@@ -22,7 +22,7 @@ export interface RetriableReadableStreamOptions {
    *
    * @memberof RetriableReadableStreamOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Debug purpose only. Used to inject an unexpected end to existing internal stream,
@@ -58,7 +58,7 @@ export class RetriableReadableStream extends Readable {
   private source: NodeJS.ReadableStream;
   private retries: number = 0;
   private maxRetryRequests: number;
-  private progress?: (progress: TransferProgressEvent) => void;
+  private onProgress?: (progress: TransferProgressEvent) => void;
   private options: RetriableReadableStreamOptions;
   private abortHandler = () => {
     this.source.pause();
@@ -93,7 +93,7 @@ export class RetriableReadableStream extends Readable {
     this.end = offset + count - 1;
     this.maxRetryRequests =
       options.maxRetryRequests && options.maxRetryRequests >= 0 ? options.maxRetryRequests : 0;
-    this.progress = options.progress;
+    this.onProgress = options.onProgress;
     this.options = options;
 
     aborter.addEventListener("abort", this.abortHandler);
@@ -123,8 +123,8 @@ export class RetriableReadableStream extends Readable {
       //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
       // );
       this.offset += data.length;
-      if (this.progress) {
-        this.progress({ loadedBytes: this.offset - this.start });
+      if (this.onProgress) {
+        this.onProgress({ loadedBytes: this.offset - this.start });
       }
       if (!this.push(data)) {
         this.source.pause();
