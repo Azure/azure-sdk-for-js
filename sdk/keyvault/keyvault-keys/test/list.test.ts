@@ -36,9 +36,9 @@ describe("Keys client - list keys in various ways", () => {
         await testClient.flushKey(key.name);
       } catch (e) {}
     }
-    for await (const deletedKey of client.listDeletedKeys()) {
+    for await (const deletedKeyProperties of client.listPropertiesOfDeletedKeys()) {
       try {
-        await testClient.purgeKey(deletedKey.properties.name);
+        await testClient.purgeKey(deletedKeyProperties.name);
       } catch (e) {}
     }
   });
@@ -168,13 +168,13 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const deletedKey of client.listDeletedKeys()) {
+    for await (const deletedKeyProperties of client.listPropertiesOfDeletedKeys()) {
       // The vault might contain more keys than the ones we inserted.
-      if (!keyNames.includes(deletedKey.properties.name)) continue;
+      if (!keyNames.includes(deletedKeyProperties.name)) continue;
       found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of keys found by listDeletedKeys.");
+    assert.equal(found, 2, "Unexpected number of keys found by listPropertiesOfDeletedKeys.");
 
     for (const name of keyNames) {
       await testClient.purgeKey(name);
@@ -198,15 +198,15 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const page of client.listDeletedKeys().byPage()) {
-      for (const deletedKey of page) {
+    for await (const page of client.listPropertiesOfDeletedKeys().byPage()) {
+      for (const deletedKeyProperties of page) {
         // The vault might contain more keys than the ones we inserted.
-        if (!keyNames.includes(deletedKey.properties.name)) continue;
+        if (!keyNames.includes(deletedKeyProperties.name)) continue;
         found += 1;
       }
     }
 
-    assert.equal(found, 2, "Unexpected number of keys found by listDeletedKeys.");
+    assert.equal(found, 2, "Unexpected number of keys found by listPropertiesOfDeletedKeys.");
 
     for (const name of keyNames) {
       await testClient.purgeKey(name);
