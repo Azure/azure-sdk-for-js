@@ -307,13 +307,13 @@ export interface GetDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
  * An interface representing the options of the purgeDeletedKey method
  */
 export interface PurgeDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
- 
+
 /**
  * @interface
  * An interface representing the options of the recoverDeletedKey method
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
- 
+
 /**
  * @interface
  * An interface representing the options of the backupKey method
@@ -325,7 +325,7 @@ export interface BackupKeyOptions extends coreHttp.RequestOptionsBase {}
  * An interface representing the options of the restoreKeyBackup method
  */
 export interface RestoreKeyBackupOptions extends coreHttp.RequestOptionsBase {}
- 
+
 /**
  * @interface
  * An interface representing the options of the cryptography API methods

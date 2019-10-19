@@ -249,7 +249,10 @@ export class KeyClient {
     return this.getKeyFromKeyBundle(response);
   }
 
-  private async recoverDeletedKey(name: string, options?: RecoverDeletedKeyOptions): Promise<KeyVaultKey> {
+  private async recoverDeletedKey(
+    name: string,
+    options?: RecoverDeletedKeyOptions
+  ): Promise<KeyVaultKey> {
     const requestOptions = (options && options.requestOptions) || {};
     const span = this.createSpan("recoverDeletedKey", requestOptions);
 
@@ -519,7 +522,7 @@ export class KeyClient {
    */
   public async beginDeleteKey(
     name: string,
-		options: KeyPollerOptions = {}
+    options: KeyPollerOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
     const poller = new DeleteKeyPoller({
       name,
@@ -718,7 +721,7 @@ export class KeyClient {
    */
   public async beginRecoverDeletedKey(
     name: string,
-		options: KeyPollerOptions = {}
+    options: KeyPollerOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
     const poller = new RecoverDeletedKeyPoller({
       name,
@@ -810,7 +813,7 @@ export class KeyClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options,
+        ...options
       };
       const currentSetResponse = await this.client.getKeyVersions(
         this.vaultEndpoint,
@@ -898,7 +901,7 @@ export class KeyClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options,
+        ...options
       };
       const currentSetResponse = await this.client.getKeys(this.vaultEndpoint, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -978,7 +981,7 @@ export class KeyClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options,
+        ...options
       };
       const currentSetResponse = await this.client.getDeletedKeys(
         this.vaultEndpoint,
@@ -1003,7 +1006,9 @@ export class KeyClient {
     }
   }
 
-  private async *listPropertiesOfDeletedKeysAll(options?: ListKeysOptions): AsyncIterableIterator<KeyProperties> {
+  private async *listPropertiesOfDeletedKeysAll(
+    options?: ListKeysOptions
+  ): AsyncIterableIterator<KeyProperties> {
     const f = {};
 
     for await (const page of this.listPropertiesOfDeletedKeysPage(f, options)) {
@@ -1049,7 +1054,8 @@ export class KeyClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listPropertiesOfDeletedKeysPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listPropertiesOfDeletedKeysPage(settings, updatedOptions)
     };
   }
 
