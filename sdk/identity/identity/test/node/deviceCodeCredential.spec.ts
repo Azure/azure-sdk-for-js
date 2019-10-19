@@ -52,10 +52,9 @@ describe("DeviceCodeCredential", function() {
     });
 
     const credential = new DeviceCodeCredential(
-      "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     const accessToken = await credential.getToken("scope");
@@ -89,10 +88,9 @@ describe("DeviceCodeCredential", function() {
     });
 
     const credential = new DeviceCodeCredential(
-      "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     await credential.getToken("scope");
@@ -133,10 +131,9 @@ describe("DeviceCodeCredential", function() {
     });
 
     const credential = new DeviceCodeCredential(
-      "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     await credential.getToken("scope");
@@ -166,10 +163,9 @@ describe("DeviceCodeCredential", function() {
     });
 
     const credential = new DeviceCodeCredential(
-      "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -191,10 +187,9 @@ describe("DeviceCodeCredential", function() {
     });
 
     const credential = new DeviceCodeCredential(
-      "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -214,10 +209,9 @@ describe("DeviceCodeCredential", function() {
     });
 
     const credential = new DeviceCodeCredential(
-      "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -245,10 +239,9 @@ describe("DeviceCodeCredential", function() {
     });
 
     const credential = new DeviceCodeCredential(
-      "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -276,10 +269,9 @@ describe("DeviceCodeCredential", function() {
       });
 
       const credential = new DeviceCodeCredential(
-        "tenant",
         "client",
         (details) => assert.equal(details.message, deviceCodeResponse.message),
-        mockHttpClient.identityClientOptions
+        { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
       );
 
       const abortController = new AbortController();
@@ -314,10 +306,9 @@ describe("DeviceCodeCredential", function() {
     const rootSpan = tracer.startSpan("root");
 
     const credential = new DeviceCodeCredential(
-      "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, tenantId: "tenant" }
     );
 
     await credential.getToken("scope", {
