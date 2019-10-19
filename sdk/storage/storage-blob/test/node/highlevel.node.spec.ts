@@ -239,6 +239,20 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
+  it("downloadToBuffer should success - without passing the buffer", async () => {
+    const rs = fs.createReadStream(tempFileLarge);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+
+    const buf = await blockBlobClient.downloadToBuffer(0, undefined, {
+      blockSize: 4 * 1024 * 1024,
+      maxRetryRequestsPerBlock: 5,
+      concurrency: 20
+    });
+
+    const localFileContent = fs.readFileSync(tempFileLarge);
+    assert.ok(localFileContent.equals(buf));
+  });
+
   it("downloadToBuffer should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
