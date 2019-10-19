@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msRest from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   JsonWebKey,
@@ -10,6 +10,17 @@ import {
   JsonWebKeyType
 } from "./core/models";
 import { DeletionRecoveryLevel } from "./core/models";
+
+/**
+ * @interface
+ * An interface representing the key client. For internal use.
+ */
+export interface KeyClientInterface {
+  recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
+  getKey(name: string, options?: GetKeyOptions): Promise<Key>;
+  deleteKey(name: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedKey>;
+  getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
+}
 
 /**
  * @interface
@@ -92,25 +103,34 @@ export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
  * @interface
  * An interface representing a deleted key
  */
-export interface DeletedKey extends Key {
+export interface DeletedKey {
   /**
-   * @member {string} [recoveryId] The url of the recovery object, used to
-   * identify and recover the deleted key.
+   * @member {string} [value] The key value.
    */
-  readonly recoveryId?: string;
+  keyMaterial?: JsonWebKey;
   /**
-   * @member {Date} [scheduledPurgeDate] The time when the key is scheduled
-   * to be purged, in UTC
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {KeyProperties} [properties] The properties of the key.
    */
-  readonly scheduledPurgeDate?: Date;
-  /**
-   * @member {Date} [deletedDate] The time when the key was deleted, in UTC
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly deletedDate?: Date;
+  properties: KeyProperties & {
+    /**
+     * @member {string} [recoveryId] The url of the recovery object, used to
+     * identify and recover the deleted key.
+     */
+    readonly recoveryId?: string;
+    /**
+     * @member {Date} [scheduledPurgeDate] The time when the key is scheduled
+     * to be purged, in UTC
+     * **NOTE: This property will not be serialized. It can only be populated by
+     * the server.**
+     */
+    readonly scheduledPurgeDate?: Date;
+    /**
+     * @member {Date} [deletedDate] The time when the key was deleted, in UTC
+     * **NOTE: This property will not be serialized. It can only be populated by
+     * the server.**
+     */
+    readonly deletedDate?: Date;
+  };
 }
 
 /**
@@ -141,10 +161,30 @@ export interface CreateKeyOptions {
    */
   expires?: Date;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
   keySize?: number;
+}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to beginDeleteKey
+ */
+export interface KeyPollerOptions {
+  /**
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
+   */
+  requestOptions?: coreHttp.RequestOptionsBase;
+  /**
+   * @member {number} [intervalInMs] Time between each polling
+   */
+  intervalInMs?: number;
+  /**
+   * @member {string} [resumeFrom] A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
 }
 
 /**
@@ -213,9 +253,9 @@ export interface ImportKeyOptions {
    */
   expires?: Date;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -246,9 +286,9 @@ export interface UpdateKeyOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -262,9 +302,9 @@ export interface GetKeyOptions {
    */
   version?: string;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -273,9 +313,9 @@ export interface GetKeyOptions {
  */
 export interface ListKeysOptions {
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -284,7 +324,7 @@ export interface ListKeysOptions {
  */
 export interface RequestOptions {
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }

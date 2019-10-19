@@ -46,9 +46,9 @@ async function main() {
   const updatedKey = await client.updateKey(keyName, result.properties.version, { enabled: false });
   console.log("updated key: ", updatedKey);
 
-  await client.deleteKey(keyName);
-  await client.deleteKey(ecKeyName);
-  await client.deleteKey(rsaKeyName);
+  await client.beginDeleteKey(keyName);
+  await client.beginDeleteKey(ecKeyName);
+  await client.beginDeleteKey(rsaKeyName);
 }
 
 main().catch((err) => {
