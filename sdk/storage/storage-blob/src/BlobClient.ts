@@ -1454,6 +1454,24 @@ export class BlobClient extends StorageClient {
    * Offset and count are optional, pass 0 for both to download the entire blob.
    *
    * @export
+   * @param {number} offset From which position of the block blob to download(in bytes)
+   * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
+   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
+   * @returns {Promise<Buffer>}
+   */
+  public async downloadToBuffer(
+    offset?: number,
+    count?: number,
+    options?: BlobDownloadToBufferOptions
+  ): Promise<Buffer>;
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob in parallel to a buffer.
+   * Offset and count are optional, pass 0 for both to download the entire blob.
+   *
+   * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
@@ -1462,13 +1480,50 @@ export class BlobClient extends StorageClient {
    */
   public async downloadToBuffer(
     buffer: Buffer,
-    offset: number,
+    offset?: number,
     count?: number,
-    options: BlobDownloadToBufferOptions = {}
-  ): Promise<Buffer> {
+    options?: BlobDownloadToBufferOptions
+  ): Promise<Buffer>;
+
+  public async downloadToBuffer(
+    param1: Buffer | number = 0,
+    param2: number = 0,
+    param3: BlobDownloadToBufferOptions | number = 0,
+    param4: BlobDownloadToBufferOptions = {}
+  ) {
+    let buffer: Buffer;
+    let offset: number;
+    let count: number;
+    let options = param1 instanceof Buffer ? param4 : (param3 as BlobDownloadToBufferOptions);
     const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
     try {
+      if (param1 instanceof Buffer) {
+        buffer = param1;
+        offset = param2;
+        count = param3 as number;
+      } else {
+        offset = param1;
+        count = param2 as number;
+        try {
+          buffer = Buffer.alloc(
+            count > 0
+              ? count
+              : (await this.getProperties({
+                  ...options,
+                  spanOptions
+                })).contentLength! - offset
+          );
+        } catch (error) {
+          throw new Error(
+            `Unable to allocate the buffer of size = count or (blobContentLength - offset) (in bytes). 
+            Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile"` +
+              +"\n" +
+              error.message
+          );
+        }
+      }
+
       if (!options.blockSize) {
         options.blockSize = 0;
       }
