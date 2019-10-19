@@ -112,7 +112,7 @@ export interface IdentityClientOptions extends ServiceClientOptions {
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions);
+    constructor(options?: InteractiveBrowserCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
@@ -127,9 +127,14 @@ export interface InteractiveBrowserCredentialOptions extends IdentityClientOptio
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
-    constructor(clientId?: string, options?: IdentityClientOptions);
+    constructor(options?: ManagedIdentityCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface ManagedIdentityCredentialOptions extends IdentityClientOptions {
+    clientId?: string;
+}
 
 export { TokenCredential }
 

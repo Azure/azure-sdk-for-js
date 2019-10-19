@@ -13,6 +13,7 @@ import { IdentityClientOptions, IdentityClient } from "../client/identityClient"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
+import { ManagedIdentityCredentialOptions } from './managedIdentityCredentialOptions';
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -33,9 +34,9 @@ export class ManagedIdentityCredential implements TokenCredential {
   private clientId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
 
-  constructor(clientId?: string, options?: IdentityClientOptions) {
+  constructor(options?: ManagedIdentityCredentialOptions) {
+    this.clientId = (options && options.clientId);
     this.identityClient = new IdentityClient(options);
-    this.clientId = clientId;
   }
 
   private mapScopesToResource(scopes: string | string[]): string {

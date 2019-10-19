@@ -5,9 +5,10 @@ import qs from "qs";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClientOptions, IdentityClient, TokenResponse } from "../client/identityClient";
+import { IdentityClient, TokenResponse } from "../client/identityClient";
 import { CanonicalCode } from "@azure/core-tracing";
 import { DefaultTenantId } from '../constants';
+import { AuthorizationCodeCredentialOptions } from '..';
 
 /**
  * Enables authentication to Azure Active Directory using an authorization code
@@ -190,16 +191,4 @@ export class AuthorizationCodeCredential implements TokenCredential {
       span.end();
     }
   }
-}
-
-/**
- * Provides options to configure how the Identity library makes authentication
- * requests to Azure Active Directory as well as options specific to this credential
- * type.
- */
-export interface AuthorizationCodeCredentialOptions extends IdentityClientOptions {
-  /**
-   * The Azure Active Directory tenant (directory) ID or name.
-   */ 
-  tenantId?: string;
 }

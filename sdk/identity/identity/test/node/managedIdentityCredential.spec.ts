@@ -102,8 +102,7 @@ describe("ManagedIdentityCredential", function() {
   it("doesn't try IMDS endpoint again once it can't be detected", async function() {
     const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
     const credential = new ManagedIdentityCredential(
-      "client",
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, clientId: "client" }
     );
 
     // Run getToken twice and verify that an auth request is only
@@ -184,8 +183,7 @@ describe("ManagedIdentityCredential", function() {
   ): Promise<AuthRequestDetails> {
     const mockHttpClient = new MockAuthHttpClient(mockAuthOptions);
     const credential = new ManagedIdentityCredential(
-      clientId,
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, clientId: clientId }
     );
 
     const token = await credential.getToken(scopes, { timeout });

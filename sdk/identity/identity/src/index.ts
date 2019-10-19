@@ -15,6 +15,7 @@ export {
   BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
+export { ManagedIdentityCredentialOptions } from "./credentials/managedIdentityCredentialOptions";
 export {
   DeviceCodeCredential,
   DeviceCodePromptCallback,
@@ -22,7 +23,8 @@ export {
 } from "./credentials/deviceCodeCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
-export { AuthorizationCodeCredential, AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredential";
+export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
+export { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions";
 export {
   AuthenticationError,
   ErrorResponse,
