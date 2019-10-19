@@ -70,9 +70,14 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
 // @public
 export class DeviceCodeCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, userPromptCallback: DeviceCodePromptCallback, options?: IdentityClientOptions);
+    constructor(clientId: string, userPromptCallback: DeviceCodePromptCallback, options?: DeviceCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface DeviceCodeCredentialOptions extends IdentityClientOptions {
+    tenantId: string;
+}
 
 // @public
 export interface DeviceCodeDetails {
