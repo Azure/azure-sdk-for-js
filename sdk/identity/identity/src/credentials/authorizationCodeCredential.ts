@@ -79,7 +79,11 @@ export class AuthorizationCodeCredential implements TokenCredential {
     authorizationCode: string,
     redirectUri: string,
     options?: AuthorizationCodeCredentialOptions
-  );   
+  ); 
+  /**
+   * @ignore
+   * @internal
+   */
   constructor(
     clientId: string,
     clientSecretOrAuthorizationCode: string,

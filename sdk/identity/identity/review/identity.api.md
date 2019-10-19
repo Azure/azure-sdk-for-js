@@ -32,9 +32,15 @@ export const AuthenticationErrorName = "AuthenticationError";
 
 // @public
 export class AuthorizationCodeCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, clientSecret: string | undefined, authorizationCode: string, redirectUri: string, options?: IdentityClientOptions);
+    constructor(clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
+    constructor(clientId: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface AuthorizationCodeCredentialOptions extends IdentityClientOptions {
+    tenantId?: string;
+}
 
 // @public
 export type BrowserLoginStyle = "redirect" | "popup";

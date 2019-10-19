@@ -22,7 +22,7 @@ export {
 } from "./credentials/deviceCodeCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
-export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
+export { AuthorizationCodeCredential, AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredential";
 export {
   AuthenticationError,
   ErrorResponse,
