@@ -8,6 +8,7 @@ import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
 import { CanonicalCode } from "@azure/core-tracing";
+import { logger } from '../util/logging';
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -113,6 +114,8 @@ export class DeviceCodeCredential implements TokenCredential {
         spanOptions: newOptions.spanOptions
       });
 
+      logger.info("DeviceCodeCredential: sending devicecode request");
+
       const response = await this.identityClient.sendRequest(webResource);
       if (!(response.status === 200 || response.status === 201)) {
         throw new AuthenticationError(response.status, response.bodyAsText);
@@ -124,6 +127,13 @@ export class DeviceCodeCredential implements TokenCredential {
         err.name === AuthenticationErrorName
           ? CanonicalCode.UNAUTHENTICATED
           : CanonicalCode.UNKNOWN;
+      
+      if (err.name === AuthenticationErrorName) {
+        logger.warning(`DeviceCodeCredential: failed to authenticate ${(err as AuthenticationError).errorResponse.error_description}`);
+      } else {
+        logger.warning(`DeviceCodeCredential: failed to authenticate ${err}`);
+      }
+      
       span.setStatus({
         code,
         message: err.message
