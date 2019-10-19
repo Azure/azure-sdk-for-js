@@ -36,7 +36,7 @@ describe("IdentityClient", function () {
     };
   });
 
-  this.afterEach(() => {
+  afterEach(() => {
     AzureLogger.log = oldLogger;
     setLogLevel(oldLogLevel);
   });
