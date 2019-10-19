@@ -8,7 +8,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { IdentityClient, TokenResponse } from "../client/identityClient";
 import { CanonicalCode } from "@azure/core-tracing";
 import { DefaultTenantId } from '../constants';
-import { AuthorizationCodeCredentialOptions } from '..';
+import { AuthorizationCodeCredentialOptions } from '../credentials/authorizationCodeCredentialOptions';
 
 /**
  * Enables authentication to Azure Active Directory using an authorization code
@@ -39,9 +39,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts
    *
    * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param clientSecret A client secret that was generated for the App Registration or
-                         'undefined' if using this credential in a desktop or mobile
-                         application.
+   * @param clientSecret A client secret that was generated for the App Registration
    * @param authorizationCode An authorization code that was received from following the
                               authorization code flow.  This authorization code must not
                               have already been used to obtain an access token.

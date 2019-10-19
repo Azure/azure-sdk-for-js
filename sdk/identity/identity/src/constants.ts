@@ -17,3 +17,10 @@ export const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
  * @ignore
  */
 export const DefaultTenantId = "common";
+
+/**
+ * The default tenant for device code credentials
+ * @internal
+ * @ignore
+ */
+export const DefaultDeviceCodeTenantId = "organizations";

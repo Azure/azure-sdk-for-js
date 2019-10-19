@@ -8,9 +8,9 @@ import { IdentityClientOptions } from '../client/identityClient';
  * requests to Azure Active Directory as well as options specific to this credential
  * type.
  */
-export interface AuthorizationCodeCredentialOptions extends IdentityClientOptions {
+export interface DeviceCodeCredentialOptions extends IdentityClientOptions {
   /**
    * The Azure Active Directory tenant (directory) ID or name.
    */ 
-  tenantId?: string;
+  tenantId: string;
 }
