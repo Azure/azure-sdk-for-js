@@ -8,7 +8,6 @@
 // NOTE: replace with import { AppConfigurationClient } from "@azure/app-configuration"
 // in a standalone project
 import { AppConfigurationClient } from "../src";
-import { assertEqualSettings } from '../test/testHelpers';
 
 export async function run() {
   console.log("Running get setting only if changed sample");
