@@ -131,6 +131,9 @@ export interface InteractiveBrowserCredentialOptions extends IdentityClientOptio
 }
 
 // @public
+export const logger: import("@azure/logger").AzureLogger;
+
+// @public
 export class ManagedIdentityCredential implements TokenCredential {
     constructor(options?: ManagedIdentityCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;

@@ -99,7 +99,7 @@ export interface BlobDownloadOptions extends CommonOptions {
    *
    * @memberof BlobDownloadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
@@ -664,7 +664,7 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    *
    * @memberof BlobDownloadToBufferOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Access conditions headers.
@@ -938,7 +938,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
         modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-        onDownloadProgress: isNode ? undefined : options.progress,
+        onDownloadProgress: isNode ? undefined : options.onProgress,
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
@@ -1010,7 +1010,7 @@ export class BlobClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequests,
-          progress: options.progress
+          onProgress: options.onProgress
         }
       );
     } catch (e) {
@@ -1532,8 +1532,8 @@ export class BlobClient extends StorageClient {
           // Could provide finer grained progress updating inside HTTP requests,
           // only if convenience layer download try is enabled
           transferProgress += chunkEnd - off;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         });
       }

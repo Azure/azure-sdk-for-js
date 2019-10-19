@@ -10,7 +10,8 @@ import {
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@azure/core-tracing";
-import { DefaultTenantId, DeveloperSignOnClientId } from '../constants';
+import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
+import { logger } from "../util/logging";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -49,7 +50,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     this.msalConfig = {
       auth: {
-        clientId: options.clientId!,    // we just initialized it above
+        clientId: options.clientId!, // we just initialized it above
         authority: `${options.authorityHost}/${options.tenantId}`,
         ...(options.redirectUri && { redirectUri: options.redirectUri }),
         ...(options.postLogoutRedirectUri && { redirectUri: options.postLogoutRedirectUri })
@@ -82,6 +83,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<msal.AuthResponse | undefined> {
     let authResponse: msal.AuthResponse | undefined;
     try {
+      logger.info("InteractiveBrowserCredential: attempting to acquire token silently");
       authResponse = await this.msalObject.acquireTokenSilent(authParams);
     } catch (err) {
       if (err instanceof msal.AuthError) {
@@ -89,8 +91,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
           case "consent_required":
           case "interaction_required":
           case "login_required":
+            logger.warning(
+              `InteractiveBrowserCredential: authentication returned errorCode ${err.errorCode}`
+            );
             break;
           default:
+            logger.warning(`InteractiveBrowserCredential: failed to acquire token: ${err}`);
             throw err;
         }
       }
@@ -98,6 +104,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     let authPromise: Promise<msal.AuthResponse> | undefined;
     if (authResponse === undefined) {
+      logger.warning(
+        `InteractiveBrowserCredential: silent authentication failed, falling back to interactive method ${this.loginStyle}`
+      );
       switch (this.loginStyle) {
         case "redirect":
           authPromise = new Promise((resolve, reject) => {

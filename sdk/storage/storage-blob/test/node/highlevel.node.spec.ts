@@ -149,7 +149,7 @@ describe("Highlevel", () => {
         abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
-        progress: (ev) => {
+        onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -168,7 +168,7 @@ describe("Highlevel", () => {
         abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
-        progress: (ev) => {
+        onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -231,7 +231,7 @@ describe("Highlevel", () => {
     let eventTriggered = false;
 
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
-      progress: (ev) => {
+      onProgress: (ev) => {
         assert.ok(ev.loadedBytes);
         eventTriggered = true;
       }
@@ -318,7 +318,7 @@ describe("Highlevel", () => {
         blockSize: 1 * 1024,
         maxRetryRequestsPerBlock: 5,
         concurrency: 1,
-        progress: () => {
+        onProgress: () => {
           eventTriggered = true;
           aborter.abort();
         }
@@ -341,7 +341,7 @@ describe("Highlevel", () => {
         }
       },
       maxRetryRequests: 1,
-      progress: (ev) => {
+      onProgress: (ev) => {
         if (ev.loadedBytes >= tempFileSmallLength) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -375,7 +375,7 @@ describe("Highlevel", () => {
         }
       },
       maxRetryRequests: 3,
-      progress: () => {
+      onProgress: () => {
         if (injectedErrors++ < 3) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -411,7 +411,7 @@ describe("Highlevel", () => {
         }
       },
       maxRetryRequests: 3,
-      progress: () => {
+      onProgress: () => {
         if (injectedErrors++ < 3) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -450,7 +450,7 @@ describe("Highlevel", () => {
           }
         },
         maxRetryRequests: 0,
-        progress: () => {
+        onProgress: () => {
           if (injectedErrors++ < 1) {
             retirableReadableStreamOptions.doInjectErrorOnce = true;
           }
@@ -488,7 +488,7 @@ describe("Highlevel", () => {
           }
         },
         maxRetryRequests: 3,
-        progress: () => {
+        onProgress: () => {
           if (injectedErrors++ < 2) {
             // Triger 2 times of retry
             retirableReadableStreamOptions.doInjectErrorOnce = true;
