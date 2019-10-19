@@ -19,7 +19,7 @@ import {
   deserializationPolicy,
   DeserializationContentTypes
 } from "./policies/deserializationPolicy";
-import { exponentialRetryPolicy, DefaultRetryOptions, RetryOptions } from "./policies/exponentialRetryPolicy";
+import { exponentialRetryPolicy, DefaultRetryOptions } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import {
   userAgentPolicy,
@@ -27,7 +27,7 @@ import {
   getDefaultUserAgentValue,
   DefaultUserAgentOptions
 } from "./policies/userAgentPolicy";
-import { redirectPolicy, DefaultRedirectOptions, RedirectOptions } from "./policies/redirectPolicy";
+import { redirectPolicy, DefaultRedirectOptions } from "./policies/redirectPolicy";
 import {
   RequestPolicy,
   RequestPolicyFactory,
@@ -50,7 +50,7 @@ import { ServiceClientCredentials } from "./credentials/serviceClientCredentials
 import { signingPolicy } from "./policies/signingPolicy";
 import { logger } from "./log";
 import { PipelineOptions } from './pipelineOptions';
-import { KeepAliveOptions, DefaultKeepAliveOptions, keepAlivePolicy } from './policies/keepAlivePolicy';
+import { DefaultKeepAliveOptions, keepAlivePolicy } from './policies/keepAlivePolicy';
 import { tracingPolicy } from './policies/tracingPolicy';
 
 /**
