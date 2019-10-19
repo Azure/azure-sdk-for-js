@@ -359,7 +359,7 @@ describe("FileClient", () => {
     await fileClient.create(10);
     let progressUpdated = false;
     await fileClient.uploadRange("HelloWorld", 0, 10, {
-      progress: () => {
+      onProgress: () => {
         progressUpdated = true;
       }
     });
@@ -429,7 +429,7 @@ describe("FileClient", () => {
       const aborter = new AbortController();
       const result = await fileClient.download(0, undefined, {
         abortSignal: aborter.signal,
-        progress: () => {
+        onProgress: () => {
           eventTriggered = true;
           aborter.abort();
         }
