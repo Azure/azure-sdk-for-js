@@ -12,7 +12,7 @@ import {
   createDelayController,
   DelayController
 } from "../authTestUtils";
-import { AuthenticationError, ErrorResponse, OAuthErrorResponse } from "../../src/client/errors";
+import { AuthenticationError, OAuthErrorResponse } from "../../src/client/errors";
 import {
   DeviceCodeCredential,
   DeviceCodeResponse
@@ -161,7 +161,7 @@ describe("DeviceCodeCredential", function() {
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 400, parsedBody: <OAuthErrorResponse>{ error: "authorization_declined", error_description: "", correlation_id: "correlation_id", trace_id: "trace_id", error_codes: [ 1, 2, 3], timestamp: "timestamp" } }
+        { status: 400, parsedBody: { error: "authorization_declined", error_description: "", correlation_id: "correlation_id", trace_id: "trace_id", error_codes: [ 1, 2, 3], timestamp: "timestamp" } as OAuthErrorResponse }
       ]
     });
 
