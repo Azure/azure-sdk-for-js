@@ -158,7 +158,7 @@ export interface FileDownloadOptions extends CommonOptions {
    *
    * @memberof FileDownloadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 /**
@@ -194,7 +194,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
    *
    * @memberof FileUploadRangeOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 /**
@@ -511,7 +511,7 @@ export interface FileUploadStreamOptions extends CommonOptions {
    *
    * @memberof FileUploadStreamOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 /**
@@ -543,7 +543,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
    *
    * @memberof FileParallelUploadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * File HTTP Headers.
@@ -620,7 +620,7 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    *
    * @memberof FileDownloadToBufferOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Concurrency indicates the maximum number of ranges to download in parallel.
@@ -796,7 +796,7 @@ export class FileClient extends StorageClient {
       const downloadFullFile = offset === 0 && !count;
       const res = await this.context.download({
         abortSignal: options.abortSignal,
-        onDownloadProgress: !isNode ? options.progress : undefined,
+        onDownloadProgress: !isNode ? options.onProgress : undefined,
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         spanOptions
@@ -849,7 +849,7 @@ export class FileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequests,
-          progress: options.progress
+          onProgress: options.onProgress
         }
       );
     } catch (e) {
@@ -1134,7 +1134,7 @@ export class FileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
-          onUploadProgress: options.progress,
+          onUploadProgress: options.onProgress,
           optionalbody: body,
           spanOptions
         }
@@ -1441,8 +1441,8 @@ export class FileClient extends StorageClient {
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress({ loadedBytes: transferProgress });
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
             }
           }
         );
@@ -1469,7 +1469,10 @@ export class FileClient extends StorageClient {
    * @param {FileParallelUploadOptions} [options]
    * @returns {(Promise<void>)}
    */
-  public async uploadFile(filePath: string, options: FileParallelUploadOptions = {}): Promise<void> {
+  public async uploadFile(
+    filePath: string,
+    options: FileParallelUploadOptions = {}
+  ): Promise<void> {
     const { span, spanOptions } = createSpan("FileClient-uploadFile", options.spanOptions);
     try {
       const size = (await fsStat(filePath)).size;
@@ -1566,8 +1569,8 @@ export class FileClient extends StorageClient {
             );
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress({ loadedBytes: transferProgress });
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
             }
           }
         );
@@ -1666,8 +1669,8 @@ export class FileClient extends StorageClient {
           // Could provide finer grained progress updating inside HTTP requests,
           // only if convenience layer download try is enabled
           transferProgress += chunkEnd - off;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         });
       }
@@ -1754,8 +1757,8 @@ export class FileClient extends StorageClient {
 
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += buffer.length;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         },
         // Concurrency should set a smaller value than maxBuffers, which is helpful to

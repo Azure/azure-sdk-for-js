@@ -198,7 +198,17 @@ export function deserializeResponseBody(
                     valueToDeserialize,
                     "error.body"
                   );
+                  // Setting the parsedBody on response to enable flattening as per operationSpec
+                  error.response!.parsedBody = error.body;
                 }
+              }
+
+              if (parsedResponse.headers && defaultResponseSpec.headersMapper) {
+                error.response!.parsedHeaders = operationSpec.serializer.deserialize(
+                  defaultResponseSpec.headersMapper,
+                  parsedResponse.headers.rawHeaders(),
+                  "operationRes.parsedHeaders"
+                );
               }
             } catch (defaultError) {
               error.message = `Error \"${defaultError.message}\" occurred in deserializing the responseBody - \"${parsedResponse.bodyAsText}\" for the default response.`;

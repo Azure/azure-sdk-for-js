@@ -55,6 +55,10 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
         this.reject = reject;
       }
     );
+    // This prevents the UnhandledPromiseRejectionWarning in node.js from being thrown.
+    // The above warning would get thrown if `poller.poll` is called, it returns an error,
+    // and pullUntilDone did not have a .catch or await try/catch on it's return value.
+    this.promise.catch(() => {});
   }
 
   protected abstract async delay(): Promise<void>;
@@ -163,11 +167,6 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
   }
 
   public getResult(): TResult | undefined {
-    if (!this.isDone()) {
-      throw new Error(
-        "The poller hasn't finished. You can call and wait for the method pollUntilDone() to finish, or manually check until the method isDone() returns true."
-      );
-    }
     const state = this.getOperationState();
     return state.result;
   }

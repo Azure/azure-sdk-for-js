@@ -1,0 +1,875 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:50 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "fa23ee0e-e12b-44e5-b09f-bc4c6fe0cdc3",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:52:50 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "b7a994e2-d58e-4dad-b56d-f9f5601b0000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - SCUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"value\":\"value\"}",
+   "status": 200,
+   "response": "{\"value\":\"value\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canresumefromastoppedpoller-/0814c8f9db43413291f01b70ce91b379\",\"attributes\":{\"enabled\":true,\"created\":1571266370,\"updated\":1571266370,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "278",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:50 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "a5b4ff61-85a4-4241-9443-b88a29de7789",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:50 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "08840457-0dfe-4b9f-a780-50655d980eed",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:52:50 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "3e3ecf00-e6a3-427b-9f20-e6cceeb00200",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - EUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-\",\"deletedDate\":1571266371,\"scheduledPurgeDate\":1579042371,\"id\":\"https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canresumefromastoppedpoller-/0814c8f9db43413291f01b70ce91b379\",\"attributes\":{\"enabled\":true,\"created\":1571266370,\"updated\":1571266370,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "450",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:50 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "2fdb6486-e17b-469d-8f50-fe5fd8847fb3",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:50 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "8932c585-8e47-4478-920f-68c9ecc9213a",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:52:50 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "a18fbca7-ba32-4c6a-a2c2-116b2cf62b00",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - WUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: recoverSecretName-canresumefromastoppedpoller-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "138",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:51 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "ecd3b7db-6d98-47ac-b303-6569860437dd",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:51 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "563d2cbd-0f42-4553-a30b-50aab92cff0a",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:51 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "fc16f7f3-9bf6-48ec-9f49-2ff088d5cdaf",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:52:51 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "6c6f5df7-9bff-4eca-b733-9ba1ba792700",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - WUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: recoverSecretName-canresumefromastoppedpoller-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "138",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:51 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "7319914b-5d8b-4769-9480-8d8def723ce9",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:52:51 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "6c6f5df7-9bff-4eca-b733-9ba1bd792700",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - WUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: recoverSecretName-canresumefromastoppedpoller-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "138",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:51 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "043640a5-3e6e-41c7-a9f3-4b7a9516e71f",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:51 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "8e1c7fe4-36ea-41e6-8368-1f1d9b5aa07a",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:52:52 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "4e00d832-1621-47b6-a742-81dae11d2600",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - WUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: recoverSecretName-canresumefromastoppedpoller-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "138",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:52 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "303944ad-4d1d-472e-9d1c-d1f5f72c761c",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:57 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "8e365de4-02d2-48ac-bb3d-96b34a25a247",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:52:57 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "8e1435f1-5925-459b-a300-ea87da5b0000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - SCUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: recoverSecretName-canresumefromastoppedpoller-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "138",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:52:57 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "72f7a7fd-9323-4b30-9858-6becba41633f",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:53:02 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "414b4432-d61f-4f03-b23d-510461050561",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:53:02 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "b7a994e2-d58e-4dad-b56d-f9f5a71c0000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - SCUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: recoverSecretName-canresumefromastoppedpoller-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "138",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:53:02 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "c3de5d8f-970c-4087-98e2-8e73590cdbd6",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:53:07 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "cab0d951-aeee-4c84-a803-f07818c5b055",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:53:08 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "f4f80c50-05ed-44d4-ad87-eb8506152700",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - WUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: recoverSecretName-canresumefromastoppedpoller-\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "404",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "138",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:53:08 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "4a083da6-c6d6-434f-a834-7b24efc50336",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:53:13 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "4cb21feb-9af1-40af-9d7e-8838d3212c4f",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:53:13 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "4e00d832-1621-47b6-a742-81da06202600",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - WUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-\",\"deletedDate\":1571266371,\"scheduledPurgeDate\":1579042371,\"id\":\"https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canresumefromastoppedpoller-/0814c8f9db43413291f01b70ce91b379\",\"attributes\":{\"enabled\":true,\"created\":1571266370,\"updated\":1571266370,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "450",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:53:13 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "5e3ddcf1-c845-4de6-8b62-c181535a5982",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 16 Oct 2019 22:53:13 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "324c7fb7-306d-4dd5-a401-6becbbcebc56",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 16 Oct 2019 22:53:13 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "6c6f5df7-9bff-4eca-b733-9ba1467c2700",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.13 - WUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/recoverSecretName-canresumefromastoppedpoller-",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=13.72.67.186;act_addr_fam=InterNetwork;",
+    "server": "Microsoft-IIS/10.0",
+    "x-aspnet-version": "4.0.30319",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "x-powered-by": "ASP.NET",
+    "status": "204",
+    "x-ms-request-id": "7e8c3849-8af8-408f-8fc3-4a912b83faba",
+    "x-ms-keyvault-region": "westus",
+    "date": "Wed, 16 Oct 2019 22:53:13 GMT",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ }
+}

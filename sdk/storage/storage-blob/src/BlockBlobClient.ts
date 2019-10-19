@@ -89,7 +89,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    *
    * @memberof BlockBlobUploadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Customer Provided Key Info.
    *
@@ -135,7 +135,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    *
    * @memberof BlockBlobStageBlockOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
@@ -356,7 +356,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    *
    * @memberof BlockBlobUploadStreamOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 /**
  * Option interface for BlockBlobClient.uploadFile() and BlockBlobClient.uploadSeekableStream().
@@ -398,7 +398,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    *
    * @memberof BlockBlobParallelUploadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Blob HTTP Headers.
@@ -668,7 +668,7 @@ export class BlockBlobClient extends BlobClient {
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         metadata: options.metadata,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
+        onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
         spanOptions
@@ -708,7 +708,7 @@ export class BlockBlobClient extends BlobClient {
       return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
-        onUploadProgress: options.progress,
+        onUploadProgress: options.onProgress,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -1013,8 +1013,8 @@ export class BlockBlobClient extends BlobClient {
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress!({
+            if (options.onProgress) {
+              options.onProgress!({
                 loadedBytes: transferProgress
               });
             }
@@ -1130,8 +1130,8 @@ export class BlockBlobClient extends BlobClient {
 
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += buffer.length;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         },
         // concurrency should set a smaller value than maxBuffers, which is helpful to
@@ -1259,8 +1259,8 @@ export class BlockBlobClient extends BlobClient {
             );
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress({ loadedBytes: transferProgress });
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
             }
           }
         );

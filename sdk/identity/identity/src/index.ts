@@ -32,6 +32,7 @@ export {
 } from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+export { logger } from "./util/logging";
 
 /**
  * Returns a new instance of the {@link DefaultAzureCredential}.

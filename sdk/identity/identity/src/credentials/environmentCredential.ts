@@ -7,6 +7,7 @@ import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
+import { logger } from '../util/logging';
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -36,6 +37,7 @@ export class EnvironmentCredential implements TokenCredential {
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
     if (tenantId && clientId && clientSecret) {
+      logger.info(`EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}`);
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options);
     }
   }
