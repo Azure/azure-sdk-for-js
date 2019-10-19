@@ -8,23 +8,17 @@ export interface Metadata {
   [propertyName: string]: string;
 }
 
-export interface ContainerAccessConditions {
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
-  leaseAccessConditions?: Models.LeaseAccessConditions;
-}
+export interface BlobRequestConditions
+  extends Models.ModifiedAccessConditions,
+    Models.LeaseAccessConditions {}
 
-export interface BlobAccessConditions {
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
-  leaseAccessConditions?: Models.LeaseAccessConditions;
-}
+export interface PageBlobRequestConditions
+  extends BlobRequestConditions,
+    Models.SequenceNumberAccessConditions {}
 
-export interface PageBlobAccessConditions extends BlobAccessConditions {
-  sequenceNumberAccessConditions?: Models.SequenceNumberAccessConditions;
-}
-
-export interface AppendBlobAccessConditions extends BlobAccessConditions {
-  appendPositionAccessConditions?: Models.AppendPositionAccessConditions;
-}
+export interface AppendBlobRequestConditions
+  extends BlobRequestConditions,
+    Models.AppendPositionAccessConditions {}
 
 export enum BlockBlobTier {
   Hot = "Hot",

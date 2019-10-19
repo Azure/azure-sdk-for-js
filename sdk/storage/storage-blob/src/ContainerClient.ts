@@ -12,7 +12,7 @@ import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import * as Models from "./generated/src/models";
 import { Container } from "./generated/src/operations";
-import { ContainerAccessConditions, Metadata } from "./models";
+import { BlobRequestConditions, Metadata } from "./models";
 import { DevelopmentConnectionString } from "./utils/constants";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ETagNone } from "./utils/constants";
@@ -94,7 +94,7 @@ export interface ContainerGetPropertiesOptions extends CommonOptions {
    * @type {Models.LeaseAccessConditions}
    * @memberof ContainerGetPropertiesOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: Models.LeaseAccessConditions;
 }
 
 /**
@@ -115,10 +115,10 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
   /**
    * Conditions to meet when deleting the container.
    *
-   * @type {ContainerAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof ContainerDeleteMethodOptions
    */
-  containerAccessConditions?: ContainerAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -157,10 +157,10 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {ContainerAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof ContainerSetMetadataOptions
    */
-  containerAccessConditions?: ContainerAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -185,7 +185,7 @@ export interface ContainerGetAccessPolicyOptions extends CommonOptions {
    * @type {Models.LeaseAccessConditions}
    * @memberof ContainerGetAccessPolicyOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: Models.LeaseAccessConditions;
 }
 
 /**
@@ -259,10 +259,10 @@ export interface ContainerSetAccessPolicyOptions extends CommonOptions {
   /**
    * Conditions to meet when setting the access policy.
    *
-   * @type {ContainerAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof ContainerSetAccessPolicyOptions
    */
-  containerAccessConditions?: ContainerAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -286,7 +286,7 @@ export interface ContainerAcquireLeaseOptions extends CommonOptions {
    * @type {Models.ModifiedAccessConditions}
    * @memberof ContainerAcquireLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: Models.ModifiedAccessConditions;
 }
 
 /**
@@ -310,7 +310,7 @@ export interface ContainerReleaseLeaseOptions extends CommonOptions {
    * @type {Models.ModifiedAccessConditions}
    * @memberof ContainerReleaseLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: Models.ModifiedAccessConditions;
 }
 
 /**
@@ -334,7 +334,7 @@ export interface ContainerRenewLeaseOptions extends CommonOptions {
    * @type {Models.ModifiedAccessConditions}
    * @memberof ContainerRenewLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: Models.ModifiedAccessConditions;
 }
 
 /**
@@ -358,7 +358,7 @@ export interface ContainerBreakLeaseOptions extends CommonOptions {
    * @type {Models.ModifiedAccessConditions}
    * @memberof ContainerBreakLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: Models.ModifiedAccessConditions;
 }
 
 /**
@@ -382,7 +382,7 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
    * @type {Models.ModifiedAccessConditions}
    * @memberof ContainerChangeLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: Models.ModifiedAccessConditions;
 }
 
 /**
@@ -746,15 +746,15 @@ export class ContainerClient extends StorageClient {
   public async getProperties(
     options: ContainerGetPropertiesOptions = {}
   ): Promise<Models.ContainerGetPropertiesResponse> {
-    if (!options.leaseAccessConditions) {
-      options.leaseAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan("ContainerClient-getProperties", options.spanOptions);
     try {
       return this.containerContext.getProperties({
         abortSignal: options.abortSignal,
-        ...options.leaseAccessConditions,
+        ...options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -780,23 +780,13 @@ export class ContainerClient extends StorageClient {
   public async delete(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<Models.ContainerDeleteResponse> {
-    if (!options.containerAccessConditions) {
-      options.containerAccessConditions = {};
-    }
-
-    if (!options.containerAccessConditions.modifiedAccessConditions) {
-      options.containerAccessConditions.modifiedAccessConditions = {};
-    }
-
-    if (!options.containerAccessConditions.leaseAccessConditions) {
-      options.containerAccessConditions.leaseAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     if (
-      (options.containerAccessConditions.modifiedAccessConditions.ifMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifMatch !== ETagNone) ||
-      (options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch !== ETagNone)
+      (options.conditions.ifMatch && options.conditions.ifMatch !== ETagNone) ||
+      (options.conditions.ifNoneMatch && options.conditions.ifNoneMatch !== ETagNone)
     ) {
       throw new RangeError(
         "the IfMatch and IfNoneMatch access conditions must have their default\
@@ -809,8 +799,8 @@ export class ContainerClient extends StorageClient {
     try {
       return this.containerContext.deleteMethod({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -842,24 +832,14 @@ export class ContainerClient extends StorageClient {
     metadata?: Metadata,
     options: ContainerSetMetadataOptions = {}
   ): Promise<Models.ContainerSetMetadataResponse> {
-    if (!options.containerAccessConditions) {
-      options.containerAccessConditions = {};
-    }
-
-    if (!options.containerAccessConditions.modifiedAccessConditions) {
-      options.containerAccessConditions.modifiedAccessConditions = {};
-    }
-
-    if (!options.containerAccessConditions.leaseAccessConditions) {
-      options.containerAccessConditions.leaseAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     if (
-      options.containerAccessConditions.modifiedAccessConditions.ifUnmodifiedSince ||
-      (options.containerAccessConditions.modifiedAccessConditions.ifMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifMatch !== ETagNone) ||
-      (options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch !== ETagNone)
+      options.conditions.ifUnmodifiedSince ||
+      (options.conditions.ifMatch && options.conditions.ifMatch !== ETagNone) ||
+      (options.conditions.ifNoneMatch && options.conditions.ifNoneMatch !== ETagNone)
     ) {
       throw new RangeError(
         "the IfUnmodifiedSince, IfMatch, and IfNoneMatch must have their default values\
@@ -872,9 +852,9 @@ export class ContainerClient extends StorageClient {
     try {
       return this.containerContext.setMetadata({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata,
-        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -904,8 +884,8 @@ export class ContainerClient extends StorageClient {
   public async getAccessPolicy(
     options: ContainerGetAccessPolicyOptions = {}
   ): Promise<ContainerGetAccessPolicyResponse> {
-    if (!options.leaseAccessConditions) {
-      options.leaseAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan(
@@ -916,7 +896,7 @@ export class ContainerClient extends StorageClient {
     try {
       const response = await this.containerContext.getAccessPolicy({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         spanOptions
       });
 
@@ -984,7 +964,7 @@ export class ContainerClient extends StorageClient {
     containerAcl?: SignedIdentifier[],
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<Models.ContainerSetAccessPolicyResponse> {
-    options.containerAccessConditions = options.containerAccessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "ContainerClient-setAccessPolicy",
       options.spanOptions
@@ -1010,8 +990,8 @@ export class ContainerClient extends StorageClient {
         abortSignal: options.abortSignal,
         access,
         containerAcl: acl,
-        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {

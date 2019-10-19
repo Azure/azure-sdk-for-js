@@ -20,7 +20,7 @@ import { BlockBlob } from "./generated/src/operations";
 import { BlobHTTPHeaders } from "./generated/src/models";
 import { Range, rangeToString } from "./Range";
 import {
-  BlobAccessConditions,
+  BlobRequestConditions,
   Metadata,
   ensureCpkIfSpecified,
   BlockBlobTier,
@@ -66,10 +66,10 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   /**
    * Conditions to meet when uploading to the block blob.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobUploadOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when uploading to a block blob.
    *
@@ -129,7 +129,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * @type {Models.LeaseAccessConditions}
    * @memberof BlockBlobStageBlockOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: Models.LeaseAccessConditions;
   /**
    * Callback to receive events on the progress of stage block operation.
    *
@@ -196,7 +196,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * @type {Models.LeaseAccessConditions}
    * @memberof BlockBlobStageBlockFromURLOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: Models.LeaseAccessConditions;
   /**
    * An MD5 hash of the content from the URI.
    * This hash is used to verify the integrity of the content during transport of the data from the URI.
@@ -245,16 +245,16 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   /**
    * Conditions to meet when committing the block list.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobCommitBlockListOptions
    */
   /**
    * Conditions to meet when committing block list.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobCommitBlockListOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when committing block list.
    *
@@ -308,7 +308,7 @@ export interface BlockBlobGetBlockListOptions extends CommonOptions {
    * @type {Models.LeaseAccessConditions}
    * @memberof BlockBlobGetBlockListOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: Models.LeaseAccessConditions;
 }
 
 /**
@@ -346,10 +346,10 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   /**
    * Access conditions headers.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobUploadStreamOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 
   /**
    * Progress updater.
@@ -419,10 +419,10 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   /**
    * Access conditions headers.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobParallelUploadOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 
   /**
    * Concurrency of parallel uploading. Must be >= 0.
@@ -658,16 +658,16 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<Models.BlockBlobUploadResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("BlockBlobClient-upload", options.spanOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blockBlobContext.upload(body, contentLength, {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
@@ -707,7 +707,7 @@ export class BlockBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
@@ -762,7 +762,7 @@ export class BlockBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         sourceContentMD5: options.sourceContentMD5,
         sourceContentCrc64: options.sourceContentCrc64,
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
@@ -797,7 +797,7 @@ export class BlockBlobClient extends BlobClient {
     blocks: string[],
     options: BlockBlobCommitBlockListOptions = {}
   ): Promise<Models.BlockBlobCommitBlockListResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-commitBlockList",
       options.spanOptions
@@ -809,9 +809,9 @@ export class BlockBlobClient extends BlobClient {
         {
           abortSignal: options.abortSignal,
           blobHTTPHeaders: options.blobHTTPHeaders,
-          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+          leaseAccessConditions: options.conditions,
           metadata: options.metadata,
-          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          modifiedAccessConditions: options.conditions,
           cpkInfo: options.customerProvidedKey,
           tier: toAccessTier(options.tier),
           spanOptions
@@ -847,7 +847,7 @@ export class BlockBlobClient extends BlobClient {
     try {
       const res = await this.blockBlobContext.getBlockList(listType, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         spanOptions
       });
 
@@ -970,8 +970,8 @@ export class BlockBlobClient extends BlobClient {
     if (!options.blobHTTPHeaders) {
       options.blobHTTPHeaders = {};
     }
-    if (!options.blobAccessConditions) {
-      options.blobAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan(
@@ -1007,7 +1007,7 @@ export class BlockBlobClient extends BlobClient {
             blockList.push(blockID);
             await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
               abortSignal: options.abortSignal,
-              leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
+              conditions: options.conditions,
               spanOptions
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -1102,8 +1102,8 @@ export class BlockBlobClient extends BlobClient {
     if (!options.blobHTTPHeaders) {
       options.blobHTTPHeaders = {};
     }
-    if (!options.accessConditions) {
-      options.accessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan("BlockBlobClient-uploadStream", options.spanOptions);
@@ -1124,7 +1124,7 @@ export class BlockBlobClient extends BlobClient {
           blockNum++;
 
           await this.stageBlock(blockID, buffer, buffer.length, {
-            leaseAccessConditions: options.accessConditions!.leaseAccessConditions,
+            conditions: options.conditions,
             spanOptions
           });
 
@@ -1212,8 +1212,8 @@ export class BlockBlobClient extends BlobClient {
     if (!options.blobHTTPHeaders) {
       options.blobHTTPHeaders = {};
     }
-    if (!options.blobAccessConditions) {
-      options.blobAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan(
@@ -1253,7 +1253,7 @@ export class BlockBlobClient extends BlobClient {
               contentLength,
               {
                 abortSignal: options.abortSignal,
-                leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
+                conditions: options.conditions,
                 spanOptions
               }
             );

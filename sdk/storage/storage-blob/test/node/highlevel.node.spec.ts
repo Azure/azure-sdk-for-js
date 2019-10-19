@@ -335,10 +335,8 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
-        }
+      conditions: {
+        ifMatch: uploadResponse.eTag
       },
       maxRetryRequests: 1,
       onProgress: (ev) => {
@@ -369,10 +367,8 @@ describe("Highlevel", () => {
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
-        }
+      conditions: {
+        ifMatch: uploadResponse.eTag
       },
       maxRetryRequests: 3,
       onProgress: () => {
@@ -405,10 +401,8 @@ describe("Highlevel", () => {
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, partialSize, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
-        }
+      conditions: {
+        ifMatch: uploadResponse.eTag
       },
       maxRetryRequests: 3,
       onProgress: () => {
@@ -444,10 +438,8 @@ describe("Highlevel", () => {
 
     try {
       const downloadResponse = await blockBlobClient.download(0, undefined, {
-        blobAccessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: uploadResponse.eTag
-          }
+        conditions: {
+          ifMatch: uploadResponse.eTag
         },
         maxRetryRequests: 0,
         onProgress: () => {
@@ -482,10 +474,8 @@ describe("Highlevel", () => {
       const aborter = new AbortController();
       const downloadResponse = await blockBlobClient.download(0, undefined, {
         abortSignal: aborter.signal,
-        blobAccessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: uploadResponse.eTag
-          }
+        conditions: {
+          ifMatch: uploadResponse.eTag
         },
         maxRetryRequests: 3,
         onProgress: () => {
