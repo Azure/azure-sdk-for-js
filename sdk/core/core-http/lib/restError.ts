@@ -14,6 +14,7 @@ export class RestError extends Error {
   request?: WebResource;
   response?: HttpOperationResponse;
   body?: any;
+  details?: unknown;
   constructor(
     message: string,
     code?: string,
