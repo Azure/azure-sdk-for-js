@@ -32,6 +32,11 @@ import {
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import {
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  rangeResponseFromModel
+} from "./PageBlobRangeResponse";
 
 /**
  * Options to configure Page Blob - Create operation.
@@ -730,24 +735,26 @@ export class PageBlobClient extends BlobClient {
    * @param {number} [offset] Starting byte position of the page ranges.
    * @param {number} [count] Number of bytes to get.
    * @param {PageBlobGetPageRangesOptions} [options] Options to the Page Blob Get Ranges operation.
-   * @returns {Promise<Models.PageBlobGetPageRangesResponse>} Response data for the Page Blob Get Ranges operation.
+   * @returns {Promise<PageBlobGetPageRangesResponse>} Response data for the Page Blob Get Ranges operation.
    * @memberof PageBlobClient
    */
   public async getPageRanges(
     offset: number = 0,
     count?: number,
     options: PageBlobGetPageRangesOptions = {}
-  ): Promise<Models.PageBlobGetPageRangesResponse> {
+  ): Promise<PageBlobGetPageRangesResponse> {
     options.accessConditions = options.accessConditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-getPageRanges", options.spanOptions);
     try {
-      return this.pageBlobContext.getPageRanges({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        range: rangeToString({ offset, count }),
-        spanOptions
-      });
+      return this.pageBlobContext
+        .getPageRanges({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          range: rangeToString({ offset, count }),
+          spanOptions
+        })
+        .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -767,7 +774,7 @@ export class PageBlobClient extends BlobClient {
    * @param {number} count Number of bytes to get ranges diff.
    * @param {string} prevSnapshot Timestamp of snapshot to retrive the difference.
    * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
-   * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
+   * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
    */
   public async getPageRangesDiff(
@@ -775,21 +782,23 @@ export class PageBlobClient extends BlobClient {
     count: number,
     prevSnapshot: string,
     options: PageBlobGetPageRangesDiffOptions = {}
-  ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
+  ): Promise<PageBlobGetPageRangesDiffResponse> {
     options.accessConditions = options.accessConditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-getPageRangesDiff",
       options.spanOptions
     );
     try {
-      return this.pageBlobContext.getPageRangesDiff({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        prevsnapshot: prevSnapshot,
-        range: rangeToString({ offset, count }),
-        spanOptions
-      });
+      return this.pageBlobContext
+        .getPageRangesDiff({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          prevsnapshot: prevSnapshot,
+          range: rangeToString({ offset, count }),
+          spanOptions
+        })
+        .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
