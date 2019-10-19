@@ -129,7 +129,7 @@ export class DeviceCodeCredential implements TokenCredential {
           : CanonicalCode.UNKNOWN;
       
       if (err.name === AuthenticationErrorName) {
-        logger.warning(`DeviceCodeCredential: failed to authenticate ${(err as AuthenticationError).errorResponse.error_description}`);
+        logger.warning(`DeviceCodeCredential: failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`);
       } else {
         logger.warning(`DeviceCodeCredential: failed to authenticate ${err}`);
       }
