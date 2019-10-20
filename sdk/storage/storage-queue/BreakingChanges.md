@@ -1,8 +1,11 @@
 # Breaking Changes
 
-### 2019.10 12.0.0-preview.5
+### 2019.11 12.0.0-preview.5
 
 - `IPRange` is renamed to `SasIPRange`.
+
+- `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported.
+  For example, after this change, `Models.QueueItem` becomes `QueueItem`.
 
 ### 2019.10 Version 12.0.0-preview.3
 
