@@ -69,14 +69,14 @@ export class DeviceCodeCredential implements TokenCredential {
     }
 
 // @public
-export interface DeviceCodeDetails {
+export interface DeviceCodeInfo {
     message: string;
     userCode: string;
     verificationUri: string;
 }
 
 // @public
-export type DeviceCodePromptCallback = (deviceCodeDetails: DeviceCodeDetails) => void;
+export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 // @public
 export class EnvironmentCredential implements TokenCredential {
@@ -86,12 +86,12 @@ export class EnvironmentCredential implements TokenCredential {
 
 // @public
 export interface ErrorResponse {
-    correlation_id?: string;
+    correlationId?: string;
     error: string;
-    error_codes?: number[];
-    error_description: string;
+    errorCodes?: number[];
+    errorDescription: string;
     timestamp?: string;
-    trace_id?: string;
+    traceId?: string;
 }
 
 // @public

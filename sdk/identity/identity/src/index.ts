@@ -18,7 +18,7 @@ export { ManagedIdentityCredential } from "./credentials/managedIdentityCredenti
 export {
   DeviceCodeCredential,
   DeviceCodePromptCallback,
-  DeviceCodeDetails
+  DeviceCodeInfo
 } from "./credentials/deviceCodeCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";

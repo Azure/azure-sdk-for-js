@@ -29,7 +29,7 @@ export interface DeviceCodeResponse {
  * entered.  Also provides a message to display to the user which
  * contains an instruction with these details.
  */
-export interface DeviceCodeDetails {
+export interface DeviceCodeInfo {
   /**
    * The device code that the user must enter into the verification page.
    */
@@ -53,7 +53,7 @@ export interface DeviceCodeDetails {
  * DeviceCodeCredential for the purpose of displaying authentication
  * details to the user.
  */
-export type DeviceCodePromptCallback = (deviceCodeDetails: DeviceCodeDetails) => void;
+export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 /**
  * Enables authentication to Azure Active Directory using a device code
@@ -73,7 +73,7 @@ export class DeviceCodeCredential implements TokenCredential {
    * @param tenantId The Azure Active Directory tenant (directory) ID or name.
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param userPromptCallback A callback function that will be invoked to show
-                               {@link DeviceCodeDetails} to the user.
+                               {@link DeviceCodeInfo} to the user.
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(
@@ -129,7 +129,7 @@ export class DeviceCodeCredential implements TokenCredential {
           : CanonicalCode.UNKNOWN;
       
       if (err.name === AuthenticationErrorName) {
-        logger.warning(`DeviceCodeCredential: failed to authenticate ${(err as AuthenticationError).errorResponse.error_description}`);
+        logger.warning(`DeviceCodeCredential: failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`);
       } else {
         logger.warning(`DeviceCodeCredential: failed to authenticate ${err}`);
       }

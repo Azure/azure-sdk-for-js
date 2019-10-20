@@ -82,7 +82,7 @@ export class IdentityClient extends ServiceClient {
       return token;
     } else {
       const error = new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
-      logger.warning(`IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.error_description}`);
+      logger.warning(`IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`);
       throw error;
     }
   }
