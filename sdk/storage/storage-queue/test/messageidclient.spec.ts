@@ -29,13 +29,13 @@ describe("MessageIdClient", () => {
   it("update and delete empty message with default parameters", async () => {
     let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
     assert.ok(eResult.clientRequestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let newMessage = "";
@@ -45,7 +45,7 @@ describe("MessageIdClient", () => {
       newMessage
     );
     assert.ok(uResult.version);
-    assert.ok(uResult.timeNextVisible);
+    assert.ok(uResult.nextVisibleOn);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(eResult.clientRequestId);
@@ -67,12 +67,12 @@ describe("MessageIdClient", () => {
   it("update and delete message with all parameters", async () => {
     let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let newMessage = "New Message";
@@ -83,7 +83,7 @@ describe("MessageIdClient", () => {
       10
     );
     assert.ok(uResult.version);
-    assert.ok(uResult.timeNextVisible);
+    assert.ok(uResult.nextVisibleOn);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
@@ -101,12 +101,12 @@ describe("MessageIdClient", () => {
   it("update and delete message with all parameters - test sas connection string MessageIdClient constructor", async () => {
     let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let newMessage = "New Message";
@@ -117,7 +117,7 @@ describe("MessageIdClient", () => {
       10
     );
     assert.ok(uResult.version);
-    assert.ok(uResult.timeNextVisible);
+    assert.ok(uResult.nextVisibleOn);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
@@ -135,12 +135,12 @@ describe("MessageIdClient", () => {
   it("update message with 64KB characters size which is computed after encoding", async () => {
     let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let newMessage = new Array(64 * 1024 + 1).join("a");
@@ -150,7 +150,7 @@ describe("MessageIdClient", () => {
       newMessage
     );
     assert.ok(uResult.version);
-    assert.ok(uResult.timeNextVisible);
+    assert.ok(uResult.nextVisibleOn);
     assert.ok(uResult.date);
     assert.ok(uResult.requestId);
     assert.ok(uResult.popReceipt);
@@ -163,12 +163,12 @@ describe("MessageIdClient", () => {
   it("update message negative with 65537B (64KB+1B) characters size which is computed after encoding", async () => {
     let eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let newMessage = new Array(64 * 1024 + 2).join("a");

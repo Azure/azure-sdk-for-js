@@ -42,9 +42,9 @@ async function main(): Promise<void> {
   });
   console.log("updated key: ", updatedKey);
 
-  await client.deleteKey(keyName);
-  await client.deleteKey(ecKeyName);
-  await client.deleteKey(rsaKeyName);
+  await client.beginDeleteKey(keyName);
+  await client.beginDeleteKey(ecKeyName);
+  await client.beginDeleteKey(rsaKeyName);
 }
 
 main().catch((err) => {

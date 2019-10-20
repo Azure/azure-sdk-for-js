@@ -99,9 +99,9 @@ export abstract class LROPollStrategy {
     error.request = stripRequest(this._pollState.mostRecentRequest);
     error.response = this._pollState.mostRecentResponse;
     error.message = `Long running operation failed with status: "${this._pollState.state}".`;
-    error.body = this._pollState.resource;
-    if (error.body) {
-      const innerError: any = error.body.error;
+    error.response.parsedBody = this._pollState.resource;
+    if (error.response.parsedBody) {
+      const innerError: any = error.response.parsedBody.error;
       if (innerError) {
         if (innerError.message) {
           error.message = `Long running operation failed with error: "${innerError.message}".`;
@@ -407,7 +407,7 @@ class LocationLROPollStrategy extends LROPollStrategy {
           // Ignore the exception, use resultBody as the error message
         }
 
-        throw new RestError(errorMessage, undefined, statusCode, stripRequest(result.request), result, resultBody);
+        throw new RestError(errorMessage, undefined, statusCode, stripRequest(result.request), result);
       } else {
         throw new Error(`The response with status code ${statusCode} from polling for long running operation url "${lroPollState.locationHeaderValue}" is not valid.`);
       }
@@ -484,7 +484,7 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
         error.statusCode = statusCode;
         error.request = stripRequest(response.request);
         error.response = response;
-        error.body = parsedResponse;
+        error.response.parsedBody = parsedResponse;
         throw error;
       }
 
@@ -567,7 +567,7 @@ class GetResourceLROPollStrategy extends LROPollStrategy {
         error.statusCode = statusCode;
         error.request = stripRequest(result.request);
         error.response = result;
-        error.body = responseBody;
+        error.response.parsedBody = responseBody;
         throw error;
       }
 

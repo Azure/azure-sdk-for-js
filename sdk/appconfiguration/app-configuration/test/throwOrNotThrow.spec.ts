@@ -58,6 +58,12 @@ describe("Various error cases", () => {
 
       await assertThrowsRestError(() => client.setConfigurationSetting(addedSetting), 409);
     });
+
+    it("delete: key that is set to read-only throws 409", async () => {
+      await client.setReadOnly(addedSetting);
+      await assertThrowsRestError(async () => client.deleteConfigurationSetting(addedSetting), 409);
+      await client.clearReadOnly(addedSetting);
+    });
   });
 
   describe("doesn't throw", () => {

@@ -35,7 +35,10 @@ import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatWildcards,
-  makeConfigurationSettingEmpty
+  makeConfigurationSettingEmpty,
+  transformKeyValueResponse,
+  transformKeyValueResponseWithStatusCode,
+  transformKeyValue
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
@@ -95,14 +98,16 @@ export class AppConfigurationClient {
     configurationSetting: AddConfigurationSettingParam,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    return this.spanner.trace("addConfigurationSetting", options, (_, newOptions) => {
-      return this.client.putKeyValue(configurationSetting.key, {
+    return this.spanner.trace("addConfigurationSetting", options, async (_, newOptions) => {
+      const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
         entity: configurationSetting,
         ...newOptions
       });
-    });
+
+      return transformKeyValueResponse(originalResponse);
+    });    
   }
 
   /**
@@ -115,25 +120,19 @@ export class AppConfigurationClient {
    * @param id The id of the configuration setting to delete.
    * @param options Optional parameters for the request (ex: etag, label)
    */
-  async deleteConfigurationSetting(
+  deleteConfigurationSetting(
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    const originalResponse = await this.spanner.trace("deleteConfigurationSetting", options, (newOptions) => {
-      return this.client.deleteKeyValue(id.key, {
+    return this.spanner.trace("deleteConfigurationSetting", options, async (newOptions) => {
+      const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
         ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
       });
+
+      return transformKeyValueResponseWithStatusCode(originalResponse);
     });
-
-    const response: DeleteConfigurationSettingResponse = {
-      ...originalResponse,
-      _response: originalResponse._response,
-      statusCode: originalResponse._response.status
-    };
-
-    return response;
   }
 
   /**
@@ -158,11 +157,7 @@ export class AppConfigurationClient {
         ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
       });
 
-      const response: GetConfigurationSettingResponse = {
-        ...originalResponse,
-        _response: originalResponse._response,
-        statusCode: originalResponse._response.status
-      };      
+      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(originalResponse);
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
@@ -228,8 +223,7 @@ export class AppConfigurationClient {
       (newOptions) => {
         return this.client.getKeyValues({
           ...newOptions,
-          ...formatWildcards(newOptions),
-          select: newOptions.fields
+          ...formatWildcards(newOptions)
         });
       }
     );
@@ -244,7 +238,6 @@ export class AppConfigurationClient {
           return this.client.getKeyValues({
             ...newOptions,
             ...formatWildcards(newOptions),
-            select: newOptions.fields,
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
           });
         }
@@ -261,7 +254,7 @@ export class AppConfigurationClient {
   private *createListConfigurationPageFromResponse(currentResponse: GetKeyValuesResponse) {
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
     };
   }
 
@@ -311,14 +304,13 @@ export class AppConfigurationClient {
     let currentResponse = await this.spanner.trace("listRevisions", options, (newOptions) => {
       return this.client.getRevisions({
         ...newOptions,
-        ...formatWildcards(newOptions),
-        select: newOptions.fields
+        ...formatWildcards(newOptions)
       });
     });
 
     yield {
       ...currentResponse,
-      items: currentResponse.items != null ? currentResponse.items : []
+      items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
     };
 
     while (currentResponse.nextLink) {
@@ -337,7 +329,7 @@ export class AppConfigurationClient {
 
       yield {
         ...currentResponse,
-        items: currentResponse.items != null ? currentResponse.items : []
+        items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
       };
     }
   }
@@ -353,17 +345,19 @@ export class AppConfigurationClient {
    * await client.setConfigurationSetting({ key: "MyKey", value: "MyValue" });
    * ```
    */
-  setConfigurationSetting(
+  async setConfigurationSetting(
     configurationSetting: SetConfigurationSettingParam,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    return this.spanner.trace("setConfigurationSetting", options, (newOptions) => {
-      return this.client.putKeyValue(configurationSetting.key, {
+    return await this.spanner.trace("setConfigurationSetting", options, async (newOptions) => {
+      const response = await this.client.putKeyValue(configurationSetting.key, {
         ...newOptions,
         label: configurationSetting.label,
         entity: configurationSetting,
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, newOptions)
       });
+      
+      return transformKeyValueResponse(response);
     });
   }
 
@@ -371,15 +365,18 @@ export class AppConfigurationClient {
    * Sets a key's value to read only
    * @param id The id of the configuration setting to set to read-only.
    */
-  setReadOnly(
+  async setReadOnly(
     id: ConfigurationSettingId,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    return this.spanner.trace("setReadOnly", options, (newOptions) => {
-      return this.client.putLock(id.key, {
+    return this.spanner.trace("setReadOnly", options, async (newOptions) => {
+      const response = await this.client.putLock(id.key, {
         ...newOptions,
-        label: id.label
+        label: id.label,
+        ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
+
+      return transformKeyValueResponse(response);
     });
   }
 
@@ -387,15 +384,18 @@ export class AppConfigurationClient {
    * Makes the key's value writable again
    * @param id The id of the configuration setting to make writable.
    */
-  clearReadOnly(
+  async clearReadOnly(
     id: ConfigurationSettingId,
     options: ClearReadOnlyOptions = {}
   ): Promise<ClearReadOnlyResponse> {
-    return this.spanner.trace("clearReadOnly", options, (newOptions) => {
-      return this.client.deleteLock(id.key, {
+    return await this.spanner.trace("clearReadOnly", options, async (newOptions) => {
+      const response = await this.client.deleteLock(id.key, {
         ...newOptions,
-        label: id.label
+        label: id.label,
+        ...checkAndFormatIfAndIfNoneMatch(id, options)
       });
+
+      return transformKeyValueResponse(response);
     });
   }
 }

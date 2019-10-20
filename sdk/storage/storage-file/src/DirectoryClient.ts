@@ -1099,12 +1099,11 @@ export class DirectoryClient extends StorageClient {
       span.end();
     }
   }
+
   /**
    * Force close all handles for a directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
-   *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker] Optional. A string value that identifies the position of handles that will
    *                          be closed with the next force close handles operation.
    *                          The operation returns a marker value within the response
@@ -1114,7 +1113,7 @@ export class DirectoryClient extends StorageClient {
    * @returns {Promise<Models.DirectoryForceCloseHandlesResponse>}
    * @memberof DirectoryClient
    */
-  public async forceCloseHandlesSegment(
+  private async forceCloseHandlesSegment(
     marker?: string,
     options: DirectoryForceCloseHandlesSegmentOptions = {}
   ): Promise<Models.DirectoryForceCloseHandlesResponse> {
@@ -1129,6 +1128,46 @@ export class DirectoryClient extends StorageClient {
         ...options,
         spanOptions
       });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Force close all handles for a directory.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
+   *
+   * @param {DirectoryForceCloseHandlesSegmentOptions} [options={}]
+   * @returns {Promise<number>}
+   * @memberof DirectoryClient
+   */
+  public async forceCloseAllHandles(
+    options: DirectoryForceCloseHandlesSegmentOptions = {}
+  ): Promise<number> {
+    const { span, spanOptions } = createSpan(
+      "DirectoryClient-forceCloseAllHandles",
+      options.spanOptions
+    );
+    try {
+      let handlesClosed = 0;
+      let marker: string | undefined = "";
+
+      do {
+        const response: Models.DirectoryForceCloseHandlesResponse = await this.forceCloseHandlesSegment(
+          marker,
+          { spanOptions }
+        );
+        marker = response.marker;
+        response.numberOfHandlesClosed && (handlesClosed += response.numberOfHandlesClosed);
+      } while (marker);
+
+      return handlesClosed;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

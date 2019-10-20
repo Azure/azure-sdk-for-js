@@ -44,8 +44,8 @@ async function main(): Promise<void> {
     console.log("secret version: ", secret);
   }
 
-  await client.deleteSecret(bankAccountSecretName);
-  await client.deleteSecret(storageAccountSecretName);
+  await client.beginDeleteSecret(bankAccountSecretName);
+  await client.beginDeleteSecret(storageAccountSecretName);
 }
 
 main().catch((err) => {

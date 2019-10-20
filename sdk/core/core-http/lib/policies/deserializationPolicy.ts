@@ -193,12 +193,20 @@ export function deserializeResponseBody(
                         ? parsedErrorResponse[defaultResponseBodyMapper.xmlElementName!]
                         : [];
                   }
-                  error.body = operationSpec.serializer.deserialize(
+                  error.response!.parsedBody = operationSpec.serializer.deserialize(
                     defaultResponseBodyMapper,
                     valueToDeserialize,
-                    "error.body"
+                    "error.response.parsedBody"
                   );
                 }
+              }
+
+              if (parsedResponse.headers && defaultResponseSpec.headersMapper) {
+                error.response!.parsedHeaders = operationSpec.serializer.deserialize(
+                  defaultResponseSpec.headersMapper,
+                  parsedResponse.headers.rawHeaders(),
+                  "operationRes.parsedHeaders"
+                );
               }
             } catch (defaultError) {
               error.message = `Error \"${defaultError.message}\" occurred in deserializing the responseBody - \"${parsedResponse.bodyAsText}\" for the default response.`;
@@ -260,8 +268,7 @@ function parse(
       errCode,
       operationResponse.status,
       operationResponse.request,
-      operationResponse,
-      operationResponse.bodyAsText
+      operationResponse
     );
     return Promise.reject(e);
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { checkAndFormatIfAndIfNoneMatch, formatWildcards, extractAfterTokenFromNextLink, quoteETag, makeConfigurationSettingEmpty } from "../src/internal/helpers"
+import { checkAndFormatIfAndIfNoneMatch, formatWildcards, extractAfterTokenFromNextLink, quoteETag, makeConfigurationSettingEmpty, transformKeyValue, transformKeyValueResponseWithStatusCode, transformKeyValueResponse } from "../src/internal/helpers"
 import * as assert from "assert";
 import { ConfigurationSetting, HttpResponseField, HttpResponseFields } from '../src';
 import { HttpHeaders } from '@azure/core-http';
@@ -93,6 +93,14 @@ describe("helper methods", () => {
       assert.equal("key1,key2", result.key);
       assert.equal("label1,label2", result.label);
     });
+
+    it("fields map properly", () => {
+      const result = formatWildcards({
+        fields: [ "readOnly", "value" ]
+      });
+      
+      assert.deepEqual([ "locked", "value" ], result.select);
+    });
   });
   
   describe("extractAfterTokenFromNextLink", () => {
@@ -107,29 +115,10 @@ describe("helper methods", () => {
   it("makeConfigurationSettingEmpty", () => {
     const response: ConfigurationSetting & HttpResponseField<any> & HttpResponseFields = {
       key: "mykey",
-      _response: {
-        request: {
-          url: "unused",
-          abortSignal: {
-            aborted: true,
-            addEventListener: () => { },
-            removeEventListener: () => { }
-          },
-          method: "GET",
-          withCredentials: false,
-          headers: new HttpHeaders(),
-          timeout: 0,
-          clone: function () { return this; },
-          validateRequestProperties: () => { },
-          prepare: function (options) { return this; },
-        },
-        status: 204,
-        headers: new HttpHeaders(),
-        bodyAsText: "",
-        parsedHeaders: {}
-      },
-      statusCode: 204
-    };
+      statusCode: 204,
+      readOnly: false,
+      ...fakeHttp204Response
+    };;
 
     makeConfigurationSettingEmpty(response);
 
@@ -147,6 +136,69 @@ describe("helper methods", () => {
     assert.equal(204, response.statusCode);
   });
 
+  it("transformKeyValue", () => {
+    const configurationSetting = transformKeyValue({
+      key: "hello",
+      locked: true
+    });
+
+    assert.deepEqual({
+      // the 'locked' property should not be present in the object since
+      // it should be 'renamed' to readOnly
+      readOnly: true,
+      key: "hello"
+    }, configurationSetting);
+  });
+
+  it("transformKeyValueResponseWithStatusCode", () => {
+    const configurationSetting = transformKeyValueResponseWithStatusCode({
+      key: "hello",
+      locked: true,
+      ...fakeHttp204Response
+    });
+
+    const actualKeys = Object.keys(configurationSetting).sort();
+
+    // _response is explictly set to not enumerate, even in our copied object.
+    assert.deepEqual(['key', 'readOnly', 'statusCode'], actualKeys);
+
+    // now make it enumerable so we can do our comparison
+    Object.defineProperty(configurationSetting, '_response', {
+      enumerable: true
+    });
+
+    assert.deepEqual({
+      readOnly: true,
+      key: "hello",
+      statusCode: 204,
+      _response: fakeHttp204Response._response
+    }, configurationSetting);
+  });
+
+  it("transformKeyValueResponse", () => {
+    const configurationSetting = transformKeyValueResponse({
+      key: "hello",
+      locked: true,
+      ...fakeHttp204Response
+    });
+
+    const actualKeys = Object.keys(configurationSetting).sort();
+
+    // _response is explictly set to not enumerate, even in our copied object.
+    assert.deepEqual(['key', 'readOnly'], actualKeys);
+
+    // now make it enumerable so we can do our comparison
+    Object.defineProperty(configurationSetting, '_response', {
+      enumerable: true
+    });
+
+    assert.deepEqual({
+      readOnly: true,
+      key: "hello",
+      _response: fakeHttp204Response._response
+    }, configurationSetting);
+  });
+
   function getAllConfigurationSettingFields() : (Exclude<keyof ConfigurationSetting, 'key'>)[] {
     const configObjectWithAllFieldsRequired: Required<ConfigurationSetting> = {
       contentType: "",
@@ -154,7 +206,7 @@ describe("helper methods", () => {
       key: "",
       label: "",
       lastModified: new Date(),
-      locked: true,
+      readOnly: true,
       tags: {},
       value: ""
     };
@@ -162,4 +214,29 @@ describe("helper methods", () => {
     const keys = Object.keys(configObjectWithAllFieldsRequired).filter(key => key !== "key");
     return keys as (Exclude<keyof ConfigurationSetting, 'key'>[]);
   }
+
+  const fakeHttp204Response: HttpResponseField<any> = {
+    _response: {
+      request: {
+        url: "unused",
+        abortSignal: {
+          aborted: true,
+          addEventListener: () => { },
+          removeEventListener: () => { }
+        },
+        method: "GET",
+        withCredentials: false,
+        headers: new HttpHeaders(),
+        timeout: 0,
+        clone: function () { return this; },
+        validateRequestProperties: () => { },
+        prepare: function (options) { return this; },
+      },
+      status: 204,
+      headers: new HttpHeaders(),
+      bodyAsText: "",
+      parsedHeaders: {}
+    }
+  };
 })
+
