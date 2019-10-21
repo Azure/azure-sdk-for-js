@@ -297,7 +297,8 @@ export class KeyClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expiresOn
+        expires: options.expiresOn,
+        vaultUrl: options.vaultEndpoint,
       };
       const unflattenedOptions = {
         ...options,
@@ -1065,7 +1066,7 @@ export class KeyClient {
       keyBundle.key ? keyBundle.key.kid : undefined
     );
 
-    const attributes = keyBundle.attributes;
+		const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
 
     let resultObject: KeyVaultKey & DeletedKey = {
@@ -1075,9 +1076,10 @@ export class KeyClient {
       keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
-        expiresOn: attributes!.expires,
-        createdOn: attributes!.created,
-        updatedOn: attributes!.updated,
+        expiresOn: attributes.expires,
+        createdOn: attributes.created,
+        updatedOn: attributes.updated,
+        vaultEndpoint: (attributes as any)!.vaultUrl,
         ...keyBundle,
         ...parsedId,
         ...attributes
@@ -1089,16 +1091,17 @@ export class KeyClient {
       delete (resultObject.properties as any).deletedDate;
     }
 
-    if (attributes) {
-      if (attributes.expires) {
-        delete (resultObject.properties as any).expires;
-      }
-      if (attributes.created) {
-        delete (resultObject.properties as any).created;
-      }
-      if (attributes.updated) {
-        delete (resultObject.properties as any).updated;
-      }
+    if (attributes.vaultUrl) {
+      delete (resultObject.properties as any).vaultUrl;
+    }
+    if (attributes.expires) {
+      delete (resultObject.properties as any).expires;
+    }
+    if (attributes.created) {
+      delete (resultObject.properties as any).created;
+    }
+    if (attributes.updated) {
+      delete (resultObject.properties as any).updated;
     }
 
     return resultObject;
@@ -1152,20 +1155,19 @@ export class KeyClient {
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
 
-    let resultObject;
-    if (keyItem.attributes) {
-      resultObject = {
-        ...keyItem,
-        ...parsedId,
-        ...keyItem.attributes
-      };
-      delete resultObject.attributes;
-    } else {
-      resultObject = {
-        ...keyItem,
-        ...parsedId
-      };
-    }
+		const attributes = keyItem.attributes || {};
+
+    let resultObject = {
+      expiresOn: attributes.expires,
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      vaultEndpoint: (attributes as any)!.vaultUrl,
+      ...keyItem,
+      ...parsedId,
+      ...keyItem.attributes
+    };
+
+    delete resultObject.attributes;
 
 		if (resultObject.properties.expires) {
       delete (resultObject.properties as any).expires;
