@@ -773,7 +773,7 @@ export class ShareClient extends StorageClient {
       const res: ShareGetAccessPolicyResponse = {
         _response: response._response,
         date: response.date,
-        eTag: response.eTag,
+        etag: response.etag,
         lastModified: response.lastModified,
         requestId: response.requestId,
         signedIdentifiers: [],

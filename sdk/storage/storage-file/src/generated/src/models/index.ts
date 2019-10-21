@@ -1105,7 +1105,7 @@ export interface ShareCreateHeaders {
   /**
    * The ETag contains a value which represents the version of the share, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties or metadata updates the last modified time. Operations on files do not
@@ -1137,7 +1137,7 @@ export interface ShareGetPropertiesHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1203,7 +1203,7 @@ export interface ShareCreateSnapshotHeaders {
    * request, the ETag of the share snapshot is identical to that of the base share at the time the
    * share snapshot was taken.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. A share snapshot cannot be modified, so
    * the last modified time of a given share snapshot never changes. However, if new metadata was
@@ -1283,7 +1283,7 @@ export interface ShareSetQuotaHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1314,7 +1314,7 @@ export interface ShareSetMetadataHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1345,7 +1345,7 @@ export interface ShareGetAccessPolicyHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1376,7 +1376,7 @@ export interface ShareSetAccessPolicyHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1407,7 +1407,7 @@ export interface ShareGetStatisticsHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1438,7 +1438,7 @@ export interface DirectoryCreateHeaders {
   /**
    * The ETag contains a value which represents the version of the directory, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the
    * directory or its properties updates the last modified time. Operations on files do not affect
@@ -1503,7 +1503,7 @@ export interface DirectoryGetPropertiesHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the Directory was last modified. Operations on files within the
    * directory do not affect the last modified time of the directory.
@@ -1587,7 +1587,7 @@ export interface DirectorySetPropertiesHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -1651,7 +1651,7 @@ export interface DirectorySetMetadataHeaders {
   /**
    * The ETag contains a value which represents the version of the directory, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -1763,7 +1763,7 @@ export interface FileCreateHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the
    * directory or its properties updates the last modified time. Operations on files do not affect
@@ -1847,7 +1847,7 @@ export interface FileDownloadHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * If the file has an MD5 hash and the request is to read the full file, this response header is
    * returned so that the client can check for message content integrity. If the request is to read
@@ -1994,7 +1994,7 @@ export interface FileGetPropertiesHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * If the Content-MD5 header has been set for the file, the Content-MD5 response header is
    * returned so that the client can check for message content integrity.
@@ -2129,7 +2129,7 @@ export interface FileSetHTTPHeadersHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the directory was last modified. Any operation that modifies the
    * directory or its properties updates the last modified time. Operations on files do not affect
@@ -2193,7 +2193,7 @@ export interface FileSetMetadataHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2223,7 +2223,7 @@ export interface FileUploadRangeHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the directory was last modified. Any operation that modifies the
    * share or its properties or metadata updates the last modified time. Operations on files do not
@@ -2265,7 +2265,7 @@ export interface FileUploadRangeFromURLHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the directory was last modified. Any operation that modifies the
    * share or its properties or metadata updates the last modified time. Operations on files do not
@@ -2312,7 +2312,7 @@ export interface FileGetRangeListHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The size of the file in bytes.
    */
@@ -2342,7 +2342,7 @@ export interface FileStartCopyHeaders {
    * If the copy is completed, contains the ETag of the destination file. If the copy is not
    * complete, contains the ETag of the empty file created at the start of the copy.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date/time that the copy operation to the destination file completed.
    */

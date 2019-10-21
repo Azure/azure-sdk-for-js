@@ -1270,7 +1270,7 @@ export class FileClient extends StorageClient {
       return {
         _response: originalResponse._response,
         date: originalResponse.date,
-        eTag: originalResponse.eTag,
+        etag: originalResponse.etag,
         errorCode: originalResponse.errorCode,
         fileContentLength: originalResponse.fileContentLength,
         lastModified: originalResponse.lastModified,
