@@ -68,7 +68,7 @@ export class AccountSASServices {
 export interface AccountSASSignatureValues {
     expiryTime: Date;
     ipRange?: SasIPRange;
-    permissions: string;
+    permissions: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes: string;
     services: string;
@@ -111,7 +111,7 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessConditions?: AppendBlobAccessConditions;
     customerProvidedKey?: CpkInfo;
-    progress?: (progress: TransferProgressEvent) => void;
+    onProgress?: (progress: TransferProgressEvent) => void;
     transactionalContentCrc64?: Uint8Array;
     transactionalContentMD5?: Uint8Array;
 }
@@ -258,7 +258,7 @@ export class BlobClient extends StorageClient {
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset: number, count?: number, options?: DownloadFromBlobOptions): Promise<void>;
+    downloadToBuffer(buffer: Buffer, offset: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     getAppendBlobClient(): AppendBlobClient;
@@ -378,7 +378,7 @@ export interface BlobDownloadOptions extends CommonOptions {
     blobAccessConditions?: BlobAccessConditions;
     customerProvidedKey?: CpkInfo;
     maxRetryRequests?: number;
-    progress?: (progress: TransferProgressEvent) => void;
+    onProgress?: (progress: TransferProgressEvent) => void;
     rangeGetContentCrc64?: boolean;
     rangeGetContentMD5?: boolean;
     snapshot?: string;
@@ -392,6 +392,16 @@ export type BlobDownloadResponseModel = BlobDownloadHeaders & {
         parsedHeaders: BlobDownloadHeaders;
     };
 };
+
+// @public
+export interface BlobDownloadToBufferOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    blobAccessConditions?: BlobAccessConditions;
+    blockSize?: number;
+    concurrency?: number;
+    maxRetryRequestsPerBlock?: number;
+    onProgress?: (progress: TransferProgressEvent) => void;
+}
 
 // @public
 export interface BlobExistsOptions extends CommonOptions {
@@ -484,7 +494,7 @@ export interface BlobSASSignatureValues {
     expiryTime?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
-    permissions?: string;
+    permissions?: BlobSASPermissions;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startTime?: Date;
@@ -513,6 +523,10 @@ export class BlobServiceClient extends StorageClient {
 
 // @public
 export interface BlobServiceProperties {
+    // Warning: (ae-forgotten-export) The symbol "Logging" needs to be exported by the entry point index.d.ts
+    // 
+    // (undocumented)
+    blobAnalyticsLogging?: Logging;
     // Warning: (ae-forgotten-export) The symbol "CorsRule" needs to be exported by the entry point index.d.ts
     cors?: CorsRule[];
     defaultServiceVersion?: string;
@@ -524,10 +538,6 @@ export interface BlobServiceProperties {
     // 
     // (undocumented)
     hourMetrics?: Metrics;
-    // Warning: (ae-forgotten-export) The symbol "Logging" needs to be exported by the entry point index.d.ts
-    // 
-    // (undocumented)
-    logging?: Logging;
     // (undocumented)
     minuteMetrics?: Metrics;
     // Warning: (ae-forgotten-export) The symbol "StaticWebsite" needs to be exported by the entry point index.d.ts
@@ -644,9 +654,9 @@ export class BlockBlobClient extends BlobClient {
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
     stageBlockFromURL(blockId: string, sourceURL: string, offset?: number, count?: number, options?: BlockBlobStageBlockFromURLOptions): Promise<BlockBlobStageBlockFromURLResponse>;
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
-    uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: UploadToBlockBlobOptions): Promise<BlobUploadCommonResponse>;
-    uploadFile(filePath: string, options?: UploadToBlockBlobOptions): Promise<BlobUploadCommonResponse>;
-    uploadStream(stream: Readable, bufferSize: number, maxBuffers: number, options?: UploadStreamToBlockBlobOptions): Promise<BlobUploadCommonResponse>;
+    uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
+    uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
+    uploadStream(stream: Readable, bufferSize: number, maxBuffers: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
 }
 
@@ -688,6 +698,20 @@ export type BlockBlobGetBlockListResponse = BlockList & BlockBlobGetBlockListHea
 };
 
 // @public
+export interface BlockBlobParallelUploadOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    blobAccessConditions?: BlobAccessConditions;
+    blobHTTPHeaders?: BlobHTTPHeaders;
+    blockSize?: number;
+    concurrency?: number;
+    maxSingleShotSize?: number;
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    onProgress?: (progress: TransferProgressEvent) => void;
+}
+
+// @public
 export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     customerProvidedKey?: CpkInfo;
@@ -711,7 +735,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     customerProvidedKey?: CpkInfo;
     leaseAccessConditions?: LeaseAccessConditions;
-    progress?: (progress: TransferProgressEvent) => void;
+    onProgress?: (progress: TransferProgressEvent) => void;
     transactionalContentCrc64?: Uint8Array;
     transactionalContentMD5?: Uint8Array;
 }
@@ -757,7 +781,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
     blobHTTPHeaders?: BlobHTTPHeaders;
     customerProvidedKey?: CpkInfo;
     metadata?: Metadata;
-    progress?: (progress: TransferProgressEvent) => void;
+    onProgress?: (progress: TransferProgressEvent) => void;
     tier?: BlockBlobTier | string;
 }
 
@@ -767,6 +791,17 @@ export type BlockBlobUploadResponse = BlockBlobUploadHeaders & {
         parsedHeaders: BlockBlobUploadHeaders;
     };
 };
+
+// @public
+export interface BlockBlobUploadStreamOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    accessConditions?: BlobAccessConditions;
+    blobHTTPHeaders?: BlobHTTPHeaders;
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    onProgress?: (progress: TransferProgressEvent) => void;
+}
 
 // @public
 export type BlockListType = 'committed' | 'uncommitted' | 'all';
@@ -1056,16 +1091,6 @@ export type DeleteSnapshotsOptionType = 'include' | 'only';
 export { deserializationPolicy }
 
 // @public
-export interface DownloadFromBlobOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    blobAccessConditions?: BlobAccessConditions;
-    blockSize?: number;
-    concurrency?: number;
-    maxRetryRequestsPerBlock?: number;
-    progress?: (progress: TransferProgressEvent) => void;
-}
-
-// @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
 
 // @public
@@ -1148,7 +1173,7 @@ export interface ListBlobsFlatSegmentResponse {
     // (undocumented)
     marker?: string;
     // (undocumented)
-    maxResults?: number;
+    maxPageSize?: number;
     // (undocumented)
     prefix?: string;
     // Warning: (ae-forgotten-export) The symbol "BlobFlatListSegment" needs to be exported by the entry point index.d.ts
@@ -1249,23 +1274,46 @@ export type PageBlobCreateResponse = PageBlobCreateHeaders & {
 };
 
 // @public
+export interface PageBlobGetPageRangesDiffHeaders {
+    blobContentLength?: number;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    eTag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessConditions?: BlobAccessConditions;
     range?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageList" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "PageBlobGetPageRangesDiffHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
-export type PageBlobGetPageRangesDiffResponse = PageList & PageBlobGetPageRangesDiffHeaders & {
-    _response: coreHttp.HttpResponse & {
+export interface PageBlobGetPageRangesDiffResponse extends PageList, PageBlobGetPageRangesDiffHeaders {
+    _response: HttpResponse & {
         parsedHeaders: PageBlobGetPageRangesDiffHeaders;
         bodyAsText: string;
         parsedBody: PageList;
     };
-};
+}
+
+// @public
+export interface PageBlobGetPageRangesHeaders {
+    blobContentLength?: number;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    eTag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface PageBlobGetPageRangesOptions extends CommonOptions {
@@ -1273,16 +1321,14 @@ export interface PageBlobGetPageRangesOptions extends CommonOptions {
     accessConditions?: BlobAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageBlobGetPageRangesHeaders" needs to be exported by the entry point index.d.ts
-// 
-// @public
-export type PageBlobGetPageRangesResponse = PageList & PageBlobGetPageRangesHeaders & {
-    _response: coreHttp.HttpResponse & {
+// @public (undocumented)
+export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPageRangesHeaders {
+    _response: HttpResponse & {
         parsedHeaders: PageBlobGetPageRangesHeaders;
         bodyAsText: string;
         parsedBody: PageList;
     };
-};
+}
 
 // @public
 export interface PageBlobResizeOptions extends CommonOptions {
@@ -1344,7 +1390,7 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessConditions?: PageBlobAccessConditions;
     customerProvidedKey?: CpkInfo;
-    progress?: (progress: TransferProgressEvent) => void;
+    onProgress?: (progress: TransferProgressEvent) => void;
     transactionalContentCrc64?: Uint8Array;
     transactionalContentMD5?: Uint8Array;
 }
@@ -1357,6 +1403,14 @@ export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders & {
         parsedHeaders: PageBlobUploadPagesHeaders;
     };
 };
+
+// @public (undocumented)
+export interface PageList {
+    // (undocumented)
+    clearRange?: Range[];
+    // (undocumented)
+    pageRange?: Range[];
+}
 
 // @public (undocumented)
 export interface ParsedBatchResponse {
@@ -1704,31 +1758,6 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
     // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
-}
-
-// @public
-export interface UploadStreamToBlockBlobOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    accessConditions?: BlobAccessConditions;
-    blobHTTPHeaders?: BlobHTTPHeaders;
-    metadata?: {
-        [propertyName: string]: string;
-    };
-    progress?: (progress: TransferProgressEvent) => void;
-}
-
-// @public
-export interface UploadToBlockBlobOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    blobAccessConditions?: BlobAccessConditions;
-    blobHTTPHeaders?: BlobHTTPHeaders;
-    blockSize?: number;
-    concurrency?: number;
-    maxSingleShotSize?: number;
-    metadata?: {
-        [propertyName: string]: string;
-    };
-    progress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public (undocumented)

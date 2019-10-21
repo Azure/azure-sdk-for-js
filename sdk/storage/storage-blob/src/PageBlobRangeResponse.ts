@@ -1,5 +1,10 @@
 import { HttpResponse } from "@azure/core-http";
-import * as Models from "./generated/src/models";
+import {
+  PageBlobGetPageRangesHeaders,
+  PageBlobGetPageRangesDiffHeaders,
+  PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel,
+  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel
+} from "./generatedModels";
 import { Range } from "./Range";
 
 export interface PageList {
@@ -7,9 +12,7 @@ export interface PageList {
   clearRange?: Range[];
 }
 
-export interface PageBlobGetPageRangesResponse
-  extends PageList,
-    Models.PageBlobGetPageRangesHeaders {
+export interface PageBlobGetPageRangesResponse extends PageList, PageBlobGetPageRangesHeaders {
   /**
    * The underlying HTTP response.
    */
@@ -17,7 +20,7 @@ export interface PageBlobGetPageRangesResponse
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: Models.PageBlobGetPageRangesHeaders;
+    parsedHeaders: PageBlobGetPageRangesHeaders;
 
     /**
      * The response body as text (string format)
@@ -36,7 +39,7 @@ export interface PageBlobGetPageRangesResponse
  */
 export interface PageBlobGetPageRangesDiffResponse
   extends PageList,
-    Models.PageBlobGetPageRangesDiffHeaders {
+    PageBlobGetPageRangesDiffHeaders {
   /**
    * The underlying HTTP response.
    */
@@ -44,7 +47,7 @@ export interface PageBlobGetPageRangesDiffResponse
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: Models.PageBlobGetPageRangesDiffHeaders;
+    parsedHeaders: PageBlobGetPageRangesDiffHeaders;
 
     /**
      * The response body as text (string format)
@@ -65,7 +68,7 @@ export interface PageBlobGetPageRangesDiffResponse
  * @param response Model PageBlob Range response
  */
 export function rangeResponseFromModel(
-  response: Models.PageBlobGetPageRangesResponse | Models.PageBlobGetPageRangesDiffResponse
+  response: PageBlobGetPageRangesResponseModel | PageBlobGetPageRangesDiffResponseModel
 ): PageBlobGetPageRangesResponse | PageBlobGetPageRangesDiffResponse {
   const pageRange = (response._response.parsedBody.pageRange || []).map((x) => ({
     offset: x.start,
