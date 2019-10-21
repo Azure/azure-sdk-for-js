@@ -2,7 +2,16 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import * as Models from "./generated/src/models";
+import {
+  FileServiceProperties,
+  ListSharesIncludeType,
+  ShareCreateResponse,
+  ShareDeleteResponse,
+  ServiceGetPropertiesResponse,
+  ServiceSetPropertiesResponse,
+  ServiceListSharesSegmentResponse,
+  ShareItem
+} from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
@@ -53,10 +62,10 @@ interface ServiceListSharesSegmentOptions extends CommonOptions {
    * Include this parameter to
    * specify one or more datasets to include in the response.
    *
-   * @type {Models.ListSharesIncludeType[]}
+   * @type {ListSharesIncludeType[]}
    * @memberof ServiceListSharesSegmentOptions
    */
-  include?: Models.ListSharesIncludeType[];
+  include?: ListSharesIncludeType[];
 }
 
 /**
@@ -249,13 +258,13 @@ export class FileServiceClient extends StorageClient {
    *
    * @param {string} shareName
    * @param {ShareCreateOptions} [options]
-   * @returns {Promise<{ shareCreateResponse: Models.ShareCreateResponse, shareClient: ShareClient }>} Share creation response and the corresponding share client.
+   * @returns {Promise<{ shareCreateResponse: ShareCreateResponse, shareClient: ShareClient }>} Share creation response and the corresponding share client.
    * @memberof FileServiceClient
    */
   public async createShare(
     shareName: string,
     options: ShareCreateOptions = {}
-  ): Promise<{ shareCreateResponse: Models.ShareCreateResponse; shareClient: ShareClient }> {
+  ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
     const { span, spanOptions } = createSpan("FileServiceClient-createShare", options.spanOptions);
     try {
       const shareClient = this.getShareClient(shareName);
@@ -280,13 +289,13 @@ export class FileServiceClient extends StorageClient {
    *
    * @param {string} shareName
    * @param {ShareDeleteMethodOptions} [options]
-   * @returns {Promise<Models.ShareDeleteResponse>} Share deletion response and the corresponding share client.
+   * @returns {Promise<ShareDeleteResponse>} Share deletion response and the corresponding share client.
    * @memberof FileServiceClient
    */
   public async deleteShare(
     shareName: string,
     options: ShareDeleteMethodOptions = {}
-  ): Promise<Models.ShareDeleteResponse> {
+  ): Promise<ShareDeleteResponse> {
     const { span, spanOptions } = createSpan("FileServiceClient-deleteShare", options.spanOptions);
     try {
       const shareClient = this.getShareClient(shareName);
@@ -308,12 +317,12 @@ export class FileServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties}
    *
    * @param {ServiceGetPropertiesOptions} [options={}] Options to Get Properties operation.
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data for the Get Properties operation.
+   * @returns {Promise<ServiceGetPropertiesResponse>} Response data for the Get Properties operation.
    * @memberof FileServiceClient
    */
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
-  ): Promise<Models.ServiceGetPropertiesResponse> {
+  ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "FileServiceClient-getProperties",
       options.spanOptions
@@ -339,15 +348,15 @@ export class FileServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-file-service-properties}
    *
-   * @param {Models.FileServiceProperties} properties
+   * @param {FileServiceProperties} properties
    * @param {ServiceSetPropertiesOptions} [options={}] Options to Set Properties operation.
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
+   * @returns {Promise<ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof FileServiceClient
    */
   public async setProperties(
-    properties: Models.FileServiceProperties,
+    properties: FileServiceProperties,
     options: ServiceSetPropertiesOptions = {}
-  ): Promise<Models.ServiceSetPropertiesResponse> {
+  ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "FileServiceClient-setProperties",
       options.spanOptions
@@ -380,13 +389,13 @@ export class FileServiceClient extends StorageClient {
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
-   * @returns {AsyncIterableIterator<Models.ServiceListSharesSegmentResponse>}
+   * @returns {AsyncIterableIterator<ServiceListSharesSegmentResponse>}
    * @memberof FileServiceClient
    */
   private async *listSegments(
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.ServiceListSharesSegmentResponse> {
+  ): AsyncIterableIterator<ServiceListSharesSegmentResponse> {
     let listSharesSegmentResponse;
     do {
       listSharesSegmentResponse = await this.listSharesSegment(marker, options);
@@ -400,12 +409,12 @@ export class FileServiceClient extends StorageClient {
    *
    * @private
    * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
-   * @returns {AsyncIterableIterator<Models.ServiceListSharesSegmentResponse>}
+   * @returns {AsyncIterableIterator<ServiceListSharesSegmentResponse>}
    * @memberof FileServiceClient
    */
   private async *listItems(
     options: ServiceListSharesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.ShareItem> {
+  ): AsyncIterableIterator<ShareItem> {
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
       yield* segment.shareItems;
@@ -479,13 +488,13 @@ export class FileServiceClient extends StorageClient {
    *
    * @param {ServiceListSharesOptions} [options] Options to list shares operation.
    * @memberof FileServiceClient
-   * @returns {PagedAsyncIterableIterator<Models.ShareItem, Models.ServiceListSharesSegmentResponse>}
+   * @returns {PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>}
    * An asyncIterableIterator that supports paging.
    */
   public listShares(
     options: ServiceListSharesOptions = {}
-  ): PagedAsyncIterableIterator<Models.ShareItem, Models.ServiceListSharesSegmentResponse> {
-    const include: Models.ListSharesIncludeType[] = [];
+  ): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse> {
+    const include: ListSharesIncludeType[] = [];
     if (options.includeMetadata) {
       include.push("metadata");
     }
@@ -536,13 +545,13 @@ export class FileServiceClient extends StorageClient {
    *                          request the next set of list items. The marker value is opaque to the
    *                          client.
    * @param {ServiceListSharesSegmentOptions} [options={}] Options to List Shares Segment operation.
-   * @returns {Promise<Models.ServiceListSharesSegmentResponse>} Response data for the List Shares Segment operation.
+   * @returns {Promise<ServiceListSharesSegmentResponse>} Response data for the List Shares Segment operation.
    * @memberof FileServiceClient
    */
   private async listSharesSegment(
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
-  ): Promise<Models.ServiceListSharesSegmentResponse> {
+  ): Promise<ServiceListSharesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "FileServiceClient-listSharesSegment",
       options.spanOptions

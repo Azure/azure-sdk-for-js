@@ -3,8 +3,6 @@
 
 import { RestError } from "@azure/core-http";
 
-import * as Models from "./generated/src/models";
-
 export * from "./ShareClient";
 export * from "./DirectoryClient";
 export * from "./FileClient";
@@ -29,5 +27,6 @@ export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./BrowserPolicyFactory";
 export * from "./FileServiceClient";
-export { Models, RestError };
 export { CommonOptions } from "./StorageClient";
+export * from "./generatedModels";
+export { RestError };
