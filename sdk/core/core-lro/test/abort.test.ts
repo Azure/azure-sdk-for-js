@@ -181,6 +181,6 @@ describe("Long Running Operations - working with abort signals", function() {
     }
 
     assert.equal(cancelError!.message, "The request was aborted");
-    poller.stop();
+    poller.stopPolling();
   });
 });

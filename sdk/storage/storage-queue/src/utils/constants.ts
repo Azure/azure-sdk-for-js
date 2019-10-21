@@ -14,7 +14,7 @@ export const URLConstants = {
   }
 };
 
-export const HTTPURLConnection = {
+export const HttpUrlConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,

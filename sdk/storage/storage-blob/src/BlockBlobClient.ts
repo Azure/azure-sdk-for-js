@@ -99,7 +99,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    *
    * @memberof BlockBlobUploadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Customer Provided Key Info.
    *
@@ -145,7 +145,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    *
    * @memberof BlockBlobStageBlockOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
@@ -325,15 +325,15 @@ export interface BlockBlobGetBlockListOptions extends CommonOptions {
  * Option interface for uploadStream().
  *
  * @export
- * @interface UploadStreamToBlockBlobOptions
+ * @interface BlockBlobUploadStreamOptions
  */
-export interface UploadStreamToBlockBlobOptions extends CommonOptions {
+export interface BlockBlobUploadStreamOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof IUploadToBlockBlobOptions
+   * @memberof BlockBlobUploadStreamOptions
    */
   abortSignal?: AbortSignalLike;
 
@@ -341,7 +341,7 @@ export interface UploadStreamToBlockBlobOptions extends CommonOptions {
    * Blob HTTP Headers.
    *
    * @type {BlobHTTPHeaders}
-   * @memberof UploadStreamToBlockBlobOptions
+   * @memberof BlockBlobUploadStreamOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -349,7 +349,7 @@ export interface UploadStreamToBlockBlobOptions extends CommonOptions {
    * Metadata of block blob.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof UploadStreamToBlockBlobOptions
+   * @memberof BlockBlobUploadStreamOptions
    */
   metadata?: { [propertyName: string]: string };
 
@@ -357,30 +357,30 @@ export interface UploadStreamToBlockBlobOptions extends CommonOptions {
    * Access conditions headers.
    *
    * @type {BlobAccessConditions}
-   * @memberof UploadStreamToBlockBlobOptions
+   * @memberof BlockBlobUploadStreamOptions
    */
   accessConditions?: BlobAccessConditions;
 
   /**
    * Progress updater.
    *
-   * @memberof UploadStreamToBlockBlobOptions
+   * @memberof BlockBlobUploadStreamOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 /**
  * Option interface for BlockBlobClient.uploadFile() and BlockBlobClient.uploadSeekableStream().
  *
  * @export
- * @interface UploadToBlockBlobOptions
+ * @interface BlockBlobParallelUploadOptions
  */
-export interface UploadToBlockBlobOptions extends CommonOptions {
+export interface BlockBlobParallelUploadOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof IUploadToBlockBlobOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   abortSignal?: AbortSignalLike;
 
@@ -388,7 +388,7 @@ export interface UploadToBlockBlobOptions extends CommonOptions {
    * Destination block blob size in bytes.
    *
    * @type {number}
-   * @memberof UploadToBlockBlobOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   blockSize?: number;
 
@@ -399,22 +399,22 @@ export interface UploadToBlockBlobOptions extends CommonOptions {
    * You can customize a value less equal than the default value.
    *
    * @type {number}
-   * @memberof UploadToBlockBlobOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   maxSingleShotSize?: number;
 
   /**
    * Progress updater.
    *
-   * @memberof UploadToBlockBlobOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Blob HTTP Headers.
    *
    * @type {BlobHTTPHeaders}
-   * @memberof UploadToBlockBlobOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   blobHTTPHeaders?: BlobHTTPHeaders;
 
@@ -422,7 +422,7 @@ export interface UploadToBlockBlobOptions extends CommonOptions {
    * Metadata of block blob.
    *
    * @type {{ [propertyName: string]: string }}
-   * @memberof UploadToBlockBlobOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   metadata?: { [propertyName: string]: string };
 
@@ -430,7 +430,7 @@ export interface UploadToBlockBlobOptions extends CommonOptions {
    * Access conditions headers.
    *
    * @type {BlobAccessConditions}
-   * @memberof UploadToBlockBlobOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   blobAccessConditions?: BlobAccessConditions;
 
@@ -438,7 +438,7 @@ export interface UploadToBlockBlobOptions extends CommonOptions {
    * Concurrency of parallel uploading. Must be >= 0.
    *
    * @type {number}
-   * @memberof UploadToBlockBlobOptions
+   * @memberof BlockBlobParallelUploadOptions
    */
   concurrency?: number;
 }
@@ -453,7 +453,7 @@ export type BlobUploadCommonResponse = BlockBlobUploadHeaders & {
    * The underlying HTTP response.
    *
    * @type {HttpResponse}
-   * @memberof IBlobUploadCommonResponse
+   * @memberof BlobUploadCommonResponse
    */
   _response: HttpResponse;
 };
@@ -678,7 +678,7 @@ export class BlockBlobClient extends BlobClient {
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         metadata: options.metadata,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
+        onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
         spanOptions
@@ -718,7 +718,7 @@ export class BlockBlobClient extends BlobClient {
       return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
-        onUploadProgress: options.progress,
+        onUploadProgress: options.onProgress,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -894,12 +894,12 @@ export class BlockBlobClient extends BlobClient {
    *
    * @export
    * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
-   * @param {UploadToBlockBlobOptions} [options] Options to upload browser data.
+   * @param {BlockBlobParallelUploadOptions} [options] Options to upload browser data.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
   public async uploadBrowserData(
     browserData: Blob | ArrayBuffer | ArrayBufferView,
-    options: UploadToBlockBlobOptions = {}
+    options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-uploadBrowserData",
@@ -937,13 +937,13 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param {(offset: number, size: number) => Blob} blobFactory
    * @param {number} size size of the data to upload.
-   * @param {UploadToBlockBlobOptions} [options] Options to Upload to Block Blob operation.
+   * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
   private async uploadSeekableBlob(
     blobFactory: (offset: number, size: number) => Blob,
     size: number,
-    options: UploadToBlockBlobOptions = {}
+    options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     if (!options.blockSize) {
       options.blockSize = 0;
@@ -1023,8 +1023,8 @@ export class BlockBlobClient extends BlobClient {
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress!({
+            if (options.onProgress) {
+              options.onProgress!({
                 loadedBytes: transferProgress
               });
             }
@@ -1055,12 +1055,12 @@ export class BlockBlobClient extends BlobClient {
    * to commit the block list.
    *
    * @param {string} filePath Full path of local file
-   * @param {UploadToBlockBlobOptions} [options] Options to Upload to Block Blob operation.
+   * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
    */
   public async uploadFile(
     filePath: string,
-    options: UploadToBlockBlobOptions = {}
+    options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     const { span, spanOptions } = createSpan("BlockBlobClient-uploadFile", options.spanOptions);
     try {
@@ -1100,14 +1100,14 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
    * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
    *                            with max uploading concurrency
-   * @param {UploadStreamToBlockBlobOptions} [options] Options to Upload Stream to Block Blob operation.
+   * @param {BlockBlobUploadStreamOptions} [options] Options to Upload Stream to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
   public async uploadStream(
     stream: Readable,
     bufferSize: number,
     maxBuffers: number,
-    options: UploadStreamToBlockBlobOptions = {}
+    options: BlockBlobUploadStreamOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     if (!options.blobHTTPHeaders) {
       options.blobHTTPHeaders = {};
@@ -1140,8 +1140,8 @@ export class BlockBlobClient extends BlobClient {
 
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += buffer.length;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         },
         // concurrency should set a smaller value than maxBuffers, which is helpful to
@@ -1179,13 +1179,13 @@ export class BlockBlobClient extends BlobClient {
    * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
    *                                                                  from the offset defined
    * @param {number} size Size of the block blob
-   * @param {UploadToBlockBlobOptions} [options] Options to Upload to Block Blob operation.
+   * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
    */
   private async uploadResetableStream(
     streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
     size: number,
-    options: UploadToBlockBlobOptions = {}
+    options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     if (!options.blockSize) {
       options.blockSize = 0;
@@ -1269,8 +1269,8 @@ export class BlockBlobClient extends BlobClient {
             );
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress({ loadedBytes: transferProgress });
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
             }
           }
         );

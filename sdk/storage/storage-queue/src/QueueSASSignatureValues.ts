@@ -56,10 +56,10 @@ export interface QueueSASSignatureValues {
    * Please refer to {@link QueueSASPermissions}
    * being accessed for help constructing the permissions string.
    *
-   * @type {string}
+   * @type {QueueSASPermissions}
    * @memberof QueueSASSignatureValues
    */
-  permissions?: string;
+  permissions?: QueueSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
@@ -125,7 +125,9 @@ export function generateQueueSASQueryParameters(
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (queueSASSignatureValues.permissions) {
-    verifiedPermissions = QueueSASPermissions.parse(queueSASSignatureValues.permissions).toString();
+    verifiedPermissions = QueueSASPermissions.parse(
+      queueSASSignatureValues.permissions.toString()
+    ).toString();
   }
 
   // Signature is generated on the un-url-encoded values.

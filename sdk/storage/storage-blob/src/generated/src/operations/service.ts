@@ -322,7 +322,7 @@ const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker0,
-    Parameters.maxResults,
+    Parameters.maxPageSize,
     Parameters.include0,
     Parameters.timeoutInSeconds,
     Parameters.comp2

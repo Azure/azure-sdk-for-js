@@ -111,7 +111,7 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
    *
    * @memberof AppendBlobAppendBlockOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
@@ -440,7 +440,7 @@ export class AppendBlobClient extends BlobClient {
         appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
+        onUploadProgress: options.onProgress,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,

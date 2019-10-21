@@ -104,7 +104,7 @@ describe("QueueClient", () => {
       {
         accessPolicy: {
           expiry: new Date("2018-12-31T11:22:33.4567890Z"),
-          permission: "rwdl",
+          permissions: "rwdl",
           start: new Date("2017-12-31T11:22:33.4567890Z")
         },
         id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="

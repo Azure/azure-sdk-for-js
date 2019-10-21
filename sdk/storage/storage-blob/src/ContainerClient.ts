@@ -423,15 +423,15 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   prefix?: string;
   /**
-   * @member {number} [maxResults] Specifies the maximum number of containers
-   * to return. If the request does not specify maxResults, or specifies a
+   * @member {number} [maxPageSize] Specifies the maximum number of containers
+   * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
    * service will return a continuation token for retrieving the remainder of
    * the results. For this reason, it is possible that the service will return
-   * fewer results than specified by maxResults, or than the default of 5000.
+   * fewer results than specified by maxPageSize, or than the default of 5000.
    */
-  maxResults?: number;
+  maxPageSize?: number;
   /**
    * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
    * specify one or more datasets to include in the response.
@@ -1308,7 +1308,7 @@ export class ContainerClient extends StorageClient {
    *     console.log(`Blob ${i++}: ${blob.name}`);
    *    }
    *   // Gets next marker
-   *   let marker = response.nextMarker;
+   *   let marker = response.continuationToken;
    *    // Passing next marker as continuationToken
    *   iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
    *   response = (await iterator.next()).value;
@@ -1367,7 +1367,7 @@ export class ContainerClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
-          maxResults: settings.maxPageSize,
+          maxPageSize: settings.maxPageSize,
           ...updatedOptions
         });
       }
@@ -1562,7 +1562,7 @@ export class ContainerClient extends StorageClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {
-          maxResults: settings.maxPageSize,
+          maxPageSize: settings.maxPageSize,
           ...updatedOptions
         });
       }

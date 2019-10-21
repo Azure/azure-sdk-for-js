@@ -29,3 +29,8 @@ export * from "./UniqueRequestIDPolicyFactory";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
+export {
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  PageList
+} from "./PageBlobRangeResponse";

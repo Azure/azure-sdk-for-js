@@ -3,7 +3,27 @@
 
 import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import * as Models from "./generated/src/models";
+import {
+  EnqueuedMessage,
+  DequeuedMessageItem,
+  MessagesDequeueHeaders,
+  MessagesDequeueOptionalParams,
+  MessagesEnqueueHeaders,
+  MessagesEnqueueOptionalParams,
+  MessagesPeekHeaders,
+  MessagesPeekOptionalParams,
+  MessageIdUpdateResponse,
+  MessageIdDeleteResponse,
+  MessagesClearResponse,
+  PeekedMessageItem,
+  QueueCreateResponse,
+  QueueDeleteResponse,
+  QueueGetAccessPolicyHeaders,
+  QueueGetPropertiesResponse,
+  QueueSetAccessPolicyResponse,
+  QueueSetMetadataResponse,
+  SignedIdentifierModel
+} from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages, MessageId, Queue } from "./generated/src/operations";
 import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
@@ -158,13 +178,13 @@ export interface SignedIdentifier {
      * @member {string} permission the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
      */
-    permission: string;
+    permissions: string;
   };
 }
 
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
-} & Models.QueueGetAccessPolicyHeaders & {
+} & QueueGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
      */
@@ -172,7 +192,7 @@ export declare type QueueGetAccessPolicyResponse = {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: Models.QueueGetAccessPolicyHeaders;
+      parsedHeaders: QueueGetAccessPolicyHeaders;
       /**
        * The response body as text (string format)
        */
@@ -180,7 +200,7 @@ export declare type QueueGetAccessPolicyResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Models.SignedIdentifier[];
+      parsedBody: SignedIdentifierModel[];
     };
   };
 
@@ -206,33 +226,27 @@ export interface QueueClearMessagesOptions extends CommonOptions {
  *
  * @export
  * @interface QueueSendMessageOptions
- * @extends {Models.MessagesEnqueueOptionalParams}
+ * @extends {MessagesEnqueueOptionalParams}
  */
-export interface QueueSendMessageOptions
-  extends Models.MessagesEnqueueOptionalParams,
-    CommonOptions {}
+export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
 
 /**
  * Options to configure Messages - Dequeue operation
  *
  * @export
  * @interface QueueReceiveMessageOptions
- * @extends {Models.MessagesDequeueOptionalParams}
+ * @extends {MessagesDequeueOptionalParams}
  */
-export interface QueueReceiveMessageOptions
-  extends Models.MessagesDequeueOptionalParams,
-    CommonOptions {}
+export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
 
 /**
  * Options to configure Messages - Peek operation
  *
  * @export
  * @interface QueuePeekMessagesOptions
- * @extends {Models.MessagesPeekOptionalParams}
+ * @extends {MessagesPeekOptionalParams}
  */
-export interface QueuePeekMessagesOptions
-  extends Models.MessagesPeekOptionalParams,
-    CommonOptions {}
+export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
 
 export declare type QueueSendMessageResponse = {
   /**
@@ -246,21 +260,21 @@ export declare type QueueSendMessageResponse = {
    */
   popReceipt: string;
   /**
-   * @member {Date} insertionTime The time that the message was inserted into the
+   * @member {Date} insertedOn The time that the message was inserted into the
    * Queue.
    */
-  insertionTime: Date;
+  insertedOn: Date;
   /**
-   * @member {Date} expirationTime The time that the message will expire and be
+   * @member {Date} expiresOn The time that the message will expire and be
    * automatically deleted.
    */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
-   * @member {Date} timeNextVisible The time that the message will again become
+   * @member {Date} nextVisibleOn The time that the message will again become
    * visible in the Queue.
    */
-  timeNextVisible: Date;
-} & Models.MessagesEnqueueHeaders & {
+  nextVisibleOn: Date;
+} & MessagesEnqueueHeaders & {
     /**
      * The underlying HTTP response.
      */
@@ -268,7 +282,7 @@ export declare type QueueSendMessageResponse = {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: Models.MessagesEnqueueHeaders;
+      parsedHeaders: MessagesEnqueueHeaders;
       /**
        * The response body as text (string format)
        */
@@ -276,13 +290,13 @@ export declare type QueueSendMessageResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Models.EnqueuedMessage[];
+      parsedBody: EnqueuedMessage[];
     };
   };
 
 export declare type QueueReceiveMessageResponse = {
-  dequeuedMessageItems: Models.DequeuedMessageItem[];
-} & Models.MessagesDequeueHeaders & {
+  dequeuedMessageItems: DequeuedMessageItem[];
+} & MessagesDequeueHeaders & {
     /**
      * The underlying HTTP response.
      */
@@ -290,7 +304,7 @@ export declare type QueueReceiveMessageResponse = {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: Models.MessagesDequeueHeaders;
+      parsedHeaders: MessagesDequeueHeaders;
       /**
        * The response body as text (string format)
        */
@@ -298,13 +312,13 @@ export declare type QueueReceiveMessageResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Models.DequeuedMessageItem[];
+      parsedBody: DequeuedMessageItem[];
     };
   };
 
 export declare type QueuePeekMessagesResponse = {
-  peekedMessageItems: Models.PeekedMessageItem[];
-} & Models.MessagesPeekHeaders & {
+  peekedMessageItems: PeekedMessageItem[];
+} & MessagesPeekHeaders & {
     /**
      * The underlying HTTP response.
      */
@@ -312,7 +326,7 @@ export declare type QueuePeekMessagesResponse = {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: Models.MessagesPeekHeaders;
+      parsedHeaders: MessagesPeekHeaders;
       /**
        * The response body as text (string format)
        */
@@ -320,7 +334,7 @@ export declare type QueuePeekMessagesResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Models.PeekedMessageItem[];
+      parsedBody: PeekedMessageItem[];
     };
   };
 
@@ -341,9 +355,9 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
-export declare type QueueUpdateMessageResponse = Models.MessageIdUpdateResponse;
-export declare type QueueDeleteMessageResponse = Models.MessageIdDeleteResponse;
-export declare type QueueClearMessagesResponse = Models.MessagesClearResponse;
+export declare type QueueUpdateMessageResponse = MessageIdUpdateResponse;
+export declare type QueueDeleteMessageResponse = MessageIdDeleteResponse;
+export declare type QueueClearMessagesResponse = MessagesClearResponse;
 
 /**
  * Options to configure MessageId - Update operation
@@ -528,10 +542,10 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param {QueueCreateOptions} [options] Options to Queue create operation.
-   * @returns {Promise<Models.QueueCreateResponse>} Response data for the Queue create operation.
+   * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueClient
    */
-  public async create(options: QueueCreateOptions = {}): Promise<Models.QueueCreateResponse> {
+  public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
     const { span, spanOptions } = createSpan("QueueClient-create", options.spanOptions);
     try {
       return this.queueContext.create({
@@ -555,10 +569,10 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
-   * @returns {Promise<Models.QueueDeleteResponse>} Response data for the Queue delete operation.
+   * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueClient
    */
-  public async delete(options: QueueDeleteOptions = {}): Promise<Models.QueueDeleteResponse> {
+  public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
     const { span, spanOptions } = createSpan("QueueClient-delete", options.spanOptions);
     try {
       return this.queueContext.deleteMethod({
@@ -582,12 +596,12 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
    * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
-   * @returns {Promise<Models.QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
+   * @returns {Promise<QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
    * @memberof QueueClient
    */
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
-  ): Promise<Models.QueueGetPropertiesResponse> {
+  ): Promise<QueueGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("QueueClient-getProperties", options.spanOptions);
     try {
       return this.queueContext.getProperties({
@@ -614,13 +628,13 @@ export class QueueClient extends StorageClient {
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
    * @param {QueueSetMetadataOptions} [options] Options to Queue set metadata operation.
-   * @returns {Promise<Models.QueueSetMetadataResponse>} Response data for the Queue set metadata operation.
+   * @returns {Promise<QueueSetMetadataResponse>} Response data for the Queue set metadata operation.
    * @memberof QueueClient
    */
   public async setMetadata(
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
-  ): Promise<Models.QueueSetMetadataResponse> {
+  ): Promise<QueueSetMetadataResponse> {
     const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.spanOptions);
     try {
       return this.queueContext.setMetadata({
@@ -675,7 +689,7 @@ export class QueueClient extends StorageClient {
         res.signedIdentifiers.push({
           accessPolicy: {
             expiry: new Date(identifier.accessPolicy.expiry),
-            permission: identifier.accessPolicy.permission,
+            permissions: identifier.accessPolicy.permissions,
             start: new Date(identifier.accessPolicy.start)
           },
           id: identifier.id
@@ -701,21 +715,21 @@ export class QueueClient extends StorageClient {
    * @param {PublicAccessType} [access]
    * @param {SignedIdentifier[]} [queueAcl]
    * @param {QueueSetAccessPolicyOptions} [options] Options to Queue set access policy operation.
-   * @returns {Promise<Models.QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
+   * @returns {Promise<QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
    * @memberof QueueClient
    */
   public async setAccessPolicy(
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
-  ): Promise<Models.QueueSetAccessPolicyResponse> {
+  ): Promise<QueueSetAccessPolicyResponse> {
     const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.spanOptions);
     try {
-      const acl: Models.SignedIdentifier[] = [];
+      const acl: SignedIdentifierModel[] = [];
       for (const identifier of queueAcl || []) {
         acl.push({
           accessPolicy: {
             expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
-            permission: identifier.accessPolicy.permission,
+            permissions: identifier.accessPolicy.permissions,
             start: truncatedISO8061Date(identifier.accessPolicy.start)
           },
           id: identifier.id
@@ -804,9 +818,9 @@ export class QueueClient extends StorageClient {
         errorCode: response.errorCode,
         messageId: item.messageId,
         popReceipt: item.popReceipt,
-        timeNextVisible: item.timeNextVisible,
-        insertionTime: item.insertionTime,
-        expirationTime: item.expirationTime
+        nextVisibleOn: item.nextVisibleOn,
+        insertedOn: item.insertedOn,
+        expiresOn: item.expiresOn
       };
     } catch (e) {
       span.setStatus({

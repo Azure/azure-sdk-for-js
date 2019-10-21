@@ -32,7 +32,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
-    assert.ok(!storedSetting.locked);
+    assert.ok(!storedSetting.readOnly);
 
     await client.setReadOnly(testConfigSetting);
 
@@ -40,7 +40,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
-    assert.ok(storedSetting.locked);
+    assert.ok(storedSetting.readOnly);
 
     // any modification related methods throw exceptions
     await assertThrowsRestError(

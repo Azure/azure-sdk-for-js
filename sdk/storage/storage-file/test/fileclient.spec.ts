@@ -6,7 +6,6 @@ import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { ShareClient, DirectoryClient, FileClient } from "../src";
 import { getBSU, bodyToString } from "./utils";
-import { FileForceCloseHandlesResponse } from "../src/generated/src/models";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
@@ -360,7 +359,7 @@ describe("FileClient", () => {
     await fileClient.create(10);
     let progressUpdated = false;
     await fileClient.uploadRange("HelloWorld", 0, 10, {
-      progress: () => {
+      onProgress: () => {
         progressUpdated = true;
       }
     });
@@ -430,7 +429,7 @@ describe("FileClient", () => {
       const aborter = new AbortController();
       const result = await fileClient.download(0, undefined, {
         abortSignal: aborter.signal,
-        progress: () => {
+        onProgress: () => {
           eventTriggered = true;
           aborter.abort();
         }
@@ -476,19 +475,12 @@ describe("FileClient", () => {
     }
   });
 
-  it("forceCloseHandlesSegment should work", async () => {
+  it("forceCloseAllHandles should work", async () => {
     await fileClient.create(10);
 
-    // TODO: Open or create a handle
+    // TODO: Open or create a handle - Has to be tested locally
 
-    let marker: string | undefined = "";
-
-    do {
-      const response: FileForceCloseHandlesResponse = await fileClient.forceCloseHandlesSegment(
-        marker
-      );
-      marker = response.marker;
-    } while (marker);
+    assert.equal(await fileClient.forceCloseAllHandles(), 0, "Error in forceCloseAllHandles");
   });
 
   it("forceCloseHandle should work", async () => {

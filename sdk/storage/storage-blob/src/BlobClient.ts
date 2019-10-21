@@ -118,7 +118,7 @@ export interface BlobDownloadOptions extends CommonOptions {
    *
    * @memberof BlobDownloadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
@@ -638,15 +638,15 @@ export interface BlobSetTierOptions extends CommonOptions {
  * Option interface for BlobClient.downloadToBuffer().
  *
  * @export
- * @interface DownloadFromBlobOptions
+ * @interface BlobDownloadToBufferOptions
  */
-export interface DownloadFromBlobOptions extends CommonOptions {
+export interface BlobDownloadToBufferOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   abortSignal?: AbortSignalLike;
 
@@ -656,7 +656,7 @@ export interface DownloadFromBlobOptions extends CommonOptions {
    * to the blob size.
    *
    * @type {number}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   blockSize?: number;
 
@@ -681,15 +681,15 @@ export interface DownloadFromBlobOptions extends CommonOptions {
   /**
    * Progress updater.
    *
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Access conditions headers.
    *
    * @type {BlobAccessConditions}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   blobAccessConditions?: BlobAccessConditions;
 
@@ -697,7 +697,7 @@ export interface DownloadFromBlobOptions extends CommonOptions {
    * Concurrency of parallel download.
    *
    * @type {number}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   concurrency?: number;
 }
@@ -957,7 +957,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
         modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-        onDownloadProgress: isNode ? undefined : options.progress,
+        onDownloadProgress: isNode ? undefined : options.onProgress,
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
@@ -1029,7 +1029,7 @@ export class BlobClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequests,
-          progress: options.progress
+          onProgress: options.onProgress
         }
       );
     } catch (e) {
@@ -1476,15 +1476,15 @@ export class BlobClient extends StorageClient {
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
-   * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
-   * @returns {Promise<void>}
+   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
+   * @returns {Promise<Buffer>}
    */
   public async downloadToBuffer(
     buffer: Buffer,
     offset: number,
     count?: number,
-    options: DownloadFromBlobOptions = {}
-  ): Promise<void> {
+    options: BlobDownloadToBufferOptions = {}
+  ): Promise<Buffer> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
     try {
@@ -1551,12 +1551,13 @@ export class BlobClient extends StorageClient {
           // Could provide finer grained progress updating inside HTTP requests,
           // only if convenience layer download try is enabled
           transferProgress += chunkEnd - off;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         });
       }
       await batch.do();
+      return buffer;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

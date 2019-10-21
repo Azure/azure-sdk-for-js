@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { delay, WebResource, HttpHeaders } from "@azure/core-http";
+import { delay, WebResource, HttpHeaders, isNode } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { PollerStoppedError, PollerCancelledError } from "../src";
 import { TestTokenCredential } from "./utils/testTokenCredential";
@@ -57,6 +57,28 @@ describe("Long Running Operations - custom client", function() {
     assert.equal(result, "Done");
   });
 
+  if (isNode) {
+    it("won't throw UnhandledPromiseRejectionWarnings when poll called without pollUntilDone", async function() {
+      // NOTE: Don't set any responses so that poller.poll throws an error
+      const client = new TestClient(new TestTokenCredential("my-test-token"));
+      let foundUnhandled = false;
+      const checker = () => {
+        foundUnhandled = true;
+      };
+
+      process.once("unhandledRejection", checker);
+      try {
+        await client.startLRO();
+        throw new Error("Test failure");
+      } catch (err) {
+        assert.notEqual(err.message, "Test failure", "client.startLRO did not throw an error.");
+        // delay(0) gives the event loop a chance emit the UnhandledPromiseRejectionWarning so we can catch it.
+        await delay(0);
+        assert.equal(foundUnhandled, false, "An UnhandledPromiseRejectionWarning was thrown.");
+      }
+    });
+  }
+
   it("can poll a long running operation with more than one promise", async function() {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([initialResponse, doFinalResponse, finalResponse]);
@@ -66,19 +88,14 @@ describe("Long Running Operations - custom client", function() {
     await poller.poll();
     assert.ok(poller.previousResponse!.parsedBody.doFinalResponse);
 
-    let getResultError: any;
-    try {
-      await poller.getResult();
-    } catch (e) {
-      getResultError = e;
-    }
-    assert.equal(getResultError.message, "The poller hasn't finished. You can call and wait for the method pollUntilDone() to finish, or manually check until the method isDone() returns true.");
+    let result = await poller.getResult();
+    assert.equal(result, undefined);
 
     await poller.pollUntilDone();
     assert.ok(poller.previousResponse!.parsedBody.finished);
     assert.ok(poller.getOperationState().completed);
 
-    const result = await poller.getResult();
+    result = await poller.getResult();
     assert.equal(result, "Done");
   });
 
@@ -159,7 +176,7 @@ describe("Long Running Operations - custom client", function() {
 
     assert.equal(client.totalSentRequests, 12);
 
-    poller.stop();
+    poller.stopPolling();
 
     await delay(100);
 

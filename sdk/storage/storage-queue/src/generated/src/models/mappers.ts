@@ -31,7 +31,7 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      permission: {
+      permissions: {
         xmlName: "Permission",
         required: true,
         serializedName: "Permission",
@@ -105,7 +105,7 @@ export const ListQueuesSegmentResponse: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      maxResults: {
+      maxPageSize: {
         xmlName: "MaxResults",
         required: true,
         serializedName: "MaxResults",
@@ -128,7 +128,7 @@ export const ListQueuesSegmentResponse: coreHttp.CompositeMapper = {
           }
         }
       },
-      nextMarker: {
+      continuationToken: {
         xmlName: "NextMarker",
         required: true,
         serializedName: "NextMarker",
@@ -207,7 +207,7 @@ export const GeoReplication: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      lastSyncTime: {
+      lastSyncOn: {
         xmlName: "LastSyncTime",
         required: true,
         serializedName: "LastSyncTime",
@@ -388,7 +388,7 @@ export const DequeuedMessageItem: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      insertionTime: {
+      insertedOn: {
         xmlName: "InsertionTime",
         required: true,
         serializedName: "InsertionTime",
@@ -396,7 +396,7 @@ export const DequeuedMessageItem: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      expirationTime: {
+      expiresOn: {
         xmlName: "ExpirationTime",
         required: true,
         serializedName: "ExpirationTime",
@@ -412,7 +412,7 @@ export const DequeuedMessageItem: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      timeNextVisible: {
+      nextVisibleOn: {
         xmlName: "TimeNextVisible",
         required: true,
         serializedName: "TimeNextVisible",
@@ -455,7 +455,7 @@ export const PeekedMessageItem: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      insertionTime: {
+      insertedOn: {
         xmlName: "InsertionTime",
         required: true,
         serializedName: "InsertionTime",
@@ -463,7 +463,7 @@ export const PeekedMessageItem: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      expirationTime: {
+      expiresOn: {
         xmlName: "ExpirationTime",
         required: true,
         serializedName: "ExpirationTime",
@@ -506,7 +506,7 @@ export const EnqueuedMessage: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      insertionTime: {
+      insertedOn: {
         xmlName: "InsertionTime",
         required: true,
         serializedName: "InsertionTime",
@@ -514,7 +514,7 @@ export const EnqueuedMessage: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      expirationTime: {
+      expiresOn: {
         xmlName: "ExpirationTime",
         required: true,
         serializedName: "ExpirationTime",
@@ -530,7 +530,7 @@ export const EnqueuedMessage: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      timeNextVisible: {
+      nextVisibleOn: {
         xmlName: "TimeNextVisible",
         required: true,
         serializedName: "TimeNextVisible",
@@ -576,7 +576,7 @@ export const QueueServiceProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "QueueServiceProperties",
     modelProperties: {
-      logging: {
+      queueAnalyticsLogging: {
         xmlName: "Logging",
         serializedName: "Logging",
         type: {
@@ -1240,7 +1240,7 @@ export const MessageIdUpdateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      timeNextVisible: {
+      nextVisibleOn: {
         serializedName: "x-ms-time-next-visible",
         type: {
           name: "DateTimeRfc1123"

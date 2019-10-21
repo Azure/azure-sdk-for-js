@@ -79,7 +79,7 @@ async function main() {
   await fileClient.uploadFile(localFilePath, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
-    progress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev)
   });
   console.log("uploadFile success");
 
@@ -87,7 +87,7 @@ async function main() {
   // FileClient.uploadStream() is only available in Node.js
   await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
     abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-    progress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev)
   });
   console.log("uploadStream success");
 
@@ -98,7 +98,7 @@ async function main() {
   await fileClient.uploadBrowserData(browserFile, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    onProgress: ev => console.log(ev)
   });
   */
 
@@ -109,7 +109,7 @@ async function main() {
     abortSignal: AbortController.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
-    progress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev)
   });
   console.log("downloadToBuffer success");
 

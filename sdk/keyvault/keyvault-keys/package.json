@@ -70,6 +70,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-http": "1.0.0-preview.6",
+    "@azure/core-lro": "1.0.0-preview.1",
     "@azure/core-paging": "1.0.0-preview.2",
     "@azure/identity": "1.0.0-preview.6",
     "@azure/core-tracing": "1.0.0-preview.5",

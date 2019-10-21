@@ -46,6 +46,11 @@ import {
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import {
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  rangeResponseFromModel
+} from "./PageBlobRangeResponse";
 
 /**
  * Options to configure Page Blob - Create operation.
@@ -135,7 +140,7 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    *
    * @memberof PageBlobUploadPagesOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * An MD5 hash of the content. This hash is used to verify the integrity of the content during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
@@ -619,7 +624,7 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.accessConditions.leaseAccessConditions,
         modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
+        onUploadProgress: options.onProgress,
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
         transactionalContentMD5: options.transactionalContentMD5,
@@ -755,13 +760,15 @@ export class PageBlobClient extends BlobClient {
     options.accessConditions = options.accessConditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-getPageRanges", options.spanOptions);
     try {
-      return this.pageBlobContext.getPageRanges({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        range: rangeToString({ offset, count }),
-        spanOptions
-      });
+      return this.pageBlobContext
+        .getPageRanges({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          range: rangeToString({ offset, count }),
+          spanOptions
+        })
+        .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -796,14 +803,16 @@ export class PageBlobClient extends BlobClient {
       options.spanOptions
     );
     try {
-      return this.pageBlobContext.getPageRangesDiff({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        prevsnapshot: prevSnapshot,
-        range: rangeToString({ offset, count }),
-        spanOptions
-      });
+      return this.pageBlobContext
+        .getPageRangesDiff({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          prevsnapshot: prevSnapshot,
+          range: rangeToString({ offset, count }),
+          spanOptions
+        })
+        .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
