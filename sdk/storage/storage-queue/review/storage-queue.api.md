@@ -63,7 +63,7 @@ export class AccountSASServices {
 export interface AccountSASSignatureValues {
     expiryTime: Date;
     ipRange?: SasIPRange;
-    permissions: string;
+    permissions: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes: string;
     services: string;
@@ -106,23 +106,23 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 // @public
 export interface DequeuedMessageItem {
     dequeueCount: number;
-    expirationTime: Date;
-    insertionTime: Date;
+    expiresOn: Date;
+    insertedOn: Date;
     messageId: string;
     messageText: string;
+    nextVisibleOn: Date;
     popReceipt: string;
-    timeNextVisible: Date;
 }
 
 export { deserializationPolicy }
 
 // @public
 export interface EnqueuedMessage {
-    expirationTime: Date;
-    insertionTime: Date;
+    expiresOn: Date;
+    insertedOn: Date;
     messageId: string;
+    nextVisibleOn: Date;
     popReceipt: string;
-    timeNextVisible: Date;
 }
 
 // @public
@@ -149,11 +149,11 @@ export type ListQueuesIncludeType = 'metadata';
 // @public
 export interface ListQueuesSegmentResponse {
     // (undocumented)
+    continuationToken: string;
+    // (undocumented)
     marker?: string;
     // (undocumented)
-    maxResults: number;
-    // (undocumented)
-    nextMarker: string;
+    maxPageSize: number;
     // (undocumented)
     prefix: string;
     // (undocumented)
@@ -210,8 +210,8 @@ export interface MessagesDequeueHeaders {
 export interface MessagesDequeueOptionalParams extends coreHttp.RequestOptionsBase {
     numberOfMessages?: number;
     requestId?: string;
-    timeoutParameter?: number;
-    visibilitytimeout?: number;
+    timeoutInSeconds?: number;
+    visibilityTimeout?: number;
 }
 
 // @public
@@ -228,8 +228,8 @@ export interface MessagesEnqueueHeaders {
 export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBase {
     messageTimeToLive?: number;
     requestId?: string;
-    timeoutParameter?: number;
-    visibilitytimeout?: number;
+    timeoutInSeconds?: number;
+    visibilityTimeout?: number;
 }
 
 // @public
@@ -246,7 +246,7 @@ export interface MessagesPeekHeaders {
 export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase {
     numberOfMessages?: number;
     requestId?: string;
-    timeoutParameter?: number;
+    timeoutInSeconds?: number;
 }
 
 // @public (undocumented)
@@ -273,8 +273,8 @@ export interface NewPipelineOptions {
 // @public
 export interface PeekedMessageItem {
     dequeueCount: number;
-    expirationTime: Date;
-    insertionTime: Date;
+    expiresOn: Date;
+    insertedOn: Date;
     messageId: string;
     messageText: string;
 }
@@ -289,7 +289,7 @@ export class Pipeline {
 
 // @public
 export interface PipelineOptions {
-    HTTPClient?: IHttpClient;
+    HttpClient?: IHttpClient;
     logger?: IHttpPipelineLogger;
 }
 
@@ -431,12 +431,12 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
 
 // @public (undocumented)
 export type QueueReceiveMessageResponse = {
-    dequeuedMessageItems: DequeuedMessageItem[];
+    receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
     _response: HttpResponse & {
         parsedHeaders: MessagesDequeueHeaders;
         bodyAsText: string;
-        parsedBody: DequeuedMessageItem[];
+        parsedBody: ReceivedMessageItem[];
     };
 };
 
@@ -455,7 +455,7 @@ export interface QueueSASSignatureValues {
     expiryTime?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
-    permissions?: string;
+    permissions?: QueueSASPermissions;
     protocol?: SASProtocol;
     queueName: string;
     startTime?: Date;
@@ -470,9 +470,9 @@ export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, 
 export type QueueSendMessageResponse = {
     messageId: string;
     popReceipt: string;
-    insertionTime: Date;
-    expirationTime: Date;
-    timeNextVisible: Date;
+    insertedOn: Date;
+    expiresOn: Date;
+    nextVisibleOn: Date;
 } & MessagesEnqueueHeaders & {
     _response: HttpResponse & {
         parsedHeaders: MessagesEnqueueHeaders;
@@ -501,9 +501,9 @@ export interface QueueServiceProperties {
     cors?: CorsRule[];
     // Warning: (ae-forgotten-export) The symbol "Metrics" needs to be exported by the entry point index.d.ts
     hourMetrics?: Metrics;
-    // Warning: (ae-forgotten-export) The symbol "Logging" needs to be exported by the entry point index.d.ts
-    logging?: Logging;
     minuteMetrics?: Metrics;
+    // Warning: (ae-forgotten-export) The symbol "Logging" needs to be exported by the entry point index.d.ts
+    queueAnalyticsLogging?: Logging;
 }
 
 // @public
@@ -541,6 +541,9 @@ export interface QueueUpdateMessageOptions extends CommonOptions {
 
 // @public (undocumented)
 export type QueueUpdateMessageResponse = MessageIdUpdateResponse;
+
+// @public (undocumented)
+export type ReceivedMessageItem = DequeuedMessageItem;
 
 // @public
 export interface RequestLogOptions {
@@ -586,8 +589,8 @@ export interface SasIPRange {
 
 // @public
 export enum SASProtocol {
-    HTTPS = "https",
-    HTTPSandHTTP = "https,http"
+    Https = "https",
+    HttpsAndHttp = "https,http"
 }
 
 // @public
@@ -691,7 +694,7 @@ export interface SignedIdentifier {
     accessPolicy: {
         start: Date;
         expiry: Date;
-        permission: string;
+        permissions: string;
     };
     id: string;
 }
