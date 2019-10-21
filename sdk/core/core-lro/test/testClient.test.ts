@@ -53,7 +53,7 @@ describe("Long Running Operations - custom client", function() {
 
     assert.ok(poller.initialResponse!.parsedBody.started);
     assert.ok(poller.previousResponse!.parsedBody.finished);
-    assert.ok(poller.getOperationState().completed);
+    assert.ok(poller.getOperationState().isCompleted);
     assert.equal(result, "Done");
   });
 
@@ -93,7 +93,7 @@ describe("Long Running Operations - custom client", function() {
 
     await poller.pollUntilDone();
     assert.ok(poller.previousResponse!.parsedBody.finished);
-    assert.ok(poller.getOperationState().completed);
+    assert.ok(poller.getOperationState().isCompleted);
 
     result = await poller.getResult();
     assert.equal(result, "Done");
@@ -124,7 +124,7 @@ describe("Long Running Operations - custom client", function() {
     assert.equal(client.totalSentRequests, 11);
 
     await poller.cancelOperation();
-    assert.ok(poller.getOperationState().cancelled);
+    assert.ok(poller.getOperationState().isCancelled);
 
     // Cancelling a poller stops it
     assert.ok(poller.isStopped());

@@ -134,7 +134,7 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
 
   public isDone(): boolean {
     const state = this.getOperationState();
-    return Boolean(state.completed || state.cancelled || state.error);
+    return Boolean(state.isCompleted || state.isCancelled || state.error);
   }
 
   public stopPolling(): void {
