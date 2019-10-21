@@ -1,6 +1,11 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { getGenericBSU, getGenericCredential, getTokenCredential, SimpleTokenCredential } from "./utils";
+import {
+  getGenericBSU,
+  getGenericCredential,
+  getTokenCredential,
+  SimpleTokenCredential
+} from "./utils";
 import { record } from "./utils/recorder";
 import { BatchDeleteRequest, BatchSetTierRequest } from "../src/BatchRequest";
 import { ContainerClient, BlockBlobClient, BlobServiceClient, newPipeline } from "../src";
@@ -197,17 +202,13 @@ describe("BlobBatch", () => {
     // Assemble batch delete request.
     let batchDeleteRequest = new BatchDeleteRequest();
     await batchDeleteRequest.addSubRequest(blockBlobURLs[0], {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: b0.eTag
-        }
+      conditions: {
+        ifMatch: b0.eTag
       }
     });
     await batchDeleteRequest.addSubRequest(blockBlobURLs[1], {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifNoneMatch: b1.eTag
-        }
+      conditions: {
+        ifNoneMatch: b1.eTag
       }
     });
 
@@ -276,7 +277,7 @@ describe("BlobBatch", () => {
     let batchSetTierRequest = new BatchSetTierRequest();
     await batchSetTierRequest.addSubRequest(blockBlobURLs[0], "Cool");
     await batchSetTierRequest.addSubRequest(blockBlobURLs[1], "Cool", {
-      leaseAccessConditions: { leaseId: leaseResp.leaseId! }
+      conditions: { leaseId: leaseResp.leaseId! }
     });
 
     // Submit batch request and verify response.

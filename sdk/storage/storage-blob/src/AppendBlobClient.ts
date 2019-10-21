@@ -21,8 +21,8 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient, CommonOptions } from "./internal";
 import { AppendBlob } from "./generated/src/operations";
 import {
-  AppendBlobAccessConditions,
-  BlobAccessConditions,
+  AppendBlobRequestConditions,
+  BlobRequestConditions,
   Metadata,
   ensureCpkIfSpecified
 } from "./models";
@@ -57,10 +57,10 @@ export interface AppendBlobCreateOptions extends CommonOptions {
   /**
    * Conditions to meet when creating append blobs.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof AppendBlobCreateOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when creating append blobs.
    *
@@ -102,10 +102,10 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   /**
    * Conditions to meet when appending append blob blocks.
    *
-   * @type {AppendBlobAccessConditions}
+   * @type {AppendBlobRequestConditions}
    * @memberof AppendBlobAppendBlockOptions
    */
-  accessConditions?: AppendBlobAccessConditions;
+  conditions?: AppendBlobRequestConditions;
   /**
    * Callback to receive events on the progress of append block operation.
    *
@@ -153,17 +153,17 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet when appending append blob blocks.
    *
-   * @type {AppendBlobAccessConditions}
+   * @type {AppendBlobRequestConditions}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  accessConditions?: AppendBlobAccessConditions;
+  conditions?: AppendBlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
    * @type {ModifiedAccessConditions}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  sourceModifiedAccessConditions?: ModifiedAccessConditions;
+  sourceConditions?: ModifiedAccessConditions;
   /**
    * An MD5 hash of the append block content from the URI.
    * This hash is used to verify the integrity of the append block during transport of the data from the URI.
@@ -391,16 +391,16 @@ export class AppendBlobClient extends BlobClient {
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-create", options.spanOptions);
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
       return this.appendBlobContext.create(0, {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -431,15 +431,15 @@ export class AppendBlobClient extends BlobClient {
     options: AppendBlobAppendBlockOptions = {}
   ): Promise<AppendBlobAppendBlockResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-appendBlock", options.spanOptions);
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
       return this.appendBlobContext.appendBlock(body, contentLength, {
         abortSignal: options.abortSignal,
-        appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        appendPositionAccessConditions: options.conditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
@@ -483,8 +483,8 @@ export class AppendBlobClient extends BlobClient {
       "AppendBlobClient-appendBlockFromURL",
       options.spanOptions
     );
-    options.accessConditions = options.accessConditions || {};
-    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    options.conditions = options.conditions || {};
+    options.sourceConditions = options.sourceConditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
@@ -493,14 +493,14 @@ export class AppendBlobClient extends BlobClient {
         sourceRange: rangeToString({ offset: sourceOffset, count }),
         sourceContentMD5: options.sourceContentMD5,
         sourceContentCrc64: options.sourceContentCrc64,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        appendPositionAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+          sourceIfMatch: options.sourceConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         cpkInfo: options.customerProvidedKey,
         spanOptions

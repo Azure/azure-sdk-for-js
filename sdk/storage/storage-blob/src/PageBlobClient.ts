@@ -27,9 +27,9 @@ import {
 import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
 import {
-  BlobAccessConditions,
+  BlobRequestConditions,
   Metadata,
-  PageBlobAccessConditions,
+  PageBlobRequestConditions,
   ensureCpkIfSpecified,
   PremiumPageBlobTier,
   toAccessTier
@@ -68,10 +68,10 @@ export interface PageBlobCreateOptions extends CommonOptions {
   /**
    * Conditions to meet when creating a page blob.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobCreateOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * A user-controlled value that can be used to track requests.
    * The value must be between 0 and 2^63 - 1. The default value is 0.
@@ -129,10 +129,10 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
   /**
    * Conditions to meet when uploading pages.
    *
-   * @type {PageBlobAccessConditions}
+   * @type {PageBlobRequestConditions}
    * @memberof PageBlobUploadPagesOptions
    */
-  accessConditions?: PageBlobAccessConditions;
+  conditions?: PageBlobRequestConditions;
   /**
    * Callback to receive events on the progress of upload pages operation.
    *
@@ -186,10 +186,10 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
   /**
    * Conditions to meet when clearing pages.
    *
-   * @type {PageBlobAccessConditions}
+   * @type {PageBlobRequestConditions}
    * @memberof PageBlobClearPagesOptions
    */
-  accessConditions?: PageBlobAccessConditions;
+  conditions?: PageBlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
@@ -217,10 +217,10 @@ export interface PageBlobGetPageRangesOptions extends CommonOptions {
   /**
    * Conditions to meet when getting page ranges.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobGetPageRangesOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -241,10 +241,10 @@ export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
   /**
    * Conditions to meet when getting page ranges diff.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobGetPageRangesDiffOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * (unused)
    *
@@ -272,10 +272,10 @@ export interface PageBlobResizeOptions extends CommonOptions {
   /**
    * Conditions to meet when resizing a page blob.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobResizeOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -296,10 +296,10 @@ export interface PageBlobUpdateSequenceNumberOptions extends CommonOptions {
   /**
    * Conditions to meet when updating sequence number.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobUpdateSequenceNumberOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -323,7 +323,7 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
    * @type {ModifiedAccessConditions}
    * @memberof PageBlobStartCopyIncrementalOptions
    */
-  modifiedAccessConditions?: ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
@@ -338,17 +338,17 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet when updating sequence number.
    *
-   * @type {PageBlobAccessConditions}
+   * @type {PageBlobRequestConditions}
    * @memberof PageBlobUploadPagesFromURLOptions
    */
-  accessConditions?: PageBlobAccessConditions;
+  conditions?: PageBlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
    * @type {ModifiedAccessConditions}
    * @memberof PageBlobUploadPagesFromURLOptions
    */
-  sourceModifiedAccessConditions?: ModifiedAccessConditions;
+  sourceConditions?: ModifiedAccessConditions;
   /**
    * An MD5 hash of the content from the URI.
    * This hash is used to verify the integrity of the content during transport of the data from the URI.
@@ -571,7 +571,7 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobCreateOptions = {}
   ): Promise<PageBlobCreateResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-create", options.spanOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -579,9 +579,9 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
         blobSequenceNumber: options.blobSequenceNumber,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
         spanOptions
@@ -614,17 +614,17 @@ export class PageBlobClient extends BlobClient {
     count: number,
     options: PageBlobUploadPagesOptions = {}
   ): Promise<PageBlobUploadPagesResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-uploadPages", options.spanOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.pageBlobContext.uploadPages(body, count, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
         range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        sequenceNumberAccessConditions: options.conditions,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -661,8 +661,8 @@ export class PageBlobClient extends BlobClient {
     count: number,
     options: PageBlobUploadPagesFromURLOptions = {}
   ): Promise<PageBlobUploadPagesFromURLResponse> {
-    options.accessConditions = options.accessConditions || {};
-    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    options.conditions = options.conditions || {};
+    options.sourceConditions = options.sourceConditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-uploadPagesFromURL",
       options.spanOptions
@@ -678,14 +678,14 @@ export class PageBlobClient extends BlobClient {
           abortSignal: options.abortSignal,
           sourceContentMD5: options.sourceContentMD5,
           sourceContentCrc64: options.sourceContentCrc64,
-          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-          sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          leaseAccessConditions: options.conditions,
+          sequenceNumberAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
           sourceModifiedAccessConditions: {
-            sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-            sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-            sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+            sourceIfMatch: options.sourceConditions.ifMatch,
+            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
           },
           cpkInfo: options.customerProvidedKey,
           spanOptions
@@ -717,15 +717,15 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobClearPagesOptions = {}
   ): Promise<PageBlobClearPagesResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-clearPages", options.spanOptions);
     try {
       return this.pageBlobContext.clearPages(0, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -755,14 +755,14 @@ export class PageBlobClient extends BlobClient {
     count?: number,
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<PageBlobGetPageRangesResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-getPageRanges", options.spanOptions);
     try {
       return this.pageBlobContext
         .getPageRanges({
           abortSignal: options.abortSignal,
-          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
           range: rangeToString({ offset, count }),
           spanOptions
         })
@@ -795,7 +795,7 @@ export class PageBlobClient extends BlobClient {
     prevSnapshot: string,
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<PageBlobGetPageRangesDiffResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-getPageRangesDiff",
       options.spanOptions
@@ -804,8 +804,8 @@ export class PageBlobClient extends BlobClient {
       return this.pageBlobContext
         .getPageRangesDiff({
           abortSignal: options.abortSignal,
-          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
           prevsnapshot: prevSnapshot,
           range: rangeToString({ offset, count }),
           spanOptions
@@ -835,13 +835,13 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobResizeOptions = {}
   ): Promise<PageBlobResizeResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-resize", options.spanOptions);
     try {
       return this.pageBlobContext.resize(size, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -870,7 +870,7 @@ export class PageBlobClient extends BlobClient {
     sequenceNumber?: number,
     options: PageBlobUpdateSequenceNumberOptions = {}
   ): Promise<PageBlobUpdateSequenceNumberResponse> {
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-updateSequenceNumber",
       options.spanOptions
@@ -879,8 +879,8 @@ export class PageBlobClient extends BlobClient {
       return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
         abortSignal: options.abortSignal,
         blobSequenceNumber: sequenceNumber,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -919,7 +919,7 @@ export class PageBlobClient extends BlobClient {
     try {
       return this.pageBlobContext.copyIncremental(copySource, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {

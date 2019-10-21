@@ -92,7 +92,7 @@ export interface LeaseOperationOptions extends CommonOptions {
    * @type {ModifiedAccessConditions}
    * @memberof LeaseOperationOptions
    */
-  modifiedAccessConditions?: ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -173,7 +173,7 @@ export class LeaseClient {
       return await this._containerOrBlobOperation.acquireLease({
         abortSignal: options.abortSignal,
         duration,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         proposedLeaseId: this._leaseId,
         spanOptions
       });
@@ -210,7 +210,7 @@ export class LeaseClient {
         proposedLeaseId,
         {
           abortSignal: options.abortSignal,
-          modifiedAccessConditions: options.modifiedAccessConditions,
+          modifiedAccessConditions: options.conditions,
           spanOptions
         }
       );
@@ -243,7 +243,7 @@ export class LeaseClient {
     try {
       return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -272,7 +272,7 @@ export class LeaseClient {
     try {
       return await this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -309,7 +309,7 @@ export class LeaseClient {
       const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
         breakPeriod,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
