@@ -648,9 +648,8 @@ export function createPipelineFromOptions(
     throttlingRetryPolicy(),
     systemErrorRetryPolicy(),
     exponentialRetryPolicy(
-      retryOptions.retryCount,
-      retryOptions.retryIntervalInMs,
-      retryOptions.minRetryDelayInMs,
+      retryOptions.maxRetries,
+      retryOptions.retryDelayInMs,
       retryOptions.maxRetryDelayInMs
     ),
   )
