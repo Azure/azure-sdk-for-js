@@ -203,6 +203,6 @@ describe("MessageIdClient", () => {
     const newClient = new QueueClient(
       extractConnectionStringParts(getSASConnectionStringFromEnvironment()).url + "/" + queueName
     );
-    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });
 });

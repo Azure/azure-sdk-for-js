@@ -62,7 +62,7 @@ describe("Emulator Tests", () => {
 
     const result = await newClient.getProperties();
 
-    assert.equal(newClient.queueName, queueName, "Queue name didn't match with the provided one.");
+    assert.equal(newClient.name, queueName, "Queue name didn't match with the provided one.");
     assert.ok(result.requestId);
     assert.ok(result.version);
     assert.ok(result.date);

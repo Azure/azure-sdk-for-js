@@ -56,7 +56,7 @@ describe("Emulator Tests", () => {
       newClient.containerName,
       "Container name didn't match with the provided one."
     );
-    assert.equal(newClient.blobName, blobName, "Blob name didn't match with the provided one.");
+    assert.equal(newClient.name, blobName, "Blob name didn't match with the provided one.");
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
   });
@@ -82,7 +82,7 @@ describe("Emulator Tests", () => {
       containerName,
       "Container name didn't match with the provided one."
     );
-    assert.equal(newClient.blobName, blobName, "Blob name didn't match with the provided one.");
+    assert.equal(newClient.name, blobName, "Blob name didn't match with the provided one.");
     const body: string = "randomstring";
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
@@ -141,7 +141,7 @@ describe("Emulator Tests", () => {
       containerName,
       "Container name didn't match with the provided one."
     );
-    assert.equal(newClient.blobName, blobName, "Blob name didn't match with the provided one.");
+    assert.equal(newClient.name, blobName, "Blob name didn't match with the provided one.");
     await newClient.create(512);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
