@@ -8,6 +8,8 @@ import { KeepAliveOptions } from './policies/keepAlivePolicy';
 import { RedirectOptions } from './policies/redirectPolicy';
 import { ProxyOptions } from './policies/proxyPolicy';
 import { UserAgentOptions } from './policies/userAgentPolicy';
+import { DeserializationOptions } from './policies/deserializationPolicy';
+import { LogPolicyOptions } from './policies/logPolicy';
 
 /**
  * Returns true if the passed object looks like a PipelineOptions.
@@ -27,7 +29,7 @@ export function isPipelineOptions(
 }
 
 /**
- * Defines options that are used to configure the HTTP pieline for
+ * Defines options that are used to configure the HTTP pipeline for
  * an SDK client.
  */
 export interface PipelineOptions {
@@ -62,4 +64,20 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
+}
+
+/**
+ * Defines options that are used to configure internal options of
+ * the HTTP pipeline for an SDK client.
+ */
+export interface InternalPipelineOptions extends PipelineOptions {
+  /**
+   * Options to configure API response deserialization.
+   */
+  deserializationOptions?: DeserializationOptions;
+
+  /**
+   * Options to configure logging.
+   */
+  loggingOptions?: LogPolicyOptions;
 }

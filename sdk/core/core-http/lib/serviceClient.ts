@@ -6,7 +6,7 @@ import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
-import { logPolicy } from "./policies/logPolicy";
+import { logPolicy, DefaultLogPolicyOptions } from "./policies/logPolicy";
 import { OperationArguments } from "./operationArguments";
 import {
   getPathStringFromParameter,
@@ -17,7 +17,8 @@ import {
 import { isStreamOperation, OperationSpec } from "./operationSpec";
 import {
   deserializationPolicy,
-  DeserializationContentTypes
+  DeserializationContentTypes,
+  DefaultDeserializationOptions
 } from "./policies/deserializationPolicy";
 import { exponentialRetryPolicy, DefaultRetryOptions } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
@@ -49,7 +50,7 @@ import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from "./policies/signingPolicy";
 import { logger } from "./log";
-import { PipelineOptions } from './pipelineOptions';
+import { InternalPipelineOptions } from './pipelineOptions';
 import { DefaultKeepAliveOptions, keepAlivePolicy } from './policies/keepAlivePolicy';
 import { tracingPolicy } from './policies/tracingPolicy';
 
@@ -594,7 +595,7 @@ function createDefaultRequestPolicyFactories(
 }
 
 export function createPipelineFromOptions(
-  pipelineOptions: PipelineOptions,
+  pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
 ) : ServiceClientOptions {
   const requestPolicyFactories: RequestPolicyFactory[] = [];
@@ -637,6 +638,16 @@ export function createPipelineFromOptions(
     )
   }
 
+  const deserializationOptions = {
+    ...DefaultDeserializationOptions,
+    ...pipelineOptions.deserializationOptions
+  };
+
+  const logPolicyOptions = {
+    ...DefaultLogPolicyOptions,
+    ...pipelineOptions.loggingOptions
+  };
+
   requestPolicyFactories.push(
     tracingPolicy(),
     keepAlivePolicy(keepAliveOptions),
@@ -644,14 +655,14 @@ export function createPipelineFromOptions(
       value: userAgentOptions.userAgentPrefix
     }),
     generateClientRequestIdPolicy(),
-    deserializationPolicy(),
+    deserializationPolicy(deserializationOptions.expectedContentTypes),
     throttlingRetryPolicy(),
     systemErrorRetryPolicy(),
     exponentialRetryPolicy(
       retryOptions.maxRetries,
       retryOptions.retryDelayInMs,
       retryOptions.maxRetryDelayInMs
-    ),
+    )
   )
 
   if (redirectOptions.handleRedirects) {
@@ -663,6 +674,10 @@ export function createPipelineFromOptions(
   if (authPolicyFactory) {
     requestPolicyFactories.push(authPolicyFactory);
   }
+
+  requestPolicyFactories.push(
+    logPolicy(logPolicyOptions)
+  );
 
   return {
     httpClient: pipelineOptions.httpClient,

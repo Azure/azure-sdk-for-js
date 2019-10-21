@@ -76,6 +76,7 @@ export interface RetryOptions {
    * to 90000 (90 seconds).
    */
   maxRetryDelayInMs?: number;
+
   /**
    * Currently supporting only Exponential mode.
    */

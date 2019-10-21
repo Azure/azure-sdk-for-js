@@ -60,6 +60,11 @@ const defaultAllowedQueryParameters: string[] = [
   "api-version"
 ];
 
+export const DefaultLogPolicyOptions: LogPolicyOptions = {
+  allowedHeaderNames: [],      // These are empty lists because they are additive to
+  allowedQueryParameters: []   // the real defaultAllowed[HeaderNames|QueryParameters].
+}
+
 export function logPolicy(
   logger: any = coreLogger.info.bind(coreLogger),
   logOptions: LogPolicyOptions = {}

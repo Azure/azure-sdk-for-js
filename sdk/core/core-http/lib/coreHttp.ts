@@ -32,7 +32,7 @@ export {
   createPipelineFromOptions,
   ProxySettings
 } from "./serviceClient";
-export { PipelineOptions, isPipelineOptions } from "./pipelineOptions";
+export { PipelineOptions, InternalPipelineOptions, isPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export {
