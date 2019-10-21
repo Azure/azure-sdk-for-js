@@ -944,7 +944,7 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<BlobDownloadResponse> {
+  ): Promise<BlobDownloadResponseModel> {
     options.conditions = options.conditions || {};
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
