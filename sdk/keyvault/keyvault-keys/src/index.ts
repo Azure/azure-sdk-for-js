@@ -974,10 +974,10 @@ export class KeyClient {
     };
   }
 
-  private async *listPropertiesOfDeletedKeysPage(
+  private async *listDeletedKeysPage(
     continuationState: PageSettings,
     options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyProperties[]> {
+  ): AsyncIterableIterator<DeletedKey[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
@@ -989,7 +989,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem);
       }
     }
     while (continuationState.continuationToken) {
@@ -999,19 +999,17 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem);
       } else {
         break;
       }
     }
   }
 
-  private async *listPropertiesOfDeletedKeysAll(
-    options?: ListKeysOptions
-  ): AsyncIterableIterator<KeyProperties> {
+  private async *listDeletedKeysAll(options?: ListKeysOptions): AsyncIterableIterator<DeletedKey> {
     const f = {};
 
-    for await (const page of this.listPropertiesOfDeletedKeysPage(f, options)) {
+    for await (const page of this.listDeletedKeysPage(f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -1025,7 +1023,7 @@ export class KeyClient {
    * Example usage:
    * ```ts
    * let client = new KeyClient(url, credentials);
-   * for await (const keyAttr of client.listPropertiesOfDeletedKeys()) {
+   * for await (const keyAttr of client.listDeletedKeys()) {
    *   const deletedKey = await client.getKey(keyAttr.name);
    *   console.log("deleted key: ", deletedKey);
    * }
@@ -1033,18 +1031,18 @@ export class KeyClient {
    * @summary List all keys in the vault
    * @param [options] The optional parameters
    */
-  public listPropertiesOfDeletedKeys(
+  public listDeletedKeys(
     options: ListKeysOptions = {}
-  ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
+  ): PagedAsyncIterableIterator<DeletedKey, DeletedKey[]> {
     const requestOptions = options as RequestOptionsBase;
-    const span = this.createSpan("listPropertiesOfDeletedKeys", requestOptions);
+    const span = this.createSpan("listDeletedKeys", requestOptions);
 
     const updatedOptions: ListKeysOptions = {
       ...options,
       ...this.setParentSpan(span, options)
     };
 
-    const iter = this.listPropertiesOfDeletedKeysAll(updatedOptions);
+    const iter = this.listDeletedKeysAll(updatedOptions);
 
     span.end();
     return {
@@ -1054,8 +1052,7 @@ export class KeyClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfDeletedKeysPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, updatedOptions)
     };
   }
 
@@ -1103,6 +1100,49 @@ export class KeyClient {
     }
 
     return resultObject;
+  }
+
+  private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
+    const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
+
+    let abstractProperties: any;
+
+    if (keyItem.attributes) {
+      abstractProperties = {
+        ...keyItem,
+        ...parsedId,
+        ...keyItem.attributes
+      };
+      delete abstractProperties.attributes;
+    } else {
+      abstractProperties = {
+        ...keyItem,
+        ...parsedId
+      };
+    }
+
+    if (abstractProperties.deletedDate) {
+      abstractProperties.deletedOn = abstractProperties.deletedDate;
+      delete abstractProperties.deletedDate;
+    }
+
+    if (abstractProperties.expires) {
+      abstractProperties.expiresOn = abstractProperties.expires;
+      delete abstractProperties.expires;
+    }
+    if (abstractProperties.created) {
+      abstractProperties.createdOn = abstractProperties.created;
+      delete abstractProperties.created;
+    }
+    if (abstractProperties.updated) {
+      abstractProperties.updatedOn = abstractProperties.updated;
+      delete abstractProperties.updated;
+    }
+
+    return {
+      key: keyItem,
+      properties: abstractProperties
+    };
   }
 
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {

@@ -293,7 +293,7 @@ versions of a specific key. The following API methods are available:
 
 - `listPropertiesOfKeys` will list all of your non-deleted keys by their names, only
   at their latest versions.
-- `listPropertiesOfDeletedKeys` will list all of your deleted keys by their names,
+- `listDeletedKeys` will list all of your deleted keys by their names,
   only at their latest versions.
 - `listPropertiesOfKeyVersions` will list all the versions of a key based on a key
   name.
@@ -304,8 +304,8 @@ Which can be used as follows:
 for await (let keyProperties of client.listPropertiesOfKeys()) {
   console.log("Key properties: ", keyProperties);
 }
-for await (let deletedKeyProperties of client.listPropertiesOfDeletedKeys()) {
-  console.log("Deleted key properties: ", deletedKeyProperties);
+for await (let deletedKey of client.listDeletedKeys()) {
+  console.log("Deleted: ", deletedKey);
 }
 for await (let versionProperties of client.listPropertiesOfKeyVersions(keyName)) {
   console.log("Version properties: ", versionProperties);
@@ -322,9 +322,9 @@ for await (let page of client.listPropertiesOfKeys().byPage()) {
     console.log("Key properties: ", keyProperties);
   }
 }
-for await (let page of client.listPropertiesOfDeletedKeys().byPage()) {
+for await (let page of client.listDeletedKeys().byPage()) {
   for (let deletedKey of page) {
-    console.log("Deleted key: ", deletedKeyProperties);
+    console.log("Deleted key: ", deletedKey);
   }
 }
 for await (let page of client.listPropertiesOfKeyVersions(keyName).byPage()) {

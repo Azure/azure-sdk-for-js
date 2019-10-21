@@ -8,7 +8,7 @@ import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
-describe("Keys client - list keys in various ways", () => {
+describe.only("Keys client - list keys in various ways", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeyClient;
@@ -36,9 +36,9 @@ describe("Keys client - list keys in various ways", () => {
         await testClient.flushKey(key.name);
       } catch (e) {}
     }
-    for await (const deletedKeyProperties of client.listPropertiesOfDeletedKeys()) {
+    for await (const deletedKey of client.listDeletedKeys()) {
       try {
-        await testClient.purgeKey(deletedKeyProperties.name);
+        await testClient.purgeKey(deletedKey.properties.name);
       } catch (e) {}
     }
   });
@@ -168,13 +168,13 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const deletedKeyProperties of client.listPropertiesOfDeletedKeys()) {
+    for await (const deletedKey of client.listDeletedKeys()) {
       // The vault might contain more keys than the ones we inserted.
-      if (!keyNames.includes(deletedKeyProperties.name)) continue;
+      if (!keyNames.includes(deletedKey.properties.name)) continue;
       found += 1;
     }
 
-    assert.equal(found, 2, "Unexpected number of keys found by listPropertiesOfDeletedKeys.");
+    assert.equal(found, 2, "Unexpected number of keys found by listDeletedKeys.");
 
     for (const name of keyNames) {
       await testClient.purgeKey(name);
@@ -198,15 +198,15 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const page of client.listPropertiesOfDeletedKeys().byPage()) {
-      for (const deletedKeyProperties of page) {
+    for await (const page of client.listDeletedKeys().byPage()) {
+      for (const deletedKey of page) {
         // The vault might contain more keys than the ones we inserted.
-        if (!keyNames.includes(deletedKeyProperties.name)) continue;
+        if (!keyNames.includes(deletedKey.properties.name)) continue;
         found += 1;
       }
     }
 
-    assert.equal(found, 2, "Unexpected number of keys found by listPropertiesOfDeletedKeys.");
+    assert.equal(found, 2, "Unexpected number of keys found by listDeletedKeys.");
 
     for (const name of keyNames) {
       await testClient.purgeKey(name);
