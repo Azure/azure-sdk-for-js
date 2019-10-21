@@ -120,7 +120,7 @@ export declare class AppConfigurationClient {
 /**
  * Options for clearReadOnly
  */
-export declare interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
+export declare interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
 }
 
 /**
@@ -131,13 +131,13 @@ export declare interface ClearReadOnlyResponse extends ConfigurationSetting, Syn
 
 /**
  * Configuration setting with extra metadata from the server, indicating
- * its etag, whether it is currently readonly and when it was last modified.
+ * its etag, whether it is currently readOnly and when it was last modified.
  */
 export declare interface ConfigurationSetting extends ConfigurationSettingParam {
     /**
      * Whether or not the setting is read-only
      */
-    locked?: boolean;
+    readOnly: boolean;
     /**
      * The date when this setting was last modified
      */
@@ -191,7 +191,7 @@ export declare type ConfigurationSettingResponse<HeadersT> = ConfigurationSettin
 /**
  * Options for deleting a ConfigurationSetting.
  */
-export declare interface DeleteConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
+export declare interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
 }
 
 /**
@@ -213,7 +213,7 @@ export declare interface GetConfigurationHeaders extends SyncTokenHeaderField {
 /**
  * Options for getting a ConfigurationSetting.
  */
-export declare interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields, OptionalFields {
+export declare interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpOnlyIfChangedField, OptionalFields {
     /**
      * Requests the server to respond with the state of the resource at the specified time.
      */
@@ -227,18 +227,24 @@ export declare interface GetConfigurationSettingResponse extends ConfigurationSe
 }
 
 /**
- * Options used to provide if-match or if-none-match headers for an HTTP request
+ * Options used to provide if-none-match for an HTTP request
  */
-export declare interface HttpConditionalFields {
-    /**
-     * Used to perform an operation only if the targeted resource's etag matches the value provided.
-     */
-    onlyIfUnchanged?: boolean;
+export declare interface HttpOnlyIfChangedField {
     /**
      * Used to perform an operation only if the targeted resource's etag does not match the value
      * provided.
      */
     onlyIfChanged?: boolean;
+}
+
+/**
+ * Options used to provide if-match for an HTTP request
+ */
+export declare interface HttpOnlyIfUnchangedField {
+    /**
+     * Used to perform an operation only if the targeted resource's etag matches the value provided.
+     */
+    onlyIfUnchanged?: boolean;
 }
 
 /**
@@ -340,7 +346,7 @@ export declare interface OptionalFields {
 /**
  * Options used when saving a ConfigurationSetting.
  */
-export declare interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
+export declare interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
 }
 
 /**
@@ -358,7 +364,7 @@ export declare interface SetConfigurationSettingResponse extends ConfigurationSe
 /**
  * Options for setReadOnly
  */
-export declare interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
+export declare interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
 }
 
 /**
