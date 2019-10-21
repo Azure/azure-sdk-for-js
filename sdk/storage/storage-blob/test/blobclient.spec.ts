@@ -538,7 +538,7 @@ describe("BlobClient", () => {
     let destinationContainerName: string;
 
     beforeEach("setup destination", async () => {
-      destinationContainerName = recorder.getUniqueName("container");
+      destinationContainerName = recorder.getUniqueName("dest-container");
       destinationContainerClient = blobServiceClient.getContainerClient(destinationContainerName);
       await destinationContainerClient.create();
     });
