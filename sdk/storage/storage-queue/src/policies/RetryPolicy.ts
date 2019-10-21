@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { AbortError } from "@azure/abort-controller";
+
 import {
   AbortSignalLike,
   BaseRequestPolicy,
@@ -59,7 +61,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   tryTimeoutInMs: 30 * 1000 // https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
 };
 
-const RETRY_ABORT_ERROR = new RestError("The operation was aborted.", RestError.REQUEST_ABORTED_ERROR);
+const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
