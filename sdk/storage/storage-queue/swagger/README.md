@@ -77,3 +77,117 @@ directive:
         $.get.responses["200"].schema = { "$ref": path };
     }
 ```
+
+### Rename maxresults -> maxPageSize
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.MaxResults
+    transform: >
+      $["x-ms-client-name"] = "maxPageSize";
+  - from: swagger-document
+    where: $.definitions..properties.MaxResults
+    transform: >
+      $["x-ms-client-name"] = "maxPageSize";
+```
+
+### Rename visibilitytimeout -> visibilityTimeout
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.VisibilityTimeout
+    transform: >
+      $["x-ms-client-name"] = "visibilityTimeout";
+  - from: swagger-document
+    where: $.parameters.VisibilityTimeoutRequired
+    transform: >
+      $["x-ms-client-name"] = "visibilityTimeout";
+```
+
+### Rename permission -> permissions
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties.Permission
+    transform: >
+      $["x-ms-client-name"] = "permissions";
+```
+
+### Rename NextMarker -> ContinuationToken
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.NextMarker
+    transform: >
+      $["x-ms-client-name"] = "continuationToken";
+  - from: swagger-document
+    where: $.parameters..description
+    transform: return $.replace(/(?:NextMarker)+/, "ContinuationToken")
+```
+
+### Rename timeoutParameter -> timeout
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.Timeout
+    transform: >
+      $["x-ms-client-name"] = "timeoutInSeconds";
+```
+
+### Rename insertionTime -> insertedOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.InsertionTime
+    transform: >
+      $["x-ms-client-name"] = "insertedOn";
+```
+
+### Rename expirationTime  -> expiresOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.ExpirationTime 
+    transform: >
+      $["x-ms-client-name"] = "expiresOn";
+```
+
+### Rename LastSyncTime -> LastSyncOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.LastSyncTime
+    transform: >
+      $["x-ms-client-name"] = "lastSyncOn"
+```
+
+### Rename timeNextVisible   -> nextVisibleOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.TimeNextVisible 
+    transform: >
+      $["x-ms-client-name"] = "nextVisibleOn";
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}?popreceipt={popReceipt}&visibilitytimeout={visibilityTimeout}"]..responses..headers["x-ms-time-next-visible"]
+    transform: >
+      $["x-ms-client-name"] = "nextVisibleOn";
+```
+
+### Rename logging -> queueAnalyticsLogging
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.Logging
+    transform: >
+      $["x-ms-client-name"] = "queueAnalyticsLogging"
+```

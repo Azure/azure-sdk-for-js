@@ -29,7 +29,8 @@ async function main() {
   console.log("updated secret: ", updatedSecret);
 
   // Delete the secret
-  await client.deleteSecret(secretName);
+  // If we don't want to purge the secret later, we don't need to wait until this finishes
+  await client.beginDeleteSecret(secretName);
 }
 
 main().catch((err) => {

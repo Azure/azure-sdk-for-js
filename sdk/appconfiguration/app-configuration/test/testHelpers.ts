@@ -38,7 +38,7 @@ export async function deleteKeyCompletely(keys: string[], client: AppConfigurati
   });
 
   for await (const setting of settingsIterator) {
-    if (setting.locked) {
+    if (setting.readOnly) {
       await client.clearReadOnly(setting);
     }
 
@@ -75,11 +75,11 @@ export async function toSortedArray(
 }
 
 export function assertEqualSettings(
-  expected: Pick<ConfigurationSetting, "key" | "value" | "label">[],
+  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "readOnly">[],
   actual: ConfigurationSetting[]
 ) {
   actual = actual.map((setting) => {
-    return { key: setting.key, label: setting.label, value: setting.value };
+    return { key: setting.key, label: setting.label, value: setting.value, readOnly: setting.readOnly };
   });
 
   assert.deepEqual(expected, actual);

@@ -72,7 +72,7 @@ export interface PipelineOptions {
    * @type {IHttpClient}
    * @memberof PipelineOptions
    */
-  HTTPClient?: IHttpClient;
+  HttpClient?: IHttpClient;
 }
 
 /**
@@ -122,7 +122,7 @@ export class Pipeline {
    */
   public toServiceClientOptions(): ServiceClientOptions {
     return {
-      httpClient: this.options.HTTPClient,
+      httpClient: this.options.HttpClient,
       httpPipelineLogger: this.options.logger,
       requestPolicyFactories: this.factories
     };
@@ -222,7 +222,7 @@ export function newPipeline(
   );
 
   return new Pipeline(factories, {
-    HTTPClient: pipelineOptions.httpClient,
+    HttpClient: pipelineOptions.httpClient,
     logger: pipelineOptions.logger
   });
 }

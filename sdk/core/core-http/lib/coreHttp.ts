@@ -92,12 +92,7 @@ export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
 
 // Credentials
-export {
-  TokenCredential,
-  GetTokenOptions,
-  AccessToken,
-  isTokenCredential
-} from "@azure/core-auth";
+export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "@azure/core-auth";
 export { AccessTokenCache, ExpiringAccessTokenCache } from "./credentials/accessTokenCache";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";
 export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKeyCredentials";

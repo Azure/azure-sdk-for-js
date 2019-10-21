@@ -47,7 +47,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+        permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
@@ -77,7 +77,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiryTime: tmr,
-        permissions: AccountSASPermissions.parse("wdlcup").toString(),
+        permissions: AccountSASPermissions.parse("wdlcup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString()
       },
@@ -111,7 +111,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiryTime: tmr,
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+        permissions: AccountSASPermissions.parse("rwdlacup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("tqf").toString()
       },
@@ -146,7 +146,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+        permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
         services: AccountSASServices.parse("btqf").toString(),
@@ -191,7 +191,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: containerClient.containerName,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: ContainerSASPermissions.parse("racwdl").toString(),
+        permissions: ContainerSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startTime: now,
         version: "2016-05-31"
@@ -245,7 +245,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentType: "content-type-override",
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: BlobSASPermissions.parse("racwd").toString(),
+        permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startTime: now,
         version: "2016-05-31"
@@ -300,7 +300,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentType: "content-type-override",
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: BlobSASPermissions.parse("racwd").toString(),
+        permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startTime: now
       },
@@ -356,7 +356,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentType: "content-type-override",
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: BlobSASPermissions.parse("racwd").toString(),
+        permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startTime: now,
         snapshotTime: response.snapshot
@@ -413,7 +413,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentType: "content-type-override",
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: BlobSASPermissions.parse("racwd").toString(),
+        permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startTime: now,
         version: "2016-05-31"
@@ -514,7 +514,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: containerClient.containerName,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: ContainerSASPermissions.parse("racwdl").toString(),
+        permissions: ContainerSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startTime: now,
         version: "2019-02-02"
@@ -569,7 +569,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         containerName: containerClient.containerName,
         expiryTime: tmr,
-        permissions: ContainerSASPermissions.parse("racwdl").toString()
+        permissions: ContainerSASPermissions.parse("racwdl")
       },
       userDelegationKey,
       accountName
@@ -636,7 +636,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentType: "content-type-override",
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: BlobSASPermissions.parse("racwd").toString(),
+        permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startTime: now
       },
@@ -707,7 +707,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentType: "content-type-override",
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: BlobSASPermissions.parse("racwd").toString(),
+        permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startTime: now,
         snapshotTime: response.snapshot

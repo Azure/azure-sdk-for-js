@@ -3,8 +3,6 @@
 
 import { RestError } from "@azure/core-http";
 
-import * as Models from "./generated/src/models";
-
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
@@ -39,5 +37,11 @@ export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./SASQueryParameters";
-export { Models, RestError };
 export { CommonOptions } from "./StorageClient";
+export * from "./generatedModels";
+export { RestError };
+export {
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  PageList
+} from "./PageBlobRangeResponse";

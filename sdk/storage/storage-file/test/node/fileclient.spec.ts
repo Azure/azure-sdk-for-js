@@ -166,7 +166,7 @@ describe("FileClient Node.js only", () => {
         expiryTime,
         shareName,
         filePath: `${dirName}/${fileName}`,
-        permissions: FileSASPermissions.parse("r").toString()
+        permissions: FileSASPermissions.parse("r")
       },
       credential
     );
