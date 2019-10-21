@@ -33,7 +33,7 @@ jobs:
       - pwsh: ls
         workingDirectory: $(Build.SourcesDirectory)/docfx_project/
       - pwsh: ls
-        workingDirectory: $(Build.SourcesDirectory)/docfx_project/templates
+        workingDirectory: $(Build.SourcesDirectory)/docfx_project/templates/
 
       - pwsh: |
           Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/docfx.json" -Destination "$(Build.SourcesDirectory)/docfx_project/" -Force

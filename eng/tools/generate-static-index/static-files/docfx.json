@@ -3,9 +3,7 @@
     {
       "src": [
         {
-          "files": [
-            "src/**.csproj"
-          ]
+          "files": ["src/**.csproj"]
         }
       ],
       "dest": "api",
@@ -16,35 +14,21 @@
   "build": {
     "content": [
       {
-        "files": [
-          "api/**.yml",
-          "api/**.md",
-          "api/index.md"
-        ]
+        "files": ["api/**.yml", "api/**.md", "api/index.md"]
       },
       {
-        "files": [
-          "toc.yml",
-          "*.md"
-        ]
+        "files": ["toc.yml", "*.md"]
       }
     ],
     "resource": [
       {
-        "files": [
-          "images/**"
-        ]
+        "files": ["images/**"]
       }
     ],
     "overwrite": [
       {
-        "files": [
-          "apidoc/**.md"
-        ],
-        "exclude": [
-          "obj/**",
-          "_site/**"
-        ]
+        "files": ["apidoc/**.md"],
+        "exclude": ["obj/**", "_site/**"]
       }
     ],
     "dest": "_site",
@@ -55,6 +39,12 @@
     "noLangKeyword": false,
     "keepFileLink": false,
     "cleanupCacheHistory": false,
-    "disableGitFeatures": false
+    "disableGitFeatures": false,
+    "globalMetadata": {
+      "_appTitle": "Azure SDK for JS",
+      "_appFooter": "Azure SDK for JS",
+      "_enableSearch": true,
+      "_enableNewTab": true
+    }
   }
 }
