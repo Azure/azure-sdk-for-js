@@ -19,6 +19,8 @@ import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service } from "./generated/src/operations";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageClientContext } from "./generated/src/storageClientContext";
+import { Pipeline } from "./Pipeline";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -63,8 +65,20 @@ export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchRe
 export class BlobBatchClient {
   private _serviceContext: Service;
 
-  constructor(service: Service) {
-    this._serviceContext = service;
+  /**
+   * Creates an instance of BlobBatchClient.
+   *
+   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   *                            pipeline, or provide a customized pipeline.
+   * @memberof BlobServiceClient
+   */
+  constructor(url: string, pipeline: Pipeline) {
+    const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
+
+    this._serviceContext = new Service(storageClientContext);
   }
 
   public createBatch(): BlobBatch {
