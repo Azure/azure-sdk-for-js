@@ -3,7 +3,7 @@
 ## 2019.10 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`.
-
+- [Breaking] Cancelling an operation now throws a standardized error with the name `AbortError`.
 - [Breaking] `filePath` is on `FileClient` is renamed to `path`. `dirPath` is added to `DirectoryClient` is renamed to `path`.
 
 ## 2019.10 12.0.0-preview.4
