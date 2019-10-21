@@ -1,9 +1,10 @@
 import { HttpResponse } from "@azure/core-http";
-import { PageBlobGetPageRangesHeaders, PageBlobGetPageRangesDiffHeaders } from "./generatedModels";
 import {
+  PageBlobGetPageRangesHeaders,
+  PageBlobGetPageRangesDiffHeaders,
   PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel,
   PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel
-} from "./generated/src/models";
+} from "./generatedModels";
 import { Range } from "./Range";
 
 export interface PageList {
