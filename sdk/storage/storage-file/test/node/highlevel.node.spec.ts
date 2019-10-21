@@ -131,7 +131,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.uploadFile(tempFileLarge, {
         abortSignal: aborter.signal,
         concurrency: 20,
-        progress: (ev) => {
+        onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -152,7 +152,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter.signal,
         concurrency: 20,
-        progress: (ev) => {
+        onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -200,7 +200,7 @@ describe("Highlevel Node.js only", () => {
     let eventTriggered = false;
 
     await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20, {
-      progress: (ev) => {
+      onProgress: (ev) => {
         assert.ok(ev.loadedBytes);
         eventTriggered = true;
       }
@@ -291,7 +291,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.downloadToBuffer(buf, 0, undefined, {
         abortSignal: aborter.signal,
         concurrency: 1,
-        progress: () => {
+        onProgress: () => {
           eventTriggered = true;
           aborter.abort();
         },
@@ -312,7 +312,7 @@ describe("Highlevel Node.js only", () => {
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await fileClient.download(0, undefined, {
       maxRetryRequests: 1,
-      progress: (ev) => {
+      onProgress: (ev) => {
         if (ev.loadedBytes >= tempFileSmallLength) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -341,7 +341,7 @@ describe("Highlevel Node.js only", () => {
     let injectedErrors = 0;
     const downloadResponse = await fileClient.download(0, undefined, {
       maxRetryRequests: 3,
-      progress: () => {
+      onProgress: () => {
         if (injectedErrors++ < 3) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -372,7 +372,7 @@ describe("Highlevel Node.js only", () => {
     let injectedErrors = 0;
     const downloadResponse = await fileClient.download(1, partialSize, {
       maxRetryRequests: 3,
-      progress: () => {
+      onProgress: () => {
         if (injectedErrors++ < 3) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -406,7 +406,7 @@ describe("Highlevel Node.js only", () => {
     try {
       const downloadResponse = await fileClient.download(0, undefined, {
         maxRetryRequests: 0,
-        progress: () => {
+        onProgress: () => {
           if (injectedErrors++ < 1) {
             retirableReadableStreamOptions.doInjectErrorOnce = true;
           }
@@ -438,7 +438,7 @@ describe("Highlevel Node.js only", () => {
       const downloadResponse = await fileClient.download(0, undefined, {
         abortSignal: aborter.signal,
         maxRetryRequests: 3,
-        progress: () => {
+        onProgress: () => {
           if (injectedErrors++ < 2) {
             // Triger 2 times of retry
             retirableReadableStreamOptions.doInjectErrorOnce = true;

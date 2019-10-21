@@ -13,22 +13,19 @@ export class RestError extends Error {
   statusCode?: number;
   request?: WebResource;
   response?: HttpOperationResponse;
-  body?: any;
   details?: unknown;
   constructor(
     message: string,
     code?: string,
     statusCode?: number,
     request?: WebResource,
-    response?: HttpOperationResponse,
-    body?: any
+    response?: HttpOperationResponse
   ) {
     super(message);
     this.code = code;
     this.statusCode = statusCode;
     this.request = request;
     this.response = response;
-    this.body = body;
 
     Object.setPrototypeOf(this, RestError.prototype);
   }

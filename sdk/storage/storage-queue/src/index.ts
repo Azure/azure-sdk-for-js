@@ -3,8 +3,6 @@
 
 import { RestError } from "@azure/core-http";
 
-import * as Models from "./generated/src/models";
-
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
@@ -18,6 +16,7 @@ export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
 export * from "./LoggingPolicyFactory";
+export { Metadata } from "./models";
 export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
 export * from "./QueueClient";
@@ -26,5 +25,6 @@ export * from "./QueueSASSignatureValues";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./QueueServiceClient";
 export * from "./SASQueryParameters";
-export { Models, RestError };
 export { CommonOptions } from "./StorageClient";
+export * from "./generatedModels";
+export { RestError };

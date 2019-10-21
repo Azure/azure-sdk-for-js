@@ -18,7 +18,7 @@ export { ManagedIdentityCredential } from "./credentials/managedIdentityCredenti
 export {
   DeviceCodeCredential,
   DeviceCodePromptCallback,
-  DeviceCodeDetails
+  DeviceCodeInfo
 } from "./credentials/deviceCodeCredential";
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
@@ -32,6 +32,7 @@ export {
 } from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+export { logger } from "./util/logging";
 
 /**
  * Returns a new instance of the {@link DefaultAzureCredential}.

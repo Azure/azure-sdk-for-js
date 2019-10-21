@@ -30,3 +30,8 @@ export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export { Models, RestError };
 export { CommonOptions } from "./StorageClient";
+export {
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  PageList
+} from "./PageBlobRangeResponse";

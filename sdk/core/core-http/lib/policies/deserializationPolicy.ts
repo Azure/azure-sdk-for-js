@@ -193,13 +193,11 @@ export function deserializeResponseBody(
                         ? parsedErrorResponse[defaultResponseBodyMapper.xmlElementName!]
                         : [];
                   }
-                  error.body = operationSpec.serializer.deserialize(
+                  error.response!.parsedBody = operationSpec.serializer.deserialize(
                     defaultResponseBodyMapper,
                     valueToDeserialize,
-                    "error.body"
+                    "error.response.parsedBody"
                   );
-                  // Setting the parsedBody on response to enable flattening as per operationSpec
-                  error.response!.parsedBody = error.body;
                 }
               }
 
@@ -270,8 +268,7 @@ function parse(
       errCode,
       operationResponse.status,
       operationResponse.request,
-      operationResponse,
-      operationResponse.bodyAsText
+      operationResponse
     );
     return Promise.reject(e);
   };
