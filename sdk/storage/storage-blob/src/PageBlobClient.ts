@@ -19,8 +19,6 @@ import {
   PageBlobUploadPagesResponse,
   PageBlobUploadPagesFromURLResponse,
   PageBlobClearPagesResponse,
-  PageBlobGetPageRangesResponse,
-  PageBlobGetPageRangesDiffResponse,
   PageBlobResizeResponse,
   SequenceNumberActionType,
   PageBlobUpdateSequenceNumberResponse,
