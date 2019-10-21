@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortSignalLike } from "@azure/abort-controller";
 
 export interface PollOperationState<TResult> {

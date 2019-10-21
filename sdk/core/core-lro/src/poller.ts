@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { PollOperation, PollOperationState } from "./pollOperation";
 import { AbortSignalLike } from "@azure/abort-controller";
 
