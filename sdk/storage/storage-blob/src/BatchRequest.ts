@@ -16,7 +16,7 @@ import {
 import { CanonicalCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./BlobClient";
-import * as Models from "./generated/src/models";
+import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
 import { Pipeline } from "./Pipeline";
 import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
@@ -238,7 +238,7 @@ export class BatchSetTierRequest extends BatchRequest {
    *
    * @param {string} url The url of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.
-   * @param {Models.AccessTier} tier
+   * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
@@ -246,7 +246,7 @@ export class BatchSetTierRequest extends BatchRequest {
   public async addSubRequest(
     url: string,
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    tier: Models.AccessTier,
+    tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<void>;
 
@@ -262,30 +262,26 @@ export class BatchSetTierRequest extends BatchRequest {
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient} blobClient The BlobClient.
-   * @param {Models.AccessTier} tier
+   * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
    */
   public async addSubRequest(
     blobClient: BlobClient,
-    tier: Models.AccessTier,
+    tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<void>;
 
   public async addSubRequest(
     urlOrBlobClient: string | BlobClient,
-    credentialOrTier:
-      | SharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Models.AccessTier,
-    tierOrOptions?: Models.AccessTier | BlobSetTierOptions,
+    credentialOrTier: SharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<void> {
     let url: string;
     let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
-    let tier: Models.AccessTier;
+    let tier: AccessTier;
 
     if (
       typeof urlOrBlobClient === "string" &&
@@ -296,12 +292,12 @@ export class BatchSetTierRequest extends BatchRequest {
       // First overload
       url = urlOrBlobClient;
       credential = credentialOrTier as SharedKeyCredential | AnonymousCredential | TokenCredential;
-      tier = tierOrOptions as Models.AccessTier;
+      tier = tierOrOptions as AccessTier;
     } else if (urlOrBlobClient instanceof BlobClient) {
       // Second overload
       url = urlOrBlobClient.url;
       credential = urlOrBlobClient.credential;
-      tier = credentialOrTier as Models.AccessTier;
+      tier = credentialOrTier as AccessTier;
       options = tierOrOptions as BlobSetTierOptions;
     } else {
       throw new RangeError(

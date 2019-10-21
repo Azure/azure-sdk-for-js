@@ -3,8 +3,6 @@
 
 import { RestError } from "@azure/core-http";
 
-import * as Models from "./generated/src/models";
-
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
@@ -39,5 +37,6 @@ export * from "./UniqueRequestIDPolicyFactory";
 export * from "./BrowserPolicyFactory";
 export * from "./FileServiceClient";
 export * from "./SASQueryParameters";
-export { Models, RestError };
 export { CommonOptions } from "./StorageClient";
+export * from "./generatedModels";
+export { RestError };

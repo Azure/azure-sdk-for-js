@@ -302,15 +302,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const dResult = await messagesClientwithSAS.receiveMessages({
       visibilityTimeout: 1
     });
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
 
     await delay(2 * 1000);
 
     const sasURLForMessage = `${queueClient.url}?${queueSAS}`;
     const messageIdClientwithSAS = new QueueClient(sasURLForMessage);
     const deleteResult = await messageIdClientwithSAS.deleteMessage(
-      dResult.dequeuedMessageItems[0].messageId,
-      dResult.dequeuedMessageItems[0].popReceipt
+      dResult.receivedMessageItems[0].messageId,
+      dResult.receivedMessageItems[0].popReceipt
     );
     assert.ok(deleteResult.requestId);
     assert.ok(deleteResult.clientRequestId);

@@ -9,7 +9,14 @@ import {
   isNode
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import * as Models from "./generated/src/models";
+import {
+  BlobHTTPHeaders,
+  AppendBlobCreateResponse,
+  AppendBlobAppendBlockFromUrlResponse,
+  AppendBlobAppendBlockResponse,
+  CpkInfo,
+  ModifiedAccessConditions
+} from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient, CommonOptions } from "./internal";
 import { AppendBlob } from "./generated/src/operations";
@@ -57,10 +64,10 @@ export interface AppendBlobCreateOptions extends CommonOptions {
   /**
    * HTTP headers to set when creating append blobs.
    *
-   * @type {Models.BlobHTTPHeaders}
+   * @type {BlobHTTPHeaders}
    * @memberof AppendBlobCreateOptions
    */
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when creating append blobs.
    *
@@ -71,10 +78,10 @@ export interface AppendBlobCreateOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof AppendBlobCreateOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -128,10 +135,10 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof AppendBlobAppendBlockOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
@@ -153,10 +160,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  sourceConditions?: Models.ModifiedAccessConditions;
+  sourceConditions?: ModifiedAccessConditions;
   /**
    * An MD5 hash of the append block content from the URI.
    * This hash is used to verify the integrity of the append block during transport of the data from the URI.
@@ -182,10 +189,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -379,12 +386,10 @@ export class AppendBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
-   * @returns {Promise<Models.AppendBlobsCreateResponse>}
+   * @returns {Promise<AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
-  public async create(
-    options: AppendBlobCreateOptions = {}
-  ): Promise<Models.AppendBlobCreateResponse> {
+  public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-create", options.spanOptions);
     options.conditions = options.conditions || {};
     try {
@@ -417,14 +422,14 @@ export class AppendBlobClient extends BlobClient {
    * @param {HttpRequestBody} body Data to be appended.
    * @param {number} contentLength Length of the body in bytes.
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
-   * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
+   * @returns {Promise<AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlock(
     body: HttpRequestBody,
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
-  ): Promise<Models.AppendBlobAppendBlockResponse> {
+  ): Promise<AppendBlobAppendBlockResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-appendBlock", options.spanOptions);
     options.conditions = options.conditions || {};
     try {
@@ -465,7 +470,7 @@ export class AppendBlobClient extends BlobClient {
    * @param {number} sourceOffset Offset in source to be appended
    * @param {number} count Number of bytes to be appended as a block
    * @param {AppendBlobAppendBlockFromURLOptions} [options={}]
-   * @returns {Promise<Models.AppendBlobAppendBlockFromUrlResponse>}
+   * @returns {Promise<AppendBlobAppendBlockFromUrlResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlockFromURL(
@@ -473,7 +478,7 @@ export class AppendBlobClient extends BlobClient {
     sourceOffset: number,
     count: number,
     options: AppendBlobAppendBlockFromURLOptions = {}
-  ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+  ): Promise<AppendBlobAppendBlockFromUrlResponse> {
     const { span, spanOptions } = createSpan(
       "AppendBlobClient-appendBlockFromURL",
       options.spanOptions
