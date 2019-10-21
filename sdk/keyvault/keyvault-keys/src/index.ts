@@ -297,8 +297,7 @@ export class KeyClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expiresOn,
-        vaultUrl: options.vaultEndpoint
+        expires: options.expiresOn
       };
       const unflattenedOptions = {
         ...options,
@@ -1072,14 +1071,14 @@ export class KeyClient {
     let resultObject: KeyVaultKey & DeletedKey = {
       key: keyBundle.key,
       id: keyBundle.key ? keyBundle.key.kid : undefined,
-      name: keyBundle.attributes ? (keyBundle as any).attributes.name : undefined,
+      name: parsedId.name,
       keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
         expiresOn: attributes.expires,
         createdOn: attributes.created,
         updatedOn: attributes.updated,
-        vaultEndpoint: (attributes as any)!.vaultUrl,
+        vaultEndpoint: parsedId.vaultUrl,
         ...keyBundle,
         ...parsedId,
         ...attributes
@@ -1161,7 +1160,7 @@ export class KeyClient {
       expiresOn: attributes.expires,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      vaultEndpoint: (attributes as any)!.vaultUrl,
+      vaultEndpoint: parsedId.vaultUrl,
       ...keyItem,
       ...parsedId,
       ...keyItem.attributes
