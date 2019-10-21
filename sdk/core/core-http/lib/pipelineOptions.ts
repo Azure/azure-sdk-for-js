@@ -10,6 +10,7 @@ import { ProxyOptions } from './policies/proxyPolicy';
 import { UserAgentOptions } from './policies/userAgentPolicy';
 import { DeserializationOptions } from './policies/deserializationPolicy';
 import { LoggingOptions } from './policies/logPolicy';
+import { RequestPolicyFactory } from './policies/requestPolicy';
 
 /**
  * Returns true if the passed object looks like a PipelineOptions.
@@ -64,6 +65,15 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
+
+  /**
+   * A function that accepts the array of RequestPolicyFactory created for
+   * this PipelineOptions instance and can return modified list of policies.
+   * This is useful for adding, inserting, or removing policies in special
+   * case scenarios. If the function does not modify the array of
+   * RequestPolicyFactory, it must return the original array it was given.
+   */
+  requestPolicyFilter?: (requestPolicyFactories: RequestPolicyFactory[]) => RequestPolicyFactory[];
 }
 
 /**

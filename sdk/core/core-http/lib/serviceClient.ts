@@ -450,7 +450,7 @@ export class ServiceClient {
             operationSpec.responses[sendRequestError.statusCode] ||
               operationSpec.responses["default"]
           );
-        }        
+        }
         result = Promise.reject(
           sendRequestError
         );
@@ -618,7 +618,7 @@ export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
 ) : ServiceClientOptions {
-  const requestPolicyFactories: RequestPolicyFactory[] = [];
+  let requestPolicyFactories: RequestPolicyFactory[] = [];
 
   const userAgentInfo: string[] = [];
   if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {
@@ -698,6 +698,11 @@ export function createPipelineFromOptions(
   requestPolicyFactories.push(
     logPolicy(logPolicyOptions)
   );
+
+  if (pipelineOptions.requestPolicyFilter) {
+    // If the filter function throws an exception, let it bubble up.
+    requestPolicyFactories = pipelineOptions.requestPolicyFilter(requestPolicyFactories);
+  }
 
   return {
     httpClient: pipelineOptions.httpClient,
