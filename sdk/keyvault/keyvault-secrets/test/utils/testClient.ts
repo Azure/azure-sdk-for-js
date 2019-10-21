@@ -22,7 +22,8 @@ export default class TestClient {
   }
   public async flushSecret(secretName: string): Promise<void> {
     const that = this;
-    await that.client.deleteSecret(secretName);
+    const deletePoller = await that.client.beginDeleteSecret(secretName);
+    await deletePoller.pollUntilDone();
     await this.purgeSecret(secretName);
   }
 }

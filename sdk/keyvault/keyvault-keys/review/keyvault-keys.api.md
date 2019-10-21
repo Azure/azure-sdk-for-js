@@ -4,10 +4,13 @@
 
 ```ts
 
-import * as msRest from '@azure/core-http';
+import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
+import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -26,7 +29,7 @@ export interface CreateKeyOptions {
     // (undocumented)
     keySize?: number;
     notBefore?: Date;
-    requestOptions?: msRest.RequestOptionsBase;
+    requestOptions?: coreHttp.RequestOptionsBase;
     tags?: {
         [propertyName: string]: string;
     };
@@ -74,10 +77,25 @@ export interface DecryptResult {
 }
 
 // @public
-export interface DeletedKey extends Key {
-    readonly deletedDate?: Date;
-    readonly recoveryId?: string;
-    readonly scheduledPurgeDate?: Date;
+export interface DeletedKey {
+    keyMaterial?: JsonWebKey;
+    properties: KeyProperties & {
+        readonly recoveryId?: string;
+        readonly scheduledPurgeDate?: Date;
+        readonly deletedDate?: Date;
+    };
+}
+
+// @public
+export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
+    // Warning: (ae-forgotten-export) The symbol "KeyClientInterface" needs to be exported by the entry point index.d.ts
+    // 
+    // (undocumented)
+    client: KeyClientInterface;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    requestOptions?: RequestOptionsBase;
 }
 
 // @public
@@ -96,13 +114,13 @@ export interface EncryptResult {
 
 // @public
 export interface GetKeyOptions {
-    requestOptions?: msRest.RequestOptionsBase;
+    requestOptions?: coreHttp.RequestOptionsBase;
     version?: string;
 }
 
 // @public
 export interface GetKeysOptions {
-    requestOptions?: msRest.RequestOptionsBase;
+    requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 // @public
@@ -111,7 +129,7 @@ export interface ImportKeyOptions {
     expires?: Date;
     hardwareProtected?: boolean;
     notBefore?: Date;
-    requestOptions?: msRest.RequestOptionsBase;
+    requestOptions?: coreHttp.RequestOptionsBase;
     tags?: {
         [propertyName: string]: string;
     };
@@ -162,11 +180,12 @@ export interface Key {
 export class KeyClient {
     constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
+    beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
+    beginRecoverDeletedKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key>;
     createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key>;
     protected readonly credential: TokenCredential;
-    deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<Key>;
     importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<Key>;
@@ -175,10 +194,16 @@ export class KeyClient {
     listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
-    recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
     restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<Key>;
     updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<Key>;
     readonly vaultEndpoint: string;
+}
+
+// @public
+export interface KeyPollerOptions {
+    intervalInMs?: number;
+    requestOptions?: coreHttp.RequestOptionsBase;
+    resumeFrom?: string;
 }
 
 // @public
@@ -198,6 +223,9 @@ export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
 // @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
+// @public
+export const logger: import("@azure/logger").AzureLogger;
+
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
@@ -211,6 +239,10 @@ export interface ParsedKeyVaultEntityIdentifier {
 
 export { PipelineOptions }
 
+export { PollerLike }
+
+export { PollOperationState }
+
 // @public
 export interface ProxyOptions {
     // (undocumented)
@@ -218,8 +250,18 @@ export interface ProxyOptions {
 }
 
 // @public
+export interface RecoverDeletedKeyPollOperationState extends PollOperationState<Key> {
+    // (undocumented)
+    client: KeyClientInterface;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    requestOptions?: RequestOptionsBase;
+}
+
+// @public
 export interface RequestOptions {
-    requestOptions?: msRest.RequestOptionsBase;
+    requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 // @public
@@ -254,7 +296,7 @@ export interface UpdateKeyOptions {
     expires?: Date;
     keyOps?: JsonWebKeyOperation[];
     notBefore?: Date;
-    requestOptions?: msRest.RequestOptionsBase;
+    requestOptions?: coreHttp.RequestOptionsBase;
     tags?: {
         [propertyName: string]: string;
     };

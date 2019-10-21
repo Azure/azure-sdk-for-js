@@ -1,15 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { HttpResponse } from "@azure/core-http";
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { TokenCredential, isTokenCredential, isNode, HttpResponse } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { BatchRequest } from "./BatchRequest";
-import { BatchResponseParser } from "./BatchResponseParser";
-import { ParsedBatchResponse } from "./BatchResponse";
-import { utf8ByteLength } from "./BatchUtils";
-import { ListContainersIncludeType } from "./generated/src/models/index";
-import * as Models from "./generated/src/models";
+import {
+  ServiceGetUserDelegationKeyHeaders,
+  ContainerCreateResponse,
+  ContainerDeleteResponse,
+  ServiceGetPropertiesResponse,
+  BlobServiceProperties,
+  ServiceSetPropertiesResponse,
+  ServiceGetStatisticsResponse,
+  ServiceGetAccountInfoResponse,
+  ServiceListContainersSegmentResponse,
+  ContainerItem,
+  ListContainersIncludeType,
+  UserDelegationKeyModel
+} from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
@@ -25,6 +32,7 @@ import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
+import { BlobBatchClient } from "./BlobBatchClient";
 
 /**
  * Options to configure the Service - Get Properties operation.
@@ -107,24 +115,6 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
    *
    * @type {AbortSignalLike}
    * @memberof ServiceGetStatisticsOptions
-   */
-  abortSignal?: AbortSignalLike;
-}
-/**
- * Options to configure the Service - Submit Batch Optional Params.
- *
- * @export
- * @interface ServiceSubmitBatchOptionalParams
- */
-export interface ServiceSubmitBatchOptionalParams
-  extends Models.ServiceSubmitBatchOptionalParams,
-    CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceSubmitBatchOptionalParams
    */
   abortSignal?: AbortSignalLike;
 }
@@ -247,7 +237,7 @@ export interface UserDelegationKey {
 }
 
 export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
-  Models.ServiceGetUserDelegationKeyHeaders & {
+  ServiceGetUserDelegationKeyHeaders & {
     /**
      * The underlying HTTP response.
      */
@@ -255,7 +245,7 @@ export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: Models.ServiceGetUserDelegationKeyHeaders;
+      parsedHeaders: ServiceGetUserDelegationKeyHeaders;
 
       /**
        * The response body as text (string format)
@@ -265,20 +255,7 @@ export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Models.UserDelegationKey;
-    };
-  };
-
-export declare type ServiceSubmitBatchResponse = ParsedBatchResponse &
-  Models.ServiceSubmitBatchHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: Models.ServiceSubmitBatchHeaders;
+      parsedBody: UserDelegationKeyModel;
     };
   };
 
@@ -406,7 +383,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param {string} containerName Name of the container to create.
    * @param {ContainerCreateOptions} [options] Options to configure Container Create operation.
-   * @returns {Promise<{ containerClient: ContainerClient; containerCreateResponse: Models.ContainerCreateResponse }>} Container creation response and the corresponding container client.
+   * @returns {Promise<{ containerClient: ContainerClient; containerCreateResponse: ContainerCreateResponse }>} Container creation response and the corresponding container client.
    * @memberof BlobServiceClient
    */
   public async createContainer(
@@ -414,7 +391,7 @@ export class BlobServiceClient extends StorageClient {
     options: ContainerCreateOptions = {}
   ): Promise<{
     containerClient: ContainerClient;
-    containerCreateResponse: Models.ContainerCreateResponse;
+    containerCreateResponse: ContainerCreateResponse;
   }> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-createContainer",
@@ -443,13 +420,13 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param {string} containerName Name of the container to delete.
    * @param {ContainerDeleteMethodOptions} [options] Options to configure Container Delete operation.
-   * @returns {Promise<Models.ContainerDeleteResponse>} Container deletion response.
+   * @returns {Promise<ContainerDeleteResponse>} Container deletion response.
    * @memberof BlobServiceClient
    */
   public async deleteContainer(
     containerName: string,
     options: ContainerDeleteMethodOptions = {}
-  ): Promise<Models.ContainerDeleteResponse> {
+  ): Promise<ContainerDeleteResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-deleteContainer",
       options.spanOptions
@@ -474,12 +451,12 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
    * @param {ServiceGetPropertiesOptions} [options] Options to the Service Get Properties operation.
-   * @returns {Promise<Models.ServiceGetPropertiesResponse>} Response data for the Service Get Properties operation.
+   * @returns {Promise<ServiceGetPropertiesResponse>} Response data for the Service Get Properties operation.
    * @memberof BlobServiceClient
    */
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
-  ): Promise<Models.ServiceGetPropertiesResponse> {
+  ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getProperties",
       options.spanOptions
@@ -505,15 +482,15 @@ export class BlobServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
-   * @param {Models.BlobServiceProperties} properties
+   * @param {BlobServiceProperties} properties
    * @param {ServiceSetPropertiesOptions} [options] Options to the Service Set Properties operation.
-   * @returns {Promise<Models.ServiceSetPropertiesResponse>} Response data for the Service Set Properties operation.
+   * @returns {Promise<ServiceSetPropertiesResponse>} Response data for the Service Set Properties operation.
    * @memberof BlobServiceClient
    */
   public async setProperties(
-    properties: Models.BlobServiceProperties,
+    properties: BlobServiceProperties,
     options: ServiceSetPropertiesOptions = {}
-  ): Promise<Models.ServiceSetPropertiesResponse> {
+  ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-setProperties",
       options.spanOptions
@@ -541,12 +518,12 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats}
    *
    * @param {ServiceGetStatisticsOptions} [options] Options to the Service Get Statistics operation.
-   * @returns {Promise<Models.ServiceGetStatisticsResponse>} Response data for the Service Get Statistics operation.
+   * @returns {Promise<ServiceGetStatisticsResponse>} Response data for the Service Get Statistics operation.
    * @memberof BlobServiceClient
    */
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
-  ): Promise<Models.ServiceGetStatisticsResponse> {
+  ): Promise<ServiceGetStatisticsResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getStatistics",
       options.spanOptions
@@ -575,12 +552,12 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
    * @param {ServiceGetAccountInfoOptions} [options] Options to the Service Get Account Info operation.
-   * @returns {Promise<Models.ServiceGetAccountInfoResponse>} Response data for the Service Get Account Info operation.
+   * @returns {Promise<ServiceGetAccountInfoResponse>} Response data for the Service Get Account Info operation.
    * @memberof BlobServiceClient
    */
   public async getAccountInfo(
     options: ServiceGetAccountInfoOptions = {}
-  ): Promise<Models.ServiceGetAccountInfoResponse> {
+  ): Promise<ServiceGetAccountInfoResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getAccountInfo",
       options.spanOptions
@@ -613,13 +590,13 @@ export class BlobServiceClient extends StorageClient {
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListContainersSegmentOptions} [options] Options to the Service List Container Segment operation.
-   * @returns {Promise<Models.ServiceListContainersSegmentResponse>} Response data for the Service List Container Segment operation.
+   * @returns {Promise<ServiceListContainersSegmentResponse>} Response data for the Service List Container Segment operation.
    * @memberof BlobServiceClient
    */
   private async listContainersSegment(
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
-  ): Promise<Models.ServiceListContainersSegmentResponse> {
+  ): Promise<ServiceListContainersSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-listContainersSegment",
       options.spanOptions
@@ -654,13 +631,13 @@ export class BlobServiceClient extends StorageClient {
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
-   * @returns {AsyncIterableIterator<Models.ServiceListContainersSegmentResponse>}
+   * @returns {AsyncIterableIterator<ServiceListContainersSegmentResponse>}
    * @memberof BlobServiceClient
    */
   private async *listSegments(
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
-  ): AsyncIterableIterator<Models.ServiceListContainersSegmentResponse> {
+  ): AsyncIterableIterator<ServiceListContainersSegmentResponse> {
     let listContainersSegmentResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -676,12 +653,12 @@ export class BlobServiceClient extends StorageClient {
    *
    * @private
    * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
-   * @returns {AsyncIterableIterator<Models.ServiceListcontainersSegmentResponse>}
+   * @returns {AsyncIterableIterator<ContainerItem>}
    * @memberof BlobServiceClient
    */
   private async *listItems(
     options: ServiceListContainersSegmentOptions = {}
-  ): AsyncIterableIterator<Models.ContainerItem> {
+  ): AsyncIterableIterator<ContainerItem> {
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
       yield* segment.containerItems;
@@ -756,12 +733,12 @@ export class BlobServiceClient extends StorageClient {
    * ```
    *
    * @param {ServiceListContainersOptions} [options={}] Options to list containers.
-   * @returns {PagedAsyncIterableIterator<Models.ContainerItem, Models.ServiceListContainersSegmentResponse>} An asyncIterableIterator that supports paging.
+   * @returns {PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>} An asyncIterableIterator that supports paging.
    * @memberof BlobServiceClient
    */
   public listContainers(
     options: ServiceListContainersOptions = {}
-  ): PagedAsyncIterableIterator<Models.ContainerItem, Models.ServiceListContainersSegmentResponse> {
+  ): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse> {
     // AsyncIterableIterator to iterate over containers
     const listSegmentOptions: ServiceListContainersSegmentOptions = {
       ...options,
@@ -861,87 +838,14 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Submit batch request which consists of multiple subrequests.
-   *
-   * @example
-   * ```js
-   * let batchDeleteRequest = new BatchDeleteRequest();
-   * await batchDeleteRequest.addSubRequest(urlInString0, credential0);
-   * await batchDeleteRequest.addSubRequest(urlInString1, credential1, {
-   *  deleteSnapshots: "include"
-   * });
-   * const deleteBatchResp = await blobServiceClient.submitBatch(batchDeleteRequest);
-   * console.log(deleteBatchResp.subResponsesSucceededCount);
-   * ```
-   *
-   * @example
-   * ```js
-   * let batchSetTierRequest = new BatchSetTierRequest();
-   * await batchSetTierRequest.addSubRequest(blockBlobClient0, "Cool");
-   * await batchSetTierRequest.addSubRequest(blockBlobClient1, "Cool", {
-   *  leaseAccessConditions: { leaseId: leaseId }
-   * });
-   * const setTierBatchResp = await blobServiceClient.submitBatch(batchSetTierRequest);
-   * console.log(setTierBatchResp.subResponsesSucceededCount);
-   * ```
+   * Creates a BlobBatchClient object to conduct batch operations.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
-   * @param {BatchRequest} batchRequest Supported batch request: BatchDeleteRequest or BatchSetTierRequest.
-   * @param {ServiceSubmitBatchOptionalParams} [options]
-   * @returns {Promise<ServiceSubmitBatchResponse>}
+   * @returns {BlobBatchClient} A new BlobBatchClient object for this service.
    * @memberof BlobServiceClient
    */
-  public async submitBatch(
-    batchRequest: BatchRequest,
-    options: ServiceSubmitBatchOptionalParams = {}
-  ): Promise<ServiceSubmitBatchResponse> {
-    if (!batchRequest || batchRequest.getSubRequests().size == 0) {
-      throw new RangeError("Batch request should contain one or more sub requests.");
-    }
-
-    const { span, spanOptions } = createSpan("BlobServiceClient-submitBatch", options.spanOptions);
-    try {
-      const batchRequestBody = batchRequest.getHttpRequestBody();
-
-      const rawBatchResponse: Models.ServiceSubmitBatchResponse = await this.serviceContext.submitBatch(
-        batchRequestBody,
-        utf8ByteLength(batchRequestBody),
-        batchRequest.getMultiPartContentType(),
-        {
-          ...options,
-          spanOptions
-        }
-      );
-
-      // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
-      const batchResponseParser = new BatchResponseParser(
-        rawBatchResponse,
-        batchRequest.getSubRequests()
-      );
-      const responseSummary = await batchResponseParser.parseBatchResponse();
-
-      const res: ServiceSubmitBatchResponse = {
-        _response: rawBatchResponse._response,
-        contentType: rawBatchResponse.contentType,
-        errorCode: rawBatchResponse.errorCode,
-        requestId: rawBatchResponse.requestId,
-        clientRequestId: rawBatchResponse.clientRequestId,
-        version: rawBatchResponse.version,
-        subResponses: responseSummary.subResponses,
-        subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
-        subResponsesFailedCount: responseSummary.subResponsesFailedCount
-      };
-
-      return res;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public getBlobBatchClient(): BlobBatchClient {
+    return new BlobBatchClient(this.serviceContext);
   }
 }

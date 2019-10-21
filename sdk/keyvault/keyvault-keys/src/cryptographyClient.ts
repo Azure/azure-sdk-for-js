@@ -5,12 +5,13 @@ import {
   TokenCredential,
   isNode,
   PipelineOptions,
-  InternalPipelineOptions,
   createPipelineFromOptions,
   ServiceClientOptions as Pipeline,
   isTokenCredential,
-  signingPolicy,
+  signingPolicy
 } from "@azure/core-http";
+
+// import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { SDK_VERSION } from "./core/utils/constants";
 import { KeyVaultClient } from "./core/keyVaultClient";
@@ -595,7 +596,20 @@ export class CryptographyClient {
         ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
 
-    this.pipeline = createPipelineFromOptions(pipelineOptions as InternalPipelineOptions, authPolicy);
+    const internalPipelineOptions = {
+      ...pipelineOptions,
+      ...{
+        loggerOptions: {
+          allowedHeaderNames: [
+            "x-ms-keyvault-region",
+            "x-ms-keyvault-network-info",
+            "x-ms-keyvault-service-version"
+          ]
+        }
+      }
+    }
+
+    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
 
     this.key = key;

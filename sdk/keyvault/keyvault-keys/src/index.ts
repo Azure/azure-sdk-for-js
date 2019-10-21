@@ -6,7 +6,6 @@ import {
   TokenCredential,
   RequestOptionsBase,
   PipelineOptions,
-  InternalPipelineOptions,
   createPipelineFromOptions,
   ServiceClientOptions as Pipeline,
   isTokenCredential,
@@ -14,9 +13,11 @@ import {
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
+import { logger } from "./log";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
 import {
@@ -43,11 +44,18 @@ import { KeyVaultClient } from "./core/keyVaultClient";
 import { SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
+import { DeleteKeyPoller } from "./lro/delete/poller";
+import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
+import { DeleteKeyPollOperationState } from "./lro/delete/operation";
+import { RecoverDeletedKeyPollOperationState } from "./lro/recover/operation";
+
 import {
   ParsedKeyVaultEntityIdentifier
 } from "./core/keyVaultBase";
 import {
   Key,
+  KeyClientInterface,
+  KeyPollerOptions,
   DeletedKey,
   CreateKeyOptions,
   CreateEcKeyOptions,
@@ -75,6 +83,8 @@ import {
 } from "./cryptographyClient";
 
 export {
+  DeleteKeyPollOperationState,
+  RecoverDeletedKeyPollOperationState,
   CreateEcKeyOptions,
   CreateRsaKeyOptions,
   CreateKeyOptions,
@@ -95,6 +105,9 @@ export {
   JsonWebKeyType,
   Key,
   KeyProperties,
+  KeyPollerOptions,
+  PollerLike,
+  PollOperationState,
   KeyWrapAlgorithm,
   PipelineOptions,
   PageSettings,
@@ -105,7 +118,8 @@ export {
   UnwrapResult,
   UpdateKeyOptions,
   VerifyResult,
-  WrapResult
+  WrapResult,
+  logger
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
@@ -133,6 +147,16 @@ export class KeyClient {
    */
   protected readonly credential: TokenCredential;
   private readonly client: KeyVaultClient;
+
+  /**
+   * A self reference that bypasses private methods, for the pollers.
+   */
+  private readonly pollerClient: KeyClientInterface = {
+    recoverDeletedKey: this.recoverDeletedKey.bind(this),
+    getKey: this.getKey.bind(this),
+    deleteKey: this.deleteKey.bind(this),
+    getDeletedKey: this.getDeletedKey.bind(this)
+  };
 
   /**
    * Creates an instance of KeyClient.
@@ -177,8 +201,57 @@ export class KeyClient {
         ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
 
-    this.pipeline = createPipelineFromOptions(pipelineOptions as InternalPipelineOptions, authPolicy);
+    const internalPipelineOptions = {
+      ...pipelineOptions,
+      ...{
+        loggerOptions: {
+          allowedHeaderNames: [
+            "x-ms-keyvault-region",
+            "x-ms-keyvault-network-info",
+            "x-ms-keyvault-service-version"
+          ]
+        }
+      }
+    }
+
+    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
+  }
+
+  private async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
+    const requestOptions = (options && options.requestOptions) || {};
+    const span = this.createSpan("deleteKey", requestOptions);
+
+    let response: DeleteKeyResponse;
+    try {
+      response = await this.client.deleteKey(
+        this.vaultEndpoint,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getKeyFromKeyBundle(response);
+  }
+
+  private async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
+    const requestOptions = (options && options.requestOptions) || {};
+    const span = this.createSpan("recoverDeletedKey", requestOptions);
+
+    let response: RecoverDeletedKeyResponse;
+    try {
+      response = await this.client.recoverDeletedKey(
+        this.vaultEndpoint,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getKeyFromKeyBundle(response);
   }
 
   // TODO: do we want Aborter as well?
@@ -411,34 +484,44 @@ export class KeyClient {
   /**
    * The delete operation applies to any key stored in Azure Key Vault. Individual versions
    * of a key can not be deleted, only all versions of a given key at once.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the key is deleted.
+   *
    * This operation requires the keys/delete permission.
    *
    * Example usage:
    * ```ts
-   * let client = new KeyClient(url, credentials);
-   * let result = await client.deleteKey("MyKey");
+   * const client = new KeyClient(url, credentials);
+   * await client.createKey("MyKey", "EC");
+   * const poller = await client.beginDeleteKey("MyKey");
+   *
+   * // Serializing the poller
+   * const serialized = poller.toJSON();
+   * // A new poller can be created with:
+   * // await client.beginDeleteKey("MyKey", { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * const deletedKey = await poller.pollUntilDone();
+   * console.log(deletedKey);
    * ```
    * @summary Deletes a key from a specified key vault.
-   * @param vaultEndpoint The vault name, for example https://myvault.vault.azure.net.
    * @param name The name of the key.
    * @param [options] The optional parameters
    */
-  public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
-    const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("deleteKey", requestOptions);
+  public async beginDeleteKey(
+    name: string,
+    options?: KeyPollerOptions
+  ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
+    const poller = new DeleteKeyPoller({
+      name,
+      client: this.pollerClient,
+      ...options
+    });
 
-    let response: DeleteKeyResponse;
-    try {
-      response = await this.client.deleteKey(
-        this.vaultEndpoint,
-        name,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
+    // This will initialize the poller's operation (the deletion of the key).
+    await poller.poll();
 
-    return this.getKeyFromKeyBundle(response);
+    return poller;
   }
 
   /**
@@ -571,9 +654,9 @@ export class KeyClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeyClient(url, credentials);
-   * await client.deleteKey("MyKey");
-   * // ...
+   * const client = new KeyClient(url, credentials);
+   * const deletePoller = await client.beginDeleteKey("MyKey")
+   * await deletePoller.pollUntilDone();
    * await client.purgeDeletedKey("MyKey");
    * ```
    * @summary Permanently deletes the specified key.
@@ -597,35 +680,45 @@ export class KeyClient {
 
   /**
    * Recovers the deleted key in the specified vault. This operation can only be performed on a
-   * soft-delete enabled vault. This operation requires the keys/recover permission.
+   * soft-delete enabled vault.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the deleted key is recovered.
+   *
+   * This operation requires the keys/recover permission.
    *
    * Example usage:
    * ```ts
-   * let client = new KeyClient(url, credentials);
-   * await client.deleteKey("MyKey");
-   * // ...
-   * await client.recoverDeletedKey("MyKey");
+   * const client = new KeyClient(url, credentials);
+   * await client.createKey("MyKey", "EC");
+   * const deletePoller = await client.beginDeleteKey("MyKey");
+   * await deletePoller.pollUntilDone();
+   * const poller = await client.beginRecoverDeletedKey("MyKey");
+   *
+   * // Serializing the poller
+   * const serialized = poller.toJSON();
+   * // A new poller can be created with:
+   * // await client.beginRecoverDeletedKey("MyKey", { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * const key = await poller.pollUntilDone();
+   * console.log(key);
    * ```
    * @summary Recovers the deleted key to the latest version.
    * @param name The name of the deleted key.
    * @param [options] The optional parameters
    */
-  public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
-    const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("recoverDeletedKey", requestOptions);
-
-    let response: RecoverDeletedKeyResponse;
-    try {
-      response = await this.client.recoverDeletedKey(
-        this.vaultEndpoint,
-        name,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getKeyFromKeyBundle(response);
+  public async beginRecoverDeletedKey(
+    name: string,
+    options?: KeyPollerOptions
+  ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
+    const poller = new RecoverDeletedKeyPoller({
+      name,
+      client: this.pollerClient,
+      ...options
+    });
+    // This will initialize the poller's operation (the deletion of the key).
+    await poller.poll();
+    return poller;
   }
 
   /**

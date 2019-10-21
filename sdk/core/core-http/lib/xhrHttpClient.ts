@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AbortError } from "@azure/abort-controller";
 import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";
 import { WebResource, TransferProgressEvent } from "./webResource";
@@ -20,6 +21,10 @@ export class XhrHttpClient implements HttpClient {
 
     const abortSignal = request.abortSignal;
     if (abortSignal) {
+      if (abortSignal.aborted) {
+        return Promise.reject(new AbortError("The operation was aborted."));
+      }
+
       const listener = () => {
         xhr.abort();
       };
@@ -156,11 +161,7 @@ function rejectOnTerminalEvent(
       )
     )
   );
-  xhr.addEventListener("abort", () =>
-    reject(
-      new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR, undefined, request)
-    )
-  );
+  xhr.addEventListener("abort", () => reject(new AbortError("The operation was aborted.")));
   xhr.addEventListener("timeout", () =>
     reject(
       new RestError(

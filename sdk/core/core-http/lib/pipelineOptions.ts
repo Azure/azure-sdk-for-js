@@ -79,5 +79,5 @@ export interface InternalPipelineOptions extends PipelineOptions {
   /**
    * Options to configure logging.
    */
-  loggingOptions?: LogPolicyOptions;
+  loggingOptions?: LoggingOptions;
 }

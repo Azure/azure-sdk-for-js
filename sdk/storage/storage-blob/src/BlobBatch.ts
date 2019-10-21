@@ -16,7 +16,7 @@ import {
 import { CanonicalCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./BlobClient";
-import * as Models from "./generated/src/models";
+import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
 import { Pipeline } from "./Pipeline";
 import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
@@ -49,14 +49,16 @@ export interface BatchSubRequest {
 }
 
 /**
- * A BatchRequest represents a based class for BatchDeleteRequest and BatchSetTierRequest.
+ * A BlobBatch represents an aggregated set of operations on blobs.
+ * Currently, only delete and setAccessTier are supported.
  *
  * @export
- * @class BatchRequest
+ * @class BlobBatch
  */
-export abstract class BatchRequest {
-  protected batchRequest: InnerBatchRequest;
-  protected readonly batch: string = "batch";
+export class BlobBatch {
+  private batchRequest: InnerBatchRequest;
+  private readonly batch: string = "batch";
+  private batchType: "delete" | "setAccessTier" | undefined;
 
   constructor() {
     this.batchRequest = new InnerBatchRequest();
@@ -85,7 +87,7 @@ export abstract class BatchRequest {
     return this.batchRequest.getSubRequests();
   }
 
-  protected async addSubRequestInternal(
+  private async addSubRequestInternal(
     subRequest: BatchSubRequest,
     assembleSubRequestFunc: () => Promise<void>
   ): Promise<void> {
@@ -99,54 +101,58 @@ export abstract class BatchRequest {
       await Mutex.unlock(this.batch);
     }
   }
-}
 
-/**
- * A BatchDeleteRequest represents a batch delete request, which consists of one or more delete operations.
- *
- * @export
- * @class BatchDeleteRequest
- * @extends {BatchRequest}
- */
-export class BatchDeleteRequest extends BatchRequest {
-  constructor() {
-    super();
+  private setBatchType(batchType: "delete" | "setAccessTier"): void {
+    if (!this.batchType) {
+      this.batchType = batchType;
+    }
+    if (this.batchType !== batchType) {
+      throw new RangeError(
+        `BlobBatch only supports one operation type per batch and it already is being used for ${this.batchType} operations.`
+      );
+    }
   }
 
   /**
-   * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
+   * The deleteBlob operation marks the specified blob or snapshot for deletion.
+   * The blob is later deleted during garbage collection.
+   * Only one kind of operation is allowed per batch request.
+   *
    * Note that in order to delete a blob, you must delete all of its snapshots.
    * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
-   * The operation(subrequest) will be authenticated and authorized with specified credential.
+   * The operation will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
-   * @memberof BatchDeleteRequest
+   * @memberof BlobBatch
    */
-  public async addSubRequest(
+  public async deleteBlob(
     url: string,
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: BlobDeleteOptions
   ): Promise<void>;
 
   /**
-   * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
+   * The deleteBlob operation marks the specified blob or snapshot for deletion.
+   * The blob is later deleted during garbage collection.
+   * Only one kind of operation is allowed per batch request.
+   *
    * Note that in order to delete a blob, you must delete all of its snapshots.
    * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
-   * The operation(subrequest) will be authenticated and authorized with specified credential.
+   * The operation will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient} blobClient The BlobClient.
    * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
-   * @memberof BatchDeleteRequest
+   * @memberof BlobBatch
    */
-  public async addSubRequest(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
+  public async deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
 
-  public async addSubRequest(
+  public async deleteBlob(
     urlOrBlobClient: string | BlobClient,
     credentialOrOptions:
       | SharedKeyCredential
@@ -189,7 +195,8 @@ export class BatchDeleteRequest extends BatchRequest {
     );
 
     try {
-      await super.addSubRequestInternal(
+      this.setBatchType("delete");
+      await this.addSubRequestInternal(
         {
           url: url,
           credential: credential
@@ -211,81 +218,66 @@ export class BatchDeleteRequest extends BatchRequest {
       span.end();
     }
   }
-}
-
-/**
- * A BatchSetTierRequest represents a batch set tier request, which consists of one or more set tier operations.
- *
- * @export
- * @class BatchSetTierRequest
- * @extends {BatchRequest}
- */
-export class BatchSetTierRequest extends BatchRequest {
-  constructor() {
-    super();
-  }
 
   /**
-   * Add a set tier operation(subrequest) to set the tier on a blob.
-   * The operation is allowed on a page blob in a premium
-   * storage account and on a block blob in a blob storage account (locally redundant
-   * storage only). A premium page blob's tier determines the allowed size, IOPS,
-   * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
-   * storage type. This operation does not update the blob's ETag.
-   * See [set blob tier details](https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
-   * The operation(subrequest) will be authenticated and authorized
-   * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * The setBlobAccessTier operation sets the tier on a blob.
+   * The operation is allowed on block blobs in a blob storage or general purpose v2 account.
+   * Only one kind of operation is allowed per batch request.
+   *
+   * A block blob's tier determines Hot/Cool/Archive storage type.
+   * This operation does not update the blob's ETag.
+   * For detailed information about block blob level tiering
+   * see [hot, cool, and archive access tiers](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
+   * The operation will be authenticated and authorized
+   * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
-   * @param {Credential} credential The credential to be used for authentication and authorization.
-   * @param {Models.AccessTier} tier
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
-   * @memberof BatchSetTierRequest
+   * @memberof BlobBatch
    */
-  public async addSubRequest(
+  public async setBlobAccessTier(
     url: string,
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    tier: Models.AccessTier,
+    tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<void>;
 
   /**
-   * Add a set tier operation(subrequest) to set the tier on a blob.
-   * The operation is allowed on a page blob in a premium
-   * storage account and on a block blob in a blob storage account (locally redundant
-   * storage only). A premium page blob's tier determines the allowed size, IOPS,
-   * and bandwidth of the blob. A block blob's tier determines Hot/Cool/Archive
-   * storage type. This operation does not update the blob's ETag.
-   * See [set blob tier details](https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier).
-   * The operation(subrequest) will be authenticated and authorized
-   * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * The setBlobAccessTier operation sets the tier on a blob.
+   * The operation is allowed on block blobs in a blob storage or general purpose v2 account.
+   * Only one kind of operation is allowed per batch request.
+   *
+   * A block blob's tier determines Hot/Cool/Archive storage type.
+   * This operation does not update the blob's ETag.
+   * For detailed information about block blob level tiering
+   * see [hot, cool, and archive access tiers](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
+   * The operation will be authenticated and authorized
+   * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient} blobClient The BlobClient.
-   * @param {Models.AccessTier} tier
+   * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
-   * @memberof BatchSetTierRequest
+   * @memberof BlobBatch
    */
-  public async addSubRequest(
+  public async setBlobAccessTier(
     blobClient: BlobClient,
-    tier: Models.AccessTier,
+    tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<void>;
 
-  public async addSubRequest(
+  public async setBlobAccessTier(
     urlOrBlobClient: string | BlobClient,
-    credentialOrTier:
-      | SharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Models.AccessTier,
-    tierOrOptions?: Models.AccessTier | BlobSetTierOptions,
+    credentialOrTier: SharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<void> {
     let url: string;
     let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
-    let tier: Models.AccessTier;
+    let tier: AccessTier;
 
     if (
       typeof urlOrBlobClient === "string" &&
@@ -296,12 +288,12 @@ export class BatchSetTierRequest extends BatchRequest {
       // First overload
       url = urlOrBlobClient;
       credential = credentialOrTier as SharedKeyCredential | AnonymousCredential | TokenCredential;
-      tier = tierOrOptions as Models.AccessTier;
+      tier = tierOrOptions as AccessTier;
     } else if (urlOrBlobClient instanceof BlobClient) {
       // Second overload
       url = urlOrBlobClient.url;
       credential = urlOrBlobClient.credential;
-      tier = credentialOrTier as Models.AccessTier;
+      tier = credentialOrTier as AccessTier;
       options = tierOrOptions as BlobSetTierOptions;
     } else {
       throw new RangeError(
@@ -319,7 +311,8 @@ export class BatchSetTierRequest extends BatchRequest {
     );
 
     try {
-      await super.addSubRequestInternal(
+      this.setBatchType("setAccessTier");
+      await this.addSubRequestInternal(
         {
           url: url,
           credential: credential

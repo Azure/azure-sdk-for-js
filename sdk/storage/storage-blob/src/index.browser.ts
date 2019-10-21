@@ -3,8 +3,6 @@
 
 import { RestError } from "@azure/core-http";
 
-import * as Models from "./generated/src/models";
-
 export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
@@ -12,7 +10,8 @@ export * from "./BlobClient";
 export * from "./AppendBlobClient";
 export * from "./BlockBlobClient";
 export * from "./PageBlobClient";
-export * from "./BatchRequest";
+export * from "./BlobBatch";
+export * from "./BlobBatchClient";
 export * from "./BatchResponse";
 export * from "./BrowserPolicyFactory";
 export * from "./credentials/AnonymousCredential";
@@ -28,5 +27,11 @@ export * from "./RetryPolicyFactory";
 export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
-export { Models, RestError };
 export { CommonOptions } from "./StorageClient";
+export * from "./generatedModels";
+export { RestError };
+export {
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  PageList
+} from "./PageBlobRangeResponse";

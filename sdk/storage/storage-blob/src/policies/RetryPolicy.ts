@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { AbortError } from "@azure/abort-controller";
+
 import {
   AbortSignalLike,
   BaseRequestPolicy,
@@ -59,7 +61,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   tryTimeoutInMs: undefined // Use server side default timeout strategy
 };
 
-const RETRY_ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
+const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
@@ -249,7 +251,11 @@ export class RetryPolicy extends BaseRequestPolicy {
         if (
           err.name.toUpperCase().includes(retriableError) ||
           err.message.toUpperCase().includes(retriableError) ||
-          (err.code && err.code.toString().toUpperCase().includes(retriableError))
+          (err.code &&
+            err.code
+              .toString()
+              .toUpperCase()
+              .includes(retriableError))
         ) {
           this.logf(
             HttpPipelineLogLevel.INFO,

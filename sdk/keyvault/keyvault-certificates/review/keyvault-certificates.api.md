@@ -70,7 +70,7 @@ export interface CertificateOperation {
 }
 
 // Warning: (ae-forgotten-export) The symbol "CertificateAttributes" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export interface CertificatePolicy extends SecretProperties, CertificateAttributes {
     certificateTransparency?: boolean;
@@ -216,6 +216,9 @@ export interface LifetimeAction {
     // Warning: (ae-forgotten-export) The symbol "Trigger" needs to be exported by the entry point index.d.ts
     trigger?: Trigger;
 }
+
+// @public
+export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export interface OrganizationDetails {

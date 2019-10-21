@@ -267,7 +267,7 @@ export class ServiceClient {
    * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
    * @param {ServiceCallback} callback The callback to call when the response is received.
    */
-  sendOperationRequest(
+  async sendOperationRequest(
     operationArguments: OperationArguments,
     operationSpec: OperationSpec,
     callback?: ServiceCallback<any>
@@ -436,9 +436,29 @@ export class ServiceClient {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
-      result = this.sendRequest(httpRequest).then((res) =>
-        flattenResponse(res, operationSpec.responses[res.status])
-      );
+      let rawResponse: HttpOperationResponse;
+      let sendRequestError;
+      try {
+        rawResponse = await this.sendRequest(httpRequest);
+      } catch (error) {
+        sendRequestError = error;
+      }
+      if (sendRequestError) {
+        if (sendRequestError.response){
+          sendRequestError.details = flattenResponse(
+            sendRequestError.response,
+            operationSpec.responses[sendRequestError.statusCode] ||
+              operationSpec.responses["default"]
+          );
+        }        
+        result = Promise.reject(
+          sendRequestError
+        );
+      } else {
+        result = Promise.resolve(
+          flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status])
+        );
+      }
     } catch (error) {
       result = Promise.reject(error);
     }

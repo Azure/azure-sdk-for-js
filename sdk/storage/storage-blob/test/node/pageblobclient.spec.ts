@@ -138,7 +138,7 @@ describe("PageBlobClient Node.js only", () => {
         expiryTime,
         containerName,
         blobName: blockBlobName,
-        permissions: BlobSASPermissions.parse("r").toString()
+        permissions: BlobSASPermissions.parse("r")
       },
       sharedKeyCredential as SharedKeyCredential
     );
@@ -259,7 +259,7 @@ describe("PageBlobClient Node.js only", () => {
         expiryTime,
         containerName,
         blobName: blockBlobName,
-        permissions: BlobSASPermissions.parse("r").toString()
+        permissions: BlobSASPermissions.parse("r")
       },
       credential
     );

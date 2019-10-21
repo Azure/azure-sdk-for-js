@@ -9,13 +9,20 @@ import {
   isNode
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import * as Models from "./generated/src/models";
+import {
+  BlobHTTPHeaders,
+  AppendBlobCreateResponse,
+  AppendBlobAppendBlockFromUrlResponse,
+  AppendBlobAppendBlockResponse,
+  CpkInfo,
+  ModifiedAccessConditions
+} from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient, CommonOptions } from "./internal";
 import { AppendBlob } from "./generated/src/operations";
 import {
-  AppendBlobAccessConditions,
-  BlobAccessConditions,
+  AppendBlobRequestConditions,
+  BlobRequestConditions,
   Metadata,
   ensureCpkIfSpecified
 } from "./models";
@@ -50,17 +57,17 @@ export interface AppendBlobCreateOptions extends CommonOptions {
   /**
    * Conditions to meet when creating append blobs.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof AppendBlobCreateOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when creating append blobs.
    *
-   * @type {Models.BlobHTTPHeaders}
+   * @type {BlobHTTPHeaders}
    * @memberof AppendBlobCreateOptions
    */
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when creating append blobs.
    *
@@ -71,10 +78,10 @@ export interface AppendBlobCreateOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof AppendBlobCreateOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -95,16 +102,16 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   /**
    * Conditions to meet when appending append blob blocks.
    *
-   * @type {AppendBlobAccessConditions}
+   * @type {AppendBlobRequestConditions}
    * @memberof AppendBlobAppendBlockOptions
    */
-  accessConditions?: AppendBlobAccessConditions;
+  conditions?: AppendBlobRequestConditions;
   /**
    * Callback to receive events on the progress of append block operation.
    *
    * @memberof AppendBlobAppendBlockOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
@@ -128,10 +135,10 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof AppendBlobAppendBlockOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
@@ -146,17 +153,17 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet when appending append blob blocks.
    *
-   * @type {AppendBlobAccessConditions}
+   * @type {AppendBlobRequestConditions}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  accessConditions?: AppendBlobAccessConditions;
+  conditions?: AppendBlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  sourceConditions?: ModifiedAccessConditions;
   /**
    * An MD5 hash of the append block content from the URI.
    * This hash is used to verify the integrity of the append block during transport of the data from the URI.
@@ -182,10 +189,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -379,23 +386,21 @@ export class AppendBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
-   * @returns {Promise<Models.AppendBlobsCreateResponse>}
+   * @returns {Promise<AppendBlobsCreateResponse>}
    * @memberof AppendBlobClient
    */
-  public async create(
-    options: AppendBlobCreateOptions = {}
-  ): Promise<Models.AppendBlobCreateResponse> {
+  public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-create", options.spanOptions);
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
       return this.appendBlobContext.create(0, {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -417,25 +422,25 @@ export class AppendBlobClient extends BlobClient {
    * @param {HttpRequestBody} body Data to be appended.
    * @param {number} contentLength Length of the body in bytes.
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
-   * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
+   * @returns {Promise<AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlock(
     body: HttpRequestBody,
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
-  ): Promise<Models.AppendBlobAppendBlockResponse> {
+  ): Promise<AppendBlobAppendBlockResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-appendBlock", options.spanOptions);
-    options.accessConditions = options.accessConditions || {};
+    options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
       return this.appendBlobContext.appendBlock(body, contentLength, {
         abortSignal: options.abortSignal,
-        appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
+        appendPositionAccessConditions: options.conditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
+        onUploadProgress: options.onProgress,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -465,7 +470,7 @@ export class AppendBlobClient extends BlobClient {
    * @param {number} sourceOffset Offset in source to be appended
    * @param {number} count Number of bytes to be appended as a block
    * @param {AppendBlobAppendBlockFromURLOptions} [options={}]
-   * @returns {Promise<Models.AppendBlobAppendBlockFromUrlResponse>}
+   * @returns {Promise<AppendBlobAppendBlockFromUrlResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlockFromURL(
@@ -473,13 +478,13 @@ export class AppendBlobClient extends BlobClient {
     sourceOffset: number,
     count: number,
     options: AppendBlobAppendBlockFromURLOptions = {}
-  ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+  ): Promise<AppendBlobAppendBlockFromUrlResponse> {
     const { span, spanOptions } = createSpan(
       "AppendBlobClient-appendBlockFromURL",
       options.spanOptions
     );
-    options.accessConditions = options.accessConditions || {};
-    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    options.conditions = options.conditions || {};
+    options.sourceConditions = options.sourceConditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
@@ -488,14 +493,14 @@ export class AppendBlobClient extends BlobClient {
         sourceRange: rangeToString({ offset: sourceOffset, count }),
         sourceContentMD5: options.sourceContentMD5,
         sourceContentCrc64: options.sourceContentCrc64,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        appendPositionAccessConditions: options.accessConditions.appendPositionAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        appendPositionAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+          sourceIfMatch: options.sourceConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         cpkInfo: options.customerProvidedKey,
         spanOptions

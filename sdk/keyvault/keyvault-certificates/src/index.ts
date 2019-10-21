@@ -4,12 +4,12 @@ import {
   signingPolicy,
   RequestOptionsBase,
   PipelineOptions,
-  InternalPipelineOptions,
   createPipelineFromOptions,
-  ServiceClientOptions as Pipeline,
+  ServiceClientOptions as Pipeline
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
+import { logger } from "./log";
 
 import {
   Certificate,
@@ -107,7 +107,8 @@ export {
   OrganizationDetails,
   ParsedKeyVaultEntityIdentifier,
   SecretProperties,
-  X509CertificateProperties
+  X509CertificateProperties,
+  logger
 };
 
 export { ProxyOptions, RetryOptions, TelemetryOptions };
@@ -248,7 +249,20 @@ export class CertificateClient {
         ? challengeBasedAuthenticationPolicy(credential)
         : signingPolicy(credential)
 
-    this.pipeline = createPipelineFromOptions(pipelineOptions as InternalPipelineOptions, authPolicy);
+    const internalPipelineOptions = {
+      ...pipelineOptions,
+      ...{
+        loggerOptions: {
+          allowedHeaderNames: [
+            "x-ms-keyvault-region",
+            "x-ms-keyvault-network-info",
+            "x-ms-keyvault-service-version"
+          ]
+        }
+      }
+    }
+
+    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
   }
 
