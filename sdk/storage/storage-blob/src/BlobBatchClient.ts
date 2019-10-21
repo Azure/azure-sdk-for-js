@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as Models from "./generated/src/models";
+import {
+  AccessTier,
+  ServiceSubmitBatchHeaders,
+  ServiceSubmitBatchOptionalParamsModel,
+  ServiceSubmitBatchResponseModel
+} from "./generatedModels";
 import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
@@ -22,7 +27,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
  * @interface BlobBatchSubmitBatchOptionalParams
  */
 export interface BlobBatchSubmitBatchOptionalParams
-  extends Models.ServiceSubmitBatchOptionalParams,
+  extends ServiceSubmitBatchOptionalParamsModel,
     CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -35,7 +40,7 @@ export interface BlobBatchSubmitBatchOptionalParams
 }
 
 export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
-  Models.ServiceSubmitBatchHeaders & {
+  ServiceSubmitBatchHeaders & {
     /**
      * The underlying HTTP response.
      */
@@ -43,7 +48,7 @@ export declare type BlobBatchSubmitBatchResponse = ParsedBatchResponse &
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: Models.ServiceSubmitBatchHeaders;
+      parsedHeaders: ServiceSubmitBatchHeaders;
     };
   };
 
@@ -136,7 +141,7 @@ export class BlobBatchClient {
    *
    * @param {string[]} urls The urls of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.
-   * @param {Models.AccessTier} tier
+   * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
    * @memberof BlobBatchClient
@@ -144,7 +149,7 @@ export class BlobBatchClient {
   public async setBlobsAccessTier(
     urls: string[],
     credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    tier: Models.AccessTier,
+    tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
@@ -160,25 +165,21 @@ export class BlobBatchClient {
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient[]} blobClients The BlobClients for the blobs which should have a new tier set.
-   * @param {Models.AccessTier} tier
+   * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
    * @memberof BlobBatchClient
    */
   public async setBlobsAccessTier(
     blobClients: BlobClient[],
-    tier: Models.AccessTier,
+    tier: AccessTier,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
   public async setBlobsAccessTier(
     urlsOrBlobClients: string[] | BlobClient[],
-    credentialOrTier:
-      | SharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Models.AccessTier,
-    tierOrOptions?: Models.AccessTier | BlobSetTierOptions,
+    credentialOrTier: SharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions
   ): Promise<BlobBatchSetBlobsAccessTierResponse> {
     const batch = new BlobBatch();
@@ -187,13 +188,13 @@ export class BlobBatchClient {
         await batch.setBlobAccessTier(
           urlOrBlobClient,
           credentialOrTier as TokenCredential,
-          tierOrOptions as Models.AccessTier,
+          tierOrOptions as AccessTier,
           options
         );
       } else {
         await batch.setBlobAccessTier(
           urlOrBlobClient,
-          credentialOrTier as Models.AccessTier,
+          credentialOrTier as AccessTier,
           tierOrOptions as BlobSetTierOptions
         );
       }
@@ -245,7 +246,7 @@ export class BlobBatchClient {
     try {
       const batchRequestBody = batchRequest.getHttpRequestBody();
 
-      const rawBatchResponse: Models.ServiceSubmitBatchResponse = await this._serviceContext.submitBatch(
+      const rawBatchResponse: ServiceSubmitBatchResponseModel = await this._serviceContext.submitBatch(
         batchRequestBody,
         utf8ByteLength(batchRequestBody),
         batchRequest.getMultiPartContentType(),
