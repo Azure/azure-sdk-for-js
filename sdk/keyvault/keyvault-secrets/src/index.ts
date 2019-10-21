@@ -212,8 +212,7 @@ export class SecretClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expiresOn,
-        vaultUrl: options.vaultEndpoint
+        expires: options.expiresOn
       };
       const unflattenedOptions = {
         ...options,
@@ -870,9 +869,9 @@ export class SecretClient {
 
     let resultObject: KeyVaultSecret & DeletedSecret = {
       value: secretBundle.value,
-      name: (attributes as any).name,
+      name: parsedId.name,
       properties: {
-        vaultEndpoint: (attributes as any).vaultUrl,
+        vaultEndpoint: parsedId.vaultUrl,
         expiresOn: (attributes as any).expires,
         createdOn: (attributes as any).created,
         updatedOn: (attributes as any).updated,
