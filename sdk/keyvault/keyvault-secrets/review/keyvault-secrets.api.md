@@ -67,7 +67,7 @@ export interface Secret {
 
 // @public
 export class SecretClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | PipelineOptions);
+    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupSecret(secretName: string, options?: RequestOptionsBase): Promise<Uint8Array | undefined>;
     protected readonly credential: TokenCredential;
     deleteSecret(secretName: string, options?: RequestOptionsBase): Promise<DeletedSecret>;

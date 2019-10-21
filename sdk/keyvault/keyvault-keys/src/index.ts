@@ -6,7 +6,7 @@ import {
   TokenCredential,
   RequestOptionsBase,
   PipelineOptions,
-  isPipelineOptions,
+  InternalPipelineOptions,
   createPipelineFromOptions,
   ServiceClientOptions as Pipeline,
   isTokenCredential,
@@ -149,41 +149,35 @@ export class KeyClient {
    * ```
    * @param {string} endPoint the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
-   * @param {(Pipeline | PipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
-   *                                                              Omitting this parameter to create the default Pipeline instance.
+   * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
+   *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof KeyClient
    */
   constructor(
     endPoint: string,
     credential: TokenCredential,
-    pipelineOrOptions: Pipeline | PipelineOptions = {}
+    pipelineOptions: PipelineOptions = {}
   ) {
     this.vaultEndpoint = endPoint;
     this.credential = credential;
-    if (isPipelineOptions(pipelineOrOptions)) {
-      const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
-      if (pipelineOrOptions.userAgentOptions) {
-        pipelineOrOptions.userAgentOptions.userAgentPrefix !== undefined
-          ? `${pipelineOrOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo;
-      } else {
-        pipelineOrOptions.userAgentOptions = {
-          userAgentPrefix: libInfo
-        }
-      }
 
-      const authPolicy =
-        isTokenCredential(credential)
-          ? challengeBasedAuthenticationPolicy(credential)
-          : signingPolicy(credential)
-
-      this.pipeline = createPipelineFromOptions(pipelineOrOptions, authPolicy);
+    const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
+    if (pipelineOptions.userAgentOptions) {
+      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
+        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
+        : libInfo;
     } else {
-      this.pipeline = pipelineOrOptions;
+      pipelineOptions.userAgentOptions = {
+        userAgentPrefix: libInfo
+      }
     }
 
-    this.pipeline.requestPolicyFactories;
+    const authPolicy =
+      isTokenCredential(credential)
+        ? challengeBasedAuthenticationPolicy(credential)
+        : signingPolicy(credential)
 
+    this.pipeline = createPipelineFromOptions(pipelineOptions as InternalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
   }
 
