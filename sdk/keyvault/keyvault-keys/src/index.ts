@@ -181,18 +181,18 @@ export class KeyClient {
    *
    * let client = new KeyClient(url, credentials);
    * ```
-   * @param {string} endPoint the base url to the key vault.
+   * @param {string} endpoint the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof KeyClient
    */
   constructor(
-    endPoint: string,
+    endpoint: string,
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.vaultEndpoint = endPoint;
+    this.vaultEndpoint = endpoint;
     this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
@@ -1070,6 +1070,8 @@ export class KeyClient {
 
     let resultObject: KeyVaultKey & DeletedKey = {
       key: keyBundle.key,
+      id: keyBundle.key ? keyBundle.key.kid : undefined,
+      name: keyBundle.attributes ? (keyBundle as any).attributes.name : undefined,
       keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
@@ -1141,6 +1143,8 @@ export class KeyClient {
 
     return {
       key: keyItem,
+      id: keyItem.kid,
+      name: abstractProperties.name,
       properties: abstractProperties
     };
   }

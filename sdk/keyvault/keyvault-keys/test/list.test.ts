@@ -31,14 +31,14 @@ describe.only("Keys client - list keys in various ways", () => {
 
   it("can purge all keys", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the keys in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    for await (const key of client.listPropertiesOfKeys()) {
+    for await (const properties of client.listPropertiesOfKeys()) {
       try {
-        await testClient.flushKey(key.name);
+        await testClient.flushKey(properties.name);
       } catch (e) {}
     }
     for await (const deletedKey of client.listDeletedKeys()) {
       try {
-        await testClient.purgeKey(deletedKey.properties.name);
+        await testClient.purgeKey(deletedKey.name);
       } catch (e) {}
     }
   });
@@ -115,9 +115,9 @@ describe.only("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
-    for await (const key of client.listPropertiesOfKeys()) {
+    for await (const properties of client.listPropertiesOfKeys()) {
       // The vault might contain more keys than the ones we inserted.
-      if (!keyNames.includes(key.name)) continue;
+      if (!keyNames.includes(properties.name)) continue;
       found += 1;
     }
 
@@ -137,9 +137,9 @@ describe.only("Keys client - list keys in various ways", () => {
 
     let found = 0;
     for await (const page of client.listPropertiesOfKeys().byPage()) {
-      for (const key of page) {
+      for (const properties of page) {
         // The vault might contain more keys than the ones we inserted.
-        if (!keyNames.includes(key.name)) continue;
+        if (!keyNames.includes(properties.name)) continue;
         found += 1;
       }
     }
@@ -170,7 +170,7 @@ describe.only("Keys client - list keys in various ways", () => {
     let found = 0;
     for await (const deletedKey of client.listDeletedKeys()) {
       // The vault might contain more keys than the ones we inserted.
-      if (!keyNames.includes(deletedKey.properties.name)) continue;
+      if (!keyNames.includes(deletedKey.name)) continue;
       found += 1;
     }
 
@@ -201,7 +201,7 @@ describe.only("Keys client - list keys in various ways", () => {
     for await (const page of client.listDeletedKeys().byPage()) {
       for (const deletedKey of page) {
         // The vault might contain more keys than the ones we inserted.
-        if (!keyNames.includes(deletedKey.properties.name)) continue;
+        if (!keyNames.includes(deletedKey.name)) continue;
         found += 1;
       }
     }

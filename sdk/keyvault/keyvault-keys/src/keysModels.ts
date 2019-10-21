@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as coreHttp from "@azure/core-http";
-import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   JsonWebKey,
   JsonWebKeyOperation,
@@ -28,13 +27,17 @@ export interface KeyClientInterface {
  */
 export interface KeyVaultKey {
   /**
-   * @member {KeyProperties} [properties] The properties of the key.
-   */
-  properties: KeyProperties;
-  /**
    * @member {string} [value] The key value.
    */
   key?: JsonWebKey;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
+  /**
+   * Key identifier.
+   */
+  id?: string;
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
@@ -45,17 +48,29 @@ export interface KeyVaultKey {
    * Operations allowed on this key
    */
   keyOperations?: JsonWebKeyOperation[];
+  /**
+   * @member {KeyProperties} [properties] The properties of the key.
+   */
+  properties: KeyProperties;
 }
 
 /**
  * @interface
  * An interface representing the Properties of a key
  */
-export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
+export interface KeyProperties {
   /**
-   * @member {string} [id] The key id.
+   * @member {string} [name] The name of key/secret/certificate.
    */
-  id?: string;
+  name: string;
+  /**
+   * @member {string} [vaultUrl] The vault URI.
+   */
+  vaultUrl: string;
+  /**
+   * @member {string} [version] The version of key/secret/certificate. May be undefined.
+   */
+  version?: string;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */
@@ -108,6 +123,24 @@ export interface DeletedKey {
    * @member {string} [value] The key value.
    */
   key?: JsonWebKey;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
+  /**
+   * Key identifier.
+   */
+  id?: string;
+  /**
+   * JsonWebKey Key Type (kty), as defined in
+   * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   */
+  keyType?: JsonWebKeyType;
+  /**
+   * Operations allowed on this key
+   */
+  keyOperations?: JsonWebKeyOperation[];
   /**
    * @member {KeyProperties} [properties] The properties of the key.
    */
