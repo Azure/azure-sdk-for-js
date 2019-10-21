@@ -213,7 +213,7 @@ export class SecretClient {
         enabled: options.enabled,
         notBefore: options.notBefore,
         expires: options.expiresOn,
-        vaultUrl: options.vaultEndpoint,
+        vaultUrl: options.vaultEndpoint
       };
       const unflattenedOptions = {
         ...options,
@@ -891,7 +891,7 @@ export class SecretClient {
       if ((attributes as any).vaultUrl) {
         delete (resultObject.properties as any).vaultUrl;
       }
- 
+
       if (attributes.expires) {
         delete (resultObject.properties as any).expires;
       }

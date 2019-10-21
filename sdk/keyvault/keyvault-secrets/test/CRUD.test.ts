@@ -37,11 +37,7 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     const result = await client.setSecret(secretName, secretValue);
-    assert.equal(
-      result.name,
-      secretName,
-      "Unexpected secret name in result from setSecret()."
-    );
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
   });
@@ -89,11 +85,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     const secretValue = "";
     const result = await client.setSecret(secretName, secretValue);
-    assert.equal(
-      result.name,
-      secretName,
-      "Unexpected secret name in result from setSecret()."
-    );
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
   });
@@ -162,11 +154,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     await client.setSecret(secretName, secretValue);
     const result = await client.getSecret(secretName);
-    assert.equal(
-      result.name,
-      secretName,
-      "Unexpected secret name in result from setSecret()."
-    );
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
   });
@@ -204,11 +192,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     const result = await client.getSecret(secretName);
 
-    assert.equal(
-      result.name,
-      secretName,
-      "Unexpected secret name in result from setSecret()."
-    );
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
   });
@@ -302,11 +286,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
 
     const getResult = await client.getDeletedSecret(secretName);
-    assert.equal(
-      getResult.name,
-      secretName,
-      "Unexpected secret name in result from getSecret()."
-    );
+    assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await testClient.purgeSecret(secretName);
   });
 

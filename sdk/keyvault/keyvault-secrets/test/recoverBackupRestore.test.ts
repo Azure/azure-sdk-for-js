@@ -116,11 +116,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await testClient.flushSecret(secretName);
     await retry(async () => client.restoreSecret(backup as Uint8Array));
     const getResult = await client.getSecret(secretName);
-    assert.equal(
-      getResult.name,
-      secretName,
-      "Unexpected secret name in result from getSecret()."
-    );
+    assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await testClient.flushSecret(secretName);
   });
 
