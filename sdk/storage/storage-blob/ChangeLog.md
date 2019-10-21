@@ -6,6 +6,9 @@
 
 - [Breaking] `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported. In the case where convenience layer already defined a type with conflicting name, the model type is aliased with `Model` suffix.
 
+- [Breaking] `blobName` on `AppendBlobClient`, `BlobClient`, `BlockBlobClient` and `PageBlobClient` is renamed to `name`.
+
+
 ## 2019.10 12.0.0-preview.4
 
 - [Breaking] Replace string array with boolean flags to specify dataset to include when listing containers or blobs.

@@ -4,6 +4,8 @@
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`.
 
+- [Breaking] `filePath` is on `FileClient` is renamed to `path`. `dirPath` is added to `DirectoryClient` is renamed to `path`.
+
 ## 2019.10 12.0.0-preview.4
 
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `FileServiceClient` or `FileClient` are instantiated.

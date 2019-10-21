@@ -7,6 +7,8 @@
 - [Breaking] `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported and aliased with `Model` suffix.
   For example, after this change, `Models.QueueItem` becomes `QueueItemModel`.
 
+- [Breaking] `queueName` on `QueueClient` is renamed to `name`.
+
 ## 2019.10 12.0.0-preview.4
 
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `QueueServiceClient` or `QueueClient` are instantiated.
