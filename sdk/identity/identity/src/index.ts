@@ -15,7 +15,6 @@ export {
   BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
-export { ManagedIdentityCredentialOptions } from "./credentials/managedIdentityCredentialOptions";
 export {
   DeviceCodeCredential,
   DeviceCodePromptCallback,

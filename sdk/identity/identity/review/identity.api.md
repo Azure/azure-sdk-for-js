@@ -135,14 +135,10 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
-    constructor(options?: ManagedIdentityCredentialOptions);
+    constructor(clientId: string, options?: IdentityClientOptions);
+    constructor(options?: IdentityClientOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
-
-// @public
-export interface ManagedIdentityCredentialOptions extends IdentityClientOptions {
-    clientId?: string;
-}
 
 export { TokenCredential }
 
