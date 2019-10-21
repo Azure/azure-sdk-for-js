@@ -19,13 +19,16 @@ import {
   isNode,
   userAgentPolicy,
   RequestOptionsBase,
-  tracingPolicy
+  tracingPolicy,
+  logPolicy
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
+import { logger } from "./log";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 import { TelemetryOptions, ProxyOptions, RetryOptions } from "./core";
 import {
@@ -52,6 +55,11 @@ import { KeyVaultClient } from "./core/keyVaultClient";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
+import { DeleteKeyPoller } from "./lro/delete/poller";
+import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
+import { DeleteKeyPollOperationState } from "./lro/delete/operation";
+import { RecoverDeletedKeyPollOperationState } from "./lro/recover/operation";
+
 import {
   NewPipelineOptions,
   isNewPipelineOptions,
@@ -60,6 +68,8 @@ import {
 } from "./core/keyVaultBase";
 import {
   Key,
+  KeyClientInterface,
+  KeyPollerOptions,
   DeletedKey,
   CreateKeyOptions,
   CreateEcKeyOptions,
@@ -87,6 +97,8 @@ import {
 } from "./cryptographyClient";
 
 export {
+  DeleteKeyPollOperationState,
+  RecoverDeletedKeyPollOperationState,
   CreateEcKeyOptions,
   CreateRsaKeyOptions,
   CreateKeyOptions,
@@ -107,6 +119,9 @@ export {
   JsonWebKeyType,
   Key,
   KeyProperties,
+  KeyPollerOptions,
+  PollerLike,
+  PollOperationState,
   KeyWrapAlgorithm,
   NewPipelineOptions,
   PageSettings,
@@ -117,7 +132,8 @@ export {
   UnwrapResult,
   UpdateKeyOptions,
   VerifyResult,
-  WrapResult
+  WrapResult,
+  logger
 };
 
 export { ProxyOptions, TelemetryOptions, RetryOptions };
@@ -129,14 +145,14 @@ const SERVICE_API_VERSION = "7.0";
 /**
  * The client to interact with the KeyVault keys functionality
  */
-export class KeysClient {
+export class KeyClient {
   /**
    * A static method used to create a new Pipeline object with the provided Credential.
    *
    * @static
    * @param {TokenCredential} The credential to use for API requests.
    * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @memberof KeysClient
+   * @memberof KeyClient
    */
   public static getDefaultPipeline(
     credential: TokenCredential,
@@ -147,7 +163,7 @@ export class KeysClient {
     // changes made by other factories (like UniqueRequestIDPolicyFactory)
     const retryOptions = pipelineOptions.retryOptions || {};
 
-    const userAgentString: string = KeysClient.getUserAgentString(pipelineOptions.telemetry);
+    const userAgentString: string = KeyClient.getUserAgentString(pipelineOptions.telemetry);
 
     let requestPolicyFactories: RequestPolicyFactory[] = [];
     if (isNode) {
@@ -171,7 +187,15 @@ export class KeysClient {
       redirectPolicy(),
       isTokenCredential(credential)
         ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+        : signingPolicy(credential),
+      logPolicy(
+        logger.info, {
+          allowedHeaderNames: [
+            "x-ms-keyvault-region",
+            "x-ms-keyvault-network-info",
+            "x-ms-keyvault-service-version"
+          ]
+      })
     ]);
 
     return {
@@ -184,7 +208,7 @@ export class KeysClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultBaseUrl: string;
+  public readonly vaultEndpoint: string;
 
   /**
    * The options to create the connection to the service
@@ -198,33 +222,43 @@ export class KeysClient {
   private readonly client: KeyVaultClient;
 
   /**
-   * Creates an instance of KeysClient.
+   * A self reference that bypasses private methods, for the pollers.
+   */
+  private readonly pollerClient: KeyClientInterface = {
+    recoverDeletedKey: this.recoverDeletedKey.bind(this),
+    getKey: this.getKey.bind(this),
+    deleteKey: this.deleteKey.bind(this),
+    getDeletedKey: this.getDeletedKey.bind(this)
+  };
+
+  /**
+   * Creates an instance of KeyClient.
    *
    * Example usage:
    * ```ts
-   * import { KeysClient } from "@azure/keyvault-keys";
+   * import { KeyClient } from "@azure/keyvault-keys";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * ```
-   * @param {string} url the base url to the key vault.
+   * @param {string} endPoint the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
    *                                                                 Omitting this parameter to create the default Pipeline instance.
-   * @memberof KeysClient
+   * @memberof KeyClient
    */
   constructor(
-    url: string,
+    endPoint: string,
     credential: TokenCredential,
     pipelineOrOptions: Pipeline | NewPipelineOptions = {}
   ) {
-    this.vaultBaseUrl = url;
+    this.vaultEndpoint = endPoint;
     this.credential = credential;
     if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = KeysClient.getDefaultPipeline(credential, pipelineOrOptions);
+      this.pipeline = KeyClient.getDefaultPipeline(credential, pipelineOrOptions);
     } else {
       this.pipeline = pipelineOrOptions;
     }
@@ -232,6 +266,42 @@ export class KeysClient {
     this.pipeline.requestPolicyFactories;
 
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
+  }
+
+  private async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
+    const requestOptions = (options && options.requestOptions) || {};
+    const span = this.createSpan("deleteKey", requestOptions);
+
+    let response: DeleteKeyResponse;
+    try {
+      response = await this.client.deleteKey(
+        this.vaultEndpoint,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getKeyFromKeyBundle(response);
+  }
+
+  private async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
+    const requestOptions = (options && options.requestOptions) || {};
+    const span = this.createSpan("recoverDeletedKey", requestOptions);
+
+    let response: RecoverDeletedKeyResponse;
+    try {
+      response = await this.client.recoverDeletedKey(
+        this.vaultEndpoint,
+        name,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getKeyFromKeyBundle(response);
   }
 
   private static getUserAgentString(telemetry?: TelemetryOptions): string {
@@ -261,7 +331,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * // Create an elliptic-curve key:
    * let result = await client.createKey("MyKey", "EC");
    * ```
@@ -298,7 +368,7 @@ export class KeysClient {
 
       try {
         response = await this.client.createKey(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           name,
           keyType,
           this.setParentSpan(span, unflattenedOptions)
@@ -308,7 +378,7 @@ export class KeysClient {
       }
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultBaseUrl, name, keyType, options);
+      const response = await this.client.createKey(this.vaultEndpoint, name, keyType, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -320,7 +390,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let result = await client.createEcKey("MyKey", { curve: "P-256" });
    * ```
    * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
@@ -351,7 +421,7 @@ export class KeysClient {
       let response: CreateKeyResponse;
       try {
         response = await this.client.createKey(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           name,
           options.hsm ? "EC-HSM" : "EC",
           this.setParentSpan(span, unflattenedOptions)
@@ -362,7 +432,7 @@ export class KeysClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultBaseUrl, name, "EC", options);
+      const response = await this.client.createKey(this.vaultEndpoint, name, "EC", options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -374,7 +444,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let result = await client.createRsaKey("MyKey", { keySize: 2048 });
    * ```
    * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
@@ -405,7 +475,7 @@ export class KeysClient {
       let response: CreateKeyResponse;
       try {
         response = await this.client.createKey(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           name,
           options.hsm ? "RSA-HSM" : "RSA",
           this.setParentSpan(span, unflattenedOptions)
@@ -416,7 +486,7 @@ export class KeysClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultBaseUrl, name, "RSA", options);
+      const response = await this.client.createKey(this.vaultEndpoint, name, "RSA", options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -428,7 +498,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * // Key contents in myKeyContents
    * let result = await client.importKey("MyKey", myKeyContents);
    * ```
@@ -438,13 +508,15 @@ export class KeysClient {
    * @param key The Json web key
    * @param [options] The optional parameters
    */
-  public async importKey(name: string, key: JsonWebKey, options?: ImportKeyOptions): Promise<Key> {
+  public async importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<Key> {
     if (options) {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expires
+        expires: options.expires,
+        hsm: options.hardwareProtected
       };
+
       const unflattenedOptions = {
         ...options,
         ...(options.requestOptions ? options.requestOptions : {}),
@@ -454,13 +526,14 @@ export class KeysClient {
       delete unflattenedOptions.notBefore;
       delete unflattenedOptions.expires;
       delete unflattenedOptions.requestOptions;
+      delete unflattenedOptions.hardwareProtected;
 
       const span = this.createSpan("importKey", unflattenedOptions);
 
       let response: ImportKeyResponse;
       try {
         response = await this.client.importKey(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           name,
           key,
           this.setParentSpan(span, unflattenedOptions)
@@ -471,7 +544,7 @@ export class KeysClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.importKey(this.vaultBaseUrl, name, key, options);
+      const response = await this.client.importKey(this.vaultEndpoint, name, key, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -479,34 +552,44 @@ export class KeysClient {
   /**
    * The delete operation applies to any key stored in Azure Key Vault. Individual versions
    * of a key can not be deleted, only all versions of a given key at once.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the key is deleted.
+   *
    * This operation requires the keys/delete permission.
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
-   * let result = await client.deleteKey("MyKey");
+   * const client = new KeyClient(url, credentials);
+   * await client.createKey("MyKey", "EC");
+   * const poller = await client.beginDeleteKey("MyKey");
+   *
+   * // Serializing the poller
+   * const serialized = poller.toJSON();
+   * // A new poller can be created with:
+   * // await client.beginDeleteKey("MyKey", { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * const deletedKey = await poller.pollUntilDone();
+   * console.log(deletedKey);
    * ```
    * @summary Deletes a key from a specified key vault.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param name The name of the key.
    * @param [options] The optional parameters
    */
-  public async deleteKey(name: string, options?: RequestOptions): Promise<DeletedKey> {
-    const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("deleteKey", requestOptions);
+  public async beginDeleteKey(
+    name: string,
+    options?: KeyPollerOptions
+  ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
+    const poller = new DeleteKeyPoller({
+      name,
+      client: this.pollerClient,
+      ...options
+    });
 
-    let response: DeleteKeyResponse;
-    try {
-      response = await this.client.deleteKey(
-        this.vaultBaseUrl,
-        name,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
+    // This will initialize the poller's operation (the deletion of the key).
+    await poller.poll();
 
-    return this.getKeyFromKeyBundle(response);
+    return poller;
   }
 
   /**
@@ -517,7 +600,7 @@ export class KeysClient {
    * Example usage:
    * ```ts
    * let keyName = "MyKey";
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let key = await client.getKey(keyName);
    * let result = await client.updateKey(keyName, key.version, { enabled: false });
    * ```
@@ -553,7 +636,7 @@ export class KeysClient {
 
       try {
         response = await this.client.updateKey(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           name,
           keyVersion,
           this.setParentSpan(span, unflattenedOptions)
@@ -564,7 +647,7 @@ export class KeysClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.updateKey(this.vaultBaseUrl, name, keyVersion, options);
+      const response = await this.client.updateKey(this.vaultEndpoint, name, keyVersion, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -575,7 +658,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let key = await client.getKey("MyKey");
    * ```
    * @summary Get a specified key from a given key vault.
@@ -589,7 +672,7 @@ export class KeysClient {
     let response: GetKeyResponse;
     try {
       response = await this.client.getKey(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         options && options.version ? options.version : "",
         this.setParentSpan(span, requestOptions)
@@ -607,7 +690,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let key = await client.getDeletedKey("MyDeletedKey");
    * ```
    * @summary Gets the specified deleted key.
@@ -621,7 +704,7 @@ export class KeysClient {
     let response: GetDeletedKeyResponse;
     try {
       response = await this.client.getDeletedKey(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -639,9 +722,9 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
-   * await client.deleteKey("MyKey");
-   * // ...
+   * const client = new KeyClient(url, credentials);
+   * const deletePoller = await client.beginDeleteKey("MyKey")
+   * await deletePoller.pollUntilDone();
    * await client.purgeDeletedKey("MyKey");
    * ```
    * @summary Permanently deletes the specified key.
@@ -654,7 +737,7 @@ export class KeysClient {
 
     try {
       await this.client.purgeDeletedKey(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -665,35 +748,45 @@ export class KeysClient {
 
   /**
    * Recovers the deleted key in the specified vault. This operation can only be performed on a
-   * soft-delete enabled vault. This operation requires the keys/recover permission.
+   * soft-delete enabled vault.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the deleted key is recovered.
+   *
+   * This operation requires the keys/recover permission.
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
-   * await client.deleteKey("MyKey");
-   * // ...
-   * await client.recoverDeletedKey("MyKey");
+   * const client = new KeyClient(url, credentials);
+   * await client.createKey("MyKey", "EC");
+   * const deletePoller = await client.beginDeleteKey("MyKey");
+   * await deletePoller.pollUntilDone();
+   * const poller = await client.beginRecoverDeletedKey("MyKey");
+   *
+   * // Serializing the poller
+   * const serialized = poller.toJSON();
+   * // A new poller can be created with:
+   * // await client.beginRecoverDeletedKey("MyKey", { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * const key = await poller.pollUntilDone();
+   * console.log(key);
    * ```
    * @summary Recovers the deleted key to the latest version.
    * @param name The name of the deleted key.
    * @param [options] The optional parameters
    */
-  public async recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key> {
-    const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("recoverDeletedKey", requestOptions);
-
-    let response: RecoverDeletedKeyResponse;
-    try {
-      response = await this.client.recoverDeletedKey(
-        this.vaultBaseUrl,
-        name,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getKeyFromKeyBundle(response);
+  public async beginRecoverDeletedKey(
+    name: string,
+    options?: KeyPollerOptions
+  ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
+    const poller = new RecoverDeletedKeyPoller({
+      name,
+      client: this.pollerClient,
+      ...options
+    });
+    // This will initialize the poller's operation (the deletion of the key).
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -702,7 +795,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let backupContents = await client.backupKey("MyKey");
    * ```
    * @summary Backs up the specified key.
@@ -716,7 +809,7 @@ export class KeysClient {
     let response: BackupKeyResponse;
     try {
       response = await this.client.backupKey(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -733,23 +826,23 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * let backupContents = await client.backupKey("MyKey");
    * // ...
-   * let key = await client.restoreKey(backupContents);
+   * let key = await client.restoreKeyBackup(backupContents);
    * ```
    * @summary Restores a backed up key to a vault.
    * @param backup The backup blob associated with a key bundle.
    * @param [options] The optional parameters
    */
-  public async restoreKey(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
+  public async restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<Key> {
     const requestOptions = (options && options.requestOptions) || {};
-    const span = this.createSpan("restoreKey", requestOptions);
+    const span = this.createSpan("restoreKeyBackup", requestOptions);
 
     let response: RestoreKeyResponse;
     try {
       response = await this.client.restoreKey(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         backup,
         this.setParentSpan(span, requestOptions)
       );
@@ -771,7 +864,7 @@ export class KeysClient {
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       const currentSetResponse = await this.client.getKeyVersions(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         name,
         optionsComplete
       );
@@ -814,7 +907,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * for await (const keyAttr of client.listKeyVersions("MyKey")) {
    *   const key = await client.getKey(keyAttr.name);
    *   console.log("key version: ", key);
@@ -857,7 +950,7 @@ export class KeysClient {
         maxresults: continuationState.maxPageSize,
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
-      const currentSetResponse = await this.client.getKeys(this.vaultBaseUrl, optionsComplete);
+      const currentSetResponse = await this.client.getKeys(this.vaultEndpoint, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
@@ -893,7 +986,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * for await (const keyAttr of client.listKeys()) {
    *   const key = await client.getKey(keyAttr.name);
    *   console.log("key: ", key);
@@ -935,7 +1028,7 @@ export class KeysClient {
         ...(options && options.requestOptions ? options.requestOptions : {})
       };
       const currentSetResponse = await this.client.getDeletedKeys(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -975,7 +1068,7 @@ export class KeysClient {
    *
    * Example usage:
    * ```ts
-   * let client = new KeysClient(url, credentials);
+   * let client = new KeyClient(url, credentials);
    * for await (const keyAttr of client.listDeletedKeys()) {
    *   const deletedKey = await client.getKey(keyAttr.name);
    *   console.log("deleted key: ", deletedKey);
@@ -1018,6 +1111,8 @@ export class KeysClient {
     if (keyBundle.attributes) {
       resultObject = {
         keyMaterial: keyBundle.key,
+        keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
+        keyType: keyBundle.key ? keyBundle.key.kty : undefined,
         properties: {
           ...keyBundle,
           ...parsedId,
@@ -1028,6 +1123,8 @@ export class KeysClient {
     } else {
       resultObject = {
         keyMaterial: keyBundle.key,
+        keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
+        keyType: keyBundle.key ? keyBundle.key.kty : undefined,
         properties: {
           ...keyBundle,
           ...parsedId

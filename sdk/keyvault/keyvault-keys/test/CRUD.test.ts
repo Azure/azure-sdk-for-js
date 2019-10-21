@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { KeysClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
+import { KeyClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
 import { RestError, isNode } from "@azure/core-http";
-import { retry, isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -13,7 +13,7 @@ import { AbortController } from "@azure/abort-controller";
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
-  let client: KeysClient;
+  let client: KeyClient;
   let testClient: TestClient;
   let recorder: any;
 
@@ -213,7 +213,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can delete a key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    await client.deleteKey(keyName);
+    const poller = await client.beginDeleteKey(keyName);
+    await poller.pollUntilDone();
 
     try {
       await client.getKey(keyName);
@@ -270,10 +271,16 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can get a deleted key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    await client.deleteKey(keyName);
-    const getResult = await retry(async () => client.getDeletedKey(keyName));
+    const poller = await client.beginDeleteKey(keyName);
     assert.equal(
-      getResult.properties.name,
+      poller.getResult()!.properties.name,
+      keyName,
+      "Unexpected key name in result from getKey()."
+    );
+    await poller.pollUntilDone();
+    const getResult = await poller.getResult();
+    assert.equal(
+      getResult!.properties.name,
       keyName,
       "Unexpected key name in result from getKey()."
     );
@@ -284,7 +291,8 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
-      await client.deleteKey(keyName);
+      const poller = await client.beginDeleteKey(keyName);
+      await poller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

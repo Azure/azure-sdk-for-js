@@ -7,14 +7,16 @@ import {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
-  WebResource
-} from "@azure/ms-rest-js";
-
-import { Aborter } from "./Aborter";
+  WebResource,
+  TokenCredential,
+  isTokenCredential,
+  bearerTokenAuthenticationPolicy,
+  isNode
+} from "@azure/core-http";
+import { CanonicalCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { BlobURL, IBlobDeleteOptions, IBlobSetTierOptions } from "./BlobURL";
-import { Credential } from "./credentials/Credential";
-import * as Models from "./generated/src/models";
+import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./BlobClient";
+import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
 import { Pipeline } from "./Pipeline";
 import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
@@ -22,19 +24,28 @@ import {
   HeaderConstants,
   BATCH_MAX_REQUEST,
   HTTP_VERSION_1_1,
-  HTTP_LINE_ENDING
+  HTTP_LINE_ENDING,
+  StorageOAuthScopes
 } from "./utils/constants";
+import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { createSpan } from "./utils/tracing";
 
 export interface BatchSubRequest {
   /**
    * The URL of the resource to request operation.
+   *
+   * @type {string}
+   * @memberof BatchSubRequest
    */
   url: string;
 
   /**
    * The credential used for sub request.
+   *
+   * @type {SharedKeyCredential | AnonymousCredential | TokenCredential}
+   * @memberof BatchSubRequest
    */
-  credential: Credential;
+  credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
 }
 
 /**
@@ -74,7 +85,10 @@ export abstract class BatchRequest {
     return this.batchRequest.getSubRequests();
   }
 
-  protected async addSubRequestInternal(subRequest: BatchSubRequest, assembleSubRequestFunc: ()=>Promise<void>): Promise<void> {
+  protected async addSubRequestInternal(
+    subRequest: BatchSubRequest,
+    assembleSubRequestFunc: () => Promise<void>
+  ): Promise<void> {
     await Mutex.lock(this.batch);
 
     try {
@@ -101,77 +115,101 @@ export class BatchDeleteRequest extends BatchRequest {
 
   /**
    * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
-   * Note that in order to delete a blob, you must delete all of its snapshots. 
+   * Note that in order to delete a blob, you must delete all of its snapshots.
    * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
    * The operation(subrequest) will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
-   * @param {Credential} credential The credential to be used for authentication and authorization.
-   * @param {IBlobDeleteOptions} [options]
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
+   * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchDeleteRequest
    */
   public async addSubRequest(
     url: string,
-    credential: Credential,
-    options?: IBlobDeleteOptions
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: BlobDeleteOptions
   ): Promise<void>;
 
   /**
    * Add a delete operation(subrequest) to mark the specified blob or snapshot for deletion.
-   * Note that in order to delete a blob, you must delete all of its snapshots. 
+   * Note that in order to delete a blob, you must delete all of its snapshots.
    * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
    * The operation(subrequest) will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {blobUrl} BlobURL The BlobURL.
-   * @param {IBlobDeleteOptions} [options]
+   * @param {BlobClient} blobClient The BlobClient.
+   * @param {BlobDeleteOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchDeleteRequest
    */
-  public async addSubRequest(
-    blobURL: BlobURL,
-    options?: IBlobDeleteOptions
-  ): Promise<void>;
+  public async addSubRequest(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
 
   public async addSubRequest(
-    urlOrBlobURL: string | BlobURL,
-    credentialOrOptions: Credential | IBlobDeleteOptions | undefined,
-    options?: IBlobDeleteOptions
-  ): Promise<void>{
+    urlOrBlobClient: string | BlobClient,
+    credentialOrOptions:
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | BlobDeleteOptions
+      | undefined,
+    options?: BlobDeleteOptions
+  ): Promise<void> {
     let url: string;
-    let credential: Credential;
+    let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
 
-    if (typeof urlOrBlobURL === 'string' && credentialOrOptions instanceof Credential) {
+    if (
+      typeof urlOrBlobClient === "string" &&
+      ((isNode && credentialOrOptions instanceof SharedKeyCredential) ||
+        credentialOrOptions instanceof AnonymousCredential ||
+        isTokenCredential(credentialOrOptions))
+    ) {
       // First overload
-      url = urlOrBlobURL;
+      url = urlOrBlobClient;
       credential = credentialOrOptions;
-    } else if (urlOrBlobURL instanceof BlobURL) {
+    } else if (urlOrBlobClient instanceof BlobClient) {
       // Second overload
-      url = urlOrBlobURL.url;
-      credential = urlOrBlobURL.credential;
-      options = credentialOrOptions as IBlobDeleteOptions;
+      url = urlOrBlobClient.url;
+      credential = urlOrBlobClient.credential;
+      options = credentialOrOptions as BlobDeleteOptions;
     } else {
-      throw new RangeError("Invalid arguments. Either url and credential, or BlobURL need be provided.")
+      throw new RangeError(
+        "Invalid arguments. Either url and credential, or BlobClient need be provided."
+      );
     }
 
     if (!options) {
       options = {};
     }
 
-    await super.addSubRequestInternal(
-      {
-        url: url,
-        credential: credential
-      },
-      async () => {
-        await new BlobURL(url, this.batchRequest.createPipeline(credential)).delete(
-          Aborter.none,
-          options
-        );
-      }
-    )
+    const { span, spanOptions } = createSpan(
+      "BatchDeleteRequest-addSubRequest",
+      options.spanOptions
+    );
+
+    try {
+      await super.addSubRequestInternal(
+        {
+          url: url,
+          credential: credential
+        },
+        async () => {
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete({
+            ...options,
+            spanOptions
+          });
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
 
@@ -200,16 +238,16 @@ export class BatchSetTierRequest extends BatchRequest {
    *
    * @param {string} url The url of the blob resource to delete.
    * @param {Credential} credential The credential to be used for authentication and authorization.
-   * @param {Models.AccessTier} tier
-   * @param {IBlobSetTierOptions} [options]
+   * @param {AccessTier} tier
+   * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
    */
   public async addSubRequest(
     url: string,
-    credential: Credential,
-    tier: Models.AccessTier,
-    options?: IBlobSetTierOptions
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    tier: AccessTier,
+    options?: BlobSetTierOptions
   ): Promise<void>;
 
   /**
@@ -223,60 +261,81 @@ export class BatchSetTierRequest extends BatchRequest {
    * The operation(subrequest) will be authenticated and authorized
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {blobUrl} BlobURL The BlobURL.
-   * @param {Models.AccessTier} tier
-   * @param {IBlobSetTierOptions} [options]
+   * @param {BlobClient} blobClient The BlobClient.
+   * @param {AccessTier} tier
+   * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
    * @memberof BatchSetTierRequest
    */
   public async addSubRequest(
-    blobURL: BlobURL,
-    tier: Models.AccessTier,
-    options?: IBlobSetTierOptions
+    blobClient: BlobClient,
+    tier: AccessTier,
+    options?: BlobSetTierOptions
   ): Promise<void>;
 
   public async addSubRequest(
-    urlOrBlobURL: string | BlobURL,
-    credentialOrTier: Credential | Models.AccessTier,
-    tierOrOptions?: Models.AccessTier | IBlobSetTierOptions,
-    options?: IBlobSetTierOptions
-  ): Promise<void>{
+    urlOrBlobClient: string | BlobClient,
+    credentialOrTier: SharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
+    tierOrOptions?: AccessTier | BlobSetTierOptions,
+    options?: BlobSetTierOptions
+  ): Promise<void> {
     let url: string;
-    let credential: Credential;
-    let tier: Models.AccessTier;
+    let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
+    let tier: AccessTier;
 
-    if (typeof urlOrBlobURL === 'string' && credentialOrTier instanceof Credential) {
+    if (
+      typeof urlOrBlobClient === "string" &&
+      ((isNode && credentialOrTier instanceof SharedKeyCredential) ||
+        credentialOrTier instanceof AnonymousCredential ||
+        isTokenCredential(credentialOrTier))
+    ) {
       // First overload
-      url = urlOrBlobURL;
-      credential = credentialOrTier as Credential;
-      tier = tierOrOptions as Models.AccessTier;
-    } else if (urlOrBlobURL instanceof BlobURL) {
+      url = urlOrBlobClient;
+      credential = credentialOrTier as SharedKeyCredential | AnonymousCredential | TokenCredential;
+      tier = tierOrOptions as AccessTier;
+    } else if (urlOrBlobClient instanceof BlobClient) {
       // Second overload
-      url = urlOrBlobURL.url;
-      credential = urlOrBlobURL.credential;
-      tier = credentialOrTier as Models.AccessTier;
-      options = tierOrOptions as IBlobSetTierOptions;
+      url = urlOrBlobClient.url;
+      credential = urlOrBlobClient.credential;
+      tier = credentialOrTier as AccessTier;
+      options = tierOrOptions as BlobSetTierOptions;
     } else {
-      throw new RangeError("Invalid arguments. Either url and credential, or BlobURL need be provided.")
+      throw new RangeError(
+        "Invalid arguments. Either url and credential, or BlobClient need be provided."
+      );
     }
 
     if (!options) {
       options = {};
     }
 
-    await super.addSubRequestInternal(
-      {
-        url: url,
-        credential: credential
-      },
-      async () => {
-        await new BlobURL(url, this.batchRequest.createPipeline(credential)).setTier(
-          Aborter.none,
-          tier,
-          options
-        );
-      }
-    )
+    const { span, spanOptions } = createSpan(
+      "BatchSetTierRequest-addSubRequest",
+      options.spanOptions
+    );
+
+    try {
+      await super.addSubRequestInternal(
+        {
+          url: url,
+          credential: credential
+        },
+        async () => {
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
+            tier,
+            { ...options, spanOptions }
+          );
+        }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
 
@@ -315,12 +374,14 @@ class InnerBatchRequest {
 
   /**
    * Create pipeline to assemble sub requests. The idea here is to use exising
-   * credential and serialization/deserialization components, with additional policies to 
-   * filter unnecessary headers, assemble sub requests into request's body 
+   * credential and serialization/deserialization components, with additional policies to
+   * filter unnecessary headers, assemble sub requests into request's body
    * and intercept request from going to wire.
    * @param credential
    */
-  public createPipeline(credential: Credential): Pipeline {
+  public createPipeline(
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential
+  ): Pipeline {
     const isAnonymousCreds = credential instanceof AnonymousCredential;
     const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserilizationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
     let factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
@@ -328,7 +389,9 @@ class InnerBatchRequest {
     factories[0] = deserializationPolicy(); // Default deserializationPolicy is provided by protocol layer
     factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers
     if (!isAnonymousCreds) {
-      factories[2] = credential;
+      factories[2] = isTokenCredential(credential)
+        ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
+        : credential;
     }
     factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire
 
@@ -337,13 +400,14 @@ class InnerBatchRequest {
 
   public appendSubRequestToBody(request: WebResource) {
     // Start to assemble sub request
-    this.body +=
-      [
-        this.subRequestPrefix, // sub request constant prefix
-        `${HeaderConstants.CONTENT_ID}: ${this.operationCount}`, // sub request's content ID
-        "", // empty line after sub request's content ID
-        `${request.method.toString()} ${getURLPathAndQuery(request.url)} ${HTTP_VERSION_1_1}${HTTP_LINE_ENDING}` // sub request start line with method
-      ].join(HTTP_LINE_ENDING);
+    this.body += [
+      this.subRequestPrefix, // sub request constant prefix
+      `${HeaderConstants.CONTENT_ID}: ${this.operationCount}`, // sub request's content ID
+      "", // empty line after sub request's content ID
+      `${request.method.toString()} ${getURLPathAndQuery(
+        request.url
+      )} ${HTTP_VERSION_1_1}${HTTP_LINE_ENDING}` // sub request start line with method
+    ].join(HTTP_LINE_ENDING);
 
     for (const header of request.headers.headersArray()) {
       this.body += `${header.name}: ${header.value}${HTTP_LINE_ENDING}`;
@@ -361,7 +425,7 @@ class InnerBatchRequest {
 
     // Fast fail if url for sub request is invalid
     const path = getURLPath(subRequest.url);
-    if ( !path || path == "") {
+    if (!path || path == "") {
       throw new RangeError(`Invalid url for sub request: '${subRequest.url}'`);
     }
   }
@@ -391,7 +455,7 @@ class BatchRequestAssemblePolicy extends BaseRequestPolicy {
     request: new WebResource(),
     status: 200,
     headers: new HttpHeaders()
-  };;
+  };
 
   constructor(
     batchRequest: InnerBatchRequest,
@@ -417,7 +481,10 @@ class BatchRequestAssemblePolicyFactory implements RequestPolicyFactory {
     this.batchRequest = batchRequest;
   }
 
-  public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): BatchRequestAssemblePolicy {
+  public create(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions
+  ): BatchRequestAssemblePolicy {
     return new BatchRequestAssemblePolicy(this.batchRequest, nextPolicy, options);
   }
 }
@@ -436,8 +503,7 @@ class BatchHeaderFilterPolicy extends BaseRequestPolicy {
       }
     }
 
-    if (xMsHeaderName !== "")
-    {
+    if (xMsHeaderName !== "") {
       request.headers.remove(xMsHeaderName); // The subrequests should not have the x-ms-version header.
     }
 

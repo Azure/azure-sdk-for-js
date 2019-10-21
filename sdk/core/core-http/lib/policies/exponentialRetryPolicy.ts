@@ -11,6 +11,7 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { RestError } from "../restError";
+import { logger } from "../log";
 
 export interface RetryData {
   retryCount: number;
@@ -197,6 +198,7 @@ function retry(
   retryData = updateRetryData(policy, retryData, requestError);
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
   if (!isAborted && shouldRetry(policy, response && response.status, retryData)) {
+    logger.info(`Retrying request in ${retryData.retryInterval}`);
     return utils
       .delay(retryData.retryInterval)
       .then(() => policy._nextPolicy.sendRequest(request.clone()))

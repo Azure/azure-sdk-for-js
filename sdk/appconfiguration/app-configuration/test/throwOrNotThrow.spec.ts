@@ -5,7 +5,6 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
-import { ResponseBodyNotFoundError } from '@azure/core-http';
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -40,17 +39,6 @@ describe("Various error cases", () => {
       await assertThrowsRestError(() => client.getConfigurationSetting({ key: nonExistentKey }), 404);
     });
 
-    it("get: value is unchanged from etag (304) using ifNoneMatch, throws ReponseBodyNotFoundError on property access (derived from RestError)", async () => {
-      const response = await client.getConfigurationSetting(addedSetting, {
-        onlyIfChanged: true,
-      });
-
-      assert.throws(() => response.key, (err: ResponseBodyNotFoundError) => {
-        assert.equal("ResponseBodyNotFoundError", err.name);
-        return true;
-      });
-    });
-
     it("add: Setting already exists throws 412", async () => {
       await assertThrowsRestError(() => client.addConfigurationSetting(addedSetting), 412);
     });
@@ -69,6 +57,12 @@ describe("Various error cases", () => {
       await client.setReadOnly(addedSetting);
 
       await assertThrowsRestError(() => client.setConfigurationSetting(addedSetting), 409);
+    });
+
+    it("delete: key that is set to read-only throws 409", async () => {
+      await client.setReadOnly(addedSetting);
+      await assertThrowsRestError(async () => client.deleteConfigurationSetting(addedSetting), 409);
+      await client.clearReadOnly(addedSetting);
     });
   });
 
@@ -91,6 +85,15 @@ describe("Various error cases", () => {
 
     afterEach(async () => {
       await deleteKeyCompletely([addedSetting.key], client);
+    });
+
+    it("get: value is unchanged from etag (304) using ifNoneMatch, sets all properties to undefined", async () => {
+      const response = await client.getConfigurationSetting(addedSetting, {
+        onlyIfChanged: true,
+      });
+
+      assert.equal(304, response.statusCode);
+      assert.ok(!response.value);
     });
 
     it("delete: non-existent key (no etag)", async () => {

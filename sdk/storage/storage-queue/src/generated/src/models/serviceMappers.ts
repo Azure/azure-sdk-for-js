@@ -13,12 +13,12 @@ export {
   Logging,
   Metrics,
   QueueItem,
+  QueueServiceProperties,
+  QueueServiceStatistics,
   RetentionPolicy,
   ServiceGetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
   ServiceListQueuesSegmentHeaders,
   ServiceSetPropertiesHeaders,
-  StorageError,
-  StorageServiceProperties,
-  StorageServiceStats
+  StorageError
 } from "../models/mappers";

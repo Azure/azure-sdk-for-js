@@ -1,5 +1,10 @@
 # Release History
 
+## 4.0.0-preview.9 (2019-10-31)
+- `deleteKey` and `recoverDeletedKey` are now out of the public API.
+  Use `beginDeleteKey` and `beginRecoverDeletedKey` instead.
+  They both return a Poller (from our package `@azure/core-lro`) that manages the long running operation.
+
 ## 4.0.0-preview.8 (2019-10-09)
 
 - Updated to use the latest version of `@azure/core-tracing`, `@azure/identity`, `@azure/core-http` and `@azure/core-arm` packages

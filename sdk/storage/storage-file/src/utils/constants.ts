@@ -1,10 +1,13 @@
-export const SDK_VERSION: string = "10.3.0";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+export const SDK_VERSION: string = "12.0.0-preview.4";
 export const SERVICE_VERSION: string = "2019-02-02";
 
 export const FILE_MAX_SIZE_BYTES: number = 1024 * 1024 * 1024 * 1024; // 1TB
 export const FILE_RANGE_MAX_SIZE_BYTES: number = 4 * 1024 * 1024; // 4MB
 export const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS: number = 5;
-export const DEFAULT_HIGH_LEVEL_PARALLELISM: number = 5;
+export const DEFAULT_HIGH_LEVEL_CONCURRENCY: number = 5;
 
 export const URLConstants = {
   Parameters: {
@@ -15,7 +18,7 @@ export const URLConstants = {
   }
 };
 
-export const HTTPURLConnection = {
+export const HttpUrlConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,
@@ -40,6 +43,7 @@ export const HeaderConstants = {
   RANGE: "Range",
   USER_AGENT: "User-Agent",
   X_MS_CLIENT_REQUEST_ID: "x-ms-client-request-id",
+  X_MS_COPY_SOURCE: "x-ms-copy-source",
   X_MS_DATE: "x-ms-date"
 };
 

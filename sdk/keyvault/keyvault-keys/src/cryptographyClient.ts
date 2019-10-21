@@ -16,8 +16,11 @@ import {
   throttlingRetryPolicy,
   getDefaultProxySettings,
   userAgentPolicy,
-  getDefaultUserAgentValue
+  getDefaultUserAgentValue,
+  logPolicy
 } from "@azure/core-http";
+
+import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { TelemetryOptions } from "./core";
 import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
@@ -542,7 +545,15 @@ export class CryptographyClient {
       redirectPolicy(),
       isTokenCredential(credential)
         ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+        : signingPolicy(credential),
+      logPolicy(
+        logger.info, {
+          allowedHeaderNames: [
+            "x-ms-keyvault-region",
+            "x-ms-keyvault-network-info",
+            "x-ms-keyvault-service-version"
+          ]
+      })
     ]);
 
     return {

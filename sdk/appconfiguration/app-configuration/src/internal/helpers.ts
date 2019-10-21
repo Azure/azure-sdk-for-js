@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { ListConfigurationSettingsOptions } from '..';
-import { URLBuilder, ResponseBodyNotFoundError } from '@azure/core-http';
+import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
-import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpResponseField, HttpConditionalFields } from '../models';
-import { AppConfigurationGetKeyValuesOptionalParams } from '../generated/src/models';
+import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpResponseField, HttpResponseFields, HttpOnlyIfChangedField, HttpOnlyIfUnchangedField } from '../models';
+import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from '../generated/src/models';
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -36,7 +36,7 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * @internal
  * @ignore
  */
-export function checkAndFormatIfAndIfNoneMatch(configurationSetting: ConfigurationSettingId, options: HttpConditionalFields): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
+export function checkAndFormatIfAndIfNoneMatch(configurationSetting: ConfigurationSettingId, options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
     throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
@@ -67,7 +67,7 @@ export function checkAndFormatIfAndIfNoneMatch(configurationSetting: Configurati
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label"> {
+): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select"> {
   let key;
 
   if (listConfigOptions.keys) {
@@ -81,9 +81,16 @@ export function formatWildcards(
     label = listConfigOptions.labels.join(",");
   }
 
+  let fields: (keyof KeyValue)[]|undefined;
+
+  if (listConfigOptions.fields) {
+    fields = listConfigOptions.fields.map(opt => opt === "readOnly" ? "locked" : opt);
+  }
+
   return {
     key,
-    label
+    label,
+    select: fields
   };
 }
 
@@ -109,30 +116,68 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.
  * 
- * @param response The response to alter
- * @param errorMessage The error message to use for the thrown ResponseBodyNotFoundError
- * @param errorCode The error code to use for the thrown ResponseBodyNotFoundError
+ * @param configurationSetting The configuration setting to alter
  */
-export function makeConfigurationSettingsFieldsThrow(response: ConfigurationSetting & HttpResponseField<any>, errorMessage: string, errorCode: string) {
-  const errThrower = () => {
-    throw new ResponseBodyNotFoundError(errorMessage, errorCode, response._response.status, response._response.request, response._response, null);
-  };
-
-  // TODO:  can I identify these fields in a less manual manner?
-  const names: (keyof ConfigurationSetting)[] = [
+export function makeConfigurationSettingEmpty(configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, 'key'>, any>>) {
+  const names: (Exclude<keyof ConfigurationSetting, 'key'>)[] = [
     "contentType",
     "etag",
-    "key",
     "label",
     "lastModified",
-    "locked",
+    "readOnly",
     "tags",
     "value"
   ];
 
   for (const name of names) {
-    Object.defineProperty(response, name, {
-      get: errThrower
-    });
-  }
+    configurationSetting[name] = undefined;
+  }  
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValue(kvp: KeyValue) : ConfigurationSetting {  
+  const obj : ConfigurationSetting & KeyValue = {
+    ...kvp,
+    readOnly: !!kvp.locked
+  };
+
+  delete obj.locked;
+  return obj;
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponseWithStatusCode<T extends KeyValue & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & { eTag?: string; } & HttpResponseField<any> & HttpResponseFields {
+  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any> & HttpResponseFields>{
+    ...transformKeyValue(kvp),
+    statusCode: kvp._response.status,
+  });
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponse<T extends KeyValue & { eTag?: string; } & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & HttpResponseField<any> {
+  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
+    ...transformKeyValue(kvp)
+  });
+}
+
+function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string; } >(originalResponse: HttpResponseField<any>, newResponse: T) : T {
+  Object.defineProperty(newResponse, '_response', {
+    enumerable: false,
+    value: originalResponse._response
+  });
+
+  // this field comes from the header but it's redundant with 
+  // the one serialized in the model itself
+  delete newResponse.eTag;
+
+  return newResponse;
 }

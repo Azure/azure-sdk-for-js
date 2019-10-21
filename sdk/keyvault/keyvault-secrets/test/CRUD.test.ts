@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { SecretsClient } from "../src";
+import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { retry, isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -14,7 +14,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
-  let client: SecretsClient;
+  let client: SecretClient;
   let testClient: TestClient;
   let recorder: any;
 
@@ -238,11 +238,17 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, secretValue);
-    const result = await client.deleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName);
 
-    assert.equal(typeof result.recoveryId, "string");
-    assert.ok(result.deletedDate instanceof Date);
-    assert.ok(result.scheduledPurgeDate instanceof Date);
+    let deletedSecret = deletePoller.getResult();
+    assert.equal(typeof deletedSecret!.properties.recoveryId, "string");
+    assert.ok(deletedSecret!.properties.deletedDate instanceof Date);
+    assert.ok(deletedSecret!.properties.scheduledPurgeDate instanceof Date);
+
+    deletedSecret = await deletePoller.pollUntilDone();
+    assert.equal(typeof deletedSecret.properties.recoveryId, "string");
+    assert.ok(deletedSecret.properties.deletedDate instanceof Date);
+    assert.ok(deletedSecret.properties.scheduledPurgeDate instanceof Date);
 
     try {
       await client.getSecret(secretName);
@@ -263,7 +269,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     let error;
     try {
-      await client.deleteSecret(secretName);
+      await client.beginDeleteSecret(secretName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -280,8 +286,24 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    await client.deleteSecret(secretName);
-    const getResult = await retry(async () => client.getDeletedSecret(secretName));
+    const deletePoller = await client.beginDeleteSecret(secretName);
+
+    let deletedSecret = deletePoller.getResult();
+    assert.equal(
+      deletedSecret!.properties.name,
+      secretName,
+      "Unexpected secret name in result from getSecret()."
+    );
+
+    await deletePoller.pollUntilDone();
+    deletedSecret = deletePoller.getResult();
+    assert.equal(
+      deletedSecret!.properties.name,
+      secretName,
+      "Unexpected secret name in result from getSecret()."
+    );
+
+    const getResult = await client.getDeletedSecret(secretName);
     assert.equal(
       getResult.properties.name,
       secretName,
@@ -296,7 +318,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     let error;
     try {
-      await client.deleteSecret(secretName);
+      const deletePoller = await client.beginDeleteSecret(secretName);
+      await deletePoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

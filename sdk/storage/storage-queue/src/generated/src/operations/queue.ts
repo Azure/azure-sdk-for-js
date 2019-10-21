@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/queueMappers";
 import * as Parameters from "../models/parameters";
@@ -35,13 +35,13 @@ export class Queue {
   /**
    * @param callback The callback
    */
-  create(callback: msRest.ServiceCallback<void>): void;
+  create(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.QueueCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.QueueCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueCreateResponse> {
+  create(options: Models.QueueCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  create(options?: Models.QueueCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -59,13 +59,13 @@ export class Queue {
   /**
    * @param callback The callback
    */
-  deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.QueueDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.QueueDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueDeleteResponse> {
+  deleteMethod(options: Models.QueueDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(options?: Models.QueueDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -84,13 +84,13 @@ export class Queue {
   /**
    * @param callback The callback
    */
-  getProperties(callback: msRest.ServiceCallback<void>): void;
+  getProperties(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.QueueGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.QueueGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueGetPropertiesResponse> {
+  getProperties(options: Models.QueueGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  getProperties(options?: Models.QueueGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -109,13 +109,13 @@ export class Queue {
   /**
    * @param callback The callback
    */
-  setMetadata(callback: msRest.ServiceCallback<void>): void;
+  setMetadata(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setMetadata(options: Models.QueueSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.QueueSetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueSetMetadataResponse> {
+  setMetadata(options: Models.QueueSetMetadataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setMetadata(options?: Models.QueueSetMetadataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -134,13 +134,13 @@ export class Queue {
   /**
    * @param callback The callback
    */
-  getAccessPolicy(callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
+  getAccessPolicy(callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccessPolicy(options: Models.QueueGetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
-  getAccessPolicy(options?: Models.QueueGetAccessPolicyOptionalParams | msRest.ServiceCallback<Models.SignedIdentifier[]>, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.QueueGetAccessPolicyResponse> {
+  getAccessPolicy(options: Models.QueueGetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): void;
+  getAccessPolicy(options?: Models.QueueGetAccessPolicyOptionalParams | coreHttp.ServiceCallback<Models.SignedIdentifier[]>, callback?: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.QueueGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -158,13 +158,13 @@ export class Queue {
   /**
    * @param callback The callback
    */
-  setAccessPolicy(callback: msRest.ServiceCallback<void>): void;
+  setAccessPolicy(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessPolicy(options: Models.QueueSetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setAccessPolicy(options?: Models.QueueSetAccessPolicyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.QueueSetAccessPolicyResponse> {
+  setAccessPolicy(options: Models.QueueSetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setAccessPolicy(options?: Models.QueueSetAccessPolicyOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -175,15 +175,15 @@ export class Queue {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const createOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{queueName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.metadata,
@@ -205,14 +205,14 @@ const createOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{queueName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -230,14 +230,14 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPropertiesOperationSpec: msRest.OperationSpec = {
+const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{queueName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp3
   ],
   headerParameters: [
@@ -256,14 +256,14 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const setMetadataOperationSpec: msRest.OperationSpec = {
+const setMetadataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{queueName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp3
   ],
   headerParameters: [
@@ -283,14 +283,14 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getAccessPolicyOperationSpec: msRest.OperationSpec = {
+const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{queueName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp4
   ],
   headerParameters: [
@@ -322,14 +322,14 @@ const getAccessPolicyOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const setAccessPolicyOperationSpec: msRest.OperationSpec = {
+const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{queueName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp4
   ],
   headerParameters: [

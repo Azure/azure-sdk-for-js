@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { SecretsClient } from "../src";
+import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
@@ -12,7 +12,7 @@ import TestClient from "./utils/testClient";
 describe("Secret client - restore secrets and recover backups", () => {
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
-  let client: SecretsClient;
+  let client: SecretClient;
   let testClient: TestClient;
   let recorder: any;
 
@@ -35,17 +35,25 @@ describe("Secret client - restore secrets and recover backups", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    await client.deleteSecret(secretName);
-    const getDeletedResult = await retry(async () => client.getDeletedSecret(secretName));
+    const deletePoller = await client.beginDeleteSecret(secretName);
+    assert.equal(
+      deletePoller.getResult()!.properties.name,
+      secretName,
+      "Unexpected secret name in result from deletePoller.getResult()."
+    );
+
+    await deletePoller.pollUntilDone();
+    const getDeletedResult = await client.getDeletedSecret(secretName);
     assert.equal(
       getDeletedResult.properties.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
-    await client.recoverDeletedSecret(secretName);
-    const getResult = await retry(async () => client.getSecret(secretName));
+
+    const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+    const secretProperties = await recoverPoller.pollUntilDone();
     assert.equal(
-      getResult.properties.name,
+      secretProperties.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
@@ -58,7 +66,8 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
     let error;
     try {
-      await client.recoverDeletedSecret(secretName);
+      const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+      await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;

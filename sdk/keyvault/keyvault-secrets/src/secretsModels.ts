@@ -1,9 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msRest from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./core/models";
 import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
+
+/**
+ * @interface
+ * An interface representing the secret client. For internal use.
+ */
+export interface SecretClientInterface {
+  recoverDeletedSecret(
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<SecretProperties>;
+  getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret>;
+  deleteSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
+  getDeletedSecret(
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<DeletedSecret>;
+}
 
 /**
  * @interface
@@ -51,12 +68,12 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {string} [keyId] If this is a secret backing a KV certificate, then
+   * @member {URL} [keyId] If this is a secret backing a KV certificate, then
    * this field specifies the corresponding key backing the KV certificate.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly keyId?: string;
+  readonly keyId?: URL;
   /**
    * @member {boolean} [managed] True if the secret's lifetime is managed by
    * key vault. If this is a secret backing a certificate, then managed will be
@@ -95,25 +112,54 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
  * @interface
  * An interface representing a deleted secret.
  */
-export interface DeletedSecret extends Secret {
+export interface DeletedSecret {
   /**
-   * @member {string} [recoveryId] The url of the recovery object, used to
-   * identify and recover the deleted secret.
+   * @member {SecretProperties} [properties] The properties of the secret
    */
-  recoveryId?: string;
+  properties: SecretProperties & {
+    /**
+     * @member {string} [recoveryId] The url of the recovery object, used to
+     * identify and recover the deleted secret.
+     */
+    recoveryId?: string;
+    /**
+     * @member {Date} [scheduledPurgeDate] The time when the secret is scheduled
+     * to be purged, in UTC
+     * **NOTE: This property will not be serialized. It can only be populated by
+     * the server.**
+     */
+    readonly scheduledPurgeDate?: Date;
+    /**
+     * @member {Date} [deletedDate] The time when the secret was deleted, in UTC
+     * **NOTE: This property will not be serialized. It can only be populated by
+     * the server.**
+     */
+    readonly deletedDate?: Date;
+  };
   /**
-   * @member {Date} [scheduledPurgeDate] The time when the secret is scheduled
-   * to be purged, in UTC
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} [value] The secret value.
    */
-  readonly scheduledPurgeDate?: Date;
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the optional parameters that can be
+ * passed to beginDeleteSecret
+ */
+export interface SecretPollerOptions {
   /**
-   * @member {Date} [deletedDate] The time when the secret was deleted, in UTC
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  readonly deletedDate?: Date;
+  requestOptions?: coreHttp.RequestOptionsBase;
+  /**
+   * @member {number} [intervalInMs] Time between each polling
+   */
+  intervalInMs?: number;
+  /**
+   * @member {string} [resumeFrom] A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
 }
 
 /**
@@ -144,9 +190,9 @@ export interface SetSecretOptions {
    */
   expires?: Date;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -177,9 +223,9 @@ export interface UpdateSecretOptions {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
@@ -193,18 +239,18 @@ export interface GetSecretOptions {
    */
   version?: string;
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
  * @interface
  * An interface representing optional parameters for SecretClient paged operations.
  */
-export interface ListSecretsOptions {
+export interface RequestOptions {
   /**
-   * @member {msRest.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
-  requestOptions?: msRest.RequestOptionsBase;
+  requestOptions?: coreHttp.RequestOptionsBase;
 }

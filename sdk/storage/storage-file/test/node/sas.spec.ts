@@ -5,24 +5,22 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
+  FileServiceClient,
   generateAccountSASQueryParameters,
-  ServiceURL,
-  SharedKeyCredential,
-  StorageURL,
-  SASProtocol
+  SASProtocol,
+  SharedKeyCredential
 } from "../../src";
-import { Aborter } from "../../src/Aborter";
-import { DirectoryURL } from "../../src/DirectoryURL";
+import { FileClient } from "../../src/FileClient";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
-import { FileURL } from "../../src/FileURL";
-import { generateFileSASQueryParameters } from "../../src/IFileSASSignatureValues";
+import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
+import { newPipeline } from "../../src/Pipeline";
+import { ShareClient } from "../../src/ShareClient";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
-import { ShareURL } from "../../src/ShareURL";
 import { getBSU } from "../utils";
 import { record } from "../utils/recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  const serviceURL = getBSU();
+  const serviceClient = getBSU();
 
   let recorder: any;
 
@@ -30,7 +28,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     recorder = record(this);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     recorder.stop();
   });
 
@@ -42,15 +40,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
       {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
         startTime: now,
@@ -59,13 +57,16 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
+    const sasURL = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new FileServiceClient(
       sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
-    await serviceURLWithSAS.listSharesSegment(Aborter.none);
+    (await serviceClientWithSAS
+      .listShares()
+      .byPage()
+      .next()).value;
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -73,28 +74,28 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
       {
         expiryTime: tmr,
-        permissions: AccountSASPermissions.parse("wdlcup").toString(),
+        permissions: AccountSASPermissions.parse("wdlcup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString()
       },
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
+    const sasURL = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new FileServiceClient(
       sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential())
     );
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -107,28 +108,25 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
       {
         expiryTime: tmr,
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+        permissions: AccountSASPermissions.parse("rwdlacup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btq").toString()
       },
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const sasURL = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new FileServiceClient(sasURL);
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -141,15 +139,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const sas = generateAccountSASQueryParameters(
       {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31"
@@ -157,15 +155,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     ).toString();
 
-    const sasURL = `${serviceURL.url}?${sas}`;
-    const serviceURLWithSAS = new ServiceURL(
-      sasURL,
-      StorageURL.newPipeline(new AnonymousCredential())
-    );
+    const sasURL = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new FileServiceClient(sasURL);
 
     let error;
     try {
-      await serviceURLWithSAS.getProperties(Aborter.none);
+      await serviceClientWithSAS.getProperties();
     } catch (err) {
       error = err;
     }
@@ -181,33 +176,36 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = recorder.getUniqueName("share");
-    const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
 
     const shareSAS = generateFileSASQueryParameters(
       {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: ShareSASPermissions.parse("rcwdl").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
-        shareName,
+        permissions: ShareSASPermissions.parse("rcwdl"),
+        protocol: SASProtocol.HttpsAndHttp,
+        shareName: shareClient.shareName,
         startTime: now,
         version: "2018-03-28"
       },
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${shareURL.url}?${shareSAS}`;
-    const shareURLwithSAS = new ShareURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
+    const sasURL = `${shareClient.url}?${shareSAS}`;
+    const shareClientwithSAS = new ShareClient(sasURL);
 
-    const dirURLwithSAS = DirectoryURL.fromShareURL(shareURLwithSAS, "");
-    await dirURLwithSAS.listFilesAndDirectoriesSegment(Aborter.none);
+    const dirURLwithSAS = shareClientwithSAS.getDirectoryClient("");
+    (await dirURLwithSAS
+      .listFilesAndDirectories()
+      .byPage()
+      .next()).value;
 
-    await shareURL.delete(Aborter.none);
+    await shareClient.delete();
   });
 
   it("generateFileSASQueryParameters should work for file", async () => {
@@ -218,21 +216,21 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = recorder.getUniqueName("share");
-    const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
 
     const dirName = recorder.getUniqueName("dir");
-    const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    const dirClient = shareClient.getDirectoryClient(dirName);
+    await dirClient.create();
 
     const fileName = recorder.getUniqueName("file");
-    const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
-    await fileURL.create(Aborter.none, 1024, {
-      fileHTTPHeaders: {
+    const fileClient = dirClient.getFileClient(fileName);
+    await fileClient.create(1024, {
+      fileHttpHeaders: {
         fileContentType: "content-type-original"
       }
     });
@@ -245,28 +243,28 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiryTime: tmr,
-        filePath: `${dirName}/${fileName}`,
+        filePath: fileClient.filePath,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: FileSASPermissions.parse("rcwd").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
-        shareName,
+        permissions: FileSASPermissions.parse("rcwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        shareName: fileClient.shareName,
         startTime: now,
         version: "2016-05-31"
       },
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${fileURL.url}?${fileSAS}`;
-    const fileURLwithSAS = new FileURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
+    const sasURL = `${fileClient.url}?${fileSAS}`;
+    const fileClientwithSAS = new FileClient(sasURL);
 
-    const properties = await fileURLwithSAS.getProperties(Aborter.none);
+    const properties = await fileClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
     assert.equal(properties.contentDisposition, "content-disposition-override");
     assert.equal(properties.contentEncoding, "content-encoding-override");
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await shareURL.delete(Aborter.none);
+    await shareClient.delete();
   });
 
   it("generateFileSASQueryParameters should work for file with access policy", async () => {
@@ -277,31 +275,31 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
-    const factories = serviceURL.pipeline.factories;
+    const factories = (serviceClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
 
     const shareName = recorder.getUniqueName("share");
-    const shareURL = ShareURL.fromServiceURL(serviceURL, shareName);
-    await shareURL.create(Aborter.none);
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
 
     const dirName = recorder.getUniqueName("dir");
-    const dirURL = DirectoryURL.fromShareURL(shareURL, dirName);
-    await dirURL.create(Aborter.none);
+    const dirClient = shareClient.getDirectoryClient(dirName);
+    await dirClient.create();
 
     const fileName = recorder.getUniqueName("file");
-    const fileURL = FileURL.fromDirectoryURL(dirURL, fileName);
-    await fileURL.create(Aborter.none, 1024, {
-      fileHTTPHeaders: {
+    const fileClient = dirClient.getFileClient(fileName);
+    await fileClient.create(1024, {
+      fileHttpHeaders: {
         fileContentType: "content-type-original"
       }
     });
 
     const id = "unique-id";
-    await shareURL.setAccessPolicy(Aborter.none, [
+    await shareClient.setAccessPolicy([
       {
         accessPolicy: {
           expiry: tmr,
-          permission: ShareSASPermissions.parse("rcwdl").toString(),
+          permissions: ShareSASPermissions.parse("rcwdl").toString(),
           start: now
         },
         id
@@ -316,11 +314,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as SharedKeyCredential
     );
 
-    const sasURL = `${shareURL.url}?${shareSAS}`;
-    const shareURLwithSAS = new ShareURL(sasURL, StorageURL.newPipeline(new AnonymousCredential()));
+    const sasURL = `${shareClient.url}?${shareSAS}`;
+    const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
 
-    const dirURLwithSAS = DirectoryURL.fromShareURL(shareURLwithSAS, "");
-    await dirURLwithSAS.listFilesAndDirectoriesSegment(Aborter.none);
-    await shareURL.delete(Aborter.none);
+    const dirClientwithSAS = shareClientwithSAS.getDirectoryClient("");
+    (await dirClientwithSAS
+      .listFilesAndDirectories()
+      .byPage()
+      .next()).value;
+    await shareClient.delete();
   });
 });

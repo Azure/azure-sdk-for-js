@@ -1,4 +1,4 @@
-import { SecretsClient } from "../../src";
+import { SecretClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
@@ -11,7 +11,7 @@ async function main(): Promise<void> {
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
 
-  const client = new SecretsClient(url, credential);
+  const client = new SecretClient(url, credential);
 
   // Create a secret
   const secretName = "MySecretName";
@@ -33,7 +33,8 @@ async function main(): Promise<void> {
   console.log("updated secret: ", updatedSecret);
 
   // Delete the secret
-  await client.deleteSecret(secretName);
+  // If we don't want to purge the secret later, we don't need to wait until this finishes
+  await client.beginDeleteSecret(secretName);
 }
 
 main().catch((err) => {

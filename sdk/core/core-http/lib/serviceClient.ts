@@ -6,6 +6,7 @@ import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
+import { logPolicy } from "./policies/logPolicy";
 import { OperationArguments } from "./operationArguments";
 import {
   getPathStringFromParameter,
@@ -46,6 +47,7 @@ import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from "./policies/signingPolicy";
+import { logger } from "./log";
 
 /**
  * HTTP proxy settings (Node.js only)
@@ -118,6 +120,10 @@ export interface ServiceClientOptions {
    * Proxy settings which will be used for every HTTP request (Node.js only).
    */
   proxySettings?: ProxySettings;
+  /**
+   * When true, keeps the TCP socket alive across multiple requests (Node.js only).
+   */
+  keepAlive?: boolean;
 }
 
 /**
@@ -166,10 +172,14 @@ export class ServiceClient {
 
     let requestPolicyFactories: RequestPolicyFactory[];
     if (Array.isArray(options.requestPolicyFactories)) {
+      logger.info("ServiceClient: using custom request policies");
       requestPolicyFactories = options.requestPolicyFactories;
     } else {
       let authPolicyFactory: RequestPolicyFactory | undefined = undefined;
       if (isTokenCredential(credentials)) {
+        logger.info(
+          "ServiceClient: creating bearer token authentication policy from provided credentials"
+        );
         // Create a wrapped RequestPolicyFactory here so that we can provide the
         // correct scope to the BearerTokenAuthenticationPolicy at the first time
         // one is requested.  This is needed because generated ServiceClient
@@ -195,11 +205,13 @@ export class ServiceClient {
 
         authPolicyFactory = wrappedPolicyFactory();
       } else if (credentials && typeof credentials.signRequest === "function") {
+        logger.info("ServiceClient: creating signing policy from provided credentials");
         authPolicyFactory = signingPolicy(credentials);
       } else if (credentials !== undefined) {
         throw new Error("The credentials argument must implement the TokenCredential interface");
       }
 
+      logger.info("ServiceClient: using default request policies");
       requestPolicyFactories = createDefaultRequestPolicyFactories(authPolicyFactory, options);
       if (options.requestPolicyFactories) {
         // options.requestPolicyFactories can also be a function that manipulates
@@ -254,7 +266,7 @@ export class ServiceClient {
    * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
    * @param {ServiceCallback} callback The callback to call when the response is received.
    */
-  sendOperationRequest(
+  async sendOperationRequest(
     operationArguments: OperationArguments,
     operationSpec: OperationSpec,
     callback?: ServiceCallback<any>
@@ -423,9 +435,29 @@ export class ServiceClient {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
-      result = this.sendRequest(httpRequest).then((res) =>
-        flattenResponse(res, operationSpec.responses[res.status])
-      );
+      let rawResponse: HttpOperationResponse;
+      let sendRequestError;
+      try {
+        rawResponse = await this.sendRequest(httpRequest);
+      } catch (error) {
+        sendRequestError = error;
+      }
+      if (sendRequestError) {
+        if (sendRequestError.response){
+          sendRequestError.details = flattenResponse(
+            sendRequestError.response,
+            operationSpec.responses[sendRequestError.statusCode] ||
+              operationSpec.responses["default"]
+          );
+        }        
+        result = Promise.reject(
+          sendRequestError
+        );
+      } else {
+        result = Promise.resolve(
+          flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status])
+        );
+      }
     } catch (error) {
       result = Promise.reject(error);
     }
@@ -575,6 +607,8 @@ function createDefaultRequestPolicyFactories(
   if (proxySettings) {
     factories.push(proxyPolicy(proxySettings));
   }
+
+  factories.push(logPolicy(logger.info, {}));
 
   return factories;
 }

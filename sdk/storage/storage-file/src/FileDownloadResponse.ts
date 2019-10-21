@@ -1,18 +1,19 @@
-import { HttpResponse, isNode } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
-import { Aborter } from "./Aborter";
-import * as Models from "./generated/src/models";
-import { IMetadata } from "./models";
+import { HttpResponse, isNode } from "@azure/core-http";
+import { CopyStatusType, FileDownloadHeaders, FileDownloadResponseModel } from "./generatedModels";
+import { Metadata } from "./models";
 import {
   ReadableStreamGetter,
   RetriableReadableStream,
-  IRetriableReadableStreamOptions
+  RetriableReadableStreamOptions
 } from "./utils/RetriableReadableStream";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * FileDownloadResponse implements Models.FileDownloadResponse interface, and in Node.js runtime it will
+ * FileDownloadResponse implements FileDownloadResponseModel interface, and in Node.js runtime it will
  * automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
  * trigger retries defined in pipeline retry policy.)
  *
@@ -21,9 +22,9 @@ import {
  *
  * @export
  * @class FileDownloadResponse
- * @implements {Models.FileDownloadResponse}
+ * @implements {FileDownloadResponseModel}
  */
-export class FileDownloadResponse implements Models.FileDownloadResponse {
+export class FileDownloadResponse implements FileDownloadResponseModel {
   /**
    * Indicates that the service supports
    * requests for partial file content.
@@ -149,8 +150,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(Date | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get copyCompletionTime(): Date | undefined {
-    return this.originalResponse.copyCompletionTime;
+  public get copyCompletedOn(): Date | undefined {
+    return this.originalResponse.copyCompletedOn;
   }
 
   /**
@@ -198,10 +199,10 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * 'success', 'aborted', 'failed'
    *
    * @readonly
-   * @type {(Models.CopyStatusType | undefined)}
+   * @type {(CopyStatusType | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get copyStatus(): Models.CopyStatusType | undefined {
+  public get copyStatus(): CopyStatusType | undefined {
     return this.originalResponse.copyStatus;
   }
 
@@ -294,10 +295,10 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * to associate with a file storage object.
    *
    * @readonly
-   * @type {(IMetadata | undefined)}
+   * @type {(Metadata | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get metadata(): IMetadata | undefined {
+  public get metadata(): Metadata | undefined {
     return this.originalResponse.metadata;
   }
 
@@ -343,8 +344,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(Date | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get fileCreationTime(): Date | undefined {
-    return this.originalResponse.fileCreationTime;
+  public get fileCreatedOn(): Date | undefined {
+    return this.originalResponse.fileCreatedOn;
   }
 
   /**
@@ -354,8 +355,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(string | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get fileLastWriteTime(): Date | undefined {
-    return this.originalResponse.fileLastWriteTime;
+  public get fileLastWriteOn(): Date | undefined {
+    return this.originalResponse.fileLastWriteOn;
   }
 
   /**
@@ -365,8 +366,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(string | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get fileChangeTime(): Date | undefined {
-    return this.originalResponse.fileChangeTime;
+  public get fileChangeOn(): Date | undefined {
+    return this.originalResponse.fileChangeOn;
   }
 
   /**
@@ -429,36 +430,33 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
   }
 
   public get _response(): HttpResponse & {
-    parsedHeaders: Models.FileDownloadHeaders;
+    parsedHeaders: FileDownloadHeaders;
   } {
     return this.originalResponse._response;
   }
 
-  private originalResponse: Models.FileDownloadResponse;
+  private originalResponse: FileDownloadResponseModel;
   private fileDownloadStream?: RetriableReadableStream;
 
   /**
    * Creates an instance of FileDownloadResponse.
    *
-   * @param {Aborter} aborter
-   * @param {Models.FileDownloadResponse} originalResponse
+   * @param {FileDownloadResponseModel} originalResponse
    * @param {ReadableStreamGetter} getter
    * @param {number} offset
    * @param {number} count
-   * @param {IRetriableReadableStreamOptions} [options={}]
+   * @param {RetriableReadableStreamOptions} [options={}]
    * @memberof FileDownloadResponse
    */
   public constructor(
-    aborter: Aborter,
-    originalResponse: Models.FileDownloadResponse,
+    originalResponse: FileDownloadResponseModel,
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: IRetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {}
   ) {
     this.originalResponse = originalResponse;
     this.fileDownloadStream = new RetriableReadableStream(
-      aborter,
       this.originalResponse.readableStreamBody!,
       getter,
       offset,

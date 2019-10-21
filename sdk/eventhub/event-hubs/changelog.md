@@ -1,3 +1,7 @@
+### Coming soon 5.0.0-preview.6
+
+- Updated to use the latest version of the `@azure/core-tracing` & `@azure/core-amqp` package.
+
 ### 2019-10-08 5.0.0-preview.5
 
 - Updated to use the latest version of the `@azure/core-tracing` package.
@@ -9,7 +13,6 @@
   ([PR #5153](https://github.com/Azure/azure-sdk-for-js/pull/5153))
 - Adds preview capabilities for `@azure/core-tracing`.
   ([PR #5207](https://github.com/Azure/azure-sdk-for-js/pull/5207)
-
 
 #### Breaking changes
 
@@ -28,6 +31,7 @@
   ```javascript
   const client = new EventHubClient(iotEventHubsCompatibleConnectionString);
   ```
+
 - The `PartitionContext` properties have been merged into the `PartitionProcessor` class.
   The `PartitionProcessor` now exposes an `updateCheckpoint` method that can be called to checkpoint events.
 
