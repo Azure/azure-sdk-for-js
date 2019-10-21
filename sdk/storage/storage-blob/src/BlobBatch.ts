@@ -116,6 +116,7 @@ export class BlobBatch {
   /**
    * The deleteBlob operation marks the specified blob or snapshot for deletion.
    * The blob is later deleted during garbage collection.
+   * Only one kind of operation is allowed per batch request.
    *
    * Note that in order to delete a blob, you must delete all of its snapshots.
    * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
@@ -137,6 +138,7 @@ export class BlobBatch {
   /**
    * The deleteBlob operation marks the specified blob or snapshot for deletion.
    * The blob is later deleted during garbage collection.
+   * Only one kind of operation is allowed per batch request.
    *
    * Note that in order to delete a blob, you must delete all of its snapshots.
    * You can delete both at the same time. See [delete operation details](https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob).
@@ -220,16 +222,17 @@ export class BlobBatch {
   /**
    * The setBlobAccessTier operation sets the tier on a blob.
    * The operation is allowed on block blobs in a blob storage or general purpose v2 account.
+   * Only one kind of operation is allowed per batch request.
    *
    * A block blob's tier determines Hot/Cool/Archive storage type.
    * This operation does not update the blob's ETag.
    * For detailed information about block blob level tiering
    * see [hot, cool, and archive access tiers](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
    * The operation will be authenticated and authorized
-   * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {string} url The url of the blob resource to delete.
-   * @param {Credential} credential The credential to be used for authentication and authorization.
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {AccessTier} tier
    * @param {BlobSetTierOptions} [options]
    * @returns {Promise<void>}
@@ -245,13 +248,14 @@ export class BlobBatch {
   /**
    * The setBlobAccessTier operation sets the tier on a blob.
    * The operation is allowed on block blobs in a blob storage or general purpose v2 account.
+   * Only one kind of operation is allowed per batch request.
    *
    * A block blob's tier determines Hot/Cool/Archive storage type.
    * This operation does not update the blob's ETag.
    * For detailed information about block blob level tiering
    * see [hot, cool, and archive access tiers](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers).
    * The operation will be authenticated and authorized
-   * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
+   * with specified credential. See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient} blobClient The BlobClient.
    * @param {AccessTier} tier
