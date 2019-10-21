@@ -1,4 +1,4 @@
-import { BatchSubRequest } from "./BatchRequest";
+import { BatchSubRequest } from "./BlobBatch";
 import { HttpHeaders } from "@azure/core-http";
 
 export interface BatchSubResponse {
