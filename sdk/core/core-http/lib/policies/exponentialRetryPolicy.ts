@@ -48,6 +48,14 @@ const DEFAULT_CLIENT_RETRY_COUNT = 3;
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
 
 /**
+ * Describes the Retry Mode type. Currently supporting only Exponential.
+ * @enum RetryMode
+ */
+export enum RetryMode {
+  Exponential
+}
+
+/**
  * Options that control how to retry failed requests.
  */
 export interface RetryOptions {
@@ -68,6 +76,10 @@ export interface RetryOptions {
    * to 90000 (90 seconds).
    */
   maxRetryDelayInMs?: number;
+  /**
+   * Currently supporting only Exponential mode.
+   */
+  mode?: RetryMode;
 }
 
 export const DefaultRetryOptions: RetryOptions = {

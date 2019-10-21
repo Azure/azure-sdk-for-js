@@ -47,7 +47,7 @@ export {
   RequestPolicyOptions
 } from "./policies/requestPolicy";
 export { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-export { exponentialRetryPolicy, RetryOptions } from "./policies/exponentialRetryPolicy";
+export { exponentialRetryPolicy, RetryOptions, RetryMode } from "./policies/exponentialRetryPolicy";
 export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 export { getDefaultProxySettings, proxyPolicy, ProxyOptions } from "./policies/proxyPolicy";
