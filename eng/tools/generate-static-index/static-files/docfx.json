@@ -50,10 +50,6 @@
     "dest": "_site",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
-    "template": [
-      "default",
-      "templates/matthews"
-    ],
     "postProcessors": [],
     "markdownEngineName": "markdig",
     "noLangKeyword": false,

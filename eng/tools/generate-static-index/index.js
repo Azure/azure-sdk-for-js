@@ -36,11 +36,6 @@ const walk = (dir, checks) => {
   return checks;
 };
 
-const iteratePackages = (packageList,mdContent) => {
-
-
-};
-
 console.log("process.cwd = " + process.cwd());
 
 let workingDir = path.join(process.cwd(), "sdk");
@@ -106,10 +101,11 @@ var yamlPath = path.join(process.cwd(), "docfx_project/api");
 var yamlFilePath = path.join(yamlPath, "toc.yml");
 
 var jObject = []; //[{"name": service, "href": <link-to-md-file>}]
-
+var serviceMapperPath = path.join(process.cwd(),"eng/tools/generate-static-index/service-mapper.json");
+const serviceMapper = JSON.parse(fs.readFileSync(serviceMapperPath, 'utf8'));
 for (const eachService of serviceList) {
   var mdFile = eachService.name + ".md";
-  jObject.push({ name: eachService.name, href: mdFile });//change the value for name to lookup name for service from given json file
+  jObject.push({ name: serviceMapper[eachService.name], href: mdFile });//change the value for name to lookup name for service from given json file
   var mdContent = "";
   if(eachService.clientList.length > 0){
      mdContent += "<h1>Client Libraries </h1><hr>";

@@ -22,13 +22,13 @@ jobs:
         displayName: Create Template Directory
         workingDirectory: $(Build.SourcesDirectory)/docfx_project/
 
-      - task: CopyFiles@2
-        displayName: Copy Template to templates folder
-        inputs:
-          sourceFolder: $(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/templates
-          content: "**/*"
-          targetFolder: $(Build.SourcesDirectory)/docfx_project/templates
-          overWrite: true
+      # - task: CopyFiles@2
+      #   displayName: Copy Template to templates folder
+      #   inputs:
+      #     sourceFolder: $(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/templates
+      #     content: "**/*"
+      #     targetFolder: $(Build.SourcesDirectory)/docfx_project/templates
+      #     overWrite: true
 
       - pwsh: ls
         workingDirectory: $(Build.SourcesDirectory)/docfx_project/
@@ -66,6 +66,7 @@ jobs:
 
       - pwsh: |
           Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/assets/*" -Destination "$(Build.SourcesDirectory)/docfx_project/_site/" -Force
+          Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/main.js" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/main.js"
         displayName: Replace site assets
 
       - task: CopyFiles@2
