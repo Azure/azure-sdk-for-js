@@ -30,8 +30,8 @@
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan
 
 # Management Plane
-/**/*Management*.ts @ruowan
-/**/arm-*/ @ruowan
+/**/*Management*.ts @qiaozha
+/**/arm-*/ @qiaozha
 
 ###########
 # Eng Sys
