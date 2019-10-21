@@ -1,9 +1,9 @@
-import * as Models from "./generated/src/models";
+import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import { streamToBuffer2 } from "./utils/utils.node";
 import { BATCH_MAX_PAYLOAD_IN_BYTES } from "./utils/constants";
 
 export async function getBodyAsText(
-  batchResponse: Models.ServiceSubmitBatchResponse
+  batchResponse: ServiceSubmitBatchResponseModel
 ): Promise<string> {
   let buffer = Buffer.alloc(BATCH_MAX_PAYLOAD_IN_BYTES);
 
