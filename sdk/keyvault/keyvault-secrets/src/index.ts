@@ -19,10 +19,12 @@ import {
   getDefaultProxySettings,
   isNode,
   userAgentPolicy,
-  tracingPolicy
+  tracingPolicy,
+  logPolicy
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
+import { logger } from "./log";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -86,7 +88,8 @@ export {
   SecretProperties,
   SecretPollerOptions,
   SetSecretOptions,
-  UpdateSecretOptions
+  UpdateSecretOptions,
+  logger
 };
 
 export { ProxyOptions, RetryOptions, TelemetryOptions };
@@ -139,7 +142,15 @@ export class SecretClient {
       redirectPolicy(),
       isTokenCredential(credential)
         ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+        : signingPolicy(credential),
+      logPolicy(
+        logger.info, {
+          allowedHeaderNames: [
+            "x-ms-keyvault-region",
+            "x-ms-keyvault-network-info",
+            "x-ms-keyvault-service-version"
+          ]
+      })
     ]);
 
     return {

@@ -227,6 +227,9 @@ export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
+export const logger: import("@azure/logger").AzureLogger;
+
+// @public
 export interface NewPipelineOptions {
     // (undocumented)
     HTTPClient?: HttpClient;
