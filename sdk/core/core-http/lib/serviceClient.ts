@@ -641,8 +641,7 @@ export function createPipelineFromOptions(
     tracingPolicy(),
     keepAlivePolicy(keepAliveOptions),
     userAgentPolicy({
-      value: userAgentOptions.userAgentPrefix,
-      key: userAgentOptions.userAgentHeaderName
+      value: userAgentOptions.userAgentPrefix
     }),
     generateClientRequestIdPolicy(),
     deserializationPolicy(),

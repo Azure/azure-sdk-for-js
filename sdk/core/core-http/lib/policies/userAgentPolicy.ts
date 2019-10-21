@@ -24,17 +24,10 @@ export interface UserAgentOptions {
    * Defaults to an empty string.
    */
   userAgentPrefix?: string;
-
-  /**
-   * The name of the header in which the user agent string will be passed.
-   * Defaults to
-   */
-  userAgentHeaderName?: string;
 }
 
 export const DefaultUserAgentOptions: UserAgentOptions = {
-  userAgentPrefix: undefined,
-  userAgentHeaderName: getDefaultUserAgentKey()
+  userAgentPrefix: undefined
 }
 
 function getRuntimeInfo(): TelemetryInfo[] {
