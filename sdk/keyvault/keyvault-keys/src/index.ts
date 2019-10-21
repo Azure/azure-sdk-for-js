@@ -1075,6 +1075,9 @@ export class KeyClient {
       keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
+        expiresOn: attributes!.expires,
+        createdOn: attributes!.created,
+        updatedOn: attributes!.updated,
         ...keyBundle,
         ...parsedId,
         ...attributes
@@ -1088,15 +1091,12 @@ export class KeyClient {
 
     if (attributes) {
       if (attributes.expires) {
-        resultObject.properties.expiresOn = attributes.expires;
         delete (resultObject.properties as any).expires;
       }
       if (attributes.created) {
-        resultObject.properties.createdOn = attributes.created;
         delete (resultObject.properties as any).created;
       }
       if (attributes.updated) {
-        resultObject.properties.updatedOn = attributes.updated;
         delete (resultObject.properties as any).updated;
       }
     }

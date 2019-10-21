@@ -93,13 +93,13 @@ export interface KeyProperties {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  createdOn?: Date;
+  readonly createdOn?: Date;
   /**
    * @member {Date} [updatedOn] Last updated time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  updatedOn?: Date;
+  readonly updatedOn?: Date;
   /**
    * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
    * recovery level currently in effect for keys in the current vault. If it
@@ -192,7 +192,7 @@ export interface CreateKeyOptions extends coreHttp.RequestOptionsBase {
   /**
    * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expiresOn?: Date;
+  readonly expiresOn?: Date;
   /**
    * @member {number} [keySize] Size of the key
    */
