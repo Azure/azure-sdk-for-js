@@ -253,11 +253,14 @@ export class CertificateClient {
       ...pipelineOptions,
       ...{
         loggerOptions: {
-          allowedHeaderNames: [
-            "x-ms-keyvault-region",
-            "x-ms-keyvault-network-info",
-            "x-ms-keyvault-service-version"
-          ]
+          logger,
+          logPolicyOptions: {
+            allowedHeaderNames: [
+              "x-ms-keyvault-region",
+              "x-ms-keyvault-network-info",
+              "x-ms-keyvault-service-version"
+            ]
+          }
         }
       }
     }

@@ -11,7 +11,7 @@ import {
   signingPolicy
 } from "@azure/core-http";
 
-// import { logger } from "./log";
+import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { SDK_VERSION } from "./core/utils/constants";
 import { KeyVaultClient } from "./core/keyVaultClient";
@@ -600,11 +600,14 @@ export class CryptographyClient {
       ...pipelineOptions,
       ...{
         loggerOptions: {
-          allowedHeaderNames: [
-            "x-ms-keyvault-region",
-            "x-ms-keyvault-network-info",
-            "x-ms-keyvault-service-version"
-          ]
+          logger,
+          logPolicyOptions: {
+            allowedHeaderNames: [
+              "x-ms-keyvault-region",
+              "x-ms-keyvault-network-info",
+              "x-ms-keyvault-service-version"
+            ]
+          }
         }
       }
     }

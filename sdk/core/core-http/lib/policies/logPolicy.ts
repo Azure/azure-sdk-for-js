@@ -10,6 +10,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+import { AzureLogger } from "@azure/logger";
 import { logger as coreLogger, logger } from "../log";
 
 export interface LogPolicyOptions {
@@ -26,6 +27,21 @@ export interface LogPolicyOptions {
    * query string values are logged.
    */
   allowedQueryParameters?: string[];
+}
+
+/**
+ * Options to configure request/response logging.
+ */
+export interface LoggingOptions {
+  /**
+   * The AzureLogger instance to use for writing pipeline logs.
+   */
+  logger: AzureLogger,
+
+  /**
+   * Options to pass to the logPolicy factory.
+   */
+  logPolicyOptions: LogPolicyOptions
 }
 
 const RedactedString = "REDACTED";

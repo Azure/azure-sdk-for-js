@@ -39,7 +39,7 @@ export {
   BearerTokenAuthenticationPolicy,
   bearerTokenAuthenticationPolicy
 } from "./policies/bearerTokenAuthenticationPolicy";
-export { logPolicy } from "./policies/logPolicy";
+export { LogPolicyOptions, LoggingOptions, logPolicy } from "./policies/logPolicy";
 export {
   BaseRequestPolicy,
   RequestPolicy,

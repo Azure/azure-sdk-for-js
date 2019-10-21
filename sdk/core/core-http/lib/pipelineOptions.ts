@@ -9,7 +9,7 @@ import { RedirectOptions } from './policies/redirectPolicy';
 import { ProxyOptions } from './policies/proxyPolicy';
 import { UserAgentOptions } from './policies/userAgentPolicy';
 import { DeserializationOptions } from './policies/deserializationPolicy';
-import { LogPolicyOptions } from './policies/logPolicy';
+import { LoggingOptions } from './policies/logPolicy';
 
 /**
  * Returns true if the passed object looks like a PipelineOptions.
@@ -77,7 +77,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
   deserializationOptions?: DeserializationOptions;
 
   /**
-   * Options to configure logging.
+   * Options to configure request/response logging.
    */
   loggingOptions?: LoggingOptions;
 }
