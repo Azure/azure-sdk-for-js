@@ -1075,6 +1075,8 @@ export class KeyClient {
       keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
+        id: keyBundle.key ? keyBundle.key.kid : undefined,
+        name: parsedId.name,
         expiresOn: attributes.expires,
         createdOn: attributes.created,
         updatedOn: attributes.updated,
@@ -1109,37 +1111,31 @@ export class KeyClient {
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
     const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
 
-    let abstractProperties: any;
+    const attributes = keyItem.attributes || {};
 
-    if (keyItem.attributes) {
-      abstractProperties = {
-        ...keyItem,
-        ...parsedId,
-        ...keyItem.attributes
-      };
-      delete abstractProperties.attributes;
-    } else {
-      abstractProperties = {
-        ...keyItem,
-        ...parsedId
-      };
-    }
+    let abstractProperties: any = {
+      id: keyItem.kid,
+      name: parsedId.name,
+      deletedOn: (attributes as any).deletedDate,
+      expiresOn: attributes.expires,
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      ...keyItem,
+      ...parsedId,
+      ...keyItem.attributes
+    };
 
     if (abstractProperties.deletedDate) {
-      abstractProperties.deletedOn = abstractProperties.deletedDate;
       delete abstractProperties.deletedDate;
     }
 
     if (abstractProperties.expires) {
-      abstractProperties.expiresOn = abstractProperties.expires;
       delete abstractProperties.expires;
     }
     if (abstractProperties.created) {
-      abstractProperties.createdOn = abstractProperties.created;
       delete abstractProperties.created;
     }
     if (abstractProperties.updated) {
-      abstractProperties.updatedOn = abstractProperties.updated;
       delete abstractProperties.updated;
     }
 

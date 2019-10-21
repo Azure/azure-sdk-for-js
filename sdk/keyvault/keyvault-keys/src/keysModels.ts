@@ -60,6 +60,10 @@ export interface KeyVaultKey {
  */
 export interface KeyProperties {
   /**
+   * Key identifier.
+   */
+  id?: string;
+  /**
    * @member {string} [name] The name of key/secret/certificate.
    */
   name: string;
