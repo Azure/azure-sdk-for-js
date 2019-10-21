@@ -69,6 +69,38 @@ describe("defaultHttpClient", function() {
       await promise;
       assert.fail("");
     } catch (err) {
+      err.name.should.be.equal("AbortError");
+      err.should.not.be.instanceof(AssertionError);
+    }
+  });
+
+  it("should allow canceling requests before request is made", async function() {
+    const resourceUrl = `/fileupload`;
+    httpMock.post(resourceUrl, async () => {
+      await sleep(10000);
+      assert.fail();
+      return { status: 201 };
+    });
+    const controller = new AbortController();
+    const veryBigPayload = "very long string";
+    const request = new WebResource(
+      resourceUrl,
+      "POST",
+      veryBigPayload,
+      undefined,
+      undefined,
+      true,
+      undefined,
+      controller.signal
+    );
+    controller.abort();
+    const client = new DefaultHttpClient();
+    const promise = client.sendRequest(request);
+    try {
+      await promise;
+      assert.fail("");
+    } catch (err) {
+      err.name.should.be.equal("AbortError");
       err.should.not.be.instanceof(AssertionError);
     }
   });

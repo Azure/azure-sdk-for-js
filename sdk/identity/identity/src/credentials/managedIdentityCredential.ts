@@ -13,7 +13,7 @@ import { IdentityClientOptions, IdentityClient } from "../client/identityClient"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
-import { logger } from '../util/logging';
+import { logger } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -159,9 +159,8 @@ export class ManagedIdentityCredential implements TokenCredential {
         await this.identityClient.sendRequest(webResource);
       } catch (err) {
         if (
-          err instanceof RestError &&
-          (err.code === RestError.REQUEST_SEND_ERROR ||
-            err.code === RestError.REQUEST_ABORTED_ERROR)
+          (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||
+          err.name === "AbortError"
         ) {
           // Either request failed or IMDS endpoint isn't available
           logger.info(`ManagedIdentityCredential: IMDS endpoint unavailable`);

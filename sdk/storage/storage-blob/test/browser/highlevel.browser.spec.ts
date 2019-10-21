@@ -61,7 +61,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -76,7 +76,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 

@@ -32,21 +32,21 @@ export class TestServiceClient extends ServiceClient {
   // Normally we would call this.client.sendRequest, from the ServiceClient class.
   public async sendRequest(options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     if (options && options.abortSignal && options.abortSignal.aborted) {
-      throw new Error("The request was aborted");
+      throw new Error("The operation was aborted.");
     }
     this.totalSentRequests += 1;
     return this.responses.shift()!;
   }
   public async sendInitialRequest(options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     if (options && options.abortSignal && options.abortSignal.aborted) {
-      throw new Error("The request was aborted");
+      throw new Error("The operation was aborted.");
     }
     this.totalSentRequests += 1;
     return this.initialResponse!;
   }
   public async sendFinalRequest(options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     if (options && options.abortSignal && options.abortSignal.aborted) {
-      throw new Error("The request was aborted");
+      throw new Error("The operation was aborted.");
     }
     this.totalSentRequests += 1;
     return this.finalResponse!;
