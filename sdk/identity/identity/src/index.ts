@@ -25,7 +25,6 @@ export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialO
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
-export { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions";
 export {
   AuthenticationError,
   ErrorResponse,

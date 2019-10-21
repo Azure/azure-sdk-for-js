@@ -5,10 +5,9 @@ import qs from "qs";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClient, TokenResponse } from "../client/identityClient";
+import { IdentityClient, TokenResponse, IdentityClientOptions } from "../client/identityClient";
 import { CanonicalCode } from "@azure/core-tracing";
 import { DefaultTenantId } from '../constants';
-import { AuthorizationCodeCredentialOptions } from '../credentials/authorizationCodeCredentialOptions';
 
 /**
  * Enables authentication to Azure Active Directory using an authorization code
@@ -48,11 +47,12 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * @param options Options for configuring the client which makes the access token request.
    */
   constructor(
+    tenantId: string | "common",
     clientId: string,
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: AuthorizationCodeCredentialOptions
+    options?: IdentityClientOptions
   );
     /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -74,23 +74,26 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * @param options Options for configuring the client which makes the access token request.
    */
   constructor(
+    tenantId: string | "common",
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: AuthorizationCodeCredentialOptions
+    options?: IdentityClientOptions
   ); 
   /**
    * @ignore
    * @internal
    */
   constructor(
+    tenantId: string | "common",
     clientId: string,
     clientSecretOrAuthorizationCode: string,
     authorizationCodeOrRedirectUri: string,
-    redirectUriOrOptions: string | AuthorizationCodeCredentialOptions | undefined,
-    options?: AuthorizationCodeCredentialOptions
+    redirectUriOrOptions: string | IdentityClientOptions | undefined,
+    options?: IdentityClientOptions
   ) {
     this.clientId = clientId;
+    this.tenantId = tenantId;
     
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
@@ -103,11 +106,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
       this.clientSecret = undefined;
       this.authorizationCode = clientSecretOrAuthorizationCode;
       this.redirectUri = authorizationCodeOrRedirectUri as string;      
-      options = redirectUriOrOptions as AuthorizationCodeCredentialOptions;
+      options = redirectUriOrOptions as IdentityClientOptions;
     }
 
-    this.identityClient = new IdentityClient(options);
-    this.tenantId = (options && options.tenantId) || DefaultTenantId;
+    this.identityClient = new IdentityClient(options);    
   }
 
   /**
