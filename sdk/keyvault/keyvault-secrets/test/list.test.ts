@@ -40,7 +40,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
     for await (const deletedSecret of client.listDeletedSecrets()) {
       try {
-        await testClient.purgeSecret(deletedSecret.properties.name);
+        await testClient.purgeSecret(deletedSecret.name);
       } catch (e) {}
     }
   });
@@ -84,7 +84,7 @@ describe("Secret client - list secrets in various ways", () => {
     let found = 0;
     for await (const secret of client.listDeletedSecrets()) {
       // The vault might contain more secrets than the ones we inserted.
-      if (!secretNames.includes(secret.properties.name)) continue;
+      if (!secretNames.includes(secret.name)) continue;
       found += 1;
     }
 
@@ -181,7 +181,7 @@ describe("Secret client - list secrets in various ways", () => {
     for await (const page of client.listDeletedSecrets().byPage()) {
       for (const secret of page) {
         // The vault might contain more secrets than the ones we inserted.
-        if (!secretNames.includes(secret.properties.name)) continue;
+        if (!secretNames.includes(secret.name)) continue;
         found += 1;
       }
     }

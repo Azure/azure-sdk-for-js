@@ -3,7 +3,6 @@
 
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./core/models";
-import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 
 /**
  * @interface
@@ -35,13 +34,29 @@ export interface KeyVaultSecret {
    * @member {string} [value] The secret value.
    */
   value?: string;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
 }
 
 /**
  * @interface
  * An interface representing the a secret's attributes.
  */
-export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
+export interface SecretProperties {
+  /**
+   * @member {string} [vaultEndpoint] The vault URI.
+   */
+  vaultEndpoint: string;
+  /**
+   * @member {string} [version] The version of key/secret/certificate. May be undefined.
+   */
+  version?: string;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
   /**
    * @member {string} [id] The secret id.
    */
@@ -57,11 +72,11 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
   /**
    * @member {Date} [notBefore] Not before date in UTC.
    */
-  notBefore?: Date;
+  readonly notBefore?: Date;
   /**
    * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expiresOn?: Date;
+  readonly expiresOn?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -87,13 +102,13 @@ export interface SecretProperties extends ParsedKeyVaultEntityIdentifier {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  createdOn?: Date;
+  readonly createdOn?: Date;
   /**
    * @member {Date} [updated] Last updated time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  updatedOn?: Date;
+  readonly updatedOn?: Date;
   /**
    * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
    * recovery level currently in effect for keys in the current vault. If it
@@ -140,6 +155,10 @@ export interface DeletedSecret {
    * @member {string} [value] The secret value.
    */
   value?: string;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
 }
 
 /**
@@ -180,11 +199,11 @@ export interface SetSecretOptions extends coreHttp.RequestOptionsBase {
   /**
    * @member {Date} [notBefore] Not before date in UTC.
    */
-  notBefore?: Date;
+  readonly notBefore?: Date;
   /**
    * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expiresOn?: Date;
+  readonly expiresOn?: Date;
 }
 
 /**
@@ -204,11 +223,11 @@ export interface UpdateSecretPropertiesOptions extends coreHttp.RequestOptionsBa
   /**
    * @member {Date} [notBefore] Not before date in UTC.
    */
-  notBefore?: Date;
+  readonly notBefore?: Date;
   /**
    * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expiresOn?: Date;
+  readonly expiresOn?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.

@@ -38,7 +38,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(
-      result.properties.name,
+      result.name,
       secretName,
       "Unexpected secret name in result from setSecret()."
     );
@@ -90,7 +90,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     const secretValue = "";
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(
-      result.properties.name,
+      result.name,
       secretName,
       "Unexpected secret name in result from setSecret()."
     );
@@ -163,7 +163,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     await client.setSecret(secretName, secretValue);
     const result = await client.getSecret(secretName);
     assert.equal(
-      result.properties.name,
+      result.name,
       secretName,
       "Unexpected secret name in result from setSecret()."
     );
@@ -205,7 +205,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     const result = await client.getSecret(secretName);
 
     assert.equal(
-      result.properties.name,
+      result.name,
       secretName,
       "Unexpected secret name in result from setSecret()."
     );
@@ -288,7 +288,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
     let deletedSecret = deletePoller.getResult();
     assert.equal(
-      deletedSecret!.properties.name,
+      deletedSecret!.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
@@ -296,14 +296,14 @@ describe("Secret client - create, read, update and delete operations", () => {
     await deletePoller.pollUntilDone();
     deletedSecret = deletePoller.getResult();
     assert.equal(
-      deletedSecret!.properties.name,
+      deletedSecret!.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
 
     const getResult = await client.getDeletedSecret(secretName);
     assert.equal(
-      getResult.properties.name,
+      getResult.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );

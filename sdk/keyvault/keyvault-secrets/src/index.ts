@@ -85,9 +85,8 @@ export {
   SecretProperties,
   SecretPollerOptions,
   SetSecretOptions,
-  UpdateSecretOptions,
-  logger,
-  UpdateSecretPropertiesOptions
+  UpdateSecretPropertiesOptions,
+  logger
 };
 
 export { ProxyOptions, RetryOptions, TelemetryOptions };
@@ -213,7 +212,8 @@ export class SecretClient {
       const unflattenedProperties = {
         enabled: options.enabled,
         notBefore: options.notBefore,
-        expires: options.expiresOn
+        expires: options.expiresOn,
+        vaultUrl: options.vaultEndpoint,
       };
       const unflattenedOptions = {
         ...options,
@@ -870,7 +870,12 @@ export class SecretClient {
 
     let resultObject: KeyVaultSecret & DeletedSecret = {
       value: secretBundle.value,
+      name: (attributes as any).name,
       properties: {
+        vaultEndpoint: (attributes as any).vaultUrl,
+        expiresOn: (attributes as any).expires,
+        createdOn: (attributes as any).created,
+        updatedOn: (attributes as any).updated,
         ...secretBundle,
         ...parsedId,
         ...attributes
@@ -883,18 +888,19 @@ export class SecretClient {
     }
 
     if (attributes) {
+      if ((attributes as any).vaultUrl) {
+        delete (resultObject.properties as any).vaultUrl;
+      }
+ 
       if (attributes.expires) {
-        resultObject.properties.expiresOn = attributes.expires;
         delete (resultObject.properties as any).expires;
       }
 
       if (attributes.created) {
-        resultObject.properties.createdOn = attributes.created;
         delete (resultObject.properties as any).created;
       }
 
       if (attributes.updated) {
-        resultObject.properties.updatedOn = attributes.updated;
         delete (resultObject.properties as any).updated;
       }
     }
