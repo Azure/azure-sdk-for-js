@@ -596,6 +596,11 @@ describe("DirectoryClient", () => {
       );
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
+      assert.equal(
+        error.details.errorCode,
+        "ResourceNotFound",
+        "Error does not contain details property"
+      );
     }
     await subDirClient.delete({ spanOptions });
 
