@@ -7,7 +7,8 @@ import {
   deleteKeyCompletely,
   toSortedArray,
   assertEqualSettings,
-  assertThrowsRestError
+  assertThrowsRestError,
+  assertThrowsAbortError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 
@@ -140,9 +141,8 @@ describe("AppConfigurationClient", () => {
       const key = `addConfigTestTwice-${Date.now()}`;
       const label = "test";
       const value = "foo";
-
-      try {
-        const result = await client.addConfigurationSetting(
+      await assertThrowsAbortError(async () => {
+        await client.addConfigurationSetting(
           { key, label, value },
           {
             requestOptions: {
@@ -150,10 +150,7 @@ describe("AppConfigurationClient", () => {
             }
           }
         );
-        assert.fail("request should abort");
-      } catch (e) {
-        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
-      }
+      });
     });
   });
 
@@ -286,15 +283,11 @@ describe("AppConfigurationClient", () => {
       const result = await client.addConfigurationSetting({ key, label, value });
 
       // delete configuration
-
-      try {
-        const deletedSetting = await client.deleteConfigurationSetting(result, {
+      await assertThrowsAbortError(async () => {
+        await client.deleteConfigurationSetting(result, {
           requestOptions: { timeout: 1 }
         });
-        assert.fail("request should abort");
-      } catch (e) {
-        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
-      }
+      });
     });
   });
 
@@ -408,13 +401,9 @@ describe("AppConfigurationClient", () => {
       };
       const contentType = "application/json";
       const result = await client.addConfigurationSetting({ key, label, value, contentType, tags });
-
-      try {
+      await assertThrowsAbortError(async () => {
         await client.getConfigurationSetting({ key, label }, { requestOptions: { timeout: 1 } });
-        assert.fail("request should abort");
-      } catch (e) {
-        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
-      }
+      });
     });
   });
 
@@ -636,15 +625,12 @@ describe("AppConfigurationClient", () => {
     });
     */
     it("accepts operation options", async () => {
-      try {
+      await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
           requestOptions: { timeout: 1 }
         });
         await settingsIterator.next();
-        assert.fail("request should abort");
-      } catch (e) {
-        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
-      }
+      });
     });
   });
 
@@ -724,13 +710,10 @@ describe("AppConfigurationClient", () => {
     });
 
     it("accepts operation options", async () => {
-      try {
+      await assertThrowsAbortError(async () => {
         const iter = client.listRevisions({ labels: [labelA], requestOptions: { timeout: 1 } });
         await iter.next();
-        assert.fail("request should abort");
-      } catch (e) {
-        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
-      }
+      });
     });
   });
 
@@ -968,8 +951,7 @@ describe("AppConfigurationClient", () => {
       const key = `setConfigTestNA-${Date.now()}`;
       const label = "test";
       const value = "foo";
-
-      try {
+      await assertThrowsAbortError(async () => {
         const result = await client.setConfigurationSetting(
           { key, label, value: "foo" },
           {
@@ -978,11 +960,7 @@ describe("AppConfigurationClient", () => {
             }
           }
         );
-
-        assert.fail("request should abort");
-      } catch (e) {
-        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
-      }
+      });
     });
   });
 });

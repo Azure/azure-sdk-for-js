@@ -1,7 +1,8 @@
 import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
-  deleteKeyCompletely
+  deleteKeyCompletely,
+  assertThrowsAbortError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 import * as assert from "assert";
@@ -65,18 +66,11 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       label: testConfigSetting.label
     });
 
-    try {
+    await assertThrowsAbortError(async () => {
       await client.setReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
-      assert.fail("setReadOnly request should abort");
-    } catch (e) {
-      assert.equal(e.code, "REQUEST_ABORTED_ERROR");
-    }
-
-    try {
+    });
+    await assertThrowsAbortError(async () => {
       await client.clearReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
-      assert.fail("clearReadOnly request should abort");
-    } catch (e) {
-      assert.equal(e.code, "REQUEST_ABORTED_ERROR");
-    }
+    });
   });
 });
