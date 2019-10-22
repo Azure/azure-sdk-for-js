@@ -40,14 +40,14 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     assert.ok(poller.getOperationState().isStarted);
 
     // The pending key can be obtained this way:
-    assert.equal(poller.getOperationState().result!.properties.name, keyName);
+    assert.equal(poller.getOperationState().result!.name, keyName);
 
     const deletedKey: DeletedKey = await poller.pollUntilDone();
-    assert.equal(deletedKey.properties.name, keyName);
+    assert.equal(deletedKey.name, keyName);
     assert.ok(poller.getOperationState().isCompleted);
 
     // The final key can also be obtained this way:
-    assert.equal(poller.getOperationState().result!.properties.name, keyName);
+    assert.equal(poller.getOperationState().result!.name, keyName);
 
     await testClient.flushKey(keyName);
   });
@@ -81,7 +81,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
 
     assert.ok(poller.getOperationState().isStarted);
     const deletedKey: DeletedKey = await resumePoller.pollUntilDone();
-    assert.equal(deletedKey.properties.name, keyName);
+    assert.equal(deletedKey.name, keyName);
     assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.flushKey(keyName);
