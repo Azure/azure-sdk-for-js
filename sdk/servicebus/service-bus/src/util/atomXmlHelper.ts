@@ -257,8 +257,14 @@ function isKnownResponseCode(
  * Extracts the applicable entity name(s) from the URL based on the known structure
  * and instantiates the corresponding name properties to the deserialized response
  *
- * For instance, following is the URL structure for when creating a rule
- * `<namespace-component>/<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+ * The pattern matching checks to extract entity names are based on following
+ * constraints dictated by the service
+ * - '/' is allowed in Queue and Topic names
+ * - '/' is not allowed in Namespace, Subscription and Rule names
+ * - Valid pathname URL structures used in the ATOM based management API are
+ *     - `<namespace-component>/<topic-name>/Subscriptions/<subscription-name>/Rules/<rule-name>`
+ *     - `<namespace-component>/<topic-name>/Subscriptions/<subscription-name>`
+ *     - `<namespace-component>/<any-entity-name>`
  *
  * @param entry
  * @param nameProperties
@@ -277,10 +283,30 @@ function setName(entry: any, nameProperties: any): any {
 
     const parsedUrl = new URL(rawUrl);
     const pathname: string = parsedUrl.pathname;
-    const parts = pathname.split("/");
 
-    for (let i = 0; i * 2 < parts.length - 1; i++) {
-      entry[nameProperties[i]] = parts[i * 2 + 1];
+    const firstIndexOfDelimiter = pathname.indexOf("/");
+
+    if (pathname.match("(.*)/(.*)/Subscriptions/(.*)/Rules/(.*)")) {
+      const lastIndexOfSubscriptionsDelimiter = pathname.lastIndexOf("/Subscriptions/");
+      const firstIndexOfRulesDelimiter = pathname.indexOf("/Rules/");
+      entry[nameProperties[0]] = pathname.substring(
+        firstIndexOfDelimiter + 1,
+        lastIndexOfSubscriptionsDelimiter
+      );
+      entry[nameProperties[1]] = pathname.substring(
+        lastIndexOfSubscriptionsDelimiter + 15,
+        firstIndexOfRulesDelimiter
+      );
+      entry[nameProperties[2]] = pathname.substring(firstIndexOfRulesDelimiter + 7);
+    } else if (pathname.match("(.*)/(.*)/Subscriptions/(.*)")) {
+      const lastIndexOfSubscriptionsDelimiter = pathname.lastIndexOf("/Subscriptions/");
+      entry[nameProperties[0]] = pathname.substring(
+        firstIndexOfDelimiter + 1,
+        lastIndexOfSubscriptionsDelimiter
+      );
+      entry[nameProperties[1]] = pathname.substring(lastIndexOfSubscriptionsDelimiter + 15);
+    } else if (pathname.match("(.*)/(.*)")) {
+      entry[nameProperties[0]] = pathname.substring(firstIndexOfDelimiter + 1);
     }
   }
 }

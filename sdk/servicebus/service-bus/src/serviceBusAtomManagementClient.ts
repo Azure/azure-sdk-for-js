@@ -53,6 +53,8 @@ import {
   buildRule
 } from "./serializers/ruleResourceSerializer";
 
+const validQueueOrTopicNameRegex = /^[A-Za-z0-9]$|^[A-Za-z0-9][\w-\.\/\~]*[A-Za-z0-9]$/;
+
 /**
  * Options to use with ServiceBusAtomManagementClient creation
  */
@@ -296,6 +298,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * For example, you can configure a queue to support partitions or sessions
    */
   async createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse> {
+    if (!queueName.match(validQueueOrTopicNameRegex)) {
+      throw new Error(
+        "Invalid queue name, must match RegEx pattern '^[A-Za-z0-9]$|^[A-Za-z0-9][w-./~]*[A-Za-z0-9]$' "
+      );
+    }
+
     log.httpAtomXml(
       `Performing management operation - createQueue() for "${queueName}" with options: ${queueOptions}`
     );
@@ -386,6 +394,12 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * For example, you can configure a topic to support partitions or sessions
    */
   async createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse> {
+    if (!topicName.match(validQueueOrTopicNameRegex)) {
+      throw new Error(
+        "Invalid topic name, must match RegEx pattern '^[A-Za-z0-9]$|^[A-Za-z0-9][w-./~]*[A-Za-z0-9]$' "
+      );
+    }
+
     log.httpAtomXml(
       `Performing management operation - createTopic() for "${topicName}" with options: ${topicOptions}`
     );
