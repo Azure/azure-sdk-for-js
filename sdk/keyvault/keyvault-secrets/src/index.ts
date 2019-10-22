@@ -81,6 +81,7 @@ export {
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
+  SecretClientInterface,
   SecretProperties,
   SecretPollerOptions,
   SetSecretOptions,
