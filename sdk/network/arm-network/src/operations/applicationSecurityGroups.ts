@@ -93,9 +93,32 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,applicationSecurityGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationSecurityGroupName The name of the application security group.
+   * @param parameters Parameters supplied to update application security group tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationSecurityGroupName The name of the application security group.
+   * @param parameters Parameters supplied to update application security group tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): void;
+  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroup>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        applicationSecurityGroupName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>;
   }
 
   /**
@@ -190,26 +213,6 @@ export class ApplicationSecurityGroups {
   }
 
   /**
-   * Updates an application security group's tags.
-   * @param resourceGroupName The name of the resource group.
-   * @param applicationSecurityGroupName The name of the application security group.
-   * @param parameters Parameters supplied to update application security group tags.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        applicationSecurityGroupName,
-        parameters,
-        options
-      },
-      beginUpdateTagsOperationSpec,
-      options);
-  }
-
-  /**
    * Gets all application security groups in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -282,6 +285,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationSecurityGroup
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.applicationSecurityGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSecurityGroup
@@ -391,38 +426,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ApplicationSecurityGroup
     },
     201: {
-      bodyMapper: Mappers.ApplicationSecurityGroup
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.applicationSecurityGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.ApplicationSecurityGroup
     },
     default: {

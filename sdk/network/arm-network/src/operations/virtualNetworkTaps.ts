@@ -92,9 +92,32 @@ export class VirtualNetworkTaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkTapsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,tapName,tapParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkTapsUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkTapsUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param tapName The name of the tap.
+   * @param tapParameters Parameters supplied to update VirtualNetworkTap tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.VirtualNetworkTap>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param tapName The name of the tap.
+   * @param tapParameters Parameters supplied to update VirtualNetworkTap tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkTap>): void;
+  updateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkTap>, callback?: msRest.ServiceCallback<Models.VirtualNetworkTap>): Promise<Models.VirtualNetworkTapsUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        tapName,
+        tapParameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.VirtualNetworkTapsUpdateTagsResponse>;
   }
 
   /**
@@ -188,26 +211,6 @@ export class VirtualNetworkTaps {
   }
 
   /**
-   * Updates an VirtualNetworkTap tags.
-   * @param resourceGroupName The name of the resource group.
-   * @param tapName The name of the tap.
-   * @param tapParameters Parameters supplied to update VirtualNetworkTap tags.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdateTags(resourceGroupName: string, tapName: string, tapParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        tapName,
-        tapParameters,
-        options
-      },
-      beginUpdateTagsOperationSpec,
-      options);
-  }
-
-  /**
    * Gets all the VirtualNetworkTaps in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -280,6 +283,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkTap
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.tapName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "tapParameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.VirtualNetworkTap
@@ -389,38 +424,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.VirtualNetworkTap
     },
     201: {
-      bodyMapper: Mappers.VirtualNetworkTap
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.tapName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "tapParameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.VirtualNetworkTap
     },
     default: {

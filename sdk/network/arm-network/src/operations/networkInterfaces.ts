@@ -92,9 +92,32 @@ export class NetworkInterfaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfacesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,networkInterfaceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkInterfacesUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfacesUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param networkInterfaceName The name of the network interface.
+   * @param parameters Parameters supplied to update network interface tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.NetworkInterface>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param networkInterfaceName The name of the network interface.
+   * @param parameters Parameters supplied to update network interface tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterface>): void;
+  updateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterface>, callback?: msRest.ServiceCallback<Models.NetworkInterface>): Promise<Models.NetworkInterfacesUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        networkInterfaceName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.NetworkInterfacesUpdateTagsResponse>;
   }
 
   /**
@@ -405,26 +428,6 @@ export class NetworkInterfaces {
   }
 
   /**
-   * Updates a network interface tags.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkInterfaceName The name of the network interface.
-   * @param parameters Parameters supplied to update network interface tags.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdateTags(resourceGroupName: string, networkInterfaceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        networkInterfaceName,
-        parameters,
-        options
-      },
-      beginUpdateTagsOperationSpec,
-      options);
-  }
-
-  /**
    * Gets all route tables applied to a network interface.
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
@@ -621,6 +624,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterface
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.networkInterfaceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterface
@@ -866,38 +901,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NetworkInterface
     },
     201: {
-      bodyMapper: Mappers.NetworkInterface
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.networkInterfaceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.NetworkInterface
     },
     default: {
