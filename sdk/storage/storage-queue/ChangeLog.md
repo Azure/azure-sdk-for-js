@@ -9,7 +9,7 @@
     - Names of `Options` and `Responses` as per the new hierarchy of clients. [PR #5617](https://github.com/Azure/azure-sdk-for-js/pull/5617)
       - Example - `MessagesClearOptions` is renamed to `QueueClearMessagesOptions`, `MessagesEnqueueResponse` is renamed to `QueueSendMessageResponse`.
     - `DequeuedMessageItem` is renamed to `ReceivedMessageItem` [PR #5661](https://github.com/Azure/azure-sdk-for-js/pull/5661)
-- A new interface `CommonOptions` for options common to remote operations is exported. Currently, `CommonOptions` contains span options for tracing. [PR #5550](https://github.com/Azure/azure-sdk-for-js/pull/5550)
+- Created new interface `CommonOptions`. This interface is for standard options that apply to all methods that invoke remote operations. This interface currently contains options that enable client-side tracing of the SDK. [PR #5550](https://github.com/Azure/azure-sdk-for-js/pull/5550)
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
 - [Breaking] `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported and aliased with `Model` suffix.
   For example, after this change, `Models.QueueItem` becomes `QueueItemModel`. [PR #5534](https://github.com/Azure/azure-sdk-for-js/pull/5534)

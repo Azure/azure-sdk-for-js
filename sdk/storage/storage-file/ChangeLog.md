@@ -3,7 +3,7 @@
 ## 2019.10 12.0.0-preview.5
 
 - [Breaking] `IPRange` is renamed to `SasIPRange`. [PR #5551](https://github.com/Azure/azure-sdk-for-js/pull/5551)
-- A new interface `CommonOptions` for options common to remote operations is exported. Currently, `CommonOptions` contains span options for tracing. [PR #5550](https://github.com/Azure/azure-sdk-for-js/pull/5550)
+- Created new interface `CommonOptions`. This interface is for standard options that apply to all methods that invoke remote operations. This interface currently contains options that enable client-side tracing of the SDK. [PR #5550](https://github.com/Azure/azure-sdk-for-js/pull/5550)
 - `offset` parameter is optional in `downloadToBuffer` method of `FileClient`. [PR #5592](https://github.com/Azure/azure-sdk-for-js/pull/5592)
 - Async iterator with pagination support is added to list Handles - `listHandles` [PR #5536](https://github.com/Azure/azure-sdk-for-js/pull/5536)
 - [Breaking] `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported. [PR #5532](https://github.com/Azure/azure-sdk-for-js/pull/5532)
