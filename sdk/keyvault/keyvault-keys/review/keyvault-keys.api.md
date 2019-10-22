@@ -57,14 +57,14 @@ export class CryptographyClient {
     // Warning: (ae-forgotten-export) The symbol "SignOptions" needs to be exported by the entry point index.d.ts
     sign(algorithm: KeySignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
-    // Warning: (ae-forgotten-export) The symbol "UnwrapOptions" needs to be exported by the entry point index.d.ts
-    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapOptions): Promise<UnwrapResult>;
+    // Warning: (ae-forgotten-export) The symbol "UnwrapKeyOptions" needs to be exported by the entry point index.d.ts
+    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
     readonly vaultBaseUrl: string;
     // Warning: (ae-forgotten-export) The symbol "VerifyOptions" needs to be exported by the entry point index.d.ts
     verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     verifyData(algorithm: KeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
-    // Warning: (ae-forgotten-export) The symbol "WrapOptions" needs to be exported by the entry point index.d.ts
-    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapOptions): Promise<WrapResult>;
+    // Warning: (ae-forgotten-export) The symbol "WrapKeyOptions" needs to be exported by the entry point index.d.ts
+    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "CryptographyOptions" needs to be exported by the entry point index.d.ts
@@ -196,7 +196,7 @@ export class KeyClient {
     readonly pipeline: ServiceClientOptions;
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
-    updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<KeyVaultKey>;
+    updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultEndpoint: string;
 }
 
@@ -311,7 +311,7 @@ export interface UnwrapResult {
 }
 
 // @public
-export interface UpdateKeyOptions extends coreHttp.RequestOptionsBase {
+export interface UpdateKeyPropertiesOptions extends coreHttp.RequestOptionsBase {
     enabled?: boolean;
     expiresOn?: Date;
     keyOps?: JsonWebKeyOperation[];

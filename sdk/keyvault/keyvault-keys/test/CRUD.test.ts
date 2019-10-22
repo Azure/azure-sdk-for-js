@@ -31,7 +31,7 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // The tests follow
 
-  it("can create a key while giving a manual type", async () {
+  it("can create a key while giving a manual type", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const result = await client.createKey(keyName, "RSA");
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
@@ -199,7 +199,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.purgeKey(keyName);
   });
 
-  it("delete nonexisting key", async () {
+  it("delete nonexisting key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     try {
       await client.getKey(keyName);

@@ -535,7 +535,7 @@ export class KeyClient {
   }
 
   /**
-   * The updateKey method changes specified properties of an existing stored key. Properties that
+   * The updateKeyProperties method changes specified properties of an existing stored key. Properties that
    * are not specified in the request are left unchanged. The value of a key itself cannot be
    * changed. This operation requires the keys/set permission.
    *
@@ -544,7 +544,7 @@ export class KeyClient {
    * let keyName = "MyKey";
    * let client = new KeyClient(url, credentials);
    * let key = await client.getKey(keyName);
-   * let result = await client.updateKey(keyName, key.version, { enabled: false });
+   * let result = await client.updateKeyProperties(keyName, key.version, { enabled: false });
    * ```
    * @summary Updates the properties associated with a specified key in a given key vault.
    * @param name The name of the key.

@@ -215,11 +215,11 @@ This will create a new version of the same key, which will have the latest
 provided attributes.
 
 Attributes can also be updated to an existing key version with
-`updateKey`, as follows:
+`updateKeyProperties`, as follows:
 
 ```javascript
 const result = await client.createKey(keyName, "RSA");
-await client.updateKey(keyName, result.properties.version, {
+await client.updateKeyProperties(keyName, result.properties.version, {
   enabled: false
 });
 ```
