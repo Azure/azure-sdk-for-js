@@ -32,7 +32,8 @@ export const AuthenticationErrorName = "AuthenticationError";
 
 // @public
 export class AuthorizationCodeCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, clientSecret: string | undefined, authorizationCode: string, redirectUri: string, options?: IdentityClientOptions);
+    constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: IdentityClientOptions);
+    constructor(tenantId: string | "common", clientId: string, authorizationCode: string, redirectUri: string, options?: IdentityClientOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
@@ -64,7 +65,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
 // @public
 export class DeviceCodeCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, userPromptCallback: DeviceCodePromptCallback, options?: IdentityClientOptions);
+    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback: DeviceCodePromptCallback, options?: IdentityClientOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
@@ -106,15 +107,17 @@ export interface IdentityClientOptions extends ServiceClientOptions {
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions);
+    constructor(options?: InteractiveBrowserCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
 // @public
 export interface InteractiveBrowserCredentialOptions extends IdentityClientOptions {
+    clientId?: string;
     loginStyle?: BrowserLoginStyle;
     postLogoutRedirectUri?: string | (() => string);
     redirectUri?: string | (() => string);
+    tenantId?: string;
 }
 
 // @public
@@ -122,7 +125,8 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
-    constructor(clientId?: string, options?: IdentityClientOptions);
+    constructor(clientId: string, options?: IdentityClientOptions);
+    constructor(options?: IdentityClientOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 

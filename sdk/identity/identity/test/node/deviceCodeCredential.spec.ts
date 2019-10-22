@@ -55,7 +55,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions }
     );
 
     const accessToken = await credential.getToken("scope");
@@ -92,7 +92,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions }
     );
 
     await credential.getToken("scope");
@@ -136,7 +136,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions, }
     );
 
     await credential.getToken("scope");
@@ -169,7 +169,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -198,7 +198,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -221,7 +221,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -252,7 +252,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions }
     );
 
     await assertRejects(credential.getToken("scope"), (error) => {
@@ -283,7 +283,7 @@ describe("DeviceCodeCredential", function() {
         "tenant",
         "client",
         (details) => assert.equal(details.message, deviceCodeResponse.message),
-        mockHttpClient.identityClientOptions
+        { ...mockHttpClient.identityClientOptions }
       );
 
       const abortController = new AbortController();
@@ -321,7 +321,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions }
     );
 
     await credential.getToken("scope", {
