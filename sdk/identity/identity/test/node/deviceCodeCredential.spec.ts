@@ -356,6 +356,8 @@ describe("DeviceCodeCredential", function() {
                 {
                   name: "Azure.Identity.DeviceCodeCredential-pollForToken",
                   children: [
+                    // We see 4 traces from core-http here because the client in
+                    // this test polls 4 times for the authorization code.
                     {
                       children: [],
                       name: "core-http"
