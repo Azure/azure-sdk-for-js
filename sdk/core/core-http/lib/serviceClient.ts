@@ -715,9 +715,9 @@ export function createPipelineFromOptions(
     )
   );
 
-  if (pipelineOptions.requestPolicyFilter) {
-    // If the filter function throws an exception, let it bubble up.
-    requestPolicyFactories = pipelineOptions.requestPolicyFilter(requestPolicyFactories);
+  if (pipelineOptions.updatePipelinePolicies) {
+    // If the update function throws an exception, let it bubble up.
+    requestPolicyFactories = pipelineOptions.updatePipelinePolicies(requestPolicyFactories);
   }
 
   return {

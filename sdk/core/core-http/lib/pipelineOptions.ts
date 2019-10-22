@@ -55,7 +55,7 @@ export interface PipelineOptions {
    * case scenarios. If the function does not modify the array of
    * RequestPolicyFactory, it must return the original array it was given.
    */
-  requestPolicyFilter?: (requestPolicyFactories: RequestPolicyFactory[]) => RequestPolicyFactory[];
+  updatePipelinePolicies?: (requestPolicyFactories: RequestPolicyFactory[]) => RequestPolicyFactory[];
 }
 
 /**
