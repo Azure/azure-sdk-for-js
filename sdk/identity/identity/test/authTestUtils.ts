@@ -58,7 +58,9 @@ export class MockAuthHttpClient implements HttpClient {
     this.identityClientOptions = {
       authorityHost: "https://authority",
       httpClient: this,
-      noRetryPolicy: true
+      retryOptions: {
+        maxRetries: 0
+      }
     };
   }
 

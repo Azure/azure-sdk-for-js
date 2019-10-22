@@ -346,11 +346,33 @@ describe("DeviceCodeCredential", function() {
               children: [
                 {
                   name: "Azure.Identity.DeviceCodeCredential-sendDeviceCodeRequest",
-                  children: []
+                  children: [
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 },
                 {
                   name: "Azure.Identity.DeviceCodeCredential-pollForToken",
-                  children: []
+                  children: [
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    },
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 }
               ]
             }
