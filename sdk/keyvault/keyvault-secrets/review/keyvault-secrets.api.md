@@ -105,7 +105,7 @@ export interface RecoverDeletedSecretPollOperationState extends PollOperationSta
 }
 
 // @public
-export interface RestoreSecretOptions extends coreHttp.RequestOptionsBase {
+export interface RestoreSecretBackupOptions extends coreHttp.RequestOptionsBase {
 }
 
 // @public
@@ -129,7 +129,7 @@ export class SecretClient {
     listPropertiesOfSecretVersions(secretName: string, options?: ListOperationOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
     readonly pipeline: ServiceClientOptions;
     purgeDeletedSecret(secretName: string, options?: PurgeDeletedSecretOptions): Promise<void>;
-    restoreSecret(secretBundleBackup: Uint8Array, options?: RestoreSecretOptions): Promise<SecretProperties>;
+    restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
     readonly vaultEndpoint: string;

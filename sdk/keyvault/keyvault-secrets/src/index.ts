@@ -51,7 +51,7 @@ import {
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
-  RestoreSecretOptions,
+  RestoreSecretBackupOptions,
   ListOperationOptions,
   SecretProperties
 } from "./secretsModels";
@@ -73,7 +73,7 @@ export {
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
-  RestoreSecretOptions,
+  RestoreSecretBackupOptions,
   ListOperationOptions,
   PagedAsyncIterableIterator,
   PageSettings,
@@ -159,13 +159,12 @@ export class SecretClient {
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
-      }
+      };
     }
 
-    const authPolicy =
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+    const authPolicy = isTokenCredential(credential)
+      ? challengeBasedAuthenticationPolicy(credential)
+      : signingPolicy(credential);
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -181,7 +180,7 @@ export class SecretClient {
           }
         }
       }
-    }
+    };
 
     this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
@@ -531,17 +530,17 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * let mySecretBundle = await client.backupSecret("MySecretName");
    * // ...
-   * await client.restoreSecret(mySecretBundle);
+   * await client.restoreSecretBackup(mySecretBundle);
    * ```
    * @summary Restores a backed up secret to a vault.
    * @param secretBundleBackup The backup blob associated with a secret bundle.
    * @param [options] The optional parameters
    */
-  public async restoreSecret(
+  public async restoreSecretBackup(
     secretBundleBackup: Uint8Array,
-    options?: RestoreSecretOptions
+    options?: RestoreSecretBackupOptions
   ): Promise<SecretProperties> {
-    const span = this.createSpan("restoreSecret", options);
+    const span = this.createSpan("restoreSecretBackup", options);
 
     let response: RestoreSecretResponse;
 

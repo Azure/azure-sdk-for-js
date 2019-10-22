@@ -267,9 +267,9 @@ export interface BackupSecretOptions extends coreHttp.RequestOptionsBase {}
 
 /**
  * @interface
- * An interface representing optional parameters for the restoreSecret method
+ * An interface representing optional parameters for the restoreSecretBackup method
  */
-export interface RestoreSecretOptions extends coreHttp.RequestOptionsBase {}
+export interface RestoreSecretBackupOptions extends coreHttp.RequestOptionsBase {}
 
 /**
  * @interface
