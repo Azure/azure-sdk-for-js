@@ -1028,7 +1028,7 @@ export class ContainerClient extends StorageClient {
    * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the container.
    * @memberof ContainerClient
    */
-  public getLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
+  public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
     return new BlobLeaseClient(this, proposeLeaseId);
   }
 
