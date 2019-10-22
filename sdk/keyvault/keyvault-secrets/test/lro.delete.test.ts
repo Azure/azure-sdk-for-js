@@ -35,14 +35,14 @@ describe("Secrets client - Long Running Operations - delete", () => {
     );
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName);
-    assert.ok(poller.getOperationState().started);
+    assert.ok(poller.getOperationState().isStarted);
 
     // The pending deleted secret can be obtained this way:
     assert.equal(poller.getOperationState().result!.properties.name, secretName);
 
     const deletedSecret: DeletedSecret = await poller.pollUntilDone();
     assert.equal(deletedSecret.properties.name, secretName);
-    assert.ok(poller.getOperationState().completed);
+    assert.ok(poller.getOperationState().isCompleted);
 
     // The final secret can also be obtained this way:
     assert.equal(poller.getOperationState().result!.properties.name, secretName);
@@ -56,7 +56,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
     );
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName);
-    assert.ok(poller.getOperationState().started);
+    assert.ok(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
@@ -66,7 +66,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
     poller.stopPolling();
     assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().completed);
+    assert.ok(!poller.getOperationState().isCompleted);
 
     const serialized = poller.toString();
 
@@ -74,10 +74,10 @@ describe("Secrets client - Long Running Operations - delete", () => {
       resumeFrom: serialized
     });
 
-    assert.ok(resumePoller.getOperationState().started);
+    assert.ok(resumePoller.getOperationState().isStarted);
     const deletedSecret: DeletedSecret = await resumePoller.pollUntilDone();
     assert.equal(deletedSecret.properties.name, secretName);
-    assert.ok(resumePoller.getOperationState().completed);
+    assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.purgeSecret(secretName);
   });

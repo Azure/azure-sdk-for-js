@@ -9,6 +9,7 @@ import { delay, WebResource, HttpHeaders, isNode } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";
 import { PollerStoppedError, PollerCancelledError } from "../src";
 import { TestTokenCredential } from "./utils/testTokenCredential";
+import { TestOperationState } from "./utils/testOperation";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
@@ -51,12 +52,12 @@ describe("Long Running Operations - custom client", function() {
     const result = await poller.pollUntilDone();
 
     // Checking the serialized version of the operation
-    let serializedOperation = JSON.parse(poller.toString());
-    assert.ok(serializedOperation.state.started);
+    let serializedOperation: { state: TestOperationState } = JSON.parse(poller.toString());
+    assert.ok(serializedOperation.state.isStarted);
 
     assert.ok(poller.initialResponse!.parsedBody.started);
     assert.ok(poller.previousResponse!.parsedBody.finished);
-    assert.ok(poller.getOperationState().completed);
+    assert.ok(poller.getOperationState().isCompleted);
     assert.equal(result, "Done");
   });
 
@@ -96,7 +97,7 @@ describe("Long Running Operations - custom client", function() {
 
     await poller.pollUntilDone();
     assert.ok(poller.previousResponse!.parsedBody.finished);
-    assert.ok(poller.getOperationState().completed);
+    assert.ok(poller.getOperationState().isCompleted);
 
     result = await poller.getResult();
     assert.equal(result, "Done");
@@ -127,7 +128,7 @@ describe("Long Running Operations - custom client", function() {
     assert.equal(client.totalSentRequests, 11);
 
     await poller.cancelOperation();
-    assert.ok(poller.getOperationState().cancelled);
+    assert.ok(poller.getOperationState().isCancelled);
 
     // Cancelling a poller stops it
     assert.ok(poller.isStopped());

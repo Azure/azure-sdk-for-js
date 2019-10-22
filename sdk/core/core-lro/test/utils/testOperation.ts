@@ -33,10 +33,10 @@ async function update(
   if (!initialResponse) {
     response = await client.sendInitialRequest(new TestWebResource(abortSignal));
     this.state.initialResponse = response;
-    this.state.started = true;
+    this.state.isStarted = true;
   } else if (doFinalResponse) {
     response = await client.sendFinalRequest(new TestWebResource(abortSignal));
-    this.state.completed = true;
+    this.state.isCompleted = true;
     this.state.result = "Done";
     this.state.previousResponse = response;
   } else {
@@ -81,7 +81,7 @@ async function cancel(
 
   return makeOperation({
     ...this.state,
-    cancelled: true,
+    isCancelled: true,
     previousResponse: response
   });
 }
