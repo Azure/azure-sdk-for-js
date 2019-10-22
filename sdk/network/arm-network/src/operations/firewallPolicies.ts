@@ -72,42 +72,6 @@ export class FirewallPolicies {
   }
 
   /**
-   * Updates a Firewall Policy Tags.
-   * @param resourceGroupName The resource group name of the Firewall Policy.
-   * @param firewallPolicyName The name of the Firewall Policy being updated.
-   * @param firewallPolicyParameters Parameters supplied to Update Firewall Policy tags.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.FirewallPoliciesUpdateTagsResponse>
-   */
-  updateTags(resourceGroupName: string, firewallPolicyName: string, firewallPolicyParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.FirewallPoliciesUpdateTagsResponse>;
-  /**
-   * @param resourceGroupName The resource group name of the Firewall Policy.
-   * @param firewallPolicyName The name of the Firewall Policy being updated.
-   * @param firewallPolicyParameters Parameters supplied to Update Firewall Policy tags.
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, firewallPolicyName: string, firewallPolicyParameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.FirewallPolicy>): void;
-  /**
-   * @param resourceGroupName The resource group name of the Firewall Policy.
-   * @param firewallPolicyName The name of the Firewall Policy being updated.
-   * @param firewallPolicyParameters Parameters supplied to Update Firewall Policy tags.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, firewallPolicyName: string, firewallPolicyParameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallPolicy>): void;
-  updateTags(resourceGroupName: string, firewallPolicyName: string, firewallPolicyParameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallPolicy>, callback?: msRest.ServiceCallback<Models.FirewallPolicy>): Promise<Models.FirewallPoliciesUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        firewallPolicyName,
-        firewallPolicyParameters,
-        options
-      },
-      updateTagsOperationSpec,
-      callback) as Promise<Models.FirewallPoliciesUpdateTagsResponse>;
-  }
-
-  /**
    * Creates or updates the specified Firewall Policy.
    * @param resourceGroupName The name of the resource group.
    * @param firewallPolicyName The name of the Firewall Policy.
@@ -290,38 +254,6 @@ const getOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.firewallPolicyName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "firewallPolicyParameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.FirewallPolicy
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
