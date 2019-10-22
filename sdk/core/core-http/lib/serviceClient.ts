@@ -619,7 +619,7 @@ export function createPipelineFromOptions(
 ) : ServiceClientOptions {
   let requestPolicyFactories: RequestPolicyFactory[] = [];
 
-  let userAgentPrefix = undefined;
+  let userAgentValue = undefined;
   if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {
     const userAgentInfo: string[] = [];
     userAgentInfo.push(pipelineOptions.userAgentOptions.userAgentPrefix);
@@ -631,7 +631,7 @@ export function createPipelineFromOptions(
       userAgentInfo.push(defaultUserAgentInfo);
     }
 
-    userAgentPrefix = userAgentInfo.join(" ");
+    userAgentValue = userAgentInfo.join(" ");
   }
 
   const keepAliveOptions = {
@@ -669,7 +669,7 @@ export function createPipelineFromOptions(
   requestPolicyFactories.push(
     tracingPolicy(),
     keepAlivePolicy(keepAliveOptions),
-    userAgentPolicy({ value: userAgentPrefix }),
+    userAgentPolicy({ value: userAgentValue }),
     generateClientRequestIdPolicy(),
     deserializationPolicy(deserializationOptions.expectedContentTypes),
     throttlingRetryPolicy(),
