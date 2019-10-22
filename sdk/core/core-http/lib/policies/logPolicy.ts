@@ -10,7 +10,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { AzureLogger } from "@azure/logger";
+import { Debugger } from "@azure/logger";
 import { logger as coreLogger, logger } from "../log";
 
 export interface LogPolicyOptions {
@@ -34,14 +34,14 @@ export interface LogPolicyOptions {
  */
 export interface LoggingOptions {
   /**
-   * The AzureLogger instance to use for writing pipeline logs.
+   * The Debugger (logger) instance to use for writing pipeline logs.
    */
-  logger: AzureLogger,
+  logger?: Debugger,
 
   /**
    * Options to pass to the logPolicy factory.
    */
-  logPolicyOptions: LogPolicyOptions
+  logPolicyOptions?: LogPolicyOptions
 }
 
 const RedactedString = "REDACTED";
@@ -77,8 +77,14 @@ const defaultAllowedQueryParameters: string[] = [
 ];
 
 export const DefaultLogPolicyOptions: LogPolicyOptions = {
-  allowedHeaderNames: [],      // These are empty lists because they are additive to
-  allowedQueryParameters: []   // the real defaultAllowed[HeaderNames|QueryParameters].
+}
+
+export const DefaultLoggingOptions: LoggingOptions = {
+  logger: undefined,
+  logPolicyOptions: {
+    allowedHeaderNames: [],      // These are empty lists because they are additive to
+    allowedQueryParameters: []   // the real defaultAllowed[HeaderNames|QueryParameters].
+  }
 }
 
 export function logPolicy(

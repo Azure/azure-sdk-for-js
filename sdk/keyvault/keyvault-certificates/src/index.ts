@@ -252,8 +252,8 @@ export class CertificateClient {
     const internalPipelineOptions = {
       ...pipelineOptions,
       ...{
-        loggerOptions: {
-          logger,
+        loggingOptions: {
+          logger: logger.info,
           logPolicyOptions: {
             allowedHeaderNames: [
               "x-ms-keyvault-region",
