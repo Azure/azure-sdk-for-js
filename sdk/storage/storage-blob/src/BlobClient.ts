@@ -994,7 +994,7 @@ export class BlobClient extends StorageClient {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
 
-      if (!res.eTag) {
+      if (!res.etag) {
         throw new RangeError(`File download response doesn't contain valid etag header`);
       }
 
@@ -1004,7 +1004,7 @@ export class BlobClient extends StorageClient {
           const updatedOptions: BlobDownloadOptionalParams = {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: {
-              ifMatch: options.conditions!.ifMatch || res.eTag,
+              ifMatch: options.conditions!.ifMatch || res.etag,
               ifModifiedSince: options.conditions!.ifModifiedSince,
               ifNoneMatch: options.conditions!.ifNoneMatch,
               ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince

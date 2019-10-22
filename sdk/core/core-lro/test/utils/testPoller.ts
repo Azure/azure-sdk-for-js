@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { delay, RequestOptionsBase, HttpOperationResponse } from "@azure/core-http";
 import { Poller } from "../../src";
 import { TestServiceClient } from "./testServiceClient";

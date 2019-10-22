@@ -327,7 +327,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareCreateHeaders
     }
   },
   isXML: true,
@@ -353,7 +354,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -380,7 +382,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareDeleteHeaders
     }
   },
   isXML: true,
@@ -407,7 +410,8 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareCreateSnapshotHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareCreateSnapshotHeaders
     }
   },
   isXML: true,
@@ -441,7 +445,8 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareCreatePermissionHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareCreatePermissionHeaders
     }
   },
   isXML: false,
@@ -469,7 +474,8 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareGetPermissionHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareGetPermissionHeaders
     }
   },
   isXML: true,
@@ -496,7 +502,8 @@ const setQuotaOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareSetQuotaHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareSetQuotaHeaders
     }
   },
   isXML: true,
@@ -523,7 +530,8 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareSetMetadataHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareSetMetadataHeaders
     }
   },
   isXML: true,
@@ -562,7 +570,8 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareGetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareGetAccessPolicyHeaders
     }
   },
   isXML: true,
@@ -609,7 +618,8 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareSetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareSetAccessPolicyHeaders
     }
   },
   isXML: true,
@@ -636,7 +646,8 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ShareGetStatisticsHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareGetStatisticsHeaders
     }
   },
   isXML: true,

@@ -318,8 +318,8 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
    * @type {(string | undefined)}
    * @memberof BlobDownloadResponse
    */
-  public get eTag(): string | undefined {
-    return this.originalResponse.eTag;
+  public get etag(): string | undefined {
+    return this.originalResponse.etag;
   }
 
   public get errorCode(): string | undefined {

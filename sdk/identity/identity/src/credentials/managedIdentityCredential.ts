@@ -9,7 +9,7 @@ import {
   RestError,
   TokenCredential
 } from "@azure/core-http";
-import { IdentityClientOptions, IdentityClient } from "../client/identityClient";
+import { IdentityClient, IdentityClientOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
@@ -34,9 +34,33 @@ export class ManagedIdentityCredential implements TokenCredential {
   private clientId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
 
-  constructor(clientId?: string, options?: IdentityClientOptions) {
-    this.identityClient = new IdentityClient(options);
-    this.clientId = clientId;
+  /**
+   * Creates an instance of ManagedIdentityCredential with a client ID
+   * 
+   * @param clientId The client (application) ID of an App Registration in the tenant.
+   * @param options Options for configuring the client which makes the access token request.
+   */
+  constructor(clientId: string, options?: IdentityClientOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential
+   * 
+   * @param options Options for configuring the client which makes the access token request.
+   */
+  constructor(options?: IdentityClientOptions);
+  /**
+   * @internal
+   * @ignore   
+   */
+  constructor(clientIdOrOptions: string | IdentityClientOptions | undefined, options?: IdentityClientOptions) {
+
+    if (typeof clientIdOrOptions === "string") {
+      // clientId, options constructor
+      this.clientId = clientIdOrOptions;
+      this.identityClient = new IdentityClient(options); 
+    } else {
+      // options only constructor
+      this.identityClient = new IdentityClient(clientIdOrOptions); 
+    }
   }
 
   private mapScopesToResource(scopes: string | string[]): string {

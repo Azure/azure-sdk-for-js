@@ -196,3 +196,12 @@ directive:
     transform: >
       $["x-ms-client-name"] = "fileChangeOn";
 ```
+
+### Rename eTag -> etag
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]..responses..headers["ETag"]
+  transform: >
+    $["x-ms-client-name"] = "etag";
+```

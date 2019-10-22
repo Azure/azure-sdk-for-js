@@ -69,7 +69,7 @@ describe("DirectoryClient", () => {
 
   it("getProperties", async () => {
     const result = await dirClient.getProperties();
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -596,6 +596,11 @@ describe("DirectoryClient", () => {
       );
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
+      assert.equal(
+        error.details.errorCode,
+        "ResourceNotFound",
+        "Error does not contain details property"
+      );
     }
     await subDirClient.delete({ spanOptions });
 

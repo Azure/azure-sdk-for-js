@@ -336,7 +336,7 @@ describe("Highlevel", () => {
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
       conditions: {
-        ifMatch: uploadResponse.eTag
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 1,
       onProgress: (ev) => {
@@ -368,7 +368,7 @@ describe("Highlevel", () => {
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
       conditions: {
-        ifMatch: uploadResponse.eTag
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 3,
       onProgress: () => {
@@ -402,7 +402,7 @@ describe("Highlevel", () => {
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, partialSize, {
       conditions: {
-        ifMatch: uploadResponse.eTag
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 3,
       onProgress: () => {
@@ -439,7 +439,7 @@ describe("Highlevel", () => {
     try {
       const downloadResponse = await blockBlobClient.download(0, undefined, {
         conditions: {
-          ifMatch: uploadResponse.eTag
+          ifMatch: uploadResponse.etag
         },
         maxRetryRequests: 0,
         onProgress: () => {
@@ -475,7 +475,7 @@ describe("Highlevel", () => {
       const downloadResponse = await blockBlobClient.download(0, undefined, {
         abortSignal: aborter.signal,
         conditions: {
-          ifMatch: uploadResponse.eTag
+          ifMatch: uploadResponse.etag
         },
         maxRetryRequests: 3,
         onProgress: () => {

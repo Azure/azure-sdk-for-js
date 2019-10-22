@@ -26,7 +26,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
   constructor(identityClientOptions?: IdentityClientOptions) {
     super(
       new EnvironmentCredential(identityClientOptions),
-      new ManagedIdentityCredential(undefined, identityClientOptions)
+      new ManagedIdentityCredential(identityClientOptions)
     );
   }
 }
