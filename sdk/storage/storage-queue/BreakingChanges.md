@@ -22,6 +22,7 @@
     - `permissions: QueueSASPermissions.parse("racwd").toString()` changes to `QueueSASPermissions.parse("racwd")`
 - [Breaking] Appropriate attribute renames in all the interfaces [PR #5629](https://github.com/Azure/azure-sdk-for-js/pull/5629)
   - Example - `nextMarker` -> `continuationToken`, `HTTPClient` -> `HttpClient`, `permission` -> `permissions`
+- [Breaking] IE11 needs `Object.assign` polyfill loaded. [PR #5727](https://github.com/Azure/azure-sdk-for-js/pull/5727)
 
 ### 2019.10 Version 12.0.0-preview.3
 
