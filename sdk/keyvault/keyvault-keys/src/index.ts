@@ -52,7 +52,6 @@ import { RecoverDeletedKeyPollOperationState } from "./lro/recover/operation";
 
 import {
   ParsedKeyVaultEntityIdentifier,
-  Pipeline,
 } from "./core/keyVaultBase";
 import {
   BackupKeyOptions,
@@ -1152,8 +1151,7 @@ export class KeyClient {
 
     const attributes = keyItem.attributes || {};
 
-    let resultObject = {
-      expiresOn: attributes.expires,
+    let resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       vaultEndpoint: parsedId.vaultUrl,
@@ -1164,8 +1162,9 @@ export class KeyClient {
 
     delete resultObject.attributes;
 
-		if (resultObject.properties.expires) {
-      delete (resultObject.properties as any).expires;
+		if (keyItem.attributes!.expires) {
+      resultObject.expiresOn = keyItem.attributes!.expires;
+      delete resultObject.expires;
     }
 
     return resultObject;
