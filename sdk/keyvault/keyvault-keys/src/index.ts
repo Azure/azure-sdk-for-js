@@ -50,9 +50,7 @@ import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
 import { DeleteKeyPollOperationState } from "./lro/delete/operation";
 import { RecoverDeletedKeyPollOperationState } from "./lro/recover/operation";
 
-import {
-  ParsedKeyVaultEntityIdentifier,
-} from "./core/keyVaultBase";
+import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   BackupKeyOptions,
   CreateEcKeyOptions,
@@ -70,7 +68,7 @@ import {
   KeyProperties,
   KeyVaultKey,
   ListKeysOptions,
-  UpdateKeyOptions
+  UpdateKeyPropertiesOptions
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
@@ -125,7 +123,7 @@ export {
   RecoverDeletedKeyPollOperationState,
   SignResult,
   UnwrapResult,
-  UpdateKeyOptions,
+  UpdateKeyPropertiesOptions,
   VerifyResult,
   WrapResult,
   logger
@@ -202,13 +200,12 @@ export class KeyClient {
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
-      }
+      };
     }
 
-    const authPolicy =
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+    const authPolicy = isTokenCredential(credential)
+      ? challengeBasedAuthenticationPolicy(credential)
+      : signingPolicy(credential);
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -224,7 +221,7 @@ export class KeyClient {
           }
         }
       }
-    }
+    };
 
     this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
@@ -554,10 +551,10 @@ export class KeyClient {
    * @param keyVersion The version of the key.
    * @param [options] The optional parameters
    */
-  public async updateKey(
+  public async updateKeyProperties(
     name: string,
     keyVersion: string,
-    options?: UpdateKeyOptions
+    options?: UpdateKeyPropertiesOptions
   ): Promise<KeyVaultKey> {
     if (options) {
       const unflattenedProperties = {
@@ -1162,7 +1159,7 @@ export class KeyClient {
 
     delete resultObject.attributes;
 
-		if (keyItem.attributes!.expires) {
+    if (keyItem.attributes!.expires) {
       resultObject.expiresOn = keyItem.attributes!.expires;
       delete resultObject.expires;
     }

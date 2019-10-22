@@ -290,7 +290,7 @@ export interface ImportKeyOptions extends coreHttp.RequestOptionsBase {
  * @interface
  * An interface representing optional parameters that can be passed to updateKey.
  */
-export interface UpdateKeyOptions extends coreHttp.RequestOptionsBase {
+export interface UpdateKeyPropertiesOptions extends coreHttp.RequestOptionsBase {
   /**
    * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
    * information on possible key operations, see JsonWebKeyOperation.

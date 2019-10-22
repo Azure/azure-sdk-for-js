@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { KeyClient, CreateEcKeyOptions, UpdateKeyOptions, GetKeyOptions } from "../src";
+import { KeyClient, CreateEcKeyOptions, UpdateKeyPropertiesOptions, GetKeyOptions } from "../src";
 import { RestError, isNode } from "@azure/core-http";
 import { isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
@@ -31,7 +31,7 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // The tests follow
 
-  it("can create a key while giving a manual type", async function() {
+  it("can create a key while giving a manual type", async () {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const result = await client.createKey(keyName, "RSA");
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
@@ -156,8 +156,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can update key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const { version } = (await client.createRsaKey(keyName)).properties;
-    const options: UpdateKeyOptions = { enabled: false };
-    const result = await client.updateKey(keyName, version || "", options);
+    const options: UpdateKeyPropertiesOptions = { enabled: false };
+    const result = await client.updateKeyProperties(keyName, version || "", options);
     assert.equal(result.properties.enabled, false, "Unexpected enabled value from updateKey().");
     await testClient.flushKey(keyName);
   });
@@ -170,8 +170,8 @@ describe("Keys client - create, read, update and delete operations", () => {
     const { version } = (await client.createRsaKey(keyName, createOptions)).properties;
     const expiresOn = new Date("2019-01-01");
     expiresOn.setMilliseconds(0);
-    const updateOptions: UpdateKeyOptions = { expiresOn };
-    const result = await client.updateKey(keyName, version || "", updateOptions);
+    const updateOptions: UpdateKeyPropertiesOptions = { expiresOn };
+    const result = await client.updateKeyProperties(keyName, version || "", updateOptions);
     assert.equal(
       result!.properties.expiresOn!.getTime(),
       expiresOn.getTime(),
@@ -199,7 +199,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.purgeKey(keyName);
   });
 
-  it("delete nonexisting key", async function() {
+  it("delete nonexisting key", async () {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     try {
       await client.getKey(keyName);
