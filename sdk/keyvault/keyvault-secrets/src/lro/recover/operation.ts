@@ -43,28 +43,28 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  if (!state.isStarted) {
+  if (!state.started) {
     try {
       state.result = (await client.getSecret(name, { requestOptions })).properties;
-      state.isCompleted = true;
+      state.completed = true;
     } catch (_) {}
-    if (!state.isCompleted) {
+    if (!state.completed) {
       state.result = await client.recoverDeletedSecret(name, { requestOptions });
-      state.isStarted = true;
+      state.started = true;
     }
   }
 
-  if (!state.isCompleted) {
+  if (!state.completed) {
     try {
       state.result = (await client.getSecret(name, { requestOptions })).properties;
-      state.isCompleted = true;
+      state.completed = true;
     } catch (error) {
       if (error.statusCode === 403) {
         // At this point, the resource exists but the user doesn't have access to it.
-        state.isCompleted = true;
+        state.completed = true;
       } else if (error.statusCode !== 404) {
         state.error = error;
-        state.isCompleted = true;
+        state.completed = true;
       }
     }
   }

@@ -505,7 +505,7 @@ describe("FileClient", () => {
     );
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
     assert.equal(
-      newClient.path,
+      newClient.filePath,
       dirName + "/" + fileName,
       "FilePath is not the same as the one provided."
     );

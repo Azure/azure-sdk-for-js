@@ -1,12 +1,9 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { AbortSignalLike } from "@azure/abort-controller";
 
 export interface PollOperationState<TResult> {
-  isStarted?: boolean;
-  isCompleted?: boolean;
-  isCancelled?: boolean;
+  started?: boolean;
+  completed?: boolean;
+  cancelled?: boolean;
   error?: Error;
   result?: TResult;
 }

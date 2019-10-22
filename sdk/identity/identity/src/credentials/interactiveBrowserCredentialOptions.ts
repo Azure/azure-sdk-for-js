@@ -35,14 +35,4 @@ export interface InteractiveBrowserCredentialOptions extends IdentityClientOptio
    * Defaults to `window.location.href`.
    */
   postLogoutRedirectUri?: string | (() => string);
-
-  /**
-   * The Azure Active Directory tenant (directory) ID.
-   */
-  tenantId?: string;
-  
-  /**
-   * The client (application) ID of an App Registration in the tenant.
-   */
-  clientId?: string;
 }

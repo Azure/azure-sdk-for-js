@@ -718,11 +718,11 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   private blobContext: Blob;
-  private _name: string;
+  private _blobName: string;
   private _containerName: string;
 
-  public get name(): string {
-    return this._name;
+  public get blobName(): string {
+    return this._blobName;
   }
 
   public get containerName(): string {
@@ -870,7 +870,7 @@ export class BlobClient extends StorageClient {
 
     super(url, pipeline);
     ({
-      blobName: this._name,
+      blobName: this._blobName,
       containerName: this._containerName
     } = this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new Blob(this.storageClientContext);

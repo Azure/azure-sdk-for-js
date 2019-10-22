@@ -536,7 +536,7 @@ describe("BlobClient", () => {
       containerName,
       "Container name is not the same as the one provided."
     );
-    assert.equal(newClient.name, blobName, "Blob name is not the same as the one provided.");
+    assert.equal(newClient.blobName, blobName, "Blob name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,

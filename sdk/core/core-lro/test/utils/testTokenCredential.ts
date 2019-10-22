@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 
 export class TestTokenCredential implements TokenCredential {

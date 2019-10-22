@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "../../src";
@@ -33,10 +30,10 @@ async function update(
   if (!initialResponse) {
     response = await client.sendInitialRequest(new TestWebResource(abortSignal));
     this.state.initialResponse = response;
-    this.state.isStarted = true;
+    this.state.started = true;
   } else if (doFinalResponse) {
     response = await client.sendFinalRequest(new TestWebResource(abortSignal));
-    this.state.isCompleted = true;
+    this.state.completed = true;
     this.state.result = "Done";
     this.state.previousResponse = response;
   } else {
@@ -81,7 +78,7 @@ async function cancel(
 
   return makeOperation({
     ...this.state,
-    isCancelled: true,
+    cancelled: true,
     previousResponse: response
   });
 }

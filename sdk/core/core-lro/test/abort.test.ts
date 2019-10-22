@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import assert from "assert";
 import { delay, WebResource, HttpHeaders } from "@azure/core-http";
 import { TestClient } from "./utils/testClient";

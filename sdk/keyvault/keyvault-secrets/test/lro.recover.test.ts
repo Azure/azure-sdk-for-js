@@ -39,14 +39,14 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedSecret(secretName);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.ok(poller.getOperationState().started);
 
     // The pending secret properties can be obtained this way:
     assert.equal(poller.getOperationState().result!.name, secretName);
 
     const secretProperties: SecretProperties = await poller.pollUntilDone();
     assert.equal(secretProperties.name, secretName);
-    assert.ok(poller.getOperationState().isCompleted);
+    assert.ok(poller.getOperationState().completed);
 
     // The final secret can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, secretName);
@@ -63,7 +63,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedSecret(secretName);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.ok(poller.getOperationState().started);
 
     poller.pollUntilDone().catch((e: PollerStoppedError | Error) => {
       assert.ok(e instanceof PollerStoppedError);
@@ -75,7 +75,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
 
     poller.stopPolling();
     assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().isCompleted);
+    assert.ok(!poller.getOperationState().completed);
 
     const serialized = poller.toString();
 
@@ -83,10 +83,10 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
       resumeFrom: serialized
     });
 
-    assert.ok(poller.getOperationState().isStarted);
+    assert.ok(poller.getOperationState().started);
     const secretProperties: SecretProperties = await resumePoller.pollUntilDone();
     assert.equal(secretProperties.name, secretName);
-    assert.ok(resumePoller.getOperationState().isCompleted);
+    assert.ok(resumePoller.getOperationState().completed);
 
     await testClient.flushSecret(secretName);
   });

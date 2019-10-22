@@ -161,7 +161,7 @@ describe("QueueClient", () => {
   it("verify accountName and queueName passed to the client", async () => {
     const accountName = "myaccount";
     const newClient = new QueueClient(`https://${accountName}.queue.core.windows.net/` + queueName);
-    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.queueName, queueName, "Queue name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,

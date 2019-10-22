@@ -4,9 +4,9 @@ Azure Files offers fully managed file shares in the cloud that are accessible vi
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure File Storage service.
 
-Version: 12.0.0-preview.5
+Version: 12.0.0-preview.4
 
-- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.4)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/samples)
 - [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-file/index.html)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction)
@@ -76,7 +76,7 @@ There are differences between Node.js and browsers runtime. When getting started
 The preferred way to install the Azure File Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-file@12.0.0-preview.5
+npm install @azure/storage-file@12.0.0-preview.4
 ```
 
 In your TypeScript or JavaScript file, import via following:

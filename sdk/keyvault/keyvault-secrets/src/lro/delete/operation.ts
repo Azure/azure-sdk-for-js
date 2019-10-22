@@ -42,26 +42,26 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  if (!state.isStarted) {
+  if (!state.started) {
     const deletedSecret = await client.deleteSecret(name, requestOptions);
-    state.isStarted = true;
+    state.started = true;
     state.result = deletedSecret;
     if (!deletedSecret.properties.recoveryId) {
-      state.isCompleted = true;
+      state.completed = true;
     }
   }
 
-  if (!state.isCompleted) {
+  if (!state.completed) {
     try {
       state.result = await client.getDeletedSecret(name, { requestOptions });
-      state.isCompleted = true;
+      state.completed = true;
     } catch (error) {
       if (error.statusCode === 403) {
         // At this point, the resource exists but the user doesn't have access to it.
-        state.isCompleted = true;
+        state.completed = true;
       } else if (error.statusCode !== 404) {
         state.error = error;
-        state.isCompleted = true;
+        state.completed = true;
       }
     }
   }

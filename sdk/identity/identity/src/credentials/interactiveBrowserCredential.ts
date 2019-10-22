@@ -16,7 +16,7 @@ const BrowserNotSupportedError = new Error(
  * window.  This credential is not currently supported in Node.js.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
-  constructor(options?: InteractiveBrowserCredentialOptions) {
+  constructor(tenantId: string, clientId: string, options?: InteractiveBrowserCredentialOptions) {
     throw BrowserNotSupportedError;
   }
 

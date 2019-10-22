@@ -33,14 +33,14 @@ describe("Keys client - Long Running Operations - delete", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.ok(poller.getOperationState().started);
 
     // The pending deleted can be obtained this way:
     assert.equal(poller.getOperationState().result!.properties.name, keyName);
 
     const deletedKey: DeletedKey = await poller.pollUntilDone();
     assert.equal(deletedKey.properties.name, keyName);
-    assert.ok(poller.getOperationState().isCompleted);
+    assert.ok(poller.getOperationState().completed);
 
     // The final key can also be obtained this way:
     assert.equal(poller.getOperationState().result!.properties.name, keyName);
@@ -52,7 +52,7 @@ describe("Keys client - Long Running Operations - delete", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName);
-    assert.ok(poller.getOperationState().isStarted);
+    assert.ok(poller.getOperationState().started);
 
     poller.pollUntilDone().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
@@ -64,7 +64,7 @@ describe("Keys client - Long Running Operations - delete", () => {
 
     poller.stopPolling();
     assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().isCompleted);
+    assert.ok(!poller.getOperationState().completed);
 
     const serialized = poller.toString();
 
@@ -72,10 +72,10 @@ describe("Keys client - Long Running Operations - delete", () => {
       resumeFrom: serialized
     });
 
-    assert.ok(resumePoller.getOperationState().isStarted);
+    assert.ok(resumePoller.getOperationState().started);
     const deletedKey: DeletedKey = await resumePoller.pollUntilDone();
     assert.equal(deletedKey.properties.name, keyName);
-    assert.ok(resumePoller.getOperationState().isCompleted);
+    assert.ok(resumePoller.getOperationState().completed);
 
     await testClient.purgeKey(keyName);
   });

@@ -51,6 +51,5 @@ export {
   ShareSetAccessPolicyResponse,
   ShareSetMetadataResponse,
   ShareSetQuotaResponse,
-  SignedIdentifier as SignedIdentifierModel,
-  SourceModifiedAccessConditions
+  SignedIdentifier as SignedIdentifierModel
 } from "./generated/src/models";

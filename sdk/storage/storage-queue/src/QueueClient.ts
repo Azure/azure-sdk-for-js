@@ -401,10 +401,10 @@ export class QueueClient extends StorageClient {
    * @memberof QueueClient
    */
   private queueContext: Queue;
-  private _name: string;
+  private _queueName: string;
   private _messagesUrl: string;
-  public get name(): string {
-    return this._name;
+  public get queueName(): string {
+    return this._queueName;
   }
 
   /**
@@ -516,7 +516,7 @@ export class QueueClient extends StorageClient {
       throw new Error("Expecting non-empty strings for queueName parameter");
     }
     super(url, pipeline);
-    this._name = this.getQueueNameFromUrl();
+    this._queueName = this.getQueueNameFromUrl();
     this.queueContext = new Queue(this.storageClientContext);
 
     // MessagesContext
