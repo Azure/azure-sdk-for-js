@@ -19,7 +19,7 @@ import {
   FileSetHTTPHeadersResponse,
   FileSetMetadataResponse,
   FileStartCopyResponse,
-  FileUploadRangeFromURLOptionalParams,
+  SourceModifiedAccessConditions,
   FileUploadRangeFromURLResponse,
   FileUploadRangeResponse,
   HandleItem,
@@ -220,9 +220,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
  * @export
  * @interface FileUploadRangeFromURLOptions
  */
-export interface FileUploadRangeFromURLOptions
-  extends FileUploadRangeFromURLOptionalParams,
-    CommonOptions {
+export interface FileUploadRangeFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -231,6 +229,20 @@ export interface FileUploadRangeFromURLOptions
    * @memberof FileUploadRangeFromURLOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
+   * Additional parameters for the operation
+   */
+  sourceConditions?: SourceModifiedAccessConditions;
 }
 
 /**
@@ -764,7 +776,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(options.lastWriteTime!),
         {
           abortSignal: options.abortSignal,
-          fileHTTPHeaders: options.fileHttpHeaders,
+          fileHttpHeaders: options.fileHttpHeaders,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
@@ -930,7 +942,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(properties.lastWriteTime!),
         {
           abortSignal: properties.abortSignal,
-          fileHTTPHeaders: properties.fileHttpHeaders,
+          fileHttpHeaders: properties.fileHttpHeaders,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
           spanOptions
@@ -1010,7 +1022,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(options.lastWriteTime!),
         {
           abortSignal: options.abortSignal,
-          fileHTTPHeaders: fileHttpHeaders,
+          fileHttpHeaders,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           spanOptions
@@ -1200,6 +1212,7 @@ export class FileClient extends StorageClient {
         0,
         {
           abortSignal: options.abortSignal,
+          sourceModifiedAccessConditions: options.sourceConditions,
           ...options,
           spanOptions
         }
@@ -1270,7 +1283,7 @@ export class FileClient extends StorageClient {
       return {
         _response: originalResponse._response,
         date: originalResponse.date,
-        eTag: originalResponse.eTag,
+        etag: originalResponse.etag,
         errorCode: originalResponse.errorCode,
         fileContentLength: originalResponse.fileContentLength,
         lastModified: originalResponse.lastModified,

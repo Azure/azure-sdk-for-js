@@ -235,12 +235,12 @@ describe("BlobBatch", () => {
     let batchDeleteRequest = new BlobBatch();
     await batchDeleteRequest.deleteBlob(blockBlobURLs[0], {
       conditions: {
-        ifMatch: b0.eTag
+        ifMatch: b0.etag
       }
     });
     await batchDeleteRequest.deleteBlob(blockBlobURLs[1], {
       conditions: {
-        ifNoneMatch: b1.eTag
+        ifNoneMatch: b1.etag
       }
     });
 

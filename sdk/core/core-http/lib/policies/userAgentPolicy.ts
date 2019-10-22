@@ -15,6 +15,17 @@ import {
 
 export type TelemetryInfo = { key?: string; value?: string };
 
+/**
+ * Options for adding user agent details to outgoing requests.
+ */
+export interface UserAgentOptions {
+  /*
+   * String prefix to add to the user agent for outgoing requests.
+   * Defaults to an empty string.
+   */
+  userAgentPrefix?: string;
+}
+
 function getRuntimeInfo(): TelemetryInfo[] {
   const msRestRuntime = {
     key: "core-http",

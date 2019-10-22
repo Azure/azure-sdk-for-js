@@ -42,28 +42,28 @@ async function update(
     requestOptions.abortSignal = options.abortSignal;
   }
 
-  if (!state.started) {
+  if (!state.isStarted) {
     try {
       state.result = await client.getKey(name, { requestOptions });
-      state.completed = true;
+      state.isCompleted = true;
     } catch (_) {}
-    if (!state.completed) {
+    if (!state.isCompleted) {
       state.result = await client.recoverDeletedKey(name, { requestOptions });
-      state.started = true;
+      state.isStarted = true;
     }
   }
 
-  if (!state.completed) {
+  if (!state.isCompleted) {
     try {
       state.result = await client.getKey(name, { requestOptions });
-      state.completed = true;
+      state.isCompleted = true;
     } catch (error) {
       if (error.statusCode === 403) {
         // At this point, the resource exists but the user doesn't have access to it.
-        state.completed = true;
+        state.isCompleted = true;
       } else if (error.statusCode !== 404) {
         state.error = error;
-        state.completed = true;
+        state.isCompleted = true;
       }
     }
   }
