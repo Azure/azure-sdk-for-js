@@ -30,7 +30,8 @@ export {
   ServiceClientOptions,
   flattenResponse,
   createPipelineFromOptions,
-  ProxySettings
+  ProxySettings,
+  ProxyOptions
 } from "./serviceClient";
 export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
@@ -50,7 +51,7 @@ export { generateClientRequestIdPolicy } from "./policies/generateClientRequestI
 export { exponentialRetryPolicy, RetryOptions, RetryMode } from "./policies/exponentialRetryPolicy";
 export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-export { getDefaultProxySettings, proxyPolicy, ProxyOptions } from "./policies/proxyPolicy";
+export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
 export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
 export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
 export { signingPolicy } from "./policies/signingPolicy";

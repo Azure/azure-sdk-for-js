@@ -13,32 +13,6 @@ import { WebResource } from "../webResource";
 import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
 
-/**
- * Options to configure a proxy for outgoing requests.
- */
-
-export interface ProxyOptions {
-  /*
-   * The proxy's host address.
-   */
-  host: string;
-
-  /*
-   * The proxy host's port.
-   */
-  port: number;
-
-  /**
-   * The user name to authenticate with the proxy, if required.
-   */
-  username?: string;
-
-  /**
-   * The password to authenticate with the proxy, if required.
-   */
-  password?: string;
-}
-
 function loadEnvironmentProxyValue(): string | undefined {
   if (!process) {
     return undefined;

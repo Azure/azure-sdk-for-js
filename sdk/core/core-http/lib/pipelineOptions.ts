@@ -5,7 +5,7 @@ import { HttpClient } from "./httpClient";
 import { RetryOptions } from './policies/exponentialRetryPolicy';
 import { KeepAliveOptions } from './policies/keepAlivePolicy';
 import { RedirectOptions } from './policies/redirectPolicy';
-import { ProxyOptions } from './policies/proxyPolicy';
+import { ProxyOptions } from './serviceClient';
 import { UserAgentOptions } from './policies/userAgentPolicy';
 import { DeserializationOptions } from './policies/deserializationPolicy';
 import { LoggingOptions } from './policies/logPolicy';

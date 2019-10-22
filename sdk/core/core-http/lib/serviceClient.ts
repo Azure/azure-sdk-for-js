@@ -54,14 +54,31 @@ import { DefaultKeepAliveOptions, keepAlivePolicy } from './policies/keepAlivePo
 import { tracingPolicy } from './policies/tracingPolicy';
 
 /**
- * HTTP proxy settings (Node.js only)
+ * Options to configure a proxy for outgoing requests (Node.js only).
  */
 export interface ProxySettings {
+  /*
+   * The proxy's host address.
+   */
   host: string;
+
+  /*
+   * The proxy host's port.
+   */
   port: number;
+
+  /**
+   * The user name to authenticate with the proxy, if required.
+   */
   username?: string;
+
+  /**
+   * The password to authenticate with the proxy, if required.
+   */
   password?: string;
 }
+
+export type ProxyOptions = ProxySettings; // Alias ProxySettings as ProxyOptions for future use.
 
 /**
  * Options to be provided while creating the client.
