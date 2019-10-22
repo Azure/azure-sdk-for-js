@@ -76,9 +76,6 @@ const defaultAllowedQueryParameters: string[] = [
   "api-version"
 ];
 
-export const DefaultLogPolicyOptions: LogPolicyOptions = {
-}
-
 export const DefaultLoggingOptions: LoggingOptions = {
   logger: undefined,
   logPolicyOptions: {
