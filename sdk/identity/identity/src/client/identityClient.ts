@@ -39,17 +39,7 @@ export class IdentityClient extends ServiceClient {
 
   constructor(options?: IdentityClientOptions) {
     options = options || IdentityClient.getDefaultOptions();
-
-    const internalPipelineOptions = {
-      ...options,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-        }
-      }
-    };
-
-    super(undefined, createPipelineFromOptions(internalPipelineOptions));
+    super(undefined, createPipelineFromOptions(options));
 
     this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
 
