@@ -215,6 +215,7 @@ export class BlobBatch {
 
 // @public
 export class BlobBatchClient {
+    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     // (undocumented)
     createBatch(): BlobBatch;
@@ -264,8 +265,6 @@ export class BlobClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
     // (undocumented)
-    readonly blobName: string;
-    // (undocumented)
     readonly containerName: string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
@@ -278,6 +277,8 @@ export class BlobClient extends StorageClient {
     getLeaseClient(proposeLeaseId?: string): LeaseClient;
     getPageBlobClient(): PageBlobClient;
     getProperties(options?: BlobGetPropertiesOptions): Promise<BlobGetPropertiesResponse>;
+    // (undocumented)
+    readonly name: string;
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
@@ -357,7 +358,7 @@ export interface BlobDownloadHeaders {
     encryptionKeySha256?: string;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
@@ -779,7 +780,7 @@ export interface BlockBlobUploadHeaders {
     encryptionKeySha256?: string;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
@@ -931,7 +932,7 @@ export interface ContainerGetAccessPolicyHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -1126,7 +1127,7 @@ export { IHttpPipelineLogger }
 export interface Lease {
     date?: Date;
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     leaseId?: string;
     leaseTime?: number;
@@ -1291,7 +1292,7 @@ export interface PageBlobGetPageRangesDiffHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -1320,7 +1321,7 @@ export interface PageBlobGetPageRangesHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
