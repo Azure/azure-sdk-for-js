@@ -1,6 +1,6 @@
-# 1.0.0-preview.5 Coming Soon
+# 1.0.0-preview.5 22nd October 2019
 
-- Placeholder for the removal of singleton model
+- Fixes issue where loading multiple copies of this module could result in the tracer set by `setTracer()` being reset.
 
 # 1.0.0-preview.4 8th October 2019
 
