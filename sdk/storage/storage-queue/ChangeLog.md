@@ -28,7 +28,7 @@
   - emulator connection string shorthands are supported
     - `UseDevelopmentStorage=true`
     - (with proxyURI) `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=proxyURI`
-- [Breaking] IE11 needs `Object.assign` polyfill loaded.
+- [Breaking] IE11 needs `Object.assign` polyfill loaded. [PR #5727](https://github.com/Azure/azure-sdk-for-js/pull/5727)
 
 ## 2019.10 12.0.0-preview.4
 
