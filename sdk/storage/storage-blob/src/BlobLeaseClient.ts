@@ -3,10 +3,7 @@
 
 import { HttpResponse, generateUuid } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import {
-  ModifiedAccessConditions,
-  ContainerBreakLeaseOptionalParams
-} from "../src/generatedModels";
+import { ModifiedAccessConditions, ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient } from "./ContainerClient";
 import { Blob, Container } from "./generated/src/operations";
@@ -101,7 +98,7 @@ export interface LeaseOperationOptions extends CommonOptions {
  * @export
  * @class LeaseClient
  */
-export class LeaseClient {
+export class BlobLeaseClient {
   private _leaseId: string;
   private _url: string;
   private _containerOrBlobOperation: Container | Blob;
@@ -110,7 +107,7 @@ export class LeaseClient {
    * Gets the lease Id.
    *
    * @readonly
-   * @memberof LeaseClient
+   * @memberof BlobLeaseClient
    */
   public get leaseId() {
     return this._leaseId;
@@ -120,17 +117,17 @@ export class LeaseClient {
    * Gets the url.
    *
    * @readonly
-   * @memberof LeaseClient
+   * @memberof BlobLeaseClient
    */
   public get url() {
     return this._url;
   }
 
   /**
-   * Creates an instance of LeaseClient.
+   * Creates an instance of BlobLeaseClient.
    * @param {(ContainerClient | BlobClient)} client The client to make the lease operation requests.
    * @param {string} leaseId Initial proposed lease id.
-   * @memberof LeaseClient
+   * @memberof BlobLeaseClient
    */
   constructor(client: ContainerClient | BlobClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
@@ -162,13 +159,13 @@ export class LeaseClient {
    * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
    * @returns {Promise<LeaseOperationResponse>} Response data for acquire lease operation.
-   * @memberof LeaseClient
+   * @memberof BlobLeaseClient
    */
   public async acquireLease(
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("LeaseClient-acquireLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-acquireLease", options.spanOptions);
     try {
       return await this._containerOrBlobOperation.acquireLease({
         abortSignal: options.abortSignal,
@@ -197,13 +194,13 @@ export class LeaseClient {
    * @param {string} proposedLeaseId the proposed new lease Id.
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
    * @returns {Promise<LeaseOperationResponse>} Response data for change lease operation.
-   * @memberof LeaseClient
+   * @memberof BlobLeaseClient
    */
   public async changeLease(
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("LeaseClient-changeLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-changeLease", options.spanOptions);
     try {
       const response = await this._containerOrBlobOperation.changeLease(
         this._leaseId,
@@ -236,10 +233,10 @@ export class LeaseClient {
    *
    * @param {LeaseOperationOptions} [options={}] option to configure lease management operations.
    * @returns {Promise<LeaseOperationResponse>} Response data for release lease operation.
-   * @memberof LeaseClient
+   * @memberof BlobLeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("LeaseClient-releaseLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-releaseLease", options.spanOptions);
     try {
       return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
@@ -265,10 +262,10 @@ export class LeaseClient {
    *
    * @param {LeaseOperationOptions} [options={}] Optional option to configure lease management operations.
    * @returns {Promise<LeaseOperationResponse>} Response data for renew lease operation.
-   * @memberof LeaseClient
+   * @memberof BlobLeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    const { span, spanOptions } = createSpan("LeaseClient-renewLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-renewLease", options.spanOptions);
     try {
       return await this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
@@ -298,13 +295,13 @@ export class LeaseClient {
    * @param {number} breakPeriod Break period
    * @param {LeaseOperationOptions} [options={}] Optional options to configure lease management operations.
    * @returns {Promise<LeaseOperationResponse>} Response data for break lease operation.
-   * @memberof LeaseClient
+   * @memberof BlobLeaseClient
    */
   public async breakLease(
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("LeaseClient-breakLease", options.spanOptions);
+    const { span, spanOptions } = createSpan("BlobLeaseClient-breakLease", options.spanOptions);
     try {
       const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
