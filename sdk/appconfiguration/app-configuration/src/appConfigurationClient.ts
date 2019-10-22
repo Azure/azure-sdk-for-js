@@ -45,8 +45,7 @@ import {
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import {
-  GetKeyValuesResponse,
-  AppConfigurationDeleteKeyValueOptionalParams
+  GetKeyValuesResponse
 } from "./generated/src/models";
 
 const apiVersion = "1.0";
