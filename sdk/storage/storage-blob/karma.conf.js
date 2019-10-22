@@ -29,8 +29,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys
+      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always",
       "dist-test/index.browser.js",
       "recordings/browsers/**/*.json"
     ],
@@ -129,7 +129,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ["IE"],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
