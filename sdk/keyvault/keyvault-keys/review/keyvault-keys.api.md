@@ -16,19 +16,22 @@ import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
+export interface BackupKeyOptions extends coreHttp.RequestOptionsBase {
+}
+
+// @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
     curve?: JsonWebKeyCurveName;
     hsm?: boolean;
 }
 
 // @public
-export interface CreateKeyOptions {
+export interface CreateKeyOptions extends coreHttp.RequestOptionsBase {
     enabled?: boolean;
-    expires?: Date;
+    readonly expiresOn?: Date;
     keyOps?: JsonWebKeyOperation[];
     keySize?: number;
     notBefore?: Date;
-    requestOptions?: coreHttp.RequestOptionsBase;
     tags?: {
         [propertyName: string]: string;
     };
@@ -54,18 +57,20 @@ export class CryptographyClient {
     // Warning: (ae-forgotten-export) The symbol "SignOptions" needs to be exported by the entry point index.d.ts
     sign(algorithm: KeySignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
-    // Warning: (ae-forgotten-export) The symbol "UnwrapOptions" needs to be exported by the entry point index.d.ts
-    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapOptions): Promise<UnwrapResult>;
+    // Warning: (ae-forgotten-export) The symbol "UnwrapKeyOptions" needs to be exported by the entry point index.d.ts
+    unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
     readonly vaultBaseUrl: string;
     // Warning: (ae-forgotten-export) The symbol "VerifyOptions" needs to be exported by the entry point index.d.ts
     verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     verifyData(algorithm: KeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
-    // Warning: (ae-forgotten-export) The symbol "WrapOptions" needs to be exported by the entry point index.d.ts
-    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapOptions): Promise<WrapResult>;
+    // Warning: (ae-forgotten-export) The symbol "WrapKeyOptions" needs to be exported by the entry point index.d.ts
+    wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CryptographyOptions" needs to be exported by the entry point index.d.ts
+// 
 // @public
-export interface DecryptOptions extends RequestOptions {
+export interface DecryptOptions extends CryptographyOptions {
 }
 
 // @public
@@ -77,11 +82,15 @@ export interface DecryptResult {
 
 // @public
 export interface DeletedKey {
-    keyMaterial?: JsonWebKey;
+    id?: string;
+    key?: JsonWebKey;
+    keyOperations?: JsonWebKeyOperation[];
+    keyType?: JsonWebKeyType;
+    name: string;
     properties: KeyProperties & {
         readonly recoveryId?: string;
         readonly scheduledPurgeDate?: Date;
-        readonly deletedDate?: Date;
+        deletedOn?: Date;
     };
 }
 
@@ -101,7 +110,7 @@ export interface DeleteKeyPollOperationState extends PollOperationState<DeletedK
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
 // @public
-export interface EncryptOptions extends RequestOptions {
+export interface EncryptOptions extends CryptographyOptions {
 }
 
 // @public
@@ -112,23 +121,24 @@ export interface EncryptResult {
 }
 
 // @public
-export interface GetKeyOptions {
-    requestOptions?: coreHttp.RequestOptionsBase;
+export interface GetDeletedKeyOptions extends coreHttp.RequestOptionsBase {
+}
+
+// @public
+export interface GetKeyOptions extends coreHttp.RequestOptionsBase {
     version?: string;
 }
 
 // @public
-export interface GetKeysOptions {
-    requestOptions?: coreHttp.RequestOptionsBase;
+export interface GetKeysOptions extends coreHttp.RequestOptionsBase {
 }
 
 // @public
-export interface ImportKeyOptions {
+export interface ImportKeyOptions extends coreHttp.RequestOptionsBase {
     enabled?: boolean;
-    expires?: Date;
+    expiresOn?: Date;
     hardwareProtected?: boolean;
     notBefore?: Date;
-    requestOptions?: coreHttp.RequestOptionsBase;
     tags?: {
         [propertyName: string]: string;
     };
@@ -168,55 +178,59 @@ export type JsonWebKeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "w
 export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
-export interface Key {
-    keyMaterial?: JsonWebKey;
-    keyOperations?: JsonWebKeyOperation[];
-    keyType?: JsonWebKeyType;
-    properties: KeyProperties;
-}
-
-// @public
 export class KeyClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
-    backupKey(name: string, options?: RequestOptions): Promise<Uint8Array | undefined>;
+    constructor(endpoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
     beginDeleteKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     beginRecoverDeletedKey(name: string, options?: KeyPollerOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
-    createEcKey(name: string, options?: CreateEcKeyOptions): Promise<Key>;
-    createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<Key>;
-    createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<Key>;
+    createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
+    createKey(name: string, keyType: JsonWebKeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
+    createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     protected readonly credential: TokenCredential;
-    getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
-    getKey(name: string, options?: GetKeyOptions): Promise<Key>;
-    importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<Key>;
-    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
-    listKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
-    listKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
+    getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
+    getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    importKey(name: string, key: JsonWebKey, options: ImportKeyOptions): Promise<KeyVaultKey>;
+    listDeletedKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<DeletedKey, DeletedKey[]>;
+    listPropertiesOfKeys(options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
+    listPropertiesOfKeyVersions(name: string, options?: GetKeysOptions): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]>;
     readonly pipeline: ServiceClientOptions;
-    purgeDeletedKey(name: string, options?: RequestOptions): Promise<void>;
-    restoreKeyBackup(backup: Uint8Array, options?: RequestOptions): Promise<Key>;
-    updateKey(name: string, keyVersion: string, options?: UpdateKeyOptions): Promise<Key>;
+    purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
+    restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
+    updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultEndpoint: string;
 }
 
 // @public
-export interface KeyPollerOptions {
+export interface KeyPollerOptions extends coreHttp.RequestOptionsBase {
     intervalInMs?: number;
-    requestOptions?: coreHttp.RequestOptionsBase;
     resumeFrom?: string;
 }
 
 // @public
-export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
-    readonly created?: Date;
+export interface KeyProperties {
+    readonly createdOn?: Date;
     enabled?: boolean;
-    expires?: Date;
+    expiresOn?: Date;
     id?: string;
+    name: string;
     notBefore?: Date;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly updated?: Date;
+    readonly updatedOn?: Date;
+    vaultEndpoint: string;
+    version?: string;
+}
+
+// @public
+export interface KeyVaultKey {
+    id?: string;
+    key?: JsonWebKey;
+    keyOperations?: JsonWebKeyOperation[];
+    keyType?: JsonWebKeyType;
+    name: string;
+    properties: KeyProperties;
 }
 
 // @public
@@ -249,7 +263,15 @@ export interface ProxyOptions {
 }
 
 // @public
-export interface RecoverDeletedKeyPollOperationState extends PollOperationState<Key> {
+export interface PurgeDeletedKeyOptions extends coreHttp.RequestOptionsBase {
+}
+
+// @public
+export interface RecoverDeletedKeyOptions extends coreHttp.RequestOptionsBase {
+}
+
+// @public
+export interface RecoverDeletedKeyPollOperationState extends PollOperationState<KeyVaultKey> {
     // (undocumented)
     client: KeyClientInterface;
     // (undocumented)
@@ -259,8 +281,7 @@ export interface RecoverDeletedKeyPollOperationState extends PollOperationState<
 }
 
 // @public
-export interface RequestOptions {
-    requestOptions?: coreHttp.RequestOptionsBase;
+export interface RestoreKeyBackupOptions extends coreHttp.RequestOptionsBase {
 }
 
 // @public
@@ -290,12 +311,11 @@ export interface UnwrapResult {
 }
 
 // @public
-export interface UpdateKeyOptions {
+export interface UpdateKeyPropertiesOptions extends coreHttp.RequestOptionsBase {
     enabled?: boolean;
-    expires?: Date;
+    expiresOn?: Date;
     keyOps?: JsonWebKeyOperation[];
     notBefore?: Date;
-    requestOptions?: coreHttp.RequestOptionsBase;
     tags?: {
         [propertyName: string]: string;
     };

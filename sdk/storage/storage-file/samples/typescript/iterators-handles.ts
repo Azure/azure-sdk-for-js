@@ -135,7 +135,7 @@ async function main() {
     }
   }
   // Gets next marker
-  let marker = response.value.nextMarker;
+  let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   console.log(`    continuation`);
   iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 2 });

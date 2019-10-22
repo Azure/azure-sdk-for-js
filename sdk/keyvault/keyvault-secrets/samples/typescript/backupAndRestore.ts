@@ -61,7 +61,7 @@ async function main(): Promise<void> {
   const backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
-  const result = await client.restoreSecret(backupContents);
+  const result = await client.restoreSecretBackup(backupContents);
   console.log("Restored secret: ", result);
 
   // If we don't want to purge the secret later, we don't need to wait until this finishes
