@@ -37,7 +37,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.setSecret(secretName, "RSA");
     const deletePoller = await client.beginDeleteSecret(secretName);
     assert.equal(
-      deletePoller.getResult()!.properties.name,
+      deletePoller.getResult()!.name,
       secretName,
       "Unexpected secret name in result from deletePoller.getResult()."
     );
@@ -45,7 +45,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await deletePoller.pollUntilDone();
     const getDeletedResult = await client.getDeletedSecret(secretName);
     assert.equal(
-      getDeletedResult.properties.name,
+      getDeletedResult.name,
       secretName,
       "Unexpected secret name in result from getSecret()."
     );
@@ -114,13 +114,9 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
     await testClient.flushSecret(secretName);
-    await retry(async () => client.restoreSecret(backup as Uint8Array));
+    await retry(async () => client.restoreSecretBackup(backup as Uint8Array));
     const getResult = await client.getSecret(secretName);
-    assert.equal(
-      getResult.properties.name,
-      secretName,
-      "Unexpected secret name in result from getSecret()."
-    );
+    assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await testClient.flushSecret(secretName);
   });
 
@@ -128,7 +124,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     const backup = new Uint8Array(4728);
     let error;
     try {
-      await client.restoreSecret(backup);
+      await client.restoreSecretBackup(backup);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -136,7 +132,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(
       error.message,
       "Backup blob contains invalid or corrupt version.",
-      "Unexpected error from restoreSecret()"
+      "Unexpected error from restoreSecretBackup()"
     );
   });
 });
