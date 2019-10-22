@@ -1,12 +1,13 @@
 # Changelog
 
-## 1.0.0-preview.6 - Coming Soon
+## 1.0.0-preview.6 - 2019-10-22
 
 - Removed error type `ResponseBodyNotFoundError` that was introduced in the previous preview. Use cases for it were removed.
 - Placeholder for New logging support via the new logger package
 - Placeholder for the fix that parses error responses using default mappers
 - Fixes a memory leak issue resulting from event listeners not being removed from abortSignals.
-- More
+- Cancelling an operation using an `abortSignal` will now throw an `AbortError`.
+  The `name` property on the error will match "AbortError".
 
 ## 1.0.0-preview.4 - 2019-10-07
 

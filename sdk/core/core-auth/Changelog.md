@@ -1,6 +1,6 @@
 # Changelog
 
-# 1.0.0-preview.4 (Coming Soon)
+# 1.0.0-preview.4 - 2019-10-22
 
 - Updated to use the latest version of `@azure/core-tracing` package
 
