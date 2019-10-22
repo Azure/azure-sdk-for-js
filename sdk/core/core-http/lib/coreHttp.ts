@@ -19,6 +19,11 @@ export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
 export { OperationArguments } from "./operationArguments";
 export {
+  OperationOptions,
+  OperationRequestOptions,
+  operationOptionsToRequestOptionsBase
+} from "./operationOptions";
+export {
   OperationParameter,
   OperationQueryParameter,
   OperationURLParameter

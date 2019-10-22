@@ -16,7 +16,7 @@ describe("AppConfigurationClient", () => {
 
   let client: AppConfigurationClient;
 
-  before("validate environment variables", function () {
+  before("validate environment variables", function() {
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
@@ -135,6 +135,26 @@ describe("AppConfigurationClient", () => {
         assert.notEqual(err.message, "Test failure");
       }
     });
+
+    it("accepts operation options", async () => {
+      const key = `addConfigTestTwice-${Date.now()}`;
+      const label = "test";
+      const value = "foo";
+
+      try {
+        const result = await client.addConfigurationSetting(
+          { key, label, value },
+          {
+            requestOptions: {
+              timeout: 1
+            }
+          }
+        );
+        assert.fail("request should abort");
+      } catch (e) {
+        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
+      }
+    });
   });
 
   describe("deleteConfigurationSetting", () => {
@@ -161,7 +181,7 @@ describe("AppConfigurationClient", () => {
       // delete configuration
       const deletedSetting = await client.deleteConfigurationSetting(result);
       assert.equal(200, deletedSetting._response.status);
-      
+
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
@@ -192,11 +212,14 @@ describe("AppConfigurationClient", () => {
       );
 
       // delete configuration
-      const deletedSetting = await client.deleteConfigurationSetting({
-        key,
-        label
-      }, { onlyIfUnchanged: true });
-      
+      const deletedSetting = await client.deleteConfigurationSetting(
+        {
+          key,
+          label
+        },
+        { onlyIfUnchanged: true }
+      );
+
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
@@ -213,9 +236,9 @@ describe("AppConfigurationClient", () => {
       // delete configuration
       const response = await client.deleteConfigurationSetting({ key, label });
 
-      // we hoist this code up to the top in case users want to check if the 
-      // delete actually happened (status code: 200) or if the setting wasn't 
-      // found which results in the same state but might matter to 
+      // we hoist this code up to the top in case users want to check if the
+      // delete actually happened (status code: 200) or if the setting wasn't
+      // found which results in the same state but might matter to
       // the user(status code: 204)
       assert.equal(response._response.status, response.statusCode);
       assert.equal(204, response.statusCode);
@@ -244,7 +267,34 @@ describe("AppConfigurationClient", () => {
       settings.push({ key, label });
 
       // delete configuration
-      await assertThrowsRestError(() => client.deleteConfigurationSetting({ key, label, etag: "invalid" }, { onlyIfUnchanged: true }), 412);
+      await assertThrowsRestError(
+        () =>
+          client.deleteConfigurationSetting(
+            { key, label, etag: "invalid" },
+            { onlyIfUnchanged: true }
+          ),
+        412
+      );
+    });
+
+    it("accepts operation options", async () => {
+      const key = `deleteConfigTest-${Date.now()}`;
+      const label = "MyLabel";
+      const value = "MyValue";
+
+      // create configuration
+      const result = await client.addConfigurationSetting({ key, label, value });
+
+      // delete configuration
+
+      try {
+        const deletedSetting = await client.deleteConfigurationSetting(result, {
+          requestOptions: { timeout: 1 }
+        });
+        assert.fail("request should abort");
+      } catch (e) {
+        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
+      }
     });
   });
 
@@ -345,6 +395,25 @@ describe("AppConfigurationClient", () => {
         throw new Error("Test failure");
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
+      }
+    });
+
+    it("accepts operation options", async () => {
+      const key = `getConfigTest-${Date.now()}`;
+      const label = "test";
+      const value = "foo";
+      const tags = {
+        bar: "baz",
+        car: "caz"
+      };
+      const contentType = "application/json";
+      const result = await client.addConfigurationSetting({ key, label, value, contentType, tags });
+
+      try {
+        await client.getConfigurationSetting({ key, label }, { requestOptions: { timeout: 1 } });
+        assert.fail("request should abort");
+      } catch (e) {
+        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
       }
     });
   });
@@ -487,7 +556,10 @@ describe("AppConfigurationClient", () => {
 
     it("filter on fields", async () => {
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
-      let byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`], fields: ["key", "label", "readOnly"] });
+      let byKeyIterator = client.listConfigurationSettings({
+        keys: [`listConfigSettingA-${now}`],
+        fields: ["key", "label", "readOnly"]
+      });
       let settings = await toSortedArray(byKeyIterator);
 
       // the fields we retrieved
@@ -496,11 +568,14 @@ describe("AppConfigurationClient", () => {
       assert.equal(uniqueLabel, settings[0].label);
 
       assert.ok(!settings[0].contentType);
-      assert.ok(!settings[0].value); 
+      assert.ok(!settings[0].value);
       assert.ok(!settings[0].etag);
 
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
-      byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`], fields: ["key", "label", "value"] });
+      byKeyIterator = client.listConfigurationSettings({
+        keys: [`listConfigSettingA-${now}`],
+        fields: ["key", "label", "value"]
+      });
       settings = await toSortedArray(byKeyIterator);
 
       // the fields we retrieved
@@ -560,6 +635,17 @@ describe("AppConfigurationClient", () => {
       await cleanupSampleValues([key], client);
     });
     */
+    it("accepts operation options", async () => {
+      try {
+        const settingsIterator = client.listConfigurationSettings({
+          requestOptions: { timeout: 1 }
+        });
+        await settingsIterator.next();
+        assert.fail("request should abort");
+      } catch (e) {
+        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
+      }
+    });
   });
 
   describe("listRevisions", () => {
@@ -582,7 +668,10 @@ describe("AppConfigurationClient", () => {
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
       assertEqualSettings(
-        [{ key, label: labelA, value: "fooA1", readOnly: false }, { key, label: labelA, value: "fooA2", readOnly: false }],
+        [
+          { key, label: labelA, value: "fooA1", readOnly: false },
+          { key, label: labelA, value: "fooA2", readOnly: false }
+        ],
         revisions
       );
     });
@@ -594,7 +683,10 @@ describe("AppConfigurationClient", () => {
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
       assertEqualSettings(
-        [{ key, label: labelA, value: "fooA1", readOnly: false }, { key, label: labelA, value: "fooA2", readOnly: false }],
+        [
+          { key, label: labelA, value: "fooA1", readOnly: false },
+          { key, label: labelA, value: "fooA2", readOnly: false }
+        ],
         revisions
       );
     });
@@ -629,6 +721,16 @@ describe("AppConfigurationClient", () => {
         ],
         revisions
       );
+    });
+
+    it("accepts operation options", async () => {
+      try {
+        const iter = client.listRevisions({ labels: [labelA], requestOptions: { timeout: 1 } });
+        await iter.next();
+        assert.fail("request should abort");
+      } catch (e) {
+        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
+      }
     });
   });
 
@@ -776,12 +878,15 @@ describe("AppConfigurationClient", () => {
         "Unexpected contentType in result from addConfigurationSetting()."
       );
 
-      const replacedResult = await client.setConfigurationSetting({
-        key,
-        label,
-        value: "foo2",
-        etag: result.etag
-      }, { onlyIfUnchanged: true });
+      const replacedResult = await client.setConfigurationSetting(
+        {
+          key,
+          label,
+          value: "foo2",
+          etag: result.etag
+        },
+        { onlyIfUnchanged: true }
+      );
 
       assert.equal(
         replacedResult.key,
@@ -857,6 +962,27 @@ describe("AppConfigurationClient", () => {
         null,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
+    });
+
+    it("accepts operation options", async () => {
+      const key = `setConfigTestNA-${Date.now()}`;
+      const label = "test";
+      const value = "foo";
+
+      try {
+        const result = await client.setConfigurationSetting(
+          { key, label, value: "foo" },
+          {
+            requestOptions: {
+              timeout: 1
+            }
+          }
+        );
+
+        assert.fail("request should abort");
+      } catch (e) {
+        assert.equal(e.code, "REQUEST_ABORTED_ERROR");
+      }
     });
   });
 });

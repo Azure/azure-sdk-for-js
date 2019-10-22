@@ -14,11 +14,11 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label"
   };
 
-  before(function () {
+  before(function() {
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  after(async function () {
+  after(async function() {
     if (!this.currentTest!.isPending) {
       await deleteKeyCompletely([testConfigSetting.key], client);
     }
@@ -50,10 +50,33 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     );
     await assertThrowsRestError(
       () =>
-        client.deleteConfigurationSetting({ key: testConfigSetting.key, label: testConfigSetting.label
+        client.deleteConfigurationSetting({
+          key: testConfigSetting.key,
+          label: testConfigSetting.label
         }),
       409,
       "Delete should fail because the setting is read-only"
     );
+  });
+
+  it("accepts operation options", async () => {
+    let storedSetting = await client.getConfigurationSetting({
+      key: testConfigSetting.key,
+      label: testConfigSetting.label
+    });
+
+    try {
+      await client.setReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
+      assert.fail("setReadOnly request should abort");
+    } catch (e) {
+      assert.equal(e.code, "REQUEST_ABORTED_ERROR");
+    }
+
+    try {
+      await client.clearReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
+      assert.fail("clearReadOnly request should abort");
+    } catch (e) {
+      assert.equal(e.code, "REQUEST_ABORTED_ERROR");
+    }
   });
 });
