@@ -5,16 +5,15 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
-import { HttpClient } from '@azure/core-http';
-import { HttpPipelineLogger } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PipelineOptions } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
 export class CertificateClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOrOptions?: ServiceClientOptions | NewPipelineOptions);
+    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     // Warning: (ae-forgotten-export) The symbol "BackupCertificateResult" needs to be exported by the entry point index.d.ts
     backupCertificate(name: string, options?: RequestOptionsBase): Promise<BackupCertificateResult>;
     cancelCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
@@ -31,7 +30,6 @@ export class CertificateClient {
     getCertificateOperation(name: string, options?: RequestOptionsBase): Promise<CertificateOperation>;
     getCertificatePolicy(name: string, options?: RequestOptionsBase): Promise<CertificatePolicy>;
     getCertificateWithPolicy(name: string, options?: RequestOptionsBase): Promise<Certificate>;
-    static getDefaultPipeline(credential: TokenCredential, pipelineOptions?: NewPipelineOptions): ServiceClientOptions;
     getDeletedCertificate(name: string, options?: RequestOptionsBase): Promise<DeletedCertificate>;
     importCertificate(name: string, base64EncodedCertificate: string, options?: KeyVaultClientImportCertificateOptionalParams): Promise<Certificate>;
     listCertificateIssuers(options?: KeyVaultClientGetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuer, CertificateIssuer[]>;
@@ -72,7 +70,7 @@ export interface CertificateOperation {
 }
 
 // Warning: (ae-forgotten-export) The symbol "CertificateAttributes" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export interface CertificatePolicy extends SecretProperties, CertificateAttributes {
     certificateTransparency?: boolean;
@@ -223,19 +221,6 @@ export interface LifetimeAction {
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
-export interface NewPipelineOptions {
-    // (undocumented)
-    HTTPClient?: HttpClient;
-    // (undocumented)
-    logger?: HttpPipelineLogger;
-    // (undocumented)
-    proxyOptions?: ProxyOptions;
-    // (undocumented)
-    retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
-}
-
-// @public
 export interface OrganizationDetails {
     // Warning: (ae-forgotten-export) The symbol "AdministratorDetails" needs to be exported by the entry point index.d.ts
     adminDetails?: AdministratorDetails[];
@@ -248,6 +233,8 @@ export interface ParsedKeyVaultEntityIdentifier {
     vaultUrl: string;
     version?: string;
 }
+
+export { PipelineOptions }
 
 // @public
 export interface ProxyOptions {
