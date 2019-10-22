@@ -122,8 +122,8 @@ export { deserializationPolicy }
 // 
 // @public
 export class DirectoryClient extends StorageClient {
-    constructor(url: string, pipeline: Pipeline);
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
         fileClient: FileClient;
@@ -136,8 +136,6 @@ export class DirectoryClient extends StorageClient {
     delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
-    // (undocumented)
-    readonly dirPath: string;
     forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<number>;
     forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
     getDirectoryClient(subDirectoryName: string): DirectoryClient;
@@ -149,6 +147,8 @@ export class DirectoryClient extends StorageClient {
         kind: "directory";
     } & DirectoryItem, DirectoryListFilesAndDirectoriesSegmentResponse>;
     listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
+    // (undocumented)
+    readonly path: string;
     // Warning: (ae-forgotten-export) The symbol "Metadata" needs to be exported by the entry point index.d.ts
     setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
     setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
@@ -333,13 +333,13 @@ export class FileClient extends StorageClient {
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<void>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    // (undocumented)
-    readonly filePath: string;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
+    // (undocumented)
+    readonly path: string;
     resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
     // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders" needs to be exported by the entry point index.d.ts
     setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
@@ -689,14 +689,16 @@ export class FileSystemAttributes {
 // @public
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
     sourceContentCrc64?: Uint8Array;
-    // Warning: (ae-forgotten-export) The symbol "SourceModifiedAccessConditions" needs to be exported by the entry point index.d.ts
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
     timeoutInSeconds?: number;
 }
 
 // @public
-export interface FileUploadRangeFromURLOptions extends FileUploadRangeFromURLOptionalParams, CommonOptions {
+export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    sourceConditions?: SourceModifiedAccessConditions;
+    sourceContentCrc64?: Uint8Array;
+    timeoutInSeconds?: number;
 }
 
 // Warning: (ae-forgotten-export) The symbol "FileUploadRangeFromURLHeaders" needs to be exported by the entry point index.d.ts
@@ -1201,6 +1203,12 @@ export interface SignedIdentifierModel {
     // Warning: (ae-forgotten-export) The symbol "AccessPolicy" needs to be exported by the entry point index.d.ts
     accessPolicy?: AccessPolicy;
     id: string;
+}
+
+// @public
+export interface SourceModifiedAccessConditions {
+    sourceIfMatchCrc64?: Uint8Array;
+    sourceIfNoneMatchCrc64?: Uint8Array;
 }
 
 // @public

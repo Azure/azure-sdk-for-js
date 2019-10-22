@@ -314,9 +314,9 @@ export class QueueClient extends StorageClient {
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
-    peekMessages(options?: QueuePeekMessagesOptions): Promise<QueuePeekMessagesResponse>;
     // (undocumented)
-    readonly queueName: string;
+    readonly name: string;
+    peekMessages(options?: QueuePeekMessagesOptions): Promise<QueuePeekMessagesResponse>;
     receiveMessages(options?: QueueReceiveMessageOptions): Promise<QueueReceiveMessageResponse>;
     sendMessage(messageText: string, options?: QueueSendMessageOptions): Promise<QueueSendMessageResponse>;
     setAccessPolicy(queueAcl?: SignedIdentifier[], options?: QueueSetAccessPolicyOptions): Promise<QueueSetAccessPolicyResponse>;
