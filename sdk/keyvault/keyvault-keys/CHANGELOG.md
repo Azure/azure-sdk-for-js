@@ -10,6 +10,9 @@
 - All options should match the method's name.
 - All methods that return keyProperties (like the ones that iterate) should contain "propertiesOf" in their names.
 - Flattened all the options bag to extend the `RequestOptionsBase` interface.
+- Renamed the `vautlUrl` parameters into `vaultEndpoint`.
+- Renamed the Wrap/UnwrapOptions into Wrap/UnwrapKeyProperties.
+- Renamed `UpdatedKey` to `UpdatedKeyProperties`.
 
 ## 4.0.0-preview.8 (2019-10-09)
 
