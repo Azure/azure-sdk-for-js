@@ -33,14 +33,14 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can purge all secrets", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the secrets in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    for await (const secret of client.listSecrets()) {
+    for await (const secretProperties of client.listPropertiesOfSecrets()) {
       try {
-        await testClient.flushSecret(secret.name);
+        await testClient.flushSecret(secretProperties.name);
       } catch (e) {}
     }
-    for await (const secret of client.listDeletedSecrets()) {
+    for await (const deletedSecret of client.listDeletedSecrets()) {
       try {
-        await testClient.purgeSecret(secret.name);
+        await testClient.purgeSecret(deletedSecret.name);
       } catch (e) {}
     }
   });
@@ -55,9 +55,9 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     let found = 0;
-    for await (const secret of client.listSecrets()) {
+    for await (const secretProperties of client.listPropertiesOfSecrets()) {
       // The vault might contain more secrets than the ones we inserted.
-      if (!secretNames.includes(secret.name)) continue;
+      if (!secretNames.includes(secretProperties.name)) continue;
       found += 1;
     }
 
@@ -111,10 +111,10 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const item of client.listSecretVersions(secretName)) {
-      const version = item.version!;
+    for await (const secretProperties of client.listPropertiesOfSecretVersions(secretName)) {
+      const version = secretProperties.version!;
       const secret = await client.getSecret(secretName, { version: version });
-      results.push({ version: item.version!, value: secret.value! });
+      results.push({ version: secretProperties.version!, value: secret.value! });
     }
 
     const comp = (a: VersionValuePair, b: VersionValuePair): number =>
@@ -131,9 +131,9 @@ describe("Secret client - list secrets in various ways", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const version of client.listSecretVersions(secretName)) {
+    for await (const secretProperties of client.listPropertiesOfSecretVersions(secretName)) {
       assert.equal(
-        version.name,
+        secretProperties.name,
         secretName,
         "Unexpected key name in result from listKeyVersions()."
       );
@@ -151,10 +151,10 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     let found = 0;
-    for await (const page of client.listSecrets().byPage()) {
-      for (const secret of page) {
+    for await (const page of client.listPropertiesOfSecrets().byPage()) {
+      for (const secretProperties of page) {
         // The vault might contain more secrets than the ones we inserted.
-        if (!secretNames.includes(secret.name)) continue;
+        if (!secretNames.includes(secretProperties.name)) continue;
         found += 1;
       }
     }
@@ -207,9 +207,9 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const results: VersionValuePair[] = [];
-    for await (const page of client.listSecretVersions(secretName).byPage()) {
-      for (const item of page) {
-        const version = item.version!;
+    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+      for (const secretProperties of page) {
+        const version = secretProperties.version!;
         const secret = await client.getSecret(secretName, { version });
         results.push({ version, value: secret.value! });
       }
@@ -229,10 +229,10 @@ describe("Secret client - list secrets in various ways", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     let totalVersions = 0;
-    for await (const page of client.listSecretVersions(secretName).byPage()) {
-      for (const version of page) {
+    for await (const page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+      for (const secretProperties of page) {
         assert.equal(
-          version.name,
+          secretProperties.name,
           secretName,
           "Unexpected key name in result from listKeyVersions()."
         );

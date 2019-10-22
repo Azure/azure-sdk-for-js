@@ -215,11 +215,11 @@ This will create a new version of the same key, which will have the latest
 provided attributes.
 
 Attributes can also be updated to an existing key version with
-`updateKey`, as follows:
+`updateKeyProperties`, as follows:
 
 ```javascript
 const result = await client.createKey(keyName, "RSA");
-await client.updateKey(keyName, result.properties.version, {
+await client.updateKeyProperties(keyName, result.properties.version, {
   enabled: false
 });
 ```
@@ -291,24 +291,24 @@ Using the KeysClient, you can retrieve and iterate through all of the
 keys in a Key Vault, as well as through all of the deleted keys and the
 versions of a specific key. The following API methods are available:
 
-- `listKeys` will list all of your non-deleted keys by their names, only
+- `listPropertiesOfKeys` will list all of your non-deleted keys by their names, only
   at their latest versions.
 - `listDeletedKeys` will list all of your deleted keys by their names,
   only at their latest versions.
-- `listKeyVersions` will list all the versions of a key based on a key
+- `listPropertiesOfKeyVersions` will list all the versions of a key based on a key
   name.
 
 Which can be used as follows:
 
 ```javascript
-for await (let key of client.listKeys()) {
-  console.log("Key: ", key);
+for await (let keyProperties of client.listPropertiesOfKeys()) {
+  console.log("Key properties: ", keyProperties);
 }
 for await (let deletedKey of client.listDeletedKeys()) {
-  console.log("Deleted key: ", deletedKey);
+  console.log("Deleted: ", deletedKey);
 }
-for await (let version of client.listKeyVersions(keyName)) {
-  console.log("Version: ", version);
+for await (let versionProperties of client.listPropertiesOfKeyVersions(keyName)) {
+  console.log("Version properties: ", versionProperties);
 }
 ```
 
@@ -317,9 +317,9 @@ retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
 ```javascript
-for await (let page of client.listKeys().byPage()) {
-  for (let key of page) {
-    console.log("Key: ", key);
+for await (let page of client.listPropertiesOfKeys().byPage()) {
+  for (let keyProperties of page) {
+    console.log("Key properties: ", keyProperties);
   }
 }
 for await (let page of client.listDeletedKeys().byPage()) {
@@ -327,9 +327,9 @@ for await (let page of client.listDeletedKeys().byPage()) {
     console.log("Deleted key: ", deletedKey);
   }
 }
-for await (let page of client.listKeyVersions(keyName).byPage()) {
-  for (let version of page) {
-    console.log("Version: ", version);
+for await (let page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
+  for (let versionProperties of page) {
+    console.log("Version: ", versionProperties);
   }
 }
 ```

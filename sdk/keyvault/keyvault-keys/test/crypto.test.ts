@@ -6,7 +6,7 @@ import * as crypto from "crypto";
 import * as constants from "constants";
 import { isNode } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
-import { CryptographyClient, Key, KeyClient } from "../src";
+import { CryptographyClient, KeyVaultKey, KeyClient } from "../src";
 import { convertJWKtoPEM } from "../src/cryptographyClient";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -20,7 +20,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let recorder: any;
   let credential: ClientSecretCredential;
   let keyName: string;
-  let key: Key;
+  let key: KeyVaultKey;
   let keyVaultUrl: string;
   let keyUrl: string;
   let keySuffix: string;
@@ -34,9 +34,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     keySuffix = authentication.keySuffix;
     keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     key = await client.createKey(keyName, "RSA");
-    keyVaultUrl = key.properties.vaultUrl;
-    keyUrl = key.keyMaterial!.kid as string;
-    cryptoClient = new CryptographyClient(keyVaultUrl, key.keyMaterial!.kid!, credential);
+    keyVaultUrl = key.properties.vaultEndpoint;
+    keyUrl = key.key!.kid as string;
+    cryptoClient = new CryptographyClient(keyVaultUrl, key.key!.kid!, credential);
   });
 
   after(async function() {
@@ -52,9 +52,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   });
 
   it("getKey from client initialized with a JWK key", async function() {
-    const jwtKeyClient = new CryptographyClient(keyVaultUrl, key.keyMaterial!, credential);
+    const jwtKeyClient = new CryptographyClient(keyVaultUrl, key.key!, credential);
     const getKeyResult = await jwtKeyClient.getKey();
-    assert.equal(getKeyResult.kid, key.keyMaterial!.kid);
+    assert.equal(getKeyResult.kid, key.key!.kid);
   });
 
   if (isRecording) {

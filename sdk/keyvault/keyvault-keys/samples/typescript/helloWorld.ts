@@ -31,13 +31,13 @@ async function main(): Promise<void> {
   console.log("key: ", key);
 
   // Or list the keys we have
-  for await (const keyAttributes of client.listKeys()) {
-    const key = await client.getKey(keyAttributes.name);
+  for await (const keyProperties of client.listPropertiesOfKeys()) {
+    const key = await client.getKey(keyProperties.name);
     console.log("key: ", key);
   }
 
   // Update the key
-  const updatedKey = await client.updateKey(keyName, result.properties.version!, {
+  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
     enabled: false
   });
   console.log("updated key: ", updatedKey);
