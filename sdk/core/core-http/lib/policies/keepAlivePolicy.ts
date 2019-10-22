@@ -15,17 +15,10 @@ export interface KeepAliveOptions {
    * Defaults to true.
    */
   enable: boolean;
-
-  /*
-   * The maximum number of sockets that will be opened per host.
-   * Defaults to 50.
-   */
-  maxSockets?: number;
 }
 
 export const DefaultKeepAliveOptions: KeepAliveOptions = {
-  enable: true,
-  maxSockets: 50
+  enable: true
 }
 
 export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions) {
