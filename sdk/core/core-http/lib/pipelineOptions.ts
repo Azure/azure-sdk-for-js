@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { HttpClient } from "./httpClient";
-import { ServiceClientOptions } from "./serviceClient";
 import { RetryOptions } from './policies/exponentialRetryPolicy';
 import { KeepAliveOptions } from './policies/keepAlivePolicy';
 import { RedirectOptions } from './policies/redirectPolicy';
@@ -11,23 +10,6 @@ import { UserAgentOptions } from './policies/userAgentPolicy';
 import { DeserializationOptions } from './policies/deserializationPolicy';
 import { LoggingOptions } from './policies/logPolicy';
 import { RequestPolicyFactory } from './policies/requestPolicy';
-
-/**
- * Returns true if the passed object looks like a PipelineOptions.
- */
-export function isPipelineOptions(
-  pipelineOrOptions: ServiceClientOptions | PipelineOptions
-): pipelineOrOptions is PipelineOptions {
-  // An empty object is considered options
-  function isEmptyObject(obj: ServiceClientOptions | PipelineOptions) {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
-  }
-  const options = pipelineOrOptions as PipelineOptions;
-  return (
-    isEmptyObject(pipelineOrOptions) ||
-    !!(options.retryOptions || options.proxyOptions || options.redirectOptions || options.keepAliveOptions || options.userAgentOptions || options.httpClient)
-  );
-}
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
