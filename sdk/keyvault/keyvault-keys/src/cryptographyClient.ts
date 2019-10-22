@@ -167,7 +167,7 @@ export class CryptographyClient {
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
-    options?: WrapOptions
+    options?: WrapKeyOptions
   ): Promise<WrapResult> {
     if (isNode) {
       await this.fetchFullKeyIfPossible();
@@ -234,7 +234,7 @@ export class CryptographyClient {
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
-    options?: UnwrapOptions
+    options?: UnwrapKeyOptions
   ): Promise<UnwrapResult> {
     let result = await this.client.unwrapKey(
       this.vaultBaseUrl,
@@ -805,12 +805,12 @@ export interface VerifyOptions extends CryptographyOptions {}
 /**
  * Options for the wrapKey call to the CryptographyClient
  */
-export interface WrapOptions extends CryptographyOptions {}
+export interface WrapKeyOptions extends CryptographyOptions {}
 
 /**
  * Options for the unwrap call to the CryptographyClient
  */
-export interface UnwrapOptions extends CryptographyOptions {}
+export interface UnwrapKeyOptions extends CryptographyOptions {}
 
 /**
  * Result of a decrypt operation
