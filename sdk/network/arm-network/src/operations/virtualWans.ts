@@ -80,9 +80,32 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,virtualWANName,wANParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualWansUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The resource group name of the VirtualWan.
+   * @param virtualWANName The name of the VirtualWAN being updated.
+   * @param wANParameters Parameters supplied to Update VirtualWAN tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
+  /**
+   * @param resourceGroupName The resource group name of the VirtualWan.
+   * @param virtualWANName The name of the VirtualWAN being updated.
+   * @param wANParameters Parameters supplied to Update VirtualWAN tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
+  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWAN>, callback?: msRest.ServiceCallback<Models.VirtualWAN>): Promise<Models.VirtualWansUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        virtualWANName,
+        wANParameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.VirtualWansUpdateTagsResponse>;
   }
 
   /**
@@ -166,26 +189,6 @@ export class VirtualWans {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
-  }
-
-  /**
-   * Updates a VirtualWAN tags.
-   * @param resourceGroupName The resource group name of the VirtualWan.
-   * @param virtualWANName The name of the VirtualWAN being updated.
-   * @param wANParameters Parameters supplied to Update VirtualWAN tags.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        virtualWANName,
-        wANParameters,
-        options
-      },
-      beginUpdateTagsOperationSpec,
       options);
   }
 
@@ -285,7 +288,39 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.VirtualWAN
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualWANName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "wANParameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualWAN
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -309,7 +344,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListVirtualWANsResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -332,7 +367,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListVirtualWANsResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -367,42 +402,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.VirtualWAN
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  serializer
-};
-
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.virtualWANName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "wANParameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualWAN
-    },
-    201: {
-      bodyMapper: Mappers.VirtualWAN
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -427,7 +427,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -448,7 +448,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListVirtualWANsResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -469,7 +469,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListVirtualWANsResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

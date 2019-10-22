@@ -8,7 +8,6 @@
 
 export {
   discriminators,
-  ErrorDetails,
-  ErrorModel,
+  CloudError,
   GetVpnSitesConfigurationRequest
 } from "../models/mappers";
