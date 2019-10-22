@@ -251,15 +251,15 @@ export function getJSONOrUndefined(value: any): number | undefined {
 
 /**
  *  @ignore
- * Helper utility to retrieve `countDetails` value from given input,
+ * Helper utility to retrieve message count details from given input,
  * or undefined if not passed in.
  * @param value
  */
-export function getCountDetailsOrUndefined(value: any): CountDetails | undefined {
+export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
   const jsonValue: any = getJSONOrUndefined(value);
   if (jsonValue != undefined) {
     try {
-      const result: CountDetails = {
+      const result: MessageCountDetails = {
         activeMessageCount: parseInt(jsonValue["d2p1:ActiveMessageCount"]),
         deadLetterMessageCount: parseInt(jsonValue["d2p1:DeadLetterMessageCount"]),
         scheduledMessageCount: parseInt(jsonValue["d2p1:ScheduledMessageCount"]),
@@ -278,9 +278,9 @@ export function getCountDetailsOrUndefined(value: any): CountDetails | undefined
 }
 
 /**
- * Represents type of `countDetails` in ATOM based management operations
+ * Represents type of message count details in ATOM based management operations
  */
-export type CountDetails = {
+export type MessageCountDetails = {
   activeMessageCount: number;
   deadLetterMessageCount: number;
   scheduledMessageCount: number;

@@ -79,4 +79,4 @@ export {
   SqlAction
 } from "./serializers/ruleResourceSerializer";
 
-export { CountDetails, AuthorizationRule } from "./util/utils";
+export { MessageCountDetails, AuthorizationRule } from "./util/utils";

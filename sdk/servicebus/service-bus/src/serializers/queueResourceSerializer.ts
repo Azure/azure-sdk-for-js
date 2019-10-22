@@ -15,7 +15,7 @@ import {
   getCountDetailsOrUndefined,
   getRawAuthorizationRules,
   getAuthorizationRulesOrUndefined,
-  CountDetails,
+  MessageCountDetails,
   AuthorizationRule
 } from "../util/utils";
 
@@ -88,7 +88,7 @@ export function buildQueue(rawQueue: any): Queue | undefined {
       ),
       forwardDeadLetteredMessagesTo: rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
 
-      countDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
+      messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
       supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
       enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
 
@@ -322,9 +322,9 @@ export interface Queue extends QueueOptions {
   path?: string;
 
   /**
-   * Count details
+   * Message count details
    */
-  countDetails?: CountDetails;
+  messageCountDetails?: MessageCountDetails;
 
   /**
    * Ordering support for messages

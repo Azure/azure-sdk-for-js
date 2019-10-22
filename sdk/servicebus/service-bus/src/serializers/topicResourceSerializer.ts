@@ -13,7 +13,7 @@ import {
   getIntegerOrUndefined,
   getBooleanOrUndefined,
   getCountDetailsOrUndefined,
-  CountDetails,
+  MessageCountDetails,
   getRawAuthorizationRules,
   getAuthorizationRulesOrUndefined,
   AuthorizationRule
@@ -93,7 +93,7 @@ export function buildTopic(rawTopic: any): Topic | undefined {
         rawTopic[Constants.ENABLE_SUBSCRIPTION_PARTITIONING]
       ),
 
-      countDetails: getCountDetailsOrUndefined(rawTopic[Constants.COUNT_DETAILS]),
+      messageCountDetails: getCountDetailsOrUndefined(rawTopic[Constants.COUNT_DETAILS]),
       isExpress: getBooleanOrUndefined(rawTopic[Constants.IS_EXPRESS]),
       enableExpress: getBooleanOrUndefined(rawTopic[Constants.ENABLE_EXPRESS]),
       maxSubscriptionsPerTopic: getIntegerOrUndefined(
@@ -363,9 +363,9 @@ export interface Topic extends TopicOptions {
   topicName?: string;
 
   /**
-   * The topic's count details.
+   * Message count details
    */
-  countDetails?: CountDetails;
+  messageCountDetails?: MessageCountDetails;
 
   /**
    * Is anonymous accessible topic option

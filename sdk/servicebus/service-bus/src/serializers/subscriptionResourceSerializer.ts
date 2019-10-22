@@ -13,7 +13,7 @@ import {
   getIntegerOrUndefined,
   getBooleanOrUndefined,
   getCountDetailsOrUndefined,
-  CountDetails
+  MessageCountDetails
 } from "../util/utils";
 
 /**
@@ -88,7 +88,7 @@ export function buildSubscription(rawSubscription: any): Subscription | undefine
       forwardDeadLetteredMessagesTo: rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
       defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
 
-      countDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
+      messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
 
       forwardTo: rawSubscription[Constants.FORWARD_TO],
       userMetadata: rawSubscription[Constants.USER_METADATA],
@@ -301,9 +301,9 @@ export interface Subscription extends SubscriptionOptions {
   topicName?: string;
 
   /**
-   * Count details
+   * Message count details
    */
-  countDetails?: CountDetails;
+  messageCountDetails?: MessageCountDetails;
 
   /**
    * Entity availability status
