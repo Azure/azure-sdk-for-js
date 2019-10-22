@@ -324,8 +324,8 @@ export interface FileClearRangeOptions extends CommonOptions {
 
 // @public
 export class FileClient extends StorageClient {
-    constructor(url: string, pipeline: Pipeline);
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
@@ -407,7 +407,7 @@ export interface FileDownloadHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     fileAttributes?: string;
     fileChangeOn?: Date;
     fileContentMD5?: Uint8Array;
@@ -492,7 +492,7 @@ export interface FileGetRangeListHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     fileContentLength?: number;
     lastModified?: Date;
     requestId?: string;
@@ -1044,7 +1044,7 @@ export interface ShareGetAccessPolicyHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;

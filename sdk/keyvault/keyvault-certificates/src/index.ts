@@ -21,9 +21,7 @@ import {
   CreateCertificateOptions,
   SubjectAlternativeNames
 } from "./certificatesModels";
-import {
-  ParsedKeyVaultEntityIdentifier,
-} from "./core/keyVaultBase";
+import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
 import {
   CertificateBundle,
@@ -220,7 +218,7 @@ export class CertificateClient {
   /**
    * Creates an instance of CertificateClient.
    * @param {string} url the base url to the key vault.
-   * @param {TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests. (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CertificateClient
@@ -241,13 +239,12 @@ export class CertificateClient {
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
-      }
+      };
     }
 
-    const authPolicy =
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+    const authPolicy = isTokenCredential(credential)
+      ? challengeBasedAuthenticationPolicy(credential)
+      : signingPolicy(credential);
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -263,7 +260,7 @@ export class CertificateClient {
           }
         }
       }
-    }
+    };
 
     this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);

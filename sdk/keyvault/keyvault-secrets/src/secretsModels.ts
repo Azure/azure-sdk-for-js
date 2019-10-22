@@ -145,7 +145,7 @@ export interface DeletedSecret {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to beginDeleteSecret
+ * passed to {@link beginDeleteSecret}
  */
 export interface SecretPollerOptions {
   /**
@@ -164,7 +164,7 @@ export interface SecretPollerOptions {
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to setSecret.
+ * An interface representing the optional parameters that can be passed to {@link setSecret}.
  */
 export interface SetSecretOptions {
   /**
@@ -197,7 +197,7 @@ export interface SetSecretOptions {
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to updateSecret.
+ * An interface representing the optional parameters that can be passed to {@link updateSecret}.
  */
 export interface UpdateSecretOptions {
   /**
@@ -230,7 +230,7 @@ export interface UpdateSecretOptions {
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to getSecret.
+ * An interface representing the optional parameters that can be passed to {@link getSecret}.
  */
 export interface GetSecretOptions {
   /**

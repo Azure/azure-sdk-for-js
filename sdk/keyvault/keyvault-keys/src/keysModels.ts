@@ -101,7 +101,7 @@ export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
 
 /**
  * @interface
- * An interface representing a deleted key
+ * An interface representing a deleted key.
  */
 export interface DeletedKey {
   /**
@@ -136,7 +136,7 @@ export interface DeletedKey {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createKey
+ * passed to {@link createKey}
  */
 export interface CreateKeyOptions {
   /**
@@ -164,13 +164,16 @@ export interface CreateKeyOptions {
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */
   requestOptions?: coreHttp.RequestOptionsBase;
+  /**
+   * @member {number} [keySize] Size of the key
+   */
   keySize?: number;
 }
 
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to beginDeleteKey
+ * passed to {@link beginDeleteKey}
  */
 export interface KeyPollerOptions {
   /**
@@ -190,7 +193,7 @@ export interface KeyPollerOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createEcKey
+ * passed to {@link createEcKey}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
   /**
@@ -209,7 +212,7 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createRsaKey
+ * passed to {@link createRsaKey}
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /**
@@ -227,7 +230,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to importKey
+ * passed to {@link importKey}
  */
 export interface ImportKeyOptions {
   /**
@@ -260,7 +263,7 @@ export interface ImportKeyOptions {
 
 /**
  * @interface
- * An interface representing optional parameters that can be passed to updateKey.
+ * An interface representing optional parameters that can be passed to {@link updateKey}.
  */
 export interface UpdateKeyOptions {
   /**
@@ -293,7 +296,7 @@ export interface UpdateKeyOptions {
 
 /**
  * @interface
- * An interface representing optional parameters that can be passed to getKey.
+ * An interface representing optional parameters that can be passed to {@link getKey}.
  */
 export interface GetKeyOptions {
   /**
@@ -309,7 +312,7 @@ export interface GetKeyOptions {
 
 /**
  * @interface
- * An interface representing optional parameters for KeyClient paged operations.
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link listKeys}.
  */
 export interface ListKeysOptions {
   /**

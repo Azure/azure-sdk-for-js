@@ -26,7 +26,6 @@ export interface CreateKeyOptions {
     enabled?: boolean;
     expires?: Date;
     keyOps?: JsonWebKeyOperation[];
-    // (undocumented)
     keySize?: number;
     notBefore?: Date;
     requestOptions?: coreHttp.RequestOptionsBase;

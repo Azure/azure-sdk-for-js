@@ -566,7 +566,7 @@ export class CryptographyClient {
    * ```
    * @param url The url of the key vault service
    * @param key The key to use during cryptography tasks
-   * @param credential The login credentials of the service
+   * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CryptographyClient
@@ -588,13 +588,12 @@ export class CryptographyClient {
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
-      }
+      };
     }
 
-    const authPolicy =
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+    const authPolicy = isTokenCredential(credential)
+      ? challengeBasedAuthenticationPolicy(credential)
+      : signingPolicy(credential);
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -610,7 +609,7 @@ export class CryptographyClient {
           }
         }
       }
-    }
+    };
 
     this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
