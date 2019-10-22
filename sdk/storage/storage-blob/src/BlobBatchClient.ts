@@ -20,7 +20,7 @@ import { Service } from "./generated/src/operations";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { Pipeline } from "./Pipeline";
+import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -68,14 +68,46 @@ export class BlobBatchClient {
   /**
    * Creates an instance of BlobBatchClient.
    *
-   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   * @param {string} url A url pointing to Azure Storage blob service, such as
+   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   *                                                  or a TokenCredential from @azure/identity. If not specified,
+   *                                                  AnonymousCredential is used.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @memberof BlobBatchClient
+   */
+  constructor(
+    url: string,
+    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: StoragePipelineOptions
+  );
+  /**
+   * Creates an instance of BlobBatchClient.
+   *
+   * @param {string} url A url pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof BlobServiceClient
+   * @memberof BlobBatchClient
    */
-  constructor(url: string, pipeline: Pipeline) {
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    url: string,
+    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    options?: StoragePipelineOptions
+  ) {
+    let pipeline: Pipeline;
+    if (credentialOrPipeline instanceof Pipeline) {
+      pipeline = credentialOrPipeline;
+    } else if (!credentialOrPipeline) {
+      // no credential provided
+      pipeline = newPipeline(new AnonymousCredential(), options);
+    } else {
+      pipeline = newPipeline(credentialOrPipeline, options);
+    }
+
     const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
 
     this._serviceContext = new Service(storageClientContext);
