@@ -53,7 +53,7 @@ jobs:
 
       - pwsh: |
           New-Item -Path "$(Build.SourcesDirectory)/docfx_project" -Name "toc.yml" -Force
-          Add-Content -Path "$(Build.SourcesDirectory)/docfx_project/toc.yml" -Value "- name: Azure SDK for Javascript Apis`r`n  href: api/`r`n  homepage: api/index.md"
+          Add-Content -Path "$(Build.SourcesDirectory)/docfx_project/toc.yml" -Value "- name: Azure SDK for JavaScript APIs`r`n  href: api/`r`n  homepage: api/index.md"
           Copy-Item "$(Build.SourcesDirectory)/README.md" -Destination "$(Build.SourcesDirectory)/docfx_project/api/index.md" -Force
           Copy-Item "$(Build.SourcesDirectory)/README.md" -Destination "$(Build.SourcesDirectory)/docfx_project/index.md" -Force
         displayName: Update toc.yml and index
@@ -68,6 +68,7 @@ jobs:
       - pwsh: |
           Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/assets/*" -Destination "$(Build.SourcesDirectory)/docfx_project/_site/" -Force
           Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/main.js" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/main.js"
+          Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/docfx.css" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/docfx.css"
         displayName: Replace site assets
 
       - task: CopyFiles@2

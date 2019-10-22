@@ -43,7 +43,8 @@
     "globalMetadata": {
       "_appTitle": "Azure SDK for JS",
       "_appFooter": "Azure SDK for JS",
-      "_enableSearch": true,
+      "_disableContribution": true,
+      "_enableSearch": false,
       "_enableNewTab": true
     }
   }
