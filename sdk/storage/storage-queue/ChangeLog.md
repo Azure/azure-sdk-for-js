@@ -2,11 +2,33 @@
 
 ## 2019.11 12.0.0-preview.5
 
+- [Breaking] Major API changes for the `@azure/storage-queue` package.
+  - Flattened Client Hierarchy - `QueueClient` is flattened into `QueueServiceClient`, `MesagesClient` is renamed to `QueueClient`, `MessageIdClient` is flattened into the new `QueueClient`. [PR #5579](https://github.com/Azure/azure-sdk-for-js/pull/5579)
+    - `enqueueMessage` is renamed as `sendMessage`, `dequeueMessages` is renamed to `receiveMessages`.
+    - The new `QueueServiceClient` has `createQueue` and `deleteQueue` helper methods.
+    - Names of `Options` and `Responses` as per the new hierarchy of clients. [PR #5617](https://github.com/Azure/azure-sdk-for-js/pull/5617)
+      - Example - `MessagesClearOptions` is renamed to `QueueClearMessagesOptions`, `MessagesEnqueueResponse` is renamed to `QueueSendMessageResponse`.
+- A new interface `CommonOptions` for options common to remote operations is exported. Currently, `CommonOptions` contains span options for tracing.
 - [Breaking] `IPRange` is renamed to `SasIPRange`.
 - [Breaking] `Models` is no longer exported in public API surface. Instead generated model types required by the public API are explicitly re-exported and aliased with `Model` suffix.
   For example, after this change, `Models.QueueItem` becomes `QueueItemModel`.
 - [Breaking] Cancelling an operation now throws a standardized error with the name `AbortError`.
 - [Breaking] `queueName` on `QueueClient` is renamed to `name`.
+- [Breaking] `body` field from `RestError` Object in core-http Library is removed, the `response` property on the error will now have the `parsedBody` & `headers` along with raw body & headers that are already present. PRs [#5670](https://github.com/Azure/azure-sdk-for-js/pull/5670), [#5437](https://github.com/Azure/azure-sdk-for-js/pull/5437)
+  - Errors from the storage service can be seen in an extra field `details` with the expected error code. [#5688](https://github.com/Azure/azure-sdk-for-js/pull/5688)
+- [Breaking] Type of the `permissions` attribute in the options bag `FileSASSignatureValues` to be passed into `generateQueueSASQueryParameters` is changed to `QueueSASPermissions` from type `string`.
+
+  - Similarly, `AccountSASPermissions` for `generateAccountSASQueryParameters` instead of type `string`.
+  - Example - permissions attribute in `generateQueueSASQueryParameters`
+    - `permissions: QueueSASPermissions.parse("racwd").toString()` changes to `QueueSASPermissions.parse("racwd")`
+
+- [Breaking] Appropriate attribute renames in all the interfaces [PR #5629](https://github.com/Azure/azure-sdk-for-js/pull/5629)
+  - Example - `nextMarker` -> `continuationToken`, `HTTPClient` -> `HttpClient`, `permission` -> `permissions`
+- Bug fix - Name properties on clients now support the Emulator. [PR #5557](https://github.com/Azure/azure-sdk-for-js/pull/5557)
+  - emulator url when the queueEndpoint is `http://127.0.0.1:10001/devstoreaccount1` supported
+  - emulator connection string shorthands are supported
+    - `UseDevelopmentStorage=true`
+    - (with proxyURI) `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=proxyURI`
 
 ## 2019.10 12.0.0-preview.4
 
@@ -35,7 +57,6 @@
     includeMetadata: true
   });
   ```
-- A new interface `CommonOptions` for options common to remote operations is exported. Currently, `CommonOptions` contains span options for tracing.
 
 ## 2019.08 12.0.0-preview.3
 
