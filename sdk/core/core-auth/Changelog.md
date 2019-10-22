@@ -2,8 +2,7 @@
 
 # 1.0.0-preview.4 - 2019-10-22
 
-- Removed the `SimpleTokenCredential`.
-  It is not needed as it requires a token to be provided on instantiation.
+- Removed the `SimpleTokenCredential` implementation since it is not useful outside of test scenarios
 - Updated to use the latest version of `@azure/core-tracing` package
 
 ## 1.0.0-preview.3 - 2019-09-09

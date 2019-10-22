@@ -2,9 +2,10 @@
 
 ## 1.0.0-preview.6 - 2019-10-22
 
+- Introduced a HTTP pipeline configuration type, `PipelineOptions`, which makes it easier to configure common settings for API requests.  This is now the options type used in the `@azure/keyvault-*` data plane libraries.
+- Support for HTTP request logging has been redesigned to use `@azure/logger`; use`AZURE_LOG_LEVEL="info"` to see full request/response logs when running in Node.js.  In the browser, you can import `setLogLevel` from `@azure/logger` to change the log level; logs will then be written to the browser console.
 - Removed error type `ResponseBodyNotFoundError` that was introduced in the previous preview. Use cases for it were removed.
-- Placeholder for New logging support via the new logger package
-- Placeholder for the fix that parses error responses using default mappers
+- Fixed an issue where error response details were not being deserialized correctly when the default mapper is used.
 - Fixes a memory leak issue resulting from event listeners not being removed from abortSignals.
 - Cancelling an operation using an `abortSignal` will now throw an `AbortError`.
   The `name` property on the error will match "AbortError".
