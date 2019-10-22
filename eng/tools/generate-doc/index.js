@@ -6,6 +6,8 @@ const nunjucks = require("nunjucks");
 const readFile = util.promisify(fs.readFile);
 const readDir = util.promisify(fs.readdir);
 const statFile = util.promisify(fs.stat);
+const pLimit = require('p-limit');
+
 nunjucks.configure("documentation/templateDocGen", { autoescape: true });
 
 /* Traversing the directory */
@@ -203,27 +205,27 @@ const executeTypedoc = async (
     }
   } // end-for ServiceFolders
 
+
+  var plimitPromises = [];
+  const limit = pLimit(20);
   for (const commandRun of commandList) {
-    let promise = new Promise((res, rej) => {
-      let typedocProcess = childProcess.spawn(
-        commandRun[0],
-        commandRun[2],
-        commandRun[1]
-      );
+    const promise = limit(()=> new Promise(async (res, rej) => {
+
+      let typedocProcess = childProcess.spawn(commandRun[0], commandRun[2], commandRun[1]);
       let stdOut = "";
       let stdErr = "";
-      typedocProcess.on("close", code => res({ code, stdOut, stdErr }));
+      typedocProcess.on("close", code => {
+        res({ code, stdOut, stdErr })
+      });
 
-      typedocProcess.stdout.on(
-        "data",
-        data => (stdOut = stdOut + data.toString())
-      );
+      typedocProcess.stdout.on("data", data => (stdOut = stdOut + data.toString()));
       typedocProcess.stderr.on("data", err => (stdErr = stdErr));
-    });
-    promises.push(promise);
+
+    }));
+    plimitPromises.push(promise);
   }
   try {
-    const results = await Promise.all(promises);
+    const results = await Promise.all(plimitPromises);
     for (let item of results) {
       console.log(item.stdOut);
       if (item.code !== 0) console.log(item.stdErr);
