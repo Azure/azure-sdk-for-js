@@ -19,7 +19,7 @@ import {
   FileSetHTTPHeadersResponse,
   FileSetMetadataResponse,
   FileStartCopyResponse,
-  FileUploadRangeFromURLOptionalParams,
+  SourceModifiedAccessConditions,
   FileUploadRangeFromURLResponse,
   FileUploadRangeResponse,
   HandleItem,
@@ -220,9 +220,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
  * @export
  * @interface FileUploadRangeFromURLOptions
  */
-export interface FileUploadRangeFromURLOptions
-  extends FileUploadRangeFromURLOptionalParams,
-    CommonOptions {
+export interface FileUploadRangeFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -231,6 +229,20 @@ export interface FileUploadRangeFromURLOptions
    * @memberof FileUploadRangeFromURLOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
+   * Additional parameters for the operation
+   */
+  sourceConditions?: SourceModifiedAccessConditions;
 }
 
 /**
@@ -665,14 +677,14 @@ export class FileClient extends StorageClient {
    */
   private context: File;
   private _shareName: string;
-  private _filePath: string;
+  private _path: string;
 
   public get shareName(): string {
     return this._shareName;
   }
 
-  public get filePath(): string {
-    return this._filePath;
+  public get path(): string {
+    return this._path;
   }
 
   /**
@@ -726,7 +738,7 @@ export class FileClient extends StorageClient {
     super(url, pipeline);
     ({
       shareName: this._shareName,
-      filePathOrDirectoryPath: this._filePath
+      filePathOrDirectoryPath: this._path
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new File(this.storageClientContext);
   }
@@ -1200,6 +1212,7 @@ export class FileClient extends StorageClient {
         0,
         {
           abortSignal: options.abortSignal,
+          sourceModifiedAccessConditions: options.sourceConditions,
           ...options,
           spanOptions
         }

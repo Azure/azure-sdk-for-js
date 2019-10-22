@@ -243,7 +243,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
         expiryTime: tmr,
-        filePath: fileClient.filePath,
+        filePath: fileClient.path,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSASPermissions.parse("rcwd"),
         protocol: SASProtocol.HttpsAndHttp,

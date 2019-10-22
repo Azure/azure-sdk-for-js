@@ -37,14 +37,14 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedKey(keyName);
-    assert.ok(poller.getOperationState().started);
+    assert.ok(poller.getOperationState().isStarted);
 
     // The pending key can be obtained this way:
     assert.equal(poller.getOperationState().result!.properties.name, keyName);
 
     const deletedKey: DeletedKey = await poller.pollUntilDone();
     assert.equal(deletedKey.properties.name, keyName);
-    assert.ok(poller.getOperationState().completed);
+    assert.ok(poller.getOperationState().isCompleted);
 
     // The final key can also be obtained this way:
     assert.equal(poller.getOperationState().result!.properties.name, keyName);
@@ -59,7 +59,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     await deletePoller.pollUntilDone();
 
     const poller = await client.beginRecoverDeletedKey(keyName);
-    assert.ok(poller.getOperationState().started);
+    assert.ok(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
       assert.ok(e instanceof PollerStoppedError);
@@ -71,7 +71,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
 
     poller.stopPolling();
     assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().completed);
+    assert.ok(!poller.getOperationState().isCompleted);
 
     const serialized = poller.toString();
 
@@ -79,10 +79,10 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
       resumeFrom: serialized
     });
 
-    assert.ok(poller.getOperationState().started);
+    assert.ok(poller.getOperationState().isStarted);
     const deletedKey: DeletedKey = await resumePoller.pollUntilDone();
     assert.equal(deletedKey.properties.name, keyName);
-    assert.ok(resumePoller.getOperationState().completed);
+    assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.flushKey(keyName);
   });
