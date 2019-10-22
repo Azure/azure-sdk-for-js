@@ -753,11 +753,11 @@ export const FileServiceProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileHTTPHeaders: coreHttp.CompositeMapper = {
-  xmlName: "file-HTTP-headers",
+export const FileHttpHeaders: coreHttp.CompositeMapper = {
+  xmlName: "fileHttpHeaders",
   type: {
     name: "Composite",
-    className: "FileHTTPHeaders",
+    className: "FileHttpHeaders",
     modelProperties: {
       fileContentType: {
         xmlName: "fileContentType",
