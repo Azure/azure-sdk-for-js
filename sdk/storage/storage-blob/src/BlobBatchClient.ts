@@ -63,7 +63,7 @@ export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchRe
 export class BlobBatchClient {
   private _serviceContext: Service;
 
-  constructor(service: any) {
+  constructor(service: Service) {
     this._serviceContext = service;
   }
 
