@@ -13,6 +13,8 @@ export * from "./skus";
 export * from "./storageAccounts";
 export * from "./usages";
 export * from "./managementPolicies";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
 export * from "./blobServices";
 export * from "./blobContainers";
 export * from "./fileServices";
