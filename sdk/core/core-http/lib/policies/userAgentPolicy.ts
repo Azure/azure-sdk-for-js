@@ -26,10 +26,6 @@ export interface UserAgentOptions {
   userAgentPrefix?: string;
 }
 
-export const DefaultUserAgentOptions: UserAgentOptions = {
-  userAgentPrefix: undefined
-}
-
 function getRuntimeInfo(): TelemetryInfo[] {
   const msRestRuntime = {
     key: "core-http",

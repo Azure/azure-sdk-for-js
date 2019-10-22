@@ -26,7 +26,6 @@ import {
   userAgentPolicy,
   getDefaultUserAgentHeaderName,
   getDefaultUserAgentValue,
-  DefaultUserAgentOptions
 } from "./policies/userAgentPolicy";
 import { redirectPolicy, DefaultRedirectOptions } from "./policies/redirectPolicy";
 import {
@@ -620,21 +619,20 @@ export function createPipelineFromOptions(
 ) : ServiceClientOptions {
   let requestPolicyFactories: RequestPolicyFactory[] = [];
 
-  const userAgentInfo: string[] = [];
+  let userAgentPrefix = undefined;
   if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {
+    const userAgentInfo: string[] = [];
     userAgentInfo.push(pipelineOptions.userAgentOptions.userAgentPrefix);
-  }
 
-  const defaultUserAgentInfo = getDefaultUserAgentValue();
-  if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
-    userAgentInfo.push(defaultUserAgentInfo);
-  }
+    // Add the default user agent value if it isn't already specified
+    // by the userAgentPrefix option.
+    const defaultUserAgentInfo = getDefaultUserAgentValue();
+    if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
+      userAgentInfo.push(defaultUserAgentInfo);
+    }
 
-  const userAgentOptions = {
-    ...DefaultUserAgentOptions,
-    ...pipelineOptions.userAgentOptions,
-    ...{ userAgentPrefix: userAgentInfo.join(" ") }
-  };
+    userAgentPrefix = userAgentInfo.join(" ");
+  }
 
   const keepAliveOptions = {
     ...DefaultKeepAliveOptions,
@@ -671,9 +669,7 @@ export function createPipelineFromOptions(
   requestPolicyFactories.push(
     tracingPolicy(),
     keepAlivePolicy(keepAliveOptions),
-    userAgentPolicy({
-      value: userAgentOptions.userAgentPrefix
-    }),
+    userAgentPolicy({ value: userAgentPrefix }),
     generateClientRequestIdPolicy(),
     deserializationPolicy(deserializationOptions.expectedContentTypes),
     throttlingRetryPolicy(),
