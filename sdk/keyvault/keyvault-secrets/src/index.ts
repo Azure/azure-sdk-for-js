@@ -69,7 +69,6 @@ export {
   DeletedSecret,
   DeletionRecoveryLevel,
   GetSecretOptions,
-  RequestOptions,
   PipelineOptions,
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,
