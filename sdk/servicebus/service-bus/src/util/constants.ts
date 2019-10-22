@@ -117,24 +117,6 @@ export const COUNT_DETAILS = "CountDetails";
 export const DEFAULT_RULE_NAME = "$Default";
 
 /**
- * The wrap access token.
- *
- */
-export const WRAP_ACCESS_TOKEN = "wrap_access_token";
-
-/**
- * The wrap access token expires utc.
- *
- */
-export const WRAP_ACCESS_TOKEN_EXPIRES_UTC = "wrap_access_token_expires_utc";
-
-/**
- * The wrap access token expires in.
- *
- */
-export const WRAP_ACCESS_TOKEN_EXPIRES_IN = "wrap_access_token_expires_in";
-
-/**
  * Max idle time before entity is deleted
  *
  */

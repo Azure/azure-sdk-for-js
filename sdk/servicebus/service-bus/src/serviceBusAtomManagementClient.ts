@@ -54,11 +54,11 @@ import {
 } from "./serializers/ruleResourceSerializer";
 
 /**
- * Request options for list<entity-type>() operations
+ * Options to use with ServiceBusAtomManagementClient creation
  */
 export interface ServiceBusAtomManagementClientOptions {
   /**
-   * Count of entities to fetch.
+   * Proxy related settings
    */
   proxySettings?: ProxySettings;
 }
@@ -241,7 +241,7 @@ export interface ListRulesResponse extends Array<Rule> {
 /**
  * All operations return promises that resolve to an object that has the relevant output.
  * These objects also have a property called `_response` that you can use if you want to
- * access the direct response from the service before.
+ * access the direct response from the service.
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
   private endpoint: string;
@@ -590,8 +590,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Creates a "TrueFilter" rule with given name.
-   * TODO: Fix implementation to accept ruleOptions and construct accordingly
+   * Creates a rule with given name, configured using the given options
    * @param topicName
    * @param subscriptionName
    * @param ruleName
@@ -843,10 +842,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   private getRulePath(topicName: string, subscriptionName: string, ruleName: string): string {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
-  }
-
-  getDeadLetterPath(queueName: string): string {
-    return `${queueName}/$DeadLetterQueue`;
   }
 
   private buildListQueuesResponse(response: HttpOperationResponse): ListQueuesResponse {

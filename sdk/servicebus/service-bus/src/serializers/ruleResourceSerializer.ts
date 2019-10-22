@@ -57,31 +57,30 @@ export function buildRule(rawRule: any): Rule | {} {
 function getTopicFilterOrUndefined(value: any): SqlFilter | CorrelationFilter | undefined {
   if (value == undefined) {
     return undefined;
-  } else {
-    let result: SqlFilter | CorrelationFilter | undefined;
-
-    if (value["SqlExpression"] != undefined) {
-      result = {
-        sqlExpression: value["SqlExpression"],
-        sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
-        compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
-        requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
-      };
-    } else if (value["CorrelationId"] != undefined) {
-      result = {
-        correlationId: getStringOrUndefined(value["CorrelationId"]),
-        label: getStringOrUndefined(value["Label"]),
-        to: getStringOrUndefined(value["To"]),
-        replyTo: getStringOrUndefined(value["ReplyTo"]),
-        replyToSessionId: getStringOrUndefined(value["ReplyToSessionId"]),
-        sessionId: getStringOrUndefined(value["SessionId"]),
-        messageId: getStringOrUndefined(value["MessageId"]),
-        contentType: getStringOrUndefined(value["ContentType"]),
-        userProperties: value["UserProperties"]
-      };
-    }
-    return result;
   }
+  let result: SqlFilter | CorrelationFilter | undefined;
+
+  if (value["SqlExpression"] != undefined) {
+    result = {
+      sqlExpression: value["SqlExpression"],
+      sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
+      compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
+      requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
+    };
+  } else if (value["CorrelationId"] != undefined) {
+    result = {
+      correlationId: getStringOrUndefined(value["CorrelationId"]),
+      label: getStringOrUndefined(value["Label"]),
+      to: getStringOrUndefined(value["To"]),
+      replyTo: getStringOrUndefined(value["ReplyTo"]),
+      replyToSessionId: getStringOrUndefined(value["ReplyToSessionId"]),
+      sessionId: getStringOrUndefined(value["SessionId"]),
+      messageId: getStringOrUndefined(value["MessageId"]),
+      contentType: getStringOrUndefined(value["ContentType"]),
+      userProperties: value["UserProperties"]
+    };
+  }
+  return result;
 }
 
 /**
