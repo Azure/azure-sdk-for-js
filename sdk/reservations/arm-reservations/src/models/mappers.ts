@@ -28,32 +28,6 @@ export const SkuName: msRest.CompositeMapper = {
   }
 };
 
-export const CatalogBillingPlansItem: msRest.CompositeMapper = {
-  serializedName: "Catalog_billingPlansItem",
-  type: {
-    name: "Composite",
-    className: "CatalogBillingPlansItem",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Sequence",
-        element: {
-          type: {
-            name: "String"
-          }
-        }
-      }
-    }
-  }
-};
-
 export const SkuProperty: msRest.CompositeMapper = {
   serializedName: "SkuProperty",
   type: {
@@ -132,19 +106,13 @@ export const Catalog: msRest.CompositeMapper = {
       billingPlans: {
         serializedName: "billingPlans",
         type: {
-          name: "Sequence",
-          element: {
+          name: "Dictionary",
+          value: {
             type: {
-              name: "Composite",
-              className: "CatalogBillingPlansItem",
-              additionalProperties: {
+              name: "Sequence",
+              element: {
                 type: {
-                  name: "Sequence",
-                  element: {
-                    type: {
-                      name: "String"
-                    }
-                  }
+                  name: "String"
                 }
               }
             }
