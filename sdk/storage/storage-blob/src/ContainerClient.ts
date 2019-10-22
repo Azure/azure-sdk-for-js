@@ -920,7 +920,7 @@ export class ContainerClient extends StorageClient {
         _response: response._response,
         blobPublicAccess: response.blobPublicAccess,
         date: response.date,
-        eTag: response.eTag,
+        etag: response.etag,
         errorCode: response.errorCode,
         lastModified: response.lastModified,
         requestId: response.requestId,

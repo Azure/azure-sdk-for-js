@@ -32,7 +32,7 @@ describe("ContainerClient Node.js only", () => {
 
   it("getAccessPolicy", async () => {
     const result = await containerClient.getAccessPolicy();
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.clientRequestId);
@@ -83,7 +83,7 @@ describe("ContainerClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
@@ -105,7 +105,7 @@ describe("ContainerClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
@@ -136,7 +136,7 @@ describe("ContainerClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
@@ -152,7 +152,7 @@ describe("ContainerClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");
@@ -172,7 +172,7 @@ describe("ContainerClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
     assert.equal(result.leaseState, "available");

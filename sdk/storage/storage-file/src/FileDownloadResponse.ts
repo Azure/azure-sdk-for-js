@@ -239,8 +239,8 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
    * @type {(string | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get eTag(): string | undefined {
-    return this.originalResponse.eTag;
+  public get etag(): string | undefined {
+    return this.originalResponse.etag;
   }
 
   public get errorCode(): string | undefined {
