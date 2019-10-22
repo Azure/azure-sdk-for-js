@@ -68,9 +68,12 @@ export {
   DeleteRuleResponse
 } from "./serviceBusAtomManagementClient";
 
-export { Queue, QueueOptions } from "./serializers/queueResourceSerializer";
-export { Topic, TopicOptions } from "./serializers/topicResourceSerializer";
-export { Subscription, SubscriptionOptions } from "./serializers/subscriptionResourceSerializer";
+export { QueueDetails, QueueOptions } from "./serializers/queueResourceSerializer";
+export { TopicDetails, TopicOptions } from "./serializers/topicResourceSerializer";
+export {
+  SubscriptionDetails,
+  SubscriptionOptions
+} from "./serializers/subscriptionResourceSerializer";
 export {
   Rule,
   RuleOptions,

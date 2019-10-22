@@ -25,7 +25,7 @@ import {
   InternalQueueOptions,
   QueueOptions,
   buildQueueOptions,
-  Queue,
+  QueueDetails,
   buildQueue
 } from "./serializers/queueResourceSerializer";
 import {
@@ -33,7 +33,7 @@ import {
   InternalTopicOptions,
   TopicOptions,
   buildTopicOptions,
-  Topic,
+  TopicDetails,
   buildTopic
 } from "./serializers/topicResourceSerializer";
 import {
@@ -41,7 +41,7 @@ import {
   InternalSubscriptionOptions,
   SubscriptionOptions,
   buildSubscriptionOptions,
-  Subscription,
+  SubscriptionDetails,
   buildSubscription
 } from "./serializers/subscriptionResourceSerializer";
 import {
@@ -81,7 +81,7 @@ export interface ListRequestOptions {
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
-export type QueueResponse = Queue & {
+export type QueueResponse = QueueDetails & {
   /**
    * The underlying HTTP response.
    */
@@ -111,7 +111,7 @@ export type DeleteQueueResponse = QueueResponse;
 /**
  * Represents result of list operation on queues.
  */
-export interface ListQueuesResponse extends Array<Queue> {
+export interface ListQueuesResponse extends Array<QueueDetails> {
   /**
    * The underlying HTTP response.
    */
@@ -121,7 +121,7 @@ export interface ListQueuesResponse extends Array<Queue> {
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export type TopicResponse = Topic & {
+export type TopicResponse = TopicDetails & {
   /**
    * The underlying HTTP response.
    */
@@ -151,7 +151,7 @@ export type DeleteTopicResponse = TopicResponse;
 /**
  * Represents result of list operation on topics.
  */
-export interface ListTopicsResponse extends Array<Topic> {
+export interface ListTopicsResponse extends Array<TopicDetails> {
   /**
    * The underlying HTTP response.
    */
@@ -161,7 +161,7 @@ export interface ListTopicsResponse extends Array<Topic> {
 /**
  * Represents result of create, get, update and delete operations on subscription.
  */
-export type SubscriptionResponse = Subscription & {
+export type SubscriptionResponse = SubscriptionDetails & {
   /**
    * The underlying HTTP response.
    */
@@ -191,7 +191,7 @@ export type DeleteSubscriptionResponse = SubscriptionResponse;
 /**
  * Represents result of list operation on subscriptions.
  */
-export interface ListSubscriptionsResponse extends Array<Subscription> {
+export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
   /**
    * The underlying HTTP response.
    */
@@ -313,7 +313,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Returns an object representing the Queue with the given name along with all its properties
    * @param queueName
    */
-  async getQueue(queueName: string): Promise<GetQueueResponse> {
+  async getQueueDetails(queueName: string): Promise<GetQueueResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
@@ -352,7 +352,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     );
 
     const finalQueueOptions: QueueOptions = {};
-    const getQueueResult = await this.getQueue(queueName);
+    const getQueueResult = await this.getQueueDetails(queueName);
     Object.assign(finalQueueOptions, getQueueResult, queueOptions);
 
     const response: HttpOperationResponse = await this.putResource(
@@ -403,7 +403,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Returns an object representing the Topic with the given name along with all its properties
    * @param topicName
    */
-  async getTopic(topicName: string): Promise<GetTopicResponse> {
+  async getTopicDetails(topicName: string): Promise<GetTopicResponse> {
     log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
       topicName,
@@ -442,7 +442,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     );
 
     const finalTopicOptions: TopicOptions = {};
-    const getTopicResult = await this.getTopic(topicName);
+    const getTopicResult = await this.getTopicDetails(topicName);
     Object.assign(finalTopicOptions, getTopicResult, topicOptions);
 
     const response: HttpOperationResponse = await this.putResource(
@@ -500,7 +500,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    */
-  async getSubscription(
+  async getSubscriptionDetails(
     topicName: string,
     subscriptionName: string
   ): Promise<GetSubscriptionResponse> {
@@ -555,7 +555,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
 
     const finalSubscriptionOptions: SubscriptionOptions = {};
-    const getSubscriptionResult = await this.getSubscription(topicName, subscriptionName);
+    const getSubscriptionResult = await this.getSubscriptionDetails(topicName, subscriptionName);
     Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscriptionOptions);
 
     const response: HttpOperationResponse = await this.putResource(
@@ -845,7 +845,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildListQueuesResponse(response: HttpOperationResponse): ListQueuesResponse {
-    const queues: Queue[] = [];
+    const queues: QueueDetails[] = [];
     const rawQueueArray: any = response.parsedBody || [];
     for (let i = 0; i < rawQueueArray.length; i++) {
       const queue = buildQueue(rawQueueArray[i]);
@@ -864,7 +864,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   private buildListTopicsResponse(response: HttpOperationResponse): ListTopicsResponse {
-    const topics: Topic[] = [];
+    const topics: TopicDetails[] = [];
     const rawTopicArray: any = response.parsedBody || [];
     for (let i = 0; i < rawTopicArray.length; i++) {
       const topic = buildTopic(rawTopicArray[i]);
@@ -885,7 +885,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildListSubscriptionsResponse(
     response: HttpOperationResponse
   ): ListSubscriptionsResponse {
-    const subscriptions: Subscription[] = [];
+    const subscriptions: SubscriptionDetails[] = [];
     const rawSubscriptionArray: any = response.parsedBody || [];
     for (let i = 0; i < rawSubscriptionArray.length; i++) {
       const subscription = buildSubscription(rawSubscriptionArray[i]);

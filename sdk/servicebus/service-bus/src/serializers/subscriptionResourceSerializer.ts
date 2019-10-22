@@ -55,11 +55,11 @@ export function buildSubscriptionOptions(
  * Builds the subscription object
  * @param rawSubscription
  */
-export function buildSubscription(rawSubscription: any): Subscription | undefined {
+export function buildSubscription(rawSubscription: any): SubscriptionDetails | undefined {
   if (rawSubscription == undefined) {
     return undefined;
   } else {
-    const result: Subscription = {
+    const result: SubscriptionDetails = {
       subscriptionName: rawSubscription[Constants.SUBSCRIPTION_NAME],
       topicName: rawSubscription[Constants.TOPIC_NAME],
 
@@ -289,7 +289,7 @@ export interface InternalSubscriptionOptions {
 /**
  * Represents all attributes of a subscription entity
  */
-export interface Subscription extends SubscriptionOptions {
+export interface SubscriptionDetails extends SubscriptionOptions {
   /**
    * Name of the subscription
    */

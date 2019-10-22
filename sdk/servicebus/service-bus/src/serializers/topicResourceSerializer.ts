@@ -61,11 +61,11 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
  * Builds the topic object
  * @param rawTopic
  */
-export function buildTopic(rawTopic: any): Topic | undefined {
+export function buildTopic(rawTopic: any): TopicDetails | undefined {
   if (rawTopic == undefined) {
     return undefined;
   } else {
-    const result: Topic = {
+    const result: TopicDetails = {
       topicName: rawTopic[Constants.TOPIC_NAME],
       sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
       maxSizeInMegabytes: getIntegerOrUndefined(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES]),
@@ -355,7 +355,7 @@ export interface InternalTopicOptions {
 /**
  * Represents all attributes of a topic entity
  */
-export interface Topic extends TopicOptions {
+export interface TopicDetails extends TopicOptions {
   /**
    * Name of the topic
    */

@@ -53,11 +53,11 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
  * Builds the queue object
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): Queue | undefined {
+export function buildQueue(rawQueue: any): QueueDetails | undefined {
   if (rawQueue == undefined) {
     return undefined;
   } else {
-    const result: Queue = {
+    const result: QueueDetails = {
       queueName: rawQueue[Constants.QUEUE_NAME],
 
       forwardTo: rawQueue[Constants.FORWARD_TO],
@@ -310,7 +310,7 @@ export interface InternalQueueOptions {
 /**
  * Represents all attributes of a queue entity
  */
-export interface Queue extends QueueOptions {
+export interface QueueDetails extends QueueOptions {
   /**
    * Name of the queue
    */

@@ -1054,10 +1054,10 @@ async function getEntity(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
+      const queueResponse = await serviceBusAtomManagementClient.getQueueDetails(entityPath);
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
+      const topicResponse = await serviceBusAtomManagementClient.getTopicDetails(entityPath);
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -1065,7 +1065,7 @@ async function getEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscription(
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionDetails(
         topicPath,
         entityPath
       );
