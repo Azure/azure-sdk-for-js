@@ -10,6 +10,9 @@ let argv = require("yargs")
       type: "string",
       describe: "root of the repository (e.g. ../../../)",
       demandOption: true
+    },
+    "dry-run": {
+      type: "boolean"
     }
   })
   .help().argv;
@@ -30,6 +33,7 @@ function incrementVersion(currentVersion) {
 async function main(argv) {
   const artifactName = argv["artifact-name"];
   const repoRoot = argv["repo-root"];
+  const dryRun = argv["dry-run"];
 
   const packageName = artifactName.replace("azure-", "@azure/");
   const rushSpec = await versionUtils.getRushSpec(repoRoot);
@@ -41,15 +45,55 @@ async function main(argv) {
     path.join(repoRoot, targetPackage.projectFolder, "package.json")
   );
 
-  const targetFileContents = await versionUtils.readFileJson(targetFile);
-  const oldVersion = targetFileContents.version;
-  const newVersion = incrementVersion(targetFileContents.version);
-  console.log(`${oldVersion} -> ${newVersion}`);
+  const packageJsonContents = await versionUtils.readFileJson(targetFile);
+
+  const oldVersion = packageJsonContents.version;
+  const newVersion = incrementVersion(packageJsonContents.version);
+  console.log(`${packageName}: ${oldVersion} -> ${newVersion}`);
+
+  if (dryRun) {
+    console.log("Dry run only, no changes");
+    return;
+  }
+
+  // Update package.json
   const updatedPackageJson = {
-    ...targetFileContents,
+    ...packageJsonContents,
     version: newVersion
   };
   await versionUtils.writePackageJson(targetFile, updatedPackageJson);
+
+  // Update constants
+  // This is done to update files which are only periodically generated and
+  // checked in. Since these files could be generated once between many versions
+  // we need to make sure that the versions in the generated files progress
+  // as well
+
+  // No constant metadata, skip
+  if (!("//metadata" in updatedPackageJson)) {
+    return;
+  }
+
+  for (const constantFilePath of updatedPackageJson["//metadata"]
+    .constantPaths) {
+    const targetPath = path.join(
+      repoRoot,
+      targetPackage.projectFolder,
+      constantFilePath
+    );
+    const fileContents = await versionUtils.readFile(targetPath);
+
+    const updatedContents = fileContents.replace(
+      versionUtils.semverRegex,
+      newVersion
+    );
+
+    if (updatedContents == fileContents) {
+      continue;
+    }
+
+    await versionUtils.writeFile(targetPath, updatedContents);
+  }
 }
 
 main(argv);
