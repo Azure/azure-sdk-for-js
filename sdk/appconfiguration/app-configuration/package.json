@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.0.0-preview.6",
+  "version": "1.0.0-preview.11",
   "sdk-type": "client",
   "dependencies": {
     "@azure/core-asynciterator-polyfill": "1.0.0-preview.1",
@@ -89,5 +89,10 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
-  "autoPublish": false
+  "autoPublish": false,
+  "//metadata": {
+    "constantPaths": [
+      "src/generated/src/appConfigurationContext.ts"
+    ]
+  }
 }

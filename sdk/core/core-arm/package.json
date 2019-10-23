@@ -121,5 +121,10 @@
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9",
     "yarn": "^1.6.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      "lib/util/constants.ts"
+    ]
   }
 }
