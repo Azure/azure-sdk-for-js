@@ -25,7 +25,7 @@ describe("Predections Tests", () => {
           query: utterance,
           options: {
             datetimeReference: new Date("2019-01-01"),
-            overridePredictions: true
+            preferExternalEntities: true
           },
           externalEntities: [{
             entityName: "simple",
@@ -87,7 +87,7 @@ describe("Predections Tests", () => {
           query: utterance,
           options: {
             datetimeReference: new Date("2019-01-01"),
-            overridePredictions: true
+            preferExternalEntities: true
           },
           externalEntities: [{
             entityName: "simple",
