@@ -29,7 +29,7 @@ import {
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
-  SetReadOnlyResponse,
+  SetReadOnlyResponse
 } from "./models";
 import {
   checkAndFormatIfAndIfNoneMatch,
@@ -42,7 +42,7 @@ import {
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
-import { GetKeyValuesResponse } from './generated/src/models';
+import { GetKeyValuesResponse } from "./generated/src/models";
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -107,7 +107,7 @@ export class AppConfigurationClient {
       });
 
       return transformKeyValueResponse(originalResponse);
-    });    
+    });
   }
 
   /**
@@ -157,14 +157,16 @@ export class AppConfigurationClient {
         ...checkAndFormatIfAndIfNoneMatch(id, newOptions)
       });
 
-      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(originalResponse);
+      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
+        originalResponse
+      );
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
       if (response.statusCode === 304) {
         // this is one of our few 'required' fields so we'll make sure it does get initialized
         // with a value
-        response.key = id.key
+        response.key = id.key;
 
         // and now we'll undefine all the other properties that are not HTTP related
         makeConfigurationSettingEmpty(response);
@@ -356,7 +358,7 @@ export class AppConfigurationClient {
         entity: configurationSetting,
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, newOptions)
       });
-      
+
       return transformKeyValueResponse(response);
     });
   }

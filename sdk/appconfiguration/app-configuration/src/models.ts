@@ -182,7 +182,9 @@ export interface DeleteConfigurationSettingOptions
 /**
  * Options used when saving a ConfigurationSetting.
  */
-export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {}
+export interface SetConfigurationSettingOptions
+  extends HttpOnlyIfUnchangedField,
+    RequestOptionsBase {}
 
 /**
  * Response from setting a ConfigurationSetting.
@@ -209,8 +211,7 @@ export interface GetConfigurationSettingResponse
   extends ConfigurationSetting,
     GetConfigurationHeaders,
     HttpResponseFields,
-  HttpResponseField<GetConfigurationHeaders> {
-}
+    HttpResponseField<GetConfigurationHeaders> {}
 
 /**
  * Options for getting a ConfigurationSetting.
