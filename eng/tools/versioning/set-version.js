@@ -6,6 +6,11 @@ let argv = require("yargs")
         "name of the artifact to be incremented (e.g. azure-keyvault-secrets), will be translated to @azure/(package) format",
       demandOption: true
     },
+    "new-version": {
+      type: "string",
+      describe: "package version string",
+      demandOption: true
+    },
     "repo-root": {
       type: "string",
       describe: "root of the repository (e.g. ../../../)",
@@ -18,20 +23,11 @@ let argv = require("yargs")
   .help().argv;
 
 const path = require("path");
-const semver = require("semver");
 const versionUtils = require("./VersionUtils");
-
-function incrementVersion(currentVersion) {
-  const prerelease = semver.prerelease(currentVersion);
-  if (prerelease) {
-    return semver.inc(currentVersion, "prerelease");
-  }
-
-  return `${semver.inc(currentVersion, "minor")}-preview.1`;
-}
 
 async function main(argv) {
   const artifactName = argv["artifact-name"];
+  const newVersion = argv["new-version"];
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
@@ -50,7 +46,6 @@ async function main(argv) {
   );
 
   const oldVersion = packageJsonContents.version;
-  const newVersion = incrementVersion(packageJsonContents.version);
   console.log(`${packageName}: ${oldVersion} -> ${newVersion}`);
 
   if (dryRun) {

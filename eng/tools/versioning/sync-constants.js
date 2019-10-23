@@ -14,7 +14,7 @@ let argv = require("yargs")
 const path = require("path");
 const versionUtils = require("./VersionUtils");
 
-async function main() {
+async function main(argv) {
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
@@ -62,4 +62,4 @@ async function main() {
     }
   }
 }
-main();
+main(argv);
