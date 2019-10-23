@@ -36,11 +36,16 @@ async function main(argv) {
   const dryRun = argv["dry-run"];
 
   const packageName = artifactName.replace("azure-", "@azure/");
+  console.og("packageName", packageName);
   const rushSpec = await versionUtils.getRushSpec(repoRoot);
+
+  console.log("rushSpec", rushSpec);
 
   const targetPackage = rushSpec.projects.find(
     packageSpec => packageSpec.packageName == packageName
   );
+
+  console.log("targetPackage", targetPackage);
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
