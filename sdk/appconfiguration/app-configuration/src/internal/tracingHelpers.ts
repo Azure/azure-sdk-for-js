@@ -1,17 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getTracer,
-  Span,
-  SpanOptions,
-  SpanKind,
-  CanonicalCode,
-} from "@azure/core-tracing";
+import { getTracer, Span, SpanOptions, SpanKind, CanonicalCode } from "@azure/core-tracing";
 
-import {
-  RestError
-} from "@azure/core-http";
+import { RestError } from "@azure/core-http";
 
 /**
  * @internal
@@ -26,12 +18,11 @@ export interface Spannable {
  * @ignore
  */
 export class Spanner<TClient> {
-  constructor(private baseOperationName: string, private componentName: string) {    
-  }
+  constructor(private baseOperationName: string, private componentName: string) {}
 
   /**
    * Traces an operation and properly handles reporting start, end and errors for a given span
-   * 
+   *
    * @param operationName Name of a method in the TClient type
    * @param options An options class, typically derived from @azure/core-http/RequestOptionsBase
    * @param fn The function to call with an options class that properly propagates the span context
@@ -41,8 +32,8 @@ export class Spanner<TClient> {
     operationName: keyof TClient,
     options: OptionsT,
     fn: (options: OptionsT, span: Span) => Promise<ReturnT>,
-    translateToCanonicalCodeFn: (err: Error) => CanonicalCode = Spanner.getCanonicalCode    
-  ) : Promise<ReturnT> {
+    translateToCanonicalCodeFn: (err: Error) => CanonicalCode = Spanner.getCanonicalCode
+  ): Promise<ReturnT> {
     const { newOptions, span } = this.createSpan<OptionsT>(options, operationName);
 
     try {
@@ -63,11 +54,11 @@ export class Spanner<TClient> {
       ...options.spanOptions,
       kind: SpanKind.CLIENT
     });
-    
+
     span.setAttribute("component", this.componentName);
 
     let newOptions = options;
-    
+
     if (span.isRecordingEvents()) {
       newOptions = Spanner.addParentToOptions<T>(options, span);
     }
@@ -92,7 +83,7 @@ export class Spanner<TClient> {
   static isRestError(err: Error): err is RestError {
     return err instanceof RestError;
   }
-  
+
   static addParentToOptions<T extends Spannable>(options: T, span: Span) {
     return {
       ...options,

@@ -7,10 +7,10 @@ This project provides a client library in JavaScript that makes it easy to consu
 Version: 12.0.0-preview.5
 
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
 - [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-queue/index.html)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage/queues/storage-queues-introduction)
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Azure Storage Queue REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api)
 
 ## Key concepts
@@ -170,7 +170,7 @@ while (!item.done) {
 }
 ```
 
-For a complete sample on iterating queues please see [samples/typescript/iterators.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/iterators.ts).
+For a complete sample on iterating queues please see [samples/typescript/iterators.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/iterators.ts).
 
 ### Create a new queue
 
@@ -242,7 +242,7 @@ console.log(
 );
 ```
 
-A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/basic.ts).
+A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/basic.ts).
 
 ## Troubleshooting
 
@@ -284,14 +284,14 @@ const queueServiceClient = new QueueServiceClient(
 
 ## Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts).
+If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts).
 
 ## Next steps
 
 More code samples
 
-- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples)
-- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/test)
+- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
+- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/test)
 
 ## Contributing
 

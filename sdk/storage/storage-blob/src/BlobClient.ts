@@ -61,7 +61,7 @@ import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
-import { LeaseClient } from "./LeaseClient";
+import { BlobLeaseClient } from "./BlobLeaseClient";
 import { createSpan } from "./utils/tracing";
 import {
   BlobBeginCopyFromUrlPoller,
@@ -1266,14 +1266,14 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Get a LeaseClient that manages leases on the blob.
+   * Get a BlobLeaseClient that manages leases on the blob.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {LeaseClient} A new LeaseClient object for managing leases on the blob.
+   * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the blob.
    * @memberof BlobClient
    */
-  public getLeaseClient(proposeLeaseId?: string): LeaseClient {
-    return new LeaseClient(this, proposeLeaseId);
+  public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
+    return new BlobLeaseClient(this, proposeLeaseId);
   }
 
   /**

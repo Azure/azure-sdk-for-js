@@ -328,7 +328,7 @@ describe("BlobBatch", () => {
     // Lease one blob.
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 30;
-    const leaseResp = await blockBlobURLs[1].getLeaseClient(guid).acquireLease(duration);
+    const leaseResp = await blockBlobURLs[1].getBlobLeaseClient(guid).acquireLease(duration);
     assert.ok(leaseResp.leaseId! != "");
 
     // Assemble batch set tier request.
