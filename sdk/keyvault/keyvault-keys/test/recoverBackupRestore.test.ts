@@ -4,6 +4,7 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -78,7 +79,10 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  it.only("can generate a backup of a key with requestOptions timeout", async function() {
+  it("can generate a backup of a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     await assertThrowsAbortError(async () => {
       await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
     });

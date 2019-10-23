@@ -3,6 +3,8 @@
 
 import * as assert from "assert";
 import { KeyClient } from "../src";
+import { isNode } from "@azure/core-http";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -60,7 +62,10 @@ describe("Keys client - list keys in various ways", () => {
     await testClient.flushKey(keyName);
   });
 
-  it.only("can get the versions of a key with requestOptions timeout", async function() {
+  it("can get the versions of a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
       requestOptions: { timeout: 1 }
     });
@@ -138,7 +143,10 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it.only("can get several inserted keys with requestOptions timeout", async function() {
+  it("can get several inserted keys with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
 
     await assertThrowsAbortError(async () => {
@@ -200,6 +208,9 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   it("list deleted keys with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
     await assertThrowsAbortError(async () => {
       await iter.next();

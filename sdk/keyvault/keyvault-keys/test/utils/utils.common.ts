@@ -21,11 +21,15 @@ export function getKeyvaultName(): string {
 }
 
 export async function assertThrowsAbortError(cb: () => Promise<any>) {
+  let passed = false;
   try {
     await cb();
-    assert.fail("Expected cb to throw an AbortError");
+    passed = true;
   } catch (e) {
     assert.equal(e.name, "AbortError");
     assert.equal(e.message, "The operation was aborted.");
+  }
+  if (passed) {
+    throw new Error("Expected cb to throw an AbortError");
   }
 }
