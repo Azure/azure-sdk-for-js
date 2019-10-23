@@ -4,12 +4,12 @@
 
 import {
   TokenCredential,
-  RequestOptionsBase,
   PipelineOptions,
   createPipelineFromOptions,
   ServiceClientOptions as Pipeline,
   isTokenCredential,
   signingPolicy,
+  RequestOptionsBase,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 
@@ -241,15 +241,16 @@ export class KeyClient {
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
   }
 
-  private async deleteKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey> {
-    const span = this.createSpan("deleteKey", options);
+  private async deleteKey(name: string, options: GetDeletedKeyOptions = {}): Promise<DeletedKey> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("deleteKey", requestOptions);
 
     let response: DeleteKeyResponse;
     try {
       response = await this.client.deleteKey(
         this.vaultEndpoint,
         name,
-        this.setParentSpan(span, options)
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -260,16 +261,17 @@ export class KeyClient {
 
   private async recoverDeletedKey(
     name: string,
-    options?: RecoverDeletedKeyOptions
+    options: RecoverDeletedKeyOptions = {}
   ): Promise<KeyVaultKey> {
-    const span = this.createSpan("recoverDeletedKey", options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("recoverDeletedKey", requestOptions);
 
     let response: RecoverDeletedKeyResponse;
     try {
       response = await this.client.recoverDeletedKey(
         this.vaultEndpoint,
         name,
-        this.setParentSpan(span, options)
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -277,8 +279,6 @@ export class KeyClient {
 
     return this.getKeyFromKeyBundle(response);
   }
-
-  // TODO: do we want Aborter as well?
 
   /**
    * The create key operation can be used to create any key type in Azure Key Vault. If the named key

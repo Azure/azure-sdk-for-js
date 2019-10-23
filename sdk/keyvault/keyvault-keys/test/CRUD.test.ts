@@ -39,10 +39,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  it.only("can abort creating a key", async function() {
-    if (!isNode && isPlayingBack) {
-      recorder.skip();
-    }
+  it("can abort creating a key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const controller = new AbortController();
 
@@ -56,7 +53,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a key with requestOptions timeout", async function() {
-    if (!isNode && isPlayingBack) {
+    if (!isNode || isPlayingBack) {
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -103,8 +100,8 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  it.only("can create a RSA key with requestOptions timeout", async function() {
-    if (!isNode && isPlayingBack) {
+  it("can create a RSA key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -135,8 +132,8 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  it.only("can create an EC key with requestOptions timeout", async function() {
-    if (!isNode && isPlayingBack) {
+  it("can create an EC key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -223,7 +220,10 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  it.only("can update key with requestOptions timeout", async function() {
+  it("can update key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const { version } = (await client.createRsaKey(keyName)).properties;
     const options: UpdateKeyPropertiesOptions = { enabled: false, requestOptions: { timeout: 1 } };
@@ -252,7 +252,10 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.purgeKey(keyName);
   });
 
-  it.only("can delete a key with requestOptions timeout", async function() {
+  it("can delete a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     await assertThrowsAbortError(async () => {
@@ -286,7 +289,10 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  it.only("can get a key with requestOptions timeout", async function() {
+  it("can get a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     await assertThrowsAbortError(async () => {

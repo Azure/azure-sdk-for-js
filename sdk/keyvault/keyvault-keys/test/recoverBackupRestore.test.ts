@@ -4,6 +4,7 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -78,7 +79,10 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  it.only("can generate a backup of a key with requestOptions timeout", async function() {
+  it("can generate a backup of a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     await assertThrowsAbortError(async () => {
       await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
     });
@@ -108,6 +112,9 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("can restore a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const backup = await client.backupKey(keyName);
@@ -116,7 +123,6 @@ describe("Keys client - restore keys and recover backups", () => {
     await assertThrowsAbortError(async () => {
       await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
     });
-    await testClient.flushKey(keyName);
   });
 
   it("fails to restore a key with a malformed backup", async function() {
