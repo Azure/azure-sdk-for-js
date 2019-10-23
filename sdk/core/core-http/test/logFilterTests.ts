@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { HttpHeaders, RawHttpHeaders } from "../lib/httpHeaders";
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { LogPolicy } from "../lib/policies/logPolicy";
+import { LogPolicy, LogPolicyOptions } from "../lib/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
 import { WebResource } from "../lib/webResource";
 import { getLogLevel, setLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
@@ -43,17 +43,13 @@ function assertLog(
     log: () => {}
   });
 
-  const options = {
+  const options: LogPolicyOptions = {
+    logger,
     allowedHeaderNames: ["x-ms-safe-header"],
     allowedQueryParameters: ["api-version"]
   };
 
-  const lf = new LogPolicy(
-    getNextPolicy(responseHeaders),
-    new RequestPolicyOptions(),
-    logger,
-    options
-  );
+  const lf = new LogPolicy(getNextPolicy(responseHeaders), new RequestPolicyOptions(), options);
 
   lf.sendRequest(request)
     .then(() => {

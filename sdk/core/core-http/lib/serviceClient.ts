@@ -6,7 +6,7 @@ import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
-import { logPolicy, DefaultLoggingOptions, LoggingOptions } from "./policies/logPolicy";
+import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
 import { OperationArguments } from "./operationArguments";
 import {
   getPathStringFromParameter,
@@ -674,8 +674,7 @@ export function createPipelineFromOptions(
     ...pipelineOptions.deserializationOptions
   };
 
-  const loggingOptions: LoggingOptions = {
-    ...DefaultLoggingOptions,
+  const loggingOptions: LogPolicyOptions = {
     ...pipelineOptions.loggingOptions
   };
 
