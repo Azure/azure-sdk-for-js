@@ -327,7 +327,6 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.skipToken,
     Parameters.maxpagesize,
     Parameters.filter
   ],

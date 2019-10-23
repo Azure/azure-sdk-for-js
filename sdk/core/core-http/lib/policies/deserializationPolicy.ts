@@ -17,6 +17,17 @@ import {
 } from "./requestPolicy";
 
 /**
+ * Options to configure API response deserialization.
+ */
+export interface DeserializationOptions {
+  /**
+   * Configures the expected content types for the deserialization of
+   * JSON and XML response bodies.
+   */
+  expectedContentTypes: DeserializationContentTypes;
+}
+
+/**
  * The content-types that will indicate that an operation response should be deserialized in a
  * particular way.
  */
@@ -50,6 +61,13 @@ export function deserializationPolicy(
 
 export const defaultJsonContentTypes = ["application/json", "text/json", "text/plain"];
 export const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
+
+export const DefaultDeserializationOptions: DeserializationOptions = {
+  expectedContentTypes: {
+    json: defaultJsonContentTypes,
+    xml: defaultXmlContentTypes
+  }
+};
 
 /**
  * A RequestPolicy that will deserialize HTTP response bodies and headers as they pass through the
@@ -193,12 +211,20 @@ export function deserializeResponseBody(
                         ? parsedErrorResponse[defaultResponseBodyMapper.xmlElementName!]
                         : [];
                   }
-                  error.body = operationSpec.serializer.deserialize(
+                  error.response!.parsedBody = operationSpec.serializer.deserialize(
                     defaultResponseBodyMapper,
                     valueToDeserialize,
-                    "error.body"
+                    "error.response.parsedBody"
                   );
                 }
+              }
+
+              if (parsedResponse.headers && defaultResponseSpec.headersMapper) {
+                error.response!.parsedHeaders = operationSpec.serializer.deserialize(
+                  defaultResponseSpec.headersMapper,
+                  parsedResponse.headers.rawHeaders(),
+                  "operationRes.parsedHeaders"
+                );
               }
             } catch (defaultError) {
               error.message = `Error \"${defaultError.message}\" occurred in deserializing the responseBody - \"${parsedResponse.bodyAsText}\" for the default response.`;
@@ -260,8 +286,7 @@ function parse(
       errCode,
       operationResponse.status,
       operationResponse.request,
-      operationResponse,
-      operationResponse.bodyAsText
+      operationResponse
     );
     return Promise.reject(e);
   };

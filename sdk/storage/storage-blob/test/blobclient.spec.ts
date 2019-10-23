@@ -257,7 +257,7 @@ describe("BlobClient", () => {
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok((err as any).body.Code === "InvalidHeaderValue");
+      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
     }
   });
 
@@ -536,7 +536,7 @@ describe("BlobClient", () => {
       containerName,
       "Container name is not the same as the one provided."
     );
-    assert.equal(newClient.blobName, blobName, "Blob name is not the same as the one provided.");
+    assert.equal(newClient.name, blobName, "Blob name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,

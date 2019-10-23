@@ -6,7 +6,25 @@ import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@a
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { FileDownloadResponse } from "./FileDownloadResponse";
-import * as Models from "./generated/src/models";
+import {
+  FileAbortCopyResponse,
+  FileCreateResponse,
+  FileDeleteResponse,
+  FileDownloadOptionalParams,
+  FileDownloadResponseModel,
+  FileForceCloseHandlesResponse,
+  FileGetPropertiesResponse,
+  FileGetRangeListHeaders,
+  FileListHandlesResponse,
+  FileSetHTTPHeadersResponse,
+  FileSetMetadataResponse,
+  FileStartCopyResponse,
+  SourceModifiedAccessConditions,
+  FileUploadRangeFromURLResponse,
+  FileUploadRangeResponse,
+  HandleItem,
+  RangeModel
+} from "./generatedModels";
 import { File } from "./generated/src/operations";
 import { Range, rangeToString } from "./Range";
 import {
@@ -40,7 +58,6 @@ import { readStreamToLocalFile, fsStat } from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
-import { FileForceCloseHandlesResponse } from "./generated/src/models";
 
 /**
  * Options to configure File - Create operation.
@@ -92,7 +109,7 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
   fileHttpHeaders?: FileHttpHeaders;
 }
 
-export interface SetPropertiesResponse extends Models.FileSetHTTPHeadersResponse {}
+export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {}
 
 /**
  * Options to configure File - Delete operation.
@@ -158,7 +175,7 @@ export interface FileDownloadOptions extends CommonOptions {
    *
    * @memberof FileDownloadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 /**
@@ -194,7 +211,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
    *
    * @memberof FileUploadRangeOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 /**
@@ -203,9 +220,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
  * @export
  * @interface FileUploadRangeFromURLOptions
  */
-export interface FileUploadRangeFromURLOptions
-  extends Models.FileUploadRangeFromURLOptionalParams,
-    CommonOptions {
+export interface FileUploadRangeFromURLOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -214,6 +229,20 @@ export interface FileUploadRangeFromURLOptions
    * @memberof FileUploadRangeFromURLOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentCrc64?: Uint8Array;
+  /**
+   * Additional parameters for the operation
+   */
+  sourceConditions?: SourceModifiedAccessConditions;
 }
 
 /**
@@ -233,10 +262,10 @@ export interface FileUploadRangeFromURLOptions
 //   /**
 //    * Source modified access condition.
 //    *
-//    * @type {Models.SourceModifiedAccessConditions}
+//    * @type {SourceModifiedAccessConditions}
 //    * @memberof IFileUploadRangeFromURLOptions
 //    */
-//   sourceModifiedAccessConditions?: Models.SourceModifiedAccessConditions;
+//   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
 // }
 
 /**
@@ -283,13 +312,13 @@ export interface FileGetPropertiesOptions extends CommonOptions {
 /**
  * Contains response data for the getRangeList operation.
  */
-export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
+export type FileGetRangeListResponse = FileGetRangeListHeaders & {
   /**
    * Range list for an Azure file.
    *
-   * @type {Models.Range[]}
+   * @type {RangeModel[]}
    */
-  rangeList: Models.Range[];
+  rangeList: RangeModel[];
 
   /**
    * The underlying HTTP response.
@@ -298,7 +327,7 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: Models.FileGetRangeListHeaders;
+    parsedHeaders: FileGetRangeListHeaders;
     /**
      * The response body as text (string format)
      */
@@ -306,7 +335,7 @@ export type FileGetRangeListResponse = Models.FileGetRangeListHeaders & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: Models.Range[];
+    parsedBody: RangeModel[];
   };
 };
 
@@ -511,7 +540,7 @@ export interface FileUploadStreamOptions extends CommonOptions {
    *
    * @memberof FileUploadStreamOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 /**
@@ -543,7 +572,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
    *
    * @memberof FileParallelUploadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * File HTTP Headers.
@@ -620,7 +649,7 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    *
    * @memberof FileDownloadToBufferOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Concurrency indicates the maximum number of ranges to download in parallel.
@@ -648,14 +677,14 @@ export class FileClient extends StorageClient {
    */
   private context: File;
   private _shareName: string;
-  private _filePath: string;
+  private _path: string;
 
   public get shareName(): string {
     return this._shareName;
   }
 
-  public get filePath(): string {
-    return this._filePath;
+  public get path(): string {
+    return this._path;
   }
 
   /**
@@ -709,7 +738,7 @@ export class FileClient extends StorageClient {
     super(url, pipeline);
     ({
       shareName: this._shareName,
-      filePathOrDirectoryPath: this._filePath
+      filePathOrDirectoryPath: this._path
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new File(this.storageClientContext);
   }
@@ -720,13 +749,10 @@ export class FileClient extends StorageClient {
    *
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns {Promise<Models.FileCreateResponse>} Response data for the File Create  operation.
+   * @returns {Promise<FileCreateResponse>} Response data for the File Create  operation.
    * @memberof FileClient
    */
-  public async create(
-    size: number,
-    options: FileCreateOptions = {}
-  ): Promise<Models.FileCreateResponse> {
+  public async create(size: number, options: FileCreateOptions = {}): Promise<FileCreateResponse> {
     const { span, spanOptions } = createSpan("FileClient-create", options.spanOptions);
     try {
       if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
@@ -779,14 +805,14 @@ export class FileClient extends StorageClient {
    * @param {number} [offset] From which position of the file to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {FileDownloadOptions} [options] Options to File Download operation.
-   * @returns {Promise<Models.FileDownloadResponse>} Response data for the File Download operation.
+   * @returns {Promise<FileDownloadResponse>} Response data for the File Download operation.
    * @memberof FileClient
    */
   public async download(
     offset: number = 0,
     count?: number,
     options: FileDownloadOptions = {}
-  ): Promise<Models.FileDownloadResponse> {
+  ): Promise<FileDownloadResponseModel> {
     const { span, spanOptions } = createSpan("FileClient-download", options.spanOptions);
     try {
       if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
@@ -796,7 +822,7 @@ export class FileClient extends StorageClient {
       const downloadFullFile = offset === 0 && !count;
       const res = await this.context.download({
         abortSignal: options.abortSignal,
-        onDownloadProgress: !isNode ? options.progress : undefined,
+        onDownloadProgress: !isNode ? options.onProgress : undefined,
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         spanOptions
@@ -824,7 +850,7 @@ export class FileClient extends StorageClient {
       return new FileDownloadResponse(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
-          const updatedOptions: Models.FileDownloadOptionalParams = {
+          const updatedOptions: FileDownloadOptionalParams = {
             range: rangeToString({
               count: offset + res.contentLength! - start,
               offset: start
@@ -849,7 +875,7 @@ export class FileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequests,
-          progress: options.progress
+          onProgress: options.onProgress
         }
       );
     } catch (e) {
@@ -869,12 +895,12 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
    * @param {FileGetPropertiesOptions} [options] Options to File Get Properties operation.
-   * @returns {Promise<Models.FileGetPropertiesResponse>} Response data for the File Get Properties operation.
+   * @returns {Promise<FileGetPropertiesResponse>} Response data for the File Get Properties operation.
    * @memberof FileClient
    */
   public async getProperties(
     options: FileGetPropertiesOptions = {}
-  ): Promise<Models.FileGetPropertiesResponse> {
+  ): Promise<FileGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("FileClient-getProperties", options.spanOptions);
     try {
       return this.context.getProperties({
@@ -916,7 +942,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(properties.lastWriteTime!),
         {
           abortSignal: properties.abortSignal,
-          fileHTTPHeaders: properties.fileHttpHeaders,
+          fileHttpHeaders: properties.fileHttpHeaders,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
           spanOptions
@@ -948,10 +974,10 @@ export class FileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
    * @param {FileDeleteOptions} [options] Options to File Delete operation.
-   * @returns {Promise<Models.FileDeleteResponse>} Response data for the File Delete operation.
+   * @returns {Promise<FileDeleteResponse>} Response data for the File Delete operation.
    * @memberof FileClient
    */
-  public async delete(options: FileDeleteOptions = {}): Promise<Models.FileDeleteResponse> {
+  public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
     const { span, spanOptions } = createSpan("FileClient-delete", options.spanOptions);
     try {
       return this.context.deleteMethod({
@@ -979,13 +1005,13 @@ export class FileClient extends StorageClient {
    * @param {fileHttpHeaders} [FileHttpHeaders] File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
    * @param {FileSetHttpHeadersOptions} [options] Options to File Set HTTP Headers operation.
-   * @returns {Promise<Models.FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
+   * @returns {Promise<FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
    * @memberof FileClient
    */
   public async setHttpHeaders(
     fileHttpHeaders: FileHttpHeaders = {},
     options: FileSetHttpHeadersOptions = {}
-  ): Promise<Models.FileSetHTTPHeadersResponse> {
+  ): Promise<FileSetHTTPHeadersResponse> {
     const { span, spanOptions } = createSpan("FileClient-setHTTPHeaders", options.spanOptions);
     try {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
@@ -996,7 +1022,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(options.lastWriteTime!),
         {
           abortSignal: options.abortSignal,
-          fileHTTPHeaders: fileHttpHeaders,
+          fileHttpHeaders,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           spanOptions
@@ -1022,13 +1048,13 @@ export class FileClient extends StorageClient {
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
    * @param {FileResizeOptions} [options] Options to File Resize operation.
-   * @returns {Promise<Models.FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
+   * @returns {Promise<FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
    * @memberof FileClient
    */
   public async resize(
     length: number,
     options: FileResizeOptions = {}
-  ): Promise<Models.FileSetHTTPHeadersResponse> {
+  ): Promise<FileSetHTTPHeadersResponse> {
     const { span, spanOptions } = createSpan("FileClient-resize", options.spanOptions);
     try {
       if (length < 0) {
@@ -1069,13 +1095,13 @@ export class FileClient extends StorageClient {
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @param {FileSetMetadataOptions} [options] Options to File Set Metadata operation.
-   * @returns {Promise<Models.FileSetMetadataResponse>} Response data for the File Set Metadata operation.
+   * @returns {Promise<FileSetMetadataResponse>} Response data for the File Set Metadata operation.
    * @memberof FileClient
    */
   public async setMetadata(
     metadata: Metadata = {},
     options: FileSetMetadataOptions = {}
-  ): Promise<Models.FileSetMetadataResponse> {
+  ): Promise<FileSetMetadataResponse> {
     const { span, spanOptions } = createSpan("FileClient-setMetadata", options.spanOptions);
     try {
       return this.context.setMetadata({
@@ -1104,7 +1130,7 @@ export class FileClient extends StorageClient {
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
    * @param {FileUploadRangeOptions} [options={}] Options to File Upload Range operation.
-   * @returns {Promise<Models.FileUploadRangeResponse>} Response data for the File Upload Range operation.
+   * @returns {Promise<FileUploadRangeResponse>} Response data for the File Upload Range operation.
    * @memberof FileClient
    */
   public async uploadRange(
@@ -1112,7 +1138,7 @@ export class FileClient extends StorageClient {
     offset: number,
     contentLength: number,
     options: FileUploadRangeOptions = {}
-  ): Promise<Models.FileUploadRangeResponse> {
+  ): Promise<FileUploadRangeResponse> {
     const { span, spanOptions } = createSpan("FileClient-uploadRange", options.spanOptions);
     try {
       if (offset < 0) {
@@ -1134,7 +1160,7 @@ export class FileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
-          onUploadProgress: options.progress,
+          onUploadProgress: options.onProgress,
           optionalbody: body,
           spanOptions
         }
@@ -1159,7 +1185,7 @@ export class FileClient extends StorageClient {
    * @param {number} destOffset Offset of destination file.
    * @param {number} count Number of bytes to be uploaded from source file.
    * @param {FileUploadRangeFromURLOptions} [options={}] Options to configure File - Upload Range from URL operation.
-   * @returns {Promise<Models.FileUploadRangeFromURLResponse>}
+   * @returns {Promise<FileUploadRangeFromURLResponse>}
    * @memberof FileURL
    */
   public async uploadRangeFromURL(
@@ -1168,7 +1194,7 @@ export class FileClient extends StorageClient {
     destOffset: number,
     count: number,
     options: FileUploadRangeFromURLOptions = {}
-  ): Promise<Models.FileUploadRangeFromURLResponse> {
+  ): Promise<FileUploadRangeFromURLResponse> {
     const { span, spanOptions } = createSpan("FileClient-uploadRangeFromURL", options.spanOptions);
     try {
       if (sourceOffset < 0 || destOffset < 0) {
@@ -1186,6 +1212,7 @@ export class FileClient extends StorageClient {
         0,
         {
           abortSignal: options.abortSignal,
+          sourceModifiedAccessConditions: options.sourceConditions,
           ...options,
           spanOptions
         }
@@ -1207,14 +1234,14 @@ export class FileClient extends StorageClient {
    * @param {number} offset
    * @param {number} contentLength
    * @param {FileClearRangeOptions} [options] Options to File Clear Range operation.
-   * @returns {Promise<Models.FileUploadRangeResponse>}
+   * @returns {Promise<FileUploadRangeResponse>}
    * @memberof FileClient
    */
   public async clearRange(
     offset: number,
     contentLength: number,
     options: FileClearRangeOptions = {}
-  ): Promise<Models.FileUploadRangeResponse> {
+  ): Promise<FileUploadRangeResponse> {
     const { span, spanOptions } = createSpan("FileClient-clearRange", options.spanOptions);
     try {
       if (offset < 0 || contentLength <= 0) {
@@ -1256,7 +1283,7 @@ export class FileClient extends StorageClient {
       return {
         _response: originalResponse._response,
         date: originalResponse.date,
-        eTag: originalResponse.eTag,
+        etag: originalResponse.etag,
         errorCode: originalResponse.errorCode,
         fileContentLength: originalResponse.fileContentLength,
         lastModified: originalResponse.lastModified,
@@ -1288,13 +1315,13 @@ export class FileClient extends StorageClient {
    * blob, no authentication is required to perform the copy operation. A file in a share snapshot
    * can also be specified as a copy source.
    * @param {FileStartCopyOptions} [options] Options to File Start Copy operation.
-   * @returns {Promise<Models.FileStartCopyResponse>}
+   * @returns {Promise<FileStartCopyResponse>}
    * @memberof FileClient
    */
   public async startCopyFromURL(
     copySource: string,
     options: FileStartCopyOptions = {}
-  ): Promise<Models.FileStartCopyResponse> {
+  ): Promise<FileStartCopyResponse> {
     const { span, spanOptions } = createSpan("FileClient-startCopyFromURL", options.spanOptions);
     try {
       return this.context.startCopy(copySource, {
@@ -1320,13 +1347,13 @@ export class FileClient extends StorageClient {
    *
    * @param {string} copyId Id of the Copy File operation to abort.
    * @param {FileAbortCopyFromURLOptions} [options] Options to File Abort Copy From URL operation.
-   * @returns {Promise<Models.FileAbortCopyResponse>}
+   * @returns {Promise<FileAbortCopyResponse>}
    * @memberof FileClient
    */
   public async abortCopyFromURL(
     copyId: string,
     options: FileAbortCopyFromURLOptions = {}
-  ): Promise<Models.FileAbortCopyResponse> {
+  ): Promise<FileAbortCopyResponse> {
     const { span, spanOptions } = createSpan("FileClient-abortCopyFromURL", options.spanOptions);
     try {
       return this.context.abortCopy(copyId, {
@@ -1441,8 +1468,8 @@ export class FileClient extends StorageClient {
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress({ loadedBytes: transferProgress });
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
             }
           }
         );
@@ -1469,7 +1496,10 @@ export class FileClient extends StorageClient {
    * @param {FileParallelUploadOptions} [options]
    * @returns {(Promise<void>)}
    */
-  public async uploadFile(filePath: string, options: FileParallelUploadOptions = {}): Promise<void> {
+  public async uploadFile(
+    filePath: string,
+    options: FileParallelUploadOptions = {}
+  ): Promise<void> {
     const { span, spanOptions } = createSpan("FileClient-uploadFile", options.spanOptions);
     try {
       const size = (await fsStat(filePath)).size;
@@ -1566,8 +1596,8 @@ export class FileClient extends StorageClient {
             );
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress({ loadedBytes: transferProgress });
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
             }
           }
         );
@@ -1666,8 +1696,8 @@ export class FileClient extends StorageClient {
           // Could provide finer grained progress updating inside HTTP requests,
           // only if convenience layer download try is enabled
           transferProgress += chunkEnd - off;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         });
       }
@@ -1754,8 +1784,8 @@ export class FileClient extends StorageClient {
 
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += buffer.length;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         },
         // Concurrency should set a smaller value than maxBuffers, which is helpful to
@@ -1787,7 +1817,7 @@ export class FileClient extends StorageClient {
    * @param {number} [offset] From which position of the block blob to download.
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
    * @param {BlobDownloadOptions} [options] Options to Blob download options.
-   * @returns {Promise<Models.FileDownloadResponse>} The response data for blob download operation,
+   * @returns {Promise<FileDownloadResponse>} The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
@@ -1798,7 +1828,7 @@ export class FileClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: FileDownloadOptions = {}
-  ): Promise<Models.FileDownloadResponse> {
+  ): Promise<FileDownloadResponseModel> {
     const { span, spanOptions } = createSpan("FileClient-downloadToFile", options.spanOptions);
     try {
       const response = await this.download(offset, count, { ...options, spanOptions });
@@ -1830,13 +1860,13 @@ export class FileClient extends StorageClient {
    *                          The marker value may then be used in a subsequent call to request the next
    *                          set of list items.
    * @param {FileListHandlesSegmentOptions} [options={}]
-   * @returns {Promise<Models.FileListHandlesResponse>}
+   * @returns {Promise<FileListHandlesResponse>}
    * @memberof FileURL
    */
   private async listHandlesSegment(
     marker?: string,
     options: FileListHandlesSegmentOptions = {}
-  ): Promise<Models.FileListHandlesResponse> {
+  ): Promise<FileListHandlesResponse> {
     const { span, spanOptions } = createSpan("FileClient-listHandlesSegment", options.spanOptions);
     try {
       marker = marker === "" ? undefined : marker;
@@ -1874,13 +1904,13 @@ export class FileClient extends StorageClient {
    *                          The marker value may then be used in a subsequent call to request the next
    *                          set of list items.
    * @param {FileListHandlesSegmentOptions} [options] Options to list handles operation.
-   * @returns {AsyncIterableIterator<Models.FileListHandlesResponse>}
+   * @returns {AsyncIterableIterator<FileListHandlesResponse>}
    * @memberof FileClient
    */
   private async *iterateHandleSegments(
     marker?: string,
     options: FileListHandlesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.FileListHandlesResponse> {
+  ): AsyncIterableIterator<FileListHandlesResponse> {
     let listHandlesResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -1896,12 +1926,12 @@ export class FileClient extends StorageClient {
    *
    * @private
    * @param {FileListHandlesSegmentOptions} [options] Options to list handles operation.
-   * @returns {AsyncIterableIterator<Models.HandleItem>}
+   * @returns {AsyncIterableIterator<HandleItem>}
    * @memberof FileClient
    */
   private async *listHandleItems(
     options: FileListHandlesSegmentOptions = {}
-  ): AsyncIterableIterator<Models.HandleItem> {
+  ): AsyncIterableIterator<HandleItem> {
     let marker: string | undefined;
     for await (const listHandlesResponse of this.iterateHandleSegments(marker, options)) {
       if (listHandlesResponse.handleList) {
@@ -1920,12 +1950,12 @@ export class FileClient extends StorageClient {
    *
    * @param {FileListHandlesOptions} [options] Options to list handles operation.
    * @memberof FileClient
-   * @returns {PagedAsyncIterableIterator<Models.HandleItem, Models.FileListHandlesResponse>}
+   * @returns {PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>}
    * An asyncIterableIterator that supports paging.
    */
   public listHandles(
     options: FileListHandlesOptions = {}
-  ): PagedAsyncIterableIterator<Models.HandleItem, Models.FileListHandlesResponse> {
+  ): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse> {
     // an AsyncIterableIterator to iterate over handles
     const iter = this.listHandleItems(options);
     return {
@@ -1963,13 +1993,13 @@ export class FileClient extends StorageClient {
    *                          body if there are more handles to close. The marker value
    *                          may then be used in a subsequent call to close the next set of handles.
    * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
-   * @returns {Promise<Models.FileForceCloseHandlesResponse>}
+   * @returns {Promise<FileForceCloseHandlesResponse>}
    * @memberof FileClient
    */
   private async forceCloseHandlesSegment(
     marker?: string,
     options: FileForceCloseHandlesOptions = {}
-  ): Promise<Models.FileForceCloseHandlesResponse> {
+  ): Promise<FileForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "FileClient-forceCloseHandlesSegment",
       options.spanOptions
@@ -2037,13 +2067,13 @@ export class FileClient extends StorageClient {
    * @param {string} handleId Specific handle ID, cannot be asterisk "*".
    *                          Use forceCloseAllHandles() to close all handles.
    * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
-   * @returns {Promise<Models.FileForceCloseHandlesResponse>}
+   * @returns {Promise<FileForceCloseHandlesResponse>}
    * @memberof FileClient
    */
   public async forceCloseHandle(
     handleId: string,
     options: FileForceCloseHandlesOptions = {}
-  ): Promise<Models.FileForceCloseHandlesResponse> {
+  ): Promise<FileForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan("FileClient-forceCloseHandle", options.spanOptions);
     try {
       if (handleId === "*") {

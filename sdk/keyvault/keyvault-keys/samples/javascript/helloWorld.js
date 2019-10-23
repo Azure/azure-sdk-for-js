@@ -31,9 +31,9 @@ async function main() {
   console.log("key: ", key);
 
   // Or list the keys we have
-  let listKeys = client.listKeys();
+  let listPropertiesOfKeys = client.listPropertiesOfKeys();
   while (true) {
-    let { done, value } = await listKeys.next();
+    let { done, value } = await listPropertiesOfKeys.next();
     if (done) {
       break;
     }
@@ -43,12 +43,12 @@ async function main() {
   }
 
   // Update the key
-  const updatedKey = await client.updateKey(keyName, result.properties.version, { enabled: false });
+  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version, { enabled: false });
   console.log("updated key: ", updatedKey);
 
-  await client.deleteKey(keyName);
-  await client.deleteKey(ecKeyName);
-  await client.deleteKey(rsaKeyName);
+  await client.beginDeleteKey(keyName);
+  await client.beginDeleteKey(ecKeyName);
+  await client.beginDeleteKey(rsaKeyName);
 }
 
 main().catch((err) => {

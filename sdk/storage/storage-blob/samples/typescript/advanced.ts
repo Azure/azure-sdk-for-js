@@ -73,7 +73,7 @@ async function main() {
   await blockBlobClient.uploadFile(localFilePath, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     concurrency: 20, // 20 concurrency
-    progress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev)
   });
   console.log("uploadFile success");
 
@@ -81,7 +81,7 @@ async function main() {
   // BlockBlobClient.uploadStream() is only available in Node.js
   await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
     abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-    progress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev)
   });
   console.log("uploadStream success");
 
@@ -92,7 +92,7 @@ async function main() {
   await blockBlobClient.uploadBrowserData(browserFile, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     concurrency: 20, // 20 concurrency
-    progress: ev => console.log(ev)
+    onProgress: ev => console.log(ev)
   });
   */
 
@@ -104,7 +104,7 @@ async function main() {
     abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     blockSize: 4 * 1024 * 1024, // 4MB block size
     concurrency: 20, // 20 concurrency
-    progress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev)
   });
   console.log("downloadToBuffer success");
 

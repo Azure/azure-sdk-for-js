@@ -286,7 +286,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectoryCreateHeaders
     }
   },
   isXML: true,
@@ -312,7 +313,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectoryGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -337,7 +339,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectoryDeleteHeaders
     }
   },
   isXML: true,
@@ -368,7 +371,8 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectorySetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectorySetPropertiesHeaders
     }
   },
   isXML: true,
@@ -395,7 +399,8 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectorySetMetadataHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectorySetMetadataHeaders
     }
   },
   isXML: true,
@@ -426,7 +431,8 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryListFilesAndDirectoriesSegmentHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectoryListFilesAndDirectoriesSegmentHeaders
     }
   },
   isXML: true,
@@ -456,7 +462,8 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryListHandlesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectoryListHandlesHeaders
     }
   },
   isXML: true,
@@ -485,7 +492,8 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.DirectoryForceCloseHandlesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectoryForceCloseHandlesHeaders
     }
   },
   isXML: true,

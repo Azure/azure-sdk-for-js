@@ -50,6 +50,8 @@ stages:
           safeName: azurecoreauth
         - name: azure-core-http
           safeName: azurecorehttp
+        - name: azure-core-lro
+          safeName: azurecorelro
         - name: azure-core-paging
           safeName: azurecorepaging
         - name: azure-core-tracing

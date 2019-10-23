@@ -10,9 +10,27 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
-import * as Models from "./generated/src/models";
+import {
+  LeaseAccessConditions,
+  ContainerGetAccessPolicyHeaders,
+  SignedIdentifierModel,
+  PublicAccessType,
+  ListBlobsIncludeItem,
+  ModifiedAccessConditions,
+  ContainerCreateResponse,
+  ContainerGetPropertiesResponse,
+  ContainerDeleteResponse,
+  ContainerSetMetadataResponse,
+  ContainerSetAccessPolicyResponse,
+  BlockBlobUploadResponse,
+  BlobDeleteResponse,
+  ContainerListBlobFlatSegmentResponse,
+  ContainerListBlobHierarchySegmentResponse,
+  BlobItem,
+  BlobPrefix
+} from "./generatedModels";
 import { Container } from "./generated/src/operations";
-import { ContainerAccessConditions, Metadata } from "./models";
+import { BlobRequestConditions, Metadata } from "./models";
 import { DevelopmentConnectionString } from "./utils/constants";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ETagNone } from "./utils/constants";
@@ -66,10 +84,10 @@ export interface ContainerCreateOptions extends CommonOptions {
    * - `container`: Specifies full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.
    * - `blob`: Specifies public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.
    *
-   * @type {Models.PublicAccessType}
+   * @type {PublicAccessType}
    * @memberof ContainerCreateOptions
    */
-  access?: Models.PublicAccessType;
+  access?: PublicAccessType;
 }
 
 /**
@@ -91,10 +109,10 @@ export interface ContainerGetPropertiesOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {Models.LeaseAccessConditions}
+   * @type {LeaseAccessConditions}
    * @memberof ContainerGetPropertiesOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: LeaseAccessConditions;
 }
 
 /**
@@ -115,10 +133,10 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
   /**
    * Conditions to meet when deleting the container.
    *
-   * @type {ContainerAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof ContainerDeleteMethodOptions
    */
-  containerAccessConditions?: ContainerAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -157,10 +175,10 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {ContainerAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof ContainerSetMetadataOptions
    */
-  containerAccessConditions?: ContainerAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -182,10 +200,10 @@ export interface ContainerGetAccessPolicyOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {Models.LeaseAccessConditions}
+   * @type {LeaseAccessConditions}
    * @memberof ContainerGetAccessPolicyOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: LeaseAccessConditions;
 }
 
 /**
@@ -220,8 +238,8 @@ export interface SignedIdentifier {
 }
 
 export declare type ContainerGetAccessPolicyResponse = {
-  signedIdentifiers: SignedIdentifier[];
-} & Models.ContainerGetAccessPolicyHeaders & {
+  signedIdentifiers: SignedIdentifierModel[];
+} & ContainerGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
      */
@@ -229,7 +247,7 @@ export declare type ContainerGetAccessPolicyResponse = {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: Models.ContainerGetAccessPolicyHeaders;
+      parsedHeaders: ContainerGetAccessPolicyHeaders;
       /**
        * The response body as text (string format)
        */
@@ -237,7 +255,7 @@ export declare type ContainerGetAccessPolicyResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Models.SignedIdentifier[];
+      parsedBody: SignedIdentifierModel[];
     };
   };
 
@@ -259,10 +277,10 @@ export interface ContainerSetAccessPolicyOptions extends CommonOptions {
   /**
    * Conditions to meet when setting the access policy.
    *
-   * @type {ContainerAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof ContainerSetAccessPolicyOptions
    */
-  containerAccessConditions?: ContainerAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -283,10 +301,10 @@ export interface ContainerAcquireLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when acquiring the lease.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof ContainerAcquireLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -307,10 +325,10 @@ export interface ContainerReleaseLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when releasing the lease.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof ContainerReleaseLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -331,10 +349,10 @@ export interface ContainerRenewLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when renewing the lease.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof ContainerRenewLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -355,10 +373,10 @@ export interface ContainerBreakLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when breaking the lease.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof ContainerBreakLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -379,10 +397,10 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when changing the lease.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof ContainerChangeLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -418,7 +436,7 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
    * specify one or more datasets to include in the response.
    */
-  include?: Models.ListBlobsIncludeItem[];
+  include?: ListBlobsIncludeItem[];
 }
 
 /**
@@ -622,12 +640,10 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
    * @param {ContainerCreateOptions} [options] Options to Container Create operation.
-   * @returns {Promise<Models.ContainerCreateResponse>}
+   * @returns {Promise<ContainerCreateResponse>}
    * @memberof ContainerClient
    */
-  public async create(
-    options: ContainerCreateOptions = {}
-  ): Promise<Models.ContainerCreateResponse> {
+  public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
     const { span, spanOptions } = createSpan("ContainerClient-create", options.spanOptions);
     try {
       // Spread operator in destructuring assignments,
@@ -740,21 +756,21 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
    * @param {ContainersGetPropertiesOptions} [options] Options to Container Get Properties operation.
-   * @returns {Promise<Models.ContainerGetPropertiesResponse>}
+   * @returns {Promise<ContainerGetPropertiesResponse>}
    * @memberof ContainerClient
    */
   public async getProperties(
     options: ContainerGetPropertiesOptions = {}
-  ): Promise<Models.ContainerGetPropertiesResponse> {
-    if (!options.leaseAccessConditions) {
-      options.leaseAccessConditions = {};
+  ): Promise<ContainerGetPropertiesResponse> {
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan("ContainerClient-getProperties", options.spanOptions);
     try {
       return this.containerContext.getProperties({
         abortSignal: options.abortSignal,
-        ...options.leaseAccessConditions,
+        ...options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -774,29 +790,19 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
    * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
-   * @returns {Promise<Models.ContainerDeleteResponse>}
+   * @returns {Promise<ContainerDeleteResponse>}
    * @memberof ContainerClient
    */
   public async delete(
     options: ContainerDeleteMethodOptions = {}
-  ): Promise<Models.ContainerDeleteResponse> {
-    if (!options.containerAccessConditions) {
-      options.containerAccessConditions = {};
-    }
-
-    if (!options.containerAccessConditions.modifiedAccessConditions) {
-      options.containerAccessConditions.modifiedAccessConditions = {};
-    }
-
-    if (!options.containerAccessConditions.leaseAccessConditions) {
-      options.containerAccessConditions.leaseAccessConditions = {};
+  ): Promise<ContainerDeleteResponse> {
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     if (
-      (options.containerAccessConditions.modifiedAccessConditions.ifMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifMatch !== ETagNone) ||
-      (options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch !== ETagNone)
+      (options.conditions.ifMatch && options.conditions.ifMatch !== ETagNone) ||
+      (options.conditions.ifNoneMatch && options.conditions.ifNoneMatch !== ETagNone)
     ) {
       throw new RangeError(
         "the IfMatch and IfNoneMatch access conditions must have their default\
@@ -809,8 +815,8 @@ export class ContainerClient extends StorageClient {
     try {
       return this.containerContext.deleteMethod({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -835,31 +841,21 @@ export class ContainerClient extends StorageClient {
    * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
    * @param {ContainerSetMetadataOptions} [options] Options to Container Set Metadata operation.
-   * @returns {Promise<Models.ContainerSetMetadataResponse>}
+   * @returns {Promise<ContainerSetMetadataResponse>}
    * @memberof ContainerClient
    */
   public async setMetadata(
     metadata?: Metadata,
     options: ContainerSetMetadataOptions = {}
-  ): Promise<Models.ContainerSetMetadataResponse> {
-    if (!options.containerAccessConditions) {
-      options.containerAccessConditions = {};
-    }
-
-    if (!options.containerAccessConditions.modifiedAccessConditions) {
-      options.containerAccessConditions.modifiedAccessConditions = {};
-    }
-
-    if (!options.containerAccessConditions.leaseAccessConditions) {
-      options.containerAccessConditions.leaseAccessConditions = {};
+  ): Promise<ContainerSetMetadataResponse> {
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     if (
-      options.containerAccessConditions.modifiedAccessConditions.ifUnmodifiedSince ||
-      (options.containerAccessConditions.modifiedAccessConditions.ifMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifMatch !== ETagNone) ||
-      (options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch &&
-        options.containerAccessConditions.modifiedAccessConditions.ifNoneMatch !== ETagNone)
+      options.conditions.ifUnmodifiedSince ||
+      (options.conditions.ifMatch && options.conditions.ifMatch !== ETagNone) ||
+      (options.conditions.ifNoneMatch && options.conditions.ifNoneMatch !== ETagNone)
     ) {
       throw new RangeError(
         "the IfUnmodifiedSince, IfMatch, and IfNoneMatch must have their default values\
@@ -872,9 +868,9 @@ export class ContainerClient extends StorageClient {
     try {
       return this.containerContext.setMetadata({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata,
-        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -904,8 +900,8 @@ export class ContainerClient extends StorageClient {
   public async getAccessPolicy(
     options: ContainerGetAccessPolicyOptions = {}
   ): Promise<ContainerGetAccessPolicyResponse> {
-    if (!options.leaseAccessConditions) {
-      options.leaseAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan(
@@ -916,7 +912,7 @@ export class ContainerClient extends StorageClient {
     try {
       const response = await this.containerContext.getAccessPolicy({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         spanOptions
       });
 
@@ -924,7 +920,7 @@ export class ContainerClient extends StorageClient {
         _response: response._response,
         blobPublicAccess: response.blobPublicAccess,
         date: response.date,
-        eTag: response.eTag,
+        etag: response.etag,
         errorCode: response.errorCode,
         lastModified: response.lastModified,
         requestId: response.requestId,
@@ -973,24 +969,24 @@ export class ContainerClient extends StorageClient {
    * removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
-   * @param {Models.PublicAccessType} [access] The level of public access to data in the container.
+   * @param {PublicAccessType} [access] The level of public access to data in the container.
    * @param {SignedIdentifier[]} [containerAcl] Array of elements each having a unique Id and details of the access policy.
    * @param {ContainerSetAccessPolicyOptions} [options] Options to Container Set Access Policy operation.
-   * @returns {Promise<Models.ContainerSetAccessPolicyResponse>}
+   * @returns {Promise<ContainerSetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
   public async setAccessPolicy(
-    access?: Models.PublicAccessType,
+    access?: PublicAccessType,
     containerAcl?: SignedIdentifier[],
     options: ContainerSetAccessPolicyOptions = {}
-  ): Promise<Models.ContainerSetAccessPolicyResponse> {
-    options.containerAccessConditions = options.containerAccessConditions || {};
+  ): Promise<ContainerSetAccessPolicyResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "ContainerClient-setAccessPolicy",
       options.spanOptions
     );
     try {
-      const acl: Models.SignedIdentifier[] = [];
+      const acl: SignedIdentifierModel[] = [];
       for (const identifier of containerAcl || []) {
         acl.push({
           accessPolicy: {
@@ -1010,8 +1006,8 @@ export class ContainerClient extends StorageClient {
         abortSignal: options.abortSignal,
         access,
         containerAcl: acl,
-        leaseAccessConditions: options.containerAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.containerAccessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -1056,7 +1052,7 @@ export class ContainerClient extends StorageClient {
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
    * @param {BlockBlobUploadOptions} [options] Options to configure the Block Blob Upload operation.
-   * @returns {Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }>} Block Blob upload response data and the corresponding BlockBlobClient instance.
+   * @returns {Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }>} Block Blob upload response data and the corresponding BlockBlobClient instance.
    * @memberof ContainerClient
    */
   public async uploadBlockBlob(
@@ -1064,7 +1060,7 @@ export class ContainerClient extends StorageClient {
     body: HttpRequestBody,
     contentLength: number,
     options: BlockBlobUploadOptions = {}
-  ): Promise<{ blockBlobClient: BlockBlobClient; response: Models.BlockBlobUploadResponse }> {
+  ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-uploadBlockBlob",
       options.spanOptions
@@ -1099,13 +1095,13 @@ export class ContainerClient extends StorageClient {
    *
    * @param {string} blobName
    * @param {BlobDeleteOptions} [options] Options to Blob Delete operation.
-   * @returns {Promise<Models.BlobDeleteResponse>} Block blob deletion response data.
+   * @returns {Promise<BlobDeleteResponse>} Block blob deletion response data.
    * @memberof ContainerClient
    */
   public async deleteBlob(
     blobName: string,
     options: BlobDeleteOptions = {}
-  ): Promise<Models.BlobDeleteResponse> {
+  ): Promise<BlobDeleteResponse> {
     const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.spanOptions);
     try {
       const blobClient = this.getBlobClient(blobName);
@@ -1130,13 +1126,13 @@ export class ContainerClient extends StorageClient {
    *
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
    * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Flat Segment operation.
-   * @returns {Promise<Models.ContainerListBlobFlatSegmentResponse>}
+   * @returns {Promise<ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
   private async listBlobFlatSegment(
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
-  ): Promise<Models.ContainerListBlobFlatSegmentResponse> {
+  ): Promise<ContainerListBlobFlatSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-listBlobFlatSegment",
       options.spanOptions
@@ -1168,14 +1164,14 @@ export class ContainerClient extends StorageClient {
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
    * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Hierarchy Segment operation.
-   * @returns {Promise<Models.ContainerListBlobHierarchySegmentResponse>}
+   * @returns {Promise<ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */
   private async listBlobHierarchySegment(
     delimiter: string,
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
-  ): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
+  ): Promise<ContainerListBlobHierarchySegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ContainerClient-listBlobHierarchySegment",
       options.spanOptions
@@ -1209,13 +1205,13 @@ export class ContainerClient extends StorageClient {
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
-   * @returns {AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse>}
+   * @returns {AsyncIterableIterator<ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
   private async *listSegments(
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
-  ): AsyncIterableIterator<Models.ContainerListBlobFlatSegmentResponse> {
+  ): AsyncIterableIterator<ContainerListBlobFlatSegmentResponse> {
     let listBlobsFlatSegmentResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -1231,12 +1227,12 @@ export class ContainerClient extends StorageClient {
    *
    * @private
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
-   * @returns {AsyncIterableIterator<Models.BlobItem>}
+   * @returns {AsyncIterableIterator<BlobItem>}
    * @memberof ContainerClient
    */
   private async *listItems(
     options: ContainerListBlobsSegmentOptions = {}
-  ): AsyncIterableIterator<Models.BlobItem> {
+  ): AsyncIterableIterator<BlobItem> {
     let marker: string | undefined;
     for await (const listBlobsFlatSegmentResponse of this.listSegments(marker, options)) {
       yield* listBlobsFlatSegmentResponse.segment.blobItems;
@@ -1303,13 +1299,13 @@ export class ContainerClient extends StorageClient {
    * ```
    *
    * @param {ContainerListBlobsOptions} [options={}] Options to list blobs.
-   * @returns {PagedAsyncIterableIterator<Models.BlobItem, Models.ContainerListBlobFlatSegmentResponse>} An asyncIterableIterator that supports paging.
+   * @returns {PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse>} An asyncIterableIterator that supports paging.
    * @memberof ContainerClient
    */
   public listBlobsFlat(
     options: ContainerListBlobsOptions = {}
-  ): PagedAsyncIterableIterator<Models.BlobItem, Models.ContainerListBlobFlatSegmentResponse> {
-    const include: Models.ListBlobsIncludeItem[] = [];
+  ): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse> {
+    const include: ListBlobsIncludeItem[] = [];
     if (options.includeCopy) {
       include.push("copy");
     }
@@ -1370,13 +1366,13 @@ export class ContainerClient extends StorageClient {
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
-   * @returns {AsyncIterableIterator<Models.ContainerListBlobHierarchySegmentResponse>}
+   * @returns {AsyncIterableIterator<ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */ private async *listHierarchySegments(
     delimiter: string,
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
-  ): AsyncIterableIterator<Models.ContainerListBlobHierarchySegmentResponse> {
+  ): AsyncIterableIterator<ContainerListBlobHierarchySegmentResponse> {
     let listBlobsHierarchySegmentResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -1396,15 +1392,13 @@ export class ContainerClient extends StorageClient {
    *
    * @private
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
-   * @returns {AsyncIterableIterator<{ kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem>}
+   * @returns {AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem>}
    * @memberof ContainerClient
    */
   private async *listItemsByHierarchy(
     delimiter: string,
     options: ContainerListBlobsSegmentOptions = {}
-  ): AsyncIterableIterator<
-    { kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem
-  > {
+  ): AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem> {
     let marker: string | undefined;
     for await (const listBlobsHierarchySegmentResponse of this.listHierarchySegments(
       delimiter,
@@ -1495,8 +1489,8 @@ export class ContainerClient extends StorageClient {
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy
    * @param {ContainerListBlobsOptions} [options={}] Options to list blobs operation.
    * @returns {(PagedAsyncIterableIterator<
-   *   { kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem,
-   *     Models.ContainerListBlobHierarchySegmentResponse
+   *   { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,
+   *     ContainerListBlobHierarchySegmentResponse
    *   >)}
    * @memberof ContainerClient
    */
@@ -1504,10 +1498,10 @@ export class ContainerClient extends StorageClient {
     delimiter: string,
     options: ContainerListBlobsOptions = {}
   ): PagedAsyncIterableIterator<
-    { kind: "prefix" } & Models.BlobPrefix | { kind: "blob" } & Models.BlobItem,
-    Models.ContainerListBlobHierarchySegmentResponse
+    { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,
+    ContainerListBlobHierarchySegmentResponse
   > {
-    const include: Models.ListBlobsIncludeItem[] = [];
+    const include: ListBlobsIncludeItem[] = [];
     if (options.includeCopy) {
       include.push("copy");
     }

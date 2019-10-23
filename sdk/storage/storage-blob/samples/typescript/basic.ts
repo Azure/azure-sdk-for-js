@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { BlobServiceClient, SharedKeyCredential, Models } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { BlobServiceClient, SharedKeyCredential, BlobDownloadResponseModel } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -68,7 +68,7 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse: Models.BlobDownloadResponse = await blobClient.download(0);
+  const downloadBlockBlobResponse: BlobDownloadResponseModel = await blobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody!)

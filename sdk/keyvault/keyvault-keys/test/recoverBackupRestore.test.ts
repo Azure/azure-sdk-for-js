@@ -33,20 +33,21 @@ describe("Keys client - restore keys and recover backups", () => {
   it("can recover a deleted key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    await client.deleteKey(keyName);
-    const getDeletedResult = await retry(async () => client.getDeletedKey(keyName));
+    const deletePoller = await client.beginDeleteKey(keyName);
     assert.equal(
-      getDeletedResult.properties.name,
+      deletePoller.getResult()!.name,
       keyName,
-      "Unexpected key name in result from getKey()."
+      "Unexpected key name in result from deletePoller.getResult()."
     );
-    await client.recoverDeletedKey(keyName);
-    const getResult = await retry(async () => client.getKey(keyName));
-    assert.equal(
-      getResult.properties.name,
-      keyName,
-      "Unexpected key name in result from getKey()."
-    );
+    await deletePoller.pollUntilDone();
+
+    const getDeletedResult = await deletePoller.getResult();
+    assert.equal(getDeletedResult!.name, keyName, "Unexpected key name in result from getKey().");
+
+    const recoverPoller = await client.beginRecoverDeletedKey(keyName);
+    await recoverPoller.pollUntilDone();
+    const getResult = await client.getKey(keyName);
+    assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.flushKey(keyName);
   });
 
@@ -54,7 +55,8 @@ describe("Keys client - restore keys and recover backups", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
-      await client.recoverDeletedKey(keyName);
+      const recoverPoller = await client.beginRecoverDeletedKey(keyName);
+      await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       error = e;
@@ -94,11 +96,7 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
     await retry(async () => client.restoreKeyBackup(backup as Uint8Array));
     const getResult = await client.getKey(keyName);
-    assert.equal(
-      getResult.properties.name,
-      keyName,
-      "Unexpected key name in result from getKey()."
-    );
+    assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.flushKey(keyName);
   });
 

@@ -166,16 +166,20 @@ const skip = [
   // Skip for random UUID generated for request boundary and changing x-ms-date used for authentication
   "node/blobbatch/recording_submitbatch_should_report_error_with_invalid_credential_for_batch_request.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete.js",
+  "node/blobbatch/recording_deleteblobs_should_work_for_batch_delete.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete_with_access_condition_and_partial_succeed.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete_with_snapshot.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_set_tier.js",
+  "node/blobbatch/recording_setblobsaccesstier_should_work_for_batch_set_tier.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_set_tier_with_lease_condition.js",
   "node/blobbatch/recording_submitbatch_should_work_with_multiple_types_of_credentials_for_subrequests.js",
   "browsers/blobbatch/recording_submitbatch_should_report_error_with_invalid_credential_for_batch_request.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_delete.json",
+  "browsers/blobbatch/recording_deleteblobs_should_work_for_batch_delete.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_delete_with_access_condition_and_partial_succeed.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_delete_with_snapshot.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_set_tier.json",
+  "browsers/blobbatch/recording_setblobsaccesstier_should_work_for_batch_set_tier.json",
   "browsers/blobbatch/recording_submitbatch_should_work_for_batch_set_tier_with_lease_condition.json",
   "browsers/blobbatch/recording_submitbatch_should_work_with_multiple_types_of_credentials_for_subrequests.json"
 ];

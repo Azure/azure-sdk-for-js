@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, isNode } from "@azure/core-http";
-import * as Models from "./generated/src/models";
+import { CopyStatusType, FileDownloadHeaders, FileDownloadResponseModel } from "./generatedModels";
 import { Metadata } from "./models";
 import {
   ReadableStreamGetter,
@@ -13,7 +13,7 @@ import {
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * FileDownloadResponse implements Models.FileDownloadResponse interface, and in Node.js runtime it will
+ * FileDownloadResponse implements FileDownloadResponseModel interface, and in Node.js runtime it will
  * automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
  * trigger retries defined in pipeline retry policy.)
  *
@@ -22,9 +22,9 @@ import {
  *
  * @export
  * @class FileDownloadResponse
- * @implements {Models.FileDownloadResponse}
+ * @implements {FileDownloadResponseModel}
  */
-export class FileDownloadResponse implements Models.FileDownloadResponse {
+export class FileDownloadResponse implements FileDownloadResponseModel {
   /**
    * Indicates that the service supports
    * requests for partial file content.
@@ -199,10 +199,10 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * 'success', 'aborted', 'failed'
    *
    * @readonly
-   * @type {(Models.CopyStatusType | undefined)}
+   * @type {(CopyStatusType | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get copyStatus(): Models.CopyStatusType | undefined {
+  public get copyStatus(): CopyStatusType | undefined {
     return this.originalResponse.copyStatus;
   }
 
@@ -239,8 +239,8 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @type {(string | undefined)}
    * @memberof FileDownloadResponse
    */
-  public get eTag(): string | undefined {
-    return this.originalResponse.eTag;
+  public get etag(): string | undefined {
+    return this.originalResponse.etag;
   }
 
   public get errorCode(): string | undefined {
@@ -430,18 +430,18 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
   }
 
   public get _response(): HttpResponse & {
-    parsedHeaders: Models.FileDownloadHeaders;
+    parsedHeaders: FileDownloadHeaders;
   } {
     return this.originalResponse._response;
   }
 
-  private originalResponse: Models.FileDownloadResponse;
+  private originalResponse: FileDownloadResponseModel;
   private fileDownloadStream?: RetriableReadableStream;
 
   /**
    * Creates an instance of FileDownloadResponse.
    *
-   * @param {Models.FileDownloadResponse} originalResponse
+   * @param {FileDownloadResponseModel} originalResponse
    * @param {ReadableStreamGetter} getter
    * @param {number} offset
    * @param {number} count
@@ -449,7 +449,7 @@ export class FileDownloadResponse implements Models.FileDownloadResponse {
    * @memberof FileDownloadResponse
    */
   public constructor(
-    originalResponse: Models.FileDownloadResponse,
+    originalResponse: FileDownloadResponseModel,
     getter: ReadableStreamGetter,
     offset: number,
     count: number,

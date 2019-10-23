@@ -4,8 +4,8 @@
 import { ListConfigurationSettingsOptions } from '..';
 import { URLBuilder } from '@azure/core-http';
 import { isArray } from 'util';
-import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpConditionalFields } from '../models';
-import { AppConfigurationGetKeyValuesOptionalParams } from '../generated/src/models';
+import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpResponseField, HttpResponseFields, HttpOnlyIfChangedField, HttpOnlyIfUnchangedField } from '../models';
+import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from '../generated/src/models';
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -36,7 +36,7 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * @internal
  * @ignore
  */
-export function checkAndFormatIfAndIfNoneMatch(configurationSetting: ConfigurationSettingId, options: HttpConditionalFields): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
+export function checkAndFormatIfAndIfNoneMatch(configurationSetting: ConfigurationSettingId, options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
     throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
@@ -67,7 +67,7 @@ export function checkAndFormatIfAndIfNoneMatch(configurationSetting: Configurati
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label"> {
+): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select"> {
   let key;
 
   if (listConfigOptions.keys) {
@@ -81,9 +81,16 @@ export function formatWildcards(
     label = listConfigOptions.labels.join(",");
   }
 
+  let fields: (keyof KeyValue)[]|undefined;
+
+  if (listConfigOptions.fields) {
+    fields = listConfigOptions.fields.map(opt => opt === "readOnly" ? "locked" : opt);
+  }
+
   return {
     key,
-    label
+    label,
+    select: fields
   };
 }
 
@@ -117,12 +124,60 @@ export function makeConfigurationSettingEmpty(configurationSetting: Partial<Reco
     "etag",
     "label",
     "lastModified",
-    "locked",
+    "readOnly",
     "tags",
     "value"
   ];
 
   for (const name of names) {
     configurationSetting[name] = undefined;
-  }
+  }  
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValue(kvp: KeyValue) : ConfigurationSetting {  
+  const obj : ConfigurationSetting & KeyValue = {
+    ...kvp,
+    readOnly: !!kvp.locked
+  };
+
+  delete obj.locked;
+  return obj;
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponseWithStatusCode<T extends KeyValue & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & { eTag?: string; } & HttpResponseField<any> & HttpResponseFields {
+  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any> & HttpResponseFields>{
+    ...transformKeyValue(kvp),
+    statusCode: kvp._response.status,
+  });
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponse<T extends KeyValue & { eTag?: string; } & HttpResponseField<any>>(kvp: T) : ConfigurationSetting & HttpResponseField<any> {
+  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
+    ...transformKeyValue(kvp)
+  });
+}
+
+function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string; } >(originalResponse: HttpResponseField<any>, newResponse: T) : T {
+  Object.defineProperty(newResponse, '_response', {
+    enumerable: false,
+    value: originalResponse._response
+  });
+
+  // this field comes from the header but it's redundant with 
+  // the one serialized in the model itself
+  delete newResponse.eTag;
+
+  return newResponse;
 }

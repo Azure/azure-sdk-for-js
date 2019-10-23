@@ -19,22 +19,6 @@ export interface SkuName {
 }
 
 /**
- * An interface representing CatalogBillingPlansItem.
- */
-export interface CatalogBillingPlansItem {
-  /**
-   * The term for the billing SKU is available for. Possible values include: 'P1Y', 'P3Y'
-   */
-  name?: ReservationTerm;
-  /**
-   * Describes unknown properties. The value of an unknown property MUST be of type
-   * "ReservationBillingPlan[]". Due to valid TS constraints we have modeled this as a union of
-   * `ReservationBillingPlan[] | any`.
-   */
-  [property: string]: ReservationBillingPlan[] | any;
-}
-
-/**
  * An interface representing SkuProperty.
  */
 export interface SkuProperty {
@@ -84,7 +68,7 @@ export interface Catalog {
   /**
    * The billing plan options available for this SKU.
    */
-  billingPlans?: CatalogBillingPlansItem[];
+  billingPlans?: { [propertyName: string]: ReservationBillingPlan[] };
   /**
    * Available reservation terms for this resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**

@@ -4,7 +4,25 @@
 import { HttpResponse, isNode } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
-import * as Models from "./generated/src/models";
+import {
+  DeleteSnapshotsOptionType,
+  DirectoryCreateResponse,
+  DirectoryDeleteResponse,
+  FileCreateResponse,
+  FileDeleteResponse,
+  ShareCreatePermissionResponse,
+  ShareCreateResponse,
+  ShareCreateSnapshotResponse,
+  ShareDeleteResponse,
+  ShareGetAccessPolicyHeaders,
+  ShareGetPermissionResponse,
+  ShareGetPropertiesResponse,
+  ShareSetAccessPolicyResponse,
+  ShareSetMetadataResponse,
+  ShareSetQuotaResponse,
+  SignedIdentifierModel,
+  ShareGetStatisticsResponseModel
+} from "./generatedModels";
 import { Share } from "./generated/src/operations";
 import { Metadata } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -77,10 +95,10 @@ export interface ShareDeleteMethodOptions extends CommonOptions {
    * include to delete the base share and all of its snapshots. Possible values
    * include: 'include'
    *
-   * @type {Models.DeleteSnapshotsOptionType}
+   * @type {DeleteSnapshotsOptionType}
    * @memberof ShareDeleteMethodOptions
    */
-  deleteSnapshots?: Models.DeleteSnapshotsOptionType;
+  deleteSnapshots?: DeleteSnapshotsOptionType;
 }
 
 /**
@@ -218,7 +236,7 @@ export interface SignedIdentifier {
 
 export declare type ShareGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
-} & Models.ShareGetAccessPolicyHeaders & {
+} & ShareGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
      */
@@ -226,7 +244,7 @@ export declare type ShareGetAccessPolicyResponse = {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: Models.ShareGetAccessPolicyHeaders;
+      parsedHeaders: ShareGetAccessPolicyHeaders;
       /**
        * The response body as text (string format)
        */
@@ -234,7 +252,7 @@ export declare type ShareGetAccessPolicyResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Models.SignedIdentifier[];
+      parsedBody: SignedIdentifierModel[];
     };
   };
 
@@ -301,7 +319,7 @@ export interface ShareGetPermissionOptions extends CommonOptions {
  * @export
  * @interface ShareGetStatisticsResponse
  */
-export type ShareGetStatisticsResponse = Models.ShareGetStatisticsResponse & {
+export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
   /**
    * @deprecated shareUsage is going to be deprecated. Please use ShareUsageBytes instead.
    *
@@ -453,10 +471,10 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
    * @param {ShareCreateOptions} [options] Options to Share Create operation.
-   * @returns {Promise<Models.ShareCreateResponse>} Response data for the Share Create operation.
+   * @returns {Promise<ShareCreateResponse>} Response data for the Share Create operation.
    * @memberof ShareClient
    */
-  public async create(options: ShareCreateOptions = {}): Promise<Models.ShareCreateResponse> {
+  public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
     const { span, spanOptions } = createSpan("ShareClient-create", options.spanOptions);
     try {
       return this.context.create({
@@ -506,7 +524,7 @@ export class ShareClient extends StorageClient {
    *
    * @param {string} directoryName
    * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
-   * @returns {Promise<{ directoryClient: DirectoryClient, directoryCreateResponse: Models.DirectoryCreateResponse }>} Directory creation response data and the corresponding directory client.
+   * @returns {Promise<{ directoryClient: DirectoryClient, directoryCreateResponse: DirectoryCreateResponse }>} Directory creation response data and the corresponding directory client.
    * @memberof ShareClient
    */
   public async createDirectory(
@@ -514,7 +532,7 @@ export class ShareClient extends StorageClient {
     options: DirectoryCreateOptions = {}
   ): Promise<{
     directoryClient: DirectoryClient;
-    directoryCreateResponse: Models.DirectoryCreateResponse;
+    directoryCreateResponse: DirectoryCreateResponse;
   }> {
     const { span, spanOptions } = createSpan("ShareClient-createDirectory", options.spanOptions);
     try {
@@ -542,13 +560,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {string} directoryName
    * @param {DirectoryDeleteOptions} [options] Options to Directory Delete operation.
-   * @returns {Promise<Models.DirectoryDeleteResponse>} Directory deletion response data.
+   * @returns {Promise<DirectoryDeleteResponse>} Directory deletion response data.
    * @memberof ShareClient
    */
   public async deleteDirectory(
     directoryName: string,
     options: DirectoryDeleteOptions = {}
-  ): Promise<Models.DirectoryDeleteResponse> {
+  ): Promise<DirectoryDeleteResponse> {
     const { span, spanOptions } = createSpan("ShareClient-deleteDirectory", options.spanOptions);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
@@ -572,14 +590,14 @@ export class ShareClient extends StorageClient {
    * @param {string} fileName
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns {Promise<{ fileClient: FileClient, fileCreateResponse: Models.FileCreateResponse }>} File creation response data and the corresponding file client.
+   * @returns {Promise<{ fileClient: FileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
    * @memberof ShareClient
    */
   public async createFile(
     fileName: string,
     size: number,
     options: FileCreateOptions = {}
-  ): Promise<{ fileClient: FileClient; fileCreateResponse: Models.FileCreateResponse }> {
+  ): Promise<{ fileClient: FileClient; fileCreateResponse: FileCreateResponse }> {
     const { span, spanOptions } = createSpan("ShareClient-createFile", options.spanOptions);
     try {
       const directoryClient = this.rootDirectoryClient;
@@ -617,13 +635,13 @@ export class ShareClient extends StorageClient {
    * @param {string} directoryName
    * @param {string} fileName
    * @param {FileDeleteOptions} [options] Options to File Delete operation.
-   * @returns Promise<Models.FileDeleteResponse> File Delete response data.
+   * @returns Promise<FileDeleteResponse> File Delete response data.
    * @memberof ShareClient
    */
   public async deleteFile(
     fileName: string,
     options: FileDeleteOptions = {}
-  ): Promise<Models.FileDeleteResponse> {
+  ): Promise<FileDeleteResponse> {
     const { span, spanOptions } = createSpan("ShareClient-deleteFile", options.spanOptions);
     try {
       const directoryClient = this.rootDirectoryClient;
@@ -645,12 +663,12 @@ export class ShareClient extends StorageClient {
    * share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-properties
    *
-   * @returns {Promise<Models.ShareGetPropertiesResponse>} Response data for the Share Get Properties operation.
+   * @returns {Promise<ShareGetPropertiesResponse>} Response data for the Share Get Properties operation.
    * @memberof ShareClient
    */
   public async getProperties(
     options: ShareGetPropertiesOptions = {}
-  ): Promise<Models.ShareGetPropertiesResponse> {
+  ): Promise<ShareGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("ShareClient-getProperties", options.spanOptions);
     try {
       return this.context.getProperties({
@@ -673,11 +691,11 @@ export class ShareClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
-   * @param {Models.ShareDeleteMethodOptions} [options] Options to Share Delete operation.
-   * @returns {Promise<Models.ShareDeleteResponse>} Response data for the Share Delete operation.
+   * @param {ShareDeleteMethodOptions} [options] Options to Share Delete operation.
+   * @returns {Promise<ShareDeleteResponse>} Response data for the Share Delete operation.
    * @memberof ShareClient
    */
-  public async delete(options: ShareDeleteMethodOptions = {}): Promise<Models.ShareDeleteResponse> {
+  public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
     const { span, spanOptions } = createSpan("ShareClient-delete", options.spanOptions);
     try {
       return this.context.deleteMethod({
@@ -704,13 +722,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed.
    * @param {ShareSetMetadataOptions} [option] Options to Share Set Metadata operation.
-   * @returns {Promise<Models.ShareSetMetadataResponse>} Response data for the Share Set Metadata operation.
+   * @returns {Promise<ShareSetMetadataResponse>} Response data for the Share Set Metadata operation.
    * @memberof ShareClient
    */
   public async setMetadata(
     metadata?: Metadata,
     options: ShareSetMetadataOptions = {}
-  ): Promise<Models.ShareSetMetadataResponse> {
+  ): Promise<ShareSetMetadataResponse> {
     const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.spanOptions);
     try {
       return this.context.setMetadata({
@@ -755,7 +773,7 @@ export class ShareClient extends StorageClient {
       const res: ShareGetAccessPolicyResponse = {
         _response: response._response,
         date: response.date,
-        eTag: response.eTag,
+        etag: response.etag,
         lastModified: response.lastModified,
         requestId: response.requestId,
         signedIdentifiers: [],
@@ -796,16 +814,16 @@ export class ShareClient extends StorageClient {
    *
    * @param {SignedIdentifier[]} [shareAcl] Array of signed identifiers, each having a unique Id and details of access policy.
    * @param {ShareSetAccessPolicyOptions} [option] Options to Share Set Access Policy operation.
-   * @returns {Promise<Models.ShareSetAccessPolicyResponse>} Response data for the Share Set Access Policy operation.
+   * @returns {Promise<ShareSetAccessPolicyResponse>} Response data for the Share Set Access Policy operation.
    * @memberof ShareClient
    */
   public async setAccessPolicy(
     shareAcl?: SignedIdentifier[],
     options: ShareSetAccessPolicyOptions = {}
-  ): Promise<Models.ShareSetAccessPolicyResponse> {
+  ): Promise<ShareSetAccessPolicyResponse> {
     const { span, spanOptions } = createSpan("ShareClient-setAccessPolicy", options.spanOptions);
     try {
-      const acl: Models.SignedIdentifier[] = [];
+      const acl: SignedIdentifierModel[] = [];
       for (const identifier of shareAcl || []) {
         acl.push({
           accessPolicy: {
@@ -837,12 +855,12 @@ export class ShareClient extends StorageClient {
    * Creates a read-only snapshot of a share.
    *
    * @param {ShareCreateSnapshotOptions} [options={}] Options to Share Create Snapshot operation.
-   * @returns {Promise<Models.ShareCreateSnapshotResponse>} Response data for the Share Create Snapshot operation.
+   * @returns {Promise<ShareCreateSnapshotResponse>} Response data for the Share Create Snapshot operation.
    * @memberof ShareClient
    */
   public async createSnapshot(
     options: ShareCreateSnapshotOptions = {}
-  ): Promise<Models.ShareCreateSnapshotResponse> {
+  ): Promise<ShareCreateSnapshotResponse> {
     const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.spanOptions);
     try {
       return this.context.createSnapshot({
@@ -866,13 +884,13 @@ export class ShareClient extends StorageClient {
    *
    * @param {number} quotaInGB Specifies the maximum size of the share in gigabytes
    * @param {ShareSetQuotaOptions} [option] Options to Share Set Quota operation.
-   * @returns {Promise<Models.ShareSetQuotaResponse>} Response data for the Share Get Quota operation.
+   * @returns {Promise<ShareSetQuotaResponse>} Response data for the Share Get Quota operation.
    * @memberof ShareClient
    */
   public async setQuota(
     quotaInGB: number,
     options: ShareSetQuotaOptions = {}
-  ): Promise<Models.ShareSetQuotaResponse> {
+  ): Promise<ShareSetQuotaResponse> {
     const { span, spanOptions } = createSpan("ShareClient-setQuota", options.spanOptions);
     try {
       if (quotaInGB <= 0 || quotaInGB > 5120) {
@@ -937,7 +955,7 @@ export class ShareClient extends StorageClient {
   public async createPermission(
     filePermission: string,
     options: ShareCreatePermissionOptions = {}
-  ): Promise<Models.ShareCreatePermissionResponse> {
+  ): Promise<ShareCreatePermissionResponse> {
     const { span, spanOptions } = createSpan("ShareClient-createPermission", options.spanOptions);
     try {
       return this.context.createPermission(
@@ -971,7 +989,7 @@ export class ShareClient extends StorageClient {
   public async getPermission(
     filePermissionKey: string,
     options: ShareGetPermissionOptions = {}
-  ): Promise<Models.ShareGetPermissionResponse> {
+  ): Promise<ShareGetPermissionResponse> {
     const { span, spanOptions } = createSpan("ShareClient-getPermission", options.spanOptions);
     try {
       return this.context.getPermission(filePermissionKey, {

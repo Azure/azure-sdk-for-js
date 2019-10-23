@@ -13,14 +13,24 @@ import {
   isNode
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import * as Models from "./generated/src/models";
+import {
+  BlobHTTPHeaders,
+  LeaseAccessConditions,
+  CpkInfo,
+  BlockBlobUploadHeaders,
+  BlockBlobUploadResponse,
+  BlockBlobStageBlockResponse,
+  BlockBlobStageBlockFromURLResponse,
+  BlockBlobCommitBlockListResponse,
+  BlockBlobGetBlockListResponse,
+  BlockListType
+} from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient, CommonOptions } from "./internal";
 import { BlockBlob } from "./generated/src/operations";
-import { BlobHTTPHeaders } from "./generated/src/models";
 import { Range, rangeToString } from "./Range";
 import {
-  BlobAccessConditions,
+  BlobRequestConditions,
   Metadata,
   ensureCpkIfSpecified,
   BlockBlobTier,
@@ -66,17 +76,17 @@ export interface BlockBlobUploadOptions extends CommonOptions {
   /**
    * Conditions to meet when uploading to the block blob.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobUploadOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when uploading to a block blob.
    *
-   * @type {Models.BlobHTTPHeaders}
+   * @type {BlobHTTPHeaders}
    * @memberof BlockBlobUploadOptions
    */
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when uploading to a block blob.
    *
@@ -89,14 +99,14 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    *
    * @memberof BlockBlobUploadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlockBlobUploadOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -126,16 +136,16 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {Models.LeaseAccessConditions}
+   * @type {LeaseAccessConditions}
    * @memberof BlockBlobStageBlockOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: LeaseAccessConditions;
   /**
    * Callback to receive events on the progress of stage block operation.
    *
    * @memberof BlockBlobStageBlockOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
@@ -160,10 +170,10 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlockBlobUploadOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -193,10 +203,10 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {Models.LeaseAccessConditions}
+   * @type {LeaseAccessConditions}
    * @memberof BlockBlobStageBlockFromURLOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: LeaseAccessConditions;
   /**
    * An MD5 hash of the content from the URI.
    * This hash is used to verify the integrity of the content during transport of the data from the URI.
@@ -221,10 +231,10 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlockBlobStageBlockFromURLOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -245,23 +255,23 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   /**
    * Conditions to meet when committing the block list.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobCommitBlockListOptions
    */
   /**
    * Conditions to meet when committing block list.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobCommitBlockListOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * HTTP headers to set when committing block list.
    *
-   * @type {Models.BlobHTTPHeaders}
+   * @type {BlobHTTPHeaders}
    * @memberof BlockBlobCommitBlockListOptions
    */
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when committing block list.
    *
@@ -272,10 +282,10 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlockBlobCommitBlockListOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -305,10 +315,10 @@ export interface BlockBlobGetBlockListOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {Models.LeaseAccessConditions}
+   * @type {LeaseAccessConditions}
    * @memberof BlockBlobGetBlockListOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: LeaseAccessConditions;
 }
 
 /**
@@ -346,17 +356,17 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   /**
    * Access conditions headers.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobUploadStreamOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 
   /**
    * Progress updater.
    *
    * @memberof BlockBlobUploadStreamOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 /**
  * Option interface for BlockBlobClient.uploadFile() and BlockBlobClient.uploadSeekableStream().
@@ -398,7 +408,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    *
    * @memberof BlockBlobParallelUploadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Blob HTTP Headers.
@@ -406,7 +416,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @type {BlobHTTPHeaders}
    * @memberof BlockBlobParallelUploadOptions
    */
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  blobHTTPHeaders?: BlobHTTPHeaders;
 
   /**
    * Metadata of block blob.
@@ -419,10 +429,10 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   /**
    * Access conditions headers.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobParallelUploadOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 
   /**
    * Concurrency of parallel uploading. Must be >= 0.
@@ -438,7 +448,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
  *
  * @export
  */
-export type BlobUploadCommonResponse = Models.BlockBlobUploadHeaders & {
+export type BlobUploadCommonResponse = BlockBlobUploadHeaders & {
   /**
    * The underlying HTTP response.
    *
@@ -650,25 +660,25 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
    * @param {BlockBlobUploadOptions} [options] Options to the Block Blob Upload operation.
-   * @returns {Promise<Models.BlockBlobUploadResponse>} Response data for the Block Blob Upload operation.
+   * @returns {Promise<BlockBlobUploadResponse>} Response data for the Block Blob Upload operation.
    * @memberof BlockBlobClient
    */
   public async upload(
     body: HttpRequestBody,
     contentLength: number,
     options: BlockBlobUploadOptions = {}
-  ): Promise<Models.BlockBlobUploadResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<BlockBlobUploadResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("BlockBlobClient-upload", options.spanOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blockBlobContext.upload(body, contentLength, {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
+        modifiedAccessConditions: options.conditions,
+        onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
         spanOptions
@@ -693,7 +703,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {HttpRequestBody} body Data to upload to the staging area.
    * @param {number} contentLength Number of bytes to upload.
    * @param {BlockBlobStageBlockOptions} [options] Options to the Block Blob Stage Block operation.
-   * @returns {Promise<Models.BlockBlobStageBlockResponse>} Response data for the Block Blob Stage Block operation.
+   * @returns {Promise<BlockBlobStageBlockResponse>} Response data for the Block Blob Stage Block operation.
    * @memberof BlockBlobClient
    */
   public async stageBlock(
@@ -701,14 +711,14 @@ export class BlockBlobClient extends BlobClient {
     body: HttpRequestBody,
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
-  ): Promise<Models.BlockBlobStageBlockResponse> {
+  ): Promise<BlockBlobStageBlockResponse> {
     const { span, spanOptions } = createSpan("BlockBlobClient-stageBlock", options.spanOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
-        onUploadProgress: options.progress,
+        leaseAccessConditions: options.conditions,
+        onUploadProgress: options.onProgress,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -744,7 +754,7 @@ export class BlockBlobClient extends BlobClient {
    * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {BlockBlobStageBlockFromURLOptions} [options={}] Options to the Block Blob Stage Block From URL operation.
-   * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>} Response data for the Block Blob Stage Block From URL operation.
+   * @returns {Promise<BlockBlobStageBlockFromURLResponse>} Response data for the Block Blob Stage Block From URL operation.
    * @memberof BlockBlobClient
    */
   public async stageBlockFromURL(
@@ -753,7 +763,7 @@ export class BlockBlobClient extends BlobClient {
     offset: number = 0,
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
-  ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
+  ): Promise<BlockBlobStageBlockFromURLResponse> {
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-stageBlockFromURL",
       options.spanOptions
@@ -762,7 +772,7 @@ export class BlockBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         sourceContentMD5: options.sourceContentMD5,
         sourceContentCrc64: options.sourceContentCrc64,
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
@@ -790,14 +800,14 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
    * @param {BlockBlobCommitBlockListOptions} [options] Options to the Block Blob Commit Block List operation.
-   * @returns {Promise<Models.BlockBlobCommitBlockListResponse>} Response data for the Block Blob Commit Block List operation.
+   * @returns {Promise<BlockBlobCommitBlockListResponse>} Response data for the Block Blob Commit Block List operation.
    * @memberof BlockBlobClient
    */
   public async commitBlockList(
     blocks: string[],
     options: BlockBlobCommitBlockListOptions = {}
-  ): Promise<Models.BlockBlobCommitBlockListResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<BlockBlobCommitBlockListResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "BlockBlobClient-commitBlockList",
       options.spanOptions
@@ -809,9 +819,9 @@ export class BlockBlobClient extends BlobClient {
         {
           abortSignal: options.abortSignal,
           blobHTTPHeaders: options.blobHTTPHeaders,
-          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+          leaseAccessConditions: options.conditions,
           metadata: options.metadata,
-          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          modifiedAccessConditions: options.conditions,
           cpkInfo: options.customerProvidedKey,
           tier: toAccessTier(options.tier),
           spanOptions
@@ -833,21 +843,21 @@ export class BlockBlobClient extends BlobClient {
    * using the specified block list filter.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-block-list
    *
-   * @param {Models.BlockListType} listType Specifies whether to return the list of committed blocks,
+   * @param {BlockListType} listType Specifies whether to return the list of committed blocks,
    *                                        the list of uncommitted blocks, or both lists together.
    * @param {BlockBlobGetBlockListOptions} [options] Options to the Block Blob Get Block List operation.
-   * @returns {Promise<Models.BlockBlobGetBlockListResponse>} Response data for the Block Blob Get Block List operation.
+   * @returns {Promise<BlockBlobGetBlockListResponse>} Response data for the Block Blob Get Block List operation.
    * @memberof BlockBlobClient
    */
   public async getBlockList(
-    listType: Models.BlockListType,
+    listType: BlockListType,
     options: BlockBlobGetBlockListOptions = {}
-  ): Promise<Models.BlockBlobGetBlockListResponse> {
+  ): Promise<BlockBlobGetBlockListResponse> {
     const { span, spanOptions } = createSpan("BlockBlobClient-getBlockList", options.spanOptions);
     try {
       const res = await this.blockBlobContext.getBlockList(listType, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         spanOptions
       });
 
@@ -970,8 +980,8 @@ export class BlockBlobClient extends BlobClient {
     if (!options.blobHTTPHeaders) {
       options.blobHTTPHeaders = {};
     }
-    if (!options.blobAccessConditions) {
-      options.blobAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan(
@@ -1007,14 +1017,14 @@ export class BlockBlobClient extends BlobClient {
             blockList.push(blockID);
             await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
               abortSignal: options.abortSignal,
-              leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
+              conditions: options.conditions,
               spanOptions
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress!({
+            if (options.onProgress) {
+              options.onProgress!({
                 loadedBytes: transferProgress
               });
             }
@@ -1102,8 +1112,8 @@ export class BlockBlobClient extends BlobClient {
     if (!options.blobHTTPHeaders) {
       options.blobHTTPHeaders = {};
     }
-    if (!options.accessConditions) {
-      options.accessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan("BlockBlobClient-uploadStream", options.spanOptions);
@@ -1124,14 +1134,14 @@ export class BlockBlobClient extends BlobClient {
           blockNum++;
 
           await this.stageBlock(blockID, buffer, buffer.length, {
-            leaseAccessConditions: options.accessConditions!.leaseAccessConditions,
+            conditions: options.conditions,
             spanOptions
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
           transferProgress += buffer.length;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         },
         // concurrency should set a smaller value than maxBuffers, which is helpful to
@@ -1212,8 +1222,8 @@ export class BlockBlobClient extends BlobClient {
     if (!options.blobHTTPHeaders) {
       options.blobHTTPHeaders = {};
     }
-    if (!options.blobAccessConditions) {
-      options.blobAccessConditions = {};
+    if (!options.conditions) {
+      options.conditions = {};
     }
 
     const { span, spanOptions } = createSpan(
@@ -1253,14 +1263,14 @@ export class BlockBlobClient extends BlobClient {
               contentLength,
               {
                 abortSignal: options.abortSignal,
-                leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
+                conditions: options.conditions,
                 spanOptions
               }
             );
             // Update progress after block is successfully uploaded to server, in case of block trying
             transferProgress += contentLength;
-            if (options.progress) {
-              options.progress({ loadedBytes: transferProgress });
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
             }
           }
         );

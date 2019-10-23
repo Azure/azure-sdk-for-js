@@ -121,7 +121,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -136,7 +136,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -149,7 +149,7 @@ describe("Highlevel", () => {
         abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
-        progress: (ev) => {
+        onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -168,7 +168,7 @@ describe("Highlevel", () => {
         abortSignal: aborter.signal,
         blockSize: 4 * 1024 * 1024,
         concurrency: 20,
-        progress: (ev) => {
+        onProgress: (ev) => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
@@ -222,7 +222,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -231,7 +231,7 @@ describe("Highlevel", () => {
     let eventTriggered = false;
 
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
-      progress: (ev) => {
+      onProgress: (ev) => {
         assert.ok(ev.loadedBytes);
         eventTriggered = true;
       }
@@ -315,7 +315,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes("abort"));
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -332,7 +332,7 @@ describe("Highlevel", () => {
         blockSize: 1 * 1024,
         maxRetryRequestsPerBlock: 5,
         concurrency: 1,
-        progress: () => {
+        onProgress: () => {
           eventTriggered = true;
           aborter.abort();
         }
@@ -349,13 +349,11 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
-        }
+      conditions: {
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 1,
-      progress: (ev) => {
+      onProgress: (ev) => {
         if (ev.loadedBytes >= tempFileSmallLength) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -383,13 +381,11 @@ describe("Highlevel", () => {
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
-        }
+      conditions: {
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 3,
-      progress: () => {
+      onProgress: () => {
         if (injectedErrors++ < 3) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -419,13 +415,11 @@ describe("Highlevel", () => {
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, partialSize, {
-      blobAccessConditions: {
-        modifiedAccessConditions: {
-          ifMatch: uploadResponse.eTag
-        }
+      conditions: {
+        ifMatch: uploadResponse.etag
       },
       maxRetryRequests: 3,
-      progress: () => {
+      onProgress: () => {
         if (injectedErrors++ < 3) {
           retirableReadableStreamOptions.doInjectErrorOnce = true;
         }
@@ -458,13 +452,11 @@ describe("Highlevel", () => {
 
     try {
       const downloadResponse = await blockBlobClient.download(0, undefined, {
-        blobAccessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: uploadResponse.eTag
-          }
+        conditions: {
+          ifMatch: uploadResponse.etag
         },
         maxRetryRequests: 0,
-        progress: () => {
+        onProgress: () => {
           if (injectedErrors++ < 1) {
             retirableReadableStreamOptions.doInjectErrorOnce = true;
           }
@@ -496,13 +488,11 @@ describe("Highlevel", () => {
       const aborter = new AbortController();
       const downloadResponse = await blockBlobClient.download(0, undefined, {
         abortSignal: aborter.signal,
-        blobAccessConditions: {
-          modifiedAccessConditions: {
-            ifMatch: uploadResponse.eTag
-          }
+        conditions: {
+          ifMatch: uploadResponse.etag
         },
         maxRetryRequests: 3,
-        progress: () => {
+        onProgress: () => {
           if (injectedErrors++ < 2) {
             // Triger 2 times of retry
             retirableReadableStreamOptions.doInjectErrorOnce = true;

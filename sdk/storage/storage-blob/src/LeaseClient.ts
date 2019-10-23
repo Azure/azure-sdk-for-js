@@ -3,7 +3,10 @@
 
 import { HttpResponse, generateUuid } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import * as Models from "../src/generated/src/models";
+import {
+  ModifiedAccessConditions,
+  ContainerBreakLeaseOptionalParams
+} from "../src/generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient } from "./ContainerClient";
 import { Blob, Container } from "./generated/src/operations";
@@ -13,11 +16,11 @@ import { createSpan } from "./utils/tracing";
 
 export interface Lease {
   /**
-   * @member {string} [eTag] The ETag contains a value that you can use to
+   * @member {string} [etag] The ETag contains a value that you can use to
    * perform operations conditionally. If the request version is 2011-08-18 or
    * newer, the ETag value will be in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * @member {Date} [lastModified] Returns the date and time the container was
    * last modified. Any operation that modifies the blob, including an update
@@ -86,10 +89,10 @@ export interface LeaseOperationOptions extends CommonOptions {
   /**
    * Conditions to meet when changing the lease.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof LeaseOperationOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -170,7 +173,7 @@ export class LeaseClient {
       return await this._containerOrBlobOperation.acquireLease({
         abortSignal: options.abortSignal,
         duration,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         proposedLeaseId: this._leaseId,
         spanOptions
       });
@@ -207,7 +210,7 @@ export class LeaseClient {
         proposedLeaseId,
         {
           abortSignal: options.abortSignal,
-          modifiedAccessConditions: options.modifiedAccessConditions,
+          modifiedAccessConditions: options.conditions,
           spanOptions
         }
       );
@@ -240,7 +243,7 @@ export class LeaseClient {
     try {
       return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -269,7 +272,7 @@ export class LeaseClient {
     try {
       return await this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -303,10 +306,10 @@ export class LeaseClient {
   ): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("LeaseClient-breakLease", options.spanOptions);
     try {
-      const operationOptions: Models.ContainerBreakLeaseOptionalParams = {
+      const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
         breakPeriod,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
