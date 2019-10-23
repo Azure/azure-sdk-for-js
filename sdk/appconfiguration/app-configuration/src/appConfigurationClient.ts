@@ -44,9 +44,7 @@ import {
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
-import {
-  GetKeyValuesResponse
-} from "./generated/src/models";
+import { GetKeyValuesResponse } from "./generated/src/models";
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;

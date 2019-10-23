@@ -53,22 +53,20 @@ export class CryptographyClient {
     getKey(options?: GetKeyOptions): Promise<JsonWebKey>;
     key: string | JsonWebKey;
     readonly pipeline: ServiceClientOptions;
-    // Warning: (ae-forgotten-export) The symbol "KeySignatureAlgorithm" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "SignOptions" needs to be exported by the entry point index.d.ts
     sign(algorithm: KeySignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: KeySignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
-    // Warning: (ae-forgotten-export) The symbol "UnwrapKeyOptions" needs to be exported by the entry point index.d.ts
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
     readonly vaultBaseUrl: string;
-    // Warning: (ae-forgotten-export) The symbol "VerifyOptions" needs to be exported by the entry point index.d.ts
     verify(algorithm: KeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     verifyData(algorithm: KeySignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
-    // Warning: (ae-forgotten-export) The symbol "WrapKeyOptions" needs to be exported by the entry point index.d.ts
     wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CryptographyOptions" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface CryptographyOptions {
+    requestOptions?: coreHttp.RequestOptionsBase;
+}
+
 // @public
 export interface DecryptOptions extends CryptographyOptions {
 }
@@ -96,8 +94,6 @@ export interface DeletedKey {
 
 // @public
 export interface DeleteKeyPollOperationState extends PollOperationState<DeletedKey> {
-    // Warning: (ae-forgotten-export) The symbol "KeyClientInterface" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     client: KeyClientInterface;
     // (undocumented)
@@ -201,6 +197,18 @@ export class KeyClient {
 }
 
 // @public
+export interface KeyClientInterface {
+    // (undocumented)
+    deleteKey(name: string, options?: coreHttp.OperationOptions): Promise<DeletedKey>;
+    // (undocumented)
+    getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
+    // (undocumented)
+    getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    // (undocumented)
+    recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
+}
+
+// @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
@@ -222,6 +230,9 @@ export interface KeyProperties {
     vaultEndpoint: string;
     version?: string;
 }
+
+// @public
+export type KeySignatureAlgorithm = "PS256" | "PS384" | "PS512" | "RS256" | "RS384" | "RS512" | "ES256" | "ES384" | "ES512" | "ES256K";
 
 // @public
 export interface KeyVaultKey {
@@ -292,6 +303,10 @@ export interface RetryOptions {
 }
 
 // @public
+export interface SignOptions extends CryptographyOptions {
+}
+
+// @public
 export interface SignResult {
     algorithm: KeySignatureAlgorithm;
     keyID?: string;
@@ -302,6 +317,10 @@ export interface SignResult {
 export interface TelemetryOptions {
     // (undocumented)
     value: string;
+}
+
+// @public
+export interface UnwrapKeyOptions extends CryptographyOptions {
 }
 
 // @public
@@ -322,9 +341,17 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface VerifyOptions extends CryptographyOptions {
+}
+
+// @public
 export interface VerifyResult {
     keyID?: string;
     result: boolean;
+}
+
+// @public
+export interface WrapKeyOptions extends CryptographyOptions {
 }
 
 // @public
