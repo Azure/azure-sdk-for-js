@@ -7,7 +7,7 @@ Use the client library for App Configuration to:
 * Tag keys with labels
 * Replay settings from any point in time
 
-[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | [NPM](https://www.npmjs.com/package/@azure/app-configuration) | [API Reference documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)  | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
+[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | [NPM](https://www.npmjs.com/package/@azure/app-configuration) | [API Reference documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)  | [Samples][samples]
 
 ## Getting started
 
@@ -129,7 +129,8 @@ folder for more details.
 [azure_sub]: https://azure.microsoft.com/free/
 [package]: https://www.npmjs.com/package/@azure/app-configuration
 [nodejs]: https://nodejs.org/en/download/
+[azure_portal]: https://portal.azure.com
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples
 
 [style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://worldready.cloudapp.net/Styleguide/Read?id=2696&topicid=25357
-[samples]: https://github.com/Azure-Samples/azure-batch-samples
