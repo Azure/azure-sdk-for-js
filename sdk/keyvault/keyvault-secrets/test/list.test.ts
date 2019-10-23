@@ -4,9 +4,12 @@
 import * as assert from "assert";
 import chai from "chai";
 import { SecretClient } from "../src";
+import { isNode } from "@azure/core-http";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+import { assertThrowsAbortError } from "./utils/utils.common";
 const { expect } = chai;
 
 describe("Secret client - list secrets in various ways", () => {
@@ -45,7 +48,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can list secrets", async function() {
+  it("can list secret properties", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -66,6 +69,18 @@ describe("Secret client - list secrets in various ways", () => {
     for (const name of secretNames) {
       await testClient.flushSecret(name);
     }
+  });
+
+  it.only("can get secret properties with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
+    }
+    const iter = client.listPropertiesOfSecrets({
+      requestOptions: { timeout: 1 }
+    });
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
   });
 
   it("can list deleted secrets", async function() {
@@ -93,6 +108,18 @@ describe("Secret client - list secrets in various ways", () => {
     for (const name of secretNames) {
       await testClient.purgeSecret(name);
     }
+  });
+
+  it.only("can get the deleted secrets with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
+    }
+    const iter = client.listDeletedSecrets({
+      requestOptions: { timeout: 1 }
+    });
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
   });
 
   it("can retrieve all versions of a secret", async function() {
@@ -124,6 +151,18 @@ describe("Secret client - list secrets in various ways", () => {
 
     expect(results).to.deep.equal(versions);
     await testClient.flushSecret(secretName);
+  });
+
+  it.only("can get versions of a secret with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
+    }
+    const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
+      requestOptions: { timeout: 1 }
+    });
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
   });
 
   it("can list secret versions (non existing)", async function() {

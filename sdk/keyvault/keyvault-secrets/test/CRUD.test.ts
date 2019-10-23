@@ -9,6 +9,7 @@ import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
@@ -42,6 +43,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.flushSecret(secretName);
   });
 
+  // If this test is not skipped in the browser's playback, no other test will be played back.
+  // This is a bug related to the browser features of the recorder.
   it("can abort adding a secret", async function() {
     if (!isNode && isPlayingBack) {
       recorder.skip();
@@ -50,17 +53,28 @@ describe("Secret client - create, read, update and delete operations", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     const controller = new AbortController();
-    const resultPromise = client.setSecret(secretName, secretValue, {
-      abortSignal: controller.signal
-    });
     controller.abort();
-    let error;
-    try {
-      await resultPromise;
-    } catch (e) {
-      error = e;
+    await assertThrowsAbortError(async () => {
+      await client.setSecret(secretName, secretValue, {
+        abortSignal: controller.signal
+      });
+    });
+  });
+
+  it("can timeout adding a secret", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
     }
-    assert.equal(error.message, "The operation was aborted.");
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await assertThrowsAbortError(async () => {
+      await client.setSecret(secretName, secretValue, {
+        requestOptions: {
+          timeout: 1
+        }
+      });
+    });
   });
 
   it("cannot create a secret with an empty name", async function() {
@@ -127,6 +141,27 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.flushSecret(secretName);
   });
 
+  it("can timeout updating a secret", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
+    }
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    const expiryDate = new Date("3000-01-01");
+    expiryDate.setMilliseconds(0);
+
+    await client.setSecret(secretName, secretValue);
+    await assertThrowsAbortError(async () => {
+      await client.updateSecretProperties(secretName, "", {
+        expiresOn: expiryDate,
+        requestOptions: {
+          timeout: 1
+        }
+      });
+    });
+  });
+
   it("can update a disabled secret", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -159,6 +194,23 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.flushSecret(secretName);
   });
 
+  it("can timeout getting a secret", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
+    }
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await client.setSecret(secretName, secretValue);
+    await assertThrowsAbortError(async () => {
+      await client.getSecret(secretName, {
+        requestOptions: {
+          timeout: 1
+        }
+      });
+    });
+  });
+ 
   it("can't get a disabled secret", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -243,6 +295,23 @@ describe("Secret client - create, read, update and delete operations", () => {
       }
     }
     await testClient.purgeSecret(secretName);
+  });
+
+  it("can timeout deleting a secret", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
+    }
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await client.setSecret(secretName, secretValue);
+    await assertThrowsAbortError(async () => {
+      await client.beginDeleteSecret(secretName, {
+        requestOptions: {
+          timeout: 1
+        }
+      });
+    });
   });
 
   it("can delete a secret (Non Existing)", async function() {
