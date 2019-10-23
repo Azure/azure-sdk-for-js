@@ -132,7 +132,7 @@ export class SecretClient {
     restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
-    readonly vaultEndpoint: string;
+    readonly vaultUrl: string;
 }
 
 // @public
@@ -157,7 +157,7 @@ export interface SecretProperties {
         [propertyName: string]: string;
     };
     readonly updatedOn?: Date;
-    vaultEndpoint: string;
+    vaultUrl: string;
     version?: string;
 }
 

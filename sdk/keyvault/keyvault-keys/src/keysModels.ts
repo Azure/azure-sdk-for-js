@@ -68,9 +68,9 @@ export interface KeyProperties {
    */
   name: string;
   /**
-   * @member {string} [vaultEndpoint] The vault URI.
+   * @member {string} [vaultUrl] The vault URI.
    */
-  vaultEndpoint: string;
+  vaultUrl: string;
   /**
    * @member {string} [version] The version of key/secret/certificate. May be undefined.
    */

@@ -142,7 +142,7 @@ export class KeyClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultEndpoint: string;
+  public readonly vaultUrl: string;
 
   /**
    * The options to create the connection to the service
@@ -189,7 +189,7 @@ export class KeyClient {
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.vaultEndpoint = endpoint;
+    this.vaultUrl = endpoint;
     this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
@@ -234,7 +234,7 @@ export class KeyClient {
     let response: DeleteKeyResponse;
     try {
       response = await this.client.deleteKey(
-        this.vaultEndpoint,
+        this.vaultUrl,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -255,7 +255,7 @@ export class KeyClient {
     let response: RecoverDeletedKeyResponse;
     try {
       response = await this.client.recoverDeletedKey(
-        this.vaultEndpoint,
+        this.vaultUrl,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -310,7 +310,7 @@ export class KeyClient {
 
       try {
         response = await this.client.createKey(
-          this.vaultEndpoint,
+          this.vaultUrl,
           name,
           keyType,
           this.setParentSpan(span, unflattenedOptions)
@@ -320,7 +320,7 @@ export class KeyClient {
       }
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultEndpoint, name, keyType, options);
+      const response = await this.client.createKey(this.vaultUrl, name, keyType, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -361,7 +361,7 @@ export class KeyClient {
       let response: CreateKeyResponse;
       try {
         response = await this.client.createKey(
-          this.vaultEndpoint,
+          this.vaultUrl,
           name,
           options.hsm ? "EC-HSM" : "EC",
           this.setParentSpan(span, unflattenedOptions)
@@ -372,7 +372,7 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultEndpoint, name, "EC", options);
+      const response = await this.client.createKey(this.vaultUrl, name, "EC", options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -413,7 +413,7 @@ export class KeyClient {
       let response: CreateKeyResponse;
       try {
         response = await this.client.createKey(
-          this.vaultEndpoint,
+          this.vaultUrl,
           name,
           options.hsm ? "RSA-HSM" : "RSA",
           this.setParentSpan(span, unflattenedOptions)
@@ -424,7 +424,7 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultEndpoint, name, "RSA", options);
+      const response = await this.client.createKey(this.vaultUrl, name, "RSA", options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -473,7 +473,7 @@ export class KeyClient {
       let response: ImportKeyResponse;
       try {
         response = await this.client.importKey(
-          this.vaultEndpoint,
+          this.vaultUrl,
           name,
           key,
           this.setParentSpan(span, unflattenedOptions)
@@ -484,7 +484,7 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.importKey(this.vaultEndpoint, name, key, options);
+      const response = await this.client.importKey(this.vaultUrl, name, key, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -576,7 +576,7 @@ export class KeyClient {
 
       try {
         response = await this.client.updateKey(
-          this.vaultEndpoint,
+          this.vaultUrl,
           name,
           keyVersion,
           this.setParentSpan(span, unflattenedOptions)
@@ -587,7 +587,7 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.updateKey(this.vaultEndpoint, name, keyVersion, options);
+      const response = await this.client.updateKey(this.vaultUrl, name, keyVersion, options);
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -612,7 +612,7 @@ export class KeyClient {
     let response: GetKeyResponse;
     try {
       response = await this.client.getKey(
-        this.vaultEndpoint,
+        this.vaultUrl,
         name,
         options && options.version ? options.version : "",
         this.setParentSpan(span, requestOptions)
@@ -644,7 +644,7 @@ export class KeyClient {
     let response: GetDeletedKeyResponse;
     try {
       response = await this.client.getDeletedKey(
-        this.vaultEndpoint,
+        this.vaultUrl,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -677,7 +677,7 @@ export class KeyClient {
 
     try {
       await this.client.purgeDeletedKey(
-        this.vaultEndpoint,
+        this.vaultUrl,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -754,7 +754,7 @@ export class KeyClient {
     let response: BackupKeyResponse;
     try {
       response = await this.client.backupKey(
-        this.vaultEndpoint,
+        this.vaultUrl,
         name,
         this.setParentSpan(span, requestOptions)
       );
@@ -790,7 +790,7 @@ export class KeyClient {
     let response: RestoreKeyResponse;
     try {
       response = await this.client.restoreKey(
-        this.vaultEndpoint,
+        this.vaultUrl,
         backup,
         this.setParentSpan(span, requestOptions)
       );
@@ -812,7 +812,7 @@ export class KeyClient {
         ...options
       };
       const currentSetResponse = await this.client.getKeyVersions(
-        this.vaultEndpoint,
+        this.vaultUrl,
         name,
         optionsComplete
       );
@@ -899,7 +899,7 @@ export class KeyClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getKeys(this.vaultEndpoint, optionsComplete);
+      const currentSetResponse = await this.client.getKeys(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
@@ -980,7 +980,7 @@ export class KeyClient {
         ...options
       };
       const currentSetResponse = await this.client.getDeletedKeys(
-        this.vaultEndpoint,
+        this.vaultUrl,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -1076,7 +1076,7 @@ export class KeyClient {
         expiresOn: attributes.expires,
         createdOn: attributes.created,
         updatedOn: attributes.updated,
-        vaultEndpoint: parsedId.vaultUrl,
+        vaultUrl: parsedId.vaultUrl,
         ...keyBundle,
         ...parsedId,
         ...attributes
@@ -1151,7 +1151,7 @@ export class KeyClient {
     let resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      vaultEndpoint: parsedId.vaultUrl,
+      vaultUrl: parsedId.vaultUrl,
       ...keyItem,
       ...parsedId,
       ...keyItem.attributes
