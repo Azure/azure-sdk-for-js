@@ -35,8 +35,10 @@ async function getRushSpec(repoRoot) {
 }
 
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
-// and adapted to exclude beginning of line (^) and end of line ($) anchors
-const semverRegex = /(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?/g;
+// and adapted to exclude beginning of line (^) and end of line ($) anchors.
+// Given JS regex semantics the lack of a global flag (/g) means that this regex
+// only matches the first instance of a regular expression in a file.
+const semverRegex = /(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?/;
 
 module.exports.semverRegex = semverRegex;
 module.exports.readFile = readFile;
