@@ -96,7 +96,7 @@ export interface LeaseOperationOptions extends CommonOptions {
  * A client that manages leases for a ContainerClient or a BlobClient.
  *
  * @export
- * @class LeaseClient
+ * @class BlobLeaseClient
  */
 export class BlobLeaseClient {
   private _leaseId: string;
