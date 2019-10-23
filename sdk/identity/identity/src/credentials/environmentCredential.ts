@@ -7,7 +7,9 @@ import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@azure/core-tracing";
-import { logger } from '../util/logging';
+import { logger } from "../util/logging";
+import { ClientCertificateCredential } from "./clientCertificateCredential";
+import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -37,8 +39,40 @@ export class EnvironmentCredential implements TokenCredential {
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
     if (tenantId && clientId && clientSecret) {
-      logger.info(`EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}`);
+      logger.info(
+        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}`
+      );
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options);
+      return;
+    }
+
+    const certificatePath = process.env.AZURE_CLIENT_CERTIFICATE_PATH;
+    if (tenantId && clientId && certificatePath) {
+      logger.info(
+        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}, certificatePath: ${certificatePath}`
+      );
+      this._credential = new ClientCertificateCredential(
+        tenantId,
+        clientId,
+        certificatePath,
+        options
+      );
+      return;
+    }
+
+    const username = process.env.AZURE_USERNAME;
+    const password = process.env.AZURE_PASSWORD;
+    if (tenantId && clientId && username && password) {
+      logger.info(
+        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}, username: ${username}`
+      );
+      this._credential = new UsernamePasswordCredential(
+        tenantId,
+        clientId,
+        username,
+        password,
+        options
+      );
     }
   }
 
