@@ -7,7 +7,7 @@ import { HttpOperationResponse } from "../lib/httpOperationResponse";
 import { LogPolicy } from "../lib/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
 import { WebResource } from "../lib/webResource";
-import { getLogLevel, setLogLevel, AzureLogLevel } from "@azure/logger";
+import { getLogLevel, setLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
   return {
@@ -31,9 +31,17 @@ function assertLog(
 ): void {
   let output = "";
 
-  const logger = (message: string): void => {
+  const loggerFn = (message: string): void => {
     output += message + "\n";
   };
+
+  const logger: Debugger = Object.assign(loggerFn, {
+    enabled: true,
+    destroy: () => true,
+    namespace: "test",
+    extend: () => logger,
+    log: () => {}
+  });
 
   const options = {
     allowedHeaderNames: ["x-ms-safe-header"],
