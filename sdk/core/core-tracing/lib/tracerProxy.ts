@@ -23,5 +23,8 @@ export function getTracer() {
   if (!cache.tracer) {
     cache.tracer = new NoOpTracer();
   }
+  if (process.env.AZURE_TRACING_DISABLED) {
+    cache.tracer = new NoOpTracer();
+  }
   return cache.tracer;
 }
