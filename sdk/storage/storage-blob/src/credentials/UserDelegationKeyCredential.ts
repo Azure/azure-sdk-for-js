@@ -1,4 +1,4 @@
-import * as Crypto from "crypto";
+import { createHmac } from "crypto";
 import { UserDelegationKey } from "../BlobServiceClient";
 
 /**
@@ -58,7 +58,7 @@ export class UserDelegationKeyCredential {
   public computeHMACSHA256(stringToSign: string): string {
     // console.log(`stringToSign: ${JSON.stringify(stringToSign)}`);
 
-    return Crypto.createHmac("sha256", this.key)
+    return createHmac("sha256", this.key)
       .update(stringToSign, "utf8")
       .digest("base64");
   }

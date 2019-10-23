@@ -18,7 +18,7 @@ export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
-export * from "./LeaseClient";
+export * from "./BlobLeaseClient";
 export { BlockBlobTier, PremiumPageBlobTier } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

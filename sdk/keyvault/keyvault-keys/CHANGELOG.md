@@ -1,6 +1,7 @@
 # Release History
 
-## 4.0.0-preview.9 (2019-10-31)
+## 4.0.0-preview.9 (2019-10-22)
+
 - `deleteKey` and `recoverDeletedKey` are now out of the public API.
   Use `beginDeleteKey` and `beginRecoverDeletedKey` instead.
   They both return a Poller (from our package `@azure/core-lro`) that manages the long running operation.
@@ -10,8 +11,8 @@
 - All options should match the method's name.
 - All methods that return keyProperties (like the ones that iterate) should contain "propertiesOf" in their names.
 - Flattened all the options bag to extend the `RequestOptionsBase` interface.
-- Renamed the `vautlUrl` parameters into `vaultEndpoint`.
-- Renamed the Wrap/UnwrapOptions into Wrap/UnwrapKeyProperties.
+- Renamed the `vaultUrl` parameters into `vaultEndpoint`.
+- Renamed the Wrap/UnwrapOptions into Wrap/UnwrapKeyOptions.
 - Renamed `UpdatedKey` to `UpdatedKeyProperties`.
 
 ## 4.0.0-preview.8 (2019-10-09)

@@ -86,7 +86,7 @@ describe("AuthorizationCodeCredential", function() {
 
     const rootSpan = tracer.startSpan("root");
 
-    const credential = new AuthorizationCodeCredential(      
+    const credential = new AuthorizationCodeCredential(
       "tenant",
       "client",
       "secret",
@@ -116,7 +116,12 @@ describe("AuthorizationCodeCredential", function() {
           children: [
             {
               name: "Azure.Identity.AuthorizationCodeCredential-getToken",
-              children: []
+              children: [
+                {
+                  children: [],
+                  name: "core-http"
+                }
+              ]
             }
           ]
         }

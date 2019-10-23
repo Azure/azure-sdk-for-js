@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import * as crypto from "crypto";
+import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
 import { isNode } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
@@ -72,7 +72,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         const key = await cryptoClient.getKey();
         const keyPEM = convertJWKtoPEM(key);
         const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-        const encrypted = crypto.publicEncrypt(padded, Buffer.from(text));
+        const encrypted = publicEncrypt(padded, Buffer.from(text));
         const decryptResult = await cryptoClient.decrypt("RSA1_5", encrypted);
         const decryptedText = uint8ArrayToString(decryptResult.result);
         assert.equal(text, decryptedText);
@@ -93,7 +93,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         const key = await cryptoClient.getKey();
         // Encrypting outside the client since the client will intentionally
         const keyPEM = convertJWKtoPEM(key);
-        const encrypted = crypto.publicEncrypt(keyPEM, Buffer.from(text));
+        const encrypted = publicEncrypt(keyPEM, Buffer.from(text));
         const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encrypted);
         const decryptedText = uint8ArrayToString(decryptResult.result);
         assert.equal(text, decryptedText);
@@ -104,7 +104,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   if (isNode) {
     it("sign and verify with RS256", async function() {
       const signatureValue = this.test!.title;
-      const hash = crypto.createHash("sha256");
+      const hash = createHash("sha256");
       hash.update(signatureValue);
       const digest = hash.digest();
       const signature = await cryptoClient.sign("RS256", digest);

@@ -81,6 +81,7 @@ export {
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
+  SecretClientInterface,
   SecretProperties,
   SecretPollerOptions,
   SetSecretOptions,
@@ -138,7 +139,7 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * ```
    * @param {string} endPoint the base url to the key vault.
-   * @param {TokenCredential} The credential to use for API requests.
+   * @param {TokenCredential} The credential to use for API requests. (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof SecretClient

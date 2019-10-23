@@ -52,7 +52,7 @@ import {
 } from "./internal";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { LeaseClient } from "./LeaseClient";
+import { BlobLeaseClient } from "./BlobLeaseClient";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { createSpan } from "./utils/tracing";
@@ -1022,14 +1022,14 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Get a LeaseClient that manages leases on the container.
+   * Get a BlobLeaseClient that manages leases on the container.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {LeaseClient} A new LeaseClient object for managing leases on the container.
+   * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the container.
    * @memberof ContainerClient
    */
-  public getLeaseClient(proposeLeaseId?: string): LeaseClient {
-    return new LeaseClient(this, proposeLeaseId);
+  public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
+    return new BlobLeaseClient(this, proposeLeaseId);
   }
 
   /**
