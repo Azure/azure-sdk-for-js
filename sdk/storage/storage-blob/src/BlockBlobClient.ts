@@ -52,7 +52,7 @@ import {
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
   BLOCK_BLOB_MAX_BLOCKS,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
 } from "./utils/constants";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
@@ -1106,7 +1106,7 @@ export class BlockBlobClient extends BlobClient {
    */
   public async uploadStream(
     stream: Readable,
-    bufferSize: number = DEFAULT_BLOCK_BUFFER_SIZE,
+    bufferSize: number = DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
     maxConcurrency: number = 5,
     options: BlockBlobUploadStreamOptions = {}
   ): Promise<BlobUploadCommonResponse> {
