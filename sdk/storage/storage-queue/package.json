@@ -148,5 +148,11 @@
     "ts-node": "^8.3.0",
     "typescript": "^3.2.2",
     "util": "^0.12.1"
+  },
+  "//metadata": {
+    "constantPaths": [
+      "src/generated/src/storageClientContext.ts",
+      "src/utils/constants.ts"
+    ]
   }
 }

@@ -190,5 +190,10 @@
     "webpack-dev-middleware": "^3.1.2",
     "xhr-mock": "^2.4.1",
     "yarn": "^1.6.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      "lib/util/constants.ts"
+    ]
   }
 }
