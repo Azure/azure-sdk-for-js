@@ -1,6 +1,10 @@
-# 1.0.0-preview.5 (Coming Soon)
+# 1.0.0-preview.6 (2019-10-22)
 
-- Updated to use the latest version of `@azure/core-tracing` and `@azure/core-http` packages
+Breaking changes from 1.0.0-preview.5:
+
+- The `ConfigurationSetting`'s `locked` property has been renamed to `readOnly` to match the nomenclature used throughout
+  the SDK.
+- `listConfigurationSettings` and `listRevisions` now take `readOnly` as a value in `fields`, rather than `locked`.
 
 # 1.0.0-preview.5 (2019-10-09)
 
