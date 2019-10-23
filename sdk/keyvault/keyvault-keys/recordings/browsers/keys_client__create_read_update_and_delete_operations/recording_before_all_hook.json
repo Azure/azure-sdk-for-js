@@ -2,14 +2,82 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-canabortcreatingakey-/create",
+   "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-cancreateakeywithrequestOptionstimeout-/create",
    "query": {
     "api-version": "7.0"
    },
    "requestBody": "",
-   "status": 0,
-   "response": "",
-   "responseHeaders": {}
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "x-ms-keyvault-network-info": "addr=52.191.114.234;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "401",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "87",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 23 Oct 2019 19:23:49 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "9dc65826-6e7e-46e5-b8d2-2443bc841d83",
+    "cache-control": "no-cache",
+    "x-content-type-options": "nosniff",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3600,\"ext_expires_in\":3600,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "date": "Wed, 23 Oct 2019 19:23:49 GMT",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "x-ms-request-id": "d8ca17ad-fc7f-4652-8011-05460ebd0000",
+    "cache-control": "no-cache, no-store",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "1231",
+    "x-ms-ests-server": "2.1.9557.16 - NCUS ProdSlices",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "expires": "-1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-cancreateakeywithrequestOptionstimeout-/create",
+   "query": {
+    "api-version": "7.0"
+   },
+   "requestBody": "{\"kty\":\"RSA\",\"attributes\":{}}",
+   "status": 200,
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/recoverKeyName-cancreateakeywithrequestOptionstimeout-/3a8a060dce4947fc9efa2bf0b5446c6d\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"0c7cPbl9Q-m1qPGB4T3J_6E40Q3RsxwcEjBhhw7HRXPkkuXIYi1TlZVkawVbW39xDz9EcCdSdwoS42euwsqYZRuMyXM1dmjbeLGqONpM0_ju5oG41hX2QERG1g-oAxRt1WIBl0AeMwaHQIe6mbCYi8nAHxhZTGxMZtJ6TRtuZEXYkH_ud3-gzI4d3kulQ2H--fyMW230ql38mjeP05JhbmlQaRnP2JKEs3V8d7Rpwyn8DvUpChZytfw8fNiq8tSvWVdDbIcs2vqXPyQjoXodwMIrcEgaGmsFN4UnUxIRUIpzx_G6c92-Wk7P4oKxVypZlQc5x1F5iQvXMHONXWwsZQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1571858630,\"updated\":1571858630,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "responseHeaders": {
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.191.114.234;act_addr_fam=InterNetwork;",
+    "x-aspnet-version": "4.0.30319",
+    "x-powered-by": "ASP.NET",
+    "status": "200",
+    "x-ms-keyvault-region": "westus",
+    "content-length": "716",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "x-ms-keyvault-service-version": "1.1.0.879",
+    "date": "Wed, 23 Oct 2019 19:23:50 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "x-ms-request-id": "03db0af9-484d-41fd-9822-161451975740",
+    "cache-control": "no-cache",
+    "expires": "-1"
+   }
   }
  ],
  "uniqueTestInfo": {
