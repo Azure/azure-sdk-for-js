@@ -162,6 +162,10 @@ export const Constants = {
   SDKName: "azure-cosmos-js",
   SDKVersion: "REPLACE_SDK_VERSION",
 
+  Quota: {
+    CollectionSize: "collectionSize"
+  },
+
   Path: {
     DatabasesPathSegment: "dbs",
     CollectionsPathSegment: "colls",
