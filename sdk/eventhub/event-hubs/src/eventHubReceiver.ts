@@ -169,6 +169,16 @@ export class EventHubReceiver extends LinkEntity {
   protected _checkpoint: CheckpointData;
 
   /**
+   * Keeps track of the number of messages that have been received.
+   */
+  private _receivedMessageCount = 0;
+
+  /**
+   * Keeps track of the last time the number of messages received were logged.
+   */
+  private _lastTimestamp = new Date().toISOString();
+
+  /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
@@ -196,6 +206,23 @@ export class EventHubReceiver extends LinkEntity {
       sequenceNumber: -1
     };
     this._onAmqpMessage = (context: EventContext) => {
+      this._receivedMessageCount++;
+      const logMessageInterval = 1000;
+      // log every 1000 messages
+      if (this._receivedMessageCount === logMessageInterval) {
+        log.receiver(
+          "[%s] Receiver '%s' has received %i messages since %s.",
+          this._context.connectionId,
+          this.name,
+          this._receivedMessageCount,
+          this._lastTimestamp
+        );
+
+        // reset tracking values
+        this._receivedMessageCount = 0;
+        this._lastTimestamp = new Date().toISOString();
+      }
+
       const evData = EventData.fromAmqpMessage(context.message!);
       evData.body = this._context.dataTransformer.decode(context.message!.body);
       this._checkpoint = {
@@ -215,7 +242,11 @@ export class EventHubReceiver extends LinkEntity {
           this.runtimeInfo
         );
       }
-      this._onMessage!(evData);
+      try {
+        this._onMessage!(evData);
+      } catch (err) {
+        log.error("[%s] User-code error: %O", this._context.connectionId, err);
+      }
     };
 
     this._onAmqpError = (context: EventContext) => {
