@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "./ClientContext";
-import { getPathFromLink, ResourceType } from "./common";
+import { getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -14,7 +14,7 @@ import {
   SqlQuerySpec
 } from "./queryExecutionContext";
 import { Response } from "./request";
-import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
+import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
 
@@ -28,6 +28,7 @@ export class QueryIterator<T> {
   private fetchAllLastResHeaders: CosmosHeaders;
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
+  private isInitialied: boolean;
   /**
    * @hidden
    */
@@ -45,6 +46,7 @@ export class QueryIterator<T> {
     this.resourceLink = resourceLink;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
+    this.isInitialied = false;
   }
 
   /**
@@ -71,9 +73,19 @@ export class QueryIterator<T> {
    */
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
     this.reset();
-    await this.createPipelinedExecutionContext();
+    this.queryPlanPromise = this.fetchQueryPlan();
     while (this.queryExecutionContext.hasMoreResults()) {
-      const response = await this.queryExecutionContext.fetchMore();
+      let response: Response<any>;
+      try {
+        response = await this.queryExecutionContext.fetchMore();
+      } catch (error) {
+        if (this.needsQueryPlan(error)) {
+          await this.createPipelinedExecutionContext();
+          response = await this.queryExecutionContext.fetchMore();
+        } else {
+          throw error;
+        }
+      }
       const feedResponse = new FeedResponse<T>(
         response.result,
         response.headers,
@@ -99,21 +111,9 @@ export class QueryIterator<T> {
    */
 
   public async fetchAll(): Promise<FeedResponse<T>> {
+    this.reset();
     this.fetchAllTempResources = [];
-    await this.createPipelinedExecutionContext();
-    while (this.queryExecutionContext.hasMoreResults()) {
-      const { result, headers } = await this.queryExecutionContext.nextItem();
-      // concatenate the results and fetch more
-      mergeHeaders(this.fetchAllLastResHeaders, headers);
-      if (result !== undefined) {
-        this.fetchAllTempResources.push(result);
-      }
-    }
-    return new FeedResponse(
-      this.fetchAllTempResources,
-      this.fetchAllLastResHeaders,
-      this.queryExecutionContext.hasMoreResults()
-    );
+    return this.toArrayImplementation();
   }
 
   /**
@@ -124,8 +124,22 @@ export class QueryIterator<T> {
    * before returning the first batch of responses.
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
-    await this.createPipelinedExecutionContext();
-    const response = await this.queryExecutionContext.fetchMore();
+    this.queryPlanPromise = this.fetchQueryPlan();
+    if (!this.isInitialied) {
+      await this.init();
+    }
+
+    let response: Response<any>;
+    try {
+      response = await this.queryExecutionContext.fetchMore();
+    } catch (error) {
+      if (this.needsQueryPlan(error)) {
+        await this.createPipelinedExecutionContext();
+        response = await this.queryExecutionContext.fetchMore();
+      } else {
+        throw error;
+      }
+    }
     return new FeedResponse<T>(
       response.result,
       response.headers,
@@ -144,30 +158,93 @@ export class QueryIterator<T> {
     );
   }
 
-  private async createPipelinedExecutionContext() {
-    if (this.resourceType === ResourceType.item && !this.queryPlanPromise) {
-      const queryPlanResponse = await this.fetchQueryPlan();
-      const queryPlan = queryPlanResponse.result;
-      this.queryExecutionContext = new PipelinedQueryExecutionContext(
-        this.clientContext,
-        this.resourceLink,
-        this.query,
-        this.options,
-        queryPlan
-      );
+  private async toArrayImplementation(): Promise<FeedResponse<T>> {
+    this.queryPlanPromise = this.fetchQueryPlan();
+    if (!this.isInitialied) {
+      await this.init();
     }
+    while (this.queryExecutionContext.hasMoreResults()) {
+      let response: Response<any>;
+      try {
+        response = await this.queryExecutionContext.nextItem();
+      } catch (error) {
+        if (this.needsQueryPlan(error)) {
+          await this.createPipelinedExecutionContext();
+          response = await this.queryExecutionContext.nextItem();
+        } else {
+          throw error;
+        }
+      }
+      const { result, headers } = response;
+      // concatenate the results and fetch more
+      mergeHeaders(this.fetchAllLastResHeaders, headers);
+
+      if (result !== undefined) {
+        this.fetchAllTempResources.push(result);
+      }
+    }
+    return new FeedResponse(
+      this.fetchAllTempResources,
+      this.fetchAllLastResHeaders,
+      this.queryExecutionContext.hasMoreResults()
+    );
+  }
+
+  private async createPipelinedExecutionContext() {
+    const queryPlanResponse = await this.queryPlanPromise;
+
+    // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
+    if (queryPlanResponse instanceof Error) {
+      throw queryPlanResponse;
+    }
+
+    const queryPlan = queryPlanResponse.result;
+    const queryInfo = queryPlan.queryInfo;
+    if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
+      throw new Error("Aggregate queries must use the VALUE keyword");
+    }
+    this.queryExecutionContext = new PipelinedQueryExecutionContext(
+      this.clientContext,
+      this.resourceLink,
+      this.query,
+      this.options,
+      queryPlan
+    );
   }
 
   private async fetchQueryPlan() {
-    if (!this.queryPlanPromise) {
-      this.queryPlanPromise = this.clientContext.getQueryPlan(
-        getPathFromLink(this.resourceLink) + "/docs",
-        ResourceType.item,
-        this.resourceLink,
-        this.query,
-        this.options
-      );
+    if (!this.queryPlanPromise && this.resourceType === ResourceType.item) {
+      return this.clientContext
+        .getQueryPlan(
+          getPathFromLink(this.resourceLink) + "/docs",
+          ResourceType.item,
+          this.resourceLink,
+          this.query,
+          this.options
+        )
+        .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
     }
     return this.queryPlanPromise;
+  }
+
+  private needsQueryPlan(error: any): error is ErrorResponse {
+    return error.code === StatusCodes.BadRequest;
+  }
+
+  private initPromise: Promise<void>;
+  private async init() {
+    if (this.isInitialied === true) {
+      return;
+    }
+    if (this.initPromise === undefined) {
+      this.initPromise = this._init();
+    }
+    return this.initPromise;
+  }
+  private async _init() {
+    if (this.options.forceQueryPlan === true) {
+      await this.createPipelinedExecutionContext();
+    }
+    this.isInitialied = true;
   }
 }

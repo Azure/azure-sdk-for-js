@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { Response } from "../request";
+import { Response, FeedOptions } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { AggregateEndpointComponent } from "./EndpointComponent/AggregateEndpointComponent";
@@ -27,7 +27,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private clientContext: ClientContext,
     private collectionLink: string,
     private query: any, // TODO: any query
-    private options: any, // TODO: any options
+    private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     this.endpoint = null;
