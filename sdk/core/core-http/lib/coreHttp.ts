@@ -45,7 +45,7 @@ export {
   BearerTokenAuthenticationPolicy,
   bearerTokenAuthenticationPolicy
 } from "./policies/bearerTokenAuthenticationPolicy";
-export { LogPolicyOptions, LoggingOptions, logPolicy } from "./policies/logPolicy";
+export { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 export {
   BaseRequestPolicy,
   RequestPolicy,
@@ -60,7 +60,11 @@ export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
 export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
 export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
 export { signingPolicy } from "./policies/signingPolicy";
-export { userAgentPolicy, getDefaultUserAgentValue, UserAgentOptions } from "./policies/userAgentPolicy";
+export {
+  userAgentPolicy,
+  getDefaultUserAgentValue,
+  UserAgentOptions
+} from "./policies/userAgentPolicy";
 export { deserializationPolicy, deserializeResponseBody } from "./policies/deserializationPolicy";
 export { tracingPolicy } from "./policies/tracingPolicy";
 export {
