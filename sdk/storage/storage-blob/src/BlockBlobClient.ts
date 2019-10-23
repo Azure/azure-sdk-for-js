@@ -1099,8 +1099,8 @@ export class BlockBlobClient extends BlobClient {
    * @param {Readable} stream Node.js Readable stream
    * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
    * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
-   * @param {number} maxConcurrency  Max buffers will allocate during uploading, positive correlation
-   *                                 with max uploading concurrency
+   * @param {number} maxConcurrency  Max concurrency indicates the max number of buffers that can be allocated,
+   *                                 positive correlation with max uploading concurrency
    * @param {BlockBlobUploadStreamOptions} [options] Options to Upload Stream to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
