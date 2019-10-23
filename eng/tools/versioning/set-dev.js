@@ -24,19 +24,28 @@ async function main(argv) {
 
   console.log(`Updating packages with Build ID ${buildId}`);
 
-  const targetPackageFiles = rushSpec.projects.map(project =>
-    path.resolve(path.join(repoRoot, project.projectFolder, "package.json"))
+  const targetPackages = rushSpec.projects.map(project =>
+    path.resolve(path.join(repoRoot, project.projectFolder))
   );
 
-  for (const targetFile of targetPackageFiles) {
-    const targetFileContents = await versionUtils.readFileJson(targetFile);
-    const newVersion = `${targetFileContents.version}-dev-${buildId}`;
-    console.log(`File ${targetFile} version updated to ${newVersion}`);
+  for (const targetFolder of targetPackages) {
+    const targetPackageJson = path.join(targetFolder, "package.json");
+    const packageJsonContents = await versionUtils.readFileJson(
+      targetPackageJson
+    );
+    const newVersion = `${packageJsonContents.version}-dev-${buildId}`;
+    console.log(`File ${targetPackageJson} version updated to ${newVersion}`);
     const updatedPackageSpec = {
-      ...targetFileContents,
+      ...packageJsonContents,
       version: newVersion
     };
-    await versionUtils.writePackageJson(targetFile, updatedPackageSpec);
+    await versionUtils.writePackageJson(targetPackageJson, updatedPackageSpec);
+
+    await versionUtils.updatePackageConstants(
+      targetFolder,
+      packageJsonContents,
+      newVersion
+    );
   }
 }
 
