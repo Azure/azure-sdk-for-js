@@ -213,10 +213,8 @@ export const Constants: {
     CurrentVersion: string;
     SDKName: string;
     SDKVersion: string;
-    RegularExpressions: {
-        TrimLeftSlashes: RegExp;
-        TrimRightSlashes: RegExp;
-        IllegalResourceIdCharacters: RegExp;
+    Quota: {
+        CollectionSize: string;
     };
     Path: {
         DatabasesPathSegment: string;

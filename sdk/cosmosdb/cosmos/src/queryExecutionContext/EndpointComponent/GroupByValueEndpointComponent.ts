@@ -7,7 +7,7 @@ import { AggregateType, QueryInfo } from "../../request/ErrorResponse";
 // import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
-import { getInitialHeader, mergeHeaders } from "../headerUtils";
+import { getInitialHeader } from "../headerUtils";
 
 interface GroupByResponse {
   result: GroupByResult;

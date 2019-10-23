@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "./ClientContext";
-import { getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "./common";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,

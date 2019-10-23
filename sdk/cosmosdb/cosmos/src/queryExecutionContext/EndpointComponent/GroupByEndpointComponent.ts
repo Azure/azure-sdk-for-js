@@ -3,7 +3,7 @@
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
-import { GroupByAliasToAggregateType, AggregateType, QueryInfo } from "../../request/ErrorResponse";
+import { QueryInfo } from "../../request/ErrorResponse";
 // import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";

@@ -4,7 +4,6 @@ import { ClientContext } from "../ClientContext";
 import { Response, FeedOptions } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
-import { AggregateEndpointComponent } from "./EndpointComponent/AggregateEndpointComponent";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
