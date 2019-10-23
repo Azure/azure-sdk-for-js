@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-preview.9 (2019-10-31)
+## 4.0.0-preview.9 (2019-10-22)
 
 - `deleteSecret` and `recoverDeletedSecret` are now out of the public API.
   Use `beginDeleteSecret` and `beginRecoverDeletedSecret` instead.

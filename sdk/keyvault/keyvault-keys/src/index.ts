@@ -56,6 +56,7 @@ import {
   CreateEcKeyOptions,
   CreateKeyOptions,
   CreateRsaKeyOptions,
+  CryptographyOptions,
   DeletedKey,
   GetDeletedKeyOptions,
   PurgeDeletedKeyOptions,
@@ -78,10 +79,15 @@ import {
   DecryptResult,
   EncryptOptions,
   EncryptResult,
+  KeySignatureAlgorithm,
   KeyWrapAlgorithm,
+  SignOptions,
   SignResult,
   UnwrapResult,
+  UnwrapKeyOptions,
+  VerifyOptions,
   VerifyResult,
+  WrapKeyOptions,
   WrapResult
 } from "./cryptographyClient";
 
@@ -91,6 +97,7 @@ export {
   CreateKeyOptions,
   CreateRsaKeyOptions,
   CryptographyClient,
+  CryptographyOptions,
   DecryptOptions,
   DecryptResult,
   DeleteKeyPollOperationState,
@@ -109,8 +116,10 @@ export {
   JsonWebKeyEncryptionAlgorithm,
   JsonWebKeyOperation,
   JsonWebKeyType,
+  KeyClientInterface,
   KeyPollerOptions,
   KeyProperties,
+  KeySignatureAlgorithm,
   KeyVaultKey,
   KeyWrapAlgorithm,
   PipelineOptions,
@@ -121,10 +130,14 @@ export {
   PollOperationState,
   PollerLike,
   RecoverDeletedKeyPollOperationState,
+  SignOptions,
   SignResult,
   UnwrapResult,
   UpdateKeyPropertiesOptions,
+  UnwrapKeyOptions,
+  VerifyOptions,
   VerifyResult,
+  WrapKeyOptions,
   WrapResult,
   logger
 };
@@ -178,8 +191,8 @@ export class KeyClient {
    *
    * let client = new KeyClient(url, credentials);
    * ```
-   * @param {string} endpoint the base url to the key vault.
-   * @param {TokenCredential} The credential to use for API requests.
+   * @param {string} endPoint the base url to the key vault.
+   * @param {TokenCredential} credential The credential to use for API requests. (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof KeyClient

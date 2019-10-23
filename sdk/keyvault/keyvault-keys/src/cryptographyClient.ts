@@ -566,7 +566,7 @@ export class CryptographyClient {
    * ```
    * @param url The url of the key vault service
    * @param key The key to use during cryptography tasks
-   * @param credential The login credentials of the service
+   * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CryptographyClient
