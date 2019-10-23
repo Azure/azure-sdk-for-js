@@ -38,14 +38,14 @@ describe("Secrets client - Long Running Operations - delete", () => {
     assert.ok(poller.getOperationState().isStarted);
 
     // The pending deleted secret can be obtained this way:
-    assert.equal(poller.getOperationState().result!.properties.name, secretName);
+    assert.equal(poller.getOperationState().result!.name, secretName);
 
     const deletedSecret: DeletedSecret = await poller.pollUntilDone();
-    assert.equal(deletedSecret.properties.name, secretName);
+    assert.equal(deletedSecret.name, secretName);
     assert.ok(poller.getOperationState().isCompleted);
 
     // The final secret can also be obtained this way:
-    assert.equal(poller.getOperationState().result!.properties.name, secretName);
+    assert.equal(poller.getOperationState().result!.name, secretName);
 
     await testClient.purgeSecret(secretName);
   });
@@ -76,7 +76,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
     assert.ok(resumePoller.getOperationState().isStarted);
     const deletedSecret: DeletedSecret = await resumePoller.pollUntilDone();
-    assert.equal(deletedSecret.properties.name, secretName);
+    assert.equal(deletedSecret.name, secretName);
     assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.purgeSecret(secretName);

@@ -205,3 +205,32 @@ directive:
   transform: >
     $["x-ms-client-name"] = "etag";
 ```
+### Rename fileHTTPHeaders -> fileHttpHeaders
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.FileContentMD5["x-ms-parameter-grouping"]
+    transform: >
+      $.name = "fileHttpHeaders";
+  - from: swagger-document
+    where: $.parameters.FileContentType["x-ms-parameter-grouping"]
+    transform: >
+      $.name = "fileHttpHeaders";
+  - from: swagger-document
+    where: $.parameters.FileCacheControl["x-ms-parameter-grouping"]
+    transform: >
+      $.name = "fileHttpHeaders";
+  - from: swagger-document
+    where: $.parameters.FileContentDisposition["x-ms-parameter-grouping"]
+    transform: >
+      $.name = "fileHttpHeaders";
+  - from: swagger-document
+    where: $.parameters.FileContentEncoding["x-ms-parameter-grouping"]
+    transform: >
+      $.name = "fileHttpHeaders";
+  - from: swagger-document
+    where: $.parameters.FileContentLanguage["x-ms-parameter-grouping"]
+    transform: >
+      $.name = "fileHttpHeaders";
+```

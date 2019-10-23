@@ -776,7 +776,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(options.lastWriteTime!),
         {
           abortSignal: options.abortSignal,
-          fileHTTPHeaders: options.fileHttpHeaders,
+          fileHttpHeaders: options.fileHttpHeaders,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
@@ -942,7 +942,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(properties.lastWriteTime!),
         {
           abortSignal: properties.abortSignal,
-          fileHTTPHeaders: properties.fileHttpHeaders,
+          fileHttpHeaders: properties.fileHttpHeaders,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
           spanOptions
@@ -1022,7 +1022,7 @@ export class FileClient extends StorageClient {
         fileLastWriteTimeToString(options.lastWriteTime!),
         {
           abortSignal: options.abortSignal,
-          fileHTTPHeaders: fileHttpHeaders,
+          fileHttpHeaders,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           spanOptions

@@ -307,7 +307,7 @@ export interface FileServiceProperties {
 /**
  * Additional parameters for a set of operations, such as: File_create, File_setHTTPHeaders.
  */
-export interface FileHTTPHeaders {
+export interface FileHttpHeaders {
   /**
    * Sets the MIME content type of the file. The default type is 'application/octet-stream'.
    */
@@ -801,7 +801,7 @@ export interface FileCreateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
-  fileHTTPHeaders?: FileHTTPHeaders;
+  fileHttpHeaders?: FileHttpHeaders;
 }
 
 /**
@@ -886,7 +886,7 @@ export interface FileSetHTTPHeadersOptionalParams extends coreHttp.RequestOption
   /**
    * Additional parameters for the operation
    */
-  fileHTTPHeaders?: FileHTTPHeaders;
+  fileHttpHeaders?: FileHttpHeaders;
 }
 
 /**
