@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-preview.9 (2019-10-31)
+## 4.0.0-preview.9 (2019-10-22)
 
 - `deleteKey` and `recoverDeletedKey` are now out of the public API.
   Use `beginDeleteKey` and `beginRecoverDeletedKey` instead.
