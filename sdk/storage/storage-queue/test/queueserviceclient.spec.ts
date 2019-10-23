@@ -56,7 +56,7 @@ describe("QueueServiceClient", () => {
       .byPage({ maxPageSize: 1 })
       .next()).value;
 
-    assert.ok(result1.nextMarker);
+    assert.ok(result1.continuationToken);
     assert.equal(result1.queueItems!.length, 1);
     assert.ok(result1.queueItems![0].name.startsWith(queueNamePrefix));
     assert.deepEqual(result1.queueItems![0].metadata!.key, "val");
@@ -66,10 +66,10 @@ describe("QueueServiceClient", () => {
         includeMetadata: true,
         prefix: queueNamePrefix
       })
-      .byPage({ continuationToken: result1.nextMarker, maxPageSize: 1 })
+      .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
       .next()).value;
 
-    assert.ok(!result2.nextMarker);
+    assert.ok(!result2.continuationToken);
     assert.equal(result2.queueItems!.length, 1);
     assert.ok(result2.queueItems![0].name.startsWith(queueNamePrefix));
     assert.deepEqual(result2.queueItems![0].metadata!.key, "val");
@@ -184,7 +184,7 @@ describe("QueueServiceClient", () => {
       }
     }
     // Gets next marker
-    let marker = item.nextMarker;
+    let marker = item.continuationToken;
     // Passing next marker as continuationToken
     iter = queueServiceClient
       .listQueues({
@@ -228,7 +228,7 @@ describe("QueueServiceClient", () => {
 
     const serviceProperties = await queueServiceClient.getProperties();
 
-    serviceProperties.logging = {
+    serviceProperties.queueAnalyticsLogging = {
       deleteProperty: true,
       read: true,
       retentionPolicy: {
@@ -295,7 +295,7 @@ describe("QueueServiceClient", () => {
     queueServiceClient!
       .getStatistics()
       .then((result) => {
-        assert.ok(result.geoReplication!.lastSyncTime);
+        assert.ok(result.geoReplication!.lastSyncOn);
         done();
       })
       .catch(done);
@@ -338,6 +338,7 @@ describe("QueueServiceClient", () => {
     } catch (error) {
       err = error;
     }
+    assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");
     assert.ok(err.message.includes("QueueNotFound"), "Error doesn't say `QueueNotFound`");
   });
 });

@@ -85,30 +85,30 @@ export class AzureFirewalls {
   }
 
   /**
-   * Updates tags for an Azure Firewall resource.
+   * Updates tags of an Azure Firewall resource.
    * @param resourceGroupName The name of the resource group.
    * @param azureFirewallName The name of the Azure Firewall.
-   * @param parameters Parameters supplied to the create or update Azure Firewall operation.
+   * @param parameters Parameters supplied to update azure firewall tags.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param azureFirewallName The name of the Azure Firewall.
-   * @param parameters Parameters supplied to the create or update Azure Firewall operation.
+   * @param parameters Parameters supplied to update azure firewall tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
+  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param azureFirewallName The name of the Azure Firewall.
-   * @param parameters Parameters supplied to the create or update Azure Firewall operation.
+   * @param parameters Parameters supplied to update azure firewall tags.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
-  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewall>, callback?: msRest.ServiceCallback<Models.AzureFirewall>): Promise<Models.AzureFirewallsUpdateTagsResponse> {
+  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
+  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewall>, callback?: msRest.ServiceCallback<Models.AzureFirewall>): Promise<Models.AzureFirewallsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -311,7 +311,7 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.AzureFirewall,
+      ...Mappers.TagsObject,
       required: true
     }
   },

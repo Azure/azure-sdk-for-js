@@ -45,8 +45,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
         startTime: now,
@@ -75,7 +75,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiryTime: tmr,
-        permissions: AccountSASPermissions.parse("wdlcup").toString(),
+        permissions: AccountSASPermissions.parse("wdlcup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString()
       },
@@ -109,7 +109,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sas = generateAccountSASQueryParameters(
       {
         expiryTime: tmr,
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+        permissions: AccountSASPermissions.parse("rwdlacup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("b").toString()
       },
@@ -144,8 +144,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: AccountSASPermissions.parse("rwdlacup").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31"
@@ -186,11 +186,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueSAS = generateQueueSASQueryParameters(
       {
-        queueName: queueClient.queueName,
+        queueName: queueClient.name,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: QueueSASPermissions.parse("raup").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        permissions: QueueSASPermissions.parse("raup"),
+        protocol: SASProtocol.HttpsAndHttp,
         startTime: now,
         version: "2016-05-31"
       },
@@ -221,11 +221,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueSAS = generateQueueSASQueryParameters(
       {
-        queueName: queueClient.queueName,
+        queueName: queueClient.name,
         expiryTime: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: QueueSASPermissions.parse("raup").toString(),
-        protocol: SASProtocol.HTTPSandHTTP,
+        permissions: QueueSASPermissions.parse("raup"),
+        protocol: SASProtocol.HttpsAndHttp,
         startTime: now,
         version: "2016-05-31"
       },
@@ -275,7 +275,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         accessPolicy: {
           expiry: tmr,
-          permission: QueueSASPermissions.parse("raup").toString(),
+          permissions: QueueSASPermissions.parse("raup").toString(),
           start: now
         },
         id
@@ -284,7 +284,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueSAS = generateQueueSASQueryParameters(
       {
-        queueName: queueClient.queueName,
+        queueName: queueClient.name,
         identifier: id
       },
       sharedKeyCredential as SharedKeyCredential
@@ -300,17 +300,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const pResult = await messagesClientwithSAS.peekMessages();
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
     const dResult = await messagesClientwithSAS.receiveMessages({
-      visibilitytimeout: 1
+      visibilityTimeout: 1
     });
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
 
     await delay(2 * 1000);
 
     const sasURLForMessage = `${queueClient.url}?${queueSAS}`;
     const messageIdClientwithSAS = new QueueClient(sasURLForMessage);
     const deleteResult = await messageIdClientwithSAS.deleteMessage(
-      dResult.dequeuedMessageItems[0].messageId,
-      dResult.dequeuedMessageItems[0].popReceipt
+      dResult.receivedMessageItems[0].messageId,
+      dResult.receivedMessageItems[0].popReceipt
     );
     assert.ok(deleteResult.requestId);
     assert.ok(deleteResult.clientRequestId);

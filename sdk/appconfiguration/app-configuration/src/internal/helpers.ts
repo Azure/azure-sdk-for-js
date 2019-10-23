@@ -1,11 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ListConfigurationSettingsOptions } from '..';
-import { URLBuilder } from '@azure/core-http';
-import { isArray } from 'util';
-import { ListRevisionsOptions, ConfigurationSettingId, ConfigurationSetting, HttpConditionalFields } from '../models';
-import { AppConfigurationGetKeyValuesOptionalParams } from '../generated/src/models';
+import { ListConfigurationSettingsOptions } from "..";
+import { URLBuilder } from "@azure/core-http";
+import { isArray } from "util";
+import {
+  ListRevisionsOptions,
+  ConfigurationSettingId,
+  ConfigurationSetting,
+  HttpResponseField,
+  HttpResponseFields,
+  HttpOnlyIfChangedField,
+  HttpOnlyIfUnchangedField
+} from "../models";
+import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -14,7 +22,7 @@ import { AppConfigurationGetKeyValuesOptionalParams } from '../generated/src/mod
  */
 export function quoteETag(etag: string | undefined): string | undefined {
   // https://tools.ietf.org/html/rfc7232#section-3.1
-  if (etag === undefined || etag === '*') {
+  if (etag === undefined || etag === "*") {
     return etag;
   }
 
@@ -32,11 +40,14 @@ export function quoteETag(etag: string | undefined): string | undefined {
 /**
  * Checks the onlyIfChanged/onlyIfUnchanged properties to make sure we haven't specified both
  * and throws an Error. Otherwise, returns the properties properly quoted.
- * @param options An options object with onlyIfChanged/onlyIfUnchanged fields 
+ * @param options An options object with onlyIfChanged/onlyIfUnchanged fields
  * @internal
  * @ignore
  */
-export function checkAndFormatIfAndIfNoneMatch(configurationSetting: ConfigurationSettingId, options: HttpConditionalFields): { ifMatch: string | undefined, ifNoneMatch: string | undefined } {
+export function checkAndFormatIfAndIfNoneMatch(
+  configurationSetting: ConfigurationSettingId,
+  options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField
+): { ifMatch: string | undefined; ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
     throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
@@ -61,13 +72,13 @@ export function checkAndFormatIfAndIfNoneMatch(configurationSetting: Configurati
 /**
  * Transforms the keys/labels parameters in the listConfigurationSettings and listRevisions
  * into the format the REST call will need.
- * 
+ *
  * @internal
  * @ignore
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label"> {
+): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select"> {
   let key;
 
   if (listConfigOptions.keys) {
@@ -81,9 +92,16 @@ export function formatWildcards(
     label = listConfigOptions.labels.join(",");
   }
 
+  let fields: (keyof KeyValue)[] | undefined;
+
+  if (listConfigOptions.fields) {
+    fields = listConfigOptions.fields.map((opt) => (opt === "readOnly" ? "locked" : opt));
+  }
+
   return {
     key,
-    label
+    label,
+    select: fields
   };
 }
 
@@ -108,16 +126,18 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
  * Makes a ConfigurationSetting-based response throw for all of the data members. Used primarily
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.
- * 
+ *
  * @param configurationSetting The configuration setting to alter
  */
-export function makeConfigurationSettingEmpty(configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, 'key'>, any>>) {
-  const names: (Exclude<keyof ConfigurationSetting, 'key'>)[] = [
+export function makeConfigurationSettingEmpty(
+  configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
+) {
+  const names: (Exclude<keyof ConfigurationSetting, "key">)[] = [
     "contentType",
     "etag",
     "label",
     "lastModified",
-    "locked",
+    "readOnly",
     "tags",
     "value"
   ];
@@ -125,4 +145,61 @@ export function makeConfigurationSettingEmpty(configurationSetting: Partial<Reco
   for (const name of names) {
     configurationSetting[name] = undefined;
   }
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
+  const obj: ConfigurationSetting & KeyValue = {
+    ...kvp,
+    readOnly: !!kvp.locked
+  };
+
+  delete obj.locked;
+  return obj;
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponseWithStatusCode<
+  T extends KeyValue & HttpResponseField<any>
+>(kvp: T): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
+  return normalizeResponse(kvp, <
+    ConfigurationSetting & HttpResponseField<any> & HttpResponseFields
+  >{
+    ...transformKeyValue(kvp),
+    statusCode: kvp._response.status
+  });
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function transformKeyValueResponse<
+  T extends KeyValue & { eTag?: string } & HttpResponseField<any>
+>(kvp: T): ConfigurationSetting & HttpResponseField<any> {
+  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
+    ...transformKeyValue(kvp)
+  });
+}
+
+function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>(
+  originalResponse: HttpResponseField<any>,
+  newResponse: T
+): T {
+  Object.defineProperty(newResponse, "_response", {
+    enumerable: false,
+    value: originalResponse._response
+  });
+
+  // this field comes from the header but it's redundant with
+  // the one serialized in the model itself
+  delete newResponse.eTag;
+
+  return newResponse;
 }

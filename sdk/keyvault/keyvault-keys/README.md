@@ -215,22 +215,24 @@ This will create a new version of the same key, which will have the latest
 provided attributes.
 
 Attributes can also be updated to an existing key version with
-`updateKey`, as follows:
+`updateKeyProperties`, as follows:
 
 ```javascript
 const result = await client.createKey(keyName, "RSA");
-await client.updateKey(keyName, result.properties.version, {
+await client.updateKeyProperties(keyName, result.properties.version, {
   enabled: false
 });
 ```
 
 ### Deleting a key
 
-The `deleteKey` method sets a key up for deletion. This process will
-happen in the background as soon as the necessary resources are available.
+The `beginDeleteKey` method starts the deletion of a key.
+This process will happen in the background as soon as the necessary resources
+are available.
 
 ```javascript
-await client.deleteKey(keyName);
+const poller = await client.beginDeleteKey(keyName);
+await poller.pollUntilDone();
 ```
 
 If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
@@ -239,18 +241,49 @@ _deleted_ key. A deleted key can't be updated. They can only be either
 read, recovered or purged.
 
 ```javascript
-await client.deleteKey(keyName);
+const poller = await client.beginDeleteKey(keyName)
 
-// If soft-delete is enabled, we can eventually do:
+// You can use the deleted key immediately:
+const deletedKey = poller.getDeletedKey();
+
+// The key is being deleted. Only wait for it if you want to restore it or purge it.
+await poller.pollUntilDone();
+
+// You can also get the deleted key this way:
 await client.getDeletedKey(keyName);
+
 // Deleted keys can also be recovered or purged:
-await client.recoverDeletedKey(keyName);
-// await client.purgeDeletedKey(keyName);
+
+// recoverDeletedKey also returns a poller, just like beginDeleteKey.
+const recoverPoller = await client.beginRecoverDeletedKey(keyName)
+const recoverPoller.pollUntilDone();
+
+// And here is how to purge a deleted key
+await client.purgeDeletedKey(keyName);
 ```
 
-Since the deletion of a key won't happen instantly, some time is needed
-after the `deleteKey` method is called before the deleted key is
-available to be read, recovered or purged.
+Since Keys take some time to get fully deleted, `beginDeleteKey`
+returns a Poller object that keeps track of the underlying Long Running
+Operation according to our guidelines:
+https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
+
+The received poller will allow you to get the deleted key by calling to `poller.getDeletedKey()`.
+You can also wait until the deletion finishes, either by running individual service
+calls until the key is deleted, or by waiting until the process is done:
+
+```typescript
+const poller = await client.beginDeleteKey(certificateName, certificatePolicy);
+
+// You can use the deleted key immediately:
+let deletedKey = poller.getDeletedKey();
+ 
+await poller.poll(); // On each poll, the poller checks whether the key has been deleted or not.
+console.log(poller.isDone()) // The poller will be done once the key is fully deleted.
+
+// Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
+deletedKey = await poller.pollUntilDone();
+console.log(deletedKey);
+```
 
 ### Iterating lists of keys
 
@@ -258,24 +291,24 @@ Using the KeysClient, you can retrieve and iterate through all of the
 keys in a Key Vault, as well as through all of the deleted keys and the
 versions of a specific key. The following API methods are available:
 
-- `listKeys` will list all of your non-deleted keys by their names, only
+- `listPropertiesOfKeys` will list all of your non-deleted keys by their names, only
   at their latest versions.
 - `listDeletedKeys` will list all of your deleted keys by their names,
   only at their latest versions.
-- `listKeyVersions` will list all the versions of a key based on a key
+- `listPropertiesOfKeyVersions` will list all the versions of a key based on a key
   name.
 
 Which can be used as follows:
 
 ```javascript
-for await (let key of client.listKeys()) {
-  console.log("Key: ", key);
+for await (let keyProperties of client.listPropertiesOfKeys()) {
+  console.log("Key properties: ", keyProperties);
 }
 for await (let deletedKey of client.listDeletedKeys()) {
-  console.log("Deleted key: ", deletedKey);
+  console.log("Deleted: ", deletedKey);
 }
-for await (let version of client.listKeyVersions(keyName)) {
-  console.log("Version: ", version);
+for await (let versionProperties of client.listPropertiesOfKeyVersions(keyName)) {
+  console.log("Version properties: ", versionProperties);
 }
 ```
 
@@ -284,9 +317,9 @@ retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
 ```javascript
-for await (let page of client.listKeys().byPage()) {
-  for (let key of page) {
-    console.log("Key: ", key);
+for await (let page of client.listPropertiesOfKeys().byPage()) {
+  for (let keyProperties of page) {
+    console.log("Key properties: ", keyProperties);
   }
 }
 for await (let page of client.listDeletedKeys().byPage()) {
@@ -294,9 +327,9 @@ for await (let page of client.listDeletedKeys().byPage()) {
     console.log("Deleted key: ", deletedKey);
   }
 }
-for await (let page of client.listKeyVersions(keyName).byPage()) {
-  for (let version of page) {
-    console.log("Version: ", version);
+for await (let page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
+  for (let versionProperties of page) {
+    console.log("Version: ", versionProperties);
   }
 }
 ```

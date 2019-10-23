@@ -72,42 +72,6 @@ export class VirtualRouters {
   }
 
   /**
-   * Updates a Virtual Router.
-   * @param resourceGroupName The resource group name of the Virtual Router.
-   * @param virtualRouterName The name of the Virtual Router being updated.
-   * @param parameters Parameters supplied to Update Virtual Router Tags.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualRoutersUpdateResponse>
-   */
-  update(resourceGroupName: string, virtualRouterName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualRoutersUpdateResponse>;
-  /**
-   * @param resourceGroupName The resource group name of the Virtual Router.
-   * @param virtualRouterName The name of the Virtual Router being updated.
-   * @param parameters Parameters supplied to Update Virtual Router Tags.
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, virtualRouterName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.VirtualRouter>): void;
-  /**
-   * @param resourceGroupName The resource group name of the Virtual Router.
-   * @param virtualRouterName The name of the Virtual Router being updated.
-   * @param parameters Parameters supplied to Update Virtual Router Tags.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, virtualRouterName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualRouter>): void;
-  update(resourceGroupName: string, virtualRouterName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouter>, callback?: msRest.ServiceCallback<Models.VirtualRouter>): Promise<Models.VirtualRoutersUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        virtualRouterName,
-        parameters,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.VirtualRoutersUpdateResponse>;
-  }
-
-  /**
    * Creates or updates the specified Virtual Router.
    * @param resourceGroupName The name of the resource group.
    * @param virtualRouterName The name of the Virtual Router.
@@ -284,38 +248,6 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualRouter
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  serializer
-};
-
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.virtualRouterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
   responses: {
     200: {
       bodyMapper: Mappers.VirtualRouter

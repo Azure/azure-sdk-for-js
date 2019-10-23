@@ -96,7 +96,7 @@ describe("FileClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -121,7 +121,7 @@ describe("FileClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -143,7 +143,7 @@ describe("FileClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -166,7 +166,7 @@ describe("FileClient Node.js only", () => {
         expiryTime,
         shareName,
         filePath: `${dirName}/${fileName}`,
-        permissions: FileSASPermissions.parse("r").toString()
+        permissions: FileSASPermissions.parse("r")
       },
       credential
     );

@@ -8,13 +8,32 @@ import {
   isTokenCredential
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
-import * as Models from "./generated/src/models";
+import {
+  BlobDownloadResponseModel,
+  CpkInfo,
+  DeleteSnapshotsOptionType,
+  ModifiedAccessConditions,
+  RehydratePriority,
+  LeaseAccessConditions,
+  BlobDownloadOptionalParams,
+  BlobGetPropertiesResponse,
+  BlobDeleteResponse,
+  BlobUndeleteResponse,
+  BlobHTTPHeaders,
+  BlobSetHTTPHeadersResponse,
+  BlobSetMetadataResponse,
+  BlobCreateSnapshotResponse,
+  BlobStartCopyFromURLResponse,
+  BlobAbortCopyFromURLResponse,
+  BlobCopyFromURLResponse,
+  BlobSetTierResponse
+} from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { Blob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
 import {
-  BlobAccessConditions,
+  BlobRequestConditions,
   Metadata,
   ensureCpkIfSpecified,
   BlockBlobTier,
@@ -42,7 +61,7 @@ import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { streamToBuffer } from "./utils/utils.node";
-import { LeaseClient } from "./LeaseClient";
+import { BlobLeaseClient } from "./BlobLeaseClient";
 import { createSpan } from "./utils/tracing";
 
 /**
@@ -90,16 +109,16 @@ export interface BlobDownloadOptions extends CommonOptions {
   /**
    * Conditions to meet when downloading blobs.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobDownloadOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Call back to receive events on the progress of download operation.
    *
    * @memberof BlobDownloadOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Optional. ONLY AVAILABLE IN NODE.JS.
@@ -120,10 +139,10 @@ export interface BlobDownloadOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlobDownloadOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -144,10 +163,10 @@ export interface BlobExistsOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlobSetHTTPHeadersOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -168,17 +187,17 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
   /**
    * Conditions to meet when getting blob properties.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobGetPropertiesOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlobGetPropertiesOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -199,26 +218,26 @@ export interface BlobDeleteOptions extends CommonOptions {
   /**
    * Conditions to meet when deleting blobs.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobDeleteOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Specifies options to delete blobs that have associated snapshots.
    * - `include`: Delete the base blob and all of its snapshots.
    * - `only`: Delete only the blob's snapshots and not the blob itself.
    *
-   * @type {Models.DeleteSnapshotsOptionType}
+   * @type {DeleteSnapshotsOptionType}
    * @memberof BlobDeleteOptions
    */
-  deleteSnapshots?: Models.DeleteSnapshotsOptionType;
+  deleteSnapshots?: DeleteSnapshotsOptionType;
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlobDeleteOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -239,10 +258,10 @@ export interface BlobUndeleteOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlobUndeleteOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -263,17 +282,17 @@ export interface BlobSetHTTPHeadersOptions extends CommonOptions {
   /**
    * Conditions to meet when setting blob HTTP headers.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobSetHTTPHeadersOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlobSetHTTPHeadersOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -294,17 +313,17 @@ export interface BlobSetMetadataOptions extends CommonOptions {
   /**
    * Conditions to meet when setting blob metadata.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobSetMetadataOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlobSetMetadataOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -325,10 +344,10 @@ export interface BlobAcquireLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when acquiring the lease of a blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof BlobAcquireLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -349,10 +368,10 @@ export interface BlobReleaseLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when releasing the lease of a blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof BlobReleaseLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -373,10 +392,10 @@ export interface BlobRenewLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when renewing the lease of a blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof BlobRenewLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -397,10 +416,10 @@ export interface BlobChangeLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when changing the lease of a blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof BlobChangeLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -421,10 +440,10 @@ export interface BlobBreakLeaseOptions extends CommonOptions {
   /**
    * Conditions to meet when breaking the lease of a blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof BlobBreakLeaseOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -452,17 +471,17 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
   /**
    * Conditions to meet when creating blob snapshots.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobCreateSnapshotOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof BlobCreateSnapshotOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -490,17 +509,17 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the destination blob when copying from a URL to the blob.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobStartCopyFromURLOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof BlobStartCopyFromURLOptions
    */
-  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  sourceConditions?: ModifiedAccessConditions;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -513,10 +532,10 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
    * Rehydrate Priority - possible values include 'High', 'Standard'.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
    *
-   * @type {Models.RehydratePriority}
+   * @type {RehydratePriority}
    * @memberof BlobStartCopyFromURLOptions
    */
-  rehydratePriority?: Models.RehydratePriority;
+  rehydratePriority?: RehydratePriority;
 }
 
 /**
@@ -538,10 +557,10 @@ export interface BlobAbortCopyFromURLOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {Models.LeaseAccessConditions}
+   * @type {LeaseAccessConditions}
    * @memberof BlobAbortCopyFromURLOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: LeaseAccessConditions;
 }
 
 /**
@@ -569,17 +588,17 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the destination blob when copying from a URL to the blob.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobSyncCopyFromURLOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof BlobSyncCopyFromURLOptions
    */
-  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  sourceConditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -601,33 +620,33 @@ export interface BlobSetTierOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {Models.LeaseAccessConditions}
+   * @type {LeaseAccessConditions}
    * @memberof BlobSetTierOptions
    */
-  leaseAccessConditions?: Models.LeaseAccessConditions;
+  conditions?: LeaseAccessConditions;
   /**
    * Rehydrate Priority - possible values include 'High', 'Standard'.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
    *
-   * @type {Models.RehydratePriority}
+   * @type {RehydratePriority}
    * @memberof BlobSetTierOptions
    */
-  rehydratePriority?: Models.RehydratePriority;
+  rehydratePriority?: RehydratePriority;
 }
 
 /**
  * Option interface for BlobClient.downloadToBuffer().
  *
  * @export
- * @interface DownloadFromBlobOptions
+ * @interface BlobDownloadToBufferOptions
  */
-export interface DownloadFromBlobOptions extends CommonOptions {
+export interface BlobDownloadToBufferOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   abortSignal?: AbortSignalLike;
 
@@ -637,7 +656,7 @@ export interface DownloadFromBlobOptions extends CommonOptions {
    * to the blob size.
    *
    * @type {number}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   blockSize?: number;
 
@@ -662,23 +681,23 @@ export interface DownloadFromBlobOptions extends CommonOptions {
   /**
    * Progress updater.
    *
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Access conditions headers.
    *
-   * @type {BlobAccessConditions}
-   * @memberof DownloadFromBlobOptions
+   * @type {BlobRequestConditions}
+   * @memberof BlobDownloadToBufferOptions
    */
-  blobAccessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 
   /**
    * Concurrency of parallel download.
    *
    * @type {number}
-   * @memberof DownloadFromBlobOptions
+   * @memberof BlobDownloadToBufferOptions
    */
   concurrency?: number;
 }
@@ -699,11 +718,11 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   private blobContext: Blob;
-  private _blobName: string;
+  private _name: string;
   private _containerName: string;
 
-  public get blobName(): string {
-    return this._blobName;
+  public get name(): string {
+    return this._name;
   }
 
   public get containerName(): string {
@@ -851,7 +870,7 @@ export class BlobClient extends StorageClient {
 
     super(url, pipeline);
     ({
-      blobName: this._blobName,
+      blobName: this._name,
       containerName: this._containerName
     } = this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new Blob(this.storageClientContext);
@@ -918,17 +937,16 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
-   * @returns {Promise<Models.BlobDownloadResponse>}
+   * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlobClient
    */
   public async download(
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<Models.BlobDownloadResponse> {
-    options.blobAccessConditions = options.blobAccessConditions || {};
-    options.blobAccessConditions.modifiedAccessConditions =
-      options.blobAccessConditions.modifiedAccessConditions || {};
+  ): Promise<BlobDownloadResponseModel> {
+    options.conditions = options.conditions || {};
+    options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     const { span, spanOptions } = createSpan("BlobClient-download", options.spanOptions);
@@ -936,9 +954,9 @@ export class BlobClient extends StorageClient {
     try {
       const res = await this.blobContext.download({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
-        onDownloadProgress: isNode ? undefined : options.progress,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
+        onDownloadProgress: isNode ? undefined : options.onProgress,
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
@@ -966,22 +984,20 @@ export class BlobClient extends StorageClient {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
 
-      if (!res.eTag) {
+      if (!res.etag) {
         throw new RangeError(`File download response doesn't contain valid etag header`);
       }
 
       return new BlobDownloadResponse(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
-          const updatedOptions: Models.BlobDownloadOptionalParams = {
-            leaseAccessConditions: options.blobAccessConditions!.leaseAccessConditions,
+          const updatedOptions: BlobDownloadOptionalParams = {
+            leaseAccessConditions: options.conditions,
             modifiedAccessConditions: {
-              ifMatch: options.blobAccessConditions!.modifiedAccessConditions!.ifMatch || res.eTag,
-              ifModifiedSince: options.blobAccessConditions!.modifiedAccessConditions!
-                .ifModifiedSince,
-              ifNoneMatch: options.blobAccessConditions!.modifiedAccessConditions!.ifNoneMatch,
-              ifUnmodifiedSince: options.blobAccessConditions!.modifiedAccessConditions!
-                .ifUnmodifiedSince
+              ifMatch: options.conditions!.ifMatch || res.etag,
+              ifModifiedSince: options.conditions!.ifModifiedSince,
+              ifNoneMatch: options.conditions!.ifNoneMatch,
+              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince
             },
             range: rangeToString({
               count: offset + res.contentLength! - start,
@@ -1010,7 +1026,7 @@ export class BlobClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequests,
-          progress: options.progress
+          onProgress: options.onProgress
         }
       );
     } catch (e) {
@@ -1069,20 +1085,20 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
    * @param {BlobGetPropertiesOptions} [options] Optional options to Get Properties operation.
-   * @returns {Promise<Models.BlobGetPropertiesResponse>}
+   * @returns {Promise<BlobGetPropertiesResponse>}
    * @memberof BlobClient
    */
   public async getProperties(
     options: BlobGetPropertiesOptions = {}
-  ): Promise<Models.BlobGetPropertiesResponse> {
+  ): Promise<BlobGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("BlobClient-getProperties", options.spanOptions);
     try {
-      options.blobAccessConditions = options.blobAccessConditions || {};
+      options.conditions = options.conditions || {};
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blobContext.getProperties({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -1105,18 +1121,18 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
-   * @returns {Promise<Models.BlobDeleteResponse>}
+   * @returns {Promise<BlobDeleteResponse>}
    * @memberof BlobClient
    */
-  public async delete(options: BlobDeleteOptions = {}): Promise<Models.BlobDeleteResponse> {
+  public async delete(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse> {
     const { span, spanOptions } = createSpan("BlobClient-delete", options.spanOptions);
-    options.blobAccessConditions = options.blobAccessConditions || {};
+    options.conditions = options.conditions || {};
     try {
       return this.blobContext.deleteMethod({
         abortSignal: options.abortSignal,
         deleteSnapshots: options.deleteSnapshots,
-        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -1137,10 +1153,10 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
    * @param {BlobUndeleteOptions} [options] Optional options to Blob Undelete operation.
-   * @returns {Promise<Models.BlobUndeleteResponse>}
+   * @returns {Promise<BlobUndeleteResponse>}
    * @memberof BlobClient
    */
-  public async undelete(options: BlobUndeleteOptions = {}): Promise<Models.BlobUndeleteResponse> {
+  public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
     const { span, spanOptions } = createSpan("BlobClient-undelete", options.spanOptions);
     try {
       return this.blobContext.undelete({
@@ -1165,26 +1181,26 @@ export class BlobClient extends StorageClient {
    * these blob HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {Models.BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
+   * @param {BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
    *                                                   the specificed blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
    * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
-   * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
+   * @returns {Promise<BlobSetHTTPHeadersResponse>}
    * @memberof BlobClient
    */
   public async setHTTPHeaders(
-    blobHTTPHeaders?: Models.BlobHTTPHeaders,
+    blobHTTPHeaders?: BlobHTTPHeaders,
     options: BlobSetHTTPHeadersOptions = {}
-  ): Promise<Models.BlobSetHTTPHeadersResponse> {
+  ): Promise<BlobSetHTTPHeadersResponse> {
     const { span, spanOptions } = createSpan("BlobClient-setHTTPHeaders", options.spanOptions);
-    options.blobAccessConditions = options.blobAccessConditions || {};
+    options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blobContext.setHTTPHeaders({
         abortSignal: options.abortSignal,
         blobHTTPHeaders,
-        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -1209,22 +1225,22 @@ export class BlobClient extends StorageClient {
    * @param {Metadata} [metadata] Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
    * @param {BlobSetMetadataOptions} [options] Optional options to Set Metadata operation.
-   * @returns {Promise<Models.BlobSetMetadataResponse>}
+   * @returns {Promise<BlobSetMetadataResponse>}
    * @memberof BlobClient
    */
   public async setMetadata(
     metadata?: Metadata,
     options: BlobSetMetadataOptions = {}
-  ): Promise<Models.BlobSetMetadataResponse> {
+  ): Promise<BlobSetMetadataResponse> {
     const { span, spanOptions } = createSpan("BlobClient-setMetadata", options.spanOptions);
-    options.blobAccessConditions = options.blobAccessConditions || {};
+    options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blobContext.setMetadata({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata,
-        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -1240,14 +1256,14 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Get a LeaseClient that manages leases on the blob.
+   * Get a BlobLeaseClient that manages leases on the blob.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {LeaseClient} A new LeaseClient object for managing leases on the blob.
+   * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the blob.
    * @memberof BlobClient
    */
-  public getLeaseClient(proposeLeaseId?: string): LeaseClient {
-    return new LeaseClient(this, proposeLeaseId);
+  public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
+    return new BlobLeaseClient(this, proposeLeaseId);
   }
 
   /**
@@ -1255,21 +1271,21 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
    * @param {BlobCreateSnapshotOptions} [options] Optional options to the Blob Create Snapshot operation.
-   * @returns {Promise<Models.BlobCreateSnapshotResponse>}
+   * @returns {Promise<BlobCreateSnapshotResponse>}
    * @memberof BlobClient
    */
   public async createSnapshot(
     options: BlobCreateSnapshotOptions = {}
-  ): Promise<Models.BlobCreateSnapshotResponse> {
+  ): Promise<BlobCreateSnapshotResponse> {
     const { span, spanOptions } = createSpan("BlobClient-createSnapshot", options.spanOptions);
-    options.blobAccessConditions = options.blobAccessConditions || {};
+    options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.blobContext.createSnapshot({
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -1296,28 +1312,28 @@ export class BlobClient extends StorageClient {
    *
    * @param {string} copySource url to the ource Azure Blob/File.
    * @param {BlobStartCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
-   * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
+   * @returns {Promise<BlobStartCopyFromURLResponse>}
    * @memberof BlobClient
    */
   public async startCopyFromURL(
     copySource: string,
     options: BlobStartCopyFromURLOptions = {}
-  ): Promise<Models.BlobStartCopyFromURLResponse> {
+  ): Promise<BlobStartCopyFromURLResponse> {
     const { span, spanOptions } = createSpan("BlobClient-startCopyFromURL", options.spanOptions);
-    options.blobAccessConditions = options.blobAccessConditions || {};
-    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    options.conditions = options.conditions || {};
+    options.sourceConditions = options.sourceConditions || {};
 
     try {
       return this.blobContext.startCopyFromURL(copySource, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+          sourceIfMatch: options.sourceConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
@@ -1341,18 +1357,18 @@ export class BlobClient extends StorageClient {
    *
    * @param {string} copyId Id of the Copy From URL operation.
    * @param {BlobAbortCopyFromURLOptions} [options] Optional options to the Blob Abort Copy From URL operation.
-   * @returns {Promise<Models.BlobAbortCopyFromURLResponse>}
+   * @returns {Promise<BlobAbortCopyFromURLResponse>}
    * @memberof BlobClient
    */
   public async abortCopyFromURL(
     copyId: string,
     options: BlobAbortCopyFromURLOptions = {}
-  ): Promise<Models.BlobAbortCopyFromURLResponse> {
+  ): Promise<BlobAbortCopyFromURLResponse> {
     const { span, spanOptions } = createSpan("BlobClient-abortCopyFromURL", options.spanOptions);
     try {
       return this.blobContext.abortCopyFromURL(copyId, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -1373,28 +1389,28 @@ export class BlobClient extends StorageClient {
    *
    * @param {string} copySource The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
    * @param {BlobSyncCopyFromURLOptions} [options={}]
-   * @returns {Promise<Models.BlobCopyFromURLResponse>}
+   * @returns {Promise<BlobCopyFromURLResponse>}
    * @memberof BlobURL
    */
   public async syncCopyFromURL(
     copySource: string,
     options: BlobSyncCopyFromURLOptions = {}
-  ): Promise<Models.BlobCopyFromURLResponse> {
+  ): Promise<BlobCopyFromURLResponse> {
     const { span, spanOptions } = createSpan("BlobClient-syncCopyFromURL", options.spanOptions);
-    options.blobAccessConditions = options.blobAccessConditions || {};
-    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+    options.conditions = options.conditions || {};
+    options.sourceConditions = options.sourceConditions || {};
 
     try {
       return this.blobContext.copyFromURL(copySource, {
         abortSignal: options.abortSignal,
         metadata: options.metadata,
-        leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.blobAccessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+          sourceIfMatch: options.sourceConditions.ifMatch,
+          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         spanOptions
       });
@@ -1419,18 +1435,18 @@ export class BlobClient extends StorageClient {
    *
    * @param {BlockBlobTier | PremiumPageBlobTier | string} tier The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
    * @param {BlobSetTierOptions} [options] Optional options to the Blob Set Tier operation.
-   * @returns {Promise<Models.BlobsSetTierResponse>}
+   * @returns {Promise<BlobsSetTierResponse>}
    * @memberof BlobClient
    */
   public async setAccessTier(
     tier: BlockBlobTier | PremiumPageBlobTier | string,
     options: BlobSetTierOptions = {}
-  ): Promise<Models.BlobSetTierResponse> {
+  ): Promise<BlobSetTierResponse> {
     const { span, spanOptions } = createSpan("BlobClient-setAccessTier", options.spanOptions);
     try {
       return await this.blobContext.setTier(toAccessTier(tier)!, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         rehydratePriority: options.rehydratePriority,
         spanOptions
       });
@@ -1457,15 +1473,15 @@ export class BlobClient extends StorageClient {
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
    * @param {number} offset From which position of the block blob to download(in bytes)
    * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
-   * @param {DownloadFromBlobOptions} [options] DownloadFromBlobOptions
-   * @returns {Promise<void>}
+   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
+   * @returns {Promise<Buffer>}
    */
   public async downloadToBuffer(
     buffer: Buffer,
     offset: number,
     count?: number,
-    options: DownloadFromBlobOptions = {}
-  ): Promise<void> {
+    options: BlobDownloadToBufferOptions = {}
+  ): Promise<Buffer> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
     try {
@@ -1487,8 +1503,8 @@ export class BlobClient extends StorageClient {
         throw new RangeError("count option must be > 0");
       }
 
-      if (!options.blobAccessConditions) {
-        options.blobAccessConditions = {};
+      if (!options.conditions) {
+        options.conditions = {};
       }
 
       // Customer doesn't specify length, get it
@@ -1522,7 +1538,7 @@ export class BlobClient extends StorageClient {
           }
           const response = await this.download(off, chunkEnd - off, {
             abortSignal: options.abortSignal,
-            blobAccessConditions: options.blobAccessConditions,
+            conditions: options.conditions,
             maxRetryRequests: options.maxRetryRequestsPerBlock,
             spanOptions
           });
@@ -1532,12 +1548,13 @@ export class BlobClient extends StorageClient {
           // Could provide finer grained progress updating inside HTTP requests,
           // only if convenience layer download try is enabled
           transferProgress += chunkEnd - off;
-          if (options.progress) {
-            options.progress({ loadedBytes: transferProgress });
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
         });
       }
       await batch.do();
+      return buffer;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1560,7 +1577,7 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the block blob to download.
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
    * @param {BlobDownloadOptions} [options] Options to Blob download options.
-   * @returns {Promise<Models.BlobDownloadResponse>} The response data for blob download operation,
+   * @returns {Promise<BlobDownloadResponseModel>} The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
@@ -1571,7 +1588,7 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<Models.BlobDownloadResponse> {
+  ): Promise<BlobDownloadResponseModel> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToFile", options.spanOptions);
     try {
       const response = await this.download(offset, count, {

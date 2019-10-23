@@ -11,13 +11,25 @@ import {
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobClient, CommonOptions } from "./internal";
-import * as Models from "./generated/src/models";
+import {
+  BlobHTTPHeaders,
+  CpkInfo,
+  ModifiedAccessConditions,
+  PageBlobCreateResponse,
+  PageBlobUploadPagesResponse,
+  PageBlobUploadPagesFromURLResponse,
+  PageBlobClearPagesResponse,
+  PageBlobResizeResponse,
+  SequenceNumberActionType,
+  PageBlobUpdateSequenceNumberResponse,
+  PageBlobCopyIncrementalResponse
+} from "./generatedModels";
 import { PageBlob } from "./generated/src/operations";
 import { rangeToString } from "./Range";
 import {
-  BlobAccessConditions,
+  BlobRequestConditions,
   Metadata,
-  PageBlobAccessConditions,
+  PageBlobRequestConditions,
   ensureCpkIfSpecified,
   PremiumPageBlobTier,
   toAccessTier
@@ -32,6 +44,11 @@ import {
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import {
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  rangeResponseFromModel
+} from "./PageBlobRangeResponse";
 
 /**
  * Options to configure Page Blob - Create operation.
@@ -51,10 +68,10 @@ export interface PageBlobCreateOptions extends CommonOptions {
   /**
    * Conditions to meet when creating a page blob.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobCreateOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * A user-controlled value that can be used to track requests.
    * The value must be between 0 and 2^63 - 1. The default value is 0.
@@ -66,10 +83,10 @@ export interface PageBlobCreateOptions extends CommonOptions {
   /**
    * HTTP headers to set when creating a page blob.
    *
-   * @type {Models.BlobHTTPHeaders}
+   * @type {BlobHTTPHeaders}
    * @memberof PageBlobCreateOptions
    */
-  blobHTTPHeaders?: Models.BlobHTTPHeaders;
+  blobHTTPHeaders?: BlobHTTPHeaders;
   /**
    * A collection of key-value string pair to associate with the blob when creating append blobs.
    *
@@ -80,10 +97,10 @@ export interface PageBlobCreateOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof PageBlobCreateOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -112,16 +129,16 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
   /**
    * Conditions to meet when uploading pages.
    *
-   * @type {PageBlobAccessConditions}
+   * @type {PageBlobRequestConditions}
    * @memberof PageBlobUploadPagesOptions
    */
-  accessConditions?: PageBlobAccessConditions;
+  conditions?: PageBlobRequestConditions;
   /**
    * Callback to receive events on the progress of upload pages operation.
    *
    * @memberof PageBlobUploadPagesOptions
    */
-  progress?: (progress: TransferProgressEvent) => void;
+  onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * An MD5 hash of the content. This hash is used to verify the integrity of the content during transport.
    * When this is specified, the storage service compares the hash of the content that has arrived with this value.
@@ -145,10 +162,10 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof PageBlobUploadPagesOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -169,17 +186,17 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
   /**
    * Conditions to meet when clearing pages.
    *
-   * @type {PageBlobAccessConditions}
+   * @type {PageBlobRequestConditions}
    * @memberof PageBlobClearPagesOptions
    */
-  accessConditions?: PageBlobAccessConditions;
+  conditions?: PageBlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof PageBlobClearPagesOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -200,10 +217,10 @@ export interface PageBlobGetPageRangesOptions extends CommonOptions {
   /**
    * Conditions to meet when getting page ranges.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobGetPageRangesOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -224,10 +241,10 @@ export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
   /**
    * Conditions to meet when getting page ranges diff.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobGetPageRangesDiffOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * (unused)
    *
@@ -255,10 +272,10 @@ export interface PageBlobResizeOptions extends CommonOptions {
   /**
    * Conditions to meet when resizing a page blob.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobResizeOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -279,10 +296,10 @@ export interface PageBlobUpdateSequenceNumberOptions extends CommonOptions {
   /**
    * Conditions to meet when updating sequence number.
    *
-   * @type {BlobAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof PageBlobUpdateSequenceNumberOptions
    */
-  accessConditions?: BlobAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -303,10 +320,10 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
   /**
    * Conditions to meet when startting copy incremental operation.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof PageBlobStartCopyIncrementalOptions
    */
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
+  conditions?: ModifiedAccessConditions;
 }
 
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
@@ -321,17 +338,17 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet when updating sequence number.
    *
-   * @type {PageBlobAccessConditions}
+   * @type {PageBlobRequestConditions}
    * @memberof PageBlobUploadPagesFromURLOptions
    */
-  accessConditions?: PageBlobAccessConditions;
+  conditions?: PageBlobRequestConditions;
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {Models.ModifiedAccessConditions}
+   * @type {ModifiedAccessConditions}
    * @memberof PageBlobUploadPagesFromURLOptions
    */
-  sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
+  sourceConditions?: ModifiedAccessConditions;
   /**
    * An MD5 hash of the content from the URI.
    * This hash is used to verify the integrity of the content during transport of the data from the URI.
@@ -357,10 +374,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * Customer Provided Key Info.
    *
-   * @type {Models.CpkInfo}
+   * @type {CpkInfo}
    * @memberof PageBlobUploadPagesFromURLOptions
    */
-  customerProvidedKey?: Models.CpkInfo;
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -547,14 +564,14 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {number} size size of the page blob.
    * @param {PageBlobCreateOptions} [options] Options to the Page Blob Create operation.
-   * @returns {Promise<Models.PageBlobCreateResponse>} Response data for the Page Blob Create operation.
+   * @returns {Promise<PageBlobCreateResponse>} Response data for the Page Blob Create operation.
    * @memberof PageBlobClient
    */
   public async create(
     size: number,
     options: PageBlobCreateOptions = {}
-  ): Promise<Models.PageBlobCreateResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<PageBlobCreateResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-create", options.spanOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -562,9 +579,9 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
         blobSequenceNumber: options.blobSequenceNumber,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+        leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
         spanOptions
@@ -588,7 +605,7 @@ export class PageBlobClient extends BlobClient {
    * @param {number} offset Offset of destination page blob
    * @param {number} count Content length of the body, also number of bytes to be uploaded
    * @param {PageBlobUploadPagesOptions} [options] Options to the Page Blob Upload Pages operation.
-   * @returns {Promise<Models.PageBlobsUploadPagesResponse>} Response data for the Page Blob Upload Pages operation.
+   * @returns {Promise<PageBlobsUploadPagesResponse>} Response data for the Page Blob Upload Pages operation.
    * @memberof PageBlobClient
    */
   public async uploadPages(
@@ -596,18 +613,18 @@ export class PageBlobClient extends BlobClient {
     offset: number,
     count: number,
     options: PageBlobUploadPagesOptions = {}
-  ): Promise<Models.PageBlobUploadPagesResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<PageBlobUploadPagesResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-uploadPages", options.spanOptions);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return this.pageBlobContext.uploadPages(body, count, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
+        onUploadProgress: options.onProgress,
         range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        sequenceNumberAccessConditions: options.conditions,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -634,7 +651,7 @@ export class PageBlobClient extends BlobClient {
    * @param {number} destOffset Offset of destination page blob
    * @param {number} count Number of bytes to be uploaded from source page blob
    * @param {PageBlobUploadPagesFromURLOptions} [options={}]
-   * @returns {Promise<Models.PageBlobUploadPagesFromURLResponse>}
+   * @returns {Promise<PageBlobUploadPagesFromURLResponse>}
    * @memberof PageBlobClient
    */
   public async uploadPagesFromURL(
@@ -643,9 +660,9 @@ export class PageBlobClient extends BlobClient {
     destOffset: number,
     count: number,
     options: PageBlobUploadPagesFromURLOptions = {}
-  ): Promise<Models.PageBlobUploadPagesFromURLResponse> {
-    options.accessConditions = options.accessConditions || {};
-    options.sourceModifiedAccessConditions = options.sourceModifiedAccessConditions || {};
+  ): Promise<PageBlobUploadPagesFromURLResponse> {
+    options.conditions = options.conditions || {};
+    options.sourceConditions = options.sourceConditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-uploadPagesFromURL",
       options.spanOptions
@@ -661,14 +678,14 @@ export class PageBlobClient extends BlobClient {
           abortSignal: options.abortSignal,
           sourceContentMD5: options.sourceContentMD5,
           sourceContentCrc64: options.sourceContentCrc64,
-          leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-          sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
-          modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+          leaseAccessConditions: options.conditions,
+          sequenceNumberAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
           sourceModifiedAccessConditions: {
-            sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
-            sourceIfModifiedSince: options.sourceModifiedAccessConditions.ifModifiedSince,
-            sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceModifiedAccessConditions.ifUnmodifiedSince
+            sourceIfMatch: options.sourceConditions.ifMatch,
+            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
           },
           cpkInfo: options.customerProvidedKey,
           spanOptions
@@ -692,23 +709,23 @@ export class PageBlobClient extends BlobClient {
    * @param {number} [offset] Starting byte position of the pages to clear.
    * @param {number} [count] Number of bytes to clear.
    * @param {PageBlobClearPagesOptions} [options] Options to the Page Blob Clear Pages operation.
-   * @returns {Promise<Models.PageBlobClearPagesResponse>} Response data for the Page Blob Clear Pages operation.
+   * @returns {Promise<PageBlobClearPagesResponse>} Response data for the Page Blob Clear Pages operation.
    * @memberof PageBlobClient
    */
   public async clearPages(
     offset: number = 0,
     count?: number,
     options: PageBlobClearPagesOptions = {}
-  ): Promise<Models.PageBlobClearPagesResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<PageBlobClearPagesResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-clearPages", options.spanOptions);
     try {
       return this.pageBlobContext.clearPages(0, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions: options.accessConditions.sequenceNumberAccessConditions,
+        sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -730,24 +747,26 @@ export class PageBlobClient extends BlobClient {
    * @param {number} [offset] Starting byte position of the page ranges.
    * @param {number} [count] Number of bytes to get.
    * @param {PageBlobGetPageRangesOptions} [options] Options to the Page Blob Get Ranges operation.
-   * @returns {Promise<Models.PageBlobGetPageRangesResponse>} Response data for the Page Blob Get Ranges operation.
+   * @returns {Promise<PageBlobGetPageRangesResponse>} Response data for the Page Blob Get Ranges operation.
    * @memberof PageBlobClient
    */
   public async getPageRanges(
     offset: number = 0,
     count?: number,
     options: PageBlobGetPageRangesOptions = {}
-  ): Promise<Models.PageBlobGetPageRangesResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<PageBlobGetPageRangesResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-getPageRanges", options.spanOptions);
     try {
-      return this.pageBlobContext.getPageRanges({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        range: rangeToString({ offset, count }),
-        spanOptions
-      });
+      return this.pageBlobContext
+        .getPageRanges({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+          range: rangeToString({ offset, count }),
+          spanOptions
+        })
+        .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -767,7 +786,7 @@ export class PageBlobClient extends BlobClient {
    * @param {number} count Number of bytes to get ranges diff.
    * @param {string} prevSnapshot Timestamp of snapshot to retrive the difference.
    * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
-   * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
+   * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
    */
   public async getPageRangesDiff(
@@ -775,21 +794,23 @@ export class PageBlobClient extends BlobClient {
     count: number,
     prevSnapshot: string,
     options: PageBlobGetPageRangesDiffOptions = {}
-  ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<PageBlobGetPageRangesDiffResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-getPageRangesDiff",
       options.spanOptions
     );
     try {
-      return this.pageBlobContext.getPageRangesDiff({
-        abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
-        prevsnapshot: prevSnapshot,
-        range: rangeToString({ offset, count }),
-        spanOptions
-      });
+      return this.pageBlobContext
+        .getPageRangesDiff({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+          prevsnapshot: prevSnapshot,
+          range: rangeToString({ offset, count }),
+          spanOptions
+        })
+        .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -807,20 +828,20 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {number} size Target size
    * @param {PageBlobResizeOptions} [options] Options to the Page Blob Resize operation.
-   * @returns {Promise<Models.PageBlobResizeResponse>} Response data for the Page Blob Resize operation.
+   * @returns {Promise<PageBlobResizeResponse>} Response data for the Page Blob Resize operation.
    * @memberof PageBlobClient
    */
   public async resize(
     size: number,
     options: PageBlobResizeOptions = {}
-  ): Promise<Models.PageBlobResizeResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<PageBlobResizeResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("PageBlobClient-resize", options.spanOptions);
     try {
       return this.pageBlobContext.resize(size, {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -838,18 +859,18 @@ export class PageBlobClient extends BlobClient {
    * Sets a page blob's sequence number.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {Models.SequenceNumberActionType} sequenceNumberAction Indicates how the service should modify the blob's sequence number.
+   * @param {SequenceNumberActionType} sequenceNumberAction Indicates how the service should modify the blob's sequence number.
    * @param {number} [sequenceNumber] Required if sequenceNumberAction is max or update
    * @param {PageBlobUpdateSequenceNumberOptions} [options] Options to the Page Blob Update Sequence Number operation.
-   * @returns {Promise<Models.PageBlobUpdateSequenceNumberResponse>} Response data for the Page Blob Update Sequence Number operation.
+   * @returns {Promise<PageBlobUpdateSequenceNumberResponse>} Response data for the Page Blob Update Sequence Number operation.
    * @memberof PageBlobClient
    */
   public async updateSequenceNumber(
-    sequenceNumberAction: Models.SequenceNumberActionType,
+    sequenceNumberAction: SequenceNumberActionType,
     sequenceNumber?: number,
     options: PageBlobUpdateSequenceNumberOptions = {}
-  ): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
-    options.accessConditions = options.accessConditions || {};
+  ): Promise<PageBlobUpdateSequenceNumberResponse> {
+    options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan(
       "PageBlobClient-updateSequenceNumber",
       options.spanOptions
@@ -858,8 +879,8 @@ export class PageBlobClient extends BlobClient {
       return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
         abortSignal: options.abortSignal,
         blobSequenceNumber: sequenceNumber,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions: options.accessConditions.modifiedAccessConditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {
@@ -884,13 +905,13 @@ export class PageBlobClient extends BlobClient {
    * @param {string} copySource Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param {PageBlobStartCopyIncrementalOptions} [options] Options to the Page Blob Copy Incremental operation.
-   * @returns {Promise<Models.PageBlobCopyIncrementalResponse>} Response data for the Page Blob Copy Incremental operation.
+   * @returns {Promise<PageBlobCopyIncrementalResponse>} Response data for the Page Blob Copy Incremental operation.
    * @memberof PageBlobClient
    */
   public async startCopyIncremental(
     copySource: string,
     options: PageBlobStartCopyIncrementalOptions = {}
-  ): Promise<Models.PageBlobCopyIncrementalResponse> {
+  ): Promise<PageBlobCopyIncrementalResponse> {
     const { span, spanOptions } = createSpan(
       "PageBlobClient-startCopyIncremental",
       options.spanOptions
@@ -898,7 +919,7 @@ export class PageBlobClient extends BlobClient {
     try {
       return this.pageBlobContext.copyIncremental(copySource, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.modifiedAccessConditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
     } catch (e) {

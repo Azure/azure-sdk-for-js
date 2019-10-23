@@ -1007,19 +1007,26 @@ export interface DiagnosticSettingsResource extends ProxyOnlyResource {
    */
   eventHubName?: string;
   /**
-   * the list of metric settings.
+   * The list of metric settings.
    */
   metrics?: MetricSettings[];
   /**
-   * the list of logs settings.
+   * The list of logs settings.
    */
   logs?: LogSettings[];
   /**
-   * The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to
-   * which you would like to send Diagnostic Logs. Example:
+   * The full ARM resource ID of the Log Analytics workspace to which you would like to send
+   * Diagnostic Logs. Example:
    * /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2
    */
   workspaceId?: string;
+  /**
+   * A string indicating whether the export to Log Analytics should use the default destination
+   * type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized
+   * service identity>_<normalized category name>. Possible values are: Dedicated and null (null is
+   * default.)
+   */
+  logAnalyticsDestinationType?: string;
 }
 
 /**
@@ -1118,6 +1125,22 @@ export interface WebhookReceiver {
    * Indicates whether to use common alert schema.
    */
   useCommonAlertSchema: boolean;
+  /**
+   * Indicates whether or not use AAD authentication. Default value: false.
+   */
+  useAadAuth?: boolean;
+  /**
+   * Indicates the webhook app object Id for aad auth.
+   */
+  objectId?: string;
+  /**
+   * Indicates the identifier uri for aad auth.
+   */
+  identifierUri?: string;
+  /**
+   * Indicates the tenant id for aad auth.
+   */
+  tenantId?: string;
 }
 
 /**
@@ -1703,7 +1726,8 @@ export interface MetricDefinition {
   name?: LocalizableString;
   /**
    * the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds',
-   * 'CountPerSecond', 'BytesPerSecond', 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified'
+   * 'CountPerSecond', 'BytesPerSecond', 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified',
+   * 'Cores', 'MilliCores', 'NanoCores', 'BitsPerSecond'
    */
   unit?: Unit;
   /**
@@ -1807,7 +1831,8 @@ export interface Metric {
   name: LocalizableString;
   /**
    * the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds',
-   * 'CountPerSecond', 'BytesPerSecond', 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified'
+   * 'CountPerSecond', 'BytesPerSecond', 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified',
+   * 'Cores', 'MilliCores', 'NanoCores', 'BitsPerSecond'
    */
   unit: Unit;
   /**
@@ -1965,6 +1990,116 @@ export interface CalculateBaselineResponse {
    * the baseline values for each sensitivity.
    */
   baseline: Baseline[];
+}
+
+/**
+ * The metric dimension name and value.
+ */
+export interface MetricSingleDimension {
+  /**
+   * Name of the dimension.
+   */
+  name: string;
+  /**
+   * Value of the dimension.
+   */
+  value: string;
+}
+
+/**
+ * The baseline values for a single sensitivity value.
+ */
+export interface SingleBaseline {
+  /**
+   * the sensitivity of the baseline. Possible values include: 'Low', 'Medium', 'High'
+   */
+  sensitivity: BaselineSensitivity;
+  /**
+   * The low thresholds of the baseline.
+   */
+  lowThresholds: number[];
+  /**
+   * The high thresholds of the baseline.
+   */
+  highThresholds: number[];
+}
+
+/**
+ * Represents a baseline metadata value.
+ */
+export interface BaselineMetadata {
+  /**
+   * Name of the baseline metadata.
+   */
+  name: string;
+  /**
+   * Value of the baseline metadata.
+   */
+  value: string;
+}
+
+/**
+ * The baseline values for a single time series.
+ */
+export interface TimeSeriesBaseline {
+  /**
+   * The aggregation type of the metric.
+   */
+  aggregation: string;
+  /**
+   * The dimensions of this time series.
+   */
+  dimensions?: MetricSingleDimension[];
+  /**
+   * The list of timestamps of the baselines.
+   */
+  timestamps: Date[] | string[];
+  /**
+   * The baseline values for each sensitivity.
+   */
+  data: SingleBaseline[];
+  /**
+   * The baseline metadata values.
+   */
+  metadata?: BaselineMetadata[];
+}
+
+/**
+ * The baseline results of a single metric.
+ */
+export interface SingleMetricBaseline {
+  /**
+   * The metric baseline Id.
+   */
+  id: string;
+  /**
+   * The resource type of the metric baseline resource.
+   */
+  type: string;
+  /**
+   * The name of the metric for which the baselines were retrieved.
+   */
+  name: string;
+  /**
+   * The timespan for which the data was retrieved. Its value consists of two datetimes
+   * concatenated, separated by '/'.  This may be adjusted in the future and returned back from
+   * what was originally requested.
+   */
+  timespan: string;
+  /**
+   * The interval (window size) for which the metric data was returned in.  This may be adjusted in
+   * the future and returned back from what was originally requested.  This is not present if a
+   * metadata request was made.
+   */
+  interval: string;
+  /**
+   * The namespace of the metrics been queried.
+   */
+  namespace?: string;
+  /**
+   * The baseline for each time series that was queried.
+   */
+  baselines: TimeSeriesBaseline[];
 }
 
 /**
@@ -2173,36 +2308,38 @@ export interface MetricAlertStatusCollection {
 }
 
 /**
- * Specifies a metric dimension.
- */
-export interface MetricDimension {
-  /**
-   * Name of the dimension.
-   */
-  name: string;
-  /**
-   * the dimension operator. Only 'Include' and 'Exclude' are supported
-   */
-  operator: string;
-  /**
-   * list of dimension values.
-   */
-  values: string[];
-}
-
-/**
  * Contains the possible cases for MultiMetricCriteria.
  */
-export type MultiMetricCriteriaUnion = MultiMetricCriteria | MetricCriteria;
+export type MultiMetricCriteriaUnion = MultiMetricCriteria | MetricCriteria | DynamicMetricCriteria;
 
 /**
- * The types of conditions for a multi resource alert
+ * The types of conditions for a multi resource alert.
  */
 export interface MultiMetricCriteria {
   /**
    * Polymorphic Discriminator
    */
   criterionType: "MultiMetricCriteria";
+  /**
+   * Name of the criteria.
+   */
+  name: string;
+  /**
+   * Name of the metric.
+   */
+  metricName: string;
+  /**
+   * Namespace of the metric.
+   */
+  metricNamespace?: string;
+  /**
+   * the criteria time aggregation types.
+   */
+  timeAggregation: any;
+  /**
+   * List of dimension conditions.
+   */
+  dimensions?: MetricDimension[];
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -2230,21 +2367,21 @@ export interface MetricCriteria {
    */
   metricNamespace?: string;
   /**
-   * the criteria operator.
-   */
-  operator: any;
-  /**
    * the criteria time aggregation types.
    */
   timeAggregation: any;
   /**
-   * the criteria threshold value that activates the alert.
-   */
-  threshold: number;
-  /**
    * List of dimension conditions.
    */
   dimensions?: MetricDimension[];
+  /**
+   * the criteria operator.
+   */
+  operator: any;
+  /**
+   * the criteria threshold value that activates the alert.
+   */
+  threshold: number;
 }
 
 /**
@@ -2262,6 +2399,24 @@ export interface MetricAlertSingleResourceMultipleMetricCriteria {
 }
 
 /**
+ * Specifies a metric dimension.
+ */
+export interface MetricDimension {
+  /**
+   * Name of the dimension.
+   */
+  name: string;
+  /**
+   * the dimension operator. Only 'Include' and 'Exclude' are supported
+   */
+  operator: string;
+  /**
+   * list of dimension values.
+   */
+  values: string[];
+}
+
+/**
  * Specifies the metric alert criteria for multiple resource that has multiple metric criteria.
  */
 export interface MetricAlertMultipleResourceMultipleMetricCriteria {
@@ -2273,6 +2428,72 @@ export interface MetricAlertMultipleResourceMultipleMetricCriteria {
    * the list of multiple metric criteria for this 'all of' operation.
    */
   allOf?: MultiMetricCriteriaUnion[];
+}
+
+/**
+ * The minimum number of violations required within the selected lookback time window required to
+ * raise an alert.
+ */
+export interface DynamicThresholdFailingPeriods {
+  /**
+   * The number of aggregated lookback points. The lookback time window is calculated based on the
+   * aggregation granularity (windowSize) and the selected number of aggregated points.
+   */
+  numberOfEvaluationPeriods: number;
+  /**
+   * The number of violations to trigger an alert. Should be smaller or equal to
+   * numberOfEvaluationPeriods.
+   */
+  minFailingPeriodsToAlert: number;
+}
+
+/**
+ * Criterion for dynamic threshold.
+ */
+export interface DynamicMetricCriteria {
+  /**
+   * Polymorphic Discriminator
+   */
+  criterionType: "DynamicThresholdCriterion";
+  /**
+   * Name of the criteria.
+   */
+  name: string;
+  /**
+   * Name of the metric.
+   */
+  metricName: string;
+  /**
+   * Namespace of the metric.
+   */
+  metricNamespace?: string;
+  /**
+   * the criteria time aggregation types.
+   */
+  timeAggregation: any;
+  /**
+   * List of dimension conditions.
+   */
+  dimensions?: MetricDimension[];
+  /**
+   * The operator used to compare the metric value against the threshold.
+   */
+  operator: any;
+  /**
+   * The extent of deviation required to trigger an alert. This will affect how tight the threshold
+   * is to the metric series pattern.
+   */
+  alertSensitivity: any;
+  /**
+   * The minimum number of violations required within the selected lookback time window required to
+   * raise an alert.
+   */
+  failingPeriods: DynamicThresholdFailingPeriods;
+  /**
+   * Use this option to set the date from which to start learning the metric historical data and
+   * calculate the dynamic thresholds (in ISO8601 format)
+   */
+  ignoreDataBefore?: Date;
 }
 
 /**
@@ -2504,9 +2725,9 @@ export interface LogToMetricAction {
    */
   odatatype: "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction";
   /**
-   * Severity of the alert
+   * Criteria of Metric
    */
-  criteria: Criteria;
+  criteria: Criteria[];
 }
 
 /**
@@ -2646,22 +2867,6 @@ export interface VMInsightsOnboardingStatus extends ProxyResource {
  */
 export interface ActivityLogsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Reduces the set of data collected.<br>The **$filter** argument is very restricted and allows
-   * only the following patterns.<br>- *List events for a resource group*: $filter=eventTimestamp
-   * ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le '2014-07-20T04:36:37.6407898Z' and
-   * resourceGroupName eq 'resourceGroupName'.<br>- *List events for resource*:
-   * $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le
-   * '2014-07-20T04:36:37.6407898Z' and resourceUri eq 'resourceURI'.<br>- *List events for a
-   * subscription in a time range*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
-   * eventTimestamp le '2014-07-20T04:36:37.6407898Z'.<br>- *List events for a resource provider*:
-   * $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and eventTimestamp le
-   * '2014-07-20T04:36:37.6407898Z' and resourceProvider eq 'resourceProviderName'.<br>- *List
-   * events for a correlation Id*: $filter=eventTimestamp ge '2014-07-16T04:36:37.6407898Z' and
-   * eventTimestamp le '2014-07-20T04:36:37.6407898Z' and correlationId eq
-   * 'correlationID'.<br><br>**NOTE**: No other syntax is allowed.
-   */
-  filter?: string;
-  /**
    * Used to fetch events with only the given properties.<br>The **$select** argument is a comma
    * separated list of property names to be returned. Possible values are: *authorization*,
    * *claims*, *correlationId*, *description*, *eventDataId*, *eventName*, *eventTimestamp*,
@@ -2799,6 +3004,53 @@ export interface MetricBaselineGetOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
+export interface BaselinesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The names of the metrics (comma separated) to retrieve.
+   */
+  metricnames?: string;
+  /**
+   * Metric namespace to query metric definitions for.
+   */
+  metricnamespace?: string;
+  /**
+   * The timespan of the query. It is a string with the following format
+   * 'startDateTime_ISO/endDateTime_ISO'.
+   */
+  timespan?: string;
+  /**
+   * The interval (i.e. timegrain) of the query.
+   */
+  interval?: string;
+  /**
+   * The list of aggregation types (comma separated) to retrieve.
+   */
+  aggregation?: string;
+  /**
+   * The list of sensitivities (comma separated) to retrieve.
+   */
+  sensitivities?: string;
+  /**
+   * The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric
+   * contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or
+   * b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid
+   * variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid
+   * because the logical or operator cannot separate two different metadata names.<br>- Return all
+   * time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq
+   * ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq
+   * ‘*’**.
+   */
+  filter?: string;
+  /**
+   * Allows retrieving only metadata of the baseline. On data request all information is retrieved.
+   * Possible values include: 'Data', 'Metadata'
+   */
+  resultType?: ResultType;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ScheduledQueryRulesListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation. For more information please see
@@ -2926,6 +3178,14 @@ export interface MetricDefinitionCollection extends Array<MetricDefinition> {
 
 /**
  * @interface
+ * A list of metric baselines.
+ * @extends Array<SingleMetricBaseline>
+ */
+export interface MetricBaselinesResponse extends Array<SingleMetricBaseline> {
+}
+
+/**
+ * @interface
  * Represents a collection of alert rule resources.
  * @extends Array<MetricAlertResource>
  */
@@ -3040,11 +3300,12 @@ export type EventLevel = 'Critical' | 'Error' | 'Warning' | 'Informational' | 'V
 /**
  * Defines values for Unit.
  * Possible values include: 'Count', 'Bytes', 'Seconds', 'CountPerSecond', 'BytesPerSecond',
- * 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified'
+ * 'Percent', 'MilliSeconds', 'ByteSeconds', 'Unspecified', 'Cores', 'MilliCores', 'NanoCores',
+ * 'BitsPerSecond'
  * @readonly
  * @enum {string}
  */
-export type Unit = 'Count' | 'Bytes' | 'Seconds' | 'CountPerSecond' | 'BytesPerSecond' | 'Percent' | 'MilliSeconds' | 'ByteSeconds' | 'Unspecified';
+export type Unit = 'Count' | 'Bytes' | 'Seconds' | 'CountPerSecond' | 'BytesPerSecond' | 'Percent' | 'MilliSeconds' | 'ByteSeconds' | 'Unspecified' | 'Cores' | 'MilliCores' | 'NanoCores' | 'BitsPerSecond';
 
 /**
  * Defines values for AggregationType.
@@ -3061,6 +3322,14 @@ export type AggregationType = 'None' | 'Average' | 'Count' | 'Minimum' | 'Maximu
  * @enum {string}
  */
 export type Sensitivity = 'Low' | 'Medium' | 'High';
+
+/**
+ * Defines values for BaselineSensitivity.
+ * Possible values include: 'Low', 'Medium', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type BaselineSensitivity = 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for Enabled.
@@ -3991,6 +4260,26 @@ export type MetricBaselineCalculateBaselineResponse = CalculateBaselineResponse 
        * The response body as parsed JSON or XML
        */
       parsedBody: CalculateBaselineResponse;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type BaselinesListResponse = MetricBaselinesResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MetricBaselinesResponse;
     };
 };
 

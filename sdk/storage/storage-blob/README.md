@@ -4,13 +4,13 @@ Azure Blob storage is Microsoft's object storage solution for the cloud. Blob st
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Blob Storage service.
 
-Version: 12.0.0-preview.4
+Version: 12.0.0-preview.5
 
-- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.4)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
 - [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-blob/index.html)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview)
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
 - [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api)
 
 ## Key concepts
@@ -45,6 +45,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.repeat`
 - `String.prototype.includes`
 - `Array.prototype.includes`
+- `Object.assign`
 - `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 
@@ -77,7 +78,7 @@ There are differences between Node.js and browsers runtime. When getting started
 The preferred way to install the Azure Blob Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-blob@12.0.0-preview.4
+npm install @azure/storage-blob@12.0.0-preview.5
 ```
 
 In your TypeScript or JavaScript file, import via following:
@@ -123,9 +124,9 @@ For example, you can create following CORS settings for debugging. But please cu
 ## Examples
 
 Samples can be found at
-[Javascript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/javascript)
+[Javascript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/javascript)
 and
-[Typescript samples](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript)
+[Typescript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript)
 
 Below are the snippets to get started with the Azure Storage blob client library.
 
@@ -170,7 +171,9 @@ Use the constructor to create a instance of `BlobServiceClient`.
     defaultAzureCredential
   );
   ```
+
   [Note - Above steps are only for Node.js]
+
 - Alternatively, you instantiate a `BlobServiceClient` with a `SharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
@@ -238,7 +241,7 @@ for await (const response of blobServiceClient.listContainers().byPage({ maxPage
 }
 ```
 
-For a complete sample on iterating containers please see [samples/iterators-containers.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/iterators-containers.ts).
+For a complete sample on iterating containers please see [samples/iterators-containers.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/iterators-containers.ts).
 
 ### Create a blob by uploading data to
 
@@ -263,7 +266,7 @@ for await (const blob of iter) {
 }
 ```
 
-For a complete sample on iterating blobs please see [samples/iterators-blobs.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/iterators-blobs.ts).
+For a complete sample on iterating blobs please see [samples/iterators-blobs.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/iterators-blobs.ts).
 
 ### Download a blob and convert it to a string (Node.js)
 
@@ -272,10 +275,7 @@ For a complete sample on iterating blobs please see [samples/iterators-blobs.ts]
 // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
 const downloadBlockBlobResponse = await blobClient.download();
 const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
-console.log(
-  "Downloaded blob content:",
-  downloaded
-);
+console.log("Downloaded blob content:", downloaded);
 
 // [Node.js only] A helper method used to read a Node.js readable stream into string
 async function streamToString(readableStream) {
@@ -317,7 +317,7 @@ export async function blobToString(blob: Blob): Promise<string> {
 }
 ```
 
-A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/basic.ts).
+A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/basic.ts).
 
 ## Troubleshooting
 
@@ -359,14 +359,14 @@ const blobServiceClient = new BlobServiceClient(
 
 ## Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-blob/samples/typescript/azureAdAuth.ts).
+If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/azureAdAuth.ts).
 
 ## Next steps
 
 More code examples
 
-- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples)
-- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/test/)
+- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
+- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/)
 
 ## Contributing
 

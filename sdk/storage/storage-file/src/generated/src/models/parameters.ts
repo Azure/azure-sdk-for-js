@@ -236,7 +236,7 @@ export const fileAttributes: coreHttp.OperationParameter = {
 export const fileCacheControl: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "fileHTTPHeaders",
+    "fileHttpHeaders",
     "fileCacheControl"
   ],
   mapper: {
@@ -249,7 +249,7 @@ export const fileCacheControl: coreHttp.OperationParameter = {
 export const fileContentDisposition: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "fileHTTPHeaders",
+    "fileHttpHeaders",
     "fileContentDisposition"
   ],
   mapper: {
@@ -262,7 +262,7 @@ export const fileContentDisposition: coreHttp.OperationParameter = {
 export const fileContentEncoding: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "fileHTTPHeaders",
+    "fileHttpHeaders",
     "fileContentEncoding"
   ],
   mapper: {
@@ -275,7 +275,7 @@ export const fileContentEncoding: coreHttp.OperationParameter = {
 export const fileContentLanguage: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "fileHTTPHeaders",
+    "fileHttpHeaders",
     "fileContentLanguage"
   ],
   mapper: {
@@ -310,7 +310,7 @@ export const fileContentLength1: coreHttp.OperationParameter = {
 export const fileContentMD5: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "fileHTTPHeaders",
+    "fileHttpHeaders",
     "fileContentMD5"
   ],
   mapper: {
@@ -323,7 +323,7 @@ export const fileContentMD5: coreHttp.OperationParameter = {
 export const fileContentType: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "fileHTTPHeaders",
+    "fileHttpHeaders",
     "fileContentType"
   ],
   mapper: {

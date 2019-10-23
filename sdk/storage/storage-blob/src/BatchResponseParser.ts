@@ -1,6 +1,6 @@
 import { HttpHeaders } from "@azure/core-http";
 
-import * as Models from "./generated/src/models";
+import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import {
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
@@ -8,7 +8,7 @@ import {
   HTTPURLConnection
 } from "./utils/constants";
 import { getBodyAsText } from "./BatchUtils";
-import { BatchSubRequest } from "./BatchRequest";
+import { BatchSubRequest } from "./BlobBatch";
 import { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
 
 const HTTP_HEADER_DELIMITER = ": ";
@@ -19,14 +19,14 @@ const NOT_FOUND = -1;
  * Util class for parsing batch response.
  */
 export class BatchResponseParser {
-  private readonly batchResponse: Models.ServiceSubmitBatchResponse;
+  private readonly batchResponse: ServiceSubmitBatchResponseModel;
   private readonly responseBatchBoundary: string;
   private readonly perResponsePrefix: string;
   private readonly batchResponseEnding: string;
   private readonly subRequests: Map<number, BatchSubRequest>;
 
   constructor(
-    batchResponse: Models.ServiceSubmitBatchResponse,
+    batchResponse: ServiceSubmitBatchResponseModel,
     subRequests: Map<number, BatchSubRequest>
   ) {
     if (!batchResponse || !batchResponse.contentType) {

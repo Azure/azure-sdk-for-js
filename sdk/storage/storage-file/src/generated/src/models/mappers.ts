@@ -753,11 +753,11 @@ export const FileServiceProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileHTTPHeaders: coreHttp.CompositeMapper = {
-  xmlName: "file-HTTP-headers",
+export const FileHttpHeaders: coreHttp.CompositeMapper = {
+  xmlName: "fileHttpHeaders",
   type: {
     name: "Composite",
-    className: "FileHTTPHeaders",
+    className: "FileHttpHeaders",
     modelProperties: {
       fileContentType: {
         xmlName: "fileContentType",
@@ -911,7 +911,7 @@ export const ShareCreateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ShareCreateHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -969,7 +969,7 @@ export const ShareGetPropertiesHeaders: coreHttp.CompositeMapper = {
         },
         headerCollectionPrefix: "x-ms-meta-"
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1061,7 +1061,7 @@ export const ShareCreateSnapshotHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1181,7 +1181,7 @@ export const ShareSetQuotaHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ShareSetQuotaHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1227,7 +1227,7 @@ export const ShareSetMetadataHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ShareSetMetadataHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1273,7 +1273,7 @@ export const ShareGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ShareGetAccessPolicyHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1319,7 +1319,7 @@ export const ShareSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ShareSetAccessPolicyHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1365,7 +1365,7 @@ export const ShareGetStatisticsHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ShareGetStatisticsHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1411,7 +1411,7 @@ export const DirectoryCreateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DirectoryCreateHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1517,7 +1517,7 @@ export const DirectoryGetPropertiesHeaders: coreHttp.CompositeMapper = {
         },
         headerCollectionPrefix: "x-ms-meta-"
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1645,7 +1645,7 @@ export const DirectorySetPropertiesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DirectorySetPropertiesHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1739,7 +1739,7 @@ export const DirectorySetMetadataHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DirectorySetMetadataHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1911,7 +1911,7 @@ export const FileCreateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "FileCreateHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2041,7 +2041,7 @@ export const FileDownloadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2249,7 +2249,7 @@ export const FileGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2443,7 +2443,7 @@ export const FileSetHTTPHeadersHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "FileSetHTTPHeadersHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2537,7 +2537,7 @@ export const FileSetMetadataHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "FileSetMetadataHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2583,7 +2583,7 @@ export const FileUploadRangeHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "FileUploadRangeHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2641,7 +2641,7 @@ export const FileUploadRangeFromURLHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "FileUploadRangeFromURLHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2705,7 +2705,7 @@ export const FileGetRangeListHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -2751,7 +2751,7 @@ export const FileStartCopyHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "FileStartCopyHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"

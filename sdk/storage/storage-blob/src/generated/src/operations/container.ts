@@ -431,7 +431,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerCreateHeaders
     }
   },
   isXML: true,
@@ -458,7 +459,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -487,7 +489,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerDeleteHeaders
     }
   },
   isXML: true,
@@ -517,7 +520,8 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerSetMetadataHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerSetMetadataHeaders
     }
   },
   isXML: true,
@@ -558,7 +562,8 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerGetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerGetAccessPolicyHeaders
     }
   },
   isXML: true,
@@ -610,7 +615,8 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerSetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerSetAccessPolicyHeaders
     }
   },
   isXML: true,
@@ -642,7 +648,8 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerAcquireLeaseHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerAcquireLeaseHeaders
     }
   },
   isXML: true,
@@ -673,7 +680,8 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerReleaseLeaseHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerReleaseLeaseHeaders
     }
   },
   isXML: true,
@@ -704,7 +712,8 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerRenewLeaseHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerRenewLeaseHeaders
     }
   },
   isXML: true,
@@ -735,7 +744,8 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerBreakLeaseHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerBreakLeaseHeaders
     }
   },
   isXML: true,
@@ -767,7 +777,8 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerChangeLeaseHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerChangeLeaseHeaders
     }
   },
   isXML: true,
@@ -783,7 +794,7 @@ const listBlobFlatSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker0,
-    Parameters.maxResults,
+    Parameters.maxPageSize,
     Parameters.include1,
     Parameters.timeoutInSeconds,
     Parameters.restype2,
@@ -799,7 +810,8 @@ const listBlobFlatSegmentOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerListBlobFlatSegmentHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerListBlobFlatSegmentHeaders
     }
   },
   isXML: true,
@@ -816,7 +828,7 @@ const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.prefix,
     Parameters.delimiter,
     Parameters.marker0,
-    Parameters.maxResults,
+    Parameters.maxPageSize,
     Parameters.include1,
     Parameters.timeoutInSeconds,
     Parameters.restype2,
@@ -832,7 +844,8 @@ const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerListBlobHierarchySegmentHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerListBlobHierarchySegmentHeaders
     }
   },
   isXML: true,
@@ -857,7 +870,8 @@ const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ContainerGetAccountInfoHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerGetAccountInfoHeaders
     }
   },
   isXML: true,

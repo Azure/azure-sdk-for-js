@@ -142,8 +142,8 @@ const dequeueOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.numberOfMessages,
-    Parameters.visibilitytimeout0,
-    Parameters.timeout
+    Parameters.visibilityTimeout0,
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -167,7 +167,8 @@ const dequeueOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.MessagesDequeueHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesDequeueHeaders
     }
   },
   isXML: true,
@@ -181,7 +182,7 @@ const clearOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -192,7 +193,8 @@ const clearOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.MessagesClearHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesClearHeaders
     }
   },
   isXML: true,
@@ -206,9 +208,9 @@ const enqueueOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.visibilitytimeout0,
+    Parameters.visibilityTimeout0,
     Parameters.messageTimeToLive,
-    Parameters.timeout
+    Parameters.timeoutInSeconds
   ],
   headerParameters: [
     Parameters.version,
@@ -240,7 +242,8 @@ const enqueueOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.MessagesEnqueueHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesEnqueueHeaders
     }
   },
   isXML: true,
@@ -255,7 +258,7 @@ const peekOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.numberOfMessages,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.peekonly
   ],
   headerParameters: [
@@ -280,7 +283,8 @@ const peekOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.MessagesPeekHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.MessagesPeekHeaders
     }
   },
   isXML: true,

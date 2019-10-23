@@ -37,16 +37,16 @@ describe("MessagesClient Node.js only", () => {
 
     let eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
-      visibilitytimeout: 0
+      visibilityTimeout: 0
     });
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
     assert.ok(eResult.clientRequestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
 
     let pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
@@ -58,25 +58,25 @@ describe("MessagesClient Node.js only", () => {
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageText, messageContent);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].dequeueCount, 0);
     assert.deepStrictEqual(pResult.peekedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertionTime, eResult.insertionTime);
-    assert.deepStrictEqual(pResult.peekedMessageItems[0].expirationTime, eResult.expirationTime);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(pResult.peekedMessageItems[0].expiresOn, eResult.expiresOn);
 
     let dResult = await queueClient.receiveMessages({
-      visibilitytimeout: 10,
+      visibilityTimeout: 10,
       numberOfMessages: 2
     });
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
     assert.ok(eResult.clientRequestId);
     assert.ok(dResult.version);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems.length, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageText, messageContent);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].dequeueCount, 1);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].messageId, eResult.messageId);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].insertionTime, eResult.insertionTime);
-    assert.deepStrictEqual(dResult.dequeuedMessageItems[0].expirationTime, eResult.expirationTime);
-    assert.ok(dResult.dequeuedMessageItems[0].popReceipt);
-    assert.ok(dResult.dequeuedMessageItems[0].timeNextVisible);
+    assert.deepStrictEqual(dResult.receivedMessageItems.length, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageText, messageContent);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].dequeueCount, 1);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].messageId, eResult.messageId);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].insertedOn, eResult.insertedOn);
+    assert.deepStrictEqual(dResult.receivedMessageItems[0].expiresOn, eResult.expiresOn);
+    assert.ok(dResult.receivedMessageItems[0].popReceipt);
+    assert.ok(dResult.receivedMessageItems[0].nextVisibleOn);
   });
 
   it("enqueue negative with 65537B(64KB+1B) characters including special char which is computed after encoding", async () => {
@@ -108,12 +108,12 @@ describe("MessagesClient Node.js only", () => {
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
   });
 
@@ -128,12 +128,12 @@ describe("MessagesClient Node.js only", () => {
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
   });
 
@@ -145,12 +145,12 @@ describe("MessagesClient Node.js only", () => {
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
     assert.ok(eResult.requestId);
-    assert.ok(eResult.timeNextVisible);
+    assert.ok(eResult.nextVisibleOn);
     assert.ok(eResult.version);
   });
 
@@ -159,8 +159,8 @@ describe("MessagesClient Node.js only", () => {
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
   });
@@ -174,8 +174,8 @@ describe("MessagesClient Node.js only", () => {
 
     const eResult = await newClient.sendMessage(messageContent);
     assert.ok(eResult.date);
-    assert.ok(eResult.expirationTime);
-    assert.ok(eResult.insertionTime);
+    assert.ok(eResult.expiresOn);
+    assert.ok(eResult.insertedOn);
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
   });

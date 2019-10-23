@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.0.0-preview.4";
+export const SDK_VERSION: string = "12.0.0-preview.5";
 export const SERVICE_VERSION: string = "2019-02-02";
 
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
@@ -14,7 +14,7 @@ export const URLConstants = {
   }
 };
 
-export const HTTPURLConnection = {
+export const HttpUrlConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,

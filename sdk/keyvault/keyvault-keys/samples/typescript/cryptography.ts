@@ -1,6 +1,6 @@
 import { KeyClient, CryptographyClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as crypto from "crypto";
+import { createHash } from "crypto";
 
 async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
@@ -20,11 +20,11 @@ async function main(): Promise<void> {
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");
 
-  const cryptoClient = new CryptographyClient(url, myWorkKey.keyMaterial!.kid!, credential);
+  const cryptoClient = new CryptographyClient(url, myWorkKey.key!.kid!, credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";
-  let hash = crypto.createHash("sha256");
+  let hash = createHash("sha256");
 
   hash.update(signatureValue);
   let digest = hash.digest();
@@ -50,7 +50,7 @@ async function main(): Promise<void> {
   const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 
-  await client.deleteKey(keyName);
+  await client.beginDeleteKey(keyName)
 }
 main().catch((err) => {
   console.log("error code: ", err.code);

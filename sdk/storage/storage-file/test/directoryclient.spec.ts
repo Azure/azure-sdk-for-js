@@ -3,10 +3,7 @@ import { getBSU } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, DirectoryClient, FileSystemAttributes } from "../src";
 import { record } from "./utils/recorder";
-import {
-  DirectoryForceCloseHandlesResponse,
-  DirectoryCreateResponse
-} from "../src/generated/src/models";
+import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 dotenv.config({ path: "../.env" });
@@ -72,7 +69,7 @@ describe("DirectoryClient", () => {
 
   it("getProperties", async () => {
     const result = await dirClient.getProperties();
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -599,6 +596,11 @@ describe("DirectoryClient", () => {
       );
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
+      assert.equal(
+        error.details.errorCode,
+        "ResourceNotFound",
+        "Error does not contain details property"
+      );
     }
     await subDirClient.delete({ spanOptions });
 
@@ -710,20 +712,10 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("forceCloseHandlesSegment should work", async () => {
-    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
+  it("forceCloseAllHandles should work", async () => {
+    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles - Has to be tested locally
 
-    let marker: string | undefined = "";
-
-    do {
-      const response: DirectoryForceCloseHandlesResponse = await dirClient.forceCloseHandlesSegment(
-        marker,
-        {
-          recursive: true
-        }
-      );
-      marker = response.marker;
-    } while (marker);
+    assert.equal(await dirClient.forceCloseAllHandles(), 0, "Error in forceCloseAllHandles");
   });
 
   it("forceCloseHandle should work", async () => {
@@ -745,7 +737,7 @@ describe("DirectoryClient", () => {
       `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName
     );
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
-    assert.equal(newClient.dirPath, dirName, "DirPath is not the same as the one provided.");
+    assert.equal(newClient.path, dirName, "DirPath is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,

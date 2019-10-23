@@ -17,7 +17,7 @@ describe("AuthorizationCodeCredential", function() {
       "secret",
       "authCode",
       redirectUri,
-      mockHttpClient.identityClientOptions
+      { ...mockHttpClient.identityClientOptions }
     );
 
     await credential.getToken("scope");
@@ -44,10 +44,11 @@ describe("AuthorizationCodeCredential", function() {
     const credential = new AuthorizationCodeCredential(
       "tenant",
       "client",
-      undefined,
       "authCode",
       redirectUri,
-      mockHttpClient.identityClientOptions
+      {
+        ...mockHttpClient.identityClientOptions
+      }
     );
 
     await credential.getToken("scope");
@@ -85,13 +86,15 @@ describe("AuthorizationCodeCredential", function() {
 
     const rootSpan = tracer.startSpan("root");
 
-    const credential = new AuthorizationCodeCredential(
+    const credential = new AuthorizationCodeCredential(      
       "tenant",
       "client",
       "secret",
       "authCode",
       redirectUri,
-      mockHttpClient.identityClientOptions
+      {
+        ...mockHttpClient.identityClientOptions
+      }
     );
 
     await credential.getToken("scope", {

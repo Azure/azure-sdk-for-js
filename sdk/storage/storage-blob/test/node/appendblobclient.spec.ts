@@ -128,7 +128,7 @@ describe("AppendBlobClient Node.js only", () => {
         expiryTime,
         containerName,
         blobName: blockBlobName,
-        permissions: BlobSASPermissions.parse("r").toString()
+        permissions: BlobSASPermissions.parse("r")
       },
       credential
     );
@@ -162,7 +162,7 @@ describe("AppendBlobClient Node.js only", () => {
         expiryTime,
         containerName,
         blobName: blockBlobName,
-        permissions: BlobSASPermissions.parse("r").toString()
+        permissions: BlobSASPermissions.parse("r")
       },
       credential
     );

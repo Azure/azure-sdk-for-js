@@ -14,11 +14,11 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label"
   };
 
-  before(function () {
+  before(function() {
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  after(async function () {
+  after(async function() {
     if (!this.currentTest!.isPending) {
       await deleteKeyCompletely([testConfigSetting.key], client);
     }
@@ -32,7 +32,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
-    assert.ok(!storedSetting.locked);
+    assert.ok(!storedSetting.readOnly);
 
     await client.setReadOnly(testConfigSetting);
 
@@ -40,7 +40,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
-    assert.ok(storedSetting.locked);
+    assert.ok(storedSetting.readOnly);
 
     // any modification related methods throw exceptions
     await assertThrowsRestError(
@@ -50,7 +50,9 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     );
     await assertThrowsRestError(
       () =>
-        client.deleteConfigurationSetting({ key: testConfigSetting.key, label: testConfigSetting.label
+        client.deleteConfigurationSetting({
+          key: testConfigSetting.key,
+          label: testConfigSetting.label
         }),
       409,
       "Delete should fail because the setting is read-only"

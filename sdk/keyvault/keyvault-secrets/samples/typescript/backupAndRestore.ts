@@ -48,8 +48,8 @@ async function main(): Promise<void> {
 
   // Delete the secret
   console.log("about to delete");
-  await client.deleteSecret(secretName);
-  await delay(30000);
+  let deletePoller = await client.beginDeleteSecret(secretName);
+  await deletePoller.pollUntilDone();
 
   // Purge the deleted secret
   console.log("about to purge");
@@ -61,10 +61,11 @@ async function main(): Promise<void> {
   const backupContents = await readFile("secret_backup.dat");
 
   // Restore the secret
-  const result = await client.restoreSecret(backupContents);
+  const result = await client.restoreSecretBackup(backupContents);
   console.log("Restored secret: ", result);
 
-  await client.deleteSecret(secretName);
+  // If we don't want to purge the secret later, we don't need to wait until this finishes
+  await client.beginDeleteSecret(secretName);
 }
 
 main().catch((err) => {

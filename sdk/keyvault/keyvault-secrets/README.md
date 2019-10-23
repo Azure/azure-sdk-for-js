@@ -202,11 +202,12 @@ await client.updateSecretAttributes(secretName, result.parameters.version, { ena
 
 ### Deleting a secret
 
-The `deleteSecret` method sets a secret up for deletion. This process will
-happen in the background as soon as the necessary resources are available.
+The `beginDeleteSecret` method starts the deletion of a Secret.
+This process will happen in the background as soon as the necessary resources
+are available.
 
 ```javascript
-await client.deleteSecret(secretName);
+await client.beginDeleteSecret(secretName);
 ```
 
 If [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
@@ -215,18 +216,49 @@ _deleted_ secret. A deleted secret can't be updated. They can only be either
 read, recovered or purged.
 
 ```javascript
-await client.deleteSecret(secretName);
+const poller = await client.beginDeleteSecret(secretName)
 
-// If soft-delete is enabled, we can eventually do:
+// You can use the deleted secret immediately:
+const deletedSecret = poller.getResult();
+
+// The secret is being deleted. Only wait for it if you want to restore it or purge it.
+await poller.pollUntilDone();
+
+// You can also get the deleted secret this way:
 await client.getDeletedSecret(secretName);
-// Deleted secrets can also be recovered or purged:
-await client.recoverDeletedSecret(secretName);
-// await client.purgeDeletedSecret(secretName);
+
+// Deleted secrets can also be recovered or purged.
+
+// recoverDeletedSecret returns a poller, just like beginDeleteSecret.
+const recoverPoller = await client.beginRecoverDeletedSecret(secretName)
+const recoverPoller.pollUntilDone();
+
+// And then, to purge the deleted secret:
+await client.purgeDeletedSecret(secretName);
 ```
 
-Since the deletion of a secret won't happen instantly, some time is needed
-after the `deleteSecret` method is called before the deleted secret is
-available to be read, recovered or purged.
+Since Secrets take some time to get fully deleted, `beginDeleteSecret`
+returns a Poller object that keeps track of the underlying Long Running
+Operation according to our guidelines:
+https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
+
+The received poller will allow you to get the deleted secret by calling to `poller.getResult()`.
+You can also wait until the deletion finishes, either by running individual service
+calls until the secret is deleted, or by waiting until the process is done:
+
+```typescript
+const poller = await client.beginDeleteSecret(certificateName, certificatePolicy);
+
+// You can use the deleted secret immediately:
+let deletedSecret = poller.getResult();
+
+await poller.poll(); // On each poll, the poller checks whether the secret has been deleted or not.
+console.log(poller.isDone()) // The poller will be done once the secret is fully deleted.
+
+// Alternatively, you can keep polling automatically until the operation finishes with pollUntilDone:
+deletedSecret = await poller.pollUntilDone();
+console.log(deletedSecret);
+```
 
 ### Iterating lists of secrets
 
@@ -234,24 +266,24 @@ Using the SecretsClient, you can retrieve and iterate through all of the
 secrets in a Key Vault, as well as through all of the deleted secrets and the
 versions of a specific secret. The following API methods are available:
 
-- `listSecrets` will list all of your non-deleted secrets by their names, only
+- `listPropertiesOfSecrets` will list all of your non-deleted secrets by their names, only
   at their latest versions.
 - `listDeletedSecrets` will list all of your deleted secrets by their names,
   only at their latest versions.
-- `listSecretVersions` will list all the versions of a secret based on a secret
+- `listPropertiesOfSecretVersions` will list all the versions of a secret based on a secret
   name.
 
 Which can be used as follows:
 
 ```javascript
-for await (let secret of client.listSecrets()) {
-  console.log("Secret: ", secret);
+for await (let secretProperties of client.listPropertiesOfSecrets()) {
+  console.log("Secret properties: ", secretProperties);
 }
 for await (let deletedSecret of client.listDeletedSecrets()) {
   console.log("Deleted secret: ", deletedSecret);
 }
-for await (let version of client.listSecretVersions(secretName)) {
-  console.log("Version: ", version);
+for await (let versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
+  console.log("Version properties: ", versionProperties);
 }
 ```
 
@@ -260,9 +292,9 @@ retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
 ```javascript
-for await (let page of client.listSecrets().byPage()) {
-  for (let secret of page) {
-    console.log("Secret: ", secret);
+for await (let page of client.listPropertiesOfSecrets().byPage()) {
+  for (let secretProperties of page) {
+    console.log("Secret properties: ", secretProperties);
   }
 }
 for await (let page of client.listDeletedSecrets().byPage()) {
@@ -270,9 +302,9 @@ for await (let page of client.listDeletedSecrets().byPage()) {
     console.log("Deleted secret: ", deletedSecret);
   }
 }
-for await (let page of client.listSecretVersions(secretName).byPage()) {
-  for (let version of page) {
-    console.log("Version: ", version);
+for await (let page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+  for (let versionProperties of page) {
+    console.log("Version properties: ", versionProperties);
   }
 }
 ```

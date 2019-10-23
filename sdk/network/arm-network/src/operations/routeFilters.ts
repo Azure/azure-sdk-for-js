@@ -85,16 +85,39 @@ export class RouteFilters {
   }
 
   /**
-   * Updates a route filter in a specified resource group.
+   * Updates tags of a route filter.
    * @param resourceGroupName The name of the resource group.
    * @param routeFilterName The name of the route filter.
-   * @param routeFilterParameters Parameters supplied to the update route filter operation.
+   * @param parameters Parameters supplied to update route filter tags.
    * @param [options] The optional parameters
-   * @returns Promise<Models.RouteFiltersUpdateResponse>
+   * @returns Promise<Models.RouteFiltersUpdateTagsResponse>
    */
-  update(resourceGroupName: string, routeFilterName: string, routeFilterParameters: Models.PatchRouteFilter, options?: msRest.RequestOptionsBase): Promise<Models.RouteFiltersUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,routeFilterName,routeFilterParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RouteFiltersUpdateResponse>;
+  updateTags(resourceGroupName: string, routeFilterName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.RouteFiltersUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param routeFilterName The name of the route filter.
+   * @param parameters Parameters supplied to update route filter tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, routeFilterName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.RouteFilter>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param routeFilterName The name of the route filter.
+   * @param parameters Parameters supplied to update route filter tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, routeFilterName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteFilter>): void;
+  updateTags(resourceGroupName: string, routeFilterName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteFilter>, callback?: msRest.ServiceCallback<Models.RouteFilter>): Promise<Models.RouteFiltersUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        routeFilterName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.RouteFiltersUpdateTagsResponse>;
   }
 
   /**
@@ -188,26 +211,6 @@ export class RouteFilters {
   }
 
   /**
-   * Updates a route filter in a specified resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param routeFilterParameters Parameters supplied to the update route filter operation.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdate(resourceGroupName: string, routeFilterName: string, routeFilterParameters: Models.PatchRouteFilter, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        routeFilterName,
-        routeFilterParameters,
-        options
-      },
-      beginUpdateOperationSpec,
-      options);
-  }
-
-  /**
    * Gets all route filters in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -281,6 +284,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RouteFilter
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.routeFilterName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.RouteFilter
@@ -390,38 +425,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RouteFilter
     },
     201: {
-      bodyMapper: Mappers.RouteFilter
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.routeFilterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "routeFilterParameters",
-    mapper: {
-      ...Mappers.PatchRouteFilter,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.RouteFilter
     },
     default: {

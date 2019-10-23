@@ -87,10 +87,14 @@ directive:
   - from: swagger-document
     where: $.parameters.MaxResults
     transform: >
-      $["x-ms-client-name"] = "maxResults";
+      $["x-ms-client-name"] = "maxPageSize";
+  - from: swagger-document
+    where: $.definitions..properties.MaxResults
+    transform: >
+      $["x-ms-client-name"] = "maxPageSize";
 ```
 
-### Rename timeoutParameter -> timeout
+### Rename timeoutParameter -> timeoutInSeconds
 
 ```yaml
 directive:
@@ -215,14 +219,6 @@ directive:
       }
 ```
 
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions..properties.DeletedTime
-    transform: >
-      $["x-ms-client-name"] = "deletedOn";
-```
-
 ### UserDelegationKey properties
 
 ```yaml
@@ -242,4 +238,23 @@ directive:
     where: $.parameters.PathRenameMode
     transform: >
       $["x-ms-parameter-location"] = "method";
+```
+
+### Rename logging -> blobAnalyticsLogging
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.Logging
+    transform: >
+      $["x-ms-client-name"] = "blobAnalyticsLogging"
+```
+
+### Rename eTag -> etag
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]..responses..headers["ETag"]
+  transform: >
+    $["x-ms-client-name"] = "etag";
 ```

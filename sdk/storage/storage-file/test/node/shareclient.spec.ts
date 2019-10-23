@@ -69,7 +69,7 @@ describe("ShareClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -87,7 +87,7 @@ describe("ShareClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -102,7 +102,7 @@ describe("ShareClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -113,7 +113,7 @@ describe("ShareClient Node.js only", () => {
     const newClient = new ShareClient(getConnectionStringFromEnvironment(), shareName);
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);
@@ -128,7 +128,7 @@ describe("ShareClient Node.js only", () => {
     });
     const result = await newClient.getProperties();
 
-    assert.ok(result.eTag!.length > 0);
+    assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
     assert.ok(result.version);

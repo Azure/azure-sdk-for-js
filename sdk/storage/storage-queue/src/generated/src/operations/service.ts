@@ -139,7 +139,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype,
     Parameters.comp0
   ],
@@ -160,7 +160,8 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ServiceSetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceSetPropertiesHeaders
     }
   },
   isXML: true,
@@ -173,7 +174,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype,
     Parameters.comp0
   ],
@@ -187,7 +188,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ServiceGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetPropertiesHeaders
     }
   },
   isXML: true,
@@ -200,7 +202,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype,
     Parameters.comp1
   ],
@@ -214,7 +216,8 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ServiceGetStatisticsHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetStatisticsHeaders
     }
   },
   isXML: true,
@@ -229,9 +232,9 @@ const listQueuesSegmentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker,
-    Parameters.maxresults,
+    Parameters.maxPageSize,
     Parameters.include,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp2
   ],
   headerParameters: [
@@ -244,7 +247,8 @@ const listQueuesSegmentOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.ServiceListQueuesSegmentHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceListQueuesSegmentHeaders
     }
   },
   isXML: true,

@@ -4,13 +4,13 @@ Azure Storage is a Microsoft-managed service providing cloud storage that is hig
 
 This project provides client libraries in JavaScript that makes it easy to consume Microsoft Azure Storage service.
 
-- [Source Code - Blob](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob)
-- [Source Code - File](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file)
-- [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue)
+- [Source Code - Blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
+- [Source Code - File](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file)
+- [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
-- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.4)
-- @azure/storage-file [Package (npm)](https://www.npmjs.com/package/@azure/storage-file/v/12.0.0-preview.4)
-- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.4)
+- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
+- @azure/storage-file [Package (npm)](https://www.npmjs.com/package/@azure/storage-file/v/12.0.0-preview.5)
+- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5)
 - [API Reference documentation](https://azure.github.io/azure-sdk-for-js)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
@@ -55,6 +55,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.repeat`
 - `String.prototype.includes`
 - `Array.prototype.includes`
+- `Object.assign`
 - `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 
@@ -96,7 +97,7 @@ The preferred way to install the Azure Storage client libraries for JavaScript i
 Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-blob@12.0.0-preview.4
+npm install @azure/storage-blob@12.0.0-preview.5
 ```
 
 In your TypeScript or JavaScript file, import via following:
@@ -320,12 +321,12 @@ const queueServiceClient = new QueueServiceClient(
 
 More samples
 
-- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/samples)
-- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-blob/test/)
-- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/samples)
-- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/test)
-- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples)
-- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/test)
+- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
+- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/)
+- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/samples)
+- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/test)
+- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
+- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/test)
 
 ## Contributing
 

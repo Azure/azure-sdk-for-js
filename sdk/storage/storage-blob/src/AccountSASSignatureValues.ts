@@ -65,10 +65,10 @@ export interface AccountSASSignatureValues {
    * Specifies which operations the SAS user may perform. Please refer to {@link AccountSASPermissions} for help
    * constructing the permissions string.
    *
-   * @type {string}
+   * @type {AccountSASPermissions}
    * @memberof AccountSASSignatureValues
    */
-  permissions: string;
+  permissions: AccountSASPermissions;
 
   /**
    * Optional. IP range allowed.
@@ -118,8 +118,8 @@ export function generateAccountSASQueryParameters(
     : SERVICE_VERSION;
 
   const parsedPermissions = AccountSASPermissions.parse(
-    accountSASSignatureValues.permissions
-  ).toString();
+    accountSASSignatureValues.permissions.toString()
+  );
   const parsedServices = AccountSASServices.parse(accountSASSignatureValues.services).toString();
   const parsedResourceTypes = AccountSASResourceTypes.parse(
     accountSASSignatureValues.resourceTypes
@@ -145,7 +145,7 @@ export function generateAccountSASQueryParameters(
   return new SASQueryParameters(
     version,
     signature,
-    parsedPermissions,
+    parsedPermissions.toString(),
     parsedServices,
     parsedResourceTypes,
     accountSASSignatureValues.protocol,

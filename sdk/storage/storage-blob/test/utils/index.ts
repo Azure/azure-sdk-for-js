@@ -1,4 +1,4 @@
-import * as crypto from "crypto";
+import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
@@ -149,8 +149,7 @@ export async function createRandomLocalFile(
     let offsetInMB = 0;
 
     function randomValueHex(len = blockSize) {
-      return crypto
-        .randomBytes(Math.ceil(len / 2))
+      return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
         .slice(0, len); // return required number of characters
     }
@@ -190,7 +189,7 @@ export function getSASConnectionStringFromEnvironment(): string {
     {
       expiryTime: tmr,
       ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-      permissions: AccountSASPermissions.parse("rwdlacup").toString(),
+      permissions: AccountSASPermissions.parse("rwdlacup"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),

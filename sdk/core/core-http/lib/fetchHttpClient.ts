@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { AbortController } from "@azure/abort-controller";
+import { AbortController, AbortError } from "@azure/abort-controller";
 import FormData from "form-data";
 
 import { HttpClient } from "./httpClient";
@@ -40,21 +40,18 @@ export abstract class FetchHttpClient implements HttpClient {
     }
 
     const abortController = new AbortController();
+    let abortListener: ((event: any) => void) | undefined;
     if (httpRequest.abortSignal) {
       if (httpRequest.abortSignal.aborted) {
-        throw new RestError(
-          "The request was aborted",
-          RestError.REQUEST_ABORTED_ERROR,
-          undefined,
-          httpRequest
-        );
+        throw new AbortError("The operation was aborted.");
       }
 
-      httpRequest.abortSignal.addEventListener("abort", (event: Event) => {
+      abortListener = (event: Event) => {
         if (event.type === "abort") {
           abortController.abort();
         }
-      });
+      };
+      httpRequest.abortSignal.addEventListener("abort", abortListener);
     }
 
     if (httpRequest.timeout) {
@@ -177,16 +174,15 @@ export abstract class FetchHttpClient implements HttpClient {
           httpRequest
         );
       } else if (fetchError.type === "aborted") {
-        throw new RestError(
-          "The request was aborted",
-          RestError.REQUEST_ABORTED_ERROR,
-          undefined,
-          httpRequest
-        );
+        throw new AbortError("The operation was aborted.");
       }
 
       throw fetchError;
     } finally {
+      // clean up event listener
+      if (httpRequest.abortSignal && abortListener) {
+        httpRequest.abortSignal.removeEventListener("abort", abortListener);
+      }
     }
   }
 

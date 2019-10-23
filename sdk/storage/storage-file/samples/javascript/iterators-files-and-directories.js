@@ -137,7 +137,7 @@ async function main() {
     console.log(`${i++} - directory\t: ${dirItem.name}`);
   }
   // Gets next marker
-  let dirMarker = response.value.nextMarker;
+  let dirMarker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = directoryClient
     .listFilesAndDirectories()
