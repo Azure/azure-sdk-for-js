@@ -269,7 +269,7 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options: FeedOptions = {
-        maxItemCount: 5,
+        maxItemCount: 2,
         maxDegreeOfParallelism: -1,
         forceQueryPlan: true,
         populateQueryMetrics: true
