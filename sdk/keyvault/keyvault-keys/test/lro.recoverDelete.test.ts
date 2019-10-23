@@ -91,7 +91,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
   });
 
   it("can recover a deleted key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);

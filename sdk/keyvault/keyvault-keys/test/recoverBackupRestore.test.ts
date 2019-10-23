@@ -80,7 +80,7 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("can generate a backup of a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     await assertThrowsAbortError(async () => {
@@ -112,7 +112,7 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("can restore a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
