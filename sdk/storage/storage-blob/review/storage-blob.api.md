@@ -1203,6 +1203,9 @@ export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots'
 export type ListContainersIncludeType = 'metadata';
 
 // @public
+export const logger: import("@azure/logger").AzureLogger;
+
+// @public
 export interface ModifiedAccessConditions {
     ifMatch?: string;
     ifModifiedSince?: Date;

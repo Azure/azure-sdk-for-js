@@ -162,6 +162,9 @@ export interface ListQueuesSegmentResponse {
     serviceEndpoint: string;
 }
 
+// @public
+export const logger: import("@azure/logger").AzureLogger;
+
 // Warning: (ae-forgotten-export) The symbol "MessageIdDeleteHeaders" needs to be exported by the entry point index.d.ts
 // 
 // @public

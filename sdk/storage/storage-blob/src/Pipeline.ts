@@ -26,9 +26,7 @@ import {
   logPolicy
 } from "@azure/core-http";
 
-import { createClientLogger } from "@azure/logger";
-const logger = createClientLogger("storage-blob");
-
+import { logger } from "./log";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";

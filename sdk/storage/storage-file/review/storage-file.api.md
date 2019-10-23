@@ -768,6 +768,9 @@ export { IHttpPipelineLogger }
 export type ListSharesIncludeType = 'snapshots' | 'metadata';
 
 // @public
+export const logger: import("@azure/logger").AzureLogger;
+
+// @public
 export function newPipeline(credential: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public

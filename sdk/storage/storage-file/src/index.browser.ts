@@ -29,3 +29,4 @@ export * from "./FileServiceClient";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
+export { logger } from "./log";

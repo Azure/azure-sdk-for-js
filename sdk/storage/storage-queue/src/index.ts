@@ -27,3 +27,4 @@ export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
+export { logger } from "./log";

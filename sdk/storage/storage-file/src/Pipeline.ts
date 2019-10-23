@@ -23,9 +23,7 @@ import {
   logPolicy
 } from "@azure/core-http";
 
-import { createClientLogger } from "@azure/logger";
-const logger = createClientLogger("storage-file");
-
+import { logger } from "./log";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { Credential } from "./credentials/Credential";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";

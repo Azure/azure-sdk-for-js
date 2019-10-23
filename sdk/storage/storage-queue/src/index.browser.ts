@@ -19,3 +19,4 @@ export * from "./QueueServiceClient";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
+export { logger } from "./log";

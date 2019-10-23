@@ -44,3 +44,4 @@ export {
   PageBlobGetPageRangesResponse,
   PageList
 } from "./PageBlobRangeResponse";
+export { logger } from "./log";
