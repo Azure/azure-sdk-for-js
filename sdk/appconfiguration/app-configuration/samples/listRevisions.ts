@@ -15,7 +15,7 @@ export async function run() {
   const connectionString = process.env["AZ_CONFIG_CONNECTION"]!;
   const client = new AppConfigurationClient(connectionString);
 
-  // let's create the first revision
+  // let's create the setting
   const originalSetting = await client.addConfigurationSetting({
     key: `keyWithRevisions-${Date.now()}`,
     value: "original value"
@@ -31,12 +31,15 @@ export async function run() {
   // delay for a second to make the timestamps more interesting
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
+  // now we'll update it - this leaves us with two revisions (the previous 'original' and
+  // our update)
   await client.setConfigurationSetting(newSetting);
   
   const revisionsIterator = client.listRevisions({
     keys: [ newSetting.key ]
   });
 
+  // show all the revisions, including the date they were set.
   for await (const revision of revisionsIterator) {
     // revisions are just a configuration setting at a particular point in time
     console.log(`At ${revision.lastModified}, the value was ${revision.value}`);
