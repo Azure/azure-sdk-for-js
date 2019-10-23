@@ -51,7 +51,8 @@ import {
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
   BLOCK_BLOB_MAX_BLOCKS,
-  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
+  DEFAULT_BLOCK_BUFFER_SIZE
 } from "./utils/constants";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
@@ -1098,15 +1099,15 @@ export class BlockBlobClient extends BlobClient {
    * @param {Readable} stream Node.js Readable stream
    * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
    * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
-   * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
-   *                            with max uploading concurrency
+   * @param {number} maxConcurrency  Max buffers will allocate during uploading, positive correlation
+   *                                 with max uploading concurrency
    * @param {BlockBlobUploadStreamOptions} [options] Options to Upload Stream to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
   public async uploadStream(
     stream: Readable,
-    bufferSize: number,
-    maxBuffers: number,
+    bufferSize: number = DEFAULT_BLOCK_BUFFER_SIZE,
+    maxConcurrency: number = 5,
     options: BlockBlobUploadStreamOptions = {}
   ): Promise<BlobUploadCommonResponse> {
     if (!options.blobHTTPHeaders) {
@@ -1127,7 +1128,7 @@ export class BlockBlobClient extends BlobClient {
       const scheduler = new BufferScheduler(
         stream,
         bufferSize,
-        maxBuffers,
+        maxConcurrency,
         async (buffer: Buffer) => {
           const blockID = generateBlockID(blockIDPrefix, blockNum);
           blockList.push(blockID);
@@ -1148,7 +1149,7 @@ export class BlockBlobClient extends BlobClient {
         // reduce the possibility when a outgoing handler waits for stream data, in
         // this situation, outgoing handlers are blocked.
         // Outgoing queue shouldn't be empty.
-        Math.ceil((maxBuffers / 4) * 3)
+        Math.ceil((maxConcurrency / 4) * 3)
       );
       await scheduler.do();
 
