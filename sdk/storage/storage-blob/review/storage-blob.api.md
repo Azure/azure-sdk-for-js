@@ -273,8 +273,8 @@ export class BlobClient extends StorageClient {
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     getAppendBlobClient(): AppendBlobClient;
+    getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
-    getLeaseClient(proposeLeaseId?: string): LeaseClient;
     getPageBlobClient(): PageBlobClient;
     getProperties(options?: BlobGetPropertiesOptions): Promise<BlobGetPropertiesResponse>;
     // (undocumented)
@@ -465,6 +465,18 @@ export interface BlobItem {
     // (undocumented)
     snapshot: string;
 }
+
+// @public
+export class BlobLeaseClient {
+    constructor(client: ContainerClient | BlobClient, leaseId?: string);
+    acquireLease(duration: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    breakLease(breakPeriod: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    readonly leaseId: string;
+    releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    renewLease(options?: LeaseOperationOptions): Promise<Lease>;
+    readonly url: string;
+    }
 
 // @public
 export interface BlobPrefix {
@@ -871,8 +883,8 @@ export class ContainerClient extends StorageClient {
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobClient(blobName: string): BlobClient;
+    getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(blobName: string): BlockBlobClient;
-    getLeaseClient(proposeLeaseId?: string): LeaseClient;
     getPageBlobClient(blobName: string): PageBlobClient;
     getProperties(options?: ContainerGetPropertiesOptions): Promise<ContainerGetPropertiesResponse>;
     listBlobsByHierarchy(delimiter: string, options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<{
@@ -1139,18 +1151,6 @@ export interface Lease {
 export interface LeaseAccessConditions {
     leaseId?: string;
 }
-
-// @public
-export class LeaseClient {
-    constructor(client: ContainerClient | BlobClient, leaseId?: string);
-    acquireLease(duration: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    breakLease(breakPeriod: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    readonly leaseId: string;
-    releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    renewLease(options?: LeaseOperationOptions): Promise<Lease>;
-    readonly url: string;
-    }
 
 // @public
 export type LeaseDurationType = 'infinite' | 'fixed';
