@@ -137,18 +137,18 @@ export class SecretClient {
    *
    * let client = new SecretClient(url, credentials);
    * ```
-   * @param {string} endPoint the base url to the key vault.
+   * @param {string} vaultUrl the base url to the key vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof SecretClient
    */
   constructor(
-    endPoint: string,
+    vaultUrl: string,
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.vaultUrl = endPoint;
+    this.vaultUrl = vaultUrl;
     this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;

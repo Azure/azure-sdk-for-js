@@ -46,7 +46,7 @@ export interface KeyVaultSecret {
  */
 export interface SecretProperties {
   /**
-   * @member {string} [vaultUrl] The vault URI.
+   * @member {string} [vaultUrl] The base URL to the vault.
    */
   vaultUrl: string;
   /**

@@ -21,9 +21,7 @@ import {
   CreateCertificateOptions,
   SubjectAlternativeNames
 } from "./certificatesModels";
-import {
-  ParsedKeyVaultEntityIdentifier,
-} from "./core/keyVaultBase";
+import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
 import {
   CertificateBundle,
@@ -219,18 +217,18 @@ export class CertificateClient {
 
   /**
    * Creates an instance of CertificateClient.
-   * @param {string} url the base url to the key vault.
+   * @param {string} url the base URL to the vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CertificateClient
    */
   constructor(
-    endPoint: string,
+    vaultUrl: string,
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.vaultUrl = endPoint;
+    this.vaultUrl = vaultUrl;
     this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
@@ -241,13 +239,12 @@ export class CertificateClient {
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
-      }
+      };
     }
 
-    const authPolicy =
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+    const authPolicy = isTokenCredential(credential)
+      ? challengeBasedAuthenticationPolicy(credential)
+      : signingPolicy(credential);
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -263,7 +260,7 @@ export class CertificateClient {
           }
         }
       }
-    }
+    };
 
     this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
@@ -278,10 +275,7 @@ export class CertificateClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getCertificates(
-        this.vaultUrl,
-        optionsComplete
-      );
+      const currentSetResponse = await this.client.getCertificates(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(this.getCertificateFromCertificateBundle);

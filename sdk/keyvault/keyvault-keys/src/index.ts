@@ -178,18 +178,18 @@ export class KeyClient {
    *
    * let client = new KeyClient(url, credentials);
    * ```
-   * @param {string} endpoint the base url to the key vault.
+   * @param {string} vaultUrl the base URL to the vault.
    * @param {TokenCredential} The credential to use for API requests.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof KeyClient
    */
   constructor(
-    endpoint: string,
+    vaultUrl: string,
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.vaultUrl = endpoint;
+    this.vaultUrl = vaultUrl;
     this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
@@ -979,10 +979,7 @@ export class KeyClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getDeletedKeys(
-        this.vaultUrl,
-        optionsComplete
-      );
+      const currentSetResponse = await this.client.getDeletedKeys(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem);
