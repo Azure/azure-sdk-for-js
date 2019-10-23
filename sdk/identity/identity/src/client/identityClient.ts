@@ -5,18 +5,16 @@ import qs from "qs";
 import {
   AccessToken,
   ServiceClient,
-  ServiceClientOptions,
+  PipelineOptions,
   WebResource,
   RequestPrepareOptions,
   GetTokenOptions,
-  tracingPolicy,
-  RequestPolicyFactory
+  createPipelineFromOptions
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from '../util/logging';
-
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -41,7 +39,7 @@ export class IdentityClient extends ServiceClient {
 
   constructor(options?: IdentityClientOptions) {
     options = options || IdentityClient.getDefaultOptions();
-    super(undefined, options);
+    super(undefined, createPipelineFromOptions(options));
 
     this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
 
@@ -162,10 +160,7 @@ export class IdentityClient extends ServiceClient {
 
   static getDefaultOptions(): IdentityClientOptions {
     return {
-      authorityHost: DefaultAuthorityHost,
-      requestPolicyFactories: (factories: RequestPolicyFactory[]) => {
-        return [tracingPolicy(), ...factories];
-      }
+      authorityHost: DefaultAuthorityHost
     };
   }
 }
@@ -174,7 +169,7 @@ export class IdentityClient extends ServiceClient {
  * Provides options to configure how the Identity library makes authentication
  * requests to Azure Active Directory.
  */
-export interface IdentityClientOptions extends ServiceClientOptions {
+export interface IdentityClientOptions extends PipelineOptions {
   /**
    * The authority host to use for authentication requests.  The default is
    * "https://login.microsoftonline.com".

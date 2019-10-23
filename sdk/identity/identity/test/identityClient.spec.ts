@@ -92,6 +92,7 @@ describe("IdentityClient", function () {
       "secret",
       mockHttp.identityClientOptions
     );
+
     await assertRejects(
       credential.getToken("https://test/.default"),
       isExpectedError("unknown_error")

@@ -113,7 +113,12 @@ describe("ClientCertificateCredential", function() {
           children: [
             {
               name: "Azure.Identity.ClientCertificateCredential-getToken",
-              children: []
+              children: [
+                {
+                  children: [],
+                  name: "core-http"
+                }
+              ]
             }
           ]
         }
