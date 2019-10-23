@@ -1,4 +1,4 @@
-### 2019-10-16 2.1.2
+### 2019-10-23 2.1.2
 
 - Errors thrown in the user-provided message handler to `client.receive` are now properly caught by the client.
 
