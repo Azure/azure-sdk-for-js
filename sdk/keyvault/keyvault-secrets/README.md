@@ -266,24 +266,24 @@ Using the SecretsClient, you can retrieve and iterate through all of the
 secrets in a Key Vault, as well as through all of the deleted secrets and the
 versions of a specific secret. The following API methods are available:
 
-- `listSecrets` will list all of your non-deleted secrets by their names, only
+- `listPropertiesOfSecrets` will list all of your non-deleted secrets by their names, only
   at their latest versions.
 - `listDeletedSecrets` will list all of your deleted secrets by their names,
   only at their latest versions.
-- `listSecretVersions` will list all the versions of a secret based on a secret
+- `listPropertiesOfSecretVersions` will list all the versions of a secret based on a secret
   name.
 
 Which can be used as follows:
 
 ```javascript
-for await (let secret of client.listSecrets()) {
-  console.log("Secret: ", secret);
+for await (let secretProperties of client.listPropertiesOfSecrets()) {
+  console.log("Secret properties: ", secretProperties);
 }
 for await (let deletedSecret of client.listDeletedSecrets()) {
   console.log("Deleted secret: ", deletedSecret);
 }
-for await (let version of client.listSecretVersions(secretName)) {
-  console.log("Version: ", version);
+for await (let versionProperties of client.listPropertiesOfSecretVersions(secretName)) {
+  console.log("Version properties: ", versionProperties);
 }
 ```
 
@@ -292,9 +292,9 @@ retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
 ```javascript
-for await (let page of client.listSecrets().byPage()) {
-  for (let secret of page) {
-    console.log("Secret: ", secret);
+for await (let page of client.listPropertiesOfSecrets().byPage()) {
+  for (let secretProperties of page) {
+    console.log("Secret properties: ", secretProperties);
   }
 }
 for await (let page of client.listDeletedSecrets().byPage()) {
@@ -302,9 +302,9 @@ for await (let page of client.listDeletedSecrets().byPage()) {
     console.log("Deleted secret: ", deletedSecret);
   }
 }
-for await (let page of client.listSecretVersions(secretName).byPage()) {
-  for (let version of page) {
-    console.log("Version: ", version);
+for await (let page of client.listPropertiesOfSecretVersions(secretName).byPage()) {
+  for (let versionProperties of page) {
+    console.log("Version properties: ", versionProperties);
   }
 }
 ```

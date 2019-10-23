@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as coreHttp from "@azure/core-http";
-import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import {
   JsonWebKey,
   JsonWebKeyOperation,
@@ -16,25 +15,29 @@ import { DeletionRecoveryLevel } from "./core/models";
  * An interface representing the key client. For internal use.
  */
 export interface KeyClientInterface {
-  recoverDeletedKey(name: string, options?: RequestOptions): Promise<Key>;
-  getKey(name: string, options?: GetKeyOptions): Promise<Key>;
+  recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
+  getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
   deleteKey(name: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedKey>;
-  getDeletedKey(name: string, options?: RequestOptions): Promise<DeletedKey>;
+  getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
 }
 
 /**
  * @interface
  * An interface representing the complete key with value
  */
-export interface Key {
-  /**
-   * @member {KeyProperties} [properties] The properties of the key.
-   */
-  properties: KeyProperties;
+export interface KeyVaultKey {
   /**
    * @member {string} [value] The key value.
    */
-  keyMaterial?: JsonWebKey;
+  key?: JsonWebKey;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
+  /**
+   * Key identifier.
+   */
+  id?: string;
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
@@ -45,17 +48,33 @@ export interface Key {
    * Operations allowed on this key
    */
   keyOperations?: JsonWebKeyOperation[];
+  /**
+   * @member {KeyProperties} [properties] The properties of the key.
+   */
+  properties: KeyProperties;
 }
 
 /**
  * @interface
  * An interface representing the Properties of a key
  */
-export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
+export interface KeyProperties {
   /**
-   * @member {string} [id] The key id.
+   * Key identifier.
    */
   id?: string;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
+  /**
+   * @member {string} [vaultEndpoint] The vault URI.
+   */
+  vaultEndpoint: string;
+  /**
+   * @member {string} [version] The version of key/secret/certificate. May be undefined.
+   */
+  version?: string;
   /**
    * @member {boolean} [enabled] Determines whether the object is enabled.
    */
@@ -65,26 +84,26 @@ export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
   /**
-   * @member {Date} [created] Creation time in UTC.
+   * @member {Date} [createdOn] Creation time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly created?: Date;
+  readonly createdOn?: Date;
   /**
-   * @member {Date} [updated] Last updated time in UTC.
+   * @member {Date} [updatedOn] Last updated time in UTC.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly updated?: Date;
+  readonly updatedOn?: Date;
   /**
    * @member {DeletionRecoveryLevel} [recoveryLevel] Reflects the deletion
    * recovery level currently in effect for keys in the current vault. If it
@@ -101,13 +120,31 @@ export interface KeyProperties extends ParsedKeyVaultEntityIdentifier {
 
 /**
  * @interface
- * An interface representing a deleted key
+ * An interface representing a deleted key.
  */
 export interface DeletedKey {
   /**
    * @member {string} [value] The key value.
    */
-  keyMaterial?: JsonWebKey;
+  key?: JsonWebKey;
+  /**
+   * @member {string} [name] The name of key/secret/certificate.
+   */
+  name: string;
+  /**
+   * Key identifier.
+   */
+  id?: string;
+  /**
+   * JsonWebKey Key Type (kty), as defined in
+   * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   */
+  keyType?: JsonWebKeyType;
+  /**
+   * Operations allowed on this key
+   */
+  keyOperations?: JsonWebKeyOperation[];
   /**
    * @member {KeyProperties} [properties] The properties of the key.
    */
@@ -125,20 +162,20 @@ export interface DeletedKey {
      */
     readonly scheduledPurgeDate?: Date;
     /**
-     * @member {Date} [deletedDate] The time when the key was deleted, in UTC
+     * @member {Date} [deletedOn] The time when the key was deleted, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
      */
-    readonly deletedDate?: Date;
+    deletedOn?: Date;
   };
 }
 
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createKey
+ * passed to {@link createKey}
  */
-export interface CreateKeyOptions {
+export interface CreateKeyOptions extends coreHttp.RequestOptionsBase {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -157,26 +194,21 @@ export interface CreateKeyOptions {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  readonly expiresOn?: Date;
   /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
+   * @member {number} [keySize] Size of the key
    */
-  requestOptions?: coreHttp.RequestOptionsBase;
   keySize?: number;
 }
 
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to beginDeleteKey
+ * passed to {@link beginDeleteKey}
  */
-export interface KeyPollerOptions {
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
+export interface KeyPollerOptions extends coreHttp.RequestOptionsBase {
   /**
    * @member {number} [intervalInMs] Time between each polling
    */
@@ -190,7 +222,7 @@ export interface KeyPollerOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createEcKey
+ * passed to {@link createEcKey}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
   /**
@@ -209,7 +241,7 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createRsaKey
+ * passed to {@link createRsaKey}
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /**
@@ -227,9 +259,9 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to importKey
+ * passed to {@link importKey}
  */
-export interface ImportKeyOptions {
+export interface ImportKeyOptions extends coreHttp.RequestOptionsBase {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -249,20 +281,16 @@ export interface ImportKeyOptions {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
+  expiresOn?: Date;
 }
 
 /**
  * @interface
- * An interface representing optional parameters that can be passed to updateKey.
+ * An interface representing optional parameters that can be passed to {@link updateKey}.
  */
-export interface UpdateKeyOptions {
+export interface UpdateKeyPropertiesOptions extends coreHttp.RequestOptionsBase {
   /**
    * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
    * information on possible key operations, see JsonWebKeyOperation.
@@ -277,52 +305,69 @@ export interface UpdateKeyOptions {
    */
   notBefore?: Date;
   /**
-   * @member {Date} [expires] Expiry date in UTC.
+   * @member {Date} [expiresOn] Expiry date in UTC.
    */
-  expires?: Date;
+  expiresOn?: Date;
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
  * @interface
- * An interface representing optional parameters that can be passed to getKey.
+ * An interface representing optional parameters that can be passed to {@link getKey}.
  */
-export interface GetKeyOptions {
+export interface GetKeyOptions extends coreHttp.RequestOptionsBase {
   /**
    * @member {string} [version] The version of the secret to retrieve.  If not
    * specified the latest version of the secret will be retrieved.
    */
   version?: string;
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
 }
 
 /**
  * @interface
- * An interface representing optional parameters for KeyClient paged operations.
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link listKeys}.
  */
-export interface ListKeysOptions {
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-}
+export interface ListKeysOptions extends coreHttp.RequestOptionsBase {}
 
 /**
  * @interface
- * An interface representing the most general set of request options.
+ * An interface representing the options of the getDeletedKey method
  */
-export interface RequestOptions {
+export interface GetDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
+
+/**
+ * @interface
+ * An interface representing the options of the purgeDeletedKey method
+ */
+export interface PurgeDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
+
+/**
+ * @interface
+ * An interface representing the options of the recoverDeletedKey method
+ */
+export interface RecoverDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
+
+/**
+ * @interface
+ * An interface representing the options of the backupKey method
+ */
+export interface BackupKeyOptions extends coreHttp.RequestOptionsBase {}
+
+/**
+ * @interface
+ * An interface representing the options of the restoreKeyBackup method
+ */
+export interface RestoreKeyBackupOptions extends coreHttp.RequestOptionsBase {}
+
+/**
+ * @interface
+ * An interface representing the options of the cryptography API methods
+ */
+export interface CryptographyOptions {
   /**
    * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
    */

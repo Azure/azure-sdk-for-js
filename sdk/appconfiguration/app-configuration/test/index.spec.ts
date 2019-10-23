@@ -16,7 +16,7 @@ describe("AppConfigurationClient", () => {
 
   let client: AppConfigurationClient;
 
-  before("validate environment variables", function () {
+  before("validate environment variables", function() {
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
@@ -161,7 +161,7 @@ describe("AppConfigurationClient", () => {
       // delete configuration
       const deletedSetting = await client.deleteConfigurationSetting(result);
       assert.equal(200, deletedSetting._response.status);
-      
+
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
@@ -192,11 +192,14 @@ describe("AppConfigurationClient", () => {
       );
 
       // delete configuration
-      const deletedSetting = await client.deleteConfigurationSetting({
-        key,
-        label
-      }, { onlyIfUnchanged: true });
-      
+      const deletedSetting = await client.deleteConfigurationSetting(
+        {
+          key,
+          label
+        },
+        { onlyIfUnchanged: true }
+      );
+
       // confirm setting no longer exists
       try {
         await client.getConfigurationSetting({ key, label });
@@ -213,9 +216,9 @@ describe("AppConfigurationClient", () => {
       // delete configuration
       const response = await client.deleteConfigurationSetting({ key, label });
 
-      // we hoist this code up to the top in case users want to check if the 
-      // delete actually happened (status code: 200) or if the setting wasn't 
-      // found which results in the same state but might matter to 
+      // we hoist this code up to the top in case users want to check if the
+      // delete actually happened (status code: 200) or if the setting wasn't
+      // found which results in the same state but might matter to
       // the user(status code: 204)
       assert.equal(response._response.status, response.statusCode);
       assert.equal(204, response.statusCode);
@@ -244,7 +247,14 @@ describe("AppConfigurationClient", () => {
       settings.push({ key, label });
 
       // delete configuration
-      await assertThrowsRestError(() => client.deleteConfigurationSetting({ key, label, etag: "invalid" }, { onlyIfUnchanged: true }), 412);
+      await assertThrowsRestError(
+        () =>
+          client.deleteConfigurationSetting(
+            { key, label, etag: "invalid" },
+            { onlyIfUnchanged: true }
+          ),
+        412
+      );
     });
   });
 
@@ -487,7 +497,10 @@ describe("AppConfigurationClient", () => {
 
     it("filter on fields", async () => {
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
-      let byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`], fields: ["key", "label", "readOnly"] });
+      let byKeyIterator = client.listConfigurationSettings({
+        keys: [`listConfigSettingA-${now}`],
+        fields: ["key", "label", "readOnly"]
+      });
       let settings = await toSortedArray(byKeyIterator);
 
       // the fields we retrieved
@@ -496,11 +509,14 @@ describe("AppConfigurationClient", () => {
       assert.equal(uniqueLabel, settings[0].label);
 
       assert.ok(!settings[0].contentType);
-      assert.ok(!settings[0].value); 
+      assert.ok(!settings[0].value);
       assert.ok(!settings[0].etag);
 
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
-      byKeyIterator = client.listConfigurationSettings({ keys: [`listConfigSettingA-${now}`], fields: ["key", "label", "value"] });
+      byKeyIterator = client.listConfigurationSettings({
+        keys: [`listConfigSettingA-${now}`],
+        fields: ["key", "label", "value"]
+      });
       settings = await toSortedArray(byKeyIterator);
 
       // the fields we retrieved
@@ -582,7 +598,10 @@ describe("AppConfigurationClient", () => {
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
       assertEqualSettings(
-        [{ key, label: labelA, value: "fooA1", readOnly: false }, { key, label: labelA, value: "fooA2", readOnly: false }],
+        [
+          { key, label: labelA, value: "fooA1", readOnly: false },
+          { key, label: labelA, value: "fooA2", readOnly: false }
+        ],
         revisions
       );
     });
@@ -594,7 +613,10 @@ describe("AppConfigurationClient", () => {
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
       assertEqualSettings(
-        [{ key, label: labelA, value: "fooA1", readOnly: false }, { key, label: labelA, value: "fooA2", readOnly: false }],
+        [
+          { key, label: labelA, value: "fooA1", readOnly: false },
+          { key, label: labelA, value: "fooA2", readOnly: false }
+        ],
         revisions
       );
     });
@@ -776,12 +798,15 @@ describe("AppConfigurationClient", () => {
         "Unexpected contentType in result from addConfigurationSetting()."
       );
 
-      const replacedResult = await client.setConfigurationSetting({
-        key,
-        label,
-        value: "foo2",
-        etag: result.etag
-      }, { onlyIfUnchanged: true });
+      const replacedResult = await client.setConfigurationSetting(
+        {
+          key,
+          label,
+          value: "foo2",
+          etag: result.etag
+        },
+        { onlyIfUnchanged: true }
+      );
 
       assert.equal(
         replacedResult.key,

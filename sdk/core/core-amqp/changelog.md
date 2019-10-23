@@ -1,4 +1,4 @@
-## 1.0.0-preview.5 (Coming Soon)
+## 1.0.0-preview.5 - 22nd October, 2019
 
 - Updated to use the latest version of the `@azure/core-auth` package
 
