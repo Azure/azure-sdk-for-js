@@ -24,7 +24,6 @@ export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
-export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export { CommonOptions } from "./StorageClient";
@@ -35,3 +34,4 @@ export {
   PageBlobGetPageRangesResponse,
   PageList
 } from "./PageBlobRangeResponse";
+export { logger } from "./log";
