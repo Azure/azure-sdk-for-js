@@ -48,7 +48,11 @@ export interface OperationRequestOptions {
  *
  * @param opts OperationOptions object to convert to RequestOptionsBase
  */
-export function operationOptionsToRequestOptionsBase(opts: OperationOptions): RequestOptionsBase {
+export function operationOptionsToRequestOptionsBase<T extends OperationOptions> (
+  opts: T
+): Omit<T, "requestOptions"> &
+  OperationOptions["requestOptions"] &
+  RequestOptionsBase {
   if (opts.requestOptions) {
     const newOpts = { ...opts, ...opts.requestOptions };
     delete newOpts.requestOptions;

@@ -16,7 +16,7 @@ import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export interface BackupKeyOptions extends coreHttp.RequestOptionsBase {
+export interface BackupKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -26,7 +26,7 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 }
 
 // @public
-export interface CreateKeyOptions extends coreHttp.RequestOptionsBase {
+export interface CreateKeyOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     readonly expiresOn?: Date;
     keyOps?: JsonWebKeyOperation[];
@@ -121,20 +121,20 @@ export interface EncryptResult {
 }
 
 // @public
-export interface GetDeletedKeyOptions extends coreHttp.RequestOptionsBase {
+export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface GetKeyOptions extends coreHttp.RequestOptionsBase {
+export interface GetKeyOptions extends coreHttp.OperationOptions {
     version?: string;
 }
 
 // @public
-export interface GetKeysOptions extends coreHttp.RequestOptionsBase {
+export interface GetKeysOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface ImportKeyOptions extends coreHttp.RequestOptionsBase {
+export interface ImportKeyOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     expiresOn?: Date;
     hardwareProtected?: boolean;
@@ -201,7 +201,7 @@ export class KeyClient {
 }
 
 // @public
-export interface KeyPollerOptions extends coreHttp.RequestOptionsBase {
+export interface KeyPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
 }
@@ -263,11 +263,11 @@ export interface ProxyOptions {
 }
 
 // @public
-export interface PurgeDeletedKeyOptions extends coreHttp.RequestOptionsBase {
+export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RecoverDeletedKeyOptions extends coreHttp.RequestOptionsBase {
+export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -281,7 +281,7 @@ export interface RecoverDeletedKeyPollOperationState extends PollOperationState<
 }
 
 // @public
-export interface RestoreKeyBackupOptions extends coreHttp.RequestOptionsBase {
+export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -311,7 +311,7 @@ export interface UnwrapResult {
 }
 
 // @public
-export interface UpdateKeyPropertiesOptions extends coreHttp.RequestOptionsBase {
+export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     expiresOn?: Date;
     keyOps?: JsonWebKeyOperation[];

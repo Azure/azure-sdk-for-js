@@ -8,6 +8,7 @@ import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
@@ -77,6 +78,12 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
+  it.only("can generate a backup of a key with requestOptions timeout", async function() {
+    await assertThrowsAbortError(async () => {
+      await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
+    });
+  });
+
   it("fails to generate a backup of a non-existing key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
@@ -97,6 +104,18 @@ describe("Keys client - restore keys and recover backups", () => {
     await retry(async () => client.restoreKeyBackup(backup as Uint8Array));
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
+    await testClient.flushKey(keyName);
+  });
+
+  it("can restore a key with requestOptions timeout", async function() {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await client.createKey(keyName, "RSA");
+    const backup = await client.backupKey(keyName);
+    await testClient.flushKey(keyName);
+
+    await assertThrowsAbortError(async () => {
+      await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
+    });
     await testClient.flushKey(keyName);
   });
 
