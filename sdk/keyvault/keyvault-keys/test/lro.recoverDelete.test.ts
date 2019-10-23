@@ -3,10 +3,13 @@
 
 import * as assert from "assert";
 import { KeyClient, DeletedKey } from "../src";
+import { isNode } from "@azure/core-http";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - Long Running Operations - recoverDelete", () => {
   const keyPrefix = `recover${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -85,5 +88,18 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.flushKey(keyName);
+  });
+
+  it("can recover a deleted key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await client.createKey(keyName, "RSA");
+    const deletePoller = await client.beginDeleteKey(keyName);
+    await deletePoller.pollUntilDone();
+    await assertThrowsAbortError(async () => {
+      await client.beginRecoverDeletedKey(keyName, { requestOptions: { timeout: 1 } });
+    });
   });
 });

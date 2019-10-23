@@ -3,10 +3,13 @@
 
 import * as assert from "assert";
 import { KeyClient } from "../src";
+import { isNode } from "@azure/core-http";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - list keys in various ways", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
@@ -57,6 +60,18 @@ describe("Keys client - list keys in various ways", () => {
     }
     assert.equal(totalVersions, 1, `Unexpected total versions for key ${keyName}`);
     await testClient.flushKey(keyName);
+  });
+
+  it("can get the versions of a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
+    const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
+      requestOptions: { timeout: 1 }
+    });
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
   });
 
   it("can get the versions of a key (paged)", async function() {
@@ -128,6 +143,17 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
+  it("can get several inserted keys with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
+    const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
+
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
+  });
+
   it("can get several inserted keys (paged)", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
@@ -179,6 +205,16 @@ describe("Keys client - list keys in various ways", () => {
     for (const name of keyNames) {
       await testClient.purgeKey(name);
     }
+  });
+
+  it("list deleted keys with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
+    const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
   });
 
   it("list deleted keys (paged)", async function() {
