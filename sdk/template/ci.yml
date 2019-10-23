@@ -36,6 +36,8 @@ pr:
       - sdk/template/
 
 variables:
+  Skip.Analyze: true
+  Skip.UnitTest: true
   Skip.TagRepository: true
   Skip.PublishPackage: true
 

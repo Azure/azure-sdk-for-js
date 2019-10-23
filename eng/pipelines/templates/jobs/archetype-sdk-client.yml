@@ -113,6 +113,7 @@ jobs:
           path: $(Build.ArtifactStagingDirectory)/Documentation
 
   - job: "Analyze"
+    condition: ne(variables['Skip.Analyze'], 'true')
     dependsOn: "Build"
     variables:
       - template: ../variables/globals.yml
@@ -210,6 +211,7 @@ jobs:
   # Only run tests if the matrix has entries
   - ${{ if eq(parameters.RunUnitTests, 'true') }}:
       - job: "UnitTest"
+        condition: ne(variables['Skip.UnitTest'], 'true')
 
         strategy:
           matrix: ${{parameters.Matrix}}
