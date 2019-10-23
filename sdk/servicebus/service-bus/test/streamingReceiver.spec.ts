@@ -237,28 +237,28 @@ describe("Streaming - Misc Tests", function(): void {
     await testManualComplete();
   });
 
-  class TestTokenProvider extends SasTokenProvider {
-    private firstCall = true;
-    private connectionStringObj: any;
-    constructor(connectionStringObj: any) {
-      super(
-        connectionStringObj.Endpoint,
-        connectionStringObj.SharedAccessKeyName,
-        connectionStringObj.SharedAccessKey
-      );
-      this.connectionStringObj = connectionStringObj;
-    }
-
-    async getToken(): Promise<TokenInfo> {
-      if (this.firstCall) {
-        this.firstCall = false;
-        throw new Error("test");
-      }
-      return super.getToken(this.connectionStringObj.Endpoint);
-    }
-  }
-
   it("Bug fix #5548 - Correctly instantiates streaming receiver", async function(): Promise<void> {
+    class TestTokenProvider extends SasTokenProvider {
+      private firstCall = true;
+      private connectionStringObj: any;
+      constructor(connectionStringObj: any) {
+        super(
+          connectionStringObj.Endpoint,
+          connectionStringObj.SharedAccessKeyName,
+          connectionStringObj.SharedAccessKey
+        );
+        this.connectionStringObj = connectionStringObj;
+      }
+
+      async getToken(): Promise<TokenInfo> {
+        if (this.firstCall) {
+          this.firstCall = false;
+          throw new Error("test");
+        }
+        return super.getToken(this.connectionStringObj.Endpoint);
+      }
+    }
+
     await beforeEachTest(
       TestClientType.UnpartitionedTopic,
       TestClientType.UnpartitionedSubscription
