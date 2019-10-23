@@ -14,6 +14,11 @@ export function setTracer(tracer: Tracer) {
   cache.tracer = tracer;
 }
 
+function isBrowser() {
+  return typeof window !== "undefined";
+}
+const env = isBrowser() ? (window as any).__env__ : process.env;
+
 /**
  * Retrieves the active tracer, or returns a
  * no-op implementation if one is not set.
@@ -23,7 +28,7 @@ export function getTracer() {
   if (!cache.tracer) {
     cache.tracer = new NoOpTracer();
   }
-  if (process && process.env && process.env.AZURE_TRACING_DISABLED) {
+  if (env.AZURE_TRACING_DISABLED) {
     cache.tracer = new NoOpTracer();
   }
   return cache.tracer;
