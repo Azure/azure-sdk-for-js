@@ -47,37 +47,6 @@ And in code you can now create your App Configuration client with the **connecti
 const client = new AppConfigurationClient("<connection string>");
 ```
 
-## Examples
-
-#### nodejs - Create and get a setting in JavaScript
-
-##### Sample code
-
-```javascript
-const appConfig = require("@azure/app-configuration");
-
-const client = new appConfig.AppConfigurationClient("<App Configuration connection string goes here>");
-
-async function run() {
-  const newSetting = await client.setConfigurationSetting({
-    key: "testkey", 
-    value: "testvalue",
-    // Labels allow you to create variants of a key tailored
-    // for specific use-cases like supporting multiple environments.
-    // https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-key-value#label-keys
-    label: "optional-label"
-  });
-
-  let retrievedSetting = await client.getConfigurationSetting("testkey", { label: "optional-label" });
-
-  console.log("Retrieved value:", retrievedSetting.value);
-}
-
-run().catch(err => console.log("ERROR:", err));
-```
-
-More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples) folder on GitHub.
-
 ## Samples
 
 The following samples show you the various ways you can interact with App Configuration:
@@ -129,6 +98,7 @@ folder for more details.
 [azure_sub]: https://azure.microsoft.com/free/
 [package]: https://www.npmjs.com/package/@azure/app-configuration
 [nodejs]: https://nodejs.org/en/download/
+[azure_portal]: https://portal.azure.com
 
 [style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://worldready.cloudapp.net/Styleguide/Read?id=2696&topicid=25357
