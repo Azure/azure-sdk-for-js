@@ -98,23 +98,22 @@ const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cance
 ) {
   const state = this.state;
   const { copyId } = state;
-  if (state.completed) {
+  if (state.isCompleted) {
     return makeBlobBeginCopyFromURLPollOperation(state);
   }
 
   if (!copyId) {
-    state.cancelled = true;
+    state.isCancelled = true;
     return makeBlobBeginCopyFromURLPollOperation(state);
   }
 
   try {
-    // TODO: Support abort options
     await state.blobClient.abortCopyFromURL(copyId, {
       abortSignal: options.abortSignal
     });
-    state.cancelled = true;
+    state.isCancelled = true;
   } catch (err) {
-    // Not sure what to do in this case... treat as not cancelled?
+    // swallow error
   }
 
   return makeBlobBeginCopyFromURLPollOperation(state);
@@ -127,19 +126,17 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
   const state = this.state;
   const { blobClient, copySource, startCopyFromURLOptions } = state;
 
-  // TODO: Logic when state isn't started
-  if (!state.started) {
-    state.started = true;
+  if (!state.isStarted) {
+    state.isStarted = true;
     const result = await blobClient.startCopyFromURL(copySource, startCopyFromURLOptions);
 
     // copyId is needed to abort
     state.copyId = result.copyId;
     if (result.copyStatus === "success") {
       state.result = result;
-      state.completed = true;
+      state.isCompleted = true;
     }
-    // TODO: Check other statuses?
-  } else if (!state.completed) {
+  } else if (!state.isCompleted) {
     try {
       const result = await state.blobClient.getProperties();
       const { copyStatus, copyProgress } = result;
@@ -156,17 +153,16 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
         options.fireProgress(state);
       } else if (copyStatus === "success") {
         state.result = result;
-        state.completed = true;
+        state.isCompleted = true;
       } else if (copyStatus === "failed") {
         state.error = new Error(
           `Blob copy failed with reason: "${result.copyStatusDescription || "unknown"}"`
         );
-        state.completed = true;
+        state.isCompleted = true;
       }
     } catch (err) {
-      // how should we handle transient errors?
       state.error = err;
-      state.completed = true;
+      state.isCompleted = true;
     }
   }
 
