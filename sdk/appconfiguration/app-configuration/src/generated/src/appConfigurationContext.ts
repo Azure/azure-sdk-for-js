@@ -13,7 +13,7 @@ import * as Models from "./models";
 
 const packageName = "app-configuration";
 export const
-  packageVersion = "1.0.0-preview.6";
+  packageVersion = "1.0.0-preview.11";
 
 export class AppConfigurationContext extends coreHttp.ServiceClient {
   syncToken?: string;
