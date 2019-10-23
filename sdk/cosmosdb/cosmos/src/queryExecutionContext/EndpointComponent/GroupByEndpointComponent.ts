@@ -19,6 +19,7 @@ interface GroupByResult {
   payload: any;
 }
 
+// The empty group is used for aggregates without a GROUP BY clause
 const emptyGroup = "__empty__";
 
 /** @hidden */
@@ -61,12 +62,8 @@ export class GroupByEndpointComponent implements ExecutionContext {
           // Aggregate the first value
           // Newer API versions rewrite the query to return `item2`. It fixes some legacy issues with the original `item` result
           // Aggregatior code should use item2 when available
-          if (typeof payload[key] === "object") {
-            const aggregateResult = payload[key].item2 ? payload[key].item2 : payload[key].item;
-            this.groupings[group][key].aggregate(aggregateResult);
-          } else {
-            this.groupings[group][key].aggregate(payload[key]);
-          }
+          const aggregateResult = payload[key].item2 ? payload[key].item2 : payload[key].item;
+          this.groupings[group][key].aggregate(aggregateResult);
         });
       }
     }
