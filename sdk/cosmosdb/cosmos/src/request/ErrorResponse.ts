@@ -39,7 +39,7 @@ export interface QueryInfo {
   orderByExpressions?: any[];
   offset?: number;
   limit?: number;
-  aggregates?: any[];
+  aggregates?: AggregateType[];
   groupByExpressions?: GroupByExpressions;
   groupByAliasToAggregateType: GroupByAliasToAggregateType;
   rewrittenQuery?: any;
@@ -49,8 +49,10 @@ export interface QueryInfo {
 
 export type GroupByExpressions = string[];
 
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+
 export interface GroupByAliasToAggregateType {
-  [key: string]: string;
+  [key: string]: AggregateType;
 }
 
 export interface ErrorResponse extends Error {

@@ -3,56 +3,87 @@
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
-import { GroupByAliasToAggregateType } from "../../request/ErrorResponse";
+import { GroupByAliasToAggregateType, AggregateType, QueryInfo } from "../../request/ErrorResponse";
 // import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { hashObject } from "../../utils/hashObject";
+import { Aggregator, createAggregator } from "../Aggregators";
+import { getInitialHeader } from "../headerUtils";
+
+interface GroupByResponse {
+  result: GroupByResult;
+  headers: CosmosHeaders;
+}
 
 interface GroupByResult {
   groupByItems: any[];
   payload: any;
 }
 
+const emptyGroup = "__empty__";
+
 /** @hidden */
 export class GroupByEndpointComponent implements ExecutionContext {
-  constructor(
-    private executionContext: ExecutionContext,
-    private groupByAliasToAggregateType: GroupByAliasToAggregateType
-  ) {}
+  constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {}
 
-  private aggregatedResultMap: any = {};
+  private groupings: { [key: string]: { [key: string]: Aggregator } } = {};
   private aggreateResultArray: any[] = [];
-  // private aggregatedHeaders: CosmosHeaders;
 
   public async nextItem(): Promise<Response<any>> {
-    const { result, headers } = (await this.executionContext.nextItem()) as {
-      result: GroupByResult;
-      headers: CosmosHeaders;
-    };
+    // If we have a full result set, begin returning results
+    if (this.aggreateResultArray.length > 0) {
+      return { result: this.aggreateResultArray.pop(), headers: getInitialHeader() };
+    }
+
+    // Grab the next result
+    const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
+
+    // If it exists, process it via aggreatators
     if (result) {
-      const groupingHash = await hashObject(result.groupByItems);
-
-      const lastResult = this.aggregatedResultMap[groupingHash];
-      if (lastResult) {
-        this.aggregatedResultMap[groupingHash] = combineResults(
-          this.groupByAliasToAggregateType,
-          lastResult,
-          result.payload
-        );
+      const group = result.groupByItems ? await hashObject(result.groupByItems) : emptyGroup;
+      const aggergators = this.groupings[group];
+      const payload = result.payload;
+      if (aggergators) {
+        // Iterator over all results in the payload
+        Object.keys(payload).map((key) => {
+          // Newer API versions rewrite the query to return `item2`. It fixes some legacy issues with the original `item` result
+          // Aggregatior code should use item2 when available
+          const aggregateResult = payload[key].item2 ? payload[key].item2 : payload[key].item;
+          aggergators[key].aggregate(aggregateResult);
+        });
       } else {
-        this.aggregatedResultMap[groupingHash] = result.payload;
+        // This is the first time we have seen a grouping. Setup the initial result without aggregate values
+        this.groupings[group] = {};
+        // Iterator over all results in the payload
+        Object.keys(payload).map((key) => {
+          const aggregateType = this.queryInfo.groupByAliasToAggregateType[key];
+          // Create a new aggregator for this specific aggregate field
+          this.groupings[group][key] = createAggregator(aggregateType);
+          // Aggregate the first value
+          // Newer API versions rewrite the query to return `item2`. It fixes some legacy issues with the original `item` result
+          // Aggregatior code should use item2 when available
+          if (typeof payload[key] === "object") {
+            const aggregateResult = payload[key].item2 ? payload[key].item2 : payload[key].item;
+            this.groupings[group][key].aggregate(aggregateResult);
+          } else {
+            this.groupings[group][key].aggregate(payload[key]);
+          }
+        });
       }
-
-      // const groupByAliases = Object.keys(this.groupByAliasToAggregateType);
-
-      console.log(result, this.groupByAliasToAggregateType);
     }
-    if (!this.hasMoreResults()) {
-      this.aggreateResultArray = groupingsToArray(
-        this.aggregatedResultMap,
-        this.groupByAliasToAggregateType
-      );
-      return { result: this.aggreateResultArray, headers };
+
+    // It no results are left in the underling execution context, convert our results set to an array
+    if (!this.executionContext.hasMoreResults()) {
+      this.aggreateResultArray = Object.keys(this.groupings).map((group) => {
+        const groupResult: any = {};
+        Object.keys(this.groupings[group]).map((aggregate) => {
+          groupResult[aggregate] = this.groupings[group][aggregate].getResult();
+        });
+        return groupResult;
+      });
+      return { result: this.aggreateResultArray.pop(), headers };
     }
+
+    // Return empty items until we have a full results set
     return { result: undefined, headers };
   }
 
@@ -66,25 +97,4 @@ export class GroupByEndpointComponent implements ExecutionContext {
       (this.aggreateResultArray && this.aggreateResultArray.length > 0)
     );
   }
-}
-
-function groupingsToArray(groupings: any, groupByFields: any): any[] {
-  return [];
-}
-
-function combineResults(aggregateMap: GroupByAliasToAggregateType, current: any, payload: any) {
-  console.log(current, payload);
-  Object.keys(aggregateMap).map((field) => {
-    const aggregateType = aggregateMap[field];
-    switch (aggregateType) {
-      case null:
-        current[field] = current[field] || payload[field];
-        break;
-      case "Count":
-        current[field].item += payload[field].item;
-        break;
-      default:
-        break;
-    }
-  });
 }

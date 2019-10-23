@@ -86,7 +86,9 @@ async function httpRequest(requestContext: RequestContext) {
     headers[key] = value;
   });
 
-  const substatus = parseInt(headers[Constants.HttpHeaders.SubStatus], 10);
+  const substatus = headers[Constants.HttpHeaders.SubStatus]
+    ? parseInt(headers[Constants.HttpHeaders.SubStatus], 10)
+    : undefined;
 
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new Error(result.message);

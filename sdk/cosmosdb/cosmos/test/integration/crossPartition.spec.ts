@@ -30,7 +30,7 @@ describe("Cross Partition", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   describe("Validate Query", function() {
-    const documentDefinitions = generateDocuments(30);
+    const documentDefinitions = generateDocuments(20);
 
     const containerDefinition: ContainerDefinition = {
       id: "sample container",
@@ -269,7 +269,7 @@ describe("Cross Partition", function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options: FeedOptions = {
-        maxItemCount: 2,
+        maxItemCount: 5,
         maxDegreeOfParallelism: -1,
         forceQueryPlan: true,
         populateQueryMetrics: true
@@ -350,7 +350,7 @@ describe("Cross Partition", function() {
         query,
         options,
         expectedOrderIds: expectedOrderedIds,
-        expectedRus: 35
+        expectedRus: 37
       });
     });
 
@@ -951,35 +951,6 @@ describe("Cross Partition", function() {
         options,
         expectedOrderIds: expectedOrderedIds
       });
-    });
-
-    it("Validate GROUP BY", async function() {
-      // an order by query with explicit ascending ordering
-      const querySpec = {
-        query: `SELECT VALUE COUNT(1) FROM root r GROUP BY r.spam3`
-      };
-
-      const options = {
-        maxItemCount: 2,
-        // forceQueryPlan: true,
-        initialHeaders: {
-          "x-ms-documentdb-partitionkeyrangeid": 0
-        }
-      };
-
-      // const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
-      //   return r["id"];
-      // });
-      const queryIterator = container.items.query(querySpec, options);
-
-      const result = await queryIterator.fetchAll();
-      console.log(JSON.stringify(result.resources, null, 2));
-
-      // validates the results size and order
-      // await executeQueryAndValidateResults({
-      //   query: querySpec,
-      //   options
-      // });
     });
 
     it("Validate Failure", async function() {

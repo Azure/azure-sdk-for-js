@@ -15,7 +15,7 @@ const validateOfferResponseBody = function(offer: any) {
   assert(offer._self.indexOf(offer.id) !== -1, "Offer id not contained in offer self link.");
 };
 
-describe("NodeJS CRUD Tests", function() {
+describe.only("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   beforeEach(async function() {

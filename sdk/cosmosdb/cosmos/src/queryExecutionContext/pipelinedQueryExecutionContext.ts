@@ -14,6 +14,7 @@ import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
+import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -58,22 +59,22 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.partitionedQueryExecutionInfo
       );
     }
-
-    // If aggregate then add that to the pipeline
-    const aggregates = partitionedQueryExecutionInfo.queryInfo.aggregates;
-    if (Array.isArray(aggregates) && aggregates.length > 0) {
-      this.endpoint = new AggregateEndpointComponent(this.endpoint, aggregates);
-    }
-
-    console.log(partitionedQueryExecutionInfo.queryInfo);
     if (
-      Array.isArray(partitionedQueryExecutionInfo.queryInfo.groupByExpressions) &&
+      Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length > 0 ||
+      partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
       partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
     ) {
-      this.endpoint = new GroupByEndpointComponent(
-        this.endpoint,
-        partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType
-      );
+      if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
+        this.endpoint = new GroupByValueEndpointComponent(
+          this.endpoint,
+          partitionedQueryExecutionInfo.queryInfo
+        );
+      } else {
+        this.endpoint = new GroupByEndpointComponent(
+          this.endpoint,
+          partitionedQueryExecutionInfo.queryInfo
+        );
+      }
     }
     // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
     const top = partitionedQueryExecutionInfo.queryInfo.top;
