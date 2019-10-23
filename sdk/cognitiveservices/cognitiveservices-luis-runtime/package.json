@@ -55,5 +55,6 @@
     "prepack": "npm install && npm run build && npm run test",
     "test": "mocha"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "autoPublish": true
 }
