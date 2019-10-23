@@ -31,8 +31,6 @@ export interface DeletedSecret {
 
 // @public
 export interface DeleteSecretPollOperationState extends PollOperationState<DeletedSecret> {
-    // Warning: (ae-forgotten-export) The symbol "SecretClientInterface" needs to be exported by the entry point index.d.ts
-    // 
     // (undocumented)
     client: SecretClientInterface;
     // (undocumented)
@@ -133,6 +131,18 @@ export class SecretClient {
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface SecretClientInterface {
+    // (undocumented)
+    deleteSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
+    // (undocumented)
+    getDeletedSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
+    // (undocumented)
+    getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
+    // (undocumented)
+    recoverDeletedSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<SecretProperties>;
 }
 
 // @public

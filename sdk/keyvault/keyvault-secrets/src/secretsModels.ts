@@ -164,7 +164,7 @@ export interface DeletedSecret {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to beginDeleteSecret
+ * passed to {@link beginDeleteSecret}
  */
 export interface SecretPollerOptions extends coreHttp.RequestOptionsBase {
   /**
@@ -179,7 +179,7 @@ export interface SecretPollerOptions extends coreHttp.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to setSecret.
+ * An interface representing the optional parameters that can be passed to {@link setSecret}.
  */
 export interface SetSecretOptions extends coreHttp.RequestOptionsBase {
   /**
@@ -208,7 +208,7 @@ export interface SetSecretOptions extends coreHttp.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to updateSecret.
+ * An interface representing the optional parameters that can be passed to {@link updateSecret}.
  */
 export interface UpdateSecretPropertiesOptions extends coreHttp.RequestOptionsBase {
   /**
@@ -237,7 +237,7 @@ export interface UpdateSecretPropertiesOptions extends coreHttp.RequestOptionsBa
 
 /**
  * @interface
- * An interface representing the optional parameters that can be passed to getSecret.
+ * An interface representing the optional parameters that can be passed to {@link getSecret}.
  */
 export interface GetSecretOptions extends coreHttp.RequestOptionsBase {
   /**

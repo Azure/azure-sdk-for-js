@@ -61,7 +61,12 @@ describe("EnvironmentCredential", function() {
               children: [
                 {
                   name: "Azure.Identity.ClientSecretCredential-getToken",
-                  children: []
+                  children: [
+                    {
+                      children: [],
+                      name: "core-http"
+                    }
+                  ]
                 }
               ]
             }
