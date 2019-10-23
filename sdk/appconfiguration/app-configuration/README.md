@@ -7,7 +7,7 @@ Use the client library for App Configuration to:
 * Tag keys with labels
 * Replay settings from any point in time
 
-[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | [NPM](https://www.npmjs.com/package/@azure/app-configuration) | [API Reference documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/)  | [Samples][samples]
+[Source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) | [NPM](https://www.npmjs.com/package/@azure/app-configuration) | [API Reference documentation](https://azure.github.io/azure-sdk-for-js/app-configuration/) | [Samples][samples]
 
 ## Getting started
 
@@ -45,6 +45,45 @@ And in code you can now create your App Configuration client with the **connecti
 
 ```typescript
 const client = new AppConfigurationClient("<connection string>");
+```
+
+## Key concepts
+
+The [`AppConfigurationClient`](https://azure.github.io/azure-sdk-for-js/app-configuration/classes/appconfigurationclient.html) has some terminology changes from App Configuration in the portal. 
+
+* Key/Value pairs are represented as [`ConfigurationSetting`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsetting.html) objects
+* Locking and unlocking a setting is renamed to `readOnly`, which you can toggle using the `setReadOnly` and `clearReadOnly` methods.
+
+The client follows a simple design methodology - [`ConfigurationSetting`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsetting.html) can be passed into any method that takes a [`ConfigurationSettingParam`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsettingparam.html) or [`ConfigurationSettingId`](https://azure.github.io/azure-sdk-for-js/app-configuration/interfaces/configurationsettingid.html). 
+
+This means this pattern works:
+
+```typescript
+const setting = await client.getConfigurationSetting({
+  key: "hello"
+});
+
+setting.value = "new value!";
+await client.setConfigurationSetting(setting);
+
+// fields unrelated to just identifying the setting are simply 
+// ignored (for instance, the `value` field)
+await client.setReadOnly(setting);
+
+// delete just needs to identify the setting so other fields are
+// just ignored
+await client.deleteConfigurationSetting(setting);
+```
+
+or, for example, re-getting a setting:
+
+```typescript
+let setting = await client.getConfigurationSetting({
+  key: "hello"
+});
+
+// re-get the setting
+setting = await.getConfigurationSetting(setting); 
 ```
 
 ## Examples
