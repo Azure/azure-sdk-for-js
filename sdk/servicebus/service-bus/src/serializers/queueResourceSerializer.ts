@@ -25,7 +25,7 @@ import {
  * @param queueOptions
  */
 export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOptions {
-  const internalQueueOptions: InternalQueueOptions = {
+  return {
     LockDuration: queueOptions.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queueOptions.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(queueOptions.requiresDuplicateDetection),
@@ -45,7 +45,6 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
     ForwardDeadLetteredMessagesTo: queueOptions.forwardDeadLetteredMessagesTo,
     UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
   };
-  return internalQueueOptions;
 }
 
 /**
@@ -56,53 +55,51 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
 export function buildQueue(rawQueue: any): QueueDetails | undefined {
   if (rawQueue == undefined) {
     return undefined;
-  } else {
-    const result: QueueDetails = {
-      queueName: rawQueue[Constants.QUEUE_NAME],
-
-      forwardTo: rawQueue[Constants.FORWARD_TO],
-      path: rawQueue[Constants.PATH],
-      userMetadata: rawQueue[Constants.USER_METADATA],
-
-      lockDuration: rawQueue[Constants.LOCK_DURATION],
-      sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
-      maxSizeInMegabytes: getIntegerOrUndefined(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES]),
-
-      messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
-      maxDeliveryCount: getIntegerOrUndefined(rawQueue[Constants.MAX_DELIVERY_COUNT]),
-
-      enablePartitioning: getBooleanOrUndefined(rawQueue[Constants.ENABLE_PARTITIONING]),
-      requiresSession: getBooleanOrUndefined(rawQueue[Constants.REQUIRES_SESSION]),
-      enableBatchedOperations: getBooleanOrUndefined(rawQueue[Constants.ENABLE_BATCHED_OPERATIONS]),
-
-      defaultMessageTimeToLive: rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
-
-      requiresDuplicateDetection: getBooleanOrUndefined(
-        rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION]
-      ),
-      duplicateDetectionHistoryTimeWindow:
-        rawQueue[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
-      deadLetteringOnMessageExpiration: getBooleanOrUndefined(
-        rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
-      ),
-      forwardDeadLetteredMessagesTo: rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
-
-      messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
-      supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
-      enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
-
-      authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
-      isAnonymousAccessible: getBooleanOrUndefined(rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE]),
-
-      entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
-      status: rawQueue[Constants.STATUS],
-      createdAt: rawQueue[Constants.CREATED_AT],
-      updatedAt: rawQueue[Constants.UPDATED_AT],
-      accessedAt: rawQueue[Constants.ACCESSED_AT]
-    };
-    return result;
   }
+  return {
+    queueName: rawQueue[Constants.QUEUE_NAME],
+
+    forwardTo: rawQueue[Constants.FORWARD_TO],
+    path: rawQueue[Constants.PATH],
+    userMetadata: rawQueue[Constants.USER_METADATA],
+
+    lockDuration: rawQueue[Constants.LOCK_DURATION],
+    sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
+    maxSizeInMegabytes: getIntegerOrUndefined(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES]),
+
+    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
+    maxDeliveryCount: getIntegerOrUndefined(rawQueue[Constants.MAX_DELIVERY_COUNT]),
+
+    enablePartitioning: getBooleanOrUndefined(rawQueue[Constants.ENABLE_PARTITIONING]),
+    requiresSession: getBooleanOrUndefined(rawQueue[Constants.REQUIRES_SESSION]),
+    enableBatchedOperations: getBooleanOrUndefined(rawQueue[Constants.ENABLE_BATCHED_OPERATIONS]),
+
+    defaultMessageTimeToLive: rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+    autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
+
+    requiresDuplicateDetection: getBooleanOrUndefined(
+      rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION]
+    ),
+    duplicateDetectionHistoryTimeWindow:
+      rawQueue[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
+    deadLetteringOnMessageExpiration: getBooleanOrUndefined(
+      rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
+    ),
+    forwardDeadLetteredMessagesTo: rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
+
+    messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
+    supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
+    enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
+
+    authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
+    isAnonymousAccessible: getBooleanOrUndefined(rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE]),
+
+    entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
+    status: rawQueue[Constants.STATUS],
+    createdAt: rawQueue[Constants.CREATED_AT],
+    updatedAt: rawQueue[Constants.UPDATED_AT],
+    accessedAt: rawQueue[Constants.ACCESSED_AT]
+  };
 }
 
 /**

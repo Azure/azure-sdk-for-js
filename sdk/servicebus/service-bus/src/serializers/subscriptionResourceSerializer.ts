@@ -24,7 +24,7 @@ import {
 export function buildSubscriptionOptions(
   subscriptionOptions: SubscriptionOptions
 ): InternalSubscriptionOptions {
-  const internalSubscriptionOptions: InternalSubscriptionOptions = {
+  return {
     LockDuration: subscriptionOptions.lockDuration,
     RequiresSession: getStringOrUndefined(subscriptionOptions.requiresSession),
     DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTimeToLive),
@@ -46,8 +46,6 @@ export function buildSubscriptionOptions(
     ),
     AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle)
   };
-
-  return internalSubscriptionOptions;
 }
 
 /**
@@ -58,49 +56,47 @@ export function buildSubscriptionOptions(
 export function buildSubscription(rawSubscription: any): SubscriptionDetails | undefined {
   if (rawSubscription == undefined) {
     return undefined;
-  } else {
-    const result: SubscriptionDetails = {
-      subscriptionName: rawSubscription[Constants.SUBSCRIPTION_NAME],
-      topicName: rawSubscription[Constants.TOPIC_NAME],
-
-      lockDuration: rawSubscription[Constants.LOCK_DURATION],
-      sizeInBytes: getIntegerOrUndefined(rawSubscription[Constants.SIZE_IN_BYTES]),
-      maxSizeInMegabytes: getIntegerOrUndefined(rawSubscription[Constants.MAX_SIZE_IN_MEGABYTES]),
-
-      messageCount: getIntegerOrUndefined(rawSubscription[Constants.MESSAGE_COUNT]),
-      maxDeliveryCount: getIntegerOrUndefined(rawSubscription[Constants.MAX_DELIVERY_COUNT]),
-
-      enablePartitioning: getBooleanOrUndefined(rawSubscription[Constants.ENABLE_PARTITIONING]),
-      requiresSession: getBooleanOrUndefined(rawSubscription[Constants.REQUIRES_SESSION]),
-      enableBatchedOperations: getBooleanOrUndefined(
-        rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS]
-      ),
-
-      defaultMessageTimeToLive: rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      autoDeleteOnIdle: rawSubscription[Constants.AUTO_DELETE_ON_IDLE],
-
-      deadLetteringOnMessageExpiration: getBooleanOrUndefined(
-        rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
-      ),
-      deadLetteringOnFilterEvaluationExceptions: getBooleanOrUndefined(
-        rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS]
-      ),
-      forwardDeadLetteredMessagesTo: rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
-      defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
-
-      messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
-
-      forwardTo: rawSubscription[Constants.FORWARD_TO],
-      userMetadata: rawSubscription[Constants.USER_METADATA],
-
-      entityAvailabilityStatus: rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
-      status: rawSubscription[Constants.STATUS],
-      createdAt: rawSubscription[Constants.CREATED_AT],
-      updatedAt: rawSubscription[Constants.UPDATED_AT],
-      accessedAt: rawSubscription[Constants.ACCESSED_AT]
-    };
-    return result;
   }
+  return {
+    subscriptionName: rawSubscription[Constants.SUBSCRIPTION_NAME],
+    topicName: rawSubscription[Constants.TOPIC_NAME],
+
+    lockDuration: rawSubscription[Constants.LOCK_DURATION],
+    sizeInBytes: getIntegerOrUndefined(rawSubscription[Constants.SIZE_IN_BYTES]),
+    maxSizeInMegabytes: getIntegerOrUndefined(rawSubscription[Constants.MAX_SIZE_IN_MEGABYTES]),
+
+    messageCount: getIntegerOrUndefined(rawSubscription[Constants.MESSAGE_COUNT]),
+    maxDeliveryCount: getIntegerOrUndefined(rawSubscription[Constants.MAX_DELIVERY_COUNT]),
+
+    enablePartitioning: getBooleanOrUndefined(rawSubscription[Constants.ENABLE_PARTITIONING]),
+    requiresSession: getBooleanOrUndefined(rawSubscription[Constants.REQUIRES_SESSION]),
+    enableBatchedOperations: getBooleanOrUndefined(
+      rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS]
+    ),
+
+    defaultMessageTimeToLive: rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
+    autoDeleteOnIdle: rawSubscription[Constants.AUTO_DELETE_ON_IDLE],
+
+    deadLetteringOnMessageExpiration: getBooleanOrUndefined(
+      rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION]
+    ),
+    deadLetteringOnFilterEvaluationExceptions: getBooleanOrUndefined(
+      rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS]
+    ),
+    forwardDeadLetteredMessagesTo: rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
+    defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
+
+    messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
+
+    forwardTo: rawSubscription[Constants.FORWARD_TO],
+    userMetadata: rawSubscription[Constants.USER_METADATA],
+
+    entityAvailabilityStatus: rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
+    status: rawSubscription[Constants.STATUS],
+    createdAt: rawSubscription[Constants.CREATED_AT],
+    updatedAt: rawSubscription[Constants.UPDATED_AT],
+    accessedAt: rawSubscription[Constants.ACCESSED_AT]
+  };
 }
 
 /**
