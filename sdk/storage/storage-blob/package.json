@@ -28,7 +28,7 @@
     "build:js-samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:ts-samples": "npm run clean && cd samples && tsc -p . ",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip",
+    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -86,6 +86,7 @@
     "@azure/core-paging": "1.0.0-preview.2",
     "@azure/core-tracing": "1.0.0-preview.5",
     "@azure/core-lro": "1.0.0-preview.1",
+    "@azure/logger": "1.0.0-preview.1",
     "events": "^3.0.0",
     "tslib": "^1.9.3"
   },

@@ -11,7 +11,7 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { Debugger } from "@azure/logger";
-import { logger as coreLogger, logger } from "../log";
+import { logger as coreLogger } from "../log";
 
 export interface LogPolicyOptions {
   /**
@@ -27,21 +27,11 @@ export interface LogPolicyOptions {
    * query string values are logged.
    */
   allowedQueryParameters?: string[];
-}
 
-/**
- * Options to configure request/response logging.
- */
-export interface LoggingOptions {
   /**
    * The Debugger (logger) instance to use for writing pipeline logs.
    */
-  logger?: Debugger,
-
-  /**
-   * Options to pass to the logPolicy factory.
-   */
-  logPolicyOptions?: LogPolicyOptions
+  logger?: Debugger;
 }
 
 const RedactedString = "REDACTED";
@@ -72,31 +62,18 @@ const defaultAllowedHeaderNames = [
   "User-Agent"
 ];
 
-const defaultAllowedQueryParameters: string[] = [
-  "api-version"
-];
+const defaultAllowedQueryParameters: string[] = ["api-version"];
 
-export const DefaultLoggingOptions: LoggingOptions = {
-  logger: undefined,
-  logPolicyOptions: {
-    allowedHeaderNames: [],      // These are empty lists because they are additive to
-    allowedQueryParameters: []   // the real defaultAllowed[HeaderNames|QueryParameters].
-  }
-}
-
-export function logPolicy(
-  logger: any = coreLogger.info.bind(coreLogger),
-  logOptions: LogPolicyOptions = {}
-): RequestPolicyFactory {
+export function logPolicy(loggingOptions: LogPolicyOptions = {}): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new LogPolicy(nextPolicy, options, logger, logOptions);
+      return new LogPolicy(nextPolicy, options, loggingOptions);
     }
   };
 }
 
 export class LogPolicy extends BaseRequestPolicy {
-  logger?: any;
+  logger: Debugger;
 
   public allowedHeaderNames: Set<string>;
   public allowedQueryParameters: Set<string>;
@@ -104,28 +81,29 @@ export class LogPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    logger: any = console.log,
-    { allowedHeaderNames = [], allowedQueryParameters = [] }: LogPolicyOptions = {}
+    {
+      logger = coreLogger.info,
+      allowedHeaderNames = [],
+      allowedQueryParameters = []
+    }: LogPolicyOptions = {}
   ) {
     super(nextPolicy, options);
     this.logger = logger;
 
-    allowedHeaderNames =
-      allowedHeaderNames && allowedHeaderNames instanceof Array
-        ? defaultAllowedHeaderNames.concat(allowedHeaderNames)
-        : defaultAllowedHeaderNames;
+    allowedHeaderNames = Array.isArray(allowedHeaderNames)
+      ? defaultAllowedHeaderNames.concat(allowedHeaderNames)
+      : defaultAllowedHeaderNames;
 
-    allowedQueryParameters =
-      allowedQueryParameters && allowedQueryParameters instanceof Array
-        ? defaultAllowedQueryParameters.concat(allowedQueryParameters)
-        : defaultAllowedQueryParameters;
+    allowedQueryParameters = Array.isArray(allowedQueryParameters)
+      ? defaultAllowedQueryParameters.concat(allowedQueryParameters)
+      : defaultAllowedQueryParameters;
 
     this.allowedHeaderNames = new Set(allowedHeaderNames);
     this.allowedQueryParameters = new Set(allowedQueryParameters);
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    if (!logger.info.enabled) return this._nextPolicy.sendRequest(request);
+    if (!this.logger.enabled) return this._nextPolicy.sendRequest(request);
 
     this.logRequest(request);
     return this._nextPolicy.sendRequest(request).then((response) => this.logResponse(response));

@@ -7,7 +7,8 @@ import {
   deleteKeyCompletely,
   toSortedArray,
   assertEqualSettings,
-  assertThrowsRestError
+  assertThrowsRestError,
+  assertThrowsAbortError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 
@@ -135,6 +136,22 @@ describe("AppConfigurationClient", () => {
         assert.notEqual(err.message, "Test failure");
       }
     });
+
+    it("accepts operation options", async () => {
+      const key = `addConfigTestTwice-${Date.now()}`;
+      const label = "test";
+      const value = "foo";
+      await assertThrowsAbortError(async () => {
+        await client.addConfigurationSetting(
+          { key, label, value },
+          {
+            requestOptions: {
+              timeout: 1
+            }
+          }
+        );
+      });
+    });
   });
 
   describe("deleteConfigurationSetting", () => {
@@ -256,6 +273,22 @@ describe("AppConfigurationClient", () => {
         412
       );
     });
+
+    it("accepts operation options", async () => {
+      const key = `deleteConfigTest-${Date.now()}`;
+      const label = "MyLabel";
+      const value = "MyValue";
+
+      // create configuration
+      const result = await client.addConfigurationSetting({ key, label, value });
+
+      // delete configuration
+      await assertThrowsAbortError(async () => {
+        await client.deleteConfigurationSetting(result, {
+          requestOptions: { timeout: 1 }
+        });
+      });
+    });
   });
 
   describe("getConfigurationSetting", () => {
@@ -356,6 +389,21 @@ describe("AppConfigurationClient", () => {
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
       }
+    });
+
+    it("accepts operation options", async () => {
+      const key = `getConfigTest-${Date.now()}`;
+      const label = "test";
+      const value = "foo";
+      const tags = {
+        bar: "baz",
+        car: "caz"
+      };
+      const contentType = "application/json";
+      const result = await client.addConfigurationSetting({ key, label, value, contentType, tags });
+      await assertThrowsAbortError(async () => {
+        await client.getConfigurationSetting({ key, label }, { requestOptions: { timeout: 1 } });
+      });
     });
   });
 
@@ -576,6 +624,14 @@ describe("AppConfigurationClient", () => {
       await cleanupSampleValues([key], client);
     });
     */
+    it("accepts operation options", async () => {
+      await assertThrowsAbortError(async () => {
+        const settingsIterator = client.listConfigurationSettings({
+          requestOptions: { timeout: 1 }
+        });
+        await settingsIterator.next();
+      });
+    });
   });
 
   describe("listRevisions", () => {
@@ -651,6 +707,13 @@ describe("AppConfigurationClient", () => {
         ],
         revisions
       );
+    });
+
+    it("accepts operation options", async () => {
+      await assertThrowsAbortError(async () => {
+        const iter = client.listRevisions({ labels: [labelA], requestOptions: { timeout: 1 } });
+        await iter.next();
+      });
     });
   });
 
@@ -882,6 +945,22 @@ describe("AppConfigurationClient", () => {
         null,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
+    });
+
+    it("accepts operation options", async () => {
+      const key = `setConfigTestNA-${Date.now()}`;
+      const label = "test";
+      const value = "foo";
+      await assertThrowsAbortError(async () => {
+        const result = await client.setConfigurationSetting(
+          { key, label, value: "foo" },
+          {
+            requestOptions: {
+              timeout: 1
+            }
+          }
+        );
+      });
     });
   });
 });

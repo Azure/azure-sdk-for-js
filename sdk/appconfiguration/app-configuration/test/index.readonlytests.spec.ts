@@ -1,7 +1,8 @@
 import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
-  deleteKeyCompletely
+  deleteKeyCompletely,
+  assertThrowsAbortError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 import * as assert from "assert";
@@ -57,5 +58,19 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       409,
       "Delete should fail because the setting is read-only"
     );
+  });
+
+  it("accepts operation options", async () => {
+    let storedSetting = await client.getConfigurationSetting({
+      key: testConfigSetting.key,
+      label: testConfigSetting.label
+    });
+
+    await assertThrowsAbortError(async () => {
+      await client.setReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
+    });
+    await assertThrowsAbortError(async () => {
+      await client.clearReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
+    });
   });
 });

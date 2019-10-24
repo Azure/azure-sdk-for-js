@@ -846,6 +846,6 @@ export class BlobServiceClient extends StorageClient {
    * @memberof BlobServiceClient
    */
   public getBlobBatchClient(): BlobBatchClient {
-    return new BlobBatchClient(this.serviceContext);
+    return new BlobBatchClient(this.url, this.pipeline);
   }
 }

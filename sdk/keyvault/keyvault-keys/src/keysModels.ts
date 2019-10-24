@@ -17,7 +17,7 @@ import { DeletionRecoveryLevel } from "./core/models";
 export interface KeyClientInterface {
   recoverDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<KeyVaultKey>;
   getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
-  deleteKey(name: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedKey>;
+  deleteKey(name: string, options?: coreHttp.OperationOptions): Promise<DeletedKey>;
   getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
 }
 
@@ -120,7 +120,7 @@ export interface KeyProperties {
 
 /**
  * @interface
- * An interface representing a deleted key
+ * An interface representing a deleted key.
  */
 export interface DeletedKey {
   /**
@@ -173,9 +173,9 @@ export interface DeletedKey {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createKey
+ * passed to {@link createKey}
  */
-export interface CreateKeyOptions extends coreHttp.RequestOptionsBase {
+export interface CreateKeyOptions extends coreHttp.OperationOptions {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -206,9 +206,9 @@ export interface CreateKeyOptions extends coreHttp.RequestOptionsBase {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to beginDeleteKey
+ * passed to {@link beginDeleteKey}
  */
-export interface KeyPollerOptions extends coreHttp.RequestOptionsBase {
+export interface KeyPollerOptions extends coreHttp.OperationOptions {
   /**
    * @member {number} [intervalInMs] Time between each polling
    */
@@ -222,7 +222,7 @@ export interface KeyPollerOptions extends coreHttp.RequestOptionsBase {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createEcKey
+ * passed to {@link createEcKey}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
   /**
@@ -241,7 +241,7 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to createRsaKey
+ * passed to {@link createRsaKey}
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /**
@@ -259,9 +259,9 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 /**
  * @interface
  * An interface representing the optional parameters that can be
- * passed to importKey
+ * passed to {@link importKey}
  */
-export interface ImportKeyOptions extends coreHttp.RequestOptionsBase {
+export interface ImportKeyOptions extends coreHttp.OperationOptions {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -288,9 +288,9 @@ export interface ImportKeyOptions extends coreHttp.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing optional parameters that can be passed to updateKey.
+ * An interface representing optional parameters that can be passed to {@link updateKey}.
  */
-export interface UpdateKeyPropertiesOptions extends coreHttp.RequestOptionsBase {
+export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
   /**
    * @member {JsonWebKeyOperation[]} [keyOps] Json web key operations. For more
    * information on possible key operations, see JsonWebKeyOperation.
@@ -317,9 +317,9 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.RequestOptionsBase 
 
 /**
  * @interface
- * An interface representing optional parameters that can be passed to getKey.
+ * An interface representing optional parameters that can be passed to {@link getKey}.
  */
-export interface GetKeyOptions extends coreHttp.RequestOptionsBase {
+export interface GetKeyOptions extends coreHttp.OperationOptions {
   /**
    * @member {string} [version] The version of the secret to retrieve.  If not
    * specified the latest version of the secret will be retrieved.
@@ -329,47 +329,42 @@ export interface GetKeyOptions extends coreHttp.RequestOptionsBase {
 
 /**
  * @interface
- * An interface representing optional parameters for KeyClient paged operations.
+ * An interface representing optional parameters for KeyClient paged operations passed to {@link listKeys}.
  */
-export interface ListKeysOptions extends coreHttp.RequestOptionsBase {}
+export interface ListKeysOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing the options of the getDeletedKey method
  */
-export interface GetDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
+export interface GetDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing the options of the purgeDeletedKey method
  */
-export interface PurgeDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
+export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing the options of the recoverDeletedKey method
  */
-export interface RecoverDeletedKeyOptions extends coreHttp.RequestOptionsBase {}
+export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing the options of the backupKey method
  */
-export interface BackupKeyOptions extends coreHttp.RequestOptionsBase {}
+export interface BackupKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing the options of the restoreKeyBackup method
  */
-export interface RestoreKeyBackupOptions extends coreHttp.RequestOptionsBase {}
+export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing the options of the cryptography API methods
  */
-export interface CryptographyOptions {
-  /**
-   * @member {coreHttp.RequestOptionsBase} [requestOptions] Options for this request
-   */
-  requestOptions?: coreHttp.RequestOptionsBase;
-}
+export interface CryptographyOptions extends coreHttp.OperationOptions {}

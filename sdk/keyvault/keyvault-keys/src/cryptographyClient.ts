@@ -8,9 +8,12 @@ import {
   createPipelineFromOptions,
   ServiceClientOptions as Pipeline,
   isTokenCredential,
-  signingPolicy
+  RequestOptionsBase,
+  signingPolicy,
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 
+import { getTracer, Span } from "@azure/core-tracing";
 import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { SDK_VERSION } from "./core/utils/constants";
@@ -37,7 +40,10 @@ export class CryptographyClient {
    * ```
    * @param options Options for retrieving key
    */
-  public async getKey(options?: GetKeyOptions): Promise<JsonWebKey> {
+  public async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("getKey", requestOptions);
+
     if (typeof this.key === "string") {
       if (!this.name || this.name === "") {
         throw new Error("getKey requires a key with a name");
@@ -46,7 +52,7 @@ export class CryptographyClient {
         this.vaultBaseUrl,
         this.name,
         options && options.version ? options.version : this.version ? this.version : "",
-        options
+        this.setParentSpan(span, requestOptions)
       );
       return key.key!;
     } else {
@@ -69,8 +75,11 @@ export class CryptographyClient {
   public async encrypt(
     algorithm: JsonWebKeyEncryptionAlgorithm,
     plaintext: Uint8Array,
-    options?: EncryptOptions
+    options: EncryptOptions = {}
   ): Promise<EncryptResult> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("encrypt", requestOptions);
+
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -78,10 +87,12 @@ export class CryptographyClient {
         switch (algorithm) {
           case "RSA1_5": {
             if (this.key.kty != "RSA") {
+              span.end();
               throw new Error("Key type does not match algorithm");
             }
 
             if (this.key.keyOps && !this.key.keyOps.includes("encrypt")) {
+              span.end();
               throw new Error("Key does not support the encrypt operation");
             }
 
@@ -93,10 +104,12 @@ export class CryptographyClient {
           }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
+              span.end();
               throw new Error("Key type does not match algorithm");
             }
 
             if (this.key.keyOps && !this.key.keyOps.includes("encrypt")) {
+              span.end();
               throw new Error("Key does not support the encrypt operation");
             }
 
@@ -110,14 +123,19 @@ export class CryptographyClient {
     }
 
     // Default to the service
-    let result = await this.client.encrypt(
-      this.vaultBaseUrl,
-      this.name,
-      this.version,
-      algorithm,
-      plaintext,
-      options
-    );
+    let result;
+    try {
+      result = await this.client.encrypt(
+        this.vaultBaseUrl,
+        this.name,
+        this.version,
+        algorithm,
+        plaintext,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
 
     return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
@@ -138,16 +156,24 @@ export class CryptographyClient {
   public async decrypt(
     algorithm: JsonWebKeyEncryptionAlgorithm,
     ciphertext: Uint8Array,
-    options?: DecryptOptions
+    options: DecryptOptions = {}
   ): Promise<DecryptResult> {
-    let result = await this.client.decrypt(
-      this.vaultBaseUrl,
-      this.name,
-      this.version,
-      algorithm,
-      ciphertext,
-      options
-    );
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("decrypt", requestOptions);
+
+    let result;
+    try {
+      result = await this.client.decrypt(
+        this.vaultBaseUrl,
+        this.name,
+        this.version,
+        algorithm,
+        ciphertext,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
 
     return { result: result.result!, keyID: this.getKeyID(), algorithm };
   }
@@ -167,8 +193,11 @@ export class CryptographyClient {
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
-    options?: WrapKeyOptions
+    options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("wrapKey", requestOptions);
+
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -176,10 +205,12 @@ export class CryptographyClient {
         switch (algorithm) {
           case "RSA1_5": {
             if (this.key.kty != "RSA") {
+              span.end();
               throw new Error("Key type does not match algorithm");
             }
 
             if (this.key.keyOps && !this.key.keyOps.includes("wrapKey")) {
+              span.end();
               throw new Error("Key does not support the wrapKey operation");
             }
 
@@ -191,10 +222,12 @@ export class CryptographyClient {
           }
           case "RSA-OAEP": {
             if (this.key.kty != "RSA") {
+              span.end();
               throw new Error("Key type does not match algorithm");
             }
 
             if (this.key.keyOps && !this.key.keyOps.includes("wrapKey")) {
+              span.end();
               throw new Error("Key does not support the wrapKey operation");
             }
 
@@ -208,14 +241,20 @@ export class CryptographyClient {
     }
 
     // Default to the service
-    let result = await this.client.wrapKey(
-      this.vaultBaseUrl,
-      this.name,
-      this.version,
-      algorithm,
-      key,
-      options
-    );
+    let result;
+    try {
+      result = await this.client.wrapKey(
+        this.vaultBaseUrl,
+        this.name,
+        this.version,
+        algorithm,
+        key,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
     return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
@@ -234,16 +273,25 @@ export class CryptographyClient {
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
-    options?: UnwrapKeyOptions
+    options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    let result = await this.client.unwrapKey(
-      this.vaultBaseUrl,
-      this.name,
-      this.version,
-      algorithm,
-      encryptedKey,
-      options
-    );
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("unwrapKey", requestOptions);
+
+    let result;
+    try {
+      result = await this.client.unwrapKey(
+        this.vaultBaseUrl,
+        this.name,
+        this.version,
+        algorithm,
+        encryptedKey,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
     return { result: result.result!, keyID: this.getKeyID() };
   }
 
@@ -262,16 +310,25 @@ export class CryptographyClient {
   public async sign(
     algorithm: KeySignatureAlgorithm,
     digest: Uint8Array,
-    options?: SignOptions
+    options: SignOptions = {}
   ): Promise<SignResult> {
-    let result = await this.client.sign(
-      this.vaultBaseUrl,
-      this.name,
-      this.version,
-      algorithm,
-      digest,
-      options
-    );
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("sign", requestOptions);
+
+    let result;
+    try {
+      result = await this.client.sign(
+        this.vaultBaseUrl,
+        this.name,
+        this.version,
+        algorithm,
+        digest,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
     return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
@@ -292,17 +349,26 @@ export class CryptographyClient {
     algorithm: KeySignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options?: VerifyOptions
+    options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    const response = await this.client.verify(
-      this.vaultBaseUrl,
-      this.name,
-      this.version,
-      algorithm,
-      digest,
-      signature,
-      options
-    );
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("verify", requestOptions);
+
+    let response;
+    try {
+      response = await this.client.verify(
+        this.vaultBaseUrl,
+        this.name,
+        this.version,
+        algorithm,
+        digest,
+        signature,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
     return { result: response.value ? response.value : false, keyID: this.getKeyID() };
   }
 
@@ -321,8 +387,11 @@ export class CryptographyClient {
   public async signData(
     algorithm: KeySignatureAlgorithm,
     data: Uint8Array,
-    options?: SignOptions
+    options: SignOptions = {}
   ): Promise<SignResult> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("signData", requestOptions);
+
     let digest;
     switch (algorithm) {
       case "ES256":
@@ -352,14 +421,20 @@ export class CryptographyClient {
       }
     }
 
-    let result = await this.client.sign(
-      this.vaultBaseUrl,
-      this.name,
-      this.version,
-      algorithm,
-      digest,
-      options
-    );
+    let result;
+    try {
+      result = await this.client.sign(
+        this.vaultBaseUrl,
+        this.name,
+        this.version,
+        algorithm,
+        digest,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
     return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
@@ -380,8 +455,11 @@ export class CryptographyClient {
     algorithm: KeySignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    options?: VerifyOptions
+    options: VerifyOptions = {}
   ): Promise<VerifyResult> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("verifyData", requestOptions);
+
     if (isNode) {
       await this.fetchFullKeyIfPossible();
 
@@ -480,15 +558,21 @@ export class CryptographyClient {
       }
     }
 
-    let result = await this.client.verify(
-      this.vaultBaseUrl,
-      this.name,
-      this.version,
-      algorithm,
-      digest,
-      signature,
-      options
-    );
+    let result;
+    try {
+      result = await this.client.verify(
+        this.vaultBaseUrl,
+        this.name,
+        this.version,
+        algorithm,
+        digest,
+        signature,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
     return { result: result.value!, keyID: this.getKeyID() };
   }
 
@@ -566,7 +650,7 @@ export class CryptographyClient {
    * ```
    * @param url The url of the key vault service
    * @param key The key to use during cryptography tasks
-   * @param credential The login credentials of the service
+   * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CryptographyClient
@@ -635,6 +719,39 @@ export class CryptographyClient {
 
     this.name = parsed.name;
     this.version = parsed.version;
+  }
+
+  /**
+   * Creates a span using the tracer that was set by the user
+   * @param methodName The name of the method for which the span is being created.
+   * @param requestOptions The options for the underlying http request.
+   */
+  private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
+    const tracer = getTracer();
+    return tracer.startSpan(
+      `CryptographyClient ${methodName}`,
+      requestOptions && requestOptions.spanOptions
+    );
+  }
+
+  /**
+   * Returns updated HTTP options with the given span as the parent of future spans,
+   * if applicable.
+   * @param span The span for the current operation
+   * @param options The options for the underlying http request
+   */
+  private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
+    if (span.isRecordingEvents()) {
+      return {
+        ...options,
+        spanOptions: {
+          ...options.spanOptions,
+          parent: span
+        }
+      };
+    } else {
+      return options;
+    }
   }
 }
 
