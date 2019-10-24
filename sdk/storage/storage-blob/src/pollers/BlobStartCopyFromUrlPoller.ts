@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { delay } from "@azure/core-http";
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import {
@@ -7,7 +10,8 @@ import {
 } from "../BlobClient";
 
 /**
- * Defines the operations needed from a BlobClient.
+ * Defines the operations from a `BlobClient` that are needed for the poller
+ * returned by `beginCopyFromURL` to work.
  */
 export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getProperties"> & {
   startCopyFromURL(
@@ -17,15 +21,34 @@ export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getPro
 };
 
 /**
- * The state used by the PollOperation.
+ * The state used by the poller returned from `beginCopyFromURL`.
+ *
+ * This state is passed into the user-specified `onProgress` callback
+ * whenever copy progress is detected.
  */
 export interface BlobBeginCopyFromUrlPollState
   extends PollOperationState<BlobBeginCopyFromURLResponse> {
-  blobClient: CopyPollerBlobClient;
+  /**
+   * The instance of `BlobClient` that was used when calling `beginCopyFromURL`.
+   */
+  readonly blobClient: CopyPollerBlobClient;
+  /**
+   * The copyId that identifies the in-progress blob copy.
+   */
   copyId?: string;
+  /**
+   * the progress of the blob copy as reported by the service.
+   */
   copyProgress?: string;
+  /**
+   * The source URL provided in `beginCopyFromURL`.
+   */
   copySource: string;
-  startCopyFromURLOptions?: BlobStartCopyFromURLOptions;
+  /**
+   * The options that were passed to the initial `beginCopyFromURL` call.
+   * This is exposed for the poller and should not be modified directly.
+   */
+  readonly startCopyFromURLOptions?: BlobStartCopyFromURLOptions;
 }
 
 /**
