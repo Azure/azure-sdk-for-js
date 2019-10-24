@@ -43,7 +43,7 @@ import {
   UpdateKeyResponse
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
+import { packageVersion } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
@@ -206,7 +206,7 @@ export class KeyClient {
     this.vaultUrl = vaultUrl;
     this.credential = credential;
 
-    const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-keyvault-keys/${packageVersion}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
         ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`

@@ -18,5 +18,5 @@ export const leaseIdMismatchWithBlobOperation = "leaseidmismatchwithbloboperatio
 export const defaultConsumerGroup = "$default";
 export const packageInfo = {
   name: "@azure/event-processor-host",
-  version: "2.1.0"
+  packageVersion: "2.1.0"
 };

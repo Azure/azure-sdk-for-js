@@ -10,7 +10,7 @@ import {
 import * as os from "os";
 
 import { TelemetryPolicy } from "./policies/TelemetryPolicy";
-import { SDK_VERSION } from "./utils/constants";
+import { packageVersion } from "./utils/constants";
 
 /**
  * Interface of TelemetryPolicy options.
@@ -55,7 +55,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
       }
 
       // e.g. azsdk-js-storageblob/10.0.0
-      const libInfo = `azsdk-js-storageblob/${SDK_VERSION}`;
+      const libInfo = `azsdk-js-storageblob/${packageVersion}`;
       if (userAgentInfo.indexOf(libInfo) === -1) {
         userAgentInfo.push(libInfo);
       }

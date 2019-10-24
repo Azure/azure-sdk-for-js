@@ -75,7 +75,7 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
-import { SDK_VERSION } from "./core/utils/constants";
+import { packageVersion } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -231,7 +231,7 @@ export class CertificateClient {
     this.vaultUrl = vaultUrl;
     this.credential = credential;
 
-    const libInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-keyvault-certificates/${packageVersion}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
         ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
