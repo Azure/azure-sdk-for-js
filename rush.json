@@ -310,22 +310,22 @@
     //   // "versionPolicyName": ""
     // },
     //
-    {
-      "packageName": "@azure/amqp-common",
-      "projectFolder": "sdk/core/amqp-common"
-    },
-    {
-      "packageName": "@azure/core-aborter",
-      "projectFolder": "sdk/core/core-aborter"
-    },
-    {
-      "packageName": "@azure/core-http",
-      "projectFolder": "sdk/core/core-http"
-    },
-    {
-      "packageName": "@azure/cosmos",
-      "projectFolder": "sdk/cosmosdb/cosmos"
-    },
+    // {
+    //   "packageName": "@azure/amqp-common",
+    //   "projectFolder": "sdk/core/amqp-common"
+    // },
+    // {
+    //   "packageName": "@azure/core-aborter",
+    //   "projectFolder": "sdk/core/core-aborter"
+    // },
+    // {
+    //   "packageName": "@azure/core-http",
+    //   "projectFolder": "sdk/core/core-http"
+    // },
+    // {
+    //   "packageName": "@azure/cosmos",
+    //   "projectFolder": "sdk/cosmosdb/cosmos"
+    // },
     {
       "packageName": "@azure/event-hubs",
       "projectFolder": "sdk/eventhub/event-hubs"
@@ -334,46 +334,46 @@
       "packageName": "@azure/event-processor-host",
       "projectFolder": "sdk/eventhub/event-processor-host"
     },
-    {
-      "packageName": "@azure/identity",
-      "projectFolder": "sdk/identity/identity"
-    },
-    {
-      "packageName": "@azure/keyvault-secrets",
-      "projectFolder": "sdk/keyvault/keyvault-secrets"
-    },
-    {
-      "packageName": "@azure/keyvault-keys",
-      "projectFolder": "sdk/keyvault/keyvault-keys"
-    },
-    {
-      "packageName": "@azure/keyvault-certificates",
-      "projectFolder": "sdk/keyvault/keyvault-certificates"
-    },
-    {
-      "packageName": "@azure/service-bus",
-      "projectFolder": "sdk/servicebus/service-bus"
-    },
-    {
-      "packageName": "@azure/storage-blob",
-      "projectFolder": "sdk/storage/storage-blob"
-    },
-    {
-      "packageName": "@azure/storage-datalake",
-      "projectFolder": "sdk/storage/storage-datalake"
-    },
-    {
-      "packageName": "@azure/storage-file",
-      "projectFolder": "sdk/storage/storage-file"
-    },
-    {
-      "packageName": "@azure/storage-queue",
-      "projectFolder": "sdk/storage/storage-queue"
-    },
-    {
-      "packageName": "@azure/template",
-      "projectFolder": "sdk/template/template"
-    },
+    // {
+    //   "packageName": "@azure/identity",
+    //   "projectFolder": "sdk/identity/identity"
+    // },
+    // {
+    //   "packageName": "@azure/keyvault-secrets",
+    //   "projectFolder": "sdk/keyvault/keyvault-secrets"
+    // },
+    // {
+    //   "packageName": "@azure/keyvault-keys",
+    //   "projectFolder": "sdk/keyvault/keyvault-keys"
+    // },
+    // {
+    //   "packageName": "@azure/keyvault-certificates",
+    //   "projectFolder": "sdk/keyvault/keyvault-certificates"
+    // },
+    // {
+    //   "packageName": "@azure/service-bus",
+    //   "projectFolder": "sdk/servicebus/service-bus"
+    // },
+    // {
+    //   "packageName": "@azure/storage-blob",
+    //   "projectFolder": "sdk/storage/storage-blob"
+    // },
+    // {
+    //   "packageName": "@azure/storage-datalake",
+    //   "projectFolder": "sdk/storage/storage-datalake"
+    // },
+    // {
+    //   "packageName": "@azure/storage-file",
+    //   "projectFolder": "sdk/storage/storage-file"
+    // },
+    // {
+    //   "packageName": "@azure/storage-queue",
+    //   "projectFolder": "sdk/storage/storage-queue"
+    // },
+    // {
+    //   "packageName": "@azure/template",
+    //   "projectFolder": "sdk/template/template"
+    // },
     {
       "packageName": "testhub",
       "projectFolder": "sdk/eventhub/testhub"

@@ -262,7 +262,11 @@ export class EventHubReceiver extends LinkEntity {
                 "retryable, we let the user know about it by calling the user's error handler.",
               this._context.connectionId
             );
-            this._onError!(ehError);
+            try {
+              this._onError!(ehError);
+            } catch (err) {
+              log.error("[%s] User-code error in error handler: %O", this._context.connectionId, err);
+            }
           } else {
             log.error(
               "[%s] The received error is not retryable. However, the receiver was " +
@@ -296,7 +300,11 @@ export class EventHubReceiver extends LinkEntity {
               "retryable, we let the user know about it by calling the user's error handler.",
             this._context.connectionId
           );
-          this._onError!(ehError);
+          try {
+            this._onError!(ehError);
+          } catch (err) {
+            log.error("[%s] User-code error in error handler: %O", this._context.connectionId, err);
+          }
         }
       }
     };
