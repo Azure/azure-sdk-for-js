@@ -1,4 +1,4 @@
-## 1.0.0-preview.2 - 2019-10-24
+## 1.0.0-preview.2 - TBD
 
 - PollOperation was too permissively typed by mistake.
 
