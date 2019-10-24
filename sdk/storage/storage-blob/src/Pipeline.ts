@@ -187,7 +187,7 @@ export interface StoragePipelineOptions {
  * @export
  * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
  *                                                  or a TokenCredential from @azure/identity.
- * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
+ * @param {StoragePipelineOptions} pipelineOptions Optional. Options.
  * @returns {Pipeline} A new Pipeline object.
  */
 export function newPipeline(

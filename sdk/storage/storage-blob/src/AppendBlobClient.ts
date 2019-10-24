@@ -207,7 +207,7 @@ export class AppendBlobClient extends BlobClient {
    * appendBlobsContext provided by protocol layer.
    *
    * @private
-   * @type {AppendBlobs}
+   * @type {AppendBlob}
    * @memberof AppendBlobClient
    */
   private appendBlobContext: AppendBlob;
@@ -224,7 +224,7 @@ export class AppendBlobClient extends BlobClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} options Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
   constructor(
@@ -250,7 +250,7 @@ export class AppendBlobClient extends BlobClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} options Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
   constructor(
@@ -385,8 +385,8 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
-   * @returns {Promise<AppendBlobsCreateResponse>}
+   * @param {AppendBlobCreateOptions} options Options to the Append Block Create operation.
+   * @returns {Promise<AppendBlobCreateResponse>}
    * @memberof AppendBlobClient
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
@@ -421,8 +421,8 @@ export class AppendBlobClient extends BlobClient {
    *
    * @param {HttpRequestBody} body Data to be appended.
    * @param {number} contentLength Length of the body in bytes.
-   * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
-   * @returns {Promise<AppendBlobsAppendBlockResponse>}
+   * @param {AppendBlobAppendBlockOptions} options Options to the Append Block operation.
+   * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
   public async appendBlock(

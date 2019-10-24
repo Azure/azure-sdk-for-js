@@ -74,7 +74,7 @@ export class BlobBatchClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} options Options to configure the HTTP pipeline.
    * @memberof BlobBatchClient
    */
   constructor(
@@ -126,7 +126,7 @@ export class BlobBatchClient {
    *
    * @param {string[]} urls The urls of the blob resources to delete.
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
-   * @param {BlobDeleteOptions} [options]
+   * @param {BlobDeleteOptions} options
    * @returns {Promise<BlobBatchDeleteBlobsResponse>}
    * @memberof BlobBatchClient
    */
@@ -144,7 +144,7 @@ export class BlobBatchClient {
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
    * @param {BlobClient[]} blobClients The BlobClients for the blobs to delete.
-   * @param {BlobDeleteOptions} [options]
+   * @param {BlobDeleteOptions} options
    * @returns {Promise<BlobBatchDeleteBlobsResponse>}
    * @memberof BlobBatchClient
    */
@@ -188,7 +188,7 @@ export class BlobBatchClient {
    * @param {string[]} urls The urls of the blob resource to delete.
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential The credential to be used for authentication and authorization.
    * @param {AccessTier} tier
-   * @param {BlobSetTierOptions} [options]
+   * @param {BlobSetTierOptions} options
    * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
    * @memberof BlobBatchClient
    */
@@ -212,7 +212,7 @@ export class BlobBatchClient {
    *
    * @param {BlobClient[]} blobClients The BlobClients for the blobs which should have a new tier set.
    * @param {AccessTier} tier
-   * @param {BlobSetTierOptions} [options]
+   * @param {BlobSetTierOptions} options
    * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
    * @memberof BlobBatchClient
    */
@@ -276,7 +276,7 @@ export class BlobBatchClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
    * @param {BlobBatch} batchRequest A set of Delete or SetTier operations.
-   * @param {BlobBatchSubmitBatchOptionalParams} [options]
+   * @param {BlobBatchSubmitBatchOptionalParams} options
    * @returns {Promise<BlobBatchSubmitBatchResponse>}
    * @memberof BlobBatchClient
    */

@@ -12,7 +12,7 @@ import * as util from "util";
  * @param {Buffer} buffer Buffer to be filled, length must >= offset
  * @param {number} offset From which position in the buffer to be filled, inclusive
  * @param {number} end To which position in the buffer to be filled, exclusive
- * @param {string} [encoding] Encoding of the Readable stream
+ * @param {string} encoding Encoding of the Readable stream
  * @returns {Promise<void>}
  */
 export async function streamToBuffer(
@@ -68,7 +68,7 @@ export async function streamToBuffer(
  * @export
  * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
  * @param {Buffer} buffer Buffer to be filled, length must >= offset
- * @param {string} [encoding] Encoding of the Readable stream
+ * @param {string} encoding Encoding of the Readable stream
  * @returns {Promise<number>} with the count of bytes read.
  * @throws {RangeError} If buffer size is not big enough.
  */

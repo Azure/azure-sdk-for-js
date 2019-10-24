@@ -24,7 +24,7 @@ import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
  *
  * @export
  * @param {RetryOptions} retryOptions
- * @returns
+ * @returns {RequestPolicyFactory}
  */
 export function NewRetryPolicyFactory(retryOptions?: RetryOptions): RequestPolicyFactory {
   return {
@@ -212,8 +212,8 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @protected
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
-   * @param {HttpOperationResponse} [response]
-   * @param {RestError} [err]
+   * @param {HttpOperationResponse} response
+   * @param {RestError} err
    * @returns {boolean}
    * @memberof RetryPolicy
    */
@@ -292,8 +292,8 @@ export class RetryPolicy extends BaseRequestPolicy {
    * Comment/uncomment as necessary for releasing/debugging.
    *
    * @private
-   * @param {HttpPipelineLogLevel} level
-   * @param {string} message
+   * @param {HttpPipelineLogLevel} _level
+   * @param {string} _message
    * @memberof RetryPolicy
    */
   // tslint:disable-next-line:variable-name
@@ -307,8 +307,7 @@ export class RetryPolicy extends BaseRequestPolicy {
    * @private
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
-   * @param {AbortSignalLike} [abortSignal]
-   * @returns
+   * @param {AbortSignalLike} abortSignal
    * @memberof RetryPolicy
    */
   private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {

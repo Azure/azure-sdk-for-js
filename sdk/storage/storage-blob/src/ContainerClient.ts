@@ -226,7 +226,7 @@ export interface SignedIdentifier {
      */
     start?: Date;
     /**
-     * @member {string} expiry Optional. The date-time the policy expires
+     * @member {Date} expiry Optional. The date-time the policy expires
      */
     expiry?: Date;
     /**
@@ -418,12 +418,12 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * @member {string} prefix Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of containers
+   * @member {number} maxPageSize Specifies the maximum number of containers
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -433,7 +433,7 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListBlobsIncludeItem[]} [include] Include this parameter to
+   * @member {ListBlobsIncludeItem[]} include Include this parameter to
    * specify one or more datasets to include in the response.
    */
   include?: ListBlobsIncludeItem[];
@@ -455,29 +455,29 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * @member {string} prefix Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
 
   /**
-   * @member {boolean} [includeCopy] Specifies whether metadata related to any current or previous Copy Blob operation should be included in the response.
+   * @member {boolean} includeCopy Specifies whether metadata related to any current or previous Copy Blob operation should be included in the response.
    */
   includeCopy?: boolean;
   /**
-   * @member {boolean} [includeDeleted] Specifies whether soft deleted blobs should be included in the response.
+   * @member {boolean} includeDeleted Specifies whether soft deleted blobs should be included in the response.
    */
   includeDeleted?: boolean;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether blob metadata be returned in the response.
+   * @member {boolean}[includeMetadata Specifies whether blob metadata be returned in the response.
    */
   includeMetadata?: boolean;
   /**
-   * @member {boolean} [includeSnapshots] Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
+   * @member {boolean} includeSnapshots Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
    */
   includeSnapshots?: boolean;
   /**
-   * @member {boolean} [includeUncommitedBlobs] Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
+   * @member {boolean} includeUncommitedBlobs Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
    */
   includeUncommitedBlobs?: boolean;
 }
@@ -513,7 +513,7 @@ export class ContainerClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} options Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
   constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
@@ -534,7 +534,7 @@ export class ContainerClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} options Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
    */
   constructor(
@@ -639,7 +639,7 @@ export class ContainerClient extends StorageClient {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {ContainerCreateOptions} [options] Options to Container Create operation.
+   * @param {ContainerCreateOptions} options Options to Container Create operation.
    * @returns {Promise<ContainerCreateResponse>}
    * @memberof ContainerClient
    */
@@ -702,7 +702,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param {string} blobName A blob name
    * @returns {BlobClient} A new BlobClient object for the given blob name.
-   * @memberof BlobClient
+   * @memberof ContainerClient
    */
   public getBlobClient(blobName: string): BlobClient {
     return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
@@ -755,7 +755,7 @@ export class ContainerClient extends StorageClient {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {ContainersGetPropertiesOptions} [options] Options to Container Get Properties operation.
+   * @param {ContainerGetPropertiesOptions} options Options to Container Get Properties operation.
    * @returns {Promise<ContainerGetPropertiesResponse>}
    * @memberof ContainerClient
    */
@@ -789,7 +789,7 @@ export class ContainerClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
+   * @param {ContainerDeleteMethodOptions} options Options to Container Delete operation.
    * @returns {Promise<ContainerDeleteResponse>}
    * @memberof ContainerClient
    */
@@ -838,9 +838,9 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
-   * @param {Metadata} [metadata] Replace existing metadata with this value.
-   *                               If no value provided the existing metadata will be removed.
-   * @param {ContainerSetMetadataOptions} [options] Options to Container Set Metadata operation.
+   * @param {Metadata} metadata Replace existing metadata with this value.
+   *                            If no value provided the existing metadata will be removed.
+   * @param {ContainerSetMetadataOptions} options Options to Container Set Metadata operation.
    * @returns {Promise<ContainerSetMetadataResponse>}
    * @memberof ContainerClient
    */
@@ -893,7 +893,7 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {ContainerGetAccessPolicyOptions} [options] Options to Container Get Access Policy operation.
+   * @param {ContainerGetAccessPolicyOptions} options Options to Container Get Access Policy operation.
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
@@ -969,9 +969,9 @@ export class ContainerClient extends StorageClient {
    * removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
-   * @param {PublicAccessType} [access] The level of public access to data in the container.
-   * @param {SignedIdentifier[]} [containerAcl] Array of elements each having a unique Id and details of the access policy.
-   * @param {ContainerSetAccessPolicyOptions} [options] Options to Container Set Access Policy operation.
+   * @param {PublicAccessType} access The level of public access to data in the container.
+   * @param {SignedIdentifier[]} containerAcl Array of elements each having a unique Id and details of the access policy.
+   * @param {ContainerSetAccessPolicyOptions} options Options to Container Set Access Policy operation.
    * @returns {Promise<ContainerSetAccessPolicyResponse>}
    * @memberof ContainerClient
    */
@@ -1024,7 +1024,7 @@ export class ContainerClient extends StorageClient {
   /**
    * Get a BlobLeaseClient that manages leases on the container.
    *
-   * @param {string} [proposeLeaseId] Initial proposed lease Id.
+   * @param {string} proposeLeaseId Initial proposed lease Id.
    * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the container.
    * @memberof ContainerClient
    */
@@ -1051,7 +1051,7 @@ export class ContainerClient extends StorageClient {
    *                               which returns a new Readable stream whose offset is from data source beginning.
    * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {BlockBlobUploadOptions} [options] Options to configure the Block Blob Upload operation.
+   * @param {BlockBlobUploadOptions} options Options to configure the Block Blob Upload operation.
    * @returns {Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }>} Block Blob upload response data and the corresponding BlockBlobClient instance.
    * @memberof ContainerClient
    */
@@ -1094,7 +1094,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param {string} blobName
-   * @param {BlobDeleteOptions} [options] Options to Blob Delete operation.
+   * @param {BlobDeleteOptions} options Options to Blob Delete operation.
    * @returns {Promise<BlobDeleteResponse>} Block blob deletion response data.
    * @memberof ContainerClient
    */
@@ -1124,8 +1124,8 @@ export class ContainerClient extends StorageClient {
    * (passing the the previously-returned Marker) to get the next segment.
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
-   * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Flat Segment operation.
+   * @param {string} marker A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param {ContainerListBlobsSegmentOptions} options Options to Container List Blob Flat Segment operation.
    * @returns {Promise<ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
@@ -1162,8 +1162,8 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
    * @param {string} delimiter The charactor or string used to define the virtual hierarchy
-   * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Hierarchy Segment operation.
+   * @param {string} marker A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param {ContainerListBlobsSegmentOptions} options Options to Container List Blob Hierarchy Segment operation.
    * @returns {Promise<ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */
@@ -1197,14 +1197,14 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for ContainerListBlobFlatSegmentResponse
    *
    * @private
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param {string} marker A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all blobs remaining to be listed
    *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @param {ContainerListBlobsSegmentOptions} options Options to list blobs operation.
    * @returns {AsyncIterableIterator<ContainerListBlobFlatSegmentResponse>}
    * @memberof ContainerClient
    */
@@ -1226,7 +1226,7 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for Blob Items
    *
    * @private
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @param {ContainerListBlobsSegmentOptions} options Options to list blobs operation.
    * @returns {AsyncIterableIterator<BlobItem>}
    * @memberof ContainerClient
    */
@@ -1331,19 +1331,19 @@ export class ContainerClient extends StorageClient {
     const iter = this.listItems(updatedOptions);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * @member {Promise} next The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} asyncIterator The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @member {Function} byPage Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
@@ -1358,14 +1358,15 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for ContainerListBlobHierarchySegmentResponse
    *
    * @private
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
+   * @param {string} marker A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
    *                          listing operation did not return all blobs remaining to be listed
    *                          with the current page. The ContinuationToken value can be used as the value for
    *                          the marker parameter in a subsequent call to request the next page of list
    *                          items. The marker value is opaque to the client.
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @param {ContainerListBlobsSegmentOptions} options Options to list blobs operation.
    * @returns {AsyncIterableIterator<ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
    */ private async *listHierarchySegments(
@@ -1391,7 +1392,8 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for BlobPrefixes and BlobItems
    *
    * @private
-   * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
+   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
+   * @param {ContainerListBlobsSegmentOptions} options Options to list blobs operation.
    * @returns {AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem>}
    * @memberof ContainerClient
    */
@@ -1526,19 +1528,19 @@ export class ContainerClient extends StorageClient {
     const iter = this.listItemsByHierarchy(delimiter, updatedOptions);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * @member {Promise} next The next method, part of the iteration protocol
        */
       async next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} asyncIterator The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @member {Function} byPage Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {

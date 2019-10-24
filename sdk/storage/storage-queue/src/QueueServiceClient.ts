@@ -38,7 +38,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -55,7 +55,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceSetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -72,7 +72,7 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof ServiceGetStatisticsOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -92,12 +92,12 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only queues
+   * @member {string} prefix Filters the results to return only queues
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of queues
+   * @member {number} maxPageSize Specifies the maximum number of queues
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -107,7 +107,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListQueuesIncludeType} [include] Include this parameter to
+   * @member {ListQueuesIncludeType} include Include this parameter to
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
@@ -130,12 +130,12 @@ export interface ServiceListQueuesOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only queues
+   * @member {string} prefix Filters the results to return only queues
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {ListQueuesIncludeType} [include] Specifies whether the queue's metadata be returned as part of the response
+   * @member {boolean} includeMetadata Specifies whether the queue's metadata be returned as part of the response
    * body.
    */
   includeMetadata?: boolean;
@@ -158,7 +158,7 @@ export class QueueServiceClient extends StorageClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} options Options to configure the HTTP pipeline.
    * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
    * @memberof QueueServiceClient
    */
@@ -208,7 +208,7 @@ export class QueueServiceClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {NewPipelineOptions} options Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
    */
   constructor(
@@ -251,7 +251,9 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * Creates a QueueClient object.
-   * @param queueName
+   * @param {string} queueName
+   * @returns {QueueClient} a new QueueClient
+   * @memberof QueueServiceClient
    */
   public getQueueClient(queueName: string): QueueClient {
     return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
@@ -261,14 +263,14 @@ export class QueueServiceClient extends StorageClient {
    * Returns a list of the queues under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
-   * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of queues to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all queues remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
-   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @param {string} marker A string value that identifies the portion of
+   *                        the list of queues to be returned with the next listing operation. The
+   *                        operation returns the NextMarker value within the response body if the
+   *                        listing operation did not return all queues remaining to be listed
+   *                        with the current page. The NextMarker value can be used as the value for
+   *                        the marker parameter in a subsequent call to request the next page of list
+   *                        items. The marker value is opaque to the client.
+   * @param {ServiceListQueuesSegmentOptions} options Options to list queues operation.
    * @returns {Promise<ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
    * @memberof QueueServiceClient
    */
@@ -304,14 +306,14 @@ export class QueueServiceClient extends StorageClient {
    * Returns an AsyncIterableIterator for ServiceListQueuesSegmentResponses
    *
    * @private
-   * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of queues to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all queues remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
-   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
+   * @param {string} marker A string value that identifies the portion of
+   *                        the list of queues to be returned with the next listing operation. The
+   *                        operation returns the NextMarker value within the response body if the
+   *                        listing operation did not return all queues remaining to be listed
+   *                        with the current page. The NextMarker value can be used as the value for
+   *                        the marker parameter in a subsequent call to request the next page of list
+   *                        items. The marker value is opaque to the client.
+   * @param {ServiceListQueuesSegmentOptions} options Options to list queues operation.
    * @returns {AsyncIterableIterator<ServiceListQueuesSegmentResponse>}
    * @memberof QueueServiceClient
    */
@@ -331,8 +333,8 @@ export class QueueServiceClient extends StorageClient {
    * Returns an AsyncIterableIterator for Queue Items
    *
    * @private
-   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
-   * @returns {AsyncIterableIterator<ServiceListQueuesSegmentResponse>}
+   * @param {ServiceListQueuesSegmentOptions} options Options to list queues operation.
+   * @returns {AsyncIterableIterator<QueueItem>}
    * @memberof QueueServiceClient
    */
   private async *listItems(
@@ -412,7 +414,7 @@ export class QueueServiceClient extends StorageClient {
    *    }
    * ```
    *
-   * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
+   * @param {ServiceListQueuesOptions} options Options to list queues operation.
    * @memberof QueueServiceClient
    * @returns {PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse>} An asyncIterableIterator that supports paging.
    */
@@ -456,7 +458,7 @@ export class QueueServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
-   * @param {ServiceGetPropertiesOptions} [options] Options to get properties operation.
+   * @param {ServiceGetPropertiesOptions} options Options to get properties operation.
    * @returns {Promise<ServiceGetPropertiesResponse>} Response data including the queue service properties.
    * @memberof QueueServiceClient
    */
@@ -489,7 +491,7 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
    * @param {QueueServiceProperties} properties
-   * @param {ServiceGetPropertiesOptions} [options] Options to set properties operation.
+   * @param {ServiceGetPropertiesOptions} options Options to set properties operation.
    * @returns {Promise<ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
    * @memberof QueueServiceClient
    */
@@ -523,7 +525,7 @@ export class QueueServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
-   * @param {ServiceGetStatisticsOptions} [options] Options to get statistics operation.
+   * @param {ServiceGetStatisticsOptions} options Options to get statistics operation.
    * @returns {Promise<ServiceGetStatisticsResponse>} Response data for get statistics the operation.
    * @memberof QueueServiceClient
    */
@@ -554,7 +556,8 @@ export class QueueServiceClient extends StorageClient {
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {QueueCreateOptions} [options] Options to Queue create operation.
+   * @param {string} queueName name of the queue to create
+   * @param {QueueCreateOptions} options Options to Queue create operation.
    * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueServiceClient
    */
@@ -569,7 +572,8 @@ export class QueueServiceClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
+   * @param {string} queueName name of the queue to delete
+   * @param {QueueDeleteOptions} options Options to Queue delete operation.
    * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueServiceClient
    */

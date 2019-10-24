@@ -40,7 +40,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
   /**
    * Creates an instance of TelemetryPolicyFactory.
-   * @param {TelemetryOptions} [telemetry]
+   * @param {TelemetryOptions} telemetry
    * @memberof TelemetryPolicyFactory
    */
   constructor(telemetry?: TelemetryOptions) {

@@ -194,7 +194,7 @@ export class BufferScheduler {
    *                                          triggered when a buffer fully filled
    *                                          with stream data
    * @param {number} concurrency Concurrency of executing outgoingHandlers (>0)
-   * @param {string} [encoding] [Optional] Encoding of Readable stream when it's a string stream
+   * @param {string} encoding [Optional] Encoding of Readable stream when it's a string stream
    * @memberof BufferScheduler
    */
   constructor(

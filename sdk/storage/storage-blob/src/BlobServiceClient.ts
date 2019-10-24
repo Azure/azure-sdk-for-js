@@ -134,12 +134,12 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * @member {string} prefix Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of containers
+   * @member {number} maxPageSize Specifies the maximum number of containers
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -149,7 +149,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListContainersIncludeType} [include] Include this parameter to
+   * @member {ListContainersIncludeType} include Include this parameter to
    * specify that the container's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
@@ -172,14 +172,13 @@ export interface ServiceListContainersOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * @member {string} prefix Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {ListContainersIncludeType} [includeMetadata] Specifies whether the container's metadata
-   *                                     should be returned as part of the response.
-   * body.
+   * @member {boolean} includeMetadata Specifies whether the container's metadata
+   *                                   should be returned as part of the response body.
    */
   includeMetadata?: boolean;
 }
@@ -286,7 +285,7 @@ export class BlobServiceClient extends StorageClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} options Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
   public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) {
@@ -323,7 +322,7 @@ export class BlobServiceClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} options Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
   constructor(
@@ -367,7 +366,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Creates a ContainerClient object
    *
-   * @param containerName A container name
+   * @param {string} containerName A container name
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
    */
@@ -382,7 +381,7 @@ export class BlobServiceClient extends StorageClient {
    * Create a Blob container.
    *
    * @param {string} containerName Name of the container to create.
-   * @param {ContainerCreateOptions} [options] Options to configure Container Create operation.
+   * @param {ContainerCreateOptions} options Options to configure Container Create operation.
    * @returns {Promise<{ containerClient: ContainerClient; containerCreateResponse: ContainerCreateResponse }>} Container creation response and the corresponding container client.
    * @memberof BlobServiceClient
    */
@@ -419,7 +418,7 @@ export class BlobServiceClient extends StorageClient {
    * Deletes a Blob container.
    *
    * @param {string} containerName Name of the container to delete.
-   * @param {ContainerDeleteMethodOptions} [options] Options to configure Container Delete operation.
+   * @param {ContainerDeleteMethodOptions} options Options to configure Container Delete operation.
    * @returns {Promise<ContainerDeleteResponse>} Container deletion response.
    * @memberof BlobServiceClient
    */
@@ -450,7 +449,7 @@ export class BlobServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
-   * @param {ServiceGetPropertiesOptions} [options] Options to the Service Get Properties operation.
+   * @param {ServiceGetPropertiesOptions} options Options to the Service Get Properties operation.
    * @returns {Promise<ServiceGetPropertiesResponse>} Response data for the Service Get Properties operation.
    * @memberof BlobServiceClient
    */
@@ -483,7 +482,7 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
    * @param {BlobServiceProperties} properties
-   * @param {ServiceSetPropertiesOptions} [options] Options to the Service Set Properties operation.
+   * @param {ServiceSetPropertiesOptions} options Options to the Service Set Properties operation.
    * @returns {Promise<ServiceSetPropertiesResponse>} Response data for the Service Set Properties operation.
    * @memberof BlobServiceClient
    */
@@ -517,7 +516,7 @@ export class BlobServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats}
    *
-   * @param {ServiceGetStatisticsOptions} [options] Options to the Service Get Statistics operation.
+   * @param {ServiceGetStatisticsOptions} options Options to the Service Get Statistics operation.
    * @returns {Promise<ServiceGetStatisticsResponse>} Response data for the Service Get Statistics operation.
    * @memberof BlobServiceClient
    */
@@ -551,7 +550,7 @@ export class BlobServiceClient extends StorageClient {
    * with version 2018-03-28.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
-   * @param {ServiceGetAccountInfoOptions} [options] Options to the Service Get Account Info operation.
+   * @param {ServiceGetAccountInfoOptions} options Options to the Service Get Account Info operation.
    * @returns {Promise<ServiceGetAccountInfoResponse>} Response data for the Service Get Account Info operation.
    * @memberof BlobServiceClient
    */
@@ -582,14 +581,14 @@ export class BlobServiceClient extends StorageClient {
    * Returns a list of the containers under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
-   * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of containers to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all containers remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
-   * @param {ServiceListContainersSegmentOptions} [options] Options to the Service List Container Segment operation.
+   * @param {string} marker A string value that identifies the portion of
+   *                        the list of containers to be returned with the next listing operation. The
+   *                        operation returns the NextMarker value within the response body if the
+   *                        listing operation did not return all containers remaining to be listed
+   *                        with the current page. The NextMarker value can be used as the value for
+   *                        the marker parameter in a subsequent call to request the next page of list
+   *                        items. The marker value is opaque to the client.
+   * @param {ServiceListContainersSegmentOptions} options Options to the Service List Container Segment operation.
    * @returns {Promise<ServiceListContainersSegmentResponse>} Response data for the Service List Container Segment operation.
    * @memberof BlobServiceClient
    */
@@ -623,14 +622,14 @@ export class BlobServiceClient extends StorageClient {
    * Returns an AsyncIterableIterator for ServiceListContainersSegmentResponses
    *
    * @private
-   * @param {string} [marker] A string value that identifies the portion of
-   *                          the list of containers to be returned with the next listing operation. The
-   *                          operation returns the NextMarker value within the response body if the
-   *                          listing operation did not return all containers remaining to be listed
-   *                          with the current page. The NextMarker value can be used as the value for
-   *                          the marker parameter in a subsequent call to request the next page of list
-   *                          items. The marker value is opaque to the client.
-   * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
+   * @param {string} marker A string value that identifies the portion of
+   *                        the list of containers to be returned with the next listing operation. The
+   *                        operation returns the NextMarker value within the response body if the
+   *                        listing operation did not return all containers remaining to be listed
+   *                        with the current page. The NextMarker value can be used as the value for
+   *                        the marker parameter in a subsequent call to request the next page of list
+   *                        items. The marker value is opaque to the client.
+   * @param {ServiceListContainersSegmentOptions} options Options to list containers operation.
    * @returns {AsyncIterableIterator<ServiceListContainersSegmentResponse>}
    * @memberof BlobServiceClient
    */
@@ -654,7 +653,7 @@ export class BlobServiceClient extends StorageClient {
    * Returns an AsyncIterableIterator for Container Items
    *
    * @private
-   * @param {ServiceListContainersSegmentOptions} [options] Options to list containers operation.
+   * @param {ServiceListContainersSegmentOptions} options Options to list containers operation.
    * @returns {AsyncIterableIterator<ContainerItem>}
    * @memberof BlobServiceClient
    */
@@ -750,19 +749,19 @@ export class BlobServiceClient extends StorageClient {
     const iter = this.listItems(listSegmentOptions);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * @member {Promise} next The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} asyncIterator The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @member {Function} byPage Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {

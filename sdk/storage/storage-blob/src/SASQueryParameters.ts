@@ -253,21 +253,21 @@ export class SASQueryParameters {
    *
    * @param {string} version Representing the storage version
    * @param {string} signature Representing the signature for the SAS token
-   * @param {string} [permissions] Representing the storage permissions
-   * @param {string} [services] Representing the storage services being accessed (only for Account SAS)
-   * @param {string} [resourceTypes] Representing the storage resource types being accessed (only for Account SAS)
-   * @param {SASProtocol} [protocol] Representing the allowed HTTP protocol(s)
-   * @param {Date} [startTime] Representing the start time for this SAS token
-   * @param {Date} [expiryTime] Representing the expiry time for this SAS token
-   * @param {SasIPRange} [ipRange] Representing the range of valid IP addresses for this SAS token
-   * @param {string} [identifier] Representing the signed identifier (only for Service SAS)
-   * @param {string} [resource] Representing the storage container or blob (only for Service SAS)
-   * @param {string} [cacheControl] Representing the cache-control header (only for Blob/File Service SAS)
-   * @param {string} [contentDisposition] Representing the content-disposition header (only for Blob/File Service SAS)
-   * @param {string} [contentEncoding] Representing the content-encoding header (only for Blob/File Service SAS)
-   * @param {string} [contentLanguage] Representing the content-language header (only for Blob/File Service SAS)
-   * @param {string} [contentType] Representing the content-type header (only for Blob/File Service SAS)
-   * @param {userDelegationKey} [userDelegationKey] Representing the user delegation key properties
+   * @param {string} permissions Representing the storage permissions
+   * @param {string} services Representing the storage services being accessed (only for Account SAS)
+   * @param {string} resourceTypes Representing the storage resource types being accessed (only for Account SAS)
+   * @param {SASProtocol} protocol Representing the allowed HTTP protocol(s)
+   * @param {Date} startTime Representing the start time for this SAS token
+   * @param {Date} expiryTime Representing the expiry time for this SAS token
+   * @param {SasIPRange} ipRange Representing the range of valid IP addresses for this SAS token
+   * @param {string} identifier Representing the signed identifier (only for Service SAS)
+   * @param {string} resource Representing the storage container or blob (only for Service SAS)
+   * @param {string} cacheControl Representing the cache-control header (only for Blob/File Service SAS)
+   * @param {string} contentDisposition Representing the content-disposition header (only for Blob/File Service SAS)
+   * @param {string} contentEncoding Representing the content-encoding header (only for Blob/File Service SAS)
+   * @param {string} contentLanguage Representing the content-language header (only for Blob/File Service SAS)
+   * @param {string} contentType Representing the content-type header (only for Blob/File Service SAS)
+   * @param {userDelegationKey} userDelegationKey Representing the user delegation key properties
    * @memberof SASQueryParameters
    */
   constructor(
@@ -448,7 +448,7 @@ export class SASQueryParameters {
    * @private
    * @param {string[]} queries
    * @param {string} key
-   * @param {string} [value]
+   * @param {string} value
    * @returns {void}
    * @memberof SASQueryParameters
    */
