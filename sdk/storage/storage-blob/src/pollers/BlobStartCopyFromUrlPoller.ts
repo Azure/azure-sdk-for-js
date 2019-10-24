@@ -1,7 +1,10 @@
 import { delay } from "@azure/core-http";
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
-import { BlobStartCopyFromURLResponse } from "../generated/src/models";
-import { BlobClient, BlobStartCopyFromURLOptions } from "../BlobClient";
+import {
+  BlobClient,
+  BlobStartCopyFromURLOptions,
+  BlobBeginCopyFromURLResponse
+} from "../BlobClient";
 
 /**
  * Defines the operations needed from a BlobClient.
@@ -10,14 +13,14 @@ export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getPro
   startCopyFromURL(
     copySource: string,
     options?: BlobStartCopyFromURLOptions
-  ): Promise<BlobStartCopyFromURLResponse>;
+  ): Promise<BlobBeginCopyFromURLResponse>;
 };
 
 /**
  * The state used by the PollOperation.
  */
 export interface BlobBeginCopyFromUrlPollState
-  extends PollOperationState<BlobStartCopyFromURLResponse> {
+  extends PollOperationState<BlobBeginCopyFromURLResponse> {
   blobClient: CopyPollerBlobClient;
   copyId?: string;
   copyProgress?: string;
@@ -30,12 +33,15 @@ export interface BlobBeginCopyFromUrlPollState
  *  - performing the initial startCopyFromURL
  *  - checking the copy status via getProperties
  *  - cancellation via abortCopyFromURL
+ * @ignore
  */
 export interface BlobBeginCopyFromURLPollOperation
-  extends PollOperation<BlobBeginCopyFromUrlPollState, BlobStartCopyFromURLResponse> {}
+  extends PollOperation<BlobBeginCopyFromUrlPollState, BlobBeginCopyFromURLResponse> {}
 
 /**
- *
+ * The set of options used to configure the poller.
+ * This is an internal interface populated by `blobClient.beginCopyFromURL`.
+ * @ignore
  */
 export interface BlobBeginCopyFromUrlPollerOptions {
   blobClient: CopyPollerBlobClient;
@@ -47,11 +53,14 @@ export interface BlobBeginCopyFromUrlPollerOptions {
 }
 
 /**
+ * This is the poller returned by `beginCopyFromURL`.
+ * This can not be instantiated directly outside of this package.
  *
+ * @ignore
  */
 export class BlobBeginCopyFromUrlPoller extends Poller<
   BlobBeginCopyFromUrlPollState,
-  BlobStartCopyFromURLResponse
+  BlobBeginCopyFromURLResponse
 > {
   public intervalInMs: number;
 
@@ -87,11 +96,17 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
     this.intervalInMs = intervalInMs;
   }
 
-  async delay(): Promise<void> {
+  public delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
 }
 
+/**
+ * Note: Intentionally using function expression over arrow function expression
+ * so that the function can be invoked with a different context.
+ * This affects what `this` refers to.
+ * @ignore
+ */
 const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cancel(
   this: BlobBeginCopyFromURLPollOperation,
   options = {}
@@ -107,18 +122,21 @@ const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cance
     return makeBlobBeginCopyFromURLPollOperation(state);
   }
 
-  try {
-    await state.blobClient.abortCopyFromURL(copyId, {
-      abortSignal: options.abortSignal
-    });
-    state.isCancelled = true;
-  } catch (err) {
-    // swallow error
-  }
+  // if abortCopyFromURL throws, it will bubble up to user's poller.cancelOperation call
+  await state.blobClient.abortCopyFromURL(copyId, {
+    abortSignal: options.abortSignal
+  });
+  state.isCancelled = true;
 
   return makeBlobBeginCopyFromURLPollOperation(state);
 };
 
+/**
+ * Note: Intentionally using function expression over arrow function expression
+ * so that the function can be invoked with a different context.
+ * This affects what `this` refers to.
+ * @ignore
+ */
 const update: BlobBeginCopyFromURLPollOperation["update"] = async function update(
   this: BlobBeginCopyFromURLPollOperation,
   options = {}
@@ -138,7 +156,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
     }
   } else if (!state.isCompleted) {
     try {
-      const result = await state.blobClient.getProperties();
+      const result = await state.blobClient.getProperties({ abortSignal: options.abortSignal });
       const { copyStatus, copyProgress } = result;
       const prevCopyProgress = state.copyProgress;
       if (copyProgress) {
@@ -170,8 +188,26 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
 };
 
 /**
- *
- * @param state
+ * Note: Intentionally using function expression over arrow function expression
+ * so that the function can be invoked with a different context.
+ * This affects what `this` refers to.
+ * @ignore
+ */
+const toString: BlobBeginCopyFromURLPollOperation["toString"] = function toString(
+  this: BlobBeginCopyFromURLPollOperation
+) {
+  return JSON.stringify({ state: this.state }, (key, value) => {
+    // remove blobClient from serialized state since a client can't be hydrated from this info.
+    if (key === "blobClient") {
+      return undefined;
+    }
+    return value;
+  });
+};
+
+/**
+ * Creates a poll operation given the provided state.
+ * @ignore
  */
 function makeBlobBeginCopyFromURLPollOperation(
   state: BlobBeginCopyFromUrlPollState
@@ -179,9 +215,7 @@ function makeBlobBeginCopyFromURLPollOperation(
   return {
     state: { ...state },
     cancel,
-    toString() {
-      return JSON.stringify({ state: this.state });
-    },
+    toString,
     update
   };
 }

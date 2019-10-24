@@ -164,6 +164,8 @@ const skip = [
   "browsers/blobclient_begincopyfromurl_poller/recording_supports_automatic_polling_via_polluntildone.json",
   "browsers/blobclient_begincopyfromurl_poller/recording_supports_cancellation_of_the_copy.json",
   "browsers/blobclient_begincopyfromurl_poller/recording_supports_manual_polling_via_poll.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_updating_on_progress_events.json",
+  "browsers/blobclient_begincopyfromurl_poller/recording_supports_restoring_poller_state_from_another_poller.json",
   // Skip for random UUID generated for request boundary and changing x-ms-date used for authentication
   "node/blobbatch/recording_submitbatch_should_report_error_with_invalid_credential_for_batch_request.js",
   "node/blobbatch/recording_submitbatch_should_work_for_batch_delete.js",

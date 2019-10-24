@@ -3,8 +3,7 @@ import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
 import { record } from "./utils/recorder";
-import { BlobClient, BlockBlobClient, ContainerClient } from "../src";
-import { BlobStartCopyFromURLResponse } from "../src/generated/src/models";
+import { BlobClient, BlockBlobClient, ContainerClient, BlobBeginCopyFromURLResponse } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient beginCopyFromURL Poller", () => {
@@ -61,7 +60,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       recorder.getUniqueName("copiedblob")
     );
     const poller = await newBlobClient.beginCopyFromURL(blobClient.url);
-    let result: BlobStartCopyFromURLResponse;
+    let result: BlobBeginCopyFromURLResponse;
     do {
       await poller.poll();
       if (poller.isDone()) {
@@ -93,5 +92,47 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     } catch (err) {
       assert.equal(err.name, "PollerCancelledError");
     }
+  });
+
+  it("supports updating on progress events", async () => {
+    const newBlobClient = destinationContainerClient.getBlobClient(
+      recorder.getUniqueName("copiedblob")
+    );
+    let onProgressCalled = false;
+    const poller = await newBlobClient.beginCopyFromURL(
+      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      {
+        onProgress(_) {
+          onProgressCalled = true;
+        }
+      }
+    );
+
+    await poller.pollUntilDone();
+    assert.equal(onProgressCalled, true, "onProgress handler was not called.");
+  });
+
+  it("supports restoring poller state from another poller", async () => {
+    const newBlobClient = destinationContainerClient.getBlobClient(
+      recorder.getUniqueName("copiedblob")
+    );
+
+    const poller1 = await newBlobClient.beginCopyFromURL(
+      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md"
+    );
+
+    poller1.stopPolling();
+
+    const state = poller1.toString();
+
+    const poller2 = await newBlobClient.beginCopyFromURL(
+      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      {
+        resumeFrom: state
+      }
+    );
+    const result = await poller2.pollUntilDone();
+    assert.ok(result.copyId);
+    assert.equal(result.copyStatus, "success", "Poller2 copy failed.");
   });
 });
