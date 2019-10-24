@@ -282,31 +282,26 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-   * Evaluates the `associatedLinkName` to use for given Service Bus entity client instance
-   * @param forSender Boolean flag indicating if this for an operation on sender or receiver
+   * Evaluates the `associatedLinkName` to use for given operation.
    * @param clientEntityContext The `ClientEntityContext` associated with given Service Bus entity client
    * @param sessionId `sessionId` if applicable
    */
-  private _getAssociatedLinkName(
-    forSender: boolean,
+  private _getAssociatedReceiverName(
     clientEntityContext: ClientEntityContext,
     sessionId?: string
   ): string | undefined {
-    let associatedLinkName: string | undefined;
-    if (forSender && clientEntityContext.sender) {
-      return clientEntityContext.sender.name;
-    } else {
-      if (sessionId != undefined) {
-        if (clientEntityContext.messageSessions[sessionId]) {
-          associatedLinkName = clientEntityContext.messageSessions[sessionId].name;
-        }
-      } else if (clientEntityContext.batchingReceiver) {
-        associatedLinkName = clientEntityContext.batchingReceiver.name;
-      } else if (clientEntityContext.streamingReceiver) {
-        associatedLinkName = clientEntityContext.streamingReceiver.name;
+    if (sessionId != undefined) {
+      if (clientEntityContext.messageSessions[sessionId]) {
+        return clientEntityContext.messageSessions[sessionId].name;
       }
-      return associatedLinkName;
     }
+    if (clientEntityContext.batchingReceiver) {
+      return clientEntityContext.batchingReceiver.name;
+    }
+    if (clientEntityContext.streamingReceiver) {
+      return clientEntityContext.streamingReceiver.name;
+    }
+    return;
   }
 
   /**
@@ -420,7 +415,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.peekMessage
         }
       };
-      const associatedLinkName = this._getAssociatedLinkName(false, this._context, sessionId);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -501,7 +496,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      const associatedLinkName = this._getAssociatedLinkName(false, this._context);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -593,7 +588,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.scheduleMessage
         }
       };
-      const associatedLinkName = this._getAssociatedLinkName(true, this._context);
+      const associatedLinkName = this._context.sender!.name;
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -671,7 +666,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.cancelScheduledMessage
         }
       };
-      const associatedLinkName = this._getAssociatedLinkName(true, this._context);
+      const associatedLinkName = this._context.sender!.name;
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -754,7 +749,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.receiveBySequenceNumber
         }
       };
-      const associatedLinkName = this._getAssociatedLinkName(false, this._context, sessionId);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -848,7 +843,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.updateDisposition
         }
       };
-      const associatedLinkName = this._getAssociatedLinkName(false, this._context);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -900,7 +895,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      const associatedLinkName = this._getAssociatedLinkName(false, this._context);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -955,7 +950,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.setSessionState
         }
       };
-      const associatedLinkName = this._getAssociatedLinkName(false, this._context, sessionId);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
@@ -1000,7 +995,7 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.getSessionState
         }
       };
-      const associatedLinkName = this._getAssociatedLinkName(false, this._context, sessionId);
+      const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
       if (associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = associatedLinkName;
       }
