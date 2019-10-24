@@ -3,7 +3,7 @@ let nock = require('nock');
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/CRUDSecretName-cangetasecretNonExisting-/')
+  .put('/secrets/recoverSecretName-canattempttodeleteasecretwithrequestOptionstimeout-')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
   'no-cache',
@@ -22,7 +22,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '37dbb48f-5dae-4e9b-b0ed-cea23888e04e',
+  '1a98f11e-d1ec-4f0f-b201-9d0d2d6d8109',
   'x-ms-keyvault-service-version',
   '1.1.0.879',
   'x-ms-keyvault-network-info',
@@ -36,7 +36,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 23 Oct 2019 23:53:39 GMT' ]);
+  'Thu, 24 Oct 2019 00:07:56 GMT' ]);
 
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -54,32 +54,30 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '32c1dca3-0e28-452c-8d9b-64a7566e6600',
+  'c8b1d629-bfa0-44d2-9b5d-badd70030800',
   'x-ms-ests-server',
-  '2.1.9557.16 - SCUS ProdSlices',
+  '2.1.9557.16 - NCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AiF0jS63iahMrkVYb5w9mYY_aSJHAQAAAAPfQtUOAAAA; expires=Fri, 22-Nov-2019 23:53:39 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ak7nHggrjDNBi5jm0phIfSs_aSJHAQAAAFziQtUOAAAA; expires=Sat, 23-Nov-2019 00:07:57 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; secure; HttpOnly',
+  'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; secure; HttpOnly',
+  'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Wed, 23 Oct 2019 23:53:39 GMT',
+  'Thu, 24 Oct 2019 00:07:57 GMT',
   'Content-Length',
   '1231' ]);
 
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/secrets/CRUDSecretName-cangetasecretNonExisting-/')
+  .put('/secrets/recoverSecretName-canattempttodeleteasecretwithrequestOptionstimeout-', {"value":"value","attributes":{}})
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Secret not found: CRUDSecretName-cangetasecretNonExisting-"}}, [ 'Cache-Control',
+  .reply(200, {"value":"value","id":"https://keyvault_name.vault.azure.net/secrets/recoverSecretName-canattempttodeleteasecretwithrequestOptionstimeout-/bd182b26f24d41599a2fceae0b01f4e0","attributes":{"enabled":true,"created":1571875677,"updated":1571875677,"recoveryLevel":"Recoverable+Purgeable"}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '122',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -89,7 +87,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '3fb44fbc-5a06-480e-b67e-9c942dbff48e',
+  'e66bd108-201c-4147-a2b2-1e273922c015',
   'x-ms-keyvault-service-version',
   '1.1.0.879',
   'x-ms-keyvault-network-info',
@@ -103,5 +101,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 23 Oct 2019 23:53:39 GMT' ]);
+  'Thu, 24 Oct 2019 00:07:56 GMT',
+  'Content-Length',
+  '299' ]);
 
