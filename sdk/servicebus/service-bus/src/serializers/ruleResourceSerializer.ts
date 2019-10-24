@@ -31,7 +31,8 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
 
 /**
  * @ignore
- * Builds the rule object
+ * Builds the rule object from the raw json object gotten after deserializing the response 
+ * from the service
  * @param rawRule
  */
 export function buildRule(rawRule: any): Rule | {} {
