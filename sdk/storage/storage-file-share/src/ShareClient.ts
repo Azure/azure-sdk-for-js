@@ -40,7 +40,7 @@ import {
   DirectoryCreateOptions,
   DirectoryDeleteOptions
 } from "./ShareDirectoryClient";
-import { FileCreateOptions, FileDeleteOptions, FileClient } from "./FileClient";
+import { FileCreateOptions, FileDeleteOptions, ShareFileClient } from "./ShareFileClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -594,14 +594,14 @@ export class ShareClient extends StorageClient {
    * @param {string} fileName
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns {Promise<{ fileClient: FileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
+   * @returns {Promise<{ fileClient: ShareFileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
    * @memberof ShareClient
    */
   public async createFile(
     fileName: string,
     size: number,
     options: FileCreateOptions = {}
-  ): Promise<{ fileClient: FileClient; fileCreateResponse: FileCreateResponse }> {
+  ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
     const { span, spanOptions } = createSpan("ShareClient-createFile", options.spanOptions);
     try {
       const directoryClient = this.rootDirectoryClient;

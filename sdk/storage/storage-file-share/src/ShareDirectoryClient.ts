@@ -33,7 +33,7 @@ import { appendToURLPath, getShareNameAndPathFromUrl } from "./utils/utils.commo
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FileClient, FileCreateOptions, FileDeleteOptions } from "./FileClient";
+import { ShareFileClient, FileCreateOptions, FileDeleteOptions } from "./ShareFileClient";
 import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { FileSystemAttributes } from "./FileSystemAttributes";
@@ -543,14 +543,14 @@ export class ShareDirectoryClient extends StorageClient {
    * @param {string} fileName
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
-   * @returns {Promise<{ fileClient: FileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
+   * @returns {Promise<{ fileClient: ShareFileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
    * @memberof ShareDirectoryClient
    */
   public async createFile(
     fileName: string,
     size: number,
     options: FileCreateOptions = {}
-  ): Promise<{ fileClient: FileClient; fileCreateResponse: FileCreateResponse }> {
+  ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-createFile",
       options.spanOptions
@@ -615,14 +615,17 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
-   * Creates a FileClient object.
+   * Creates a ShareFileClient object.
    *
    * @param {string} fileName A file name.
-   * @returns {FileClient} A new FileClient object for the given file name.
-   * @memberof FileClient
+   * @returns {ShareFileClient} A new ShareFileClient object for the given file name.
+   * @memberof ShareFileClient
    */
-  public getFileClient(fileName: string): FileClient {
-    return new FileClient(appendToURLPath(this.url, encodeURIComponent(fileName)), this.pipeline);
+  public getFileClient(fileName: string): ShareFileClient {
+    return new ShareFileClient(
+      appendToURLPath(this.url, encodeURIComponent(fileName)),
+      this.pipeline
+    );
   }
 
   /**

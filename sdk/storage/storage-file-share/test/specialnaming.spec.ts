@@ -1,4 +1,4 @@
-import { FileClient } from "../src/FileClient";
+import { ShareFileClient } from "../src/ShareFileClient";
 import { getBSU } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
@@ -62,7 +62,7 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special container and file names with spaces in URL string", async () => {
     const fileName: string = recorder.getUniqueName("file empty");
-    const fileClient = new FileClient(
+    const fileClient = new ShareFileClient(
       appendToURLPath(directoryClient.url, fileName),
       (directoryClient as any).pipeline
     );
@@ -94,7 +94,7 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special container and file names uppercase in URL string", async () => {
     const fileName: string = recorder.getUniqueName("Upper file empty another");
-    const fileClient = new FileClient(
+    const fileClient = new ShareFileClient(
       appendToURLPath(directoryClient.url, fileName),
       (directoryClient as any).pipeline
     );
@@ -127,7 +127,7 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special file names Chinese characters in URL string", async () => {
     const fileName: string = recorder.getUniqueName("Upper file empty another 汉字");
-    const fileClient = new FileClient(
+    const fileClient = new ShareFileClient(
       appendToURLPath(directoryClient.url, fileName),
       (directoryClient as any).pipeline
     );
@@ -167,7 +167,7 @@ describe("Special Naming Tests", () => {
     const fileName: string = recorder.getUniqueName(
       "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
     );
-    const fileClient = new FileClient(
+    const fileClient = new ShareFileClient(
       // There are 2 special cases for a URL string:
       // Escape "%" when creating XXXClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters
@@ -275,7 +275,7 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special file name Russian in URL string", async () => {
     const fileName: string = recorder.getUniqueName("ру́сский язы́к");
-    const fileClient = new FileClient(
+    const fileClient = new ShareFileClient(
       appendToURLPath(directoryClient.url, fileName),
       (directoryClient as any).pipeline
     );
@@ -330,7 +330,7 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special file name Arabic in URL string", async () => {
     const fileName: string = recorder.getUniqueName("عربيعربى");
-    const fileClient = new FileClient(
+    const fileClient = new ShareFileClient(
       appendToURLPath(directoryClient.url, fileName),
       (directoryClient as any).pipeline
     );
@@ -385,7 +385,7 @@ describe("Special Naming Tests", () => {
 
   it("Should work with special file name Japanese in URL string", async () => {
     const fileName: string = recorder.getUniqueName("にっぽんごにほんご");
-    const fileClient = new FileClient(
+    const fileClient = new ShareFileClient(
       appendToURLPath(directoryClient.url, fileName),
       (directoryClient as any).pipeline
     );

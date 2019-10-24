@@ -74,8 +74,8 @@ async function main() {
   const fileClient = directoryClient.getFileClient(fileName);
   const fileSize = fs.statSync(localFilePath).size;
 
-  // Parallel uploading with FileClient.uploadFile() in Node.js runtime
-  // FileClient.uploadFile() is only available in Node.js
+  // Parallel uploading with ShareFileClient.uploadFile() in Node.js runtime
+  // ShareFileClient.uploadFile() is only available in Node.js
   await fileClient.uploadFile(localFilePath, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     parallelism: 20, // 20 concurrency
@@ -83,16 +83,16 @@ async function main() {
   });
   console.log("uploadFile success");
 
-  // Parallel uploading a Readable stream with FileClient.uploadStream() in Node.js runtime
-  // FileClient.uploadStream() is only available in Node.js
+  // Parallel uploading a Readable stream with ShareFileClient.uploadStream() in Node.js runtime
+  // ShareFileClient.uploadStream() is only available in Node.js
   await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
     abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     onProgress: (ev) => console.log(ev)
   });
   console.log("uploadStream success");
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with FileClient.uploadBrowserData()
-  // Uncomment following code in browsers because FileClient.uploadBrowserData() is only available in browsers
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with ShareFileClient.uploadBrowserData()
+  // Uncomment following code in browsers because ShareFileClient.uploadBrowserData() is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
   await fileClient.uploadBrowserData(browserFile, {
@@ -103,7 +103,7 @@ async function main() {
   */
 
   // Parallel downloading an Azure file into Node.js buffer
-  // FileClient.downloadToBuffer() is only available in Node.js
+  // ShareFileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
   await fileClient.downloadToBuffer(buffer, 0, undefined, {
     abortSignal: AbortController.timeout(30 * 60 * 1000),

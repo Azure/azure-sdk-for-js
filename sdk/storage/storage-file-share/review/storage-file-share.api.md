@@ -285,46 +285,10 @@ export interface FileClearRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
-// @public
-export class FileClient extends StorageClient {
-    constructor(url: string, pipeline: Pipeline);
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
-    abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
-    clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
-    create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
-    delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
-    download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<void>;
-    downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
-    forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
-    forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
-    getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
-    getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
-    listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
-    // (undocumented)
-    readonly path: string;
-    resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
-    // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders" needs to be exported by the entry point index.d.ts
-    setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
-    setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
-    setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
-    // (undocumented)
-    readonly shareName: string;
-    startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
-    uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
-    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
-    uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
-    uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
-    uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
-    uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
-    uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
-}
-
 // @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders" needs to be exported by the entry point index.d.ts
     fileHttpHeaders?: FileHttpHeaders;
     metadata?: Metadata;
 }
@@ -868,6 +832,8 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 }
 
+// Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
+// 
 // @public
 export class ShareClient extends StorageClient {
     constructor(connectionString: string, shareName: string, options?: StoragePipelineOptions);
@@ -879,7 +845,7 @@ export class ShareClient extends StorageClient {
         directoryCreateResponse: DirectoryCreateResponse;
     }>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
-        fileClient: FileClient;
+        fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
     createPermission(filePermission: string, options?: ShareCreatePermissionOptions): Promise<ShareCreatePermissionResponse>;
@@ -971,7 +937,7 @@ export class ShareDirectoryClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
-        fileClient: FileClient;
+        fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
     createSubdirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
@@ -984,7 +950,7 @@ export class ShareDirectoryClient extends StorageClient {
     forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<number>;
     forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
     getDirectoryClient(subDirectoryName: string): ShareDirectoryClient;
-    getFileClient(fileName: string): FileClient;
+    getFileClient(fileName: string): ShareFileClient;
     getProperties(options?: DirectoryGetPropertiesOptions): Promise<DirectoryGetPropertiesResponse>;
     listFilesAndDirectories(options?: DirectoryListFilesAndDirectoriesOptions): PagedAsyncIterableIterator<{
         kind: "file";
@@ -1012,6 +978,40 @@ export class SharedKeyCredential extends Credential {
 export class SharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: SharedKeyCredential);
     protected signRequest(request: WebResource): WebResource;
+}
+
+// @public
+export class ShareFileClient extends StorageClient {
+    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
+    clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
+    create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
+    delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
+    downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<void>;
+    downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
+    forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<number>;
+    forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
+    getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
+    getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
+    // (undocumented)
+    readonly path: string;
+    resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
+    setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
+    setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
+    setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
+    // (undocumented)
+    readonly shareName: string;
+    startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
+    uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
+    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
+    uploadRange(body: HttpRequestBody, offset: number, contentLength: number, options?: FileUploadRangeOptions): Promise<FileUploadRangeResponse>;
+    uploadRangeFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: FileUploadRangeFromURLOptions): Promise<FileUploadRangeFromURLResponse>;
+    uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
+    uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
+    uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
 }
 
 // @public

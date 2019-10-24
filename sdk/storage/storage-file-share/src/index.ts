@@ -10,7 +10,7 @@ export * from "./AccountSASSignatureValues";
 export * from "./FileSASPermissions";
 export * from "./FileSASSignatureValues";
 export * from "./ShareDirectoryClient";
-export * from "./FileClient";
+export * from "./ShareFileClient";
 export * from "./ShareSASPermissions";
 export * from "./ShareClient";
 export * from "./credentials/AnonymousCredential";

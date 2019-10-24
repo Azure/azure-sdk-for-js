@@ -4,7 +4,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { ShareClient, ShareDirectoryClient, FileClient } from "../src";
+import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { getBSU, bodyToString } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -20,7 +20,7 @@ describe("FileClient", () => {
   let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
   let fileName: string;
-  let fileClient: FileClient;
+  let fileClient: ShareFileClient;
   const content = "Hello World";
 
   let recorder: any;
@@ -500,7 +500,7 @@ describe("FileClient", () => {
 
   it("verify shareName and filePath passed to the client", async () => {
     const accountName = "myaccount";
-    const newClient = new FileClient(
+    const newClient = new ShareFileClient(
       `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName + "/" + fileName
     );
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");

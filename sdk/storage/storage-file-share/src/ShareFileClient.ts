@@ -150,7 +150,7 @@ export interface FileDownloadOptions extends CommonOptions {
    * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors.
    *
-   * With this option, every additional retry means an additional FileClient.download() request will be made
+   * With this option, every additional retry means an additional ShareFileClient.download() request will be made
    * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
    *
    * Default value is 5, please set a larger value when loading large files in poor network.
@@ -505,7 +505,7 @@ export interface FileForceCloseHandlesOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 /**
- * Option interface for FileClient.uploadStream().
+ * Option interface for ShareFileClient.uploadStream().
  *
  * @export
  * @interface FileUploadStreamOptions
@@ -544,7 +544,7 @@ export interface FileUploadStreamOptions extends CommonOptions {
 }
 
 /**
- * Option interface for FileClient.uploadFile() and FileClient.uploadSeekableStream().
+ * Option interface for ShareFileClient.uploadFile() and ShareFileClient.uploadSeekableStream().
  *
  * @export
  * @interface FileParallelUploadOptions
@@ -633,7 +633,7 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    * Above kind of ends will not trigger retry policy defined in a pipeline,
    * because they doesn't emit network errors.
    *
-   * With this option, every additional retry means an additional FileClient.download() request will be made
+   * With this option, every additional retry means an additional ShareFileClient.download() request will be made
    * from the broken point, until the requested range has been successfully downloaded or
    * maxRetryRequestsPerRange is reached.
    *
@@ -662,18 +662,18 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
 }
 
 /**
- * A FileClient represents a URL to an Azure Storage file.
+ * A ShareFileClient represents a URL to an Azure Storage file.
  *
  * @export
- * @class FileClient
+ * @class ShareFileClient
  */
-export class FileClient extends StorageClient {
+export class ShareFileClient extends StorageClient {
   /**
    * context provided by protocol layer.
    *
    * @private
    * @type {File}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   private context: File;
   private _shareName: string;
@@ -688,7 +688,7 @@ export class FileClient extends StorageClient {
   }
 
   /**
-   * Creates an instance of FileClient.
+   * Creates an instance of ShareFileClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file". You can
@@ -701,11 +701,11 @@ export class FileClient extends StorageClient {
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
-   * Creates an instance of FileClient.
+   * Creates an instance of ShareFileClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file, such as
    *                     "https://myaccount.file.core.windows.net/myshare/mydirectory/file". You can
@@ -717,7 +717,7 @@ export class FileClient extends StorageClient {
    *                     Such as a file named "myfile%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydirectory/myfile%25".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -750,10 +750,10 @@ export class FileClient extends StorageClient {
    * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
    * @returns {Promise<FileCreateResponse>} Response data for the File Create  operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async create(size: number, options: FileCreateOptions = {}): Promise<FileCreateResponse> {
-    const { span, spanOptions } = createSpan("FileClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-create", options.spanOptions);
     try {
       if (size < 0 || size > FILE_MAX_SIZE_BYTES) {
         throw new RangeError(`File size must >= 0 and < ${FILE_MAX_SIZE_BYTES}.`);
@@ -806,14 +806,14 @@ export class FileClient extends StorageClient {
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {FileDownloadOptions} [options] Options to File Download operation.
    * @returns {Promise<FileDownloadResponse>} Response data for the File Download operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async download(
     offset: number = 0,
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<FileDownloadResponseModel> {
-    const { span, spanOptions } = createSpan("FileClient-download", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-download", options.spanOptions);
     try {
       if (options.rangeGetContentMD5 && offset === 0 && count === undefined) {
         throw new RangeError(`rangeGetContentMD5 only works with partial data downloading`);
@@ -896,12 +896,12 @@ export class FileClient extends StorageClient {
    *
    * @param {FileGetPropertiesOptions} [options] Options to File Get Properties operation.
    * @returns {Promise<FileGetPropertiesResponse>} Response data for the File Get Properties operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async getProperties(
     options: FileGetPropertiesOptions = {}
   ): Promise<FileGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("FileClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-getProperties", options.spanOptions);
     try {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
@@ -927,10 +927,13 @@ export class FileClient extends StorageClient {
    *                                       For other file properties(e.g. fileAttributes), if no values are provided,
    *                                       existing values will be preserved.
    * @returns {Promise<SetPropertiesResponse>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async setProperties(properties: FileProperties = {}): Promise<SetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("FileClient-setProperties", properties.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-setProperties",
+      properties.spanOptions
+    );
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
@@ -975,10 +978,10 @@ export class FileClient extends StorageClient {
    *
    * @param {FileDeleteOptions} [options] Options to File Delete operation.
    * @returns {Promise<FileDeleteResponse>} Response data for the File Delete operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
-    const { span, spanOptions } = createSpan("FileClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-delete", options.spanOptions);
     try {
       return this.context.deleteMethod({
         abortSignal: options.abortSignal,
@@ -1006,13 +1009,13 @@ export class FileClient extends StorageClient {
    *                                             Provide undefined will remove existing HTTP headers.
    * @param {FileSetHttpHeadersOptions} [options] Options to File Set HTTP Headers operation.
    * @returns {Promise<FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async setHttpHeaders(
     fileHttpHeaders: FileHttpHeaders = {},
     options: FileSetHttpHeadersOptions = {}
   ): Promise<FileSetHTTPHeadersResponse> {
-    const { span, spanOptions } = createSpan("FileClient-setHTTPHeaders", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-setHTTPHeaders", options.spanOptions);
     try {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
@@ -1049,13 +1052,13 @@ export class FileClient extends StorageClient {
    *                        then all ranges above the specified byte value are cleared.
    * @param {FileResizeOptions} [options] Options to File Resize operation.
    * @returns {Promise<FileSetHTTPHeadersResponse>} Response data for the File Set HTTP Headers operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async resize(
     length: number,
     options: FileResizeOptions = {}
   ): Promise<FileSetHTTPHeadersResponse> {
-    const { span, spanOptions } = createSpan("FileClient-resize", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-resize", options.spanOptions);
     try {
       if (length < 0) {
         throw new RangeError(`Size cannot less than 0 when resizing file.`);
@@ -1096,13 +1099,13 @@ export class FileClient extends StorageClient {
    * @param {Metadata} [metadata] If no metadata provided, all existing directory metadata will be removed
    * @param {FileSetMetadataOptions} [options] Options to File Set Metadata operation.
    * @returns {Promise<FileSetMetadataResponse>} Response data for the File Set Metadata operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async setMetadata(
     metadata: Metadata = {},
     options: FileSetMetadataOptions = {}
   ): Promise<FileSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("FileClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-setMetadata", options.spanOptions);
     try {
       return this.context.setMetadata({
         abortSignal: options.abortSignal,
@@ -1131,7 +1134,7 @@ export class FileClient extends StorageClient {
    *                               string including non non-Base64/Hex-encoded characters.
    * @param {FileUploadRangeOptions} [options={}] Options to File Upload Range operation.
    * @returns {Promise<FileUploadRangeResponse>} Response data for the File Upload Range operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async uploadRange(
     body: HttpRequestBody,
@@ -1139,7 +1142,7 @@ export class FileClient extends StorageClient {
     contentLength: number,
     options: FileUploadRangeOptions = {}
   ): Promise<FileUploadRangeResponse> {
-    const { span, spanOptions } = createSpan("FileClient-uploadRange", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-uploadRange", options.spanOptions);
     try {
       if (offset < 0) {
         throw new RangeError(`offset must be >= 0`);
@@ -1195,7 +1198,10 @@ export class FileClient extends StorageClient {
     count: number,
     options: FileUploadRangeFromURLOptions = {}
   ): Promise<FileUploadRangeFromURLResponse> {
-    const { span, spanOptions } = createSpan("FileClient-uploadRangeFromURL", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-uploadRangeFromURL",
+      options.spanOptions
+    );
     try {
       if (sourceOffset < 0 || destOffset < 0) {
         throw new RangeError(`sourceOffset and destOffset must be >= 0`);
@@ -1235,14 +1241,14 @@ export class FileClient extends StorageClient {
    * @param {number} contentLength
    * @param {FileClearRangeOptions} [options] Options to File Clear Range operation.
    * @returns {Promise<FileUploadRangeResponse>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async clearRange(
     offset: number,
     contentLength: number,
     options: FileClearRangeOptions = {}
   ): Promise<FileUploadRangeResponse> {
-    const { span, spanOptions } = createSpan("FileClient-clearRange", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-clearRange", options.spanOptions);
     try {
       if (offset < 0 || contentLength <= 0) {
         throw new RangeError(`offset must >= 0 and contentLength must be > 0`);
@@ -1268,12 +1274,12 @@ export class FileClient extends StorageClient {
    *
    * @param {FileGetRangeListOptions} [options] Options to File Get range List operation.
    * @returns {Promise<FileGetRangeListResponse>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async getRangeList(
     options: FileGetRangeListOptions = {}
   ): Promise<FileGetRangeListResponse> {
-    const { span, spanOptions } = createSpan("FileClient-getRangeList", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-getRangeList", options.spanOptions);
     try {
       const originalResponse = await this.context.getRangeList({
         abortSignal: options.abortSignal,
@@ -1316,13 +1322,16 @@ export class FileClient extends StorageClient {
    * can also be specified as a copy source.
    * @param {FileStartCopyOptions} [options] Options to File Start Copy operation.
    * @returns {Promise<FileStartCopyResponse>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async startCopyFromURL(
     copySource: string,
     options: FileStartCopyOptions = {}
   ): Promise<FileStartCopyResponse> {
-    const { span, spanOptions } = createSpan("FileClient-startCopyFromURL", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-startCopyFromURL",
+      options.spanOptions
+    );
     try {
       return this.context.startCopy(copySource, {
         abortSignal: options.abortSignal,
@@ -1348,13 +1357,16 @@ export class FileClient extends StorageClient {
    * @param {string} copyId Id of the Copy File operation to abort.
    * @param {FileAbortCopyFromURLOptions} [options] Options to File Abort Copy From URL operation.
    * @returns {Promise<FileAbortCopyResponse>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async abortCopyFromURL(
     copyId: string,
     options: FileAbortCopyFromURLOptions = {}
   ): Promise<FileAbortCopyResponse> {
-    const { span, spanOptions } = createSpan("FileClient-abortCopyFromURL", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-abortCopyFromURL",
+      options.spanOptions
+    );
     try {
       return this.context.abortCopy(copyId, {
         abortSignal: options.abortSignal,
@@ -1386,7 +1398,10 @@ export class FileClient extends StorageClient {
     browserData: Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("FileClient-uploadBrowserData", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-uploadBrowserData",
+      options.spanOptions
+    );
     try {
       const browserBlob = new Blob([browserData]);
       return this.uploadSeekableBlob(
@@ -1423,7 +1438,10 @@ export class FileClient extends StorageClient {
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("FileClient-UploadSeekableBlob", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-UploadSeekableBlob",
+      options.spanOptions
+    );
     try {
       if (!options.rangeSize) {
         options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
@@ -1492,7 +1510,7 @@ export class FileClient extends StorageClient {
    * Uploads a local file to an Azure file.
    *
    * @param {string} filePath Full path of local file
-   * @param {FileClient} fileClient FileClient
+   * @param {ShareFileClient} fileClient ShareFileClient
    * @param {FileParallelUploadOptions} [options]
    * @returns {(Promise<void>)}
    */
@@ -1500,7 +1518,7 @@ export class FileClient extends StorageClient {
     filePath: string,
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("FileClient-uploadFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-uploadFile", options.spanOptions);
     try {
       const size = (await fsStat(filePath)).size;
       return this.uploadResetableStream(
@@ -1535,7 +1553,7 @@ export class FileClient extends StorageClient {
    * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
    *                                                                  from the offset defined
    * @param {number} size Size of the Azure file
-   * @param {FileClient} fileClient FileClient
+   * @param {ShareFileClient} fileClient ShareFileClient
    * @param {FileParallelUploadOptions} [options]
    * @returns {(Promise<void>)}
    */
@@ -1545,7 +1563,7 @@ export class FileClient extends StorageClient {
     options: FileParallelUploadOptions = {}
   ): Promise<void> {
     const { span, spanOptions } = createSpan(
-      "FileClient-uploadResetableStream",
+      "ShareFileClient-uploadResetableStream",
       options.spanOptions
     );
     try {
@@ -1632,7 +1650,10 @@ export class FileClient extends StorageClient {
     count?: number,
     options: FileDownloadToBufferOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("FileClient-downloadToBuffer", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-downloadToBuffer",
+      options.spanOptions
+    );
     try {
       if (!options.rangeSize) {
         options.rangeSize = FILE_RANGE_MAX_SIZE_BYTES;
@@ -1742,7 +1763,7 @@ export class FileClient extends StorageClient {
     maxBuffers: number,
     options: FileUploadStreamOptions = {}
   ): Promise<void> {
-    const { span, spanOptions } = createSpan("FileClient-uploadStream", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-uploadStream", options.spanOptions);
     try {
       if (!options.fileHttpHeaders) {
         options.fileHttpHeaders = {};
@@ -1829,7 +1850,7 @@ export class FileClient extends StorageClient {
     count?: number,
     options: FileDownloadOptions = {}
   ): Promise<FileDownloadResponseModel> {
-    const { span, spanOptions } = createSpan("FileClient-downloadToFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareFileClient-downloadToFile", options.spanOptions);
     try {
       const response = await this.download(offset, count, { ...options, spanOptions });
       if (response.readableStreamBody) {
@@ -1867,7 +1888,10 @@ export class FileClient extends StorageClient {
     marker?: string,
     options: FileListHandlesSegmentOptions = {}
   ): Promise<FileListHandlesResponse> {
-    const { span, spanOptions } = createSpan("FileClient-listHandlesSegment", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-listHandlesSegment",
+      options.spanOptions
+    );
     try {
       marker = marker === "" ? undefined : marker;
       const response = await this.context.listHandles({
@@ -1905,7 +1929,7 @@ export class FileClient extends StorageClient {
    *                          set of list items.
    * @param {FileListHandlesSegmentOptions} [options] Options to list handles operation.
    * @returns {AsyncIterableIterator<FileListHandlesResponse>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   private async *iterateHandleSegments(
     marker?: string,
@@ -1927,7 +1951,7 @@ export class FileClient extends StorageClient {
    * @private
    * @param {FileListHandlesSegmentOptions} [options] Options to list handles operation.
    * @returns {AsyncIterableIterator<HandleItem>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   private async *listHandleItems(
     options: FileListHandlesSegmentOptions = {}
@@ -1949,7 +1973,7 @@ export class FileClient extends StorageClient {
    * .byPage() returns an async iterable iterator to list the handles in pages.
    *
    * @param {FileListHandlesOptions} [options] Options to list handles operation.
-   * @memberof FileClient
+   * @memberof ShareFileClient
    * @returns {PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>}
    * An asyncIterableIterator that supports paging.
    */
@@ -1994,14 +2018,14 @@ export class FileClient extends StorageClient {
    *                          may then be used in a subsequent call to close the next set of handles.
    * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
    * @returns {Promise<FileForceCloseHandlesResponse>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   private async forceCloseHandlesSegment(
     marker?: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<FileForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
-      "FileClient-forceCloseHandlesSegment",
+      "ShareFileClient-forceCloseHandlesSegment",
       options.spanOptions
     );
     try {
@@ -2028,11 +2052,11 @@ export class FileClient extends StorageClient {
    *
    * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
    * @returns {Promise<number>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async forceCloseAllHandles(options: FileForceCloseHandlesOptions = {}): Promise<number> {
     const { span, spanOptions } = createSpan(
-      "FileClient-forceCloseAllHandles",
+      "ShareFileClient-forceCloseAllHandles",
       options.spanOptions
     );
     try {
@@ -2068,13 +2092,16 @@ export class FileClient extends StorageClient {
    *                          Use forceCloseAllHandles() to close all handles.
    * @param {FileForceCloseHandlesOptions} [options] Options to force close handles operation.
    * @returns {Promise<FileForceCloseHandlesResponse>}
-   * @memberof FileClient
+   * @memberof ShareFileClient
    */
   public async forceCloseHandle(
     handleId: string,
     options: FileForceCloseHandlesOptions = {}
   ): Promise<FileForceCloseHandlesResponse> {
-    const { span, spanOptions } = createSpan("FileClient-forceCloseHandle", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-forceCloseHandle",
+      options.spanOptions
+    );
     try {
       if (handleId === "*") {
         throw new RangeError(

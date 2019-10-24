@@ -10,7 +10,7 @@ import {
   SASProtocol,
   SharedKeyCredential
 } from "../../src";
-import { FileClient } from "../../src/FileClient";
+import { ShareFileClient } from "../../src/ShareFileClient";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
 import { newPipeline } from "../../src/Pipeline";
@@ -255,7 +255,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
-    const fileClientwithSAS = new FileClient(sasURL);
+    const fileClientwithSAS = new ShareFileClient(sasURL);
 
     const properties = await fileClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
