@@ -1467,7 +1467,7 @@ export class BlobClient extends StorageClient {
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
    * Downloads an Azure Blob in parallel to a buffer.
-   * Offset and count are optional, pass 0 for both to download the entire blob.
+   * Offset and count are optional, downloads the entire blob if they are not provided.
    *
    * @export
    * @param {number} offset From which position of the block blob to download(in bytes)
@@ -1485,7 +1485,7 @@ export class BlobClient extends StorageClient {
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
    * Downloads an Azure Blob in parallel to a buffer.
-   * Offset and count are optional, pass 0 for both to download the entire blob.
+   * Offset and count are optional, downloads the entire blob if they are not provided.
    *
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
