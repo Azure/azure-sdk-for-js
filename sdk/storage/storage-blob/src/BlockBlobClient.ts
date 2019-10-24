@@ -1098,9 +1098,9 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param {Readable} stream Node.js Readable stream
    * @param {BlockBlobClient} blockBlobClient A BlockBlobClient instance
-   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob
+   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob. Default value is 8MB
    * @param {number} maxConcurrency  Max concurrency indicates the max number of buffers that can be allocated,
-   *                                 positive correlation with max uploading concurrency
+   *                                 positive correlation with max uploading concurrency. Default value is 5
    * @param {BlockBlobUploadStreamOptions} [options] Options to Upload Stream to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    */
@@ -1145,7 +1145,7 @@ export class BlockBlobClient extends BlobClient {
             options.onProgress({ loadedBytes: transferProgress });
           }
         },
-        // concurrency should set a smaller value than maxBuffers, which is helpful to
+        // concurrency should set a smaller value than maxConcurrency, which is helpful to
         // reduce the possibility when a outgoing handler waits for stream data, in
         // this situation, outgoing handlers are blocked.
         // Outgoing queue shouldn't be empty.
