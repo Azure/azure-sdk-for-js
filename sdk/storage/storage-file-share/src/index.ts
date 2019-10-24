@@ -34,7 +34,7 @@ export * from "./policies/SharedKeyCredentialPolicy";
 export * from "./TelemetryPolicyFactory";
 export * from "./UniqueRequestIDPolicyFactory";
 export * from "./BrowserPolicyFactory";
-export * from "./FileServiceClient";
+export * from "./ShareServiceClient";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";

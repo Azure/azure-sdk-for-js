@@ -144,25 +144,25 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * A FileServiceClient represents a URL to the Azure Storage File service allowing you
+ * A ShareServiceClient represents a URL to the Azure Storage File service allowing you
  * to manipulate file shares.
  *
  * @export
- * @class FileServiceClient
+ * @class ShareServiceClient
  */
-export class FileServiceClient extends StorageClient {
+export class ShareServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    *
    * @private
    * @type {Service}
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   private serviceContext: Service;
 
   /**
    *
-   * Creates an instance of FileServiceClient from connection string.
+   * Creates an instance of ShareServiceClient from connection string.
    *
    * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
@@ -171,13 +171,13 @@ export class FileServiceClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
-   * @returns {FileServiceClient} A new FileServiceClient from the given connection string.
-   * @memberof FileServiceClient
+   * @returns {ShareServiceClient} A new ShareServiceClient from the given connection string.
+   * @memberof ShareServiceClient
    */
   public static fromConnectionString(
     connectionString: string,
     options?: StoragePipelineOptions
-  ): FileServiceClient {
+  ): ShareServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
@@ -186,13 +186,13 @@ export class FileServiceClient extends StorageClient {
           extractedCreds.accountKey
         );
         const pipeline = newPipeline(sharedKeyCredential, options);
-        return new FileServiceClient(extractedCreds.url, pipeline);
+        return new ShareServiceClient(extractedCreds.url, pipeline);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
     } else if (extractedCreds.kind === "SASConnString") {
       const pipeline = newPipeline(new AnonymousCredential(), options);
-      return new FileServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
+      return new ShareServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
         "Connection string must be either an Account connection string or a SAS connection string"
@@ -201,7 +201,7 @@ export class FileServiceClient extends StorageClient {
   }
 
   /**
-   * Creates an instance of FileServiceClient.
+   * Creates an instance of ShareServiceClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
@@ -209,18 +209,18 @@ export class FileServiceClient extends StorageClient {
    * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
   /**
-   * Creates an instance of FileServiceClient.
+   * Creates an instance of ShareServiceClient.
    *
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -247,7 +247,7 @@ export class FileServiceClient extends StorageClient {
    *
    * @param shareName Name of a share.
    * @returns {ShareClient} The ShareClient object for the given share name.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   public getShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
@@ -259,13 +259,13 @@ export class FileServiceClient extends StorageClient {
    * @param {string} shareName
    * @param {ShareCreateOptions} [options]
    * @returns {Promise<{ shareCreateResponse: ShareCreateResponse, shareClient: ShareClient }>} Share creation response and the corresponding share client.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   public async createShare(
     shareName: string,
     options: ShareCreateOptions = {}
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
-    const { span, spanOptions } = createSpan("FileServiceClient-createShare", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareServiceClient-createShare", options.spanOptions);
     try {
       const shareClient = this.getShareClient(shareName);
       const shareCreateResponse = await shareClient.create({ ...options, spanOptions });
@@ -290,13 +290,13 @@ export class FileServiceClient extends StorageClient {
    * @param {string} shareName
    * @param {ShareDeleteMethodOptions} [options]
    * @returns {Promise<ShareDeleteResponse>} Share deletion response and the corresponding share client.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   public async deleteShare(
     shareName: string,
     options: ShareDeleteMethodOptions = {}
   ): Promise<ShareDeleteResponse> {
-    const { span, spanOptions } = createSpan("FileServiceClient-deleteShare", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareServiceClient-deleteShare", options.spanOptions);
     try {
       const shareClient = this.getShareClient(shareName);
       return await shareClient.delete({ ...options, spanOptions });
@@ -318,13 +318,13 @@ export class FileServiceClient extends StorageClient {
    *
    * @param {ServiceGetPropertiesOptions} [options={}] Options to Get Properties operation.
    * @returns {Promise<ServiceGetPropertiesResponse>} Response data for the Get Properties operation.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
-      "FileServiceClient-getProperties",
+      "ShareServiceClient-getProperties",
       options.spanOptions
     );
     try {
@@ -351,14 +351,14 @@ export class FileServiceClient extends StorageClient {
    * @param {FileServiceProperties} properties
    * @param {ServiceSetPropertiesOptions} [options={}] Options to Set Properties operation.
    * @returns {Promise<ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   public async setProperties(
     properties: FileServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
-      "FileServiceClient-setProperties",
+      "ShareServiceClient-setProperties",
       options.spanOptions
     );
     try {
@@ -390,7 +390,7 @@ export class FileServiceClient extends StorageClient {
    *                          items. The marker value is opaque to the client.
    * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
    * @returns {AsyncIterableIterator<ServiceListSharesSegmentResponse>}
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   private async *listSegments(
     marker?: string,
@@ -410,7 +410,7 @@ export class FileServiceClient extends StorageClient {
    * @private
    * @param {ServiceListSharesSegmentOptions} [options] Options to list shares operation.
    * @returns {AsyncIterableIterator<ServiceListSharesSegmentResponse>}
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   private async *listItems(
     options: ServiceListSharesSegmentOptions = {}
@@ -487,7 +487,7 @@ export class FileServiceClient extends StorageClient {
    * ```
    *
    * @param {ServiceListSharesOptions} [options] Options to list shares operation.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    * @returns {PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>}
    * An asyncIterableIterator that supports paging.
    */
@@ -546,14 +546,14 @@ export class FileServiceClient extends StorageClient {
    *                          client.
    * @param {ServiceListSharesSegmentOptions} [options={}] Options to List Shares Segment operation.
    * @returns {Promise<ServiceListSharesSegmentResponse>} Response data for the List Shares Segment operation.
-   * @memberof FileServiceClient
+   * @memberof ShareServiceClient
    */
   private async listSharesSegment(
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): Promise<ServiceListSharesSegmentResponse> {
     const { span, spanOptions } = createSpan(
-      "FileServiceClient-listSharesSegment",
+      "ShareServiceClient-listSharesSegment",
       options.spanOptions
     );
     try {

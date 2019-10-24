@@ -324,8 +324,8 @@ export interface FileClearRangeOptions extends CommonOptions {
 
 // @public
 export class FileClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
@@ -600,22 +600,6 @@ export interface FileSASSignatureValues {
     shareName: string;
     startTime?: Date;
     version?: string;
-}
-
-// @public
-export class FileServiceClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
-    createShare(shareName: string, options?: ShareCreateOptions): Promise<{
-        shareCreateResponse: ShareCreateResponse;
-        shareClient: ShareClient;
-    }>;
-    deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): FileServiceClient;
-    getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
-    getShareClient(shareName: string): ShareClient;
-    listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
-    setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
 }
 
 // @public
@@ -1135,6 +1119,22 @@ export class ShareSASPermissions {
     read: boolean;
     toString(): string;
     write: boolean;
+}
+
+// @public
+export class ShareServiceClient extends StorageClient {
+    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
+    createShare(shareName: string, options?: ShareCreateOptions): Promise<{
+        shareCreateResponse: ShareCreateResponse;
+        shareClient: ShareClient;
+    }>;
+    deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): ShareServiceClient;
+    getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
+    getShareClient(shareName: string): ShareClient;
+    listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
+    setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
 }
 
 // @public

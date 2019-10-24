@@ -1,5 +1,5 @@
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { FileServiceClient } from "../../src/FileServiceClient";
+import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { newPipeline } from "../../src/Pipeline";
 
 export * from "./testutils.common";
@@ -7,7 +7,7 @@ export * from "./testutils.common";
 export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = ""
-): FileServiceClient {
+): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
@@ -32,14 +32,14 @@ export function getGenericBSU(
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net${accountSAS}`;
-  return new FileServiceClient(filePrimaryURL, pipeline);
+  return new ShareServiceClient(filePrimaryURL, pipeline);
 }
 
-export function getBSU(): FileServiceClient {
+export function getBSU(): ShareServiceClient {
   return getGenericBSU("");
 }
 
-export function getAlternateBSU(): FileServiceClient {
+export function getAlternateBSU(): ShareServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 

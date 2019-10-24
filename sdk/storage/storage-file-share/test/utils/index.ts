@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
-import { FileServiceClient } from "../../src/FileServiceClient";
+import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { newPipeline } from "../../src/Pipeline";
 import { getUniqueName } from "./testutils.common";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
@@ -20,7 +20,7 @@ export * from "./testutils.common";
 export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = ""
-): FileServiceClient {
+): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
@@ -42,14 +42,14 @@ export function getGenericBSU(
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
   });
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
-  return new FileServiceClient(filePrimaryURL, pipeline);
+  return new ShareServiceClient(filePrimaryURL, pipeline);
 }
 
-export function getBSU(): FileServiceClient {
+export function getBSU(): ShareServiceClient {
   return getGenericBSU("");
 }
 
-export function getAlternateBSU(): FileServiceClient {
+export function getAlternateBSU(): ShareServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 

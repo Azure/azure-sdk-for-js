@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-import { SharedKeyCredential, FileServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
+import { SharedKeyCredential, ShareServiceClient } from "../../src"; // Change to "@azure/storage-blob" in your package
 
 async function main() {
   // Enter your storage account name and shared key
@@ -13,7 +13,7 @@ async function main() {
   // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
-  const serviceClient = new FileServiceClient(
+  const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
     sharedKeyCredential,
     {

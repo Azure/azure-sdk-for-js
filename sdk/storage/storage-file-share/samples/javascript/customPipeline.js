@@ -3,7 +3,7 @@
 */
 
 const {
-  FileServiceClient,
+  ShareServiceClient,
   SharedKeyCredential,
   newPipeline,
   HttpPipelineLogLevel
@@ -51,7 +51,7 @@ async function main() {
   });
 
   // List shares
-  const serviceClient = new FileServiceClient(`https://${account}.file.core.windows.net`, pipeline);
+  const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net`, pipeline);
 
   console.log(`List shares`);
   let i = 1;

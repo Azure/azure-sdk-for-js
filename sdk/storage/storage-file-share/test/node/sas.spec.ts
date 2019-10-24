@@ -5,7 +5,7 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
-  FileServiceClient,
+  ShareServiceClient,
   generateAccountSASQueryParameters,
   SASProtocol,
   SharedKeyCredential
@@ -58,7 +58,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(
+    const serviceClientWithSAS = new ShareServiceClient(
       sasURL,
       newPipeline(new AnonymousCredential())
     );
@@ -88,7 +88,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(
+    const serviceClientWithSAS = new ShareServiceClient(
       sasURL,
       newPipeline(new AnonymousCredential())
     );
@@ -122,7 +122,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(sasURL);
+    const serviceClientWithSAS = new ShareServiceClient(sasURL);
 
     let error;
     try {
@@ -156,7 +156,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new FileServiceClient(sasURL);
+    const serviceClientWithSAS = new ShareServiceClient(sasURL);
 
     let error;
     try {

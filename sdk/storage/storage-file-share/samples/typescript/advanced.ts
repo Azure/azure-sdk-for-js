@@ -6,7 +6,7 @@ import fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import {
   AnonymousCredential,
-  FileServiceClient,
+  ShareServiceClient,
   newPipeline,
   HttpPipelineLogLevel
 } from "../../src"; // Change to "@azure/storage-file-share" in your package
@@ -53,7 +53,7 @@ async function main() {
     }
   });
 
-  const serviceClient = new FileServiceClient(
+  const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net${accountSas}`,
     pipeline
   );
