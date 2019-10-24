@@ -50,6 +50,13 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
+      - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
+        parameters:
+          TargetFolder: $(Build.SourcesDirectory)
+          RootFolder: $(Build.SourcesDirectory)
+          BuildSHA: $(Build.SourceVersion)
+          RepoId: "Azure/azure-sdk-for-js"
+
       - script: |
           node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose
         displayName: "Build libraries"
