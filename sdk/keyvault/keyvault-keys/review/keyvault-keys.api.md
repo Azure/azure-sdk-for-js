@@ -63,8 +63,7 @@ export class CryptographyClient {
 }
 
 // @public
-export interface CryptographyOptions {
-    requestOptions?: coreHttp.RequestOptionsBase;
+export interface CryptographyOptions extends coreHttp.OperationOptions {
 }
 
 // @public

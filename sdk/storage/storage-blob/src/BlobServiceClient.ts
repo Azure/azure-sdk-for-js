@@ -642,6 +642,8 @@ export class BlobServiceClient extends StorageClient {
     if (!!marker || marker === undefined) {
       do {
         listContainersSegmentResponse = await this.listContainersSegment(marker, options);
+        listContainersSegmentResponse.containerItems =
+          listContainersSegmentResponse.containerItems || [];
         marker = listContainersSegmentResponse.continuationToken;
         yield await listContainersSegmentResponse;
       } while (marker);

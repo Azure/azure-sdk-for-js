@@ -3,6 +3,7 @@
 
 import * as fs from "fs";
 import * as util from "util";
+import { isNode } from "@azure/core-http";
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
@@ -130,4 +131,4 @@ export async function readStreamToLocalFile(rs: NodeJS.ReadableStream, file: str
  *
  * Promisified version of fs.stat().
  */
-export const fsStat = util.promisify(fs.stat);
+export const fsStat = util.promisify(isNode ? fs.stat : function stat() {});

@@ -3,10 +3,13 @@
 
 import * as assert from "assert";
 import { SecretClient, DeletedSecret } from "../src";
+import { isNode } from "@azure/core-http";
+import { isPlayingBack } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Secrets client - Long Running Operations - delete", () => {
   const secretPrefix = `recover${env.CERTIFICATE_NAME || "SecretName"}`;
@@ -80,5 +83,18 @@ describe("Secrets client - Long Running Operations - delete", () => {
     assert.ok(resumePoller.getOperationState().isCompleted);
 
     await testClient.purgeSecret(secretName);
+  });
+
+  it("can attempt to delete a secret with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await client.setSecret(secretName, "value");
+    await assertThrowsAbortError(async () => {
+      await client.beginDeleteSecret(secretName, { requestOptions: { timeout: 1 } });
+    });
   });
 });

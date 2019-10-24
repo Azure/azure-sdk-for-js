@@ -3975,7 +3975,8 @@ export interface BlobGetPropertiesHeaders {
    */
   leaseStatus?: LeaseStatusType;
   /**
-   * The number of bytes present in the response body.
+   * The size of the blob in bytes. For a page blob, this header returns the value of the
+   * x-ms-blob-content-length header that is stored with the blob.
    */
   contentLength?: number;
   /**
