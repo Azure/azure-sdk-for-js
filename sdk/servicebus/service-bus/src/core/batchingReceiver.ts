@@ -64,15 +64,14 @@ export class BatchingReceiver extends MessageReceiver {
    * @param maxMessageCount      The maximum number of messages to receive.
    * This has to be a number <= 2047 for receiver in `peekLock` mode, due to memory size
    * constraints of underlying buffer.
+   * If a value > 2047 is used, then only 2047 messages are fetched at a time.
    * @param idleTimeoutInSeconds The maximum wait time in seconds for which the Receiver
    * should wait to receive the first message. If no message is received by this time,
    * the returned promise gets resolved to an empty array.
    * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
   receive(maxMessageCount: number, idleTimeoutInSeconds?: number): Promise<ServiceBusMessage[]> {
-    if (maxMessageCount > 2047) {
-      throw new Error("'maxMessageCount' cannot be > 2047 due to internal buffer limits.");
-    }
+    maxMessageCount = maxMessageCount > 2047 ? 2047 : maxMessageCount;
 
     throwErrorIfConnectionClosed(this._context.namespace);
 
