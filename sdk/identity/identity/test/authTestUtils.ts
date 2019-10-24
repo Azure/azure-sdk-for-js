@@ -98,11 +98,13 @@ export function assertClientCredentials(
       true,
       "Request body doesn't contain expected tenantId"
     );
+
     assert.strictEqual(
       authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
       true,
       "Request body doesn't contain expected clientId"
     );
+
     assert.strictEqual(
       authRequest.body.indexOf(`client_secret=${expectedClientSecret}`) > -1,
       true,
