@@ -4,7 +4,7 @@
 import { RestError } from "@azure/core-http";
 
 export * from "./ShareClient";
-export * from "./DirectoryClient";
+export * from "./ShareDirectoryClient";
 export * from "./FileClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";

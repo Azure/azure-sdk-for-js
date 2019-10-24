@@ -9,7 +9,7 @@ export * from "./AccountSASServices";
 export * from "./AccountSASSignatureValues";
 export * from "./FileSASPermissions";
 export * from "./FileSASSignatureValues";
-export * from "./DirectoryClient";
+export * from "./ShareDirectoryClient";
 export * from "./FileClient";
 export * from "./ShareSASPermissions";
 export * from "./ShareClient";

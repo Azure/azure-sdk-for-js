@@ -4,7 +4,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { record, delay } from "./utils/recorder";
 import * as dotenv from "dotenv";
-import { ShareClient, DirectoryClient, FileClient } from "../src";
+import { ShareClient, ShareDirectoryClient, FileClient } from "../src";
 import { getBSU, bodyToString } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -17,7 +17,7 @@ describe("FileClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
-  let dirClient: DirectoryClient;
+  let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
   let fileName: string;
   let fileClient: FileClient;

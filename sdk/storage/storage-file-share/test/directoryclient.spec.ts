@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { getBSU } from "./utils";
 import * as dotenv from "dotenv";
-import { ShareClient, DirectoryClient, FileSystemAttributes } from "../src";
+import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record } from "./utils/recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
@@ -13,7 +13,7 @@ describe("DirectoryClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
-  let dirClient: DirectoryClient;
+  let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
   let recorder: any;
   let fullDirAttributes = new FileSystemAttributes();
@@ -733,7 +733,7 @@ describe("DirectoryClient", () => {
 
   it("verify shareName and dirPath passed to the client", async () => {
     const accountName = "myaccount";
-    const newClient = new DirectoryClient(
+    const newClient = new ShareDirectoryClient(
       `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName
     );
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");

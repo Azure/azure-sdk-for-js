@@ -2,7 +2,7 @@ import { FileClient } from "../src/FileClient";
 import { getBSU } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { DirectoryClient } from "../src/DirectoryClient";
+import { ShareDirectoryClient } from "../src/ShareDirectoryClient";
 import { record } from "./utils/recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
@@ -13,7 +13,7 @@ describe("Special Naming Tests", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let directoryName: string;
-  let directoryClient: DirectoryClient;
+  let directoryClient: ShareDirectoryClient;
 
   let recorder: any;
 
@@ -214,7 +214,7 @@ describe("Special Naming Tests", () => {
     const directoryName: string = recorder.getUniqueName(
       "汉字. special ~!@#$%^&()_+`1234567890-={}[];','"
     );
-    const specialDirectoryClient = new DirectoryClient(
+    const specialDirectoryClient = new ShareDirectoryClient(
       // There are 2 special cases for a URL string:
       // Escape "%" when creating XXXClient object with URL strings
       // Escape "?" otherwise string after "?" will be treated as URL parameters

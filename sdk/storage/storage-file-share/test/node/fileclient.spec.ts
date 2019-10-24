@@ -7,7 +7,7 @@ import {
   newPipeline,
   SharedKeyCredential,
   ShareClient,
-  DirectoryClient,
+  ShareDirectoryClient,
   generateFileSASQueryParameters,
   FileSASPermissions
 } from "../../src";
@@ -18,7 +18,7 @@ describe("FileClient Node.js only", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
-  let dirClient: DirectoryClient;
+  let dirClient: ShareDirectoryClient;
   let fileName: string;
   let fileClient: FileClient;
   const content = "Hello World";

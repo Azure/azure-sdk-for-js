@@ -118,49 +118,12 @@ export type DeleteSnapshotsOptionType = 'include';
 
 export { deserializationPolicy }
 
-// Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
-// @public
-export class DirectoryClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
-    create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
-    createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
-        fileClient: FileClient;
-        fileCreateResponse: FileCreateResponse;
-    }>;
-    createSubdirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
-        directoryClient: DirectoryClient;
-        directoryCreateResponse: DirectoryCreateResponse;
-    }>;
-    delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
-    deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
-    deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
-    forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<number>;
-    forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
-    getDirectoryClient(subDirectoryName: string): DirectoryClient;
-    getFileClient(fileName: string): FileClient;
-    getProperties(options?: DirectoryGetPropertiesOptions): Promise<DirectoryGetPropertiesResponse>;
-    listFilesAndDirectories(options?: DirectoryListFilesAndDirectoriesOptions): PagedAsyncIterableIterator<{
-        kind: "file";
-    } & FileItem | {
-        kind: "directory";
-    } & DirectoryItem, DirectoryListFilesAndDirectoriesSegmentResponse>;
-    listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
-    // (undocumented)
-    readonly path: string;
-    // Warning: (ae-forgotten-export) The symbol "Metadata" needs to be exported by the entry point index.d.ts
-    setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
-    setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
-    // (undocumented)
-    readonly shareName: string;
-    }
-
 // Warning: (ae-forgotten-export) The symbol "FileAndDirectoryCreateCommonOptions" needs to be exported by the entry point index.d.ts
 // 
 // @public
 export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    // Warning: (ae-forgotten-export) The symbol "Metadata" needs to be exported by the entry point index.d.ts
     metadata?: Metadata;
 }
 
@@ -322,6 +285,8 @@ export interface FileClearRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
+// Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
+// 
 // @public
 export class FileClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
@@ -910,7 +875,7 @@ export class ShareClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
-        directoryClient: DirectoryClient;
+        directoryClient: ShareDirectoryClient;
         directoryCreateResponse: DirectoryCreateResponse;
     }>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
@@ -923,11 +888,11 @@ export class ShareClient extends StorageClient {
     deleteDirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     getAccessPolicy(options?: ShareGetAccessPolicyOptions): Promise<ShareGetAccessPolicyResponse>;
-    getDirectoryClient(directoryName: string): DirectoryClient;
+    getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
-    readonly rootDirectoryClient: DirectoryClient;
+    readonly rootDirectoryClient: ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
@@ -999,6 +964,41 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
         parsedHeaders: ShareDeleteHeaders;
     };
 };
+
+// @public
+export class ShareDirectoryClient extends StorageClient {
+    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
+    create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
+    createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
+        fileClient: FileClient;
+        fileCreateResponse: FileCreateResponse;
+    }>;
+    createSubdirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
+        directoryClient: ShareDirectoryClient;
+        directoryCreateResponse: DirectoryCreateResponse;
+    }>;
+    delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
+    deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
+    forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<number>;
+    forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
+    getDirectoryClient(subDirectoryName: string): ShareDirectoryClient;
+    getFileClient(fileName: string): FileClient;
+    getProperties(options?: DirectoryGetPropertiesOptions): Promise<DirectoryGetPropertiesResponse>;
+    listFilesAndDirectories(options?: DirectoryListFilesAndDirectoriesOptions): PagedAsyncIterableIterator<{
+        kind: "file";
+    } & FileItem | {
+        kind: "directory";
+    } & DirectoryItem, DirectoryListFilesAndDirectoriesSegmentResponse>;
+    listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
+    // (undocumented)
+    readonly path: string;
+    setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
+    setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
+    // (undocumented)
+    readonly shareName: string;
+    }
 
 // @public
 export class SharedKeyCredential extends Credential {

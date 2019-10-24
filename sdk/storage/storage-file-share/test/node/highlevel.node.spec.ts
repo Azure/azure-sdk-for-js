@@ -5,7 +5,7 @@ import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
 import { createRandomLocalFile, getBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { ShareClient, DirectoryClient, FileClient } from "../../src";
+import { ShareClient, ShareDirectoryClient, FileClient } from "../../src";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
 import { record } from "../utils/recorder";
 dotenv.config({ path: "../.env" });
@@ -16,7 +16,7 @@ describe("Highlevel Node.js only", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
-  let dirClient: DirectoryClient;
+  let dirClient: ShareDirectoryClient;
   let fileName: string;
   let fileClient: FileClient;
   let tempFileSmall: string;

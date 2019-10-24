@@ -35,7 +35,11 @@ import {
   extractConnectionStringParts,
   getShareNameAndPathFromUrl
 } from "./utils/utils.common";
-import { DirectoryClient, DirectoryCreateOptions, DirectoryDeleteOptions } from "./DirectoryClient";
+import {
+  ShareDirectoryClient,
+  DirectoryCreateOptions,
+  DirectoryDeleteOptions
+} from "./ShareDirectoryClient";
 import { FileCreateOptions, FileDeleteOptions, FileClient } from "./FileClient";
 import { Credential } from "./credentials/Credential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
@@ -493,14 +497,14 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a DirectoryClient object.
+   * Creates a ShareDirectoryClient object.
    *
    * @param directoryName A directory name
-   * @returns {DirectoryClient} The DirectoryClient object for the given directory name.
+   * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given directory name.
    * @memberof ShareClient
    */
-  public getDirectoryClient(directoryName: string): DirectoryClient {
-    return new DirectoryClient(
+  public getDirectoryClient(directoryName: string): ShareDirectoryClient {
+    return new ShareDirectoryClient(
       appendToURLPath(this.url, encodeURIComponent(directoryName)),
       this.pipeline
     );
@@ -511,10 +515,10 @@ export class ShareClient extends StorageClient {
    * Note that the root directory always exists and cannot be deleted.
    *
    * @readonly
-   * @type {DirectoryClient} A new DirectoryClient object for the root directory.
+   * @type {ShareDirectoryClient} A new ShareDirectoryClient object for the root directory.
    * @memberof ShareClient
    */
-  public get rootDirectoryClient(): DirectoryClient {
+  public get rootDirectoryClient(): ShareDirectoryClient {
     return this.getDirectoryClient("");
   }
 
@@ -524,14 +528,14 @@ export class ShareClient extends StorageClient {
    *
    * @param {string} directoryName
    * @param {DirectoryCreateOptions} [options] Options to Directory Create operation.
-   * @returns {Promise<{ directoryClient: DirectoryClient, directoryCreateResponse: DirectoryCreateResponse }>} Directory creation response data and the corresponding directory client.
+   * @returns {Promise<{ directoryClient: ShareDirectoryClient, directoryCreateResponse: DirectoryCreateResponse }>} Directory creation response data and the corresponding directory client.
    * @memberof ShareClient
    */
   public async createDirectory(
     directoryName: string,
     options: DirectoryCreateOptions = {}
   ): Promise<{
-    directoryClient: DirectoryClient;
+    directoryClient: ShareDirectoryClient;
     directoryCreateResponse: DirectoryCreateResponse;
   }> {
     const { span, spanOptions } = createSpan("ShareClient-createDirectory", options.spanOptions);
