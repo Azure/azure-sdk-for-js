@@ -21,7 +21,9 @@ import {
 
 /**
  * @ignore
- * Builds the topic options object
+ * Builds the topic options object from the user provided options. 
+ * Handles the differences in casing for the property names, converts values to string and ensures the 
+ * right order as expected by the service
  * @param topicOptions
  */
 export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOptions {
@@ -56,7 +58,8 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
 
 /**
  * @ignore
- * Builds the topic object
+ * Builds the topic object from the raw json object gotten after deserializing the response 
+ * from the service
  * @param rawTopic
  */
 export function buildTopic(rawTopic: any): TopicDetails | undefined {

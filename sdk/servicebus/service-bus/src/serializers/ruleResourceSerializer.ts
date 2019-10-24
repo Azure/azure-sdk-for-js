@@ -18,7 +18,9 @@ import { CorrelationFilter } from "../core/managementClient";
 
 /**
  * @ignore
- * Builds the rule options object
+ * Builds the rule options object from the user provided options. 
+ * Handles the differences in casing for the property names, converts values to string and ensures the 
+ * right order as expected by the service
  * @param name
  * @param ruleOptions
  */
@@ -29,7 +31,8 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
 
 /**
  * @ignore
- * Builds the rule object
+ * Builds the rule object from the raw json object gotten after deserializing the response 
+ * from the service
  * @param rawRule
  */
 export function buildRule(rawRule: any): Rule | {} {
