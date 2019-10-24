@@ -40,7 +40,7 @@ export namespace ConnectionContext {
    * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
   export const userAgent: string = `azsdk-js-azureservicebus/${
-    packageJsonInfo.packageVersion
+    packageJsonInfo.version
   } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
   export function create(
@@ -57,7 +57,7 @@ export namespace ConnectionContext {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: userAgent,
-        version: packageJsonInfo.packageVersion
+        version: packageJsonInfo.version
       }
     };
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
