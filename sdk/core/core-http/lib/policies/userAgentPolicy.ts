@@ -29,7 +29,7 @@ export interface UserAgentOptions {
 function getRuntimeInfo(): TelemetryInfo[] {
   const msRestRuntime = {
     key: "core-http",
-    value: Constants.packageVersion
+    value: Constants.coreHttpVersion
   };
 
   return [msRestRuntime];

@@ -1,24 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import {
-  HttpOperationResponse,
-  OperationArguments,
-  OperationSpec,
-  RequestOptionsBase,
-  RequestPrepareOptions,
-  ServiceClient,
-  ServiceClientCredentials,
-  ServiceClientOptions,
-  TokenCredential,
-  WebResource,
-  getDefaultUserAgentValue as getDefaultUserAgentValueFromMsRest
-} from "@azure/core-http";
-import {
-  createLROPollerFromInitialResponse,
-  createLROPollerFromPollState,
-  LROPoller
-} from "./lroPoller";
+import { HttpOperationResponse, OperationArguments, OperationSpec, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, TokenCredential, WebResource, getDefaultUserAgentValue as getDefaultUserAgentValueFromMsRest } from "@azure/core-http";
+import { createLROPollerFromInitialResponse, createLROPollerFromPollState, LROPoller } from "./lroPoller";
 import { LROPollState } from "./lroPollStrategy";
 import * as Constants from "./util/constants";
 
@@ -53,11 +37,8 @@ export class AzureServiceClient extends ServiceClient {
    */
   public longRunningOperationRetryTimeout?: number;
 
-  constructor(
-    credentials: TokenCredential | ServiceClientCredentials,
-    options?: AzureServiceClientOptions
-  ) {
-    super(credentials, (options = updateOptionsWithDefaultValues(options)));
+  constructor(credentials: TokenCredential | ServiceClientCredentials, options?: AzureServiceClientOptions) {
+    super(credentials, options = updateOptionsWithDefaultValues(options));
 
     // For convenience, if the credentials have an associated AzureEnvironment,
     // automatically use the baseUri from that environment.
@@ -83,14 +64,9 @@ export class AzureServiceClient extends ServiceClient {
    * @param options Additional options to be sent while making the request.
    * @returns The LROPoller object that provides methods for interacting with the LRO.
    */
-  sendLRORequest(
-    operationArguments: OperationArguments,
-    operationSpec: OperationSpec,
-    options?: RequestOptionsBase
-  ): Promise<LROPoller> {
-    return this.sendOperationRequest(operationArguments, operationSpec).then((initialResponse) =>
-      createLROPollerFromInitialResponse(this, initialResponse._response, options)
-    );
+  sendLRORequest(operationArguments: OperationArguments, operationSpec: OperationSpec, options?: RequestOptionsBase): Promise<LROPoller> {
+    return this.sendOperationRequest(operationArguments, operationSpec)
+      .then(initialResponse => createLROPollerFromInitialResponse(this, initialResponse._response, options));
   }
 
   /**
@@ -99,13 +75,10 @@ export class AzureServiceClient extends ServiceClient {
    * @param {AzureRequestOptionsBase} [options] Additional options to be sent while making the request
    * @returns {Promise<HttpOperationResponse>} The HttpOperationResponse containing the final polling request, response and the responseBody.
    */
-  sendLongRunningRequest(
-    request: RequestPrepareOptions | WebResource,
-    options?: RequestOptionsBase
-  ): Promise<HttpOperationResponse> {
+  sendLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     return this.beginLongRunningRequest(request, options)
       .then((lroResponse: LROPoller) => lroResponse.pollUntilFinished())
-      .then((res) => res._response);
+      .then(res => res._response);
   }
 
   /**
@@ -117,13 +90,9 @@ export class AzureServiceClient extends ServiceClient {
    * @returns {Promise<LROPoller>} The HttpLongRunningOperationResponse
    * that provides methods for interacting with the LRO.
    */
-  beginLongRunningRequest(
-    request: RequestPrepareOptions | WebResource,
-    options?: RequestOptionsBase
-  ): Promise<LROPoller> {
-    return this.sendRequest(request).then((initialResponse: HttpOperationResponse) =>
-      createLROPollerFromInitialResponse(this, initialResponse, options)
-    );
+  beginLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<LROPoller> {
+    return this.sendRequest(request)
+      .then((initialResponse: HttpOperationResponse) => createLROPollerFromInitialResponse(this, initialResponse, options));
   }
 
   /**
@@ -137,12 +106,10 @@ export class AzureServiceClient extends ServiceClient {
 
 export function getDefaultUserAgentValue(): string {
   const defaultUserAgent = getDefaultUserAgentValueFromMsRest();
-  return `core-arm/${Constants.packageVersion} ${defaultUserAgent}`;
+  return `core-arm/${Constants.coreArmVersion} ${defaultUserAgent}`;
 }
 
-export function updateOptionsWithDefaultValues(
-  options?: AzureServiceClientOptions
-): AzureServiceClientOptions {
+export function updateOptionsWithDefaultValues(options?: AzureServiceClientOptions): AzureServiceClientOptions {
   if (!options) {
     options = {};
   }

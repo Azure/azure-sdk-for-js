@@ -32,7 +32,7 @@ import {
   RestoreSecretResponse
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
-import { packageVersion } from "./core/utils/constants";
+import { SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
@@ -151,7 +151,7 @@ export class SecretClient {
     this.vaultEndpoint = endPoint;
     this.credential = credential;
 
-    const libInfo = `azsdk-js-keyvault-secrets/${packageVersion}`;
+    const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
         ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`

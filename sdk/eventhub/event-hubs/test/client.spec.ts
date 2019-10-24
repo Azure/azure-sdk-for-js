@@ -88,7 +88,7 @@ describe("Create EventHubClient using connection string #RunnableInBrowser", fun
   });
 });
 
-describe("Create EventHubClient using Azure Identity", function(): void {
+describe("Create EventHubClient using Azure Identity", function (): void {
   it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<
     void
   > {
@@ -290,7 +290,7 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       env[EnvVarKeys.EVENTHUB_NAME]
     );
-    const packageVersion = packageJsonInfo.packageVersion;
+    const packageVersion = packageJsonInfo.version;
     const properties = client["_context"].connection.options.properties;
     properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
     should.equal(properties!.product, "MSJSClient");
@@ -310,7 +310,7 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
         userAgent: customua
       }
     );
-    const packageVersion = packageJsonInfo.packageVersion;
+    const packageVersion = packageJsonInfo.version;
     const properties = client["_context"].connection.options.properties;
     properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
     properties!["user-agent"].should.endWith(customua);

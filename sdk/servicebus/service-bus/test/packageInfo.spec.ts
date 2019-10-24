@@ -21,7 +21,7 @@ describe("Ensure package name and version are consistent in SDK and package.json
       `${name} from package.json is not same as 'name' used in constants.ts`
     );
     should.equal(
-      packageJsonInfo.packageVersion,
+      packageJsonInfo.version,
       version,
       `${version} from package.json is not same as 'version' used in constants.ts`
     );

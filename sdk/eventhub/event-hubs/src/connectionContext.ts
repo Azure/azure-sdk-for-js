@@ -70,9 +70,9 @@ export namespace ConnectionContext {
    * @property userAgent The user agent string for the EventHubs client.
    * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
-  const userAgent: string = `azsdk-js-azureeventhubs/${
-    packageJsonInfo.packageVersion
-  } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
+  const userAgent: string = `azsdk-js-azureeventhubs/${packageJsonInfo.version} (NODE-VERSION ${
+    process.version
+  }; ${os.type()} ${os.release()})`;
 
   export function getUserAgent(options: ConnectionContextOptions): string {
     const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
@@ -104,7 +104,7 @@ export namespace ConnectionContext {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: getUserAgent(options),
-        version: packageJsonInfo.packageVersion
+        version: packageJsonInfo.version
       }
     };
     // Let us create the base context and then add EventHub specific ConnectionContext properties.
