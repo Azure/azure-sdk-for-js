@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestOptionsBase, HttpResponse } from "@azure/core-http";
+import { OperationOptions, HttpResponse } from "@azure/core-http";
 
 /**
  * Fields that uniquely identify a configuration setting
@@ -154,7 +154,7 @@ export interface SyncTokenHeaderField {
 /**
  * Options used when adding a ConfigurationSetting.
  */
-export interface AddConfigurationSettingOptions extends RequestOptionsBase {}
+export interface AddConfigurationSettingOptions extends OperationOptions {}
 
 /**
  * Response from adding a ConfigurationSetting.
@@ -177,14 +177,14 @@ export interface DeleteConfigurationSettingResponse
  */
 export interface DeleteConfigurationSettingOptions
   extends HttpOnlyIfUnchangedField,
-    RequestOptionsBase {}
+    OperationOptions {}
 
 /**
  * Options used when saving a ConfigurationSetting.
  */
 export interface SetConfigurationSettingOptions
   extends HttpOnlyIfUnchangedField,
-    RequestOptionsBase {}
+    OperationOptions {}
 
 /**
  * Response from setting a ConfigurationSetting.
@@ -217,7 +217,7 @@ export interface GetConfigurationSettingResponse
  * Options for getting a ConfigurationSetting.
  */
 export interface GetConfigurationSettingOptions
-  extends RequestOptionsBase,
+  extends OperationOptions,
     HttpOnlyIfChangedField,
     OptionalFields {
   /**
@@ -252,7 +252,7 @@ export interface ListSettingsOptions extends OptionalFields {
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListConfigurationSettingsOptions extends RequestOptionsBase, ListSettingsOptions {}
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * A page of configuration settings and the corresponding HTTP response
@@ -269,7 +269,7 @@ export interface ListConfigurationSettingPage extends HttpResponseField<SyncToke
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOptions {}
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * A page of configuration settings and the corresponding HTTP response
@@ -284,7 +284,7 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 /**
  * Options for clearReadOnly
  */
-export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {}
+export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
 
 /**
  * Response when clearing the read-only status from a value
@@ -297,7 +297,7 @@ export interface ClearReadOnlyResponse
 /**
  * Options for setReadOnly
  */
-export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {}
+export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
 
 /**
  * Response when setting a value to read-only.

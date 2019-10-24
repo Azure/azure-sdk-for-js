@@ -11,14 +11,11 @@ import { DeletionRecoveryLevel } from "./core/models";
 export interface SecretClientInterface {
   recoverDeletedSecret(
     secretName: string,
-    options?: coreHttp.RequestOptionsBase
+    options?: coreHttp.OperationOptions
   ): Promise<SecretProperties>;
   getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-  deleteSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
-  getDeletedSecret(
-    secretName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<DeletedSecret>;
+  deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
+  getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
 }
 
 /**
@@ -166,7 +163,7 @@ export interface DeletedSecret {
  * An interface representing the optional parameters that can be
  * passed to {@link beginDeleteSecret}
  */
-export interface SecretPollerOptions extends coreHttp.RequestOptionsBase {
+export interface SecretPollerOptions extends coreHttp.OperationOptions {
   /**
    * @member {number} [intervalInMs] Time between each polling
    */
@@ -181,7 +178,7 @@ export interface SecretPollerOptions extends coreHttp.RequestOptionsBase {
  * @interface
  * An interface representing the optional parameters that can be passed to {@link setSecret}.
  */
-export interface SetSecretOptions extends coreHttp.RequestOptionsBase {
+export interface SetSecretOptions extends coreHttp.OperationOptions {
   /**
    * @member {{ [propertyName: string]: string }} [tags] Application specific
    * metadata in the form of key-value pairs.
@@ -210,7 +207,7 @@ export interface SetSecretOptions extends coreHttp.RequestOptionsBase {
  * @interface
  * An interface representing the optional parameters that can be passed to {@link updateSecret}.
  */
-export interface UpdateSecretPropertiesOptions extends coreHttp.RequestOptionsBase {
+export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions {
   /**
    * @member {string} [contentType] Type of the secret value such as a
    * password.
@@ -239,7 +236,7 @@ export interface UpdateSecretPropertiesOptions extends coreHttp.RequestOptionsBa
  * @interface
  * An interface representing the optional parameters that can be passed to {@link getSecret}.
  */
-export interface GetSecretOptions extends coreHttp.RequestOptionsBase {
+export interface GetSecretOptions extends coreHttp.OperationOptions {
   /**
    * @member {string} [version] The version of the secret to retrieve.  If not
    * specified the latest version of the secret will be retrieved.
@@ -251,28 +248,28 @@ export interface GetSecretOptions extends coreHttp.RequestOptionsBase {
  * @interface
  * An interface representing optional parameters for the getDeletedSecret method
  */
-export interface GetDeletedSecretOptions extends coreHttp.RequestOptionsBase {}
+export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for the purgeDeletedSecret method
  */
-export interface PurgeDeletedSecretOptions extends coreHttp.RequestOptionsBase {}
+export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for the backupSecret method
  */
-export interface BackupSecretOptions extends coreHttp.RequestOptionsBase {}
+export interface BackupSecretOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for the restoreSecretBackup method
  */
-export interface RestoreSecretBackupOptions extends coreHttp.RequestOptionsBase {}
+export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
 
 /**
  * @interface
  * An interface representing optional parameters for SecretClient paged operations.
  */
-export interface ListOperationOptions extends coreHttp.RequestOptionsBase {}
+export interface ListOperationOptions extends coreHttp.OperationOptions {}

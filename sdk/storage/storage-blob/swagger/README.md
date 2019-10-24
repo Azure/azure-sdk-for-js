@@ -258,3 +258,12 @@ directive:
   transform: >
     $["x-ms-client-name"] = "etag";
 ```
+
+### Fix comment for BlobGetPropertiesHeaders Content-Length
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]["/{containerName}/{blob}"].head.responses["200"].headers["Content-Length"]
+  transform: >
+    $.description = "The size of the blob in bytes. For a page blob, this header returns the value of the x-ms-blob-content-length header that is stored with the blob.";
+```
