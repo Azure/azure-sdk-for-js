@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-inkrecognizer",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "0.1.0",
+  "version": "1.0.0-preview.1",
   "description": "InkRecognizerClient Library with typescript type definitions for node.js and browser.",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -60,9 +60,9 @@
   "private": true,
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
-    "@azure/core-arm": "1.0.0-preview.5",
-    "@azure/core-auth": "1.0.0-preview.3",
-    "@azure/core-http": "1.0.0-preview.5",
+    "@azure/core-arm": "1.0.0-preview.6",
+    "@azure/core-auth": "1.0.0-preview.4",
+    "@azure/core-http": "1.0.0-preview.6",
     "events": "^3.0.0",
     "tslib": "^1.9.3"
   },
