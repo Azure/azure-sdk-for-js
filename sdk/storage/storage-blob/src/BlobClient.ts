@@ -68,7 +68,7 @@ import {
   BlobBeginCopyFromUrlPollState,
   CopyPollerBlobClient
 } from "./pollers/BlobStartCopyFromUrlPoller";
-import { PollerLike, PollOperationState } from "@azure/core-lro/types/src";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 /**
  * Options to configure Blob - Begin Copy from URL operation.
