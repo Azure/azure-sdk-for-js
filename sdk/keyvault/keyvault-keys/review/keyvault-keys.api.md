@@ -63,8 +63,7 @@ export class CryptographyClient {
 }
 
 // @public
-export interface CryptographyOptions {
-    requestOptions?: coreHttp.RequestOptionsBase;
+export interface CryptographyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -193,7 +192,7 @@ export class KeyClient {
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
-    readonly vaultEndpoint: string;
+    readonly vaultUrl: string;
 }
 
 // @public
@@ -227,7 +226,7 @@ export interface KeyProperties {
         [propertyName: string]: string;
     };
     readonly updatedOn?: Date;
-    vaultEndpoint: string;
+    vaultUrl: string;
     version?: string;
 }
 
