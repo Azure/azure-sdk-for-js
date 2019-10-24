@@ -36,7 +36,7 @@ async function main(argv) {
   const dryRun = argv["dry-run"];
 
   const packageName = artifactName.replace("azure-", "@azure/");
-  console.og("packageName", packageName);
+  console.log("packageName", packageName);
   const rushSpec = await versionUtils.getRushSpec(repoRoot);
 
   console.log("rushSpec", rushSpec);
