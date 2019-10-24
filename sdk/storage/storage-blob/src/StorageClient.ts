@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { Pipeline } from "./Pipeline";
 import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { TokenCredential, ServiceClientOptions } from "@azure/core-http";
 import { SpanOptions } from "@azure/core-tracing";
 
 /**
@@ -31,15 +30,7 @@ export abstract class StorageClient {
    */
   public readonly url: string;
   public readonly accountName: string;
-  /**
-   * Request policy pipeline.
-   *
-   * @internal
-   * @ignore
-   * @type {Pipeline}
-   * @memberof StorageClient
-   */
-  protected readonly pipeline: Pipeline;
+
   /**
    * Credential used for authentication and authorization.
    *
@@ -66,31 +57,24 @@ export abstract class StorageClient {
   /**
    * Creates an instance of StorageClient.
    * @param {string} url url to resource
-   * @param {Pipeline} pipeline request policy pipeline.
+   * @param {ServiceClientOptions} options The ServiceClientOptions for this client's pipeline
+   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
+   *        or a TokenCredential from @azure/identity.
    * @memberof StorageClient
    */
-  protected constructor(url: string, pipeline: Pipeline) {
+  protected constructor(
+    url: string,
+    options: ServiceClientOptions,
+    credential: SharedKeyCredential | AnonymousCredential | TokenCredential
+  ) {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);
-    this.pipeline = pipeline;
-    this.storageClientContext = new StorageClientContext(
-      this.url,
-      pipeline.toServiceClientOptions()
-    );
+    this.storageClientContext = new StorageClientContext(this.url, options);
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
-    this.credential = new AnonymousCredential();
-    for (const factory of this.pipeline.factories) {
-      if (
-        (isNode && factory instanceof SharedKeyCredential) ||
-        factory instanceof AnonymousCredential ||
-        isTokenCredential(factory)
-      ) {
-        this.credential = factory;
-      }
-    }
+    this.credential = credential;
 
     // Override protocol layer's default content-type
     const storageClientContext = this.storageClientContext as any;

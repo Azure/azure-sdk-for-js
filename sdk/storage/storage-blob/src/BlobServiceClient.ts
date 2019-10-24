@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { TokenCredential, isTokenCredential, isNode, HttpResponse } from "@azure/core-http";
+import {
+  TokenCredential,
+  isNode,
+  HttpResponse,
+  PipelineOptions,
+  getDefaultProxySettings
+} from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -18,7 +24,7 @@ import {
   UserDelegationKeyModel
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline } from "./Pipeline";
 import {
   ContainerClient,
   ContainerCreateOptions,
@@ -277,6 +283,11 @@ export class BlobServiceClient extends StorageClient {
   private serviceContext: Service;
 
   /**
+   * Options used to configure the HTTP pipeline.
+   */
+  private pipelineOptions: PipelineOptions;
+
+  /**
    *
    * Creates an instance of BlobServiceClient from connection string.
    *
@@ -286,10 +297,10 @@ export class BlobServiceClient extends StorageClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
-  public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) {
+  public static fromConnectionString(connectionString: string, options?: PipelineOptions) {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
@@ -298,15 +309,17 @@ export class BlobServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        options.proxy = extractedCreds.proxyUri;
-        const pipeline = newPipeline(sharedKeyCredential, options);
-        return new BlobServiceClient(extractedCreds.url, pipeline);
+        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+        return new BlobServiceClient(extractedCreds.url, sharedKeyCredential, options);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
     } else if (extractedCreds.kind === "SASConnString") {
-      const pipeline = newPipeline(new AnonymousCredential(), options);
-      return new BlobServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
+      return new BlobServiceClient(
+        extractedCreds.url + "?" + extractedCreds.accountSas,
+        new AnonymousCredential(),
+        options
+      );
     } else {
       throw new Error(
         "Connection string must be either an Account connection string or a SAS connection string"
@@ -323,44 +336,20 @@ export class BlobServiceClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: StoragePipelineOptions
-  );
-  /**
-   * Creates an instance of BlobServiceClient.
-   *
-   * @param {string} url A Client string pointing to Azure Storage blob service, such as
-   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
-   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
-   *                            pipeline, or provide a customized pipeline.
-   * @memberof BlobServiceClient
-   */
-  constructor(url: string, pipeline: Pipeline);
-  constructor(
-    url: string,
-    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
-    options?: StoragePipelineOptions
+    credential:
+      | SharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential = new AnonymousCredential(),
+    options: PipelineOptions = {}
   ) {
-    let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
-      pipeline = credentialOrPipeline;
-    } else if (
-      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
-      credentialOrPipeline instanceof AnonymousCredential ||
-      isTokenCredential(credentialOrPipeline)
-    ) {
-      pipeline = newPipeline(credentialOrPipeline, options);
-    } else {
-      // The second parameter is undefined. Use anonymous credential
-      pipeline = newPipeline(new AnonymousCredential(), options);
-    }
-    super(url, pipeline);
+    const serviceOptions = newPipeline(credential, options);
+    super(url, serviceOptions, credential);
+    this.pipelineOptions = options;
     this.serviceContext = new Service(this.storageClientContext);
   }
 
@@ -374,7 +363,8 @@ export class BlobServiceClient extends StorageClient {
   public getContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
       appendToURLPath(this.url, encodeURIComponent(containerName)),
-      this.pipeline
+      this.credential,
+      this.pipelineOptions
     );
   }
 
@@ -848,6 +838,6 @@ export class BlobServiceClient extends StorageClient {
    * @memberof BlobServiceClient
    */
   public getBlobBatchClient(): BlobBatchClient {
-    return new BlobBatchClient(this.url, this.pipeline);
+    return new BlobBatchClient(this.url, this.credential, this.pipelineOptions);
   }
 }
