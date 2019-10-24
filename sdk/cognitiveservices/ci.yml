@@ -37,6 +37,7 @@ stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
       ServiceDirectory: cognitiveservices
+      DocArgs: cognititveservices
       Artifacts:
         - name: azure-cognitiveservices-anomalydetector
           safeName: azurecognitiveservicesanomalydetector

@@ -1,7 +1,7 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
-  DocArgs: ${{ parameters.ServiceDirectory }}
+  DocArgs: not-specified
 
 stages:
 - stage: Build
