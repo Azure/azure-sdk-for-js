@@ -48,15 +48,6 @@ export interface CorrelationFilter {
 }
 
 // @public
-export type CountDetails = {
-    activeMessageCount: number;
-    deadLetterMessageCount: number;
-    scheduledMessageCount: number;
-    transferMessageCount: number;
-    transferDeadLetterMessageCount: number;
-};
-
-// @public
 export type CreateQueueResponse = QueueResponse;
 
 // @public
@@ -107,7 +98,7 @@ export type GetTopicResponse = TopicResponse;
 export { HttpOperationResponse }
 
 // @public
-export interface ListQueuesResponse extends Array<Queue> {
+export interface ListQueuesResponse extends Array<QueueDetails> {
     _response: HttpOperationResponse;
 }
 
@@ -123,14 +114,23 @@ export interface ListRulesResponse extends Array<Rule> {
 }
 
 // @public
-export interface ListSubscriptionsResponse extends Array<Subscription> {
+export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
     _response: HttpOperationResponse;
 }
 
 // @public
-export interface ListTopicsResponse extends Array<Topic> {
+export interface ListTopicsResponse extends Array<TopicDetails> {
     _response: HttpOperationResponse;
 }
+
+// @public
+export type MessageCountDetails = {
+    activeMessageCount: number;
+    deadLetterMessageCount: number;
+    scheduledMessageCount: number;
+    transferMessageCount: number;
+    transferDeadLetterMessageCount: number;
+};
 
 // @public
 export interface MessageHandlerOptions {
@@ -151,21 +151,6 @@ export interface OnMessage {
     (message: ServiceBusMessage): Promise<void>;
 }
 
-// @public
-export interface Queue extends QueueOptions {
-    accessedAt?: string;
-    countDetails?: CountDetails;
-    createdAt?: string;
-    enableExpress?: boolean;
-    entityAvailabilityStatus?: string;
-    isAnonymousAccessible?: boolean;
-    path?: string;
-    queueName?: string;
-    status?: string;
-    supportOrdering?: boolean;
-    updatedAt?: string;
-}
-
 // Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
 // 
 // @public
@@ -179,6 +164,21 @@ export class QueueClient implements Client {
     readonly id: string;
     peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+}
+
+// @public
+export interface QueueDetails extends QueueOptions {
+    accessedAt?: string;
+    createdAt?: string;
+    enableExpress?: boolean;
+    entityAvailabilityStatus?: string;
+    isAnonymousAccessible?: boolean;
+    messageCountDetails?: MessageCountDetails;
+    path?: string;
+    queueName?: string;
+    status?: string;
+    supportOrdering?: boolean;
+    updatedAt?: string;
 }
 
 // @public
@@ -203,7 +203,7 @@ export interface QueueOptions {
 }
 
 // @public
-export type QueueResponse = Queue & {
+export type QueueResponse = QueueDetails & {
     _response: HttpOperationResponse;
 };
 
@@ -309,12 +309,10 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
-    // (undocumented)
-    getDeadLetterPath(queueName: string): string;
-    getQueue(queueName: string): Promise<GetQueueResponse>;
+    getQueueDetails(queueName: string): Promise<GetQueueResponse>;
     getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
-    getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
-    getTopic(topicName: string): Promise<GetTopicResponse>;
+    getSubscriptionDetails(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
+    getTopicDetails(topicName: string): Promise<GetTopicResponse>;
     listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse>;
     listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
     listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
@@ -442,18 +440,6 @@ export type SqlParameter = {
 };
 
 // @public
-export interface Subscription extends SubscriptionOptions {
-    accessedAt?: string;
-    countDetails?: CountDetails;
-    createdAt?: string;
-    entityAvailabilityStatus?: string;
-    status?: string;
-    subscriptionName?: string;
-    topicName?: string;
-    updatedAt?: string;
-}
-
-// @public
 export class SubscriptionClient implements Client {
     addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
     close(): Promise<void>;
@@ -468,6 +454,18 @@ export class SubscriptionClient implements Client {
     removeRule(ruleName: string): Promise<void>;
     readonly subscriptionName: string;
     readonly topicName: string;
+}
+
+// @public
+export interface SubscriptionDetails extends SubscriptionOptions {
+    accessedAt?: string;
+    createdAt?: string;
+    entityAvailabilityStatus?: string;
+    messageCountDetails?: MessageCountDetails;
+    status?: string;
+    subscriptionName?: string;
+    topicName?: string;
+    updatedAt?: string;
 }
 
 // @public
@@ -491,7 +489,7 @@ export interface SubscriptionOptions {
 }
 
 // @public
-export type SubscriptionResponse = Subscription & {
+export type SubscriptionResponse = SubscriptionDetails & {
     _response: HttpOperationResponse;
 };
 
@@ -502,24 +500,24 @@ export { TokenProvider }
 export { TokenType }
 
 // @public
-export interface Topic extends TopicOptions {
-    accessedAt?: string;
-    countDetails?: CountDetails;
-    createdAt?: string;
-    entityAvailabilityStatus?: string;
-    isAnonymousAccessible?: boolean;
-    status?: string;
-    topicName?: string;
-    updatedAt?: string;
-}
-
-// @public
 export class TopicClient implements Client {
     close(): Promise<void>;
     createSender(): Sender;
     readonly entityPath: string;
     static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
     readonly id: string;
+}
+
+// @public
+export interface TopicDetails extends TopicOptions {
+    accessedAt?: string;
+    createdAt?: string;
+    entityAvailabilityStatus?: string;
+    isAnonymousAccessible?: boolean;
+    messageCountDetails?: MessageCountDetails;
+    status?: string;
+    topicName?: string;
+    updatedAt?: string;
 }
 
 // @public
@@ -548,7 +546,7 @@ export interface TopicOptions {
 }
 
 // @public
-export type TopicResponse = Topic & {
+export type TopicResponse = TopicDetails & {
     _response: HttpOperationResponse;
 };
 
