@@ -111,6 +111,39 @@ export function assertClientCredentials(
   }
 }
 
+export function assertClientUsernamePassword(
+  authRequest: WebResource,
+  expectedTenantId: string,
+  expectedClientId: string,
+  expectedUsername: string,
+  expectedPassword: string
+): void {
+  if (!authRequest) {
+    assert.fail("No authentication request was intercepted");
+  } else {
+    assert.strictEqual(
+      authRequest.url.startsWith(`https://authority/${expectedTenantId}`),
+      true,
+      "Request body doesn't contain expected tenantId"
+    );
+    assert.strictEqual(
+      authRequest.body.indexOf(`client_id=${expectedClientId}`) > -1,
+      true,
+      "Request body doesn't contain expected clientId"
+    );
+    assert.strictEqual(
+      authRequest.body.indexOf(`username=${expectedUsername}`) > -1,
+      true,
+      "Request body doesn't contain expected username"
+    );
+    assert.strictEqual(
+      authRequest.body.indexOf(`password=${expectedPassword}`) > -1,
+      true,
+      "Request body doesn't contain expected password"
+    );
+  }
+}
+
 // Node's `assert.rejects` doesn't appear until 8.13.0 so we'll
 // use our own simple implementation here
 export async function assertRejects(
