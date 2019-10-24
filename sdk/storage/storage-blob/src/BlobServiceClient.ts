@@ -27,12 +27,12 @@ import {
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageClient, CommonOptions } from "./internal";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
+import { CommonOptions, StorageClient } from "./StorageClient";
 
 /**
  * Options to configure the Service - Get Properties operation.

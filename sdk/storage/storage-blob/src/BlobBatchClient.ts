@@ -11,7 +11,6 @@ import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
-import { CommonOptions, BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./internal";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { CanonicalCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
@@ -19,6 +18,8 @@ import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service } from "./generated/src/operations";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { CommonOptions } from "./StorageClient";
+import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./BlobClient";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.

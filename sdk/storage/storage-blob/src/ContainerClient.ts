@@ -40,22 +40,14 @@ import {
   extractConnectionStringParts,
   getValueInConnString
 } from "./utils/utils.common";
-import {
-  AppendBlobClient,
-  BlobClient,
-  BlockBlobClient,
-  PageBlobClient,
-  StorageClient,
-  BlockBlobUploadOptions,
-  BlobDeleteOptions,
-  CommonOptions
-} from "./internal";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { createSpan } from "./utils/tracing";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { BlobClient, AppendBlobClient, BlockBlobClient, PageBlobClient, BlockBlobUploadOptions, BlobDeleteOptions } from "./BlobClient";
 
 /**
  * Options to configure Container - Create operation.

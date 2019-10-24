@@ -8,8 +8,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { ContainerClient } from "./ContainerClient";
 import { Blob, Container } from "./generated/src/operations";
 import { StorageClientContext } from "./generated/src/storageClient";
-import { BlobClient, CommonOptions } from "./internal";
 import { createSpan } from "./utils/tracing";
+import { CommonOptions } from "./StorageClient";
+import { BlobClient } from "./BlobClient";
 
 export interface Lease {
   /**

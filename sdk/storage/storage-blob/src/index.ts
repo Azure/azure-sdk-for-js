@@ -7,9 +7,6 @@ export * from "./BlobServiceClient";
 export * from "./ContainerClient";
 // ordering of these clients is important as there are circular dependencies
 export * from "./BlobClient";
-export * from "./AppendBlobClient";
-export * from "./BlockBlobClient";
-export * from "./PageBlobClient";
 export * from "./AccountSASPermissions";
 export * from "./AccountSASResourceTypes";
 export * from "./AccountSASServices";
