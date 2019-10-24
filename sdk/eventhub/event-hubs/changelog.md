@@ -1,6 +1,6 @@
 ### 2019-10-23 2.1.2
 
-- Errors thrown in the user-provided message handler to `client.receive` are now properly caught by the client.
+- Errors thrown in the user-provided message and error handlers to `client.receive` are now properly caught and logged by the library.
 
 ### 2019-07-15 2.1.1
 
