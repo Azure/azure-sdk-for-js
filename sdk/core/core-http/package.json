@@ -193,7 +193,10 @@
   },
   "//metadata": {
     "constantPaths": [
-      "lib/util/constants.ts"
+      {
+        "path": "lib/util/constants.ts",
+        "prefix": "coreHttpVersion"
+      }
     ]
   }
 }

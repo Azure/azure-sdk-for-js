@@ -141,7 +141,10 @@
   },
   "//metadata": {
     "constantPaths": [
-      "src/util/constants.ts"
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "version"
+      }
     ]
   }
 }

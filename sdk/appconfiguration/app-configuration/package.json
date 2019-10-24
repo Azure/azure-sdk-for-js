@@ -92,7 +92,10 @@
   "autoPublish": false,
   "//metadata": {
     "constantPaths": [
-      "src/generated/src/appConfigurationContext.ts"
+      {
+        "path": "src/generated/src/appConfigurationContext.ts",
+        "prefix": "packageVersion"
+      }
     ]
   }
 }

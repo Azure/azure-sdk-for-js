@@ -150,8 +150,14 @@
   },
   "//metadata": {
     "constantPaths": [
-      "src/generated/src/storageClientContext.ts",
-      "src/utils/constants.ts"
+      {
+        "path": "src/generated/src/storageClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
     ]
   }
 }
