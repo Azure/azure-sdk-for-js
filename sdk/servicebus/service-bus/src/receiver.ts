@@ -128,7 +128,7 @@ export class Receiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, {
+    StreamingReceiver.create(this._context, onMessage, onError, {
       ...options,
       receiveMode: this._receiveMode
     })
@@ -137,7 +137,7 @@ export class Receiver {
           return;
         }
         if (!this.isClosed) {
-          sReceiver.receive(onMessage, onError);
+          sReceiver.receive();
         } else {
           await sReceiver.close();
         }

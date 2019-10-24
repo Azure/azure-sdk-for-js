@@ -15,7 +15,7 @@ import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export interface BackupSecretOptions extends coreHttp.RequestOptionsBase {
+export interface BackupSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -43,11 +43,11 @@ export interface DeleteSecretPollOperationState extends PollOperationState<Delet
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
 
 // @public
-export interface GetDeletedSecretOptions extends coreHttp.RequestOptionsBase {
+export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface GetSecretOptions extends coreHttp.RequestOptionsBase {
+export interface GetSecretOptions extends coreHttp.OperationOptions {
     version?: string;
 }
 
@@ -59,7 +59,7 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export interface ListOperationOptions extends coreHttp.RequestOptionsBase {
+export interface ListOperationOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -89,7 +89,7 @@ export interface ProxyOptions {
 }
 
 // @public
-export interface PurgeDeletedSecretOptions extends coreHttp.RequestOptionsBase {
+export interface PurgeDeletedSecretOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -103,7 +103,7 @@ export interface RecoverDeletedSecretPollOperationState extends PollOperationSta
 }
 
 // @public
-export interface RestoreSecretBackupOptions extends coreHttp.RequestOptionsBase {
+export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -136,17 +136,17 @@ export class SecretClient {
 // @public
 export interface SecretClientInterface {
     // (undocumented)
-    deleteSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
+    deleteSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
     // (undocumented)
-    getDeletedSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<DeletedSecret>;
+    getDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<DeletedSecret>;
     // (undocumented)
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
     // (undocumented)
-    recoverDeletedSecret(secretName: string, options?: coreHttp.RequestOptionsBase): Promise<SecretProperties>;
+    recoverDeletedSecret(secretName: string, options?: coreHttp.OperationOptions): Promise<SecretProperties>;
 }
 
 // @public
-export interface SecretPollerOptions extends coreHttp.RequestOptionsBase {
+export interface SecretPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
 }
@@ -172,7 +172,7 @@ export interface SecretProperties {
 }
 
 // @public
-export interface SetSecretOptions extends coreHttp.RequestOptionsBase {
+export interface SetSecretOptions extends coreHttp.OperationOptions {
     contentType?: string;
     enabled?: boolean;
     readonly expiresOn?: Date;
@@ -189,7 +189,7 @@ export interface TelemetryOptions {
 }
 
 // @public
-export interface UpdateSecretPropertiesOptions extends coreHttp.RequestOptionsBase {
+export interface UpdateSecretPropertiesOptions extends coreHttp.OperationOptions {
     contentType?: string;
     enabled?: boolean;
     readonly expiresOn?: Date;

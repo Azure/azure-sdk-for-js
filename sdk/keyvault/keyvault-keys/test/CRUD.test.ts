@@ -9,6 +9,7 @@ import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
+import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
@@ -38,23 +39,37 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
+  // If this test is not skipped in the browser's playback, no other test will be played back.
+  // This is a bug related to the browser features of the recorder.
   it("can abort creating a key", async function() {
-    if (!isNode && isPlayingBack) {
+    if (!isNode || isPlayingBack) {
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const controller = new AbortController();
-    const resultPromise = client.createKey(keyName, "RSA", {
-      abortSignal: controller.signal
-    });
-    controller.abort();
-    let error;
-    try {
+
+    await assertThrowsAbortError(async () => {
+      const resultPromise = client.createKey(keyName, "RSA", {
+        abortSignal: controller.signal
+      });
+      controller.abort();
       await resultPromise;
-    } catch (e) {
-      error = e;
+    });
+  });
+
+  it("can create a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+      recorder.skip();
     }
-    assert.equal(error.message, "The operation was aborted.");
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+
+    await assertThrowsAbortError(async () => {
+      await client.createKey(keyName, "RSA", {
+        requestOptions: {
+          timeout: 1
+        }
+      });
+    });
   });
 
   it("cannot create a key with an empty name", async function() {
@@ -90,6 +105,21 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
+  it("can create a RSA key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+      recorder.skip();
+    }
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+
+    await assertThrowsAbortError(async () => {
+      await client.createRsaKey(keyName, {
+        requestOptions: {
+          timeout: 1
+        }
+      });
+    });
+  });
+
   it("can create an EC key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const result = await client.createEcKey(keyName);
@@ -105,6 +135,21 @@ describe("Keys client - create, read, update and delete operations", () => {
     const result = await client.createEcKey(keyName, options);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
+  });
+
+  it("can create an EC key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+      recorder.skip();
+    }
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+
+    await assertThrowsAbortError(async () => {
+      await client.createEcKey(keyName, {
+        requestOptions: {
+          timeout: 1
+        }
+      });
+    });
   });
 
   it("can create a disabled key", async function() {
@@ -180,6 +225,19 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
+  it("can update key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+      recorder.skip();
+    }
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const { version } = (await client.createRsaKey(keyName)).properties;
+    const options: UpdateKeyPropertiesOptions = { enabled: false, requestOptions: { timeout: 1 } };
+
+    await assertThrowsAbortError(async () => {
+      await client.updateKeyProperties(keyName, version || "", options);
+    });
+  });
+
   it("can delete a key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
@@ -197,6 +255,21 @@ describe("Keys client - create, read, update and delete operations", () => {
       }
     }
     await testClient.purgeKey(keyName);
+  });
+
+  it("can delete a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+      recorder.skip();
+    }
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await client.createKey(keyName, "RSA");
+    await assertThrowsAbortError(async () => {
+      await client.beginDeleteKey(keyName, {
+        requestOptions: {
+          timeout: 1
+        }
+      });
+    });
   });
 
   it("delete nonexisting key", async function() {
@@ -219,6 +292,17 @@ describe("Keys client - create, read, update and delete operations", () => {
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.flushKey(keyName);
+  });
+
+  it("can get a key with requestOptions timeout", async function() {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
+      recorder.skip();
+    }
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await client.createKey(keyName, "RSA");
+    await assertThrowsAbortError(async () => {
+      await client.getKey(keyName, { requestOptions: { timeout: 1 } });
+    });
   });
 
   it("can get a specific version of a key", async function() {

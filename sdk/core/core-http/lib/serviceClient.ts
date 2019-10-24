@@ -6,7 +6,7 @@ import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
-import { logPolicy, DefaultLoggingOptions } from "./policies/logPolicy";
+import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
 import { OperationArguments } from "./operationArguments";
 import {
   getPathStringFromParameter,
@@ -25,7 +25,7 @@ import { generateClientRequestIdPolicy } from "./policies/generateClientRequestI
 import {
   userAgentPolicy,
   getDefaultUserAgentHeaderName,
-  getDefaultUserAgentValue,
+  getDefaultUserAgentValue
 } from "./policies/userAgentPolicy";
 import { redirectPolicy, DefaultRedirectOptions } from "./policies/redirectPolicy";
 import {
@@ -49,9 +49,9 @@ import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from "./policies/signingPolicy";
 import { logger } from "./log";
-import { InternalPipelineOptions } from './pipelineOptions';
-import { DefaultKeepAliveOptions, keepAlivePolicy } from './policies/keepAlivePolicy';
-import { tracingPolicy } from './policies/tracingPolicy';
+import { InternalPipelineOptions } from "./pipelineOptions";
+import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
+import { tracingPolicy } from "./policies/tracingPolicy";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -460,16 +460,14 @@ export class ServiceClient {
         sendRequestError = error;
       }
       if (sendRequestError) {
-        if (sendRequestError.response){
+        if (sendRequestError.response) {
           sendRequestError.details = flattenResponse(
             sendRequestError.response,
             operationSpec.responses[sendRequestError.statusCode] ||
               operationSpec.responses["default"]
           );
         }
-        result = Promise.reject(
-          sendRequestError
-        );
+        result = Promise.reject(sendRequestError);
       } else {
         result = Promise.resolve(
           flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status])
@@ -625,7 +623,7 @@ function createDefaultRequestPolicyFactories(
     factories.push(proxyPolicy(proxySettings));
   }
 
-  factories.push(logPolicy(logger.info, {}));
+  factories.push(logPolicy({ logger: logger.info }));
 
   return factories;
 }
@@ -633,7 +631,7 @@ function createDefaultRequestPolicyFactories(
 export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
-) : ServiceClientOptions {
+): ServiceClientOptions {
   let requestPolicyFactories: RequestPolicyFactory[] = [];
 
   let userAgentValue = undefined;
@@ -668,9 +666,7 @@ export function createPipelineFromOptions(
 
   const proxySettings = pipelineOptions.proxyOptions || getDefaultProxySettings();
   if (isNode && proxySettings) {
-    requestPolicyFactories.push(
-      proxyPolicy(proxySettings)
-    )
+    requestPolicyFactories.push(proxyPolicy(proxySettings));
   }
 
   const deserializationOptions = {
@@ -678,8 +674,7 @@ export function createPipelineFromOptions(
     ...pipelineOptions.deserializationOptions
   };
 
-  const loggingOptions = {
-    ...DefaultLoggingOptions,
+  const loggingOptions: LogPolicyOptions = {
     ...pipelineOptions.loggingOptions
   };
 
@@ -696,24 +691,17 @@ export function createPipelineFromOptions(
       retryOptions.retryDelayInMs,
       retryOptions.maxRetryDelayInMs
     )
-  )
+  );
 
   if (redirectOptions.handleRedirects) {
-    requestPolicyFactories.push(
-      redirectPolicy(redirectOptions.maxRetries)
-    );
+    requestPolicyFactories.push(redirectPolicy(redirectOptions.maxRetries));
   }
 
   if (authPolicyFactory) {
     requestPolicyFactories.push(authPolicyFactory);
   }
 
-  requestPolicyFactories.push(
-    logPolicy(
-      loggingOptions.logger,
-      loggingOptions.logPolicyOptions
-    )
-  );
+  requestPolicyFactories.push(logPolicy(loggingOptions));
 
   if (pipelineOptions.updatePipelinePolicies) {
     // If the update function throws an exception, let it bubble up.
@@ -725,7 +713,6 @@ export function createPipelineFromOptions(
     requestPolicyFactories
   };
 }
-
 
 export type PropertyParent = { [propertyName: string]: any };
 

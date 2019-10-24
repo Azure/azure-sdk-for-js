@@ -324,8 +324,8 @@ export interface FileClearRangeOptions extends CommonOptions {
 
 // @public
 export class FileClient extends StorageClient {
-    constructor(url: string, pipeline: Pipeline);
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
@@ -407,7 +407,7 @@ export interface FileDownloadHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     fileAttributes?: string;
     fileChangeOn?: Date;
     fileContentMD5?: Uint8Array;
@@ -492,7 +492,7 @@ export interface FileGetRangeListHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     fileContentLength?: number;
     lastModified?: Date;
     requestId?: string;
@@ -768,11 +768,7 @@ export { IHttpPipelineLogger }
 export type ListSharesIncludeType = 'snapshots' | 'metadata';
 
 // @public
-export class LoggingPolicyFactory implements RequestPolicyFactory {
-    constructor(loggingOptions?: RequestLogOptions);
-    // Warning: (ae-forgotten-export) The symbol "LoggingPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): LoggingPolicy;
-    }
+export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export function newPipeline(credential: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -801,11 +797,6 @@ export interface Range {
 export interface RangeModel {
     end: number;
     start: number;
-}
-
-// @public
-export interface RequestLogOptions {
-    logWarningIfTryOverThreshold: number;
 }
 
 export { RequestPolicy }
@@ -1044,7 +1035,7 @@ export interface ShareGetAccessPolicyHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
