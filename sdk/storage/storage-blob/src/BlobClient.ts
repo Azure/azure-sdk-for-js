@@ -1467,7 +1467,25 @@ export class BlobClient extends StorageClient {
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
    * Downloads an Azure Blob in parallel to a buffer.
-   * Offset and count are optional, pass 0 for both to download the entire blob.
+   * Offset and count are optional, downloads the entire blob if they are not provided.
+   *
+   * @export
+   * @param {number} offset From which position of the block blob to download(in bytes)
+   * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
+   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
+   * @returns {Promise<Buffer>}
+   */
+  public async downloadToBuffer(
+    offset?: number,
+    count?: number,
+    options?: BlobDownloadToBufferOptions
+  ): Promise<Buffer>;
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads an Azure Blob in parallel to a buffer.
+   * Offset and count are optional, downloads the entire blob if they are not provided.
    *
    * @export
    * @param {Buffer} buffer Buffer to be fill, must have length larger than count
@@ -1478,10 +1496,30 @@ export class BlobClient extends StorageClient {
    */
   public async downloadToBuffer(
     buffer: Buffer,
-    offset: number,
+    offset?: number,
     count?: number,
-    options: BlobDownloadToBufferOptions = {}
-  ): Promise<Buffer> {
+    options?: BlobDownloadToBufferOptions
+  ): Promise<Buffer>;
+
+  public async downloadToBuffer(
+    param1?: Buffer | number,
+    param2?: number,
+    param3?: BlobDownloadToBufferOptions | number,
+    param4: BlobDownloadToBufferOptions = {}
+  ) {
+    let buffer: Buffer | undefined;
+    let offset = 0;
+    let count = 0;
+    let options = param4;
+    if (param1 instanceof Buffer) {
+      buffer = param1;
+      offset = param2 || 0;
+      count = typeof param3 === "number" ? param3 : 0;
+    } else {
+      offset = typeof param1 === "number" ? param1 : 0;
+      count = typeof param2 === "number" ? param2 : 0;
+      options = (param3 as BlobDownloadToBufferOptions) || {};
+    }
     const { span, spanOptions } = createSpan("BlobClient-downloadToBuffer", options.spanOptions);
 
     try {
@@ -1521,6 +1559,17 @@ export class BlobClient extends StorageClient {
         }
       }
 
+      // Allocate the buffer of size = count if the buffer is not provided
+      if (!buffer) {
+        try {
+          buffer = Buffer.alloc(count);
+        } catch (error) {
+          throw new Error(
+            `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`
+          );
+        }
+      }
+
       if (buffer.length < count) {
         throw new RangeError(
           `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
@@ -1543,7 +1592,7 @@ export class BlobClient extends StorageClient {
             spanOptions
           });
           const stream = response.readableStreamBody!;
-          await streamToBuffer(stream, buffer, off - offset, chunkEnd - offset);
+          await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
           // Update progress after block is downloaded, in case of block trying
           // Could provide finer grained progress updating inside HTTP requests,
           // only if convenience layer download try is enabled

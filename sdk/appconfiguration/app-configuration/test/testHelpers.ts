@@ -111,3 +111,13 @@ export async function assertThrowsRestError(
 
   return new Error("We won't reach this - both cases above throw because of assert.fail()");
 }
+
+export async function assertThrowsAbortError(testFunction: () => Promise<any>, message = "") {
+  try {
+    await testFunction();
+    assert.fail(`${message}: No error thrown`);
+  } catch (e) {
+    assert.equal(e.name, "AbortError");
+    return e;
+  }
+}

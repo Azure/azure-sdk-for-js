@@ -81,12 +81,7 @@ export class PollerStoppedError extends Error {
 }
 
 // @public (undocumented)
-export type PollOperation<TState, TResult> = PollOperationBase<TState, TResult> & {
-    [prop: string]: any;
-};
-
-// @public (undocumented)
-export interface PollOperationBase<TState, TResult> {
+export interface PollOperation<TState, TResult> {
     // (undocumented)
     cancel(options?: {
         abortSignal?: AbortSignal;
