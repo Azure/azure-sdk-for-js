@@ -18,7 +18,9 @@ import { CorrelationFilter } from "../core/managementClient";
 
 /**
  * @ignore
- * Builds the rule options object
+ * Builds the rule options object from the user provided options. 
+ * Handles the differences in casing for the property names, converts values to string and ensures the 
+ * right order as expected by the service
  * @param name
  * @param ruleOptions
  */
