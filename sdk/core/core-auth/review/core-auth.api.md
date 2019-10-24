@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { SpanOptions } from '@azure/core-tracing';
 
 export { AbortSignalLike }
 
@@ -17,20 +18,12 @@ export interface AccessToken {
 // @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
-    spanOptions?: any;
+    spanOptions?: SpanOptions;
     timeout?: number;
 }
 
 // @public
 export function isTokenCredential(credential: any): credential is TokenCredential;
-
-// @public
-export class SimpleTokenCredential implements TokenCredential {
-    constructor(token: string, expiresOn?: Date);
-    expiresOn: Date;
-    getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
-    token: string;
-}
 
 // @public
 export interface TokenCredential {

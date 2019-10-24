@@ -1,26 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  DeleteKeyValueHeaders,
-  DeleteLockHeaders,
-  GetKeyValueHeaders,
-  PutKeyValueHeaders,
-  PutLockHeaders,
-  GetKeyValuesHeaders,
-  GetRevisionsHeaders
-} from "./generated/src/models/index";
-import { RequestOptionsBase, HttpResponse } from "@azure/core-http";
-
-export {
-  DeleteKeyValueHeaders,
-  DeleteLockHeaders,
-  GetKeyValueHeaders,
-  GetKeyValuesHeaders,
-  GetRevisionsHeaders,
-  PutKeyValueHeaders,
-  PutLockHeaders,
-} from "./generated/src/models/index";
+import { OperationOptions, HttpResponse } from "@azure/core-http";
 
 /**
  * Fields that uniquely identify a configuration setting
@@ -36,6 +17,11 @@ export interface ConfigurationSettingId {
    * setting does not have a label.
    */
   label?: string;
+
+  /**
+   * The etag for this setting
+   */
+  etag?: string;
 }
 
 /**
@@ -60,29 +46,36 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
 
 /**
  * Configuration setting with extra metadata from the server, indicating
- * its etag, whether it is currently readonly and when it was last modified.
+ * its etag, whether it is currently readOnly and when it was last modified.
  */
 export interface ConfigurationSetting extends ConfigurationSettingParam {
+  /**
+   * Whether or not the setting is read-only
+   */
+  readOnly: boolean;
+
   /**
    * The date when this setting was last modified
    */
   lastModified?: Date;
+}
 
+/**
+ * Fields that are hoisted up  from the _response field of the object
+ * Used in cases where individual HTTP response fields are important for
+ * the user to use in common-use cases like handling http status codes 204 or 304.
+ */
+export interface HttpResponseFields {
   /**
-   * Whether or not the setting is read-only
+   * The HTTP status code for the response
    */
-  locked?: boolean;
-
-  /**
-   * The etag for this setting
-   */
-  etag?: string;
+  statusCode: number;
 }
 
 /**
  * Parameters for adding a new configuration setting
  */
-export interface AddConfigurationSettingParam extends ConfigurationSettingParam { }
+export interface AddConfigurationSettingParam extends ConfigurationSettingParam {}
 
 /**
  * Parameters for creating or updating a new configuration setting
@@ -117,18 +110,24 @@ export interface HttpResponseField<HeadersT> {
 }
 
 /**
- * Options used to provide if-match or if-none-match headers for an HTTP request
+ * Options used to provide if-none-match for an HTTP request
  */
-export interface HttpConditionalFields {
-  /**
-   * Used to perform an operation only if the targeted resource's etag matches the value provided.
-   */
-  ifMatch?: string;
+export interface HttpOnlyIfChangedField {
   /**
    * Used to perform an operation only if the targeted resource's etag does not match the value
    * provided.
    */
-  ifNoneMatch?: string;
+  onlyIfChanged?: boolean;
+}
+
+/**
+ * Options used to provide if-match for an HTTP request
+ */
+export interface HttpOnlyIfUnchangedField {
+  /**
+   * Used to perform an operation only if the targeted resource's etag matches the value provided.
+   */
+  onlyIfUnchanged?: boolean;
 }
 
 /**
@@ -155,32 +154,45 @@ export interface SyncTokenHeaderField {
 /**
  * Options used when adding a ConfigurationSetting.
  */
-export interface AddConfigurationSettingOptions extends RequestOptionsBase {}
+export interface AddConfigurationSettingOptions extends OperationOptions {}
 
 /**
  * Response from adding a ConfigurationSetting.
  */
-export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
+export interface AddConfigurationSettingResponse
+  extends ConfigurationSetting,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Response from deleting a ConfigurationSetting.
  */
-export interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
+export interface DeleteConfigurationSettingResponse
+  extends SyncTokenHeaderField,
+    HttpResponseFields,
+    HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Options for deleting a ConfigurationSetting.
  */
-export interface DeleteConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase { }
+export interface DeleteConfigurationSettingOptions
+  extends HttpOnlyIfUnchangedField,
+    OperationOptions {}
 
 /**
  * Options used when saving a ConfigurationSetting.
  */
-export interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase { }
+export interface SetConfigurationSettingOptions
+  extends HttpOnlyIfUnchangedField,
+    OperationOptions {}
 
 /**
  * Response from setting a ConfigurationSetting.
  */
-export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
+export interface SetConfigurationSettingResponse
+  extends ConfigurationSetting,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Headers from getting a ConfigurationSetting.
@@ -196,12 +208,18 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField {
  * Response from retrieving a ConfigurationSetting.
  */
 export interface GetConfigurationSettingResponse
-  extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseField<GetConfigurationHeaders> {}
+  extends ConfigurationSetting,
+    GetConfigurationHeaders,
+    HttpResponseFields,
+    HttpResponseField<GetConfigurationHeaders> {}
 
 /**
  * Options for getting a ConfigurationSetting.
  */
-export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields, OptionalFields { 
+export interface GetConfigurationSettingOptions
+  extends OperationOptions,
+    HttpOnlyIfChangedField,
+    OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
@@ -234,31 +252,29 @@ export interface ListSettingsOptions extends OptionalFields {
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListConfigurationSettingsOptions extends RequestOptionsBase, ListSettingsOptions {
-}
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListConfigurationSettingPage extends HttpResponseField<GetKeyValuesHeaders> {
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
   /**
    * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
 }
-  
+
 /**
  * Options for listRevisions that allow for filtering based on keys, labels and other fields.
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOptions {  
-}
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders> {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
   /**
    * The configuration settings for this page of results.
    */
@@ -268,19 +284,25 @@ export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders
 /**
  * Options for clearReadOnly
  */
-export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase { }
+export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
 
 /**
  * Response when clearing the read-only status from a value
  */
-export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
+export interface ClearReadOnlyResponse
+  extends ConfigurationSetting,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Options for setReadOnly
  */
-export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase { }
+export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
 
 /**
  * Response when setting a value to read-only.
  */
-export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
+export interface SetReadOnlyResponse
+  extends ConfigurationSetting,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}

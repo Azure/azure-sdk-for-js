@@ -10,6 +10,43 @@
  * response details still apply to v2.
  */
 export interface ErrorResponse {
+  /**
+   * The string identifier for the error.
+   */
+  error: string;
+
+  /**
+   * The error's description.
+   */
+  errorDescription: string;
+
+  /**
+   * An array of codes pertaining to the error(s) that occurred.
+   */
+  errorCodes?: number[];
+
+  /**
+   * The timestamp at which the error occurred.
+   */
+  timestamp?: string;
+
+  /**
+   * The trace identifier for this error occurrence.
+   */
+  traceId?: string;
+
+  /**
+   * The correlation ID to be used for tracking the source of the error.
+   */
+  correlationId?: string;
+}
+
+/**
+ * Used for internal deserialization of OAuth responses. Public model is ErrorResponse
+ * @internal
+ * @ignore
+ */
+export interface OAuthErrorResponse {
   error: string;
   error_description: string;
   error_codes?: number[];
@@ -18,7 +55,7 @@ export interface ErrorResponse {
   correlation_id?: string;
 }
 
-function isErrorResponse(errorResponse: any): errorResponse is ErrorResponse {
+function isErrorResponse(errorResponse: any): errorResponse is OAuthErrorResponse {
   return (
     errorResponse &&
     typeof errorResponse.error === "string" &&
@@ -37,39 +74,47 @@ export const AuthenticationErrorName = "AuthenticationError";
  * the specific failure.
  */
 export class AuthenticationError extends Error {
+  /**
+   * The HTTP status code returned from the authentication request.
+   */
   public readonly statusCode: number;
+
+  /**
+   * The error response details.
+   */
   public readonly errorResponse: ErrorResponse;
 
   constructor(statusCode: number, errorBody: object | string | undefined | null) {
-    let errorResponse = {
+    let errorResponse: ErrorResponse = {
       error: "unknown",
-      error_description: "An unknown error occurred and no additional details are available."
+      errorDescription: "An unknown error occurred and no additional details are available."
     };
 
     if (isErrorResponse(errorBody)) {
-      errorResponse = errorBody;
+      errorResponse = convertOAuthErrorResponseToErrorResponse(errorBody);
     } else if (typeof errorBody === "string") {
       try {
         // Most error responses will contain JSON-formatted error details
-        // in the response body
-        errorResponse = JSON.parse(errorBody);
+        // in the response body        
+        const oauthErrorResponse: OAuthErrorResponse = JSON.parse(errorBody);
+        errorResponse = convertOAuthErrorResponseToErrorResponse(oauthErrorResponse);
       } catch (e) {
         if (statusCode === 400) {
           errorResponse = {
             error: "authority_not_found",
-            error_description: "The specified authority URL was not found."
+            errorDescription: "The specified authority URL was not found."
           };
         } else {
           errorResponse = {
             error: "unknown_error",
-            error_description: `An unknown error has occurred. Response body:\n\n${errorBody}`
+            errorDescription: `An unknown error has occurred. Response body:\n\n${errorBody}`
           };
         }
       }
     } else {
       errorResponse = {
         error: "unknown_error",
-        error_description: "An unknown error occurred and no additional details are available."
+        errorDescription: "An unknown error occurred and no additional details are available."
       };
     }
 
@@ -98,7 +143,12 @@ export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
  * for authentication failures from credentials in a {@link ChainedTokenCredential}.
  */
 export class AggregateAuthenticationError extends Error {
+  /**
+   * The array of error objects that were thrown while trying to authenticate
+   * with the credentials in a {@link ChainedTokenCredential}.
+   */
   public errors: any[];
+
   constructor(errors: any[]) {
     super(
       `Authentication failed to complete due to the following errors:\n\n${errors.join("\n\n")}`
@@ -108,4 +158,15 @@ export class AggregateAuthenticationError extends Error {
     // Ensure that this type reports the correct name
     this.name = AggregateAuthenticationErrorName;
   }
+}
+
+function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse) : ErrorResponse {
+  return {
+    error: errorBody.error,
+    errorDescription: errorBody.error_description,
+    correlationId: errorBody.correlation_id,
+    errorCodes: errorBody.error_codes,
+    timestamp: errorBody.timestamp,
+    traceId: errorBody.trace_id
+  };
 }

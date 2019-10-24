@@ -5,16 +5,16 @@ import qs from "qs";
 import {
   AccessToken,
   ServiceClient,
-  ServiceClientOptions,
+  PipelineOptions,
   WebResource,
   RequestPrepareOptions,
   GetTokenOptions,
-  tracingPolicy,
-  RequestPolicyFactory
+  createPipelineFromOptions
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
+import { logger } from '../util/logging';
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -39,7 +39,7 @@ export class IdentityClient extends ServiceClient {
 
   constructor(options?: IdentityClientOptions) {
     options = options || IdentityClient.getDefaultOptions();
-    super(undefined, options);
+    super(undefined, createPipelineFromOptions(options));
 
     this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
 
@@ -58,6 +58,7 @@ export class IdentityClient extends ServiceClient {
     webResource: WebResource,
     expiresOnParser?: (responseBody: any) => number
   ): Promise<TokenResponse | null> {
+    logger.info(`IdentityClient: sending token request to [${webResource.url}]`);
     const response = await this.sendRequest(webResource);
 
     expiresOnParser =
@@ -67,15 +68,20 @@ export class IdentityClient extends ServiceClient {
       });
 
     if (response.status === 200 || response.status === 201) {
-      return {
+      const token = {
         accessToken: {
           token: response.parsedBody.access_token,
           expiresOnTimestamp: expiresOnParser(response.parsedBody)
         },
         refreshToken: response.parsedBody.refresh_token
       };
+
+      logger.info(`IdentityClient: [${webResource.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`);
+      return token;
     } else {
-      throw new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
+      const error = new AuthenticationError(response.status, response.parsedBody || response.bodyAsText);
+      logger.warning(`IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`);
+      throw error;
     }
   }
 
@@ -91,6 +97,7 @@ export class IdentityClient extends ServiceClient {
     if (refreshToken === undefined) {
       return null;
     }
+    logger.info(`IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`);
 
     const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
 
@@ -121,6 +128,7 @@ export class IdentityClient extends ServiceClient {
       });
 
       const response = await this.sendTokenRequest(webResource, expiresOnParser);
+      logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
       return response;
     } catch (err) {
       if (
@@ -130,13 +138,16 @@ export class IdentityClient extends ServiceClient {
         // It's likely that the refresh token has expired, so
         // return null so that the credential implementation will
         // initiate the authentication flow again.
+        logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
         span.setStatus({
           code: CanonicalCode.UNAUTHENTICATED,
           message: err.message
         });
+
         return null;
       } else {
-        span.setStatus({
+        logger.warning(`IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`);
+      span.setStatus({
           code: CanonicalCode.UNKNOWN,
           message: err.message
         });
@@ -149,14 +160,19 @@ export class IdentityClient extends ServiceClient {
 
   static getDefaultOptions(): IdentityClientOptions {
     return {
-      authorityHost: DefaultAuthorityHost,
-      requestPolicyFactories: (factories: RequestPolicyFactory[]) => {
-        return [tracingPolicy(), ...factories];
-      }
+      authorityHost: DefaultAuthorityHost
     };
   }
 }
 
-export interface IdentityClientOptions extends ServiceClientOptions {
+/**
+ * Provides options to configure how the Identity library makes authentication
+ * requests to Azure Active Directory.
+ */
+export interface IdentityClientOptions extends PipelineOptions {
+  /**
+   * The authority host to use for authentication requests.  The default is
+   * "https://login.microsoftonline.com".
+   */
   authorityHost?: string;
 }

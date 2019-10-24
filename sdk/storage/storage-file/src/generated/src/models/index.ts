@@ -7,7 +7,7 @@
  */
 
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 /**
  * An Access policy.
@@ -28,7 +28,7 @@ export interface AccessPolicy {
   /**
    * The permissions for the ACL policy.
    */
-  permission?: string;
+  permissions?: string;
 }
 
 /**
@@ -151,7 +151,7 @@ export interface ListFilesAndDirectoriesSegmentResponse {
   marker?: string;
   maxResults?: number;
   segment: FilesAndDirectoriesListSegment;
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -159,7 +159,7 @@ export interface ListFilesAndDirectoriesSegmentResponse {
  */
 export interface ListHandlesResponse {
   handleList?: HandleItem[];
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -190,7 +190,7 @@ export interface ListSharesResponse {
   marker?: string;
   maxResults?: number;
   shareItems?: ShareItem[];
-  nextMarker: string;
+  continuationToken: string;
 }
 
 /**
@@ -276,9 +276,20 @@ export interface SignedIdentifier {
 }
 
 /**
+ * Permission(a security descriptor) described in the Security Descriptor Definition
+ * Language(SDDL).
+ */
+export interface Permission {
+  /**
+   * Permission(a security descriptor) described in the SDDL.
+   */
+  permission: string;
+}
+
+/**
  * Storage service properties.
  */
-export interface StorageServiceProperties {
+export interface FileServiceProperties {
   /**
    * A summary of request statistics grouped by API in hourly aggregates for files.
    */
@@ -294,20 +305,9 @@ export interface StorageServiceProperties {
 }
 
 /**
- * Permission(a security descriptor) described in the Security Descriptor Definition
- * Language(SDDL).
- */
-export interface Permission {
-  /**
-   * Permission(a security descriptor) described in the SDDL.
-   */
-  permission: string;
-}
-
-/**
  * Additional parameters for a set of operations, such as: File_create, File_setHTTPHeaders.
  */
-export interface FileHTTPHeaders {
+export interface FileHttpHeaders {
   /**
    * Sets the MIME content type of the file. The default type is 'application/octet-stream'.
    */
@@ -352,31 +352,31 @@ export interface SourceModifiedAccessConditions {
 /**
  * Optional Parameters.
  */
-export interface ServiceSetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceSetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ServiceGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceGetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ServiceListSharesSegmentOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceListSharesSegmentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Filters the results to return only entries whose name begins with the specified prefix.
    */
@@ -392,7 +392,7 @@ export interface ServiceListSharesSegmentOptionalParams extends msRest.RequestOp
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * Include this parameter to specify one or more datasets to include in the response.
    */
@@ -402,19 +402,19 @@ export interface ServiceListSharesSegmentOptionalParams extends msRest.RequestOp
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ShareCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareCreateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -428,35 +428,35 @@ export interface ShareCreateOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ShareGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareGetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ShareDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies the option include to delete the base share and all of its snapshots. Possible
    * values include: 'include'
@@ -467,13 +467,13 @@ export interface ShareDeleteMethodOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface ShareCreateSnapshotOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareCreateSnapshotOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -483,37 +483,37 @@ export interface ShareCreateSnapshotOptionalParams extends msRest.RequestOptions
 /**
  * Optional Parameters.
  */
-export interface ShareCreatePermissionOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareCreatePermissionOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ShareGetPermissionOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareGetPermissionOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ShareSetQuotaOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareSetQuotaOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies the maximum size of the share, in gigabytes.
    */
@@ -523,13 +523,13 @@ export interface ShareSetQuotaOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface ShareSetMetadataOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareSetMetadataOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -539,19 +539,19 @@ export interface ShareSetMetadataOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface ShareGetAccessPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareGetAccessPolicyOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ShareSetAccessPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareSetAccessPolicyOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The ACL for the share.
    */
@@ -561,31 +561,31 @@ export interface ShareSetAccessPolicyOptionalParams extends msRest.RequestOption
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ShareGetStatisticsOptionalParams extends msRest.RequestOptionsBase {
+export interface ShareGetStatisticsOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface DirectoryCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface DirectoryCreateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -608,42 +608,42 @@ export interface DirectoryCreateOptionalParams extends msRest.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface DirectoryGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface DirectoryGetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface DirectoryDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface DirectoryDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface DirectorySetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface DirectorySetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * If specified the permission (security descriptor) shall be set for the directory/file. This
    * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
@@ -662,13 +662,13 @@ export interface DirectorySetPropertiesOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface DirectorySetMetadataOptionalParams extends msRest.RequestOptionsBase {
+export interface DirectorySetMetadataOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -678,7 +678,7 @@ export interface DirectorySetMetadataOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends msRest.RequestOptionsBase {
+export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Filters the results to return only entries whose name begins with the specified prefix.
    */
@@ -687,7 +687,7 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends m
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -699,19 +699,19 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends m
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface DirectoryListHandlesOptionalParams extends msRest.RequestOptionsBase {
+export interface DirectoryListHandlesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -723,18 +723,18 @@ export interface DirectoryListHandlesOptionalParams extends msRest.RequestOption
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -745,13 +745,13 @@ export interface DirectoryListHandlesOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface DirectoryForceCloseHandlesOptionalParams extends msRest.RequestOptionsBase {
+export interface DirectoryForceCloseHandlesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -763,7 +763,7 @@ export interface DirectoryForceCloseHandlesOptionalParams extends msRest.Request
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * Specifies operation should apply to the directory specified in the URI, its files, its
    * subdirectories and their files.
@@ -774,13 +774,13 @@ export interface DirectoryForceCloseHandlesOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface FileCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface FileCreateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -801,19 +801,19 @@ export interface FileCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
-  fileHTTPHeaders?: FileHTTPHeaders;
+  fileHttpHeaders?: FileHttpHeaders;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileDownloadOptionalParams extends msRest.RequestOptionsBase {
+export interface FileDownloadOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Return file data only from the specified byte range.
    */
@@ -829,42 +829,42 @@ export interface FileDownloadOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface FileGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
+export interface FileGetPropertiesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface FileDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileSetHTTPHeadersOptionalParams extends msRest.RequestOptionsBase {
+export interface FileSetHTTPHeadersOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Resizes a file to the specified size. If the specified byte value is less than the current
    * size of the file, then all ranges above the specified byte value are cleared.
@@ -886,19 +886,19 @@ export interface FileSetHTTPHeadersOptionalParams extends msRest.RequestOptionsB
   /**
    * Additional parameters for the operation
    */
-  fileHTTPHeaders?: FileHTTPHeaders;
+  fileHttpHeaders?: FileHttpHeaders;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileSetMetadataOptionalParams extends msRest.RequestOptionsBase {
+export interface FileSetMetadataOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -908,17 +908,17 @@ export interface FileSetMetadataOptionalParams extends msRest.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface FileUploadRangeOptionalParams extends msRest.RequestOptionsBase {
+export interface FileUploadRangeOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Initial data.
    */
-  optionalbody?: msRest.HttpRequestBody;
+  optionalbody?: coreHttp.HttpRequestBody;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * An MD5 hash of the content. This hash is used to verify the integrity of the data during
    * transport. When the Content-MD5 header is specified, the File service compares the hash of the
@@ -931,13 +931,13 @@ export interface FileUploadRangeOptionalParams extends msRest.RequestOptionsBase
 /**
  * Optional Parameters.
  */
-export interface FileUploadRangeFromURLOptionalParams extends msRest.RequestOptionsBase {
+export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specify the crc64 calculated for the range of bytes that must be read from the copy source.
    */
@@ -951,18 +951,18 @@ export interface FileUploadRangeFromURLOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface FileGetRangeListOptionalParams extends msRest.RequestOptionsBase {
+export interface FileGetRangeListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * Specifies the range of bytes over which to list ranges, inclusively.
    */
@@ -972,13 +972,13 @@ export interface FileGetRangeListOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
-export interface FileStartCopyOptionalParams extends msRest.RequestOptionsBase {
+export interface FileStartCopyOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A name-value pair to associate with a file storage object.
    */
@@ -988,19 +988,19 @@ export interface FileStartCopyOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface FileAbortCopyOptionalParams extends msRest.RequestOptionsBase {
+export interface FileAbortCopyOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileListHandlesOptionalParams extends msRest.RequestOptionsBase {
+export interface FileListHandlesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -1012,30 +1012,30 @@ export interface FileListHandlesOptionalParams extends msRest.RequestOptionsBase
    * Specifies the maximum number of entries to return. If the request does not specify maxresults,
    * or specifies a value greater than 5,000, the server will return up to 5,000 items.
    */
-  maxresults?: number;
+  maxResults?: number;
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileForceCloseHandlesOptionalParams extends msRest.RequestOptionsBase {
+export interface FileForceCloseHandlesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
    * Timeouts for File Service Operations.</a>
    */
-  timeoutParameter?: number;
+  timeoutInSeconds?: number;
   /**
    * A string value that identifies the portion of the list to be returned with the next list
    * operation. The operation returns a marker value within the response body if the list returned
@@ -1047,7 +1047,7 @@ export interface FileForceCloseHandlesOptionalParams extends msRest.RequestOptio
    * The snapshot parameter is an opaque DateTime value that, when present, specifies the share
    * snapshot to query.
    */
-  sharesnapshot?: string;
+  shareSnapshot?: string;
 }
 
 /**
@@ -1105,7 +1105,7 @@ export interface ShareCreateHeaders {
   /**
    * The ETag contains a value which represents the version of the share, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties or metadata updates the last modified time. Operations on files do not
@@ -1137,7 +1137,7 @@ export interface ShareGetPropertiesHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1203,7 +1203,7 @@ export interface ShareCreateSnapshotHeaders {
    * request, the ETag of the share snapshot is identical to that of the base share at the time the
    * share snapshot was taken.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. A share snapshot cannot be modified, so
    * the last modified time of a given share snapshot never changes. However, if new metadata was
@@ -1283,7 +1283,7 @@ export interface ShareSetQuotaHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1314,7 +1314,7 @@ export interface ShareSetMetadataHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1345,7 +1345,7 @@ export interface ShareGetAccessPolicyHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1376,7 +1376,7 @@ export interface ShareSetAccessPolicyHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1407,7 +1407,7 @@ export interface ShareGetStatisticsHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the share
    * or its properties updates the last modified time. Operations on files do not affect the last
@@ -1438,7 +1438,7 @@ export interface DirectoryCreateHeaders {
   /**
    * The ETag contains a value which represents the version of the directory, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the
    * directory or its properties updates the last modified time. Operations on files do not affect
@@ -1475,15 +1475,15 @@ export interface DirectoryCreateHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */
@@ -1503,7 +1503,7 @@ export interface DirectoryGetPropertiesHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the Directory was last modified. Operations on files within the
    * directory do not affect the last modified time of the directory.
@@ -1535,15 +1535,15 @@ export interface DirectoryGetPropertiesHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the directory.
    */
@@ -1587,7 +1587,7 @@ export interface DirectorySetPropertiesHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -1624,15 +1624,15 @@ export interface DirectorySetPropertiesHeaders {
   /**
    * Creation time for the directory.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the directory.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the directory.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */
@@ -1651,7 +1651,7 @@ export interface DirectorySetMetadataHeaders {
   /**
    * The ETag contains a value which represents the version of the directory, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -1763,7 +1763,7 @@ export interface FileCreateHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the share was last modified. Any operation that modifies the
    * directory or its properties updates the last modified time. Operations on files do not affect
@@ -1800,15 +1800,15 @@ export interface FileCreateHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the file.
    */
@@ -1847,7 +1847,7 @@ export interface FileDownloadHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * If the file has an MD5 hash and the request is to read the full file, this response header is
    * returned so that the client can check for message content integrity. If the request is to read
@@ -1896,7 +1896,7 @@ export interface FileDownloadHeaders {
    * Conclusion time of the last attempted Copy File operation where this file was the destination
    * file. This value can specify the time of a completed, aborted, or failed copy attempt.
    */
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   /**
    * Only appears when x-ms-copy-status is failed or pending. Describes cause of fatal or non-fatal
    * copy operation failure.
@@ -1943,15 +1943,15 @@ export interface FileDownloadHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the file.
    */
@@ -1994,7 +1994,7 @@ export interface FileGetPropertiesHeaders {
   /**
    * The ETag contains a value that you can use to perform operations conditionally, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * If the Content-MD5 header has been set for the file, the Content-MD5 response header is
    * returned so that the client can check for message content integrity.
@@ -2037,7 +2037,7 @@ export interface FileGetPropertiesHeaders {
    * Conclusion time of the last attempted Copy File operation where this file was the destination
    * file. This value can specify the time of a completed, aborted, or failed copy attempt.
    */
-  copyCompletionTime?: Date;
+  copyCompletedOn?: Date;
   /**
    * Only appears when x-ms-copy-status is failed or pending. Describes cause of fatal or non-fatal
    * copy operation failure.
@@ -2077,15 +2077,15 @@ export interface FileGetPropertiesHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * Key of the permission set for the file.
    */
@@ -2129,7 +2129,7 @@ export interface FileSetHTTPHeadersHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the directory was last modified. Any operation that modifies the
    * directory or its properties updates the last modified time. Operations on files do not affect
@@ -2166,15 +2166,15 @@ export interface FileSetHTTPHeadersHeaders {
   /**
    * Creation time for the file.
    */
-  fileCreationTime?: Date;
+  fileCreatedOn?: Date;
   /**
    * Last write time for the file.
    */
-  fileLastWriteTime?: Date;
+  fileLastWriteOn?: Date;
   /**
    * Change time for the file.
    */
-  fileChangeTime?: Date;
+  fileChangeOn?: Date;
   /**
    * The fileId of the directory.
    */
@@ -2193,7 +2193,7 @@ export interface FileSetMetadataHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * This header uniquely identifies the request that was made and can be used for troubleshooting
    * the request.
@@ -2223,7 +2223,7 @@ export interface FileUploadRangeHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the directory was last modified. Any operation that modifies the
    * share or its properties or metadata updates the last modified time. Operations on files do not
@@ -2265,7 +2265,7 @@ export interface FileUploadRangeFromURLHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date and time the directory was last modified. Any operation that modifies the
    * share or its properties or metadata updates the last modified time. Operations on files do not
@@ -2312,7 +2312,7 @@ export interface FileGetRangeListHeaders {
   /**
    * The ETag contains a value which represents the version of the file, in quotes.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The size of the file in bytes.
    */
@@ -2342,7 +2342,7 @@ export interface FileStartCopyHeaders {
    * If the copy is completed, contains the ETag of the destination file. If the copy is not
    * complete, contains the ETag of the empty file created at the start of the copy.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Returns the date/time that the copy operation to the destination file completed.
    */
@@ -2521,7 +2521,7 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2532,11 +2532,11 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGetPropertiesHeaders & {
+export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2550,7 +2550,7 @@ export type ServiceGetPropertiesResponse = StorageServiceProperties & ServiceGet
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: StorageServiceProperties;
+      parsedBody: FileServiceProperties;
     };
 };
 
@@ -2561,7 +2561,7 @@ export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListS
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2586,7 +2586,7 @@ export type ShareCreateResponse = ShareCreateHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2601,7 +2601,7 @@ export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2616,7 +2616,7 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2631,7 +2631,7 @@ export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2646,7 +2646,7 @@ export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2661,7 +2661,7 @@ export type ShareGetPermissionResponse = Permission & ShareGetPermissionHeaders 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2686,7 +2686,7 @@ export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2701,7 +2701,7 @@ export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2716,7 +2716,7 @@ export type ShareGetAccessPolicyResponse = Array<SignedIdentifier> & ShareGetAcc
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2741,7 +2741,7 @@ export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2756,7 +2756,7 @@ export type ShareGetStatisticsResponse = ShareStats & ShareGetStatisticsHeaders 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2781,7 +2781,7 @@ export type DirectoryCreateResponse = DirectoryCreateHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2796,7 +2796,7 @@ export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2811,7 +2811,7 @@ export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2826,7 +2826,7 @@ export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2841,7 +2841,7 @@ export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2856,7 +2856,7 @@ export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirect
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2881,7 +2881,7 @@ export type DirectoryListHandlesResponse = ListHandlesResponse & DirectoryListHa
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2906,7 +2906,7 @@ export type DirectoryForceCloseHandlesResponse = DirectoryForceCloseHandlesHeade
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2921,7 +2921,7 @@ export type FileCreateResponse = FileCreateHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2952,7 +2952,7 @@ export type FileDownloadResponse = FileDownloadHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2967,7 +2967,7 @@ export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2982,7 +2982,7 @@ export type FileDeleteResponse = FileDeleteHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2997,7 +2997,7 @@ export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3012,7 +3012,7 @@ export type FileSetMetadataResponse = FileSetMetadataHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3027,7 +3027,7 @@ export type FileUploadRangeResponse = FileUploadRangeHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3042,7 +3042,7 @@ export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3057,7 +3057,7 @@ export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & 
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3082,7 +3082,7 @@ export type FileStartCopyResponse = FileStartCopyHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3097,7 +3097,7 @@ export type FileAbortCopyResponse = FileAbortCopyHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3112,7 +3112,7 @@ export type FileListHandlesResponse = ListHandlesResponse & FileListHandlesHeade
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -3137,7 +3137,7 @@ export type FileForceCloseHandlesResponse = FileForceCloseHandlesHeaders & {
   /**
    * The underlying HTTP response.
    */
-  _response: msRest.HttpResponse & {
+  _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */

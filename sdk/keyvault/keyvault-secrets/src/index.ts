@@ -3,29 +3,22 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
-  getDefaultUserAgentValue,
   TokenCredential,
   isTokenCredential,
-  RequestPolicyFactory,
-  deserializationPolicy,
   signingPolicy,
   RequestOptionsBase,
-  exponentialRetryPolicy,
-  redirectPolicy,
-  systemErrorRetryPolicy,
-  generateClientRequestIdPolicy,
-  proxyPolicy,
-  throttlingRetryPolicy,
-  getDefaultProxySettings,
-  isNode,
-  userAgentPolicy,
-  tracingPolicy
+  operationOptionsToRequestOptionsBase,
+  PipelineOptions,
+  createPipelineFromOptions,
+  ServiceClientOptions as Pipeline
 } from "@azure/core-http";
 
 import { getTracer, Span } from "@azure/core-tracing";
+import { logger } from "./log";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SecretBundle,
   DeletedSecretBundle,
@@ -36,25 +29,34 @@ import {
   UpdateSecretResponse,
   GetSecretResponse,
   GetDeletedSecretResponse,
-  RecoverDeletedSecretResponse,
   BackupSecretResponse,
   RestoreSecretResponse
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
-import { RetryConstants, SDK_VERSION } from "./core/utils/constants";
+import { SDK_VERSION } from "./core/utils/constants";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 
+import { DeleteSecretPoller } from "./lro/delete/poller";
+import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
+import { DeleteSecretPollOperationState } from "./lro/delete/operation";
+import { RecoverDeletedSecretPollOperationState } from "./lro/recover/operation";
+
 import {
-  Secret,
+  KeyVaultSecret,
   DeletedSecret,
+  SecretClientInterface,
+  SecretPollerOptions,
   SetSecretOptions,
-  UpdateSecretOptions,
+  UpdateSecretPropertiesOptions,
   GetSecretOptions,
-  ListSecretsOptions,
+  GetDeletedSecretOptions,
+  PurgeDeletedSecretOptions,
+  BackupSecretOptions,
+  RestoreSecretBackupOptions,
+  ListOperationOptions,
   SecretProperties
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
-import { NewPipelineOptions, isNewPipelineOptions, Pipeline } from "./core/keyVaultBase";
 import {
   ProxyOptions,
   RetryOptions,
@@ -63,18 +65,29 @@ import {
 } from "./core";
 
 export {
+  DeleteSecretPollOperationState,
+  RecoverDeletedSecretPollOperationState,
   DeletedSecret,
   DeletionRecoveryLevel,
   GetSecretOptions,
-  ListSecretsOptions as GetSecretsOptions,
-  NewPipelineOptions,
+  PipelineOptions,
+  GetDeletedSecretOptions,
+  PurgeDeletedSecretOptions,
+  BackupSecretOptions,
+  RestoreSecretBackupOptions,
+  ListOperationOptions,
   PagedAsyncIterableIterator,
   PageSettings,
   ParsedKeyVaultEntityIdentifier,
-  Secret,
+  PollerLike,
+  PollOperationState,
+  KeyVaultSecret,
+  SecretClientInterface,
   SecretProperties,
+  SecretPollerOptions,
   SetSecretOptions,
-  UpdateSecretOptions
+  UpdateSecretPropertiesOptions,
+  logger
 };
 
 export { ProxyOptions, RetryOptions, TelemetryOptions };
@@ -86,61 +99,11 @@ const SERVICE_API_VERSION = "7.0";
 /**
  * The client to interact with the KeyVault secrets functionality
  */
-export class SecretsClient {
-  /**
-   * A static method used to create a new Pipeline object with the provided Credential.
-   * @static
-   * @param {TokenCredential} The credential to use for API requests.
-   * @param {NewPipelineOptions} [pipelineOptions] Optional. Options.
-   * @memberof SecretsClient
-   */
-  public static getDefaultPipeline(
-    credential: TokenCredential,
-    pipelineOptions: NewPipelineOptions = {}
-  ): Pipeline {
-    // Order is important. Closer to the API at the top & closer to the network at the bottom.
-    // The credential's policy factory must appear close to the wire so it can sign any
-    // changes made by other factories (like UniqueRequestIDPolicyFactory)
-    const retryOptions = pipelineOptions.retryOptions || {};
-
-    const userAgentString: string = SecretsClient.getUserAgentString(pipelineOptions.telemetry);
-
-    let requestPolicyFactories: RequestPolicyFactory[] = [];
-    if (isNode) {
-      requestPolicyFactories.push(
-        proxyPolicy(getDefaultProxySettings((pipelineOptions.proxyOptions || {}).proxySettings))
-      );
-    }
-    requestPolicyFactories = requestPolicyFactories.concat([
-      tracingPolicy(),
-      userAgentPolicy({ value: userAgentString }),
-      generateClientRequestIdPolicy(),
-      deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-      throttlingRetryPolicy(),
-      systemErrorRetryPolicy(),
-      exponentialRetryPolicy(
-        retryOptions.retryCount,
-        retryOptions.retryIntervalInMS,
-        RetryConstants.MIN_RETRY_INTERVAL_MS, // Minimum retry interval to prevent frequent retries
-        retryOptions.maxRetryDelayInMs
-      ),
-      redirectPolicy(),
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
-    ]);
-
-    return {
-      httpClient: pipelineOptions.HTTPClient,
-      httpPipelineLogger: pipelineOptions.logger,
-      requestPolicyFactories
-    };
-  }
-
+export class SecretClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultBaseUrl: string;
+  public readonly vaultEndpoint: string;
 
   /**
    * The options to create the connection to the service
@@ -154,59 +117,76 @@ export class SecretsClient {
   private readonly client: KeyVaultClient;
 
   /**
-   * Creates an instance of SecretsClient.
+   * A self reference that bypasses private methods, for the pollers.
+   */
+  private readonly pollerClient: SecretClientInterface = {
+    recoverDeletedSecret: this.recoverDeletedSecret.bind(this),
+    getSecret: this.getSecret.bind(this),
+    deleteSecret: this.deleteSecret.bind(this),
+    getDeletedSecret: this.getDeletedSecret.bind(this)
+  };
+
+  /**
+   * Creates an instance of SecretClient.
    *
    * Example usage:
    * ```ts
-   * import { SecretsClient } from "@azure/keyvault-secrets";
+   * import { SecretClient } from "@azure/keyvault-secrets";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let url = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * ```
-   * @param {string} url the base url to the key vault.
-   * @param {TokenCredential} The credential to use for API requests.
-   * @param {(Pipeline | NewPipelineOptions)} [pipelineOrOptions={}] Optional. A Pipeline, or options to create a default Pipeline instance.
-   *                                                                 Omitting this parameter to create the default Pipeline instance.
-   * @memberof SecretsClient
+   * @param {string} endPoint the base url to the key vault.
+   * @param {TokenCredential} The credential to use for API requests. (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
+   * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
+   *                                                         Omit this parameter to use the default pipeline configuration.
+   * @memberof SecretClient
    */
   constructor(
-    url: string,
+    endPoint: string,
     credential: TokenCredential,
-    pipelineOrOptions: Pipeline | NewPipelineOptions = {}
+    pipelineOptions: PipelineOptions = {}
   ) {
-    this.vaultBaseUrl = url;
+    this.vaultEndpoint = endPoint;
     this.credential = credential;
-    if (isNewPipelineOptions(pipelineOrOptions)) {
-      this.pipeline = SecretsClient.getDefaultPipeline(credential, pipelineOrOptions);
+
+    const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
+    if (pipelineOptions.userAgentOptions) {
+      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
+        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
+        : libInfo;
     } else {
-      this.pipeline = pipelineOrOptions;
+      pipelineOptions.userAgentOptions = {
+        userAgentPrefix: libInfo
+      };
     }
 
+    const authPolicy = isTokenCredential(credential)
+      ? challengeBasedAuthenticationPolicy(credential)
+      : signingPolicy(credential);
+
+    const internalPipelineOptions = {
+      ...pipelineOptions,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          logPolicyOptions: {
+            allowedHeaderNames: [
+              "x-ms-keyvault-region",
+              "x-ms-keyvault-network-info",
+              "x-ms-keyvault-service-version"
+            ]
+          }
+        }
+      }
+    };
+
+    this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);
   }
-
-  private static getUserAgentString(telemetry?: TelemetryOptions): string {
-    const userAgentInfo: string[] = [];
-    if (telemetry) {
-      if (userAgentInfo.indexOf(telemetry.value) === -1) {
-        userAgentInfo.push(telemetry.value);
-      }
-    }
-    const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
-    if (userAgentInfo.indexOf(libInfo) === -1) {
-      userAgentInfo.push(libInfo);
-    }
-    const defaultUserAgentInfo = getDefaultUserAgentValue();
-    if (userAgentInfo.indexOf(defaultUserAgentInfo) === -1) {
-      userAgentInfo.push(defaultUserAgentInfo);
-    }
-    return userAgentInfo.join(" ");
-  }
-
-  // TODO: do we want Aborter as well?
 
   /**
    * The setSecret method adds a secret or secret version to the Azure Key Vault. If the named secret
@@ -215,7 +195,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * await client.setSecret("MySecretName", "ABC123");
    * ```
    * @summary Adds a secret in a specified key vault.
@@ -226,30 +206,30 @@ export class SecretsClient {
   public async setSecret(
     secretName: string,
     value: string,
-    options?: SetSecretOptions
-  ): Promise<Secret> {
-    if (options) {
+    options: SetSecretOptions = {}
+  ): Promise<KeyVaultSecret> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+
+    if (requestOptions) {
       const unflattenedProperties = {
-        enabled: options.enabled,
-        notBefore: options.notBefore,
-        expires: options.expires
+        enabled: requestOptions.enabled,
+        notBefore: requestOptions.notBefore,
+        expires: requestOptions.expiresOn
       };
       const unflattenedOptions = {
-        ...options,
-        ...(options.requestOptions ? options.requestOptions : {}),
+        ...requestOptions,
         secretAttributes: unflattenedProperties
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expires;
-      delete unflattenedOptions.requestOptions;
+      delete unflattenedOptions.expiresOn;
 
       const span = this.createSpan("setSecret", unflattenedOptions);
 
       let response: SetSecretResponse;
       try {
         response = await this.client.setSecret(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           secretName,
           value,
           this.setParentSpan(span, unflattenedOptions)
@@ -260,44 +240,57 @@ export class SecretsClient {
 
       return this.getSecretFromSecretBundle(response);
     } else {
-      const response = await this.client.setSecret(this.vaultBaseUrl, secretName, value, options);
+      const response = await this.client.setSecret(
+        this.vaultEndpoint,
+        secretName,
+        value,
+        requestOptions
+      );
       return this.getSecretFromSecretBundle(response);
     }
   }
 
   /**
-   * The deleteSecret method applies to any secret stored in Azure Key Vault. Individual versions
-   * of a secret cannot be deleted, only all versions of the given secret at once.
+   * Deletes a secret stored in Azure Key Vault.
+   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the secret is deleted.
+   *
    * This operation requires the secrets/delete permission.
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
-   * await client.deleteSecret("MySecretName");
+   * const client = new SecretClient(url, credentials);
+   * await client.setSecret("MySecretName", "ABC123");
+   *
+   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   *
+   * // Serializing the poller
+   * const serialized = deletePoller.toJSON();
+   *
+   * // A new poller can be created with:
+   * // const newPoller = await client.beginDeleteSecret("MySecretName", { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * const deletedSecret = await deletePoller.pollUntilDone();
+   * console.log(deletedSecret);
    * ```
    * @summary Deletes a secret from a specified key vault.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
    */
-  public async deleteSecret(
-    secretName: string,
-    options?: RequestOptionsBase
-  ): Promise<DeletedSecret> {
-    const span = this.createSpan("deleteSecret", options);
-
-    let response: DeleteSecretResponse;
-    try {
-      response = await this.client.deleteSecret(
-        this.vaultBaseUrl,
-        secretName,
-        this.setParentSpan(span, options)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getDeletedSecretFromDeletedSecretBundle(response);
+  public async beginDeleteSecret(
+    name: string,
+    options: SecretPollerOptions = {}
+  ): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const poller = new DeleteSecretPoller({
+      name,
+      client: this.pollerClient,
+      ...options,
+      requestOptions
+    });
+    // This will initialize the poller's operation (the deletion of the secret).
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -308,7 +301,7 @@ export class SecretsClient {
    * Example usage:
    * ```ts
    * let secretName = "MySecretName";
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * let secret = await client.getSecret(secretName);
    * await client.updateSecret(secretName, secret.version, { enabled: false });
    * ```
@@ -320,23 +313,23 @@ export class SecretsClient {
   public async updateSecretProperties(
     secretName: string,
     secretVersion: string,
-    options?: UpdateSecretOptions
-  ): Promise<Secret> {
-    if (options) {
+    options: UpdateSecretPropertiesOptions = {}
+  ): Promise<SecretProperties> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+
+    if (requestOptions) {
       const unflattenedProperties = {
-        enabled: options.enabled,
-        notBefore: options.notBefore,
-        expires: options.expires
+        enabled: requestOptions.enabled,
+        notBefore: requestOptions.notBefore,
+        expires: requestOptions.expiresOn
       };
       const unflattenedOptions = {
-        ...options,
-        ...(options.requestOptions ? options.requestOptions : {}),
+        ...requestOptions,
         secretAttributes: unflattenedProperties
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expires;
-      delete unflattenedOptions.requestOptions;
+      delete unflattenedOptions.expiresOn;
 
       const span = this.createSpan("updateSecretProperties", unflattenedOptions);
 
@@ -344,7 +337,7 @@ export class SecretsClient {
 
       try {
         response = await this.client.updateSecret(
-          this.vaultBaseUrl,
+          this.vaultEndpoint,
           secretName,
           secretVersion,
           this.setParentSpan(span, unflattenedOptions)
@@ -353,15 +346,15 @@ export class SecretsClient {
         span.end();
       }
 
-      return this.getSecretFromSecretBundle(response);
+      return this.getSecretFromSecretBundle(response).properties;
     } else {
       const response = await this.client.updateSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         secretVersion,
-        options
+        requestOptions
       );
-      return this.getSecretFromSecretBundle(response);
+      return this.getSecretFromSecretBundle(response).properties;
     }
   }
 
@@ -371,24 +364,27 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * let secret = await client.getSecret("MySecretName");
    * ```
    * @summary Get a specified secret from a given key vault.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
    */
-  public async getSecret(secretName: string, options?: GetSecretOptions): Promise<Secret> {
-    const span = this.createSpan("getSecret", options && options.requestOptions);
-    const requestOptions = this.setParentSpan(span, options && options.requestOptions);
+  public async getSecret(
+    secretName: string,
+    options: GetSecretOptions = {}
+  ): Promise<KeyVaultSecret> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("getSecret", requestOptions);
 
     let response: GetSecretResponse;
     try {
       response = await this.client.getSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         options && options.version ? options.version : "",
-        requestOptions
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -403,7 +399,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * await client.getDeletedSecret("MyDeletedSecret");
    * ```
    * @summary Gets the specified deleted secret.
@@ -412,17 +408,18 @@ export class SecretsClient {
    */
   public async getDeletedSecret(
     secretName: string,
-    options?: RequestOptionsBase
+    options: GetDeletedSecretOptions = {}
   ): Promise<DeletedSecret> {
-    const span = this.createSpan("getDeletedSecret", options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("getDeletedSecret", requestOptions);
 
     let response: GetDeletedSecretResponse;
 
     try {
       response = await this.client.getDeletedSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
-        this.setParentSpan(span, options)
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -438,22 +435,27 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
-   * await client.deleteSecret("MySecretName");
+   * const client = new SecretClient(url, credentials);
+   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   * await deletePoller.pollUntilDone();
    * await client.purgeDeletedSecret("MySecretName");
    * ```
    * @summary Permanently deletes the specified secret.
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
    */
-  public async purgeDeletedSecret(secretName: string, options?: RequestOptionsBase): Promise<void> {
-    const span = this.createSpan("purgeDeletedSecret", options);
+  public async purgeDeletedSecret(
+    secretName: string,
+    options: PurgeDeletedSecretOptions = {}
+  ): Promise<void> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("purgeDeletedSecret", requestOptions);
 
     try {
       await this.client.purgeDeletedSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
-        this.setParentSpan(span, options)
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -461,38 +463,51 @@ export class SecretsClient {
   }
 
   /**
-   * Recovers the deleted secret in the specified vault. This operation can only be performed on a
-   * soft-delete enabled vault. This operation requires the secrets/recover permission.
+   * Recovers the deleted secret in the specified vault.
+   * This function returns a Long Running Operation poller that allows you to wait indifinetly until the secret is recovered.
+   *
+   * This operation requires the secrets/recover permission.
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
-   * await client.deleteSecret("MySecretName");
-   * await client.recoverDeletedSecret("MySecretName");
+   * const client = new SecretClient(url, credentials);
+   * await client.setSecret("MySecretName", "ABC123");
+   *
+   * const deletePoller = await client.beginDeleteSecret("MySecretName");
+   * await deletePoller.pollUntilDone();
+   *
+   * const recoverPoller = await client.recoverDeletedSecret("MySecretName");
+   *
+   * // Serializing the poller
+   * const serialized = recoverPoller.toJSON();
+   *
+   * // A new poller can be created with:
+   * // const newPoller = await client.beginRecoverDeletedSecret("MySecretName", { resumeFrom: serialized });
+   *
+   * // Waiting until it's done
+   * const deletedSecret = await recoverPoller.pollUntilDone();
+   * console.log(deletedSecret);
    * ```
    * @summary Recovers the deleted secret to the latest version.
    * @param secretName The name of the deleted secret.
    * @param [options] The optional parameters
    */
-  public async recoverDeletedSecret(
-    secretName: string,
-    options?: RequestOptionsBase
-  ): Promise<Secret> {
-    const span = this.createSpan("recoverDeletedSecret", options);
+  public async beginRecoverDeletedSecret(
+    name: string,
+    options: SecretPollerOptions = {}
+  ): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    let response: RecoverDeletedSecretResponse;
+    const poller = new RecoverDeletedSecretPoller({
+      name,
+      client: this.pollerClient,
+      ...options,
+      requestOptions
+    });
 
-    try {
-      response = await this.client.recoverDeletedSecret(
-        this.vaultBaseUrl,
-        secretName,
-        this.setParentSpan(span, options)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getSecretFromSecretBundle(response);
+    // This will initialize the poller's operation (the recovery of the deleted secret).
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -501,7 +516,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * let backupResult = await client.backupSecret("MySecretName");
    * ```
    * @summary Backs up the specified secret.
@@ -510,17 +525,18 @@ export class SecretsClient {
    */
   public async backupSecret(
     secretName: string,
-    options?: RequestOptionsBase
+    options: BackupSecretOptions = {}
   ): Promise<Uint8Array | undefined> {
-    const span = this.createSpan("backupSecret", options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("backupSecret", requestOptions);
 
     let response: BackupSecretResponse;
 
     try {
       response = await this.client.backupSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
-        this.setParentSpan(span, options)
+        this.setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -534,27 +550,48 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * let mySecretBundle = await client.backupSecret("MySecretName");
    * // ...
-   * await client.restoreSecret(mySecretBundle);
+   * await client.restoreSecretBackup(mySecretBundle);
    * ```
    * @summary Restores a backed up secret to a vault.
    * @param secretBundleBackup The backup blob associated with a secret bundle.
    * @param [options] The optional parameters
    */
-  public async restoreSecret(
+  public async restoreSecretBackup(
     secretBundleBackup: Uint8Array,
-    options?: RequestOptionsBase
-  ): Promise<Secret> {
-    const span = this.createSpan("restoreSecret", options);
+    options: RestoreSecretBackupOptions = {}
+  ): Promise<SecretProperties> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("restoreSecretBackup", requestOptions);
 
     let response: RestoreSecretResponse;
 
     try {
       response = await this.client.restoreSecret(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretBundleBackup,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getSecretFromSecretBundle(response).properties;
+  }
+
+  private async deleteSecret(
+    secretName: string,
+    options: RequestOptionsBase = {}
+  ): Promise<DeletedSecret> {
+    const span = this.createSpan("deleteSecret", options);
+
+    let response: DeleteSecretResponse;
+    try {
+      response = await this.client.deleteSecret(
+        this.vaultEndpoint,
+        secretName,
         this.setParentSpan(span, options)
       );
     } finally {
@@ -564,18 +601,41 @@ export class SecretsClient {
     return this.getSecretFromSecretBundle(response);
   }
 
-  private async *listSecretVersionsPage(
+  private async recoverDeletedSecret(
+    secretName: string,
+    options: RequestOptionsBase = {}
+  ): Promise<SecretProperties> {
+    const span = this.createSpan("recoverDeletedSecret", options);
+
+    let properties: SecretProperties;
+
+    try {
+      const response = await this.client.recoverDeletedSecret(
+        this.vaultEndpoint,
+        secretName,
+        this.setParentSpan(span, options)
+      );
+      properties = this.getSecretFromSecretBundle(response).properties;
+    } finally {
+      span.end();
+    }
+
+    return properties;
+  }
+
+  private async *listPropertiesOfSecretVersionsPage(
     secretName: string,
     continuationState: PageSettings,
-    options?: ListSecretsOptions
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<SecretProperties[]> {
+
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...(options && options.requestOptions ? options.requestOptions : {})
+        ...options
       };
       const currentSetResponse = await this.client.getSecretVersions(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         secretName,
         optionsComplete
       );
@@ -603,13 +663,17 @@ export class SecretsClient {
     }
   }
 
-  private async *listSecretVersionsAll(
+  private async *listPropertiesOfSecretVersionsAll(
     secretName: string,
-    options?: ListSecretsOptions
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<SecretProperties> {
     const f = {};
 
-    for await (const page of this.listSecretVersionsPage(secretName, f, options)) {
+    for await (const page of this.listPropertiesOfSecretVersionsPage(
+      secretName,
+      f,
+      options
+    )) {
       for (const item of page) {
         yield item;
       }
@@ -622,8 +686,8 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
-   * for await (const secretAttr of client.listSecretVersions("MySecretName")) {
+   * let client = new SecretClient(url, credentials);
+   * for await (const secretAttr of client.listPropertiesOfSecretVersions("MySecretName")) {
    *   const secret = await client.getSecret(secretAttr.name);
    *   console.log("secret version: ", secret);
    * }
@@ -631,17 +695,18 @@ export class SecretsClient {
    * @param secretName Name of the secret to fetch versions for
    * @param [options] The optional parameters
    */
-  public listSecretVersions(
+  public listPropertiesOfSecretVersions(
     secretName: string,
-    options?: ListSecretsOptions
+    options: ListOperationOptions = {}
   ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
-    const span = this.createSpan("listSecretVersions", options && options.requestOptions);
-    const updatedOptions: ListSecretsOptions = {
-      ...options,
-      requestOptions: this.setParentSpan(span, options && options.requestOptions)
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("listPropertiesOfSecretVersions", requestOptions);
+    const updatedOptions: ListOperationOptions = {
+      ...requestOptions,
+      ...this.setParentSpan(span, requestOptions)
     };
 
-    const iter = this.listSecretVersionsAll(secretName, updatedOptions);
+    const iter = this.listPropertiesOfSecretVersionsAll(secretName, updatedOptions);
 
     span.end();
     return {
@@ -652,20 +717,20 @@ export class SecretsClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listSecretVersionsPage(secretName, settings, updatedOptions)
+        this.listPropertiesOfSecretVersionsPage(secretName, settings, updatedOptions)
     };
   }
 
-  private async *listSecretsPage(
+  private async *listPropertiesOfSecretsPage(
     continuationState: PageSettings,
-    options?: ListSecretsOptions
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<SecretProperties[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...(options && options.requestOptions ? options.requestOptions : {})
+        ...options
       };
-      const currentSetResponse = await this.client.getSecrets(this.vaultBaseUrl, optionsComplete);
+      const currentSetResponse = await this.client.getSecrets(this.vaultEndpoint, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
@@ -689,12 +754,12 @@ export class SecretsClient {
     }
   }
 
-  private async *listSecretsAll(
-    options?: ListSecretsOptions
+  private async *listPropertiesOfSecretsAll(
+    options: ListOperationOptions = {}
   ): AsyncIterableIterator<SecretProperties> {
     const f = {};
 
-    for await (const page of this.listSecretsPage(f, options)) {
+    for await (const page of this.listPropertiesOfSecretsPage(f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -707,8 +772,8 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
-   * for await (const secretAttr of client.listSecrets()) {
+   * let client = new SecretClient(url, credentials);
+   * for await (const secretAttr of client.listPropertiesOfSecrets()) {
    *   const secret = await client.getSecret(secretAttr.name);
    *   console.log("secret: ", secret);
    * }
@@ -716,16 +781,17 @@ export class SecretsClient {
    * @summary List all secrets in the vault
    * @param [options] The optional parameters
    */
-  public listSecrets(
-    options?: ListSecretsOptions
+  public listPropertiesOfSecrets(
+    options: ListOperationOptions = {}
   ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
-    const span = this.createSpan("listSecrets", options && options.requestOptions);
-    const updatedOptions: ListSecretsOptions = {
-      ...options,
-      requestOptions: this.setParentSpan(span, options && options.requestOptions)
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("listPropertiesOfSecrets", requestOptions);
+    const updatedOptions: ListOperationOptions = {
+      ...requestOptions,
+      ...this.setParentSpan(span, requestOptions)
     };
 
-    const iter = this.listSecretsAll(updatedOptions);
+    const iter = this.listPropertiesOfSecretsAll(updatedOptions);
 
     span.end();
     return {
@@ -735,28 +801,27 @@ export class SecretsClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listSecretsPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) =>
+        this.listPropertiesOfSecretsPage(settings, updatedOptions)
     };
   }
 
   private async *listDeletedSecretsPage(
     continuationState: PageSettings,
-    options?: ListSecretsOptions
-  ): AsyncIterableIterator<SecretProperties[]> {
+    options: RequestOptionsBase = {}
+  ): AsyncIterableIterator<DeletedSecret[]> {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...(options && options.requestOptions ? options.requestOptions : {})
+        ...options
       };
       const currentSetResponse = await this.client.getDeletedSecrets(
-        this.vaultBaseUrl,
+        this.vaultEndpoint,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(
-          (bundle) => this.getSecretFromSecretBundle(bundle).properties
-        );
+        yield currentSetResponse.value.map((bundle) => this.getSecretFromSecretBundle(bundle));
       }
     }
     while (continuationState.continuationToken) {
@@ -766,9 +831,7 @@ export class SecretsClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(
-          (bundle) => this.getSecretFromSecretBundle(bundle).properties
-        );
+        yield currentSetResponse.value.map((bundle) => this.getSecretFromSecretBundle(bundle));
       } else {
         break;
       }
@@ -776,8 +839,8 @@ export class SecretsClient {
   }
 
   private async *listDeletedSecretsAll(
-    options?: ListSecretsOptions
-  ): AsyncIterableIterator<SecretProperties> {
+    options: ListOperationOptions = {}
+  ): AsyncIterableIterator<DeletedSecret> {
     const f = {};
 
     for await (const page of this.listDeletedSecretsPage(f, options)) {
@@ -793,7 +856,7 @@ export class SecretsClient {
    *
    * Example usage:
    * ```ts
-   * let client = new SecretsClient(url, credentials);
+   * let client = new SecretClient(url, credentials);
    * for await (const secretAttr of client.listDeletedSecrets()) {
    *   const deletedSecret = await client.getSecret(secretAttr.name);
    *   console.log("deleted secret: ", deletedSecret);
@@ -803,12 +866,13 @@ export class SecretsClient {
    * @param [options] The optional parameters
    */
   public listDeletedSecrets(
-    options?: ListSecretsOptions
-  ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
-    const span = this.createSpan("listDeletedSecrets", options && options.requestOptions);
-    const updatedOptions: ListSecretsOptions = {
-      ...options,
-      requestOptions: this.setParentSpan(span, options && options.requestOptions)
+    options: ListOperationOptions = {}
+  ): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("listDeletedSecrets", requestOptions);
+    const updatedOptions: ListOperationOptions = {
+      ...requestOptions,
+      ...this.setParentSpan(span, requestOptions)
     };
 
     const iter = this.listDeletedSecretsAll(updatedOptions);
@@ -825,53 +889,49 @@ export class SecretsClient {
     };
   }
 
-  private getSecretFromSecretBundle(secretBundle: SecretBundle): Secret {
+  private getSecretFromSecretBundle(bundle: SecretBundle | DeletedSecretBundle): KeyVaultSecret {
+    const secretBundle = bundle as SecretBundle;
+    const deletedSecretBundle = bundle as DeletedSecretBundle;
     const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
 
-    let resultObject;
-    if (secretBundle.attributes) {
-      resultObject = {
+    const attributes = secretBundle.attributes;
+    delete secretBundle.attributes;
+
+    let resultObject: KeyVaultSecret & DeletedSecret = {
+      value: secretBundle.value,
+      name: parsedId.name,
+      properties: {
+        vaultEndpoint: parsedId.vaultUrl,
+        expiresOn: (attributes as any).expires,
+        createdOn: (attributes as any).created,
+        updatedOn: (attributes as any).updated,
         ...secretBundle,
-        properties: {
-          ...parsedId,
-          ...secretBundle.attributes
-        }
-      };
-      delete resultObject.attributes;
-    } else {
-      resultObject = {
-        ...secretBundle,
-        properties: {
-          ...parsedId
-        }
-      };
+        ...parsedId,
+        ...attributes
+      }
+    };
+
+    if (deletedSecretBundle.deletedDate) {
+      resultObject.properties.deletedOn = deletedSecretBundle.deletedDate;
+      delete (resultObject.properties as any).deletedDate;
     }
 
-    return resultObject;
-  }
+    if (attributes) {
+      if ((attributes as any).vaultUrl) {
+        delete (resultObject.properties as any).vaultUrl;
+      }
 
-  private getDeletedSecretFromDeletedSecretBundle(
-    deletedSecretBundle: DeletedSecretBundle
-  ): DeletedSecret {
-    const parsedId = parseKeyvaultEntityIdentifier("secrets", deletedSecretBundle.id);
+      if (attributes.expires) {
+        delete (resultObject.properties as any).expires;
+      }
 
-    let resultObject;
-    if (deletedSecretBundle.attributes) {
-      resultObject = {
-        ...deletedSecretBundle,
-        properties: {
-          ...parsedId,
-          ...deletedSecretBundle.attributes
-        }
-      };
-      delete resultObject.attributes;
-    } else {
-      resultObject = {
-        ...deletedSecretBundle,
-        properties: {
-          ...parsedId
-        }
-      };
+      if (attributes.created) {
+        delete (resultObject.properties as any).created;
+      }
+
+      if (attributes.updated) {
+        delete (resultObject.properties as any).updated;
+      }
     }
 
     return resultObject;
@@ -882,7 +942,7 @@ export class SecretsClient {
    * @param methodName The name of the method for which the span is being created.
    * @param requestOptions The options for the underlying http request.
    */
-  private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
+  private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
     const tracer = getTracer();
     return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
   }

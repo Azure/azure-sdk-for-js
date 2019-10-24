@@ -1,5 +1,5 @@
-import * as Crypto from "crypto";
-import { UserDelegationKey } from '../ServiceURL';
+import { createHmac } from "crypto";
+import { UserDelegationKey } from "../BlobServiceClient";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -57,8 +57,8 @@ export class UserDelegationKeyCredential {
    */
   public computeHMACSHA256(stringToSign: string): string {
     // console.log(`stringToSign: ${JSON.stringify(stringToSign)}`);
-    
-    return Crypto.createHmac("sha256", this.key)
+
+    return createHmac("sha256", this.key)
       .update(stringToSign, "utf8")
       .digest("base64");
   }

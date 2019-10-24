@@ -3,6 +3,14 @@
 
 import { IdentityClientOptions } from "../client/identityClient";
 
+/**
+ * The "login style" to use in the authentication flow:
+ * - "redirect" redirects the user to the authentication page and then
+ *   redirects them back to the page once authentication is completed.
+ * - "popup" opens a new browser window through with the redirect flow
+ *   is initiated.  The user's existing browser window does not leave
+ *   the current page
+ */
 export type BrowserLoginStyle = "redirect" | "popup";
 
 /**
@@ -27,4 +35,14 @@ export interface InteractiveBrowserCredentialOptions extends IdentityClientOptio
    * Defaults to `window.location.href`.
    */
   postLogoutRedirectUri?: string | (() => string);
+
+  /**
+   * The Azure Active Directory tenant (directory) ID.
+   */
+  tenantId?: string;
+  
+  /**
+   * The client (application) ID of an App Registration in the tenant.
+   */
+  clientId?: string;
 }

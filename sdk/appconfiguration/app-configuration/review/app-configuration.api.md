@@ -5,11 +5,11 @@
 ```ts
 
 import { HttpResponse } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { RequestOptionsBase } from '@azure/core-http';
 
 // @public
-export interface AddConfigurationSettingOptions extends RequestOptionsBase {
+export interface AddConfigurationSettingOptions extends OperationOptions {
 }
 
 // @public
@@ -34,7 +34,7 @@ export class AppConfigurationClient {
     }
 
 // @public
-export interface ClearReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
+export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public
@@ -43,13 +43,13 @@ export interface ClearReadOnlyResponse extends ConfigurationSetting, SyncTokenHe
 
 // @public
 export interface ConfigurationSetting extends ConfigurationSettingParam {
-    etag?: string;
     lastModified?: Date;
-    locked?: boolean;
+    readOnly: boolean;
 }
 
 // @public
 export interface ConfigurationSettingId {
+    etag?: string;
     key: string;
     label?: string;
 }
@@ -67,23 +67,11 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 // @public
-export interface DeleteConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
+export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public
-export interface DeleteConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
-}
-
-// @public
-export interface DeleteKeyValueHeaders {
-    eTag?: string;
-    syncToken?: string;
-}
-
-// @public
-export interface DeleteLockHeaders {
-    eTag?: string;
-    syncToken?: string;
+export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // @public
@@ -92,35 +80,22 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField {
 }
 
 // @public
-export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpConditionalFields, OptionalFields {
+export interface GetConfigurationSettingOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
     acceptDatetime?: string;
 }
 
 // @public
-export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseField<GetConfigurationHeaders> {
+export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseFields, HttpResponseField<GetConfigurationHeaders> {
 }
 
 // @public
-export interface GetKeyValueHeaders {
-    eTag?: string;
-    lastModifiedHeader?: string;
-    syncToken?: string;
+export interface HttpOnlyIfChangedField {
+    onlyIfChanged?: boolean;
 }
 
 // @public
-export interface GetKeyValuesHeaders {
-    syncToken?: string;
-}
-
-// @public
-export interface GetRevisionsHeaders {
-    syncToken?: string;
-}
-
-// @public
-export interface HttpConditionalFields {
-    ifMatch?: string;
-    ifNoneMatch?: string;
+export interface HttpOnlyIfUnchangedField {
+    onlyIfUnchanged?: boolean;
 }
 
 // @public
@@ -132,20 +107,25 @@ export interface HttpResponseField<HeadersT> {
 }
 
 // @public
-export interface ListConfigurationSettingPage extends HttpResponseField<GetKeyValuesHeaders> {
+export interface HttpResponseFields {
+    statusCode: number;
+}
+
+// @public
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
     items: ConfigurationSetting[];
 }
 
 // @public
-export interface ListConfigurationSettingsOptions extends RequestOptionsBase, ListSettingsOptions {
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
 }
 
 // @public
-export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOptions {
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {
 }
 
 // @public
-export interface ListRevisionsPage extends HttpResponseField<GetRevisionsHeaders> {
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
     items: ConfigurationSetting[];
 }
 
@@ -162,19 +142,7 @@ export interface OptionalFields {
 }
 
 // @public
-export interface PutKeyValueHeaders {
-    eTag?: string;
-    syncToken?: string;
-}
-
-// @public
-export interface PutLockHeaders {
-    eTag?: string;
-    syncToken?: string;
-}
-
-// @public
-export interface SetConfigurationSettingOptions extends HttpConditionalFields, RequestOptionsBase {
+export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public
@@ -186,7 +154,7 @@ export interface SetConfigurationSettingResponse extends ConfigurationSetting, S
 }
 
 // @public
-export interface SetReadOnlyOptions extends HttpConditionalFields, RequestOptionsBase {
+export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public

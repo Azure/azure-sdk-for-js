@@ -7,6 +7,7 @@ import { MockAuthHttpClient } from "./authTestUtils";
 import { AuthenticationError } from "../src/";
 import { IdentityClient } from "../src/client/identityClient";
 import { ClientSecretCredential } from "../src";
+import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from '@azure/logger';
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: any) => {
@@ -17,7 +18,29 @@ function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   };
 }
 
-describe("IdentityClient", function() {
+describe("IdentityClient", function () {
+  let logMessages: string[];
+  let oldLogger: typeof AzureLogger.log;
+  let oldLogLevel: AzureLogLevel | undefined;
+
+  beforeEach(() => {
+    oldLogLevel = getLogLevel();
+    setLogLevel("verbose");
+
+    oldLogger = AzureLogger.log;
+
+    logMessages = [];
+
+    AzureLogger.log = (args) => {
+      logMessages.push(args);
+    };
+  });
+
+  afterEach(() => {
+    AzureLogger.log = oldLogger;
+    setLogLevel(oldLogLevel);
+  });
+
   it("throws an exception when an authentication request fails", async () => {
     const mockHttp = new MockAuthHttpClient({
       authResponse: {
@@ -69,6 +92,7 @@ describe("IdentityClient", function() {
       "secret",
       mockHttp.identityClientOptions
     );
+
     await assertRejects(
       credential.getToken("https://test/.default"),
       isExpectedError("unknown_error")
@@ -94,7 +118,23 @@ describe("IdentityClient", function() {
       "token",
       undefined
     );
+
     assert.equal(tokenResponse, null);
+
+    const expectedMessages = [
+      /.*azure:identity:info.*IdentityClient: refreshing access token with client ID: client, scopes: scopes started.*/,
+      /.*azure:identity:info.*IdentityClient: sending token request to \[https:\/\/authority\/tenant\/oauth2\/v2.0\/token\].*/,
+      /.*azure:identity:warning.*IdentityClient: authentication error. HTTP status: 401, Interaction required.*/,
+      /.*azure:identity:info.*IdentityClient: interaction required for client ID: client.*/
+    ];
+
+    logMessages = logMessages.filter(msg => msg.indexOf("azure:identity:") >= 0);
+
+    assert.equal(expectedMessages.length, logMessages.length);
+
+    for (let i = 0; i < logMessages.length; i++) {
+      assert.ok(logMessages[i].match(expectedMessages[i]), `Checking[${i}] ${logMessages[i]}`);
+    }
   });
 
   it("rethrows any other error that is thrown while refreshing the access token", async () => {

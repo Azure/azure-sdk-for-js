@@ -186,7 +186,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
-        err.message.should.equal(`Missing parameter "partitionId"`);
+        err.message.should.equal(`getPartitionProperties called without required argument "partitionId"`);
       }
     });
 

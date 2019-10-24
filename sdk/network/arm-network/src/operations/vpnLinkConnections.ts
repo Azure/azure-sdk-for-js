@@ -113,7 +113,7 @@ const listByVpnConnectionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListVpnSiteLinkConnectionsResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -134,7 +134,7 @@ const listByVpnConnectionNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListVpnSiteLinkConnectionsResult
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

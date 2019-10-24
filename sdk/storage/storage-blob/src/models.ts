@@ -1,27 +1,29 @@
-import * as Models from "./generated/src/models";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import {
+  ModifiedAccessConditions,
+  LeaseAccessConditions,
+  SequenceNumberAccessConditions,
+  AppendPositionAccessConditions,
+  AccessTier,
+  CpkInfo
+} from "./generatedModels";
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
-export interface IMetadata {
+export interface Metadata {
   [propertyName: string]: string;
 }
 
-export interface IContainerAccessConditions {
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
-  leaseAccessConditions?: Models.LeaseAccessConditions;
-}
+export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {}
 
-export interface IBlobAccessConditions {
-  modifiedAccessConditions?: Models.ModifiedAccessConditions;
-  leaseAccessConditions?: Models.LeaseAccessConditions;
-}
+export interface PageBlobRequestConditions
+  extends BlobRequestConditions,
+    SequenceNumberAccessConditions {}
 
-export interface IPageBlobAccessConditions extends IBlobAccessConditions {
-  sequenceNumberAccessConditions?: Models.SequenceNumberAccessConditions;
-}
-
-export interface IAppendBlobAccessConditions extends IBlobAccessConditions {
-  appendPositionAccessConditions?: Models.AppendPositionAccessConditions;
-}
+export interface AppendBlobRequestConditions
+  extends BlobRequestConditions,
+    AppendPositionAccessConditions {}
 
 export enum BlockBlobTier {
   Hot = "Hot",
@@ -43,17 +45,19 @@ export enum PremiumPageBlobTier {
   P80 = "P80"
 }
 
-export function toAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string | undefined): Models.AccessTier | undefined {
+export function toAccessTier(
+  tier: BlockBlobTier | PremiumPageBlobTier | string | undefined
+): AccessTier | undefined {
   if (tier == undefined) {
     return undefined;
   }
 
-  return tier as Models.AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
+  return tier as AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
 }
 
-export function ensureCpkIfSpecified(cpk: Models.CpkInfo | undefined, isHttps: boolean) {
+export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean) {
   if (cpk && !isHttps) {
-    throw new RangeError("Customer-provided encryption key must be used over HTTPS.")
+    throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
   }
 
   if (cpk && !cpk.encryptionAlgorithm) {

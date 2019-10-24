@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/serviceMappers";
 import * as Parameters from "../models/parameters";
@@ -29,26 +29,26 @@ export class Service {
   /**
    * Sets properties for a storage account's Blob service endpoint, including properties for Storage
    * Analytics and CORS (Cross-Origin Resource Sharing) rules
-   * @param storageServiceProperties The StorageService properties.
+   * @param blobServiceProperties The StorageService properties.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceSetPropertiesResponse>
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
+  setProperties(blobServiceProperties: Models.BlobServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
   /**
-   * @param storageServiceProperties The StorageService properties.
+   * @param blobServiceProperties The StorageService properties.
    * @param callback The callback
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, callback: msRest.ServiceCallback<void>): void;
+  setProperties(blobServiceProperties: Models.BlobServiceProperties, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param storageServiceProperties The StorageService properties.
+   * @param blobServiceProperties The StorageService properties.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
+  setProperties(blobServiceProperties: Models.BlobServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(blobServiceProperties: Models.BlobServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
-        storageServiceProperties,
+        blobServiceProperties,
         options
       },
       setPropertiesOperationSpec,
@@ -65,13 +65,13 @@ export class Service {
   /**
    * @param callback The callback
    */
-  getProperties(callback: msRest.ServiceCallback<Models.StorageServiceProperties>): void;
+  getProperties(callback: coreHttp.ServiceCallback<Models.BlobServiceProperties>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: msRest.ServiceCallback<Models.StorageServiceProperties>): void;
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | msRest.ServiceCallback<Models.StorageServiceProperties>, callback?: msRest.ServiceCallback<Models.StorageServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
+  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<Models.BlobServiceProperties>): void;
+  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | coreHttp.ServiceCallback<Models.BlobServiceProperties>, callback?: coreHttp.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -91,13 +91,13 @@ export class Service {
   /**
    * @param callback The callback
    */
-  getStatistics(callback: msRest.ServiceCallback<Models.StorageServiceStats>): void;
+  getStatistics(callback: coreHttp.ServiceCallback<Models.BlobServiceStatistics>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatistics(options: Models.ServiceGetStatisticsOptionalParams, callback: msRest.ServiceCallback<Models.StorageServiceStats>): void;
-  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams | msRest.ServiceCallback<Models.StorageServiceStats>, callback?: msRest.ServiceCallback<Models.StorageServiceStats>): Promise<Models.ServiceGetStatisticsResponse> {
+  getStatistics(options: Models.ServiceGetStatisticsOptionalParams, callback: coreHttp.ServiceCallback<Models.BlobServiceStatistics>): void;
+  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams | coreHttp.ServiceCallback<Models.BlobServiceStatistics>, callback?: coreHttp.ServiceCallback<Models.BlobServiceStatistics>): Promise<Models.ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -116,13 +116,13 @@ export class Service {
   /**
    * @param callback The callback
    */
-  listContainersSegment(callback: msRest.ServiceCallback<Models.ListContainersSegmentResponse>): void;
+  listContainersSegment(callback: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listContainersSegment(options: Models.ServiceListContainersSegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListContainersSegmentResponse>): void;
-  listContainersSegment(options?: Models.ServiceListContainersSegmentOptionalParams | msRest.ServiceCallback<Models.ListContainersSegmentResponse>, callback?: msRest.ServiceCallback<Models.ListContainersSegmentResponse>): Promise<Models.ServiceListContainersSegmentResponse> {
+  listContainersSegment(options: Models.ServiceListContainersSegmentOptionalParams, callback: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>): void;
+  listContainersSegment(options?: Models.ServiceListContainersSegmentOptionalParams | coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListContainersSegmentResponse>): Promise<Models.ServiceListContainersSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -143,14 +143,14 @@ export class Service {
    * @param keyInfo
    * @param callback The callback
    */
-  getUserDelegationKey(keyInfo: Models.KeyInfo, callback: msRest.ServiceCallback<Models.UserDelegationKey>): void;
+  getUserDelegationKey(keyInfo: Models.KeyInfo, callback: coreHttp.ServiceCallback<Models.UserDelegationKey>): void;
   /**
    * @param keyInfo
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUserDelegationKey(keyInfo: Models.KeyInfo, options: Models.ServiceGetUserDelegationKeyOptionalParams, callback: msRest.ServiceCallback<Models.UserDelegationKey>): void;
-  getUserDelegationKey(keyInfo: Models.KeyInfo, options?: Models.ServiceGetUserDelegationKeyOptionalParams | msRest.ServiceCallback<Models.UserDelegationKey>, callback?: msRest.ServiceCallback<Models.UserDelegationKey>): Promise<Models.ServiceGetUserDelegationKeyResponse> {
+  getUserDelegationKey(keyInfo: Models.KeyInfo, options: Models.ServiceGetUserDelegationKeyOptionalParams, callback: coreHttp.ServiceCallback<Models.UserDelegationKey>): void;
+  getUserDelegationKey(keyInfo: Models.KeyInfo, options?: Models.ServiceGetUserDelegationKeyOptionalParams | coreHttp.ServiceCallback<Models.UserDelegationKey>, callback?: coreHttp.ServiceCallback<Models.UserDelegationKey>): Promise<Models.ServiceGetUserDelegationKeyResponse> {
     return this.client.sendOperationRequest(
       {
         keyInfo,
@@ -165,17 +165,17 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetAccountInfoResponse>
    */
-  getAccountInfo(options?: msRest.RequestOptionsBase): Promise<Models.ServiceGetAccountInfoResponse>;
+  getAccountInfo(options?: coreHttp.RequestOptionsBase): Promise<Models.ServiceGetAccountInfoResponse>;
   /**
    * @param callback The callback
    */
-  getAccountInfo(callback: msRest.ServiceCallback<void>): void;
+  getAccountInfo(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccountInfo(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getAccountInfo(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ServiceGetAccountInfoResponse> {
+  getAccountInfo(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  getAccountInfo(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -193,7 +193,7 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceSubmitBatchResponse>
    */
-  submitBatch(body: msRest.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams): Promise<Models.ServiceSubmitBatchResponse>;
+  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams): Promise<Models.ServiceSubmitBatchResponse>;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
@@ -201,7 +201,7 @@ export class Service {
    * batch boundary. Example header value: multipart/mixed; boundary=batch_<GUID>
    * @param callback The callback
    */
-  submitBatch(body: msRest.HttpRequestBody, contentLength: number, multipartContentType: string, callback: msRest.ServiceCallback<void>): void;
+  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
@@ -210,8 +210,8 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  submitBatch(body: msRest.HttpRequestBody, contentLength: number, multipartContentType: string, options: Models.ServiceSubmitBatchOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  submitBatch(body: msRest.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ServiceSubmitBatchResponse> {
+  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options: Models.ServiceSubmitBatchOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  submitBatch(body: coreHttp.HttpRequestBody, contentLength: number, multipartContentType: string, options?: Models.ServiceSubmitBatchOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSubmitBatchResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -225,14 +225,14 @@ export class Service {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const setPropertiesOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp0
   ],
@@ -241,9 +241,9 @@ const setPropertiesOperationSpec: msRest.OperationSpec = {
     Parameters.requestId
   ],
   requestBody: {
-    parameterPath: "storageServiceProperties",
+    parameterPath: "blobServiceProperties",
     mapper: {
-      ...Mappers.StorageServiceProperties,
+      ...Mappers.BlobServiceProperties,
       required: true
     }
   },
@@ -253,20 +253,21 @@ const setPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceSetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceSetPropertiesHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getPropertiesOperationSpec: msRest.OperationSpec = {
+const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp0
   ],
@@ -276,24 +277,25 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.StorageServiceProperties,
+      bodyMapper: Mappers.BlobServiceProperties,
       headersMapper: Mappers.ServiceGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetPropertiesHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getStatisticsOperationSpec: msRest.OperationSpec = {
+const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp1
   ],
@@ -303,18 +305,19 @@ const getStatisticsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.StorageServiceStats,
+      bodyMapper: Mappers.BlobServiceStatistics,
       headersMapper: Mappers.ServiceGetStatisticsHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetStatisticsHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const listContainersSegmentOperationSpec: msRest.OperationSpec = {
+const listContainersSegmentOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url
@@ -322,9 +325,9 @@ const listContainersSegmentOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.prefix,
     Parameters.marker0,
-    Parameters.maxresults,
+    Parameters.maxPageSize,
     Parameters.include0,
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp2
   ],
   headerParameters: [
@@ -337,20 +340,21 @@ const listContainersSegmentOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceListContainersSegmentHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceListContainersSegmentHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getUserDelegationKeyOperationSpec: msRest.OperationSpec = {
+const getUserDelegationKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype0,
     Parameters.comp3
   ],
@@ -372,14 +376,15 @@ const getUserDelegationKeyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetUserDelegationKeyHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getAccountInfoOperationSpec: msRest.OperationSpec = {
+const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   urlParameters: [
     Parameters.url
@@ -396,20 +401,21 @@ const getAccountInfoOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceGetAccountInfoHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceGetAccountInfoHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const submitBatchOperationSpec: msRest.OperationSpec = {
+const submitBatchOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.comp4
   ],
   headerParameters: [
@@ -440,7 +446,8 @@ const submitBatchOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ServiceSubmitBatchHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ServiceSubmitBatchHeaders
     }
   },
   isXML: true,

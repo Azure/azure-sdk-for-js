@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a file. Setting
  * a value to true means that any SAS which uses these permissions will grant permissions for that operation. Once all
  * the values are set, this should be serialized with toString and set as the permissions field on a
- * {@link IFileSASSignatureValues} object. It is possible to construct the permissions string without this class, but
+ * {@link FileSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
  *
  * @export

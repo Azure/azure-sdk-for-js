@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import {
   BaseRequestPolicy,
   HttpHeaders,
@@ -6,7 +9,7 @@ import {
   RequestPolicy,
   RequestPolicyOptions,
   WebResource
-} from "@azure/ms-rest-js";
+} from "@azure/core-http";
 
 import { HeaderConstants } from "../utils/constants";
 
@@ -29,7 +32,7 @@ export class TelemetryPolicy extends BaseRequestPolicy {
    * Creates an instance of TelemetryPolicy.
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {ITelemetryOptions} [telemetry]
+   * @param {TelemetryOptions} [telemetry]
    * @memberof TelemetryPolicy
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, telemetry: string) {

@@ -58,6 +58,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "1.0.0-preview.2",
+    "@azure/core-tracing": "1.0.0-preview.5",
     "tslib": "^1.9.3"
   },
   "devDependencies": {

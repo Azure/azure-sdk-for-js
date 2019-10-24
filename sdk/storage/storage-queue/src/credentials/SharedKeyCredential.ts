@@ -1,5 +1,8 @@
-import * as Crypto from "crypto";
-import { RequestPolicy, RequestPolicyOptions } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { createHmac } from "crypto";
+import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";
 
 import { SharedKeyCredentialPolicy } from "../policies/SharedKeyCredentialPolicy";
 import { Credential } from "./Credential";
@@ -65,7 +68,7 @@ export class SharedKeyCredential extends Credential {
    * @memberof SharedKeyCredential
    */
   public computeHMACSHA256(stringToSign: string): string {
-    return Crypto.createHmac("sha256", this.accountKey)
+    return createHmac("sha256", this.accountKey)
       .update(stringToSign, "utf8")
       .digest("base64");
   }

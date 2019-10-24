@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/shareMappers";
 import * as Parameters from "../models/parameters";
@@ -36,13 +36,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  create(callback: msRest.ServiceCallback<void>): void;
+  create(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.ShareCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(options?: Models.ShareCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareCreateResponse> {
+  create(options: Models.ShareCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  create(options?: Models.ShareCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -61,13 +61,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  getProperties(callback: msRest.ServiceCallback<void>): void;
+  getProperties(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.ShareGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(options?: Models.ShareGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareGetPropertiesResponse> {
+  getProperties(options: Models.ShareGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  getProperties(options?: Models.ShareGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -86,13 +86,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.ShareDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.ShareDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareDeleteResponse> {
+  deleteMethod(options: Models.ShareDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  deleteMethod(options?: Models.ShareDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -110,13 +110,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  createSnapshot(callback: msRest.ServiceCallback<void>): void;
+  createSnapshot(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  createSnapshot(options: Models.ShareCreateSnapshotOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createSnapshot(options?: Models.ShareCreateSnapshotOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareCreateSnapshotResponse> {
+  createSnapshot(options: Models.ShareCreateSnapshotOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  createSnapshot(options?: Models.ShareCreateSnapshotOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareCreateSnapshotResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -136,14 +136,14 @@ export class Share {
    * @param permission Permission(a security descriptor) described in the SDDL.
    * @param callback The callback
    */
-  createPermission(permission: Models.Permission, callback: msRest.ServiceCallback<void>): void;
+  createPermission(permission: Models.Permission, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param permission Permission(a security descriptor) described in the SDDL.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPermission(permission: Models.Permission, options: Models.ShareCreatePermissionOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  createPermission(permission: Models.Permission, options?: Models.ShareCreatePermissionOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareCreatePermissionResponse> {
+  createPermission(permission: Models.Permission, options: Models.ShareCreatePermissionOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  createPermission(permission: Models.Permission, options?: Models.ShareCreatePermissionOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareCreatePermissionResponse> {
     return this.client.sendOperationRequest(
       {
         permission,
@@ -166,15 +166,15 @@ export class Share {
    * of the x-ms-file-permission or x-ms-file-permission-key should be specified.
    * @param callback The callback
    */
-  getPermission(filePermissionKey: string, callback: msRest.ServiceCallback<Models.Permission>): void;
+  getPermission(filePermissionKey: string, callback: coreHttp.ServiceCallback<Models.Permission>): void;
   /**
    * @param filePermissionKey Key of the permission to be set for the directory/file. Note: Only one
    * of the x-ms-file-permission or x-ms-file-permission-key should be specified.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPermission(filePermissionKey: string, options: Models.ShareGetPermissionOptionalParams, callback: msRest.ServiceCallback<Models.Permission>): void;
-  getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams | msRest.ServiceCallback<Models.Permission>, callback?: msRest.ServiceCallback<Models.Permission>): Promise<Models.ShareGetPermissionResponse> {
+  getPermission(filePermissionKey: string, options: Models.ShareGetPermissionOptionalParams, callback: coreHttp.ServiceCallback<Models.Permission>): void;
+  getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams | coreHttp.ServiceCallback<Models.Permission>, callback?: coreHttp.ServiceCallback<Models.Permission>): Promise<Models.ShareGetPermissionResponse> {
     return this.client.sendOperationRequest(
       {
         filePermissionKey,
@@ -193,13 +193,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  setQuota(callback: msRest.ServiceCallback<void>): void;
+  setQuota(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setQuota(options: Models.ShareSetQuotaOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setQuota(options?: Models.ShareSetQuotaOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetQuotaResponse> {
+  setQuota(options: Models.ShareSetQuotaOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setQuota(options?: Models.ShareSetQuotaOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetQuotaResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -217,13 +217,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  setMetadata(callback: msRest.ServiceCallback<void>): void;
+  setMetadata(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setMetadata(options: Models.ShareSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setMetadata(options?: Models.ShareSetMetadataOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetMetadataResponse> {
+  setMetadata(options: Models.ShareSetMetadataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setMetadata(options?: Models.ShareSetMetadataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -241,13 +241,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  getAccessPolicy(callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
+  getAccessPolicy(callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccessPolicy(options: Models.ShareGetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
-  getAccessPolicy(options?: Models.ShareGetAccessPolicyOptionalParams | msRest.ServiceCallback<Models.SignedIdentifier[]>, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ShareGetAccessPolicyResponse> {
+  getAccessPolicy(options: Models.ShareGetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): void;
+  getAccessPolicy(options?: Models.ShareGetAccessPolicyOptionalParams | coreHttp.ServiceCallback<Models.SignedIdentifier[]>, callback?: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ShareGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -265,13 +265,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  setAccessPolicy(callback: msRest.ServiceCallback<void>): void;
+  setAccessPolicy(callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessPolicy(options: Models.ShareSetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setAccessPolicy(options?: Models.ShareSetAccessPolicyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ShareSetAccessPolicyResponse> {
+  setAccessPolicy(options: Models.ShareSetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setAccessPolicy(options?: Models.ShareSetAccessPolicyOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -289,13 +289,13 @@ export class Share {
   /**
    * @param callback The callback
    */
-  getStatistics(callback: msRest.ServiceCallback<Models.ShareStats>): void;
+  getStatistics(callback: coreHttp.ServiceCallback<Models.ShareStats>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatistics(options: Models.ShareGetStatisticsOptionalParams, callback: msRest.ServiceCallback<Models.ShareStats>): void;
-  getStatistics(options?: Models.ShareGetStatisticsOptionalParams | msRest.ServiceCallback<Models.ShareStats>, callback?: msRest.ServiceCallback<Models.ShareStats>): Promise<Models.ShareGetStatisticsResponse> {
+  getStatistics(options: Models.ShareGetStatisticsOptionalParams, callback: coreHttp.ServiceCallback<Models.ShareStats>): void;
+  getStatistics(options?: Models.ShareGetStatisticsOptionalParams | coreHttp.ServiceCallback<Models.ShareStats>, callback?: coreHttp.ServiceCallback<Models.ShareStats>): Promise<Models.ShareGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -306,15 +306,15 @@ export class Share {
 }
 
 // Operation Specifications
-const serializer = new msRest.Serializer(Mappers, true);
-const createOperationSpec: msRest.OperationSpec = {
+const serializer = new coreHttp.Serializer(Mappers, true);
+const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1
   ],
   headerParameters: [
@@ -327,22 +327,23 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareCreateHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getPropertiesOperationSpec: msRest.OperationSpec = {
+const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
-    Parameters.timeout,
+    Parameters.shareSnapshot,
+    Parameters.timeoutInSeconds,
     Parameters.restype1
   ],
   headerParameters: [
@@ -353,22 +354,23 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareGetPropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareGetPropertiesHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
+const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.sharesnapshot,
-    Parameters.timeout,
+    Parameters.shareSnapshot,
+    Parameters.timeoutInSeconds,
     Parameters.restype1
   ],
   headerParameters: [
@@ -380,21 +382,22 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareDeleteHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const createSnapshotOperationSpec: msRest.OperationSpec = {
+const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp2
   ],
@@ -407,21 +410,22 @@ const createSnapshotOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareCreateSnapshotHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareCreateSnapshotHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const createPermissionOperationSpec: msRest.OperationSpec = {
+const createPermissionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp3
   ],
@@ -441,21 +445,22 @@ const createPermissionOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareCreatePermissionHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareCreatePermissionHeaders
     }
   },
   isXML: false,
   serializer
 };
 
-const getPermissionOperationSpec: msRest.OperationSpec = {
+const getPermissionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp3
   ],
@@ -469,21 +474,22 @@ const getPermissionOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareGetPermissionHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareGetPermissionHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const setQuotaOperationSpec: msRest.OperationSpec = {
+const setQuotaOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp0
   ],
@@ -496,21 +502,22 @@ const setQuotaOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareSetQuotaHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareSetQuotaHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const setMetadataOperationSpec: msRest.OperationSpec = {
+const setMetadataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp4
   ],
@@ -523,21 +530,22 @@ const setMetadataOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareSetMetadataHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareSetMetadataHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getAccessPolicyOperationSpec: msRest.OperationSpec = {
+const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp5
   ],
@@ -562,21 +570,22 @@ const getAccessPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareGetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareGetAccessPolicyHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const setAccessPolicyOperationSpec: msRest.OperationSpec = {
+const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp5
   ],
@@ -609,21 +618,22 @@ const setAccessPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareSetAccessPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareSetAccessPolicyHeaders
     }
   },
   isXML: true,
   serializer
 };
 
-const getStatisticsOperationSpec: msRest.OperationSpec = {
+const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}",
   urlParameters: [
     Parameters.url
   ],
   queryParameters: [
-    Parameters.timeout,
+    Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.comp6
   ],
@@ -636,7 +646,8 @@ const getStatisticsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ShareGetStatisticsHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageError
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareGetStatisticsHeaders
     }
   },
   isXML: true,

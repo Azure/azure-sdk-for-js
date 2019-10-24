@@ -1,3 +1,11 @@
+# 1.0.0-preview.5 22nd October 2019
+
+- Fixes issue where loading multiple copies of this module could result in the tracer set by `setTracer()` being reset.
+
+# 1.0.0-preview.4 8th October 2019
+
+- Remove dependency on the `debug` module to ensure compatibility with IE11
+
 # 1.0.0-preview.3 7th October 2019
 
 - Updated to use the latest types from OpenTelemetry (PR [#5182](https://github.com/Azure/azure-sdk-for-js/pull/5182))

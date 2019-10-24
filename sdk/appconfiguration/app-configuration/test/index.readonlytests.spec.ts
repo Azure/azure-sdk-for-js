@@ -1,7 +1,8 @@
 import {
-  getConnectionStringFromEnvironment,
+  createAppConfigurationClientForTests,
   assertThrowsRestError,
-  deleteKeyCompletely
+  deleteKeyCompletely,
+  assertThrowsAbortError
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 import * as assert from "assert";
@@ -14,12 +15,14 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label"
   };
 
-  before(() => {
-    client = new AppConfigurationClient(getConnectionStringFromEnvironment());
+  before(function() {
+    client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  after(() => {
-    deleteKeyCompletely([testConfigSetting.key], client);
+  after(async function() {
+    if (!this.currentTest!.isPending) {
+      await deleteKeyCompletely([testConfigSetting.key], client);
+    }
   });
 
   it("basic", async () => {
@@ -30,7 +33,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
-    assert.ok(!storedSetting.locked);
+    assert.ok(!storedSetting.readOnly);
 
     await client.setReadOnly(testConfigSetting);
 
@@ -38,7 +41,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });
-    assert.ok(storedSetting.locked);
+    assert.ok(storedSetting.readOnly);
 
     // any modification related methods throw exceptions
     await assertThrowsRestError(
@@ -48,10 +51,26 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     );
     await assertThrowsRestError(
       () =>
-        client.deleteConfigurationSetting({ key: testConfigSetting.key, label: testConfigSetting.label
+        client.deleteConfigurationSetting({
+          key: testConfigSetting.key,
+          label: testConfigSetting.label
         }),
       409,
       "Delete should fail because the setting is read-only"
     );
+  });
+
+  it("accepts operation options", async () => {
+    let storedSetting = await client.getConfigurationSetting({
+      key: testConfigSetting.key,
+      label: testConfigSetting.label
+    });
+
+    await assertThrowsAbortError(async () => {
+      await client.setReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
+    });
+    await assertThrowsAbortError(async () => {
+      await client.clearReadOnly(testConfigSetting, { requestOptions: { timeout: 1 } });
+    });
   });
 });

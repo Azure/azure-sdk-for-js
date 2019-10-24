@@ -1,3 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { AbortError } from "@azure/abort-controller";
+
 import {
   AbortSignalLike,
   BaseRequestPolicy,
@@ -7,10 +12,10 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   RestError,
-  WebResource,
-} from "@azure/ms-rest-js";
+  WebResource
+} from "@azure/core-http";
 
-import { IRetryOptions } from "../RetryPolicyFactory";
+import { RetryOptions } from "../RetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
 
@@ -18,10 +23,10 @@ import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
  * A factory method used to generated a RetryPolicy factory.
  *
  * @export
- * @param {IRetryOptions} retryOptions
+ * @param {RetryOptions} retryOptions
  * @returns
  */
-export function NewRetryPolicyFactory(retryOptions?: IRetryOptions): RequestPolicyFactory {
+export function NewRetryPolicyFactory(retryOptions?: RetryOptions): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy => {
       return new RetryPolicy(nextPolicy, options, retryOptions);
@@ -46,8 +51,8 @@ export enum RetryPolicyType {
   FIXED
 }
 
-// Default values of IRetryOptions
-const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
+// Default values of RetryOptions
+const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   maxRetryDelayInMs: 120 * 1000,
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
@@ -56,7 +61,7 @@ const DEFAULT_RETRY_OPTIONS: IRetryOptions = {
   tryTimeoutInMs: 30 * 1000 // https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
 };
 
-const RETRY_ABORT_ERROR = new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR);
+const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
 
 /**
  * Retry policy with exponential retry and linear retry implemented.
@@ -69,23 +74,23 @@ export class RetryPolicy extends BaseRequestPolicy {
    * RetryOptions.
    *
    * @private
-   * @type {IRetryOptions}
+   * @type {RetryOptions}
    * @memberof RetryPolicy
    */
-  private readonly retryOptions: IRetryOptions;
+  private readonly retryOptions: RetryOptions;
 
   /**
    * Creates an instance of RetryPolicy.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {IRetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
+   * @param {RetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
    * @memberof RetryPolicy
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    retryOptions: IRetryOptions = DEFAULT_RETRY_OPTIONS
+    retryOptions: RetryOptions = DEFAULT_RETRY_OPTIONS
   ) {
     super(nextPolicy, options);
 
@@ -244,7 +249,11 @@ export class RetryPolicy extends BaseRequestPolicy {
         if (
           err.name.toUpperCase().includes(retriableError) ||
           err.message.toUpperCase().includes(retriableError) ||
-          (err.code && err.code.toString().toUpperCase().includes(retriableError))
+          (err.code &&
+            err.code
+              .toString()
+              .toUpperCase()
+              .includes(retriableError))
         ) {
           this.logf(
             HttpPipelineLogLevel.INFO,

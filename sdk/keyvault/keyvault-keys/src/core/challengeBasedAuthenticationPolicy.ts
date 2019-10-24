@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { TokenCredential, AccessToken } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-http";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
 import { HttpHeaders } from "@azure/core-http";
 import { WebResource } from "@azure/core-http";
-
-export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
+import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 
 /**
  * Creates a new ChallengeBasedAuthenticationPolicy factory.
@@ -16,9 +15,10 @@ export const TokenRefreshBufferMs = 2 * 60 * 1000; // 2 Minutes
  * @param credential The TokenCredential implementation that can supply the challenge token.
  */
 export function challengeBasedAuthenticationPolicy(credential: TokenCredential): RequestPolicyFactory {
+  const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential);
+      return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential, tokenCache);
     }
   };
 }
@@ -35,7 +35,6 @@ export class AuthenticationChallenge {
  *
  */
 export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
-  private cachedToken: AccessToken | undefined = undefined;
   private challenge: AuthenticationChallenge | undefined = undefined;
 
   /**
@@ -44,13 +43,13 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
    * @param nextPolicy The next RequestPolicy in the request pipeline.
    * @param options Options for this RequestPolicy.
    * @param credential The TokenCredential implementation that can supply the bearer token.
-   * @param scopes The scopes for which the bearer token applies.
+   * @param tokenCache The cache for the most recent AccessToken returned by the TokenCredential.
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     private credential: TokenCredential,
-    private refreshOn: number = Date.now(),
+    private tokenCache: AccessTokenCache
   ) {
     super(nextPolicy, options);
   }
@@ -111,7 +110,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
         if (this.challenge != challenge) {
           this.challenge = challenge;
-          this.cachedToken = undefined;
+          this.tokenCache.setCachedToken(undefined);
 
           await this.authenticateRequest(webResource);
         }
@@ -123,24 +122,17 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   }
 
   private async authenticateRequest(webResource: WebResource): Promise<void> {
-    if (
-      this.cachedToken &&
-      (Date.now() < this.refreshOn)
-    ) {
+    let accessToken = this.tokenCache.getCachedToken();
+    if (accessToken === undefined) {
+      accessToken = (await this.credential.getToken(this.challenge!.scopes)) || undefined;
+      this.tokenCache.setCachedToken(accessToken);
+    }
+
+    if (accessToken) {
       webResource.headers.set(
         Constants.HeaderConstants.AUTHORIZATION,
-        `Bearer ${this.cachedToken.token}`
+        `Bearer ${accessToken.token}`
       );
-    } else {
-      let token: AccessToken | null = await this.credential.getToken(this.challenge!.scopes);
-      if (token) {
-        this.cachedToken = token;
-        this.refreshOn = token.expiresOnTimestamp - TokenRefreshBufferMs;
-        webResource.headers.set(
-          Constants.HeaderConstants.AUTHORIZATION,
-          `Bearer ${token.token}`
-        );
-      }
     }
   }
 }

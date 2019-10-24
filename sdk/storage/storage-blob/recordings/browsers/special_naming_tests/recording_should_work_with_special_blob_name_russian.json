@@ -2,77 +2,77 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156776232694206071/%D1%80%D1%83%CC%81%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%D1%8F%D0%B7%D1%8B%CC%81%D0%BA156776233349405578",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/%D1%80%D1%83%CC%81%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%D1%8F%D0%B7%D1%8B%CC%81%D0%BA157003464776900323",
    "query": {},
    "requestBody": "A",
    "status": 201,
    "response": "",
    "responseHeaders": {
     "x-ms-content-crc64": "PiO3pTJ67n0=",
-    "date": "Fri, 06 Sep 2019 09:32:13 GMT",
-    "last-modified": "Fri, 06 Sep 2019 09:32:13 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:07 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:07 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
-    "etag": "\"0x8D732AD19912344\"",
-    "x-ms-request-id": "dbd14900-501e-00c3-7395-64eed9000000",
+    "etag": "\"0x8D74757BE2E0BFA\"",
+    "x-ms-request-id": "215ffeb9-201e-0080-2e40-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "63c449ce-1376-4138-a841-97eb5920c568",
+    "x-ms-client-request-id": "d9b83dbd-476f-48bb-bc52-f819d9a5ef81",
     "x-ms-request-server-encrypted": "true",
     "content-length": "0"
    }
   },
   {
    "method": "HEAD",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156776232694206071/%D1%80%D1%83%CC%81%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%D1%8F%D0%B7%D1%8B%CC%81%D0%BA156776233349405578",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968/%D1%80%D1%83%CC%81%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%D1%8F%D0%B7%D1%8B%CC%81%D0%BA157003464776900323",
    "query": {},
    "requestBody": null,
    "status": 200,
    "response": "",
    "responseHeaders": {
     "x-ms-blob-type": "BlockBlob",
-    "date": "Fri, 06 Sep 2019 09:32:13 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:07 GMT",
     "content-md5": "f8VicOenD6gaWTW3Lqy+KQ==",
     "x-ms-tag-count": "0",
     "x-ms-server-encrypted": "true",
-    "x-ms-access-tier": "Hot",
-    "x-ms-client-request-id": "6d355071-4923-4382-b3de-98403d8ee200",
+    "x-ms-access-tier": "Cool",
+    "x-ms-client-request-id": "fbd6bbda-932c-4d30-96f7-530afb0f4261",
     "content-length": "1",
     "x-ms-lease-state": "available",
     "x-ms-lease-status": "unlocked",
-    "x-ms-creation-time": "Fri, 06 Sep 2019 09:32:13 GMT",
-    "last-modified": "Fri, 06 Sep 2019 09:32:13 GMT",
+    "x-ms-creation-time": "Wed, 02 Oct 2019 16:44:07 GMT",
+    "last-modified": "Wed, 02 Oct 2019 16:44:07 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D732AD19912344\"",
+    "etag": "\"0x8D74757BE2E0BFA\"",
     "content-type": "application/octet-stream",
     "x-ms-access-tier-inferred": "true",
     "x-ms-version": "2019-02-02",
     "accept-ranges": "bytes",
-    "x-ms-request-id": "dbd1495a-501e-00c3-4595-64eed9000000"
+    "x-ms-request-id": "215ffee5-201e-0080-5440-7993dc000000"
    }
   },
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash156776232694206071",
+   "url": "https://fakestorageaccount.blob.core.windows.net/1container-with-dash157003464545607968",
    "query": {
     "comp": "list",
-    "prefix": "ру́сский язы́к156776233349405578",
+    "prefix": "ру́сский язы́к157003464776900323",
     "restype": "container"
    },
    "requestBody": null,
    "status": 200,
-   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash156776232694206071\"><Prefix>ру́сский язы́к156776233349405578</Prefix><Blobs><Blob><Name>ру́сский язы́к156776233349405578</Name><Properties><Creation-Time>Fri, 06 Sep 2019 09:32:13 GMT</Creation-Time><Last-Modified>Fri, 06 Sep 2019 09:32:13 GMT</Last-Modified><Etag>0x8D732AD19912344</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"1container-with-dash157003464545607968\"><Prefix>ру́сский язы́к157003464776900323</Prefix><Blobs><Blob><Name>ру́сский язы́к157003464776900323</Name><Properties><Creation-Time>Wed, 02 Oct 2019 16:44:07 GMT</Creation-Time><Last-Modified>Wed, 02 Oct 2019 16:44:07 GMT</Last-Modified><Etag>0x8D74757BE2E0BFA</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>PiO3pTJ67n0=</Content-CRC64><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted><TagCount>0</TagCount></Properties></Blob></Blobs><NextMarker /></EnumerationResults>",
    "responseHeaders": {
-    "date": "Fri, 06 Sep 2019 09:32:13 GMT",
+    "date": "Wed, 02 Oct 2019 16:44:07 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "content-type": "application/xml",
-    "x-ms-request-id": "dbd149b5-501e-00c3-1495-64eed9000000",
+    "x-ms-request-id": "215fff21-201e-0080-0840-7993dc000000",
     "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "b22a7a31-145c-4618-8b00-528344135359"
+    "x-ms-client-request-id": "a48c5a20-e04e-4237-9bee-82ba2056582b"
    }
   }
  ],
  "uniqueTestInfo": {
-  "ру́сский язы́к": "ру́сский язы́к156776233349405578"
+  "ру́сский язы́к": "ру́сский язы́к157003464776900323"
  }
 }
