@@ -32,7 +32,7 @@ dependencies:
   '@rush-temp/logger': 'file:projects/logger.tgz'
   '@rush-temp/service-bus': 'file:projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:projects/storage-blob.tgz'
-  '@rush-temp/storage-file': 'file:projects/storage-file.tgz'
+  '@rush-temp/storage-file-share': 'file:projects/storage-file-share.tgz'
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
   '@rush-temp/test-utils-recorder': 'file:projects/test-utils-recorder.tgz'
@@ -792,6 +792,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-bCtL5v9zdbQW86yexOlXWTEGvLNqWxMFyi7gQA7Gcthbezr2cPSOb8SkESVKA937QD5cIwOFLDFt0MQoXOEr9Q==
+  /@types/fs-extra/8.0.1:
+    dependencies:
+      '@types/node': 8.10.56
+    dev: false
+    resolution:
+      integrity: sha512-J00cVDALmi/hJOYsunyT52Hva5TnJeKP5yd1r+mH/ZU0mbYZflR0Z5kw5kITtKTRYMhm1JMClOFYdHnQszEvqw==
   /@types/glob/7.1.1:
     dependencies:
       '@types/events': 3.0.0
@@ -3526,6 +3532,12 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-GUE3gqcDCaMltj2++g6bRQ5rBJWtkWTmqmD0fo1RnnMuUqHNCt2oTPeDnS9n6fKYvlhn7AeBkb38lymBtWBQdA==
+  /dotenv/8.2.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
   /duplexify/3.7.1:
     dependencies:
       end-of-stream: 1.4.4
@@ -7070,6 +7082,19 @@ packages:
       node: '>= 8.0'
     resolution:
       integrity: sha512-UrVEbEAvhyDoUttrS0fv3znhZ5nEJvlxqgmrC6Gb2Mf9cFci65RMK17e6EjDDQB57g5iwZw1TFnVvyeL0eUlhQ==
+  /nock/11.6.0:
+    dependencies:
+      chai: 4.2.0
+      debug: 4.1.1
+      json-stringify-safe: 5.0.1
+      lodash: 4.17.15
+      mkdirp: 0.5.1
+      propagate: 2.0.1
+    dev: false
+    engines:
+      node: '>= 8.0'
+    resolution:
+      integrity: sha512-9ocFR68CxS6nf2XtQNpdSh5n4QQSKl87DhXgLnHO/RD4CsGThFtu8/QG6myHTnrUHRE6JSKpiGjLJdRe2ZSlIA==
   /node-abort-controller/1.0.4:
     dev: false
     resolution:
@@ -8556,6 +8581,19 @@ packages:
       rollup: '>=1.12.0'
     resolution:
       integrity: sha512-jlXbjZSQg8EIeAAvepNwhJj++qJWNJw1Cl0YnOqKtP5Djx+fFGkp3WRh+W0ASCaFG5w1jhmzDxgu3SJuVxPF4Q==
+  /rollup-plugin-commonjs/10.1.0_rollup@1.25.2:
+    dependencies:
+      estree-walker: 0.6.1
+      is-reference: 1.1.4
+      magic-string: 0.25.4
+      resolve: 1.12.0
+      rollup: 1.25.2
+      rollup-pluginutils: 2.8.2
+    dev: false
+    peerDependencies:
+      rollup: '>=1.12.0'
+    resolution:
+      integrity: sha512-jlXbjZSQg8EIeAAvepNwhJj++qJWNJw1Cl0YnOqKtP5Djx+fFGkp3WRh+W0ASCaFG5w1jhmzDxgu3SJuVxPF4Q==
   /rollup-plugin-inject/3.0.1:
     dependencies:
       estree-walker: 0.6.1
@@ -8659,6 +8697,19 @@ packages:
       '@babel/code-frame': 7.5.5
       jest-worker: 24.9.0
       rollup: 1.23.1
+      rollup-pluginutils: 2.8.2
+      serialize-javascript: 1.9.1
+      terser: 4.3.8
+    dev: false
+    peerDependencies:
+      rollup: '>=0.66.0 <2'
+    resolution:
+      integrity: sha512-sWKBCOS+vUkRtHtEiJPAf+WnBqk/C402fBD9AVHxSIXMqjsY7MnYWKYEUqGixtr0c8+1DjzUEPlNgOYQPVrS1g==
+  /rollup-plugin-terser/5.1.2_rollup@1.25.2:
+    dependencies:
+      '@babel/code-frame': 7.5.5
+      jest-worker: 24.9.0
+      rollup: 1.25.2
       rollup-pluginutils: 2.8.2
       serialize-javascript: 1.9.1
       terser: 4.3.8
@@ -11921,24 +11972,23 @@ packages:
       integrity: sha512-xHTgV6AXTP+2ROIxxFVjpIdh6oYQSmT6Z9Y2c/DC2Uq/kxKRlrZO9sRgK3luUnXqZcK+GYJ3BuqAAU68rvzq9w==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
-  'file:projects/storage-file.tgz':
+  'file:projects/storage-file-share.tgz':
     dependencies:
       '@azure/abort-controller': 1.0.0-preview.2
       '@azure/core-paging': 1.0.0-preview.2
-      '@azure/ms-rest-js': 2.0.4
-      '@microsoft/api-extractor': 7.5.0
+      '@microsoft/api-extractor': 7.5.2
       '@types/dotenv': 6.1.1
-      '@types/fs-extra': 8.0.0
+      '@types/fs-extra': 8.0.1
       '@types/mocha': 5.2.7
       '@types/nise': 1.4.0
       '@types/nock': 10.0.3
-      '@types/node': 8.10.54
+      '@types/node': 8.10.56
       '@types/query-string': 6.2.0
-      '@typescript-eslint/eslint-plugin': 2.3.3_ac2af3c58153fd08c91227fd925d839a
-      '@typescript-eslint/parser': 2.3.3_eslint@6.5.1
+      '@typescript-eslint/eslint-plugin': 2.5.0_9532ddc6a515f233700227c4e2ab0e1c
+      '@typescript-eslint/parser': 2.5.0_eslint@6.5.1
       assert: 1.5.0
       cross-env: 5.2.1
-      dotenv: 8.1.0
+      dotenv: 8.2.0
       es6-promise: 4.2.8
       eslint: 6.5.1
       eslint-config-prettier: 6.4.0_eslint@6.5.1
@@ -11951,48 +12001,48 @@ packages:
       gulp: 4.0.2
       gulp-zip: 5.0.1_gulp@4.0.2
       inherits: 2.0.4
-      karma: 4.3.0
+      karma: 4.4.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.1
-      karma-edge-launcher: 0.4.2_karma@4.3.0
+      karma-edge-launcher: 0.4.2_karma@4.4.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.2.0
-      karma-ie-launcher: 1.0.0_karma@4.3.0
-      karma-json-preprocessor: 0.3.3_karma@4.3.0
+      karma-ie-launcher: 1.0.0_karma@4.4.1
+      karma-json-preprocessor: 0.3.3_karma@4.4.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 1.2.0_karma@4.3.0
+      karma-junit-reporter: 1.2.0_karma@4.4.1
       karma-mocha: 1.3.0
-      karma-mocha-reporter: 2.2.5_karma@4.3.0
+      karma-mocha-reporter: 2.2.5_karma@4.4.1
       karma-remap-coverage: 0.1.5_karma-coverage@2.0.1
-      mocha: 6.2.1
-      mocha-junit-reporter: 1.23.1_mocha@6.2.1
-      mocha-multi: 1.1.3_mocha@6.2.1
+      mocha: 6.2.2
+      mocha-junit-reporter: 1.23.1_mocha@6.2.2
+      mocha-multi: 1.1.3_mocha@6.2.2
       nise: 1.5.2
-      nock: 11.4.0
+      nock: 11.6.0
       nyc: 14.1.1
       prettier: 1.18.2
       puppeteer: 1.20.0
       query-string: 5.1.1
       rimraf: 3.0.0
-      rollup: 1.23.1
-      rollup-plugin-commonjs: 10.1.0_rollup@1.23.1
+      rollup: 1.25.2
+      rollup-plugin-commonjs: 10.1.0_rollup@1.25.2
       rollup-plugin-multi-entry: 2.1.0
-      rollup-plugin-node-resolve: 5.2.0_rollup@1.23.1
+      rollup-plugin-node-resolve: 5.2.0_rollup@1.25.2
       rollup-plugin-replace: 2.2.0
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.23.1
-      rollup-plugin-terser: 5.1.2_rollup@1.23.1
-      rollup-plugin-visualizer: 2.6.0_rollup@1.23.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.25.2
+      rollup-plugin-terser: 5.1.2_rollup@1.25.2
+      rollup-plugin-visualizer: 2.6.0_rollup@1.25.2
       source-map-support: 0.5.13
       ts-node: 8.4.1_typescript@3.6.4
       tslib: 1.10.0
       typescript: 3.6.4
       util: 0.12.1
     dev: false
-    name: '@rush-temp/storage-file'
+    name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-d8li142CvKXQf8rc83eTv1oosjLKmW7Y1tDM46rjy7qz5bKrGbikOEo+yg4pfCpoYda1zxaKr2NFuxpLjJTdFQ==
-      tarball: 'file:projects/storage-file.tgz'
+      integrity: sha512-mWg4stlQJT1no/BjMaKG736h6W6KJgPo1N1hJtptag5ggkHI/SrjVIzorYe56Bl8nJjM1pj/k20u075s10CTbg==
+      tarball: 'file:projects/storage-file-share.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
     dependencies:
@@ -12198,7 +12248,7 @@ specifiers:
   '@rush-temp/logger': 'file:./projects/logger.tgz'
   '@rush-temp/service-bus': 'file:./projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:./projects/storage-blob.tgz'
-  '@rush-temp/storage-file': 'file:./projects/storage-file.tgz'
+  '@rush-temp/storage-file-share': 'file:./projects/storage-file-share.tgz'
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
   '@rush-temp/test-utils-recorder': 'file:./projects/test-utils-recorder.tgz'
