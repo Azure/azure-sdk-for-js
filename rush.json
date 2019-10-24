@@ -432,8 +432,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/storage-file",
-      "projectFolder": "sdk/storage/storage-file",
+      "packageName": "@azure/storage-file-share",
+      "projectFolder": "sdk/storage/storage-file-share",
       "versionPolicyName": "client"
     },
     {

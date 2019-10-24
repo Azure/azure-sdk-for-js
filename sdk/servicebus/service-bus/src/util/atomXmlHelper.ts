@@ -51,7 +51,7 @@ export async function executeAtomXmlOperation(
     webResource
   );
 
-  log.httpAtomXml(`Received ATOM based HTTP response: ${webResource.bodyAsText}`);
+  log.httpAtomXml(`Received ATOM based HTTP response: ${response.bodyAsText}`);
 
   try {
     if (response.bodyAsText) {

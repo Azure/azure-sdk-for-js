@@ -642,6 +642,8 @@ export class BlobServiceClient extends StorageClient {
     if (!!marker || marker === undefined) {
       do {
         listContainersSegmentResponse = await this.listContainersSegment(marker, options);
+        listContainersSegmentResponse.containerItems =
+          listContainersSegmentResponse.containerItems || [];
         marker = listContainersSegmentResponse.continuationToken;
         yield await listContainersSegmentResponse;
       } while (marker);
@@ -846,6 +848,6 @@ export class BlobServiceClient extends StorageClient {
    * @memberof BlobServiceClient
    */
   public getBlobBatchClient(): BlobBatchClient {
-    return new BlobBatchClient(this.serviceContext);
+    return new BlobBatchClient(this.url, this.pipeline);
   }
 }

@@ -6,7 +6,7 @@
 
 import { AccessToken } from '@azure/core-http';
 import { GetTokenOptions } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 export { AccessToken }
@@ -101,7 +101,7 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
-export interface IdentityClientOptions extends ServiceClientOptions {
+export interface IdentityClientOptions extends PipelineOptions {
     authorityHost?: string;
 }
 

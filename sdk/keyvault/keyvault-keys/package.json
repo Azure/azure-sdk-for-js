@@ -52,7 +52,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 1200000 --full-trace dist-test/index.node.js",
+    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 5000000 --full-trace dist-test/index.node.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o keyvault-keys-lintReport.html || exit 0",
@@ -70,7 +70,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-http": "1.0.0-preview.6",
-    "@azure/core-lro": "1.0.0-preview.1",
+    "@azure/core-lro": "1.0.0-preview.2",
     "@azure/core-paging": "1.0.0-preview.2",
     "@azure/core-tracing": "1.0.0-preview.5",
     "@azure/logger": "1.0.0-preview.1",

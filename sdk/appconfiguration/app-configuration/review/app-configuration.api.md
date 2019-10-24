@@ -5,11 +5,11 @@
 ```ts
 
 import { HttpResponse } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { RequestOptionsBase } from '@azure/core-http';
 
 // @public
-export interface AddConfigurationSettingOptions extends RequestOptionsBase {
+export interface AddConfigurationSettingOptions extends OperationOptions {
 }
 
 // @public
@@ -34,7 +34,7 @@ export class AppConfigurationClient {
     }
 
 // @public
-export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
+export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public
@@ -67,7 +67,7 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 // @public
-export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
+export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public
@@ -80,7 +80,7 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField {
 }
 
 // @public
-export interface GetConfigurationSettingOptions extends RequestOptionsBase, HttpOnlyIfChangedField, OptionalFields {
+export interface GetConfigurationSettingOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
     acceptDatetime?: string;
 }
 
@@ -117,11 +117,11 @@ export interface ListConfigurationSettingPage extends HttpResponseField<SyncToke
 }
 
 // @public
-export interface ListConfigurationSettingsOptions extends RequestOptionsBase, ListSettingsOptions {
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
 }
 
 // @public
-export interface ListRevisionsOptions extends RequestOptionsBase, ListSettingsOptions {
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {
 }
 
 // @public
@@ -142,7 +142,7 @@ export interface OptionalFields {
 }
 
 // @public
-export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
+export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public
@@ -154,7 +154,7 @@ export interface SetConfigurationSettingResponse extends ConfigurationSetting, S
 }
 
 // @public
-export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, RequestOptionsBase {
+export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public

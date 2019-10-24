@@ -22,18 +22,23 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   ProxySettings,
-  tracingPolicy
+  tracingPolicy,
+  logPolicy
 } from "@azure/core-http";
 
+import { logger } from "./log";
 import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
-import { LoggingPolicyFactory } from "./LoggingPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
 import { TelemetryOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageOAuthScopes } from "./utils/constants";
+import {
+  StorageOAuthScopes,
+  StorageBlobLoggingAllowedHeaderNames,
+  StorageBlobLoggingAllowedQueryParameters
+} from "./utils/constants";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -200,7 +205,11 @@ export function newPipeline(
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
-    new LoggingPolicyFactory()
+    logPolicy({
+      logger: logger.info,
+      allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
+      allowedQueryParameters: StorageBlobLoggingAllowedQueryParameters
+    })
   ];
 
   if (isNode) {
