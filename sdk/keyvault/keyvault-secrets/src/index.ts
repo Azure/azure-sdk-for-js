@@ -585,15 +585,14 @@ export class SecretClient {
     secretName: string,
     options: RequestOptionsBase = {}
   ): Promise<DeletedSecret> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("deleteSecret", requestOptions);
+    const span = this.createSpan("deleteSecret", options);
 
     let response: DeleteSecretResponse;
     try {
       response = await this.client.deleteSecret(
         this.vaultEndpoint,
         secretName,
-        this.setParentSpan(span, requestOptions)
+        this.setParentSpan(span, options)
       );
     } finally {
       span.end();
@@ -606,8 +605,7 @@ export class SecretClient {
     secretName: string,
     options: RequestOptionsBase = {}
   ): Promise<SecretProperties> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("recoverDeletedSecret", requestOptions);
+    const span = this.createSpan("recoverDeletedSecret", options);
 
     let properties: SecretProperties;
 
@@ -615,7 +613,7 @@ export class SecretClient {
       const response = await this.client.recoverDeletedSecret(
         this.vaultEndpoint,
         secretName,
-        this.setParentSpan(span, requestOptions)
+        this.setParentSpan(span, options)
       );
       properties = this.getSecretFromSecretBundle(response).properties;
     } finally {
@@ -628,14 +626,13 @@ export class SecretClient {
   private async *listPropertiesOfSecretVersionsPage(
     secretName: string,
     continuationState: PageSettings,
-    options: ListOperationOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<SecretProperties[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...requestOptions
+        ...options
       };
       const currentSetResponse = await this.client.getSecretVersions(
         this.vaultEndpoint,
@@ -653,7 +650,7 @@ export class SecretClient {
       const currentSetResponse = await this.client.getSecretVersions(
         continuationState.continuationToken,
         secretName,
-        requestOptions
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -668,15 +665,14 @@ export class SecretClient {
 
   private async *listPropertiesOfSecretVersionsAll(
     secretName: string,
-    options: ListOperationOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<SecretProperties> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const f = {};
 
     for await (const page of this.listPropertiesOfSecretVersionsPage(
       secretName,
       f,
-      requestOptions
+      options
     )) {
       for (const item of page) {
         yield item;
@@ -727,14 +723,12 @@ export class SecretClient {
 
   private async *listPropertiesOfSecretsPage(
     continuationState: PageSettings,
-    options: ListOperationOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<SecretProperties[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...requestOptions
+        ...options
       };
       const currentSetResponse = await this.client.getSecrets(this.vaultEndpoint, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -747,7 +741,7 @@ export class SecretClient {
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getSecrets(
         continuationState.continuationToken,
-        requestOptions
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -763,10 +757,9 @@ export class SecretClient {
   private async *listPropertiesOfSecretsAll(
     options: ListOperationOptions = {}
   ): AsyncIterableIterator<SecretProperties> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const f = {};
 
-    for await (const page of this.listPropertiesOfSecretsPage(f, requestOptions)) {
+    for await (const page of this.listPropertiesOfSecretsPage(f, options)) {
       for (const item of page) {
         yield item;
       }
@@ -815,13 +808,12 @@ export class SecretClient {
 
   private async *listDeletedSecretsPage(
     continuationState: PageSettings,
-    options: ListOperationOptions = {}
+    options: RequestOptionsBase = {}
   ): AsyncIterableIterator<DeletedSecret[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...requestOptions
+        ...options
       };
       const currentSetResponse = await this.client.getDeletedSecrets(
         this.vaultEndpoint,
@@ -835,7 +827,7 @@ export class SecretClient {
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.getDeletedSecrets(
         continuationState.continuationToken,
-        requestOptions
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -849,10 +841,9 @@ export class SecretClient {
   private async *listDeletedSecretsAll(
     options: ListOperationOptions = {}
   ): AsyncIterableIterator<DeletedSecret> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const f = {};
 
-    for await (const page of this.listDeletedSecretsPage(f, requestOptions)) {
+    for await (const page of this.listDeletedSecretsPage(f, options)) {
       for (const item of page) {
         yield item;
       }
