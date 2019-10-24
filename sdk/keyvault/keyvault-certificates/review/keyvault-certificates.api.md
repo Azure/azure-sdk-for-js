@@ -47,7 +47,7 @@ export class CertificateClient {
     updateCertificate(name: string, version: string, options?: KeyVaultClientUpdateCertificateOptionalParams): Promise<Certificate>;
     updateCertificateIssuer(issuerName: string, options?: KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<CertificateIssuer>;
     updateCertificatePolicy(name: string, policy: CertificatePolicy, options?: RequestOptionsBase): Promise<CertificatePolicy>;
-    readonly vaultEndpoint: string;
+    readonly vaultUrl: string;
 }
 
 // @public
