@@ -219,7 +219,7 @@ const executeTypedoc = async (
       });
 
       typedocProcess.stdout.on("data", data => (stdOut = stdOut + data.toString()));
-      typedocProcess.stderr.on("data", err => (stdErr = stdErr));
+      typedocProcess.stderr.on("data", data => (stdErr = stdErr + data.toString()));
 
     }));
     plimitPromises.push(promise);
@@ -228,7 +228,13 @@ const executeTypedoc = async (
     const results = await Promise.all(plimitPromises);
     for (let item of results) {
       console.log(item.stdOut);
-      if (item.code !== 0) console.log(item.stdErr);
+      if (item.stdErr) {
+        console.error(item.stdErr);
+      }
+      if (item.code !== 0) {
+        console.error("Process Failed");
+        process.exitCode = 1;
+      }
     }
   } catch (ex) {
     console.log("ERROR", ex);
