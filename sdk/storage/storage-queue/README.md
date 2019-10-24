@@ -146,7 +146,7 @@ const queueServiceClient = new QueueServiceClient(
 
 ### List queues in this account
 
-Use `QueueServiceClient.listQueues()` function to iterate the queue containers,
+Use `QueueServiceClient.listQueues()` function to iterate the queues,
 with the new `for-await-of` syntax:
 
 ```javascript
