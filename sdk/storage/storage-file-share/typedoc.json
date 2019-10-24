@@ -4,7 +4,7 @@
   "excludeNotExported": true,
   "includeDeclarations": true,
   "excludeExternals": false,
-  "name": "@azure/storage-file",
+  "name": "@azure/storage-file-share",
   "readme": "./README.md",
   "exclude": ["src/generated/src/operations/**/*", "**/node_modules/**/*"]
 }

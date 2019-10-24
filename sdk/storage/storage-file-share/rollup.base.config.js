@@ -84,7 +84,7 @@ export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
-      file: "browser/azure-storage-file.js",
+      file: "browser/azure-storage-file-share.js",
       banner: banner,
       format: "umd",
       name: "azfile",
@@ -156,7 +156,7 @@ export function browserConfig(test = false, production = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.output.file = "browser/azure-storage-file.min.js";
+    baseConfig.output.file = "browser/azure-storage-file-share.min.js";
     baseConfig.plugins.push(
       terser({
         output: {

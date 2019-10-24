@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: azure-storage-file
+package-name: azure-storage-file-share
 title: StorageClient
 description: Storage Client
 enable-xml: true

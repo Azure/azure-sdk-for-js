@@ -7,7 +7,7 @@ import {
   FileServiceClient,
   SharedKeyCredential,
   HttpPipelineLogLevel
-} from "../../src"; // Change to "@azure/storage-file" in your package
+} from "../../src"; // Change to "@azure/storage-file-share" in your package
 
 class ConsoleHttpPipelineLogger {
   minimumLogLevel: any;

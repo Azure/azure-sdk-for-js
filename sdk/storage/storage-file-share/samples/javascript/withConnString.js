@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { FileServiceClient } = require("../.."); // Change to "@azure/storage-file" in your package
+const { FileServiceClient } = require("../.."); // Change to "@azure/storage-file-share" in your package
 
 async function main() {
   // Create File Service Client from Account connection string or SAS connection string

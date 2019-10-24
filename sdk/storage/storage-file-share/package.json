@@ -1,12 +1,12 @@
 {
-  "name": "@azure/storage-file",
+  "name": "@azure/storage-file-share",
   "sdk-type": "client",
   "version": "12.0.0-preview.5",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./browser/azure-storage-file.min.js",
+    "./dist/index.js": "./browser/azure-storage-file-share.min.js",
     "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js",
     "./dist-esm/src/credentials/SharedKeyCredential.js": "./dist-esm/src/credentials/SharedKeyCredential.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
@@ -37,7 +37,7 @@
     "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 --retries 2 dist-test/index.node.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
-    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f html -o storage-file-lintReport.html || exit 0",
+    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f html -o storage-file-share-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",

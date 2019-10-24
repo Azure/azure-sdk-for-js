@@ -6,11 +6,11 @@ This project provides a client library in JavaScript that makes it easy to consu
 
 Version: 12.0.0-preview.5
 
-- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/samples)
-- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-file/index.html)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.5)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples)
+- [API Reference Documentation](https://azure.github.io/azure-sdk-for-js/storage-file-share/index.html)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction)
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share)
 - [Azure Storage File REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api)
 
 ## Key concepts
@@ -77,19 +77,19 @@ There are differences between Node.js and browsers runtime. When getting started
 The preferred way to install the Azure File Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
 ```bash
-npm install @azure/storage-file@12.0.0-preview.5
+npm install @azure/storage-file-share@12.0.0-preview.5
 ```
 
 In your TypeScript or JavaScript file, import via following:
 
 ```javascript
-import * as Azure from "@azure/storage-file";
+import * as Azure from "@azure/storage-file-share";
 ```
 
 Or
 
 ```javascript
-const Azure = require("@azure/storage-file");
+const Azure = require("@azure/storage-file-share");
 ```
 
 ### JavaScript bundle
@@ -97,7 +97,7 @@ const Azure = require("@azure/storage-file");
 To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
 ```html
-<script src="https://mydomain/azure-storage-file.min.js"></script>
+<script src="https://mydomain/azure-storage-file-share.min.js"></script>
 ```
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
@@ -124,11 +124,11 @@ For example, you can create following CORS settings for debugging. But please cu
 
 ### Import types
 
-You can use the `const Azure = require("@azure/storage-file");` shown above then use types and functions from `Azure`.
+You can use the `const Azure = require("@azure/storage-file-share");` shown above then use types and functions from `Azure`.
 Or you can selectively import certain types,
 
 ```javascript
-const { FileServiceClient, SharedKeyCredential } = require("@azure/storage-file");
+const { FileServiceClient, SharedKeyCredential } = require("@azure/storage-file-share");
 );
 ```
 
@@ -240,7 +240,7 @@ while (!item.done) {
 }
 ```
 
-For a complete sample on iterating please see [samples/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file/samples/typescript/iterators-files-and-directories.ts).
+For a complete sample on iterating please see [samples/iterators-files-and-directories.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/iterators-files-and-directories.ts).
 
 ### Download a file and convert it to a string (Node.js)
 
@@ -292,7 +292,7 @@ export async function blobToString(blob: Blob): Promise<string> {
 }
 ```
 
-A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file/samples/typescript/basic.ts).
+A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-share/samples/typescript/basic.ts).
 
 ## Troubleshooting
 
@@ -336,8 +336,8 @@ const fileServiceClient = new FileServiceClient(
 
 More code samples
 
-- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/samples)
-- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file/test)
+- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples)
+- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/test)
 
 ## Contributing
 

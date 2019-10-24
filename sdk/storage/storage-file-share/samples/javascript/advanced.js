@@ -9,7 +9,7 @@ const {
   FileServiceClient,
   HttpPipelineLogLevel,
   newPipeline
-} = require("../.."); // Change to "@azure/storage-file" in your package
+} = require("../.."); // Change to "@azure/storage-file-share" in your package
 
 class ConsoleHttpPipelineLogger {
   constructor(minimumLogLevel) {

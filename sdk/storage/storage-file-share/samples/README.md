@@ -5,19 +5,19 @@
 Copy the sample file you want to a folder of your choice and run the following command in your samples folder to install the npm package for Azure Storage File library.
 
 ```bash
-npm install @azure/storage-file@12.0.0-preview.5
+npm install @azure/storage-file-share@12.0.0-preview.5
 ```
 
-Or, in case you have cloned the repo and want to utilize the published npm package instead of src code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-file package.
+Or, in case you have cloned the repo and want to utilize the published npm package instead of src code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-file-share package.
 
 ```bash
 npm init -y
-npm install @azure/storage-file@12.0.0-preview.5
+npm install @azure/storage-file-share@12.0.0-preview.5
 ```
 
 ### Running Samples
 
-Also, change `"../.."` to `"@azure/storage-file"` in the samples in order to import the published package instead of using source code.
+Also, change `"../.."` to `"@azure/storage-file-share"` in the samples in order to import the published package instead of using source code.
 
 ## Get account credentials of your storage account
 
@@ -53,4 +53,4 @@ Copy the sample to your samples folder and use `ts-node` to run it.
 ts-node sample.ts
 ```
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/storage/storage-file/samples/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/storage/storage-file-share/samples/README.png)
