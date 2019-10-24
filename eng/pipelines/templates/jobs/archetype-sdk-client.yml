@@ -2,7 +2,7 @@ parameters:
   RunUnitTests: true
   Artifacts: []
   ServiceDirectory: not-specified
-  DocArgs: not-specified
+  DocArgs: ${{ parameters.ServiceDirectory }}
   Matrix:
     Linux_Node8:
       OSVmImage: "ubuntu-16.04"
@@ -101,7 +101,8 @@ jobs:
           node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "${{parameters.DocArgs}}"
         displayName: "Run Typedoc Docs"
 
-      - pwsh: $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.ArtifactStagingDirectory)/Documentation"
+      - pwsh: |
+          $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.ArtifactStagingDirectory)/Documentation"
         displayName: "Generate Typedoc Docs"
 
       - task: PublishPipelineArtifact@1
@@ -142,7 +143,8 @@ jobs:
           targetPath: "$(Agent.TempDirectory)/packagesMaster"
         displayName: "Download Latest Master (PipelineTask) artifacts"
 
-      - pwsh: eng/tools/compare-packages.ps1 "$(Agent.TempDirectory)/packagesMaster" "$(Agent.TempDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
+      - pwsh: |
+          eng/tools/compare-packages.ps1 "$(Agent.TempDirectory)/packagesMaster" "$(Agent.TempDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
         displayName: "Diff Generated Packages"
         errorActionPreference: "continue"
 
