@@ -253,13 +253,13 @@ describe("Aggregate Query", function() {
     );
   });
 
-  it.only("Non VALUE aggregate", async function() {
+  it("Non VALUE aggregate", async function() {
     await executeQueryAndValidateResults("SELECT AVG(r.key) FROM r WHERE IS_NUMBER(r.key)", [
       { $1: average }
     ]);
   });
 
-  it.only("Multiple Aggregates", async function() {
+  it("Multiple Aggregates", async function() {
     await executeQueryAndValidateResults("SELECT COUNT(1), MAX(r.key) FROM r", [
       { $1: testdata.numberOfDocuments, $2: "xyz" }
     ]);
