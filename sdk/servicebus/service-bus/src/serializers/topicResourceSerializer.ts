@@ -60,7 +60,8 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
 
 /**
  * @ignore
- * Builds the topic object
+ * Builds the topic object from the raw json object gotten after deserializing the response 
+ * from the service
  * @param rawTopic
  */
 export function buildTopic(rawTopic: any): TopicDetails | undefined {
