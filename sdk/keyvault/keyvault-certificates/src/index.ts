@@ -21,9 +21,7 @@ import {
   CreateCertificateOptions,
   SubjectAlternativeNames
 } from "./certificatesModels";
-import {
-  ParsedKeyVaultEntityIdentifier,
-} from "./core/keyVaultBase";
+import { ParsedKeyVaultEntityIdentifier } from "./core/keyVaultBase";
 import { TelemetryOptions } from "./core/clientOptions";
 import {
   CertificateBundle,
@@ -77,7 +75,7 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { ProxyOptions, RetryOptions } from "./core";
-import { SDK_VERSION } from "./core/utils/constants";
+import { packageVersion } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -233,7 +231,7 @@ export class CertificateClient {
     this.vaultEndpoint = endPoint;
     this.credential = credential;
 
-    const libInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-keyvault-certificates/${packageVersion}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
         ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -241,13 +239,12 @@ export class CertificateClient {
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
-      }
+      };
     }
 
-    const authPolicy =
-      isTokenCredential(credential)
-        ? challengeBasedAuthenticationPolicy(credential)
-        : signingPolicy(credential)
+    const authPolicy = isTokenCredential(credential)
+      ? challengeBasedAuthenticationPolicy(credential)
+      : signingPolicy(credential);
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -263,7 +260,7 @@ export class CertificateClient {
           }
         }
       }
-    }
+    };
 
     this.pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, this.pipeline);

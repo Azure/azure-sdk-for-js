@@ -334,7 +334,7 @@ export namespace HostContext {
    * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
   const userAgent: string = `azsdk-js-azureeventprocessorhost/${
-    packageInfo.version
+    packageInfo.packageVersion
   } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
 
   /**

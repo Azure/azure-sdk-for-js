@@ -13,7 +13,7 @@ import {
 
 import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
-import { SDK_VERSION } from "./core/utils/constants";
+import { packageVersion } from "./core/utils/constants";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
@@ -580,7 +580,7 @@ export class CryptographyClient {
     this.vaultBaseUrl = url;
     this.credential = credential;
 
-    const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-keyvault-keys/${packageVersion}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
         ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
