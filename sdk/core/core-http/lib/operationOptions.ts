@@ -17,7 +17,7 @@ export interface OperationOptions {
   /**
    * Options used when tracing is enabled.
    */
-  tracing?: OperationTracingOptions;
+  tracingOptions?: OperationTracingOptions;
 }
 
 export interface OperationTracingOptions {
@@ -58,7 +58,7 @@ export interface OperationRequestOptions {
 export function operationOptionsToRequestOptionsBase<T extends OperationOptions>(
   opts: T
 ): RequestOptionsBase {
-  const { requestOptions, tracing, ...additionalOptions } = opts;
+  const { requestOptions, tracingOptions, ...additionalOptions } = opts;
 
   let result: RequestOptionsBase = additionalOptions;
 
@@ -66,8 +66,8 @@ export function operationOptionsToRequestOptionsBase<T extends OperationOptions>
     result = { ...result, ...requestOptions };
   }
 
-  if (tracing) {
-    result.spanOptions = tracing.spanOptions;
+  if (tracingOptions) {
+    result.spanOptions = tracingOptions.spanOptions;
   }
 
   return result;
