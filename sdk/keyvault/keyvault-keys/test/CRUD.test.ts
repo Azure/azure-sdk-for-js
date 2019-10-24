@@ -39,7 +39,12 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
+  // If this test is not skipped in the browser's playback, no other test will be played back.
+  // This is a bug related to the browser features of the recorder.
   it("can abort creating a key", async function() {
+    if (!isNode || isPlayingBack) {
+      recorder.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const controller = new AbortController();
 
@@ -53,7 +58,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -101,7 +106,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a RSA key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -133,7 +138,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create an EC key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -221,7 +226,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can update key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -253,7 +258,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can delete a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -290,7 +295,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can get a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
+    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
       recorder.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
