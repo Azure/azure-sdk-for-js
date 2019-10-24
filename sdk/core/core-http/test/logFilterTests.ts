@@ -45,7 +45,7 @@ function assertLog(
 
   const options: LogPolicyOptions = {
     logger,
-    allowedHeaderNames: ["x-ms-safe-header"],
+    allowedHeaderNames: ["Capitalized-Header", "x-ms-safe-header"],
     allowedQueryParameters: ["api-version"]
   };
 
@@ -124,6 +124,33 @@ Headers: {
       "x-ms-oh-noes": ":-p"
     });
   });
+
+  it("redacts request headers with different casing", (done) => {
+    const expected = `Request: {
+  "url": "https://foo.com",
+  "method": "PUT",
+  "headers": {
+    "_headersMap": {
+      "capitalized-header": "Don't redact me, bro",
+      "x-ms-safe-header": "It me"
+    }
+  },
+  "withCredentials": false,
+  "timeout": 0
+}
+Response status code: 200
+Headers: {
+  "_headersMap": {}
+}
+`;
+
+    const request = new WebResource("https://foo.com", "PUT", { a: 1 }, undefined, {
+      "Capitalized-Header": "Don't redact me, bro",
+      "x-ms-safe-header": "It me",
+    });
+    assertLog(request, expected, done);
+  });
+
 
   it("redacts query parameters in the query field", (done) => {
     const expected = `Request: {

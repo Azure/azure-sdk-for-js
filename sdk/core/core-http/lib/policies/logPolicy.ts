@@ -98,8 +98,8 @@ export class LogPolicy extends BaseRequestPolicy {
       ? defaultAllowedQueryParameters.concat(allowedQueryParameters)
       : defaultAllowedQueryParameters;
 
-    this.allowedHeaderNames = new Set(allowedHeaderNames);
-    this.allowedQueryParameters = new Set(allowedQueryParameters);
+    this.allowedHeaderNames = new Set(allowedHeaderNames.map(n => n.toLowerCase()));
+    this.allowedQueryParameters = new Set(allowedQueryParameters.map(p => p.toLowerCase()));
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -155,7 +155,7 @@ export class LogPolicy extends BaseRequestPolicy {
     const sanitized: { [s: string]: string } = {};
 
     for (const k of Object.keys(value)) {
-      if (allowedKeys.has(k)) {
+      if (allowedKeys.has(k.toLowerCase())) {
         sanitized[k] = accessor(value, k);
       } else {
         sanitized[k] = RedactedString;
@@ -179,7 +179,7 @@ export class LogPolicy extends BaseRequestPolicy {
 
     const query = URLQuery.parse(queryString);
     for (const k of query.keys()) {
-      if (!this.allowedQueryParameters.has(k)) {
+      if (!this.allowedQueryParameters.has(k.toLowerCase())) {
         query.set(k, RedactedString);
       }
     }

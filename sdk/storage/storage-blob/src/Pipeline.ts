@@ -205,11 +205,11 @@ export function newPipeline(
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),
-    logPolicy(
-      logger.info, {
-        allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
-        allowedQueryParameters: StorageBlobLoggingAllowedQueryParameters
-      })
+    logPolicy({
+      logger: logger.info,
+      allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
+      allowedQueryParameters: StorageBlobLoggingAllowedQueryParameters
+    })
   ];
 
   if (isNode) {
