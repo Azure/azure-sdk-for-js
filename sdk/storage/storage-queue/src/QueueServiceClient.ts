@@ -281,7 +281,7 @@ export class QueueServiceClient extends StorageClient {
       options.spanOptions
     );
     try {
-      return this.serviceContext.listQueuesSegment({
+      return await this.serviceContext.listQueuesSegment({
         abortSignal: options.abortSignal,
         marker: marker,
         maxPageSize: options.maxPageSize,

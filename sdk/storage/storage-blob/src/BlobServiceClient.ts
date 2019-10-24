@@ -602,7 +602,7 @@ export class BlobServiceClient extends StorageClient {
       options.spanOptions
     );
     try {
-      return this.serviceContext.listContainersSegment({
+      return await this.serviceContext.listContainersSegment({
         abortSignal: options.abortSignal,
         marker,
         ...options,

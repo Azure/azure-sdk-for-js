@@ -1138,7 +1138,7 @@ export class ContainerClient extends StorageClient {
       options.spanOptions
     );
     try {
-      return this.containerContext.listBlobFlatSegment({
+      return await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
         spanOptions
@@ -1177,7 +1177,7 @@ export class ContainerClient extends StorageClient {
       options.spanOptions
     );
     try {
-      return this.containerContext.listBlobHierarchySegment(delimiter, {
+      return await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
         spanOptions
