@@ -5,7 +5,6 @@ import {
   isNode,
   TransferProgressEvent,
   TokenCredential,
-  isTokenCredential,
   PipelineOptions,
   getDefaultProxySettings
 } from "@azure/core-http";
@@ -732,6 +731,11 @@ export class BlobClient extends StorageClient {
   }
 
   /**
+   * Options used to configure the HTTP pipeline.
+   */
+  protected pipelineOptions: PipelineOptions;
+
+  /**
    *
    * Creates an instance of BlobClient from connection string.
    *
@@ -787,7 +791,7 @@ export class BlobClient extends StorageClient {
     let pipelineOptions: PipelineOptions;
 
     if (typeof credentialOrContainerName === "string" && typeof blobNameOrOptions === "string") {
-      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
+      // (connectionString: string, containerName: string, blobName: string, options?: PipelineOptions)
       const containerName = credentialOrContainerName;
       const blobName = blobNameOrOptions;
       pipelineOptions = options;
@@ -834,6 +838,7 @@ export class BlobClient extends StorageClient {
 
     const serviceOptions = newPipeline(credential, pipelineOptions);
     super(url, serviceOptions, credential);
+    this.pipelineOptions = pipelineOptions;
     ({
       blobName: this._name,
       containerName: this._containerName
@@ -856,7 +861,8 @@ export class BlobClient extends StorageClient {
         URLConstants.Parameters.SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
       ),
-      this.pipeline
+      this.credential,
+      this.pipelineOptions
     );
   }
 
@@ -867,7 +873,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public getAppendBlobClient(): AppendBlobClient {
-    return new AppendBlobClient(this.url, this.pipeline);
+    return new AppendBlobClient(this.url, this.credential, this.pipelineOptions);
   }
 
   /**
@@ -877,7 +883,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public getBlockBlobClient(): BlockBlobClient {
-    return new BlockBlobClient(this.url, this.pipeline);
+    return new BlockBlobClient(this.url, this.credential, this.pipelineOptions);
   }
 
   /**
@@ -887,7 +893,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   public getPageBlobClient(): PageBlobClient {
-    return new PageBlobClient(this.url, this.pipeline);
+    return new PageBlobClient(this.url, this.credential, this.pipelineOptions);
   }
 
   /**

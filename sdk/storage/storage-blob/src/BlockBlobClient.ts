@@ -9,10 +9,7 @@ import {
   HttpResponse,
   TransferProgressEvent,
   TokenCredential,
-  isTokenCredential,
-  isNode,
-  PipelineOptions,
-  getDefaultProxySettings
+  PipelineOptions
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
@@ -38,13 +35,7 @@ import {
   BlockBlobTier,
   toAccessTier
 } from "./models";
-import { newPipeline } from "./Pipeline";
-import {
-  setURLParameter,
-  extractConnectionStringParts,
-  generateBlockID,
-  appendToURLPath
-} from "./utils/utils.common";
+import { setURLParameter, generateBlockID } from "./utils/utils.common";
 import { fsStat } from "./utils/utils.node";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -478,11 +469,6 @@ export class BlockBlobClient extends BlobClient {
   private blockBlobContext: BlockBlob;
 
   /**
-   * Options used to configure the HTTP pipeline.
-   */
-  private pipelineOptions: PipelineOptions;
-
-  /**
    *
    * Creates an instance of BlockBlobClient.
    *
@@ -536,56 +522,18 @@ export class BlockBlobClient extends BlobClient {
     blobNameOrOptions: string | PipelineOptions = {},
     options: PipelineOptions = {}
   ) {
-    let url = urlOrConnectionString;
-    let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
-    let pipelineOptions: PipelineOptions;
     if (typeof credentialOrContainerName === "string" && typeof blobNameOrOptions === "string") {
-      // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
-      const containerName = credentialOrContainerName;
-      const blobName = blobNameOrOptions;
-      pipelineOptions = options;
-
-      const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
-          credential = new SharedKeyCredential(
-            extractedCreds.accountName,
-            extractedCreds.accountKey
-          );
-          url = appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
-            encodeURIComponent(blobName)
-          );
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        } else {
-          throw new Error("Account connection string is only supported in Node.js environment");
-        }
-      } else if (extractedCreds.kind === "SASConnString") {
-        url =
-          appendToURLPath(
-            appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
-            encodeURIComponent(blobName)
-          ) +
-          "?" +
-          extractedCreds.accountSas;
-        credential = new AnonymousCredential();
-      } else {
-        throw new Error(
-          "Connection string must be either an Account connection string or a SAS connection string"
-        );
-      }
+      // (connectionString: string, containerName: string, blobName: string, options?: PipelineOptions)
+      super(urlOrConnectionString, credentialOrContainerName, blobNameOrOptions, options);
     } else if (
       typeof credentialOrContainerName !== "string" &&
       typeof blobNameOrOptions !== "string"
     ) {
-      credential = credentialOrContainerName;
-      pipelineOptions = blobNameOrOptions;
+      super(urlOrConnectionString, credentialOrContainerName, options);
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
 
-    super(url, credential, pipelineOptions);
-    this.pipelineOptions = pipelineOptions;
     this.blockBlobContext = new BlockBlob(this.storageClientContext);
   }
 
