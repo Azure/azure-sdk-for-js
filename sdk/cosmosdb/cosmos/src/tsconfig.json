@@ -11,7 +11,7 @@
     "outDir": "../dist-esm",
     "preserveConstEnums": true,
     "removeComments": false,
-    "target": "esnext",
+    "target": "es6",
     "sourceMap": true,
     "newLine": "LF",
     "resolveJsonModule": true,
