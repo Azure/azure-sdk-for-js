@@ -15,7 +15,14 @@ export interface OperationOptions {
    */
   requestOptions?: OperationRequestOptions;
   /**
-   * Options used to create a span when tracing is enabled.
+   * Options used when tracing is enabled.
+   */
+  tracing?: OperationTracingOptions;
+}
+
+export interface OperationTracingOptions {
+  /**
+   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
 }
@@ -48,17 +55,20 @@ export interface OperationRequestOptions {
  *
  * @param opts OperationOptions object to convert to RequestOptionsBase
  */
-export function operationOptionsToRequestOptionsBase<T extends OperationOptions> (
+export function operationOptionsToRequestOptionsBase<T extends OperationOptions>(
   opts: T
-): Omit<T, "requestOptions"> &
-  OperationOptions["requestOptions"] &
-  RequestOptionsBase {
-  if (opts.requestOptions) {
-    const newOpts = { ...opts, ...opts.requestOptions };
-    delete newOpts.requestOptions;
+): RequestOptionsBase {
+  const { requestOptions, tracing, ...additionalOptions } = opts;
 
-    return newOpts;
+  let result: RequestOptionsBase = additionalOptions;
+
+  if (requestOptions) {
+    result = { ...result, ...requestOptions };
   }
 
-  return opts;
+  if (tracing) {
+    result.spanOptions = tracing.spanOptions;
+  }
+
+  return result;
 }
