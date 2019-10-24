@@ -18,8 +18,8 @@ import { CorrelationFilter } from "../core/managementClient";
 
 /**
  * @ignore
- * Builds the rule options object from the user provided options. 
- * Handles the differences in casing for the property names, converts values to string and ensures the 
+ * Builds the rule options object from the user provided options.
+ * Handles the differences in casing for the property names, converts values to string and ensures the
  * right order as expected by the service
  * @param name
  * @param ruleOptions
@@ -31,7 +31,7 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
 
 /**
  * @ignore
- * Builds the rule object from the raw json object gotten after deserializing the response 
+ * Builds the rule object from the raw json object gotten after deserializing the response
  * from the service
  * @param rawRule
  */
@@ -323,29 +323,28 @@ export function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefi
   const jsonValue: any = getJSONOrUndefined(value);
   if (jsonValue == undefined) {
     return undefined;
-  } else {
-    try {
-      let rawParameters = jsonValue["KeyValueOfstringanyType"];
+  }
 
-      if (rawParameters && rawParameters.length && rawParameters.length > 0) {
-        for (let i = 0; i < rawParameters.length; i++) {
-          parameters.push(buildSqlParameter(rawParameters[i]));
-        }
-      } else {
-        parameters.push(buildSqlParameter(rawParameters));
+  try {
+    let rawParameters = jsonValue["KeyValueOfstringanyType"];
+    if (rawParameters && rawParameters.length && rawParameters.length > 0) {
+      for (let i = 0; i < rawParameters.length; i++) {
+        parameters.push(buildSqlParameter(rawParameters[i]));
       }
-      return parameters;
-    } catch (err) {
-      throw new TypeError(
-        `${JSON.stringify(
-          jsonValue,
-          undefined,
-          2
-        )} expected to be in expected to be an array of Parameter instances, or undefined :: ${
-          err.message
-        }`
-      );
+    } else {
+      parameters.push(buildSqlParameter(rawParameters));
     }
+    return parameters;
+  } catch (err) {
+    throw new TypeError(
+      `${JSON.stringify(
+        jsonValue,
+        undefined,
+        2
+      )} expected to be in expected to be an array of Parameter instances, or undefined :: ${
+        err.message
+      }`
+    );
   }
 }
 

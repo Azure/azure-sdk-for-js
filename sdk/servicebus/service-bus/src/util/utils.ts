@@ -190,11 +190,10 @@ export function getAssociatedReceiverName(
  * @param value
  */
 export function getStringOrUndefined(value: any): string | undefined {
-  if (value != undefined) {
-    return value.toString();
-  } else {
+  if (value == undefined) {
     return undefined;
   }
+  return value.toString();
 }
 
 /**
@@ -204,6 +203,9 @@ export function getStringOrUndefined(value: any): string | undefined {
  * @param value
  */
 export function getIntegerOrUndefined(value: any): number | undefined {
+  if (value == undefined) {
+    return undefined;
+  }
   return parseInt(value.toString()) || undefined;
 }
 
@@ -214,11 +216,15 @@ export function getIntegerOrUndefined(value: any): number | undefined {
  * @param value
  */
 export function getBooleanOrUndefined(value: any): boolean | undefined {
-  if (value != undefined) {
-    return value.toString() === "true";
-  } else {
+  if (value == undefined) {
     return undefined;
   }
+  return (
+    value
+      .toString()
+      .trim()
+      .toLowerCase() === "true"
+  );
 }
 
 /**
@@ -228,16 +234,15 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
  * @param value
  */
 export function getJSONOrUndefined(value: any): number | undefined {
-  if (value == undefined || (typeof value === "string" && !value.toString())) {
+  if (value == undefined || (typeof value === "string" && !value)) {
     return undefined;
-  } else {
-    try {
-      return JSON.parse(JSON.stringify(value));
-    } catch (err) {
-      throw new TypeError(
-        `${JSON.stringify(value, undefined, 2)} expected to be in proper JSON format, or undefined`
-      );
-    }
+  }
+  try {
+    return JSON.parse(JSON.stringify(value));
+  } catch (err) {
+    throw new TypeError(
+      `${JSON.stringify(value, undefined, 2)} expected to be in proper JSON format, or undefined`
+    );
   }
 }
 
@@ -296,22 +301,21 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
   const jsonValue: any = getJSONOrUndefined(value);
   if (jsonValue == undefined) {
     return undefined;
-  } else {
-    try {
-      const rawAuthorizationRules = value["AuthorizationRule"];
-      if (rawAuthorizationRules.length !== undefined) {
-        for (let i = 0; i < rawAuthorizationRules.length; i++) {
-          authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules[i]));
-        }
-      } else {
-        authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules));
+  }
+  try {
+    const rawAuthorizationRules = jsonValue;
+    if (Array.isArray(jsonValue)) {
+      for (let i = 0; i < rawAuthorizationRules.length; i++) {
+        authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules[i]));
       }
-      return authorizationRules;
-    } catch (err) {
-      throw new TypeError(
-        `${jsonValue} expected to be in expected to be an array of AuthorizationRule instances, or undefined :: ${err.message}`
-      );
+    } else {
+      authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules));
     }
+    return authorizationRules;
+  } catch (err) {
+    throw new TypeError(
+      `${jsonValue} expected to be in expected to be an array of AuthorizationRule instances, or undefined :: ${err.message}`
+    );
   }
 }
 
@@ -340,19 +344,12 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
  * @param value
  */
 export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
-  if (
-    authorizationRules == undefined ||
-    (authorizationRules && authorizationRules.length && authorizationRules.length == 0)
-  ) {
+  if (!authorizationRules || !authorizationRules.length) {
     return undefined;
   }
   const rawAuthorizationRules: any[] = [];
-  if (authorizationRules.length == 1) {
-    rawAuthorizationRules.push(buildRawAuthorizationRule(authorizationRules[0]));
-  } else {
-    for (let i = 0; i < authorizationRules.length; i++) {
-      rawAuthorizationRules.push(buildRawAuthorizationRule(authorizationRules[i]));
-    }
+  for (let i = 0; i < authorizationRules.length; i++) {
+    rawAuthorizationRules.push(buildRawAuthorizationRule(authorizationRules[i]));
   }
   return { AuthorizationRule: rawAuthorizationRules };
 }

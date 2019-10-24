@@ -7,7 +7,6 @@ import {
   ServiceClientOptions,
   HttpOperationResponse,
   signingPolicy,
-  logPolicy,
   proxyPolicy,
   RequestPolicyFactory,
   URLBuilder,
@@ -273,7 +272,6 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     );
 
     const requestPolicyFactories: RequestPolicyFactory[] = [];
-    requestPolicyFactories.push(logPolicy(log.httpAtomXml));
     requestPolicyFactories.push(signingPolicy(credentials));
 
     if (options && options.proxySettings) {

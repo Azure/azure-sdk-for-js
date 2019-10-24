@@ -13,6 +13,7 @@ import {
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
+import * as log from "../log";
 
 /**
  * @ignore
@@ -44,9 +45,13 @@ export async function executeAtomXmlOperation(
     webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
   }
 
+  log.httpAtomXml(`Executing ATOM based HTTP request: ${webResource.body}`);
+
   const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
     webResource
   );
+
+  log.httpAtomXml(`Received ATOM based HTTP response: ${webResource.bodyAsText}`);
 
   try {
     if (response.bodyAsText) {
@@ -331,19 +336,13 @@ export function buildError(errorBody: any, response: HttpOperationResponse): Res
   } else {
     if (odataErrorFormat) {
       Object.keys(errorProperties).forEach((property: string) => {
-        let value = null;
-        if (
-          property === Constants.ODATA_ERROR_MESSAGE &&
-          typeof errorProperties[Constants.ODATA_ERROR_MESSAGE] !== "string"
-        ) {
-          if (errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE]) {
-            value =
-              errorProperties[Constants.ODATA_ERROR_MESSAGE][Constants.ODATA_ERROR_MESSAGE_VALUE];
+        let value = errorProperties[property];
+        if (property === Constants.ODATA_ERROR_MESSAGE && typeof value !== "string") {
+          if (value[Constants.ODATA_ERROR_MESSAGE_VALUE]) {
+            value = value[Constants.ODATA_ERROR_MESSAGE_VALUE];
           } else {
             value = "missing value in the message property of the odata error format";
           }
-        } else {
-          value = errorProperties[property];
         }
         normalizedError[property.toLowerCase()] = value;
       });
