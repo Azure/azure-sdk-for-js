@@ -206,7 +206,8 @@ export function getIntegerOrUndefined(value: any): number | undefined {
   if (value == undefined) {
     return undefined;
   }
-  return parseInt(value.toString()) || undefined;
+  const result = parseInt(value.toString());
+  return result == NaN ? undefined : result;
 }
 
 /**
@@ -303,8 +304,8 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
     return undefined;
   }
   try {
-    const rawAuthorizationRules = jsonValue;
-    if (Array.isArray(jsonValue)) {
+    const rawAuthorizationRules = jsonValue.AuthorizationRule;
+    if (Array.isArray(rawAuthorizationRules)) {
       for (let i = 0; i < rawAuthorizationRules.length; i++) {
         authorizationRules.push(buildAuthorizationRule(rawAuthorizationRules[i]));
       }

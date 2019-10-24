@@ -411,7 +411,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     output: {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      countDetails: undefined,
+      messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
@@ -521,7 +521,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       path: undefined,
       userMetadata: undefined,
 
-      countDetails: undefined,
+      messageCountDetails: undefined,
       enableExpress: false,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
@@ -564,7 +564,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     output: {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      countDetails: undefined,
+      messageCountDetails: undefined,
       defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
@@ -649,7 +649,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
       // enableSubscriptionPartitioning: true,
       // filteringMessagesBeforePublishing: true,
 
-      countDetails: undefined,
+      messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
       isAnonymousAccessible: false,
       status: "Active",
@@ -691,7 +691,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
     input: undefined,
     output: {
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      countDetails: undefined,
+      messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
       defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
@@ -758,7 +758,7 @@ const alwaysBeDeletedRule = "alwaysbedeletedrule";
 
       forwardTo: undefined,
       userMetadata: undefined,
-      countDetails: undefined,
+      messageCountDetails: undefined,
       entityAvailabilityStatus: "Available",
       status: "Active",
 
