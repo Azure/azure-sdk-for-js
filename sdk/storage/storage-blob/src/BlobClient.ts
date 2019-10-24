@@ -1388,6 +1388,14 @@ export class BlobClient extends StorageClient {
    * const result = await copyPoller.pollUntilDone();
    * ```
    *
+   * Example usage of changing polling interval (default 15 seconds):
+   * ```js
+   * const copyPoller = await blobClient.beginCopyFromURL('url', {
+   *   intervalInMs: 1000 // poll blob every 1 second for copy progress
+   * });
+   * const result = await copyPoller.pollUntilDone();
+   * ```
+   *
    * Example usage of copy cancellation:
    * ```js
    * const copyPoller = await blobClient.beginCopyFromURL('url');
