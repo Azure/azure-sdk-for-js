@@ -252,19 +252,7 @@ export interface Metadata {
 }
 
 // @public
-export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: NewPipelineOptions): Pipeline;
-
-// @public
-export interface NewPipelineOptions {
-    httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
-    keepAliveOptions?: KeepAliveOptions;
-    logger?: IHttpPipelineLogger;
-    // (undocumented)
-    proxy?: ProxySettings | string;
-    retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
-}
+export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface PeekedMessageItem {
@@ -301,8 +289,8 @@ export type QueueClearMessagesResponse = MessagesClearResponse;
 // 
 // @public
 export class QueueClient extends StorageClient {
-    constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions);
+    constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     clearMessages(options?: QueueClearMessagesOptions): Promise<QueueClearMessagesResponse>;
     create(options?: QueueCreateOptions): Promise<QueueCreateResponse>;
@@ -479,11 +467,11 @@ export type QueueSendMessageResponse = {
 
 // @public
 export class QueueServiceClient extends StorageClient {
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions);
+    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
-    static fromConnectionString(connectionString: string, options?: NewPipelineOptions): QueueServiceClient;
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): QueueServiceClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
@@ -699,6 +687,18 @@ export interface SignedIdentifierModel {
 
 // @public (undocumented)
 export const StorageOAuthScopes: string | string[];
+
+// @public
+export interface StoragePipelineOptions {
+    httpClient?: IHttpClient;
+    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
+    keepAliveOptions?: KeepAliveOptions;
+    logger?: IHttpPipelineLogger;
+    // (undocumented)
+    proxy?: ProxySettings | string;
+    retryOptions?: RetryOptions;
+    telemetry?: TelemetryOptions;
+}
 
 // @public
 export interface TelemetryOptions {
