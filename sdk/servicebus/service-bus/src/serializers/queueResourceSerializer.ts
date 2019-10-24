@@ -21,8 +21,8 @@ import {
 
 /**
  * @ignore
- * Builds the queue options object from the user provided options. 
- * Handles the differences in casing for the property names, converts values to string and ensures the 
+ * Builds the queue options object from the user provided options.
+ * Handles the differences in casing for the property names, converts values to string and ensures the
  * right order as expected by the service
  * @param queueOptions
  */

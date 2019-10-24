@@ -204,15 +204,7 @@ export function getStringOrUndefined(value: any): string | undefined {
  * @param value
  */
 export function getIntegerOrUndefined(value: any): number | undefined {
-  if (value != undefined) {
-    try {
-      return parseInt(value.toString());
-    } catch (err) {
-      throw new TypeError(`${value} expected to be a number or undefined`);
-    }
-  } else {
-    return undefined;
-  }
+  return parseInt(value.toString()) || undefined;
 }
 
 /**
@@ -258,23 +250,16 @@ export function getJSONOrUndefined(value: any): number | undefined {
 export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
   const jsonValue: any = getJSONOrUndefined(value);
   if (jsonValue != undefined) {
-    try {
-      const result: MessageCountDetails = {
-        activeMessageCount: parseInt(jsonValue["d2p1:ActiveMessageCount"]),
-        deadLetterMessageCount: parseInt(jsonValue["d2p1:DeadLetterMessageCount"]),
-        scheduledMessageCount: parseInt(jsonValue["d2p1:ScheduledMessageCount"]),
-        transferMessageCount: parseInt(jsonValue["d2p1:TransferMessageCount"]),
-        transferDeadLetterMessageCount: parseInt(jsonValue["d2p1:TransferDeadLetterMessageCount"])
-      };
-      return result;
-    } catch (err) {
-      throw new TypeError(
-        `${jsonValue} expected to be in expected CountDetails format with numbers, or undefined`
-      );
-    }
-  } else {
-    return undefined;
+    return {
+      activeMessageCount: parseInt(jsonValue["d2p1:ActiveMessageCount"]) || 0,
+      deadLetterMessageCount: parseInt(jsonValue["d2p1:DeadLetterMessageCount"]) || 0,
+      scheduledMessageCount: parseInt(jsonValue["d2p1:ScheduledMessageCount"]) || 0,
+      transferMessageCount: parseInt(jsonValue["d2p1:TransferMessageCount"]) || 0,
+      transferDeadLetterMessageCount:
+        parseInt(jsonValue["d2p1:TransferDeadLetterMessageCount"]) || 0
+    };
   }
+  return undefined;
 }
 
 /**
