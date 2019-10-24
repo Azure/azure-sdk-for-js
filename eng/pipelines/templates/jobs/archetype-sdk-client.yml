@@ -1,5 +1,8 @@
 parameters:
   RunUnitTests: true
+  Artifacts: []
+  ServiceDirectory: not-specified
+  DocArgs: not-specified
   Matrix:
     Linux_Node8:
       OSVmImage: "ubuntu-16.04"
