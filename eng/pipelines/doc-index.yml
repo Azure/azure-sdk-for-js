@@ -11,7 +11,7 @@ jobs:
         workingDirectory: $(Build.BinariesDirectory)
         displayName: Download and Extract DocFX
 
-       - pwsh: |
+      - pwsh: |
           $(Build.BinariesDirectory)/docfx/docfx.exe init -q
         displayName: Provision DocFX Directory
         workingDirectory: $(Build.SourcesDirectory)

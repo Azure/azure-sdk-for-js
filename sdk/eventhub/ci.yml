@@ -42,4 +42,3 @@ stages:
           safeName: azureeventhubs
         - name: azure-eventhubs-checkpointstore-blob
           safeName: azureeventhubscheckpointstoreblob
-      DocArgs: eventhub

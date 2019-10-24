@@ -37,7 +37,6 @@ stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
       ServiceDirectory: batch
-      DocArgs: batch
       Artifacts:
         - name: azure-batch
           safeName: azurebatch

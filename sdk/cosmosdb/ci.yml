@@ -43,4 +43,3 @@ stages:
       Artifacts:
         - name: azure-cosmos
           safeName: azurecosmos
-      DocArgs: cosmosdb

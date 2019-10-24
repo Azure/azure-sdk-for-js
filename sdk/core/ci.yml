@@ -36,7 +36,6 @@ pr:
 stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
-      DocArgs: "core"
       ServiceDirectory: "*"
       Artifacts:
         - name: azure-abort-controller

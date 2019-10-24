@@ -44,4 +44,3 @@ stages:
           safeName: azurekeyvaultkeys
         - name: azure-keyvault-secrets
           safeName: azurekeyvaultsecrets
-      DocArgs: keyvault

@@ -2,7 +2,6 @@ parameters:
   RunUnitTests: true
   Artifacts: []
   ServiceDirectory: not-specified
-  DocArgs: not-specified
   Matrix:
     Linux_Node8:
       OSVmImage: "ubuntu-16.04"
@@ -55,7 +54,7 @@ jobs:
 
       - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
         parameters:
-          TargetFolder: $(Build.SourcesDirectory)
+          TargetFolder: $(Build.SourcesDirectory)/sdk/${{parameters.ServiceDirectory}}
           RootFolder: $(Build.SourcesDirectory)
           BuildSHA: $(Build.SourceVersion)
           RepoId: "Azure/azure-sdk-for-js"
@@ -98,7 +97,9 @@ jobs:
 
       - pwsh: |
           Write-Host "${{parameters.DocArgs}}"
-          node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "${{parameters.DocArgs}}"
+          $docDirectory = ${{parameters.ServiceDirectory}}
+          if ($docDirectory -eq '*') { $docDirectory = "core" }
+          node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "$docDirectory"
         displayName: "Run Typedoc Docs"
 
       - pwsh: |

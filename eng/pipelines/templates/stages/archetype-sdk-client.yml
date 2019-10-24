@@ -1,7 +1,6 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
-  DocArgs: not-specified
 
 stages:
 - stage: Build
