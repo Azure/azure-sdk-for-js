@@ -49,7 +49,7 @@ export class CryptographyClient {
         throw new Error("getKey requires a key with a name");
       }
       const key = await this.client.getKey(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         options && options.version ? options.version : this.version ? this.version : "",
         this.setParentSpan(span, requestOptions)
@@ -126,7 +126,7 @@ export class CryptographyClient {
     let result;
     try {
       result = await this.client.encrypt(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         this.version,
         algorithm,
@@ -164,7 +164,7 @@ export class CryptographyClient {
     let result;
     try {
       result = await this.client.decrypt(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         this.version,
         algorithm,
@@ -244,7 +244,7 @@ export class CryptographyClient {
     let result;
     try {
       result = await this.client.wrapKey(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         this.version,
         algorithm,
@@ -281,7 +281,7 @@ export class CryptographyClient {
     let result;
     try {
       result = await this.client.unwrapKey(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         this.version,
         algorithm,
@@ -318,7 +318,7 @@ export class CryptographyClient {
     let result;
     try {
       result = await this.client.sign(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         this.version,
         algorithm,
@@ -357,7 +357,7 @@ export class CryptographyClient {
     let response;
     try {
       response = await this.client.verify(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         this.version,
         algorithm,
@@ -424,7 +424,7 @@ export class CryptographyClient {
     let result;
     try {
       result = await this.client.sign(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         this.version,
         algorithm,
@@ -561,7 +561,7 @@ export class CryptographyClient {
     let result;
     try {
       result = await this.client.verify(
-        this.vaultBaseUrl,
+        this.vaultUrl,
         this.name,
         this.version,
         algorithm,
@@ -600,7 +600,7 @@ export class CryptographyClient {
   /**
    * The base URL to the vault
    */
-  public readonly vaultBaseUrl: string;
+  public readonly vaultUrl: string;
 
   /**
    * The options to create the connection to the service
@@ -648,7 +648,7 @@ export class CryptographyClient {
    * // or
    * let client = new CryptographyClient(url, jsonWebKey, credentials);
    * ```
-   * @param url The url of the key vault service
+   * @param url The base URL to the vault
    * @param key The key to use during cryptography tasks
    * @param credential The login credentials of the service (for example: [[https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html|DefaultAzureCredential]])
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
@@ -656,12 +656,12 @@ export class CryptographyClient {
    * @memberof CryptographyClient
    */
   constructor(
-    url: string,
+    vaultUrl: string,
     key: string | JsonWebKey, // keyUrl or JsonWebKey
     credential: TokenCredential,
     pipelineOptions: PipelineOptions = {}
   ) {
-    this.vaultBaseUrl = url;
+    this.vaultUrl = vaultUrl;
     this.credential = credential;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;

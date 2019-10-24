@@ -114,7 +114,7 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
 export const packagesToIgnore: string[] = [
   "@azure/cosmos",
   "@azure/storage-blob",
-  "@azure/storage-file",
+  "@azure/storage-file-share",
   "@azure/storage-queue",
   "@azure/event-hubs",
   "@azure/event-processor-host",
