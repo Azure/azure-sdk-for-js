@@ -2,7 +2,7 @@
 
 ## 2019.11 12.0.0-preview.6
 
-- Bug Fix - Previous versions of `@azure/storage-file` library failed for the react-apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
+- Bug Fix - Previous versions of `@azure/storage-file` library failed for React apps because of the usage of `fs.stat` method which is not available in browsers. The issue is fixed in this new release.
 
 ## 2019.10 12.0.0-preview.5
 
