@@ -303,19 +303,15 @@ export class KeyClient {
   ): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const unflattenedProperties = {
-        enabled: options.enabled,
-        notBefore: options.notBefore,
-        expires: options.expiresOn
-      };
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
       const unflattenedOptions = {
-        ...requestOptions,
-        keyAttributes: unflattenedProperties
+        ...remainingOptions,
+        keyAttributes: {
+          enabled,
+          notBefore,
+          expires
+        }
       };
-
-      delete unflattenedOptions.enabled;
-      delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expiresOn;
 
       const span = this.createSpan("createKey", unflattenedOptions);
 
@@ -356,19 +352,15 @@ export class KeyClient {
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const unflattenedProperties = {
-        enabled: options.enabled,
-        notBefore: options.notBefore,
-        expires: options.expiresOn
-      };
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
       const unflattenedOptions = {
-        ...requestOptions,
-        keyAttributes: unflattenedProperties
+        ...remainingOptions,
+        keyAttributes: {
+          enabled,
+          notBefore,
+          expires
+        }
       };
-
-      delete unflattenedOptions.enabled;
-      delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expiresOn;
 
       const span = this.createSpan("createEcKey", unflattenedOptions);
 
@@ -409,19 +401,15 @@ export class KeyClient {
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const unflattenedProperties = {
-        enabled: options.enabled,
-        notBefore: options.notBefore,
-        expires: options.expiresOn
-      };
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
       const unflattenedOptions = {
-        ...requestOptions,
-        keyAttributes: unflattenedProperties
+        ...remainingOptions,
+        keyAttributes: {
+          enabled,
+          notBefore,
+          expires
+        }
       };
-
-      delete unflattenedOptions.enabled;
-      delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expiresOn;
 
       const span = this.createSpan("createRsaKey", unflattenedOptions);
 
@@ -468,21 +456,22 @@ export class KeyClient {
   ): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const unflattenedProperties = {
-        enabled: options.enabled,
-        notBefore: options.notBefore,
-        expires: options.expiresOn,
-        hsm: options.hardwareProtected
-      };
-
+      const {
+        enabled,
+        notBefore,
+        expiresOn: expires,
+        hardwareProtected: hsm,
+        ...remainingOptions
+      } = requestOptions;
       const unflattenedOptions = {
-        ...requestOptions,
-        keyAttributes: unflattenedProperties
+        ...remainingOptions,
+        keyAttributes: {
+          enabled,
+          notBefore,
+          expires,
+          hsm
+        }
       };
-      delete unflattenedOptions.enabled;
-      delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expiresOn;
-      delete unflattenedOptions.hardwareProtected;
 
       const span = this.createSpan("importKey", unflattenedOptions);
 
@@ -575,18 +564,15 @@ export class KeyClient {
   ): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const unflattenedProperties = {
-        enabled: options.enabled,
-        notBefore: options.notBefore,
-        expires: options.expiresOn
-      };
+      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
       const unflattenedOptions = {
-        ...requestOptions,
-        keyAttributes: unflattenedProperties
+        ...remainingOptions,
+        keyAttributes: {
+          enabled,
+          notBefore,
+          expires
+        }
       };
-      delete unflattenedOptions.enabled;
-      delete unflattenedOptions.notBefore;
-      delete unflattenedOptions.expiresOn;
 
       const span = this.createSpan("updateKey", unflattenedOptions);
 
