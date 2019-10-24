@@ -5,7 +5,9 @@ import {
   isNode,
   TransferProgressEvent,
   TokenCredential,
-  isTokenCredential
+  isTokenCredential,
+  PipelineOptions,
+  getDefaultProxySettings
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import {
@@ -40,7 +42,7 @@ import {
   PremiumPageBlobTier,
   toAccessTier
 } from "./models";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
@@ -741,14 +743,14 @@ export class BlobClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} containerName Container name.
    * @param {string} blobName Blob name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
     connectionString: string,
     containerName: string,
     blobName: string,
-    options?: StoragePipelineOptions
+    options?: PipelineOptions
   );
   /**
    * Creates an instance of BlobClient.
@@ -762,82 +764,38 @@ export class BlobClient extends StorageClient {
    * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
    *                                                  or a TokenCredential from @azure/identity. If not specified,
    *                                                  AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param {PipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
     url: string,
     credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: StoragePipelineOptions
+    options?: PipelineOptions
   );
-  /**
-   * Creates an instance of BlobClient.
-   * This method accepts an encoded URL or non-encoded URL pointing to a blob.
-   * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
-   * If a blob name includes ? or %, blob name must be encoded in the URL.
-   *
-   * @param {string} url A URL string pointing to Azure Storage blob, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob".
-   *                     You can append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString".
-   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
-   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
-   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
-   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
-   *                            pipeline, or provide a customized pipeline.
-   * @memberof BlobClient
-   */
-  constructor(url: string, pipeline: Pipeline);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrContainerName?:
+    credentialOrContainerName:
       | string
       | SharedKeyCredential
       | AnonymousCredential
-      | TokenCredential
-      | Pipeline,
-    blobNameOrOptions?: string | StoragePipelineOptions,
-    options?: StoragePipelineOptions
+      | TokenCredential = new AnonymousCredential(),
+    blobNameOrOptions: string | PipelineOptions = {},
+    options: PipelineOptions = {}
   ) {
-    options = options || {};
-    let pipeline: Pipeline;
     let url: string;
-    if (credentialOrPipelineOrContainerName instanceof Pipeline) {
-      // (url: string, pipeline: Pipeline)
-      url = urlOrConnectionString;
-      pipeline = credentialOrPipelineOrContainerName;
-    } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof SharedKeyCredential) ||
-      credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
-      isTokenCredential(credentialOrPipelineOrContainerName)
-    ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
-      url = urlOrConnectionString;
-      options = blobNameOrOptions as StoragePipelineOptions;
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
-    } else if (
-      !credentialOrPipelineOrContainerName &&
-      typeof credentialOrPipelineOrContainerName !== "string"
-    ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
-      // The second parameter is undefined. Use anonymous credential.
-      url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
-    } else if (
-      credentialOrPipelineOrContainerName &&
-      typeof credentialOrPipelineOrContainerName === "string" &&
-      blobNameOrOptions &&
-      typeof blobNameOrOptions === "string"
-    ) {
+    let credential: SharedKeyCredential | AnonymousCredential | TokenCredential;
+    let pipelineOptions: PipelineOptions;
+
+    if (typeof credentialOrContainerName === "string" && typeof blobNameOrOptions === "string") {
       // (connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions)
-      const containerName = credentialOrPipelineOrContainerName;
+      const containerName = credentialOrContainerName;
       const blobName = blobNameOrOptions;
+      pipelineOptions = options;
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          credential = new SharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
@@ -845,8 +803,7 @@ export class BlobClient extends StorageClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxy = extractedCreds.proxyUri;
-          pipeline = newPipeline(sharedKeyCredential, options);
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -858,17 +815,25 @@ export class BlobClient extends StorageClient {
           ) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
+        credential = new AnonymousCredential();
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
         );
       }
+    } else if (
+      typeof credentialOrContainerName !== "string" &&
+      typeof blobNameOrOptions !== "string"
+    ) {
+      url = urlOrConnectionString;
+      credential = credentialOrContainerName;
+      pipelineOptions = blobNameOrOptions;
     } else {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
 
-    super(url, pipeline);
+    const serviceOptions = newPipeline(credential, pipelineOptions);
+    super(url, serviceOptions, credential);
     ({
       blobName: this._name,
       containerName: this._containerName
