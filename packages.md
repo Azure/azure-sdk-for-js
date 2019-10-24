@@ -170,7 +170,7 @@
 | [`@azure/servicefabric`]( sdk/servicefabric/servicefabric/package.json )| [Readme](sdk/servicefabric/servicefabric/README.md) |  N/A  |  N/A  |
 | [`@azure/storage-blob`]( sdk/storage/storage-blob/package.json )| [Readme](sdk/storage/storage-blob/README.md) | [Changelog](sdk/storage/storage-blob/ChangeLog.md) |  N/A  |
 | [`@azure/storage-datalake`]( sdk/storage/storage-datalake/package.json )| [Readme](sdk/storage/storage-datalake/README.md) |  N/A  |  N/A  |
-| [`@azure/storage-file`]( sdk/storage/storage-file/package.json )| [Readme](sdk/storage/storage-file/README.md) | [Changelog](sdk/storage/storage-file/ChangeLog.md) |  N/A  |
+| [`@azure/storage-file-share`]( sdk/storage/storage-file-share/package.json )| [Readme](sdk/storage/storage-file-share/README.md) | [Changelog](sdk/storage/storage-file-share/ChangeLog.md) |  N/A  |
 | [`@azure/storage-queue`]( sdk/storage/storage-queue/package.json )| [Readme](sdk/storage/storage-queue/README.md) | [Changelog](sdk/storage/storage-queue/ChangeLog.md) |  N/A  |
 | [`cosmos-change-feed`]( sdk/cosmosdb/cosmos/samples/ChangeFeed/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/ChangeFeed/README.md) |  N/A  |  N/A  |
 | [`cosmos-container-management`]( sdk/cosmosdb/cosmos/samples/ContainerManagement/package.json )| [Readme](sdk/cosmosdb/cosmos/samples/ContainerManagement/README.md) |  N/A  |  N/A  |

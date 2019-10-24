@@ -34,7 +34,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     keySuffix = authentication.keySuffix;
     keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     key = await client.createKey(keyName, "RSA");
-    keyVaultUrl = key.properties.vaultEndpoint;
+    keyVaultUrl = key.properties.vaultUrl;
     keyUrl = key.key!.kid as string;
     cryptoClient = new CryptographyClient(keyVaultUrl, key.key!.kid!, credential);
   });

@@ -43,9 +43,9 @@ export interface KeyVaultSecret {
  */
 export interface SecretProperties {
   /**
-   * @member {string} [vaultEndpoint] The vault URI.
+   * @member {string} [vaultUrl] The base URL to the vault.
    */
-  vaultEndpoint: string;
+  vaultUrl: string;
   /**
    * @member {string} [version] The version of key/secret/certificate. May be undefined.
    */
