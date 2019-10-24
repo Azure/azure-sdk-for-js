@@ -54,7 +54,8 @@ export function buildSubscriptionOptions(
 
 /**
  * @ignore
- * Builds the subscription object
+ * Builds the subscription object from the raw json object gotten after deserializing the response 
+ * from the service
  * @param rawSubscription
  */
 export function buildSubscription(rawSubscription: any): SubscriptionDetails | undefined {
