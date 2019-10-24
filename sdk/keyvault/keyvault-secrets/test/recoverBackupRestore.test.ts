@@ -77,7 +77,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  it.only("can recover a deleted a secret with requestOptions timeout", async function() {
+  it("can recover a deleted a secret with requestOptions timeout", async function() {
     if (!isNode || isPlayingBack) {
       recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
     }
@@ -157,7 +157,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
   });
 
-  it.only("can timeout deleting a secret", async function() {
+  it("can timeout deleting a secret", async function() {
     if (!isNode || isPlayingBack) {
       recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
     }

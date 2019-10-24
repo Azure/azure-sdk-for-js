@@ -94,7 +94,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it.only("can attempt to recover a deleted secret with requestOptions timeout", async function() {
+  it("can attempt to recover a deleted secret with requestOptions timeout", async function() {
     if (!isNode || isPlayingBack) {
       recorder.skip();
     }

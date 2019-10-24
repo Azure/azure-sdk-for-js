@@ -85,7 +85,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
     await testClient.purgeSecret(secretName);
   });
 
-  it.only("can attempt to delete a secret with requestOptions timeout", async function() {
+  it("can attempt to delete a secret with requestOptions timeout", async function() {
     if (!isNode || isPlayingBack) {
       recorder.skip();
     }

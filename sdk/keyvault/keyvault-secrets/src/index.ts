@@ -218,7 +218,7 @@ export class SecretClient {
       };
       const unflattenedOptions = {
         ...requestOptions,
-        secretAttributes: unflattenedProperties,
+        secretAttributes: unflattenedProperties
       };
       delete unflattenedOptions.enabled;
       delete unflattenedOptions.notBefore;
@@ -240,7 +240,12 @@ export class SecretClient {
 
       return this.getSecretFromSecretBundle(response);
     } else {
-      const response = await this.client.setSecret(this.vaultEndpoint, secretName, value, requestOptions);
+      const response = await this.client.setSecret(
+        this.vaultEndpoint,
+        secretName,
+        value,
+        requestOptions
+      );
       return this.getSecretFromSecretBundle(response);
     }
   }
@@ -366,7 +371,10 @@ export class SecretClient {
    * @param secretName The name of the secret.
    * @param [options] The optional parameters
    */
-  public async getSecret(secretName: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
+  public async getSecret(
+    secretName: string,
+    options: GetSecretOptions = {}
+  ): Promise<KeyVaultSecret> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getSecret", requestOptions);
 
@@ -627,7 +635,7 @@ export class SecretClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...requestOptions,
+        ...requestOptions
       };
       const currentSetResponse = await this.client.getSecretVersions(
         this.vaultEndpoint,
@@ -665,7 +673,11 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const f = {};
 
-    for await (const page of this.listPropertiesOfSecretVersionsPage(secretName, f, requestOptions)) {
+    for await (const page of this.listPropertiesOfSecretVersionsPage(
+      secretName,
+      f,
+      requestOptions
+    )) {
       for (const item of page) {
         yield item;
       }

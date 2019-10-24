@@ -210,7 +210,7 @@ describe("Secret client - create, read, update and delete operations", () => {
       });
     });
   });
- 
+
   it("can't get a disabled secret", async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
