@@ -15,6 +15,5 @@ if((-Not (Test-Path $pathToDest))){
 Foreach ($s in $source){
   $destination = Join-path -path $pathToDest -ChildPath "$($s.name).zip"
   Write-Host "destination = $destination"
-  Write-Host "s.fullname = $s.fullname"
-  Compress-Archive -Path $s.fullname -Update -DestinationPath $destination
+  Compress-Archive -Path $s.fullname -DestinationPath $destination
 }
