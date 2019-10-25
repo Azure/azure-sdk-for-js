@@ -145,13 +145,8 @@ export async function readStreamToLocalFile(
       ws.on("unpipe", () => console.log("ws.unpipe"));
     }
 
-    let error: Error;
-
     rs.on("error", (err: Error) => {
-      // First error wins
-      if (!error) {
-        error = err;
-      }
+      reject(err);
 
       // When rs.error is raised, rs.end will never be raised automatically, so it must be raised manually
       // to ensure ws.close is eventually raised.
@@ -159,19 +154,10 @@ export async function readStreamToLocalFile(
     });
 
     ws.on("error", (err: Error) => {
-      // First error wins
-      if (!error) {
-        error = err;
-      }
+      reject(err);
     });
 
-    ws.on("close", () => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
+    ws.on("close", resolve);
 
     rs.pipe(ws);
   });

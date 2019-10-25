@@ -159,6 +159,7 @@ const skip = [
   "node/highlevel/recording_uploadstream_should_abort.js",
   // Size (263MB), Tempfile
   "node/highlevel/recording_downloadtofile_should_success.js",
+  "node/highlevel/recording_downloadtofile_should_fail_when_saving_to_directory.js",
   // Skipping for now, further investigation needed on the errors in playback
   "browsers/blobclient/recording_startcopyfromclient.json",
   "node/blockblobclient/recording_can_be_created_with_a_sas_connection_string.js",

@@ -548,4 +548,16 @@ describe("Highlevel", () => {
 
     fs.unlinkSync(downloadedFilePath);
   });
+
+  it("downloadToFile should fail when saving to directory", async () => {
+    const rs = fs.createReadStream(tempFileSmall);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+
+    try {
+      await blobClient.downloadToFile(__dirname);
+      throw new Error("Test failure.");
+    } catch (err) {
+      assert.notEqual(err.message, "Test failure.");
+    }
+  });
 });
