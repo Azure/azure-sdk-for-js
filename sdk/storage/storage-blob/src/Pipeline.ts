@@ -20,15 +20,15 @@ import {
   bearerTokenAuthenticationPolicy,
   tracingPolicy,
   logPolicy,
-  ProxyOptions
+  ProxyOptions,
+  keepAlivePolicy,
+  KeepAliveOptions,
+  generateClientRequestIdPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
-import { KeepAliveOptions, KeepAlivePolicyFactory } from "./KeepAlivePolicyFactory";
 import { BrowserPolicyFactory } from "./BrowserPolicyFactory";
 import { RetryOptions, RetryPolicyFactory } from "./RetryPolicyFactory";
-import { UserAgentOptions, TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { UniqueRequestIDPolicyFactory } from "./UniqueRequestIDPolicyFactory";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
@@ -36,6 +36,7 @@ import {
   StorageBlobLoggingAllowedHeaderNames,
   StorageBlobLoggingAllowedQueryParameters
 } from "./utils/constants";
+import { TelemetryPolicyFactory, UserAgentOptions } from "./TelemetryPolicyFactory";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -177,11 +178,12 @@ export function newPipeline(
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
+
   const factories: RequestPolicyFactory[] = [
     tracingPolicy(),
-    new KeepAlivePolicyFactory(pipelineOptions.keepAliveOptions),
+    keepAlivePolicy(pipelineOptions.keepAliveOptions),
     new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
-    new UniqueRequestIDPolicyFactory(),
+    generateClientRequestIdPolicy(),
     new BrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new RetryPolicyFactory(pipelineOptions.retryOptions),

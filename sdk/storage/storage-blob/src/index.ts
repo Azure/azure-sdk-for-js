@@ -34,8 +34,6 @@ export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./RetryPolicyFactory";
 export * from "./policies/SharedKeyCredentialPolicy";
-export * from "./TelemetryPolicyFactory";
-export * from "./UniqueRequestIDPolicyFactory";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";

@@ -16,7 +16,7 @@ import { SDK_VERSION } from "./utils/constants";
  * Interface of TelemetryPolicy options.
  *
  * @export
- * @interface TelemetryOptions
+ * @interface UserAgentOptions
  */
 export interface UserAgentOptions {
   /**
