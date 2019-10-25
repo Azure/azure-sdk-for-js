@@ -386,6 +386,10 @@ export class EventProcessor {
     this._loopTask = this._runLoop(this._abortController.signal);
   }
 
+  isRunning() {
+    return this._isRunning;
+  }
+
   /**
    * Stops processing events for all partitions owned by this event processor.
    * All `PartitionProcessor` will be shutdown and any open resources will be closed.

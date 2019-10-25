@@ -180,6 +180,8 @@ export class EventPosition {
 export class EventProcessor {
     constructor(consumerGroupName: string, eventHubClient: EventHubClient, PartitionProcessorClass: typeof PartitionProcessor, partitionManager: PartitionManager, options?: EventProcessorOptions);
     readonly id: string;
+    // (undocumented)
+    isRunning(): boolean;
     start(): void;
     stop(): Promise<void>;
 }
