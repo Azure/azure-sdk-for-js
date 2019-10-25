@@ -928,7 +928,7 @@ export class QueueClient extends StorageClient {
    * Delete permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
-   * @param {string} messageId Id of the message
+   * @param {string} messageId Id of the message.
    * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
    * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
    * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
