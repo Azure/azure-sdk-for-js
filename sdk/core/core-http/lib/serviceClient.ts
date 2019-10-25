@@ -703,11 +703,6 @@ export function createPipelineFromOptions(
 
   requestPolicyFactories.push(logPolicy(loggingOptions));
 
-  if (pipelineOptions.updatePipelinePolicies) {
-    // If the update function throws an exception, let it bubble up.
-    requestPolicyFactories = pipelineOptions.updatePipelinePolicies(requestPolicyFactories);
-  }
-
   return {
     httpClient: pipelineOptions.httpClient,
     requestPolicyFactories
