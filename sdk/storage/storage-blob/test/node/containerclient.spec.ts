@@ -2,12 +2,7 @@ import * as assert from "assert";
 
 import { getBSU, getConnectionStringFromEnvironment } from "../utils";
 import { PublicAccessType } from "../../src/generated/src/models/index";
-import {
-  ContainerClient,
-  newPipeline,
-  SharedKeyCredential,
-  ContainerSASPermissions
-} from "../../src";
+import { ContainerClient, SharedKeyCredential, ContainerSASPermissions } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record } from "../utils/recorder";
@@ -99,7 +94,7 @@ describe("ContainerClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential, {
       retryOptions: {
-        maxTries: 5
+        maxRetries: 5
       }
     });
 
@@ -128,25 +123,6 @@ describe("ContainerClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async () => {
-    const factories = (containerClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = newPipeline(credential);
-    const newClient = new ContainerClient(containerClient.url, pipeline);
-
-    const result = await newClient.getProperties();
-
-    assert.ok(result.etag!.length > 0);
-    assert.ok(result.lastModified);
-    assert.ok(!result.leaseDuration);
-    assert.equal(result.leaseState, "available");
-    assert.equal(result.leaseStatus, "unlocked");
-    assert.ok(result.requestId);
-    assert.ok(result.version);
-    assert.ok(result.date);
-    assert.ok(!result.blobPublicAccess);
-  });
-
   it("can be created with a connection string", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName);
 
@@ -166,7 +142,7 @@ describe("ContainerClient Node.js only", () => {
   it("can be created with a connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
-        maxTries: 5
+        maxRetries: 5
       }
     });
 

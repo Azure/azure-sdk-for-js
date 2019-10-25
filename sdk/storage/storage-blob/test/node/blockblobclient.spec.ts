@@ -1,13 +1,7 @@
 import * as assert from "assert";
 
 import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
-import {
-  BlockBlobClient,
-  newPipeline,
-  SharedKeyCredential,
-  BlobClient,
-  ContainerClient
-} from "../../src";
+import { BlockBlobClient, SharedKeyCredential, BlobClient, ContainerClient } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record } from "../utils/recorder";
@@ -80,7 +74,7 @@ describe("BlockBlobClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
       retryOptions: {
-        maxTries: 5
+        maxRetries: 5
       }
     });
 
@@ -100,18 +94,6 @@ describe("BlockBlobClient Node.js only", () => {
     };
     const newClient = new BlockBlobClient(blockBlobClient.url, tokenCredential);
     assertClientUsesTokenCredential(newClient);
-  });
-
-  it("can be created with a url and a pipeline", async () => {
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = newPipeline(credential);
-    const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
-
-    const body: string = recorder.getUniqueName("randomstring");
-    await newClient.upload(body, body.length);
-    const result = await newClient.download(0);
-    assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
   it("can be created with a connection string", async () => {
@@ -134,7 +116,7 @@ describe("BlockBlobClient Node.js only", () => {
       blobName,
       {
         retryOptions: {
-          maxTries: 5
+          maxRetries: 5
         }
       }
     );

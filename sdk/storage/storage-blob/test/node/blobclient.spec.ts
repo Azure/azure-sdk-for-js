@@ -4,7 +4,6 @@ import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import {
   BlobClient,
-  newPipeline,
   SharedKeyCredential,
   ContainerClient,
   BlockBlobClient,
@@ -305,7 +304,7 @@ describe("BlobClient Node.js only", () => {
     const credential = factories[factories.length - 1] as SharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential, {
       retryOptions: {
-        maxTries: 5
+        maxRetries: 5
       }
     });
 
@@ -330,21 +329,6 @@ describe("BlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async () => {
-    const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const pipeline = newPipeline(credential);
-    const newClient = new BlobClient(blobClient.url, pipeline);
-
-    const metadata = {
-      a: "a",
-      b: "b"
-    };
-    await newClient.setMetadata(metadata);
-    const result = await newClient.getProperties();
-    assert.deepStrictEqual(result.metadata, metadata);
-  });
-
   it("can be created with a connection string", async () => {
     const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);
     const metadata = {
@@ -363,7 +347,7 @@ describe("BlobClient Node.js only", () => {
       blobName,
       {
         retryOptions: {
-          maxTries: 5
+          maxRetries: 5
         }
       }
     );

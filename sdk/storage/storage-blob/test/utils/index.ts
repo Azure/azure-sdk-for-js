@@ -7,7 +7,6 @@ import { SimpleTokenCredential, env } from "./testutils.common";
 import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
 import { getUniqueName } from "./testutils.common";
-import { newPipeline } from "../../src/Pipeline";
 import {
   generateAccountSASQueryParameters,
   AccountSASPermissions,
@@ -50,12 +49,8 @@ export function getGenericBSU(
   } else {
     const credential = getGenericCredential(accountType) as SharedKeyCredential;
 
-    const pipeline = newPipeline(credential, {
-      // Enable logger when debugging
-      // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-    });
     const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
-    return new BlobServiceClient(blobPrimaryURL, pipeline);
+    return new BlobServiceClient(blobPrimaryURL, credential);
   }
 }
 
@@ -84,12 +79,8 @@ export function getTokenBSU(): BlobServiceClient {
   }
 
   const credential = getTokenCredential();
-  const pipeline = newPipeline(credential, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
   const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
-  return new BlobServiceClient(blobPrimaryURL, pipeline);
+  return new BlobServiceClient(blobPrimaryURL, credential);
 }
 
 export function getBSU(): BlobServiceClient {

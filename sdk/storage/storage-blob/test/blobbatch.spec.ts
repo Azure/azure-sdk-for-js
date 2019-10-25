@@ -8,7 +8,7 @@ import {
 } from "./utils";
 import { record } from "./utils/recorder";
 import { BlobBatch } from "../src/BlobBatch";
-import { ContainerClient, BlockBlobClient, BlobServiceClient, newPipeline } from "../src";
+import { ContainerClient, BlockBlobClient, BlobServiceClient } from "../src";
 
 dotenv.config({ path: "../.env" });
 
@@ -481,7 +481,7 @@ describe("BlobBatch", () => {
 
     const invalidCredServiceURL = new BlobServiceClient(
       blobServiceClient.url,
-      newPipeline(new SimpleTokenCredential("invalidtoken"))
+      new SimpleTokenCredential("invalidtoken")
     ).getBlobBatchClient();
 
     let exceptionCaught = false;

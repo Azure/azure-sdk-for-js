@@ -1,6 +1,5 @@
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { BlobServiceClient } from "../../src/BlobServiceClient";
-import { newPipeline } from "../../src/Pipeline";
 import { SimpleTokenCredential } from "./testutils.common";
 import { TokenCredential } from "@azure/core-http";
 
@@ -33,12 +32,8 @@ export function getGenericBSU(
   }
 
   const credentials = getGenericCredential(accountType);
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
-  return new BlobServiceClient(blobPrimaryURL, pipeline);
+  return new BlobServiceClient(blobPrimaryURL, credentials);
 }
 
 export function getTokenCredential(): TokenCredential {
@@ -66,12 +61,8 @@ export function getTokenBSU(): BlobServiceClient {
   }
 
   const credentials = getTokenCredential();
-  const pipeline = newPipeline(credentials, {
-    // Enable logger when debugging
-    // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  });
   const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
-  return new BlobServiceClient(blobPrimaryURL, pipeline);
+  return new BlobServiceClient(blobPrimaryURL, credentials);
 }
 
 export function getBSU(): BlobServiceClient {
