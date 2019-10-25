@@ -1,13 +1,17 @@
 const fs = require("fs");
 const path = require("path");
 const parse = require("../../../common/lib/jju/parse").parse;
+const { promisify } = require("util");
+
+const readFileAsync = promisify(fs.readFile);
+const writeFileAsync = promisify(fs.writeFile);
 
 async function readFile(filename) {
-  return await fs.promises.readFile(filename, { encoding: "utf-8" });
+  return await readFileAsync(filename, { encoding: "utf-8" });
 }
 
 async function writeFile(filename, contents) {
-  return await fs.promises.writeFile(filename, contents);
+  return await writeFileAsync(filename, contents);
 }
 
 async function readFileJson(filename) {
