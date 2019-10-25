@@ -96,7 +96,7 @@ export interface RetryOptions {
 
 // @public
 export class SecretClient {
-    constructor(endPoint: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
     beginDeleteSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
     beginRecoverDeletedSecret(name: string, options?: SecretPollerOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
