@@ -18,14 +18,14 @@ import { SDK_VERSION } from "./utils/constants";
  * @export
  * @interface TelemetryOptions
  */
-export interface TelemetryOptions {
+export interface UserAgentOptions {
   /**
-   * Configues the costom string that is pre-pended to the user agent string.
+   * Configues the custom string that is pre-pended to the user agent string.
    *
    * @type {string}
    * @memberof TelemetryOptions
    */
-  value: string;
+  userAgentPrefix: string;
 }
 
 /**
@@ -40,15 +40,15 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
   /**
    * Creates an instance of TelemetryPolicyFactory.
-   * @param {TelemetryOptions} [telemetry]
+   * @param {UserAgentOptions} [telemetry]
    * @memberof TelemetryPolicyFactory
    */
-  constructor(telemetry?: TelemetryOptions) {
+  constructor(telemetry?: UserAgentOptions) {
     const userAgentInfo: string[] = [];
 
     if (isNode) {
       if (telemetry) {
-        const telemetryString = telemetry.value.replace(" ", "");
+        const telemetryString = telemetry.userAgentPrefix.replace(" ", "");
         if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }

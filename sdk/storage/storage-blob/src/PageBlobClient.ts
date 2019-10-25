@@ -6,7 +6,8 @@ import {
   TransferProgressEvent,
   TokenCredential,
   isTokenCredential,
-  isNode
+  isNode,
+  getDefaultProxySettings
 } from "@azure/core-http";
 import { CanonicalCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -511,7 +512,7 @@ export class PageBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxy = extractedCreds.proxyUri;
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
